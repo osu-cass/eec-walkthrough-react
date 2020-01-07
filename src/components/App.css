@@ -1,0 +1,9 @@
+body{
+    background-color: #f8f9fa;
+}
+
+@media (min-width: 1200px) {
+    .container{
+        max-width: 70%;
+    }
+}
