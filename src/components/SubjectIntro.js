@@ -9,7 +9,7 @@ const SubjectIntro = (props) => {
                     <p>{props.description}</p>
                 </div>
                 <div className='col-4'>
-                    <img src='aircompressor.png' className='rounded'/>
+                    <img src={props.img} className='rounded'/>
                 </div> 
             </div>
         </div>
