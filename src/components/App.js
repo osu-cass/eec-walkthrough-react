@@ -9,12 +9,23 @@ import Filter from './Filter';
 import { Button, Form, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import './App.css'
 import BulletPoint from './BulletPoint';
+import Sidebar from './Sidebar';
 
 class App extends React.Component {
+    state = {
+        sidebarVisible: false
+    }
+
+    handleSidebar = () => {
+        this.setState({sidebarVisible: !this.state.sidebarVisible});
+        console.log(this.state.sidebarVisible);
+    }
+    
     render() {
         return (
             <div>
-                <NavBar />
+                <NavBar handleSidebar={this.handleSidebar} />
+                {this.state.sidebarVisible ? <Sidebar /> : ''}
                 <div className="container">
                     <SubjectCard 
                         subject="Compressed Air">
