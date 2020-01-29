@@ -51,7 +51,6 @@ class App extends React.Component {
         return (
             <div>
                 <NavBar handleSidebar={this.handleSidebar} />
-								<button className='btn btn-primary' onClick={() => console.log(this.state.cards)}>Check State</button>
 								
                 
                 <Sidebar  
