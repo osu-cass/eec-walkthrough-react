@@ -2,20 +2,15 @@ import React from 'react';
 import './Sidebar.css';
 
 class Sidebar extends React.Component {
-    state = {
-        active: false
-    }
-
-    componentDidMount(){
-        this.setState({active: !this.state.active});
-    }
+		onDismiss = () => {
+			this.props.handleSidebar();
+		}
 
     render() {
         return (
-            <div className="wrapper">
-                <div className="wrapper">
-                <nav id="sidebar" className={this.state.active ? 'active' : ''}>
-                    <div id="dismiss" onClick={() => this.setState({active: !this.state.active})}>
+            <div className={"wrapper "+this.props.className}>
+                <nav id="sidebar">
+                    <div id="dismiss" onClick={this.onDismiss}>
                         <i className="fas fa-arrow-left"></i>
                     </div>
 
@@ -48,8 +43,6 @@ class Sidebar extends React.Component {
                     </ul>
                 </nav>
 
-            </div>
-                <div className={this.state.active ? 'overlay active': 'overlay'} onClick={() => this.setState({active: !this.state.active})}></div>
             </div>
         );
     }

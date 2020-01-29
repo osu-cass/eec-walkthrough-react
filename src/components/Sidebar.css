@@ -32,23 +32,18 @@ a, a:hover, a:focus {
 }
 
 /* ---------------------------------------------------
-    SIDEBAR STYLE
+    SIDEBAR STYLE Transition from left to right
 ----------------------------------------------------- */
 #sidebar {
     width: 250px;
     position: fixed;
     top: 0;
-    left: -250px;
     height: 100vh;
     z-index: 999;
     background: #343a40;
     color: #fff;
     transition: all 0.3s;
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-}
-
-#sidebar.active {
-    left: 0;
 }
 
 #dismiss {
@@ -119,7 +114,6 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 }
 
 a[aria-expanded="true"]::before {
-    content: '\e260';
 }
 
 

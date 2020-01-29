@@ -5,10 +5,10 @@ import Search from './Search';
 class NavBar extends React.Component {
     render() {
         return (
-            <div className='navigation-bar' onClick={this.props.handleSidebar}>
+					<div className='navigation-bar'> 
                 <nav className="navbar navbar-dark bg-dark">
                     <h3 className='text-white'>
-                        <a className='text-info mr-2' href="#"><i className="fas fa-bars"></i></a>
+                        <a className='text-info mr-2' href="#" onClick={this.props.handleSidebar}><i className="fas fa-bars"></i></a>
                         EEC Walkthrough
                     </h3>
                     
