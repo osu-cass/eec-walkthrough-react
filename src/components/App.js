@@ -13,14 +13,11 @@ import Sidebar from './Sidebar';
 
 class App extends React.Component {
     state = {
-        sidebarVisible: false,
+        sidebarOpen: false,
 				cards: []
     }
 
-    handleSidebar = () => {
-        this.setState({sidebarVisible: !this.state.sidebarVisible});
-    }
-  
+
 		componentDidMount(){
 			//For each card, take its category and assign if its hidden or visible
 			CardData.map((cat, i) => {
@@ -34,18 +31,24 @@ class App extends React.Component {
 				this.setState({ cards: merged });	
 
 			});
-		}
+    }
+    
+    handleSidebar = () => {
+      this.setState({sidebarOpen: !this.state.sidebarOpen});
+    }
 
     render() {
         return (
             <div>
                 <NavBar handleSidebar={this.handleSidebar} />
-								<button className='btn btn-primary' onClick={() => console.log(this.state.cards)}>Check State</button>	
-							{/* Fix the transition on this someday */}
-								<Sidebar  
-									className={(this.state.sidebarVisible) ? "show" : "hidden"}
+								{/* Debug <button className='btn btn-primary' onClick={() => console.log(this.state.cards)}>Check State</button> */}
+								
+                
+                <Sidebar  
+									className={this.state.sidebarOpen ? 'visible' : 'hidden'}
 									handleSidebar={this.handleSidebar}
 								/>
+
                 <div className="container">
                     <SubjectCard 
                         subject="Compressed Air">

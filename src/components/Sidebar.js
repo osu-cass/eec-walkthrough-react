@@ -2,9 +2,9 @@ import React from 'react';
 import './Sidebar.css';
 
 class Sidebar extends React.Component {
-		onDismiss = () => {
-			this.props.handleSidebar();
-		}
+    onDismiss = () => {
+        this.props.handleSidebar();
+    }
 
     render() {
         return (
@@ -20,17 +20,26 @@ class Sidebar extends React.Component {
 
                     <ul className="list-unstyled components">
                         <li>
-                            <a href="#">Subjects</a>
-                            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
+                            <a href="#">Home</a>
+                            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Subjects</a>
                             <ul className="collapse list-unstyled" id="pageSubmenu">
                                 <li>
                                     <a href="#">Compressed Air</a>
                                 </li>
                                 <li>
-                                    <a href="#">Steam</a>
+                                    <a href="#">Boilers</a>
                                 </li>
                                 <li>
-                                    <a href="#">Stuff</a>
+                                    <a href="#">Refrigeration</a>
+                                </li>
+                            </ul>
+                            <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false">Industries</a>
+                            <ul className="collapse list-unstyled" id="industrySubmenu">
+                                <li>
+                                    <a href="#">Electricity</a>
+                                </li>
+                                <li>
+                                    <a href="#">Plywood</a>
                                 </li>
                             </ul>
                         </li>
@@ -43,6 +52,7 @@ class Sidebar extends React.Component {
                     </ul>
                 </nav>
 
+                <div className="overlay"></div>
             </div>
         );
     }
