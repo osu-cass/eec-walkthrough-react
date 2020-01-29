@@ -4,7 +4,7 @@ import SubjectCard from './SubjectCard';
 import SubjectIntro from './SubjectIntro';
 import Card from './Card';
 import CardData from './CardData'
-import Filter from './Filter';
+import FilterBar from './FilterBar';
 
 import { Button, Form, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import './App.css'
@@ -19,20 +19,30 @@ class App extends React.Component {
 
 
 		componentDidMount(){
-			//For each card, take its category and assign if its hidden or visible
-			CardData.map((cat, i) => {
-				let data = {
-					category: cat.category,
+      //For each card, take its category and assign if its hidden or visible
+			let cards = CardData.map((cat, i) => {
+				var data = {
+          category: cat.category,
+					icon: cat.icon,
+					id: cat.id,
 					hidden: false 
-				};
-				console.log(this.state.cards);
-				var merged = this.state.cards.concat(data);
-				console.log(merged);
-				this.setState({ cards: merged });	
-
-			});
+        };
+        return data
+      });
+      this.setState({cards: cards});
     }
     
+    handleFilter = (id) => {
+			let cardList = [...this.state.cards]; //Create copy of object, update object, set state with new copy
+			var i;
+			for (i = 0; i < cardList.length; i++){
+				if(cardList[i].id === id){
+						cardList[i].hidden = !cardList[i].hidden; //Update object and change hidden to opposite
+				} 
+			}
+			this.setState({cards: cardList});
+		}
+
     handleSidebar = () => {
       this.setState({sidebarOpen: !this.state.sidebarOpen});
     }
@@ -41,7 +51,7 @@ class App extends React.Component {
         return (
             <div>
                 <NavBar handleSidebar={this.handleSidebar} />
-								{/* Debug <button className='btn btn-primary' onClick={() => console.log(this.state.cards)}>Check State</button> */}
+								<button className='btn btn-primary' onClick={() => console.log(this.state.cards)}>Check State</button>
 								
                 
                 <Sidebar  
@@ -52,8 +62,12 @@ class App extends React.Component {
                 <div className="container">
                     <SubjectCard 
                         subject="Compressed Air">
-                        <Filter />
+                        <FilterBar 
+													data={this.state.cards}
+													handleFilter={this.handleFilter}
+												/>
                     </SubjectCard>
+
                     <SubjectIntro
                         header="Compressed air is a common utility found in most industrial facilities" 
                         description="Compressed air has been a key industrial utility since the 1800's. It can drive pneumatic cylinders, air motors, diaprham pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications."
@@ -64,7 +78,10 @@ class App extends React.Component {
                     {
                         CardData.map((cat, i) => {
                             return(
-                                <div>
+																<div 
+																	id={cat.id} 
+																	className={(this.state.cards.length > 0) ? (this.state.cards[i].hidden ? "hide" : "active") : ""}
+																>
                                     <Card
                                         category={cat.category}
                                         icon={cat.icon}

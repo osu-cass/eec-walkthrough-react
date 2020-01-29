@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import Card from './Card';
-import Filter from './Filter';
 import './SubjectCard.css';
 
 function hideCard(e){

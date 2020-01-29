@@ -21,5 +21,19 @@ body{
     left: 0;
     z-index: 999;
     transition: all 0.3s;
+}
+
+.hide { 
+    transform: scale(1,0);
+    transition: transform .4s cubic-bezier(.5,0,.3,1);
+}
+
+.hideDelay {
+    margin-top: -150px;
+}
+
+.active {
+    transform: scale(1);
+    transition: transform .4s cubic-bezier(.5,0,.3,1);
 
 }
