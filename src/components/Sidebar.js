@@ -2,6 +2,15 @@ import React from 'react'
 import './Sidebar.css'
 
 class Sidebar extends React.Component {
+	state = {
+		subjects: []
+	}
+	componentDidMount(){
+			fetch('/subjects')
+				.then(res => res.json())
+				.then(subjects => this.setState({subjects}));
+	}
+
   onDismiss = () => {
     this.props.handleSidebar()
   }
@@ -20,7 +29,7 @@ class Sidebar extends React.Component {
 
           <ul className="list-unstyled components">
             <li>
-              <a href="#">Home</a>
+              <a href="/">Home</a>
               <a
                 href="#pageSubmenu"
                 data-toggle="collapse"
@@ -28,16 +37,17 @@ class Sidebar extends React.Component {
               >
                 Subjects
               </a>
-              <ul className="collapse list-unstyled" id="pageSubmenu">
-                <li>
-                  <a href="#">Compressed Air</a>
-                </li>
-                <li>
-                  <a href="#">Boilers</a>
-                </li>
-                <li>
-                  <a href="#">Refrigeration</a>
-                </li>
+              <ul className="collapse list-unstyled" id="pageSubmenu"> 
+								{/* For each Subject create a link */}
+								{this.state.subjects.map(sub => {
+									return (
+											this.state.subjects.length > 0 ?
+											<li>
+												<a href={`subjects/${sub.SubjectID}`}>{sub.SubjectName}</a>
+											</li>
+											: <li> No Subjects Found </li>
+									);
+								})}
               </ul>
               <a
                 href="#industrySubmenu"
