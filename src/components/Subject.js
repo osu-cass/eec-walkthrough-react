@@ -12,7 +12,8 @@ class Subject extends React.Component {
   state = {
     sidebarOpen: false,
     cards: [],
-		subjectInfo: []
+		subjectInfo: [],
+		loaded: false
   }
 
   componentDidMount() {
@@ -28,9 +29,7 @@ class Subject extends React.Component {
     })
     this.setState({ cards: cards })
 
-		fetch('/subjects')
-			.then(res => res.json())
-			.then(subjectInfo => this.setState({subjectInfo}));
+
   }
 
   handleFilter = id => {
@@ -58,7 +57,7 @@ class Subject extends React.Component {
         />
 
         <div className="container">
-          <SubjectCard subject="Compressed Air">
+          <SubjectCard subjectName={'bye'}>
             <FilterBar
               data={this.state.cards}
               handleFilter={this.handleFilter}
@@ -96,8 +95,8 @@ class Subject extends React.Component {
           <SubjectCard subject="Opportunities to Consider" />
         </div>
       </div>
-    )
-  }
+    );	
+	}
 }
 
 export default Subject

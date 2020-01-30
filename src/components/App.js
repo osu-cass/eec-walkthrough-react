@@ -4,15 +4,10 @@ import Home from './Home'
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 class App extends React.Component {
-  state = {
-	}
-
   render() {
     return (
 			<BrowserRouter>
-				<Route path="/subjects/">
-						<Subject />
-				</Route>
+				<Route path="/subjects/:id" render={(props) => <Subject id={props.match.params.id} /> } />
 				<Route exact path="/">
 						<Home />
 				</Route>

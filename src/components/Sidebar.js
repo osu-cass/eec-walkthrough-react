@@ -6,7 +6,7 @@ class Sidebar extends React.Component {
 		subjects: []
 	}
 	componentDidMount(){
-			fetch('/subjects')
+			fetch('/subjects/all')
 				.then(res => res.json())
 				.then(subjects => this.setState({subjects}));
 	}
@@ -43,7 +43,7 @@ class Sidebar extends React.Component {
 									return (
 											this.state.subjects.length > 0 ?
 											<li>
-												<a href={`subjects/${sub.SubjectID}`}>{sub.SubjectName}</a>
+												<a href={`/subjects/${sub.SubjectID}`}>{sub.SubjectName}</a>
 											</li>
 											: <li> No Subjects Found </li>
 									);
@@ -58,10 +58,10 @@ class Sidebar extends React.Component {
               </a>
               <ul className="collapse list-unstyled" id="industrySubmenu">
                 <li>
-                  <a href="#">Electricity</a>
+                  <a href="/">Electricity</a>
                 </li>
                 <li>
-                  <a href="#">Plywood</a>
+                  <a href="/">Plywood</a>
                 </li>
               </ul>
             </li>
@@ -69,7 +69,7 @@ class Sidebar extends React.Component {
 
           <ul className="list-unstyled CTAs">
             <li>
-              <a href="#" className="article" onClick={this.onDismiss}>
+              <a href="./" className="article" onClick={this.onDismiss}>
                 Back to Page
               </a>
             </li>
