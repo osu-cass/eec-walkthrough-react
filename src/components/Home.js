@@ -25,9 +25,26 @@ class Home extends React.Component {
           className={this.state.sidebarOpen ? 'visible' : 'hidden'}
           handleSidebar={this.handleSidebar}
         />
-				
-				<h1>This is the Home Page (Work in Progress), navigate using the Sidebar</h1>
-
+				<div className="container">
+					<h1>Home Page, will be filled out later</h1>	
+					<h3>Currently</h3>
+					<ul>
+						<li>Sidebar subjects reads from database</li>
+							<ul>
+								<li>Subject name, link based on subject id</li>
+							</ul>
+						<li>Subjects reads from database</li>
+							<ul>
+								<li>Subject name, summary, description, image path</li>
+							</ul>
+						<li>Filter buttons work</li>
+							<ul>
+								<li>Filter icons generate based on number of tidbits and icon used for that tidbit</li>
+								<li>Reset button in progress</li>
+							</ul>
+						<li>Working on reading tidbits from database</li>
+					</ul>
+				</div>
 			</div>
     )
   }

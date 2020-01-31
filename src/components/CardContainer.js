@@ -8,12 +8,9 @@ import FilterBar from './FilterBar'
 import Sidebar from './Sidebar'
 import './Subject.css'
 
-class Subject extends React.Component {
+class CardContainer extends React.Component {
   state = {
-    sidebarOpen: false,
-    cards: [],
-		subjectInfo: [],
-		loaded: false
+    cards: []
   }
 
   componentDidMount() {
@@ -29,9 +26,9 @@ class Subject extends React.Component {
     })
     this.setState({ cards: cards })
 		
-		fetch(`/subjects/${this.props.id}`)
+		fetch(`/cards/${this.props.id}`)
 				.then(res => res.json())
-				.then(subjectInfo => this.setState({subjectInfo}));
+				.then(cards => );
   }
 
   handleFilter = id => {
@@ -50,32 +47,11 @@ class Subject extends React.Component {
   }
 
   render() {
-    return this.state.subjectInfo.length ? ( //Render content when data loaded from backend
+    return this.state.cards.length ? ( //Render content when data loaded from backend
       <div>
-        <NavBar handleSidebar={this.handleSidebar} />
-        <Sidebar
-          className={this.state.sidebarOpen ? 'visible' : 'hidden'}
-          handleSidebar={this.handleSidebar}
-        />
-				
-				{/*Debugging Purposes*/}
 				<button className='btn btn-primary' onClick={() => console.log(this.state.cards)}>Debug</button>
 
-        <div className="container">
-          <SubjectCard subjectName={this.state.subjectInfo[0].SubjectName}>
-            <FilterBar
-              data={this.state.cards}
-              handleFilter={this.handleFilter}
-            />
-          </SubjectCard>
-
-          <SubjectIntro
-            header={this.state.subjectInfo[0].Summary}
-            description={this.state.subjectInfo[0].Description}
-            img={this.state.subjectInfo[0].SubjectImage}
-          />
-
-          {/* For each Category/Card */}
+            {/* For each Category/Card */}
           {CardData.map((cat, i) => {
             return (
               <div
@@ -97,11 +73,9 @@ class Subject extends React.Component {
             )
           })}
 
-          <SubjectCard subject="Opportunities to Consider" />
-        </div>
       </div>
-	) : <div> Loading </div> ;	
+	) : <div> Loading Cards </div> ;	
 	}
 }
 
-export default Subject
+export default CardContainer 

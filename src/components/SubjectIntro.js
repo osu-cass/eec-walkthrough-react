@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './SubjectIntro.css'
 
 const SubjectIntro = props => {
   return (
@@ -9,7 +10,7 @@ const SubjectIntro = props => {
           <p>{props.description}</p>
         </div>
         <div className="col-4">
-          <img src={props.img} className="rounded" />
+          <img src={props.img} className="subjectIntro rounded img-fluid" />
         </div>
       </div>
     </div>
