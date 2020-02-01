@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import './SubjectIntro.css'
 
 const SubjectIntro = props => {
   return (

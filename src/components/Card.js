@@ -16,13 +16,7 @@ const Card = props => {
         <Edit />
       </div>
       <div className="mt-2">
-        {props.description.map((desc, i) => {
-          return (
-            <div>
-              <BulletPoint icon={props.icon} text={desc} />
-            </div>
-          )
-        })}
+				{props.children}
       </div>
     </div>
   )

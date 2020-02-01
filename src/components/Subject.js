@@ -2,8 +2,7 @@ import React from 'react'
 import NavBar from './NavBar'
 import SubjectCard from './SubjectCard'
 import SubjectIntro from './SubjectIntro'
-import Card from './Card'
-import CardData from './CardData'
+import CardContainer from './CardContainer'
 import FilterBar from './FilterBar'
 import Sidebar from './Sidebar'
 import './Subject.css'
@@ -18,17 +17,6 @@ class Subject extends React.Component {
 
   componentDidMount() {
     //For each card, take its category and assign if its hidden or visible
-    let cards = CardData.map((cat, i) => {
-      var data = {
-        category: cat.category,
-        icon: cat.icon,
-        id: cat.id,
-        hidden: false,
-      }
-      return data
-    })
-    this.setState({ cards: cards })
-		
 		fetch(`/subjects/${this.props.id}`)
 				.then(res => res.json())
 				.then(subjectInfo => this.setState({subjectInfo}));
@@ -59,7 +47,7 @@ class Subject extends React.Component {
         />
 				
 				{/*Debugging Purposes*/}
-				<button className='btn btn-primary' onClick={() => console.log(this.state.cards)}>Debug</button>
+				<button className='btn btn-primary' onClick={() => console.log(this.state.cards)}>State</button>
 
         <div className="container">
           <SubjectCard subjectName={this.state.subjectInfo[0].SubjectName}>
@@ -75,28 +63,7 @@ class Subject extends React.Component {
             img={this.state.subjectInfo[0].SubjectImage}
           />
 
-          {/* For each Category/Card */}
-          {CardData.map((cat, i) => {
-            return (
-              <div
-                id={cat.id}
-                className={
-                  this.state.cards.length > 0
-                    ? this.state.cards[i].hidden
-                      ? 'hide'
-                      : 'active'
-                    : ''
-                }
-              >
-                <Card
-                  category={cat.category}
-                  icon={cat.icon}
-                  description={cat.description}
-                />
-              </div>
-            )
-          })}
-
+					<CardContainer id={this.props.id} />
           <SubjectCard subject="Opportunities to Consider" />
         </div>
       </div>

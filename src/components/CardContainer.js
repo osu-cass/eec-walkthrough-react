@@ -1,80 +1,89 @@
 import React from 'react'
-import NavBar from './NavBar'
-import SubjectCard from './SubjectCard'
-import SubjectIntro from './SubjectIntro'
 import Card from './Card'
-import CardData from './CardData'
-import FilterBar from './FilterBar'
-import Sidebar from './Sidebar'
+import BulletPoint from './BulletPoint'
 import './Subject.css'
+import axios from "axios";
 
 class CardContainer extends React.Component {
   state = {
-    cards: []
+    tidbits: [],
+		tidbitTypes: [],
   }
 
   componentDidMount() {
-    //For each card, take its category and assign if its hidden or visible
-    let cards = CardData.map((cat, i) => {
-      var data = {
-        category: cat.category,
-        icon: cat.icon,
-        id: cat.id,
-        hidden: false,
-      }
-      return data
-    })
-    this.setState({ cards: cards })
-		
+		fetch(`/cards/types`)
+				.then(res => res.json())
+				.then(tidbitTypes => this.setState({tidbitTypes: tidbitTypes}));
+	
 		fetch(`/cards/${this.props.id}`)
 				.then(res => res.json())
-				.then(cards => );
+				.then(tidbits => this.setState({tidbits: tidbits}));
   }
 
   handleFilter = id => {
-    let cardList = [...this.state.cards] //Create copy of object, update object, set state with new copy
+    let tidbitList = [...this.state.tidbits] //Create copy of object, update object, set state with new copy
     var i
-    for (i = 0; i < cardList.length; i++) {
-      if (cardList[i].id === id) {
-        cardList[i].hidden = !cardList[i].hidden //Update object and change hidden to opposite
+    for (i = 0; i < tidbitList.length; i++) {
+      if (tidbitList[i].id === id) {
+        tidbitList[i].hidden = !tidbitList[i].hidden //Update object and change hidden to opposite
       }
     }
-    this.setState({ cards: cardList })
+    this.setState({ tidbits: tidbitList })
   }
+	
+	getChilds = (id) => {
+		var results = this.state.tidbits.reduce(function(result, tidbit) {
+			if(tidbit.ParentID === id){
+				result.push(tidbit);
+			}
+			return result;
+		}, []);
+		return results.length ? results : false
+	}
 
-  handleSidebar = () => {
-    this.setState({ sidebarOpen: !this.state.sidebarOpen })
-  }
+	recurseTidbits = (tidbit, icon, typeid, used) => {
+		let childs = this.getChilds(tidbit.TidbitID); //get all childs of this tidbit
+		if(!(used.includes(tidbit.TidbitID))){
+			used.push(tidbit.TidbitID)															//push used
+			if(childs){																							//if has child, recurse
+				return (
+					<BulletPoint icon={icon} text={tidbit.Text}>
+						{childs.map((child) => (this.recurseTidbits(child, icon, typeid, used)))}
+					</BulletPoint>
+				)
+			}
+			else{
+				return <BulletPoint icon={icon} text={tidbit.Text} /> //if no childs
+			}
+		}
+	}
 
-  render() {
-    return this.state.cards.length ? ( //Render content when data loaded from backend
-      <div>
-				<button className='btn btn-primary' onClick={() => console.log(this.state.cards)}>Debug</button>
+	generateCards = () => {
+		let used = [];
+		let Cards = this.state.tidbitTypes.map((type, i) => {				//Loop through Tidbit Types
+			return(
+				<div id={type.TypeID} className='hi'>
+					<Card category={type.TypeName}>
+						{this.state.tidbits.map((tidbit) => {								//Loop through Tidbits of that Type
+							if(tidbit.TypeID === type.TypeID){
+								return(this.recurseTidbits(tidbit, type.Icon, type.TypeID, used))
+							}})
+						}
+					</Card>
+				</div>
+			);
+		})
+		return Cards
+	}
 
-            {/* For each Category/Card */}
-          {CardData.map((cat, i) => {
-            return (
-              <div
-                id={cat.id}
-                className={
-                  this.state.cards.length > 0
-                    ? this.state.cards[i].hidden
-                      ? 'hide'
-                      : 'active'
-                    : ''
-                }
-              >
-                <Card
-                  category={cat.category}
-                  icon={cat.icon}
-                  description={cat.description}
-                />
-              </div>
-            )
-          })}
+	render() {
+    return this.state.tidbits.length ? ( //Render content when data loaded from backend
+      <div className="tidbitContainer">
+          {/* For each Category */}
+          {(this.state.tidbitTypes.length) ? this.generateCards() : ''}
 
       </div>
-	) : <div> Loading Cards </div> ;	
+		) : <div> No Data for this Subject </div> ;	
 	}
 }
 
