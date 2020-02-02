@@ -8,7 +8,7 @@ const SubjectIntro = props => {
           <h5>{props.header}</h5>
           <p>{props.description}</p>
         </div>
-        <div className="col-4">
+        <div className="col-4 text-center">
 					<img src={props.img} className="subjectIntro rounded img-fluid" style={{maxHeight: "23em"}}/>
         </div>
       </div>

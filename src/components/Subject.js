@@ -10,8 +10,7 @@ class Subject extends React.Component {
   state = {
     sidebarOpen: false,
     tidbitTypes: [],
-		subjectInfo: [],
-		loaded: false
+		subjectInfo: []
   }
 
   componentDidMount() {
