@@ -2,37 +2,24 @@ import React from 'react'
 import Card from './Card'
 import BulletPoint from './BulletPoint'
 import './Subject.css'
-import axios from "axios";
 
 class CardContainer extends React.Component {
   state = {
     tidbits: [],
-		tidbitTypes: [],
+		tidbitTypes: []
   }
 
   componentDidMount() {
-		fetch(`/cards/types`)
+		fetch(`/cards/types/${this.props.id}`)
 				.then(res => res.json())
 				.then(tidbitTypes => this.setState({tidbitTypes: tidbitTypes}));
-	
 		fetch(`/cards/${this.props.id}`)
 				.then(res => res.json())
 				.then(tidbits => this.setState({tidbits: tidbits}));
   }
 
-  handleFilter = id => {
-    let tidbitList = [...this.state.tidbits] //Create copy of object, update object, set state with new copy
-    var i
-    for (i = 0; i < tidbitList.length; i++) {
-      if (tidbitList[i].id === id) {
-        tidbitList[i].hidden = !tidbitList[i].hidden //Update object and change hidden to opposite
-      }
-    }
-    this.setState({ tidbits: tidbitList })
-  }
-	
 	getChilds = (id) => {
-		var results = this.state.tidbits.reduce(function(result, tidbit) {
+		var results = this.state.tidbits.reduce(function(result, tidbit) { //get tidbits whose parentid matches the parameter
 			if(tidbit.ParentID === id){
 				result.push(tidbit);
 			}
@@ -62,7 +49,7 @@ class CardContainer extends React.Component {
 		let used = [];
 		let Cards = this.state.tidbitTypes.map((type, i) => {				//Loop through Tidbit Types
 			return(
-				<div id={type.TypeID} className='hi'>
+				<div id={type.TypeID} className={this.checkFilter(type.TypeID)}>
 					<Card category={type.TypeName}>
 						{this.state.tidbits.map((tidbit) => {								//Loop through Tidbits of that Type
 							if(tidbit.TypeID === type.TypeID){
@@ -76,11 +63,23 @@ class CardContainer extends React.Component {
 		return Cards
 	}
 
+	checkFilter = (id) => {
+		var i;
+		for(i = 0; i < this.props.hidden.length; i++){
+			if(this.props.hidden[i].TypeID === id){
+				if(this.props.hidden[i].hidden === true){
+					return 'hide';
+				}
+			}
+		}
+		return 'active';
+	}
+
 	render() {
-    return this.state.tidbits.length ? ( //Render content when data loaded from backend
-      <div className="tidbitContainer">
-          {/* For each Category */}
-          {(this.state.tidbitTypes.length) ? this.generateCards() : ''}
+    return this.state.tidbitTypes.length ? ( //Render content when data loaded from backend
+			<div className="tidbitContainer">
+          
+				{(this.state.tidbitTypes.length) ? this.generateCards() : ''}
 
       </div>
 		) : <div> No Data for this Subject </div> ;	
@@ -88,3 +87,4 @@ class CardContainer extends React.Component {
 }
 
 export default CardContainer 
+{/*	<button onClick={()=>(console.log(this.state))}>Test</button> */}

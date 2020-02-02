@@ -9,7 +9,7 @@ const SubjectIntro = props => {
           <p>{props.description}</p>
         </div>
         <div className="col-4">
-          <img src={props.img} className="subjectIntro rounded img-fluid" />
+					<img src={props.img} className="subjectIntro rounded img-fluid" style={{maxHeight: "23em"}}/>
         </div>
       </div>
     </div>

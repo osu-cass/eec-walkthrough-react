@@ -9,42 +9,32 @@ import Sidebar from './Sidebar'
 import './Subject.css'
 
 class Home extends React.Component {
-	state = {
-		sidebarOpen: false
-	}	
-
-  handleSidebar = () => {
-    this.setState({ sidebarOpen: !this.state.sidebarOpen })
-  }
-
   render() {
     return (
-      <div>
-        <NavBar handleSidebar={this.handleSidebar} />
-        <Sidebar
-          className={this.state.sidebarOpen ? 'visible' : 'hidden'}
-          handleSidebar={this.handleSidebar}
-        />
-				<div className="container">
-					<h1>Home Page, will be filled out later</h1>	
-					<h3>Currently</h3>
-					<ul>
-						<li>Sidebar subjects reads from database</li>
-							<ul>
-								<li>Subject name, link based on subject id</li>
-							</ul>
-						<li>Subjects reads from database</li>
-							<ul>
-								<li>Subject name, summary, description, image path</li>
-							</ul>
-						<li>Filter buttons work</li>
-							<ul>
-								<li>Filter icons generate based on number of tidbits and icon used for that tidbit</li>
-								<li>Reset button in progress</li>
-							</ul>
-						<li>Working on reading tidbits from database</li>
-					</ul>
-				</div>
+      <div className="container">
+				<h1>Home Page, will be filled out later</h1>	
+				<h3>Currently</h3>
+				<ul>
+					<li>Sidebar subjects reads from database</li>
+						<ul>
+							<li>Subject name, link based on subject id</li>
+						</ul>
+					<li>Subjects reads from database</li>
+						<ul>
+							<li>Subject name, summary, description, image path</li>
+						</ul>
+					<li>Filter buttons work</li>
+						<ul>
+							<li>Filter icons generate based on number of tidbits and icon used for that tidbit</li>
+							<li>Reset button in progress</li>
+							<li>Could make a transition from inactive to active work</li>
+						</ul>
+					<li>Tidbits work and can nest infinitely</li>
+					<li>Working on making code more reusable</li>
+						<ul>
+							<li>Export some code in CardContainer to Card</li>
+						</ul>
+				</ul>
 			</div>
     )
   }

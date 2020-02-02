@@ -5,11 +5,12 @@ class FilterBar extends React.Component {
   render() {
     return (
       <span className="mr-5 mt-1 icons">
-        {this.props.data.map((obj, i) => {
+        {this.props.data.map((obj) => { //for each tidbit type (pros/cons/etc.)
+					console.log(obj);
           return (
             <Filter
-              id={obj.id}
-              icon={obj.icon}
+              id={obj.TypeID}
+              icon={obj.Icon}
               handleFilter={this.props.handleFilter}
             />
           )
