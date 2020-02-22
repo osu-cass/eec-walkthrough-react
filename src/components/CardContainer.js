@@ -1,30 +1,22 @@
 import React from 'react'
 import Card from './Card'
-import BulletPoint from './BulletPoint'
+import SubjectCard from './SubjectCard'
 import './Subject.css'
 
 class CardContainer extends React.Component {
   state = {
-    tidbits: [],
-		tidbitTypes: []
+		categories: []
   }
 
-  componentDidMount() {
-		fetch(`/cards/types/${this.props.id}`)
-				.then(res => res.json())
-				.then(tidbitTypes => this.setState({tidbitTypes: tidbitTypes}));
-  }
-
-	generateCards = () => {
+	generateCards(){
 		let used = []; //holds ids of all the used tidbits, prevents reprint
-		let Cards = this.state.tidbitTypes.map((type, i) => {				//Loop through Tidbit Types
+		let Cards = this.props.categories.map((category, i) => {				//Loop through Categories
 			return(
 					<Card 
-						category={type.TypeName}
-						checkFilter={this.checkFilter(type.TypeID)}
+						category={category.CategoryName}
+						checkFilter={this.checkFilter(category.CategoryID)}
 						id={this.props.id}
-						typeid={type.TypeID}
-						icon={type.Icon}
+						categoryid={category.CategoryID}
 						used={used}
 					/>
 			);
@@ -32,10 +24,10 @@ class CardContainer extends React.Component {
 		return Cards
 	}
 
-	checkFilter = (id) => {
+	checkFilter(id){
 		var i;
 		for(i = 0; i < this.props.hidden.length; i++){
-			if(this.props.hidden[i].TypeID === id){
+			if(this.props.hidden[i].CategoryID === id){
 				if(this.props.hidden[i].hidden === true){
 					return 'hide';
 				}
@@ -45,15 +37,12 @@ class CardContainer extends React.Component {
 	}
 
 	render() {
-    return this.state.tidbitTypes.length ? ( //Render content when data loaded from backend
+    return this.props.categories.length ? ( //Render content when data loaded from backend
 			<div className="tidbitContainer">
-          
-				{(this.state.tidbitTypes.length) ? this.generateCards() : ''}
-
+				{this.generateCards()}
       </div>
-		) : <div> No Data for this Subject </div> ;	
+		) : <SubjectCard subjectName='No Data' /> ;	
 	}
 }
 
 export default CardContainer 
-{/*	<button onClick={()=>(console.log(this.state))}>Test</button> */}

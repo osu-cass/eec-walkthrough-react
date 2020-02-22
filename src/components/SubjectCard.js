@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import Card from './Card'
+import React from 'react'
 import './SubjectCard.css'
 
 function hideCard(e) {}

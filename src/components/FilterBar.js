@@ -6,7 +6,6 @@ class FilterBar extends React.Component {
     return (
       <span className="mr-5 mt-1 icons">
         {this.props.data.map((obj) => { //for each tidbit type (pros/cons/etc.)
-					console.log(obj);
           return (
             <Filter
               id={obj.TypeID}

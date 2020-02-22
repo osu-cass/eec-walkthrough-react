@@ -1,15 +1,40 @@
 import React from 'react'
 import './Sidebar.css'
+import { Route, Switch, NavLink } from 'react-router-dom';
+import Subject from './Subject'
 
 class Sidebar extends React.Component {
 	state = {
 		subjects: []
 	}
-	componentDidMount(){
-			fetch('/subjects/all')
-				.then(res => res.json())
-				.then(subjects => this.setState({subjects}));
-	}
+	
+	constructor(props) {
+    super(props);
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  componentDidMount() {
+		fetch('/subjects/all')
+			.then(res => res.json())
+			.then(subjects => this.setState({subjects}));
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  /**** Alert if clicked on outside of element **/
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+    	this.onDismiss();
+		}
+  }
 
   onDismiss = () => {
     this.props.handleSidebar()
@@ -17,7 +42,7 @@ class Sidebar extends React.Component {
 
   render() {
     return (
-      <div className={'wrapper ' + this.props.className}>
+      <div className={'wrapper ' + this.props.className} ref={this.setWrapperRef}>
         <nav id="sidebar">
           <div id="dismiss" onClick={this.onDismiss}>
             <i className="fas fa-arrow-left"></i>
@@ -29,7 +54,9 @@ class Sidebar extends React.Component {
 
           <ul className="list-unstyled components">
             <li>
-              <a href="/">Home</a>
+							<NavLink to={`/`}>
+								Home
+							</NavLink>
               <a
                 href="#pageSubmenu"
                 data-toggle="collapse"
@@ -42,8 +69,11 @@ class Sidebar extends React.Component {
 								{this.state.subjects.map(sub => {
 									return (
 											this.state.subjects.length > 0 ?
-											<li>
-												<a href={`/subjects/${sub.SubjectID}`}>{sub.SubjectName}</a>
+											<li key={sub.SubjectID}>
+												<NavLink to={`/subjects/${sub.SubjectID}`}>
+													{sub.SubjectName}
+												</NavLink>
+												{/*<a href={`/subjects/${sub.SubjectID}`}>{sub.SubjectName}</a>*/}
 											</li>
 											: <li> No Subjects Found </li>
 									);
@@ -69,9 +99,9 @@ class Sidebar extends React.Component {
 
           <ul className="list-unstyled CTAs">
             <li>
-              <a href="./" className="article" onClick={this.onDismiss}>
-                Back to Page
-              </a>
+							<NavLink to={`/`} className="article" onClick={this.onDismiss}>
+								Back to Page
+							</NavLink>
             </li>
           </ul>
         </nav>

@@ -1,11 +1,28 @@
-import React, { useState } from 'react'
+import React from 'react'
+import './BulletPoint.css'
+
+function styleText(icon){
+	if(icon === 'check-square')
+		return 'font-weight-bold';
+	if(icon === 'flag')
+		return 'font-italic mt-4';	//break between every flag icon
+	if(icon === 'opportunity-desc')
+		return 'opportunity-desc';
+}
+
+function addColor(child){
+	if(child)
+		return 'text-child';
+}
 
 const BulletPoint = props => {
   return (
-    <div className='mb-3'>
-      <i className={`fas fa-${props.icon} text-dark mr-2`}></i>
+    <div key={props.id} className={`mb-2`}>
+      <i className={`fas fa-${props.icon} ${addColor(props.child)} mr-2 ${styleText(props.icon)}`}></i>
+			<span className={styleText(props.icon)}>
 			{props.text}
-			<div className='pl-5 mt-3'>{props.children}</div>
+				</span>
+			<div className='pl-5 mt-2'>{props.children}</div>
     </div>
   )
 }

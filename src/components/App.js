@@ -3,7 +3,7 @@ import Subject from './Subject'
 import Home from './Home'
 import NavBar from './NavBar'
 import Sidebar from './Sidebar'
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Route, Switch, BrowserRouter, Link } from 'react-router-dom';
 
 class App extends React.Component {
 	state = {
@@ -14,21 +14,26 @@ class App extends React.Component {
     this.setState({ sidebarOpen: !this.state.sidebarOpen })
   }
 
-
   render() {
     return (
-			<BrowserRouter>        
+			<main>
 				<NavBar handleSidebar={this.handleSidebar} />
         <Sidebar
           className={this.state.sidebarOpen ? 'visible' : 'hidden'}
           handleSidebar={this.handleSidebar}
         />
-				
-				<Route path="/subjects/:id" render={(props) => <Subject id={props.match.params.id} /> } />
-				<Route exact path="/">
-						<Home />
-				</Route>
-			</BrowserRouter>
+				<Switch>
+					<Route path="/subjects/:id" 
+						render={(props) => <Subject {...props} id={props.match.params.id} /> } 
+					/>
+					<Route exact path="/">
+							<Home />
+					</Route>
+					<Route path="*">
+							<Home />
+					</Route>
+				</Switch>
+			</main>
     )
   }
 }
