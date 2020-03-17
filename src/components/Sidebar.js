@@ -32,7 +32,8 @@ class Sidebar extends React.Component {
   /**** Alert if clicked on outside of element **/
   handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-    	this.onDismiss();
+			if(this.props.className === "visible")	//if sidebar is open, close sidebar
+	    	this.onDismiss();
 		}
   }
 

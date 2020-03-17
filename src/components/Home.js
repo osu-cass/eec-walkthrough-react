@@ -2,21 +2,22 @@ import React from 'react'
 import './Subject.css'
 
 class Home extends React.Component {
-  render() {
-    return (
-      <div className="container">
+	render() {
+		return (
+			<div className="container">
 				<div className='row'>
 					<div className='col-6'>
 						<h1>Progress Notes and TODO</h1>
 						<ul>
 							<li>Multiple icons can be used per category</li>
 							<li>Made some styling changes (colors, spacing, etc.)</li>
+							<li>Page reloads with actually refreshing between Subjects/Home</li>
+							<li>Sidebar closes on outside click</li>
 							<li>TODO:</li>
-							<ul>	
-								<li>Make "Opportunities to Consider" bar appear before first Opportunity</li>
-								<li>Implement BrowserRouter and Links in Sidebar </li>
-								<li>Implement autocomplete on Search</li>
+							<ul>
 								<li>Implement Create/Update on Subjects</li>
+								<li>Use Redux? (maybe)</li>
+								<li>Implement autocomplete on Search</li>
 							</ul>
 						</ul>
 					</div>
@@ -30,8 +31,8 @@ class Home extends React.Component {
 					</div>
 				</div>
 			</div>
-    )
-  }
+		)
+	}
 }
 
 export default Home 
