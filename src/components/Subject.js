@@ -18,7 +18,6 @@ class Subject extends React.Component {
 		subjectInfo: []
 	}
 
-
 	componentDidMount() {
 		this.fetchData();
 	}
@@ -103,8 +102,12 @@ class Subject extends React.Component {
 						/>
 					</div>
 				}
-
-				<Modal />
+			
+				<Modal 
+					numCategories={this.state.categories.length} 
+					numOpportunities={this.state.opportunities.length}
+					SubjectID={this.state.subjectInfo[0].SubjectID}
+				/>
 			</div>
 		) : <Loading />
 	}

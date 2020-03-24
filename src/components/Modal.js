@@ -20,13 +20,54 @@ class Modal extends React.Component {
 	}
 
 	handleSubmit = () => {
-		console.log(this.state.tidbits);
+		let data = {
+			title: this.state.title,
+			index: this.props.numCategories+1,
+			id: this.props.SubjectID,
+			opportunity: 0
+		}
+		fetch("/cards/newCategory", { //Create new category
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify(data)
+			}).then(function(res) {
+				if(res.status >= 400){
+					throw new Error("Bad response from server");
+				}
+				return res.json();
+				}).then((data) => {
+					for(const key in this.state.tidbits){	//Loop through each tidbit and create new
+						let data2 = {
+							index: key,
+							data: this.state.tidbits[key],
+							id: data.insertId,
+							icon: 1,
+							parent: null
+						}
+						fetch("/cards/newTidbit", {
+							method: 'POST',
+							headers: {'Content-Type': 'application/json'},
+							body: JSON.stringify(data2)
+						}).then(function(res) {
+							if(res.status >= 400){
+								throw new Error("Bad response from server");
+							}
+							return res.json();
+						}).catch(function(err){
+							console.log(err);
+						})
+					}}
+				)
+				.catch(function(err){
+				console.log(err);
+			})
+
+	
 	}
 
 	handleInput = (e, index) => {
 		let key = index.toString();
 		let copy = {...this.state.tidbits};
-		console.log(copy);
 		copy[key] = e.target.value;
 		this.setState({tidbits: copy});
 		/* Example of filled out Tidbits
@@ -62,7 +103,7 @@ class Modal extends React.Component {
 							title='Text' 
 							placeholder='Insert Text' 
 							handleInput={this.handleInput}
-							index={this.state.counter}
+							index={i+1}
 						/>
 					
 						<button className='btn btn-success ml-2'>Add Subpoint</button>
@@ -83,7 +124,7 @@ class Modal extends React.Component {
 					data-toggle="modal" data-target="#exampleModal"
 				></i>
 
-				<div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div className="modal-dialog modal-lg" role="document">
 						<div className="modal-content">
 							<div className="modal-header">
@@ -105,8 +146,7 @@ class Modal extends React.Component {
 							
 
 								{this.generateInputs()}
-
-
+								
 								<AddButton onClick={() => this.incrementCounter(this.state.counter)} />
 							</div>
 							<div className="modal-footer">
