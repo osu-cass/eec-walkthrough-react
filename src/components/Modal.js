@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import AddButton from './AddButton';
-import InputField from './InputField'
+import InputField from './InputField';
+import Dropdown from './Dropdown';
+import './Modal.css'
+import './Subject.css'
 
 class Modal extends React.Component {
 	state = { 
@@ -15,7 +18,6 @@ class Modal extends React.Component {
 		let copy = {...this.state.tidbits};
 		copy[key] = "";
 		this.setState({tidbits: copy});
-		console.log(this.state.tidbits);		
 		this.setState({ counter: count + 1 });
 	}
 
@@ -44,7 +46,7 @@ class Modal extends React.Component {
 							icon: 1,
 							parent: null
 						}
-						fetch("/cards/newTidbit", {
+						fetch("/cards/newTidbit", {	//Create tidbit
 							method: 'POST',
 							headers: {'Content-Type': 'application/json'},
 							body: JSON.stringify(data2)
@@ -70,16 +72,29 @@ class Modal extends React.Component {
 		let copy = {...this.state.tidbits};
 		copy[key] = e.target.value;
 		this.setState({tidbits: copy});
-		/* Example of filled out Tidbits
+		/* Example of object being created
 		* {
 		*   '0': {			
 		*			'text': "Hello"
 		* 		}
-		*		'1': { 
-		* 		'text': "Bye"
-		* 		}
-		*	} 				
-		*/
+  	*/
+
+	}
+
+	generateTidbitTypes(){
+		let list = [];
+		let jsx = [];
+		let values = [];
+		this.props.tidbitTypes.map(function(type, index) {
+			jsx.push(<div className="dropdown-item" style={{cursor: "pointer"}}>
+					<i className={`fas fa-${type.TypeName}`} /> {type.TypeName}
+				</div>);
+			let jsxIcon = <i className={`fas fa-${type.TypeName}`} />
+			values.push([type.TypeID, jsxIcon]);
+			}
+		);
+		list.push(jsx, values);
+		return list;
 	}
 
 	generateInputs() {
@@ -88,25 +103,19 @@ class Modal extends React.Component {
 		for (i = 0; i < this.state.counter; i++) {
 			jsx.push(
 				<div className='row mb-2' key={i+1}>
-					<div className="col-2" >
-						<select className="form-control" id="exampleFormControlSelect1">
-							<option>Plus</option>
-							<option>Minus</option>
-							<option>Thumbs Up</option>
-							<option>Skull</option>
-							<option>Trophy</option>
-						</select>
+					<div className="col-1 mr-3">
+						<Dropdown list={this.generateTidbitTypes()} /> 
 					</div>
 
 					<div className="input-group col-10">
 						<InputField 
 							title='Text' 
-							placeholder='Insert Text' 
+							placeholder='Tidbit Text' 
 							handleInput={this.handleInput}
 							index={i+1}
 						/>
 					
-						<button className='btn btn-success ml-2'>Add Subpoint</button>
+						<button className='btn btn-success ml-3'>Add Subpoint</button>
 					</div>
 
 				</div>
@@ -128,7 +137,7 @@ class Modal extends React.Component {
 					<div className="modal-dialog modal-lg" role="document">
 						<div className="modal-content">
 							<div className="modal-header">
-								<h5 className="modal-title font-weight-bold" id="exampleModalLabel">Create New Category</h5>
+								<h5 className="modal-title font-weight-bold" id="exampleModalLabel">{this.props.title}</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
@@ -139,7 +148,7 @@ class Modal extends React.Component {
 									<div className='input-group mb-3 col-12'>
 										<InputField 
 											title='Category Title' 
-											placeholder='Insert Text'
+											placeholder='Title of Category'
 											handleInput={(e) => this.setState({title: e.target.value})}/>
 									</div>
 								</div>
@@ -147,11 +156,14 @@ class Modal extends React.Component {
 
 								{this.generateInputs()}
 								
-								<AddButton onClick={() => this.incrementCounter(this.state.counter)} />
+								<div className='text-left ml-2 mt-3 mb-2'>
+									<AddButton onClick={() => this.incrementCounter(this.state.counter)} />
+								</div>
+
 							</div>
 							<div className="modal-footer">
 								<button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Create Category</button>
+								<button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.handleSubmit}>Create Category</button>
 								<button type="button" className="btn btn-info" onClick={() => console.log(this.state.tidbits)}>Debug</button>
 							</div>
 						</div>

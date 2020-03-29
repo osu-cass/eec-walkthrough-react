@@ -5,7 +5,8 @@ import './Subject.css'
 
 class CardContainer extends React.Component {
   state = {
-		categories: []
+		categories: [],
+		loaded: false
   }
 
 	generateCards(){

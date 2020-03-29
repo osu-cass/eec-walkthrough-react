@@ -13,6 +13,13 @@ class App extends React.Component {
   handleSidebar = () => {
     this.setState({ sidebarOpen: !this.state.sidebarOpen })
   }
+	
+	componentDidMount() {
+		fetch(`/tidbits/types`)	//subject info (summary, name, img, description)
+			.then(res => res.json())
+			.then(tidbitTypes => this.setState({ tidbitTypes }))
+			.then(() => this.setState({ loaded: true }));
+	}
 
   render() {
     return (
@@ -23,9 +30,11 @@ class App extends React.Component {
           handleSidebar={this.handleSidebar}
         />
 				<Switch>
+					{this.state.loaded && 
 					<Route path="/subjects/:id" 
-						render={(props) => <Subject {...props} id={props.match.params.id} /> } 
+						render={(props) => <Subject {...props} tidbitTypes={this.state.tidbitTypes} id={props.match.params.id} /> } 
 					/>
+					}
 					<Route exact path="/">
 							<Home />
 					</Route>

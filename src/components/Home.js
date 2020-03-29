@@ -9,16 +9,8 @@ class Home extends React.Component {
 					<div className='col-6'>
 						<h1>Progress Notes and TODO</h1>
 						<ul>
-							<li>Multiple icons can be used per category</li>
-							<li>Made some styling changes (colors, spacing, etc.)</li>
-							<li>Page reloads with actually refreshing between Subjects/Home</li>
-							<li>Sidebar closes on outside click</li>
-							<li>TODO:</li>
-							<ul>
-								<li>Implement Create/Update on Subjects</li>
-								<li>Use Redux? (maybe)</li>
-								<li>Implement autocomplete on Search</li>
-							</ul>
+							<li>Basics of Create Categories/Tidbits done</li>
+								<li>Need to add subpoints, icons in select dropdown</li>
 						</ul>
 					</div>
 

@@ -15,7 +15,7 @@ router.get('/categories/:id', function(req, res, next) {
 	});
 });
 
-/* GET cards based on subject id. */
+/* GET tidbits based on subject id. */
 router.get('/parent/:id', function(req, res, next) {
 	var db = req.con;
 	var id = req.params.id;

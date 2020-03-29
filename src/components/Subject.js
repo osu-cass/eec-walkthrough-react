@@ -40,7 +40,7 @@ class Subject extends React.Component {
 					let data = {
 						CategoryID: category.CategoryID,
 						CategoryName: category.CategoryName,
-						Icon: category.TypeName,
+						Icon: category.TypeName,	//TypeName and TypeID used for Filter Bar
 						TypeID: category.TypeID,
 						SubjectID: category.SubjectID,
 						IndexNum: category.IndexNum,
@@ -89,6 +89,16 @@ class Subject extends React.Component {
 					id={this.props.id}
 					categories={this.state.categories}
 					hidden={this.state.categories}
+					refresh={this.refreshCategories}
+				/>
+				
+				<Modal
+					title={"Create New Card"}
+					tidbitTypes={this.props.tidbitTypes}
+					numCategories={this.state.categories.length} 
+					numOpportunities={this.state.opportunities.length}
+					SubjectID={this.state.subjectInfo[0].SubjectID}
+					onClick={() => this.setState({refresh: true})}
 				/>
 
 				{this.state.hasOpportunities == 1 &&
@@ -104,9 +114,12 @@ class Subject extends React.Component {
 				}
 			
 				<Modal 
+					title={"Create New Opportunity Card"}	
+					tidbitTypes={this.props.tidbitTypes}
 					numCategories={this.state.categories.length} 
 					numOpportunities={this.state.opportunities.length}
 					SubjectID={this.state.subjectInfo[0].SubjectID}
+					onClick={() => this.setState({refresh: true})}
 				/>
 			</div>
 		) : <Loading />
