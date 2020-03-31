@@ -8,6 +8,7 @@ class FilterBar extends React.Component {
         {this.props.data.map((obj) => { //for each tidbit type (pros/cons/etc.)
           return (
             <Filter
+							key={obj.TypeID}
               id={obj.TypeID}
               icon={obj.Icon}
               handleFilter={this.props.handleFilter}

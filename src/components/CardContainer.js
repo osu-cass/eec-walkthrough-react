@@ -14,9 +14,10 @@ class CardContainer extends React.Component {
 		let Cards = this.props.categories.map((category, i) => {				//Loop through Categories
 			return(
 					<Card 
+						key={i}
+						id={this.props.id}
 						category={category.CategoryName}
 						checkFilter={this.checkFilter(category.CategoryID)}
-						id={this.props.id}
 						categoryid={category.CategoryID}
 						used={used}
 					/>

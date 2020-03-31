@@ -16,7 +16,7 @@ class Dropdown extends React.Component {
 		let jsx = [];
 		this.props.list[0].map((elem, idx) => {
 			jsx.push(
-				<div className="dropdown-item" style={{cursor: "pointer"}} onClick={() => this.handleClick(this.props.list[1][idx][0], idx)}>
+				<div key={idx} className="dropdown-item" style={{cursor: "pointer"}} onClick={() => this.handleClick(this.props.list[1][idx][0], idx)}>
 					{elem}
 				</div>
 			);
@@ -26,7 +26,7 @@ class Dropdown extends React.Component {
 
   render() {
     return (
-			<Fragment>
+			<Fragment key={this.props.index}>
 				<button className="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					{this.state.selectedIndex === null ? "Icon" : this.props.list[1][this.state.selectedIndex][1]}
 				</button>

@@ -29,12 +29,12 @@ class Card extends React.Component {
 			used.push(tidbit.TidbitID)															//push used
 			if(childs){																							//if has child, recurse
 				return (
-					<BulletPoint id={tidbit.TidbitID} icon={tidbit.TypeName} text={tidbit.Text} child={isChild}>
+					<BulletPoint key={tidbit.TidbitID} id={tidbit.TidbitID} icon={tidbit.TypeName} text={tidbit.Text} child={isChild}>
 						{childs.map((child) => (this.recurseTidbits(child, icon, categoryid, used, true)))}
 					</BulletPoint>
 				)
 			} else
-				return <BulletPoint id={tidbit.TidbitID} icon={tidbit.TypeName} text={tidbit.Text} child={isChild}/> //if no childs, base case
+				return <BulletPoint key={tidbit.TidbitID} id={tidbit.TidbitID} icon={tidbit.TypeName} text={tidbit.Text} child={isChild}/> //if no childs, base case
 		}
 	}
 	
@@ -49,7 +49,7 @@ class Card extends React.Component {
 
 	render(){
 		return (
-			<div key={this.props.categoryid} className={`my-2 pl-3 pt-2 bg-white card rounded shadow-sm ${this.props.checkFilter}`}>
+			<div className={`my-2 pl-3 pt-2 bg-white card rounded shadow-sm ${this.props.checkFilter}`}>
 				<div
 					id="header"
 					className="d-flex justify-content-between border-bottom border-gray"

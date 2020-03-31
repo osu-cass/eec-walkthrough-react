@@ -17,8 +17,7 @@ class Home extends React.Component {
 					<div className='col-6'>
 						<h1>Questions</h1>
 						<ul>
-							<li> What do the icons on the header of the opportunities mean? (ex. Checkboxes, spark, plug) </li>
-							<li> In order to do filter, categories would need a corresponding icon or "tidbit type" </li>
+							<li>Add a "Tag" column to icon to describe what it is (ex: plus -> Pro; skull -> Danger)</li>
 						</ul>
 					</div>
 				</div>

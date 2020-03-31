@@ -14,7 +14,6 @@ class Filter extends React.Component {
   render() {
     return (
       <i
-        id={this.props.id}
         className={`fas fa-${this.props.icon} ${
           this.state.active ? 'fa-disabled' : ''
         } text-dark mr-3`}
