@@ -58,10 +58,13 @@ router.post('/newCategory', function(req, res, next) {
 /* CREATE Tidbit in Category */
 router.post('/newTidbit', function(req, res, next) {
 	console.log('6');
+	console.log(req.body.id, req.body.data, req.body.parent, req.body.index);
 	var db = req.con;
 	db.query(`INSERT INTO Tidbits(CategoryID, TypeID, Text, ParentID, IndexNum)
 						VALUES(${req.body.id}, ${req.body.icon}, '${req.body.data}', ${req.body.parent}, ${req.body.index})`,function(err, row){
 		if(err) throw err;
+		row.TidbitID = row.insertId;
+		console.log(row);
 		res.send(JSON.stringify(row));
 	});
 });

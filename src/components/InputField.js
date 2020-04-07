@@ -8,7 +8,7 @@ class InputField extends React.Component {
 	render(){
 		return(
 				<Fragment>
-					<input type="text" className="form-control" placeholder={this.props.placeholder} aria-label="Insert Username" aria-describedby="basic-addon1" onChange={(e) => this.props.handleInput(e, this.props.index)}/>
+					<input type="text" className="form-control" placeholder={this.props.placeholder} value={this.props.value} aria-label="Insert Username" aria-describedby="basic-addon1" onChange={(e) => this.props.handleInput(e, this.props.index)}/>
 				</Fragment>
 		);
 	}
