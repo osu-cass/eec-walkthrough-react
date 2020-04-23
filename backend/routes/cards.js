@@ -6,7 +6,7 @@ router.get('/categories/:id', function(req, res, next) {
 	console.log('4');
 	var db = req.con;
 	var id = req.params.id;
-	db.query(`SELECT * 
+	db.query(`SELECT *
 						FROM Categories C
 						LEFT JOIN TidbitTypes TT ON C.TypeID = TT.TypeID
 						WHERE SubjectID = ${id}
@@ -19,7 +19,7 @@ router.get('/categories/:id', function(req, res, next) {
 router.get('/parent/:id', function(req, res, next) {
 	var db = req.con;
 	var id = req.params.id;
-	db.query(`select TidbitID, Text, ParentID 
+	db.query(`select TidbitID, Text, ParentID
 						from (select * from Tidbits
          		order by ParentID, TidbitID) Tidbits,
         		(select @pv := ${id}) initialisation
@@ -30,13 +30,26 @@ router.get('/parent/:id', function(req, res, next) {
 	});
 });
 
+/* GET resource cards based on category id */
+router.get('/resources/:id', function(req, res, next) {
+	var db = req.con;
+	var id = parseInt(req.params.id);
+    console.log(id);
+	db.query(`SELECT *
+                FROM SiteResources
+                WHERE CategoryID = ${id}`,function(err, row){
+		console.log(row);
+		res.send(JSON.stringify(row));
+	});
+});
+
 /* GET cards based on subject id. */
 router.get('/:id', function(req, res, next) {
 	console.log('3');
 	var db = req.con;
 	var id = req.params.id;
 	db.query(`SELECT T.TidbitID, T.TypeID, T.Text, T.ParentID, T.IndexNum, TT.TypeName, T.CategoryID
-						FROM Tidbits T 
+						FROM Tidbits T
 						LEFT JOIN Categories C ON C.CategoryID = T.CategoryID
 						LEFT JOIN TidbitTypes TT on TT.TypeID = T.TypeID
 						WHERE C.SubjectID = ${id}`,function(err, row){

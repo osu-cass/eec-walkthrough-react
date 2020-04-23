@@ -1,5 +1,6 @@
 import React from 'react'
 import Card from './Card'
+import ResourceCard from './ResourceCard'
 import SubjectCard from './SubjectCard'
 import './Subject.css'
 
@@ -12,16 +13,30 @@ class CardContainer extends React.Component {
 	generateCards(){
 		let used = []; //holds ids of all the used tidbits, prevents reprint
 		let Cards = this.props.categories.map((category, i) => {				//Loop through Categories
-			return(
-					<Card 
-						key={i}
-						id={this.props.id}
-						category={category.CategoryName}
-						checkFilter={this.checkFilter(category.CategoryID)}
-						categoryid={category.CategoryID}
-						used={used}
-					/>
-			);
+            if(category.CategoryTypeID !== 3) {
+                return(
+                        <Card
+                            key={i}
+                            color="white"
+                            id={this.props.id}
+                            category={category.CategoryName}
+                            checkFilter={this.checkFilter(category.CategoryID)}
+                            categoryid={category.CategoryID}
+                            used={used}
+                        />
+                );
+            }
+            else {
+                return(
+                    <ResourceCard
+                        key={i}
+                        id={this.props.id}
+                        category={category.CategoryName}
+                        checkFilter={this.checkFilter(category.CategoryID)}
+                        categoryid={category.CategoryID}
+                    />
+                );
+            }
 		})
 		return Cards
 	}
@@ -40,11 +55,11 @@ class CardContainer extends React.Component {
 
 	render() {
     return this.props.categories.length ? ( //Render content when data loaded from backend
-			<div className="tidbitContainer">
-				{this.generateCards()}
-      </div>
-		) : <SubjectCard subjectName='No Data' /> ;	
+        <div className="tidbitContainer">
+            {this.generateCards()}
+        </div>
+		) : <SubjectCard subjectName='No Data' /> ;
 	}
 }
 
-export default CardContainer 
+export default CardContainer

@@ -2,7 +2,7 @@ import React from 'react'
 import Edit from './Edit'
 import BulletPoint from './BulletPoint'
 
-class Card extends React.Component { 
+class Card extends React.Component {
 	state = {
 		tidbits: []
 	}
@@ -12,7 +12,7 @@ class Card extends React.Component {
 				.then(res => res.json())
 				.then(tidbits => this.setState({tidbits: tidbits}));
   }
-	
+
 	getChilds(id){
 		var results = this.state.tidbits.reduce(function(result, tidbit) { //get tidbits whose parentid is in params
 			if(tidbit.ParentID === id){
@@ -37,10 +37,10 @@ class Card extends React.Component {
 				return <BulletPoint key={tidbit.TidbitID} id={tidbit.TidbitID} icon={tidbit.TypeName} text={tidbit.Text} child={isChild}/> //if no childs, base case
 		}
 	}
-	
+
 	generateTidbits() {
 		let jsx = []																				//hold tidbits
-		this.state.tidbits.map((tidbit) => {								//Loop through Tidbits of Type 
+		this.state.tidbits.map((tidbit) => {								//Loop through Tidbits of Type
 				if(tidbit.CategoryID === this.props.categoryid){
 					jsx.push(this.recurseTidbits(tidbit, this.props.icon, this.props.categoryid, this.props.used, false))
 				}})
@@ -49,7 +49,7 @@ class Card extends React.Component {
 
 	render(){
 		return (
-			<div className={`my-2 pl-3 pt-2 bg-white card rounded shadow-sm ${this.props.checkFilter}`}>
+			<div className={`my-2 pl-3 pt-2 bg-${this.props.color} card rounded shadow-sm ${this.props.checkFilter}`}>
 				<div
 					id="header"
 					className="d-flex justify-content-between border-bottom border-gray"

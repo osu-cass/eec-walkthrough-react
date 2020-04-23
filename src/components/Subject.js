@@ -1,11 +1,13 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import SubjectCard from './SubjectCard'
 import SubjectIntro from './SubjectIntro'
 import CardContainer from './CardContainer'
 import FilterBar from './FilterBar'
+import BulletPoint from './BulletPoint'
 import Loading from './Loading'
 import Modal from './Modal'
 import AddButton from './AddButton'
+import Card from './Card'
 import './Subject.css'
 import { Row, Col, Divider } from 'antd';
 
@@ -14,7 +16,7 @@ class Subject extends React.Component {
 		sidebarOpen: false,
 		categories: [],
 		opportunities: [],
-		hasOpportunities: 0,
+		siteResources: [],
 		subjectInfo: []
 	}
 
@@ -29,7 +31,7 @@ class Subject extends React.Component {
 	}
 
 	fetchData() {
-		this.setState({ categories: [], opportunities: [], hasOpportunities: 0 })
+        this.setState({ categories: [], opportunities: [], siteResources: [], hasOpportunities: 0 })
 		fetch(`/subjects/${this.props.id}`)	//subject info (summary, name, img, description)
 			.then(res => res.json())
 			.then(subjectInfo => this.setState({ subjectInfo }));
@@ -39,6 +41,7 @@ class Subject extends React.Component {
 				categories.map((category) => {
 					let data = {
 						CategoryID: category.CategoryID,
+						CategoryTypeID: category.CategoryTypeID,
 						CategoryName: category.CategoryName,
 						Icon: category.TypeName,	//TypeName and TypeID used for Filter Bar
 						TypeID: category.TypeID,
@@ -46,14 +49,18 @@ class Subject extends React.Component {
 						IndexNum: category.IndexNum,
 						hidden: false
 					};
-					if (!category.IsOpportunity) {
-						var merged = this.state.categories.concat(data);
+                    var type = category.CategoryTypeID;
+					if (type === 1) {
+					    var merged = this.state.categories.concat(data);
 						this.setState({ categories: merged });
-					} else {
+					} else if (type === 2) {
 						var merged = this.state.opportunities.concat(data);
 						this.setState({ opportunities: merged });
-						this.setState({ hasOpportunities: 1 });
-					}
+                    } else if (type === 3) {
+					    var merged = this.state.siteResources.concat(data);
+                        console.log(data);
+						this.setState({ siteResources: merged });
+                    }
 				})
 			});
 	}
@@ -91,17 +98,25 @@ class Subject extends React.Component {
 					hidden={this.state.categories}
 					refresh={this.refreshCategories}
 				/>
-				
+
+                <CardContainer
+                    id={this.props.id}
+                    categories={this.state.siteResources}
+                    hidden={this.state.categories}
+                />
+
 				<Modal
 					title={"Create New Card"}
 					tidbitTypes={this.props.tidbitTypes}
-					numCategories={this.state.categories.length} 
+					numCategories={this.state.categories.length}
 					numOpportunities={this.state.opportunities.length}
 					SubjectID={this.state.subjectInfo[0].SubjectID}
 					onClick={() => this.setState({refresh: true})}
 				/>
 
-				{this.state.hasOpportunities == 1 &&
+
+				{this.state.opportunities.length ?
+                    <Fragment>
 					<div>
 						<SubjectCard subjectName={`${this.state.subjectInfo[0].SubjectName} Opportunities to Consider`} />
 
@@ -111,16 +126,17 @@ class Subject extends React.Component {
 							hidden={this.state.categories}
 						/>
 					</div>
-				}
-			
-				<Modal 
-					title={"Create New Opportunity Card"}	
+
+				<Modal
+					title={"Create New Opportunity Card"}
 					tidbitTypes={this.props.tidbitTypes}
-					numCategories={this.state.categories.length} 
+					numCategories={this.state.categories.length}
 					numOpportunities={this.state.opportunities.length}
 					SubjectID={this.state.subjectInfo[0].SubjectID}
 					onClick={() => this.setState({refresh: true})}
 				/>
+                    </Fragment>
+                : ""}
 			</div>
 		) : <Loading />
 	}

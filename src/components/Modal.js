@@ -6,14 +6,14 @@ import './Modal.css'
 import './Subject.css'
 
 class Modal extends React.Component {
-	state = { 
+	state = {
 		counter: 0, //count number of inputs added
 		title: "",
 		tidbits: [],
 		tidbitIcons: [],
 		subpointDepths: []
 		 //hold each input
-	} 
+	}
 
 	incrementCounter = () => {
 		let count = this.state.counter;
@@ -22,29 +22,29 @@ class Modal extends React.Component {
 		copy.push("");	//Initialize empty
 		this.setState({ tidbits: copy });
 		this.setState({ counter: count + 1 });
-		
+
 		let copy3 = [...this.state.tidbitIcons];
 		copy3.push(null);
 		this.setState({ tidbitIcons: copy3 });
-		
+
 		//Create subpoint counter instance, starts at 0 for root
 		let copy2 = [...this.state.subpointDepths];
 		copy2.push(0);
 		this.setState({ subpointDepths: copy2 }) //keep track of how deep this subpoint is
 
 	}
-	
+
 	/**
 	* Update state relating to subpoint depth (how far tidbit is tabbed)
 	* @param {Number} idx Index of tidbit
 	* @return {State}    Updated state, no actual return value
-	*/ 
+	*/
 	updateSubpoints(idx){
 		if(idx === null) {
 			console.log("error ", idx, this.state.subpointDepths);
 			return;
 		}
-		
+
 		//Add 1 to current depth after parent
 		idx = parseInt(idx);
 		var copy2 = [...this.state.subpointDepths];
@@ -60,15 +60,15 @@ class Modal extends React.Component {
 		this.setState({ counter: count + 1 });
 		//[parent, child, child, child of child , parent, child , parent]
 		//[  0   ,   1  ,   1  ,       2        ,   0   ,   1   ,    0  ]
-		//[ each index corresponds to this.state.tidbits ] 
+		//[ each index corresponds to this.state.tidbits ]
 	}
-	
+
 	/**
 	* Find parent of tidbit by finding closest index of (subpoint depth - 1) to the left
 	* @param {Number} idx Index of tidbit
 	* @param {Number} val Value of depth of this tidbit
 	* @return {Number}    Index of parent
-	*/ 
+	*/
 	findParent(idx, val, ids){
 		let closestIdx = null;
 		let i = 0;
@@ -110,7 +110,7 @@ class Modal extends React.Component {
 							parent: this.findParent(key, this.state.subpointDepths[key], tidbitIDs)
 						}
 						//Need to make for loop wait on this fetch before continuing
-						//Because tidbits dependent on parentid	
+						//Because tidbits dependent on parentid
 						await fetch("/cards/newTidbit", {	//Create tidbit
 							method: 'POST',
 							headers: {'Content-Type': 'application/json'},
@@ -122,13 +122,13 @@ class Modal extends React.Component {
 						}).catch(function(err){
 							console.log(err);
 						})
-						
+
 					}}
 				)
 				.catch(function(err){
 				console.log(err);
 			})
-	
+
 	}
 
 	handleInput = (e, index) => {
@@ -138,19 +138,19 @@ class Modal extends React.Component {
 		this.setState({tidbits: copy});
 		/* Example of object being created
 		* {
-		*   '0': {			
+		*   '0': {
 		*			'text': "Hello"
 		* 		}
   	*/
 
 	}
-		
+
 	/**
 	* Updates dropdown icon selected for specific index
-	* @param {Number} icon TidbitType ID of Icon 
+	* @param {Number} icon TidbitType ID of Icon
 	* @param {Number} index Index of tidbit being changed
 	* @return {State}  			Updated state, no actual return value
-	*/ 
+	*/
 	updateIcon(icon, index)	{
 		let copy = [...this.state.tidbitIcons];
 		copy[index] = icon;
@@ -158,10 +158,10 @@ class Modal extends React.Component {
 	}
 
 	/**
-	* Returns JSX for dropdown of all icons 
+	* Returns JSX for dropdown of all icons
 	* @param {Number} i Tidbit index passed from generateInputs()
 	* @return {JSX}    Array of JSX of icons
-	*/ 
+	*/
 	generateTidbitTypes(i){
 		let list = [];
 		let jsx = [];
@@ -195,17 +195,17 @@ class Modal extends React.Component {
 				<div className={`row mb-2`} key={i+1}>
 					{this.getDepth(i)}
 					<div className="col-1 mr-3">
-						<Dropdown key={i} list={this.generateTidbitTypes(i)} /> 
+						<Dropdown key={i} list={this.generateTidbitTypes(i)} />
 					</div>
 
 					<div className="input-group col-9">
 						<InputField
-							title='Text' 
+							title='Text'
 							handleInput={this.handleInput}
 							index={i}
 							value={this.state.tidbits[i]}
 						/>
-						{subpointDepth <= 9 &&	//set maximum depth to 10 
+						{subpointDepth <= 9 &&	//set maximum depth to 10
 						<button className='btn btn-success btn-sm ml-2' key={i} data-index={i} onClick={(e) => this.updateSubpoints(e.target.getAttribute("data-index"))}>
 							<i className='fas fa-plus'/> Subpoint
 						</button>
@@ -236,19 +236,19 @@ class Modal extends React.Component {
 								</button>
 							</div>
 							<div className="modal-body">
-								
+
 								<div className='row'>
 									<div className='input-group mb-3 col-12'>
-										<InputField 
-											title='Category Title' 
+										<InputField
+											title='Category Title'
 											placeholder='Title of Category'
 											handleInput={(e) => this.setState({title: e.target.value})}/>
 									</div>
 								</div>
-							
+
 
 								{this.generateInputs()}
-								
+
 								<div className='text-left ml-2 mt-3 mb-2'>
 									<AddButton onClick={this.incrementCounter} />
 								</div>
