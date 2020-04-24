@@ -10,7 +10,7 @@ class FilterBar extends React.Component {
             <Filter
 							key={obj.TypeID}
               id={obj.TypeID}
-              icon={obj.Icon}
+              icon={obj.TypeName}
               handleFilter={this.props.handleFilter}
             />
           )

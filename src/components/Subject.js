@@ -2,6 +2,7 @@ import React, {Fragment} from 'react'
 import SubjectCard from './SubjectCard'
 import SubjectIntro from './SubjectIntro'
 import CardContainer from './CardContainer'
+import FigureContainer from './FigureContainer'
 import FilterBar from './FilterBar'
 import BulletPoint from './BulletPoint'
 import Loading from './Loading'
@@ -17,6 +18,7 @@ class Subject extends React.Component {
 		categories: [],
 		opportunities: [],
 		siteResources: [],
+        figures: [],
 		subjectInfo: []
 	}
 
@@ -25,13 +27,13 @@ class Subject extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if (this.props.match.params.id != prevProps.match.params.id) {
+		if (this.props.match.params.id != prevProps.match.params.id) { //Reload state when switching between subjects
 			this.fetchData();
 		}
 	}
 
 	fetchData() {
-        this.setState({ categories: [], opportunities: [], siteResources: [], hasOpportunities: 0 })
+        this.setState({ categories: [], opportunities: [], siteResources: [], figures: [], hasOpportunities: 0 })
 		fetch(`/subjects/${this.props.id}`)	//subject info (summary, name, img, description)
 			.then(res => res.json())
 			.then(subjectInfo => this.setState({ subjectInfo }));
@@ -39,35 +41,29 @@ class Subject extends React.Component {
 			.then(res => res.json())
 			.then(categories => {
 				categories.map((category) => {
-					let data = {
-						CategoryID: category.CategoryID,
-						CategoryTypeID: category.CategoryTypeID,
-						CategoryName: category.CategoryName,
-						Icon: category.TypeName,	//TypeName and TypeID used for Filter Bar
-						TypeID: category.TypeID,
-						SubjectID: category.SubjectID,
-						IndexNum: category.IndexNum,
-						hidden: false
-					};
+					category.hidden = false;
                     var type = category.CategoryTypeID;
+                    var merged;
 					if (type === 1) {
-					    var merged = this.state.categories.concat(data);
+					    merged = this.state.categories.concat(category);
 						this.setState({ categories: merged });
 					} else if (type === 2) {
-						var merged = this.state.opportunities.concat(data);
+						merged = this.state.opportunities.concat(category);
 						this.setState({ opportunities: merged });
                     } else if (type === 3) {
-					    var merged = this.state.siteResources.concat(data);
-                        console.log(data);
+					    merged = this.state.siteResources.concat(category);
 						this.setState({ siteResources: merged });
                     }
 				})
 			});
+		fetch(`/figures/${this.props.id}`)	//subject info (summary, name, img, description)
+			.then(res => res.json())
+			.then(figures => this.setState({ figures }));
 	}
 
 	handleFilter = (id) => {
 		let categories = [...this.state.categories] //Create copy of object, update object, set state with new copy
-		var i
+		var i;
 		for (i = 0; i < categories.length; i++) {
 			if (categories[i].CategoryID === id) {
 				categories[i].hidden = !categories[i].hidden //Update object and change hidden to opposite
@@ -92,6 +88,7 @@ class Subject extends React.Component {
 					img={this.state.subjectInfo[0].SubjectImage}
 				/>
 
+                {/* Basic Categories */}
 				<CardContainer
 					id={this.props.id}
 					categories={this.state.categories}
@@ -99,13 +96,21 @@ class Subject extends React.Component {
 					refresh={this.refreshCategories}
 				/>
 
+                 {this.state.figures.length ?
+                    <FigureContainer
+                        id={this.props.id}
+                        figures={this.state.figures}
+                    />
+                : ""}
+
+                {/* Site Resources */}
                 <CardContainer
                     id={this.props.id}
                     categories={this.state.siteResources}
                     hidden={this.state.categories}
                 />
 
-				<Modal
+                <Modal
 					title={"Create New Card"}
 					tidbitTypes={this.props.tidbitTypes}
 					numCategories={this.state.categories.length}
@@ -113,7 +118,6 @@ class Subject extends React.Component {
 					SubjectID={this.state.subjectInfo[0].SubjectID}
 					onClick={() => this.setState({refresh: true})}
 				/>
-
 
 				{this.state.opportunities.length ?
                     <Fragment>
@@ -137,6 +141,7 @@ class Subject extends React.Component {
 				/>
                     </Fragment>
                 : ""}
+
 			</div>
 		) : <Loading />
 	}

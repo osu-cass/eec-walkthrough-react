@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
+/* GET all subjects */
 router.get('/all', function(req, res, next) {
 	console.log('1');
 	var db = req.con;
@@ -10,8 +10,7 @@ router.get('/all', function(req, res, next) {
 	});
 });
 
-/* GET users listing. */
-
+/* GET subjects based on id. */
 router.get('/:id', function(req, res, next) {
 	console.log('2');
 	var db = req.con;

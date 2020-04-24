@@ -10,6 +10,12 @@ function styleText(icon){
 		return 'opportunity-desc';
 }
 
+function isBold(bold) {
+    console.log(bold);
+    if(bold)
+        return 'font-weight-bold';
+}
+
 function addColor(child){
 	if(child)
 		return 'text-child';
@@ -19,9 +25,9 @@ const BulletPoint = props => {
   return (
     <div key={props.id} className={`mb-2`}>
       <i className={`fas fa-${props.icon} ${addColor(props.child)} mr-2 ${styleText(props.icon)}`}></i>
-			<span className={styleText(props.icon)}>
-			{props.text}
-				</span>
+        <span className={styleText(props.icon) || isBold(props.bold)}>
+			    {props.text}
+		</span>
 			<div className='pl-5 mt-2'>{props.children}</div>
     </div>
   )
