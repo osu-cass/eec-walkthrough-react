@@ -1,23 +1,22 @@
 import React from 'react'
 import './Sidebar.css'
-import { Route, Switch, NavLink } from 'react-router-dom';
-import Subject from './Subject'
+import { NavLink } from 'react-router-dom';
 
 class Sidebar extends React.Component {
-	state = {
-		subjects: []
-	}
-	
-	constructor(props) {
+  state = {
+    subjects: []
+  }
+
+  constructor(props) {
     super(props);
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   componentDidMount() {
-		fetch('/subjects/all')
-			.then(res => res.json())
-			.then(subjects => this.setState({subjects}));
+    fetch('/subjects/all')
+      .then(res => res.json())
+      .then(subjects => this.setState({ subjects }));
     document.addEventListener('mousedown', this.handleClickOutside);
   }
 
@@ -32,9 +31,9 @@ class Sidebar extends React.Component {
   /**** Alert if clicked on outside of element **/
   handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-			if(this.props.className === "visible")	//if sidebar is open, close sidebar
-	    	this.onDismiss();
-		}
+      if (this.props.className === "visible")	//if sidebar is open, close sidebar
+        this.onDismiss();
+    }
   }
 
   onDismiss = () => {
@@ -55,8 +54,8 @@ class Sidebar extends React.Component {
 
           <ul className="list-unstyled components">
             <li>
-							<NavLink to={`/`}>
-								Home
+              <NavLink to={`/`}>
+                Home
 							</NavLink>
               <a
                 href="#pageSubmenu"
@@ -65,20 +64,20 @@ class Sidebar extends React.Component {
               >
                 Subjects
               </a>
-              <ul className="collapse list-unstyled" id="pageSubmenu"> 
-								{/* For each Subject create a link */}
-								{this.state.subjects.map(sub => {
-									return (
-											this.state.subjects.length > 0 ?
-											<li key={sub.SubjectID}>
-												<NavLink to={`/subjects/${sub.SubjectID}`}>
-													{sub.SubjectName}
-												</NavLink>
-												{/*<a href={`/subjects/${sub.SubjectID}`}>{sub.SubjectName}</a>*/}
-											</li>
-											: <li> No Subjects Found </li>
-									);
-								})}
+              <ul className="collapse list-unstyled" id="pageSubmenu">
+                {/* For each Subject create a link */}
+                {this.state.subjects.map(sub => {
+                  return (
+                    this.state.subjects.length > 0 ?
+                      <li key={sub.SubjectID}>
+                        <NavLink to={`/subjects/${sub.SubjectID}`}>
+                          {sub.SubjectName}
+                        </NavLink>
+                        {/*<a href={`/subjects/${sub.SubjectID}`}>{sub.SubjectName}</a>*/}
+                      </li>
+                      : <li> No Subjects Found </li>
+                  );
+                })}
               </ul>
               <a
                 href="#industrySubmenu"
@@ -100,8 +99,8 @@ class Sidebar extends React.Component {
 
           <ul className="list-unstyled CTAs">
             <li>
-							<NavLink to={`/`} className="article" onClick={this.onDismiss}>
-								Back to Page
+              <NavLink to={`/`} className="article" onClick={this.onDismiss}>
+                Back to Page
 							</NavLink>
             </li>
           </ul>

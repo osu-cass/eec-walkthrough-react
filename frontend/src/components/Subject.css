@@ -24,6 +24,7 @@ body {
   transition: all 0.3s;
 }
 
+/* Cards/Categories */
 .hide {
   transform: scale(1, 0);
   transition: transform 0.4s;

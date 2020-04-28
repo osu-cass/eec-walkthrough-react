@@ -61,8 +61,8 @@ router.get('/:id', function(req, res, next) {
 router.post('/newCategory', function(req, res, next) {
 	console.log('5');
 	var db = req.con;
-	db.query(`INSERT INTO Categories(CategoryName, SubjectID, IndexNum, IsOpportunity)
-						VALUES('${req.body.title}', ${req.body.id}, ${req.body.index}, ${req.body.opportunity})`,function(err, row){
+	db.query(`INSERT INTO Categories(CategoryName, SubjectID, IndexNum, CategoryTypeID)
+						VALUES('${req.body.title}', ${req.body.id}, ${req.body.index}, ${req.body.categoryType})`,function(err, row){
 		if(err) throw err;
 		res.send(JSON.stringify(row));
 	});

@@ -1,4 +1,4 @@
-import React, {Fragment}  from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types';
 
 class Dropdown extends React.Component {
@@ -6,17 +6,17 @@ class Dropdown extends React.Component {
 		selectedID: null,
 		selectedIndex: null
 	}
-	
+
 	handleClick = (id, idx) => {
-		this.setState({selectedID: id});
-		this.setState({selectedIndex: idx});
+		this.setState({ selectedID: id });
+		this.setState({ selectedIndex: idx });
 	}
 
-	generateList(){
+	generateList() {
 		let jsx = [];
 		this.props.list[0].map((elem, idx) => {
 			jsx.push(
-				<div key={idx} className="dropdown-item" style={{cursor: "pointer"}} onClick={() => this.handleClick(this.props.list[1][idx][0], idx)}>
+				<div key={idx} className="dropdown-item" style={{ cursor: "pointer" }} onClick={() => this.handleClick(this.props.list[1][idx][0], idx)}>
 					{elem}
 				</div>
 			);
@@ -24,8 +24,8 @@ class Dropdown extends React.Component {
 		return jsx;
 	}
 
-  render() {
-    return (
+	render() {
+		return (
 			<Fragment key={this.props.index}>
 				<button className="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					{this.state.selectedIndex === null ? "Icon" : this.props.list[1][this.state.selectedIndex][1]}
@@ -34,12 +34,12 @@ class Dropdown extends React.Component {
 					{this.generateList()}
 				</div>
 			</Fragment>
-    )
-  }
+		)
+	}
 }
 
 Dropdown.propTypes = {
-	list: PropTypes.arrayOf(PropTypes.array) 
+	list: PropTypes.arrayOf(PropTypes.array)
 };
 
 export default Dropdown

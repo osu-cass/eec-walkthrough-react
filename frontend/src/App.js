@@ -1,8 +1,8 @@
 import React from 'react'
-import Subject from './Subject'
-import Home from './Home'
-import NavBar from './NavBar'
-import Sidebar from './Sidebar'
+import Subject from './pages/Subject'
+import Home from './pages/Home'
+import NavBar from './components/NavBar'
+import Sidebar from './components/Sidebar'
 import { Route, Switch, BrowserRouter, Link } from 'react-router-dom';
 
 class App extends React.Component {
@@ -10,10 +10,10 @@ class App extends React.Component {
 		sidebarOpen: false
 	}
 
-  handleSidebar = () => {
-    this.setState({ sidebarOpen: !this.state.sidebarOpen })
-  }
-	
+	handleSidebar = () => {
+		this.setState({ sidebarOpen: !this.state.sidebarOpen })
+	}
+
 	componentDidMount() {
 		fetch(`/tidbits/types`)	//subject info (summary, name, img, description)
 			.then(res => res.json())
@@ -21,30 +21,30 @@ class App extends React.Component {
 			.then(() => this.setState({ loaded: true }));
 	}
 
-  render() {
-    return (
+	render() {
+		return (
 			<main>
 				<NavBar handleSidebar={this.handleSidebar} />
-        <Sidebar
-          className={this.state.sidebarOpen ? 'visible' : 'hidden'}
-          handleSidebar={this.handleSidebar}
-        />
+				<Sidebar
+					className={this.state.sidebarOpen ? 'visible' : 'hidden'}
+					handleSidebar={this.handleSidebar}
+				/>
 				<Switch>
-					{this.state.loaded && 
-					<Route path="/subjects/:id" 
-						render={(props) => <Subject {...props} tidbitTypes={this.state.tidbitTypes} id={props.match.params.id} /> } 
-					/>
+					{this.state.loaded &&
+						<Route path="/subjects/:id"
+							render={(props) => <Subject {...props} tidbitTypes={this.state.tidbitTypes} id={props.match.params.id} />}
+						/>
 					}
 					<Route exact path="/">
-							<Home />
+						<Home />
 					</Route>
 					<Route path="*">
-							<Home />
+						<Home />
 					</Route>
 				</Switch>
 			</main>
-    )
-  }
+		)
+	}
 }
 
 export default App 

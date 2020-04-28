@@ -1,16 +1,12 @@
-import React, {Fragment} from 'react'
-import SubjectCard from './SubjectCard'
-import SubjectIntro from './SubjectIntro'
-import CardContainer from './CardContainer'
-import FigureContainer from './FigureContainer'
-import FilterBar from './FilterBar'
-import BulletPoint from './BulletPoint'
-import Loading from './Loading'
-import Modal from './Modal'
-import AddButton from './AddButton'
-import Card from './Card'
-import './Subject.css'
-import { Row, Col, Divider } from 'antd';
+import React, { Fragment } from 'react'
+import SubjectCard from '../components/SubjectCard'
+import SubjectIntro from '../components/SubjectIntro'
+import CardContainer from '../components/CardContainer'
+import FigureContainer from '../components/FigureContainer'
+import FilterBar from '../components/FilterBar'
+import Loading from '../components/Loading'
+import Modal from '../components/Modal'
+import '../components/Subject.css'
 
 class Subject extends React.Component {
 	state = {
@@ -18,7 +14,7 @@ class Subject extends React.Component {
 		categories: [],
 		opportunities: [],
 		siteResources: [],
-        figures: [],
+		figures: [],
 		subjectInfo: []
 	}
 
@@ -33,7 +29,7 @@ class Subject extends React.Component {
 	}
 
 	fetchData() {
-        this.setState({ categories: [], opportunities: [], siteResources: [], figures: [], hasOpportunities: 0 })
+		this.setState({ categories: [], opportunities: [], siteResources: [], figures: [], hasOpportunities: 0 })
 		fetch(`/subjects/${this.props.id}`)	//subject info (summary, name, img, description)
 			.then(res => res.json())
 			.then(subjectInfo => this.setState({ subjectInfo }));
@@ -42,18 +38,18 @@ class Subject extends React.Component {
 			.then(categories => {
 				categories.map((category) => {
 					category.hidden = false;
-                    var type = category.CategoryTypeID;
-                    var merged;
+					var type = category.CategoryTypeID;
+					var merged;
 					if (type === 1) {
-					    merged = this.state.categories.concat(category);
+						merged = this.state.categories.concat(category);
 						this.setState({ categories: merged });
 					} else if (type === 2) {
 						merged = this.state.opportunities.concat(category);
 						this.setState({ opportunities: merged });
-                    } else if (type === 3) {
-					    merged = this.state.siteResources.concat(category);
+					} else if (type === 3) {
+						merged = this.state.siteResources.concat(category);
 						this.setState({ siteResources: merged });
-                    }
+					}
 				})
 			});
 		fetch(`/figures/${this.props.id}`)	//subject info (summary, name, img, description)
@@ -75,6 +71,7 @@ class Subject extends React.Component {
 	render() {
 		return this.state.subjectInfo.length ? ( //Render content when data loaded from backend
 			<div className="container">
+				{console.log(this.state.subjectInfo)}
 				<SubjectCard subjectName={this.state.subjectInfo[0].SubjectName}>
 					<FilterBar
 						data={this.state.categories}
@@ -88,7 +85,7 @@ class Subject extends React.Component {
 					img={this.state.subjectInfo[0].SubjectImage}
 				/>
 
-                {/* Basic Categories */}
+				{/* Basic Categories */}
 				<CardContainer
 					id={this.props.id}
 					categories={this.state.categories}
@@ -96,51 +93,51 @@ class Subject extends React.Component {
 					refresh={this.refreshCategories}
 				/>
 
-                 {this.state.figures.length ?
-                    <FigureContainer
-                        id={this.props.id}
-                        figures={this.state.figures}
-                    />
-                : ""}
+				{this.state.figures.length ?
+					<FigureContainer
+						id={this.props.id}
+						figures={this.state.figures}
+					/>
+					: ""}
 
-                {/* Site Resources */}
-                <CardContainer
-                    id={this.props.id}
-                    categories={this.state.siteResources}
-                    hidden={this.state.categories}
-                />
+				{/* Site Resources */}
+				<CardContainer
+					id={this.props.id}
+					categories={this.state.siteResources}
+					hidden={this.state.categories}
+				/>
 
-                <Modal
+				<Modal
 					title={"Create New Card"}
 					tidbitTypes={this.props.tidbitTypes}
 					numCategories={this.state.categories.length}
 					numOpportunities={this.state.opportunities.length}
 					SubjectID={this.state.subjectInfo[0].SubjectID}
-					onClick={() => this.setState({refresh: true})}
+					onClick={() => this.setState({ refresh: true })}
 				/>
 
 				{this.state.opportunities.length ?
-                    <Fragment>
-					<div>
-						<SubjectCard subjectName={`${this.state.subjectInfo[0].SubjectName} Opportunities to Consider`} />
+					<Fragment>
+						<div>
+							<SubjectCard subjectName={`${this.state.subjectInfo[0].SubjectName} Opportunities to Consider`} />
 
-						<CardContainer
-							id={this.props.id}
-							categories={this.state.opportunities}
-							hidden={this.state.categories}
+							<CardContainer
+								id={this.props.id}
+								categories={this.state.opportunities}
+								hidden={this.state.categories}
+							/>
+						</div>
+
+						<Modal
+							title={"Create New Opportunity Card"}
+							tidbitTypes={this.props.tidbitTypes}
+							numCategories={this.state.categories.length}
+							numOpportunities={this.state.opportunities.length}
+							SubjectID={this.state.subjectInfo[0].SubjectID}
+							onClick={() => this.setState({ refresh: true })}
 						/>
-					</div>
-
-				<Modal
-					title={"Create New Opportunity Card"}
-					tidbitTypes={this.props.tidbitTypes}
-					numCategories={this.state.categories.length}
-					numOpportunities={this.state.opportunities.length}
-					SubjectID={this.state.subjectInfo[0].SubjectID}
-					onClick={() => this.setState({refresh: true})}
-				/>
-                    </Fragment>
-                : ""}
+					</Fragment>
+					: ""}
 
 			</div>
 		) : <Loading />
@@ -148,4 +145,3 @@ class Subject extends React.Component {
 }
 
 export default Subject
-{/*<button class='btn btn-primary' onClick={()=>console.log(this.state)}>Click</button>*/ }
