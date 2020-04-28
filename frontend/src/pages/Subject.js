@@ -113,7 +113,7 @@ class Subject extends React.Component {
 					numCategories={this.state.categories.length}
 					numOpportunities={this.state.opportunities.length}
 					SubjectID={this.state.subjectInfo[0].SubjectID}
-					onClick={() => this.setState({ refresh: true })}
+                    categoryType={1}
 				/>
 
 				{this.state.opportunities.length ?
@@ -134,7 +134,7 @@ class Subject extends React.Component {
 							numCategories={this.state.categories.length}
 							numOpportunities={this.state.opportunities.length}
 							SubjectID={this.state.subjectInfo[0].SubjectID}
-							onClick={() => this.setState({ refresh: true })}
+                            categoryType={2}
 						/>
 					</Fragment>
 					: ""}
