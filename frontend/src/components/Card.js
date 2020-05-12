@@ -9,13 +9,13 @@ class Card extends React.Component {
 
 	componentDidMount() {
 		fetch(`/cards/${this.props.id}`)	//gets all tdibits for this card
-				.then(res => res.json())
-				.then(tidbits => this.setState({tidbits: tidbits}));
-  }
+			.then(res => res.json())
+			.then(tidbits => this.setState({ tidbits: tidbits }));
+	}
 
-	getChilds(id){
-		var results = this.state.tidbits.reduce(function(result, tidbit) { //get tidbits whose parentid is in params
-			if(tidbit.ParentID === id){
+	getChilds(id) {
+		var results = this.state.tidbits.reduce(function (result, tidbit) { //get tidbits whose parentid is in params
+			if (tidbit.ParentID === id) {
 				result.push(tidbit);
 			}
 			return result;
@@ -23,33 +23,34 @@ class Card extends React.Component {
 		return results.length ? results : false
 	}
 
-	recurseTidbits(tidbit, icon, categoryid, used, isChild){	//isChild = marks if it has any parent, for coloring
+	recurseTidbits(tidbit, icon, categoryid, used, isChild) {	//isChild = marks if it has any parent, for coloring
 		let childs = this.getChilds(tidbit.TidbitID); //get all childs of this tidbit
-		if(!(used.includes(tidbit.TidbitID))){
+		if (!(used.includes(tidbit.TidbitID))) {
 			used.push(tidbit.TidbitID)															//push used
-			if(childs){																							//if has child, recurse
+			if (childs) {																							//if has child, recurse
 				return (
-					<BulletPoint key={tidbit.TidbitID} id={tidbit.TidbitID} icon={tidbit.TypeName} text={tidbit.Text} child={isChild}>
+					<BulletPoint key={tidbit.TidbitID} id={tidbit.TidbitID} icon={tidbit.TypeName} text={tidbit.Text} child={isChild} checkFilter={this.props.checkFilter}>
 						{childs.map((child) => (this.recurseTidbits(child, icon, categoryid, used, true)))}
 					</BulletPoint>
 				)
 			} else
-				return <BulletPoint key={tidbit.TidbitID} id={tidbit.TidbitID} icon={tidbit.TypeName} text={tidbit.Text} child={isChild}/> //if no childs, base case
+				return <BulletPoint key={tidbit.TidbitID} id={tidbit.TidbitID} icon={tidbit.TypeName} text={tidbit.Text} child={isChild} checkFilter={this.props.checkFilter} /> //if no childs, base case
 		}
 	}
 
 	generateTidbits() {
 		let jsx = []																				//hold tidbits
 		this.state.tidbits.map((tidbit) => {								//Loop through Tidbits of Type
-				if(tidbit.CategoryID === this.props.categoryid){
-					jsx.push(this.recurseTidbits(tidbit, this.props.icon, this.props.categoryid, this.props.used, false))
-				}})
+			if (tidbit.CategoryID === this.props.categoryid) {
+				jsx.push(this.recurseTidbits(tidbit, this.props.icon, this.props.categoryid, this.props.used, false))
+			}
+		})
 		return jsx
 	}
 
-	render(){
+	render() {
 		return (
-			<div className={`my-2 pl-3 pt-2 bg-${this.props.color} card rounded shadow-sm ${this.props.checkFilter}`}>
+			<div className={`my-2 pl-3 pt-2 bg-${this.props.color} card rounded shadow-sm `}>
 				<div
 					id="header"
 					className="d-flex justify-content-between border-bottom border-gray"

@@ -8,11 +8,11 @@ class Dropdown extends React.Component {
 	}
 
 	handleClick = (id, idx) => {
-        //Set state of current dropdown menu
+		//Set state of current dropdown menu
 		this.setState({ selectedID: id });
 		this.setState({ selectedIndex: idx });
-        //Pass back upto parent
-        this.props.handleClick(id, this.props.idx);
+		//Pass back upto parent
+		this.props.handleClick(id, this.props.idx);
 	}
 
 	generateList() {

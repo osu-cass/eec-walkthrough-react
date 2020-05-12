@@ -19,7 +19,7 @@ class Subject extends React.Component {
 	}
 
 	componentDidMount() {
-		this.fetchData();
+		this.fetchData(); //Get data about this subject (subject info, categories, figures)
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -71,7 +71,6 @@ class Subject extends React.Component {
 	render() {
 		return this.state.subjectInfo.length ? ( //Render content when data loaded from backend
 			<div className="container">
-				{console.log(this.state.subjectInfo)}
 				<SubjectCard subjectName={this.state.subjectInfo[0].SubjectName}>
 					<FilterBar
 						data={this.state.categories}
@@ -85,7 +84,7 @@ class Subject extends React.Component {
 					img={this.state.subjectInfo[0].SubjectImage}
 				/>
 
-				{/* Basic Categories */}
+				{/* Basic Categories (pros, cons, etc.) */}
 				<CardContainer
 					id={this.props.id}
 					categories={this.state.categories}
@@ -93,6 +92,7 @@ class Subject extends React.Component {
 					refresh={this.refreshCategories}
 				/>
 
+				{/* Figures/Graphs */}
 				{this.state.figures.length ?
 					<FigureContainer
 						id={this.props.id}
@@ -107,15 +107,17 @@ class Subject extends React.Component {
 					hidden={this.state.categories}
 				/>
 
+				{/* Create Categories */}
 				<Modal
 					title={"Create New Card"}
 					tidbitTypes={this.props.tidbitTypes}
 					numCategories={this.state.categories.length}
 					numOpportunities={this.state.opportunities.length}
 					SubjectID={this.state.subjectInfo[0].SubjectID}
-                    categoryType={1}
+					categoryType={1}
 				/>
 
+				{/* Opportunities (if exist) */}
 				{this.state.opportunities.length ?
 					<Fragment>
 						<div>
@@ -134,7 +136,7 @@ class Subject extends React.Component {
 							numCategories={this.state.categories.length}
 							numOpportunities={this.state.opportunities.length}
 							SubjectID={this.state.subjectInfo[0].SubjectID}
-                            categoryType={2}
+							categoryType={2}
 						/>
 					</Fragment>
 					: ""}

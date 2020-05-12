@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import AddButton from './AddButton';
 import InputField from './InputField';
 import Dropdown from './Dropdown';
+import PropTypes from 'prop-types';
 import Error from './Error';
 import './Modal.css'
 import './Subject.css'
@@ -29,7 +30,7 @@ class Modal extends React.Component {
 		tidbitIcons.push(null);
 		this.setState({ tidbitIcons: tidbitIcons })
 
-        this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" });
+		this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" });
 
 	}
 
@@ -102,7 +103,7 @@ class Modal extends React.Component {
 	}
 
 	handleSubmit = () => {
-        //Check for empty inputs
+		//Check for empty inputs
 		if (this.checkInputs()) {
 			return
 		}
@@ -159,34 +160,34 @@ class Modal extends React.Component {
 
 	checkInputs() {
 		let emptyFound = false;
-        let errorMessage = this.state.errorMessage;
-        let errorCount = 0;
-        //Empty title
+		let errorMessage = this.state.errorMessage;
+		let errorCount = 0;
+		//Empty title
 		if (!this.state.title.length) {
 			emptyFound = true;
-            errorMessage = "Error: Empty category title";
-            errorCount++;
+			errorMessage = "Error: Empty category title";
+			errorCount++;
 		}
-        //Empty tidbit text
+		//Empty tidbit text
 		this.state.tidbits.forEach((tidbit, idx) => {
 			if (tidbit === "") {
 				emptyFound = true;
-                errorMessage = "Error: Empty tidbit text";
-                errorCount++;
-                return;
+				errorMessage = "Error: Empty tidbit text";
+				errorCount++;
+				return;
 			}
 		});
-        //Empty tidbit icon
-        this.state.tidbitIcons.forEach((icon, idx) => {
+		//Empty tidbit icon
+		this.state.tidbitIcons.forEach((icon, idx) => {
 			if (icon === null) {
 				emptyFound = true;
-                errorMessage = "Error: Empty tidbit icon";
-                errorCount++;
-                return;
+				errorMessage = "Error: Empty tidbit icon";
+				errorCount++;
+				return;
 			}
 		});
-        if(errorCount !== 3)
-		    this.setState({ errorMessage: errorMessage })
+		if (errorCount !== 3)
+			this.setState({ errorMessage: errorMessage })
 		this.setState({ emptyInputs: emptyFound })
 		if (emptyFound)
 			return true;
@@ -232,7 +233,7 @@ class Modal extends React.Component {
 		let values = [];
 		this.props.tidbitTypes.map((type, index) => {
 			jsx.push(<div className="dropdown-item clickIcon" style={{ cursor: "pointer" }}>
-				<i className={`fas fa-${type.TypeName}`} /> {type.TypeName}
+				<i className={`fas fa-${type.TypeName}`} /> {type.TypeKeyword}
 			</div>);
 			let jsxIcon = <i className={`fas fa-${type.TypeName}`} />
 			values.push([type.TypeID, jsxIcon]);
@@ -259,7 +260,7 @@ class Modal extends React.Component {
 				<div className={`row mb-2`} key={i + 1}>
 					{this.getDepth(i)} {/*return indentation for subpoints*/}
 					<div className="col-1 mr-3">
-                        <Dropdown key={i} idx={i} list={this.generateTidbitTypes(i)} handleClick={(id, idx) => this.updateIcon(id, idx)} />
+						<Dropdown key={i} idx={i} list={this.generateTidbitTypes(i)} handleClick={(id, idx) => this.updateIcon(id, idx)} />
 					</div>
 
 					<div className="input-group col-9">
@@ -339,4 +340,15 @@ class Modal extends React.Component {
 	}
 }
 
+Modal.propTypes = {
+	title: PropTypes.arrayOf(PropTypes.array)
+};
+/*
+title={"Create New Card"}
+tidbitTypes={this.props.tidbitTypes}
+numCategories={this.state.categories.length}
+numOpportunities={this.state.opportunities.length}
+SubjectID={this.state.subjectInfo[0].SubjectID}
+categoryType={1}
+*/
 export default Modal;
