@@ -10,12 +10,8 @@ var subjectsRouter = require('./routes/subjects');
 var cardsRouter = require('./routes/cards');
 var tidbitsRouter = require('./routes/tidbits');
 var figuresRouter = require('./routes/figures');
-
+var {pool} = require("./services/database/mysqlPool");
 var app = express();
-
-// setup database connection
-require('dotenv').config();
-const con = require('./services/database/mysqlPool').pool;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req,res,next){
-    req.con = con;
+    req.con = pool;
     next();
 });
 app.use('/', indexRouter);
