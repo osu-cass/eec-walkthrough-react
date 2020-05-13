@@ -55,6 +55,9 @@ class Subject extends React.Component {
 		fetch(`/figures/${this.props.id}`)	//subject info (summary, name, img, description)
 			.then(res => res.json())
 			.then(figures => this.setState({ figures }));
+		fetch(`/tidbits/types`)	//subject info (summary, name, img, description)
+			.then(res => res.json())
+			.then(tidbitTypes => this.setState({ tidbitTypes }))
 	}
 
 	handleFilter = (id) => {
@@ -69,7 +72,7 @@ class Subject extends React.Component {
 	}
 
 	render() {
-		return this.state.subjectInfo.length ? ( //Render content when data loaded from backend
+		return this.state.subjectInfo.length && this.state.tidbitTypes ? ( //Render content when data loaded from backend
 			<div className="container">
 				<SubjectCard subjectName={this.state.subjectInfo[0].SubjectName}>
 					<FilterBar
@@ -110,7 +113,7 @@ class Subject extends React.Component {
 				{/* Create Categories */}
 				<Modal
 					title={"Create New Card"}
-					tidbitTypes={this.props.tidbitTypes}
+					tidbitTypes={this.state.tidbitTypes}
 					numCategories={this.state.categories.length}
 					numOpportunities={this.state.opportunities.length}
 					SubjectID={this.state.subjectInfo[0].SubjectID}
@@ -132,7 +135,7 @@ class Subject extends React.Component {
 
 						<Modal
 							title={"Create New Opportunity Card"}
-							tidbitTypes={this.props.tidbitTypes}
+							tidbitTypes={this.state.tidbitTypes}
 							numCategories={this.state.categories.length}
 							numOpportunities={this.state.opportunities.length}
 							SubjectID={this.state.subjectInfo[0].SubjectID}

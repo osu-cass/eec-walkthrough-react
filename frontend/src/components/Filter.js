@@ -16,7 +16,7 @@ class Filter extends React.Component {
       <i
         className={`fas fa-${this.props.icon} ${
           this.state.active ? 'fa-disabled' : ''
-        } text-dark mr-3`}
+          } text-dark mr-3`}
         onClick={this.handleClick}
       ></i>
     )

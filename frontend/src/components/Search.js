@@ -7,37 +7,37 @@ class Search extends React.Component {
 		reduced: []   // reduced result after every input
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		fetch('/subjects/all')
-				.then(res => res.json())
-				.then(subjects => {
-					subjects.map((subject) => {
-						let sub = {
-							id: subject.SubjectID,
-							name: subject.SubjectName.toLowerCase()
-						}
-						let merged = this.state.subjects.concat(sub);
-						this.setState({subjects: merged});
-					})
-				});
+			.then(res => res.json())
+			.then(subjects => {
+				subjects.map((subject) => {
+					let sub = {
+						id: subject.SubjectID,
+						name: subject.SubjectName.toLowerCase()
+					}
+					let merged = this.state.subjects.concat(sub);
+					this.setState({ subjects: merged });
+				})
+			});
 	}
 
-	componentDidUpdate(prevProp, prevState){
-		if(prevState.input !== this.state.input){
+	componentDidUpdate(prevProp, prevState) {
+		if (prevState.input !== this.state.input) {
 			let i;
 			let merged = [];
-			this.setState({reduced: []})
-			for(i = 0; i < this.state.subjects.length; i++){
+			this.setState({ reduced: [] })
+			for (i = 0; i < this.state.subjects.length; i++) {
 				let sub = this.state.subjects[i];
-				if(sub.name.includes(this.state.input)){
+				if (sub.name.includes(this.state.input)) {
 					merged.push(sub)
-					this.setState({reduced: merged});
+					this.setState({ reduced: merged });
 				}
 			}
 		}
 	}
 
-	render(){
+	render() {
 		return (
 			<div className="login">
 				{/* Login Button */}
@@ -46,7 +46,7 @@ class Search extends React.Component {
 						className="form-control mr-sm-2"
 						type="search"
 						placeholder="Search"
-						onChange={(e) => this.setState({input: e.target.value.toLowerCase()})}
+						onChange={(e) => this.setState({ input: e.target.value.toLowerCase() })}
 						value={this.state.input}
 					/>
 					<a href="#">
@@ -54,7 +54,7 @@ class Search extends React.Component {
 					</a>
 				</form>
 			</div>
-	 );
+		);
 	}
 }
 

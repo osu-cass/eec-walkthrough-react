@@ -31,7 +31,6 @@ class Modal extends React.Component {
 		this.setState({ tidbitIcons: tidbitIcons })
 
 		this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" });
-
 	}
 
 	incrementCounter = () => {
