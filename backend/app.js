@@ -13,19 +13,9 @@ var figuresRouter = require('./routes/figures');
 
 var app = express();
 
-
-
-var mysql = require("mysql");
-var con = mysql.createPool({
-  host: "chum-groups.engr.oregonstate.edu",
-  user: "eec_database",
-  password: "bacondonuts",
-  database: "eec_dev2_database",
-	tls: {
-    secureProtocol: "TLSv1_method"
-	}
-});
-con.timeout = 0
+// setup database connection
+require('dotenv').config();
+const con = require('./services/database/mysqlPool').pool;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

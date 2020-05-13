@@ -19,6 +19,7 @@
     "@babel/core": "^7.9.0",
     "@babel/node": "^7.8.7",
     "@babel/preset-env": "^7.9.5",
+    "dotenv": "^8.2.0",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.3",
     "watchman": "^1.0.0",
