@@ -33,13 +33,12 @@ class Subject extends React.Component {
 		fetch(`/subjects/${this.props.id}`)	//subject info (summary, name, img, description)
 			.then(res => res.json())
 			.then(subjectInfo => this.setState({ subjectInfo }));
-		fetch(`/cards/categories/${this.props.id}`)	//give each category  a hidden value to handle filter
+		fetch(`/cards/categories/${this.props.id}`)	//give each category a hidden value to handle filter
 			.then(res => res.json())
 			.then(categories => {
 				categories.map((category) => {
-					category.hidden = false;
-					var type = category.CategoryTypeID;
-					var merged;
+					let type = category.CategoryTypeID;
+					let merged;
 					if (type === 1) {
 						merged = this.state.categories.concat(category);
 						this.setState({ categories: merged });
