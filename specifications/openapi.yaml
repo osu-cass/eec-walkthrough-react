@@ -1,0 +1,1149 @@
+# This document looks better when parsed on https://editor.swagger.io.
+openapi: 3.0.2
+
+info:
+  description: >
+    A self guided random access training system on subjects related to identifying
+    and evaluating opportunities to improve industrial energy, 
+    resource and production efficiency.
+
+  version: 1.0.0
+  title: EEC Walkthrough API
+  contact:
+    name: API support
+    email: 'thomasza@oregonstate.edu'
+
+
+tags:
+  - name: Users
+    description: API endpoints related to application Users
+  - name: Subjects
+    description: API endpoints related to subjects
+  - name: Industries
+    description: API endpoints related to industries
+  - name: Headers
+    description: API endpoints related to headers
+  - name: Cards
+    description: API endpoints related to cards
+  - name: Items
+    description: API endpoints related to items
+
+
+paths:
+ 
+  /users:
+    post:
+      summary: Creates a new user
+      description: >
+        Creates a new user
+      operationId: createUser
+      tags:
+        - Users
+      requestBody:
+        $ref: '#/components/requestBodies/User_POST'
+      responses:
+        '201':
+          $ref: '#/components/responses/User_POST_201'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/users/login':
+    get:
+      summary: Login the user
+      description: >
+        Verifies the user's credentials
+      operationId: casValidateUser
+      tags:
+        - Users
+      parameters:
+        - $ref: '#/components/parameters/User_userName'
+        - $ref: '#/components/parameters/User_password'
+      responses:
+        '200':
+          $ref: '#/components/responses/User_Login_GET_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+          
+  '/users/{userId}':
+    patch:
+      summary: Update the user's role
+      description: >
+        Updates the users role
+      operationId: updateUser
+      tags:
+        - Users
+      parameters:
+        - $ref: '#/components/parameters/User_userId'
+      responses:
+        '200':
+          $ref: '#/components/responses/User_Login_GET_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /subjects:
+    post:
+      summary: Creates a new subject
+      description: >
+        Creates a new subject
+      operationId: createSubject
+      tags:
+        - Subjects
+      requestBody:
+        $ref: '#/components/requestBodies/Subject_POST'
+      responses:
+        '201':
+          $ref: '#/components/responses/Subject_POST_201'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+          
+  
+  '/subjects/{subjectId}':
+    get:
+      summary: Gets a subject by ID
+      description: >
+        Gets a subject using the subject ID
+      operationId: getSubject
+      tags:
+        - Subjects
+      parameters:
+        - $ref: '#/components/parameters/Subject_subjectId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Subject_GET_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+    patch:
+      summary: Update a subject by ID
+      description: >
+        Updates one or more subject fields
+      operationId: updateSubject
+      tags:
+        - Subjects
+      requestBody:
+        $ref: '#/components/requestBodies/Subject_POST'
+      parameters:
+        - $ref: '#/components/parameters/Subject_subjectId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Subject_GET_200'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+    delete:
+      summary: Delete a subject by ID
+      description: >
+        Delete a subject using the subject ID
+      operationId: deleteSubject
+      tags:
+        - Subjects
+      parameters:
+        - $ref: '#/components/parameters/Subject_subjectId'
+      responses:
+        '200':
+          $ref: '#/components/responses/DELETE_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /industries:
+    post:
+      summary: Creates a new industry
+      description: >
+        Creates a new subject
+      operationId: createIndustry
+      tags:
+        - Industries
+      requestBody:
+        $ref: '#/components/requestBodies/Industry_POST'
+      responses:
+        '201':
+          $ref: '#/components/responses/Industry_POST_201'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/industries/{industryId}':
+    get:
+      summary: Gets an industry by ID
+      description: >
+        Gets an industry using the industry ID
+      operationId: getIndustry
+      tags:
+        - Industries
+      parameters:
+        - $ref: '#/components/parameters/Industry_industryId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Industry_GET_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+    patch:
+      summary: Update an industry by ID
+      description: >
+        Updates one or more industry fields
+      operationId: updateIndustry
+      tags:
+        - Industries
+      requestBody:
+        $ref: '#/components/requestBodies/Subject_POST'
+      parameters:
+        - $ref: '#/components/parameters/Industry_industryId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Industry_GET_200'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+    delete:
+      summary: Delete an industry by ID
+      description: >
+        Delete an industry using the industry ID
+      operationId: deleteIndustry
+      tags:
+        - Industries
+      parameters:
+        - $ref: '#/components/parameters/Industry_industryId'
+      responses:
+        '200':
+          $ref: '#/components/responses/DELETE_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /Headers:
+    post:
+      summary: Creates a new header
+      description: >
+        Creates a new header
+      operationId: createHeader
+      tags:
+        - Headers
+      requestBody:
+        $ref: '#/components/requestBodies/Header_POST'
+      responses:
+        '201':
+          $ref: '#/components/responses/Header_POST_201'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/Headers/{headerId}':
+    get:
+      summary: Gets a header by ID
+      description: >
+        Gets a header using the header ID
+      operationId: getHeader
+      tags:
+        - Headers
+      parameters:
+        - $ref: '#/components/parameters/Header_headerId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Header_GET_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+    patch:
+      summary: Update a header by ID
+      description: >
+        Updates one or more header fields
+      operationId: updateHeader
+      tags:
+        - Headers
+      requestBody:
+        $ref: '#/components/requestBodies/Subject_POST'
+      parameters:
+        - $ref: '#/components/parameters/Header_headerId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Header_GET_200'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+    delete:
+      summary: Delete a header by ID
+      description: >
+        Delete a header using the header ID
+      operationId: deleteHeader
+      tags:
+        - Headers
+      parameters:
+        - $ref: '#/components/parameters/Header_headerId'
+      responses:
+        '200':
+          $ref: '#/components/responses/DELETE_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /Cards:
+    post:
+      summary: Creates a new card
+      description: >
+        Creates a new header
+      operationId: createCard
+      tags:
+        - Cards
+      requestBody:
+        $ref: '#/components/requestBodies/Card_POST'
+      responses:
+        '201':
+          $ref: '#/components/responses/Card_POST_201'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/Cards/{cardId}':
+    get:
+      summary: Gets a card by ID
+      description: >
+        Gets a card using the card ID
+      operationId: getCard
+      tags:
+        - Cards
+      parameters:
+        - $ref: '#/components/parameters/Card_cardId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Card_GET_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+    patch:
+      summary: Update a card by ID
+      description: >
+        Updates one or more card fields
+      operationId: updateCard
+      tags:
+        - Cards
+      requestBody:
+        $ref: '#/components/requestBodies/Card_POST'
+      parameters:
+        - $ref: '#/components/parameters/Card_cardId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Card_GET_200'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+    delete:
+      summary: Delete a card by ID
+      description: >
+        Delete a card using the card ID
+      operationId: deleteCard
+      tags:
+        - Cards
+      parameters:
+        - $ref: '#/components/parameters/Card_cardId'
+      responses:
+        '200':
+          $ref: '#/components/responses/DELETE_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /Items:
+    post:
+      summary: Creates a new item
+      description: >
+        Creates a new item
+      operationId: createItem
+      tags:
+        - Items
+      requestBody:
+        $ref: '#/components/requestBodies/Item_POST'
+      responses:
+        '201':
+          $ref: '#/components/responses/Item_POST_201'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/Items/{itemId}':
+    get:
+      summary: Gets an item by ID
+      description: >
+        Gets an item using the item ID
+      operationId: getItem
+      tags:
+        - Items
+      parameters:
+        - $ref: '#/components/parameters/Item_itemId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Item_GET_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+    patch:
+      summary: Update an item by ID
+      description: >
+        Updates one or more item fields
+      operationId: updateItem
+      tags:
+        - Items
+      requestBody:
+        $ref: '#/components/requestBodies/Item_POST'
+      parameters:
+        - $ref: '#/components/parameters/Item_itemId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Item_GET_200'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+    delete:
+      summary: Delete an item by ID
+      description: >
+        Delete an item using the item ID
+      operationId: deleteItem
+      tags:
+        - Items
+      parameters:
+        - $ref: '#/components/parameters/Item_itemId'
+      responses:
+        '200':
+          $ref: '#/components/responses/DELETE_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+components:
+  schemas:
+
+    User:
+      description: An object representing information about a user
+      type: object
+      required:
+        - userId
+        - userName
+        - firstName
+        - lastName
+        - password
+        - email
+        - role
+      properties:
+        userId:
+          allOf:
+            - description: The unique identifier of a user
+            - $ref: '#/components/schemas/Id'
+        userName:
+          description: The account name of the user
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: User2020
+        password:
+          description: The password associated with this user
+          type: string
+          minLength: 8
+          maximum: 50
+          example: aseoe23oexZw23!
+        firstName:
+          description: The first name of the user
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: John
+        lastName:
+          description: The last name of the user
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: Doe
+        email:
+          description: The OSU email of the user
+          type: string
+          format: email
+          minLength: 1
+          example: 'doejohn@oregonstate.edu'
+        role:
+          description: >
+            Encodes the role of the User in the application: 0 is unlogged in user, 
+            1 is external logged in user,
+            2 is internal user,
+            3 is editor,
+            4 is administrator
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 4
+          example: 1
+          
+    Industry:
+      description: An object representing a specific industry
+      type: object
+      required:
+        - industryId
+        - name
+        - title
+        - description
+        - imageUrl
+        - userId
+        - created
+        - approved
+      properties:
+        industryId:
+          allOf:
+            - description: The unique identifier of the industry
+            - $ref: '#/components/schemas/Id'
+        name:
+          description: The name of the industry
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: Plywood
+        title:
+          description: A title for the paragrah uses to present the industry
+          type: string
+          minLength: 1
+          maximum: 100
+          example: Plywood is common in most facilities
+        description:
+          description: A short description of the industry
+          type: string
+          minLength: 1
+          maxLength: 1000
+          example: Plywood has been a key component of construction...
+        imageUrl:
+          description: The image to accompany the short description of the industry
+          type: string
+          minLength: 1
+          maxLength: 500
+          example: http://flip2.engr.oregonstate.edu:1111/images/plywood.png
+        userId:
+          allOf:
+            - description: The user ID of the user who created the industry
+            - $ref: '#/components/schemas/Id'
+        created:
+          allOf:
+            - description: The time that the industry was created
+            - $ref: '#/components/schemas/UtcTime'
+        approved:
+          description: Value indicating if the industry has been approved to be shown on the website
+          type: boolean
+          minimum: 0
+          maximum: 1
+          example: 0
+      
+    Subject:
+      description: An object representing a specific subject
+      type: object
+      required:
+        - subjectId
+        - name
+        - title
+        - description
+        - imageUrl
+        - userId
+        - created
+        - approved
+      properties:
+        subjectId:
+          allOf:
+            - description: The unique identifier of the subject
+            - $ref: '#/components/schemas/Id'
+        name:
+          description: The name of the subject
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: Compressed Air
+        title:
+          description: A title for the paragrah uses to present the subject
+          type: string
+          minLength: 1
+          maximum: 100
+          example: Compressed air is a common utility found in most industrial facilities
+        description:
+          description: A short description of the subject
+          type: string
+          minLength: 1
+          maxLength: 1000
+          example: Compressed air has been a key industrial utility since the...
+        imageUrl:
+          description: The image to accompany the short description of the subject
+          type: string
+          minLength: 1
+          maxLength: 500
+          example: http://flip2.engr.oregonstate.edu:1111/images/aircompressor.png
+        userId:
+          allOf:
+            - description: The user ID of the user who created the subject
+            - $ref: '#/components/schemas/Id'
+        created:
+          allOf:
+            - description: The time that the subject was created
+            - $ref: '#/components/schemas/UtcTime'
+        approved:
+          description: Value indicating if the subject has been approved to be shown on the website
+          type: boolean
+          minimum: 0
+          maximum: 1
+          example: 0
+      
+    Header:
+      description: An object representing a specific page header
+      type: object
+      required:
+        - headerId
+        - pageType
+        - subjectId
+        - industryId
+        - title
+        - userId
+        - created
+        - approved
+      properties:
+        headerId:
+          allOf:
+            - description: The unique identifier of the header
+            - $ref: '#/components/schemas/Id'
+        pageType:
+          description: Whether the header belongs to a subject page (0) or an industry page (1)
+          type: boolean
+          minimum: 0
+          maximum: 1
+          example: 0
+        subjectId:
+          allOf:
+            - description: The unique identifier of the subject that this header belongs to (is equal to 0 if this is not a subject header)
+            - $ref: '#/components/schemas/Id'
+        industryId:
+          allOf:
+            - description: The unique identifier of the industry that this header belongs to (is equal to 0 if this is not a industry header)
+            - $ref: '#/components/schemas/Id'
+        title:
+          description: The title of the header
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: Compressed Air Opportunities to Consider
+        userId:
+          allOf:
+            - description: The user ID of the user who created the header
+            - $ref: '#/components/schemas/Id'
+        created:
+          allOf:
+            - description: The time that the header was created
+            - $ref: '#/components/schemas/UtcTime'
+        approved:
+          description: Value indicating if the header has been approved to be shown on the website
+          type: boolean
+          minimum: 0
+          maximum: 1
+          example: 0
+      
+    Card:
+      description: An object representing a specific card that belongs to a header
+      type: object
+      required:
+        - cardId
+        - headerId
+        - title
+        - userId
+        - created
+        - approved
+      properties:
+        cardId:
+          allOf:
+            - description: The unique identifier of the card
+            - $ref: '#/components/schemas/Id'
+        headerId:
+          allOf:
+            - description: The unique identifier of the header that the card belongs to
+            - $ref: '#/components/schemas/Id'
+        title:
+          description: The title of the card
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: Best Practices
+        userId:
+          allOf:
+            - description: The user ID of the user who created the card
+            - $ref: '#/components/schemas/Id'
+        created:
+          allOf:
+            - description: The time that the card was created
+            - $ref: '#/components/schemas/UtcTime'
+        approved:
+          description: Value indicating if the card has been approved to be shown on the website
+          type: boolean
+          minimum: 0
+          maximum: 1
+          example: 0
+      
+    Item:
+      description: An object representing a specific item that belongs to a card
+      type: object
+      required:
+        - itemId
+        - cardId
+        - parentId
+        - iconType
+        - contentText
+        - contentUrl
+        - contentUrlLabel
+        - userId
+        - created
+        - approved
+      properties:
+        itemId:
+          allOf:
+            - description: The unique identifier of the item
+            - $ref: '#/components/schemas/Id'
+        cardId:
+          allOf:
+            - description: The unique identifier of the card that the item belongs to
+            - $ref: '#/components/schemas/Id'
+        parentId:
+          allOf:
+            - description: The ID of the parent item that this item belongs to. The child item of a parent is indented relative to the parent's level of indentation. Defaults to 0 if there is no parent item.
+            - $ref: '#/components/schemas/Id'
+        iconType:
+          description: The integer value that reprsents a specific item type. The value can then be referenced from a table on the frontend to determine what icon to show and how to display the items content.
+          type: integer
+          format: int16
+          minimum: 1
+          maximum: 65535
+          example: 5
+        contentText:
+          description: The main body of text of the item. If this item reprsents an image then this text represents the caption
+          type: string
+          minLength: 5
+          maxLength: 500
+          example: This guide focuses mainly on screw and reciprocating compressors. These are the most common...
+        contentUrl:
+          description: If a URL is relevant to this item then this URL points to an image or resource, otherwise this is an empty string
+          type: string
+          minLength: 0
+          maxLength: 250
+          example: https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf
+        contentUrlLabel:
+          description: If this item is linking to a resource, then this is the string used to represent the link, otherwise this is an empty string
+          type: string
+          minLength: 0
+          maxLength: 250
+          example: Assessing Industrial Air Compressor
+        userId:
+          allOf:
+            - description: The user ID of the user who created the item
+            - $ref: '#/components/schemas/Id'
+        created:
+          allOf:
+            - description: The time that the item was created
+            - $ref: '#/components/schemas/UtcTime'
+        approved:
+          description: Value indicating if the item has been approved to be shown on the website
+          type: boolean
+          minimum: 0
+          maximum: 1
+          example: 0
+      
+    UserToken:
+      description: An object representing basic information about a user
+      type: object
+      required:
+        - userId
+        - userName
+        - role
+      properties:
+        userId:
+          allOf:
+            - description: The unique identifier of a user
+            - $ref: '#/components/schemas/Id'
+        userName:
+          description: The account name of the user
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: User2020
+        role:
+          description: >
+            Encodes the role of the User in the application: 0 is unlogged in user, 
+            1 is external logged in user,
+            2 is internal user,
+            3 is editor,
+            4 is administrator
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 4
+          example: 1
+
+    Id:
+      type: integer
+      format: int32
+      minimum: 1
+      maximum: 4294967295
+      example: 15
+      
+    Password:
+      type: string
+      minLength: 8
+      maximum: 50
+      example: 'aseoe23oexZw23!'
+
+    UtcTime:
+      type: string
+      format: 'yyyy-mm-dd HH:MM:SS'
+      minLength: 19
+      maxLength: 19
+      example: '2020-12-31 23:59:59'
+
+    Error:
+      description: An object describing an error response from the system
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          description: A message describing the error
+          type: string
+          minLength: 1
+          example: Could not perform this action.
+
+
+  requestBodies:
+  
+    User_POST:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+            
+    Subject_POST:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Subject'
+
+    Industry_POST:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Industry'
+
+    Header_POST:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Header'
+            
+            
+    Card_POST:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Card'
+    
+    Item_POST:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Item'
+
+  parameters:
+
+    User_userId:
+      name: userId
+      in: path
+      description: The unique identifier of the user
+      required: true
+      schema:
+        $ref: '#/components/schemas/User/properties/userId'
+
+    User_userName:
+      name: userName
+      in: path
+      description: The unique account name of the user
+      required: true
+      schema:
+        $ref: '#/components/schemas/User/properties/userName'
+        
+    User_password:
+      name: password
+      in: path
+      description: The password associated with the user's account
+      required: true
+      schema:
+        $ref: '#/components/schemas/User/properties/password'
+
+    Subject_subjectId:
+      name: subjectId
+      in: path
+      description: The unique identifier of the subject
+      required: true
+      schema:
+        $ref: '#/components/schemas/Subject/properties/subjectId'
+        
+    Industry_industryId:
+      name: industryId
+      in: path
+      description: The unique identifier of the industry
+      required: true
+      schema:
+        $ref: '#/components/schemas/Industry/properties/industryId'
+        
+    Header_headerId:
+      name: headerId
+      in: path
+      description: The unique identifier of the header
+      required: true
+      schema:
+        $ref: '#/components/schemas/Header/properties/headerId'
+
+    Card_cardId:
+      name: cardId
+      in: path
+      description: The unique identifier of the card
+      required: true
+      schema:
+        $ref: '#/components/schemas/Card/properties/cardId'
+        
+    Item_itemId:
+      name: itemId
+      in: path
+      description: The unique identifier of the item
+      required: true
+      schema:
+        $ref: '#/components/schemas/Item/properties/itemId'
+
+  responses:
+
+    User_POST_201:
+      description: User created
+      content:
+        application/json:
+          schema:
+            description: An object containing information about the new user
+            type: object
+            required:
+              - Id
+            properties:
+              insertId:
+                $ref: '#/components/schemas/Id'
+                
+
+    User_Authenticated_GET_200:
+      description: Test auth - authenticated
+      content:
+        application/json:
+          schema:
+            description: An object containing information about the user
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                description: The response message from the server
+                type: string
+                minLength: 1
+                example: 'authenticated'
+
+    User_Login_GET_200:
+      description: An object containing information about the user
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserToken'
+
+    Subject_POST_201:
+      description: Subject created
+      content:
+        application/json:
+          schema:
+            description: An object containing information about the new subject
+            type: object
+            required:
+              - Id
+            properties:
+              insertId:
+                $ref: '#/components/schemas/Id'
+
+    Subject_GET_200:
+      description: An object containing information about the subject
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Subject'
+
+    DELETE_200:
+      description: The number of rows deleted
+      content:
+        application/json:
+          schema:
+            description: An object containing the number of rows deleted
+            type: object
+            required:
+              - Id
+            properties:
+              rowsDeleted:
+                type: integer
+                example: 1
+
+    Industry_POST_201:
+      description: Industry created
+      content:
+        application/json:
+          schema:
+            description: An object containing information about the new industry
+            type: object
+            required:
+              - Id
+            properties:
+              insertId:
+                $ref: '#/components/schemas/Id'
+
+    Industry_GET_200:
+      description: An object containing information about the industry
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Industry'
+
+    Header_POST_201:
+      description: Header created
+      content:
+        application/json:
+          schema:
+            description: An object containing information about the new header
+            type: object
+            required:
+              - Id
+            properties:
+              insertId:
+                $ref: '#/components/schemas/Id'
+
+    Header_GET_200:
+      description: An object containing information about the header
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Header'
+
+    Card_POST_201:
+      description: Card created
+      content:
+        application/json:
+          schema:
+            description: An object containing information about the new card
+            type: object
+            required:
+              - Id
+            properties:
+              insertId:
+                $ref: '#/components/schemas/Id'
+
+    Card_GET_200:
+      description: An object containing information about the card
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Card'
+            
+    Item_POST_201:
+      description: Item created
+      content:
+        application/json:
+          schema:
+            description: An object containing information about the new item
+            type: object
+            required:
+              - Id
+            properties:
+              insertId:
+                $ref: '#/components/schemas/Id'
+
+    Item_GET_200:
+      description: An object containing information about the item
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Item'
+
+    '400':
+      description: Missing or invalid request body
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    '401':
+      description: Missing or invalid authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    '403':
+      description: Not allowed to perform this action
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    '404':
+      description: Specified resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    '500':
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/silverware13/EEC_Walkthrough/1.0.0
