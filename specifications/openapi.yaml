@@ -124,6 +124,63 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  '/pages/industry/{industryId}/subject/{subjectId}':
+    post:
+      summary: Add a subject to an industry
+      description: >
+        Add a subject to an industry
+      operationId: createIndustrySubject
+      tags:
+        - Pages
+      parameters:
+        - in: path
+          name: industryId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the industry page
+        - in: path
+          name: subjectId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the subject page
+      responses:
+        '201':
+          $ref: '#/components/responses/Page_POST_MANY_201'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
+    delete:
+      summary: Remove a subject from an industry
+      description: >
+        Remove a subject from an industry
+      operationId: deleteIndustrySubject
+      tags:
+        - Pages
+      parameters:
+        - in: path
+          name: industryId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the industry page
+        - in: path
+          name: subjectId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the subject page
+      responses:
+        '201':
+          $ref: '#/components/responses/DELETE_200'
+        '400':
+          $ref: '#/components/responses/400'
+        '500':
+          $ref: '#/components/responses/500'
+
   '/pages/{pageId}/all':
     get:
       summary: Gets all of the content contained in one page
@@ -488,6 +545,7 @@ components:
         - userId
         - created
         - approved
+        - subjects/industries
       properties:
         pageId:
           allOf:
@@ -537,6 +595,15 @@ components:
           minimum: 0
           maximum: 1
           example: 0
+        subjects/industries:
+          description: An array of the associated subject/industry IDs. Industries will have an array of subject IDs, subjects will have an array of industry IDs. 
+          type: array
+          items:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 4294967295
+            example: 15
       
     Header:
       description: An object representing a specific page header
@@ -1003,6 +1070,21 @@ components:
             properties:
               insertId:
                 $ref: '#/components/schemas/Id'
+
+    Page_POST_MANY_201:
+      description: Page created
+      content:
+        application/json:
+          schema:
+            description: An object containing information about the industry / subject relationship
+            type: object
+            required:
+              - Id
+            properties:
+              industryId:
+                example: 10
+              subjectId:
+                example: 15
 
     Page_GET_200:
       description: An object containing information about the page
