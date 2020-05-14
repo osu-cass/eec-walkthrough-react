@@ -16,11 +16,9 @@ info:
 
 tags:
   - name: Users
-    description: API endpoints related to application Users
-  - name: Subjects
-    description: API endpoints related to subjects
-  - name: Industries
-    description: API endpoints related to industries
+    description: API endpoints related to application users
+  - name: Pages
+    description: API endpoints related to subjects and industry pages
   - name: Headers
     description: API endpoints related to headers
   - name: Cards
@@ -40,7 +38,28 @@ paths:
       tags:
         - Users
       requestBody:
-        $ref: '#/components/requestBodies/User_POST'
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userName
+                - firstName
+                - lastName
+                - password
+                - email
+              properties:
+                userName:
+                  example: User2020
+                password:
+                  example: aseoe23oexZw23!
+                firstName:
+                  example: John
+                lastName:
+                  example: Doe
+                email:
+                  example: 'doejohn@oregonstate.edu'
       responses:
         '201':
           $ref: '#/components/responses/User_POST_201'
@@ -78,6 +97,7 @@ paths:
         - Users
       parameters:
         - $ref: '#/components/parameters/User_userId'
+        - $ref: '#/components/parameters/User_role'
       responses:
         '200':
           $ref: '#/components/responses/User_Login_GET_200'
@@ -86,143 +106,89 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /subjects:
+  /pages:
     post:
-      summary: Creates a new subject
+      summary: Creates a new page
       description: >
-        Creates a new subject
-      operationId: createSubject
+        Creates a new subject or industry page
+      operationId: createPage
       tags:
-        - Subjects
+        - Pages
       requestBody:
-        $ref: '#/components/requestBodies/Subject_POST'
+        $ref: '#/components/requestBodies/Page_POST'
       responses:
         '201':
-          $ref: '#/components/responses/Subject_POST_201'
+          $ref: '#/components/responses/Page_POST_201'
         '400':
           $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
-          
-  
-  '/subjects/{subjectId}':
+
+  '/pages/{pageId}/all':
     get:
-      summary: Gets a subject by ID
+      summary: Gets all of the content contained in one page
       description: >
-        Gets a subject using the subject ID
-      operationId: getSubject
+        Gets all of the content contained in one page.
+        This includes page info, headers, cards, and items
+      operationId: getPageAll
       tags:
-        - Subjects
+        - Pages
       parameters:
-        - $ref: '#/components/parameters/Subject_subjectId'
+        - $ref: '#/components/parameters/Page_pageId'
       responses:
         '200':
-          $ref: '#/components/responses/Subject_GET_200'
+          $ref: '#/components/responses/Page_GET_ALL_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/pages/{pageId}':
+    get:
+      summary: Gets a page by ID
+      description: >
+        Gets a subject or industry page by ID
+      operationId: getPage
+      tags:
+        - Pages
+      parameters:
+        - $ref: '#/components/parameters/Page_pageId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Page_GET_200'
         '401':
           $ref: '#/components/responses/401'
         '500':
           $ref: '#/components/responses/500'
 
     patch:
-      summary: Update a subject by ID
+      summary: Update a page by ID
       description: >
-        Updates one or more subject fields
-      operationId: updateSubject
+        Update a subject or industry page by ID
+      operationId: updatePage
       tags:
-        - Subjects
+        - Pages
       requestBody:
-        $ref: '#/components/requestBodies/Subject_POST'
+        $ref: '#/components/requestBodies/Page_PATCH'
       parameters:
-        - $ref: '#/components/parameters/Subject_subjectId'
+        - $ref: '#/components/parameters/Page_pageId'
       responses:
         '200':
-          $ref: '#/components/responses/Subject_GET_200'
+          $ref: '#/components/responses/Page_GET_200'
         '400':
           $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
 
     delete:
-      summary: Delete a subject by ID
+      summary: Delete a page by ID
       description: >
-        Delete a subject using the subject ID
-      operationId: deleteSubject
+        Delete a subject or industry page by ID
+      operationId: deletePage
       tags:
-        - Subjects
+        - Pages
       parameters:
-        - $ref: '#/components/parameters/Subject_subjectId'
-      responses:
-        '200':
-          $ref: '#/components/responses/DELETE_200'
-        '401':
-          $ref: '#/components/responses/401'
-        '500':
-          $ref: '#/components/responses/500'
-
-  /industries:
-    post:
-      summary: Creates a new industry
-      description: >
-        Creates a new subject
-      operationId: createIndustry
-      tags:
-        - Industries
-      requestBody:
-        $ref: '#/components/requestBodies/Industry_POST'
-      responses:
-        '201':
-          $ref: '#/components/responses/Industry_POST_201'
-        '400':
-          $ref: '#/components/responses/400'
-        '500':
-          $ref: '#/components/responses/500'
-
-  '/industries/{industryId}':
-    get:
-      summary: Gets an industry by ID
-      description: >
-        Gets an industry using the industry ID
-      operationId: getIndustry
-      tags:
-        - Industries
-      parameters:
-        - $ref: '#/components/parameters/Industry_industryId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Industry_GET_200'
-        '401':
-          $ref: '#/components/responses/401'
-        '500':
-          $ref: '#/components/responses/500'
-
-    patch:
-      summary: Update an industry by ID
-      description: >
-        Updates one or more industry fields
-      operationId: updateIndustry
-      tags:
-        - Industries
-      requestBody:
-        $ref: '#/components/requestBodies/Subject_POST'
-      parameters:
-        - $ref: '#/components/parameters/Industry_industryId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Industry_GET_200'
-        '400':
-          $ref: '#/components/responses/400'
-        '500':
-          $ref: '#/components/responses/500'
-
-    delete:
-      summary: Delete an industry by ID
-      description: >
-        Delete an industry using the industry ID
-      operationId: deleteIndustry
-      tags:
-        - Industries
-      parameters:
-        - $ref: '#/components/parameters/Industry_industryId'
+        - $ref: '#/components/parameters/Page_pageId'
       responses:
         '200':
           $ref: '#/components/responses/DELETE_200'
@@ -275,7 +241,7 @@ paths:
       tags:
         - Headers
       requestBody:
-        $ref: '#/components/requestBodies/Subject_POST'
+        $ref: '#/components/requestBodies/Header_PATCH'
       parameters:
         - $ref: '#/components/parameters/Header_headerId'
       responses:
@@ -307,7 +273,7 @@ paths:
     post:
       summary: Creates a new card
       description: >
-        Creates a new header
+        Creates a new card
       operationId: createCard
       tags:
         - Cards
@@ -347,7 +313,7 @@ paths:
       tags:
         - Cards
       requestBody:
-        $ref: '#/components/requestBodies/Card_POST'
+        $ref: '#/components/requestBodies/Card_PATCH'
       parameters:
         - $ref: '#/components/parameters/Card_cardId'
       responses:
@@ -419,7 +385,7 @@ paths:
       tags:
         - Items
       requestBody:
-        $ref: '#/components/requestBodies/Item_POST'
+        $ref: '#/components/requestBodies/Item_PATCH'
       parameters:
         - $ref: '#/components/parameters/Item_itemId'
       responses:
@@ -508,12 +474,13 @@ components:
           minimum: 0
           maximum: 4
           example: 1
-          
-    Industry:
-      description: An object representing a specific industry
+   
+    Page:
+      description: An object representing a subject or industry page
       type: object
       required:
-        - industryId
+        - pageId
+        - pageType
         - name
         - title
         - description
@@ -522,100 +489,50 @@ components:
         - created
         - approved
       properties:
-        industryId:
+        pageId:
           allOf:
-            - description: The unique identifier of the industry
+            - description: The unique identifier of the page
             - $ref: '#/components/schemas/Id'
-        name:
-          description: The name of the industry
-          type: string
-          minLength: 1
-          maxLength: 100
-          example: Plywood
-        title:
-          description: A title for the paragrah uses to present the industry
-          type: string
-          minLength: 1
-          maximum: 100
-          example: Plywood is common in most facilities
-        description:
-          description: A short description of the industry
-          type: string
-          minLength: 1
-          maxLength: 1000
-          example: Plywood has been a key component of construction...
-        imageUrl:
-          description: The image to accompany the short description of the industry
-          type: string
-          minLength: 1
-          maxLength: 500
-          example: http://flip2.engr.oregonstate.edu:1111/images/plywood.png
-        userId:
-          allOf:
-            - description: The user ID of the user who created the industry
-            - $ref: '#/components/schemas/Id'
-        created:
-          allOf:
-            - description: The time that the industry was created
-            - $ref: '#/components/schemas/UtcTime'
-        approved:
-          description: Value indicating if the industry has been approved to be shown on the website
+        pageType:
+          description: Value indicating if the page is a subject page (0) or an industry page (1)
           type: boolean
-          minimum: 0
-          maximum: 1
-          example: 0
-      
-    Subject:
-      description: An object representing a specific subject
-      type: object
-      required:
-        - subjectId
-        - name
-        - title
-        - description
-        - imageUrl
-        - userId
-        - created
-        - approved
-      properties:
-        subjectId:
-          allOf:
-            - description: The unique identifier of the subject
-            - $ref: '#/components/schemas/Id'
+          minLength: 0
+          maxLength: 1
+          example: 1
         name:
-          description: The name of the subject
+          description: The name of the page
           type: string
           minLength: 1
           maxLength: 100
           example: Compressed Air
         title:
-          description: A title for the paragrah uses to present the subject
+          description: A title for the paragrah uses to present the page topic
           type: string
           minLength: 1
           maximum: 100
           example: Compressed air is a common utility found in most industrial facilities
         description:
-          description: A short description of the subject
+          description: A short description of the page topic
           type: string
           minLength: 1
           maxLength: 1000
           example: Compressed air has been a key industrial utility since the...
         imageUrl:
-          description: The image to accompany the short description of the subject
+          description: The image to accompany the short description of the page topic
           type: string
           minLength: 1
           maxLength: 500
           example: http://flip2.engr.oregonstate.edu:1111/images/aircompressor.png
         userId:
           allOf:
-            - description: The user ID of the user who created the subject
+            - description: The user ID of the user who created the page
             - $ref: '#/components/schemas/Id'
         created:
           allOf:
-            - description: The time that the subject was created
+            - description: The time that the page was created
             - $ref: '#/components/schemas/UtcTime'
         approved:
-          description: Value indicating if the subject has been approved to be shown on the website
+          description: Value indicating if the page has been approved to be shown on the website
           type: boolean
           minimum: 0
           maximum: 1
@@ -626,9 +543,7 @@ components:
       type: object
       required:
         - headerId
-        - pageType
-        - subjectId
-        - industryId
+        - pageId
         - title
         - userId
         - created
@@ -638,19 +553,9 @@ components:
           allOf:
             - description: The unique identifier of the header
             - $ref: '#/components/schemas/Id'
-        pageType:
-          description: Whether the header belongs to a subject page (0) or an industry page (1)
-          type: boolean
-          minimum: 0
-          maximum: 1
-          example: 0
-        subjectId:
+        pageId:
           allOf:
-            - description: The unique identifier of the subject that this header belongs to (is equal to 0 if this is not a subject header)
-            - $ref: '#/components/schemas/Id'
-        industryId:
-          allOf:
-            - description: The unique identifier of the industry that this header belongs to (is equal to 0 if this is not a industry header)
+            - description: The unique identifier of the page that this header belongs to
             - $ref: '#/components/schemas/Id'
         title:
           description: The title of the header
@@ -779,38 +684,7 @@ components:
           minimum: 0
           maximum: 1
           example: 0
-      
-    UserToken:
-      description: An object representing basic information about a user
-      type: object
-      required:
-        - userId
-        - userName
-        - role
-      properties:
-        userId:
-          allOf:
-            - description: The unique identifier of a user
-            - $ref: '#/components/schemas/Id'
-        userName:
-          description: The account name of the user
-          type: string
-          minLength: 1
-          maxLength: 50
-          example: User2020
-        role:
-          description: >
-            Encodes the role of the User in the application: 0 is unlogged in user, 
-            1 is external logged in user,
-            2 is internal user,
-            3 is editor,
-            4 is administrator
-          type: integer
-          format: int32
-          minimum: 0
-          maximum: 4
-          example: 1
-
+   
     Id:
       type: integer
       format: int32
@@ -853,41 +727,157 @@ components:
           schema:
             $ref: '#/components/schemas/User'
             
-    Subject_POST:
+    Page_POST:
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Subject'
-
-    Industry_POST:
+            properties:
+                    pageType:
+                      example: 1
+                    name:
+                      example: Compressed Air
+                    title:
+                      example: Compressed air is a common utility found in most industrial facilities
+                    description:
+                      example: Compressed air has been a key industrial utility since the...
+                    imageUrl:
+                      example: http://flip2.engr.oregonstate.edu:1111/images/aircompressor.png
+                    userId:
+                      allOf:
+                        - $ref: '#/components/schemas/Id'
+                        
+    Page_PATCH:
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Industry'
+            properties:
+                    pageType:
+                      example: 1
+                    name:
+                      example: Compressed Air
+                    title:
+                      example: Compressed air is a common utility found in most industrial facilities
+                    description:
+                      example: Compressed air has been a key industrial utility since the...
+                    imageUrl:
+                      example: http://flip2.engr.oregonstate.edu:1111/images/aircompressor.png
+                    userId:
+                      allOf:
+                        - $ref: '#/components/schemas/Id'
+                    approved:
+                      example: 1
 
     Header_POST:
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Header'
-            
-            
+            properties:
+              pageId:
+                allOf:
+                  - $ref: '#/components/schemas/Id'
+              title:
+                example: Compressed Air Opportunities to Consider
+              userId:
+                allOf:
+                  - $ref: '#/components/schemas/Id'
+
+    Header_PATCH:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              pageId:
+                allOf:
+                  - description: The unique identifier of the page that this header belongs to
+                  - $ref: '#/components/schemas/Id'
+              title:
+                description: The title of the header
+                type: string
+                minLength: 1
+                maxLength: 100
+                example: Compressed Air Opportunities to Consider
+              userId:
+                allOf:
+                  - description: The user ID of the user who created the header
+                  - $ref: '#/components/schemas/Id'
+              approved:
+                example: 1
+
     Card_POST:
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Card'
+            properties:
+              headerId:
+                example: 25
+              title:
+                example: Rules of Thumb
+              userId:
+                example: 10
+                
+    Card_PATCH:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              headerId:
+                example: 25
+              title:
+                example: Rules of Thumb
+              userId:
+                example: 10
+              approved:
+                example: 1
     
     Item_POST:
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Item'
+            properties:
+              cardId:
+                example: 35
+              parentId:
+                example: 40
+              iconType:
+                example: 5
+              contentText:
+                example: This guide focuses mainly on screw and reciprocating compressors. These are the most common...
+              contentUrl:
+                example: https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf
+              contentUrlLabel:
+                example: Assessing Industrial Air Compressor
+              userId:
+                example: 15
+
+    Item_PATCH:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              cardId:
+                example: 35
+              parentId:
+                example: 40
+              iconType:
+                example: 5
+              contentText:
+                example: This guide focuses mainly on screw and reciprocating compressors. These are the most common...
+              contentUrl:
+                example: https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf
+              contentUrlLabel:
+                example: Assessing Industrial Air Compressor
+              userId:
+                example: 15
+              approved:
+                example: 1
 
   parameters:
 
@@ -898,6 +888,14 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/User/properties/userId'
+        
+    User_role:
+      name: role
+      in: path
+      description: The new role of the user
+      required: true
+      schema:
+        $ref: '#/components/schemas/User/properties/role'
 
     User_userName:
       name: userName
@@ -915,21 +913,13 @@ components:
       schema:
         $ref: '#/components/schemas/User/properties/password'
 
-    Subject_subjectId:
-      name: subjectId
+    Page_pageId:
+      name: pageId
       in: path
-      description: The unique identifier of the subject
+      description: The unique identifier of the page
       required: true
       schema:
-        $ref: '#/components/schemas/Subject/properties/subjectId'
-        
-    Industry_industryId:
-      name: industryId
-      in: path
-      description: The unique identifier of the industry
-      required: true
-      schema:
-        $ref: '#/components/schemas/Industry/properties/industryId'
+        $ref: '#/components/schemas/Page/properties/pageId'
         
     Header_headerId:
       name: headerId
@@ -992,14 +982,21 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/UserToken'
+            properties:
+              userId:
+                allOf:
+                  - $ref: '#/components/schemas/Id'
+              userName:
+                example: User2020
+              role:
+                example: 1
 
-    Subject_POST_201:
-      description: Subject created
+    Page_POST_201:
+      description: Page created
       content:
         application/json:
           schema:
-            description: An object containing information about the new subject
+            description: An object containing information about the new page
             type: object
             required:
               - Id
@@ -1007,12 +1004,98 @@ components:
               insertId:
                 $ref: '#/components/schemas/Id'
 
-    Subject_GET_200:
-      description: An object containing information about the subject
+    Page_GET_200:
+      description: An object containing information about the page
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Subject'
+            $ref: '#/components/schemas/Page'
+            
+    Page_GET_ALL_200:
+      description: An object containing information about the page and all of its content
+      content:
+        application/json:
+          schema:
+            properties:
+              pageId:
+                allOf:
+                  - description: The unique identifier of the page
+                  - $ref: '#/components/schemas/Id'
+              pageType:
+                description: Value indicating if the page is a subject page (0) or an industry page (1)
+                type: boolean
+                minLength: 0
+                maxLength: 1
+                example: 1
+              name:
+                description: The name of the page
+                type: string
+                minLength: 1
+                maxLength: 100
+                example: Compressed Air
+              title:
+                description: A title for the paragrah uses to present the page topic
+                type: string
+                minLength: 1
+                maximum: 100
+                example: Compressed air is a common utility found in most industrial facilities
+              description:
+                description: A short description of the page topic
+                type: string
+                minLength: 1
+                maxLength: 1000
+                example: Compressed air has been a key industrial utility since the...
+              imageUrl:
+                description: The image to accompany the short description of the page topic
+                type: string
+                minLength: 1
+                maxLength: 500
+                example: http://flip2.engr.oregonstate.edu:1111/images/aircompressor.png
+              userId:
+                allOf:
+                  - description: The user ID of the user who created the page
+                  - $ref: '#/components/schemas/Id'
+              created:
+                allOf:
+                  - description: The time that the page was created
+                  - $ref: '#/components/schemas/UtcTime'
+              approved:
+                description: Value indicating if the page has been approved to be shown on the website
+                type: boolean
+                minimum: 0
+                maximum: 1
+                example: 0
+              headers:
+                example: [ 
+                 {
+                   "headerId": 15,
+                   "pageId": 15,
+                   "title": "Compressed Air Opportunities to Consider",
+                   "userId": 15,
+                   "created": "2020-12-31 23:59:59",
+                   "approved": 0,
+                   cards: [{
+                           cardId: 15,
+                           headerId: 15,
+                           title: Best Practices,
+                           userId: 15,
+                           created: '2020-12-31 23:59:59',
+                           approved: 0,
+                           items: [{
+                                    itemId: 15,
+                                    cardId: 15,
+                                    parentId: 15,
+                                    iconType: 5,
+                                    contentText: This guide focuses mainly on screw and reciprocating compressors. These are the most common...,
+                                    contentUrl: 'https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf',
+                                    contentUrlLabel: Assessing Industrial Air Compressor,
+                                    userId: 15,
+                                    created: '2020-12-31 23:59:59',
+                                    approved: 0
+                                  }]
+                          }]
+                 }
+                ]
 
     DELETE_200:
       description: The number of rows deleted
@@ -1027,26 +1110,6 @@ components:
               rowsDeleted:
                 type: integer
                 example: 1
-
-    Industry_POST_201:
-      description: Industry created
-      content:
-        application/json:
-          schema:
-            description: An object containing information about the new industry
-            type: object
-            required:
-              - Id
-            properties:
-              insertId:
-                $ref: '#/components/schemas/Id'
-
-    Industry_GET_200:
-      description: An object containing information about the industry
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Industry'
 
     Header_POST_201:
       description: Header created
