@@ -695,7 +695,7 @@ components:
         - iconType
         - contentText
         - contentUrl
-        - contentUrlLabel
+        - contentLabel
         - userId
         - created
         - approved
@@ -731,8 +731,8 @@ components:
           minLength: 0
           maxLength: 250
           example: https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf
-        contentUrlLabel:
-          description: If this item is linking to a resource, then this is the string used to represent the link, otherwise this is an empty string
+        contentLabel:
+          description: If this item is linking to a resource, then this is the string used to represent the link. It can also be the title of some text content, otherwise this is an empty string
           type: string
           minLength: 0
           maxLength: 250
@@ -918,7 +918,7 @@ components:
                 example: This guide focuses mainly on screw and reciprocating compressors. These are the most common...
               contentUrl:
                 example: https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf
-              contentUrlLabel:
+              contentLabel:
                 example: Assessing Industrial Air Compressor
               userId:
                 example: 15
@@ -939,7 +939,7 @@ components:
                 example: This guide focuses mainly on screw and reciprocating compressors. These are the most common...
               contentUrl:
                 example: https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf
-              contentUrlLabel:
+              contentLabel:
                 example: Assessing Industrial Air Compressor
               userId:
                 example: 15
@@ -1170,7 +1170,7 @@ components:
                                     iconType: 5,
                                     contentText: This guide focuses mainly on screw and reciprocating compressors. These are the most common...,
                                     contentUrl: 'https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf',
-                                    contentUrlLabel: Assessing Industrial Air Compressor,
+                                    contentLabel: Assessing Industrial Air Compressor,
                                     userId: 15,
                                     created: '2020-12-31 23:59:59',
                                     approved: 0
