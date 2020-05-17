@@ -12,7 +12,8 @@
     "express": "^4.16.4",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "mysql2-promise": "^0.1.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -20,7 +21,6 @@
     "@babel/node": "^7.8.7",
     "@babel/preset-env": "^7.9.5",
     "dotenv": "^8.2.0",
-    "mysql": "^2.18.1",
     "nodemon": "^2.0.3",
     "watchman": "^1.0.0",
     "ws": "3.3.2"
