@@ -19,7 +19,7 @@ const pool = mysql.createPool({
   password: mysqlPassword,
   database: mysqlDatabase,
   connectionLimit: MAX_CONNECTIONS,
-  multipleStatements: false
+  multipleStatements: true
 });
 
 exports.pool = pool;

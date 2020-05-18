@@ -6,21 +6,39 @@ const {pool} = require('../services/database/mysqlPool');
 // Return a list of all of the industries and their related subjects
 async function getIndustries() {
 
-  const industryValue = 1;
-
   try {
 
-    let sql = "SELECT P.pageId AS industryId, P.name AS industryName " +
-      "FROM Pages AS P " +
-      "WHERE pageType=?;";
+    // get all of the industries in the database
+    let sql = "SELECT pageId AS industryId, name AS industryName " +
+      "FROM Pages " +
+      "WHERE pageType = 1;";
 
-    let results = await pool.query(sql, industryValue);
-    results = {
+    let results = await pool.query(sql, []);
+    
+    let finalResults = {
       industries: results[0]
     }
+    const industryCount = finalResults.industries.length;
 
-    console.log("RESULTS:", results);
-    return results;
+    // get all of the subjects per industry
+    for (let i = 0; i < industryCount; i++) {
+
+      const industryId = finalResults.industries[i].industryId;
+      
+      let sql = "SELECT S.pageId AS subjectId, S.name AS subjectName " +
+      "FROM Pages AS S " +
+      "LEFT JOIN Industries_Subjects AS M " +
+      "ON S.pageId = M.subjectId " +
+      "WHERE M.industryId = ? " +
+      "AND S.pageType = 0 " +
+      "ORDER BY S.name ASC;";
+
+      let results = await pool.query(sql, industryId);
+      finalResults.industries[i].subjects = results[0];
+
+    }
+
+    return finalResults;
 
   } catch (err) {
     console.log("Error searching for industries");
