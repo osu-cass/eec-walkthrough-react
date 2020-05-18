@@ -1,5 +1,8 @@
-var express = require('express');
-var router = express.Router();
+// File: users.js
+// Description: handles routing for users
+
+const express = require('express');
+const app = express();
 
 /* GET users listing.
 router.get('/', function(req, res, next) {
@@ -7,4 +10,4 @@ router.get('/', function(req, res, next) {
 });
 */
 
-module.exports = router;
+module.exports = app;

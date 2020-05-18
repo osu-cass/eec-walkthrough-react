@@ -1,5 +1,8 @@
-var express = require('express');
-var router = express.Router();
+// File: items.js
+// Description: handles routing for items
+
+const express = require('express');
+const app = express.Router();
 
 /* GET all tidbit types. 
 router.get('/types', function (req, res, next) {
@@ -11,4 +14,4 @@ router.get('/types', function (req, res, next) {
 });
 */
 
-module.exports = router;
+module.exports = app;

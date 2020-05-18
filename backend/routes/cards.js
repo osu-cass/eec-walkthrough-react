@@ -1,5 +1,8 @@
-var express = require('express');
-var router = express.Router();
+// File: cards.js
+// Description: handles routing for cards
+
+const express = require('express');
+const app = express.Router();
 
 /* GET categories based on subject id.
 router.get('/categories/:id', function (req, res, next) {
@@ -82,4 +85,4 @@ router.post('/newTidbit', function (req, res, next) {
 });
 */
 
-module.exports = router;
+module.exports = app;
