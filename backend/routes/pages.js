@@ -4,8 +4,10 @@
 const express = require('express');
 const app = express();
 const {
-  getIndustries
+  getIndustries,
+  getFullPage
 } = require('../models/pages');
+
 
 // get information about industries and their related subjects
 app.get("/industries/all", async (req, res) => {
@@ -17,16 +19,37 @@ app.get("/industries/all", async (req, res) => {
     // get industry data
     const results = await getIndustries();
 
-    if (results.industries === []) {
-      console.error("404: No matching industries found\n");
+    if (results.industries.length === 0) {
       res.status(404).send({error: "No industries found."});
     } else {
-      console.log("200: Industries found\n");
       res.status(200).send(results);
     }
 
   } catch (err) {
-    console.error("500: An internal server error occurred\n Error:", err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get all of the page info, headers, cards, and items for a single page
+app.get("/:pageId/all", async (req, res) => {
+
+  try {
+
+    const pageId = req.params.pageId;
+    console.log("Get all data related to page", pageId);
+
+    // get complete page data
+    const results = await getFullPage(pageId);
+
+    if (results.pageId === 0) {
+      res.status(404).send({error: "Page not found."});
+    } else {
+      res.status(200).send(results);
+    }
+
+  } catch (err) {
     res.status(500).send({error: "An internal server error occurred. Please try again later."});
   }
 
