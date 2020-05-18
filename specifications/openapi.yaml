@@ -124,7 +124,7 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/pages/industry/{industryId}/subject/{subjectId}':
+  '/pages/industries/{industryId}/subjects/{subjectId}':
     post:
       summary: Add a subject to an industry
       description: >
@@ -183,9 +183,9 @@ paths:
 
   '/pages/{pageId}/all':
     get:
-      summary: Gets all of the content contained in one page
+      summary: Get all of the content contained in one page
       description: >
-        Gets all of the content contained in one page.
+        Get all of the content contained in one page.
         This includes page info, headers, cards, and items
       operationId: getPageAll
       tags:
@@ -199,6 +199,24 @@ paths:
           $ref: '#/components/responses/401'
         '500':
           $ref: '#/components/responses/500'
+
+  '/pages/industries/all':
+    get:
+      summary: Get a list of all industries and their related subjects
+      description: >
+        Get the id and name of every industry as well as an array of
+        the related subjects per industry.
+      operationId: getIndustryAll
+      tags:
+        - Pages
+      responses:
+        '200':
+          $ref: '#/components/responses/Page_GET_INDUSTRY_ALL_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
 
   '/pages/{pageId}':
     get:
@@ -1092,7 +1110,28 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Page'
-            
+
+    Page_GET_INDUSTRY_ALL_200:
+      description: An object containing information about all of the industries and their related subjects
+      content:
+        application/json:
+          schema:
+            properties:
+              industries:
+                example: [
+                {
+                   "industryId": 10,
+                   "industryName:": "Electricity",
+                   "subjects": [ 
+                     {
+                       "subjectId": 5,
+                       "subjectName": "Refrigeration"
+                     }
+                    ]
+                }
+              ]
+
+
     Page_GET_ALL_200:
       description: An object containing information about the page and all of its content
       content:

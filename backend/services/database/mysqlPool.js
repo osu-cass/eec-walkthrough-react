@@ -1,7 +1,7 @@
 // File: mysqlPool.js
 // Description: creates a mysql pool
 
-const mysql = require('mysql');
+const mysql = require('mysql2/promise');
 
 // set the server information using environment variables
 const mysqlPort = process.env.SQL_PORT || 3306;
@@ -19,10 +19,7 @@ const pool = mysql.createPool({
   password: mysqlPassword,
   database: mysqlDatabase,
   connectionLimit: MAX_CONNECTIONS,
-  multipleStatements: false,
-  tls: {
-    secureProtocol: "TLSv1_method"
-	}
+  multipleStatements: false
 });
 
 exports.pool = pool;

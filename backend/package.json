@@ -13,7 +13,7 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
-    "mysql2-promise": "^0.1.4"
+    "mysql2": "^2.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

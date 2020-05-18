@@ -5,12 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var subjectsRouter = require('./routes/pages');
 var usersRouter = require('./routes/users');
-var subjectsRouter = require('./routes/subjects');
 var cardsRouter = require('./routes/cards');
 var tidbitsRouter = require('./routes/tidbits');
 var figuresRouter = require('./routes/figures');
-var {pool} = require("./services/database/mysqlPool");
+var {pool} = require('./services/database/mysqlPool');
 var app = express();
 
 // view engine setup
@@ -26,9 +26,10 @@ app.use(function(req,res,next){
     req.con = pool;
     next();
 });
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/subjects', subjectsRouter);
+app.use('/pages', subjectsRouter);
 app.use('/cards', cardsRouter);
 app.use('/tidbits', tidbitsRouter);
 app.use('/figures', figuresRouter);

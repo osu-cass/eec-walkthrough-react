@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET categories based on subject id. */
+/* GET categories based on subject id.
 router.get('/categories/:id', function (req, res, next) {
 	console.log('4');
 	var db = req.con;
@@ -14,7 +14,7 @@ router.get('/categories/:id', function (req, res, next) {
 	});
 });
 
-/* GET tidbits based on subject id. */
+/* GET tidbits based on subject id.
 router.get('/parent/:id', function (req, res, next) {
 	var db = req.con;
 	var id = req.params.id;
@@ -29,7 +29,7 @@ router.get('/parent/:id', function (req, res, next) {
 	});
 });
 
-/* GET resource cards based on category id */
+/* GET resource cards based on category id
 router.get('/resources/:id', function (req, res, next) {
 	var db = req.con;
 	var id = parseInt(req.params.id);
@@ -42,7 +42,7 @@ router.get('/resources/:id', function (req, res, next) {
 	});
 });
 
-/* GET cards based on subject id. */
+/* GET cards based on subject id.
 router.get('/:id', function (req, res, next) {
 	console.log('3');
 	var db = req.con;
@@ -56,7 +56,7 @@ router.get('/:id', function (req, res, next) {
 	});
 });
 
-/* CREATE New Category */
+/* CREATE New Category
 router.post('/newCategory', function (req, res, next) {
 	console.log('5');
 	var db = req.con;
@@ -67,7 +67,7 @@ router.post('/newCategory', function (req, res, next) {
 	});
 });
 
-/* CREATE Tidbit in Category */
+/* CREATE Tidbit in Category
 router.post('/newTidbit', function (req, res, next) {
 	console.log('6');
 	console.log(req.body.id, req.body.data, req.body.parent, req.body.index);
@@ -80,5 +80,6 @@ router.post('/newTidbit', function (req, res, next) {
 		res.send(JSON.stringify(row));
 	});
 });
+*/
 
 module.exports = router;
