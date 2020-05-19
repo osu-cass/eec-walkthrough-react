@@ -33,6 +33,7 @@ app.get("/:pageId", async (req, res) => {
 
 });
 
+
 // get information about industries and their related subjects
 app.get("/industries/all", async (req, res) => {
 
@@ -78,5 +79,6 @@ app.get("/:pageId/all", async (req, res) => {
   }
 
 });
+
 
 module.exports = app;
