@@ -68,12 +68,12 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/users/login':
+  '/users/login/{userName}/{password}':
     get:
       summary: Login the user
       description: >
         Verifies the user's credentials
-      operationId: casValidateUser
+      operationId: validateUser
       tags:
         - Users
       parameters:
@@ -81,13 +81,30 @@ paths:
         - $ref: '#/components/parameters/User_password'
       responses:
         '200':
-          $ref: '#/components/responses/User_Login_GET_200'
-        '401':
-          $ref: '#/components/responses/401'
+          $ref: '#/components/responses/User_GET_200'
+        '400':
+          $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
           
   '/users/{userId}':
+    get:
+      summary: Gets a user by ID
+      description: >
+        Gets a user by ID
+      operationId: getUser
+      tags:
+        - Users
+      parameters:
+        - $ref: '#/components/parameters/User_userId'
+      responses:
+        '200':
+          $ref: '#/components/responses/User_GET_200'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  
     patch:
       summary: Update the user's role
       description: >
@@ -195,8 +212,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Page_GET_ALL_200'
-        '401':
-          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
 
@@ -212,8 +229,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Page_GET_INDUSTRY_ALL_200'
-        '401':
-          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
 
@@ -231,8 +248,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Page_GET_200'
-        '401':
-          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
 
@@ -303,8 +320,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Header_GET_200'
-        '401':
-          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
 
@@ -375,8 +392,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Card_GET_200'
-        '401':
-          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
 
@@ -447,8 +464,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Item_GET_200'
-        '401':
-          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
 
@@ -1063,6 +1080,25 @@ components:
                 minLength: 1
                 example: 'authenticated'
 
+    User_GET_200:
+      description: An object containing information about the user
+      content:
+        application/json:
+          schema:
+            properties:
+              userId:
+                example: 20
+              userName:
+                example: User2020
+              firstName:
+                example: John
+              lastName:
+                example: Doe
+              email:
+                example: 'doejohn@oregonstate.edu'
+              role:
+                example: 1
+
     User_Login_GET_200:
       description: An object containing information about the user
       content:
@@ -1298,35 +1334,60 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            properties:
+              error:
+                description: A message describing the error
+                type: string
+                minLength: 1
+                example: Bad request.
 
     '401':
       description: Missing or invalid authentication credentials
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            properties:
+              error:
+                description: A message describing the error
+                type: string
+                minLength: 1
+                example: Unauthorized.
 
     '403':
       description: Not allowed to perform this action
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            properties:
+              error:
+                description: A message describing the error
+                type: string
+                minLength: 1
+                example: Forbidden.
 
     '404':
       description: Specified resource not found
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            properties:
+              error:
+                description: A message describing the error
+                type: string
+                minLength: 1
+                example: Not found.
 
     '500':
       description: Internal server error
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            properties:
+              error:
+                description: A message describing the error
+                type: string
+                minLength: 1
+                example: An internal server error occurred. Please try again later.
 
 # Added by API Auto Mocking Plugin
 servers:

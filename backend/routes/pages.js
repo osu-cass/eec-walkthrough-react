@@ -18,7 +18,7 @@ app.get("/:pageId", async (req, res) => {
     const pageId = req.params.pageId;
     console.log("Get page", pageId);
 
-    // get complete page data
+    // get page data
     const results = await getPage(pageId);
 
     if (results.pageId === 0) {
@@ -40,7 +40,7 @@ app.get("/industries/all", async (req, res) => {
 
     console.log("Get a list of all industries and their related subjects");
 
-    // get industry data
+    // get a list of industries and their subjects
     const results = await getIndustries();
 
     if (results.industries.length === 0) {

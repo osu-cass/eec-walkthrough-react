@@ -3,6 +3,7 @@
 
 const {pool} = require('../services/database/mysqlPool');
 
+
 // return information about the specific page
 async function getPage(pageId) {
 
@@ -55,6 +56,7 @@ async function getPage(pageId) {
 
 }
 exports.getPage = getPage;
+
 
 // return a list of all of the industries and their related subjects
 async function getIndustries() {
