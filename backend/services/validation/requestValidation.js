@@ -28,4 +28,37 @@ const postPage = Object.freeze({
 });
 exports.postPage = postPage;
 
+// validation checks for post header
+const postHeader = Object.freeze({
+  validation: [
+    check('pageId').isInt({ min: 1, max: 4294967295 }),
+    check('title').isLength({ min: 1, max: 1000 }),
+    check('userId').isInt({ min: 1, max: 4294967295 })
+  ]
+});
+exports.postHeader = postHeader;
+
+// validation checks for post card
+const postCard = Object.freeze({
+  validation: [
+    check('headerId').isInt({ min: 1, max: 4294967295 }),
+    check('title').isLength({ min: 1, max: 1000 }),
+    check('userId').isInt({ min: 1, max: 4294967295 })
+  ]
+});
+exports.postCard = postCard;
+
+// validation checks for post item
+const postItem = Object.freeze({
+  validation: [
+    check('cardId').isInt({ min: 1, max: 4294967295 }),
+    check('parentId').isInt({ min: 1, max: 4294967295 }),
+    check('iconType').isInt({ min: 1, max: 65535 }),
+    check('contentText').isLength({ min: 0, max: 1000 }),
+    check('contentUrl').isLength({ min: 0, max: 1000 }),
+    check('contentLabel').isLength({ min: 0, max: 1000 }),
+    check('userId').isInt({ min: 1, max: 4294967295 })
+  ]
+});
+exports.postItem = postItem;
 

@@ -30,3 +30,49 @@ async function getHeader(headerId) {
 
 }
 exports.getHeader = getHeader;
+
+
+// create a header
+async function createHeader(pageId, title, userId) {
+
+  try {
+
+    // make sure the user exists
+    let sql = "SELECT * " +
+    "FROM Users " +
+    "WHERE userId = ?;";
+    let results = await pool.query(sql, userId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // make sure the header does not already exist
+    sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE pageId = ? " +
+    "AND title = ?;";
+    results = await pool.query(sql, [pageId, title]);
+
+    if (results[0].length) {
+      return {error: 2};
+    }
+
+    // create the new header
+    sql = "INSERT INTO Headers (pageId, title, userId, approved) " +
+    "VALUES (?, ?, ?, 0);";
+    results = await pool.query(sql, [pageId, title, userId]);
+
+    const finalResults = {
+      insertId: results[0].insertId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.log("Error creating header");
+    throw Error(err);
+  }
+
+}
+exports.createHeader = createHeader;

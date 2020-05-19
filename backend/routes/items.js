@@ -3,6 +3,8 @@
 
 const express = require('express');
 const app = express.Router();
+const {validationResult} = require('express-validator');
+const {postItem} = require('../services/validation/requestValidation');
 const {
   getItem,
 } = require('../models/items');
