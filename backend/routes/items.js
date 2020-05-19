@@ -3,15 +3,33 @@
 
 const express = require('express');
 const app = express.Router();
+const {
+  getItem,
+} = require('../models/items');
 
-/* GET all tidbit types. 
-router.get('/types', function (req, res, next) {
-  console.log('1');
-  var db = req.con;
-  db.query("SELECT * FROM TidbitTypes ORDER BY TypeKeyword ASC", function (err, row) {
-    res.send(JSON.stringify(row));
-  });
+
+// get information about a single item
+app.get("/:itemId", async (req, res) => {
+
+  try {
+
+    const itemId = req.params.itemId;
+    console.log("Get item", itemId);
+
+    // get item data
+    const results = await getItem(itemId);
+
+    if (results.itemId === 0) {
+      res.status(404).send({error: "Item not found."});
+    } else {
+      res.status(200).send(results);
+    }
+
+  } catch (err) {
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
 });
-*/
+
 
 module.exports = app;
