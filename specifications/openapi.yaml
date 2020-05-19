@@ -225,18 +225,18 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/pages/industries/all':
+  '/pages/all':
     get:
-      summary: Get a list of all industries and their related subjects
+      summary: Get a list of all pages and their related subjects/industries
       description: >
-        Get the id and name of every industry as well as an array of
-        the related subjects per industry.
-      operationId: getIndustryAll
+        Get the id and name of every page as well as an array of
+        the related subjects/industries.
+      operationId: getPagesAll
       tags:
         - Pages
       responses:
         '200':
-          $ref: '#/components/responses/Page_GET_INDUSTRY_ALL_200'
+          $ref: '#/components/responses/Page_GET_LIST_ALL_200'
         '404':
           $ref: '#/components/responses/404'
         '500':
@@ -1174,21 +1174,22 @@ components:
           schema:
             $ref: '#/components/schemas/Page'
 
-    Page_GET_INDUSTRY_ALL_200:
+    Page_GET_LIST_ALL_200:
       description: An object containing information about all of the industries and their related subjects
       content:
         application/json:
           schema:
             properties:
-              industries:
+              pages:
                 example: [
                 {
-                   "industryId": 10,
-                   "industryName:": "Electricity",
-                   "subjects": [ 
+                   "pageId": 10,
+                   "pageType": 1,
+                   "name:": "Electricity",
+                   "subjects/industries": [ 
                      {
-                       "subjectId": 5,
-                       "subjectName": "Refrigeration"
+                       "subjectId/industryId": 5,
+                       "subjectName/industryName": "Refrigeration"
                      }
                     ]
                 }
