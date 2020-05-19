@@ -30,3 +30,49 @@ async function getCard(cardId) {
 
 }
 exports.getCard = getCard;
+
+
+// create a card
+async function createCard(headerId, title, userId) {
+
+  try {
+
+    // make sure the user exists
+    let sql = "SELECT * " +
+    "FROM Users " +
+    "WHERE userId = ?;";
+    let results = await pool.query(sql, userId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // make sure the card does not already exist
+    sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE headerId = ? " +
+    "AND title = ?;";
+    results = await pool.query(sql, [headerId, title]);
+
+    if (results[0].length) {
+      return {error: 2};
+    }
+
+    // create the new card
+    sql = "INSERT INTO Cards (headerId, title, userId, approved) " +
+    "VALUES (?, ?, ?, 0);";
+    results = await pool.query(sql, [headerId, title, userId]);
+
+    const finalResults = {
+      insertId: results[0].insertId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.log("Error creating card");
+    throw Error(err);
+  }
+
+}
+exports.createCard = createCard;
