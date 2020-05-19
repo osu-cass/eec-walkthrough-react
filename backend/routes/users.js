@@ -2,13 +2,14 @@
 // Description: handles routing for users
 
 const express = require('express');
+const {validationResult} = require('express-validator');
 const app = express();
 const {
   getUser,
   loginUser,
   createUser
 } = require('../models/users');
-
+const {postUser} = require('../services/validation/schemaValidation');
 
 // get information about a single user
 app.get("/:userId", async (req, res) => {
@@ -62,16 +63,21 @@ app.get("/login/:userName/:password", async (req, res) => {
 
 
 // create a user
-app.post("/", async (req, res) => {
+app.post("/", postUser.validation, async (req, res) => {
 
   try {
 
-    const user = req.body;
-    const userName = user.userName;
-    const password = user.password;
-    const firstName = user.firstName;
-    const lastName = user.lastName;
-    const email = user.email;
+    // confirm that the request body has a valid user
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()})
+    }
+
+    const userName = req.body.userName;
+    const password = req.body.password;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
     console.log("Create a new user");
 
     // create a user

@@ -65,6 +65,8 @@ paths:
           $ref: '#/components/responses/User_POST_201'
         '400':
           $ref: '#/components/responses/400'
+        '422':
+          $ref: '#/components/responses/422'
         '500':
           $ref: '#/components/responses/500'
 
@@ -120,6 +122,8 @@ paths:
           $ref: '#/components/responses/User_Login_GET_200'
         '401':
           $ref: '#/components/responses/401'
+        '422':
+          $ref: '#/components/responses/422'
         '500':
           $ref: '#/components/responses/500'
 
@@ -138,6 +142,8 @@ paths:
           $ref: '#/components/responses/Page_POST_201'
         '400':
           $ref: '#/components/responses/400'
+        '422':
+          $ref: '#/components/responses/422'
         '500':
           $ref: '#/components/responses/500'
 
@@ -167,6 +173,8 @@ paths:
           $ref: '#/components/responses/Page_POST_MANY_201'
         '400':
           $ref: '#/components/responses/400'
+        '422':
+          $ref: '#/components/responses/422'
         '500':
           $ref: '#/components/responses/500'
 
@@ -269,6 +277,8 @@ paths:
           $ref: '#/components/responses/Page_GET_200'
         '400':
           $ref: '#/components/responses/400'
+        '422':
+          $ref: '#/components/responses/422'
         '500':
           $ref: '#/components/responses/500'
 
@@ -304,6 +314,8 @@ paths:
           $ref: '#/components/responses/Header_POST_201'
         '400':
           $ref: '#/components/responses/400'
+        '422':
+          $ref: '#/components/responses/422'
         '500':
           $ref: '#/components/responses/500'
 
@@ -341,6 +353,8 @@ paths:
           $ref: '#/components/responses/Header_GET_200'
         '400':
           $ref: '#/components/responses/400'
+        '422':
+          $ref: '#/components/responses/422'
         '500':
           $ref: '#/components/responses/500'
 
@@ -376,6 +390,8 @@ paths:
           $ref: '#/components/responses/Card_POST_201'
         '400':
           $ref: '#/components/responses/400'
+        '422':
+          $ref: '#/components/responses/422'
         '500':
           $ref: '#/components/responses/500'
 
@@ -413,6 +429,8 @@ paths:
           $ref: '#/components/responses/Card_GET_200'
         '400':
           $ref: '#/components/responses/400'
+        '422':
+          $ref: '#/components/responses/422'
         '500':
           $ref: '#/components/responses/500'
 
@@ -448,6 +466,8 @@ paths:
           $ref: '#/components/responses/Item_POST_201'
         '400':
           $ref: '#/components/responses/400'
+        '422':
+          $ref: '#/components/responses/422'
         '500':
           $ref: '#/components/responses/500'
 
@@ -485,6 +505,8 @@ paths:
           $ref: '#/components/responses/Item_GET_200'
         '400':
           $ref: '#/components/responses/400'
+        '422':
+          $ref: '#/components/responses/422'
         '500':
           $ref: '#/components/responses/500'
 
@@ -1376,6 +1398,32 @@ components:
                 type: string
                 minLength: 1
                 example: Not found.
+
+    '422':
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            properties:
+              errors:
+                description: A list of input validation errors
+                type: object
+                example: {
+                  "errors": [
+                      {
+                          "value": "",
+                          "msg": "Invalid value",
+                          "param": "userName",
+                          "location": "body"
+                      },
+                      {
+                          "value": "",
+                          "msg": "Invalid value",
+                          "param": "email",
+                          "location": "body"
+                      }
+                  ]
+              }
 
     '500':
       description: Internal server error
