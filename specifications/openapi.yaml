@@ -536,6 +536,7 @@ components:
           type: string
           format: email
           minLength: 1
+          maxLength: 100
           example: 'doejohn@oregonstate.edu'
         role:
           description: >
@@ -585,7 +586,7 @@ components:
           description: A title for the paragrah uses to present the page topic
           type: string
           minLength: 1
-          maximum: 100
+          maximum: 1000
           example: Compressed air is a common utility found in most industrial facilities
         description:
           description: A short description of the page topic
@@ -597,7 +598,7 @@ components:
           description: The image to accompany the short description of the page topic
           type: string
           minLength: 1
-          maxLength: 500
+          maxLength: 1000
           example: http://flip2.engr.oregonstate.edu:1111/images/aircompressor.png
         userId:
           allOf:
@@ -617,11 +618,11 @@ components:
           description: An array of the associated subject/industry IDs. Industries will have an array of subject IDs, subjects will have an array of industry IDs. 
           type: array
           items:
-            type: integer
-            format: int32
-            minimum: 1
-            maximum: 4294967295
-            example: 15
+            type: object
+            example: {
+              subjectId/industryId: 5,
+              subjectName/industryName: 10
+            }
       
     Header:
       description: An object representing a specific page header
@@ -741,19 +742,19 @@ components:
           description: The main body of text of the item. If this item reprsents an image then this text represents the caption
           type: string
           minLength: 5
-          maxLength: 500
+          maxLength: 1000
           example: This guide focuses mainly on screw and reciprocating compressors. These are the most common...
         contentUrl:
           description: If a URL is relevant to this item then this URL points to an image or resource, otherwise this is an empty string
           type: string
           minLength: 0
-          maxLength: 250
+          maxLength: 1000
           example: https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf
         contentLabel:
           description: If this item is linking to a resource, then this is the string used to represent the link. It can also be the title of some text content, otherwise this is an empty string
           type: string
           minLength: 0
-          maxLength: 250
+          maxLength: 1000
           example: Assessing Industrial Air Compressor
         userId:
           allOf:

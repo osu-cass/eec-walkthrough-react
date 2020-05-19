@@ -3,6 +3,58 @@
 
 const {pool} = require('../services/database/mysqlPool');
 
+// return information about the specific page
+async function getPage(pageId) {
+
+  try {
+
+    // get the specified page
+    let sql = "SELECT * " +
+      "FROM Pages " +
+      "WHERE pageId = ?;";
+
+    let results = await pool.query(sql, pageId);
+
+    // check to see if we were able to find the page
+    if (!results[0].length) {
+      return {pageId: 0};
+    }
+
+    const finalResults = results[0][0];
+    const pageType = results[0][0].pageType;
+
+    // get all of the subjects/industries that are related to the page
+    if (pageType) {
+      let sql = "SELECT S.pageId AS subjectId, S.name AS subjectName " +
+      "FROM Pages AS S " +
+      "LEFT JOIN Industries_Subjects AS M " +
+      "ON S.pageId = M.subjectId " +
+      "WHERE M.industryId = ? " +
+      "AND S.pageType = 0 " +
+      "ORDER BY S.name ASC;";
+      results = await pool.query(sql, pageId);
+      finalResults.subjects = results[0];
+    } else {
+      let sql = "SELECT I.pageId AS industryId, I.name AS industryName " +
+      "FROM Pages AS I " +
+      "LEFT JOIN Industries_Subjects AS M " +
+      "ON I.pageId = M.industryId " +
+      "WHERE M.subjectId = ? " +
+      "AND I.pageType = 1 " +
+      "ORDER BY I.name ASC;";
+      results = await pool.query(sql, pageId);
+      finalResults.industries = results[0];
+    }
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error searching for page");
+    throw Error(err);
+  }
+
+}
+exports.getPage = getPage;
 
 // return a list of all of the industries and their related subjects
 async function getIndustries() {
@@ -61,6 +113,11 @@ async function getFullPage(pageId) {
 
     let results = await pool.query(sql, pageId);
     let finalResults = results[0][0];
+
+    // check to see if we were able to find the page
+    if (!results[0].length) {
+      return {pageId: 0};
+    }
 
     // get all of the headers for the page
     sql = "SELECT * " +
