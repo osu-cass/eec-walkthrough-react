@@ -28,6 +28,7 @@ app.get("/:pageId", async (req, res) => {
     }
 
   } catch (err) {
+    console.error(err);
     res.status(500).send({error: "An internal server error occurred. Please try again later."});
   }
 
@@ -51,6 +52,7 @@ app.get("/industries/all", async (req, res) => {
     }
 
   } catch (err) {
+    console.error(err);
     res.status(500).send({error: "An internal server error occurred. Please try again later."});
   }
 
@@ -75,10 +77,14 @@ app.get("/:pageId/all", async (req, res) => {
     }
 
   } catch (err) {
+    console.error(err);
     res.status(500).send({error: "An internal server error occurred. Please try again later."});
   }
 
 });
+
+
+// create a page
 
 
 module.exports = app;

@@ -59,3 +59,48 @@ async function loginUser(userName, password) {
 
 }
 exports.loginUser = loginUser;
+
+
+// create a user
+async function createUser(userName, password, firstName, lastName, email) {
+
+  try {
+
+    // make sure that the user name doesn't already exist
+    sql = "SELECT * " +
+    "FROM Users " +
+    "WHERE userName = ?;";
+    let results = await pool.query(sql, userName);
+
+    if (results[0].length) {
+      return {error: 1};
+    }
+
+    // make sure that the email doesn't already exist
+    sql = "SELECT * " +
+    "FROM Users " +
+    "WHERE email = ?;";
+    results = await pool.query(sql, email);
+
+    if (results[0].length) {
+      return {error: 2};
+    }
+
+    // create the new user
+    sql = "INSERT INTO Users (userName, password, firstName, lastName, email, role) " +
+    "VALUES (?, ?, ?, ?, ?, 1);";
+    results = await pool.query(sql, [userName, password, firstName, lastName, email]);
+
+    const finalResults = {
+      insertId: results[0].insertId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.log("Error creating user");
+    throw Error(err);
+  }
+
+}
+exports.createUser = createUser;

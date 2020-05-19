@@ -22,6 +22,7 @@ app.use((req, res, next) => {
   });
 });
 
+// general middleware
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -36,8 +37,8 @@ app.use('/headers', require('./headers'));
 app.use('/cards', require('./cards'));
 app.use('/items', require('./items'));
 
-// unhandled requests gets a 404 error
-app.get("/*", (req, res) => {
+// unhandled requests get a 404 error
+app.all("/*", (req, res) => {
   console.error("404: File not found\n");
   res.status(404).send({error: "Not Found"});
 });

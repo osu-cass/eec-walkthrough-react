@@ -5,7 +5,8 @@ const express = require('express');
 const app = express();
 const {
   getUser,
-  loginUser
+  loginUser,
+  createUser
 } = require('../models/users');
 
 
@@ -27,6 +28,7 @@ app.get("/:userId", async (req, res) => {
     }
 
   } catch (err) {
+    console.error(err);
     res.status(500).send({error: "An internal server error occurred. Please try again later."});
   }
 
@@ -52,6 +54,45 @@ app.get("/login/:userName/:password", async (req, res) => {
     }
 
   } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// create a user
+app.post("/", async (req, res) => {
+
+  try {
+
+    const user = req.body;
+    const userName = user.userName;
+    const password = user.password;
+    const firstName = user.firstName;
+    const lastName = user.lastName;
+    const email = user.email;
+    console.log("Create a new user");
+
+    // create a user
+    const results = await createUser(userName, password, firstName, lastName, email);
+
+    if (results.insertId) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(400).send({error: "A user with that username already exists."});
+      } else if (results.error === 2) {
+        res.status(400).send({error: "A user with that email already exists."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
     res.status(500).send({error: "An internal server error occurred. Please try again later."});
   }
 

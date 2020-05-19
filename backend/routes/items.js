@@ -26,6 +26,7 @@ app.get("/:itemId", async (req, res) => {
     }
 
   } catch (err) {
+    console.error(err);
     res.status(500).send({error: "An internal server error occurred. Please try again later."});
   }
 
