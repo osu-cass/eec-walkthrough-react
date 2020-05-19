@@ -3,13 +3,14 @@
 
 const express = require('express');
 const {validationResult} = require('express-validator');
+const {postUser} = require('../services/validation/requestValidation');
 const app = express();
 const {
   getUser,
   loginUser,
   createUser
 } = require('../models/users');
-const {postUser} = require('../services/validation/schemaValidation');
+
 
 // get information about a single user
 app.get("/:userId", async (req, res) => {

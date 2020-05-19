@@ -171,3 +171,49 @@ async function getFullPage(pageId) {
 
 }
 exports.getFullPage = getFullPage;
+
+
+// create a page
+async function createPage(pageType, name, title, description, imageUrl, userId) {
+
+  try {
+
+    // make sure the user exists
+    let sql = "SELECT * " +
+    "FROM Users " +
+    "WHERE userId = ?;";
+    let results = await pool.query(sql, userId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // make sure the page does not already exist
+    sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageType = ? " +
+    "AND name = ?;";
+    results = await pool.query(sql, [pageType, name]);
+
+    if (results[0].length) {
+      return {error: 2};
+    }
+
+    // create the new page
+    sql = "INSERT INTO Pages (pageType, name, title, description, imageUrl, userId, approved) " +
+    "VALUES (?, ?, ?, ?, ?, ?, 0);";
+    results = await pool.query(sql, [pageType, name, title, description, imageUrl, userId]);
+
+    const finalResults = {
+      insertId: results[0].insertId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.log("Error creating page");
+    throw Error(err);
+  }
+
+}
+exports.createPage = createPage;
