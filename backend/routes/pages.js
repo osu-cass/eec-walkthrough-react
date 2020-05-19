@@ -7,10 +7,34 @@ const {postPage} = require('../services/validation/requestValidation');
 const app = express();
 const {
   getPage,
-  getIndustries,
+  getPages,
   getFullPage,
   createPage
 } = require('../models/pages');
+
+
+// get information about all pages and their related subjects/industries
+app.get("/all", async (req, res) => {
+
+  try {
+
+    console.log("Get a list of all pages and their related subjects/industries");
+
+    // get a list of all pages and their related subjects/industries
+    const results = await getPages();
+
+    if (results.pages.length === 0) {
+      res.status(404).send({error: "No pages found."});
+    } else {
+      res.status(200).send(results);
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
 
 
 // get information about a single page
@@ -26,30 +50,6 @@ app.get("/:pageId", async (req, res) => {
 
     if (results.pageId === 0) {
       res.status(404).send({error: "Page not found."});
-    } else {
-      res.status(200).send(results);
-    }
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({error: "An internal server error occurred. Please try again later."});
-  }
-
-});
-
-
-// get information about industries and their related subjects
-app.get("/industries/all", async (req, res) => {
-
-  try {
-
-    console.log("Get a list of all industries and their related subjects");
-
-    // get a list of industries and their subjects
-    const results = await getIndustries();
-
-    if (results.industries.length === 0) {
-      res.status(404).send({error: "No industries found."});
     } else {
       res.status(200).send(results);
     }

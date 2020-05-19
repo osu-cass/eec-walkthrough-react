@@ -58,49 +58,59 @@ async function getPage(pageId) {
 exports.getPage = getPage;
 
 
-// return a list of all of the industries and their related subjects
-async function getIndustries() {
+// return a list of all of the pages and their related subjects/industries
+async function getPages() {
 
   try {
 
-    // get all of the industries in the database
-    let sql = "SELECT pageId AS industryId, name AS industryName " +
+    // get all of the pages in the database
+    let sql = "SELECT pageId, pageType, name " +
       "FROM Pages " +
-      "WHERE pageType = 1;";
+      "ORDER BY pageType ASC, name ASC;";
 
     let results = await pool.query(sql, []);
     let finalResults = {
-      industries: results[0]
+      pages: results[0]
     }
-    const industryCount = finalResults.industries.length;
 
-    // get all of the subjects per industry
-    for (let i = 0; i < industryCount; i++) {
+    const pageCount = finalResults.pages.length;
 
-      const industryId = finalResults.industries[i].industryId;
-      
-      let sql = "SELECT S.pageId AS subjectId, S.name AS subjectName " +
-      "FROM Pages AS S " +
-      "LEFT JOIN Industries_Subjects AS M " +
-      "ON S.pageId = M.subjectId " +
-      "WHERE M.industryId = ? " +
-      "AND S.pageType = 0 " +
-      "ORDER BY S.name ASC;";
+    // get all of the related pages
+    for (let i = 0; i < pageCount; i++) {
 
-      results = await pool.query(sql, industryId);
-      finalResults.industries[i].subjects = results[0];
+      if (finalResults.pages[i].pageType) {
+        let sql = "SELECT S.pageId AS subjectId, S.name AS subjectName " +
+        "FROM Pages AS S " +
+        "LEFT JOIN Industries_Subjects AS M " +
+        "ON S.pageId = M.subjectId " +
+        "WHERE M.industryId = ? " +
+        "AND S.pageType = 0 " +
+        "ORDER BY S.name ASC;";
+        results = await pool.query(sql, finalResults.pages[i].pageId);
+        finalResults.pages[i].subjects = results[0];
+      } else {
+        let sql = "SELECT I.pageId AS industryId, I.name AS industryName " +
+        "FROM Pages AS I " +
+        "LEFT JOIN Industries_Subjects AS M " +
+        "ON I.pageId = M.industryId " +
+        "WHERE M.subjectId = ? " +
+        "AND I.pageType = 1 " +
+        "ORDER BY I.name ASC;";
+        results = await pool.query(sql, finalResults.pages[i].pageId);
+        finalResults.pages[i].industries = results[0];
+      }
 
     }
 
     return finalResults;
 
   } catch (err) {
-    console.error("Error searching for industries");
+    console.error("Error searching for pages");
     throw Error(err);
   }
 
 }
-exports.getIndustries = getIndustries;
+exports.getPages = getPages;
 
 
 // return all of the page info, headers, cards, and items for a single page
