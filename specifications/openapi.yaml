@@ -769,7 +769,11 @@ components:
         parentId:
           allOf:
             - description: The ID of the parent item that this item belongs to. The child item of a parent is indented relative to the parent's level of indentation. Defaults to 0 if there is no parent item.
-            - $ref: '#/components/schemas/Id'
+              type: integer
+              format: int32
+              minimum: 0
+              maximum: 4294967295
+              example: 15
         iconType:
           description: The integer value that reprsents a specific item type. The value can then be referenced from a table on the frontend to determine what icon to show and how to display the items content.
           type: integer

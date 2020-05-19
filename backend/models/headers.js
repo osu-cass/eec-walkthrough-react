@@ -58,6 +58,16 @@ async function createHeader(pageId, title, userId) {
       return {error: 2};
     }
 
+    // make sure the page exists
+    sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ?;";
+    results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 3};
+    }
+
     // create the new header
     sql = "INSERT INTO Headers (pageId, title, userId, approved) " +
     "VALUES (?, ?, ?, 0);";

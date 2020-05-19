@@ -52,7 +52,7 @@ exports.postCard = postCard;
 const postItem = Object.freeze({
   validation: [
     check('cardId').isInt({ min: 1, max: 4294967295 }),
-    check('parentId').isInt({ min: 1, max: 4294967295 }),
+    check('parentId').isInt({ min: 0, max: 4294967295 }),
     check('iconType').isInt({ min: 1, max: 65535 }),
     check('contentText').isLength({ min: 0, max: 1000 }),
     check('contentUrl').isLength({ min: 0, max: 1000 }),

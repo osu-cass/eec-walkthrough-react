@@ -58,6 +58,16 @@ async function createCard(headerId, title, userId) {
       return {error: 2};
     }
 
+    // make sure the header exists
+    sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ?;";
+    results = await pool.query(sql, headerId);
+
+    if (!results[0].length) {
+      return {error: 3};
+    }
+
     // create the new card
     sql = "INSERT INTO Cards (headerId, title, userId, approved) " +
     "VALUES (?, ?, ?, 0);";
