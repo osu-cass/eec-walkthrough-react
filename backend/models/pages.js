@@ -26,7 +26,7 @@ async function getPage(pageId) {
 
     // get all of the subjects/industries that are related to the page
     if (pageType) {
-      const sql = "SELECT S.pageId AS subjectId, S.name AS subjectName " +
+      const sql = "SELECT S.pageId, S.name " +
       "FROM Pages AS S " +
       "LEFT JOIN Industries_Subjects AS M " +
       "ON S.pageId = M.subjectId " +
@@ -34,9 +34,9 @@ async function getPage(pageId) {
       "AND S.pageType = 0 " +
       "ORDER BY S.name ASC;";
       results = await pool.query(sql, pageId);
-      finalResults.subjects = results[0];
+      finalResults.relatedPages = results[0];
     } else {
-      const sql = "SELECT I.pageId AS industryId, I.name AS industryName " +
+      const sql = "SELECT I.pageId, I.name " +
       "FROM Pages AS I " +
       "LEFT JOIN Industries_Subjects AS M " +
       "ON I.pageId = M.industryId " +
@@ -44,7 +44,7 @@ async function getPage(pageId) {
       "AND I.pageType = 1 " +
       "ORDER BY I.name ASC;";
       results = await pool.query(sql, pageId);
-      finalResults.industries = results[0];
+      finalResults.relatedPages = results[0];
     }
 
     return finalResults;
@@ -63,42 +63,59 @@ async function getPages() {
 
   try {
 
-    // get all of the pages in the database
-    const sql = "SELECT pageId, pageType, name " +
+    const finalResults = {
+      pages: {}
+    };
+
+    // get all subject pages
+    let sql = "SELECT pageId, pageType, name " +
       "FROM Pages " +
+      "WHERE pageType = 0 " +
       "ORDER BY pageType ASC, name ASC;";
 
     let results = await pool.query(sql, []);
-    const finalResults = {
-      pages: results[0]
-    };
 
-    const pageCount = finalResults.pages.length;
+    finalResults.pages.subjects = results[0];
+    let pageCount = finalResults.pages.subjects.length;
 
-    // get all of the related pages
+    // get all of the related industries
     for (let i = 0; i < pageCount; i++) {
 
-      if (finalResults.pages[i].pageType) {
-        const sql = "SELECT S.pageId AS subjectId, S.name AS subjectName " +
-        "FROM Pages AS S " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON S.pageId = M.subjectId " +
-        "WHERE M.industryId = ? " +
-        "AND S.pageType = 0 " +
-        "ORDER BY S.name ASC;";
-        results = await pool.query(sql, finalResults.pages[i].pageId);
-        finalResults.pages[i].subjects = results[0];
-      } else {
-        const sql = "SELECT I.pageId AS industryId, I.name AS industryName " +
-        "FROM Pages AS I " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON I.pageId = M.industryId " +
-        "WHERE M.subjectId = ? " +
-        "AND I.pageType = 1 " +
-        "ORDER BY I.name ASC;";
-        results = await pool.query(sql, finalResults.pages[i].pageId);
-        finalResults.pages[i].industries = results[0];
-      }
+      const sql = "SELECT I.pageId, I.name " +
+      "FROM Pages AS I " +
+      "LEFT JOIN Industries_Subjects AS M " +
+      "ON I.pageId = M.industryId " +
+      "WHERE M.subjectId = ? " +
+      "AND I.pageType = 1 " +
+      "ORDER BY I.name ASC;";
+      results = await pool.query(sql, finalResults.pages.subjects[i].pageId);
+      finalResults.pages.subjects[i].relatedPages = results[0];
+
+    }
+
+    // get all industry pages
+    sql = "SELECT pageId, pageType, name " +
+      "FROM Pages " +
+      "WHERE pageType = 1 " +
+      "ORDER BY pageType ASC, name ASC;";
+
+    results = await pool.query(sql, []);
+
+    finalResults.pages.industries = results[0];
+    pageCount = finalResults.pages.industries.length;
+
+    // get all of the related subjects
+    for (let i = 0; i < pageCount; i++) {
+
+      const sql = "SELECT S.pageId, S.name " +
+      "FROM Pages AS S " +
+      "LEFT JOIN Industries_Subjects AS M " +
+      "ON S.pageId = M.subjectId " +
+      "WHERE M.industryId = ? " +
+      "AND S.pageType = 0 " +
+      "ORDER BY S.name ASC;";
+      results = await pool.query(sql, finalResults.pages.industries[i].pageId);
+      finalResults.pages.industries[i].relatedPages = results[0];
 
     }
 

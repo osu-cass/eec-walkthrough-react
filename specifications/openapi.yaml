@@ -653,14 +653,14 @@ components:
           minimum: 0
           maximum: 1
           example: 0
-        subjects/industries:
-          description: An array of the associated subject/industry IDs. Industries will have an array of subject IDs, subjects will have an array of industry IDs. 
+        relatedPages:
+          description: An array of the associated subject/industry pages. Industries will have an array of related subject pages, subjects will have an array of related industry pages. 
           type: array
           items:
             type: object
             example: {
-              subjectId/industryId: 5,
-              subjectName/industryName: 10
+              pageId: 5,
+              name: 10
             }
       
     Header:
@@ -1175,25 +1175,40 @@ components:
             $ref: '#/components/schemas/Page'
 
     Page_GET_LIST_ALL_200:
-      description: An object containing information about all of the industries and their related subjects
+      description: An object containing information about all pages seperated into subjects and industries
       content:
         application/json:
           schema:
             properties:
               pages:
-                example: [
+                example: {
+                  "subjects": [
+                {
+                   "pageId": 5,
+                   "pageType": 0,
+                   "name:": "Refrigeration",
+                   "relatedPages": [ 
+                     {
+                       "pageId": 10,
+                       "name": "Electricity"
+                     }
+                    ]
+                }
+              ],
+                "industries": [
                 {
                    "pageId": 10,
                    "pageType": 1,
                    "name:": "Electricity",
-                   "subjects/industries": [ 
+                   "relatedPages": [ 
                      {
-                       "subjectId/industryId": 5,
-                       "subjectName/industryName": "Refrigeration"
+                       "pageId": 5,
+                       "name": "Refrigeration"
                      }
                     ]
                 }
               ]
+                }
 
 
     Page_GET_ALL_200:

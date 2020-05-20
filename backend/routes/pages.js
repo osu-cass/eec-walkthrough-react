@@ -22,8 +22,8 @@ app.get("/all", async (req, res) => {
 
     // get a list of all pages and their related subjects/industries
     const results = await getPages();
-
-    if (results.pages.length === 0) {
+    console.log(results);
+    if (results.pages.subjects.length === 0 && results.pages.industries.length === 0) {
       res.status(404).send({error: "No pages found."});
     } else {
       res.status(200).send(results);
