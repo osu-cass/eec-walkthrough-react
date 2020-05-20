@@ -1,7 +1,7 @@
 // File: pages.js
 // Description: Provides functions for working with page data.
 
-const {pool} = require('../services/database/mysqlPool');
+const {pool} = require("../services/database/mysqlPool");
 
 
 // return information about the specific page
@@ -10,7 +10,7 @@ async function getPage(pageId) {
   try {
 
     // get the specified page
-    let sql = "SELECT * " +
+    const sql = "SELECT * " +
       "FROM Pages " +
       "WHERE pageId = ?;";
 
@@ -26,7 +26,7 @@ async function getPage(pageId) {
 
     // get all of the subjects/industries that are related to the page
     if (pageType) {
-      let sql = "SELECT S.pageId AS subjectId, S.name AS subjectName " +
+      const sql = "SELECT S.pageId AS subjectId, S.name AS subjectName " +
       "FROM Pages AS S " +
       "LEFT JOIN Industries_Subjects AS M " +
       "ON S.pageId = M.subjectId " +
@@ -36,7 +36,7 @@ async function getPage(pageId) {
       results = await pool.query(sql, pageId);
       finalResults.subjects = results[0];
     } else {
-      let sql = "SELECT I.pageId AS industryId, I.name AS industryName " +
+      const sql = "SELECT I.pageId AS industryId, I.name AS industryName " +
       "FROM Pages AS I " +
       "LEFT JOIN Industries_Subjects AS M " +
       "ON I.pageId = M.industryId " +
@@ -64,14 +64,14 @@ async function getPages() {
   try {
 
     // get all of the pages in the database
-    let sql = "SELECT pageId, pageType, name " +
+    const sql = "SELECT pageId, pageType, name " +
       "FROM Pages " +
       "ORDER BY pageType ASC, name ASC;";
 
     let results = await pool.query(sql, []);
-    let finalResults = {
+    const finalResults = {
       pages: results[0]
-    }
+    };
 
     const pageCount = finalResults.pages.length;
 
@@ -79,7 +79,7 @@ async function getPages() {
     for (let i = 0; i < pageCount; i++) {
 
       if (finalResults.pages[i].pageType) {
-        let sql = "SELECT S.pageId AS subjectId, S.name AS subjectName " +
+        const sql = "SELECT S.pageId AS subjectId, S.name AS subjectName " +
         "FROM Pages AS S " +
         "LEFT JOIN Industries_Subjects AS M " +
         "ON S.pageId = M.subjectId " +
@@ -89,7 +89,7 @@ async function getPages() {
         results = await pool.query(sql, finalResults.pages[i].pageId);
         finalResults.pages[i].subjects = results[0];
       } else {
-        let sql = "SELECT I.pageId AS industryId, I.name AS industryName " +
+        const sql = "SELECT I.pageId AS industryId, I.name AS industryName " +
         "FROM Pages AS I " +
         "LEFT JOIN Industries_Subjects AS M " +
         "ON I.pageId = M.industryId " +
@@ -124,7 +124,7 @@ async function getFullPage(pageId) {
       "WHERE pageId = ?;";
 
     let results = await pool.query(sql, pageId);
-    let finalResults = results[0][0];
+    const finalResults = results[0][0];
 
     // check to see if we were able to find the page
     if (!results[0].length) {
@@ -136,7 +136,7 @@ async function getFullPage(pageId) {
     "FROM Headers " +
     "WHERE pageId = ? " +
     "ORDER BY headerId ASC";
-  
+
     results = await pool.query(sql, pageId);
     finalResults.headers = results[0];
     const headerCount = finalResults.headers.length;
@@ -145,8 +145,8 @@ async function getFullPage(pageId) {
     for (let i = 0; i < headerCount; i++) {
 
       const headerId = finalResults.headers[i].headerId;
-      
-      let sql = "SELECT * " +
+
+      const sql = "SELECT * " +
       "FROM Cards " +
       "WHERE headerId = ? " +
       "ORDER BY cardId ASC";
@@ -159,12 +159,12 @@ async function getFullPage(pageId) {
       for (let j = 0; j < cardCount; j++) {
 
         const cardId = finalResults.headers[i].cards[j].cardId;
-      
-        let sql = "SELECT * " +
+
+        const sql = "SELECT * " +
         "FROM Items " +
         "WHERE cardId = ? " +
         "ORDER BY itemId ASC";
-  
+
         results = await pool.query(sql, cardId);
         finalResults.headers[i].cards[j].items = results[0];
 

@@ -1,13 +1,12 @@
 // File: index.js
 // Description: handles all API routing
 
-const path = require('path');
-const bodyParser = require('body-parser');
-const express = require('express');
-const cors = require('cors');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const createError = require('http-errors');
+const path = require("path");
+const bodyParser = require("body-parser");
+const express = require("express");
+const cors = require("cors");
+const logger = require("morgan");
+const cookieParser = require("cookie-parser");
 const app = express();
 
 // catch invalid JSON request bodies
@@ -23,19 +22,19 @@ app.use((req, res, next) => {
 });
 
 // general middleware
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
 // handle requests
-app.use('/users', require('./users'));
-app.use('/pages', require('./pages'));
-app.use('/headers', require('./headers'));
-app.use('/cards', require('./cards'));
-app.use('/items', require('./items'));
+app.use("/users", require("./users"));
+app.use("/pages", require("./pages"));
+app.use("/headers", require("./headers"));
+app.use("/cards", require("./cards"));
+app.use("/items", require("./items"));
 
 // unhandled requests get a 404 error
 app.all("/*", (req, res) => {

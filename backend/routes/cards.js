@@ -1,14 +1,14 @@
 // File: cards.js
 // Description: handles routing for cards
 
-const express = require('express');
-const {validationResult} = require('express-validator');
-const {postCard} = require('../services/validation/requestValidation');
+const express = require("express");
+const {validationResult} = require("express-validator");
+const {postCard} = require("../services/validation/requestValidation");
 const app = express.Router();
 const {
   getCard,
   createCard
-} = require('../models/cards');
+} = require("../models/cards");
 
 
 // get information about a single card
@@ -42,9 +42,9 @@ app.post("/", postCard.validation, async (req, res) => {
   try {
 
     // confirm that the request body has a valid card
-    const errors = validationResult(req)
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({errors: errors.array()})
+      return res.status(422).json({errors: errors.array()});
     }
 
     const headerId = req.body.headerId;

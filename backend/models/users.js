@@ -1,7 +1,7 @@
 // File: users.js
 // Description: Provides functions for working with user data.
 
-const {pool} = require('../services/database/mysqlPool');
+const {pool} = require("../services/database/mysqlPool");
 
 
 // return information about the specific user
@@ -10,11 +10,11 @@ async function getUser(userId) {
   try {
 
     // get the specified user
-    let sql = "SELECT userId, userName, firstName, lastName, email, role " +
+    const sql = "SELECT userId, userName, firstName, lastName, email, role " +
       "FROM Users " +
       "WHERE userId = ?;";
 
-    let results = await pool.query(sql, userId);
+    const results = await pool.query(sql, userId);
 
     // check to see if we were able to find the user
     if (!results[0].length) {
@@ -38,12 +38,12 @@ async function loginUser(userName, password) {
   try {
 
     // get the specified user
-    let sql = "SELECT userId, userName, firstName, lastName, email, role " +
+    const sql = "SELECT userId, userName, firstName, lastName, email, role " +
       "FROM Users " +
       "WHERE userName = ? " +
       "AND password = ?;";
 
-    let results = await pool.query(sql, [userName, password]);
+    const results = await pool.query(sql, [userName, password]);
 
     // check to see if we were able to find the user
     if (!results[0].length) {
@@ -67,7 +67,7 @@ async function createUser(userName, password, firstName, lastName, email) {
   try {
 
     // make sure that the user name doesn't already exist
-    sql = "SELECT * " +
+    let sql = "SELECT * " +
     "FROM Users " +
     "WHERE userName = ?;";
     let results = await pool.query(sql, userName);

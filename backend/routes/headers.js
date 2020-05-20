@@ -1,14 +1,14 @@
 // File: headers.js
 // Description: handles routing for headers
 
-const express = require('express');
-const {validationResult} = require('express-validator');
-const {postHeader} = require('../services/validation/requestValidation');
+const express = require("express");
+const {validationResult} = require("express-validator");
+const {postHeader} = require("../services/validation/requestValidation");
 const app = express.Router();
 const {
   getHeader,
   createHeader
-} = require('../models/headers');
+} = require("../models/headers");
 
 
 // get information about a single header
@@ -42,9 +42,9 @@ app.post("/", postHeader.validation, async (req, res) => {
   try {
 
     // confirm that the request body has a valid header
-    const errors = validationResult(req)
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({errors: errors.array()})
+      return res.status(422).json({errors: errors.array()});
     }
 
     const pageId = req.body.pageId;

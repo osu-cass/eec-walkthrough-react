@@ -1,7 +1,7 @@
 // File: headers.js
 // Description: Provides functions for working with header data.
 
-const {pool} = require('../services/database/mysqlPool');
+const {pool} = require("../services/database/mysqlPool");
 
 
 // return information about the specific header
@@ -10,11 +10,11 @@ async function getHeader(headerId) {
   try {
 
     // get the specified header
-    let sql = "SELECT * " +
+    const sql = "SELECT * " +
       "FROM Headers " +
       "WHERE headerId = ?;";
 
-    let results = await pool.query(sql, headerId);
+    const results = await pool.query(sql, headerId);
 
     // check to see if we were able to find the header
     if (!results[0].length) {

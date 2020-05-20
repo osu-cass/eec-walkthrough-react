@@ -1,15 +1,15 @@
 // File: users.js
 // Description: handles routing for users
 
-const express = require('express');
-const {validationResult} = require('express-validator');
-const {postUser} = require('../services/validation/requestValidation');
+const express = require("express");
+const {validationResult} = require("express-validator");
+const {postUser} = require("../services/validation/requestValidation");
 const app = express();
 const {
   getUser,
   loginUser,
   createUser
-} = require('../models/users');
+} = require("../models/users");
 
 
 // get information about a single user
@@ -69,9 +69,9 @@ app.post("/", postUser.validation, async (req, res) => {
   try {
 
     // confirm that the request body has a valid user
-    const errors = validationResult(req)
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({errors: errors.array()})
+      return res.status(422).json({errors: errors.array()});
     }
 
     const userName = req.body.userName;

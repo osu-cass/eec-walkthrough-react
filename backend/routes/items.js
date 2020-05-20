@@ -1,14 +1,14 @@
 // File: items.js
 // Description: handles routing for items
 
-const express = require('express');
+const express = require("express");
 const app = express.Router();
-const {validationResult} = require('express-validator');
-const {postItem} = require('../services/validation/requestValidation');
+const {validationResult} = require("express-validator");
+const {postItem} = require("../services/validation/requestValidation");
 const {
   getItem,
   createItem
-} = require('../models/items');
+} = require("../models/items");
 
 
 // get information about a single item
@@ -42,9 +42,9 @@ app.post("/", postItem.validation, async (req, res) => {
   try {
 
     // confirm that the request body has a valid item
-    const errors = validationResult(req)
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({errors: errors.array()})
+      return res.status(422).json({errors: errors.array()});
     }
 
     const cardId = req.body.cardId;

@@ -1,16 +1,16 @@
 // File: pages.js
 // Description: handles routing for pages
 
-const express = require('express');
-const {validationResult} = require('express-validator');
-const {postPage} = require('../services/validation/requestValidation');
+const express = require("express");
+const {validationResult} = require("express-validator");
+const {postPage} = require("../services/validation/requestValidation");
 const app = express();
 const {
   getPage,
   getPages,
   getFullPage,
   createPage
-} = require('../models/pages');
+} = require("../models/pages");
 
 
 // get information about all pages and their related subjects/industries
@@ -93,9 +93,9 @@ app.post("/", postPage.validation, async (req, res) => {
   try {
 
     // confirm that the request body has a valid page
-    const errors = validationResult(req)
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({errors: errors.array()})
+      return res.status(422).json({errors: errors.array()});
     }
 
     const pageType = req.body.pageType;
