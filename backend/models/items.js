@@ -89,3 +89,41 @@ async function createItem(cardId, parentId, iconType, contentText, contentUrl, c
 
 }
 exports.createItem = createItem;
+
+
+// delete an item
+async function deleteItem(itemId) {
+
+  try {
+
+    // check to see if the item exists
+    let sql = "SELECT * " +
+      "FROM Items " +
+      "WHERE itemId = ?;";
+
+    let results = await pool.query(sql, itemId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // delete the item
+    sql = "DELETE " +
+      "FROM Items " +
+      "WHERE itemId = ?;";
+
+    results = await pool.query(sql, itemId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting item");
+    throw Error(err);
+  }
+
+}
+exports.deleteItem = deleteItem;

@@ -246,7 +246,7 @@ async function createPage(pageType, name, title, description, imageUrl, userId) 
 exports.createPage = createPage;
 
 
-// delete the specific page
+// delete a page
 async function deletePage(pageId) {
 
   try {

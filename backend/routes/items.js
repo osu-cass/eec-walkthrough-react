@@ -10,7 +10,8 @@ const {
 } = require("../services/validation/requestValidation");
 const {
   getItem,
-  createItem
+  createItem,
+  deleteItem
 } = require("../models/items");
 
 
@@ -92,5 +93,41 @@ app.post("/", postItemVal.validation, async (req, res) => {
 
 });
 
+
+// delete an item
+app.delete("/:itemId", getItemVal.validation, async (req, res) => {
+
+  try {
+
+    const itemId = req.params.itemId;
+    console.log("Delete item", itemId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // delete the item data
+    const results = await deleteItem(itemId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Item not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
 
 module.exports = app;
