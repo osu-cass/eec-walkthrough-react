@@ -80,7 +80,7 @@ async function createCard(headerId, title, userId) {
     return finalResults;
 
   } catch (err) {
-    console.log("Error creating card");
+    console.error("Error creating card");
     throw Error(err);
   }
 

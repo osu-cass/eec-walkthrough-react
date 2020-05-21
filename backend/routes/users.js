@@ -142,14 +142,13 @@ app.patch("/:userId", patchUserVal.validation, async (req, res) => {
     const email = req.body.email;
     const role = req.body.role;
 
-    // confirm that the request body has a valid user
+    // confirm that the request is valid
     const errors = validationResult(req);
     const newErrors = [];
     const inputArray = [userId, userName, password, firstName, lastName, email, role];
     const inputStringArray = ["userId", "userName", "password", "firstName", "lastName", "email", "role"];
     for (let i = 0; i < inputArray.length; i++) {
       if (typeof inputArray[i] !== "undefined") {
-        console.log("zzz current input:", inputArray[i]);
         for (let j = 0; j < errors.array().length; j++) {
           if (errors.array()[j].param === inputStringArray[i]) {
             newErrors.push(errors.array()[j]);

@@ -83,7 +83,7 @@ async function createItem(cardId, parentId, iconType, contentText, contentUrl, c
     return finalResults;
 
   } catch (err) {
-    console.log("Error creating item");
+    console.error("Error creating item");
     throw Error(err);
   }
 

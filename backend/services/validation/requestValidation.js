@@ -6,7 +6,7 @@ const {check} = require("express-validator");
 // validation checks for get user
 const getUserVal = Object.freeze({
   validation: [
-    check("userId").isInt({min: 1, max: 4294967295}),
+    check("userId").isInt({min: 1, max: 4294967295})
   ]
 });
 exports.getUserVal = getUserVal;
@@ -67,6 +67,20 @@ const postPageVal = Object.freeze({
 });
 exports.postPageVal = postPageVal;
 
+// validation checks for patch page
+const patchPageVal = Object.freeze({
+  validation: [
+    check("pageId").isInt({min: 1, max: 4294967295}),
+    check("pageType").isInt({min: 0, max: 1}),
+    check("name").isLength({min: 1, max: 100}),
+    check("title").isLength({min: 1, max: 1000}),
+    check("description").isLength({min: 1, max: 1000}),
+    check("imageUrl").isLength({min: 1, max: 1000}),
+    check("approved").isInt({min: 0, max: 1})
+  ]
+});
+exports.patchPageVal = patchPageVal;
+
 // validation checks for get header
 const getHeaderVal = Object.freeze({
   validation: [
@@ -85,6 +99,17 @@ const postHeaderVal = Object.freeze({
 });
 exports.postHeaderVal = postHeaderVal;
 
+// validation checks for patch header
+const patchHeaderVal = Object.freeze({
+  validation: [
+    check("headerId").isInt({min: 1, max: 4294967295}),
+    check("pageId").isInt({min: 1, max: 4294967295}),
+    check("title").isLength({min: 1, max: 1000}),
+    check("approved").isInt({min: 0, max: 1})
+  ]
+});
+exports.patchHeaderVal = patchHeaderVal;
+
 // validation checks for get card
 const getCardVal = Object.freeze({
   validation: [
@@ -102,6 +127,17 @@ const postCardVal = Object.freeze({
   ]
 });
 exports.postCardVal = postCardVal;
+
+// validation checks for patch card
+const patchCardVal = Object.freeze({
+  validation: [
+    check("cardId").isInt({min: 1, max: 4294967295}),
+    check("headerId").isInt({min: 1, max: 4294967295}),
+    check("title").isLength({min: 1, max: 1000}),
+    check("approved").isInt({min: 0, max: 1})
+  ]
+});
+exports.patchCardVal = patchCardVal;
 
 // validation checks for get item
 const getItemVal = Object.freeze({
@@ -124,3 +160,18 @@ const postItemVal = Object.freeze({
   ]
 });
 exports.postItemVal = postItemVal;
+
+// validation checks for patch item
+const patchItemVal = Object.freeze({
+  validation: [
+    check("itemId").isInt({min: 1, max: 4294967295}),
+    check("cardId").isInt({min: 1, max: 4294967295}),
+    check("parentId").isInt({min: 0, max: 4294967295}),
+    check("iconType").isInt({min: 1, max: 65535}),
+    check("contentText").isLength({min: 0, max: 1000}),
+    check("contentUrl").isLength({min: 0, max: 1000}),
+    check("contentLabel").isLength({min: 0, max: 1000}),
+    check("approved").isInt({min: 0, max: 1})
+  ]
+});
+exports.patchItemVal = patchItemVal;

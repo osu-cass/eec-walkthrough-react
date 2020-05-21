@@ -920,9 +920,6 @@ components:
                       example: Compressed air has been a key industrial utility since the...
                     imageUrl:
                       example: http://flip2.engr.oregonstate.edu:1111/images/aircompressor.png
-                    userId:
-                      allOf:
-                        - $ref: '#/components/schemas/Id'
                     approved:
                       example: 1
 
@@ -957,10 +954,6 @@ components:
                 minLength: 1
                 maxLength: 100
                 example: Compressed Air Opportunities to Consider
-              userId:
-                allOf:
-                  - description: The user ID of the user who created the header
-                  - $ref: '#/components/schemas/Id'
               approved:
                 example: 1
 
@@ -987,8 +980,6 @@ components:
                 example: 25
               title:
                 example: Rules of Thumb
-              userId:
-                example: 10
               approved:
                 example: 1
     
@@ -1031,8 +1022,6 @@ components:
                 example: https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf
               contentLabel:
                 example: Assessing Industrial Air Compressor
-              userId:
-                example: 15
               approved:
                 example: 1
 

@@ -98,7 +98,7 @@ async function createUser(userName, password, firstName, lastName, email) {
     return finalResults;
 
   } catch (err) {
-    console.log("Error creating user");
+    console.error("Error creating user");
     throw Error(err);
   }
 
@@ -175,7 +175,7 @@ async function updateUser(userId, userName, password, firstName, lastName, email
     return finalResults;
 
   } catch (err) {
-    console.log("Error updating user");
+    console.error("Error updating user");
     throw Error(err);
   }
 

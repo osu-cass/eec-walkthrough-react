@@ -80,7 +80,7 @@ async function createHeader(pageId, title, userId) {
     return finalResults;
 
   } catch (err) {
-    console.log("Error creating header");
+    console.error("Error creating header");
     throw Error(err);
   }
 
@@ -124,3 +124,78 @@ async function deleteHeader(headerId) {
 
 }
 exports.deleteHeader = deleteHeader;
+
+
+// update a header
+async function updateHeader(headerId, pageId, title, approved) {
+
+  try {
+
+    const sqlArray = [];
+
+    // make sure that the header exists
+    let sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ?;";
+    let results = await pool.query(sql, headerId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // construct a sql query based on the fields given
+    sql = "UPDATE Headers SET ";
+
+    if (typeof pageId !== "undefined") {
+
+      // confirm that the page exists
+      const checkSql = "SELECT * " +
+      "FROM Pages " +
+      "WHERE pageId = ?;";
+
+      results = await pool.query(checkSql, pageId);
+
+      if (!results[0].length) {
+        return {error: 2};
+      }
+
+      sql += "pageId = ?, ";
+      sqlArray.push(pageId);
+
+    }
+
+    if (typeof title !== "undefined") {
+      sql += "title = ?, ";
+      sqlArray.push(title);
+    }
+
+    if (typeof approved !== "undefined") {
+      sql += "approved = ?, ";
+      sqlArray.push(approved);
+    }
+
+    // add the last line of the SQL query
+    sql = sql.replace(/.$/, " WHERE headerId = ?;");
+    sqlArray.push(headerId);
+
+    // make sure that we are updating at least one field
+    if (sqlArray.length <= 1) {
+      return {error: 3};
+    }
+
+    // perform the update query
+    results = await pool.query(sql, sqlArray);
+
+    const finalResults = {
+      changedRows: results[0].changedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error updating header");
+    throw Error(err);
+  }
+
+}
+exports.updateHeader = updateHeader;

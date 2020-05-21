@@ -6,13 +6,15 @@ const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
   postHeaderVal,
-  getHeaderVal
+  getHeaderVal,
+  patchHeaderVal
 } = require("../services/validation/requestValidation");
 
 const {
   getHeader,
   createHeader,
-  deleteHeader
+  deleteHeader,
+  updateHeader
 } = require("../models/headers");
 
 
@@ -114,6 +116,63 @@ app.delete("/:headerId", getHeaderVal.validation, async (req, res) => {
 
       if (results.error === 1) {
         res.status(404).send({error: "Header not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// update a header
+app.patch("/:headerId", patchHeaderVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update a header");
+
+    const headerId = req.params.pageId;
+    const pageId = req.body.pageId;
+    const title = req.body.title;
+    const approved = req.body.approved;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    const newErrors = [];
+    const inputArray = [headerId, pageId, title, approved];
+    const inputStringArray = ["headerId", "pageId", "title", "approved"];
+    for (let i = 0; i < inputArray.length; i++) {
+      if (typeof inputArray[i] !== "undefined") {
+        for (let j = 0; j < errors.array().length; j++) {
+          if (errors.array()[j].param === inputStringArray[i]) {
+            newErrors.push(errors.array()[j]);
+          }
+        }
+      }
+    }
+    if (newErrors.length) {
+      return res.status(422).json({errors: newErrors});
+    }
+
+    // update a header
+    const results = await updateHeader(headerId, pageId, title, approved);
+
+    if (results.changedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Header not found."});
+      } else if (results.error === 2) {
+        res.status(403).send({error: "Selected parent page does not exist."});
+      } else if (results.error === 3) {
+        res.status(422).send({error: "Request doesn't include any fields to update."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
