@@ -11,7 +11,8 @@ const {
 
 const {
   getHeader,
-  createHeader
+  createHeader,
+  deleteHeader
 } = require("../models/headers");
 
 
@@ -76,6 +77,43 @@ app.post("/", postHeaderVal.validation, async (req, res) => {
         res.status(403).send({error: "Header already exists."});
       } else if (results.error === 3) {
         res.status(403).send({error: "Invalid parent page."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete a header
+app.delete("/:headerId", getHeaderVal.validation, async (req, res) => {
+
+  try {
+
+    const headerId = req.params.headerId;
+    console.log("Delete header", headerId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // delete the header data
+    const results = await deleteHeader(headerId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Header not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

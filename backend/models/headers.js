@@ -86,3 +86,41 @@ async function createHeader(pageId, title, userId) {
 
 }
 exports.createHeader = createHeader;
+
+
+// delete a header
+async function deleteHeader(headerId) {
+
+  try {
+
+    // check to see if the header exists
+    let sql = "SELECT * " +
+      "FROM Headers " +
+      "WHERE headerId = ?;";
+
+    let results = await pool.query(sql, headerId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // delete the header
+    sql = "DELETE " +
+      "FROM Headers " +
+      "WHERE headerId = ?;";
+
+    results = await pool.query(sql, headerId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting header");
+    throw Error(err);
+  }
+
+}
+exports.deleteHeader = deleteHeader;
