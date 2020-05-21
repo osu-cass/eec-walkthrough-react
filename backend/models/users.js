@@ -160,6 +160,11 @@ async function updateUser(userId, userName, password, firstName, lastName, email
     sql = sql.replace(/.$/, " WHERE userId = ?;");
     sqlArray.push(userId);
 
+    // make sure that we are updating at least one field
+    if (sqlArray.length <= 1) {
+      return {error: 2};
+    }
+
     // perform the update query
     results = await pool.query(sql, sqlArray);
 

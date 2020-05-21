@@ -238,7 +238,7 @@ async function createPage(pageType, name, title, description, imageUrl, userId) 
     return finalResults;
 
   } catch (err) {
-    console.log("Error creating page");
+    console.error("Error creating page");
     throw Error(err);
   }
 
@@ -282,3 +282,80 @@ async function deletePage(pageId) {
 
 }
 exports.deletePage = deletePage;
+
+
+// update a page
+async function updatePage(pageId, pageType, name, title, description, imageUrl, approved) {
+
+  try {
+
+    const sqlArray = [];
+
+    // make sure that the page exists
+    let sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ?;";
+    let results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // construct a sql query based on the fields given
+    sql = "UPDATE Pages SET ";
+
+    if (typeof pageType !== "undefined") {
+      sql += "pageType = ?, ";
+      sqlArray.push(pageType);
+    }
+
+    if (typeof name !== "undefined") {
+      sql += "name = ?, ";
+      sqlArray.push(name);
+    }
+
+    if (typeof title !== "undefined") {
+      sql += "title = ?, ";
+      sqlArray.push(title);
+    }
+
+    if (typeof description !== "undefined") {
+      sql += "description = ?, ";
+      sqlArray.push(description);
+    }
+
+    if (typeof imageUrl !== "undefined") {
+      sql += "imageUrl = ?, ";
+      sqlArray.push(imageUrl);
+    }
+
+    if (typeof approved !== "undefined") {
+      sql += "approved = ?,";
+      sqlArray.push(approved);
+    }
+
+    // add the last line of the SQL query
+    sql = sql.replace(/.$/, " WHERE pageId = ?;");
+    sqlArray.push(pageId);
+
+    // make sure that we are updating at least one field
+    if (sqlArray.length <= 1) {
+      return {error: 2};
+    }
+
+    // perform the update query
+    results = await pool.query(sql, sqlArray);
+
+    const finalResults = {
+      changedRows: results[0].changedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error updating page");
+    throw Error(err);
+  }
+
+}
+exports.updatePage = updatePage;

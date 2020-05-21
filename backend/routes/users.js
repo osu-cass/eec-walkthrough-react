@@ -170,6 +170,8 @@ app.patch("/:userId", patchUserVal.validation, async (req, res) => {
 
       if (results.error === 1) {
         res.status(404).send({error: "User not found."});
+      } else if (results.error === 2) {
+        res.status(422).send({error: "Request doesn't include any fields to update."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

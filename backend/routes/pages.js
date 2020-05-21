@@ -6,14 +6,16 @@ const app = express();
 const {validationResult} = require("express-validator");
 const {
   postPageVal,
-  getPageVal
+  getPageVal,
+  patchPageVal
 } = require("../services/validation/requestValidation");
 const {
   getPage,
   getPages,
   getFullPage,
   createPage,
-  deletePage
+  deletePage,
+  updatePage
 } = require("../models/pages");
 
 
@@ -171,6 +173,64 @@ app.delete("/:pageId", getPageVal.validation, async (req, res) => {
 
       if (results.error === 1) {
         res.status(404).send({error: "Page not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// update a page
+app.patch("/:pageId", patchPageVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update a page");
+
+    const pageId = req.params.pageId;
+    const pageType = req.body.pageType;
+    const name = req.body.name;
+    const title = req.body.title;
+    const description = req.body.description;
+    const imageUrl = req.body.imageUrl;
+    const approved = req.body.approved;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    const newErrors = [];
+    const inputArray = [pageId, pageType, name, title, description, imageUrl, approved];
+    const inputStringArray = ["pageId", "pageType", "name", "title", "description", "imageUrl", "approved"];
+    for (let i = 0; i < inputArray.length; i++) {
+      if (typeof inputArray[i] !== "undefined") {
+        for (let j = 0; j < errors.array().length; j++) {
+          if (errors.array()[j].param === inputStringArray[i]) {
+            newErrors.push(errors.array()[j]);
+          }
+        }
+      }
+    }
+    if (newErrors.length) {
+      return res.status(422).json({errors: newErrors});
+    }
+
+    // update a page
+    const results = await updatePage(pageId, pageType, name, title, description, imageUrl, approved);
+
+    if (results.changedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Page not found."});
+      } else if (results.error === 2) {
+        res.status(422).send({error: "Request doesn't include any fields to update."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
