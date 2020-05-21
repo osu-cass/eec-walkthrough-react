@@ -230,6 +230,8 @@ app.patch("/:pageId", patchPageVal.validation, async (req, res) => {
       if (results.error === 1) {
         res.status(404).send({error: "Page not found."});
       } else if (results.error === 2) {
+        res.status(403).send({error: "Page name and type combination already exists."});
+      } else if (results.error === 3) {
         res.status(422).send({error: "Request doesn't include any fields to update."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});

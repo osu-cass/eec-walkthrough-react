@@ -124,3 +124,111 @@ async function deleteCard(cardId) {
 
 }
 exports.deleteCard = deleteCard;
+
+
+// update a card
+async function updateCard(cardId, headerId, title, approved) {
+
+  try {
+
+    const sqlArray = [];
+
+    // make sure that the card exists
+    let sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE cardId = ?;";
+    let results = await pool.query(sql, cardId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // construct a sql query based on the fields given
+    sql = "UPDATE Cards SET ";
+
+    if (typeof headerId !== "undefined") {
+
+      // confirm that the parent exists
+      const checkSql = "SELECT * " +
+      "FROM Headers " +
+      "WHERE headerId = ?;";
+
+      results = await pool.query(checkSql, headerId);
+
+      if (!results[0].length) {
+        return {error: 2};
+      }
+
+      sql += "headerId = ?,";
+      sqlArray.push(headerId);
+
+    }
+
+    if (typeof title !== "undefined") {
+      sql += "title = ?,";
+      sqlArray.push(title);
+    }
+
+    if (typeof approved !== "undefined") {
+      sql += "approved = ?,";
+      sqlArray.push(approved);
+    }
+
+    // add the last line of the SQL query
+    sql = sql.replace(/.$/, " WHERE cardId = ?;");
+    sqlArray.push(cardId);
+
+    // confirm that the parent doesn't already
+    // have a child with the same title
+    if (typeof headerId !== "undefined" || typeof title !== "undefined") {
+
+      // check if we are using a new or old parent Id
+      if (typeof headerId === "undefined") {
+        const checkSql = "SELECT headerId " +
+        "FROM Cards " +
+        "WHERE cardId = ?;";
+        results = await pool.query(checkSql, cardId);
+        headerId = results[0][0].headerId;
+      }
+
+      // check if we are using a new or old title
+      if (typeof title === "undefined") {
+        const checkSql = "SELECT title " +
+        "FROM Cards " +
+        "WHERE cardId = ?;";
+        results = await pool.query(checkSql, cardId);
+        title = results[0][0].title;
+      }
+
+      const checkSql = "SELECT * " +
+      "FROM Cards " +
+      "WHERE headerId = ? " +
+      "AND title = ?;";
+      results = await pool.query(checkSql, [headerId, title]);
+
+      if (results[0].length) {
+        return {error: 3};
+      }
+    }
+
+    // make sure that we are updating at least one field
+    if (sqlArray.length <= 1) {
+      return {error: 4};
+    }
+
+    // perform the update query
+    results = await pool.query(sql, sqlArray);
+
+    const finalResults = {
+      changedRows: results[0].changedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error updating card");
+    throw Error(err);
+  }
+
+}
+exports.updateCard = updateCard;

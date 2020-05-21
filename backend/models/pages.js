@@ -301,6 +301,17 @@ async function updatePage(pageId, pageType, name, title, description, imageUrl, 
       return {error: 1};
     }
 
+    // make sure that the page name and type combination doesn't already exist
+    sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageType = ? " +
+    "AND name = ?;";
+    results = await pool.query(sql, [pageType, name]);
+
+    if (results[0].length) {
+      return {error: 2};
+    }
+
     // construct a sql query based on the fields given
     sql = "UPDATE Pages SET ";
 
@@ -340,7 +351,7 @@ async function updatePage(pageId, pageType, name, title, description, imageUrl, 
 
     // make sure that we are updating at least one field
     if (sqlArray.length <= 1) {
-      return {error: 2};
+      return {error: 3};
     }
 
     // perform the update query

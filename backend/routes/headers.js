@@ -137,7 +137,7 @@ app.patch("/:headerId", patchHeaderVal.validation, async (req, res) => {
 
     console.log("Update a header");
 
-    const headerId = req.params.pageId;
+    const headerId = req.params.headerId;
     const pageId = req.body.pageId;
     const title = req.body.title;
     const approved = req.body.approved;
@@ -172,6 +172,8 @@ app.patch("/:headerId", patchHeaderVal.validation, async (req, res) => {
       } else if (results.error === 2) {
         res.status(403).send({error: "Selected parent page does not exist."});
       } else if (results.error === 3) {
+        res.status(403).send({error: "Selected parent page already has a header with the selected title."});
+      } else if (results.error === 4) {
         res.status(422).send({error: "Request doesn't include any fields to update."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});

@@ -127,27 +127,27 @@ async function updateUser(userId, userName, password, firstName, lastName, email
     sql = "UPDATE Users SET ";
 
     if (typeof userName !== "undefined") {
-      sql += "userName = ?, ";
+      sql += "userName = ?,";
       sqlArray.push(userName);
     }
 
     if (typeof password !== "undefined") {
-      sql += "password = ?, ";
+      sql += "password = ?,";
       sqlArray.push(password);
     }
 
     if (typeof firstName !== "undefined") {
-      sql += "firstName = ?, ";
+      sql += "firstName = ?,";
       sqlArray.push(firstName);
     }
 
     if (typeof lastName !== "undefined") {
-      sql += "lastName = ?, ";
+      sql += "lastName = ?,";
       sqlArray.push(lastName);
     }
 
     if (typeof email !== "undefined") {
-      sql += "email = ?, ";
+      sql += "email = ?,";
       sqlArray.push(email);
     }
 

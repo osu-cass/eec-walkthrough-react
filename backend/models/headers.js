@@ -148,7 +148,7 @@ async function updateHeader(headerId, pageId, title, approved) {
 
     if (typeof pageId !== "undefined") {
 
-      // confirm that the page exists
+      // confirm that the parent exists
       const checkSql = "SELECT * " +
       "FROM Pages " +
       "WHERE pageId = ?;";
@@ -159,18 +159,18 @@ async function updateHeader(headerId, pageId, title, approved) {
         return {error: 2};
       }
 
-      sql += "pageId = ?, ";
+      sql += "pageId = ?,";
       sqlArray.push(pageId);
 
     }
 
     if (typeof title !== "undefined") {
-      sql += "title = ?, ";
+      sql += "title = ?,";
       sqlArray.push(title);
     }
 
     if (typeof approved !== "undefined") {
-      sql += "approved = ?, ";
+      sql += "approved = ?,";
       sqlArray.push(approved);
     }
 
@@ -178,9 +178,43 @@ async function updateHeader(headerId, pageId, title, approved) {
     sql = sql.replace(/.$/, " WHERE headerId = ?;");
     sqlArray.push(headerId);
 
+    // confirm that the parent doesn't already
+    // have a child with the same title
+    if (typeof pageId !== "undefined" || typeof title !== "undefined") {
+
+      // check if we are using a new or old parent Id
+      if (typeof pageId === "undefined") {
+        const checkSql = "SELECT pageId " +
+        "FROM Headers " +
+        "WHERE headerId = ?;";
+        results = await pool.query(checkSql, headerId);
+        pageId = results[0][0].pageId;
+      }
+
+      // check if we are using a new or old title
+      if (typeof title === "undefined") {
+        const checkSql = "SELECT title " +
+        "FROM Headers " +
+        "WHERE headerId = ?;";
+        results = await pool.query(checkSql, headerId);
+        title = results[0][0].title;
+      }
+
+      const checkSql = "SELECT * " +
+      "FROM Headers " +
+      "WHERE pageId = ? " +
+      "AND title = ?;";
+      results = await pool.query(checkSql, [pageId, title]);
+
+      if (results[0].length) {
+        return {error: 3};
+      }
+    }
+
+
     // make sure that we are updating at least one field
     if (sqlArray.length <= 1) {
-      return {error: 3};
+      return {error: 4};
     }
 
     // perform the update query
