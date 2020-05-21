@@ -151,20 +151,8 @@ app.patch("/:itemId", patchItemVal.validation, async (req, res) => {
 
     // confirm that the request is valid
     const errors = validationResult(req);
-    const newErrors = [];
-    const inputArray = [itemId, cardId, parentId, iconType, contentText, contentUrl, contentLabel, approved];
-    const inputStringArray = ["itemId", "cardId", "parentId", "iconType", "contentText", "contentUrl", "contentLabel", "approved"];
-    for (let i = 0; i < inputArray.length; i++) {
-      if (typeof inputArray[i] !== "undefined") {
-        for (let j = 0; j < errors.array().length; j++) {
-          if (errors.array()[j].param === inputStringArray[i]) {
-            newErrors.push(errors.array()[j]);
-          }
-        }
-      }
-    }
-    if (newErrors.length) {
-      return res.status(422).json({errors: newErrors});
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
     }
 
     // update an item

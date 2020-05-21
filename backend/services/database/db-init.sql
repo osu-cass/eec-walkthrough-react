@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: classmysql.engr.oregonstate.edu:3306
--- Generation Time: May 19, 2020 at 02:27 AM
+-- Generation Time: May 21, 2020 at 03:27 PM
 -- Server version: 10.4.11-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -101,7 +101,7 @@ INSERT INTO `Industries_Subjects` (`industryId`, `subjectId`) VALUES
 CREATE TABLE `Items` (
   `itemId` int(10) UNSIGNED NOT NULL,
   `cardId` int(10) UNSIGNED NOT NULL,
-  `parentId` int(10) UNSIGNED NOT NULL,
+  `parentId` int(10) UNSIGNED DEFAULT NULL,
   `iconType` smallint(5) UNSIGNED NOT NULL,
   `contentText` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentUrl` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -116,14 +116,14 @@ CREATE TABLE `Items` (
 --
 
 INSERT INTO `Items` (`itemId`, `cardId`, `parentId`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `userId`, `created`, `approved`) VALUES
-(1, 1, 0, 5, 'Hot 1', '', '', 2, '2020-05-17 22:45:43', 1),
+(1, 1, NULL, 5, 'Hot 1', '', '', 2, '2020-05-21 22:25:56', 1),
 (2, 1, 1, 5, 'Hot 2', '', '', 2, '2020-05-17 22:46:12', 1),
 (3, 1, 2, 5, 'Hot 3', '', '', 2, '2020-05-17 22:47:24', 1),
 (4, 1, 3, 5, 'Hot 4', '', '', 2, '2020-05-17 22:47:52', 1),
 (5, 1, 3, 5, 'Hot 4 again', '', '', 1, '2020-05-17 22:48:12', 1),
-(6, 2, 0, 6, 'electric', '', '', 1, '2020-05-17 22:50:27', 1),
-(7, 3, 0, 20, '', 'https://i.imgur.com/V0dkW5l.png', 'Screw compressor power vs output for various control strategies', 1, '2020-05-17 22:54:48', 1),
-(8, 3, 0, 20, '', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg/1024px-Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg', 'Technical Illustration of a two-stage air compressor', 2, '2020-05-17 22:54:48', 1);
+(6, 2, NULL, 6, 'electric', '', '', 1, '2020-05-21 22:25:56', 1),
+(7, 3, NULL, 20, '', 'https://i.imgur.com/V0dkW5l.png', 'Screw compressor power vs output for various control strategies', 1, '2020-05-21 22:25:56', 1),
+(8, 3, NULL, 20, '', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg/1024px-Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg', 'Technical Illustration of a two-stage air compressor', 2, '2020-05-21 22:25:56', 1);
 
 -- --------------------------------------------------------
 
@@ -175,7 +175,7 @@ CREATE TABLE `Users` (
 --
 
 INSERT INTO `Users` (`userId`, `userName`, `password`, `firstName`, `lastName`, `email`, `role`) VALUES
-(1, 'John1234', 'XozpE-34__woqpZX', 'John', 'Doe', 'doejohn@oregonstate.edu', 1),
+(1, 'John1234', 'XozpE-34__woqpZX', 'John', 'Doe', 'doejohn@oregonstate.edu', 2),
 (2, 'Jane5678', 'iopwerZowPo!', 'Jane', 'Doe', 'doejane@oregonstate.edu', 3);
 
 --
@@ -211,7 +211,8 @@ ALTER TABLE `Industries_Subjects`
 ALTER TABLE `Items`
   ADD PRIMARY KEY (`itemId`),
   ADD KEY `card_fk` (`cardId`),
-  ADD KEY `user_item_fk` (`userId`);
+  ADD KEY `user_item_fk` (`userId`),
+  ADD KEY `parentId_fk` (`parentId`);
 
 --
 -- Indexes for table `Pages`
@@ -237,31 +238,31 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
@@ -293,6 +294,7 @@ ALTER TABLE `Industries_Subjects`
 --
 ALTER TABLE `Items`
   ADD CONSTRAINT `card_fk` FOREIGN KEY (`cardId`) REFERENCES `Cards` (`cardId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `parentId_fk` FOREIGN KEY (`parentId`) REFERENCES `Items` (`itemId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_item_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
 
 --

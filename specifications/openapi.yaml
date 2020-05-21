@@ -796,10 +796,10 @@ components:
             - $ref: '#/components/schemas/Id'
         parentId:
           allOf:
-            - description: The ID of the parent item that this item belongs to. The child item of a parent is indented relative to the parent's level of indentation. Defaults to 0 if there is no parent item.
+            - description: The ID of the parent item that this item belongs to. The child item of a parent is indented relative to the parent's level of indentation. Defaults to NULL if there is no parent item.
               type: integer
               format: int32
-              minimum: 0
+              minimum: 1
               maximum: 4294967295
               example: 15
         iconType:
@@ -1333,7 +1333,7 @@ components:
             required:
               - Id
             properties:
-              rowsDeleted:
+              affectedRows:
                 type: integer
                 example: 1
 

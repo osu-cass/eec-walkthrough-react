@@ -151,7 +151,8 @@ exports.getItemVal = getItemVal;
 const postItemVal = Object.freeze({
   validation: [
     check("cardId").isInt({min: 1, max: 4294967295}),
-    check("parentId").isInt({min: 0, max: 4294967295}),
+    check("parentId").optional({nullable: true})
+      .isInt({min: 1, max: 4294967295}),
     check("iconType").isInt({min: 1, max: 65535}),
     check("contentText").isLength({min: 0, max: 1000}),
     check("contentUrl").isLength({min: 0, max: 1000}),
@@ -164,14 +165,22 @@ exports.postItemVal = postItemVal;
 // validation checks for patch item
 const patchItemVal = Object.freeze({
   validation: [
-    check("itemId").isInt({min: 1, max: 4294967295}),
-    check("cardId").isInt({min: 1, max: 4294967295}),
-    check("parentId").isInt({min: 0, max: 4294967295}),
-    check("iconType").isInt({min: 1, max: 65535}),
-    check("contentText").isLength({min: 0, max: 1000}),
-    check("contentUrl").isLength({min: 0, max: 1000}),
-    check("contentLabel").isLength({min: 0, max: 1000}),
-    check("approved").isInt({min: 0, max: 1})
+    check("itemId").optional()
+      .isInt({min: 1, max: 4294967295}),
+    check("cardId").optional()
+      .isInt({min: 1, max: 4294967295}),
+    check("parentId").optional({nullable: true})
+      .isInt({min: 0, max: 4294967295}),
+    check("iconType").optional()
+      .isInt({min: 1, max: 65535}),
+    check("contentText").optional()
+      .isLength({min: 0, max: 1000}),
+    check("contentUrl").optional()
+      .isLength({min: 0, max: 1000}),
+    check("contentLabel").optional()
+      .isLength({min: 0, max: 1000}),
+    check("approved").optional()
+      .isInt({min: 0, max: 1})
   ]
 });
 exports.patchItemVal = patchItemVal;

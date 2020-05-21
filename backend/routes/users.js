@@ -144,20 +144,8 @@ app.patch("/:userId", patchUserVal.validation, async (req, res) => {
 
     // confirm that the request is valid
     const errors = validationResult(req);
-    const newErrors = [];
-    const inputArray = [userId, userName, password, firstName, lastName, email, role];
-    const inputStringArray = ["userId", "userName", "password", "firstName", "lastName", "email", "role"];
-    for (let i = 0; i < inputArray.length; i++) {
-      if (typeof inputArray[i] !== "undefined") {
-        for (let j = 0; j < errors.array().length; j++) {
-          if (errors.array()[j].param === inputStringArray[i]) {
-            newErrors.push(errors.array()[j]);
-          }
-        }
-      }
-    }
-    if (newErrors.length) {
-      return res.status(422).json({errors: newErrors});
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
     }
 
     // update a user
