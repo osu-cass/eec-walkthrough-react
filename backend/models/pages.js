@@ -244,3 +244,41 @@ async function createPage(pageType, name, title, description, imageUrl, userId) 
 
 }
 exports.createPage = createPage;
+
+
+// delete the specific page
+async function deletePage(pageId) {
+
+  try {
+
+    // check to see if the page exists
+    let sql = "SELECT * " +
+      "FROM Pages " +
+      "WHERE pageId = ?;";
+
+    let results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // delete the page
+    sql = "DELETE " +
+      "FROM Pages " +
+      "WHERE pageId = ?;";
+
+    results = await pool.query(sql, pageId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting page");
+    throw Error(err);
+  }
+
+}
+exports.deletePage = deletePage;
