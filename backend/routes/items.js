@@ -6,12 +6,14 @@ const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
   postItemVal,
-  getItemVal
+  getItemVal,
+  patchItemVal
 } = require("../services/validation/requestValidation");
 const {
   getItem,
   createItem,
-  deleteItem
+  deleteItem,
+  updateItem
 } = require("../models/items");
 
 
@@ -77,9 +79,9 @@ app.post("/", postItemVal.validation, async (req, res) => {
       if (results.error === 1) {
         res.status(403).send({error: "Unauthorized user attempting to create item."});
       } else if (results.error === 2) {
-        res.status(403).send({error: "Invalid parent card."});
+        res.status(403).send({error: "Parent card does not exists."});
       } else if (results.error === 3) {
-        res.status(403).send({error: "Invalid parent item."});
+        res.status(403).send({error: "Parent item does not exist."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -129,5 +131,69 @@ app.delete("/:itemId", getItemVal.validation, async (req, res) => {
   }
 
 });
+
+
+// update an item
+app.patch("/:itemId", patchItemVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update an item");
+
+    const itemId = req.params.itemId;
+    const cardId = req.body.cardId;
+    const parentId = req.body.parentId;
+    const iconType = req.body.iconType;
+    const contentText = req.body.contentText;
+    const contentUrl = req.body.contentUrl;
+    const contentLabel = req.body.contentLabel;
+    const approved = req.body.approved;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    const newErrors = [];
+    const inputArray = [itemId, cardId, parentId, iconType, contentText, contentUrl, contentLabel, approved];
+    const inputStringArray = ["itemId", "cardId", "parentId", "iconType", "contentText", "contentUrl", "contentLabel", "approved"];
+    for (let i = 0; i < inputArray.length; i++) {
+      if (typeof inputArray[i] !== "undefined") {
+        for (let j = 0; j < errors.array().length; j++) {
+          if (errors.array()[j].param === inputStringArray[i]) {
+            newErrors.push(errors.array()[j]);
+          }
+        }
+      }
+    }
+    if (newErrors.length) {
+      return res.status(422).json({errors: newErrors});
+    }
+
+    // update an item
+    const results = await updateItem(itemId, cardId, parentId, iconType, contentText, contentUrl, contentLabel, approved);
+
+    if (results.changedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Item not found."});
+      } else if (results.error === 2) {
+        res.status(403).send({error: "Selected parent card does not exist."});
+      } else if (results.error === 3) {
+        res.status(403).send({error: "Selected parent item does not exist."});
+      } else if (results.error === 4) {
+        res.status(422).send({error: "Request doesn't include any fields to update."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
 
 module.exports = app;

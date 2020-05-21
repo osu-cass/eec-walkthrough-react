@@ -78,7 +78,7 @@ app.post("/", postHeaderVal.validation, async (req, res) => {
       } else if (results.error === 2) {
         res.status(403).send({error: "Header already exists."});
       } else if (results.error === 3) {
-        res.status(403).send({error: "Invalid parent page."});
+        res.status(403).send({error: "Parent page does not exist."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

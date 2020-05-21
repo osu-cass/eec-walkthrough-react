@@ -77,7 +77,7 @@ app.post("/", postCardVal.validation, async (req, res) => {
       } else if (results.error === 2) {
         res.status(403).send({error: "Card already exists."});
       } else if (results.error === 3) {
-        res.status(403).send({error: "Invalid parent header."});
+        res.status(403).send({error: "Parent header does not exist."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

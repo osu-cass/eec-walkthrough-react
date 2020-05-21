@@ -127,3 +127,113 @@ async function deleteItem(itemId) {
 
 }
 exports.deleteItem = deleteItem;
+
+
+// update an item
+async function updateItem(itemId, cardId, parentId, iconType, contentText, contentUrl, contentLabel, approved) {
+
+  try {
+
+    const sqlArray = [];
+
+    // make sure that the item exists
+    let sql = "SELECT * " +
+    "FROM Items " +
+    "WHERE itemId = ?;";
+    let results = await pool.query(sql, itemId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // construct a sql query based on the fields given
+    sql = "UPDATE Items SET ";
+
+    if (typeof cardId !== "undefined") {
+
+      // confirm that the parent card exists
+      const checkSql = "SELECT * " +
+      "FROM Cards " +
+      "WHERE cardId = ?;";
+
+      results = await pool.query(checkSql, cardId);
+
+      if (!results[0].length) {
+        return {error: 2};
+      }
+
+      sql += "cardId = ?,";
+      sqlArray.push(cardId);
+
+    }
+
+    if (typeof parentId !== "undefined") {
+
+      // confirm that the parent item exists
+      if (parentId) {
+        const checkSql = "SELECT * " +
+        "FROM Items " +
+        "WHERE itemId = ?;";
+
+        results = await pool.query(checkSql, parentId);
+
+        if (!results[0].length) {
+          return {error: 3};
+        }
+      }
+
+      sql += "parentId = ?,";
+      sqlArray.push(parentId);
+
+    }
+
+    if (typeof iconType !== "undefined") {
+      sql += "iconType = ?,";
+      sqlArray.push(iconType);
+    }
+
+    if (typeof contentText !== "undefined") {
+      sql += "contentText = ?,";
+      sqlArray.push(contentText);
+    }
+
+    if (typeof contentUrl !== "undefined") {
+      sql += "contentUrl = ?,";
+      sqlArray.push(contentUrl);
+    }
+
+    if (typeof contentLabel !== "undefined") {
+      sql += "contentLabel = ?,";
+      sqlArray.push(contentLabel);
+    }
+
+    if (typeof approved !== "undefined") {
+      sql += "approved = ?,";
+      sqlArray.push(approved);
+    }
+
+    // add the last line of the SQL query
+    sql = sql.replace(/.$/, " WHERE itemId = ?;");
+    sqlArray.push(itemId);
+
+    // make sure that we are updating at least one field
+    if (sqlArray.length <= 1) {
+      return {error: 4};
+    }
+
+    // perform the update query
+    results = await pool.query(sql, sqlArray);
+
+    const finalResults = {
+      changedRows: results[0].changedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error updating item");
+    throw Error(err);
+  }
+
+}
+exports.updateItem = updateItem;
