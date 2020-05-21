@@ -86,3 +86,41 @@ async function createCard(headerId, title, userId) {
 
 }
 exports.createCard = createCard;
+
+
+// delete a card
+async function deleteCard(cardId) {
+
+  try {
+
+    // check to see if the card exists
+    let sql = "SELECT * " +
+      "FROM Cards " +
+      "WHERE cardId = ?;";
+
+    let results = await pool.query(sql, cardId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // delete the card
+    sql = "DELETE " +
+      "FROM Cards " +
+      "WHERE cardId = ?;";
+
+    results = await pool.query(sql, cardId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting card");
+    throw Error(err);
+  }
+
+}
+exports.deleteCard = deleteCard;

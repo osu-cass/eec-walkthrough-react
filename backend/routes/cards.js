@@ -10,7 +10,8 @@ const {
 } = require("../services/validation/requestValidation");
 const {
   getCard,
-  createCard
+  createCard,
+  deleteCard
 } = require("../models/cards");
 
 
@@ -75,6 +76,43 @@ app.post("/", postCardVal.validation, async (req, res) => {
         res.status(403).send({error: "Card already exists."});
       } else if (results.error === 3) {
         res.status(403).send({error: "Invalid parent header."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete a card
+app.delete("/:cardId", getCardVal.validation, async (req, res) => {
+
+  try {
+
+    const cardId = req.params.cardId;
+    console.log("Delete card", cardId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // delete the card data
+    const results = await deleteCard(cardId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Card not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
