@@ -4,7 +4,10 @@
 const express = require("express");
 const app = express.Router();
 const {validationResult} = require("express-validator");
-const {postItem} = require("../services/validation/requestValidation");
+const {
+  postItemVal,
+  getItemVal
+} = require("../services/validation/requestValidation");
 const {
   getItem,
   createItem
@@ -12,12 +15,18 @@ const {
 
 
 // get information about a single item
-app.get("/:itemId", async (req, res) => {
+app.get("/:itemId", getItemVal.validation, async (req, res) => {
 
   try {
 
     const itemId = req.params.itemId;
     console.log("Get item", itemId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
 
     // get item data
     const results = await getItem(itemId);
@@ -37,13 +46,13 @@ app.get("/:itemId", async (req, res) => {
 
 
 // create an item
-app.post("/", postItem.validation, async (req, res) => {
+app.post("/", postItemVal.validation, async (req, res) => {
 
   try {
 
     console.log("Create a new item");
 
-    // confirm that the request body has a valid item
+    // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({errors: errors.array()});

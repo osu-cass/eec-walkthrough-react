@@ -3,8 +3,25 @@
 
 const {check} = require("express-validator");
 
+// validation checks for get user
+const getUserVal = Object.freeze({
+  validation: [
+    check("userId").isInt({min: 1, max: 4294967295}),
+  ]
+});
+exports.getUserVal = getUserVal;
+
+// validation checks for login user
+const loginUserVal = Object.freeze({
+  validation: [
+    check("userName").isLength({min: 1, max: 50}),
+    check("password").isLength({min: 8, max: 50})
+  ]
+});
+exports.loginUserVal = loginUserVal;
+
 // validation checks for post user
-const postUser = Object.freeze({
+const postUserVal = Object.freeze({
   validation: [
     check("userName").isLength({min: 1, max: 50}),
     check("password").isLength({min: 8, max: 50}),
@@ -13,10 +30,10 @@ const postUser = Object.freeze({
     check("email").isEmail()
   ]
 });
-exports.postUser = postUser;
+exports.postUserVal = postUserVal;
 
 // validation checks for patch user
-const patchUser = Object.freeze({
+const patchUserVal = Object.freeze({
   validation: [
     check("userId").isInt({min: 1, max: 4294967295}),
     check("userName").isLength({min: 1, max: 50}),
@@ -27,10 +44,18 @@ const patchUser = Object.freeze({
     check("role").isInt({min: 1, max: 4})
   ]
 });
-exports.patchUser = patchUser;
+exports.patchUserVal = patchUserVal;
+
+// validation checks for get page
+const getPageVal = Object.freeze({
+  validation: [
+    check("pageId").isInt({min: 1, max: 4294967295}),
+  ]
+});
+exports.getPageVal = getPageVal;
 
 // validation checks for post page
-const postPage = Object.freeze({
+const postPageVal = Object.freeze({
   validation: [
     check("pageType").isInt({min: 0, max: 1}),
     check("name").isLength({min: 1, max: 100}),
@@ -40,30 +65,54 @@ const postPage = Object.freeze({
     check("userId").isInt({min: 1, max: 4294967295})
   ]
 });
-exports.postPage = postPage;
+exports.postPageVal = postPageVal;
+
+// validation checks for get header
+const getHeaderVal = Object.freeze({
+  validation: [
+    check("headerId").isInt({min: 1, max: 4294967295}),
+  ]
+});
+exports.getHeaderVal = getHeaderVal;
 
 // validation checks for post header
-const postHeader = Object.freeze({
+const postHeaderVal = Object.freeze({
   validation: [
     check("pageId").isInt({min: 1, max: 4294967295}),
     check("title").isLength({min: 1, max: 1000}),
     check("userId").isInt({min: 1, max: 4294967295})
   ]
 });
-exports.postHeader = postHeader;
+exports.postHeaderVal = postHeaderVal;
+
+// validation checks for get card
+const getCardVal = Object.freeze({
+  validation: [
+    check("cardId").isInt({min: 1, max: 4294967295}),
+  ]
+});
+exports.getCardVal = getCardVal;
 
 // validation checks for post card
-const postCard = Object.freeze({
+const postCardVal = Object.freeze({
   validation: [
     check("headerId").isInt({min: 1, max: 4294967295}),
     check("title").isLength({min: 1, max: 1000}),
     check("userId").isInt({min: 1, max: 4294967295})
   ]
 });
-exports.postCard = postCard;
+exports.postCardVal = postCardVal;
+
+// validation checks for get item
+const getItemVal = Object.freeze({
+  validation: [
+    check("itemId").isInt({min: 1, max: 4294967295}),
+  ]
+});
+exports.getItemVal = getItemVal;
 
 // validation checks for post item
-const postItem = Object.freeze({
+const postItemVal = Object.freeze({
   validation: [
     check("cardId").isInt({min: 1, max: 4294967295}),
     check("parentId").isInt({min: 0, max: 4294967295}),
@@ -74,4 +123,4 @@ const postItem = Object.freeze({
     check("userId").isInt({min: 1, max: 4294967295})
   ]
 });
-exports.postItem = postItem;
+exports.postItemVal = postItemVal;

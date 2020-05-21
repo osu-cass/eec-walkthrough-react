@@ -2,9 +2,12 @@
 // Description: handles routing for pages
 
 const express = require("express");
-const {validationResult} = require("express-validator");
-const {postPage} = require("../services/validation/requestValidation");
 const app = express();
+const {validationResult} = require("express-validator");
+const {
+  postPageVal,
+  getPageVal
+} = require("../services/validation/requestValidation");
 const {
   getPage,
   getPages,
@@ -38,12 +41,18 @@ app.get("/all", async (req, res) => {
 
 
 // get information about a single page
-app.get("/:pageId", async (req, res) => {
+app.get("/:pageId", getPageVal.validation, async (req, res) => {
 
   try {
 
     const pageId = req.params.pageId;
     console.log("Get page", pageId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
 
     // get page data
     const results = await getPage(pageId);
@@ -63,12 +72,18 @@ app.get("/:pageId", async (req, res) => {
 
 
 // get all of the page info, headers, cards, and items for a single page
-app.get("/:pageId/all", async (req, res) => {
+app.get("/:pageId/all", getPageVal.validation, async (req, res) => {
 
   try {
 
     const pageId = req.params.pageId;
     console.log("Get all data related to page", pageId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
 
     // get complete page data
     const results = await getFullPage(pageId);
@@ -88,13 +103,13 @@ app.get("/:pageId/all", async (req, res) => {
 
 
 // create a page
-app.post("/", postPage.validation, async (req, res) => {
+app.post("/", postPageVal.validation, async (req, res) => {
 
   try {
 
     console.log("Create a new page");
 
-    // confirm that the request body has a valid page
+    // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({errors: errors.array()});

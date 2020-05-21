@@ -2,9 +2,12 @@
 // Description: handles routing for cards
 
 const express = require("express");
-const {validationResult} = require("express-validator");
-const {postCard} = require("../services/validation/requestValidation");
 const app = express.Router();
+const {validationResult} = require("express-validator");
+const {
+  postCardVal,
+  getCardVal
+} = require("../services/validation/requestValidation");
 const {
   getCard,
   createCard
@@ -12,12 +15,18 @@ const {
 
 
 // get information about a single card
-app.get("/:cardId", async (req, res) => {
+app.get("/:cardId", getCardVal.validation, async (req, res) => {
 
   try {
 
     const cardId = req.params.cardId;
     console.log("Get card", cardId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
 
     // get card data
     const results = await getCard(cardId);
@@ -37,13 +46,13 @@ app.get("/:cardId", async (req, res) => {
 
 
 // create a card
-app.post("/", postCard.validation, async (req, res) => {
+app.post("/", postCardVal.validation, async (req, res) => {
 
   try {
 
     console.log("Create a new card");
 
-    // confirm that the request body has a valid card
+    // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({errors: errors.array()});

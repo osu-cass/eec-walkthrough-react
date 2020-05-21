@@ -2,9 +2,13 @@
 // Description: handles routing for headers
 
 const express = require("express");
-const {validationResult} = require("express-validator");
-const {postHeader} = require("../services/validation/requestValidation");
 const app = express.Router();
+const {validationResult} = require("express-validator");
+const {
+  postHeaderVal,
+  getHeaderVal
+} = require("../services/validation/requestValidation");
+
 const {
   getHeader,
   createHeader
@@ -12,12 +16,18 @@ const {
 
 
 // get information about a single header
-app.get("/:headerId", async (req, res) => {
+app.get("/:headerId", getHeaderVal.validation, async (req, res) => {
 
   try {
 
     const headerId = req.params.headerId;
     console.log("Get header", headerId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
 
     // get header data
     const results = await getHeader(headerId);
@@ -37,13 +47,13 @@ app.get("/:headerId", async (req, res) => {
 
 
 // create a header
-app.post("/", postHeader.validation, async (req, res) => {
+app.post("/", postHeaderVal.validation, async (req, res) => {
 
   try {
 
     console.log("Create a new header");
 
-    // confirm that the request body has a valid header
+    // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({errors: errors.array()});

@@ -5,8 +5,11 @@ const express = require("express");
 const app = express();
 const {validationResult} = require("express-validator");
 const {
-  postUser,
-  patchUser
+  postUserVal,
+  patchUserVal,
+  getUserVal,
+  loginUserVal
+
 } = require("../services/validation/requestValidation");
 
 const {
@@ -18,12 +21,18 @@ const {
 
 
 // get information about a single user
-app.get("/:userId", async (req, res) => {
+app.get("/:userId", getUserVal.validation, async (req, res) => {
 
   try {
 
     const userId = req.params.userId;
     console.log("Get user", userId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
 
     // get user data
     const results = await getUser(userId);
@@ -43,14 +52,19 @@ app.get("/:userId", async (req, res) => {
 
 
 // login a user
-app.get("/login/:userName/:password", async (req, res) => {
+app.get("/login/:userName/:password", loginUserVal.validation, async (req, res) => {
 
   try {
 
-    console.log("Check login for", userName);
-
     const userName = req.params.userName;
     const password = req.params.password;
+    console.log("Check login for", userName);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
 
     // get user data
     const results = await loginUser(userName, password);
@@ -70,13 +84,13 @@ app.get("/login/:userName/:password", async (req, res) => {
 
 
 // create a user
-app.post("/", postUser.validation, async (req, res) => {
+app.post("/", postUserVal.validation, async (req, res) => {
 
   try {
 
     console.log("Create a new user");
 
-    // confirm that the request body has a valid user
+    // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({errors: errors.array()});
@@ -114,7 +128,7 @@ app.post("/", postUser.validation, async (req, res) => {
 
 
 // update a user
-app.patch("/:userId", patchUser.validation, async (req, res) => {
+app.patch("/:userId", patchUserVal.validation, async (req, res) => {
 
   try {
 
