@@ -2,13 +2,18 @@
 // Description: handles routing for users
 
 const express = require("express");
-const {validationResult} = require("express-validator");
-const {postUser} = require("../services/validation/requestValidation");
 const app = express();
+const {validationResult} = require("express-validator");
+const {
+  postUser,
+  patchUser
+} = require("../services/validation/requestValidation");
+
 const {
   getUser,
   loginUser,
-  createUser
+  createUser,
+  updateUser
 } = require("../models/users");
 
 
@@ -42,9 +47,10 @@ app.get("/login/:userName/:password", async (req, res) => {
 
   try {
 
+    console.log("Check login for", userName);
+
     const userName = req.params.userName;
     const password = req.params.password;
-    console.log("Check login for", userName);
 
     // get user data
     const results = await loginUser(userName, password);
@@ -68,6 +74,8 @@ app.post("/", postUser.validation, async (req, res) => {
 
   try {
 
+    console.log("Create a new user");
+
     // confirm that the request body has a valid user
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -79,7 +87,6 @@ app.post("/", postUser.validation, async (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
-    console.log("Create a new user");
 
     // create a user
     const results = await createUser(userName, password, firstName, lastName, email);
@@ -92,6 +99,63 @@ app.post("/", postUser.validation, async (req, res) => {
         res.status(400).send({error: "A user with that username already exists."});
       } else if (results.error === 2) {
         res.status(400).send({error: "A user with that email already exists."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// update a user
+app.patch("/:userId", patchUser.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update a user");
+
+    const userId = req.params.userId;
+    const userName = req.body.userName;
+    const password = req.body.password;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
+    const role = req.body.role;
+
+    // confirm that the request body has a valid user
+    const errors = validationResult(req);
+    const newErrors = [];
+    const inputArray = [userId, userName, password, firstName, lastName, email, role];
+    const inputStringArray = ["userId", "userName", "password", "firstName", "lastName", "email", "role"];
+    for (let i = 0; i < inputArray.length; i++) {
+      if (typeof inputArray[i] !== "undefined") {
+        console.log("zzz current input:", inputArray[i]);
+        for (let j = 0; j < errors.array().length; j++) {
+          if (errors.array()[j].param === inputStringArray[i]) {
+            newErrors.push(errors.array()[j]);
+          }
+        }
+      }
+    }
+    if (newErrors.length) {
+      return res.status(422).json({errors: newErrors});
+    }
+
+    // update a user
+    const results = await updateUser(userId, userName, password, firstName, lastName, email, role);
+
+    if (results.changedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "User not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

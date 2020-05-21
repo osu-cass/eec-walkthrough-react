@@ -104,3 +104,75 @@ async function createUser(userName, password, firstName, lastName, email) {
 
 }
 exports.createUser = createUser;
+
+
+// update a user
+async function updateUser(userId, userName, password, firstName, lastName, email, role) {
+
+  try {
+
+    const sqlArray = [];
+
+    // make sure that the user exists
+    let sql = "SELECT * " +
+    "FROM Users " +
+    "WHERE userId = ?;";
+    let results = await pool.query(sql, userId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // construct a sql query based on the fields given
+    sql = "UPDATE Users SET ";
+
+    if (typeof userName !== "undefined") {
+      sql += "userName = ?, ";
+      sqlArray.push(userName);
+    }
+
+    if (typeof password !== "undefined") {
+      sql += "password = ?, ";
+      sqlArray.push(password);
+    }
+
+    if (typeof firstName !== "undefined") {
+      sql += "firstName = ?, ";
+      sqlArray.push(firstName);
+    }
+
+    if (typeof lastName !== "undefined") {
+      sql += "lastName = ?, ";
+      sqlArray.push(lastName);
+    }
+
+    if (typeof email !== "undefined") {
+      sql += "email = ?, ";
+      sqlArray.push(email);
+    }
+
+    if (typeof role !== "undefined") {
+      sql += "role = ?,";
+      sqlArray.push(role);
+    }
+
+    // add the last line of the SQL query
+    sql = sql.replace(/.$/, " WHERE userId = ?;");
+    sqlArray.push(userId);
+
+    // perform the update query
+    results = await pool.query(sql, sqlArray);
+
+    const finalResults = {
+      changedRows: results[0].changedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.log("Error updating user");
+    throw Error(err);
+  }
+
+}
+exports.updateUser = updateUser;

@@ -108,20 +108,40 @@ paths:
           $ref: '#/components/responses/500'
   
     patch:
-      summary: Update the user's role
+      summary: Update user info
       description: >
-        Updates the users role
-      operationId: updateUser
+        Updates the info about the user
+      operationId: patchUser
       tags:
         - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userName:
+                  example: User2020
+                password:
+                  example: aseoe23oexZw23!
+                firstName:
+                  example: John
+                lastName:
+                  example: Doe
+                email:
+                  example: 'doejohn@oregonstate.edu'
+                role:
+                  example: 1
       parameters:
         - $ref: '#/components/parameters/User_userId'
-        - $ref: '#/components/parameters/User_role'
       responses:
         '200':
-          $ref: '#/components/responses/User_Login_GET_200'
-        '401':
-          $ref: '#/components/responses/401'
+          $ref: '#/components/responses/PATCH_200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '422':
           $ref: '#/components/responses/422'
         '500':
@@ -274,9 +294,11 @@ paths:
         - $ref: '#/components/parameters/Page_pageId'
       responses:
         '200':
-          $ref: '#/components/responses/Page_GET_200'
+          $ref: '#/components/responses/PATCH_200'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '422':
           $ref: '#/components/responses/422'
         '500':
@@ -350,9 +372,11 @@ paths:
         - $ref: '#/components/parameters/Header_headerId'
       responses:
         '200':
-          $ref: '#/components/responses/Header_GET_200'
+          $ref: '#/components/responses/PATCH_200'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '422':
           $ref: '#/components/responses/422'
         '500':
@@ -426,9 +450,11 @@ paths:
         - $ref: '#/components/parameters/Card_cardId'
       responses:
         '200':
-          $ref: '#/components/responses/Card_GET_200'
+          $ref: '#/components/responses/PATCH_200'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '422':
           $ref: '#/components/responses/422'
         '500':
@@ -502,9 +528,11 @@ paths:
         - $ref: '#/components/parameters/Item_itemId'
       responses:
         '200':
-          $ref: '#/components/responses/Item_GET_200'
+          $ref: '#/components/responses/PATCH_200'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '422':
           $ref: '#/components/responses/422'
         '500':
@@ -586,7 +614,7 @@ components:
             4 is administrator
           type: integer
           format: int32
-          minimum: 0
+          minimum: 1
           maximum: 4
           example: 1
    
@@ -660,7 +688,7 @@ components:
             type: object
             example: {
               pageId: 5,
-              name: 10
+              name: Electricity
             }
       
     Header:
@@ -1124,6 +1152,15 @@ components:
                 example: 'doejohn@oregonstate.edu'
               role:
                 example: 1
+    
+    PATCH_200:
+      description: An object containing information about the changed rows
+      content:
+        application/json:
+          schema:
+            properties:
+              changedRows:
+                example: 3
 
     User_Login_GET_200:
       description: An object containing information about the user
@@ -1208,7 +1245,7 @@ components:
                     ]
                 }
               ]
-                }
+            }
 
 
     Page_GET_ALL_200:

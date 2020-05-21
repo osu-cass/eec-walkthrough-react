@@ -22,7 +22,7 @@ app.get("/all", async (req, res) => {
 
     // get a list of all pages and their related subjects/industries
     const results = await getPages();
-    console.log(results);
+
     if (results.pages.subjects.length === 0 && results.pages.industries.length === 0) {
       res.status(404).send({error: "No pages found."});
     } else {
@@ -92,6 +92,8 @@ app.post("/", postPage.validation, async (req, res) => {
 
   try {
 
+    console.log("Create a new page");
+
     // confirm that the request body has a valid page
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -104,7 +106,6 @@ app.post("/", postPage.validation, async (req, res) => {
     const description = req.body.description;
     const imageUrl = req.body.imageUrl;
     const userId = req.body.userId;
-    console.log("Create a new page");
 
     // create a page
     const results = await createPage(pageType, name, title, description, imageUrl, userId);

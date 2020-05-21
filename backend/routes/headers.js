@@ -41,6 +41,8 @@ app.post("/", postHeader.validation, async (req, res) => {
 
   try {
 
+    console.log("Create a new header");
+
     // confirm that the request body has a valid header
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -50,7 +52,6 @@ app.post("/", postHeader.validation, async (req, res) => {
     const pageId = req.body.pageId;
     const title = req.body.title;
     const userId = req.body.userId;
-    console.log("Create a new header");
 
     // create a header
     const results = await createHeader(pageId, title, userId);

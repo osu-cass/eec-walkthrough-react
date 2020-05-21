@@ -41,6 +41,8 @@ app.post("/", postItem.validation, async (req, res) => {
 
   try {
 
+    console.log("Create a new item");
+
     // confirm that the request body has a valid item
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -54,7 +56,6 @@ app.post("/", postItem.validation, async (req, res) => {
     const contentUrl = req.body.contentUrl;
     const contentLabel = req.body.contentLabel;
     const userId = req.body.userId;
-    console.log("Create a new item");
 
     // create an item
     const results = await createItem(cardId, parentId, iconType, contentText, contentUrl, contentLabel, userId);

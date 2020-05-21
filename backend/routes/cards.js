@@ -41,6 +41,8 @@ app.post("/", postCard.validation, async (req, res) => {
 
   try {
 
+    console.log("Create a new card");
+
     // confirm that the request body has a valid card
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -50,7 +52,6 @@ app.post("/", postCard.validation, async (req, res) => {
     const headerId = req.body.headerId;
     const title = req.body.title;
     const userId = req.body.userId;
-    console.log("Create a new card");
 
     // create a card
     const results = await createCard(headerId, title, userId);
