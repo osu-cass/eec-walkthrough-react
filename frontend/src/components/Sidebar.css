@@ -99,14 +99,13 @@ a:focus {
   padding: 10px;
 }
 
-#sidebar ul li a {
+#return {
   padding: 10px;
   font-size: 1.1em;
   display: block;
 }
 #sidebar ul li a:hover {
   color: #7386d5;
-  background: #fff;
 }
 
 #sidebar ul li.active > a,
