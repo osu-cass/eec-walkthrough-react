@@ -1,6 +1,5 @@
 import React from 'react'
 import Card from './Card'
-import ResourceCard from './ResourceCard'
 import SubjectCard from './SubjectCard'
 import './Subject.css'
 
@@ -24,7 +23,7 @@ class CardContainer extends React.Component {
                     id={this.props.id}
                     card={card.title}
                     items={card.items}
-                    // checkFilter={this.checkFilter(card.cardId)}
+                    checkFilter={this.checkFilter}
                     cardId={card.cardId}
                     used={used}
                 />
@@ -34,22 +33,19 @@ class CardContainer extends React.Component {
         return Cards
     }
 
-    // checkFilter(id) {
-    //     var i;
-    //     for (i = 0; i < this.props.hidden.length; i++) {
-    //         if (this.props.hidden[i].cardId === id) {
-    //             if (this.props.hidden[i].hidden === true) {
-    //                 return 'hide';
-    //             }
-    //         }
-    //     }
-    //     return 'active';
-    // }
+    checkFilter = (id) => {
+        var i;
+        for (i = 0; i < this.props.filter.length; i++) {
+            if (this.props.filter[i].iconType === id) {
+                return this.props.filter[i].hidden;
+            }
+        }
+        return false;
+    }
 
     render() {
         return this.state.cards.length ? ( //Render content when data loaded from backend
             <div className="tidbitContainer">
-                {console.log("LOADING")}
                 {this.generateCards()}
             </div>
         ) : <SubjectCard subjectName='None' />;
