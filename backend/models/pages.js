@@ -2,7 +2,6 @@
 // Description: Provides functions for working with page data.
 
 const {pool} = require("../services/database/mysqlPool");
-const {Icons} = require("../entities/icons");
 
 
 // return information about the specific page
@@ -159,17 +158,28 @@ async function getFullPage(pageId) {
     finalResults.headers = results[0];
     const headerCount = finalResults.headers.length;
 
-    // get all of the cards for each header
-    for (let i = 0; i < headerCount; i++) {
 
+    // get all of the cards for each header and icons used for each header
+    for (let i = 0; i < headerCount; i++) {
       const headerId = finalResults.headers[i].headerId;
 
-      const sql = "SELECT * " +
+      // get all icons used for each header
+      const sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
+      "FROM `Headers` " +
+      "LEFT JOIN Cards on Cards.headerId = Headers.headerId " +
+      "LEFT JOIN Items on Cards.cardId = Items.cardId " +
+      "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+      "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL;";
+
+      results = await pool.query(sql, headerId);
+      finalResults.headers[i].icons = results[0];
+
+      const sql2 = "SELECT * " +
       "FROM Cards " +
       "WHERE headerId = ? " +
       "ORDER BY orderIndex ASC, cardId ASC";
 
-      results = await pool.query(sql, headerId);
+      results = await pool.query(sql2, headerId);
       finalResults.headers[i].cards = results[0];
       const cardCount = finalResults.headers[i].cards.length;
 
@@ -178,21 +188,15 @@ async function getFullPage(pageId) {
 
         const cardId = finalResults.headers[i].cards[j].cardId;
 
-        const sql = "SELECT itemId, cardId, parentId, orderIndex, iconType, iconType AS typeName, " +
+        const sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, iconType, iconType AS typeName, " +
         "iconType AS typeKeyword, contentText, contentUrl, contentLabel, userId, " +
         "created, approved " +
         "FROM Items " +
+        "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
         "WHERE cardId = ? " +
         "ORDER BY orderIndex ASC, itemId ASC";
 
         results = await pool.query(sql, cardId);
-
-        // reference the icon entity for icon data for each item
-        const itemCount = results[0].length;
-        for (let k = 0; k < itemCount; k++) {
-          results[0][k].typeName = Icons.data[results[0][k].iconType][0];
-          results[0][k].typeKeyword = Icons.data[results[0][k].iconType][1];
-        }
 
         finalResults.headers[i].cards[j].items = results[0];
 

@@ -26,10 +26,10 @@ body {
 
 /* Cards/Categories */
 .hide {
+  z-index: 999;
   transform: scale(1, 0);
-  transition: transform 0.4s;
+  /*transition: transform 0.4s;*/
   position: absolute;
-  top: -100%;
 }
 
 .active {

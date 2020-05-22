@@ -21,7 +21,7 @@ const SidebarCollection = props => {
 						{props.collection.map((item) => {
 							return (
 								<Card.Body key={item.pageId} style={{ fontSize: "1rem" }}>
-									<NavLink to={`/${props.collectionLink}/${item.pageId}`}>
+									<NavLink to={`/${props.collectionLink}/${item.pageId}`} className="ml-3">
 										{item.name}
 									</NavLink>
 								</Card.Body>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Image from './Image'
 import './BulletPoint.css'
 import Col from 'react-bootstrap/Col';
@@ -22,14 +22,26 @@ function addColor(child) {
 		return 'text-child';
 }
 
+function filter(check) {
+	if (check)
+		return 'hide';
+	else return 'active';
+}
+
+
 const BulletPoint = props => {
 	return (
-		<div key={props.id} className={`mb-2 ${props.checkFilter}`}>
+		<div key={props.id} className={`mb-2 ${filter(props.hide)}`}>
 			<i className={`fas fa-${props.icon} ${addColor(props.child)} mr-2 ${styleText(props.icon)} `}></i>
 			<span className={styleText(props.icon) || isBold(props.bold)}>
 				{props.text}
 			</span>
-			{props.url ? <Image url={props.url} header={props.text} /> : ""}
+			{props.url ?
+				<Fragment>
+					{props.label}
+					<Image url={props.url} header={props.text} />
+				</Fragment>
+				: ""}
 			<div className='pl-5 mt-2'>{props.children}</div>
 		</div >
 	)

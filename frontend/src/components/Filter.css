@@ -1,5 +1,5 @@
 .fa-disabled {
-  opacity: 0.6;
+  opacity: 0.2;
   transition: opacity 0.25s ease-in-out;
   -moz-transition: opacity 0.25s ease-in-out;
   -webkit-transition: opacity 0.25s ease-in-out;

@@ -12,8 +12,8 @@ class Card extends React.Component {
 	}
 
 	getChilds(id) {
-		var results = this.state.items.reduce(function (result, item) { //get items whose parentid is in params
-			if (item.ParentID === id) {
+		var results = this.state.items.reduce(function (result, item) { //get items whose parentId is in params
+			if (item.parentId === id) {
 				result.push(item);
 			}
 			return result;
@@ -23,6 +23,8 @@ class Card extends React.Component {
 
 	recurseItems(item, icon, categoryid, used, isChild) {	//isChild = marks if it has any parent, for coloring
 		let childs = this.getChilds(item.itemId); //get all childs of this item
+		let hide = this.props.checkFilter(item.iconType);
+		console.log(hide);
 		if (!(used.includes(item.itemId))) {
 			used.push(item.itemId)															//push used
 			if (childs) {																							//if has child, recurse
@@ -31,10 +33,12 @@ class Card extends React.Component {
 						key={item.itemId}
 						id={item.itemId}
 						icon={item.typeName}
-						text={item.contentLabel}
+						text={item.contentText}
+						label={item.contentLabel}
 						child={isChild}
 						url={item.contentUrl}
 						checkFilter={this.props.checkFilter}
+						hide={hide}
 					>
 						{childs.map((child) => (this.recurseItems(child, icon, categoryid, used, true)))}
 					</BulletPoint>
@@ -45,9 +49,11 @@ class Card extends React.Component {
 					url={item.contentUrl}
 					id={item.itemId}
 					icon={item.typeName}
-					text={item.contentLabel}
+					text={item.contentText}
+					label={item.contentLabel}
 					child={isChild}
 					checkFilter={this.props.checkFilter}
+					hide={hide}
 				/> //if no childs, base case
 		}
 	}
