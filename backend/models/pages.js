@@ -2,6 +2,7 @@
 // Description: Provides functions for working with page data.
 
 const {pool} = require("../services/database/mysqlPool");
+const {Icons} = require("../entities/icons");
 
 
 // return information about the specific page
@@ -177,12 +178,19 @@ async function getFullPage(pageId) {
 
         const cardId = finalResults.headers[i].cards[j].cardId;
 
-        const sql = "SELECT * " +
+        const sql = "SELECT itemId, cardId, parentId, iconType, iconType AS typeName, " +
+        "iconType AS typeKeyword, contentText, contentUrl, contentLabel, userId, " +
+        "created, approved " +
         "FROM Items " +
         "WHERE cardId = ? " +
         "ORDER BY itemId ASC";
 
         results = await pool.query(sql, cardId);
+
+        // reference the icon entity for icon data
+        results[0][0].typeName = Icons.data[results[0][0].iconType][0];
+        results[0][0].typeKeyword = Icons.data[results[0][0].iconType][1];
+
         finalResults.headers[i].cards[j].items = results[0];
 
       }

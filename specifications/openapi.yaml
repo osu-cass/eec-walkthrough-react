@@ -813,6 +813,14 @@ components:
           minimum: 1
           maximum: 65535
           example: 5
+        typeName:
+          description: The name of the type of icon.
+          type: string
+          example: bolt
+        typeKeyword:
+          description: A description of the type of data the icon is meant to represent.
+          type: string
+          example: Electricity
         contentText:
           description: The main body of text of the item.
           type: string
@@ -1316,6 +1324,8 @@ components:
                                     cardId: 15,
                                     parentId: 15,
                                     iconType: 5,
+                                    typeName: bolt,
+                                    typeKeyword: Electricity,
                                     contentText: This guide focuses mainly on screw and reciprocating compressors. These are the most common...,
                                     contentUrl: 'https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf',
                                     contentLabel: Assessing Industrial Air Compressor,

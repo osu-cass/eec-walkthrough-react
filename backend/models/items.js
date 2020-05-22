@@ -2,6 +2,7 @@
 // Description: Provides functions for working with user data.
 
 const {pool} = require("../services/database/mysqlPool");
+const {Icons} = require("../entities/icons");
 
 
 // return information about the specific item
@@ -10,7 +11,9 @@ async function getItem(itemId) {
   try {
 
     // get the specified item
-    const sql = "SELECT * " +
+    const sql = "SELECT itemId, cardId, parentId, iconType, iconType AS typeName, " +
+      "iconType AS typeKeyword, contentText, contentUrl, contentLabel, userId, " +
+      "created, approved " +
       "FROM Items " +
       "WHERE itemId = ?;";
 
@@ -20,6 +23,12 @@ async function getItem(itemId) {
     if (!results[0].length) {
       return {itemId: 0};
     }
+
+    results[0][0];
+
+    // reference the icon entity for icon data
+    results[0][0].typeName = Icons.data[results[0][0].iconType][0];
+    results[0][0].typeKeyword = Icons.data[results[0][0].iconType][1];
 
     return results[0][0];
 
