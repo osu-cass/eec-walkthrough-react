@@ -106,13 +106,13 @@ app.post("/", postUserVal.validation, async (req, res) => {
     const results = await createUser(userName, password, firstName, lastName, email);
 
     if (results.insertId) {
-      res.status(200).send(results);
+      res.status(201).send(results);
     } else {
 
       if (results.error === 1) {
-        res.status(400).send({error: "A user with that username already exists."});
+        res.status(403).send({error: "A user with that username already exists."});
       } else if (results.error === 2) {
-        res.status(400).send({error: "A user with that email already exists."});
+        res.status(403).send({error: "A user with that email already exists."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

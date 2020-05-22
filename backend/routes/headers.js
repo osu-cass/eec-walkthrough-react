@@ -70,7 +70,7 @@ app.post("/", postHeaderVal.validation, async (req, res) => {
     const results = await createHeader(pageId, title, userId);
 
     if (results.insertId) {
-      res.status(200).send(results);
+      res.status(201).send(results);
     } else {
 
       if (results.error === 1) {

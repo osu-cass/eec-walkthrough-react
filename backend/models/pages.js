@@ -370,3 +370,122 @@ async function updatePage(pageId, pageType, name, title, description, imageUrl, 
 
 }
 exports.updatePage = updatePage;
+
+
+// add a subject to an industry
+async function addSubject(subjectId, industryId) {
+
+  try {
+
+    // make sure the subject exists
+    let sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ? " +
+    "AND pageType = 0;";
+    let results = await pool.query(sql, subjectId);
+
+    if (!results[0].length) {
+      return {error: 2};
+    }
+
+    // make sure the industry exists
+    sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ? " +
+    "AND pageType = 1;";
+    results = await pool.query(sql, industryId);
+
+    if (!results[0].length) {
+      return {error: 3};
+    }
+
+    // make sure the connection does not already exist
+    sql = "SELECT * " +
+    "FROM Industries_Subjects " +
+    "WHERE subjectId = ? " +
+    "AND industryId = ?;";
+    results = await pool.query(sql, [subjectId, industryId]);
+
+    if (results[0].length) {
+      return {error: 4};
+    }
+
+    // create the new connection
+    sql = "INSERT INTO Industries_Subjects (subjectId, industryId) " +
+    "VALUES (?, ?);";
+    results = await pool.query(sql, [subjectId, industryId]);
+
+    const finalResults = {
+      industryId: industryId,
+      subjectId: subjectId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error creating connection");
+    throw Error(err);
+  }
+
+}
+exports.addSubject = addSubject;
+
+
+// remove a subject from an industry
+async function deleteSubject(subjectId, industryId) {
+
+  try {
+
+    // make sure the subject exists
+    let sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ? " +
+    "AND pageType = 0;";
+    let results = await pool.query(sql, subjectId);
+
+    if (!results[0].length) {
+      return {error: 2};
+    }
+
+    // make sure the industry exists
+    sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ? " +
+    "AND pageType = 1;";
+    results = await pool.query(sql, industryId);
+
+    if (!results[0].length) {
+      return {error: 3};
+    }
+
+    // make sure the connection exists
+    sql = "SELECT * " +
+    "FROM Industries_Subjects " +
+    "WHERE subjectId = ? " +
+    "AND industryId = ?;";
+    results = await pool.query(sql, [subjectId, industryId]);
+
+    if (!results[0].length) {
+      return {error: 4};
+    }
+
+    // remove the connection
+    sql = "DELETE " +
+    "FROM Industries_Subjects " +
+    "WHERE subjectId = ? " +
+    "AND industryId = ?;";
+    results = await pool.query(sql, [subjectId, industryId]);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting connection");
+    throw Error(err);
+  }
+
+}
+exports.deleteSubject = deleteSubject;

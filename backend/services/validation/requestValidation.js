@@ -81,6 +81,15 @@ const patchPageVal = Object.freeze({
 });
 exports.patchPageVal = patchPageVal;
 
+// validation checks for industries/subjects
+const industrySubjectVal = Object.freeze({
+  validation: [
+    check("industryId").isInt({min: 1, max: 4294967295}),
+    check("subjectId").isInt({min: 1, max: 4294967295})
+  ]
+});
+exports.industrySubjectVal = industrySubjectVal;
+
 // validation checks for get header
 const getHeaderVal = Object.freeze({
   validation: [

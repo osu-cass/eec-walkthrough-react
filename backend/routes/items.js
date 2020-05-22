@@ -73,7 +73,7 @@ app.post("/", postItemVal.validation, async (req, res) => {
     const results = await createItem(cardId, parentId, iconType, contentText, contentUrl, contentLabel, userId);
 
     if (results.insertId) {
-      res.status(200).send(results);
+      res.status(201).send(results);
     } else {
 
       if (results.error === 1) {

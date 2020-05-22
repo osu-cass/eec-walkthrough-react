@@ -69,7 +69,7 @@ app.post("/", postCardVal.validation, async (req, res) => {
     const results = await createCard(headerId, title, userId);
 
     if (results.insertId) {
-      res.status(200).send(results);
+      res.status(201).send(results);
     } else {
 
       if (results.error === 1) {

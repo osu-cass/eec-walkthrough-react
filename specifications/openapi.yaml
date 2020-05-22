@@ -191,8 +191,10 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/Page_POST_MANY_201'
-        '400':
-          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '422':
           $ref: '#/components/responses/422'
         '500':
@@ -219,10 +221,12 @@ paths:
           required: true
           description: The ID of the subject page
       responses:
-        '201':
+        '200':
           $ref: '#/components/responses/DELETE_200'
-        '400':
-          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
 

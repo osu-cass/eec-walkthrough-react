@@ -7,7 +7,8 @@ const {validationResult} = require("express-validator");
 const {
   postPageVal,
   getPageVal,
-  patchPageVal
+  patchPageVal,
+  industrySubjectVal
 } = require("../services/validation/requestValidation");
 const {
   getPage,
@@ -15,7 +16,9 @@ const {
   getFullPage,
   createPage,
   deletePage,
-  updatePage
+  updatePage,
+  addSubject,
+  deleteSubject
 } = require("../models/pages");
 
 
@@ -129,7 +132,7 @@ app.post("/", postPageVal.validation, async (req, res) => {
     const results = await createPage(pageType, name, title, description, imageUrl, userId);
 
     if (results.insertId) {
-      res.status(200).send(results);
+      res.status(201).send(results);
     } else {
 
       if (results.error === 1) {
@@ -221,6 +224,94 @@ app.patch("/:pageId", patchPageVal.validation, async (req, res) => {
         res.status(403).send({error: "Page name and type combination already exists."});
       } else if (results.error === 3) {
         res.status(422).send({error: "Request doesn't include any fields to update."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// assign a subject to an industry
+app.post("/industries/:industryId/subjects/:subjectId", industrySubjectVal.validation, async (req, res) => {
+
+  try {
+
+    const industryId = req.params.industryId;
+    const subjectId = req.params.subjectId;
+    console.log("Add subject", subjectId, "to industry", industryId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // add the subject to the industry
+    const results = await addSubject(subjectId, industryId);
+
+    if (results.subjectId && results.industryId) {
+      res.status(201).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(403).send({error: "Unauthorized user attempting to add subject to industry."});
+      } else if (results.error === 2) {
+        res.status(404).send({error: "Subject page not found."});
+      } else if (results.error === 3) {
+        res.status(404).send({error: "Industry page not found."});
+      } else if (results.error === 4) {
+        res.status(403).send({error: "This subject is already part of this industry."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// remove a subject from an industry
+app.delete("/industries/:industryId/subjects/:subjectId", industrySubjectVal.validation, async (req, res) => {
+
+  try {
+
+    const industryId = req.params.industryId;
+    const subjectId = req.params.subjectId;
+    console.log("Remove subject", subjectId, "from industry", industryId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // remove the subject from the industry
+    const results = await deleteSubject(subjectId, industryId);
+
+    if (results.affectedRows) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(403).send({error: "Unauthorized user attempting to remove subject from industry."});
+      } else if (results.error === 2) {
+        res.status(404).send({error: "Subject page not found."});
+      } else if (results.error === 3) {
+        res.status(404).send({error: "Industry page not found."});
+      } else if (results.error === 4) {
+        res.status(404).send({error: "This subject is not part of this industry."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
