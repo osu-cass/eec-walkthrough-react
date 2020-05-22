@@ -11,7 +11,7 @@ async function getItem(itemId) {
   try {
 
     // get the specified item
-    const sql = "SELECT itemId, cardId, parentId, iconType, iconType AS typeName, " +
+    const sql = "SELECT itemId, cardId, parentId, orderIndex, iconType, iconType AS typeName, " +
       "iconType AS typeKeyword, contentText, contentUrl, contentLabel, userId, " +
       "created, approved " +
       "FROM Items " +
@@ -42,7 +42,7 @@ exports.getItem = getItem;
 
 
 // create an item
-async function createItem(cardId, parentId, iconType, contentText, contentUrl, contentLabel, userId) {
+async function createItem(cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, userId) {
 
   try {
 
@@ -80,10 +80,17 @@ async function createItem(cardId, parentId, iconType, contentText, contentUrl, c
 
     }
 
+    // make sure the icon is valid
+    if (iconType) {
+      if (Icons.data.length <= iconType) {
+        return {error: 4};
+      }
+    }
+
     // create the new item
-    sql = "INSERT INTO Items (cardId, parentId, iconType, contentText, contentUrl, contentLabel, userId, approved) " +
-    "VALUES (?, ?, ?, ?, ?, ?, ?, 0);";
-    results = await pool.query(sql, [cardId, parentId, iconType, contentText, contentUrl, contentLabel, userId]);
+    sql = "INSERT INTO Items (cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, userId, approved) " +
+    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0);";
+    results = await pool.query(sql, [cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, userId]);
 
     const finalResults = {
       insertId: results[0].insertId
@@ -139,7 +146,7 @@ exports.deleteItem = deleteItem;
 
 
 // update an item
-async function updateItem(itemId, cardId, parentId, iconType, contentText, contentUrl, contentLabel, approved) {
+async function updateItem(itemId, cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, approved) {
 
   try {
 
@@ -196,6 +203,11 @@ async function updateItem(itemId, cardId, parentId, iconType, contentText, conte
 
     }
 
+    if (typeof orderIndex !== "undefined") {
+      sql += "orderIndex = ?,";
+      sqlArray.push(orderIndex);
+    }
+
     if (typeof iconType !== "undefined") {
       sql += "iconType = ?,";
       sqlArray.push(iconType);
@@ -225,9 +237,16 @@ async function updateItem(itemId, cardId, parentId, iconType, contentText, conte
     sql = sql.replace(/.$/, " WHERE itemId = ?;");
     sqlArray.push(itemId);
 
+    // make sure the icon is valid
+    if (iconType) {
+      if (Icons.data.length <= iconType) {
+        return {error: 4};
+      }
+    }
+
     // make sure that we are updating at least one field
     if (sqlArray.length <= 1) {
-      return {error: 4};
+      return {error: 5};
     }
 
     // perform the update query
