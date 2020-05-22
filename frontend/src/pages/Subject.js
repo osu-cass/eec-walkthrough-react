@@ -2,7 +2,6 @@ import React, { Fragment } from 'react'
 import SubjectCard from '../components/SubjectCard'
 import SubjectIntro from '../components/SubjectIntro'
 import CardContainer from '../components/CardContainer'
-import FigureContainer from '../components/FigureContainer'
 import FilterBar from '../components/FilterBar'
 import Loading from '../components/Loading'
 import Modal from '../components/Modal'
@@ -15,13 +14,12 @@ class Subject extends React.Component {
 		pageInfo: [],
 		subjectInfo: [],
 		headers: [],
+		icons: [],
 		cards: []
 	}
 
 	async componentDidMount() {
-		const response = await this.fetchData(); //Get data about this subject (subject info, categories, figures)
-		this.setState({ headers: this.state.pageInfo.headers });
-		console.log(this.state.headers);
+		const response = await this.fetchData(); //Get data about this subject (subject info, cards, figures)
 	}
 
 	async componentDidUpdate(prevProps, prevState) {
@@ -32,41 +30,44 @@ class Subject extends React.Component {
 	}
 
 	async fetchData() {
-		this.setState({ cards: [], headers: [] }); //reset state for page load
+		let i, j, icons = [];
+		this.setState({ cards: [], headers: [], icons: [], loaded: false }); //reset state for page load
+		//Page specific info
 		fetch(`/pages/${this.props.pageId}`)	//subject info (summary, name, img, description)
 			.then(res => res.json())
 			.then(subjectInfo => this.setState({ subjectInfo }))
-		await fetch(`/pages/${this.props.pageId}/all`)	//give each category a hidden value to handle filter
+		//Full page info
+		await fetch(`/pages/${this.props.pageId}/all`)
 			.then(res => res.json())
 			.then(pageInfo => this.setState({ pageInfo }))
-		// fetch(`/figures/${this.props.id}`)	//subject info (summary, name, img, description)
-		// 	.then(res => res.json())
-		// 	.then(figures => this.setState({ figures }));
-		// fetch(`/tidbits/types`)	//subject info (summary, name, img, description)
-		// 	.then(res => res.json())
-		// 	.then(tidbitTypes => this.setState({ tidbitTypes }))
-	}
-
-	handleFilter = (id) => {
-		let categories = [...this.state.categories] //Create copy of object, update object, set state with new copy
-		var i;
-		for (i = 0; i < categories.length; i++) {
-			if (categories[i].CategoryID === id) {
-				categories[i].hidden = !categories[i].hidden //Update object and change hidden to opposite
+		//Headers
+		await this.setState({ headers: this.state.pageInfo.headers });
+		//Split icons for each header
+		for (i = 0; i < this.state.headers.length; i++) {
+			icons[i] = this.state.headers[i].icons;
+			for (j = 0; j < icons[i].length; j++) {
+				icons[i][j].hidden = false;
 			}
 		}
-		this.setState({ categories: categories })
+		await this.setState({ icons: icons })
+		await this.setState({ loaded: true })
+	}
+
+	handleFilter = (id, idx) => {
+		let icons = [...this.state.icons] //Create copy of object, update object, set state with new copy
+		var i;
+		for (i = 0; i < icons[idx].length; i++) {
+			if (icons[idx][i].iconType === id) {
+				icons[idx][i].hidden = !icons[idx][i].hidden //Update object and change hidden to opposite
+			}
+		}
+		this.setState({ icons: icons })
 	}
 
 	render() {
-		return this.state.subjectInfo ? ( //Render content when data loaded from backend
+		return this.state.loaded ? ( //Render content when data loaded from backend
 			<Container>
-				<SubjectCard subjectName={this.state.subjectInfo.name}>
-					<FilterBar
-						data={this.state.cards}
-						handleFilter={this.handleFilter}
-					/>
-				</SubjectCard>
+				<SubjectCard subjectName={this.state.subjectInfo.name} />
 
 				<SubjectIntro
 					header={this.state.subjectInfo.title}
@@ -77,63 +78,31 @@ class Subject extends React.Component {
 				{this.state.headers.map((header, i) => {
 					return (
 						<Fragment>
-							<SubjectCard subjectName={header.title} />
+							<SubjectCard subjectName={header.title} sticky>
+								<FilterBar
+									data={this.state.icons[i]}
+									headerIndex={i}
+									handleFilter={this.handleFilter}
+								/>
+							</SubjectCard>
 							<CardContainer
 								id={i}
 								cards={this.state.headers[i].cards}
+								filter={this.state.icons[i]}
 							/>
 						</Fragment>
 					)
 				})}
-				<button className='btn btn-primary' onClick={() => console.log(this.state)}>Test</button>
-				{/* Figures/Graphs */}
-				{/* {this.state.figures.length ?
-					<FigureContainer
-						id={this.props.id}
-						figures={this.state.figures}
-					/>
-					: ""} */}
 
-				{/* Site Resources */}
-				{/* <CardContainer
-					id={this.props.id}
-					categories={this.state.siteResources}
-					hidden={this.state.categories}
-				/> */}
-
-				{/* Create Categories */}
+				{/* Create cards */}
 				{/* <Modal
 					title={"Create New Card"}
 					tidbitTypes={this.state.tidbitTypes}
-					numCategories={this.state.categories.length}
+					numcards={this.state.cards.length}
 					numOpportunities={this.state.opportunities.length}
 					SubjectID={this.state.subjectInfo[0].SubjectID}
 					categoryType={1}
 				/> */}
-
-				{/* Opportunities (if exist) */}
-				{/* {this.state.opportunities.length ?
-					<Fragment>
-						<div>
-							<SubjectCard subjectName={`${this.state.subjectInfo[0].SubjectName} Opportunities to Consider`} />
-
-							<CardContainer
-								id={this.props.id}
-								categories={this.state.opportunities}
-								hidden={this.state.categories}
-							/>
-						</div>
-
-						<Modal
-							title={"Create New Opportunity Card"}
-							tidbitTypes={this.state.tidbitTypes}
-							numCategories={this.state.categories.length}
-							numOpportunities={this.state.opportunities.length}
-							SubjectID={this.state.subjectInfo[0].SubjectID}
-							categoryType={2}
-						/>
-					</Fragment>
-					: ""} */}
 
 			</Container>
 		) : <Loading />
