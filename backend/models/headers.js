@@ -205,11 +205,13 @@ async function updateHeader(headerId, pageId, orderIndex, title, approved) {
         title = results[0][0].title;
       }
 
+      // look for duplicate titles
       const checkSql = "SELECT * " +
       "FROM Headers " +
       "WHERE pageId = ? " +
-      "AND title = ?;";
-      results = await pool.query(checkSql, [pageId, title]);
+      "AND title = ? " +
+      "AND NOT headerId = ?;";
+      results = await pool.query(checkSql, [pageId, title, headerId]);
 
       if (results[0].length) {
         return {error: 3};

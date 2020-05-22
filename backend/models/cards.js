@@ -205,11 +205,13 @@ async function updateCard(cardId, headerId, orderIndex, title, approved) {
         title = results[0][0].title;
       }
 
+      // look for duplicate titles
       const checkSql = "SELECT * " +
       "FROM Cards " +
       "WHERE headerId = ? " +
-      "AND title = ?;";
-      results = await pool.query(checkSql, [headerId, title]);
+      "AND title = ? " +
+      "AND NOT cardId = ?;";
+      results = await pool.query(checkSql, [headerId, title, cardId]);
 
       if (results[0].length) {
         return {error: 3};

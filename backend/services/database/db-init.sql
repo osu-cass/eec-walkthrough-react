@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: classmysql.engr.oregonstate.edu:3306
--- Generation Time: May 22, 2020 at 02:24 PM
+-- Generation Time: May 22, 2020 at 02:45 PM
 -- Server version: 10.4.11-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -132,8 +132,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `parentId`, `iconType`, `
 (23, 8, 1, NULL, 8, 'Reduced air pressure not only reduces air compressor energy required for a set volume of air, it will also result in less air volume consumed by leaks and unregulated air uses (although it can be hard to estimate the volume reduction).\r\n', '', '', 1, '2020-05-22 21:23:14', 1),
 (24, 8, 1, NULL, 11, 'System pressure is set over 100 PSI for a compressed air system serving standard industrial utilities and controls.\r\n', '', '', 2, '2020-05-22 21:23:14', 1),
 (25, 9, 1, NULL, 1, 'Versatile. Offers compact energy density. Easy quick fix for many issues. Familiar utility for industrial personnel.\r\n', '', '', 1, '2020-05-22 21:23:14', 1),
-(26, 9, 1, NULL, 1, 'Spark free for potentially explosive environments\r\n', '', '', 2, '2020-05-22 21:23:14', 1),
-(27, 1, 1, NULL, 5, 'This guide focuses mainly on screw and reciprocating compressors. These are the most common...', 'https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf', 'Assessing Industrial Air Compressor', 2, '2020-05-22 21:17:06', 0);
+(26, 9, 1, NULL, 1, 'Spark free for potentially explosive environments\r\n', '', '', 2, '2020-05-22 21:23:14', 1);
 
 -- --------------------------------------------------------
 
@@ -249,13 +248,13 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `Items`
@@ -267,7 +266,7 @@ ALTER TABLE `Items`
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `Users`

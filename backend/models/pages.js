@@ -320,8 +320,9 @@ async function updatePage(pageId, pageType, name, title, description, imageUrl, 
     sql = "SELECT * " +
     "FROM Pages " +
     "WHERE pageType = ? " +
-    "AND name = ?;";
-    results = await pool.query(sql, [pageType, name]);
+    "AND name = ? " +
+    "AND NOT pageId = ?;";
+    results = await pool.query(sql, [pageType, name, pageId]);
 
     if (results[0].length) {
       return {error: 2};
