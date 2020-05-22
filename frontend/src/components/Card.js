@@ -33,7 +33,8 @@ class Card extends React.Component {
 						key={item.itemId}
 						id={item.itemId}
 						icon={item.typeName}
-						text={item.contentLabel}
+						text={item.contentText}
+						label={item.contentLabel}
 						child={isChild}
 						url={item.contentUrl}
 						checkFilter={this.props.checkFilter}
@@ -48,7 +49,8 @@ class Card extends React.Component {
 					url={item.contentUrl}
 					id={item.itemId}
 					icon={item.typeName}
-					text={item.contentLabel}
+					text={item.contentText}
+					label={item.contentLabel}
 					child={isChild}
 					checkFilter={this.props.checkFilter}
 					hide={hide}

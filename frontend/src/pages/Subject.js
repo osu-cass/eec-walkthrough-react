@@ -2,7 +2,6 @@ import React, { Fragment } from 'react'
 import SubjectCard from '../components/SubjectCard'
 import SubjectIntro from '../components/SubjectIntro'
 import CardContainer from '../components/CardContainer'
-import FigureContainer from '../components/FigureContainer'
 import FilterBar from '../components/FilterBar'
 import Loading from '../components/Loading'
 import Modal from '../components/Modal'
@@ -32,7 +31,7 @@ class Subject extends React.Component {
 
 	async fetchData() {
 		let i, j, icons = [];
-		this.setState({ cards: [], headers: [], icons: [] }); //reset state for page load
+		this.setState({ cards: [], headers: [], icons: [], loaded: false }); //reset state for page load
 		//Page specific info
 		fetch(`/pages/${this.props.pageId}`)	//subject info (summary, name, img, description)
 			.then(res => res.json())
@@ -51,6 +50,7 @@ class Subject extends React.Component {
 			}
 		}
 		await this.setState({ icons: icons })
+		await this.setState({ loaded: true })
 	}
 
 	handleFilter = (id, idx) => {
@@ -65,11 +65,9 @@ class Subject extends React.Component {
 	}
 
 	render() {
-		return this.state.subjectInfo && this.state.icons.length ? ( //Render content when data loaded from backend
+		return this.state.loaded ? ( //Render content when data loaded from backend
 			<Container>
-				<SubjectCard subjectName={this.state.subjectInfo.name}>
-
-				</SubjectCard>
+				<SubjectCard subjectName={this.state.subjectInfo.name} />
 
 				<SubjectIntro
 					header={this.state.subjectInfo.title}
@@ -80,7 +78,7 @@ class Subject extends React.Component {
 				{this.state.headers.map((header, i) => {
 					return (
 						<Fragment>
-							<SubjectCard subjectName={header.title}>
+							<SubjectCard subjectName={header.title} sticky>
 								<FilterBar
 									data={this.state.icons[i]}
 									headerIndex={i}
@@ -95,7 +93,6 @@ class Subject extends React.Component {
 						</Fragment>
 					)
 				})}
-				<button className='btn btn-primary' onClick={() => console.log(this.state)}>Test</button>
 
 				{/* Create cards */}
 				{/* <Modal
