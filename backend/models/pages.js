@@ -187,9 +187,12 @@ async function getFullPage(pageId) {
 
         results = await pool.query(sql, cardId);
 
-        // reference the icon entity for icon data
-        results[0][0].typeName = Icons.data[results[0][0].iconType][0];
-        results[0][0].typeKeyword = Icons.data[results[0][0].iconType][1];
+        // reference the icon entity for icon data for each item
+        const itemCount = results[0].length;
+        for (let k = 0; k < itemCount; k++) {
+          results[0][k].typeName = Icons.data[results[0][k].iconType][0];
+          results[0][k].typeKeyword = Icons.data[results[0][k].iconType][1];
+        }
 
         finalResults.headers[i].cards[j].items = results[0];
 
