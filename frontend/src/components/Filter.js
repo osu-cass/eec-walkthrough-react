@@ -8,7 +8,7 @@ class Filter extends React.Component {
 
   handleClick = () => {
     this.setState({ active: !this.state.active })
-    this.props.handleFilter(this.props.id)
+    this.props.handleFilter(this.props.id, this.props.headerIndex)
   }
 
   render() {

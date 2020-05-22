@@ -22,9 +22,16 @@ function addColor(child) {
 		return 'text-child';
 }
 
+function filter(check) {
+	if (check)
+		return 'hide';
+	else return 'active';
+}
+
+
 const BulletPoint = props => {
 	return (
-		<div key={props.id} className={`mb-2 ${props.checkFilter}`}>
+		<div key={props.id} className={`mb-2 ${filter(props.hide)}`}>
 			<i className={`fas fa-${props.icon} ${addColor(props.child)} mr-2 ${styleText(props.icon)} `}></i>
 			<span className={styleText(props.icon) || isBold(props.bold)}>
 				{props.text}
