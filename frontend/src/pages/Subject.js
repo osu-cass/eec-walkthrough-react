@@ -6,57 +6,45 @@ import FigureContainer from '../components/FigureContainer'
 import FilterBar from '../components/FilterBar'
 import Loading from '../components/Loading'
 import Modal from '../components/Modal'
+import Container from 'react-bootstrap/Container'
 import '../components/Subject.css'
 
 class Subject extends React.Component {
 	state = {
 		sidebarOpen: false,
-		categories: [],
-		opportunities: [],
-		siteResources: [],
-		figures: [],
-		subjectInfo: []
+		pageInfo: [],
+		subjectInfo: [],
+		headers: [],
+		cards: []
 	}
 
-	componentDidMount() {
-		this.fetchData(); //Get data about this subject (subject info, categories, figures)
+	async componentDidMount() {
+		const response = await this.fetchData(); //Get data about this subject (subject info, categories, figures)
+		this.setState({ headers: this.state.pageInfo.headers });
+		console.log(this.state.headers);
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		if (this.props.match.params.id != prevProps.match.params.id) { //Reload state when switching between subjects
-			this.fetchData();
+	async componentDidUpdate(prevProps, prevState) {
+		if (this.props.match.params.pageId !== prevProps.match.params.pageId) { //Reload state when switching between subjects
+			await this.fetchData();
+			await this.setState({ headers: this.state.pageInfo.headers });
 		}
 	}
 
-	fetchData() {
-		this.setState({ categories: [], opportunities: [], siteResources: [], figures: [], hasOpportunities: 0 })
-		fetch(`/subjects/${this.props.id}`)	//subject info (summary, name, img, description)
+	async fetchData() {
+		this.setState({ cards: [], headers: [] }); //reset state for page load
+		fetch(`/pages/${this.props.pageId}`)	//subject info (summary, name, img, description)
 			.then(res => res.json())
-			.then(subjectInfo => this.setState({ subjectInfo }));
-		fetch(`/cards/categories/${this.props.id}`)	//give each category a hidden value to handle filter
+			.then(subjectInfo => this.setState({ subjectInfo }))
+		await fetch(`/pages/${this.props.pageId}/all`)	//give each category a hidden value to handle filter
 			.then(res => res.json())
-			.then(categories => {
-				categories.map((category) => {
-					let type = category.CategoryTypeID;
-					let merged;
-					if (type === 1) {
-						merged = this.state.categories.concat(category);
-						this.setState({ categories: merged });
-					} else if (type === 2) {
-						merged = this.state.opportunities.concat(category);
-						this.setState({ opportunities: merged });
-					} else if (type === 3) {
-						merged = this.state.siteResources.concat(category);
-						this.setState({ siteResources: merged });
-					}
-				})
-			});
-		fetch(`/figures/${this.props.id}`)	//subject info (summary, name, img, description)
-			.then(res => res.json())
-			.then(figures => this.setState({ figures }));
-		fetch(`/tidbits/types`)	//subject info (summary, name, img, description)
-			.then(res => res.json())
-			.then(tidbitTypes => this.setState({ tidbitTypes }))
+			.then(pageInfo => this.setState({ pageInfo }))
+		// fetch(`/figures/${this.props.id}`)	//subject info (summary, name, img, description)
+		// 	.then(res => res.json())
+		// 	.then(figures => this.setState({ figures }));
+		// fetch(`/tidbits/types`)	//subject info (summary, name, img, description)
+		// 	.then(res => res.json())
+		// 	.then(tidbitTypes => this.setState({ tidbitTypes }))
 	}
 
 	handleFilter = (id) => {
@@ -71,56 +59,60 @@ class Subject extends React.Component {
 	}
 
 	render() {
-		return this.state.subjectInfo.length && this.state.tidbitTypes ? ( //Render content when data loaded from backend
-			<div className="container">
-				<SubjectCard subjectName={this.state.subjectInfo[0].SubjectName}>
+		return this.state.subjectInfo ? ( //Render content when data loaded from backend
+			<Container>
+				<SubjectCard subjectName={this.state.subjectInfo.name}>
 					<FilterBar
-						data={this.state.categories}
+						data={this.state.cards}
 						handleFilter={this.handleFilter}
 					/>
 				</SubjectCard>
 
 				<SubjectIntro
-					header={this.state.subjectInfo[0].Summary}
-					description={this.state.subjectInfo[0].Description}
-					img={this.state.subjectInfo[0].SubjectImage}
+					header={this.state.subjectInfo.title}
+					description={this.state.subjectInfo.description}
+					img={this.state.subjectInfo.imageUrl}
 				/>
 
-				{/* Basic Categories (pros, cons, etc.) */}
-				<CardContainer
-					id={this.props.id}
-					categories={this.state.categories}
-					hidden={this.state.categories}
-					refresh={this.refreshCategories}
-				/>
-
+				{this.state.headers.map((header, i) => {
+					return (
+						<Fragment>
+							<SubjectCard subjectName={header.title} />
+							<CardContainer
+								id={i}
+								cards={this.state.headers[i].cards}
+							/>
+						</Fragment>
+					)
+				})}
+				<button className='btn btn-primary' onClick={() => console.log(this.state)}>Test</button>
 				{/* Figures/Graphs */}
-				{this.state.figures.length ?
+				{/* {this.state.figures.length ?
 					<FigureContainer
 						id={this.props.id}
 						figures={this.state.figures}
 					/>
-					: ""}
+					: ""} */}
 
 				{/* Site Resources */}
-				<CardContainer
+				{/* <CardContainer
 					id={this.props.id}
 					categories={this.state.siteResources}
 					hidden={this.state.categories}
-				/>
+				/> */}
 
 				{/* Create Categories */}
-				<Modal
+				{/* <Modal
 					title={"Create New Card"}
 					tidbitTypes={this.state.tidbitTypes}
 					numCategories={this.state.categories.length}
 					numOpportunities={this.state.opportunities.length}
 					SubjectID={this.state.subjectInfo[0].SubjectID}
 					categoryType={1}
-				/>
+				/> */}
 
 				{/* Opportunities (if exist) */}
-				{this.state.opportunities.length ?
+				{/* {this.state.opportunities.length ?
 					<Fragment>
 						<div>
 							<SubjectCard subjectName={`${this.state.subjectInfo[0].SubjectName} Opportunities to Consider`} />
@@ -141,9 +133,9 @@ class Subject extends React.Component {
 							categoryType={2}
 						/>
 					</Fragment>
-					: ""}
+					: ""} */}
 
-			</div>
+			</Container>
 		) : <Loading />
 	}
 }

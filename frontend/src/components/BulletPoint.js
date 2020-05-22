@@ -1,5 +1,7 @@
 import React from 'react'
+import Image from './Image'
 import './BulletPoint.css'
+import Col from 'react-bootstrap/Col';
 
 function styleText(icon) {
 	if (icon === 'check-square')
@@ -11,7 +13,6 @@ function styleText(icon) {
 }
 
 function isBold(bold) {
-	console.log(bold);
 	if (bold)
 		return 'font-weight-bold';
 }
@@ -28,6 +29,7 @@ const BulletPoint = props => {
 			<span className={styleText(props.icon) || isBold(props.bold)}>
 				{props.text}
 			</span>
+			{props.url ? <Image url={props.url} header={props.text} /> : ""}
 			<div className='pl-5 mt-2'>{props.children}</div>
 		</div >
 	)
