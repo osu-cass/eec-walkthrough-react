@@ -33,7 +33,7 @@ exports.getHeader = getHeader;
 
 
 // create a header
-async function createHeader(pageId, title, userId) {
+async function createHeader(pageId, orderIndex, title, userId) {
 
   try {
 
@@ -69,9 +69,9 @@ async function createHeader(pageId, title, userId) {
     }
 
     // create the new header
-    sql = "INSERT INTO Headers (pageId, title, userId, approved) " +
-    "VALUES (?, ?, ?, 0);";
-    results = await pool.query(sql, [pageId, title, userId]);
+    sql = "INSERT INTO Headers (pageId, orderIndex, title, userId, approved) " +
+    "VALUES (?, ?, ?, ?, 0);";
+    results = await pool.query(sql, [pageId, orderIndex, title, userId]);
 
     const finalResults = {
       insertId: results[0].insertId
@@ -127,7 +127,7 @@ exports.deleteHeader = deleteHeader;
 
 
 // update a header
-async function updateHeader(headerId, pageId, title, approved) {
+async function updateHeader(headerId, pageId, orderIndex, title, approved) {
 
   try {
 
@@ -162,6 +162,11 @@ async function updateHeader(headerId, pageId, title, approved) {
       sql += "pageId = ?,";
       sqlArray.push(pageId);
 
+    }
+
+    if (typeof orderIndex !== "undefined") {
+      sql += "orderIndex = ?,";
+      sqlArray.push(orderIndex);
     }
 
     if (typeof title !== "undefined") {

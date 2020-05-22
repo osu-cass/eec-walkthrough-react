@@ -153,7 +153,7 @@ async function getFullPage(pageId) {
     sql = "SELECT * " +
     "FROM Headers " +
     "WHERE pageId = ? " +
-    "ORDER BY headerId ASC";
+    "ORDER BY orderIndex ASC, headerId ASC";
 
     results = await pool.query(sql, pageId);
     finalResults.headers = results[0];
@@ -167,7 +167,7 @@ async function getFullPage(pageId) {
       const sql = "SELECT * " +
       "FROM Cards " +
       "WHERE headerId = ? " +
-      "ORDER BY cardId ASC";
+      "ORDER BY orderIndex ASC, cardId ASC";
 
       results = await pool.query(sql, headerId);
       finalResults.headers[i].cards = results[0];
@@ -178,12 +178,12 @@ async function getFullPage(pageId) {
 
         const cardId = finalResults.headers[i].cards[j].cardId;
 
-        const sql = "SELECT itemId, cardId, parentId, iconType, iconType AS typeName, " +
+        const sql = "SELECT itemId, cardId, parentId, orderIndex, iconType, iconType AS typeName, " +
         "iconType AS typeKeyword, contentText, contentUrl, contentLabel, userId, " +
         "created, approved " +
         "FROM Items " +
         "WHERE cardId = ? " +
-        "ORDER BY itemId ASC";
+        "ORDER BY orderIndex ASC, itemId ASC";
 
         results = await pool.query(sql, cardId);
 

@@ -714,6 +714,12 @@ components:
           allOf:
             - description: The unique identifier of the page that this header belongs to
             - $ref: '#/components/schemas/Id'
+        orderIndex:
+          description: Value used to order objects in ascending order. This means that larger values will be shown lower on the page.
+          type: integer
+          minimum: 1
+          maximum: 4294967295
+          example: 5
         title:
           description: The title of the header
           type: string
@@ -754,6 +760,12 @@ components:
           allOf:
             - description: The unique identifier of the header that the card belongs to
             - $ref: '#/components/schemas/Id'
+        orderIndex:
+          description: Value used to order objects in ascending order. This means that larger values will be shown lower on the page.
+          type: integer
+          minimum: 1
+          maximum: 4294967295
+          example: 5
         title:
           description: The title of the card
           type: string
@@ -806,6 +818,12 @@ components:
               minimum: 1
               maximum: 4294967295
               example: 15
+        orderIndex:
+          description: Value used to order objects in ascending order. This means that larger values will be shown lower on the page.
+          type: integer
+          minimum: 1
+          maximum: 4294967295
+          example: 5
         iconType:
           description: The integer value that reprsents a specific item type. The value can then be referenced from a table on the frontend to determine what icon to show and how to display the items content.
           type: integer
