@@ -18,6 +18,15 @@ class InputField extends React.Component {
 					onChange={(e) => this.props.handleInput(e, this.props.index)}
 					required
 				/>
+				{/*
+				<FormControl
+					placeholder={this.props.placeholder}
+					value={this.props.value}
+					aria-label="Insert Username"
+					aria-describedby="basic-addon1"
+					onChange={(e) => this.props.handleInput(e, this.props.index)}
+					required
+				 */}
 			</Fragment>
 		);
 	}
