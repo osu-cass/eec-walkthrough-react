@@ -178,7 +178,7 @@ async function getFullPage(pageId) {
 
         const cardId = finalResults.headers[i].cards[j].cardId;
 
-        const sql = "SELECT itemId, cardId, parentId, orderIndex, iconType, iconType AS typeName, " +
+        const sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, iconType, iconType AS typeName, " +
         "iconType AS typeKeyword, contentText, contentUrl, contentLabel, userId, " +
         "created, approved " +
         "FROM Items " +
