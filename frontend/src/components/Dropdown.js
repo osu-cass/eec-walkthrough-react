@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+// import Dropdown from 'react-bootstrap/Dropdown'
 import PropTypes from 'prop-types';
 
 class Dropdown extends React.Component {
@@ -22,6 +23,12 @@ class Dropdown extends React.Component {
 				<div key={idx} className="dropdown-item" style={{ cursor: "pointer" }} onClick={() => this.handleClick(this.props.list[1][idx][0], idx)}>
 					{elem}
 				</div>
+				/*
+				might not need to explicitly set pointer style
+				<Dropdown.Item key={idx} style={{ cursor: "pointer" }} onClick={() => this.handleClick(this.props.list[1][idx][0], idx)}>
+					{elem}
+				</Dropdown.Item>
+				 */
 			);
 		});
 		return jsx;
@@ -36,6 +43,15 @@ class Dropdown extends React.Component {
 				<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					{this.generateList()}
 				</div>
+				{/*
+					might need to enclose in <Dropdown></Dropdown> to work
+					<Dropdown.Toggle id="dropdownMenuButton" variant className="btn-outline-dark">
+						{this.state.selectedIndex === null ? "Icon" : this.props.list[1][this.state.selectedIndex][1]}
+					</Dropdown.Toggle>
+					<Dropdown.Menu>
+						{this.generateList()}
+					</Dropdown.Menu>
+				 */}
 			</Fragment>
 		)
 	}

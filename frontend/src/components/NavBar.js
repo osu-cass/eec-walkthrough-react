@@ -23,6 +23,26 @@ class NavBar extends React.Component {
             <Login />
           </div>
         </nav>
+        {/*
+        will probably have to fix this
+        <Navbar bg="dark" variant="dark">
+          <Navbar.Brand as="h3" className="text-white">
+            <a
+              className="text-info mr-2"
+              href="#"
+              onClick={this.props.handleSidebar}
+            >
+              <i className="fas fa-bars"></i>
+            </a>
+            EEC Walkthrough
+          </Navbar.Brand>
+
+          <div className="d-flex">
+            <Search />
+            <Login />
+          </div>
+        </Navbar>
+         */}
       </div>
     )
   }
