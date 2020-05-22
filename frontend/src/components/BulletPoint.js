@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Image from './Image'
 import './BulletPoint.css'
 import Col from 'react-bootstrap/Col';
@@ -36,7 +36,12 @@ const BulletPoint = props => {
 			<span className={styleText(props.icon) || isBold(props.bold)}>
 				{props.text}
 			</span>
-			{props.url ? <Image url={props.url} header={props.text} /> : ""}
+			{props.url ?
+				<Fragment>
+					{props.label}
+					<Image url={props.url} header={props.text} />
+				</Fragment>
+				: ""}
 			<div className='pl-5 mt-2'>{props.children}</div>
 		</div >
 	)
