@@ -6,59 +6,53 @@ import './Subject.css'
 
 class CardContainer extends React.Component {
     state = {
-        categories: [],
+        cards: [],
         loaded: false
+    }
+
+    async componentDidMount() {
+        const response = await this.setState({ cards: this.props.cards })
     }
 
     generateCards() {
         let used = []; //holds ids of all the used tidbits, prevents reprint
-        let Cards = this.props.categories.map((category, i) => {				//Loop through Categories
-            if (category.CategoryTypeID !== 3) {
-                return (
-                    <Card
-                        key={i}
-                        color="white"
-                        id={this.props.id}
-                        category={category.CategoryName}
-                        checkFilter={this.checkFilter(category.CategoryID)}
-                        categoryid={category.CategoryID}
-                        used={used}
-                    />
-                );
-            }
-            else {
-                return (
-                    <ResourceCard
-                        key={i}
-                        id={this.props.id}
-                        category={category.CategoryName}
-                        checkFilter={this.checkFilter(category.CategoryID)}
-                        categoryid={category.CategoryID}
-                    />
-                );
-            }
-        })
+        let Cards = this.state.cards.map((card, i) => {				//Loop through cards
+            return (
+                <Card
+                    key={i}
+                    color="white"
+                    id={this.props.id}
+                    card={card.title}
+                    items={card.items}
+                    // checkFilter={this.checkFilter(card.cardId)}
+                    cardId={card.cardId}
+                    used={used}
+                />
+            );
+        });
+
         return Cards
     }
 
-    checkFilter(id) {
-        var i;
-        for (i = 0; i < this.props.hidden.length; i++) {
-            if (this.props.hidden[i].CategoryID === id) {
-                if (this.props.hidden[i].hidden === true) {
-                    return 'hide';
-                }
-            }
-        }
-        return 'active';
-    }
+    // checkFilter(id) {
+    //     var i;
+    //     for (i = 0; i < this.props.hidden.length; i++) {
+    //         if (this.props.hidden[i].cardId === id) {
+    //             if (this.props.hidden[i].hidden === true) {
+    //                 return 'hide';
+    //             }
+    //         }
+    //     }
+    //     return 'active';
+    // }
 
     render() {
-        return this.props.categories.length ? ( //Render content when data loaded from backend
+        return this.state.cards.length ? ( //Render content when data loaded from backend
             <div className="tidbitContainer">
+                {console.log("LOADING")}
                 {this.generateCards()}
             </div>
-        ) : <SubjectCard subjectName='No Data' />;
+        ) : <SubjectCard subjectName='None' />;
     }
 }
 

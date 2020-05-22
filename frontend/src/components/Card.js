@@ -4,45 +4,59 @@ import BulletPoint from './BulletPoint'
 
 class Card extends React.Component {
 	state = {
-		tidbits: []
+		items: []
 	}
 
-	componentDidMount() {
-		fetch(`/cards/${this.props.id}`)	//gets all tdibits for this card
-			.then(res => res.json())
-			.then(tidbits => this.setState({ tidbits: tidbits }));
+	async componentDidMount() {
+		const response = await this.setState({ items: this.props.items });
 	}
 
 	getChilds(id) {
-		var results = this.state.tidbits.reduce(function (result, tidbit) { //get tidbits whose parentid is in params
-			if (tidbit.ParentID === id) {
-				result.push(tidbit);
+		var results = this.state.items.reduce(function (result, item) { //get items whose parentid is in params
+			if (item.ParentID === id) {
+				result.push(item);
 			}
 			return result;
 		}, []);
 		return results.length ? results : false
 	}
 
-	recurseTidbits(tidbit, icon, categoryid, used, isChild) {	//isChild = marks if it has any parent, for coloring
-		let childs = this.getChilds(tidbit.TidbitID); //get all childs of this tidbit
-		if (!(used.includes(tidbit.TidbitID))) {
-			used.push(tidbit.TidbitID)															//push used
+	recurseItems(item, icon, categoryid, used, isChild) {	//isChild = marks if it has any parent, for coloring
+		let childs = this.getChilds(item.itemId); //get all childs of this item
+		if (!(used.includes(item.itemId))) {
+			used.push(item.itemId)															//push used
 			if (childs) {																							//if has child, recurse
 				return (
-					<BulletPoint key={tidbit.TidbitID} id={tidbit.TidbitID} icon={tidbit.TypeName} text={tidbit.Text} child={isChild} checkFilter={this.props.checkFilter}>
-						{childs.map((child) => (this.recurseTidbits(child, icon, categoryid, used, true)))}
+					<BulletPoint
+						key={item.itemId}
+						id={item.itemId}
+						icon={item.typeName}
+						text={item.contentLabel}
+						child={isChild}
+						url={item.contentUrl}
+						checkFilter={this.props.checkFilter}
+					>
+						{childs.map((child) => (this.recurseItems(child, icon, categoryid, used, true)))}
 					</BulletPoint>
 				)
 			} else
-				return <BulletPoint key={tidbit.TidbitID} id={tidbit.TidbitID} icon={tidbit.TypeName} text={tidbit.Text} child={isChild} checkFilter={this.props.checkFilter} /> //if no childs, base case
+				return <BulletPoint
+					key={item.itemId}
+					url={item.contentUrl}
+					id={item.itemId}
+					icon={item.typeName}
+					text={item.contentLabel}
+					child={isChild}
+					checkFilter={this.props.checkFilter}
+				/> //if no childs, base case
 		}
 	}
 
-	generateTidbits() {
-		let jsx = []																				//hold tidbits
-		this.state.tidbits.map((tidbit) => {								//Loop through Tidbits of Type
-			if (tidbit.CategoryID === this.props.categoryid) {
-				jsx.push(this.recurseTidbits(tidbit, this.props.icon, this.props.categoryid, this.props.used, false))
+	generateItems() {
+		let jsx = []																				//hold items
+		this.state.items.map((item) => {								//Loop through items of Type
+			if (item.CategoryID === this.props.categoryid) {
+				jsx.push(this.recurseItems(item, this.props.icon, this.props.categoryid, this.props.used, false))
 			}
 		})
 		return jsx
@@ -55,10 +69,10 @@ class Card extends React.Component {
 					id="header"
 					className="d-flex justify-content-between border-bottom border-gray"
 				>
-					<h5 className='font-weight-bold'>{this.props.category}</h5>
+					<h5 className='font-weight-bold'>{this.props.card}</h5>
 				</div>
 				<div className="mt-2">
-					{this.generateTidbits()}
+					{this.generateItems()}
 				</div>
 			</div>
 		);

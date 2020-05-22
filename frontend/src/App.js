@@ -1,9 +1,9 @@
 import React from "react";
-//import Subject from "./pages/Subject";
+import Subject from "./pages/Subject";
 import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import Sidebar from "./components/Sidebar";
-import { Route, Switch, BrowserRouter, Link } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 class App extends React.Component {
 	state = {
@@ -23,14 +23,12 @@ class App extends React.Component {
 					handleSidebar={this.handleSidebar}
 				/>
 				<Switch>
-					{/*
 					<Route
-						path='/subjects/:id'
+						path='/subjects/:pageId'
 						render={(props) => (
-							<Subject {...props} id={props.match.params.id} />
+							<Subject {...props} pageId={props.match.params.pageId} />
 						)}
 					/>
-					*/}
 					<Route exact path='/'>
 						<Home />
 					</Route>
