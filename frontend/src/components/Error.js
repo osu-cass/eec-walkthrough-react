@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 const Error = (props) => {
 	return props.empty ? (
-		<div class="alert alert-danger active" role="alert">
+		<div className="alert alert-danger active" role="alert">
 			{props.message}
 		</div>
-	) : <div class="hide" />;
+	) : <div className="hide" />;
 }
 
 Error.propTypes = {
