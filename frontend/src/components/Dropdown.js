@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-// import Dropdown from 'react-bootstrap/Dropdown'
+import { Dropdown as DropdownBS } from 'react-bootstrap/Dropdown'
 import PropTypes from 'prop-types';
 
 class Dropdown extends React.Component {
@@ -20,9 +20,9 @@ class Dropdown extends React.Component {
 		let jsx = [];
 		this.props.list[0].map((elem, idx) => {
 			jsx.push(
-				<div key={idx} className="dropdown-item" style={{ cursor: "pointer" }} onClick={() => this.handleClick(this.props.list[1][idx][0], idx)}>
+				<DropdownBS.Item key={idx} style={{ cursor: "pointer" }} onClick={() => this.handleClick(this.props.list[1][idx][0], idx)}>
 					{elem}
-				</div>
+				</DropdownBS.Item>
 				/*
 				might not need to explicitly set pointer style
 				<Dropdown.Item key={idx} style={{ cursor: "pointer" }} onClick={() => this.handleClick(this.props.list[1][idx][0], idx)}>
@@ -37,12 +37,12 @@ class Dropdown extends React.Component {
 	render() {
 		return (
 			<Fragment key={this.props.index}>
-				<button className="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<DropdownBS.Toggle id="dropdownMenuButton" variant className="btn-outline-dark">
 					{this.state.selectedIndex === null ? "Icon" : this.props.list[1][this.state.selectedIndex][1]}
-				</button>
-				<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				</DropdownBS.Toggle>
+				<DropdownBS.Menu>
 					{this.generateList()}
-				</div>
+				</DropdownBS.Menu>
 				{/*
 					might need to enclose in <Dropdown></Dropdown> to work
 					<Dropdown.Toggle id="dropdownMenuButton" variant className="btn-outline-dark">
