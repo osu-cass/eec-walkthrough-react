@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Dropdown as DropdownBS } from 'react-bootstrap/Dropdown'
+import { Dropdown as DropdownBS } from 'react-bootstrap'
 import PropTypes from 'prop-types';
 
 class Dropdown extends React.Component {
@@ -37,21 +37,14 @@ class Dropdown extends React.Component {
 	render() {
 		return (
 			<Fragment key={this.props.index}>
-				<DropdownBS.Toggle id="dropdownMenuButton" variant className="btn-outline-dark">
-					{this.state.selectedIndex === null ? "Icon" : this.props.list[1][this.state.selectedIndex][1]}
-				</DropdownBS.Toggle>
-				<DropdownBS.Menu>
-					{this.generateList()}
-				</DropdownBS.Menu>
-				{/*
-					might need to enclose in <Dropdown></Dropdown> to work
-					<Dropdown.Toggle id="dropdownMenuButton" variant className="btn-outline-dark">
+				<DropdownBS>
+					<DropdownBS.Toggle id="dropdownMenuButton" variant className="btn-outline-dark">
 						{this.state.selectedIndex === null ? "Icon" : this.props.list[1][this.state.selectedIndex][1]}
-					</Dropdown.Toggle>
-					<Dropdown.Menu>
+					</DropdownBS.Toggle>
+					<DropdownBS.Menu>
 						{this.generateList()}
-					</Dropdown.Menu>
-				 */}
+					</DropdownBS.Menu>
+				</DropdownBS>
 			</Fragment>
 		)
 	}
