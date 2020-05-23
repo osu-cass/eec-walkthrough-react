@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card as CardBS } from 'react-bootstrap/Card'
+import { Card as CardBS } from 'react-bootstrap'
 import Edit from './Edit'
 import BulletPoint from './BulletPoint'
 
