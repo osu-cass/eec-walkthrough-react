@@ -19,13 +19,12 @@ const SidebarCollection = props => {
 			{props.collection ?
 				<Accordion.Collapse eventKey="0">
 					<Fragment>
-						{props.collection.map((item) => {
+						{props.collection.map((item, i) => {
 							return (
-								<NavLink to={`/${props.collectionLink}/${item.pageId}`} className="ml-3 nav_link">
+								<NavLink key={i} to={`/${props.collectionLink}/${item.pageId}`} className="ml-3 nav_link">
 									<Card.Body key={item.pageId} style={{ fontSize: "1rem" }} className="nav_link">
 										{item.name}
 									</Card.Body>
-
 								</NavLink>
 							);
 						})}

@@ -5,7 +5,7 @@ import InputField from './InputField';
 import Dropdown from './Dropdown';
 import PropTypes from 'prop-types';
 import Error from './Error';
-import './Modal.css'
+import './CreateCard.css'
 import './Subject.css'
 
 class CreateItem extends React.Component {
@@ -17,7 +17,6 @@ class CreateItem extends React.Component {
 		subpointDepths: [],
 		show: false,
 		emptyInputs: false
-		//hold each input
 	}
 
 	componentDidMount() {
@@ -30,6 +29,8 @@ class CreateItem extends React.Component {
 
 		itemIcons.push(null);
 		this.setState({ itemIcons: itemIcons })
+
+		this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" })
 	}
 
 	handleClose = () => this.setState({ show: false });
@@ -99,7 +100,8 @@ class CreateItem extends React.Component {
 		idx = parseInt(idx);
 		let copy = [...this.state.subpointDepths];
 		let i, remove = 1, parent = copy[idx];
-		// Delete children (if greater than parent subpoint depth, it is a child)
+
+		// Delete from state.subpointDepths (if greater than parent subpoint depth, it is a child)
 		if (idx !== this.state.subpointDepths.length - 1) {
 			console.log("Start:", idx + 1, copy[idx + 1], copy);
 			for (i = idx + 1; parent < copy[i]; i++) {
@@ -109,12 +111,17 @@ class CreateItem extends React.Component {
 		copy.splice(idx, remove);
 		this.setState({ subpointDepths: copy }) //keep track of how deep this subpoint is
 
-		//Decrement counter
+		//Delete from state.items
 		var count = this.state.counter;
 		copy = [...this.state.items];
-		copy.splice(idx, idx);	//Initialize empty
+		copy.splice(idx, remove);	//Initialize empty
 		this.setState({ items: copy });
 		this.setState({ counter: count - remove });
+
+		//Delete from state.itemIcons
+		copy = [...this.state.itemIcons];
+		copy.splice(idx, remove);	//Initialize empty
+		this.setState({ itemIcons: copy });
 
 		//Example of Subpoint Depths for 7 Items (corresponds to [items] in state)
 		//[parent, child, child, child of child , parent, child , parent]
@@ -139,60 +146,70 @@ class CreateItem extends React.Component {
 		return closestIdx !== null ? ids[closestIdx] : null;
 	}
 
-	handleSubmit = () => {
+	handleSubmit = async () => {
+		//Close modal
+		this.handleClose();
+
 		//Check for empty inputs
-		// if (this.checkInputs()) {
-		// 	return
-		// }
-		// //Setup new category
-		// let data = {
-		// 	title: this.state.title,
-		// 	index: this.props.numCategories + 1,
-		// 	id: this.props.SubjectID,
-		// 	categoryType: this.props.categoryType
-		// }
-		// //Store item ids to handle parentid
-		// let itemIDs = [];
-		// fetch("/cards/newCategory", { //Create new category call to server
-		// 	method: 'POST',
-		// 	headers: { 'Content-Type': 'application/json' },
-		// 	body: JSON.stringify(data)
-		// }).then(function (res) {
-		// 	if (res.status >= 400) {
-		// 		throw new Error("Bad response from server");
-		// 	}
-		// 	return res.json();
-		// }).then(async (data) => {
-		// 	for (const key in this.state.items) {	//Loop through each item and create new
-		// 		let data2 = {
-		// 			index: key,
-		// 			data: this.state.items[key],
-		// 			id: data.insertId,
-		// 			icon: this.state.itemIcons[key],
-		// 			parent: this.findParent(key, this.state.subpointDepths[key], itemIDs)
-		// 		}
-		// 		//Need to make for loop wait on this fetch before continuing
-		// 		//Because items dependent on parentid
-		// 		await fetch("/cards/newitem", {	//Create item
-		// 			method: 'POST',
-		// 			headers: { 'Content-Type': 'application/json' },
-		// 			body: JSON.stringify(data2)
-		// 		})
-		// 			.then((response) => response.json())
-		// 			.then(function (res) {
-		// 				itemIDs.push(res.insertId);
-		// 			}).catch(function (err) {
-		// 				console.log(data2);
-		// 				console.log(err);
-		// 			})
+		if (this.checkInputs()) {
+			return
+		}
 
-		// 	}
-		// }
-		// )
-		// 	.catch(function (err) {
-		// 		console.log(err);
-		// 	})
+		//Prepare data for new card
+		let cardData = {
+			headerId: this.props.headerId,
+			orderIndex: this.props.numCards + 1, //append to end of list of cards for this header
+			title: this.state.title,
+			userId: 1 //temporary placeholder
+		}
 
+		//Store item ids to handle parentId 
+		let itemIds = [];
+
+		//Create new card
+		await fetch("/cards/", {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(cardData)
+		}).then(function (res) {
+			if (res.status >= 400) {
+				throw new Error("Bad response from server");
+			}
+			return res.json();
+		}).then(async (cardData) => {
+			//Loop through state items and create 
+			for (const key in this.state.items) {
+				let itemData = {
+					orderIndex: parseInt(key) + 1,
+					contentText: this.state.items[key],
+					contentLabel: "",
+					contentUrl: "",
+					cardId: cardData.insertId,
+					iconType: this.state.itemIcons[key],
+					parentId: this.findParent(key, this.state.subpointDepths[key], itemIds),
+					userId: 1 //temporary placeholder
+				}
+				//Items can be dependent on previous item to be created (parentId), use await
+				await fetch("/items/", {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(itemData)
+				})
+					.then((response) => response.json())
+					.then(function (res) {
+						itemIds.push(res.insertId);
+					}).catch(function (err) {
+						console.log(itemData);
+						console.log(err);
+					})
+
+			}
+		}).catch(function (err) {
+			console.log(err);
+		})
+
+		//Reload page after adding
+		this.props.refresh();
 	}
 
 	checkInputs() {
@@ -236,7 +253,7 @@ class CreateItem extends React.Component {
 		let copy = [...this.state.items];
 		copy[key] = e.target.value;
 		this.setState({ items: copy });
-		/* Example of object being created
+		/* Example of items
 		* {
 		*   '0': {
 		*			'text': "Hello"
@@ -263,15 +280,13 @@ class CreateItem extends React.Component {
 	* @return {JSX}    Array of JSX of icons
 	*/
 	generateIcons(i) {
-		let list = [];
-		let jsx = [];
-		let values = [];
+		let list = [], jsx = [], values = [];
 		this.props.icons.map((type, index) => {
 			jsx.push(<div className="dropdown-item clickIcon" style={{ cursor: "pointer" }}>
 				<i className={`fas fa-${type.typeName}`} /> {type.typeKeyword}
 			</div>);
 			let jsxIcon = <i className={`fas fa-${type.typeName}`} />
-			values.push([type.typeId, jsxIcon]);
+			values.push([type.iconType, jsxIcon]);
 		}
 		);
 		list.push(jsx, values);
@@ -371,7 +386,7 @@ class CreateItem extends React.Component {
 							<div className='col-6'>
 								<Error
 									empty={this.state.emptyInputs}
-									message={"Error: Fill out empty inputs (title, icons, text)"}
+									message={this.state.errorMessage}
 								/>
 							</div>
 						</Row>
@@ -387,7 +402,7 @@ class CreateItem extends React.Component {
 	}
 }
 
-Modal.propTypes = {
+CreateItem.propTypes = {
 	title: PropTypes.string,
 	icons: PropTypes.array
 };

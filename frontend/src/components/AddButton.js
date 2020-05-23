@@ -1,5 +1,4 @@
 import React from 'react';
-import Modal from './Modal';
 import Button from 'react-bootstrap/Button';
 
 const AddButton = (props) => {
