@@ -15,7 +15,8 @@ class CreateItem extends React.Component {
 		items: [],
 		itemIcons: [],
 		subpointDepths: [],
-		show: false
+		show: false,
+		emptyInputs: true
 		//hold each input
 	}
 

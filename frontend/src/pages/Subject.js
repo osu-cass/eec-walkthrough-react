@@ -91,7 +91,7 @@ class Subject extends React.Component {
 
 				{this.state.headers.map((header, i) => {
 					return (
-						<Fragment>
+						<Fragment key={i}>
 							<SubjectCard subjectName={header.title} sticky>
 								<FilterBar
 									data={this.state.icons[i]}
