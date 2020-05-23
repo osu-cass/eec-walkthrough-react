@@ -1,5 +1,16 @@
-.nav_link:hover {
+.card-header {
 	cursor: pointer;
-	color: #7386d5;
+	color: #FFFFFF;
+	background: #169DB2;
 }
-  
+
+.nav_link:hover {
+	color: #FFFFFF;
+	background: #41484E;
+}
+
+.card-header:hover {
+	cursor: pointer;
+	color: #FFFFFF;
+	background: #027484;
+}

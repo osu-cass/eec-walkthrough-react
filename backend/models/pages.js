@@ -164,7 +164,7 @@ async function getFullPage(pageId) {
       const headerId = finalResults.headers[i].headerId;
 
       // get all icons used for each header
-      const sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
+      let sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
       "FROM `Headers` " +
       "LEFT JOIN Cards on Cards.headerId = Headers.headerId " +
       "LEFT JOIN Items on Cards.cardId = Items.cardId " +
@@ -175,12 +175,12 @@ async function getFullPage(pageId) {
       results = await pool.query(sql, headerId);
       finalResults.headers[i].icons = results[0];
 
-      const sql2 = "SELECT * " +
+      sql = "SELECT * " +
       "FROM Cards " +
       "WHERE headerId = ? " +
       "ORDER BY orderIndex ASC, cardId ASC";
 
-      results = await pool.query(sql2, headerId);
+      results = await pool.query(sql, headerId);
       finalResults.headers[i].cards = results[0];
       const cardCount = finalResults.headers[i].cards.length;
 

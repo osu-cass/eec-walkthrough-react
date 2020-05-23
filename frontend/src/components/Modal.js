@@ -95,40 +95,30 @@ class CreateItem extends React.Component {
 			console.log("error ", idx, this.state.subpointDepths);
 			return;
 		}
-		console.log("Removing ", idx)
 
-		//take all depths greater than idx and decrement
-		// EXAMPLE
-		// Item has 3 childs of +1 depth
-		// -> Need to take all those depths and decrement them
-
-		// ex)
-		// Start: 0, 1, 2, 3, 3, 3, 0, 0
-		// End: 0, 1, 2, 2, 2, 0, 0
 		idx = parseInt(idx);
-		var copy2 = [...this.state.subpointDepths];
-		let i, remove = 1, parent = copy2[idx];
-		console.log("Parent:", parent)
+		let copy = [...this.state.subpointDepths];
+		let i, remove = 1, parent = copy[idx];
 		// Delete children (if greater than parent subpoint depth, it is a child)
 		if (idx !== this.state.subpointDepths.length - 1) {
-			console.log("Start:", idx + 1, copy2[idx + 1], copy2);
-			for (i = idx + 1; parent < copy2[i]; i++) {
+			console.log("Start:", idx + 1, copy[idx + 1], copy);
+			for (i = idx + 1; parent < copy[i]; i++) {
 				remove++;
 			}
 		}
-		console.log(remove)
-		copy2.splice(idx, remove);
-		this.setState({ subpointDepths: copy2 }) //keep track of how deep this subpoint is
+		copy.splice(idx, remove);
+		this.setState({ subpointDepths: copy }) //keep track of how deep this subpoint is
 
 		//Decrement counter
 		var count = this.state.counter;
-		var copy = [...this.state.items];
+		copy = [...this.state.items];
 		copy.splice(idx, idx);	//Initialize empty
 		this.setState({ items: copy });
 		this.setState({ counter: count - remove });
+
+		//Example of Subpoint Depths for 7 Items (corresponds to [items] in state)
 		//[parent, child, child, child of child , parent, child , parent]
 		//[  0   ,   1  ,   1  ,       2        ,   0   ,   1   ,    0  ]
-		//[ each index corresponds to this.state.items ]
 	}
 
 	/**
@@ -382,8 +372,7 @@ class CreateItem extends React.Component {
 
 					<Modal.Footer className="modal-footer">
 						<Button variant="secondary" onClick={this.handleClose}>Close</Button>
-						<Button varian="info" onClick={() => console.log(this.state.subpointDepths)}>Test</Button>
-						<Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Create Category</Button>
+						<Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Create Card</Button>
 					</Modal.Footer>
 				</Modal>
 			</div>
@@ -392,14 +381,14 @@ class CreateItem extends React.Component {
 }
 
 Modal.propTypes = {
-	title: PropTypes.arrayOf(PropTypes.array)
+	title: PropTypes.string,
+	icons: PropTypes.array
 };
 /*
-title={"Create New Card"}
-Items={this.props.Items}
-numCategories={this.state.categories.length}
-numOpportunities={this.state.opportunities.length}
-SubjectID={this.state.subjectInfo[0].SubjectID}
-categoryType={1}
+					title={"Create New Card"}
+					icons={this.state.iconSet}
+					numcards={this.state.cards.length}
+					SubjectID={this.state.pageInfo.pageId}
+					categoryType={1}
 */
 export default CreateItem;
