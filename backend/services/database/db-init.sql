@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: classmysql.engr.oregonstate.edu:3306
--- Generation Time: May 22, 2020 at 02:45 PM
+-- Generation Time: May 22, 2020 at 08:07 PM
 -- Server version: 10.4.11-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -78,6 +78,44 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `userId`, `c
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Icons`
+--
+
+CREATE TABLE `Icons` (
+  `iconType` int(10) UNSIGNED NOT NULL,
+  `typeKeyword` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `typeName` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `Icons`
+--
+
+INSERT INTO `Icons` (`iconType`, `typeKeyword`, `typeName`) VALUES
+(1, 'Pros', 'plus'),
+(2, 'Cons', 'minus'),
+(3, 'Rules of Thumb', 'thumbs-up'),
+(4, 'Caveats', 'skull'),
+(5, 'Fire', 'fire'),
+(6, 'Electricity', 'bolt'),
+(7, 'Best Practices', 'trophy'),
+(8, 'Tips', 'hand-point-right'),
+(9, 'Blueprint', 'map'),
+(10, 'Opportunity Chance', 'flag'),
+(11, 'Opportunity', 'check-square'),
+(12, 'Point', 'square-full'),
+(13, 'Opportunity Description', 'opportunity-desc'),
+(14, 'Question', 'question'),
+(15, 'Note', 'pencil-alt'),
+(16, 'File', 'file'),
+(17, 'Document', 'copy'),
+(18, 'In Depth Resource', 'info'),
+(19, 'Link', 'link'),
+(20, 'Figure', 'chart-area');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Industries_Subjects`
 --
 
@@ -107,7 +145,7 @@ CREATE TABLE `Items` (
   `cardId` int(10) UNSIGNED NOT NULL,
   `orderIndex` int(10) UNSIGNED NOT NULL,
   `parentId` int(10) UNSIGNED DEFAULT NULL,
-  `iconType` int(10) NOT NULL,
+  `iconType` int(10) UNSIGNED NOT NULL,
   `contentText` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentUrl` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentLabel` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -127,8 +165,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `parentId`, `iconType`, `
 (4, 1, 1, 3, 5, 'Hot 4', '', '', 2, '2020-05-22 21:23:14', 1),
 (5, 1, 1, 3, 5, 'Hot 4 again', '', '', 1, '2020-05-22 21:23:14', 1),
 (6, 2, 1, NULL, 6, 'electric', '', '', 1, '2020-05-22 21:23:14', 1),
-(7, 3, 1, NULL, 22, '', 'https://i.imgur.com/V0dkW5l.png', 'Screw compressor power vs output for various control strategies', 1, '2020-05-22 21:23:14', 1),
-(8, 3, 1, NULL, 22, '', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg/1024px-Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg', 'Technical Illustration of a two-stage air compressor', 2, '2020-05-22 21:23:14', 1),
+(7, 3, 1, NULL, 20, '', 'https://i.imgur.com/V0dkW5l.png', 'Screw compressor power vs output for various control strategies', 1, '2020-05-22 22:34:06', 1),
+(8, 3, 1, NULL, 20, '', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg/1024px-Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg', 'Technical Illustration of a two-stage air compressor', 2, '2020-05-22 22:33:57', 1),
 (23, 8, 1, NULL, 8, 'Reduced air pressure not only reduces air compressor energy required for a set volume of air, it will also result in less air volume consumed by leaks and unregulated air uses (although it can be hard to estimate the volume reduction).\r\n', '', '', 1, '2020-05-22 21:23:14', 1),
 (24, 8, 1, NULL, 11, 'System pressure is set over 100 PSI for a compressed air system serving standard industrial utilities and controls.\r\n', '', '', 2, '2020-05-22 21:23:14', 1),
 (25, 9, 1, NULL, 1, 'Versatile. Offers compact energy density. Easy quick fix for many issues. Familiar utility for industrial personnel.\r\n', '', '', 1, '2020-05-22 21:23:14', 1),
@@ -208,6 +246,14 @@ ALTER TABLE `Headers`
   ADD KEY `user_header_fk` (`userId`);
 
 --
+-- Indexes for table `Icons`
+--
+ALTER TABLE `Icons`
+  ADD PRIMARY KEY (`iconType`),
+  ADD UNIQUE KEY `typeKeyword` (`typeKeyword`) USING HASH,
+  ADD UNIQUE KEY `typeName` (`typeName`) USING HASH;
+
+--
 -- Indexes for table `Industries_Subjects`
 --
 ALTER TABLE `Industries_Subjects`
@@ -222,7 +268,7 @@ ALTER TABLE `Items`
   ADD KEY `card_fk` (`cardId`),
   ADD KEY `user_item_fk` (`userId`),
   ADD KEY `parentId_fk` (`parentId`),
-  ADD KEY `icon_fk` (`iconType`);
+  ADD KEY `iconId_fk` (`iconType`);
 
 --
 -- Indexes for table `Pages`
@@ -255,6 +301,12 @@ ALTER TABLE `Cards`
 --
 ALTER TABLE `Headers`
   MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `Icons`
+--
+ALTER TABLE `Icons`
+  MODIFY `iconType` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `Items`
@@ -304,6 +356,7 @@ ALTER TABLE `Industries_Subjects`
 --
 ALTER TABLE `Items`
   ADD CONSTRAINT `card_fk` FOREIGN KEY (`cardId`) REFERENCES `Cards` (`cardId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `iconId_fk` FOREIGN KEY (`iconType`) REFERENCES `Icons` (`iconType`),
   ADD CONSTRAINT `parentId_fk` FOREIGN KEY (`parentId`) REFERENCES `Items` (`itemId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_item_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
 
