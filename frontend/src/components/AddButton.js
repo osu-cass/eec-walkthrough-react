@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 const AddButton = (props) => {
 	return (
 		<Button
-			variant="primary"
+			variant="success"
 			onClick={props.onClick}
 		>
 			<i
