@@ -37,10 +37,10 @@ class Subject extends React.Component {
 		//Reset state for page load
 		this.setState({ cards: [], headers: [], icons: [], loaded: false });
 
-		//Load all icons
-		fetch(`/icons/all`)	//subject info (summary, name, img, description)
+    //Load all icons
+		fetch(`/icons/all`)
 			.then(res => res.json())
-			.then(iconSet => this.setState({ iconSet }))
+      .then(iconSet => this.setState({ iconSet: iconSet.icons }))
 
 		//Page specific info
 		fetch(`/pages/${this.props.pageId}`)	//subject info (summary, name, img, description)

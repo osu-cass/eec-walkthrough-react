@@ -559,6 +559,22 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  /Icons/all:
+      get:
+        summary: Get all icon information
+        description: >
+          Get all icon information
+        operationId: getIcon
+        tags:
+          - Icons
+        responses:
+          '200':
+            $ref: '#/components/responses/Icon_GET_ALL_200'
+          '404':
+            $ref: '#/components/responses/404'
+          '500':
+            $ref: '#/components/responses/500'
+
 components:
   schemas:
 
@@ -880,6 +896,34 @@ components:
           minimum: 0
           maximum: 1
           example: 0
+   
+    Icon:
+      description: An object representing a specific icon that can be matched to an item
+      type: object
+      required:
+        - iconType
+        - typeKeyword
+        - typeName
+      properties:
+        iconType:
+          description: The ID of the icon.
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 4294967295
+          example: 15
+        typeKeyword:
+          description: A description of the item that the icon represents
+          type: string
+          minLength: 1
+          maxLength: 1000
+          example: Rules of Thumb
+        typeName:
+          description: The name of the icon
+          type: string
+          minLength: 1
+          maxLength: 1000
+          example: thumbs-up
    
     Id:
       type: integer
@@ -1447,6 +1491,26 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Item'
+          
+    Icon_GET_ALL_200:
+      description: An object containing information about icons
+      content:
+        application/json:
+          schema:
+            properties:
+              icons:
+                example: [ 
+                 {
+                  iconType: 3,
+                  typeKeyword: Rules of Thumb,
+                  typeName: thumbs-up
+                 },
+                 {
+                  iconType: 7,
+                  typeKeyword: Best Practices,
+                  typeName: trophy
+                 }
+                ]
 
     '400':
       description: Missing or invalid request body

@@ -13,7 +13,12 @@ async function getIcons() {
 		"ORDER BY typeKeyword ASC;";
 
     const results = await pool.query(sql, []);
-    return results[0];
+
+    const finalResults = {
+      icons: results[0]
+    };
+
+    return finalResults;
 
   } catch (err) {
     console.error("Error searching for icons");

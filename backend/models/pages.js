@@ -170,7 +170,7 @@ async function getFullPage(pageId) {
       "LEFT JOIN Items on Cards.cardId = Items.cardId " +
       "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
       "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
-      "ORDER BY iconType ASC;";
+      "ORDER BY typeKeyword ASC;";
 
       results = await pool.query(sql, headerId);
       finalResults.headers[i].icons = results[0];
