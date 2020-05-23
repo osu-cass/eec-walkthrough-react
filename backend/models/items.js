@@ -2,7 +2,6 @@
 // Description: Provides functions for working with user data.
 
 const {pool} = require("../services/database/mysqlPool");
-const {Icons} = require("../entities/icons");
 
 
 // return information about the specific item
@@ -11,10 +10,11 @@ async function getItem(itemId) {
   try {
 
     // get the specified item
-    const sql = "SELECT itemId, cardId, parentId, iconType, iconType AS typeName, " +
-      "iconType AS typeKeyword, contentText, contentUrl, contentLabel, userId, " +
-      "created, approved " +
+    const sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+      "Items.iconType, typeName, typeKeyword, contentText, " +
+      "contentUrl, contentLabel, userId, " +
       "FROM Items " +
+      "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
       "WHERE itemId = ?;";
 
     const results = await pool.query(sql, itemId);
@@ -23,12 +23,6 @@ async function getItem(itemId) {
     if (!results[0].length) {
       return {itemId: 0};
     }
-
-    results[0][0];
-
-    // reference the icon entity for icon data
-    results[0][0].typeName = Icons.data[results[0][0].iconType][0];
-    results[0][0].typeKeyword = Icons.data[results[0][0].iconType][1];
 
     return results[0][0];
 
@@ -42,7 +36,7 @@ exports.getItem = getItem;
 
 
 // create an item
-async function createItem(cardId, parentId, iconType, contentText, contentUrl, contentLabel, userId) {
+async function createItem(cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, userId) {
 
   try {
 
@@ -80,10 +74,25 @@ async function createItem(cardId, parentId, iconType, contentText, contentUrl, c
 
     }
 
+    // make sure the icon is valid
+    if (iconType) {
+
+      sql = "SELECT * " +
+      "FROM Icons " +
+      "WHERE iconType = ?;";
+
+      results = await pool.query(sql, iconType);
+
+      if (!results[0].length) {
+        return {error: 4};
+      }
+
+    }
+
     // create the new item
-    sql = "INSERT INTO Items (cardId, parentId, iconType, contentText, contentUrl, contentLabel, userId, approved) " +
-    "VALUES (?, ?, ?, ?, ?, ?, ?, 0);";
-    results = await pool.query(sql, [cardId, parentId, iconType, contentText, contentUrl, contentLabel, userId]);
+    sql = "INSERT INTO Items (cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, userId, approved) " +
+    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0);";
+    results = await pool.query(sql, [cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, userId]);
 
     const finalResults = {
       insertId: results[0].insertId
@@ -139,7 +148,7 @@ exports.deleteItem = deleteItem;
 
 
 // update an item
-async function updateItem(itemId, cardId, parentId, iconType, contentText, contentUrl, contentLabel, approved) {
+async function updateItem(itemId, cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, approved) {
 
   try {
 
@@ -196,6 +205,11 @@ async function updateItem(itemId, cardId, parentId, iconType, contentText, conte
 
     }
 
+    if (typeof orderIndex !== "undefined") {
+      sql += "orderIndex = ?,";
+      sqlArray.push(orderIndex);
+    }
+
     if (typeof iconType !== "undefined") {
       sql += "iconType = ?,";
       sqlArray.push(iconType);
@@ -225,9 +239,24 @@ async function updateItem(itemId, cardId, parentId, iconType, contentText, conte
     sql = sql.replace(/.$/, " WHERE itemId = ?;");
     sqlArray.push(itemId);
 
+    // make sure the icon is valid
+    if (iconType) {
+
+      sql = "SELECT * " +
+      "FROM Icons " +
+      "WHERE iconType = ?;";
+
+      results = await pool.query(sql, iconType);
+
+      if (!results[0].length) {
+        return {error: 4};
+      }
+
+    }
+
     // make sure that we are updating at least one field
     if (sqlArray.length <= 1) {
-      return {error: 4};
+      return {error: 5};
     }
 
     // perform the update query

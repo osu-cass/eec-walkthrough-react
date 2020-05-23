@@ -33,7 +33,7 @@ exports.getCard = getCard;
 
 
 // create a card
-async function createCard(headerId, title, userId) {
+async function createCard(headerId, orderIndex, title, userId) {
 
   try {
 
@@ -69,9 +69,9 @@ async function createCard(headerId, title, userId) {
     }
 
     // create the new card
-    sql = "INSERT INTO Cards (headerId, title, userId, approved) " +
-    "VALUES (?, ?, ?, 0);";
-    results = await pool.query(sql, [headerId, title, userId]);
+    sql = "INSERT INTO Cards (headerId, orderIndex, title, userId, approved) " +
+    "VALUES (?, ?, ?, ?, 0);";
+    results = await pool.query(sql, [headerId, orderIndex, title, userId]);
 
     const finalResults = {
       insertId: results[0].insertId
@@ -127,7 +127,7 @@ exports.deleteCard = deleteCard;
 
 
 // update a card
-async function updateCard(cardId, headerId, title, approved) {
+async function updateCard(cardId, headerId, orderIndex, title, approved) {
 
   try {
 
@@ -162,6 +162,11 @@ async function updateCard(cardId, headerId, title, approved) {
       sql += "headerId = ?,";
       sqlArray.push(headerId);
 
+    }
+
+    if (typeof orderIndex !== "undefined") {
+      sql += "orderIndex = ?,";
+      sqlArray.push(orderIndex);
     }
 
     if (typeof title !== "undefined") {
@@ -200,11 +205,13 @@ async function updateCard(cardId, headerId, title, approved) {
         title = results[0][0].title;
       }
 
+      // look for duplicate titles
       const checkSql = "SELECT * " +
       "FROM Cards " +
       "WHERE headerId = ? " +
-      "AND title = ?;";
-      results = await pool.query(checkSql, [headerId, title]);
+      "AND title = ? " +
+      "AND NOT cardId = ?;";
+      results = await pool.query(checkSql, [headerId, title, cardId]);
 
       if (results[0].length) {
         return {error: 3};

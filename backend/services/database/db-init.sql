@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: classmysql.engr.oregonstate.edu:3306
--- Generation Time: May 21, 2020 at 03:27 PM
+-- Generation Time: May 22, 2020 at 08:07 PM
 -- Server version: 10.4.11-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -31,6 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `Cards` (
   `cardId` int(10) UNSIGNED NOT NULL,
   `headerId` int(10) UNSIGNED NOT NULL,
+  `orderIndex` int(10) UNSIGNED NOT NULL,
   `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `userId` int(10) UNSIGNED NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -41,10 +42,12 @@ CREATE TABLE `Cards` (
 -- Dumping data for table `Cards`
 --
 
-INSERT INTO `Cards` (`cardId`, `headerId`, `title`, `userId`, `created`, `approved`) VALUES
-(1, 3, 'Boiler Card', 2, '2020-05-17 22:21:14', 1),
-(2, 3, 'Danger', 2, '2020-05-17 22:48:56', 1),
-(3, 1, 'Figures, Charts, and Tables', 2, '2020-05-17 22:53:11', 1);
+INSERT INTO `Cards` (`cardId`, `headerId`, `orderIndex`, `title`, `userId`, `created`, `approved`) VALUES
+(1, 3, 1, 'Boiler Card', 2, '2020-05-22 21:22:22', 1),
+(2, 3, 1, 'Danger', 2, '2020-05-22 21:22:22', 1),
+(3, 1, 1, 'Figures, Charts, and Tables', 2, '2020-05-22 21:22:22', 1),
+(8, 2, 1, 'Reduce Compressed Air Pressure\r\n', 1, '2020-05-22 21:22:22', 1),
+(9, 1, 1, 'Pros', 1, '2020-05-22 21:22:22', 1);
 
 -- --------------------------------------------------------
 
@@ -55,6 +58,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `title`, `userId`, `created`, `approv
 CREATE TABLE `Headers` (
   `headerId` int(10) UNSIGNED NOT NULL,
   `pageId` int(10) UNSIGNED NOT NULL,
+  `orderIndex` int(10) UNSIGNED NOT NULL,
   `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `userId` int(10) UNSIGNED NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -65,11 +69,49 @@ CREATE TABLE `Headers` (
 -- Dumping data for table `Headers`
 --
 
-INSERT INTO `Headers` (`headerId`, `pageId`, `title`, `userId`, `created`, `approved`) VALUES
-(1, 2, 'Compressed Air', 2, '2020-05-17 22:17:52', 1),
-(2, 2, 'Compressed Air Opportunities to Consider', 1, '2020-05-17 22:18:33', 1),
-(3, 1, 'Boilers', 1, '2020-05-19 06:14:17', 1),
-(4, 3, 'Refrigeration', 2, '2020-05-19 06:14:17', 1);
+INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `userId`, `created`, `approved`) VALUES
+(1, 2, 1, 'Compressed Air General', 2, '2020-05-22 21:22:38', 1),
+(2, 2, 1, 'Compressed Air Opportunities to Consider', 1, '2020-05-22 21:22:38', 1),
+(3, 1, 1, 'Boilers', 1, '2020-05-22 21:22:38', 1),
+(4, 3, 1, 'Refrigeration', 2, '2020-05-22 21:22:38', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Icons`
+--
+
+CREATE TABLE `Icons` (
+  `iconType` int(10) UNSIGNED NOT NULL,
+  `typeKeyword` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `typeName` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `Icons`
+--
+
+INSERT INTO `Icons` (`iconType`, `typeKeyword`, `typeName`) VALUES
+(1, 'Pros', 'plus'),
+(2, 'Cons', 'minus'),
+(3, 'Rules of Thumb', 'thumbs-up'),
+(4, 'Caveats', 'skull'),
+(5, 'Fire', 'fire'),
+(6, 'Electricity', 'bolt'),
+(7, 'Best Practices', 'trophy'),
+(8, 'Tips', 'hand-point-right'),
+(9, 'Blueprint', 'map'),
+(10, 'Opportunity Chance', 'flag'),
+(11, 'Opportunity', 'check-square'),
+(12, 'Point', 'square-full'),
+(13, 'Opportunity Description', 'opportunity-desc'),
+(14, 'Question', 'question'),
+(15, 'Note', 'pencil-alt'),
+(16, 'File', 'file'),
+(17, 'Document', 'copy'),
+(18, 'In Depth Resource', 'info'),
+(19, 'Link', 'link'),
+(20, 'Figure', 'chart-area');
 
 -- --------------------------------------------------------
 
@@ -101,8 +143,9 @@ INSERT INTO `Industries_Subjects` (`industryId`, `subjectId`) VALUES
 CREATE TABLE `Items` (
   `itemId` int(10) UNSIGNED NOT NULL,
   `cardId` int(10) UNSIGNED NOT NULL,
+  `orderIndex` int(10) UNSIGNED NOT NULL,
   `parentId` int(10) UNSIGNED DEFAULT NULL,
-  `iconType` smallint(5) UNSIGNED NOT NULL,
+  `iconType` int(10) UNSIGNED NOT NULL,
   `contentText` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentUrl` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentLabel` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -115,15 +158,19 @@ CREATE TABLE `Items` (
 -- Dumping data for table `Items`
 --
 
-INSERT INTO `Items` (`itemId`, `cardId`, `parentId`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `userId`, `created`, `approved`) VALUES
-(1, 1, NULL, 5, 'Hot 1', '', '', 2, '2020-05-21 22:25:56', 1),
-(2, 1, 1, 5, 'Hot 2', '', '', 2, '2020-05-17 22:46:12', 1),
-(3, 1, 2, 5, 'Hot 3', '', '', 2, '2020-05-17 22:47:24', 1),
-(4, 1, 3, 5, 'Hot 4', '', '', 2, '2020-05-17 22:47:52', 1),
-(5, 1, 3, 5, 'Hot 4 again', '', '', 1, '2020-05-17 22:48:12', 1),
-(6, 2, NULL, 6, 'electric', '', '', 1, '2020-05-21 22:25:56', 1),
-(7, 3, NULL, 20, '', 'https://i.imgur.com/V0dkW5l.png', 'Screw compressor power vs output for various control strategies', 1, '2020-05-21 22:25:56', 1),
-(8, 3, NULL, 20, '', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg/1024px-Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg', 'Technical Illustration of a two-stage air compressor', 2, '2020-05-21 22:25:56', 1);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `parentId`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `userId`, `created`, `approved`) VALUES
+(1, 1, 1, NULL, 5, 'Hot 1', '', '', 2, '2020-05-22 21:23:14', 1),
+(2, 1, 1, 1, 5, 'Hot 2', '', '', 2, '2020-05-22 21:23:14', 1),
+(3, 1, 1, 2, 5, 'Hot 3', '', '', 2, '2020-05-22 21:23:14', 1),
+(4, 1, 1, 3, 5, 'Hot 4', '', '', 2, '2020-05-22 21:23:14', 1),
+(5, 1, 1, 3, 5, 'Hot 4 again', '', '', 1, '2020-05-22 21:23:14', 1),
+(6, 2, 1, NULL, 6, 'electric', '', '', 1, '2020-05-22 21:23:14', 1),
+(7, 3, 1, NULL, 20, '', 'https://i.imgur.com/V0dkW5l.png', 'Screw compressor power vs output for various control strategies', 1, '2020-05-22 22:34:06', 1),
+(8, 3, 1, NULL, 20, '', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg/1024px-Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg', 'Technical Illustration of a two-stage air compressor', 2, '2020-05-22 22:33:57', 1),
+(23, 8, 1, NULL, 8, 'Reduced air pressure not only reduces air compressor energy required for a set volume of air, it will also result in less air volume consumed by leaks and unregulated air uses (although it can be hard to estimate the volume reduction).\r\n', '', '', 1, '2020-05-22 21:23:14', 1),
+(24, 8, 1, NULL, 11, 'System pressure is set over 100 PSI for a compressed air system serving standard industrial utilities and controls.\r\n', '', '', 2, '2020-05-22 21:23:14', 1),
+(25, 9, 1, NULL, 1, 'Versatile. Offers compact energy density. Easy quick fix for many issues. Familiar utility for industrial personnel.\r\n', '', '', 1, '2020-05-22 21:23:14', 1),
+(26, 9, 1, NULL, 1, 'Spark free for potentially explosive environments\r\n', '', '', 2, '2020-05-22 21:23:14', 1);
 
 -- --------------------------------------------------------
 
@@ -199,6 +246,14 @@ ALTER TABLE `Headers`
   ADD KEY `user_header_fk` (`userId`);
 
 --
+-- Indexes for table `Icons`
+--
+ALTER TABLE `Icons`
+  ADD PRIMARY KEY (`iconType`),
+  ADD UNIQUE KEY `typeKeyword` (`typeKeyword`) USING HASH,
+  ADD UNIQUE KEY `typeName` (`typeName`) USING HASH;
+
+--
 -- Indexes for table `Industries_Subjects`
 --
 ALTER TABLE `Industries_Subjects`
@@ -212,7 +267,8 @@ ALTER TABLE `Items`
   ADD PRIMARY KEY (`itemId`),
   ADD KEY `card_fk` (`cardId`),
   ADD KEY `user_item_fk` (`userId`),
-  ADD KEY `parentId_fk` (`parentId`);
+  ADD KEY `parentId_fk` (`parentId`),
+  ADD KEY `iconId_fk` (`iconType`);
 
 --
 -- Indexes for table `Pages`
@@ -238,25 +294,31 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `Icons`
+--
+ALTER TABLE `Icons`
+  MODIFY `iconType` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `Users`
@@ -294,6 +356,7 @@ ALTER TABLE `Industries_Subjects`
 --
 ALTER TABLE `Items`
   ADD CONSTRAINT `card_fk` FOREIGN KEY (`cardId`) REFERENCES `Cards` (`cardId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `iconId_fk` FOREIGN KEY (`iconType`) REFERENCES `Icons` (`iconType`),
   ADD CONSTRAINT `parentId_fk` FOREIGN KEY (`parentId`) REFERENCES `Items` (`itemId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_item_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
 

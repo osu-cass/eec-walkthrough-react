@@ -15,11 +15,13 @@ class Subject extends React.Component {
 		subjectInfo: [],
 		headers: [],
 		icons: [],
-		cards: []
+		cards: [],
+		iconSet: []
 	}
 
 	async componentDidMount() {
 		const response = await this.fetchData(); //Get data about this subject (subject info, cards, figures)
+		console.log(this.state.pageInfo)
 	}
 
 	async componentDidUpdate(prevProps, prevState) {
@@ -31,17 +33,28 @@ class Subject extends React.Component {
 
 	async fetchData() {
 		let i, j, icons = [];
-		this.setState({ cards: [], headers: [], icons: [], loaded: false }); //reset state for page load
+
+		//Reset state for page load
+		this.setState({ cards: [], headers: [], icons: [], loaded: false });
+
+		//Load all icons
+		fetch(`/icons/all`)	//subject info (summary, name, img, description)
+			.then(res => res.json())
+			.then(iconSet => this.setState({ iconSet }))
+
 		//Page specific info
 		fetch(`/pages/${this.props.pageId}`)	//subject info (summary, name, img, description)
 			.then(res => res.json())
 			.then(subjectInfo => this.setState({ subjectInfo }))
+
 		//Full page info
 		await fetch(`/pages/${this.props.pageId}/all`)
 			.then(res => res.json())
 			.then(pageInfo => this.setState({ pageInfo }))
+
 		//Headers
 		await this.setState({ headers: this.state.pageInfo.headers });
+
 		//Split icons for each header
 		for (i = 0; i < this.state.headers.length; i++) {
 			icons[i] = this.state.headers[i].icons;
@@ -49,6 +62,7 @@ class Subject extends React.Component {
 				icons[i][j].hidden = false;
 			}
 		}
+
 		await this.setState({ icons: icons })
 		await this.setState({ loaded: true })
 	}
@@ -77,7 +91,7 @@ class Subject extends React.Component {
 
 				{this.state.headers.map((header, i) => {
 					return (
-						<Fragment>
+						<Fragment key={i}>
 							<SubjectCard subjectName={header.title} sticky>
 								<FilterBar
 									data={this.state.icons[i]}
@@ -95,14 +109,13 @@ class Subject extends React.Component {
 				})}
 
 				{/* Create cards */}
-				{/* <Modal
+				<Modal
 					title={"Create New Card"}
-					tidbitTypes={this.state.tidbitTypes}
+					icons={this.state.iconSet}
 					numcards={this.state.cards.length}
-					numOpportunities={this.state.opportunities.length}
-					SubjectID={this.state.subjectInfo[0].SubjectID}
+					SubjectID={this.state.pageInfo.pageId}
 					categoryType={1}
-				/> */}
+				/>
 
 			</Container>
 		) : <Loading />

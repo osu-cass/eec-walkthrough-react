@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
 import AddButton from './AddButton';
 import InputField from './InputField';
 import Dropdown from './Dropdown';
@@ -7,45 +8,46 @@ import Error from './Error';
 import './Modal.css'
 import './Subject.css'
 
-class Modal extends React.Component {
+class CreateItem extends React.Component {
 	state = {
 		counter: 1, //count number of inputs added
 		title: "",
-		tidbits: [],
-		tidbitIcons: [],
-		subpointDepths: []
+		items: [],
+		itemIcons: [],
+		subpointDepths: [],
+		show: false,
+		emptyInputs: true
 		//hold each input
 	}
 
 	componentDidMount() {
-		let subpointDepths = [];
+		let subpointDepths = [], items = [], itemIcons = [];
 		subpointDepths.push(0);
 		this.setState({ subpointDepths: subpointDepths });
 
-		let tidbits = [];
-		tidbits.push("");
-		this.setState({ tidbits: tidbits })
+		items.push("");
+		this.setState({ items: items })
 
-		let tidbitIcons = [];
-		tidbitIcons.push(null);
-		this.setState({ tidbitIcons: tidbitIcons })
-
-		this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" });
+		itemIcons.push(null);
+		this.setState({ itemIcons: itemIcons })
 	}
+
+	handleClose = () => this.setState({ show: false });
+	handleShow = () => this.setState({ show: true });
 
 	incrementCounter = () => {
 		let count = this.state.counter;
 		let key = (count).toString();
-		let copy = [...this.state.tidbits];
+		let copy = [...this.state.items];
 
 
 		copy.push("");	//Initialize empty
-		this.setState({ tidbits: copy });
+		this.setState({ items: copy });
 		this.setState({ counter: count + 1 });
 
-		let copy3 = [...this.state.tidbitIcons];
+		let copy3 = [...this.state.itemIcons];
 		copy3.push(null);
-		this.setState({ tidbitIcons: copy3 });
+		this.setState({ itemIcons: copy3 });
 
 		//Create subpoint counter instance, starts at 0 for root
 		let copy2 = [...this.state.subpointDepths];
@@ -55,8 +57,8 @@ class Modal extends React.Component {
 	}
 
 	/**
-	* Update state relating to subpoint depth (how far tidbit is tabbed)
-	* @param {Number} idx Index of tidbit
+	* Update state relating to subpoint depth (how far item is tabbed)
+	* @param {Number} idx Index of item
 	* @return {State}    Updated state, no actual return value
 	*/
 	updateSubpoints(idx) {
@@ -74,19 +76,55 @@ class Modal extends React.Component {
 		//Increment counter
 		var count = this.state.counter;
 		var key = (idx + 1).toString();
-		var copy = [...this.state.tidbits];
+		var copy = [...this.state.items];
 		copy.splice(idx + 1, 0, "");	//Initialize empty
-		this.setState({ tidbits: copy });
+		this.setState({ items: copy });
 		this.setState({ counter: count + 1 });
 		//[parent, child, child, child of child , parent, child , parent]
 		//[  0   ,   1  ,   1  ,       2        ,   0   ,   1   ,    0  ]
-		//[ each index corresponds to this.state.tidbits ]
+		//[ each index corresponds to this.state.items ]
 	}
 
 	/**
-	* Find parent of tidbit by finding closest index of (subpoint depth - 1) to the left
-	* @param {Number} idx Index of tidbit
-	* @param {Number} val Value of depth of this tidbit
+	* Update state by removing selected item
+	* @param {Number} idx Index of item
+	* @return {State}    Updated state, no actual return value
+	*/
+	deleteSubpoints(idx) {
+		if (idx === null) {
+			console.log("error ", idx, this.state.subpointDepths);
+			return;
+		}
+
+		idx = parseInt(idx);
+		let copy = [...this.state.subpointDepths];
+		let i, remove = 1, parent = copy[idx];
+		// Delete children (if greater than parent subpoint depth, it is a child)
+		if (idx !== this.state.subpointDepths.length - 1) {
+			console.log("Start:", idx + 1, copy[idx + 1], copy);
+			for (i = idx + 1; parent < copy[i]; i++) {
+				remove++;
+			}
+		}
+		copy.splice(idx, remove);
+		this.setState({ subpointDepths: copy }) //keep track of how deep this subpoint is
+
+		//Decrement counter
+		var count = this.state.counter;
+		copy = [...this.state.items];
+		copy.splice(idx, idx);	//Initialize empty
+		this.setState({ items: copy });
+		this.setState({ counter: count - remove });
+
+		//Example of Subpoint Depths for 7 Items (corresponds to [items] in state)
+		//[parent, child, child, child of child , parent, child , parent]
+		//[  0   ,   1  ,   1  ,       2        ,   0   ,   1   ,    0  ]
+	}
+
+	/**
+	* Find parent of item by finding closest index of (subpoint depth - 1) to the left
+	* @param {Number} idx Index of item
+	* @param {Number} val Value of depth of this item
 	* @return {Number}    Index of parent
 	*/
 	findParent(idx, val, ids) {
@@ -113,8 +151,8 @@ class Modal extends React.Component {
 			id: this.props.SubjectID,
 			categoryType: this.props.categoryType
 		}
-		//Store tidbit ids to handle parentid
-		let tidbitIDs = [];
+		//Store item ids to handle parentid
+		let itemIDs = [];
 		fetch("/cards/newCategory", { //Create new category call to server
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -125,24 +163,24 @@ class Modal extends React.Component {
 			}
 			return res.json();
 		}).then(async (data) => {
-			for (const key in this.state.tidbits) {	//Loop through each tidbit and create new
+			for (const key in this.state.items) {	//Loop through each item and create new
 				let data2 = {
 					index: key,
-					data: this.state.tidbits[key],
+					data: this.state.items[key],
 					id: data.insertId,
-					icon: this.state.tidbitIcons[key],
-					parent: this.findParent(key, this.state.subpointDepths[key], tidbitIDs)
+					icon: this.state.itemIcons[key],
+					parent: this.findParent(key, this.state.subpointDepths[key], itemIDs)
 				}
 				//Need to make for loop wait on this fetch before continuing
-				//Because tidbits dependent on parentid
-				await fetch("/cards/newTidbit", {	//Create tidbit
+				//Because items dependent on parentid
+				await fetch("/cards/newitem", {	//Create item
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(data2)
 				})
 					.then((response) => response.json())
 					.then(function (res) {
-						tidbitIDs.push(res.insertId);
+						itemIDs.push(res.insertId);
 					}).catch(function (err) {
 						console.log(data2);
 						console.log(err);
@@ -167,20 +205,20 @@ class Modal extends React.Component {
 			errorMessage = "Error: Empty category title";
 			errorCount++;
 		}
-		//Empty tidbit text
-		this.state.tidbits.forEach((tidbit, idx) => {
-			if (tidbit === "") {
+		//Empty item text
+		this.state.items.forEach((item, idx) => {
+			if (item === "") {
 				emptyFound = true;
-				errorMessage = "Error: Empty tidbit text";
+				errorMessage = "Error: Empty item text";
 				errorCount++;
 				return;
 			}
 		});
-		//Empty tidbit icon
-		this.state.tidbitIcons.forEach((icon, idx) => {
+		//Empty item icon
+		this.state.itemIcons.forEach((icon, idx) => {
 			if (icon === null) {
 				emptyFound = true;
-				errorMessage = "Error: Empty tidbit icon";
+				errorMessage = "Error: Empty item icon";
 				errorCount++;
 				return;
 			}
@@ -195,47 +233,45 @@ class Modal extends React.Component {
 
 	handleInput = (e, index) => {
 		let key = index.toString();
-		let copy = [...this.state.tidbits];
+		let copy = [...this.state.items];
 		copy[key] = e.target.value;
-		this.setState({ tidbits: copy });
-
+		this.setState({ items: copy });
 		/* Example of object being created
 		* {
 		*   '0': {
 		*			'text': "Hello"
 		* 		}
-  	*/
-
+  		*/
 	}
 
 	/**
 	* Updates dropdown icon selected for specific index
-	* @param {Number} icon TidbitType ID of Icon
-	* @param {Number} index Index of tidbit being changed
+	* @param {Number} icon itemType ID of Icon
+	* @param {Number} index Index of item being changed
 	* @return {State}  			Updated state, no actual return value
 	*/
 	updateIcon(icon, index) {
-		let copy = [...this.state.tidbitIcons];
+		let copy = [...this.state.itemIcons];
 		copy[index] = icon;
 		console.log(icon, index);
-		this.setState({ tidbitIcons: copy });
+		this.setState({ itemIcons: copy });
 	}
 
 	/**
 	* Returns JSX for dropdown of all icons
-	* @param {Number} i Tidbit index passed from generateInputs()
+	* @param {Number} i item index passed from generateInputs()
 	* @return {JSX}    Array of JSX of icons
 	*/
-	generateTidbitTypes(i) {
+	generateIcons(i) {
 		let list = [];
 		let jsx = [];
 		let values = [];
-		this.props.tidbitTypes.map((type, index) => {
+		this.props.icons.map((type, index) => {
 			jsx.push(<div className="dropdown-item clickIcon" style={{ cursor: "pointer" }}>
-				<i className={`fas fa-${type.TypeName}`} /> {type.TypeKeyword}
+				<i className={`fas fa-${type.typeName}`} /> {type.typeKeyword}
 			</div>);
-			let jsxIcon = <i className={`fas fa-${type.TypeName}`} />
-			values.push([type.TypeID, jsxIcon]);
+			let jsxIcon = <i className={`fas fa-${type.typeName}`} />
+			values.push([type.typeId, jsxIcon]);
 		}
 		);
 		list.push(jsx, values);
@@ -246,7 +282,7 @@ class Modal extends React.Component {
 		let jsx = [];
 		let i = 0;
 		for (i = 0; i < this.state.subpointDepths[idx]; i++)
-			jsx.push(<div key={i} className="pl-3"></div>);
+			jsx.push(<div key={i} className="pl-2 ml-1"><i className="fas fa-long-arrow-alt-right mt-2 text-secondary"></i></div>);
 		return jsx;
 	}
 
@@ -256,10 +292,10 @@ class Modal extends React.Component {
 		for (i = 0; i < this.state.counter; i++) {
 			let subpointDepth = this.state.subpointDepths[i]
 			jsx.push(
-				<div className={`row mb-2`} key={i + 1}>
+				<Row className="mb-2" key={i + 1}>
 					{this.getDepth(i)} {/*return indentation for subpoints*/}
-					<div className="col-1 mr-3">
-						<Dropdown key={i} idx={i} list={this.generateTidbitTypes(i)} handleClick={(id, idx) => this.updateIcon(id, idx)} />
+					<div className="col-1">
+						<Dropdown key={i} idx={i} list={this.generateIcons(i)} handleClick={(id, idx) => this.updateIcon(id, idx)} />
 					</div>
 
 					<div className="input-group col-9">
@@ -267,15 +303,20 @@ class Modal extends React.Component {
 							title='Text'
 							handleInput={this.handleInput}
 							index={i}
-							value={this.state.tidbits[i]}
+							value={this.state.items[i]}
 						/>
-						{subpointDepth <= 9 &&	//set maximum depth to 10
-							<button className='btn btn-success btn-sm ml-2' key={i} data-index={i} onClick={(e) => this.updateSubpoints(e.target.getAttribute("data-index"))}>
-								<i className='fas fa-plus' /> Subpoint
-						</button>
+						{subpointDepth < 6 &&	//set maximum depth to 6
+							<span>
+								<button className='btn btn-success btn-sm ml-2' key={i} data-index={i} onClick={(e) => this.updateSubpoints(e.target.getAttribute("data-index"))}>
+									<i className='fas fa-plus' /> Sub
+								</button>
+								<button className='btn btn-danger btn-sm ml-2' key={i + 100} data-index={i} onClick={(e) => this.deleteSubpoints(e.target.getAttribute("data-index"))}>
+									<i className='fas fa-times' /> Remove
+								</button>
+							</span>
 						}
 					</div>
-				</div>
+				</Row>
 			)
 		}
 		return jsx;
@@ -287,67 +328,67 @@ class Modal extends React.Component {
 				<i
 					className='fas fa-plus-circle text-primary'
 					style={{ transform: 'scale(2)' }}
-					data-toggle="modal" data-target="#exampleModal"
+					onClick={this.handleShow}
 				></i>
 
-				<div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div className="modal-dialog modal-xl" role="document">
-						<div className="modal-content">
-							<div className="modal-header">
-								<h5 className="modal-title font-weight-bold" id="exampleModalLabel">{this.props.title}</h5>
-								<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
+				<Modal show={this.state.show} onHide={this.handleClose} dialogClassName="modal-width">
+					<Modal.Header>
+						<h5 className="modal-title font-weight-bold" id="exampleModalLabel">{this.props.title}</h5>
+						<button type="button" className="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+
+					</Modal.Header>
+
+					<Modal.Body >
+						<Row>
+							<Col>
+								<Form.Group controlId="formTitle">
+									<Form.Label className="font-weight-bold">Card Title</Form.Label>
+									<Form.Control type="text" placeholder="Enter title" onChange={(e) => this.setState({ title: e.target.value })} />
+								</Form.Group>
+							</Col>
+						</Row>
+
+						<div className="font-weight-bold">Items</div>
+						{this.generateInputs()}
+
+						<Row>
+							<Col className="mt-2">
+								<AddButton onClick={this.incrementCounter} />
+							</Col>
+						</Row>
+
+						<Row>
+							<div className='col-3' />
+							<div className='col-6'>
+								<Error
+									empty={this.state.emptyInputs}
+									message={"Error: Fill out empty inputs (title, icons, text)"}
+								/>
 							</div>
-							<div className="modal-body">
+						</Row>
+					</Modal.Body>
 
-								<div className='row'>
-									<div className='input-group mb-3 col-12'>
-										<InputField
-											title='Category Title'
-											placeholder='Title of Category'
-											handleInput={(e) => this.setState({ title: e.target.value })} />
-									</div>
-								</div>
-
-
-								{this.generateInputs()}
-								<div className='row'>
-									<div className='col-3' />
-									<div className='col-6'>
-										<Error
-											empty={this.state.emptyInputs}
-											message={this.state.errorMessage}
-										/>
-									</div>
-								</div>
-
-								<div className='text-left ml-2 mt-3 mb-2'>
-									<AddButton onClick={this.incrementCounter} />
-								</div>
-
-							</div>
-							<div className="modal-footer">
-								<button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button type="button" className="btn btn-primary" onClick={(e) => this.handleSubmit(e)}>Create Category</button>
-							</div>
-						</div>
-					</div>
-				</div>
+					<Modal.Footer className="modal-footer">
+						<Button variant="secondary" onClick={this.handleClose}>Close</Button>
+						<Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Create Card</Button>
+					</Modal.Footer>
+				</Modal>
 			</div>
 		);
 	}
 }
 
 Modal.propTypes = {
-	title: PropTypes.arrayOf(PropTypes.array)
+	title: PropTypes.string,
+	icons: PropTypes.array
 };
 /*
-title={"Create New Card"}
-tidbitTypes={this.props.tidbitTypes}
-numCategories={this.state.categories.length}
-numOpportunities={this.state.opportunities.length}
-SubjectID={this.state.subjectInfo[0].SubjectID}
-categoryType={1}
+					title={"Create New Card"}
+					icons={this.state.iconSet}
+					numcards={this.state.cards.length}
+					SubjectID={this.state.pageInfo.pageId}
+					categoryType={1}
 */
-export default Modal;
+export default CreateItem;

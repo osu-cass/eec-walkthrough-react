@@ -74,7 +74,7 @@ class Sidebar extends React.Component {
 							/>
 						</Card>
 
-						<Card bg="info" border="dark" as="h5" className="mt-3 p-2">
+						<Card bg="info" border="dark" as="h5" className="mt-3 p-2 back">
 							<NavLink to={`/`} onClick={this.props.handleSidebar} className="text-center">
 								Back to Page
 						</NavLink>
