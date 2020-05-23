@@ -4,7 +4,7 @@ import SubjectIntro from '../components/SubjectIntro'
 import CardContainer from '../components/CardContainer'
 import FilterBar from '../components/FilterBar'
 import Loading from '../components/Loading'
-import Modal from '../components/Modal'
+import CreateCard from '../components/CreateCard'
 import Container from 'react-bootstrap/Container'
 import '../components/Subject.css'
 
@@ -37,10 +37,10 @@ class Subject extends React.Component {
 		//Reset state for page load
 		this.setState({ cards: [], headers: [], icons: [], loaded: false });
 
-    //Load all icons
-		fetch(`/icons/all`)
+		//Load all icons
+		fetch(`/icons/all`)	//subject info (summary, name, img, description)
 			.then(res => res.json())
-      .then(iconSet => this.setState({ iconSet: iconSet.icons }))
+			.then(iconSet => this.setState({ iconSet: iconSet.icons }))
 
 		//Page specific info
 		fetch(`/pages/${this.props.pageId}`)	//subject info (summary, name, img, description)
@@ -88,7 +88,7 @@ class Subject extends React.Component {
 					description={this.state.subjectInfo.description}
 					img={this.state.subjectInfo.imageUrl}
 				/>
-
+				{console.log(this.state.icons)}
 				{this.state.headers.map((header, i) => {
 					return (
 						<Fragment key={i}>
@@ -104,18 +104,17 @@ class Subject extends React.Component {
 								cards={this.state.headers[i].cards}
 								filter={this.state.icons[i]}
 							/>
+							<CreateCard
+								title={`Create ${header.title} Card`}
+								icons={this.state.iconSet}
+								numCards={this.state.headers[i].cards.length}
+								headerId={header.headerId}
+								pageType={1}
+								refresh={() => this.fetchData()}
+							/>
 						</Fragment>
 					)
 				})}
-
-				{/* Create cards */}
-				<Modal
-					title={"Create New Card"}
-					icons={this.state.iconSet}
-					numcards={this.state.cards.length}
-					SubjectID={this.state.pageInfo.pageId}
-					categoryType={1}
-				/>
 
 			</Container>
 		) : <Loading />

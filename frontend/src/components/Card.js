@@ -25,7 +25,6 @@ class Card extends React.Component {
 	recurseItems(item, icon, categoryid, used, isChild) {	//isChild = marks if it has any parent, for coloring
 		let childs = this.getChilds(item.itemId); //get all childs of this item
 		let hide = this.props.checkFilter(item.iconType);
-		console.log(hide);
 		if (!(used.includes(item.itemId))) {
 			used.push(item.itemId)															//push used
 			if (childs) {																							//if has child, recurse
@@ -76,9 +75,7 @@ class Card extends React.Component {
 					{this.props.card}
 				</CardBS.Header>
 				<CardBS.Body>
-					<CardBS.Text>
-						{this.generateItems()}
-					</CardBS.Text>
+					{this.generateItems()}
 				</CardBS.Body>
 			</CardBS>
 		);
