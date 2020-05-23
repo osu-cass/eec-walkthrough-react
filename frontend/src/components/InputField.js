@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import FormControl from 'react-bootstrap/FormControl'
 
 class InputField extends React.Component {
 	state = {
@@ -8,9 +9,7 @@ class InputField extends React.Component {
 	render() {
 		return (
 			<Fragment>
-				<input
-					type="text"
-					className="form-control"
+				<FormControl
 					placeholder={this.props.placeholder}
 					value={this.props.value}
 					aria-label="Insert Username"
@@ -18,6 +17,16 @@ class InputField extends React.Component {
 					onChange={(e) => this.props.handleInput(e, this.props.index)}
 					required
 				/>
+				{/*
+				<FormControl
+					placeholder={this.props.placeholder}
+					value={this.props.value}
+					aria-label="Insert Username"
+					aria-describedby="basic-addon1"
+					onChange={(e) => this.props.handleInput(e, this.props.index)}
+					required
+				/>
+				 */}
 			</Fragment>
 		);
 	}
