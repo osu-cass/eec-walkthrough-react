@@ -34,6 +34,7 @@ app.use("/users", require("./users"));
 app.use("/pages", require("./pages"));
 app.use("/headers", require("./headers"));
 app.use("/cards", require("./cards"));
+app.use("/icons", require("./icons"));
 app.use("/items", require("./items"));
 
 // unhandled requests get a 404 error
