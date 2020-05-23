@@ -9,7 +9,7 @@ import "./SidebarCollection.css";
 const SidebarCollection = props => {
 	return (
 		<Accordion>
-			<Accordion.Toggle as={Card.Header} style={{ fontSize: "1.2rem" }} eventKey="0">
+			<Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{ fontSize: "1.2rem" }} eventKey="0">
 				{/* If no collection passed in, make singular link */}
 				{props.collection ?
 					props.collectionName :
@@ -21,11 +21,12 @@ const SidebarCollection = props => {
 					<Fragment>
 						{props.collection.map((item) => {
 							return (
-								<Card.Body key={item.pageId} style={{ fontSize: "1rem" }} className="nav_link">
-									<NavLink to={`/${props.collectionLink}/${item.pageId}`} className="ml-3 nav_link">
+								<NavLink to={`/${props.collectionLink}/${item.pageId}`} className="ml-3 nav_link">
+									<Card.Body key={item.pageId} style={{ fontSize: "1rem" }} className="nav_link">
 										{item.name}
-									</NavLink>
-								</Card.Body>
+									</Card.Body>
+
+								</NavLink>
 							);
 						})}
 					</Fragment>

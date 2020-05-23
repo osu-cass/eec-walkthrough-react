@@ -1,4 +1,4 @@
-.card-header {
+#sidebarCollection.card-header {
 	cursor: pointer;
 	color: #FFFFFF;
 	background: #169DB2;
@@ -9,7 +9,12 @@
 	background: #41484E;
 }
 
-.card-header:hover {
+div.nav_link {
+	padding: 1rem;
+	margin-top: -1.5rem;
+}
+
+#sidebarCollection.card-header:hover {
 	cursor: pointer;
 	color: #FFFFFF;
 	background: #027484;

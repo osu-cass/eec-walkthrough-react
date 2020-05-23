@@ -16,7 +16,7 @@ class CreateItem extends React.Component {
 		itemIcons: [],
 		subpointDepths: [],
 		show: false,
-		emptyInputs: true
+		emptyInputs: false
 		//hold each input
 	}
 
@@ -141,57 +141,57 @@ class CreateItem extends React.Component {
 
 	handleSubmit = () => {
 		//Check for empty inputs
-		if (this.checkInputs()) {
-			return
-		}
-		//Setup new category
-		let data = {
-			title: this.state.title,
-			index: this.props.numCategories + 1,
-			id: this.props.SubjectID,
-			categoryType: this.props.categoryType
-		}
-		//Store item ids to handle parentid
-		let itemIDs = [];
-		fetch("/cards/newCategory", { //Create new category call to server
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(data)
-		}).then(function (res) {
-			if (res.status >= 400) {
-				throw new Error("Bad response from server");
-			}
-			return res.json();
-		}).then(async (data) => {
-			for (const key in this.state.items) {	//Loop through each item and create new
-				let data2 = {
-					index: key,
-					data: this.state.items[key],
-					id: data.insertId,
-					icon: this.state.itemIcons[key],
-					parent: this.findParent(key, this.state.subpointDepths[key], itemIDs)
-				}
-				//Need to make for loop wait on this fetch before continuing
-				//Because items dependent on parentid
-				await fetch("/cards/newitem", {	//Create item
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(data2)
-				})
-					.then((response) => response.json())
-					.then(function (res) {
-						itemIDs.push(res.insertId);
-					}).catch(function (err) {
-						console.log(data2);
-						console.log(err);
-					})
+		// if (this.checkInputs()) {
+		// 	return
+		// }
+		// //Setup new category
+		// let data = {
+		// 	title: this.state.title,
+		// 	index: this.props.numCategories + 1,
+		// 	id: this.props.SubjectID,
+		// 	categoryType: this.props.categoryType
+		// }
+		// //Store item ids to handle parentid
+		// let itemIDs = [];
+		// fetch("/cards/newCategory", { //Create new category call to server
+		// 	method: 'POST',
+		// 	headers: { 'Content-Type': 'application/json' },
+		// 	body: JSON.stringify(data)
+		// }).then(function (res) {
+		// 	if (res.status >= 400) {
+		// 		throw new Error("Bad response from server");
+		// 	}
+		// 	return res.json();
+		// }).then(async (data) => {
+		// 	for (const key in this.state.items) {	//Loop through each item and create new
+		// 		let data2 = {
+		// 			index: key,
+		// 			data: this.state.items[key],
+		// 			id: data.insertId,
+		// 			icon: this.state.itemIcons[key],
+		// 			parent: this.findParent(key, this.state.subpointDepths[key], itemIDs)
+		// 		}
+		// 		//Need to make for loop wait on this fetch before continuing
+		// 		//Because items dependent on parentid
+		// 		await fetch("/cards/newitem", {	//Create item
+		// 			method: 'POST',
+		// 			headers: { 'Content-Type': 'application/json' },
+		// 			body: JSON.stringify(data2)
+		// 		})
+		// 			.then((response) => response.json())
+		// 			.then(function (res) {
+		// 				itemIDs.push(res.insertId);
+		// 			}).catch(function (err) {
+		// 				console.log(data2);
+		// 				console.log(err);
+		// 			})
 
-			}
-		}
-		)
-			.catch(function (err) {
-				console.log(err);
-			})
+		// 	}
+		// }
+		// )
+		// 	.catch(function (err) {
+		// 		console.log(err);
+		// 	})
 
 	}
 
@@ -326,11 +326,18 @@ class CreateItem extends React.Component {
 		return (
 			<div className='text-center mt-3 mb-2'>
 				<i
-					className='fas fa-plus-circle text-primary'
-					style={{ transform: 'scale(2)' }}
-					onClick={this.handleShow}
+
 				></i>
 
+				<Button
+					variant="info"
+					onClick={this.handleShow}
+				>
+					<i
+						className='fas fa-plus-circle text-white mr-2'
+						style={{ transform: 'scale(1.5)' }}></i>
+					Create Card
+				</Button>
 				<Modal show={this.state.show} onHide={this.handleClose} dialogClassName="modal-width">
 					<Modal.Header>
 						<h5 className="modal-title font-weight-bold" id="exampleModalLabel">{this.props.title}</h5>
