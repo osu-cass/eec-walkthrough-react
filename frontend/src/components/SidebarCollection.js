@@ -21,7 +21,7 @@ const SidebarCollection = props => {
 					<Fragment>
 						{props.collection.map((item) => {
 							return (
-								<Card.Body key={item.pageId} style={{ fontSize: "1rem" }} classname="nav_link">
+								<Card.Body key={item.pageId} style={{ fontSize: "1rem" }} className="nav_link">
 									<NavLink to={`/${props.collectionLink}/${item.pageId}`} className="ml-3 nav_link">
 										{item.name}
 									</NavLink>
