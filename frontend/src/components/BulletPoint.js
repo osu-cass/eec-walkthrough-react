@@ -39,7 +39,7 @@ const BulletPoint = props => {
 			{props.url ?
 				<Fragment>
 					{props.label}
-					<Image url={props.url} header={props.text} />
+					<Image url={props.url} header={props.label} />
 				</Fragment>
 				: ""}
 			<div className='pl-5 mt-2'>{props.children}</div>
