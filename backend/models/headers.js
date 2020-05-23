@@ -28,7 +28,7 @@ async function getHeader(headerId) {
     "LEFT JOIN Items on Cards.cardId = Items.cardId " +
     "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
     "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
-    "ORDER BY iconType ASC;";
+    "ORDER BY typeKeyword ASC;";
 
     const results = await pool.query(sql, headerId);
 

@@ -7,17 +7,17 @@ const {
   getIcons,
 } = require("../models/icons");
 
-// get information about all pages and their related subjects/industries
+// get information about all icons
 app.get("/all", async (req, res) => {
 
   try {
 
     console.log("Get a list of all icons");
 
-    // get a list of all pages and their related subjects/industries
+    // get all icons
     const results = await getIcons();
 
-    if (results.length === 0) {
+    if (results.icons.length === 0) {
       res.status(404).send({error: "No icons found."});
     } else {
       res.status(200).send(results);
