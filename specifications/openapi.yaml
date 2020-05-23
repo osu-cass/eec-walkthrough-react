@@ -740,6 +740,15 @@ components:
           minimum: 0
           maximum: 1
           example: 0
+        icons:
+          description: An array of the types of icons that exist within the cards beneath the header
+          type: array
+          items:
+            type: object
+            example: {
+              iconType: 5,
+              typeName: fire
+            }
       
     Card:
       description: An object representing a specific card that belongs to a header
@@ -1330,6 +1339,16 @@ components:
                    "userId": 15,
                    "created": "2020-12-31 23:59:59",
                    "approved": 0,
+                   "icons": [
+                        {
+                          "iconType": 5,
+                          "typeName": "fire"
+                        },
+                        {
+                          "iconType": 6,
+                          "typeName": "bolt"
+                        }
+                     ],
                    cards: [{
                            cardId: 15,
                            headerId: 15,

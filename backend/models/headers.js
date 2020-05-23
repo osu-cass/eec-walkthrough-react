@@ -10,18 +10,31 @@ async function getHeader(headerId) {
   try {
 
     // get the specified header
-    const sql = "SELECT * " +
+    let sql = "SELECT * " +
       "FROM Headers " +
       "WHERE headerId = ?;";
 
-    const results = await pool.query(sql, headerId);
+    const finalResults = await pool.query(sql, headerId);
 
     // check to see if we were able to find the header
-    if (!results[0].length) {
+    if (!finalResults[0].length) {
       return {headerId: 0};
     }
 
-    return results[0][0];
+    // get all of the icons used by the header
+    sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
+    "FROM `Headers` " +
+    "LEFT JOIN Cards on Cards.headerId = Headers.headerId " +
+    "LEFT JOIN Items on Cards.cardId = Items.cardId " +
+    "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+    "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
+    "ORDER BY iconType ASC;";
+
+    const results = await pool.query(sql, headerId);
+
+    finalResults[0][0].icons = results[0];
+
+    return finalResults[0][0];
 
   } catch (err) {
     console.error("Error searching for header");
