@@ -1,13 +1,18 @@
 import React from 'react';
 import Modal from './Modal';
+import Button from 'react-bootstrap/Button';
 
 const AddButton = (props) => {
 	return (
-		<i
-			className='fas fa-plus-circle text-primary'
-			style={{ transform: 'scale(2)' }}
+		<Button
+			variant="success"
 			onClick={props.onClick}
-		></i>
+		>
+			<i
+				className='fas fa-plus-circle text-white mr-2'
+				style={{ transform: 'scale(1.5)' }}></i>
+			Add Item
+		</Button>
 	);
 }
 

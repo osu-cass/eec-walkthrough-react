@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
+import "./SidebarCollection.css";
 
 const SidebarCollection = props => {
 	return (
@@ -20,11 +21,13 @@ const SidebarCollection = props => {
 					<Fragment>
 						{props.collection.map((item) => {
 							return (
-								<Card.Body key={item.pageId} style={{ fontSize: "1rem" }}>
-									<NavLink to={`/${props.collectionLink}/${item.pageId}`} className="ml-3">
+								<NavLink to={`/${props.collectionLink}/${item.pageId}`} className="ml-3 nav_link">
+									<Card.Body key={item.pageId} style={{ fontSize: "1rem" }} className="nav_link">
+
 										{item.name}
-									</NavLink>
-								</Card.Body>
+									</Card.Body>
+
+								</NavLink>
 							);
 						})}
 					</Fragment>

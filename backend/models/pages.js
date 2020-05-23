@@ -152,7 +152,7 @@ async function getFullPage(pageId) {
     sql = "SELECT * " +
     "FROM Headers " +
     "WHERE pageId = ? " +
-    "ORDER BY headerId ASC";
+    "ORDER BY orderIndex ASC, headerId ASC";
 
     results = await pool.query(sql, pageId);
     finalResults.headers = results[0];
@@ -164,22 +164,23 @@ async function getFullPage(pageId) {
       const headerId = finalResults.headers[i].headerId;
 
       // get all icons used for each header
-      const sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
+      let sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
       "FROM `Headers` " +
       "LEFT JOIN Cards on Cards.headerId = Headers.headerId " +
       "LEFT JOIN Items on Cards.cardId = Items.cardId " +
       "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
-      "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL;";
+      "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
+      "ORDER BY iconType ASC;";
 
       results = await pool.query(sql, headerId);
       finalResults.headers[i].icons = results[0];
 
-      const sql2 = "SELECT * " +
+      sql = "SELECT * " +
       "FROM Cards " +
       "WHERE headerId = ? " +
-      "ORDER BY cardId ASC";
+      "ORDER BY orderIndex ASC, cardId ASC";
 
-      results = await pool.query(sql2, headerId);
+      results = await pool.query(sql, headerId);
       finalResults.headers[i].cards = results[0];
       const cardCount = finalResults.headers[i].cards.length;
 
@@ -188,13 +189,14 @@ async function getFullPage(pageId) {
 
         const cardId = finalResults.headers[i].cards[j].cardId;
 
-        const sql = "SELECT DISTINCT itemId, cardId, parentId, Icons.iconType, Icons.typeName, " +
-        "contentText, contentUrl, contentLabel, userId, " +
+        const sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+        "Items.iconType, typeName, typeKeyword, contentText, " +
+        "contentUrl, contentLabel, userId, " +
         "created, approved " +
         "FROM Items " +
         "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
         "WHERE cardId = ? " +
-        "ORDER BY itemId ASC";
+        "ORDER BY orderIndex ASC, itemId ASC";
 
         results = await pool.query(sql, cardId);
 
@@ -320,8 +322,9 @@ async function updatePage(pageId, pageType, name, title, description, imageUrl, 
     sql = "SELECT * " +
     "FROM Pages " +
     "WHERE pageType = ? " +
-    "AND name = ?;";
-    results = await pool.query(sql, [pageType, name]);
+    "AND name = ? " +
+    "AND NOT pageId = ?;";
+    results = await pool.query(sql, [pageType, name, pageId]);
 
     if (results[0].length) {
       return {error: 2};

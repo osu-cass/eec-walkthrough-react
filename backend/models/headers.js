@@ -10,18 +10,31 @@ async function getHeader(headerId) {
   try {
 
     // get the specified header
-    const sql = "SELECT * " +
+    let sql = "SELECT * " +
       "FROM Headers " +
       "WHERE headerId = ?;";
 
-    const results = await pool.query(sql, headerId);
+    const finalResults = await pool.query(sql, headerId);
 
     // check to see if we were able to find the header
-    if (!results[0].length) {
+    if (!finalResults[0].length) {
       return {headerId: 0};
     }
 
-    return results[0][0];
+    // get all of the icons used by the header
+    sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
+    "FROM `Headers` " +
+    "LEFT JOIN Cards on Cards.headerId = Headers.headerId " +
+    "LEFT JOIN Items on Cards.cardId = Items.cardId " +
+    "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+    "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
+    "ORDER BY iconType ASC;";
+
+    const results = await pool.query(sql, headerId);
+
+    finalResults[0][0].icons = results[0];
+
+    return finalResults[0][0];
 
   } catch (err) {
     console.error("Error searching for header");
@@ -33,7 +46,7 @@ exports.getHeader = getHeader;
 
 
 // create a header
-async function createHeader(pageId, title, userId) {
+async function createHeader(pageId, orderIndex, title, userId) {
 
   try {
 
@@ -69,9 +82,9 @@ async function createHeader(pageId, title, userId) {
     }
 
     // create the new header
-    sql = "INSERT INTO Headers (pageId, title, userId, approved) " +
-    "VALUES (?, ?, ?, 0);";
-    results = await pool.query(sql, [pageId, title, userId]);
+    sql = "INSERT INTO Headers (pageId, orderIndex, title, userId, approved) " +
+    "VALUES (?, ?, ?, ?, 0);";
+    results = await pool.query(sql, [pageId, orderIndex, title, userId]);
 
     const finalResults = {
       insertId: results[0].insertId
@@ -127,7 +140,7 @@ exports.deleteHeader = deleteHeader;
 
 
 // update a header
-async function updateHeader(headerId, pageId, title, approved) {
+async function updateHeader(headerId, pageId, orderIndex, title, approved) {
 
   try {
 
@@ -162,6 +175,11 @@ async function updateHeader(headerId, pageId, title, approved) {
       sql += "pageId = ?,";
       sqlArray.push(pageId);
 
+    }
+
+    if (typeof orderIndex !== "undefined") {
+      sql += "orderIndex = ?,";
+      sqlArray.push(orderIndex);
     }
 
     if (typeof title !== "undefined") {
@@ -200,11 +218,13 @@ async function updateHeader(headerId, pageId, title, approved) {
         title = results[0][0].title;
       }
 
+      // look for duplicate titles
       const checkSql = "SELECT * " +
       "FROM Headers " +
       "WHERE pageId = ? " +
-      "AND title = ?;";
-      results = await pool.query(checkSql, [pageId, title]);
+      "AND title = ? " +
+      "AND NOT headerId = ?;";
+      results = await pool.query(checkSql, [pageId, title, headerId]);
 
       if (results[0].length) {
         return {error: 3};

@@ -714,6 +714,12 @@ components:
           allOf:
             - description: The unique identifier of the page that this header belongs to
             - $ref: '#/components/schemas/Id'
+        orderIndex:
+          description: Value used to order objects in ascending order. This means that larger values will be shown lower on the page.
+          type: integer
+          minimum: 1
+          maximum: 4294967295
+          example: 5
         title:
           description: The title of the header
           type: string
@@ -734,6 +740,15 @@ components:
           minimum: 0
           maximum: 1
           example: 0
+        icons:
+          description: An array of the types of icons that exist within the cards beneath the header
+          type: array
+          items:
+            type: object
+            example: {
+              iconType: 5,
+              typeName: fire
+            }
       
     Card:
       description: An object representing a specific card that belongs to a header
@@ -754,6 +769,12 @@ components:
           allOf:
             - description: The unique identifier of the header that the card belongs to
             - $ref: '#/components/schemas/Id'
+        orderIndex:
+          description: Value used to order objects in ascending order. This means that larger values will be shown lower on the page.
+          type: integer
+          minimum: 1
+          maximum: 4294967295
+          example: 5
         title:
           description: The title of the card
           type: string
@@ -806,6 +827,12 @@ components:
               minimum: 1
               maximum: 4294967295
               example: 15
+        orderIndex:
+          description: Value used to order objects in ascending order. This means that larger values will be shown lower on the page.
+          type: integer
+          minimum: 1
+          maximum: 4294967295
+          example: 5
         iconType:
           description: The integer value that reprsents a specific item type. The value can then be referenced from a table on the frontend to determine what icon to show and how to display the items content.
           type: integer
@@ -1312,6 +1339,16 @@ components:
                    "userId": 15,
                    "created": "2020-12-31 23:59:59",
                    "approved": 0,
+                   "icons": [
+                        {
+                          "iconType": 5,
+                          "typeName": "fire"
+                        },
+                        {
+                          "iconType": 6,
+                          "typeName": "bolt"
+                        }
+                     ],
                    cards: [{
                            cardId: 15,
                            headerId: 15,

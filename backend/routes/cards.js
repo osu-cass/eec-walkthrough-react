@@ -62,11 +62,12 @@ app.post("/", postCardVal.validation, async (req, res) => {
     }
 
     const headerId = req.body.headerId;
+    const orderIndex = req.body.orderIndex;
     const title = req.body.title;
     const userId = req.body.userId;
 
     // create a card
-    const results = await createCard(headerId, title, userId);
+    const results = await createCard(headerId, orderIndex, title, userId);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -138,6 +139,7 @@ app.patch("/:cardId", patchCardVal.validation, async (req, res) => {
 
     const cardId = req.params.cardId;
     const headerId = req.body.headerId;
+    const orderIndex = req.body.orderIndex;
     const title = req.body.title;
     const approved = req.body.approved;
 
@@ -148,7 +150,7 @@ app.patch("/:cardId", patchCardVal.validation, async (req, res) => {
     }
 
     // update a card
-    const results = await updateCard(cardId, headerId, title, approved);
+    const results = await updateCard(cardId, headerId, orderIndex, title, approved);
 
     if (results.changedRows >= 0) {
       res.status(200).send(results);
