@@ -1,5 +1,5 @@
 import React from 'react'
-import BootstrapCard from 'react-bootstrap/Card'
+import { Card as CardBS } from 'react-bootstrap/Card'
 import Edit from './Edit'
 import BulletPoint from './BulletPoint'
 
@@ -71,16 +71,16 @@ class Card extends React.Component {
 
 	render() {
 		return (
-			<BootstrapCard className={`my-2 bg-${this.props.color} shadow-sm`}>
-				<BootstrapCard.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
+			<CardBS className={`my-2 bg-${this.props.color} shadow-sm`}>
+				<CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
 					{this.props.card}
-				</BootstrapCard.Header>
-				<BootstrapCard.Body>
-					<BootstrapCard.Text>
+				</CardBS.Header>
+				<CardBS.Body>
+					<CardBS.Text>
 						{this.generateItems()}
-					</BootstrapCard.Text>
-				</BootstrapCard.Body>
-			</BootstrapCard>
+					</CardBS.Text>
+				</CardBS.Body>
+			</CardBS>
 		);
 	}
 }
