@@ -78,6 +78,16 @@ class Subject extends React.Component {
 		this.setState({ icons: icons })
 	}
 
+	resetFilter(headerIdx) {
+		let icons = [...this.state.icons] //Create copy of object, update object, set state with new copy
+		var i;
+		for (i = 0; i < icons[headerIdx].length; i++) {
+			icons[headerIdx][i].hidden = false // Change everything to not hidden
+		}
+		this.setState({ icons: icons })
+		console.log(icons);
+	}
+
 	render() {
 		return this.state.loaded ? ( //Render content when data loaded from backend
 			<Container>
@@ -97,6 +107,7 @@ class Subject extends React.Component {
 									data={this.state.icons[i]}
 									headerIndex={i}
 									handleFilter={this.handleFilter}
+									resetFilter={(idx) => this.resetFilter(idx)}
 								/>
 							</SubjectCard>
 							<CardContainer
