@@ -340,14 +340,7 @@ class CreateItem extends React.Component {
 	render() {
 		return (
 			<div className='text-center mt-3 mb-2'>
-				<i
-
-				></i>
-
-				<Button
-					variant="info"
-					onClick={this.handleShow}
-				>
+				<Button variant="info" onClick={this.handleShow}>
 					<i
 						className='fas fa-plus-circle text-white mr-2'
 						style={{ transform: 'scale(1.5)' }}></i>

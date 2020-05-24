@@ -3,7 +3,8 @@ import "./Sidebar.css";
 import { NavLink } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
+import { Card, Button, Row, Container } from 'react-bootstrap';
+import CreatePage from './CreatePage'
 import "./SidebarCollection.css";
 
 const SidebarCollection = props => {
@@ -28,6 +29,12 @@ const SidebarCollection = props => {
 								</NavLink>
 							);
 						})}
+						<Container>
+							<CreatePage
+								title={`Create ${props.collectionName} Page`}
+								collectionName={props.collectionName}
+							/>
+						</Container>
 					</Fragment>
 				</Accordion.Collapse>
 				: ""}
