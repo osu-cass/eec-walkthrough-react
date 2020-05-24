@@ -4,13 +4,14 @@ import Button from 'react-bootstrap/Button';
 const AddButton = (props) => {
 	return (
 		<Button
-			variant="success"
+			variant={props.variant}
 			onClick={props.onClick}
+			className="mr-2"
 		>
 			<i
 				className='fas fa-plus-circle text-white mr-2'
 				style={{ transform: 'scale(1.5)' }}></i>
-			Add Item
+			{props.label}
 		</Button>
 	);
 }

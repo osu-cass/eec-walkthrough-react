@@ -8,14 +8,56 @@ import './Subject.css'
 class CreateItem extends React.Component {
 	state = {
 		show: false,
+		emptyInputs: false,
 	}
 
 	componentDidMount() {
-		this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" })
+		//Error message will change depending on which input is missing
+		this.setState({ errorMessage: "Error: Fill out empty inputs (name, summary, description, image URL)" })
 	}
 
 	handleClose = () => this.setState({ show: false });
 	handleShow = () => this.setState({ show: true });
+
+	/**
+	* Check for empty inputs in state before submission
+	* @return {Boolean}   True if empty inputs found, false if all inputs filled
+	*/
+	checkInputs() {
+		let emptyFound = false;
+		let errorMessage = this.state.errorMessage;
+		let errorCount = 0;
+		//Empty name
+		if (!this.state.name.length) {
+			emptyFound = true;
+			errorMessage = "Error: Empty page name";
+			errorCount++;
+		}
+		//Empty summary
+		if (!this.state.summary.length) {
+			emptyFound = true;
+			errorMessage = "Error: Empty page summary";
+			errorCount++;
+		}
+		//Empty description
+		if (!this.state.description.length) {
+			emptyFound = true;
+			errorMessage = "Error: Empty page description";
+			errorCount++;
+		}
+		//Empty url
+		if (!this.state.url.length) {
+			emptyFound = true;
+			errorMessage = "Error: Empty page url";
+			errorCount++;
+		}
+		if (errorCount !== 4)
+			this.setState({ errorMessage: errorMessage })
+		this.setState({ emptyInputs: emptyFound })
+		if (emptyFound)
+			return true;
+		return false;
+	}
 
 	render() {
 		return (
