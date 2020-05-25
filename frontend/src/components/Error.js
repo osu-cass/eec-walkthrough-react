@@ -1,12 +1,13 @@
 import React from 'react';
+import Alert from 'react-bootstrap/Alert'
 import PropTypes from 'prop-types';
 
 const Error = (props) => {
 	return props.empty ? (
-		<div class="alert alert-danger active" role="alert">
+		<Alert className="active mt-2" variant="danger">
 			{props.message}
-		</div>
-	) : <div class="hide" />;
+		</Alert>
+	) : <div className="hide" />;
 }
 
 Error.propTypes = {

@@ -1,66 +1,35 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+// File: app.js
+// Description: handles server functions and setup
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var subjectsRouter = require('./routes/subjects');
-var cardsRouter = require('./routes/cards');
-var tidbitsRouter = require('./routes/tidbits');
-var figuresRouter = require('./routes/figures');
+console.log("Server JavaScript start");
 
-var app = express();
+// setup database connection and routing
+require("dotenv").config();
+const {pool} = require("./services/database/mysqlPool");
+const app = require("./routes/index");
 
+// confirm that connection was made to the database
+async function testConnection(pool, attempt, callback) {
+  try {
+    await pool.query("SELECT userId FROM Users");
+    console.log("Connected to database");
+    callback();
+  } catch (err) {
+    if (attempt < 5) {
+      console.log(`Attempt ${attempt}: Error connecting to database...\nRestarting...`);
+      testConnection(pool, attempt + 1, callback);
+    } else {
+      console.log(`Final Attempt: Error connecting to database\n`, err);
+    }
+  }
+}
 
-
-var mysql = require("mysql");
-var con = mysql.createPool({
-  host: "chum-groups.engr.oregonstate.edu",
-  user: "eec_database",
-  password: "bacondonuts",
-  database: "eec_dev2_database",
-	tls: {
-    secureProtocol: "TLSv1_method"
-	}
-});
-con.timeout = 0
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(function(req,res,next){
-    req.con = con;
-    next();
-});
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/subjects', subjectsRouter);
-app.use('/cards', cardsRouter);
-app.use('/tidbits', tidbitsRouter);
-app.use('/figures', figuresRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+// listen for incoming requests
+const port = process.env.PORT || 2222;
+testConnection(pool, 1, () => {
+  app.listen(port, () => {
+    console.log("Server is listening on port", port, "\n");
+  });
 });
 
 module.exports = app;

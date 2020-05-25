@@ -1,29 +1,30 @@
-// File: cards.js
-// Description: handles routing for cards
+// File: headers.js
+// Description: handles routing for headers
 
 const express = require("express");
 const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
-  postCardVal,
-  getCardVal,
-  patchCardVal
+  postHeaderVal,
+  getHeaderVal,
+  patchHeaderVal
 } = require("../services/validation/requestValidation");
+
 const {
-  getCard,
-  createCard,
-  deleteCard,
-  updateCard
-} = require("../models/cards");
+  getHeader,
+  createHeader,
+  deleteHeader,
+  updateHeader
+} = require("../models/headers");
 
 
-// get information about a single card
-app.get("/:cardId", getCardVal.validation, async (req, res) => {
+// get information about a single header
+app.get("/:headerId", getHeaderVal.validation, async (req, res) => {
 
   try {
 
-    const cardId = req.params.cardId;
-    console.log("Get card", cardId);
+    const headerId = req.params.headerId;
+    console.log("Get header", headerId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -31,11 +32,11 @@ app.get("/:cardId", getCardVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
-    // get card data
-    const results = await getCard(cardId);
+    // get header data
+    const results = await getHeader(headerId);
 
-    if (results.cardId === 0) {
-      res.status(404).send({error: "Card not found."});
+    if (results.headerId === 0) {
+      res.status(404).send({error: "Header not found."});
     } else {
       res.status(200).send(results);
     }
@@ -48,12 +49,12 @@ app.get("/:cardId", getCardVal.validation, async (req, res) => {
 });
 
 
-// create a card
-app.post("/", postCardVal.validation, async (req, res) => {
+// create a header
+app.post("/", postHeaderVal.validation, async (req, res) => {
 
   try {
 
-    console.log("Create a new card");
+    console.log("Create a new header");
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -61,24 +62,24 @@ app.post("/", postCardVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
-    const headerId = req.body.headerId;
+    const pageId = req.body.pageId;
     const orderIndex = req.body.orderIndex;
     const title = req.body.title;
     const userId = req.body.userId;
 
-    // create a card
-    const results = await createCard(headerId, orderIndex, title, userId);
+    // create a header
+    const results = await createHeader(pageId, orderIndex, title, userId);
 
     if (results.insertId) {
       res.status(201).send(results);
     } else {
 
       if (results.error === 1) {
-        res.status(403).send({error: "Unauthorized user attempting to create card."});
+        res.status(403).send({error: "Unauthorized user attempting to create header."});
       } else if (results.error === 2) {
-        res.status(403).send({error: "Card already exists."});
+        res.status(403).send({error: "Header already exists."});
       } else if (results.error === 3) {
-        res.status(403).send({error: "Parent header does not exist."});
+        res.status(403).send({error: "Parent page does not exist."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -93,13 +94,13 @@ app.post("/", postCardVal.validation, async (req, res) => {
 });
 
 
-// delete a card
-app.delete("/:cardId", getCardVal.validation, async (req, res) => {
+// delete a header
+app.delete("/:headerId", getHeaderVal.validation, async (req, res) => {
 
   try {
 
-    const cardId = req.params.cardId;
-    console.log("Delete card", cardId);
+    const headerId = req.params.headerId;
+    console.log("Delete header", headerId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -107,15 +108,15 @@ app.delete("/:cardId", getCardVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
-    // delete the card data
-    const results = await deleteCard(cardId);
+    // delete the header data
+    const results = await deleteHeader(headerId);
 
     if (results.affectedRows >= 0) {
       res.status(200).send(results);
     } else {
 
       if (results.error === 1) {
-        res.status(404).send({error: "Card not found."});
+        res.status(404).send({error: "Header not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -130,15 +131,15 @@ app.delete("/:cardId", getCardVal.validation, async (req, res) => {
 });
 
 
-// update a card
-app.patch("/:cardId", patchCardVal.validation, async (req, res) => {
+// update a header
+app.patch("/:headerId", patchHeaderVal.validation, async (req, res) => {
 
   try {
 
-    console.log("Update a card");
+    console.log("Update a header");
 
-    const cardId = req.params.cardId;
-    const headerId = req.body.headerId;
+    const headerId = req.params.headerId;
+    const pageId = req.body.pageId;
     const orderIndex = req.body.orderIndex;
     const title = req.body.title;
     const approved = req.body.approved;
@@ -149,19 +150,19 @@ app.patch("/:cardId", patchCardVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
-    // update a card
-    const results = await updateCard(cardId, headerId, orderIndex, title, approved);
+    // update a header
+    const results = await updateHeader(headerId, pageId, orderIndex, title, approved);
 
     if (results.changedRows >= 0) {
       res.status(200).send(results);
     } else {
 
       if (results.error === 1) {
-        res.status(404).send({error: "Card not found."});
+        res.status(404).send({error: "Header not found."});
       } else if (results.error === 2) {
-        res.status(403).send({error: "Selected parent header does not exist."});
+        res.status(403).send({error: "Selected parent page does not exist."});
       } else if (results.error === 3) {
-        res.status(403).send({error: "Selected parent header already has a card with the selected title."});
+        res.status(403).send({error: "Selected parent page already has a header with the selected title."});
       } else if (results.error === 4) {
         res.status(422).send({error: "Request doesn't include any fields to update."});
       } else {

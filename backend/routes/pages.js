@@ -1,0 +1,329 @@
+// File: pages.js
+// Description: handles routing for pages
+
+const express = require("express");
+const app = express();
+const {validationResult} = require("express-validator");
+const {
+  postPageVal,
+  getPageVal,
+  patchPageVal,
+  industrySubjectVal
+} = require("../services/validation/requestValidation");
+const {
+  getPage,
+  getPages,
+  getFullPage,
+  createPage,
+  deletePage,
+  updatePage,
+  addSubject,
+  deleteSubject
+} = require("../models/pages");
+
+
+// get information about all pages and their related subjects/industries
+app.get("/all", async (req, res) => {
+
+  try {
+
+    console.log("Get a list of all pages and their related subjects/industries");
+
+    // get a list of all pages and their related subjects/industries
+    const results = await getPages();
+
+    if (results.pages.subjects.length === 0 && results.pages.industries.length === 0) {
+      res.status(404).send({error: "No pages found."});
+    } else {
+      res.status(200).send(results);
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get information about a single page
+app.get("/:pageId", getPageVal.validation, async (req, res) => {
+
+  try {
+
+    const pageId = req.params.pageId;
+    console.log("Get page", pageId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // get page data
+    const results = await getPage(pageId);
+
+    if (results.pageId === 0) {
+      res.status(404).send({error: "Page not found."});
+    } else {
+      res.status(200).send(results);
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get all of the page info, headers, cards, and items for a single page
+app.get("/:pageId/all", getPageVal.validation, async (req, res) => {
+
+  try {
+
+    const pageId = req.params.pageId;
+    console.log("Get all data related to page", pageId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // get complete page data
+    const results = await getFullPage(pageId);
+
+    if (results.pageId === 0) {
+      res.status(404).send({error: "Page not found."});
+    } else {
+      res.status(200).send(results);
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// create a page
+app.post("/", postPageVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Create a new page");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const pageType = req.body.pageType;
+    const name = req.body.name;
+    const title = req.body.title;
+    const description = req.body.description;
+    const imageUrl = req.body.imageUrl;
+    const userId = req.body.userId;
+
+    // create a page
+    const results = await createPage(pageType, name, title, description, imageUrl, userId);
+
+    if (results.insertId) {
+      res.status(201).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(403).send({error: "Unauthorized user attempting to create page."});
+      } else if (results.error === 2) {
+        res.status(403).send({error: "Page already exists."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete a page
+app.delete("/:pageId", getPageVal.validation, async (req, res) => {
+
+  try {
+
+    const pageId = req.params.pageId;
+    console.log("Delete page", pageId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // delete the page data
+    const results = await deletePage(pageId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Page not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// update a page
+app.patch("/:pageId", patchPageVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update a page");
+
+    const pageId = req.params.pageId;
+    const pageType = req.body.pageType;
+    const name = req.body.name;
+    const title = req.body.title;
+    const description = req.body.description;
+    const imageUrl = req.body.imageUrl;
+    const approved = req.body.approved;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // update a page
+    const results = await updatePage(pageId, pageType, name, title, description, imageUrl, approved);
+
+    if (results.changedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Page not found."});
+      } else if (results.error === 2) {
+        res.status(403).send({error: "Page name and type combination already exists."});
+      } else if (results.error === 3) {
+        res.status(422).send({error: "Request doesn't include any fields to update."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// assign a subject to an industry
+app.post("/industries/:industryId/subjects/:subjectId", industrySubjectVal.validation, async (req, res) => {
+
+  try {
+
+    const industryId = req.params.industryId;
+    const subjectId = req.params.subjectId;
+    console.log("Add subject", subjectId, "to industry", industryId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // add the subject to the industry
+    const results = await addSubject(subjectId, industryId);
+
+    if (results.subjectId && results.industryId) {
+      res.status(201).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(403).send({error: "Unauthorized user attempting to add subject to industry."});
+      } else if (results.error === 2) {
+        res.status(404).send({error: "Subject page not found."});
+      } else if (results.error === 3) {
+        res.status(404).send({error: "Industry page not found."});
+      } else if (results.error === 4) {
+        res.status(403).send({error: "This subject is already part of this industry."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// remove a subject from an industry
+app.delete("/industries/:industryId/subjects/:subjectId", industrySubjectVal.validation, async (req, res) => {
+
+  try {
+
+    const industryId = req.params.industryId;
+    const subjectId = req.params.subjectId;
+    console.log("Remove subject", subjectId, "from industry", industryId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // remove the subject from the industry
+    const results = await deleteSubject(subjectId, industryId);
+
+    if (results.affectedRows) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(403).send({error: "Unauthorized user attempting to remove subject from industry."});
+      } else if (results.error === 2) {
+        res.status(404).send({error: "Subject page not found."});
+      } else if (results.error === 3) {
+        res.status(404).send({error: "Industry page not found."});
+      } else if (results.error === 4) {
+        res.status(404).send({error: "This subject is not part of this industry."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+module.exports = app;

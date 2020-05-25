@@ -1,41 +1,49 @@
-import React from 'react'
-import Subject from './pages/Subject'
-import Home from './pages/Home'
-import NavBar from './components/NavBar'
-import Sidebar from './components/Sidebar'
-import { Route, Switch, BrowserRouter, Link } from 'react-router-dom';
+import React from "react";
+import Subject from "./pages/Subject";
+import Home from "./pages/Home";
+import NavBar from "./components/NavBar";
+import Sidebar from "./components/Sidebar";
+import { Route, Switch } from "react-router-dom";
 
 class App extends React.Component {
 	state = {
-		sidebarOpen: false
+		sidebarOpen: false,
+	};
+
+	componentDidMount() {
+		//fetch all pages
+		//check if route exists within pages
 	}
 
 	handleSidebar = () => {
-		this.setState({ sidebarOpen: !this.state.sidebarOpen })
-	}
+		this.setState({ sidebarOpen: !this.state.sidebarOpen });
+	};
 
 	render() {
 		return (
 			<main>
 				<NavBar handleSidebar={this.handleSidebar} />
 				<Sidebar
-					className={this.state.sidebarOpen ? 'visible' : 'hidden'}
+					className={this.state.sidebarOpen ? "visible" : "hidden"}
 					handleSidebar={this.handleSidebar}
 				/>
 				<Switch>
-					<Route path="/subjects/:id"
-						render={(props) => <Subject {...props} id={props.match.params.id} />}
+					<Route
+						path='/subjects/:pageId'
+						render={(props) => (
+							<Subject {...props} pageId={props.match.params.pageId} />
+						)}
 					/>
-					<Route exact path="/">
+					<Route exact path='/'>
 						<Home />
 					</Route>
-					<Route path="*">
+					<Route path='*'>
 						<Home />
 					</Route>
 				</Switch>
 			</main>
-		)
+		);
 	}
 }
 
-export default App 
+export default App;
