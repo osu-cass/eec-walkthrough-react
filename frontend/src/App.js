@@ -34,6 +34,12 @@ class App extends React.Component {
 							<Subject {...props} pageId={props.match.params.pageId} />
 						)}
 					/>
+          <Route
+						path='/industries/:pageId'
+						render={(props) => (
+							<Subject {...props} pageId={props.match.params.pageId} />
+						)}
+					/>
 					<Route exact path='/'>
 						<Home />
 					</Route>
