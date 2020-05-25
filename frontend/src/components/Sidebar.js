@@ -78,6 +78,10 @@ class Sidebar extends React.Component {
 								collection={this.state.pages.industries}
 								refresh={() => this.fetchData()}
 							/>
+              <SidebarCollection
+								collectionName="Manage Users"
+								collectionLink="users"
+							/>
 						</Card>
 
 						<Card bg="info" border="dark" as="h5" className="mt-3 p-2 back">
