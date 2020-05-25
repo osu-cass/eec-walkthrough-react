@@ -1,115 +1,96 @@
-import React from 'react'
-import './Sidebar.css'
-import { NavLink } from 'react-router-dom';
+import React, { Fragment } from "react";
+import "./Sidebar.css";
+import SidebarCollection from "./SidebarCollection";
+import { NavLink } from "react-router-dom";
+import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 class Sidebar extends React.Component {
-  state = {
-    subjects: []
-  }
+	state = {
+		pages: [],
+	};
 
-  constructor(props) {
-    super(props);
-    this.setWrapperRef = this.setWrapperRef.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-  }
+	constructor(props) {
+		super(props);
+		this.setWrapperRef = this.setWrapperRef.bind(this);
+		this.handleClickOutside = this.handleClickOutside.bind(this);
+	}
 
-  componentDidMount() {
-    fetch('/subjects/all')
-      .then(res => res.json())
-      .then(subjects => this.setState({ subjects }));
-    document.addEventListener('mousedown', this.handleClickOutside);
-  }
+	componentDidMount() {
+		this.fetchData();
+		document.addEventListener("mousedown", this.handleClickOutside);
+	}
 
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside);
-  }
+	fetchData() {
+		fetch('/pages/all')
+			.then(res => res.json())
+			.then(res => res.pages)
+			.then(pages => this.setState({ pages })) //get all pages
+	}
 
-  setWrapperRef(node) {
-    this.wrapperRef = node;
-  }
+	componentWillUnmount() {
+		document.removeEventListener("mousedown", this.handleClickOutside);
+	}
 
-  /**** Alert if clicked on outside of element **/
-  handleClickOutside(event) {
-    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-      if (this.props.className === "visible")	//if sidebar is open, close sidebar
-        this.onDismiss();
-    }
-  }
+	setWrapperRef(node) {
+		this.wrapperRef = node;
+	}
 
-  onDismiss = () => {
-    this.props.handleSidebar()
-  }
+	/**** Alert if clicked on outside of element **/
+	handleClickOutside(event) {
+		if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+			if (this.props.className === "visible")
+				//if sidebar is open, close sidebar
+				this.props.handleSidebar();
+		}
+	}
 
-  render() {
-    return (
-      <div className={'wrapper ' + this.props.className} ref={this.setWrapperRef}>
-        <nav id="sidebar">
-          <div id="dismiss" onClick={this.onDismiss}>
-            <i className="fas fa-arrow-left"></i>
-          </div>
+	render() {
+		return this.state.pages ? (
+			< div
+				className={"wrapper " + this.props.className}
+				ref={this.setWrapperRef}
+			>
+				{/* Wrapper is created to be able to click outside sidebar to close it */}
+				<nav id='sidebar'>
+					<Card bg="info" as="h2">
+						<Card.Header>
+							Directory
+						</Card.Header>
+					</Card>
 
-          <div className="sidebar-header">
-            <h3>Directory</h3>
-          </div>
+					<Col className="mt-3">
+						<Card bg="dark" border="info" style={{ cursor: "pointer" }}>
+							<SidebarCollection
+								collectionName="Home"
+								collectionLink=""
+							/>
+							<SidebarCollection
+								collectionName="Subjects"
+								collectionLink="subjects"
+								collection={this.state.pages.subjects}
+								refresh={() => this.fetchData()}
+							/>
+							<SidebarCollection
+								collectionName="Industries"
+								collectionLink="industries"
+								collection={this.state.pages.industries}
+								refresh={() => this.fetchData()}
+							/>
+						</Card>
 
-          <ul className="list-unstyled components">
-            <li>
-              <NavLink to={`/`}>
-                Home
-							</NavLink>
-              <a
-                href="#pageSubmenu"
-                data-toggle="collapse"
-                aria-expanded="false"
-              >
-                Subjects
-              </a>
-              <ul className="collapse list-unstyled" id="pageSubmenu">
-                {/* For each Subject create a link */}
-                {this.state.subjects.map(sub => {
-                  return (
-                    this.state.subjects.length > 0 ?
-                      <li key={sub.SubjectID}>
-                        <NavLink to={`/subjects/${sub.SubjectID}`}>
-                          {sub.SubjectName}
-                        </NavLink>
-                        {/*<a href={`/subjects/${sub.SubjectID}`}>{sub.SubjectName}</a>*/}
-                      </li>
-                      : <li> No Subjects Found </li>
-                  );
-                })}
-              </ul>
-              <a
-                href="#industrySubmenu"
-                data-toggle="collapse"
-                aria-expanded="false"
-              >
-                Industries
-              </a>
-              <ul className="collapse list-unstyled" id="industrySubmenu">
-                <li>
-                  <a href="/">Electricity</a>
-                </li>
-                <li>
-                  <a href="/">Plywood</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
+						<Card bg="info" border="dark" as="h5" className="mt-3 p-2 back">
+							<NavLink to={`/`} onClick={this.props.handleSidebar} className="text-center">
+								Back to Page
+						</NavLink>
+						</Card>
+					</Col>
+				</nav>
 
-          <ul className="list-unstyled CTAs">
-            <li>
-              <NavLink to={`/`} className="article" onClick={this.onDismiss}>
-                Back to Page
-							</NavLink>
-            </li>
-          </ul>
-        </nav>
-
-        <div className="overlay"></div>
-      </div>
-    )
-  }
+			</div >
+		) : <Fragment></Fragment>;
+	}
 }
 
-export default Sidebar
+export default Sidebar;

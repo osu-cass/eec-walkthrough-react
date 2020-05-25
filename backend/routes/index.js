@@ -1,9 +1,46 @@
-var express = require('express');
-var router = express.Router();
+// File: index.js
+// Description: handles all API routing
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+const path = require("path");
+const bodyParser = require("body-parser");
+const express = require("express");
+const cors = require("cors");
+const logger = require("morgan");
+const cookieParser = require("cookie-parser");
+const app = express();
+
+// catch invalid JSON request bodies
+app.use((req, res, next) => {
+  bodyParser.json()(req, res, err => {
+    if (err) {
+      console.error("400: Invalid JSON request body");
+      res.status(400).send({error: "400: Invalid JSON request body"});
+    } else {
+      next();
+    }
+  });
 });
 
-module.exports = router;
+// general middleware
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+app.use(cors());
+
+// handle requests
+app.use("/users", require("./users"));
+app.use("/pages", require("./pages"));
+app.use("/headers", require("./headers"));
+app.use("/cards", require("./cards"));
+app.use("/icons", require("./icons"));
+app.use("/items", require("./items"));
+
+// unhandled requests get a 404 error
+app.all("/*", (req, res) => {
+  console.error("404: File not found\n");
+  res.status(404).send({error: "Not Found"});
+});
+
+module.exports = app;

@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import Image from './Image'
 import './BulletPoint.css'
+import Col from 'react-bootstrap/Col';
 
 function styleText(icon) {
 	if (icon === 'check-square')
@@ -11,24 +13,56 @@ function styleText(icon) {
 }
 
 function isBold(bold) {
-	console.log(bold);
 	if (bold)
 		return 'font-weight-bold';
 }
 
-function addColor(child) {
-	if (child)
-		return 'text-child';
+
+function filter(check) {
+	if (check)
+		return 'hide';
+	else return 'active';
+}
+
+function getContentType(text, label, url) {
+	if (text !== "" && label === "" && url === "")
+		return 1;
+	if (text === "" && label !== "" && url !== "")
+		return 2;
+	if (text !== "" && label !== "" && url !== "")
+		return 3;
 }
 
 const BulletPoint = props => {
 	return (
-		<div key={props.id} className={`mb-2 ${props.checkFilter}`}>
-			<i className={`fas fa-${props.icon} ${addColor(props.child)} mr-2 ${styleText(props.icon)} `}></i>
-			<span className={styleText(props.icon) || isBold(props.bold)}>
-				{props.text}
-			</span>
-			<div className='pl-5 mt-2'>{props.children}</div>
+		<div key={props.id} className={`mb-2 ${filter(props.hide)}`}>
+			{getContentType(props.text, props.label, props.url) === 1 ?
+				<Fragment>
+					<i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
+					<span className={styleText(props.icon) || isBold(props.bold)}>
+						{props.text}
+					</span>
+				</Fragment>
+				: ""}
+			{getContentType(props.text, props.label, props.url) === 2 ?
+				<Fragment>
+					<i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
+					<span className={styleText(props.icon) || isBold(props.bold)}>
+						{props.text}
+					</span>
+					{props.label}
+					<Image url={props.url} header={props.label} />
+				</Fragment>
+				: ""}
+			{getContentType(props.text, props.label, props.url) === 3 ?
+				<Fragment>
+					<div className=''>
+						<i className="fas fa-copy mr-2" /><a href={props.url} className="text-primary"> {props.label} </a> <br></br>
+						{props.text}
+					</div>
+				</Fragment>
+				: ""}
+			<div className='pl-5'>{props.children}</div>
 		</div >
 	)
 }
