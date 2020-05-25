@@ -18,11 +18,15 @@ class Sidebar extends React.Component {
 	}
 
 	componentDidMount() {
+		this.fetchData();
+		document.addEventListener("mousedown", this.handleClickOutside);
+	}
+
+	fetchData() {
 		fetch('/pages/all')
 			.then(res => res.json())
 			.then(res => res.pages)
 			.then(pages => this.setState({ pages })) //get all pages
-		document.addEventListener("mousedown", this.handleClickOutside);
 	}
 
 	componentWillUnmount() {
@@ -66,11 +70,13 @@ class Sidebar extends React.Component {
 								collectionName="Subjects"
 								collectionLink="subjects"
 								collection={this.state.pages.subjects}
+								refresh={() => this.fetchData()}
 							/>
 							<SidebarCollection
 								collectionName="Industries"
 								collectionLink="industries"
 								collection={this.state.pages.industries}
+								refresh={() => this.fetchData()}
 							/>
 						</Card>
 

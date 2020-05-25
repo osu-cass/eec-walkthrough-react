@@ -415,7 +415,6 @@ class CreateItem extends React.Component {
 					<Modal.Footer className="modal-footer">
 						<Button variant="secondary" onClick={this.handleClose}>Close</Button>
 						<Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Create Card</Button>
-						<Button variant="info" onClick={(e) => console.log(this.state.items)}>Test</Button>
 					</Modal.Footer>
 				</Modal>
 			</div>

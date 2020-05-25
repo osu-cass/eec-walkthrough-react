@@ -10,6 +10,11 @@ class App extends React.Component {
 		sidebarOpen: false,
 	};
 
+	componentDidMount() {
+		//fetch all pages
+		//check if route exists within pages
+	}
+
 	handleSidebar = () => {
 		this.setState({ sidebarOpen: !this.state.sidebarOpen });
 	};
