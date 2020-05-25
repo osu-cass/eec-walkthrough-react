@@ -70,7 +70,7 @@ class Card extends React.Component {
 
 	render() {
 		return (
-			<CardBS className={`my-2 bg-${this.props.color} shadow-sm`}>
+			<CardBS className={`my-2 shadow-sm`}>
 				<CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
 					{this.props.card}
 				</CardBS.Header>

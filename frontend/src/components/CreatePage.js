@@ -2,11 +2,15 @@ import React, { Fragment } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Error from './Error';
-import './CreateCard.css'
+import './CreatePage.css'
 import './Subject.css'
 
 class CreateItem extends React.Component {
 	state = {
+		name: "",
+		summary: "",
+		description: "",
+		url: "",
 		show: false,
 		emptyInputs: false,
 	}
@@ -18,6 +22,50 @@ class CreateItem extends React.Component {
 
 	handleClose = () => this.setState({ show: false });
 	handleShow = () => this.setState({ show: true });
+
+	handleSubmit = async () => {
+		//Check for empty inputs
+		if (this.checkInputs()) {
+			return
+		}
+
+		//Reset state
+		this.setState({ emptyInputs: false });
+		this.setState({ name: "" });
+		this.setState({ summary: "" });
+		this.setState({ description: "" });
+		this.setState({ url: "" });
+
+		//Close modal
+		this.handleClose();
+
+		//Prepare data
+		let data = {
+			pageType: 0,
+			name: this.state.name,
+			title: this.state.summary,
+			description: this.state.description,
+			imageUrl: this.state.url,
+			userId: 1,
+			approved: 1
+		}
+
+		//Create new page
+		await fetch("/pages/", {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(data)
+		}).then(function (res) {
+			if (res.status >= 400) {
+				throw new Error("Bad response from server");
+			}
+		}).catch(function (err) {
+			console.log(err);
+		})
+
+		//Reload sidebar after adding
+		this.props.refresh();
+	}
 
 	/**
 	* Check for empty inputs in state before submission
@@ -61,8 +109,8 @@ class CreateItem extends React.Component {
 
 	render() {
 		return (
-			<div className='text-center mt-2 mb-2'>
-				<Button variant="outline-info" onClick={this.handleShow}>
+			<div className='text-center mt-2 mb-2 createPage'>
+				<Button variant="outline-info" className="createPage" onClick={this.handleShow}>
 					<i
 						className='fas fa-plus-circle text-info mr-2'
 						style={{ transform: 'scale(1.5)' }}></i>

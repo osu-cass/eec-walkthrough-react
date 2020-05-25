@@ -29,12 +29,11 @@ const SidebarCollection = props => {
 								</NavLink>
 							);
 						})}
-						<Container>
-							<CreatePage
-								title={`Create ${props.collectionName} Page`}
-								collectionName={props.collectionName}
-							/>
-						</Container>
+						<CreatePage
+							title={`Create ${props.collectionName} Page`}
+							collectionName={props.collectionName}
+							refresh={props.refresh}
+						/>
 					</Fragment>
 				</Accordion.Collapse>
 				: ""}
