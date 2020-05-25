@@ -70,6 +70,31 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  '/user/search/{text}/{role}/{cursorPrimary}/{cursorSecondary}':
+    get:
+      summary: Search for users
+      description: >
+        Gets a list of users matching the search query and cursor location
+      operationId: searchUsers
+      tags:
+        - Users
+      parameters:
+        - $ref: '#/components/parameters/Search_text'
+        - $ref: '#/components/parameters/Search_role'
+        - $ref: '#/components/parameters/Search_primary_user'
+        - $ref: '#/components/parameters/Search_secondary_user'
+      responses:
+        '200':
+          $ref: '#/components/responses/User_Search_GET_200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+
   '/users/login/{userName}/{password}':
     get:
       summary: Login the user
@@ -1174,6 +1199,50 @@ components:
       schema:
         $ref: '#/components/schemas/Item/properties/itemId'
 
+    Search_text:
+      name: text
+      in: path
+      description: Text representing the search query
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        example: John
+        
+    Search_role:
+      name: role
+      in: path
+      description: A value representing the role to filter by. A role of 1 is external users, 2 is internal users, 3 is editors, 4 is administrators. A value of 0 does not filter by role, instead it returns all roles.
+      required: true
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 4
+        example: 2
+
+    Search_primary_user:
+      name: cursorPrimary
+      in: path
+      description: This is a cursor used for cursor-based pagination. Together with the secondary cursor it specific the location of an item in the dataset. This cursor represents userName.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 1000
+        example: User21235
+
+    Search_secondary_user:
+      name: cursorSecondary
+      in: path
+      description: This is a cursor used for cursor-based pagination. Together with the primary cursor it specific the location of an item in the dataset. This cursor represents userId.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 1000
+        example: 5
+
   responses:
 
     User_POST_201:
@@ -1224,6 +1293,38 @@ components:
                 example: 'doejohn@oregonstate.edu'
               role:
                 example: 1
+                
+    User_Search_GET_200:
+      description: An object containing information about users
+      content:
+        application/json:
+          schema:
+            properties:
+              users:
+                example: [
+                      {
+                          "userId": 1,
+                          "userName": "John1234",
+                          "firstName": "John",
+                          "lastName": "Doe",
+                          "email": "doejohn@oregonstate.edu",
+                          "role": 2
+                      },
+                      {
+                          "userId": 10,
+                          "userName": "jperson222",
+                          "firstName": "John",
+                          "lastName": "Todd",
+                          "email": "jperson222@gmail.com",
+                          "role": 1
+                      }
+                    ]
+              nextCursor:
+                example:
+                    {
+                        "primary": "null",
+                        "secondary": "null"
+                    }
     
     PATCH_200:
       description: An object containing information about the changed rows

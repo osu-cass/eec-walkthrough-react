@@ -7,6 +7,7 @@ const {
   getIcons,
 } = require("../models/icons");
 
+
 // get information about all icons
 app.get("/all", async (req, res) => {
 
@@ -29,5 +30,6 @@ app.get("/all", async (req, res) => {
   }
 
 });
+
 
 module.exports = app;
