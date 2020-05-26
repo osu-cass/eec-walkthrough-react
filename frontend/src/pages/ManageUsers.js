@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import UserSearchForm from "../components/UserSearchForm";
 import UserSearchResults from "../components/UserSearchResults";
-import Loading from "../components/Loading";
+import LoadingOverlay from "../components/LoadingOverlay";
 import Container from "react-bootstrap/Container";
 
 // manage users page
@@ -101,7 +101,8 @@ export default function ManageUsers() {
 
   return (
       <Container>
-        {loading ? <Loading /> : null }
+        <LoadingOverlay loading={loading} />
+
         <div id="user-manage-container">
           <div id="user-manage-contents-container">
 
