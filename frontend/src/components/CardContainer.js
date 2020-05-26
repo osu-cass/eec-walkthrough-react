@@ -20,12 +20,14 @@ class CardContainer extends React.Component {
                 <Card
                     key={i}
                     color="white"
-                    id={this.props.id}
+                    headerId={this.props.headerId}
                     card={card.title}
                     items={card.items}
                     checkFilter={this.checkFilter}
+                    orderIndex={card.orderIndex}
                     cardId={card.cardId}
                     used={used}
+                    iconSet={this.props.iconSet}
                 />
             );
         });

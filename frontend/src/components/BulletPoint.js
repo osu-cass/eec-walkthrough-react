@@ -57,12 +57,12 @@ const BulletPoint = props => {
 			{getContentType(props.text, props.label, props.url) === 3 ?
 				<Fragment>
 					<div className=''>
-						<i className="fas fa-copy mr-2" /><a href={props.url} className="text-primary"> {props.label} </a> <br></br>
+						<i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)}`} /><a href={props.url} className="text-primary"> {props.label} </a> <br></br>
 						{props.text}
 					</div>
 				</Fragment>
 				: ""}
-			<div className='pl-5'>{props.children}</div>
+			<div className='pl-5 mt-2'>{props.children}</div>
 		</div >
 	)
 }
