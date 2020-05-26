@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
-import { getProfile, logout } from '../utilities/cookieAuth';
 import AddButton from './AddButton';
 import ItemInput from './ItemInput';
 import Dropdown from './Dropdown';
@@ -9,45 +8,54 @@ import Error from './Error';
 import './CreateCard.css'
 import './Subject.css'
 
-class CreateCard extends React.Component {
+class EditCard extends React.Component {
 	state = {
 		counter: 0, //count number of inputs added
 		title: "",
 		items: [],
 		show: false,
 		loaded: false,
-		emptyInputs: false,
-		errorMessage: "",
-		role: 0
+		emptyInputs: false
 	}
 
 	async componentDidMount() {
 		let items = [];
-		let item = {};
+		let itemData = {};
+		let counter = 0;
 
-		//Init empty item
-		let content = { text: "", label: "", url: "" };
-		item.content = content;
-		item.depth = 0;
-		item.icon = null;
-		item.contentType = null;
-
-		// console.log(item);
-
-		items.push(item);
-
+		//Push items from props to state
+		this.props.items.forEach((item, i) => {
+			itemData = {}
+			itemData.content = {
+				text: item.contentText,
+				label: item.contentLabel,
+				url: item.contentUrl
+			}
+			itemData.depth = 0;
+			itemData.icon = item.iconType;
+			itemData.contentType = this.getContentType(item.contentText, item.contentLabel, item.contentUrl);
+			items.push(itemData);
+			counter++;
+		});
+		console.log(itemData, this.props.icons)
 		await this.setState({ items: items });
+		this.setState({ counter: counter });
+		await this.setState({ title: this.props.cardName })
 		this.setState({ loaded: true });
 		this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" })
-
-		// check user role to see what we should render
-		const user = getProfile();
-		this.setState({ role: user.role });
-
 	}
 
 	handleClose = () => this.setState({ show: false });
 	handleShow = () => this.setState({ show: true });
+
+	getContentType(text, label, url) {
+		if (text !== "" && label === "" && url === "")
+			return 1;
+		if (text === "" && label !== "" && url !== "")
+			return 2;
+		if (text !== "" && label !== "" && url !== "")
+			return 3;
+	}
 
 	incrementCounter = (contentType) => {
 		let count = this.state.counter;
@@ -57,6 +65,7 @@ class CreateCard extends React.Component {
 
 		//Init new empty item
 		copy[key] = {}
+		console.log(copy[key], copy)
 		copy[key].content = content;
 		copy[key].depth = 0;
 		copy[key].icon = null;
@@ -64,7 +73,6 @@ class CreateCard extends React.Component {
 
 		this.setState({ items: copy });
 		this.setState({ counter: count + 1 });
-
 	}
 
 	/**
@@ -149,6 +157,7 @@ class CreateCard extends React.Component {
 
 	handleSubmit = async () => {
 		console.log(this.state.items);
+		return
 		//Check for empty inputs
 		if (this.checkInputs()) {
 			return
@@ -162,6 +171,7 @@ class CreateCard extends React.Component {
 			headerId: this.props.headerId,
 			orderIndex: this.props.numCards + 1, //append to end of list of cards for this header
 			title: this.state.title,
+			userId: 1 //temporary placeholder
 		}
 
 		//Store item ids to handle parentId 
@@ -173,12 +183,6 @@ class CreateCard extends React.Component {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(cardData)
 		}).then(function (res) {
-			// if the user is performing an unauthorized action
-			// log them out and return them to the homepage
-			if (res.status === 401) {
-				logout();
-				window.location.href = "/";
-			}
 			if (res.status >= 400) {
 				throw new Error("Bad response from server");
 			}
@@ -194,6 +198,7 @@ class CreateCard extends React.Component {
 					cardId: cardData.insertId,
 					iconType: this.state.items[key].icon,
 					parentId: this.findParent(key, this.state.items[key].depth, itemIds),
+					userId: 1 //temporary placeholder
 				}
 				//Items can be dependent on previous item to be created (parentId), use await
 				await fetch("/items/", {
@@ -310,6 +315,15 @@ class CreateCard extends React.Component {
 		this.setState({ items: copy });
 	}
 
+	getIconName(id) {
+		let i;
+		for (i = 0; i < this.props.icons.length; i++) {
+			if (this.props.icons[i].iconType === id)
+				return i;
+		}
+		return null;
+	}
+
 	/**
 	* Returns JSX for dropdown of all icons
 	* @param {Number} i item index passed from generateInputs()
@@ -346,7 +360,7 @@ class CreateCard extends React.Component {
 				<Row className="mb-2" key={i + 1}>
 					{this.getDepth(i)} {/*return indentation for subpoints*/}
 					<div className="col-1">
-						<Dropdown key={i} idx={i} list={this.generateIcons(i)} handleClick={(id, idx) => this.updateIcon(id, idx)} />
+						<Dropdown key={i} idx={i} list={this.generateIcons(i)} selectedIndex={this.getIconName(this.state.items[i].icon)} handleClick={(id, idx) => this.updateIcon(id, idx)} edit />
 					</div>
 
 					<div className="input-group col-9">
@@ -375,13 +389,13 @@ class CreateCard extends React.Component {
 	}
 
 	render() {
-		return this.state.loaded && this.state.role >= 3 ? (
-			<div className='text-center mt-3 mb-2'>
-				<Button variant="info" onClick={this.handleShow}>
+		return this.state.loaded ? (
+			<div className='text-center'>
+				<Button size="sm" variant="info" onClick={this.handleShow}>
 					<i
-						className='fas fa-plus-circle text-white mr-2'
+						className='fas fa-edit text-white mr-2'
 						style={{ transform: 'scale(1.5)' }}></i>
-					Create Card
+					<span className="text-white">Edit Card</span>
 				</Button>
 				<Modal show={this.state.show} onHide={this.handleClose} dialogClassName="modal-width">
 					<Modal.Header>
@@ -397,7 +411,7 @@ class CreateCard extends React.Component {
 							<Col>
 								<Form.Group controlId="formTitle">
 									<Form.Label className="font-weight-bold">Card Title</Form.Label>
-									<Form.Control type="text" placeholder="Enter title" onChange={(e) => this.setState({ title: e.target.value })} />
+									<Form.Control type="text" defaultValue={this.state.title} onChange={(e) => this.setState({ title: e.target.value })} />
 								</Form.Group>
 							</Col>
 						</Row>
@@ -415,7 +429,7 @@ class CreateCard extends React.Component {
 
 						<Row>
 							<div className='col-3' />
-							<div className='col-6 mt-4'>
+							<div className='col-6'>
 								<Error
 									empty={this.state.emptyInputs}
 									message={this.state.errorMessage}
@@ -434,7 +448,7 @@ class CreateCard extends React.Component {
 	}
 }
 
-CreateCard.propTypes = {
+EditCard.propTypes = {
 	title: PropTypes.string,
 	icons: PropTypes.array
 };
@@ -445,4 +459,4 @@ CreateCard.propTypes = {
 					SubjectID={this.state.pageInfo.pageId}
 					categoryType={1}
 */
-export default CreateCard;
+export default EditCard;
