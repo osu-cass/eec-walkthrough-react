@@ -53,6 +53,17 @@ const patchUserVal = Object.freeze({
 });
 exports.patchUserVal = patchUserVal;
 
+// validation checks for search user
+const searchUserVal = Object.freeze({
+  validation: [
+    check("text").isLength({min: 0, max: 1000}),
+    check("role").isLength({min: 0, max: 4}),
+    check("cursorPrimary").isLength({min: 1, max: 1000}),
+    check("cursorSecondary").isLength({min: 1, max: 1000})
+  ]
+});
+exports.searchUserVal = searchUserVal;
+
 // validation checks for get page
 const getPageVal = Object.freeze({
   validation: [
