@@ -32,7 +32,7 @@ function UsersSearchForm(props) {
           <div className="input-group">
             <input type="text" className="form-control" id="input-search-user" placeholder="Search by name, email, or id" />
             <div className="input-group-append">
-              <button type="submit" id="search-user-button" className="btn btn-primary mb-2">Search</button>
+              <button type="submit" id="search-user-button" className="btn btn-info mb-2">Search</button>
             </div>
           </div>
 

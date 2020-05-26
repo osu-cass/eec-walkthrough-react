@@ -36,7 +36,7 @@ function LoadMoreButton(props) {
   }
 
   return (
-    <button id="load-more-button" onClick={() => checkLoading()}>
+    <button id="load-more-button" className="btn btn-info mb-2" onClick={() => checkLoading()}>
         Show More
     </button>
   );

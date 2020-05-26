@@ -11,8 +11,7 @@ function UserSearchResults(props) {
   if (props.users.length) {
     return (
       <div className="table-container">
-        <h3>Search Results</h3>
-        <table className="user-table">
+        <table className="user-table shadow">
           <thead>
             <tr>
               <th className="user-data">Username</th>
@@ -52,11 +51,11 @@ function UserSearchResults(props) {
   } else {
     return (
       <div className="table-container">
-        <div className="prompt-container">
+        <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
           { props.error === "" ? (
-            <h3>Search for users...</h3>
+            <h3 className="py-5">Search for users...</h3>
           ) : (
-            <h3>{props.error}</h3>
+            <h3 className="py-5">{props.error}</h3>
           )}
         </div>
       </div>
