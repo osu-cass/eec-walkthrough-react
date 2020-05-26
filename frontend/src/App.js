@@ -1,6 +1,7 @@
 import React from "react";
 import Subject from "./pages/Subject";
 import Home from "./pages/Home";
+import ManageUsers from "./pages/ManageUsers";
 import NavBar from "./components/NavBar";
 import Sidebar from "./components/Sidebar";
 import { Route, Switch } from "react-router-dom";
@@ -34,12 +35,15 @@ class App extends React.Component {
 							<Subject {...props} pageId={props.match.params.pageId} />
 						)}
 					/>
-          <Route
+					<Route
 						path='/industries/:pageId'
 						render={(props) => (
 							<Subject {...props} pageId={props.match.params.pageId} />
 						)}
 					/>
+					<Route path='/manage-users'>
+						<ManageUsers />
+					</Route>
 					<Route exact path='/'>
 						<Home />
 					</Route>
