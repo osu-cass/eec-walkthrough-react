@@ -1,5 +1,4 @@
 import React from "react";
-import {css, jsx} from "@emotion/core";
 import {useEffect} from "react";
 import PropTypes from "prop-types";
 import "./LoadMoreButton.css";
