@@ -114,6 +114,8 @@ class Subject extends React.Component {
 								id={i}
 								cards={this.state.headers[i].cards}
 								filter={this.state.icons[i]}
+								headerId={header.headerId}
+								iconSet={this.state.iconSet}
 							/>
 							<CreateCard
 								title={`Create ${header.title} Card`}
