@@ -1,0 +1,8 @@
+#load-more-button {
+  margin: 25px;
+  padding: 1rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid black;
+  background: transparent;
+  margin-left: 1rem;
+}
