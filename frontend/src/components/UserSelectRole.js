@@ -64,7 +64,7 @@ function UserSelectRole(props) {
   }
 
   return (
-    <select className="change-user-role" id={`change-user-role-${props.userId}`}
+    <select className="change-user-role custom-select" id={`change-user-role-${props.userId}`}
       defaultValue={props.role} onChange={() => setNewRole()}>
 
       <option value="1">{formatRole(1)}</option>
