@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: classmysql.engr.oregonstate.edu:3306
--- Generation Time: May 22, 2020 at 08:07 PM
+-- Generation Time: May 25, 2020 at 03:41 PM
 -- Server version: 10.4.11-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -45,9 +45,19 @@ CREATE TABLE `Cards` (
 INSERT INTO `Cards` (`cardId`, `headerId`, `orderIndex`, `title`, `userId`, `created`, `approved`) VALUES
 (1, 3, 1, 'Boiler Card', 2, '2020-05-22 21:22:22', 1),
 (2, 3, 1, 'Danger', 2, '2020-05-22 21:22:22', 1),
-(3, 1, 1, 'Figures, Charts, and Tables', 2, '2020-05-22 21:22:22', 1),
+(3, 1, 2, 'Figures, Charts, and Tables', 2, '2020-05-23 17:18:45', 1),
 (8, 2, 1, 'Reduce Compressed Air Pressure\r\n', 1, '2020-05-22 21:22:22', 1),
-(9, 1, 1, 'Pros', 1, '2020-05-22 21:22:22', 1);
+(9, 1, 1, 'Pros', 1, '2020-05-23 17:18:47', 1),
+(13, 1, 1, 'Cons', 1, '2020-05-23 22:20:20', 0),
+(16, 1, 1, 'Caveats', 1, '2020-05-23 22:27:44', 0),
+(17, 1, 1, 'Best Practices', 1, '2020-05-23 22:28:37', 0),
+(18, 1, 1, 'Rules of Thumb', 1, '2020-05-23 22:31:49', 0),
+(19, 1, 7, 'Tips', 1, '2020-05-23 22:33:25', 0),
+(26, 1, 8, 'Test', 1, '2020-05-23 23:05:49', 0),
+(27, 2, 2, 'Reduce Compressed Air Required', 1, '2020-05-23 23:11:46', 0),
+(28, 3, 3, 'Caveats', 1, '2020-05-24 06:03:59', 0),
+(29, 1, 9, 'Site Resource Test', 1, '2020-05-24 15:42:55', 0),
+(30, 3, 4, 'Test', 1, '2020-05-25 03:22:57', 0);
 
 -- --------------------------------------------------------
 
@@ -159,18 +169,55 @@ CREATE TABLE `Items` (
 --
 
 INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `parentId`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `userId`, `created`, `approved`) VALUES
-(1, 1, 1, NULL, 5, 'Hot 1', '', '', 2, '2020-05-22 21:23:14', 1),
-(2, 1, 1, 1, 5, 'Hot 2', '', '', 2, '2020-05-22 21:23:14', 1),
-(3, 1, 1, 2, 5, 'Hot 3', '', '', 2, '2020-05-22 21:23:14', 1),
-(4, 1, 1, 3, 5, 'Hot 4', '', '', 2, '2020-05-22 21:23:14', 1),
-(5, 1, 1, 3, 5, 'Hot 4 again', '', '', 1, '2020-05-22 21:23:14', 1),
+(1, 1, 1, NULL, 5, 'This guide focuses mainly on screw and reciprocating compressors. These are the most common types of compressors used in the northwest. Other types of compressors such as rotary vane, centrifugal, lobe and radial compressors are much less common and are only introduced in this guide.\r\n', '', '', 2, '2020-05-23 18:41:12', 1),
+(2, 1, 1, 1, 5, '80 to 90% of energy for compressed air is lost as heat\r\n', '', '', 2, '2020-05-23 18:41:04', 1),
+(3, 1, 1, 2, 5, 'Nested under 85 psi\r\n', '', '', 2, '2020-05-23 18:41:00', 1),
+(4, 1, 1, 3, 5, '85 PSI is the standard required minimum inlet pressure for most common industrial pneumatic equipment\r\n', '', '', 2, '2020-05-23 18:40:57', 1),
+(5, 1, 1, 3, 5, 'Expect a 1% drop in compressor energy and cost per 2 PSI in compressor outlet pressure drop\r\n', '', '', 1, '2020-05-23 18:40:52', 1),
 (6, 2, 1, NULL, 6, 'electric', '', '', 1, '2020-05-22 21:23:14', 1),
 (7, 3, 1, NULL, 20, '', 'https://i.imgur.com/V0dkW5l.png', 'Screw compressor power vs output for various control strategies', 1, '2020-05-22 22:34:06', 1),
 (8, 3, 1, NULL, 20, '', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg/1024px-Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg', 'Technical Illustration of a two-stage air compressor', 2, '2020-05-22 22:33:57', 1),
 (23, 8, 1, NULL, 8, 'Reduced air pressure not only reduces air compressor energy required for a set volume of air, it will also result in less air volume consumed by leaks and unregulated air uses (although it can be hard to estimate the volume reduction).\r\n', '', '', 1, '2020-05-22 21:23:14', 1),
 (24, 8, 1, NULL, 11, 'System pressure is set over 100 PSI for a compressed air system serving standard industrial utilities and controls.\r\n', '', '', 2, '2020-05-22 21:23:14', 1),
 (25, 9, 1, NULL, 1, 'Versatile. Offers compact energy density. Easy quick fix for many issues. Familiar utility for industrial personnel.\r\n', '', '', 1, '2020-05-22 21:23:14', 1),
-(26, 9, 1, NULL, 1, 'Spark free for potentially explosive environments\r\n', '', '', 2, '2020-05-22 21:23:14', 1);
+(26, 9, 1, NULL, 1, 'Spark free for potentially explosive environments\r\n', '', '', 2, '2020-05-22 21:23:14', 1),
+(28, 16, 1, NULL, 5, 'May be windy', '', '', 1, '2020-05-23 22:30:55', 0),
+(29, 17, 1, NULL, 7, 'Looped distribution systems can help maintain uniform pressure throughout a compressed air system.', '', '', 1, '2020-05-23 22:30:57', 0),
+(30, 17, 2, NULL, 7, 'Well sized compressed air lines reduce pressure loss', '', '', 1, '2020-05-23 22:30:58', 0),
+(31, 17, 3, NULL, 7, 'A well designed compressed air system should typically have a maximum 10 PSI pressure drop in delivering air to at any end-use in the system', '', '', 1, '2020-05-23 22:31:00', 0),
+(32, 13, 1, NULL, 2, 'Energy intensive. Function provided can often be replace with significantly lower power approach.\r\n', '', '', 2, '2020-05-23 22:52:18', 1),
+(33, 18, 1, NULL, 3, 'Expect a 1% drop in compressor energy and cost per 2 PSI in compressor outlet pressure drop', '', '', 1, '2020-05-23 22:31:50', 0),
+(34, 18, 2, NULL, 3, '85 PSI is the standard required minimum inlet pressure for most common industrial pneumatic equipment', '', '', 1, '2020-05-23 22:31:50', 0),
+(35, 18, 3, 34, 3, 'Nested under 85 psi', '', '', 1, '2020-05-23 22:31:50', 0),
+(36, 18, 4, NULL, 3, '80 to 90% of energy for compressed air is lost as heat', '', '', 1, '2020-05-23 22:31:50', 0),
+(37, 19, 1, NULL, 8, 'A pressure gauge with a standard quick connect used in compressed air lines can be useful in diagnosing pressure drops', '', '', 1, '2020-05-23 22:33:25', 0),
+(42, 13, 1, 32, 6, 'Long sentence', '', '', 2, '2020-05-23 22:52:17', 0),
+(43, 13, 2, NULL, 5, 'Burns', '', '', 1, '2020-05-23 22:49:44', 1),
+(51, 26, 1, NULL, 19, '1', '', '', 1, '2020-05-23 23:05:50', 0),
+(52, 26, 2, NULL, 16, '2', '', '', 1, '2020-05-23 23:05:50', 0),
+(53, 26, 3, 52, 15, '3', '', '', 1, '2020-05-23 23:08:13', 0),
+(54, 26, 4, 53, 4, '5', '', '', 1, '2020-05-23 23:05:50', 0),
+(55, 26, 5, 53, 2, '6', '', '', 1, '2020-05-23 23:05:50', 0),
+(56, 26, 6, 55, 20, '7', '', '', 1, '2020-05-23 23:05:51', 0),
+(57, 26, 7, 56, 5, '8', '', '', 1, '2020-05-23 23:05:51', 0),
+(58, 26, 8, 56, 19, '9', '', '', 1, '2020-05-23 23:05:51', 0),
+(59, 26, 9, 58, 1, '0', '', '', 1, '2020-05-23 23:05:51', 0),
+(61, 26, 11, 58, 11, '1', '', '', 1, '2020-05-23 23:08:15', 0),
+(62, 26, 12, 58, 1, '4', '', '', 1, '2020-05-23 23:05:52', 0),
+(63, 26, 13, 58, 1, '5', '', '', 1, '2020-05-23 23:05:52', 0),
+(64, 26, 14, 55, 14, '6', '', '', 1, '2020-05-23 23:05:53', 0),
+(65, 26, 15, 53, 3, '7', '', '', 1, '2020-05-23 23:05:53', 0),
+(66, 26, 16, 52, 8, '8', '', '', 1, '2020-05-23 23:05:53', 0),
+(67, 26, 17, NULL, 8, '9', '', '', 1, '2020-05-23 23:05:53', 0),
+(68, 27, 1, NULL, 4, 'Energy savings associated with reductions in compressed air use are very dependant on the compressor control strategy. In the worst case, a compressor with blow off control might not yield any energy savings with compressed air use reductions, and one with inlet modulation might yield only a small part of potential savings.', '', '', 1, '2020-05-23 23:11:46', 0),
+(69, 27, 2, NULL, 10, 'Compressed air leak volume exceeds 20 to 30% of air used in the process.', '', '', 1, '2020-05-23 23:11:47', 0),
+(70, 27, 3, NULL, 11, 'Reduce compressed air leaks', '', '', 1, '2020-05-23 23:11:47', 0),
+(71, 27, 4, 70, 13, 'Compressed air is an expensive utility, but leaks can go uncorrected as they do not make a mess.', '', '', 1, '2020-05-23 23:11:47', 0),
+(72, 27, 5, 70, 12, 'Determine the leak load by checking compressor output when there is no productive use (typically during breaks or after hours.)', '', '', 1, '2020-05-23 23:11:47', 0),
+(73, 29, 1, NULL, 17, 'This guide focuses mainly on screw and reciprocating compressors. These are the most common types of compressors used in the northwest. Other types of compressors such as rotary vane, centrifugal, lobe and radial compressors are much less common and are only introduced in this guide.', 'https://drive.google.com/file/d/12Co0C6JBK5CqoYhZQBcD0VX6JVBXy86o/view', 'Assessing Industrial Air Compressor', 1, '2020-05-24 15:54:25', 0),
+(74, 30, 1, NULL, 20, '', 'https://www.hurstboiler.com/images2/series-300_shrink.png', 'Random boiler I saw on Google', 1, '2020-05-25 03:22:57', 0),
+(75, 30, 2, NULL, 14, 'Some text about boilers', '', '', 1, '2020-05-25 03:22:57', 0),
+(76, 30, 3, NULL, 19, 'Hurst Series 300', 'Big boiler link', 'https://www.hurstboiler.com/boilers/scotch_marine/series_300', 1, '2020-05-25 03:22:57', 0);
 
 -- --------------------------------------------------------
 
@@ -223,7 +270,41 @@ CREATE TABLE `Users` (
 
 INSERT INTO `Users` (`userId`, `userName`, `password`, `firstName`, `lastName`, `email`, `role`) VALUES
 (1, 'John1234', 'XozpE-34__woqpZX', 'John', 'Doe', 'doejohn@oregonstate.edu', 2),
-(2, 'Jane5678', 'iopwerZowPo!', 'Jane', 'Doe', 'doejane@oregonstate.edu', 3);
+(2, 'Jane5678', 'iopwerZowPo!', 'Jane', 'Doe', 'doejane@oregonstate.edu', 3),
+(8, 'KayVan', 'aerw34234dwsr24', 'Kyra', 'Vannest', 'kyra@gmail.com', 2),
+(9, 'Emmmm', 'dafs234@!0234', 'Emmie', 'Henningsen', 'hennemmi@gmail.com', 3),
+(10, 'jperson222', 'iweoriewopr#4234', 'John', 'Todd', 'jperson222@gmail.com', 1),
+(11, 'DelTruax', 'weraqio234#', 'Delmar', 'Truax', 'DelTruax@gmail.com', 3),
+(12, 'Lori1', 'wer0-=3249C', 'Lori', 'Prettyman', 'Lori1@gmail.com', 4),
+(13, 'Brandee', 'aposirfewior$234', 'Brandee', 'Rentz', 'Brandee@gmail.com', 1),
+(14, 'Cathie322', 'wep[ro23@#$234', 'Cathie', 'Brindle', 'Cathie322@gmail.com', 2),
+(15, 'Anton6', 'oasopi0-324', 'Antonetta', 'Owuso', 'Anton6@gmail.com', 1),
+(16, 'Roy321', ']2[34o2340-kcopzf', 'Roy', 'Wrinkle', 'Roy321@yahoo.com', 1),
+(17, 'Eddie111', 'ewoep[o23[op4', 'Eddie', 'Beaufort', 'Eddie111@yahoo.com', 1),
+(18, 'Cindi95', 'wp[erpo[234#234', 'Cindi', 'Beaufort', 'Cindi95@msn.com', 1),
+(19, 'Shaneka', 'ertop[3[p4533', 'Shaneka', 'Estevez', 'Shaneka@gmail.com', 3),
+(20, 'Trinity3', 'owe-=0r2-30=4[pas', 'Trinity', 'Warford', 'Trinity3@yahoo.com', 2),
+(21, 'Rueben777', 'op[owerp[3#324', 'Rueben', 'Pella', 'Rueben777@oregonstate.edu', 4),
+(22, 'Swindler111', 'wwer[pwop[ep[o344234234', 'Mira', 'Swindler', 'Swindler111@oregonstate.edu', 1),
+(23, 'Tammy', 'wadsf[owepo[rp[234', 'Tammara', 'Stennis', 'Tammy@oregonstate.edu', 1),
+(24, 'Buster', 'poweo[r2[34-0234', 'Buster', 'Clemente', 'Buster@yahoo.com', 1),
+(25, 'plywood111', 'owr-0=o230podap[zxwr', 'Rhett', 'Hepworth', 'plywood111@gmail.com', 1),
+(26, 'Lperson9', 'ewrop[p[ioixci$2123', 'Errol', 'Mcintosh', 'Lperson9@gmail.com', 1),
+(27, 'NewAccount', 'pdsfpowep[rowe#3423424', 'Abraham', 'Buchan', 'NewAccount@yahoo.com', 1),
+(28, 'MyUserName', 'P!sdop!faer34#', 'Sade', 'Kauppi', 'MyUserName@yahoo.com', 1),
+(29, 'DogsAreGreat', 'DOWero2342340-asidx34', 'Lexie', 'Chupp', 'DogsAreGreat@gmail.com', 1),
+(30, 'NewEmail552', 'po[sdop[[pop[ow####234', 'Delilah', 'Serna', 'NewEmail552@gmail.com', 1),
+(31, 'Roll333', 'sppa[wop[op[wop[er#@$@$$@', 'Roland', 'Billings', 'Roll333@yahoo.com', 1),
+(32, 'CatsAreGreat', 'OIAWE)PR23-=423-=4as', 'Tori', 'Brayman', 'CatsAreGreat@yahoo.com', 1),
+(33, 'J_M', 'saopf[[powe3$@#$234', 'Joesephine', 'Morein', 'J_M@gmail.com', 1),
+(34, 'C33', 'dsfgp[wepot[ri$', 'Carrol', 'Becker', 'C33@gmail.com', 1),
+(35, 'Gayla2', 'ap[owep[orwp[oer32333', 'Gayla', 'Staley', 'Gayla2@yahoo.com', 1),
+(36, 'Danyelle44', 'dspo[irt324545', 'Danyelle', 'Elmer', 'Danyelle44@yahoo.com', 1),
+(37, 'Lois99', '324324234a[]pr][werp[]we', 'Lois', 'Malin', 'Lois99@gmail.com', 1),
+(38, 'Gemstone42', 'dsap][fp][we][prw2423=-4', 'Amber', 'Liakos', 'Amber@gmail.com', 1),
+(39, 'Bambi22', 'ootrioytoipryirty222', 'Bambi', 'Heuer', 'Bambi22@gmail.com', 1),
+(40, 'Merriam', ']we[]rewp[rewp[wrep[34234', 'Dominica', 'Merriam', 'Merriam@yahoo.com', 1),
+(41, 'Seth45', 'oteroipietroitroeiporte888', 'Seth', 'Kratzer', 'Seth45@yahoo.com', 1);
 
 --
 -- Indexes for dumped tables
@@ -294,7 +375,7 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `Headers`
@@ -312,19 +393,19 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- Constraints for dumped tables

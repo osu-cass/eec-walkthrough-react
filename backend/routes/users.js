@@ -8,15 +8,16 @@ const {
   postUserVal,
   patchUserVal,
   getUserVal,
-  loginUserVal
-
+  loginUserVal,
+  searchUserVal
 } = require("../services/validation/requestValidation");
 
 const {
   getUser,
   loginUser,
   createUser,
-  updateUser
+  updateUser,
+  searchUsers
 } = require("../models/users");
 
 
@@ -37,10 +38,10 @@ app.get("/:userId", getUserVal.validation, async (req, res) => {
     // get user data
     const results = await getUser(userId);
 
-    if (results.userId === 0) {
-      res.status(404).send({error: "User not found."});
-    } else {
+    if (results.userId !== 0) {
       res.status(200).send(results);
+    } else {
+      res.status(404).send({error: "User not found."});
     }
 
   } catch (err) {
@@ -73,6 +74,43 @@ app.get("/login/:userName/:password", loginUserVal.validation, async (req, res) 
       res.status(400).send({error: "Username or password is incorrect."});
     } else {
       res.status(200).send(results);
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get a list of Users based on a search query
+app.get("/search/:text/:role/:cursorPrimary/:cursorSecondary", searchUserVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Searching for users");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const text = req.params.text;
+    const role = req.params.role;
+    const cursor = {
+      primary: req.params.cursorPrimary,
+      secondary: req.params.cursorSecondary
+    };
+
+    // search for users
+    const results = await searchUsers(text, parseInt(role, 10), cursor);
+
+    if (results.users.length) {
+      res.status(200).send(results);
+    } else {
+      res.status(404).send({error: "No matching users found."});
     }
 
   } catch (err) {
