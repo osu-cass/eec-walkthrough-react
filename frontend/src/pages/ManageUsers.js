@@ -38,7 +38,7 @@ export default function ManageUsers() {
       setUserLoading(true);
 
       // get the search text from the search field
-      let textValue = document.getElementById("input-search").value;
+      let textValue = document.getElementById("input-search-user").value;
 
       // if search text is empty we use a special char to represent
       // any text response as valid

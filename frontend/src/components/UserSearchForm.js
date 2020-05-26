@@ -17,34 +17,35 @@ function UsersSearchForm(props) {
       primary: "null",
       secondary: "null"
     };
-
     props.onSearch(newCursor);
 
   }
 
   return (
-    <div id="user-search-container">
-
-      <h2>Search Users</h2>
+    <div id="user-search-container" className="justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow">
 
       <form id="search-form" onSubmit={(e) => submitHandler(e)}>
-        <input type="text" id="input-search" />
-        <button id="search-user-button">
-          Search
-        </button>
+        <div className="form-group">
+
+          <label form="formGroup" className="flex-grow-1 font-weight-bold h4">Search Users</label>
+
+          <div className="input-group">
+            <input type="text" className="form-control" id="input-search-user" placeholder="Search by name, email, or id" />
+            <div className="input-group-append">
+              <button type="submit" id="search-user-button" className="btn btn-primary mb-2">Search</button>
+            </div>
+          </div>
+
+          <select id="select-role" className="user-filter custom-select my-1 mr-sm-2" defaultValue={"0"}>
+            <option value="0">Any Role</option>
+            <option value="1">{formatRole(1)}</option>
+            <option value="2">{formatRole(2)}</option>
+            <option value="3">{formatRole(3)}</option>
+            <option value="4">{formatRole(4)}</option>
+          </select>
+
+        </div>
       </form>
-
-      <div id="filter-container">
-
-        <select id="select-role" className="user-filter" defaultValue={"0"}>
-        <option value="0">Any Role</option>
-        <option value="1">{formatRole(1)}</option>
-        <option value="2">{formatRole(2)}</option>
-        <option value="3">{formatRole(3)}</option>
-        <option value="4">{formatRole(4)}</option>
-        </select>
-
-      </div>
 
     </div>
   );
