@@ -211,7 +211,7 @@ async function searchUsers(text, role, cursor) {
       // are handled by also sorting by user ID.
 
       sql += "WHERE userName >= ? AND " +
-        "userName > ? OR userId >= ? )) ";
+        "(userName > ? OR userId >= ?) ";
       sqlArray.push(cursor.primary);
       sqlArray.push(cursor.primary);
       sqlArray.push(cursor.secondary);
@@ -220,8 +220,8 @@ async function searchUsers(text, role, cursor) {
 
     // get the text we are searching for
     if (text !== "*") {
-      sql += "AND userName LIKE CONCAT('%', ?, '%') " +
-      "OR (CONCAT(firstName , ' ' , lastName) LIKE CONCAT('%', ?, '%') " +
+      sql += "AND (userName LIKE CONCAT('%', ?, '%') " +
+      "OR CONCAT(firstName , ' ' , lastName) LIKE CONCAT('%', ?, '%') " +
       "OR email LIKE CONCAT('%', ?, '%') " +
       "OR userId LIKE CONCAT('%', ?, '%')) ";
       sqlArray.push(text);
@@ -244,7 +244,6 @@ async function searchUsers(text, role, cursor) {
     sqlArray.push(RESULTS_PER_PAGE + 1);
 
     // perform the query
-    console.log(sql, sqlArray);
     const results = await pool.query(sql, sqlArray);
 
     // get the next cursor and return the correct number of users

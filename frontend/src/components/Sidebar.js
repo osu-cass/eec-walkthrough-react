@@ -80,7 +80,7 @@ class Sidebar extends React.Component {
 							/>
               <SidebarCollection
 								collectionName="Manage Users"
-								collectionLink="users"
+								collectionLink="manage-users"
 							/>
 						</Card>
 
