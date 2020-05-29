@@ -507,3 +507,91 @@ async function deleteSubject(subjectId, industryId) {
 
 }
 exports.deleteSubject = deleteSubject;
+
+
+// gets pages that match the search query
+async function searchPages(text, cursor) {
+  try {
+
+    const RESULTS_PER_PAGE = 25;
+    const sqlArray = [];
+    let pages;
+    const nextCursor = {
+      primary: "null",
+      secondary: "null"
+    };
+
+    // initial sql query
+    let sql =
+      "SELECT * FROM Pages ";
+
+    // only use the cursor if it isn't the initial search request
+    if (cursor.primary === "null") {
+      sql += "WHERE TRUE ";
+    } else {
+
+      // We set our primary cursor to the name as it is the value
+      // that we are sorting by.
+      //
+      // Instances where the primary cursor value could have duplicate values
+      // are handled by also sorting by page ID.
+
+      sql += "WHERE name >= ? AND " +
+        "(name > ? OR pageId >= ?) ";
+      sqlArray.push(cursor.primary);
+      sqlArray.push(cursor.primary);
+      sqlArray.push(cursor.secondary);
+
+    }
+
+    // get the text we are searching for
+    if (text !== "*") {
+      sql += "AND name LIKE CONCAT('%', ?, '%') ";
+      sqlArray.push(text);
+    }
+
+    // sort search results by name
+    sql += "ORDER BY name ASC, " +
+      "pageId ASC LIMIT ?;";
+
+    // get the number of results per page (plus the next cursor)
+    sqlArray.push(RESULTS_PER_PAGE + 1);
+
+    // perform the query
+    const results = await pool.query(sql, sqlArray);
+
+    // get the next cursor and return the correct number of pages
+    if (results[0].length < RESULTS_PER_PAGE + 1) {
+
+      // if we have returned the last of the data then we return
+      // a null next cursor
+      pages = results[0];
+      nextCursor.primary = "null";
+      nextCursor.secondary = "null";
+
+    } else {
+
+      // Our next cursor will store a primary and secondary value.
+      // The primary value is the main value we are sorting by.
+      // The secondary value is the page ID and it is used to sort when we
+      // have results with matching primary values.
+      pages = results[0].slice(0, -1);
+      const nextPlan = results[0][RESULTS_PER_PAGE];
+
+      // set the primary and secondary strings
+      nextCursor.primary = String(nextPlan.userName);
+      nextCursor.secondary = String(nextPlan.userId);
+
+    }
+
+    return {
+      pages: pages,
+      nextCursor: nextCursor
+    };
+
+  } catch (err) {
+    console.error("Error searching for pages");
+    throw Error(err);
+  }
+}
+exports.searchPages = searchPages;
