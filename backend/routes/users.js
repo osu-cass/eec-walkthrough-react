@@ -84,7 +84,7 @@ app.get("/login/:userName/:password", loginUserVal.validation, async (req, res) 
 });
 
 
-// get a list of Users based on a search query
+// get a list of users based on a search query
 app.get("/search/:text/:role/:cursorPrimary/:cursorSecondary", searchUserVal.validation, async (req, res) => {
 
   try {
