@@ -2,6 +2,7 @@ import React from "react";
 import Subject from "./pages/Subject";
 import Home from "./pages/Home";
 import ManageUsers from "./pages/ManageUsers";
+import Search from "./pages/Search";
 import NavBar from "./components/NavBar";
 import Sidebar from "./components/Sidebar";
 import { Route, Switch } from "react-router-dom";
@@ -41,6 +42,9 @@ class App extends React.Component {
 							<Subject {...props} pageId={props.match.params.pageId} />
 						)}
 					/>
+          <Route path='/search'>
+						<Search />
+					</Route>
 					<Route path='/manage-users'>
 						<ManageUsers />
 					</Route>

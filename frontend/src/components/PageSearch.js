@@ -8,18 +8,11 @@ function PageSearch(props) {
 
   const [loading, setLoading] = useState(false);
   const [pages, setPages] = useState([]);
-  const [searchFields, setSearchFields] = useState({
-    textValue: "*"
-  });
+  const [searchFields, setSearchFields] = useState({textValue: "*"});
   const [cursor, setCursor] = useState({
     primary: "null",
     secondary: "null"
   });
-
-  //TEST
-  useEffect(() => {
-    console.log("PAGES: ", pages);
-  }, [pages]);
 
   // search for pages
   async function searchPages(cursor, newSearch) {
