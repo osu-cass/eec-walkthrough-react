@@ -5,7 +5,7 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import Container from "react-bootstrap/Container";
 
 // manage users page
-export default function ManageUsers() {
+function ManageUsers() {
 
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
@@ -118,3 +118,4 @@ export default function ManageUsers() {
   );
 
 }
+export default ManageUsers;

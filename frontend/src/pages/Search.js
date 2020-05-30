@@ -2,10 +2,10 @@ import React from "react";
 import {useState, useEffect} from "react";
 import LoadingOverlay from "../components/LoadingOverlay";
 import PageSearchResults from "../components/PageSearchResults";
-import {useParams} from "react-router-dom";
+import {useParams, withRouter} from "react-router-dom";
 
 // search results page
-function  Search () {
+function  Search (props) {
 
   const {searchId} = useParams();
   const [searchText, setSearchText] = useState("");
@@ -86,6 +86,15 @@ function  Search () {
         }
         setCursor(obj.nextCursor);
 
+        // if there is only one result, then go to the page
+        if (obj.pages.length === 1) {
+          if (obj.pages[0].pageType) {
+            props.history.push(`/subjects/${obj.pages[0].pageId}`);
+          } else {
+            props.history.push(`/industries/${obj.pages[0].pageId}`);
+          }
+        }
+
       } else {
 
         if (results.status === 404) {
@@ -110,4 +119,4 @@ function  Search () {
     </div>
   )
 }
-export default Search
+export default withRouter(Search);
