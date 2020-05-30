@@ -8,12 +8,14 @@ const {
   postPageVal,
   getPageVal,
   patchPageVal,
-  industrySubjectVal
+  industrySubjectVal,
+  searchPageVal
 } = require("../services/validation/requestValidation");
 const {
   getPage,
   getPages,
   getFullPage,
+  searchPages,
   createPage,
   deletePage,
   updatePage,
@@ -98,6 +100,42 @@ app.get("/:pageId/all", getPageVal.validation, async (req, res) => {
       res.status(404).send({error: "Page not found."});
     } else {
       res.status(200).send(results);
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get a list of pages based on a search query
+app.get("/search/:text/:cursorPrimary/:cursorSecondary", searchPageVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Searching for pages");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const text = req.params.text;
+    const cursor = {
+      primary: req.params.cursorPrimary,
+      secondary: req.params.cursorSecondary
+    };
+
+    // search for pages
+    const results = await searchPages(text, cursor);
+
+    if (results.pages.length) {
+      res.status(200).send(results);
+    } else {
+      res.status(404).send({error: "No matching pages found."});
     }
 
   } catch (err) {

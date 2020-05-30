@@ -255,6 +255,30 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  '/pages/search/{text}/{cursorPrimary}/{cursorSecondary}':
+    get:
+      summary: Search for pages
+      description: >
+        Gets a list of pages matching the search query and cursor location
+      operationId: searchPages
+      tags:
+        - Pages
+      parameters:
+        - $ref: '#/components/parameters/Search_text_2'
+        - $ref: '#/components/parameters/Search_primary_page'
+        - $ref: '#/components/parameters/Search_secondary_page'
+      responses:
+        '200':
+          $ref: '#/components/responses/Page_Search_GET_200'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+
   '/pages/{pageId}/all':
     get:
       summary: Get all of the content contained in one page
@@ -1209,6 +1233,16 @@ components:
         minLength: 1
         example: John
         
+    Search_text_2:
+      name: text
+      in: path
+      description: Text representing the search query
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        example: air
+        
     Search_role:
       name: role
       in: path
@@ -1224,7 +1258,7 @@ components:
     Search_primary_user:
       name: cursorPrimary
       in: path
-      description: This is a cursor used for cursor-based pagination. Together with the secondary cursor it specific the location of an item in the dataset. This cursor represents userName.
+      description: This is a cursor used for cursor-based pagination. Together with the secondary cursor it specific the location of an item in the dataset. This cursor represents the username.
       required: true
       schema:
         type: string
@@ -1235,7 +1269,30 @@ components:
     Search_secondary_user:
       name: cursorSecondary
       in: path
-      description: This is a cursor used for cursor-based pagination. Together with the primary cursor it specific the location of an item in the dataset. This cursor represents userId.
+      description: This is a cursor used for cursor-based pagination. Together with the primary cursor it specific the location of an item in the dataset. This cursor represents user ID.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 1000
+        example: 5
+        
+        
+    Search_primary_page:
+      name: cursorPrimary
+      in: path
+      description: This is a cursor used for cursor-based pagination. Together with the secondary cursor it specific the location of an item in the dataset. This cursor represents the page name.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 1000
+        example: Compressed Air 
+
+    Search_secondary_page:
+      name: cursorSecondary
+      in: path
+      description: This is a cursor used for cursor-based pagination. Together with the primary cursor it specific the location of an item in the dataset. This cursor represents page ID.
       required: true
       schema:
         type: string
@@ -1317,6 +1374,44 @@ components:
                           "lastName": "Todd",
                           "email": "jperson222@gmail.com",
                           "role": 1
+                      }
+                    ]
+              nextCursor:
+                example:
+                    {
+                        "primary": "null",
+                        "secondary": "null"
+                    }
+    
+    Page_Search_GET_200:
+      description: An object containing information about pages
+      content:
+        application/json:
+          schema:
+            properties:
+              pages:
+                example: [
+                      {
+                          "pageId": 26,
+                          "pageType": 0,
+                          "name": "Air Conditioning",
+                          "title": "It makes the air cold",
+                          "description": "More woooosh",
+                          "imageUrl": "https://images.homedepot-static.com/productImages/e3450cc4-058e-4350-94f2-248d6dd4c52b/svn/lg-electronics-window-air-conditioners-lw1216er-64_1000.jpg",
+                          "userId": 1,
+                          "created": "2020-05-29T21:46:34.000Z",
+                          "approved": 0
+                      },
+                      {
+                          "pageId": 25,
+                          "pageType": 0,
+                          "name": "Airplanes",
+                          "title": "They fly",
+                          "description": "Woooooooooooooosh",
+                          "imageUrl": "https://scx1.b-cdn.net/csz/news/800/2019/toomanyairpl.jpg",
+                          "userId": 1,
+                          "created": "2020-05-29T21:44:09.000Z",
+                          "approved": 0
                       }
                     ]
               nextCursor:

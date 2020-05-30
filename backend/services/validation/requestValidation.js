@@ -72,6 +72,16 @@ const getPageVal = Object.freeze({
 });
 exports.getPageVal = getPageVal;
 
+// validation checks for search user
+const searchPageVal = Object.freeze({
+  validation: [
+    check("text").isLength({min: 0, max: 1000}),
+    check("cursorPrimary").isLength({min: 1, max: 1000}),
+    check("cursorSecondary").isLength({min: 1, max: 1000})
+  ]
+});
+exports.searchPageVal = searchPageVal;
+
 // validation checks for post page
 const postPageVal = Object.freeze({
   validation: [

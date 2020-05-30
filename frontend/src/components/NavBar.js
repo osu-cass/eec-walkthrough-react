@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from 'react-bootstrap/Navbar'
 import Login from './Login'
-import Search from './Search'
+import PageSearch from './PageSearch'
 
 class NavBar extends React.Component {
   render() {
@@ -20,7 +20,7 @@ class NavBar extends React.Component {
           </h3>
 
           <div className="d-flex">
-            <Search />
+            <PageSearch />
             <Login />
           </div>
         </nav>
