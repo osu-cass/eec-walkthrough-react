@@ -44,3 +44,22 @@ table tbody tr td {
   vertical-align: middle;
   padding: 1rem 2rem;
 }
+
+.page-link-header {
+  cursor:pointer;
+  color: #007bff;
+
+}
+
+.page-link-header:hover {
+  color: #0057b3;
+  text-decoration:underline;
+}
+
+.page-link-created {
+  color: #28a428;
+}
+
+.page-info-container {
+  border: none;
+}

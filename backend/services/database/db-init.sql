@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: classmysql.engr.oregonstate.edu:3306
--- Generation Time: May 25, 2020 at 03:41 PM
+-- Generation Time: May 30, 2020 at 02:15 AM
 -- Server version: 10.4.11-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -53,11 +53,10 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `orderIndex`, `title`, `userId`, `cre
 (17, 1, 1, 'Best Practices', 1, '2020-05-23 22:28:37', 0),
 (18, 1, 1, 'Rules of Thumb', 1, '2020-05-23 22:31:49', 0),
 (19, 1, 7, 'Tips', 1, '2020-05-23 22:33:25', 0),
-(26, 1, 8, 'Test', 1, '2020-05-23 23:05:49', 0),
 (27, 2, 2, 'Reduce Compressed Air Required', 1, '2020-05-23 23:11:46', 0),
-(28, 3, 3, 'Caveats', 1, '2020-05-24 06:03:59', 0),
 (29, 1, 9, 'Site Resource Test', 1, '2020-05-24 15:42:55', 0),
-(30, 3, 4, 'Test', 1, '2020-05-25 03:22:57', 0);
+(30, 3, 4, 'Test', 1, '2020-05-25 03:22:57', 0),
+(36, 1, 9, 'Test', 1, '2020-05-26 21:16:51', 0);
 
 -- --------------------------------------------------------
 
@@ -193,31 +192,17 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `parentId`, `iconType`, `
 (37, 19, 1, NULL, 8, 'A pressure gauge with a standard quick connect used in compressed air lines can be useful in diagnosing pressure drops', '', '', 1, '2020-05-23 22:33:25', 0),
 (42, 13, 1, 32, 6, 'Long sentence', '', '', 2, '2020-05-23 22:52:17', 0),
 (43, 13, 2, NULL, 5, 'Burns', '', '', 1, '2020-05-23 22:49:44', 1),
-(51, 26, 1, NULL, 19, '1', '', '', 1, '2020-05-23 23:05:50', 0),
-(52, 26, 2, NULL, 16, '2', '', '', 1, '2020-05-23 23:05:50', 0),
-(53, 26, 3, 52, 15, '3', '', '', 1, '2020-05-23 23:08:13', 0),
-(54, 26, 4, 53, 4, '5', '', '', 1, '2020-05-23 23:05:50', 0),
-(55, 26, 5, 53, 2, '6', '', '', 1, '2020-05-23 23:05:50', 0),
-(56, 26, 6, 55, 20, '7', '', '', 1, '2020-05-23 23:05:51', 0),
-(57, 26, 7, 56, 5, '8', '', '', 1, '2020-05-23 23:05:51', 0),
-(58, 26, 8, 56, 19, '9', '', '', 1, '2020-05-23 23:05:51', 0),
-(59, 26, 9, 58, 1, '0', '', '', 1, '2020-05-23 23:05:51', 0),
-(61, 26, 11, 58, 11, '1', '', '', 1, '2020-05-23 23:08:15', 0),
-(62, 26, 12, 58, 1, '4', '', '', 1, '2020-05-23 23:05:52', 0),
-(63, 26, 13, 58, 1, '5', '', '', 1, '2020-05-23 23:05:52', 0),
-(64, 26, 14, 55, 14, '6', '', '', 1, '2020-05-23 23:05:53', 0),
-(65, 26, 15, 53, 3, '7', '', '', 1, '2020-05-23 23:05:53', 0),
-(66, 26, 16, 52, 8, '8', '', '', 1, '2020-05-23 23:05:53', 0),
-(67, 26, 17, NULL, 8, '9', '', '', 1, '2020-05-23 23:05:53', 0),
 (68, 27, 1, NULL, 4, 'Energy savings associated with reductions in compressed air use are very dependant on the compressor control strategy. In the worst case, a compressor with blow off control might not yield any energy savings with compressed air use reductions, and one with inlet modulation might yield only a small part of potential savings.', '', '', 1, '2020-05-23 23:11:46', 0),
 (69, 27, 2, NULL, 10, 'Compressed air leak volume exceeds 20 to 30% of air used in the process.', '', '', 1, '2020-05-23 23:11:47', 0),
 (70, 27, 3, NULL, 11, 'Reduce compressed air leaks', '', '', 1, '2020-05-23 23:11:47', 0),
 (71, 27, 4, 70, 13, 'Compressed air is an expensive utility, but leaks can go uncorrected as they do not make a mess.', '', '', 1, '2020-05-23 23:11:47', 0),
 (72, 27, 5, 70, 12, 'Determine the leak load by checking compressor output when there is no productive use (typically during breaks or after hours.)', '', '', 1, '2020-05-23 23:11:47', 0),
 (73, 29, 1, NULL, 17, 'This guide focuses mainly on screw and reciprocating compressors. These are the most common types of compressors used in the northwest. Other types of compressors such as rotary vane, centrifugal, lobe and radial compressors are much less common and are only introduced in this guide.', 'https://drive.google.com/file/d/12Co0C6JBK5CqoYhZQBcD0VX6JVBXy86o/view', 'Assessing Industrial Air Compressor', 1, '2020-05-24 15:54:25', 0),
-(74, 30, 1, NULL, 20, '', 'https://www.hurstboiler.com/images2/series-300_shrink.png', 'Random boiler I saw on Google', 1, '2020-05-25 03:22:57', 0),
+(74, 30, 1, NULL, 20, '', 'https://www.hurstboiler.com/images2/series-300_shrink.png', 'Boiler Picture', 1, '2020-05-26 21:02:38', 0),
 (75, 30, 2, NULL, 14, 'Some text about boilers', '', '', 1, '2020-05-25 03:22:57', 0),
-(76, 30, 3, NULL, 19, 'Hurst Series 300', 'Big boiler link', 'https://www.hurstboiler.com/boilers/scotch_marine/series_300', 1, '2020-05-25 03:22:57', 0);
+(76, 30, 3, NULL, 19, 'Hurst Series 300', 'https://www.hurstboiler.com/boilers/scotch_marine/series_300', 'Big boiler link', 1, '2020-05-26 21:02:19', 0),
+(84, 36, 1, NULL, 2, 'Test', '', '', 1, '2020-05-26 21:16:51', 0),
+(85, 36, 2, NULL, 20, '', 'https://images-na.ssl-images-amazon.com/images/I/81LtIK5MYQL._AC_SY450_.jpg', 'Test', 1, '2020-05-26 21:16:51', 0);
 
 -- --------------------------------------------------------
 
@@ -246,7 +231,11 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (2, 0, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaprham pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '../images/aircompressor.png', 2, '2020-05-18 01:37:54', 1),
 (3, 0, 'Refrigeration', 'Refrigeration is the process of cooling a space, substance, or system to lower and/or maintain its temperature below the ambient one (while the removed heat is rejected at a higher temperature). ', 'Refrigeration has had a large impact on industry, lifestyle, agriculture, and settlement patterns. The idea of preserving food dates back to at least the ancient Roman and Chinese empires. However, mechanical refrigeration technology has rapidly evolved in the last century, from ice harvesting to temperature-controlled rail cars. The introduction of refrigerated rail cars contributed to the westward expansion of the United States, allowing settlement in areas that were not on main transport channels such as rivers, harbors, or valley trails. Settlements were also developing in infertile parts of the country, filled with newly discovered natural resources.  These new settlement patterns sparked the building of large cities which are able to thrive in areas that were otherwise thought to be inhospitable, such as Houston, Texas, and Las Vegas, Nevada. In most developed countries, cities are heavily dependent upon refrigeration in supermarkets in order to obtain their food for daily consum', '../images/refrigeration.png', 1, '2020-05-18 01:37:54', 1),
 (4, 1, 'Plywood', 'Plywood is a material manufactured from thin layers or \"plies\" of wood veneer that are glued together with adjacent layers having their wood grain rotated up to 90 degrees to one another.', 'All plywoods bind resin and wood fibre sheets (cellulose cells are long, strong and thin) to form a composite material. This alternation of the grain is called cross-graining and has several important benefits: it reduces the tendency of wood to split when nailed at the edges; it reduces expansion and shrinkage, providing improved dimensional stability; and it makes the strength of the panel consistent across all directions. There is usually an odd number of plies, so that the sheet is balanced—this reduces warping. Because plywood is bonded with grains running against one another and with an odd number of composite parts, it has high stiffness perpendicular to the grain direction of the surface ply.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Spruce_plywood.JPG/300px-Spruce_plywood.JPG', 2, '2020-05-18 01:37:54', 1),
-(5, 1, 'Electricity', 'Electricity is the set of physical phenomena associated with the presence and motion of matter that has a property of electric charge.', 'When a charge is placed in a location with a non-zero electric field, a force will act on it. The magnitude of this force is given by Coulomb\'s law. Thus, if that charge were to move, the electric field would be doing work on the electric charge. Thus we can speak of electric potential at a certain point in space, which is equal to the work done by an external agent in carrying a unit of positive charge from an arbitrarily chosen reference point to that point without any acceleration and is typically measured in volts.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Lightning3.jpg/220px-Lightning3.jpg', 1, '2020-05-18 01:37:54', 1);
+(5, 1, 'Electricity', 'Electricity is the set of physical phenomena associated with the presence and motion of matter that has a property of electric charge.', 'When a charge is placed in a location with a non-zero electric field, a force will act on it. The magnitude of this force is given by Coulomb\'s law. Thus, if that charge were to move, the electric field would be doing work on the electric charge. Thus we can speak of electric potential at a certain point in space, which is equal to the work done by an external agent in carrying a unit of positive charge from an arbitrarily chosen reference point to that point without any acceleration and is typically measured in volts.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Lightning3.jpg/220px-Lightning3.jpg', 1, '2020-05-18 01:37:54', 1),
+(24, 0, 'Test Subject', 'Test Test 123', 'Test Description', 'https://images-na.ssl-images-amazon.com/images/I/81LtIK5MYQL._AC_SY450_.jpg', 1, '2020-05-26 21:17:21', 0),
+(25, 0, 'Airplanes', 'They fly', 'An airplane or aeroplane (informally plane) is a powered, fixed-wing aircraft that is propelled forward by thrust from a jet engine, propeller or rocket engine. Airplanes come in a variety of sizes, shapes, and wing configurations. The broad spectrum of uses for airplanes includes recreation, transportation of goods and people, military, and research. Worldwide, commercial aviation transports more than four billion passengers annually on airliners[1] and transports more than 200 billion tonne-kilometers[2] of cargo annually, which is less than 1% of the world\'s cargo movement.[3] Most airplanes are flown by a pilot on board the aircraft, but some are designed to be remotely or computer-controlled such as drones.', 'https://scx1.b-cdn.net/csz/news/800/2019/toomanyairpl.jpg', 1, '2020-05-30 09:13:53', 0),
+(26, 0, 'Air Conditioning', 'It makes the air cold', 'Air conditioning (often referred to as AC, A/C, or air con)[1] is the process of removing heat and moisture from the interior of an occupied space to improve the comfort of occupants. Air conditioning can be used in both domestic and commercial environments. This process is most commonly used to achieve a more comfortable interior environment, typically for humans and other animals; however, air conditioning is also used to cool and dehumidify rooms filled with heat-producing electronic devices, such as computer servers, power amplifiers, and to display and store some delicate products, such as artwork.\r\n\r\nAir conditioners often use a fan to distribute the conditioned air to an enclosed space such as a building or a car to improve thermal comfort and indoor air quality. Electric refrigerant-based AC units range from small units that can cool a small bedroom, which can be carried by a single adult, to massive units installed on the roof of office towers that can cool an entire building.', 'https://images.homedepot-static.com/productImages/e3450cc4-058e-4350-94f2-248d6dd4c52b/svn/lg-electronics-window-air-conditioners-lw1216er-64_1000.jpg', 1, '2020-05-30 09:13:53', 0),
+(27, 1, 'Air', 'Atmosphere of Earth', 'The atmosphere of Earth is the layer of gases, commonly known as air, that surrounds the planet Earth and is retained by Earth\'s gravity. The atmosphere of Earth protects life on Earth by creating pressure allowing for liquid water to exist on the Earth\'s surface, absorbing ultraviolet solar radiation, warming the surface through heat retention (greenhouse effect), and reducing temperature extremes between day and night (the diurnal temperature variation).\r\n\r\nBy volume, dry air contains 78.09% nitrogen, 20.95% oxygen, 0.93% argon, 0.04% carbon dioxide, and small amounts of other gases.[8] Air also contains a variable amount of water vapor, on average around 1% at sea level, and 0.4% over the entire atmosphere. Air composition, temperature, and atmospheric pressure vary with altitude, and air suitable for use in photosynthesis by terrestrial plants and breathing of terrestrial animals is found only in Earth\'s troposphere and in artificial atmospheres.', 'https://www.thoughtco.com/thmb/u4lrTQTaL53yjnngajEkywr3MmM=/1941x1456/smart/filters:no_upscale()/GettyImages-914450516-5a831486642dca0037213a33.jpg', 1, '2020-05-30 09:14:40', 0);
 
 -- --------------------------------------------------------
 
@@ -269,14 +258,14 @@ CREATE TABLE `Users` (
 --
 
 INSERT INTO `Users` (`userId`, `userName`, `password`, `firstName`, `lastName`, `email`, `role`) VALUES
-(1, 'John1234', 'XozpE-34__woqpZX', 'John', 'Doe', 'doejohn@oregonstate.edu', 2),
+(1, 'John1234', 'XozpE-34__woqpZX', 'John', 'Doe', 'doejohn@oregonstate.edu', 3),
 (2, 'Jane5678', 'iopwerZowPo!', 'Jane', 'Doe', 'doejane@oregonstate.edu', 3),
 (8, 'KayVan', 'aerw34234dwsr24', 'Kyra', 'Vannest', 'kyra@gmail.com', 2),
 (9, 'Emmmm', 'dafs234@!0234', 'Emmie', 'Henningsen', 'hennemmi@gmail.com', 3),
 (10, 'jperson222', 'iweoriewopr#4234', 'John', 'Todd', 'jperson222@gmail.com', 1),
 (11, 'DelTruax', 'weraqio234#', 'Delmar', 'Truax', 'DelTruax@gmail.com', 3),
 (12, 'Lori1', 'wer0-=3249C', 'Lori', 'Prettyman', 'Lori1@gmail.com', 4),
-(13, 'Brandee', 'aposirfewior$234', 'Brandee', 'Rentz', 'Brandee@gmail.com', 1),
+(13, 'Brandee', 'aposirfewior$234', 'Brandee', 'Rentz', 'Brandee@gmail.com', 2),
 (14, 'Cathie322', 'wep[ro23@#$234', 'Cathie', 'Brindle', 'Cathie322@gmail.com', 2),
 (15, 'Anton6', 'oasopi0-324', 'Antonetta', 'Owuso', 'Anton6@gmail.com', 1),
 (16, 'Roy321', ']2[34o2340-kcopzf', 'Roy', 'Wrinkle', 'Roy321@yahoo.com', 1),
@@ -302,7 +291,7 @@ INSERT INTO `Users` (`userId`, `userName`, `password`, `firstName`, `lastName`, 
 (36, 'Danyelle44', 'dspo[irt324545', 'Danyelle', 'Elmer', 'Danyelle44@yahoo.com', 1),
 (37, 'Lois99', '324324234a[]pr][werp[]we', 'Lois', 'Malin', 'Lois99@gmail.com', 1),
 (38, 'Gemstone42', 'dsap][fp][we][prw2423=-4', 'Amber', 'Liakos', 'Amber@gmail.com', 1),
-(39, 'Bambi22', 'ootrioytoipryirty222', 'Bambi', 'Heuer', 'Bambi22@gmail.com', 1),
+(39, 'Bambi22', 'ootrioytoipryirty222', 'Bambi', 'Heuer', 'Bambi22@gmail.com', 3),
 (40, 'Merriam', ']we[]rewp[rewp[wrep[34234', 'Dominica', 'Merriam', 'Merriam@yahoo.com', 1),
 (41, 'Seth45', 'oteroipietroitroeiporte888', 'Seth', 'Kratzer', 'Seth45@yahoo.com', 1);
 
@@ -375,7 +364,7 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `Headers`
@@ -393,13 +382,13 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `Users`
