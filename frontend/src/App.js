@@ -42,7 +42,7 @@ class App extends React.Component {
 							<Subject {...props} pageId={props.match.params.pageId} />
 						)}
 					/>
-          <Route path='/search'>
+          <Route path='/search/:searchId'>
 						<Search />
 					</Route>
 					<Route path='/manage-users'>
