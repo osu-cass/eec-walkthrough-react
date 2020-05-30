@@ -204,7 +204,7 @@ async function searchUsers(text, role, cursor) {
       sql += "WHERE TRUE ";
     } else {
 
-      // We set our primary cursor to the username name as it is the value
+      // We set our primary cursor to the username as it is the value
       // that we are sorting by.
       //
       // Instances where the primary cursor value could have duplicate values
@@ -276,7 +276,7 @@ async function searchUsers(text, role, cursor) {
     };
 
   } catch (err) {
-    console.error("Error searching Users");
+    console.error("Error searching users");
     throw Error(err);
   }
 }

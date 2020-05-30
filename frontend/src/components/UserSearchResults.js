@@ -53,9 +53,9 @@ function UserSearchResults(props) {
       <div className="table-container">
         <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
           { props.error === "" ? (
-            <h3 className="py-5">Search for users...</h3>
+            <h3 className="py-5 font-weight-bold">Search for users...</h3>
           ) : (
-            <h3 className="py-5">{props.error}</h3>
+            <h3 className="py-5 font-weight-bold">{props.error}</h3>
           )}
         </div>
       </div>
