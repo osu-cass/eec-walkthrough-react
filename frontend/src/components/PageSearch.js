@@ -29,7 +29,7 @@ function PageSearch(props) {
           id="input-search-pages"
           placeholder="Search for pages"
         />
-        <a href='#'>
+        <a href='#' onClick={(e) => submitHandler(e)}>
           <i className='input-search-pages fas fa-search text-white'></i>
         </a>
       </form>
