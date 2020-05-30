@@ -13,7 +13,8 @@ function PageSearch(props) {
     // redirect to a search page for the requested value
     let textValue = document.getElementById("input-search-pages").value;
     if (textValue !== "") {
-      textValue = textValue.replace(/\s/g, "-");
+      document.getElementById("input-search-pages").value = "";
+      textValue = textValue.replace(/\s/g, "%20");
       props.history.push(`/search/${textValue}`);
     }
 

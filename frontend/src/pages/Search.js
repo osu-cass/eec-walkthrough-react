@@ -1,5 +1,4 @@
-import React from "react";
-import {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import LoadingOverlay from "../components/LoadingOverlay";
 import PageSearchResults from "../components/PageSearchResults";
 import {useParams, withRouter} from "react-router-dom";
@@ -32,15 +31,9 @@ function  Search (props) {
   // perform a new search whenever the search url is updated
   useEffect(() => {
 
-    // get the value from the input field and clear it
-    let inputText = document.getElementById("input-search-pages").value;
-    document.getElementById("input-search-pages").value = "";
-
-    // if the input field is empty instead use the url
-    if (inputText === "") {
-      inputText = searchId;
-      inputText = inputText.replace(/-/g, " ");
-    }
+    // get the value from the url
+    let inputText = searchId;
+    inputText = inputText.replace(/%20/g, " ");
 
     // if the input field was not blank, then perform the search
     if (inputText !== "") {

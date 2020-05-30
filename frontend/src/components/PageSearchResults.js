@@ -1,5 +1,5 @@
-import React from "react";
-import {withRouter} from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import {withRouter, Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import LoadMoreButton from "./LoadMoreButton";
 import "./PageSearchResults.css";
@@ -7,16 +7,42 @@ import "./PageSearchResults.css";
 // search results for a page search
 function PageSearchResults(props) {
 
+  const [pageLinks, setPageLinks] = useState([]);
+
+  // generate page links for each page
+  useEffect(() => {
+
+    const linkArray = [];
+
+    for (let i = 0; i < props.pages.length; i++) {
+
+      let url = "";
+      if (props.pages[i].pageType) {
+        url = `/industries/${props.pages[i].pageId}`;
+      } else {
+        url = `/subjects/${props.pages[i].pageId}`;
+      }
+
+      linkArray.push(url);
+
+    }
+
+    setPageLinks(linkArray);
+
+  }, [props.pages]);
+
   if (props.pages.length) {
     return (
       <div className="content-container">
         <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
             {props.pages.map((page, index) =>
-              <div className="page-info-container" key={page.pageId + "a"}>
-                <span key={page.pageId + "b"}>
-                  {page.name}
-                </span>
-              </div>
+              <Link to={pageLinks[index]}>
+                <div className="page-info-container" key={page.pageId + "a"}>
+                  <span key={page.pageId + "b"}>
+                    {page.name}
+                  </span>
+                </div>
+              </Link>
             )}
         </div>
         {props.cursor.primary === "null" ? (
