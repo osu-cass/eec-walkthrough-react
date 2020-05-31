@@ -28,6 +28,7 @@ app.get("/:itemId", getItemVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
@@ -58,6 +59,7 @@ app.post("/", postItemVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
@@ -110,6 +112,7 @@ app.delete("/:itemId", getItemVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
@@ -156,6 +159,7 @@ app.patch("/:itemId", patchItemVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 

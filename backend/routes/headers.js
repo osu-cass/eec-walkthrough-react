@@ -29,6 +29,7 @@ app.get("/:headerId", getHeaderVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
@@ -59,6 +60,7 @@ app.post("/", postHeaderVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
@@ -105,6 +107,7 @@ app.delete("/:headerId", getHeaderVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
@@ -147,6 +150,7 @@ app.patch("/:headerId", patchHeaderVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 

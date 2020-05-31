@@ -579,7 +579,7 @@ async function searchPages(text, cursor) {
       const nextPlan = results[0][RESULTS_PER_PAGE];
 
       // set the primary and secondary strings
-      nextCursor.primary = String(nextPlan.userName);
+      nextCursor.primary = String(nextPlan.username);
       nextCursor.secondary = String(nextPlan.userId);
 
     }

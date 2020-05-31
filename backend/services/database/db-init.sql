@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: classmysql.engr.oregonstate.edu:3306
--- Generation Time: May 30, 2020 at 02:15 AM
+-- Generation Time: May 31, 2020 at 02:26 PM
 -- Server version: 10.4.11-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `capstone_2019_thomasza`
 --
+CREATE DATABASE IF NOT EXISTS `capstone_2019_thomasza` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `capstone_2019_thomasza`;
 
 -- --------------------------------------------------------
 
@@ -245,7 +247,7 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 
 CREATE TABLE `Users` (
   `userId` int(10) UNSIGNED NOT NULL,
-  `userName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `firstName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `lastName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -257,7 +259,7 @@ CREATE TABLE `Users` (
 -- Dumping data for table `Users`
 --
 
-INSERT INTO `Users` (`userId`, `userName`, `password`, `firstName`, `lastName`, `email`, `role`) VALUES
+INSERT INTO `Users` (`userId`, `username`, `password`, `firstName`, `lastName`, `email`, `role`) VALUES
 (1, 'John1234', 'XozpE-34__woqpZX', 'John', 'Doe', 'doejohn@oregonstate.edu', 3),
 (2, 'Jane5678', 'iopwerZowPo!', 'Jane', 'Doe', 'doejane@oregonstate.edu', 3),
 (8, 'KayVan', 'aerw34234dwsr24', 'Kyra', 'Vannest', 'kyra@gmail.com', 2),
@@ -353,7 +355,7 @@ ALTER TABLE `Pages`
 --
 ALTER TABLE `Users`
   ADD PRIMARY KEY (`userId`),
-  ADD UNIQUE KEY `userName` (`userName`),
+  ADD UNIQUE KEY `userName` (`username`),
   ADD UNIQUE KEY `email` (`email`);
 
 --

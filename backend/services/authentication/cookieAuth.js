@@ -18,21 +18,27 @@ function generateAuthToken(userId) {
 exports.generateAuthToken = generateAuthToken;
 
 // Set cookies for authentication
-function setAuthCookie(res, token, userId, role) {
+function setAuthCookie(res, token, username, userId, role) {
   res.setHeader("Set-Cookie", [
-    cookie.serialize("userId", userId, {
+    cookie.serialize("username_ck", username, {
       path: "/",
       sameSite: true,
       expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
       maxAge: COOKIE_EXPIRES_MS / 1000,
     }),
-    cookie.serialize("role", role, {
+    cookie.serialize("userId_ck", userId, {
       path: "/",
       sameSite: true,
       expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
       maxAge: COOKIE_EXPIRES_MS / 1000,
     }),
-    cookie.serialize("auth", token, {
+    cookie.serialize("role_ck", role, {
+      path: "/",
+      sameSite: true,
+      expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
+      maxAge: COOKIE_EXPIRES_MS / 1000,
+    }),
+    cookie.serialize("auth_ck", token, {
       path: "/",
       httpOnly: true,
       sameSite: true,

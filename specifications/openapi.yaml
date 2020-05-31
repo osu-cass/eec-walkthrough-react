@@ -44,13 +44,13 @@ paths:
             schema:
               type: object
               required:
-                - userName
+                - username
                 - firstName
                 - lastName
                 - password
                 - email
               properties:
-                userName:
+                username:
                   example: User2020
                 password:
                   example: aseoe23oexZw23!
@@ -85,10 +85,10 @@ paths:
             schema:
               type: object
               required:
-                - userName
+                - username
                 - password
               properties:
-                userName:
+                username:
                   example: User2020
                 password:
                   example: aseoe23oexZw23!
@@ -159,7 +159,7 @@ paths:
             schema:
               type: object
               properties:
-                userName:
+                username:
                   example: User2020
                 password:
                   example: aseoe23oexZw23!
@@ -645,7 +645,7 @@ components:
       type: object
       required:
         - userId
-        - userName
+        - username
         - firstName
         - lastName
         - password
@@ -656,7 +656,7 @@ components:
           allOf:
             - description: The unique identifier of a user
             - $ref: '#/components/schemas/Id'
-        userName:
+        username:
           description: The account name of the user
           type: string
           minLength: 5
@@ -1188,13 +1188,13 @@ components:
       schema:
         $ref: '#/components/schemas/User/properties/role'
 
-    User_userName:
-      name: userName
+    User_username:
+      name: username
       in: path
       description: The unique account name of the user
       required: true
       schema:
-        $ref: '#/components/schemas/User/properties/userName'
+        $ref: '#/components/schemas/User/properties/username'
         
     User_password:
       name: password
@@ -1353,7 +1353,7 @@ components:
             properties:
               userId:
                 example: 20
-              userName:
+              username:
                 example: User2020
               firstName:
                 example: John
@@ -1374,7 +1374,7 @@ components:
                 example: [
                       {
                           "userId": 1,
-                          "userName": "John1234",
+                          "username": "John1234",
                           "firstName": "John",
                           "lastName": "Doe",
                           "email": "doejohn@oregonstate.edu",
@@ -1382,7 +1382,7 @@ components:
                       },
                       {
                           "userId": 10,
-                          "userName": "jperson222",
+                          "username": "jperson222",
                           "firstName": "John",
                           "lastName": "Todd",
                           "email": "jperson222@gmail.com",
@@ -1452,7 +1452,7 @@ components:
               userId:
                 allOf:
                   - $ref: '#/components/schemas/Id'
-              userName:
+              username:
                 example: User2020
               role:
                 example: 1
@@ -1782,7 +1782,7 @@ components:
                       {
                           "value": "",
                           "msg": "Invalid value",
-                          "param": "userName",
+                          "param": "username",
                           "location": "body"
                       },
                       {
