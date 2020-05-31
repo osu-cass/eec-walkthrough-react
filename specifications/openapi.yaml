@@ -70,6 +70,38 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  '/users/login':
+    post:
+      summary: Login the user
+      description: >
+        Verifies the user's credentials
+      operationId: validateUser
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userName
+                - password
+              properties:
+                userName:
+                  example: User2020
+                password:
+                  example: aseoe23oexZw23!
+      responses:
+        '200':
+          $ref: '#/components/responses/User_GET_200'
+        '400':
+          $ref: '#/components/responses/400'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+
   '/user/search/{text}/{role}/{cursorPrimary}/{cursorSecondary}':
     get:
       summary: Search for users
@@ -92,25 +124,6 @@ paths:
           $ref: '#/components/responses/404'
         '422':
           $ref: '#/components/responses/422'
-        '500':
-          $ref: '#/components/responses/500'
-
-  '/users/login/{userName}/{password}':
-    get:
-      summary: Login the user
-      description: >
-        Verifies the user's credentials
-      operationId: validateUser
-      tags:
-        - Users
-      parameters:
-        - $ref: '#/components/parameters/User_userName'
-        - $ref: '#/components/parameters/User_password'
-      responses:
-        '200':
-          $ref: '#/components/responses/User_GET_200'
-        '400':
-          $ref: '#/components/responses/400'
         '500':
           $ref: '#/components/responses/500'
           
@@ -646,7 +659,7 @@ components:
         userName:
           description: The account name of the user
           type: string
-          minLength: 1
+          minLength: 5
           maxLength: 50
           example: User2020
         password:
