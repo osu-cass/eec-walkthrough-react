@@ -63,8 +63,8 @@ export function loggedIn() {
 // clear user cookies
 export function logout() {
 
-  document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  document.cookie = "role=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.cookie = "userId_ck=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.cookie = "username_ck=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  document.cookie = "role_ck=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
 }
