@@ -13,7 +13,7 @@ class ItemInput extends React.Component {
 					<FormControl
 						placeholder="Item text"
 						value={this.props.value.text}
-						aria-label="Insert Username"
+						aria-label="Insert username"
 						aria-describedby="basic-addon1"
 						onChange={(e) => this.props.handleInput(e, this.props.index, 1)}
 						required
@@ -24,7 +24,7 @@ class ItemInput extends React.Component {
 						<FormControl
 							placeholder="Graphic description"
 							value={this.props.value.label}
-							aria-label="Insert Username"
+							aria-label="Insert username"
 							aria-describedby="basic-addon1"
 							onChange={(e) => this.props.handleInput(e, this.props.index, 2)}
 							required
@@ -32,7 +32,7 @@ class ItemInput extends React.Component {
 						<FormControl
 							placeholder="Graphic URL"
 							value={this.props.value.url}
-							aria-label="Insert Username"
+							aria-label="Insert username"
 							aria-describedby="basic-addon1"
 							onChange={(e) => this.props.handleInput(e, this.props.index, 3)}
 							required
@@ -44,7 +44,7 @@ class ItemInput extends React.Component {
 						<FormControl
 							placeholder="Resource text"
 							value={this.props.value.label}
-							aria-label="Insert Username"
+							aria-label="Insert username"
 							aria-describedby="basic-addon1"
 							onChange={(e) => this.props.handleInput(e, this.props.index, 1)}
 							required
@@ -52,7 +52,7 @@ class ItemInput extends React.Component {
 						<FormControl
 							placeholder="Resource URL"
 							value={this.props.value.url}
-							aria-label="Insert Username"
+							aria-label="Insert username"
 							aria-describedby="basic-addon1"
 							onChange={(e) => this.props.handleInput(e, this.props.index, 2)}
 							required
@@ -60,7 +60,7 @@ class ItemInput extends React.Component {
 						<FormControl
 							placeholder="Resource description"
 							value={this.props.value.url}
-							aria-label="Insert Username"
+							aria-label="Insert username"
 							aria-describedby="basic-addon1"
 							onChange={(e) => this.props.handleInput(e, this.props.index, 3)}
 							required

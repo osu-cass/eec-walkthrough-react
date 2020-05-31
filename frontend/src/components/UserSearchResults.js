@@ -14,7 +14,7 @@ function UserSearchResults(props) {
         <table className="user-table shadow">
           <thead>
             <tr>
-              <th className="user-data">Username</th>
+              <th className="user-data">username</th>
               <th className="user-data">Name</th>
               <th className="user-data">User ID</th>
               <th className="user-data">Email</th>
@@ -25,7 +25,7 @@ function UserSearchResults(props) {
             {props.users.map((user, index) =>
               <tr key={user.userId}>
                 <td className="user-data" key={user.userId + "a"}>
-                  {user.userName}
+                  {user.username}
                 </td>
                 <td className="user-data" key={user.userId + "b"}>
                   {user.firstName + " " + user.lastName}
@@ -34,7 +34,7 @@ function UserSearchResults(props) {
                 <td className="user-data" key={user.userId + "d"}>{user.email}</td>
                 <td className="user-data" key={user.userId + "e"}>
                   <UserSelectRole role={user.role} userId={user.userId} index={index}
-                    userName={user.firstName + " " + user.lastName} onLoading={load => props.onLoading(load)} />
+                    username={user.firstName + " " + user.lastName} onLoading={load => props.onLoading(load)} />
                 </td>
               </tr>
             )}

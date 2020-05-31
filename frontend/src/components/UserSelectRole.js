@@ -14,7 +14,7 @@ function UserSelectRole(props) {
     const select = document.getElementById(`change-user-role-${props.userId}`);
     const newRole = parseInt(select.value, 10);
 
-    const confirmMessage = `Are you sure you want to set ${props.userName}'s ` +
+    const confirmMessage = `Are you sure you want to set ${props.username}'s ` +
       `role to "${formatRole(newRole)}?"`;
 
     if (window.confirm(confirmMessage)) {
@@ -81,7 +81,7 @@ export default UserSelectRole;
 UserSelectRole.propTypes = {
   role: PropTypes.number,
   userId: PropTypes.number,
-  userName: PropTypes.string,
+  username: PropTypes.string,
   index: PropTypes.number,
   onLoading: PropTypes.func,
   onNewRole: PropTypes.func

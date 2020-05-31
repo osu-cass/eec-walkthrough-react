@@ -4,7 +4,8 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import Error from "./Error";
 import "./Login.css";
 
-function Login () {
+// login button
+function Login (props) {
 
   const $ = window.$;
   const [loading, setLoading] = useState(false);
@@ -18,7 +19,7 @@ function Login () {
 
       // make sure the username and password are the correct number of characters
       if (username.length < 5 || username.length > 50) {
-        setErrorMessage("Username must be between 5 and 50 characters long.");
+        setErrorMessage("username must be between 5 and 50 characters long.");
         setLoading(false);
         return;
       }
@@ -30,7 +31,7 @@ function Login () {
 
       // construct the request body
       const postObj = {
-        userName: username,
+        username: username,
         password: password
       }
 
@@ -51,8 +52,9 @@ function Login () {
 
         obj = await results.json();
 
-        // placeholder for real action based on a login
+        // hide the modal and pass login state up to navbar
         $("#loginModal").modal("hide");
+        props.onLogin();
 
       } else {
 
@@ -102,7 +104,7 @@ function Login () {
     <div className="login">
       {/* Login Button */}
       <button
-        className="btn btn-success ml-5"
+        className="btn btn-success ml-3"
         type="button"
         data-toggle="modal"
         data-target="#loginModal"
@@ -129,7 +131,7 @@ function Login () {
             <div className="modal-body">
               <Form>
                 <Form.Group>
-                  <Form.Label className="mr-2">Username</Form.Label>
+                  <Form.Label className="mr-2">username</Form.Label>
                   <Form.Control
                     className="form-control"
                     type="username"

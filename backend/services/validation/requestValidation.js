@@ -14,7 +14,7 @@ exports.getUserVal = getUserVal;
 // validation checks for login user
 const loginUserVal = Object.freeze({
   validation: [
-    check("userName").isLength({min: 5, max: 50}),
+    check("username").isLength({min: 5, max: 50}),
     check("password").isLength({min: 8, max: 50})
   ]
 });
@@ -23,7 +23,7 @@ exports.loginUserVal = loginUserVal;
 // validation checks for post user
 const postUserVal = Object.freeze({
   validation: [
-    check("userName").isLength({min: 5, max: 50}),
+    check("username").isLength({min: 5, max: 50}),
     check("password").isLength({min: 8, max: 50}),
     check("firstName").isLength({min: 1, max: 50}),
     check("lastName").isLength({min: 1, max: 50}),
@@ -37,7 +37,7 @@ const patchUserVal = Object.freeze({
   validation: [
     check("userId").optional()
       .isInt({min: 1, max: 4294967295}),
-    check("userName").optional()
+    check("username").optional()
       .isLength({min: 5, max: 50}),
     check("password").optional()
       .isLength({min: 8, max: 50}),
