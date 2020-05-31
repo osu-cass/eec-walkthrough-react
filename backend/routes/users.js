@@ -5,6 +5,10 @@ const express = require("express");
 const app = express();
 const {validationResult} = require("express-validator");
 const {
+  setAuthCookie,
+  generateAuthToken
+} = require("../services/authentication/cookieAuth");
+const {
   postUserVal,
   patchUserVal,
   getUserVal,
@@ -74,6 +78,13 @@ app.post("/login", loginUserVal.validation, async (req, res) => {
     if (results.userId === 0) {
       res.status(400).send({error: "Username or password is incorrect."});
     } else {
+
+      // sign this user with a JWT
+      const token = generateAuthToken(results.userId);
+
+      // set authentication cookies for the current user
+      setAuthCookie(res, token, results.userId, results.role);
+
       res.status(200).send(results);
     }
 
