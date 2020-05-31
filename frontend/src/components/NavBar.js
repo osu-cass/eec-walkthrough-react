@@ -22,10 +22,6 @@ function NavBar (props) {
     setRole(user.role);
   }
 
-  function handleLogin(e) {
-    updateUser();
-  }
-
   return (
     <div className="navigation-bar">
       <nav className="navbar navbar-dark bg-dark">
@@ -43,7 +39,7 @@ function NavBar (props) {
         <div className="d-flex">
           <PageSearch />
           <UserIcon username={username} role={role} />
-          <Login onLogin={e => handleLogin(e)}/>
+          <Login onLogin={() => updateUser()} role={role} />
         </div>
       </nav>
     </div>

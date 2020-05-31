@@ -2,9 +2,9 @@ import React, {useState} from "react";
 import {Form} from "react-bootstrap";
 import LoadingOverlay from "../components/LoadingOverlay";
 import Error from "./Error";
-import "./Login.css";
+import {logout} from "../utilities/cookieAuth";
 
-// login button
+// login button, acts as the logout button when a user is already logged in
 function Login (props) {
 
   const $ = window.$;
@@ -100,83 +100,113 @@ function Login (props) {
 
   }
 
-  return (
-    <div className="login">
-      {/* Login Button */}
-      <button
-        className="btn btn-success ml-3"
-        type="button"
-        data-toggle="modal"
-        data-target="#loginModal"
-        onClick={(e) => clearContent(e)}
-      >
-        Login
-      </button>
+    // perform logout when button is pressed
+    function logoutHandler(e) {
+  
+        // prevent the default behavior of the form button
+        e.preventDefault();
 
-      {/* Login Modal */}
-      <div className="modal fade" tabIndex="-1" role="dialog" id="loginModal" data-target="#loginModal">
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Login</h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <Form>
-                <Form.Group>
-                  <Form.Label className="mr-2">username</Form.Label>
-                  <Form.Control
-                    className="form-control"
-                    type="username"
-                    id="username-control"
-                    placeholder="Enter username"
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label className="mr-2">Password</Form.Label>
-                  <Form.Control
-                    className="form-control"
-                    type="password"
-                    id="password-control"
-                    placeholder="Enter password"
-                  />
-								<Error
-									empty={!!errorMessage.length}
-									message={errorMessage}
-								/>
-                </Form.Group>
-              </Form>
-              <div className="modal-footer">
+        // logout and update the navigation bar
+        logout();
+        props.onLogin();
+
+    }
+
+  // render a logout button if the user is already logged in,
+  // otherwise render a login button and modal
+  if (props.role) {
+    return (
+      <div className="logout">
+        {/* Logout Button */}
+        <button
+          className="btn btn-primary ml-3"
+          type="button"
+          onClick={(e) => logoutHandler(e)}
+        >
+          Logout
+        </button>
+      </div>
+    );
+  } else {
+    return (
+      <div className="login">
+        {/* Login Button */}
+        <button
+          className="btn btn-success ml-3"
+          type="button"
+          data-toggle="modal"
+          data-target="#loginModal"
+          onClick={(e) => clearContent(e)}
+        >
+          Login
+        </button>
+
+        {/* Login Modal */}
+        <div className="modal fade" tabIndex="-1" role="dialog" id="loginModal" data-target="#loginModal">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Login</h5>
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="close"
                   data-dismiss="modal"
+                  aria-label="Close"
                 >
-                  Cancel
+                  <span aria-hidden="true">&times;</span>
                 </button>
-                <button
-                  type="submit"
-                  className="btn btn-success"
-                  name="login"
-                  value="login"
-                  onClick={(e) => submitHandler(e)}
-                >
-                  Login
-                </button>
-                <LoadingOverlay loading={loading} />
+              </div>
+              <div className="modal-body">
+                <Form>
+                  <Form.Group>
+                    <Form.Label className="mr-2">username</Form.Label>
+                    <Form.Control
+                      className="form-control"
+                      type="username"
+                      id="username-control"
+                      placeholder="Enter username"
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label className="mr-2">Password</Form.Label>
+                    <Form.Control
+                      className="form-control"
+                      type="password"
+                      id="password-control"
+                      placeholder="Enter password"
+                    />
+                  <Error
+                    empty={!!errorMessage.length}
+                    message={errorMessage}
+                  />
+                  </Form.Group>
+                </Form>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-success"
+                    name="login"
+                    value="login"
+                    onClick={(e) => submitHandler(e)}
+                  >
+                    Login
+                  </button>
+                  <LoadingOverlay loading={loading} />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  )
+    );
+  }
+
 }
 export default Login;
