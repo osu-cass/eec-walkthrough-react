@@ -53,19 +53,20 @@ app.get("/:userId", getUserVal.validation, async (req, res) => {
 
 
 // login a user
-app.get("/login/:userName/:password", loginUserVal.validation, async (req, res) => {
+app.post("/login", loginUserVal.validation, async (req, res) => {
 
   try {
 
-    const userName = req.params.userName;
-    const password = req.params.password;
-    console.log("Check login for", userName);
+    console.log("Check user login");
 
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({errors: errors.array()});
     }
+
+    const userName = req.body.userName;
+    const password = req.body.password;
 
     // get user data
     const results = await loginUser(userName, password);
