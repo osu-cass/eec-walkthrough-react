@@ -101,7 +101,7 @@ app.post("/login", loginUserVal.validation, async (req, res) => {
 
 
 // get a list of users based on a search query
-app.get("/search/:text/:role/:cursorPrimary/:cursorSecondary", searchUserVal.validation, async (req, res) => {
+app.get("/search/:text/:role/:cursorPrimary/:cursorSecondary", requireAuth, searchUserVal.validation, async (req, res) => {
 
   try {
 
@@ -120,6 +120,12 @@ app.get("/search/:text/:role/:cursorPrimary/:cursorSecondary", searchUserVal.val
       primary: req.params.cursorPrimary,
       secondary: req.params.cursorSecondary
     };
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to search for users."});
+      return;
+    }
 
     // search for users
     const results = await searchUsers(text, parseInt(role, 10), cursor);
@@ -217,7 +223,7 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
       // either the user in question or an admin
       if (currentUserId !== userId) {
         if (!await roleCheck(4, req.auth.userId)) {
-          res.status(401).send({error: "Unauthorized user attempting to change users role."});
+          res.status(401).send({error: "Unauthorized user attempting to update user."});
           return;
         }
       }

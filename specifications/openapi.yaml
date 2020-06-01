@@ -118,6 +118,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/User_Search_GET_200'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -176,6 +178,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/PATCH_200'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -198,6 +202,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/Page_POST_201'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '422':
@@ -229,6 +235,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/Page_POST_MANY_201'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -261,6 +269,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/DELETE_200'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -361,6 +371,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/PATCH_200'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -400,6 +412,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/Header_POST_201'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '422':
@@ -439,6 +453,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/PATCH_200'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -478,6 +494,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/Card_POST_201'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '422':
@@ -517,6 +535,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/PATCH_200'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -556,6 +576,8 @@ paths:
       responses:
         '201':
           $ref: '#/components/responses/Item_POST_201'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '422':
@@ -595,6 +617,8 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/PATCH_200'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -1045,9 +1069,6 @@ components:
                       example: Compressed air has been a key industrial utility since the...
                     imageUrl:
                       example: http://flip2.engr.oregonstate.edu:1111/images/aircompressor.png
-                    userId:
-                      allOf:
-                        - $ref: '#/components/schemas/Id'
                         
     Page_PATCH:
       required: true
@@ -1079,9 +1100,6 @@ components:
                   - $ref: '#/components/schemas/Id'
               title:
                 example: Compressed Air Opportunities to Consider
-              userId:
-                allOf:
-                  - $ref: '#/components/schemas/Id'
 
     Header_PATCH:
       required: true
@@ -1112,8 +1130,6 @@ components:
                 example: 25
               title:
                 example: Rules of Thumb
-              userId:
-                example: 10
                 
     Card_PATCH:
       required: true
@@ -1146,8 +1162,6 @@ components:
                 example: https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf
               contentLabel:
                 example: Assessing Industrial Air Compressor
-              userId:
-                example: 15
 
     Item_PATCH:
       required: true
