@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
-import {getProfile} from "../utilities/cookieAuth";
+import { getProfile, logout } from '../utilities/cookieAuth';
 import AddButton from './AddButton';
 import ItemInput from './ItemInput';
 import Dropdown from './Dropdown';
@@ -174,6 +174,12 @@ class CreateItem extends React.Component {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(cardData)
 		}).then(function (res) {
+			// if the user is performing an unauthorized action
+			// log them out and return them to the homepage
+			if (res.status === 401) {
+				logout();
+				window.location.href = "/";
+			}
 			if (res.status >= 400) {
 				throw new Error("Bad response from server");
 			}
