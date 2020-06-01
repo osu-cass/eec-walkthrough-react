@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
-import {getProfile} from "../utilities/cookieAuth";
 import PropTypes from 'prop-types';
 import Error from './Error';
 import './CreatePage.css'
@@ -48,7 +47,7 @@ class CreateItem extends React.Component {
 			title: this.state.summary,
 			description: this.state.description,
 			imageUrl: this.state.url,
-			userId: 1,
+			userId: this.props.userId,
 			approved: 1
 		}
 
