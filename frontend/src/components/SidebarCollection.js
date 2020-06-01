@@ -33,6 +33,7 @@ const SidebarCollection = props => {
 							title={`Create ${props.collectionName} Page`}
 							collectionName={props.collectionName}
 							refresh={props.refresh}
+							role={props.role}
 						/>
 					</Fragment>
 				</Accordion.Collapse>

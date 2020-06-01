@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
+import {getProfile} from "../utilities/cookieAuth";
 import PropTypes from 'prop-types';
 import Error from './Error';
 import './CreatePage.css'
@@ -109,7 +110,7 @@ class CreateItem extends React.Component {
 	}
 
 	render() {
-		return (
+		return this.props.role >= 3 ? (
 			<div className='text-center mt-2 mb-2 createPage'>
 				<Button variant="outline-info" className="createPage" onClick={this.handleShow}>
 					<i
@@ -181,6 +182,8 @@ class CreateItem extends React.Component {
 					</Modal.Footer>
 				</Modal>
 			</div >
+		) : (
+			null
 		);
 	}
 }
