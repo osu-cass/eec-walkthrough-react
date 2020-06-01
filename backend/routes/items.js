@@ -5,6 +5,10 @@ const express = require("express");
 const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
+  roleCheck,
+  requireAuth
+} = require("../services/authentication/cookieAuth");
+const {
   postItemVal,
   getItemVal,
   patchItemVal
@@ -50,7 +54,7 @@ app.get("/:itemId", getItemVal.validation, async (req, res) => {
 
 
 // create an item
-app.post("/", postItemVal.validation, async (req, res) => {
+app.post("/", requireAuth, postItemVal.validation, async (req, res) => {
 
   try {
 
@@ -70,7 +74,13 @@ app.post("/", postItemVal.validation, async (req, res) => {
     const contentText = req.body.contentText;
     const contentUrl = req.body.contentUrl;
     const contentLabel = req.body.contentLabel;
-    const userId = req.body.userId;
+    const userId = req.auth.userId;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to create item."});
+      return;
+    }
 
     // create an item
     const results = await createItem(cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, userId);
@@ -80,12 +90,10 @@ app.post("/", postItemVal.validation, async (req, res) => {
     } else {
 
       if (results.error === 1) {
-        res.status(403).send({error: "Unauthorized user attempting to create item."});
-      } else if (results.error === 2) {
         res.status(403).send({error: "Parent card does not exists."});
-      } else if (results.error === 3) {
+      } else if (results.error === 2) {
         res.status(403).send({error: "Parent item does not exist."});
-      } else if (results.error === 4) {
+      } else if (results.error === 3) {
         res.status(403).send({error: "Invalid icon type assigned to item."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
@@ -102,7 +110,7 @@ app.post("/", postItemVal.validation, async (req, res) => {
 
 
 // delete an item
-app.delete("/:itemId", getItemVal.validation, async (req, res) => {
+app.delete("/:itemId", requireAuth, getItemVal.validation, async (req, res) => {
 
   try {
 
@@ -114,6 +122,12 @@ app.delete("/:itemId", getItemVal.validation, async (req, res) => {
     if (!errors.isEmpty()) {
       console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to delete item."});
+      return;
     }
 
     // delete the item data
@@ -140,7 +154,7 @@ app.delete("/:itemId", getItemVal.validation, async (req, res) => {
 
 
 // update an item
-app.patch("/:itemId", patchItemVal.validation, async (req, res) => {
+app.patch("/:itemId", requireAuth, patchItemVal.validation, async (req, res) => {
 
   try {
 
@@ -161,6 +175,12 @@ app.patch("/:itemId", patchItemVal.validation, async (req, res) => {
     if (!errors.isEmpty()) {
       console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to update item."});
+      return;
     }
 
     // update an item
