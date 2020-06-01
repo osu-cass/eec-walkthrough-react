@@ -5,6 +5,8 @@ const express = require("express");
 const app = express();
 const {validationResult} = require("express-validator");
 const {
+  roleCheck,
+  requireAuth,
   setAuthCookie,
   generateAuthToken
 } = require("../services/authentication/cookieAuth");
@@ -182,7 +184,7 @@ app.post("/", postUserVal.validation, async (req, res) => {
 
 
 // update a user
-app.patch("/:userId", patchUserVal.validation, async (req, res) => {
+app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => {
 
   try {
 
@@ -195,12 +197,30 @@ app.patch("/:userId", patchUserVal.validation, async (req, res) => {
     const lastName = req.body.lastName;
     const email = req.body.email;
     const role = req.body.role;
+    const currentUserId = req.auth.userId;
 
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
+    }
+
+    // confirm that if the role is being changed, the current user is an admin
+    if (typeof role !== "undefined") {
+      if (!await roleCheck(4, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to change users role."});
+        return;
+      }
+    } else {
+      // since the user is changing general user data they must be
+      // either the user in question or an admin
+      if (currentUserId !== userId) {
+        if (!await roleCheck(4, req.auth.userId)) {
+          res.status(401).send({error: "Unauthorized user attempting to change users role."});
+          return;
+        }
+      }
     }
 
     // update a user
