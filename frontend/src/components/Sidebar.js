@@ -81,12 +81,14 @@ function Sidebar(props) {
               collectionLink="subjects"
               collection={pages.subjects}
               refresh={() => fetchData()}
+              role={role}
             />
             <SidebarCollection
               collectionName="Industries"
               collectionLink="industries"
               collection={pages.industries}
               refresh={() => fetchData()}
+              role={role}
             />
             {role === 4 ? (
               <SidebarCollection
