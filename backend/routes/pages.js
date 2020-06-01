@@ -4,8 +4,10 @@
 const express = require("express");
 const app = express();
 const {validationResult} = require("express-validator");
-const {roleCheck} = require("../services/authentication/cookieAuth");
-const {requireAuth} = require("../services/authentication/cookieAuth");
+const {
+  roleCheck,
+  requireAuth
+} = require("../services/authentication/cookieAuth");
 const {
   postPageVal,
   getPageVal,
@@ -173,8 +175,9 @@ app.post("/", requireAuth, postPageVal.validation, async (req, res) => {
     const userId = req.auth.userId;
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(3, userId)) {
+    if (!await roleCheck(3, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to create page."});
+      return;
     }
 
     // create a page
@@ -215,11 +218,10 @@ app.delete("/:pageId", requireAuth, getPageVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
-    const userId = req.auth.userId;
-
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(3, userId)) {
+    if (!await roleCheck(3, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to delete page."});
+      return;
     }
 
     // delete the page data
@@ -259,7 +261,6 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
     const description = req.body.description;
     const imageUrl = req.body.imageUrl;
     const approved = req.body.approved;
-    const userId = req.auth.userId;
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -269,8 +270,9 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(3, userId)) {
+    if (!await roleCheck(3, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to update page."});
+      return;
     }
 
     // update a page
@@ -307,7 +309,6 @@ app.post("/industries/:industryId/subjects/:subjectId", requireAuth, industrySub
 
     const industryId = req.params.industryId;
     const subjectId = req.params.subjectId;
-    const userId = req.auth.userId;
     console.log("Add subject", subjectId, "to industry", industryId);
 
     // confirm that the request is valid
@@ -318,8 +319,9 @@ app.post("/industries/:industryId/subjects/:subjectId", requireAuth, industrySub
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(3, userId)) {
+    if (!await roleCheck(3, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to add subject to industry."});
+      return;
     }
 
     // add the subject to the industry
@@ -356,7 +358,6 @@ app.delete("/industries/:industryId/subjects/:subjectId", requireAuth, industryS
 
     const industryId = req.params.industryId;
     const subjectId = req.params.subjectId;
-    const userId = req.auth.userId;
     console.log("Remove subject", subjectId, "from industry", industryId);
 
     // confirm that the request is valid
@@ -367,8 +368,9 @@ app.delete("/industries/:industryId/subjects/:subjectId", requireAuth, industryS
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(3, userId)) {
+    if (!await roleCheck(3, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to remove subject from industry."});
+      return;
     }
 
     // remove the subject from the industry

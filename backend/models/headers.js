@@ -50,25 +50,15 @@ async function createHeader(pageId, orderIndex, title, userId) {
 
   try {
 
-    // make sure the user exists
-    let sql = "SELECT * " +
-    "FROM Users " +
-    "WHERE userId = ?;";
-    let results = await pool.query(sql, userId);
-
-    if (!results[0].length) {
-      return {error: 1};
-    }
-
     // make sure the header does not already exist
-    sql = "SELECT * " +
+    let sql = "SELECT * " +
     "FROM Headers " +
     "WHERE pageId = ? " +
     "AND title = ?;";
-    results = await pool.query(sql, [pageId, title]);
+    let results = await pool.query(sql, [pageId, title]);
 
     if (results[0].length) {
-      return {error: 2};
+      return {error: 1};
     }
 
     // make sure the page exists
@@ -78,7 +68,7 @@ async function createHeader(pageId, orderIndex, title, userId) {
     results = await pool.query(sql, pageId);
 
     if (!results[0].length) {
-      return {error: 3};
+      return {error: 2};
     }
 
     // create the new header
