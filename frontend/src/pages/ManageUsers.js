@@ -84,11 +84,16 @@ function ManageUsers() {
 
       } else {
 
+        obj = await results.json();
+
         if (results.status === 404) {
           setErrorMessage("No matching users found.");
           setUsers([]);
-        } else {
+        } else if (results.status === 500) {
           setErrorMessage("An internal server error occurred. Please try again later.");
+        } else {
+          console.log(obj.error);
+          setErrorMessage(obj.error);
         }
 
       }

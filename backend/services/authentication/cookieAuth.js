@@ -73,9 +73,7 @@ function requireAuth(req, res, next) {
 
   } catch (err) {
     console.error("Authentication error:", err);
-    res.status(401).send({
-      error: "Missing or invalid credentials"
-    });
+    res.status(401).send({error: "Missing or invalid credentials."});
   }
 }
 exports.requireAuth = requireAuth;
