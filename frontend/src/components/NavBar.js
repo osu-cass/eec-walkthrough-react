@@ -13,6 +13,7 @@ function NavBar (props) {
   // check the username and role when the navbar first loads
   useEffect(() => {
     updateUser();
+    // eslint-disable-next-line
   }, []);
 
   // updates username and role using cookies

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
+import {getProfile} from "../utilities/cookieAuth";
 import AddButton from './AddButton';
 import ItemInput from './ItemInput';
 import Dropdown from './Dropdown';
@@ -15,7 +16,9 @@ class CreateItem extends React.Component {
 		items: [],
 		show: false,
 		loaded: false,
-		emptyInputs: false
+		emptyInputs: false,
+		errorMessage: "",
+    role: 0
 	}
 
 	async componentDidMount() {
@@ -29,13 +32,18 @@ class CreateItem extends React.Component {
 		item.icon = null;
 		item.contentType = null;
 
-		console.log(item);
+		// console.log(item);
 
 		items.push(item);
 
 		await this.setState({ items: items });
 		this.setState({ loaded: true });
 		this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" })
+
+		// check user role to see what we should render
+		const user = getProfile();
+		this.setState({ role: user.role });
+
 	}
 
 	handleClose = () => this.setState({ show: false });
@@ -57,6 +65,7 @@ class CreateItem extends React.Component {
 
 		this.setState({ items: copy });
 		this.setState({ counter: count + 1 });
+
 	}
 
 	/**
@@ -363,7 +372,7 @@ class CreateItem extends React.Component {
 	}
 
 	render() {
-		return this.state.loaded ? (
+		return this.state.loaded && this.state.role >= 3 ? (
 			<div className='text-center mt-3 mb-2'>
 				<Button variant="info" onClick={this.handleShow}>
 					<i
