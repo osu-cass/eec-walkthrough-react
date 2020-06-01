@@ -18,7 +18,6 @@ class CreateItem extends React.Component {
 		loaded: false,
 		emptyInputs: false,
 		errorMessage: "",
-		userId: 0,
 		role: 0
 	}
 
@@ -44,7 +43,6 @@ class CreateItem extends React.Component {
 		// check user role to see what we should render
 		const user = getProfile();
 		this.setState({ role: user.role });
-		this.setState({ userId: user.userId });
 
 	}
 
@@ -165,7 +163,6 @@ class CreateItem extends React.Component {
 			headerId: this.props.headerId,
 			orderIndex: this.props.numCards + 1, //append to end of list of cards for this header
 			title: this.state.title,
-			userId: this.state.userId
 		}
 
 		//Store item ids to handle parentId 
@@ -192,7 +189,6 @@ class CreateItem extends React.Component {
 					cardId: cardData.insertId,
 					iconType: this.state.items[key].icon,
 					parentId: this.findParent(key, this.state.items[key].depth, itemIds),
-					userId: this.state.userId
 				}
 				//Items can be dependent on previous item to be created (parentId), use await
 				await fetch("/items/", {

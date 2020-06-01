@@ -4,6 +4,8 @@
 const express = require("express");
 const app = express();
 const {validationResult} = require("express-validator");
+const {roleCheck} = require("../services/authentication/cookieAuth");
+const {requireAuth} = require("../services/authentication/cookieAuth");
 const {
   postPageVal,
   getPageVal,
@@ -150,7 +152,7 @@ app.get("/search/:text/:cursorPrimary/:cursorSecondary", searchPageVal.validatio
 
 
 // create a page
-app.post("/", postPageVal.validation, async (req, res) => {
+app.post("/", requireAuth, postPageVal.validation, async (req, res) => {
 
   try {
 
@@ -168,7 +170,12 @@ app.post("/", postPageVal.validation, async (req, res) => {
     const title = req.body.title;
     const description = req.body.description;
     const imageUrl = req.body.imageUrl;
-    const userId = req.body.userId;
+    const userId = req.auth.userId;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to create page."});
+    }
 
     // create a page
     const results = await createPage(pageType, name, title, description, imageUrl, userId);
@@ -178,8 +185,6 @@ app.post("/", postPageVal.validation, async (req, res) => {
     } else {
 
       if (results.error === 1) {
-        res.status(403).send({error: "Unauthorized user attempting to create page."});
-      } else if (results.error === 2) {
         res.status(403).send({error: "Page already exists."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
@@ -196,7 +201,7 @@ app.post("/", postPageVal.validation, async (req, res) => {
 
 
 // delete a page
-app.delete("/:pageId", getPageVal.validation, async (req, res) => {
+app.delete("/:pageId", requireAuth, getPageVal.validation, async (req, res) => {
 
   try {
 
@@ -208,6 +213,13 @@ app.delete("/:pageId", getPageVal.validation, async (req, res) => {
     if (!errors.isEmpty()) {
       console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
+    }
+
+    const userId = req.auth.userId;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to delete page."});
     }
 
     // delete the page data
@@ -234,7 +246,7 @@ app.delete("/:pageId", getPageVal.validation, async (req, res) => {
 
 
 // update a page
-app.patch("/:pageId", patchPageVal.validation, async (req, res) => {
+app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => {
 
   try {
 
@@ -247,12 +259,18 @@ app.patch("/:pageId", patchPageVal.validation, async (req, res) => {
     const description = req.body.description;
     const imageUrl = req.body.imageUrl;
     const approved = req.body.approved;
+    const userId = req.auth.userId;
 
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to update page."});
     }
 
     // update a page
@@ -283,12 +301,13 @@ app.patch("/:pageId", patchPageVal.validation, async (req, res) => {
 
 
 // assign a subject to an industry
-app.post("/industries/:industryId/subjects/:subjectId", industrySubjectVal.validation, async (req, res) => {
+app.post("/industries/:industryId/subjects/:subjectId", requireAuth, industrySubjectVal.validation, async (req, res) => {
 
   try {
 
     const industryId = req.params.industryId;
     const subjectId = req.params.subjectId;
+    const userId = req.auth.userId;
     console.log("Add subject", subjectId, "to industry", industryId);
 
     // confirm that the request is valid
@@ -296,6 +315,11 @@ app.post("/industries/:industryId/subjects/:subjectId", industrySubjectVal.valid
     if (!errors.isEmpty()) {
       console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to add subject to industry."});
     }
 
     // add the subject to the industry
@@ -306,12 +330,10 @@ app.post("/industries/:industryId/subjects/:subjectId", industrySubjectVal.valid
     } else {
 
       if (results.error === 1) {
-        res.status(403).send({error: "Unauthorized user attempting to add subject to industry."});
-      } else if (results.error === 2) {
         res.status(404).send({error: "Subject page not found."});
-      } else if (results.error === 3) {
+      } else if (results.error === 2) {
         res.status(404).send({error: "Industry page not found."});
-      } else if (results.error === 4) {
+      } else if (results.error === 3) {
         res.status(403).send({error: "This subject is already part of this industry."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
@@ -328,12 +350,13 @@ app.post("/industries/:industryId/subjects/:subjectId", industrySubjectVal.valid
 
 
 // remove a subject from an industry
-app.delete("/industries/:industryId/subjects/:subjectId", industrySubjectVal.validation, async (req, res) => {
+app.delete("/industries/:industryId/subjects/:subjectId", requireAuth, industrySubjectVal.validation, async (req, res) => {
 
   try {
 
     const industryId = req.params.industryId;
     const subjectId = req.params.subjectId;
+    const userId = req.auth.userId;
     console.log("Remove subject", subjectId, "from industry", industryId);
 
     // confirm that the request is valid
@@ -341,6 +364,11 @@ app.delete("/industries/:industryId/subjects/:subjectId", industrySubjectVal.val
     if (!errors.isEmpty()) {
       console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to remove subject from industry."});
     }
 
     // remove the subject from the industry
@@ -351,12 +379,10 @@ app.delete("/industries/:industryId/subjects/:subjectId", industrySubjectVal.val
     } else {
 
       if (results.error === 1) {
-        res.status(403).send({error: "Unauthorized user attempting to remove subject from industry."});
-      } else if (results.error === 2) {
         res.status(404).send({error: "Subject page not found."});
-      } else if (results.error === 3) {
+      } else if (results.error === 2) {
         res.status(404).send({error: "Industry page not found."});
-      } else if (results.error === 4) {
+      } else if (results.error === 3) {
         res.status(404).send({error: "This subject is not part of this industry."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
