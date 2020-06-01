@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {PropTypes} from "prop-types";
 import {formatRole} from "../utilities/formatRole";
+import {logout} from "../utilities/cookieAuth";
 import "./UserSelectRole.css";
 
 // dropdown menu for selecting a user's role
@@ -37,10 +38,20 @@ function UserSelectRole(props) {
         });
 
         if (results.ok) {
+
           setUpdatedRole(newRole);
 
         } else {
-          alert("An internal server error occurred. Please try again later.");
+
+          // if the user is performing an unauthorized action
+          // log them out and return them to the homepage
+          if (results.status === 401) {
+            logout();
+            window.location.href = "/";
+          } else {
+            alert("An internal server error occurred. Please try again later.");
+          }
+
         }
       } catch (err) {
         // this is a server error
