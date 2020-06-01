@@ -33,7 +33,6 @@ const SidebarCollection = props => {
 							title={`Create ${props.collectionName} Page`}
 							collectionName={props.collectionName}
 							refresh={props.refresh}
-							userId={props.userId}
 							role={props.role}
 						/>
 					</Fragment>

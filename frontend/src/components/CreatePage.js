@@ -12,8 +12,8 @@ class CreateItem extends React.Component {
 		description: "",
 		url: "",
 		show: false,
-    emptyInputs: false,
-    errorMessage: ""
+		emptyInputs: false,
+		errorMessage: ""
 	}
 
 	componentDidMount() {
@@ -46,9 +46,7 @@ class CreateItem extends React.Component {
 			name: this.state.name,
 			title: this.state.summary,
 			description: this.state.description,
-			imageUrl: this.state.url,
-			userId: this.props.userId,
-			approved: 1
+			imageUrl: this.state.url
 		}
 
 		//Create new page
