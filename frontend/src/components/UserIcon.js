@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {formatRole} from "../utilities/formatRole";
 
 // represents the current user

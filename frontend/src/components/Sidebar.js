@@ -1,9 +1,10 @@
 import React, {useState, useEffect, useRef, Fragment} from "react";
 import SidebarCollection from "./SidebarCollection";
+import {getProfile} from "../utilities/cookieAuth";
 import { NavLink } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
-import {getProfile} from "../utilities/cookieAuth";
+
 import "./Sidebar.css";
 
 function Sidebar(props) {
@@ -24,6 +25,7 @@ function Sidebar(props) {
     // check user role to see what we should render
     const user = getProfile();
     setRole(user.role);
+
   }, [props.loginStatusChange]);
 
   // check for a click outside of the sidebar
