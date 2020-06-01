@@ -11,6 +11,7 @@ function Sidebar(props) {
 
   const [pages, setPages] = useState([]);
   const [role, setRole] = useState(0);
+  const [userId, setUserId] = useState(0);
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
@@ -25,6 +26,7 @@ function Sidebar(props) {
     // check user role to see what we should render
     const user = getProfile();
     setRole(user.role);
+    setUserId(user.userId);
 
   }, [props.loginStatusChange]);
 
@@ -81,6 +83,7 @@ function Sidebar(props) {
               collectionLink="subjects"
               collection={pages.subjects}
               refresh={() => fetchData()}
+              userId={userId}
               role={role}
             />
             <SidebarCollection
@@ -88,6 +91,7 @@ function Sidebar(props) {
               collectionLink="industries"
               collection={pages.industries}
               refresh={() => fetchData()}
+              userId={userId}
               role={role}
             />
             {role === 4 ? (
