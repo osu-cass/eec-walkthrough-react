@@ -27,7 +27,7 @@ export function getProfile() {
     // ensure that the user ID and role are non-negative integers
     if (!validator.isInt(cookieObj.userId_ck + "") ||
         !validator.isInt(cookieObj.role_ck + "")) {
-      throw new Error("Negative user ID or role");
+      throw new Error("User ID or role is not an unsigned integer");
     }
 
     // return an object containing the user data
@@ -40,7 +40,6 @@ export function getProfile() {
   } catch (err) {
 
     // return a logged out user on error
-    console.error(err);
     return {
       username: "",
       userId: 0,

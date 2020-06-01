@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Form} from "react-bootstrap";
 import LoadingOverlay from "../components/LoadingOverlay";
+import {withRouter} from "react-router-dom";
 import Error from "./Error";
 import {logout} from "../utilities/cookieAuth";
 
@@ -100,17 +101,18 @@ function Login (props) {
 
   }
 
-    // perform logout when button is pressed
-    function logoutHandler(e) {
-  
-        // prevent the default behavior of the form button
-        e.preventDefault();
+  // perform logout when button is pressed
+  function logoutHandler(e) {
 
-        // logout and update the navigation bar
-        logout();
-        props.onLogin();
+      // prevent the default behavior of the form button
+      e.preventDefault();
 
-    }
+      // logout, update the navigation bar, and return to the homepage
+      logout();
+      props.onLogin();
+      props.history.push(`/`);
+
+  }
 
   // render a logout button if the user is already logged in,
   // otherwise render a login button and modal
@@ -209,4 +211,4 @@ function Login (props) {
   }
 
 }
-export default Login;
+export default withRouter(Login);

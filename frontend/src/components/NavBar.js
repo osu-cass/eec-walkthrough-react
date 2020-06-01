@@ -20,6 +20,7 @@ function NavBar (props) {
     const user = getProfile();
     setUsername(user.username);
     setRole(user.role);
+    props.handleLoginStatusChange();
   }
 
   return (
@@ -29,7 +30,7 @@ function NavBar (props) {
           <a
             className="text-info mr-2"
             href="#"
-            onClick={props.handleSidebar}
+            onClick={props.openSidebar}
           >
             <i className="fas fa-bars"></i>
           </a>

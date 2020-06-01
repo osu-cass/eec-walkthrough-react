@@ -12,7 +12,8 @@ class CreateItem extends React.Component {
 		description: "",
 		url: "",
 		show: false,
-		emptyInputs: false,
+    emptyInputs: false,
+    errorMessage: ""
 	}
 
 	componentDidMount() {
