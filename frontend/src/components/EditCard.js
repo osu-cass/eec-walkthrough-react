@@ -30,15 +30,16 @@ class EditCard extends React.Component {
 				text: item.contentText,
 				label: item.contentLabel,
 				url: item.contentUrl
-			}
-			itemData.depth = 0;
+            }
+            itemData.parentId = item.parentId;
+			itemData.depth = 0; //if null parent ? return 0 : if parentID[i-1] === null => depth = 1; else if parentId[i-1] === parentId[i] => depth = parentDepth[i-1] 
 			itemData.icon = item.iconType;
 			itemData.contentType = this.getContentType(item.contentText, item.contentLabel, item.contentUrl);
 			items.push(itemData);
 			counter++;
 		});
-		console.log(itemData, this.props.icons)
-		await this.setState({ items: items });
+        await this.setState({ items: items });
+        console.log(items)
 		this.setState({ counter: counter });
 		await this.setState({ title: this.props.cardName })
 		this.setState({ loaded: true });
@@ -343,6 +344,11 @@ class EditCard extends React.Component {
 		return list;
 	}
 
+	/**
+	* Returns JSX showing indentation of items
+	* @param {Number} i item index passed from generateInputs()
+	* @return {JSX}    Array of JSX of icons
+	*/
 	getDepth(idx) {
 		let jsx = [];
 		let i = 0;

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Card as CardBS } from 'react-bootstrap'
-import Edit from './Edit'
 import BulletPoint from './BulletPoint'
 import EditCard from './EditCard'
 
@@ -13,13 +12,15 @@ class Card extends React.Component {
 		const response = await this.setState({ items: this.props.items });
 	}
 
+	//return childs of id === parentId
 	getChilds(id) {
-		var results = this.state.items.reduce(function (result, item) { //get items whose parentId is in params
+		var results = this.state.items.reduce(function (result, item) { 
 			if (item.parentId === id) {
 				result.push(item);
 			}
 			return result;
 		}, []);
+		console.log(results.length, results)
 		return results.length ? results : false
 	}
 
@@ -81,6 +82,7 @@ class Card extends React.Component {
 						items={this.props.items}
 						headerId={this.props.headerId}
 						cardId={this.props.cardId}
+						parentId={this.props.parentId}
 						orderIndex={1}
 						refresh={() => this.fetchData()}
 					/>
