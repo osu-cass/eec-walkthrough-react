@@ -14,13 +14,12 @@ class Card extends React.Component {
 
 	//return childs of id === parentId
 	getChilds(id) {
-		var results = this.state.items.reduce(function (result, item) { 
+		var results = this.state.items.reduce(function (result, item) {
 			if (item.parentId === id) {
 				result.push(item);
 			}
 			return result;
 		}, []);
-		console.log(results.length, results)
 		return results.length ? results : false
 	}
 
@@ -83,8 +82,8 @@ class Card extends React.Component {
 						headerId={this.props.headerId}
 						cardId={this.props.cardId}
 						parentId={this.props.parentId}
-						orderIndex={1}
-						refresh={() => this.fetchData()}
+						orderIndex={this.props.orderIndex}
+						refresh={() => this.props.refresh()}
 					/>
 				</CardBS.Header>
 				<CardBS.Body>
