@@ -10,7 +10,7 @@ async function getUser(userId) {
   try {
 
     // get the specified user
-    const sql = "SELECT userId, userName, firstName, lastName, email, role " +
+    const sql = "SELECT userId, username, firstName, lastName, email, role " +
       "FROM Users " +
       "WHERE userId = ?;";
 
@@ -33,17 +33,17 @@ exports.getUser = getUser;
 
 
 // login a user
-async function loginUser(userName, password) {
+async function loginUser(username, password) {
 
   try {
 
     // get the specified user
-    const sql = "SELECT userId, userName, firstName, lastName, email, role " +
+    const sql = "SELECT userId, username, firstName, lastName, email, role " +
       "FROM Users " +
-      "WHERE userName = ? " +
+      "WHERE username = ? " +
       "AND password = ?;";
 
-    const results = await pool.query(sql, [userName, password]);
+    const results = await pool.query(sql, [username, password]);
 
     // check to see if we were able to find the user
     if (!results[0].length) {
@@ -62,15 +62,15 @@ exports.loginUser = loginUser;
 
 
 // create a user
-async function createUser(userName, password, firstName, lastName, email) {
+async function createUser(username, password, firstName, lastName, email) {
 
   try {
 
     // make sure that the user name doesn't already exist
     let sql = "SELECT * " +
     "FROM Users " +
-    "WHERE userName = ?;";
-    let results = await pool.query(sql, userName);
+    "WHERE username = ?;";
+    let results = await pool.query(sql, username);
 
     if (results[0].length) {
       return {error: 1};
@@ -87,9 +87,9 @@ async function createUser(userName, password, firstName, lastName, email) {
     }
 
     // create the new user
-    sql = "INSERT INTO Users (userName, password, firstName, lastName, email, role) " +
+    sql = "INSERT INTO Users (username, password, firstName, lastName, email, role) " +
     "VALUES (?, ?, ?, ?, ?, 1);";
-    results = await pool.query(sql, [userName, password, firstName, lastName, email]);
+    results = await pool.query(sql, [username, password, firstName, lastName, email]);
 
     const finalResults = {
       insertId: results[0].insertId
@@ -107,7 +107,7 @@ exports.createUser = createUser;
 
 
 // update a user
-async function updateUser(userId, userName, password, firstName, lastName, email, role) {
+async function updateUser(userId, username, password, firstName, lastName, email, role) {
 
   try {
 
@@ -126,9 +126,9 @@ async function updateUser(userId, userName, password, firstName, lastName, email
     // construct a sql query based on the fields given
     sql = "UPDATE Users SET ";
 
-    if (typeof userName !== "undefined") {
-      sql += "userName = ?,";
-      sqlArray.push(userName);
+    if (typeof username !== "undefined") {
+      sql += "username = ?,";
+      sqlArray.push(username);
     }
 
     if (typeof password !== "undefined") {
@@ -197,7 +197,7 @@ async function searchUsers(text, role, cursor) {
 
     // initial sql query
     let sql =
-      "SELECT userId, userName, firstName, lastName, email, role FROM Users ";
+      "SELECT userId, username, firstName, lastName, email, role FROM Users ";
 
     // only use the cursor if it isn't the initial search request
     if (cursor.primary === "null") {
@@ -210,8 +210,8 @@ async function searchUsers(text, role, cursor) {
       // Instances where the primary cursor value could have duplicate values
       // are handled by also sorting by user ID.
 
-      sql += "WHERE userName >= ? AND " +
-        "(userName > ? OR userId >= ?) ";
+      sql += "WHERE username >= ? AND " +
+        "(username > ? OR userId >= ?) ";
       sqlArray.push(cursor.primary);
       sqlArray.push(cursor.primary);
       sqlArray.push(cursor.secondary);
@@ -220,7 +220,7 @@ async function searchUsers(text, role, cursor) {
 
     // get the text we are searching for
     if (text !== "*") {
-      sql += "AND (userName LIKE CONCAT('%', ?, '%') " +
+      sql += "AND (username LIKE CONCAT('%', ?, '%') " +
       "OR CONCAT(firstName , ' ' , lastName) LIKE CONCAT('%', ?, '%') " +
       "OR email LIKE CONCAT('%', ?, '%') " +
       "OR userId LIKE CONCAT('%', ?, '%')) ";
@@ -237,7 +237,7 @@ async function searchUsers(text, role, cursor) {
     }
 
     // sort search results by username
-    sql += "ORDER BY userName ASC, " +
+    sql += "ORDER BY username ASC, " +
       "userId ASC LIMIT ?;";
 
     // get the number of results per page (plus the next cursor)
@@ -265,7 +265,7 @@ async function searchUsers(text, role, cursor) {
       const nextPlan = results[0][RESULTS_PER_PAGE];
 
       // set the primary and secondary strings
-      nextCursor.primary = String(nextPlan.userName);
+      nextCursor.primary = String(nextPlan.username);
       nextCursor.secondary = String(nextPlan.userId);
 
     }

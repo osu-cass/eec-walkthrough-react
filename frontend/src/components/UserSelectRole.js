@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {PropTypes} from "prop-types";
 import {formatRole} from "../utilities/formatRole";
+import {logout} from "../utilities/cookieAuth";
 import "./UserSelectRole.css";
 
 // dropdown menu for selecting a user's role
@@ -14,7 +15,7 @@ function UserSelectRole(props) {
     const select = document.getElementById(`change-user-role-${props.userId}`);
     const newRole = parseInt(select.value, 10);
 
-    const confirmMessage = `Are you sure you want to set ${props.userName}'s ` +
+    const confirmMessage = `Are you sure you want to set ${props.username}'s ` +
       `role to "${formatRole(newRole)}?"`;
 
     if (window.confirm(confirmMessage)) {
@@ -37,10 +38,20 @@ function UserSelectRole(props) {
         });
 
         if (results.ok) {
+
           setUpdatedRole(newRole);
 
         } else {
-          alert("An internal server error occurred. Please try again later.");
+
+          // if the user is performing an unauthorized action
+          // log them out and return them to the homepage
+          if (results.status === 401) {
+            logout();
+            window.location.href = "/";
+          } else {
+            alert("An internal server error occurred. Please try again later.");
+          }
+
         }
       } catch (err) {
         // this is a server error
@@ -81,7 +92,7 @@ export default UserSelectRole;
 UserSelectRole.propTypes = {
   role: PropTypes.number,
   userId: PropTypes.number,
-  userName: PropTypes.string,
+  username: PropTypes.string,
   index: PropTypes.number,
   onLoading: PropTypes.func,
   onNewRole: PropTypes.func

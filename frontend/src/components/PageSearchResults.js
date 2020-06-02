@@ -41,14 +41,14 @@ function PageSearchResults(props) {
 
                 <div className="page-info-container card m-5" key={page.pageId + "a"}>
                   <Link to={pageLinks[index]}>
-                    <h5 class="page-link-header font-weight-bold text-left" key={page.pageId + "b"}>
+                    <h5 className="page-link-header font-weight-bold text-left" key={page.pageId + "b"}>
                       {page.name}
                     </h5>
                   </Link>
-                  <span class="text-left float-left" key={page.pageId + "c"}>
+                  <span className="text-left float-left" key={page.pageId + "c"}>
                     {page.description}
                   </span>
-                  <span class="page-link-created text-left float-left" key={page.pageId + "d"}>
+                  <span className="page-link-created text-left float-left" key={page.pageId + "d"}>
                     Created {formatTime(page.created)}
                   </span>
                 </div>

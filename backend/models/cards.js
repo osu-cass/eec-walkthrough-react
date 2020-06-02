@@ -37,25 +37,15 @@ async function createCard(headerId, orderIndex, title, userId) {
 
   try {
 
-    // make sure the user exists
-    let sql = "SELECT * " +
-    "FROM Users " +
-    "WHERE userId = ?;";
-    let results = await pool.query(sql, userId);
-
-    if (!results[0].length) {
-      return {error: 1};
-    }
-
     // make sure the card does not already exist
-    sql = "SELECT * " +
+    let sql = "SELECT * " +
     "FROM Cards " +
     "WHERE headerId = ? " +
     "AND title = ?;";
-    results = await pool.query(sql, [headerId, title]);
+    let results = await pool.query(sql, [headerId, title]);
 
     if (results[0].length) {
-      return {error: 2};
+      return {error: 1};
     }
 
     // make sure the header exists
@@ -65,7 +55,7 @@ async function createCard(headerId, orderIndex, title, userId) {
     results = await pool.query(sql, headerId);
 
     if (!results[0].length) {
-      return {error: 3};
+      return {error: 2};
     }
 
     // create the new card

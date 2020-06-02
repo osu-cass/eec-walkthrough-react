@@ -222,25 +222,15 @@ async function createPage(pageType, name, title, description, imageUrl, userId) 
 
   try {
 
-    // make sure the user exists
-    let sql = "SELECT * " +
-    "FROM Users " +
-    "WHERE userId = ?;";
-    let results = await pool.query(sql, userId);
-
-    if (!results[0].length) {
-      return {error: 1};
-    }
-
     // make sure the page does not already exist
-    sql = "SELECT * " +
+    let sql = "SELECT * " +
     "FROM Pages " +
     "WHERE pageType = ? " +
     "AND name = ?;";
-    results = await pool.query(sql, [pageType, name]);
+    let results = await pool.query(sql, [pageType, name]);
 
     if (results[0].length) {
-      return {error: 2};
+      return {error: 1};
     }
 
     // create the new page
@@ -403,7 +393,7 @@ async function addSubject(subjectId, industryId) {
     let results = await pool.query(sql, subjectId);
 
     if (!results[0].length) {
-      return {error: 2};
+      return {error: 1};
     }
 
     // make sure the industry exists
@@ -414,7 +404,7 @@ async function addSubject(subjectId, industryId) {
     results = await pool.query(sql, industryId);
 
     if (!results[0].length) {
-      return {error: 3};
+      return {error: 2};
     }
 
     // make sure the connection does not already exist
@@ -425,7 +415,7 @@ async function addSubject(subjectId, industryId) {
     results = await pool.query(sql, [subjectId, industryId]);
 
     if (results[0].length) {
-      return {error: 4};
+      return {error: 3};
     }
 
     // create the new connection
@@ -462,7 +452,7 @@ async function deleteSubject(subjectId, industryId) {
     let results = await pool.query(sql, subjectId);
 
     if (!results[0].length) {
-      return {error: 2};
+      return {error: 1};
     }
 
     // make sure the industry exists
@@ -473,7 +463,7 @@ async function deleteSubject(subjectId, industryId) {
     results = await pool.query(sql, industryId);
 
     if (!results[0].length) {
-      return {error: 3};
+      return {error: 2};
     }
 
     // make sure the connection exists
@@ -484,7 +474,7 @@ async function deleteSubject(subjectId, industryId) {
     results = await pool.query(sql, [subjectId, industryId]);
 
     if (!results[0].length) {
-      return {error: 4};
+      return {error: 3};
     }
 
     // remove the connection
@@ -579,7 +569,7 @@ async function searchPages(text, cursor) {
       const nextPlan = results[0][RESULTS_PER_PAGE];
 
       // set the primary and secondary strings
-      nextCursor.primary = String(nextPlan.userName);
+      nextCursor.primary = String(nextPlan.username);
       nextCursor.secondary = String(nextPlan.userId);
 
     }

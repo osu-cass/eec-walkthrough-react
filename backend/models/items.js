@@ -40,24 +40,14 @@ async function createItem(cardId, parentId, orderIndex, iconType, contentText, c
 
   try {
 
-    // make sure the user exists
+    // make sure the card exists
     let sql = "SELECT * " +
-    "FROM Users " +
-    "WHERE userId = ?;";
-    let results = await pool.query(sql, userId);
+    "FROM Cards " +
+    "WHERE cardId = ?;";
+    let results = await pool.query(sql, cardId);
 
     if (!results[0].length) {
       return {error: 1};
-    }
-
-    // make sure the card exists
-    sql = "SELECT * " +
-    "FROM Cards " +
-    "WHERE cardId = ?;";
-    results = await pool.query(sql, cardId);
-
-    if (!results[0].length) {
-      return {error: 2};
     }
 
     // make sure the parent item exists
@@ -69,7 +59,7 @@ async function createItem(cardId, parentId, orderIndex, iconType, contentText, c
       results = await pool.query(sql, parentId);
 
       if (!results[0].length) {
-        return {error: 3};
+        return {error: 2};
       }
 
     }
@@ -84,7 +74,7 @@ async function createItem(cardId, parentId, orderIndex, iconType, contentText, c
       results = await pool.query(sql, iconType);
 
       if (!results[0].length) {
-        return {error: 4};
+        return {error: 3};
       }
 
     }
