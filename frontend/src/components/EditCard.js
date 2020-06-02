@@ -22,28 +22,42 @@ class EditCard extends React.Component {
 		let items = [];
 		let itemData = {};
 		let counter = 0;
-
 		//Push items from props to state
 		this.props.items.forEach((item, i) => {
 			itemData = {}
+			itemData.itemId = item.itemId;
 			itemData.content = {
 				text: item.contentText,
 				label: item.contentLabel,
 				url: item.contentUrl
-            }
-            itemData.parentId = item.parentId;
-			itemData.depth = 0; //if null parent ? return 0 : if parentID[i-1] === null => depth = 1; else if parentId[i-1] === parentId[i] => depth = parentDepth[i-1] 
+			}
+			itemData.parentId = item.parentId;
+			itemData.depth = this.findDepth(itemData, items, i); //if null parent ? return 0 : if parentID[i-1] === null => depth = 1; else if parentId[i-1] === parentId[i] => depth = parentDepth[i-1] 
 			itemData.icon = item.iconType;
 			itemData.contentType = this.getContentType(item.contentText, item.contentLabel, item.contentUrl);
 			items.push(itemData);
 			counter++;
 		});
-        await this.setState({ items: items });
-        console.log(items)
+		await this.setState({ items: items });
 		this.setState({ counter: counter });
 		await this.setState({ title: this.props.cardName })
 		this.setState({ loaded: true });
 		this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" })
+	}
+
+	findDepth(item, itemArr, i) {
+		//No parent is depth 0
+		if (!itemArr.length || item.parentId === null)
+			return 0;
+		//Check if previous item parent null, item depth is 1
+		if (itemArr[i - 1].parentId === null)
+			return 1;
+		//Shares same parent, then same depth
+		else if (item.parentId === itemArr[i - 1].parentId)
+			return itemArr[i - 1].depth
+		//Increment depth, no parents shared
+		else
+			return itemArr[i - 1].depth + 1;
 	}
 
 	handleClose = () => this.setState({ show: false });
@@ -66,7 +80,6 @@ class EditCard extends React.Component {
 
 		//Init new empty item
 		copy[key] = {}
-		console.log(copy[key], copy)
 		copy[key].content = content;
 		copy[key].depth = 0;
 		copy[key].icon = null;
@@ -125,7 +138,6 @@ class EditCard extends React.Component {
 		// Delete children if any (if greater than parent subpoint depth, it is a child)
 		if (idx !== this.state.items.length - 1) {
 			for (i = start; i < this.state.items.length && parent < copy[i].depth; i++) {
-				console.log(copy[i].depth)
 				remove++;
 			}
 		}
@@ -157,8 +169,6 @@ class EditCard extends React.Component {
 	}
 
 	handleSubmit = async () => {
-		console.log(this.state.items);
-		return
 		//Check for empty inputs
 		if (this.checkInputs()) {
 			return
@@ -170,7 +180,7 @@ class EditCard extends React.Component {
 		//Prepare data for new card
 		let cardData = {
 			headerId: this.props.headerId,
-			orderIndex: this.props.numCards + 1, //append to end of list of cards for this header
+			orderIndex: this.props.orderIndex,
 			title: this.state.title,
 			userId: 1 //temporary placeholder
 		}
@@ -178,9 +188,11 @@ class EditCard extends React.Component {
 		//Store item ids to handle parentId 
 		let itemIds = [];
 
+		console.log(cardData);
+
 		//Create new card
-		await fetch("/cards/", {
-			method: 'POST',
+		await fetch(`/cards/${this.props.cardId}`, {
+			method: 'PATCH',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(cardData)
 		}).then(function (res) {
@@ -192,29 +204,26 @@ class EditCard extends React.Component {
 			//Loop through state items and create 
 			for (const key in this.state.items) {
 				let itemData = {
+					itemId: this.state.items[key].itemId,
+					cardId: this.props.cardId,
 					orderIndex: parseInt(key) + 1,
 					contentText: this.state.items[key].content.text,
 					contentLabel: this.state.items[key].content.label,
 					contentUrl: this.state.items[key].content.url,
-					cardId: cardData.insertId,
 					iconType: this.state.items[key].icon,
 					parentId: this.findParent(key, this.state.items[key].depth, itemIds),
-					userId: 1 //temporary placeholder
+					approved: 1 //temporary placeholder
 				}
+				console.log(itemData)
 				//Items can be dependent on previous item to be created (parentId), use await
-				await fetch("/items/", {
-					method: 'POST',
+				await fetch(`/items/${itemData.itemId}`, {
+					method: 'PATCH',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(itemData)
 				})
-					.then((response) => response.json())
 					.then(function (res) {
-						itemIds.push(res.insertId);
-					}).catch(function (err) {
-						console.log(itemData);
-						console.log(err);
+						return res.json()
 					})
-
 			}
 		}).catch(function (err) {
 			console.log(err);
