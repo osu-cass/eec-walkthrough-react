@@ -21,16 +21,16 @@ function PageSearch(props) {
   }
 
   return (
-    <div className='search'>
-      <form className='form-inline' onSubmit={(e) => submitHandler(e)}>
+    <div className="search mr-3">
+      <form className="form-inline" onSubmit={(e) => submitHandler(e)}>
         <input
           type="search"
           className="form-control mr-sm-3"
           id="input-search-pages"
           placeholder="Search for pages"
         />
-        <a href='#' onClick={(e) => submitHandler(e)}>
-          <i className='input-search-pages fas fa-search text-white'></i>
+        <a href="#" onClick={(e) => submitHandler(e)}>
+          <i className="input-search-pages fas fa-search text-white"></i>
         </a>
       </form>
     </div>

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
+import { getProfile, logout } from '../utilities/cookieAuth';
 import AddButton from './AddButton';
 import ItemInput from './ItemInput';
 import Dropdown from './Dropdown';
@@ -15,7 +16,9 @@ class CreateItem extends React.Component {
 		items: [],
 		show: false,
 		loaded: false,
-		emptyInputs: false
+		emptyInputs: false,
+		errorMessage: "",
+		role: 0
 	}
 
 	async componentDidMount() {
@@ -29,13 +32,18 @@ class CreateItem extends React.Component {
 		item.icon = null;
 		item.contentType = null;
 
-		console.log(item);
+		// console.log(item);
 
 		items.push(item);
 
 		await this.setState({ items: items });
 		this.setState({ loaded: true });
 		this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" })
+
+		// check user role to see what we should render
+		const user = getProfile();
+		this.setState({ role: user.role });
+
 	}
 
 	handleClose = () => this.setState({ show: false });
@@ -57,6 +65,7 @@ class CreateItem extends React.Component {
 
 		this.setState({ items: copy });
 		this.setState({ counter: count + 1 });
+
 	}
 
 	/**
@@ -154,7 +163,6 @@ class CreateItem extends React.Component {
 			headerId: this.props.headerId,
 			orderIndex: this.props.numCards + 1, //append to end of list of cards for this header
 			title: this.state.title,
-			userId: 1 //temporary placeholder
 		}
 
 		//Store item ids to handle parentId 
@@ -166,6 +174,12 @@ class CreateItem extends React.Component {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(cardData)
 		}).then(function (res) {
+			// if the user is performing an unauthorized action
+			// log them out and return them to the homepage
+			if (res.status === 401) {
+				logout();
+				window.location.href = "/";
+			}
 			if (res.status >= 400) {
 				throw new Error("Bad response from server");
 			}
@@ -181,7 +195,6 @@ class CreateItem extends React.Component {
 					cardId: cardData.insertId,
 					iconType: this.state.items[key].icon,
 					parentId: this.findParent(key, this.state.items[key].depth, itemIds),
-					userId: 1 //temporary placeholder
 				}
 				//Items can be dependent on previous item to be created (parentId), use await
 				await fetch("/items/", {
@@ -363,7 +376,7 @@ class CreateItem extends React.Component {
 	}
 
 	render() {
-		return this.state.loaded ? (
+		return this.state.loaded && this.state.role >= 3 ? (
 			<div className='text-center mt-3 mb-2'>
 				<Button variant="info" onClick={this.handleShow}>
 					<i

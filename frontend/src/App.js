@@ -10,6 +10,7 @@ import { Route, Switch } from "react-router-dom";
 class App extends React.Component {
 	state = {
 		sidebarOpen: false,
+		loginStatusChange: false
 	};
 
 	componentDidMount() {
@@ -17,17 +18,29 @@ class App extends React.Component {
 		//check if route exists within pages
 	}
 
-	handleSidebar = () => {
-		this.setState({ sidebarOpen: !this.state.sidebarOpen });
+	openSidebar = () => {
+		this.setState({ sidebarOpen: true });
 	};
+
+	closeSidebar = () => {
+		this.setState({ sidebarOpen: false });
+	};
+	
+	handleLoginStatusChange = () => {
+    this.setState({ loginStatusChange: !this.state.loginStatusChange });
+	}
 
 	render() {
 		return (
 			<main>
-				<NavBar handleSidebar={this.handleSidebar} />
+				<NavBar 
+					openSidebar={this.openSidebar}
+					handleLoginStatusChange={this.handleLoginStatusChange}
+				/>
 				<Sidebar
 					className={this.state.sidebarOpen ? "visible" : "hidden"}
-					handleSidebar={this.handleSidebar}
+					loginStatusChange={this.state.loginStatusChange}
+					closeSidebar={this.closeSidebar}
 				/>
 				<Switch>
 					<Route
@@ -42,7 +55,7 @@ class App extends React.Component {
 							<Subject {...props} pageId={props.match.params.pageId} />
 						)}
 					/>
-          <Route path='/search/:searchId'>
+					<Route path='/search/:searchId'>
 						<Search />
 					</Route>
 					<Route path='/manage-users'>

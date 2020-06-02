@@ -3,9 +3,10 @@ import UserSearchForm from "../components/UserSearchForm";
 import UserSearchResults from "../components/UserSearchResults";
 import LoadingOverlay from "../components/LoadingOverlay";
 import Container from "react-bootstrap/Container";
+import {logout} from "../utilities/cookieAuth";
 
 // manage users page
-function ManageUsers() {
+function ManageUsers(props) {
 
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
@@ -84,11 +85,23 @@ function ManageUsers() {
 
       } else {
 
+        obj = await results.json();
+
         if (results.status === 404) {
           setErrorMessage("No matching users found.");
           setUsers([]);
-        } else {
+        } else if (results.status === 500) {
           setErrorMessage("An internal server error occurred. Please try again later.");
+        } else {
+          console.log(obj.error);
+          setErrorMessage(obj.error);
+        }
+
+        // if the user is performing an unauthorized action
+        // log them out and return them to the homepage
+        if (results.status === 401) {
+          logout();
+          window.location.href = "/";
         }
 
       }

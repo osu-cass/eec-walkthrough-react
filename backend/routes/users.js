@@ -5,6 +5,12 @@ const express = require("express");
 const app = express();
 const {validationResult} = require("express-validator");
 const {
+  roleCheck,
+  requireAuth,
+  setAuthCookie,
+  generateAuthToken
+} = require("../services/authentication/cookieAuth");
+const {
   postUserVal,
   patchUserVal,
   getUserVal,
@@ -32,6 +38,7 @@ app.get("/:userId", getUserVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
@@ -53,26 +60,35 @@ app.get("/:userId", getUserVal.validation, async (req, res) => {
 
 
 // login a user
-app.get("/login/:userName/:password", loginUserVal.validation, async (req, res) => {
+app.post("/login", loginUserVal.validation, async (req, res) => {
 
   try {
 
-    const userName = req.params.userName;
-    const password = req.params.password;
-    console.log("Check login for", userName);
+    console.log("Check user login");
 
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
+    const username = req.body.username;
+    const password = req.body.password;
+
     // get user data
-    const results = await loginUser(userName, password);
+    const results = await loginUser(username, password);
 
     if (results.userId === 0) {
-      res.status(400).send({error: "Username or password is incorrect."});
+      res.status(400).send({error: "username or password is incorrect."});
     } else {
+
+      // sign this user with a JWT
+      const token = generateAuthToken(results.userId);
+
+      // set authentication cookies for the current user
+      setAuthCookie(res, token, results.username, results.userId, results.role);
+
       res.status(200).send(results);
     }
 
@@ -85,7 +101,7 @@ app.get("/login/:userName/:password", loginUserVal.validation, async (req, res) 
 
 
 // get a list of users based on a search query
-app.get("/search/:text/:role/:cursorPrimary/:cursorSecondary", searchUserVal.validation, async (req, res) => {
+app.get("/search/:text/:role/:cursorPrimary/:cursorSecondary", requireAuth, searchUserVal.validation, async (req, res) => {
 
   try {
 
@@ -94,6 +110,7 @@ app.get("/search/:text/:role/:cursorPrimary/:cursorSecondary", searchUserVal.val
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
@@ -103,6 +120,12 @@ app.get("/search/:text/:role/:cursorPrimary/:cursorSecondary", searchUserVal.val
       primary: req.params.cursorPrimary,
       secondary: req.params.cursorSecondary
     };
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to search for users."});
+      return;
+    }
 
     // search for users
     const results = await searchUsers(text, parseInt(role, 10), cursor);
@@ -131,17 +154,18 @@ app.post("/", postUserVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
-    const userName = req.body.userName;
+    const username = req.body.username;
     const password = req.body.password;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
 
     // create a user
-    const results = await createUser(userName, password, firstName, lastName, email);
+    const results = await createUser(username, password, firstName, lastName, email);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -166,28 +190,47 @@ app.post("/", postUserVal.validation, async (req, res) => {
 
 
 // update a user
-app.patch("/:userId", patchUserVal.validation, async (req, res) => {
+app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => {
 
   try {
 
     console.log("Update a user");
 
     const userId = req.params.userId;
-    const userName = req.body.userName;
+    const username = req.body.username;
     const password = req.body.password;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
     const role = req.body.role;
+    const currentUserId = req.auth.userId;
 
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
+    // confirm that if the role is being changed, the current user is an admin
+    if (typeof role !== "undefined") {
+      if (!await roleCheck(4, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to change users role."});
+        return;
+      }
+    } else {
+      // since the user is changing general user data they must be
+      // either the user in question or an admin
+      if (currentUserId !== userId) {
+        if (!await roleCheck(4, req.auth.userId)) {
+          res.status(401).send({error: "Unauthorized user attempting to update user."});
+          return;
+        }
+      }
+    }
+
     // update a user
-    const results = await updateUser(userId, userName, password, firstName, lastName, email, role);
+    const results = await updateUser(userId, username, password, firstName, lastName, email, role);
 
     if (results.changedRows >= 0) {
       res.status(200).send(results);

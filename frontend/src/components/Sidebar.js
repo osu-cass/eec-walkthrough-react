@@ -1,100 +1,115 @@
-import React, { Fragment } from "react";
-import "./Sidebar.css";
+import React, {useState, useEffect, useRef, Fragment} from "react";
 import SidebarCollection from "./SidebarCollection";
+import {getProfile} from "../utilities/cookieAuth";
 import { NavLink } from "react-router-dom";
-import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
+import Card from "react-bootstrap/Card";
+import Col from "react-bootstrap/Col";
 
-class Sidebar extends React.Component {
-	state = {
-		pages: [],
-	};
+import "./Sidebar.css";
 
-	constructor(props) {
-		super(props);
-		this.setWrapperRef = this.setWrapperRef.bind(this);
-		this.handleClickOutside = this.handleClickOutside.bind(this);
-	}
+function Sidebar(props) {
 
-	componentDidMount() {
-		this.fetchData();
-		document.addEventListener("mousedown", this.handleClickOutside);
-	}
+  const [pages, setPages] = useState([]);
+  const [role, setRole] = useState(0);
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
 
-	fetchData() {
-		fetch('/pages/all')
-			.then(res => res.json())
-			.then(res => res.pages)
-			.then(pages => this.setState({ pages })) //get all pages
-	}
+  // fetch page data on page load
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-	componentWillUnmount() {
-		document.removeEventListener("mousedown", this.handleClickOutside);
-	}
+  // check user info whenever the login status changes
+  useEffect(() => {
 
-	setWrapperRef(node) {
-		this.wrapperRef = node;
-	}
+    // check user role to see what we should render
+    const user = getProfile();
+    setRole(user.role);
 
-	/**** Alert if clicked on outside of element **/
-	handleClickOutside(event) {
-		if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-			if (this.props.className === "visible")
-				//if sidebar is open, close sidebar
-				this.props.handleSidebar();
-		}
-	}
+  }, [props.loginStatusChange]);
 
-	render() {
-		return this.state.pages ? (
-			< div
-				className={"wrapper " + this.props.className}
-				ref={this.setWrapperRef}
-			>
-				{/* Wrapper is created to be able to click outside sidebar to close it */}
-				<nav id='sidebar'>
-					<Card bg="info" as="h2">
-						<Card.Header>
-							Directory
-						</Card.Header>
-					</Card>
+  // check for a click outside of the sidebar
+  // if a click is detected, then close the sidebar
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
 
-					<Col className="mt-3">
-						<Card bg="dark" border="info" style={{ cursor: "pointer" }}>
-							<SidebarCollection
-								collectionName="Home"
-								collectionLink=""
-							/>
-							<SidebarCollection
-								collectionName="Subjects"
-								collectionLink="subjects"
-								collection={this.state.pages.subjects}
-								refresh={() => this.fetchData()}
-							/>
-							<SidebarCollection
-								collectionName="Industries"
-								collectionLink="industries"
-								collection={this.state.pages.industries}
-								refresh={() => this.fetchData()}
-							/>
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          props.closeSidebar();
+        }
+      }
+
+      // bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        // unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+
+    }, [ref]);
+  }
+
+  // fetch all page data
+  function fetchData() {
+    fetch('/pages/all')
+      .then(res => res.json())
+      .then(res => res.pages)
+      .then(pages => setPages(pages))
+  }
+
+  return pages ? (
+    < div
+      className={"wrapper " + props.className}
+      ref={wrapperRef}
+    >
+      {/* Wrapper is created to be able to click outside sidebar to close it */}
+      <nav id='sidebar'>
+        <Card bg="info" as="h2">
+          <Card.Header>
+            Directory
+          </Card.Header>
+        </Card>
+
+        <Col className="mt-3">
+          <Card bg="dark" border="info" style={{ cursor: "pointer" }}>
+            <SidebarCollection
+              collectionName="Home"
+              collectionLink=""
+            />
+            <SidebarCollection
+              collectionName="Subjects"
+              collectionLink="subjects"
+              collection={pages.subjects}
+              refresh={() => fetchData()}
+              role={role}
+            />
+            <SidebarCollection
+              collectionName="Industries"
+              collectionLink="industries"
+              collection={pages.industries}
+              refresh={() => fetchData()}
+              role={role}
+            />
+            {role === 4 ? (
               <SidebarCollection
-								collectionName="Manage Users"
-								collectionLink="manage-users"
-							/>
-						</Card>
+                collectionName="Manage Users"
+                collectionLink="manage-users"
+              />
+            ) : (
+              null
+            )}
+          </Card>
 
-						<Card bg="info" border="dark" as="h5" className="mt-3 p-2 back">
-							<NavLink to={`/`} onClick={this.props.handleSidebar} className="text-center">
-								Back to Page
-						</NavLink>
-						</Card>
-					</Col>
-				</nav>
+          <Card bg="info" border="dark" as="h5" className="mt-3 p-2 back">
+            <NavLink to={`/`} onClick={props.closeSidebar} className="text-center">
+              Back to Page
+          </NavLink>
+          </Card>
+        </Col>
+      </nav>
 
-			</div >
-		) : <Fragment></Fragment>;
-	}
+    </div >
+  ) : <Fragment></Fragment>;
+
 }
-
 export default Sidebar;

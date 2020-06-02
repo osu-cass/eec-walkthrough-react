@@ -14,7 +14,7 @@ exports.getUserVal = getUserVal;
 // validation checks for login user
 const loginUserVal = Object.freeze({
   validation: [
-    check("userName").isLength({min: 1, max: 50}),
+    check("username").isLength({min: 5, max: 50}),
     check("password").isLength({min: 8, max: 50})
   ]
 });
@@ -23,7 +23,7 @@ exports.loginUserVal = loginUserVal;
 // validation checks for post user
 const postUserVal = Object.freeze({
   validation: [
-    check("userName").isLength({min: 1, max: 50}),
+    check("username").isLength({min: 5, max: 50}),
     check("password").isLength({min: 8, max: 50}),
     check("firstName").isLength({min: 1, max: 50}),
     check("lastName").isLength({min: 1, max: 50}),
@@ -37,8 +37,8 @@ const patchUserVal = Object.freeze({
   validation: [
     check("userId").optional()
       .isInt({min: 1, max: 4294967295}),
-    check("userName").optional()
-      .isLength({min: 1, max: 50}),
+    check("username").optional()
+      .isLength({min: 5, max: 50}),
     check("password").optional()
       .isLength({min: 8, max: 50}),
     check("firstName").optional()
@@ -90,7 +90,6 @@ const postPageVal = Object.freeze({
     check("title").isLength({min: 1, max: 1000}),
     check("description").isLength({min: 1, max: 1000}),
     check("imageUrl").isLength({min: 1, max: 1000}),
-    check("userId").isInt({min: 1, max: 4294967295})
   ]
 });
 exports.postPageVal = postPageVal;
@@ -139,7 +138,6 @@ const postHeaderVal = Object.freeze({
     check("pageId").isInt({min: 1, max: 4294967295}),
     check("orderIndex").isInt({min: 0, max: 4294967295}),
     check("title").isLength({min: 1, max: 1000}),
-    check("userId").isInt({min: 1, max: 4294967295})
   ]
 });
 exports.postHeaderVal = postHeaderVal;
@@ -175,7 +173,6 @@ const postCardVal = Object.freeze({
     check("headerId").isInt({min: 1, max: 4294967295}),
     check("orderIndex").isInt({min: 0, max: 4294967295}),
     check("title").isLength({min: 1, max: 1000}),
-    check("userId").isInt({min: 1, max: 4294967295})
   ]
 });
 exports.postCardVal = postCardVal;
@@ -216,7 +213,6 @@ const postItemVal = Object.freeze({
     check("contentText").isLength({min: 0, max: 1000}),
     check("contentUrl").isLength({min: 0, max: 1000}),
     check("contentLabel").isLength({min: 0, max: 1000}),
-    check("userId").isInt({min: 1, max: 4294967295})
   ]
 });
 exports.postItemVal = postItemVal;

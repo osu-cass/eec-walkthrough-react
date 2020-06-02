@@ -5,6 +5,10 @@ const express = require("express");
 const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
+  roleCheck,
+  requireAuth
+} = require("../services/authentication/cookieAuth");
+const {
   postCardVal,
   getCardVal,
   patchCardVal
@@ -28,6 +32,7 @@ app.get("/:cardId", getCardVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
@@ -49,7 +54,7 @@ app.get("/:cardId", getCardVal.validation, async (req, res) => {
 
 
 // create a card
-app.post("/", postCardVal.validation, async (req, res) => {
+app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
 
   try {
 
@@ -58,13 +63,20 @@ app.post("/", postCardVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
     const headerId = req.body.headerId;
     const orderIndex = req.body.orderIndex;
     const title = req.body.title;
-    const userId = req.body.userId;
+    const userId = req.auth.userId;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to create card."});
+      return;
+    }
 
     // create a card
     const results = await createCard(headerId, orderIndex, title, userId);
@@ -74,10 +86,8 @@ app.post("/", postCardVal.validation, async (req, res) => {
     } else {
 
       if (results.error === 1) {
-        res.status(403).send({error: "Unauthorized user attempting to create card."});
-      } else if (results.error === 2) {
         res.status(403).send({error: "Card already exists."});
-      } else if (results.error === 3) {
+      } else if (results.error === 2) {
         res.status(403).send({error: "Parent header does not exist."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
@@ -94,7 +104,7 @@ app.post("/", postCardVal.validation, async (req, res) => {
 
 
 // delete a card
-app.delete("/:cardId", getCardVal.validation, async (req, res) => {
+app.delete("/:cardId", requireAuth, getCardVal.validation, async (req, res) => {
 
   try {
 
@@ -104,7 +114,14 @@ app.delete("/:cardId", getCardVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to delete card."});
+      return;
     }
 
     // delete the card data
@@ -131,7 +148,7 @@ app.delete("/:cardId", getCardVal.validation, async (req, res) => {
 
 
 // update a card
-app.patch("/:cardId", patchCardVal.validation, async (req, res) => {
+app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => {
 
   try {
 
@@ -146,7 +163,14 @@ app.patch("/:cardId", patchCardVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to update card."});
+      return;
     }
 
     // update a card

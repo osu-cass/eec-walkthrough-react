@@ -5,6 +5,10 @@ const express = require("express");
 const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
+  roleCheck,
+  requireAuth
+} = require("../services/authentication/cookieAuth");
+const {
   postHeaderVal,
   getHeaderVal,
   patchHeaderVal
@@ -29,6 +33,7 @@ app.get("/:headerId", getHeaderVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
@@ -50,7 +55,7 @@ app.get("/:headerId", getHeaderVal.validation, async (req, res) => {
 
 
 // create a header
-app.post("/", postHeaderVal.validation, async (req, res) => {
+app.post("/", requireAuth, postHeaderVal.validation, async (req, res) => {
 
   try {
 
@@ -59,26 +64,30 @@ app.post("/", postHeaderVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
     }
 
     const pageId = req.body.pageId;
     const orderIndex = req.body.orderIndex;
     const title = req.body.title;
-    const userId = req.body.userId;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to create header."});
+      return;
+    }
 
     // create a header
-    const results = await createHeader(pageId, orderIndex, title, userId);
+    const results = await createHeader(pageId, orderIndex, title);
 
     if (results.insertId) {
       res.status(201).send(results);
     } else {
 
       if (results.error === 1) {
-        res.status(403).send({error: "Unauthorized user attempting to create header."});
-      } else if (results.error === 2) {
         res.status(403).send({error: "Header already exists."});
-      } else if (results.error === 3) {
+      } else if (results.error === 2) {
         res.status(403).send({error: "Parent page does not exist."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
@@ -95,7 +104,7 @@ app.post("/", postHeaderVal.validation, async (req, res) => {
 
 
 // delete a header
-app.delete("/:headerId", getHeaderVal.validation, async (req, res) => {
+app.delete("/:headerId", requireAuth, getHeaderVal.validation, async (req, res) => {
 
   try {
 
@@ -105,7 +114,14 @@ app.delete("/:headerId", getHeaderVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to delete header."});
+      return;
     }
 
     // delete the header data
@@ -132,7 +148,7 @@ app.delete("/:headerId", getHeaderVal.validation, async (req, res) => {
 
 
 // update a header
-app.patch("/:headerId", patchHeaderVal.validation, async (req, res) => {
+app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res) => {
 
   try {
 
@@ -147,7 +163,14 @@ app.patch("/:headerId", patchHeaderVal.validation, async (req, res) => {
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to update header."});
+      return;
     }
 
     // update a header
