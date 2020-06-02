@@ -242,11 +242,11 @@ async function updateItem(itemId, cardId, parentId, orderIndex, iconType, conten
     // make sure the icon is valid
     if (iconType) {
 
-      sql = "SELECT * " +
+      const sql2 = "SELECT * " +
       "FROM Icons " +
       "WHERE iconType = ?;";
 
-      results = await pool.query(sql, iconType);
+      results = await pool.query(sql2, iconType);
 
       if (!results[0].length) {
         return {error: 4};
