@@ -46,15 +46,19 @@ function  RegisterUser (props) {
 
       } else {
 
-        if (results.status === 403) {
+        obj = await results.json();
+
+        if (results.status === 403 && typeof obj.error !== "undefined") {
           setErrorMessage(obj.error);
+        } else if (results.status === 422) {
+          setErrorMessage("Invalid email address.");
         } else {
-          setErrorMessage("An internal server error occurred while trying to search for a page. Please try again later.");
+          setErrorMessage("An internal server error occurred. Please try again later.");
         }
 
       }
     } catch (err) {
-      setErrorMessage("An internal server error occurred while trying to search for a page. Please try again later.");
+      setErrorMessage("An internal server error occurred. Please try again later.");
     }
     setLoading(false);
   }
