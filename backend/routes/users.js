@@ -168,6 +168,13 @@ app.post("/", postUserVal.validation, async (req, res) => {
     const results = await createUser(username, password, firstName, lastName, email);
 
     if (results.insertId) {
+
+      // automatically sign in the new user with a JWT
+      const token = generateAuthToken(results.insertId);
+
+      // set authentication cookies for the current user
+      setAuthCookie(res, token, username, results.insertId, 1);
+
       res.status(201).send(results);
     } else {
 
