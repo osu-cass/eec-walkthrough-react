@@ -4,6 +4,7 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import {withRouter} from "react-router-dom";
 import Error from "./Error";
 import {logout} from "../utilities/cookieAuth";
+import "./Login.css";
 
 // login button, acts as the logout button when a user is already logged in
 function Login (props) {
@@ -115,6 +116,18 @@ function Login (props) {
 
   }
 
+  // clean up modal and go to registration page
+  function registerHandler(e) {
+
+    // prevent the default behavior of the form button
+    e.preventDefault();
+
+    // clean up the modal and go to the registration page
+    $("#loginModal").modal("hide");
+    props.history.push(`/register-user`);
+
+}
+
   // render a logout button if the user is already logged in,
   // otherwise render a login button and modal
   if (props.role) {
@@ -161,6 +174,7 @@ function Login (props) {
               </div>
               <div className="modal-body">
                 <Form>
+
                   <Form.Group>
                     <Form.Label className="mr-2">username</Form.Label>
                     <Form.Control
@@ -170,6 +184,7 @@ function Login (props) {
                       placeholder="Enter username"
                     />
                   </Form.Group>
+
                   <Form.Group>
                     <Form.Label className="mr-2">Password</Form.Label>
                     <Form.Control
@@ -178,13 +193,22 @@ function Login (props) {
                       id="password-control"
                       placeholder="Enter password"
                     />
+                  </Form.Group>
+
                   <Error
                     empty={!!errorMessage.length}
                     message={errorMessage}
                   />
-                  </Form.Group>
+
+                  <button id="no-account-login"
+                    onClick={(e) => registerHandler(e)}
+                  >
+                    Don't have an account?
+                  </button>
+
                 </Form>
                 <div className="modal-footer">
+
                   <button
                     type="button"
                     className="btn btn-secondary"
@@ -192,6 +216,7 @@ function Login (props) {
                   >
                     Cancel
                   </button>
+
                   <button
                     type="submit"
                     className="btn btn-success"
@@ -201,6 +226,7 @@ function Login (props) {
                   >
                     Login
                   </button>
+
                   <LoadingOverlay loading={loading} />
                 </div>
               </div>
