@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import LoadingOverlay from "../components/LoadingOverlay";
-import {withRouter} from "react-router-dom";
 import Error from "../components/Error";
 import "../components/RegisterUser.css";
 
@@ -41,8 +40,8 @@ function  RegisterUser (props) {
 
         obj = await results.json();
 
-        // we have created the new user, return to the home page
-        props.history.push(`/`);
+        // we have created the new user, return to the homepage
+        window.location.href = "/";
 
       } else {
 
@@ -187,4 +186,4 @@ function  RegisterUser (props) {
     </div>
   )
 }
-export default withRouter(RegisterUser);
+export default RegisterUser;
