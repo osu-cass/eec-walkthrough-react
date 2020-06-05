@@ -21,12 +21,12 @@ function Login (props) {
 
       // make sure the username and password are the correct number of characters
       if (username.length < 5 || username.length > 50) {
-        setErrorMessage("username must be between 5 and 50 characters long.");
+        setErrorMessage("username must be at least 5 characters long.");
         setLoading(false);
         return;
       }
       if (password.length < 8 || password.length > 50) {
-        setErrorMessage("Password must be between 8 and 50 characters long.");
+        setErrorMessage("Password must be at least 8 characters long.");
         setLoading(false);
         return;
       }
@@ -63,7 +63,7 @@ function Login (props) {
 
         obj = await results.json();
 
-        if (results.status === 400) {
+        if (results.status === 400 && typeof obj.error !== "undefined") {
           setErrorMessage(obj.error);
         } else {
           setErrorMessage("An internal server error occurred. Please try again later.");
@@ -172,8 +172,10 @@ function Login (props) {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
+
+              <Form>
+
               <div className="modal-body">
-                <Form>
 
                   <Form.Group>
                     <Form.Label className="mr-2">username</Form.Label>
@@ -182,6 +184,7 @@ function Login (props) {
                       type="username"
                       id="username-control"
                       placeholder="Enter username"
+                      maxLength="50"
                     />
                   </Form.Group>
 
@@ -192,6 +195,7 @@ function Login (props) {
                       type="password"
                       id="password-control"
                       placeholder="Enter password"
+                      maxLength="50"
                     />
                   </Form.Group>
 
@@ -200,22 +204,13 @@ function Login (props) {
                     message={errorMessage}
                   />
 
-                  <button id="no-account-login"
+                  <div id="no-account-login"
                     onClick={(e) => registerHandler(e)}
                   >
                     Don't have an account?
-                  </button>
+                  </div>
 
-                </Form>
                 <div className="modal-footer">
-
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    data-dismiss="modal"
-                  >
-                    Cancel
-                  </button>
 
                   <button
                     type="submit"
@@ -227,9 +222,21 @@ function Login (props) {
                     Login
                   </button>
 
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+
                   <LoadingOverlay loading={loading} />
                 </div>
+
               </div>
+
+            </Form>
+
             </div>
           </div>
         </div>
