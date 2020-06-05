@@ -3,6 +3,7 @@ import Subject from "./pages/Subject";
 import Home from "./pages/Home";
 import ManageUsers from "./pages/ManageUsers";
 import Search from "./pages/Search";
+import RegisterUser from "./pages/RegisterUser";
 import NavBar from "./components/NavBar";
 import Sidebar from "./components/Sidebar";
 import { Route, Switch } from "react-router-dom";
@@ -27,7 +28,7 @@ class App extends React.Component {
 	};
 	
 	handleLoginStatusChange = () => {
-    this.setState({ loginStatusChange: !this.state.loginStatusChange });
+		this.setState({ loginStatusChange: !this.state.loginStatusChange });
 	}
 
 	render() {
@@ -60,6 +61,9 @@ class App extends React.Component {
 					</Route>
 					<Route path='/manage-users'>
 						<ManageUsers />
+					</Route>
+					<Route path='/register-user'>
+						<RegisterUser />
 					</Route>
 					<Route exact path='/'>
 						<Home />
