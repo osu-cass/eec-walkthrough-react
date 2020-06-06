@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {Card} from "react-bootstrap";
 import LoadingOverlay from "../components/LoadingOverlay";
 import Error from "../components/Error";
 import "../components/RegisterUser.css";
@@ -123,66 +124,65 @@ function  RegisterUser (props) {
   return (
     <div className="container">
         <LoadingOverlay loading={loading} />
+				<Card>
+					<Card.Header as="h2">Registration Form</Card.Header>
+					<div id="user-register-container" className="p-2 my-2 text-dark-50 bg-white ">
+						<form id="register-form" onSubmit={(e) => submitHandler(e)}>
+							<div className="form-group m-3">
 
-        <div id="user-register-container" className="justify-content-between p-3 my-3 text-dark-50 bg-white rounded shadow">
+								<label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+									Username
+								</label>
+								<input type="text" className="form-control mx-2 mb-4"
+									id="input-register-username" maxLength="50" />
 
-          <form id="register-form" onSubmit={(e) => submitHandler(e)}>
-            <div className="form-group m-3">
+								<label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+									Email
+								</label>
+								<input type="email" className="form-control mx-2 mb-4"
+									id="input-register-email" maxLength="100" />
 
-              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
-                Username
-              </label>
-              <input type="text" className="form-control mx-2 mb-4"
-                id="input-register-username" maxLength="50" />
+								<label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+									First Name
+								</label>
+								<input type="text" className="form-control mx-2 mb-4"
+									id="input-register-first" maxLength="50" />
 
-              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
-                Email
-              </label>
-              <input type="email" className="form-control mx-2 mb-4"
-                id="input-register-email" maxLength="100" />
+								<label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+									Last Name
+								</label>
+								<input type="text" className="form-control mx-2 mb-4"
+									id="input-register-last" maxLength="50" />
 
-              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
-                First Name
-              </label>
-              <input type="text" className="form-control mx-2 mb-4"
-                id="input-register-first" maxLength="50" />
+								<label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+									Password
+								</label>
+								<input type="password" className="form-control mx-2 mb-4"
+									id="input-register-password" maxLength="50"
+									autocomplete="new-password" />
 
-              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
-                Last Name
-              </label>
-              <input type="text" className="form-control mx-2 mb-4"
-                id="input-register-last" maxLength="50" />
+								<label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+									Retype Password
+								</label>
+								<input type="password" className="form-control mx-2 mb-4"
+									id="input-register-password-re" maxLength="50"
+									autocomplete="new-password" />
 
-              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
-                Password
-              </label>
-              <input type="password" className="form-control mx-2 mb-4"
-                id="input-register-password" maxLength="50"
-                autocomplete="new-password" />
+								<div className="ml-2 my-3 pl-2">
+									<Error
+										empty={!!errorMessage.length}
+										message={errorMessage}
+									/>
+								</div>
 
-              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
-                Retype Password
-              </label>
-              <input type="password" className="form-control mx-2 mb-4"
-                id="input-register-password-re" maxLength="50"
-                autocomplete="new-password" />
+								<button type="submit" id="search-user-button" className="btn btn-info m-2">
+									Register
+								</button>
 
-              <div className="ml-2 my-3 pl-2">
-                <Error
-                  empty={!!errorMessage.length}
-                  message={errorMessage}
-                />
-              </div>
-
-              <button type="submit" id="search-user-button" className="btn btn-info m-2">
-                Register
-              </button>
-
-            </div>
-          </form>
-
-        </div>
-
+							</div>
+						</form>
+					</div>
+				</Card>
     </div>
   )
 }
