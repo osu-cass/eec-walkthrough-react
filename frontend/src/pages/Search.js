@@ -93,12 +93,12 @@ function  Search (props) {
         if (results.status === 404) {
           setPages([]);
         } else {
-          console.error("An internal server error occurred while trying to search for a page. Please try again later.")
+          console.error("An internal server error occurred while trying to search for a page. Please try again later.");
         }
 
       }
     } catch (err) {
-      console.error("An internal server error occurred while trying to search for a page. Please try again later.\n", err)
+      console.error("An internal server error occurred while trying to search for a page. Please try again later.");
     }
     setPageLoading(false);
   }

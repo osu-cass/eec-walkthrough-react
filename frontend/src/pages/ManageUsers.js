@@ -90,7 +90,7 @@ function ManageUsers(props) {
         if (results.status === 404) {
           setErrorMessage("No matching users found.");
           setUsers([]);
-        } else if (results.status === 500) {
+        } else if (results.status === 500 || typeof obj.error === "undefined") {
           setErrorMessage("An internal server error occurred. Please try again later.");
         } else {
           console.log(obj.error);

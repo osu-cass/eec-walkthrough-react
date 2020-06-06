@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: classmysql.engr.oregonstate.edu:3306
--- Generation Time: May 31, 2020 at 02:26 PM
+-- Generation Time: Jun 04, 2020 at 11:40 PM
 -- Server version: 10.4.11-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -21,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `capstone_2019_thomasza`
 --
-CREATE DATABASE IF NOT EXISTS `capstone_2019_thomasza` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `capstone_2019_thomasza`;
 
 -- --------------------------------------------------------
 
@@ -49,7 +47,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `orderIndex`, `title`, `userId`, `cre
 (2, 3, 1, 'Danger', 2, '2020-05-22 21:22:22', 1),
 (3, 1, 2, 'Figures, Charts, and Tables', 2, '2020-05-23 17:18:45', 1),
 (8, 2, 1, 'Reduce Compressed Air Pressure\r\n', 1, '2020-05-22 21:22:22', 1),
-(9, 1, 1, 'Pros', 1, '2020-05-23 17:18:47', 1),
+(9, 1, 1, 'Pros', 1, '2020-06-02 20:58:31', 1),
 (13, 1, 1, 'Cons', 1, '2020-05-23 22:20:20', 0),
 (16, 1, 1, 'Caveats', 1, '2020-05-23 22:27:44', 0),
 (17, 1, 1, 'Best Practices', 1, '2020-05-23 22:28:37', 0),
@@ -58,7 +56,10 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `orderIndex`, `title`, `userId`, `cre
 (27, 2, 2, 'Reduce Compressed Air Required', 1, '2020-05-23 23:11:46', 0),
 (29, 1, 9, 'Site Resource Test', 1, '2020-05-24 15:42:55', 0),
 (30, 3, 4, 'Test', 1, '2020-05-25 03:22:57', 0),
-(36, 1, 9, 'Test', 1, '2020-05-26 21:16:51', 0);
+(36, 1, 9, 'Test', 1, '2020-05-26 21:16:51', 0),
+(41, 3, 4, 'a', 1, '2020-06-02 22:51:25', 0),
+(42, 3, 5, 'swa', 1, '2020-06-02 22:52:01', 0),
+(43, 4, 1, 'Test', 1, '2020-06-03 00:27:34', 0);
 
 -- --------------------------------------------------------
 
@@ -180,8 +181,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `parentId`, `iconType`, `
 (8, 3, 1, NULL, 20, '', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg/1024px-Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg', 'Technical Illustration of a two-stage air compressor', 2, '2020-05-22 22:33:57', 1),
 (23, 8, 1, NULL, 8, 'Reduced air pressure not only reduces air compressor energy required for a set volume of air, it will also result in less air volume consumed by leaks and unregulated air uses (although it can be hard to estimate the volume reduction).\r\n', '', '', 1, '2020-05-22 21:23:14', 1),
 (24, 8, 1, NULL, 11, 'System pressure is set over 100 PSI for a compressed air system serving standard industrial utilities and controls.\r\n', '', '', 2, '2020-05-22 21:23:14', 1),
-(25, 9, 1, NULL, 1, 'Versatile. Offers compact energy density. Easy quick fix for many issues. Familiar utility for industrial personnel.\r\n', '', '', 1, '2020-05-22 21:23:14', 1),
-(26, 9, 1, NULL, 1, 'Spark free for potentially explosive environments\r\n', '', '', 2, '2020-05-22 21:23:14', 1),
+(25, 9, 1, NULL, 1, 'Versatile. Offers compact energy density. Easy quick fix for many issues. ', '', '', 1, '2020-06-02 22:38:04', 1),
+(26, 9, 2, NULL, 1, 'Spark free for potentially explosive environments', '', '', 2, '2020-06-02 22:38:17', 1),
 (28, 16, 1, NULL, 5, 'May be windy', '', '', 1, '2020-05-23 22:30:55', 0),
 (29, 17, 1, NULL, 7, 'Looped distribution systems can help maintain uniform pressure throughout a compressed air system.', '', '', 1, '2020-05-23 22:30:57', 0),
 (30, 17, 2, NULL, 7, 'Well sized compressed air lines reduce pressure loss', '', '', 1, '2020-05-23 22:30:58', 0),
@@ -204,7 +205,14 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `parentId`, `iconType`, `
 (75, 30, 2, NULL, 14, 'Some text about boilers', '', '', 1, '2020-05-25 03:22:57', 0),
 (76, 30, 3, NULL, 19, 'Hurst Series 300', 'https://www.hurstboiler.com/boilers/scotch_marine/series_300', 'Big boiler link', 1, '2020-05-26 21:02:19', 0),
 (84, 36, 1, NULL, 2, 'Test', '', '', 1, '2020-05-26 21:16:51', 0),
-(85, 36, 2, NULL, 20, '', 'https://images-na.ssl-images-amazon.com/images/I/81LtIK5MYQL._AC_SY450_.jpg', 'Test', 1, '2020-05-26 21:16:51', 0);
+(85, 36, 2, NULL, 20, '', 'https://images-na.ssl-images-amazon.com/images/I/81LtIK5MYQL._AC_SY450_.jpg', 'Test', 1, '2020-05-26 21:16:51', 0),
+(90, 9, 1, 25, 5, 'test', '', '', 1, '2020-06-02 22:42:01', 0),
+(91, 41, 1, NULL, 4, 'a', '', '', 1, '2020-06-02 22:51:25', 0),
+(92, 42, 1, NULL, 9, 'a', '', '', 1, '2020-06-02 22:52:01', 0),
+(93, 42, 2, 92, 20, 'b', '', '', 1, '2020-06-02 22:52:01', 0),
+(94, 42, 3, 93, 20, 'c', '', '', 1, '2020-06-02 22:52:02', 0),
+(95, 42, 4, 93, 18, 'd', '', '', 1, '2020-06-02 22:52:02', 0),
+(96, 42, 5, 95, 10, 'e', '', '', 1, '2020-06-02 22:52:02', 0);
 
 -- --------------------------------------------------------
 
@@ -248,7 +256,7 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 CREATE TABLE `Users` (
   `userId` int(10) UNSIGNED NOT NULL,
   `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `firstName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `lastName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -260,7 +268,7 @@ CREATE TABLE `Users` (
 --
 
 INSERT INTO `Users` (`userId`, `username`, `password`, `firstName`, `lastName`, `email`, `role`) VALUES
-(1, 'John1234', 'XozpE-34__woqpZX', 'John', 'Doe', 'doejohn@oregonstate.edu', 3),
+(1, 'John1234', 'XozpE-34__woqpZX', 'John', 'Doe', 'doejohn@oregonstate.edu', 4),
 (2, 'Jane5678', 'iopwerZowPo!', 'Jane', 'Doe', 'doejane@oregonstate.edu', 3),
 (8, 'KayVan', 'aerw34234dwsr24', 'Kyra', 'Vannest', 'kyra@gmail.com', 2),
 (9, 'Emmmm', 'dafs234@!0234', 'Emmie', 'Henningsen', 'hennemmi@gmail.com', 3),
@@ -269,7 +277,7 @@ INSERT INTO `Users` (`userId`, `username`, `password`, `firstName`, `lastName`, 
 (12, 'Lori1', 'wer0-=3249C', 'Lori', 'Prettyman', 'Lori1@gmail.com', 4),
 (13, 'Brandee', 'aposirfewior$234', 'Brandee', 'Rentz', 'Brandee@gmail.com', 2),
 (14, 'Cathie322', 'wep[ro23@#$234', 'Cathie', 'Brindle', 'Cathie322@gmail.com', 2),
-(15, 'Anton6', 'oasopi0-324', 'Antonetta', 'Owuso', 'Anton6@gmail.com', 1),
+(15, 'Anton6', 'oasopi0-324', 'Antonetta', 'Owuso', 'Anton6@gmail.com', 2),
 (16, 'Roy321', ']2[34o2340-kcopzf', 'Roy', 'Wrinkle', 'Roy321@yahoo.com', 1),
 (17, 'Eddie111', 'ewoep[o23[op4', 'Eddie', 'Beaufort', 'Eddie111@yahoo.com', 1),
 (18, 'Cindi95', 'wp[erpo[234#234', 'Cindi', 'Beaufort', 'Cindi95@msn.com', 1),
@@ -294,8 +302,10 @@ INSERT INTO `Users` (`userId`, `username`, `password`, `firstName`, `lastName`, 
 (37, 'Lois99', '324324234a[]pr][werp[]we', 'Lois', 'Malin', 'Lois99@gmail.com', 1),
 (38, 'Gemstone42', 'dsap][fp][we][prw2423=-4', 'Amber', 'Liakos', 'Amber@gmail.com', 1),
 (39, 'Bambi22', 'ootrioytoipryirty222', 'Bambi', 'Heuer', 'Bambi22@gmail.com', 3),
-(40, 'Merriam', ']we[]rewp[rewp[wrep[34234', 'Dominica', 'Merriam', 'Merriam@yahoo.com', 1),
-(41, 'Seth45', 'oteroipietroitroeiporte888', 'Seth', 'Kratzer', 'Seth45@yahoo.com', 1);
+(40, 'Merriam', ']we[]rewp[rewp[wrep[34234', 'Dominica', 'Merriam', 'Merriam@yahoo.com', 2),
+(41, 'Seth45', 'oteroipietroitroeiporte888', 'Seth', 'Kratzer', 'Seth45@yahoo.com', 1),
+(42, 'Silverware', 'wd#X_o@32--41Z!', 'Zachary', 'Thomas', 'thomasza@oregonstate.edu', 4),
+(46, 'new123', 'passwordnum', 'Tom', 'Bob', 'someemail@gmail.com', 1);
 
 --
 -- Indexes for dumped tables
@@ -366,7 +376,7 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `Headers`
@@ -384,19 +394,19 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- Constraints for dumped tables
