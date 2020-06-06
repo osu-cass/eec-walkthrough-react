@@ -178,7 +178,7 @@ function Login (props) {
               <div className="modal-body">
 
                   <Form.Group>
-                    <Form.Label className="mr-2">username</Form.Label>
+                    <Form.Label className="mr-2">Username</Form.Label>
                     <Form.Control
                       className="form-control"
                       type="username"
