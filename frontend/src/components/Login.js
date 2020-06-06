@@ -4,6 +4,7 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import {withRouter} from "react-router-dom";
 import Error from "./Error";
 import {logout} from "../utilities/cookieAuth";
+import "./Login.css";
 
 // login button, acts as the logout button when a user is already logged in
 function Login (props) {
@@ -20,12 +21,12 @@ function Login (props) {
 
       // make sure the username and password are the correct number of characters
       if (username.length < 5 || username.length > 50) {
-        setErrorMessage("username must be between 5 and 50 characters long.");
+        setErrorMessage("username must be at least 5 characters long.");
         setLoading(false);
         return;
       }
       if (password.length < 8 || password.length > 50) {
-        setErrorMessage("Password must be between 8 and 50 characters long.");
+        setErrorMessage("Password must be at least 8 characters long.");
         setLoading(false);
         return;
       }
@@ -37,7 +38,7 @@ function Login (props) {
       }
 
       // construct the request url
-      const postUrl = `/users/login`;
+      const postUrl = "/users/login";
       let obj = [];
 
       // make the request
@@ -62,7 +63,7 @@ function Login (props) {
 
         obj = await results.json();
 
-        if (results.status === 400) {
+        if (results.status === 400 && typeof obj.error !== "undefined") {
           setErrorMessage(obj.error);
         } else {
           setErrorMessage("An internal server error occurred. Please try again later.");
@@ -115,6 +116,18 @@ function Login (props) {
 
   }
 
+  // clean up modal and go to registration page
+  function registerHandler(e) {
+
+    // prevent the default behavior of the form button
+    e.preventDefault();
+
+    // clean up the modal and go to the registration page
+    $("#loginModal").modal("hide");
+    props.history.push(`/register-user`);
+
+}
+
   // render a logout button if the user is already logged in,
   // otherwise render a login button and modal
   if (props.role) {
@@ -159,17 +172,22 @@ function Login (props) {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
+
+              <Form>
+
               <div className="modal-body">
-                <Form>
+
                   <Form.Group>
-                    <Form.Label className="mr-2">username</Form.Label>
+                    <Form.Label className="mr-2">Username</Form.Label>
                     <Form.Control
                       className="form-control"
                       type="username"
                       id="username-control"
                       placeholder="Enter username"
+                      maxLength="50"
                     />
                   </Form.Group>
+
                   <Form.Group>
                     <Form.Label className="mr-2">Password</Form.Label>
                     <Form.Control
@@ -177,21 +195,23 @@ function Login (props) {
                       type="password"
                       id="password-control"
                       placeholder="Enter password"
+                      maxLength="50"
                     />
+                  </Form.Group>
+
                   <Error
                     empty={!!errorMessage.length}
                     message={errorMessage}
                   />
-                  </Form.Group>
-                </Form>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    data-dismiss="modal"
+
+                  <div id="no-account-login"
+                    onClick={(e) => registerHandler(e)}
                   >
-                    Cancel
-                  </button>
+                    Don't have an account?
+                  </div>
+
+                <div className="modal-footer">
+
                   <button
                     type="submit"
                     className="btn btn-success"
@@ -201,9 +221,22 @@ function Login (props) {
                   >
                     Login
                   </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+
                   <LoadingOverlay loading={loading} />
                 </div>
+
               </div>
+
+            </Form>
+
             </div>
           </div>
         </div>
