@@ -3,6 +3,7 @@ import {Card, Container} from "react-bootstrap";
 import {getProfile} from "../utilities/cookieAuth";
 import LoadingOverlay from "../components/LoadingOverlay";
 import Error from "../components/Error";
+import Success from "../components/Success";
 import "../components/RegisterUser.css";
 
 // edit user details page
@@ -12,6 +13,7 @@ function EditUser (props) {
   const [activeUser, setActiveUser] = useState(true);
   const [changePassword, setChangePassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   // load user when page loads
   useEffect(() => {
@@ -19,27 +21,40 @@ function EditUser (props) {
   }, []);
 
   // attempt to change user details
-  async function updateUser(username, email, first, last, passwordOld, passwordNew) {
+  async function updateUser(username, email, first, last, oldPassword, newPassword) {
     try {
       setLoading(true);
 
       // construct the request body
-      const postObj = {
-        username: username,
-        passwordNew: passwordNew,
-        passwordOld: passwordOld,
-        firstName: first,
-        lastName: last,
-        email: email
+      let postObj = {};
+      if (changePassword) {
+        postObj = {
+          username: username,
+          newPassword: newPassword,
+          oldPassword: oldPassword,
+          firstName: first,
+          lastName: last,
+          email: email
+        }
+      } else {
+        postObj = {
+          username: username,
+          firstName: first,
+          lastName: last,
+          email: email
+        }
       }
 
+      // get current user info
+      const currentUser = getProfile();
+
       // construct the request url
-      const postUrl = "/users";
+      const postUrl = `/users/${currentUser.userId}`;
       let obj = [];
 
       // make the request
       const results = await fetch(postUrl, {
-        method: "POST",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json"
         },
@@ -49,26 +64,31 @@ function EditUser (props) {
       if (results.ok) {
 
         obj = await results.json();
-        document.getElementById("input-register-username").value = results.username;
-        document.getElementById("input-register-email").value = results.email;
-        document.getElementById("input-register-first").value = results.firstName;
-        document.getElementById("input-register-last").value = results.lastName;
+
+        if (obj.changedRows) {
+          setSuccessMessage("User data updated successfully.");
+          setErrorMessage("");
+        } else {
+          setSuccessMessage("No changes were required.");
+          setErrorMessage("");
+        }
 
       } else {
 
         obj = await results.json();
 
-        if (results.status === 403 && typeof obj.error !== "undefined") {
+        if (results.status >= 400 && results.status < 500 && typeof obj.error !== "undefined") {
           setErrorMessage(obj.error);
-        } else if (results.status === 422) {
-          setErrorMessage("Invalid email address.");
+          setSuccessMessage("");
         } else {
           setErrorMessage("An internal server error occurred. Please try again later.");
+          setSuccessMessage("");
         }
 
       }
     } catch (err) {
       setErrorMessage("An internal server error occurred. Please try again later.");
+      setSuccessMessage("");
     }
     setLoading(false);
   }
@@ -108,10 +128,12 @@ function EditUser (props) {
         document.getElementById("input-register-last").value = obj.lastName;
 
       } else {
-          setErrorMessage("An internal server error occurred. Please try again later.");
+        setErrorMessage("An internal server error occurred. Please try again later.");
+        setSuccessMessage("");
       }
     } catch (err) {
       setErrorMessage("An internal server error occurred. Please try again later.");
+      setSuccessMessage("");
     }
     setLoading(false);
   }
@@ -127,9 +149,15 @@ function EditUser (props) {
     const email = document.getElementById("input-register-email").value;
     const first = document.getElementById("input-register-first").value;
     const last = document.getElementById("input-register-last").value;
-    const passwordOld = document.getElementById("input-register-password-old").value;
-    const passwordNew1 = document.getElementById("input-register-password-new-1").value;
-    const passwordNew2 = document.getElementById("input-register-password-new-2").value;
+    let oldPassword = "";
+    let newPassword1 = "";
+    let newPassword2 = "";
+
+    if (changePassword) {
+      oldPassword = document.getElementById("input-register-password-old").value;
+      newPassword1 = document.getElementById("input-register-password-new-1").value;
+      newPassword2 = document.getElementById("input-register-password-new-2").value;
+    }
 
     // basic email regular expression
     const reg = /\S+@\S+\.\S+/;
@@ -137,41 +165,50 @@ function EditUser (props) {
     // check that all inputs are valid
     if(username.length < 5) {
       setErrorMessage("Username must be at least 5 characters long.");
+      setSuccessMessage("");
       return;
     }
 
     if(!reg.test(email)) {
       setErrorMessage("Invalid email address.");
+      setSuccessMessage("");
       return;
     }
 
     if(email.length < 1) {
       setErrorMessage("An email address is required.");
+      setSuccessMessage("");
       return;
     }
 
     if(first.length < 1) {
       setErrorMessage("A first name is required.");
+      setSuccessMessage("");
       return;
     }
 
     if(last.length < 1) {
       setErrorMessage("A last name is required.");
+      setSuccessMessage("");
       return;
     }
 
-    if(passwordOld.length < 8 || passwordNew1.length < 8) {
-      setErrorMessage("Password must be at least 8 characters long.");
-      return;
-    }
+    if (changePassword) {
+      if(oldPassword.length < 8 || newPassword1.length < 8) {
+        setErrorMessage("Password must be at least 8 characters long.");
+        setSuccessMessage("");
+        return;
+      }
 
-    if(passwordNew1 !== passwordNew2) {
-      setErrorMessage("Both new passwords must match.");
-      return;
+      if(newPassword1 !== newPassword2) {
+        setErrorMessage("Both new passwords must match.");
+        setSuccessMessage("");
+        return;
+      }
     }
 
     // update user info
-    updateUser(username, email, first, last, passwordOld, passwordNew1);
+    updateUser(username, email, first, last, oldPassword, newPassword1);
 
   }
 
@@ -191,7 +228,7 @@ function EditUser (props) {
       <div className="container">
           <LoadingOverlay loading={loading} />
           <Card className="my-2 mb-5" id="user-register-container">
-            <Card.Header as="h2">Edit User Information</Card.Header>
+            <Card.Header as="h2">Change User Information</Card.Header>
             <div className="p-2 my-2 text-dark-50 bg-white" >
                 <div className="form-group m-3">
 
@@ -224,29 +261,33 @@ function EditUser (props) {
                       <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                         Old Password
                       </label>
-                        <input type="password" className="form-control mx-2 mb-4"
-                          id="input-register-password-old" maxLength="50"
-                          autocomplete="new-password" />
+                      <input type="password" className="form-control mx-2 mb-4"
+                        id="input-register-password-old" maxLength="50"
+                        autoComplete="new-password" />
 
                       <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                         New Password
                       </label>
                       <input type="password" className="form-control mx-2 mb-4"
-                        id="input-register-password-new1" maxLength="50"
-                        autocomplete="new-password" />
+                        id="input-register-password-new-1" maxLength="50"
+                        autoComplete="new-password" />
 
                       <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                         Retype New Password
                       </label>
                       <input type="password" className="form-control mx-2 mb-4"
-                        id="input-register-password-new2" maxLength="50"
-                        autocomplete="new-password" />
+                        id="input-register-password-new-2" maxLength="50"
+                        autoComplete="new-password" />
                     </div>
                   ) : (
                     null
                   )}
 
                   <div className="ml-2 my-3 pl-2">
+                    <Success
+                      empty={!!successMessage.length}
+                      message={successMessage}
+                    />
                     <Error
                       empty={!!errorMessage.length}
                       message={errorMessage}

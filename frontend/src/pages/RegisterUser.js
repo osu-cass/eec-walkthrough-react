@@ -50,8 +50,6 @@ function RegisterUser (props) {
 
         if (results.status === 403 && typeof obj.error !== "undefined") {
           setErrorMessage(obj.error);
-        } else if (results.status === 422) {
-          setErrorMessage("Invalid email address.");
         } else {
           setErrorMessage("An internal server error occurred. Please try again later.");
         }
