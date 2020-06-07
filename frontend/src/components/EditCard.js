@@ -12,7 +12,8 @@ class EditCard extends React.Component {
 	state = {
 		counter: 0, //count number of inputs added
 		title: "",
-		items: [],
+		items: [], //current items have current 1, new items have current 0
+		toDelete: [], //hold the ids to be deleted on "Remove"
 		show: false,
 		loaded: false,
 		emptyInputs: false
@@ -35,10 +36,13 @@ class EditCard extends React.Component {
 			itemData.depth = this.findDepth(itemData, items, i); //if null parent ? return 0 : if parentID[i-1] === null => depth = 1; else if parentId[i-1] === parentId[i] => depth = parentDepth[i-1] 
 			itemData.icon = item.iconType;
 			itemData.contentType = this.getContentType(item.contentText, item.contentLabel, item.contentUrl);
+			itemData.current = 1;
+			itemData.orderIndex = item.orderIndex;
 			items.push(itemData);
 			counter++;
 		});
 		await this.setState({ items: items });
+		console.log(this.props.items);
 		this.setState({ counter: counter });
 		await this.setState({ title: this.props.cardName })
 		this.setState({ loaded: true });
@@ -113,6 +117,7 @@ class EditCard extends React.Component {
 		item.depth = copy[idx].depth + 1;
 		item.icon = null;
 		item.contentType = 1;
+		item.current = 0;
 
 		//Increment counter and insert child
 		copy.splice(idx + 1, 0, item);	//Initialize empty
@@ -130,14 +135,16 @@ class EditCard extends React.Component {
 			console.log("error ", idx, this.state.items);
 			return;
 		}
-
 		idx = parseInt(idx);
+
+		let toDelete = [...this.state.toDelete];
 		let copy = [...this.state.items];
 		let i, remove = 1, parent = copy[idx].depth, start = idx + 1;
 
 		// Delete children if any (if greater than parent subpoint depth, it is a child)
 		if (idx !== this.state.items.length - 1) {
 			for (i = start; i < this.state.items.length && parent < copy[i].depth; i++) {
+				toDelete.push(this.state.items[i].itemId)
 				remove++;
 			}
 		}
@@ -148,6 +155,10 @@ class EditCard extends React.Component {
 		copy.splice(idx, remove);	//Initialize empty
 		this.setState({ items: copy });
 		this.setState({ counter: count - remove });
+
+		//Set up Ids to be deleted
+		toDelete.push(this.state.items[idx].itemId);
+		this.setState({ toDelete: toDelete });
 	}
 
 	/**
@@ -168,7 +179,21 @@ class EditCard extends React.Component {
 		return closestIdx !== null ? ids[closestIdx] : null;
 	}
 
+	findOrderIndex(i) {
+		let items = this.state.items;
+		//base case
+		if (i === 0 || items[i].depth === 0)
+			return 1;
+		//if left depth is smaller, this is a new "group". order index restarts at 1
+		if (items[i - 1].depth < items[i].depth)
+			return 1;
+		//if left sibling of item has same depth, order index inc
+		if (items[i - 1].depth === items[i].depth)
+			return items[i - 1].depth + 1;
+	}
+
 	handleSubmit = async () => {
+		console.log(this.state.items);
 		//Check for empty inputs
 		if (this.checkInputs()) {
 			return
@@ -188,8 +213,6 @@ class EditCard extends React.Component {
 		//Store item ids to handle parentId 
 		let itemIds = [];
 
-		console.log(cardData);
-
 		//Create new card
 		await fetch(`/cards/${this.props.cardId}`, {
 			method: 'PATCH',
@@ -203,27 +226,45 @@ class EditCard extends React.Component {
 		}).then(async (cardData) => {
 			//Loop through state items and create 
 			for (const key in this.state.items) {
+				let current = this.state.items[key].current;
 				let itemData = {
-					itemId: this.state.items[key].itemId,
 					cardId: this.props.cardId,
-					orderIndex: parseInt(key) + 1,
 					contentText: this.state.items[key].content.text,
 					contentLabel: this.state.items[key].content.label,
 					contentUrl: this.state.items[key].content.url,
 					iconType: this.state.items[key].icon,
-					parentId: this.findParent(key, this.state.items[key].depth, itemIds),
 					approved: 1 //temporary placeholder
 				}
-				console.log(itemData)
-				//Items can be dependent on previous item to be created (parentId), use await
-				await fetch(`/items/${itemData.itemId}`, {
-					method: 'PATCH',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(itemData)
-				})
-					.then(function (res) {
-						return res.json()
+				console.log(itemData, current)
+				if (current) {
+					itemData.itemId = this.state.items[key].itemId;
+					itemData.orderIndex = this.findOrderIndex(key);
+					itemData.parentId = this.state.items[key].parentId;
+					fetch(`/items/${itemData.itemId}`, {
+						method: 'PATCH',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(itemData)
 					})
+						.then((response) => response.json())
+						.then(itemIds.push(itemData.itemId))
+				} else {
+					//Items can be dependent on previous item to be created (parentId), use await
+					itemData.parentId = this.findParent(key, this.state.items[key].depth, itemIds);
+					itemData.userId = 1;
+					itemData.orderIndex = parseInt(key) + 1;
+					console.log("updating...", itemData)
+					await fetch("/items/", {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(itemData)
+					})
+						.then((response) => response.json())
+						.then(function (res) {
+							itemIds.push(res.insertId);
+						}).catch(function (err) {
+							console.log(err);
+						})
+				}
 			}
 		}).catch(function (err) {
 			console.log(err);
@@ -321,7 +362,6 @@ class EditCard extends React.Component {
 	updateIcon(icon, index) {
 		let copy = [...this.state.items];
 		copy[index].icon = icon;
-		console.log(icon, index);
 		this.setState({ items: copy });
 	}
 
@@ -454,6 +494,7 @@ class EditCard extends React.Component {
 					</Modal.Body>
 
 					<Modal.Footer className="modal-footer">
+						<Button variant="warning" onClick={() => console.log(this.state.items, this.state.counter)}>Test</Button>
 						<Button variant="secondary" onClick={this.handleClose}>Close</Button>
 						<Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Create Card</Button>
 					</Modal.Footer>
