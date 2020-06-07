@@ -4,14 +4,14 @@ import LoadingOverlay from "../components/LoadingOverlay";
 import Error from "../components/Error";
 import "../components/RegisterUser.css";
 
-// user registration page
-function RegisterUser (props) {
+// edit user details page
+function EditUser (props) {
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // attempt to register a user
-  async function register(username, email, first, last, password) {
+  // attempt to change user details
+  async function updateUser(username, email, first, last, password) {
     try {
       setLoading(true);
 
@@ -116,8 +116,8 @@ function RegisterUser (props) {
       return;
     }
 
-    // register the new user
-    register(username, email, first, last, password1);
+    // update user info
+    updateUser(username, email, first, last, password1);
 
   }
 
@@ -125,7 +125,7 @@ function RegisterUser (props) {
     <div className="container">
         <LoadingOverlay loading={loading} />
         <Card className="my-2 mb-5" id="user-register-container">
-          <Card.Header as="h2">Register User</Card.Header>
+          <Card.Header as="h2">Edit User Information</Card.Header>
           <div className="p-2 my-2 text-dark-50 bg-white" >
             <form id="register-form" onSubmit={(e) => submitHandler(e)}>
               <div className="form-group m-3">
@@ -155,14 +155,14 @@ function RegisterUser (props) {
                   id="input-register-last" maxLength="50" />
 
                 <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
-                  Password
+                  Old Password
                 </label>
                 <input type="password" className="form-control mx-2 mb-4"
                   id="input-register-password" maxLength="50"
                   autocomplete="new-password" />
 
                 <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
-                  Retype Password
+                  New Password
                 </label>
                 <input type="password" className="form-control mx-2 mb-4"
                   id="input-register-password-re" maxLength="50"
@@ -187,4 +187,4 @@ function RegisterUser (props) {
   )
 
 }
-export default RegisterUser;
+export default EditUser;
