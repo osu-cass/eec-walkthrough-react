@@ -205,7 +205,8 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
 
     const userId = req.params.userId;
     const username = req.body.username;
-    const password = req.body.password;
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
@@ -237,7 +238,7 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
     }
 
     // update a user
-    const results = await updateUser(userId, username, password, firstName, lastName, email, role);
+    const results = await updateUser(userId, username, oldPassword, newPassword, firstName, lastName, email, role);
 
     if (results.changedRows >= 0) {
       res.status(200).send(results);
@@ -246,6 +247,8 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
       if (results.error === 1) {
         res.status(404).send({error: "User not found."});
       } else if (results.error === 2) {
+        res.status(401).send({error: "The old password is incorrect."});
+      } else if (results.error === 3) {
         res.status(422).send({error: "Request doesn't include any fields to update."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
