@@ -147,8 +147,25 @@ class CreateCard extends React.Component {
 		return closestIdx !== null ? ids[closestIdx] : null;
 	}
 
+	findOrderIndex(i) {
+		let items = this.state.items;
+		//base case
+		if (i === 0 || items[i].depth === 0)
+			return 1;
+		//if left depth is smaller, this is a new "group". order index restarts at 1
+		if (items[i - 1].depth < items[i].depth)
+			return 1;
+		//if left sibling of item has same depth, order index inc
+		if (items[i - 1].depth === items[i].depth)
+			return items[i - 1].depth + 1;
+	}
+
 	handleSubmit = async () => {
 		console.log(this.state.items);
+		for (const key in this.state.items) {
+			console.log(key, this.findOrderIndex(key));
+		}
+		return;
 		//Check for empty inputs
 		if (this.checkInputs()) {
 			return
@@ -187,7 +204,7 @@ class CreateCard extends React.Component {
 			//Loop through state items and create 
 			for (const key in this.state.items) {
 				let itemData = {
-					orderIndex: parseInt(key) + 1,
+					orderIndex: this.findOrderIndex(key),
 					contentText: this.state.items[key].content.text,
 					contentLabel: this.state.items[key].content.label,
 					contentUrl: this.state.items[key].content.url,
@@ -195,6 +212,7 @@ class CreateCard extends React.Component {
 					iconType: this.state.items[key].icon,
 					parentId: this.findParent(key, this.state.items[key].depth, itemIds),
 				}
+				console.log(itemData);
 				//Items can be dependent on previous item to be created (parentId), use await
 				await fetch("/items/", {
 					method: 'POST',
@@ -426,6 +444,7 @@ class CreateCard extends React.Component {
 
 					<Modal.Footer className="modal-footer">
 						<Button variant="secondary" onClick={this.handleClose}>Close</Button>
+						<Button variant="warning" onClick={() => console.log(this.state.items)}>Test</Button>
 						<Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Create Card</Button>
 					</Modal.Footer>
 				</Modal>
