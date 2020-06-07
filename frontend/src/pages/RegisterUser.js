@@ -159,14 +159,14 @@ function RegisterUser (props) {
                 </label>
                 <input type="password" className="form-control mx-2 mb-4"
                   id="input-register-password" maxLength="50"
-                  autocomplete="new-password" />
+                  autoComplete="new-password" />
 
                 <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Retype Password
                 </label>
                 <input type="password" className="form-control mx-2 mb-4"
                   id="input-register-password-re" maxLength="50"
-                  autocomplete="new-password" />
+                  autoComplete="new-password" />
 
                 <div className="ml-2 my-3 pl-2">
                   <Error

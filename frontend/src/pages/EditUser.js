@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Card} from "react-bootstrap";
+import {Card, Container} from "react-bootstrap";
 import {getProfile} from "../utilities/cookieAuth";
 import LoadingOverlay from "../components/LoadingOverlay";
 import Error from "../components/Error";
@@ -15,18 +15,19 @@ function EditUser (props) {
 
   // load user when page loads
   useEffect(() => {
-    //
+    getUser();
   }, []);
 
   // attempt to change user details
-  async function updateUser(username, email, first, last, password) {
+  async function updateUser(username, email, first, last, passwordOld, passwordNew) {
     try {
       setLoading(true);
 
       // construct the request body
       const postObj = {
         username: username,
-        password: password,
+        passwordNew: passwordNew,
+        passwordOld: passwordOld,
         firstName: first,
         lastName: last,
         email: email
@@ -48,6 +49,10 @@ function EditUser (props) {
       if (results.ok) {
 
         obj = await results.json();
+        document.getElementById("input-register-username").value = results.username;
+        document.getElementById("input-register-email").value = results.email;
+        document.getElementById("input-register-first").value = results.firstName;
+        document.getElementById("input-register-last").value = results.lastName;
 
       } else {
 
@@ -94,9 +99,13 @@ function EditUser (props) {
 
       if (results.ok) {
 
-        // update the input fields with the data we just got
         obj = await results.json();
 
+        // set the input fields to match the current user data
+        document.getElementById("input-register-username").value = obj.username;
+        document.getElementById("input-register-email").value = obj.email;
+        document.getElementById("input-register-first").value = obj.firstName;
+        document.getElementById("input-register-last").value = obj.lastName;
 
       } else {
           setErrorMessage("An internal server error occurred. Please try again later.");
@@ -118,8 +127,9 @@ function EditUser (props) {
     const email = document.getElementById("input-register-email").value;
     const first = document.getElementById("input-register-first").value;
     const last = document.getElementById("input-register-last").value;
-    const password1 = document.getElementById("input-register-password-old").value;
-    const password2 = document.getElementById("input-register-password-new").value;
+    const passwordOld = document.getElementById("input-register-password-old").value;
+    const passwordNew1 = document.getElementById("input-register-password-new-1").value;
+    const passwordNew2 = document.getElementById("input-register-password-new-2").value;
 
     // basic email regular expression
     const reg = /\S+@\S+\.\S+/;
@@ -150,18 +160,18 @@ function EditUser (props) {
       return;
     }
 
-    if(password1.length < 8) {
+    if(passwordOld.length < 8 || passwordNew1.length < 8) {
       setErrorMessage("Password must be at least 8 characters long.");
       return;
     }
 
-    if(password1 !== password2) {
-      setErrorMessage("Both passwords must match.");
+    if(passwordNew1 !== passwordNew2) {
+      setErrorMessage("Both new passwords must match.");
       return;
     }
 
     // update user info
-    updateUser(username, email, first, last, password1);
+    updateUser(username, email, first, last, passwordOld, passwordNew1);
 
   }
 
@@ -248,7 +258,7 @@ function EditUser (props) {
                     Save changes
                   </button>
 
-                  <button type="button" class="btn btn-secondary" onClick={(e) => passwordHandler(e)}>
+                  <button type="button" className="btn btn-secondary" onClick={(e) => passwordHandler(e)}>
                   {changePassword ? (
                     "Keep Password"
                   ) : (
@@ -263,11 +273,13 @@ function EditUser (props) {
     )
   } else {
     return (
-      <div className="error-message-container">
-        <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
-          <h3 className="py-5 font-weight-bold">User is not currently logged in.</h3>
+      <Container className="text-center my-5">
+        <div className="error-message-container">
+          <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
+            <h3 className="py-5 font-weight-bold">User is not currently logged in.</h3>
+          </div>
         </div>
-      </div>
+      </Container>
     );
   }
 
