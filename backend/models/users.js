@@ -110,7 +110,7 @@ exports.createUser = createUser;
 async function updateUser(userId, username, oldPassword, newPassword, firstName, lastName, email, role) {
 
   try {
-
+    console.log(oldPassword, newPassword);
     const sqlArray = [];
 
     // make sure that the user exists

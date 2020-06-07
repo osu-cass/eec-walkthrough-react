@@ -17,7 +17,6 @@ const {
   loginUserVal,
   searchUserVal
 } = require("../services/validation/requestValidation");
-
 const {
   getUser,
   loginUser,
@@ -212,6 +211,8 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
     const email = req.body.email;
     const role = req.body.role;
     const currentUserId = req.auth.userId;
+
+    console.log(oldPassword, newPassword);
 
     // confirm that the request is valid
     const errors = validationResult(req);
