@@ -1,27 +1,70 @@
 import React from "react";
 import {formatRole} from "../utilities/formatRole";
+import {withRouter} from "react-router-dom";
+import {logout} from "../utilities/cookieAuth";
+import "./UserIcon.css";
 
 // represents the current user
 function UserIcon (props) {
 
+  // perform logout
+  function logoutHandler(e) {
+
+    // prevent the default behavior of the form button
+    e.preventDefault();
+
+    // logout, update the navigation bar, and return to the homepage
+    logout();
+    props.onLogin();
+    props.history.push(`/`);
+
+  }
+
+  // redirect to the edit user page
+  function editHandler(e) {
+    e.preventDefault();
+    props.history.push("/edit-user");
+  }
+
   if (props.role) {
     return (
-      <div className="d-flex align-items-center">
-        <div className="user-icon-container text-white mx-3">
-          <div 
-            className="text-capitalize font-weight-bold"
-            id="username-navbar"
-          >
-            {props.username}
+
+      <div className="dropdown" id="user-navbar-icon-container">
+
+        <button className="btn btn-dark" type="button" id="user-navbar-icon-drp"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+        <div className="d-flex align-items-center font-weight-bold">
+          <div className="user-icon-container text-white mx-3">
+            <div 
+              className="text-capitalize"
+              id="username-navbar"
+            >
+              {props.username}
+            </div>
+            <div className="text-capitalize small" id="role-navbar d-block">
+              {formatRole(props.role)}
+            </div>
           </div>
-          <div className="text-capitalize small" id="role-navbar d-block">
-            {formatRole(props.role)}
-          </div>
+          <div id="user-icon-arrow" />
         </div>
+
+        </button>
+
+        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+          <a className="dropdown-item" href="#" onClick={(e) => editHandler(e)}>
+            Update User Info
+          </a>
+          <a className="dropdown-item" href="#" onClick={(e) => logoutHandler(e)}>
+            Logout
+          </a>
+        </div>
+
       </div>
+
     );
   } else {
     return null;
   }
 }
-export default UserIcon;
+export default withRouter(UserIcon);

@@ -26,21 +26,24 @@ function NavBar (props) {
 
   return (
     <div className="navigation-bar">
-      <nav className="navbar navbar-dark bg-dark">
-        <h3 className="text-white">
+
+      <nav className="navbar navbar-dark bg-dark align-items-center">
+        <h3 className="text-white nav-item align-items-center mt-2">
           <a
-            className="text-info mr-2"
+            className="text-info mr-2 mx-2"
             href="#"
             onClick={props.openSidebar}
           >
             <i className="fas fa-bars"></i>
           </a>
-          EEC Walkthrough
+          <a className="mx-2 align-middle" href="/">
+            EEC Walkthrough
+          </a>
         </h3>
 
-        <div className="d-flex">
+        <div className="d-flex nav-item align-items-center">
           <PageSearch />
-          <UserIcon username={username} role={role} />
+          <UserIcon onLogin={() => updateUser()} username={username} role={role} />
           <Login onLogin={() => updateUser()} role={role} />
         </div>
       </nav>

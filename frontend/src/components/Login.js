@@ -3,7 +3,6 @@ import {Form} from "react-bootstrap";
 import LoadingOverlay from "../components/LoadingOverlay";
 import {withRouter} from "react-router-dom";
 import Error from "./Error";
-import {logout} from "../utilities/cookieAuth";
 import "./Login.css";
 
 // login button, acts as the logout button when a user is already logged in
@@ -103,19 +102,6 @@ function Login (props) {
 
   }
 
-  // perform logout when button is pressed
-  function logoutHandler(e) {
-
-      // prevent the default behavior of the form button
-      e.preventDefault();
-
-      // logout, update the navigation bar, and return to the homepage
-      logout();
-      props.onLogin();
-      props.history.push(`/`);
-
-  }
-
   // clean up modal and go to registration page
   function registerHandler(e) {
 
@@ -126,22 +112,13 @@ function Login (props) {
     $("#loginModal").modal("hide");
     props.history.push(`/register-user`);
 
-}
+  }
 
   // render a logout button if the user is already logged in,
   // otherwise render a login button and modal
   if (props.role) {
     return (
-      <div className="logout">
-        {/* Logout Button */}
-        <button
-          className="btn btn-primary ml-3"
-          type="button"
-          onClick={(e) => logoutHandler(e)}
-        >
-          Logout
-        </button>
-      </div>
+      null
     );
   } else {
     return (
