@@ -12,7 +12,8 @@ import { Route, Switch } from "react-router-dom";
 class App extends React.Component {
   state = {
     sidebarOpen: false,
-    loginStatusChange: false
+    loginStatusChange: false,
+    nameChange: false
   };
 
   componentDidMount() {
@@ -32,11 +33,15 @@ class App extends React.Component {
     this.setState({ loginStatusChange: !this.state.loginStatusChange });
   }
 
+  handleNameChange = () => {
+    this.setState({ nameChange: !this.state.nameChange });
+  }
+
   render() {
     return (
       <main>
         <NavBar 
-          openSidebar={this.openSidebar}
+          openSidebar={this.openSidebar} nameChange={this.state.nameChange}
           handleLoginStatusChange={this.handleLoginStatusChange}
         />
         <Sidebar
@@ -67,7 +72,7 @@ class App extends React.Component {
             <RegisterUser />
           </Route>
           <Route path='/edit-user'>
-            <EditUser />
+            <EditUser handleNameChange={this.handleNameChange} />
           </Route>
           <Route exact path='/'>
             <Home />

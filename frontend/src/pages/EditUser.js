@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {Card, Container} from "react-bootstrap";
-import {getProfile} from "../utilities/cookieAuth";
+import {getProfile, changeUsername} from "../utilities/cookieAuth";
 import LoadingOverlay from "../components/LoadingOverlay";
 import Error from "../components/Error";
 import Success from "../components/Success";
@@ -68,6 +68,11 @@ function EditUser (props) {
         if (obj.changedRows) {
           setSuccessMessage("User data updated successfully.");
           setErrorMessage("");
+
+          // update the navigation bar username
+          changeUsername(username);
+          props.handleNameChange();
+
         } else {
           setSuccessMessage("No changes were required.");
           setErrorMessage("");
