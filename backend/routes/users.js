@@ -212,8 +212,6 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
     const role = req.body.role;
     const currentUserId = req.auth.userId;
 
-    console.log(oldPassword, newPassword);
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

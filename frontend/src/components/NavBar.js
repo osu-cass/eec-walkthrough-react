@@ -14,7 +14,7 @@ function NavBar (props) {
   useEffect(() => {
     updateUser();
     // eslint-disable-next-line
-  }, []);
+  }, [props.nameChange]);
 
   // updates username and role using cookies
   function updateUser() {
