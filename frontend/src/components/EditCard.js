@@ -19,10 +19,45 @@ class EditCard extends React.Component {
 		emptyInputs: false
 	}
 
+	getChilds(id) {
+		var results = this.props.items.reduce(function (result, item) {
+			if (item.parentId === id) {
+				result.push(item);
+			}
+			return result;
+		}, []);
+		return results.length ? results : false
+	}
+
+	recurseItems(item, icon, categoryid, used, isChild) {	//isChild = marks if it has any parent, for coloring
+		let childs = this.getChilds(item.itemId); //get all childs of this item
+		if (!(used.includes(item.itemId))) {
+			used.push(item.itemId)															//push used
+			if (childs) {																							//if has child, recurse
+				return (
+					childs.map((child) => (this.recurseItems(child, icon, categoryid, used, true)))
+				);
+			} else
+				return "child: " + item.contentText;
+		}
+	}
+
+	generateItems() {
+		let jsx = [] //hold items
+		let used = [];
+		this.props.items.map((item) => { //Loop through items of some category
+			if (item.CategoryID === this.props.categoryid) {
+				jsx.push(this.recurseItems(item, this.props.icon, this.props.categoryid, used, false))
+			}
+		})
+		console.log(jsx);
+	}
+
 	async componentDidMount() {
 		let items = [];
 		let itemData = {};
 		let counter = 0;
+		this.generateItems();
 		//Push items from props to state
 		this.props.items.forEach((item, i) => {
 			itemData = {}
@@ -34,6 +69,7 @@ class EditCard extends React.Component {
 			}
 			itemData.parentId = item.parentId;
 			itemData.depth = this.findDepth(itemData, items, i); //if null parent ? return 0 : if parentID[i-1] === null => depth = 1; else if parentId[i-1] === parentId[i] => depth = parentDepth[i-1] 
+			console.log(item.contentText, itemData.depth)
 			itemData.icon = item.iconType;
 			itemData.contentType = this.getContentType(item.contentText, item.contentLabel, item.contentUrl);
 			itemData.current = 1;
@@ -42,7 +78,6 @@ class EditCard extends React.Component {
 			counter++;
 		});
 		await this.setState({ items: items });
-		console.log(this.props.items);
 		this.setState({ counter: counter });
 		await this.setState({ title: this.props.cardName })
 		this.setState({ loaded: true });
@@ -190,7 +225,7 @@ class EditCard extends React.Component {
 			return 1 && console.log("return 1");
 		//if left sibling of item has same depth, order index inc
 		if (items[i - 1].depth === items[i].depth)
-			return items[i - 1].depth + 1 && console.log("return ", items[i-1].depth + 1);
+			return items[i - 1].depth + 1 && console.log("return ", items[i - 1].depth + 1);
 	}
 
 	handleSubmit = async () => {
