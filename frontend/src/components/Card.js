@@ -4,17 +4,9 @@ import BulletPoint from './BulletPoint'
 import EditCard from './EditCard'
 
 class Card extends React.Component {
-	state = {
-		items: []
-	}
-
-	async componentDidMount() {
-		const response = await this.setState({ items: this.props.items });
-	}
-
 	//return childs of id === parentId
 	getChilds(id) {
-		var results = this.state.items.reduce(function (result, item) {
+		var results = this.props.items.reduce(function (result, item) {
 			if (item.parentId === id) {
 				result.push(item);
 			}
@@ -60,13 +52,13 @@ class Card extends React.Component {
 	}
 
 	generateItems() {
-		let jsx = []																				//hold items
-		this.state.items.map((item) => {								//Loop through items of Type
+		let jsx = [] //hold items
+		this.props.items.map((item) => { //Loop through items of some category
 			if (item.CategoryID === this.props.categoryid) {
 				jsx.push(this.recurseItems(item, this.props.icon, this.props.categoryid, this.props.used, false))
 			}
 		})
-		return jsx
+		return jsx;
 	}
 
 	render() {
