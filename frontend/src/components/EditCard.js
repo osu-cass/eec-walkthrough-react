@@ -181,15 +181,16 @@ class EditCard extends React.Component {
 
 	findOrderIndex(i) {
 		let items = this.state.items;
+		console.log(items[i].content.text, i)
 		//base case
 		if (i === 0 || items[i].depth === 0)
-			return 1;
+			return 1 && console.log("return 1");
 		//if left depth is smaller, this is a new "group". order index restarts at 1
 		if (items[i - 1].depth < items[i].depth)
-			return 1;
+			return 1 && console.log("return 1");
 		//if left sibling of item has same depth, order index inc
 		if (items[i - 1].depth === items[i].depth)
-			return items[i - 1].depth + 1;
+			return items[i - 1].depth + 1 && console.log("return ", items[i-1].depth + 1);
 	}
 
 	handleSubmit = async () => {
