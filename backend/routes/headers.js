@@ -71,6 +71,7 @@ app.post("/", requireAuth, postHeaderVal.validation, async (req, res) => {
     const pageId = req.body.pageId;
     const orderIndex = req.body.orderIndex;
     const title = req.body.title;
+    const userId = req.auth.userId;
 
     // make sure the user is allowed to perform this action
     if (!await roleCheck(3, req.auth.userId)) {
@@ -79,7 +80,7 @@ app.post("/", requireAuth, postHeaderVal.validation, async (req, res) => {
     }
 
     // create a header
-    const results = await createHeader(pageId, orderIndex, title);
+    const results = await createHeader(pageId, orderIndex, title, userId);
 
     if (results.insertId) {
       res.status(201).send(results);

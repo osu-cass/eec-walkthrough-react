@@ -234,10 +234,10 @@ class EditCard extends React.Component {
 		let items = this.state.items;
 		//base case
 		if (i === 0 || items[i].depth === 0)
-			return 1 && console.log("return 1");
+			return 1;
 		//if left depth is smaller, this is a new "group". order index restarts at 1
 		if (items[i - 1].depth < items[i].depth)
-			return 1 && console.log("return 1");
+			return 1;
 		//if left sibling of item has same depth, order index inc
 		if (items[i - 1].depth === items[i].depth)
 			return items[i - 1].depth + 1 && console.log("return ", items[i - 1].depth + 1);
@@ -271,7 +271,6 @@ class EditCard extends React.Component {
 			headerId: this.props.headerId,
 			orderIndex: this.props.orderIndex,
 			title: this.state.title,
-			userId: 1 //temporary placeholder
 		}
 
 		//Store item ids to handle parentId 
@@ -314,7 +313,6 @@ class EditCard extends React.Component {
 				} else { //Item is being created through edits
 					//Items can be dependent on previous item to be created (parentId), use await
 					itemData.parentId = this.findParent(key, this.state.items[key].depth, itemIds);
-					itemData.userId = 1;
 					itemData.orderIndex = parseInt(key) + 1;
 					await fetch("/items/", {
 						method: 'POST',
@@ -515,7 +513,6 @@ class EditCard extends React.Component {
 						<button type="button" className="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-
 					</Modal.Header>
 
 					<Modal.Body >
