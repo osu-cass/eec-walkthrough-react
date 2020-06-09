@@ -162,10 +162,7 @@ class CreateCard extends React.Component {
 
 	handleSubmit = async () => {
 		console.log(this.state.items);
-		for (const key in this.state.items) {
-			console.log(key, this.findOrderIndex(key));
-		}
-		return;
+
 		//Check for empty inputs
 		if (this.checkInputs()) {
 			return

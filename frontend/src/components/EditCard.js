@@ -244,6 +244,19 @@ class EditCard extends React.Component {
 			return items[i - 1].depth + 1 && console.log("return ", items[i - 1].depth + 1);
 	}
 
+	deleteCard = async () => {
+		//Close modal
+		this.handleClose();
+
+		fetch(`/cards/${this.props.cardId}`, {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' }
+		})
+
+		//Reload page after deleting
+		this.props.refresh();
+	}
+
 	handleSubmit = async () => {
 		//Check for empty inputs
 		if (this.checkInputs()) {
@@ -537,6 +550,8 @@ class EditCard extends React.Component {
 
 					<Modal.Footer className="modal-footer">
 						<Button variant="warning" onClick={() => console.log(this.state.items, this.state.counter)}>Test</Button>
+						<div className='delete-button' onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.deleteCard() } } />
+						<Button variant="danger" onClick={() => this.deleteCard()}>Delete Card</Button>
 						<Button variant="secondary" onClick={this.handleClose}>Close</Button>
 						<Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Card Edit</Button>
 					</Modal.Footer>
