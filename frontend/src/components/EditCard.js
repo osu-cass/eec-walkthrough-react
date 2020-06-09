@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
+import { getProfile, logout } from '../utilities/cookieAuth';
 import AddButton from './AddButton';
 import ItemInput from './ItemInput';
 import Dropdown from './Dropdown';
@@ -18,6 +19,37 @@ class EditCard extends React.Component {
 		loaded: false,
 		emptyInputs: false,
 		errorMessage: "Error: Fill out empty inputs (title, icons, text)"
+	}
+
+	async componentDidMount() {
+		let items = [];
+		let itemData = {};
+		let counter = 0;
+		let itemSet = this.generateItems();
+		//Push items from props to state
+		itemSet.forEach((item, i) => {
+			itemData = {}
+			itemData.itemId = item.itemId;
+			itemData.content = {
+				text: item.contentText,
+				label: item.contentLabel,
+				url: item.contentUrl
+			}	
+			itemData.parentId = item.parentId;
+			itemData.depth = item.depth;
+			itemData.icon = item.iconType;
+			itemData.contentType = this.getContentType(item.contentText, item.contentLabel, item.contentUrl);
+			itemData.current = 1;
+			itemData.orderIndex = item.orderIndex;
+			items.push(itemData);
+			counter++;
+		});
+		await this.setState({ items: items });
+		await this.setState({ role: getProfile().role})
+		await this.setState({ title: this.props.cardName })
+		this.setState({ counter: counter });
+		this.setState({ loaded: true });
+		this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" })
 	}
 
 	getChilds(id) {
@@ -66,36 +98,6 @@ class EditCard extends React.Component {
 		return items;
 	}
 
-	async componentDidMount() {
-		let items = [];
-		let itemData = {};
-		let counter = 0;
-		let itemSet = this.generateItems();
-		//Push items from props to state
-		itemSet.forEach((item, i) => {
-			itemData = {}
-			itemData.itemId = item.itemId;
-			itemData.content = {
-				text: item.contentText,
-				label: item.contentLabel,
-				url: item.contentUrl
-			}	
-			itemData.parentId = item.parentId;
-			itemData.depth = item.depth;
-			itemData.icon = item.iconType;
-			itemData.contentType = this.getContentType(item.contentText, item.contentLabel, item.contentUrl);
-			itemData.current = 1;
-			itemData.orderIndex = item.orderIndex;
-			items.push(itemData);
-			counter++;
-		});
-		await this.setState({ items: items });
-		this.setState({ counter: counter });
-		await this.setState({ title: this.props.cardName })
-		this.setState({ loaded: true });
-		this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" })
-	}
-
 	findDepth(item, itemArr, i) {
 		//No parent is depth 0
 		if (!itemArr.length || item.parentId === null)
@@ -107,11 +109,11 @@ class EditCard extends React.Component {
 		else if (item.parentId === itemArr[i - 1].parentId) {
 			return itemArr[i - 1].depth;
 		}
-		//
+		//Does not share same parent
 		else if (item.parentId !== itemArr[i-1].parentId) {
 			return itemArr[i - 1].depth + 1;
 		}
-		//Increment depth, no parents shared
+		//New case
 		else {
 			return itemArr[i - 1].depth - 1;
 		}
@@ -503,7 +505,7 @@ class EditCard extends React.Component {
 	}
 
 	render() {
-		return this.state.loaded ? (
+		return this.state.loaded && this.state.role >= 3 ? (
 			<div className='text-center'>
 				<Button size="sm" variant="info" onClick={this.handleShow}>
 					<i
