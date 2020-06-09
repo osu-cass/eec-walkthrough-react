@@ -16,7 +16,8 @@ class EditCard extends React.Component {
 		toDelete: [], //hold the ids to be deleted on "Remove"
 		show: false,
 		loaded: false,
-		emptyInputs: false
+		emptyInputs: false,
+		errorMessage: "Error: Fill out empty inputs (title, icons, text)"
 	}
 
 	getChilds(id) {
@@ -248,6 +249,7 @@ class EditCard extends React.Component {
 		//Close modal
 		this.handleClose();
 
+		//Send call to backend to delete card
 		fetch(`/cards/${this.props.cardId}`, {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' }
@@ -299,6 +301,7 @@ class EditCard extends React.Component {
 					iconType: this.state.items[key].icon,
 					approved: 1 //temporary placeholder
 				}
+				//Item is being edited
 				if (current) {
 					itemData.itemId = this.state.items[key].itemId;
 					itemData.orderIndex = this.findOrderIndex(key);
@@ -310,7 +313,7 @@ class EditCard extends React.Component {
 					})
 						.then((response) => response.json())
 						.then(itemIds.push(itemData.itemId))
-				} else {
+				} else { //Item is being created through edits
 					//Items can be dependent on previous item to be created (parentId), use await
 					itemData.parentId = this.findParent(key, this.state.items[key].depth, itemIds);
 					itemData.userId = 1;
@@ -344,6 +347,7 @@ class EditCard extends React.Component {
 		this.props.refresh();
 	}
 
+	//Check for empty inputs (card title, item text/content/labels, icons)
 	checkInputs() {
 		let emptyFound = false;
 		let errorMessage = this.state.errorMessage;
@@ -549,10 +553,8 @@ class EditCard extends React.Component {
 					</Modal.Body>
 
 					<Modal.Footer className="modal-footer">
-						<Button variant="warning" onClick={() => console.log(this.state.items, this.state.counter)}>Test</Button>
-						<div className='delete-button' onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.deleteCard() } } />
-						<Button variant="danger" onClick={() => this.deleteCard()}>Delete Card</Button>
-						<Button variant="secondary" onClick={this.handleClose}>Close</Button>
+						<Button variant="secondary" onClick={this.handleClose}>Cancel</Button>
+						<Button variant="danger" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.deleteCard() }}>Delete Card</Button>
 						<Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Card Edit</Button>
 					</Modal.Footer>
 				</Modal>

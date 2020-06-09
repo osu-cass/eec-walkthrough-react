@@ -15,7 +15,6 @@ class CardContainer extends React.Component {
 
     generateCards() {
         let used = []; //holds ids of all the used tidbits, prevents reprint
-        console.log(this.props)
         let Cards = this.state.cards.map((card, i) => {				//Loop through cards
             return (
                 <Card

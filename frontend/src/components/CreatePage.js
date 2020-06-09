@@ -5,7 +5,7 @@ import Error from './Error';
 import './CreatePage.css'
 import './Subject.css'
 
-class CreateItem extends React.Component {
+class CreatePage extends React.Component {
 	state = {
 		name: "",
 		summary: "",
@@ -13,6 +13,7 @@ class CreateItem extends React.Component {
 		url: "",
 		show: false,
 		emptyInputs: false,
+		errorMessage: "Error: Fill out empty inputs (title, icons, text)"
 	}
 
 	componentDidMount() {
@@ -184,7 +185,7 @@ class CreateItem extends React.Component {
 	}
 }
 
-CreateItem.propTypes = {
+CreatePage.propTypes = {
 	title: PropTypes.string,
 	icons: PropTypes.array
 };
@@ -195,4 +196,4 @@ CreateItem.propTypes = {
 					SubjectID={this.state.pageInfo.pageId}
 					categoryType={1}
 */
-export default CreateItem;
+export default CreatePage;
