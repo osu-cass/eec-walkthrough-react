@@ -1,19 +1,12 @@
 import React from 'react'
 import { Card as CardBS } from 'react-bootstrap'
-import Edit from './Edit'
 import BulletPoint from './BulletPoint'
+import EditCard from './EditCard'
 
 class Card extends React.Component {
-	state = {
-		items: []
-	}
-
-	async componentDidMount() {
-		const response = await this.setState({ items: this.props.items });
-	}
-
+	//return childs of id === parentId
 	getChilds(id) {
-		var results = this.state.items.reduce(function (result, item) { //get items whose parentId is in params
+		var results = this.props.items.reduce(function (result, item) {
 			if (item.parentId === id) {
 				result.push(item);
 			}
@@ -59,13 +52,13 @@ class Card extends React.Component {
 	}
 
 	generateItems() {
-		let jsx = []																				//hold items
-		this.state.items.map((item) => {								//Loop through items of Type
+		let jsx = [] //hold items
+		this.props.items.map((item) => { //Loop through items of some category
 			if (item.CategoryID === this.props.categoryid) {
 				jsx.push(this.recurseItems(item, this.props.icon, this.props.categoryid, this.props.used, false))
 			}
 		})
-		return jsx
+		return jsx;
 	}
 
 	render() {
@@ -73,6 +66,17 @@ class Card extends React.Component {
 			<CardBS className={`my-2 shadow-sm`}>
 				<CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
 					{this.props.card}
+					<EditCard
+						title={`Edit ${this.props.card} Card`}
+						cardName={this.props.card}
+						icons={this.props.iconSet}
+						items={this.props.items}
+						headerId={this.props.headerId}
+						cardId={this.props.cardId}
+						parentId={this.props.parentId}
+						orderIndex={this.props.orderIndex}
+						refresh={() => this.props.refresh()}
+					/>
 				</CardBS.Header>
 				<CardBS.Body>
 					{this.generateItems()}
