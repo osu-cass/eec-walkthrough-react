@@ -114,6 +114,27 @@ function RegisterUser (props) {
       return;
     }
 
+    // make sure no fields have spaces (besides passwords)
+    if(/\s/g.test(username)) {
+      setErrorMessage("No spaces allowed in username.");
+      return;
+    }
+
+    if(/\s/g.test(email)) {
+      setErrorMessage("No spaces allowed in email.");
+      return;
+    }
+
+    if(/\s/g.test(first)) {
+      setErrorMessage("No spaces allowed in first name.");
+      return;
+    }
+
+    if(/\s/g.test(last)) {
+      setErrorMessage("No spaces allowed in last name.");
+      return;
+    }
+
     // register the new user
     register(username, email, first, last, password1);
 

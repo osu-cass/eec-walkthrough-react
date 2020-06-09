@@ -212,6 +212,31 @@ function EditUser (props) {
       }
     }
 
+    // make sure no fields have spaces (besides passwords)
+    if(/\s/g.test(username)) {
+      setErrorMessage("No spaces allowed in username.");
+      setSuccessMessage("");
+      return;
+    }
+
+    if(/\s/g.test(email)) {
+      setErrorMessage("No spaces allowed in email.");
+      setSuccessMessage("");
+      return;
+    }
+
+    if(/\s/g.test(first)) {
+      setErrorMessage("No spaces allowed in first name.");
+      setSuccessMessage("");
+      return;
+    }
+
+    if(/\s/g.test(last)) {
+      setErrorMessage("No spaces allowed in last name.");
+      setSuccessMessage("");
+      return;
+    }
+
     // update user info
     updateUser(username, email, first, last, oldPassword, newPassword1);
 
