@@ -31,16 +31,6 @@ class CreatePage extends React.Component {
 			return
 		}
 
-		//Reset state
-		this.setState({ emptyInputs: false });
-		this.setState({ name: "" });
-		this.setState({ summary: "" });
-		this.setState({ description: "" });
-		this.setState({ url: "" });
-
-		//Close modal
-		this.handleClose();
-
 		//Prepare data
 		let data = {
 			pageType: 0,
@@ -50,6 +40,16 @@ class CreatePage extends React.Component {
 			imageUrl: this.state.url
 		}
 
+		//Reset state
+		this.setState({ emptyInputs: false });
+		this.setState({ name: "" });
+		this.setState({ summary: "" });
+		this.setState({ description: "" });
+		this.setState({ url: "" });
+
+		//Close modal
+		this.handleClose();
+	
 		//Create new page
 		await fetch("/pages/", {
 			method: 'POST',
