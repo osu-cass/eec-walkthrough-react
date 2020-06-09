@@ -94,9 +94,9 @@ class CreateHeader extends React.Component {
 				<Modal show={this.state.show} onHide={this.handleClose} dialogClassName="modal-width">
 					<Modal.Header>
 						<h5 className="modal-title font-weight-bold" id="exampleModalLabel">Create {this.props.subject} Header</h5>
-						<button type="button" className="close" data-dismiss="modal" aria-label="Close">
+						<Button variant="none" onClick={this.handleClose}>
 							<span aria-hidden="true">&times;</span>
-						</button>
+						</Button>
 
 					</Modal.Header>
 

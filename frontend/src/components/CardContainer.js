@@ -5,21 +5,15 @@ import './Subject.css'
 
 class CardContainer extends React.Component {
     state = {
-        cards: [],
         loaded: false
-    }
-
-    async componentDidMount() {
-        const response = await this.setState({ cards: this.props.cards })
     }
 
     generateCards() {
         let used = []; //holds ids of all the used tidbits, prevents reprint
-        let Cards = this.state.cards.map((card, i) => {				//Loop through cards
+        let Cards = this.props.cards.map((card, i) => { //Loop through cards
             return (
                 <Card
                     key={i}
-                    color="white"
                     headerId={this.props.headerId}
                     card={card.title}
                     items={card.items}
@@ -47,10 +41,8 @@ class CardContainer extends React.Component {
     }
 
     render() {
-        return this.state.cards.length ? ( //Render content when data loaded from backend
-            <div className="tidbitContainer">
-                {this.generateCards()}
-            </div>
+        return this.props.cards.length ? ( //Render content when data loaded from backend
+            this.generateCards()
         ) : <SubjectCard subjectName='None' />;
     }
 }
