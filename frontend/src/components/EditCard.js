@@ -69,21 +69,17 @@ class EditCard extends React.Component {
 		let childs = this.getChilds(item.itemId); //get all childs of this item
 		if (!(used.includes(item.itemId))) {
 			used.push(item.itemId); //push used
+			//assign depth if child using prevDepth
+			if(isChild)
+				item.depth = prevDepth + 1;
+			else
+				item.depth = 0;
 			if (childs) {	
-				//assign depth if child using prevDepth
-				if(isChild)
-					item.depth = prevDepth + 1;
-				else
-					item.depth = 0;
 				//push item
 				items.push(item);
 				//recurse over childs found
 				childs.map((child) => (this.recurseItems(child, used, items, true, item.depth)))
 			} else {
-				if(isChild)
-					item.depth = prevDepth + 1;
-				else
-					item.depth = 0;
 				items.push(item);
 			}
 		}
