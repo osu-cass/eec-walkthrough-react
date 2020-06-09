@@ -1,0 +1,11 @@
+.modal-inscreen {
+  width: 1000px !important;
+  max-width: 95% !important;
+  height: auto !important;
+}
+
+.modal-expand {
+  width: 3000px !important;
+  max-width: 95% !important;
+  height: auto !important;
+}
