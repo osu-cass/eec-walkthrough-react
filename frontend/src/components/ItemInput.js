@@ -42,23 +42,23 @@ class ItemInput extends React.Component {
 				{this.props.contentType === 3 ?
 					<Fragment>
 						<FormControl
-							placeholder="Resource text"
-							value={this.props.value.content.label}
+							placeholder="Resource text/description"
+							value={this.props.value.content.text}
 							aria-label="Insert Username"
 							aria-describedby="basic-addon1"
 							onChange={(e) => this.props.handleInput(e, this.props.index, 1)}
 							required
 						/>
 						<FormControl
-							placeholder="Resource URL"
-							value={this.props.value.content.url}
+							placeholder="Resource URL label"
+							value={this.props.value.content.label}
 							aria-label="Insert Username"
 							aria-describedby="basic-addon1"
 							onChange={(e) => this.props.handleInput(e, this.props.index, 2)}
 							required
 						/>
 						<FormControl
-							placeholder="Resource description"
+							placeholder="Resource URL"
 							value={this.props.value.content.url}
 							aria-label="Insert Username"
 							aria-describedby="basic-addon1"

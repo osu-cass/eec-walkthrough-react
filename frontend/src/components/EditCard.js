@@ -29,47 +29,58 @@ class EditCard extends React.Component {
 		return results.length ? results : false
 	}
 
-	recurseItems(item, icon, categoryid, used, isChild) {	//isChild = marks if it has any parent, for coloring
+	//given a list of items
+	//check each item. grab its item id, and check list again for items whose parent id match. assume sorted by order index already.
+	//result: to list each one in order, from top to bottom
+	recurseItems(item, used, items, isChild, prevDepth) {	//isChild = marks if it has any parent, for coloring
 		let childs = this.getChilds(item.itemId); //get all childs of this item
 		if (!(used.includes(item.itemId))) {
-			used.push(item.itemId)															//push used
-			if (childs) {																							//if has child, recurse
-				return (
-					childs.map((child) => (this.recurseItems(child, icon, categoryid, used, true)))
-				);
-			} else
-				return "child: " + item.contentText;
+			used.push(item.itemId); //push used
+			if (childs) {	
+				//assign depth if child using prevDepth
+				if(isChild)
+					item.depth = prevDepth + 1;
+				else
+					item.depth = 0;
+				//push item
+				items.push(item);
+				//recurse over childs found
+				childs.map((child) => (this.recurseItems(child, used, items, true, item.depth)))
+			} else {
+				if(isChild)
+					item.depth = prevDepth + 1;
+				else
+					item.depth = 0;
+				items.push(item);
+			}
 		}
 	}
 
 	generateItems() {
-		let jsx = [] //hold items
-		let used = [];
-		this.props.items.map((item) => { //Loop through items of some category
-			if (item.CategoryID === this.props.categoryid) {
-				jsx.push(this.recurseItems(item, this.props.icon, this.props.categoryid, used, false))
-			}
+		let items = []; //hold items
+		let used = []; //hold used items to avoid looping over again
+		this.props.items.map((item) => { //loop through each item (if not used), and grab its childs
+			this.recurseItems(item, used, items, false, 0)
 		})
-		console.log(jsx);
+		return items;
 	}
 
 	async componentDidMount() {
 		let items = [];
 		let itemData = {};
 		let counter = 0;
-		this.generateItems();
+		let itemSet = this.generateItems();
 		//Push items from props to state
-		this.props.items.forEach((item, i) => {
+		itemSet.forEach((item, i) => {
 			itemData = {}
 			itemData.itemId = item.itemId;
 			itemData.content = {
 				text: item.contentText,
 				label: item.contentLabel,
 				url: item.contentUrl
-			}
+			}	
 			itemData.parentId = item.parentId;
-			itemData.depth = this.findDepth(itemData, items, i); //if null parent ? return 0 : if parentID[i-1] === null => depth = 1; else if parentId[i-1] === parentId[i] => depth = parentDepth[i-1] 
-			console.log(item.contentText, itemData.depth)
+			itemData.depth = item.depth;
 			itemData.icon = item.iconType;
 			itemData.contentType = this.getContentType(item.contentText, item.contentLabel, item.contentUrl);
 			itemData.current = 1;
@@ -88,15 +99,21 @@ class EditCard extends React.Component {
 		//No parent is depth 0
 		if (!itemArr.length || item.parentId === null)
 			return 0;
-		//Check if previous item parent null, item depth is 1
+		//Check if previous item's parent is null, item depth is default 1
 		if (itemArr[i - 1].parentId === null)
 			return 1;
-		//Shares same parent, then same depth
-		else if (item.parentId === itemArr[i - 1].parentId)
-			return itemArr[i - 1].depth
-		//Increment depth, no parents shared
-		else
+		//Shares same parent as previous item, return same depth
+		else if (item.parentId === itemArr[i - 1].parentId) {
+			return itemArr[i - 1].depth;
+		}
+		//
+		else if (item.parentId !== itemArr[i-1].parentId) {
 			return itemArr[i - 1].depth + 1;
+		}
+		//Increment depth, no parents shared
+		else {
+			return itemArr[i - 1].depth - 1;
+		}
 	}
 
 	handleClose = () => this.setState({ show: false });
@@ -216,7 +233,6 @@ class EditCard extends React.Component {
 
 	findOrderIndex(i) {
 		let items = this.state.items;
-		console.log(items[i].content.text, i)
 		//base case
 		if (i === 0 || items[i].depth === 0)
 			return 1 && console.log("return 1");
@@ -229,7 +245,6 @@ class EditCard extends React.Component {
 	}
 
 	handleSubmit = async () => {
-		console.log(this.state.items);
 		//Check for empty inputs
 		if (this.checkInputs()) {
 			return
@@ -249,7 +264,7 @@ class EditCard extends React.Component {
 		//Store item ids to handle parentId 
 		let itemIds = [];
 
-		//Create new card
+		//Edit card
 		await fetch(`/cards/${this.props.cardId}`, {
 			method: 'PATCH',
 			headers: { 'Content-Type': 'application/json' },
@@ -271,7 +286,6 @@ class EditCard extends React.Component {
 					iconType: this.state.items[key].icon,
 					approved: 1 //temporary placeholder
 				}
-				console.log(itemData, current)
 				if (current) {
 					itemData.itemId = this.state.items[key].itemId;
 					itemData.orderIndex = this.findOrderIndex(key);
@@ -288,7 +302,6 @@ class EditCard extends React.Component {
 					itemData.parentId = this.findParent(key, this.state.items[key].depth, itemIds);
 					itemData.userId = 1;
 					itemData.orderIndex = parseInt(key) + 1;
-					console.log("updating...", itemData)
 					await fetch("/items/", {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
@@ -302,6 +315,14 @@ class EditCard extends React.Component {
 						})
 				}
 			}
+			//Loop through item ids to remove from state and delete
+			let i;
+			for (i = 0; i < this.state.toDelete.length; i++) {
+				fetch(`/items/${this.state.toDelete[i]}`, {
+					method: 'DELETE',
+					headers: { 'Content-Type': 'application/json' }
+				})
+			}
 		}).catch(function (err) {
 			console.log(err);
 		})
@@ -313,7 +334,7 @@ class EditCard extends React.Component {
 	checkInputs() {
 		let emptyFound = false;
 		let errorMessage = this.state.errorMessage;
-		let i, errorCount = 0;
+		let i = 0;
 
 		//Empty title
 		if (!this.state.title.length) {
@@ -361,32 +382,17 @@ class EditCard extends React.Component {
 		return false;
 	}
 
+	//Control input coming from <ItemInput> for each row according to contentType and index in this.state.items
 	handleInput = (e, index, contentType) => {
 		let key = index.toString();
 		let copy = [...this.state.items];
-
 		if (contentType === 1)
 			copy[key].content.text = e.target.value;
 		else if (contentType === 2)
 			copy[key].content.label = e.target.value;
 		else if (contentType === 3)
 			copy[key].content.url = e.target.value;
-
 		this.setState({ items: copy });
-		/* Example of items
-		* {
-		*   '0': {
-		*			'text': "Hello",
-		*			'label': "",
-		*			'url': ""
-		* 		}
-		*		'1': {
-		*			'text': "",
-		*			'label': "picture of a dog",
-		*			'url': "imgur.com/a23Xva"	
-		*			}
-		*	}
-		*/
 	}
 
 	/**
@@ -462,7 +468,7 @@ class EditCard extends React.Component {
 							value={this.state.items[i]}
 							contentType={this.state.items[i].contentType}
 						/>
-						{subpointDepth < 6 &&	//set maximum depth to 6
+						{subpointDepth < 6 &&	//set maximum depth to 6, can be increased if it fits the screen
 							<span>
 								<button className='btn btn-success btn-sm ml-2' key={i} data-index={i} onClick={(e) => this.updateSubpoints(e.target.getAttribute("data-index"))}>
 									<i className='fas fa-plus' /> Sub
@@ -532,7 +538,7 @@ class EditCard extends React.Component {
 					<Modal.Footer className="modal-footer">
 						<Button variant="warning" onClick={() => console.log(this.state.items, this.state.counter)}>Test</Button>
 						<Button variant="secondary" onClick={this.handleClose}>Close</Button>
-						<Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Create Card</Button>
+						<Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Card Edit</Button>
 					</Modal.Footer>
 				</Modal>
 			</div>
@@ -542,13 +548,14 @@ class EditCard extends React.Component {
 
 EditCard.propTypes = {
 	title: PropTypes.string,
-	icons: PropTypes.array
+	icons: PropTypes.array,
+	cardName: PropTypes.string,
+	items: PropTypes.array,
+	headerId: PropTypes.number,
+	cardId: PropTypes.number,
+	parentId: PropTypes.number,
+	orderIndex: PropTypes.number,
+	refresh: PropTypes.func,
 };
-/*
-					title={"Create New Card"}
-					icons={this.state.iconSet}
-					numcards={this.state.cards.length}
-					SubjectID={this.state.pageInfo.pageId}
-					categoryType={1}
-*/
+
 export default EditCard;
