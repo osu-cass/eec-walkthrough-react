@@ -203,14 +203,13 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
 
     console.log("Update a user");
 
-    // don't allow spaces in the input
     const userId = req.params.userId;
-    const username = req.body.username.replace(/\s/g, "");
+    let username = req.body.username;
     const oldPassword = req.body.oldPassword;
     const newPassword = req.body.newPassword;
-    const firstName = req.body.firstName.replace(/\s/g, "");
-    const lastName = req.body.lastName.replace(/\s/g, "");
-    const email = req.body.email.replace(/\s/g, "");
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
+    let email = req.body.email;
     const role = req.body.role;
     const currentUserId = req.auth.userId;
 
@@ -219,6 +218,20 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
     if (!errors.isEmpty()) {
       console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
+    }
+
+    // don't allow spaces in the input
+    if (typeof username === "string") {
+      username = username.replace(/\s/g, "");
+    }
+    if (typeof firstName === "string") {
+      firstName = firstName.replace(/\s/g, "");
+    }
+    if (typeof lastName === "string") {
+      lastName = lastName.replace(/\s/g, "");
+    }
+    if (typeof email === "string") {
+      email = email.replace(/\s/g, "");
     }
 
     // confirm that if the role is being changed, the current user is an admin
