@@ -38,8 +38,10 @@ class Dropdown extends React.Component {
 		return (
 			<Fragment key={this.props.index}>
 				<DropdownBS>
-					<DropdownBS.Toggle id="dropdownMenuButton" variant className="btn-outline-dark">
-						{this.state.selectedIndex === null ? "Icon" : this.props.list[1][this.state.selectedIndex][1]}
+					<DropdownBS.Toggle variant="outline-dark" id="dropdown-basic">
+						{this.props.edit ?
+							this.props.selectedIndex === null ? "Icon" : this.props.list[1][this.props.selectedIndex][1]
+							: this.state.selectedIndex === null ? "Icon" : this.props.list[1][this.state.selectedIndex][1]}
 					</DropdownBS.Toggle>
 					<DropdownBS.Menu>
 						{this.generateList()}
@@ -57,8 +59,8 @@ Dropdown.propTypes = {
 export default Dropdown
 
 
-//pass in a "list" prop, zero index is jsx elements and first index is corresponding [0]values[1]valueName, if any
-//list[0] = JSX Elements inserted into dropdown
-//list[1][i] = Array with value of JSX element, and printed name of JSX element, for on click
-//list[1][i][0] = Value of JSX element
-//list[1][i][1] = Printed name of JSX element
+	//pass in a "list" prop, zero index is jsx elements and first index is corresponding [0]values[1]valueName, if any
+	//list[0] = JSX Elements inserted into dropdown
+	//list[1][i] = Array with value of JSX element, and printed name of JSX element, for on click
+	//list[1][i][0] = Value of JSX element
+	//list[1][i][1] = Printed name of JSX element
