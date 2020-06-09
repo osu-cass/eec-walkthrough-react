@@ -43,7 +43,7 @@ class CardContainer extends React.Component {
     render() {
         return this.props.cards.length ? ( //Render content when data loaded from backend
             this.generateCards()
-        ) : <SubjectCard subjectName='None' />;
+        ) : <SubjectCard subjectName={`No Cards under ${this.props.headerName}`} />;
     }
 }
 
