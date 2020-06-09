@@ -34,6 +34,7 @@ class CreateCard extends React.Component {
 		items.push(item);
 
 		await this.setState({ items: items });
+		await this.setState({ role: getProfile().role})
 		this.setState({ loaded: true });
 	}
 
@@ -165,6 +166,7 @@ class CreateCard extends React.Component {
 			headerId: this.props.headerId,
 			orderIndex: this.props.numCards + 1, //append to end of list of cards for this header
 			title: this.state.title,
+			userId: 1
 		}
 
 		//Store item ids to handle parentId 
