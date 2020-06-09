@@ -157,11 +157,12 @@ app.post("/", postUserVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
-    const username = req.body.username;
+    // don't allow spaces in the input
+    const username = req.body.username.replace(/\s/g, "");
     const password = req.body.password;
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
-    const email = req.body.email;
+    const firstName = req.body.firstName.replace(/\s/g, "");
+    const lastName = req.body.lastName.replace(/\s/g, "");
+    const email = req.body.email.replace(/\s/g, "");
 
     // create a user
     const results = await createUser(username, password, firstName, lastName, email);
@@ -202,13 +203,14 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
 
     console.log("Update a user");
 
+    // don't allow spaces in the input
     const userId = req.params.userId;
-    const username = req.body.username;
+    const username = req.body.username.replace(/\s/g, "");
     const oldPassword = req.body.oldPassword;
     const newPassword = req.body.newPassword;
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
-    const email = req.body.email;
+    const firstName = req.body.firstName.replace(/\s/g, "");
+    const lastName = req.body.lastName.replace(/\s/g, "");
+    const email = req.body.email.replace(/\s/g, "");
     const role = req.body.role;
     const currentUserId = req.auth.userId;
 
@@ -228,7 +230,7 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
     } else {
       // since the user is changing general user data they must be
       // either the user in question or an admin
-      if (currentUserId !== userId) {
+      if (parseInt(currentUserId) !== parseInt(userId)) {
         if (!await roleCheck(4, req.auth.userId)) {
           res.status(401).send({error: "Unauthorized user attempting to update user."});
           return;
