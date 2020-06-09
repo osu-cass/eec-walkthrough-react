@@ -17,8 +17,7 @@ class CreateCard extends React.Component {
 		show: false,
 		loaded: false,
 		emptyInputs: false,
-		errorMessage: "",
-		role: 0
+		errorMessage: "Error: Fill out empty inputs (title, icons, text)"
 	}
 
 	async componentDidMount() {
@@ -32,18 +31,10 @@ class CreateCard extends React.Component {
 		item.icon = null;
 		item.contentType = null;
 
-		// console.log(item);
-
 		items.push(item);
 
 		await this.setState({ items: items });
 		this.setState({ loaded: true });
-		this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" })
-
-		// check user role to see what we should render
-		const user = getProfile();
-		this.setState({ role: user.role });
-
 	}
 
 	handleClose = () => this.setState({ show: false });
@@ -161,8 +152,6 @@ class CreateCard extends React.Component {
 	}
 
 	handleSubmit = async () => {
-		console.log(this.state.items);
-
 		//Check for empty inputs
 		if (this.checkInputs()) {
 			return
