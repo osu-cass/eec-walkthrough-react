@@ -111,8 +111,8 @@ class Subject extends React.Component {
 					numHeaders={this.state.pageInfo.headers.length}
 				/>
 
-				{/* console.log(this.state.icons) */}
 				{this.state.headers.map((header, i) => {
+					console.log(header)
 					return (
 						<Fragment key={i}>
 							<SubjectCard subjectName={header.title} sticky>
@@ -128,6 +128,7 @@ class Subject extends React.Component {
 								cards={this.state.headers[i].cards}
 								filter={this.state.icons[i]}
 								headerId={header.headerId}
+								headerName={header.title}
 								iconSet={this.state.iconSet}
 								refresh={() => this.fetchData()}
 							/>
