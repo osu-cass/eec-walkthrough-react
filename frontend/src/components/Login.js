@@ -72,7 +72,7 @@ function Login (props) {
     } catch (err) {
       // show error message if error while searching
       setErrorMessage("An internal server error occurred. Please try again later.");
-      console.log(err);
+      console.error(err);
     }
     setLoading(false);
   }

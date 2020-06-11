@@ -1,6 +1,5 @@
 import React from 'react'
 import { Card as CardBS } from 'react-bootstrap'
-import Edit from './Edit'
 import BulletPoint from './BulletPoint'
 
 class Card extends React.Component {
@@ -9,7 +8,7 @@ class Card extends React.Component {
 	}
 
 	async componentDidMount() {
-		const response = await this.setState({ items: this.props.items });
+		await this.setState({ items: this.props.items });
 	}
 
 	getChilds(id) {

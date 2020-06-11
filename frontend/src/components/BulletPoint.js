@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import Image from './Image'
 import './BulletPoint.css'
-import Col from 'react-bootstrap/Col';
 
 function styleText(icon) {
 	if (icon === 'check-square')

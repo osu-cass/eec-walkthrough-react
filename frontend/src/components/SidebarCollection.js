@@ -3,7 +3,7 @@ import "./Sidebar.css";
 import { NavLink } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Accordion from 'react-bootstrap/Accordion';
-import { Card, Button, Row, Container } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import CreatePage from './CreatePage'
 import "./SidebarCollection.css";
 

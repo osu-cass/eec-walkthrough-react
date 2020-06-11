@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react'
-import { Modal, Button, Col } from 'react-bootstrap';
+import React from 'react'
+import { Modal, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 function MyVerticallyCenteredModal(props) {

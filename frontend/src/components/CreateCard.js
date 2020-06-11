@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
 import { getProfile, logout } from '../utilities/cookieAuth';
 import AddButton from './AddButton';
@@ -32,8 +32,6 @@ class CreateItem extends React.Component {
 		item.icon = null;
 		item.contentType = null;
 
-		// console.log(item);
-
 		items.push(item);
 
 		await this.setState({ items: items });
@@ -57,7 +55,6 @@ class CreateItem extends React.Component {
 
 		//Init new empty item
 		copy[key] = {}
-		console.log(copy[key], copy)
 		copy[key].content = content;
 		copy[key].depth = 0;
 		copy[key].icon = null;
@@ -76,7 +73,6 @@ class CreateItem extends React.Component {
 	updateSubpoints(idx) {
 		//Handle random bug, will work if you keep clicking + Sub. Unknown reason.
 		if (idx === null) {
-			console.log("error ", idx, this.state.items);
 			return;
 		}
 
@@ -85,7 +81,7 @@ class CreateItem extends React.Component {
 		let content = { text: "", label: "", url: "" };
 		let item = {};
 		let count = this.state.counter;
-		let key = (idx + 1).toString();
+		// let key = (idx + 1).toString();
 
 		//Init empty item
 		item.content = content;
@@ -106,7 +102,6 @@ class CreateItem extends React.Component {
 	*/
 	deleteSubpoints(idx) {
 		if (idx === null) {
-			console.log("error ", idx, this.state.items);
 			return;
 		}
 
@@ -117,7 +112,6 @@ class CreateItem extends React.Component {
 		// Delete children if any (if greater than parent subpoint depth, it is a child)
 		if (idx !== this.state.items.length - 1) {
 			for (i = start; i < this.state.items.length && parent < copy[i].depth; i++) {
-				console.log(copy[i].depth)
 				remove++;
 			}
 		}
@@ -138,7 +132,6 @@ class CreateItem extends React.Component {
 	*/
 	findParent(idx, val, ids) {
 		let closestIdx = null;
-		let i = 0;
 		this.state.items.forEach(function (item, i) {
 			if (i >= idx)
 				return closestIdx;
@@ -149,7 +142,6 @@ class CreateItem extends React.Component {
 	}
 
 	handleSubmit = async () => {
-		console.log(this.state.items);
 		//Check for empty inputs
 		if (this.checkInputs()) {
 			return
@@ -206,13 +198,12 @@ class CreateItem extends React.Component {
 					.then(function (res) {
 						itemIds.push(res.insertId);
 					}).catch(function (err) {
-						console.log(itemData);
-						console.log(err);
+						console.error(err);
 					})
 
 			}
 		}).catch(function (err) {
-			console.log(err);
+			console.error(err);
 		})
 
 		//Reload page after adding
@@ -222,7 +213,7 @@ class CreateItem extends React.Component {
 	checkInputs() {
 		let emptyFound = false;
 		let errorMessage = this.state.errorMessage;
-		let i, errorCount = 0;
+		let i = 0;
 
 		//Empty title
 		if (!this.state.title.length) {
@@ -307,7 +298,6 @@ class CreateItem extends React.Component {
 	updateIcon(icon, index) {
 		let copy = [...this.state.items];
 		copy[index].icon = icon;
-		console.log(icon, index);
 		this.setState({ items: copy });
 	}
 
