@@ -52,12 +52,12 @@ function UserIcon (props) {
         </button>
 
         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-          <a className="dropdown-item" href="#" onClick={(e) => editHandler(e)}>
+          <button className="dropdown-item" onClick={(e) => editHandler(e)}>
             Update User Info
-          </a>
-          <a className="dropdown-item" href="#" onClick={(e) => logoutHandler(e)}>
+          </button>
+          <button className="dropdown-item" onClick={(e) => logoutHandler(e)}>
             Logout
-          </a>
+          </button>
         </div>
 
       </div>
