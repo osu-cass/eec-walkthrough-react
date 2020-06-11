@@ -41,9 +41,15 @@ class CreateItem extends React.Component {
 		//Close modal
 		this.handleClose();
 
+		// ensure that the correct page type is generated
+		let pageType = 1;
+		if (this.props.collectionName === "Subjects") {
+			pageType = 0;
+		}
+
 		//Prepare data
 		let data = {
-			pageType: 0,
+			pageType: pageType,
 			name: this.state.name,
 			title: this.state.summary,
 			description: this.state.description,
@@ -196,11 +202,4 @@ CreateItem.propTypes = {
 	title: PropTypes.string,
 	icons: PropTypes.array
 };
-/*
-					title={"Create New Card"}
-					icons={this.state.iconSet}
-					numcards={this.state.cards.length}
-					SubjectID={this.state.pageInfo.pageId}
-					categoryType={1}
-*/
 export default CreateItem;
