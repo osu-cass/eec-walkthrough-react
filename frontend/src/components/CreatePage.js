@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
 import {logout} from '../utilities/cookieAuth';
 import PropTypes from 'prop-types';
@@ -66,7 +66,7 @@ class CreateItem extends React.Component {
 				throw new Error("Bad response from server");
 			}
 		}).catch(function (err) {
-			console.log(err);
+			console.error(err);
 		})
 
 		//Reload sidebar after adding

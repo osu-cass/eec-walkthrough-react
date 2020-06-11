@@ -93,7 +93,7 @@ function ManageUsers(props) {
         } else if (results.status === 500 || typeof obj.error === "undefined") {
           setErrorMessage("An internal server error occurred. Please try again later.");
         } else {
-          console.log(obj.error);
+          console.error(obj.error);
           setErrorMessage(obj.error);
         }
 

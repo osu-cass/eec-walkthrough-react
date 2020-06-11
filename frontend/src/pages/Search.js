@@ -44,7 +44,7 @@ function  Search (props) {
       }
       searchPages(newCursor, true, inputText);
     }
-
+    // eslint-disable-next-line
   }, [searchId]);
 
   // search for pages

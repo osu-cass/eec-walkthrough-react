@@ -20,7 +20,7 @@ class Subject extends React.Component {
 	}
 
 	async componentDidMount() {
-		const response = await this.fetchData(); //Get data about this subject (subject info, cards, figures)
+		await this.fetchData(); //Get data about this subject (subject info, cards, figures)
 	}
 
 	async componentDidUpdate(prevProps, prevState) {
