@@ -29,13 +29,13 @@ function NavBar (props) {
 
       <nav className="navbar navbar-dark bg-dark align-items-center">
         <h3 className="text-white nav-item align-items-center mt-2">
-          <a
-            className="text-info mr-2 mx-2"
+          <button
+            className="text-info mr-2 mx-2 border-0 bg-dark"
             href="#"
             onClick={props.openSidebar}
           >
             <i className="fas fa-bars"></i>
-          </a>
+          </button>
           <a className="mx-2 align-middle" href="/">
             EEC Walkthrough
           </a>

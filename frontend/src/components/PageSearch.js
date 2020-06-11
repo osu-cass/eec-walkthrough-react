@@ -1,5 +1,6 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
+import "./PageSearch.css";
 
 // search field used to find subject and industry pages
 function PageSearch(props) {
@@ -29,9 +30,11 @@ function PageSearch(props) {
           id="input-search-pages"
           placeholder="Search for pages"
         />
-        <a href="#" onClick={(e) => submitHandler(e)}>
+        <button className="border-0 bg-dark" id="magnify-search-button"
+          onClick={(e) => submitHandler(e)}
+        >
           <i className="input-search-pages fas fa-search text-white"></i>
-        </a>
+        </button>
       </form>
     </div>
   );

@@ -63,6 +63,7 @@ class Card extends React.Component {
 			if (item.CategoryID === this.props.categoryid) {
 				jsx.push(this.recurseItems(item, this.props.icon, this.props.categoryid, this.props.used, false))
 			}
+			return null;
 		})
 		return jsx
 	}

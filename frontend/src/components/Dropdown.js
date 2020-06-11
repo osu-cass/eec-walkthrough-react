@@ -30,6 +30,7 @@ class Dropdown extends React.Component {
 				</Dropdown.Item>
 				 */
 			);
+			return null;
 		});
 		return jsx;
 	}
