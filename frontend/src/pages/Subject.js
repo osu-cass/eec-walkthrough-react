@@ -21,7 +21,6 @@ class Subject extends React.Component {
 
 	async componentDidMount() {
 		const response = await this.fetchData(); //Get data about this subject (subject info, cards, figures)
-		// console.log(this.state.pageInfo)
 	}
 
 	async componentDidUpdate(prevProps, prevState) {
@@ -85,7 +84,6 @@ class Subject extends React.Component {
 			icons[headerIdx][i].hidden = false // Change everything to not hidden
 		}
 		this.setState({ icons: icons })
-		// console.log(icons);
 	}
 
 	render() {
@@ -98,7 +96,6 @@ class Subject extends React.Component {
 					description={this.state.subjectInfo.description}
 					img={this.state.subjectInfo.imageUrl}
 				/>
-				{/* console.log(this.state.icons) */}
 				{this.state.headers.map((header, i) => {
 					return (
 						<Fragment key={i}>
