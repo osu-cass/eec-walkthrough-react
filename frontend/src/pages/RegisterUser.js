@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Card} from "react-bootstrap";
 import LoadingOverlay from "../components/LoadingOverlay";
 import Error from "../components/Error";
+import validator from "validator";
 import "../components/RegisterUser.css";
 
 // user registration page
@@ -75,16 +76,13 @@ function RegisterUser (props) {
     const password1 = document.getElementById("input-register-password").value;
     const password2 = document.getElementById("input-register-password-re").value;
 
-    // basic email regular expression
-    const reg = /\S+@\S+\.\S+/;
-
     // check that all inputs are valid
     if(username.length < 5) {
       setErrorMessage("Username must be at least 5 characters long.");
       return;
     }
 
-    if(!reg.test(email)) {
+    if(!validator.isEmail(email)) {
       setErrorMessage("Invalid email address.");
       return;
     }

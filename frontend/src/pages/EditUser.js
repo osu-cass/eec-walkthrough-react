@@ -4,6 +4,7 @@ import {getProfile, changeUsername} from "../utilities/cookieAuth";
 import LoadingOverlay from "../components/LoadingOverlay";
 import Error from "../components/Error";
 import Success from "../components/Success";
+import validator from "validator";
 import "../components/RegisterUser.css";
 
 // edit user details page
@@ -164,9 +165,6 @@ function EditUser (props) {
       newPassword2 = document.getElementById("input-register-password-new-2").value;
     }
 
-    // basic email regular expression
-    const reg = /\S+@\S+\.\S+/;
-
     // check that all inputs are valid
     if(username.length < 5) {
       setErrorMessage("Username must be at least 5 characters long.");
@@ -174,7 +172,7 @@ function EditUser (props) {
       return;
     }
 
-    if(!reg.test(email)) {
+    if(!validator.isEmail(email)) {
       setErrorMessage("Invalid email address.");
       setSuccessMessage("");
       return;
