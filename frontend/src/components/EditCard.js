@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
-import { getProfile, logout } from '../utilities/cookieAuth';
+import { getProfile } from '../utilities/cookieAuth';
 import AddButton from './AddButton';
 import ItemInput from './ItemInput';
 import Dropdown from './Dropdown';
@@ -9,11 +9,12 @@ import Error from './Error';
 import './CreateCard.css'
 import './Subject.css'
 
-class CreateCard extends React.Component {
+class EditCard extends React.Component {
 	state = {
 		counter: 0, //count number of inputs added
 		title: "",
-		items: [],
+		items: [], //current items have current 1, new items have current 0
+		toDelete: [], //hold the ids to be deleted on "Remove"
 		show: false,
 		loaded: false,
 		emptyInputs: false,
@@ -22,24 +23,110 @@ class CreateCard extends React.Component {
 
 	async componentDidMount() {
 		let items = [];
-		let item = {};
-
-		//Init empty item
-		let content = { text: "", label: "", url: "" };
-		item.content = content;
-		item.depth = 0;
-		item.icon = null;
-		item.contentType = null;
-
-		items.push(item);
-
+		let itemData = {};
+		let counter = 0;
+		let itemSet = this.generateItems();
+		//Push items from props to state
+		itemSet.forEach((item, i) => {
+			itemData = {}
+			itemData.itemId = item.itemId;
+			itemData.content = {
+				text: item.contentText,
+				label: item.contentLabel,
+				url: item.contentUrl
+			}	
+			itemData.parentId = item.parentId;
+			itemData.depth = item.depth;
+			itemData.icon = item.iconType;
+			itemData.contentType = this.getContentType(item.contentText, item.contentLabel, item.contentUrl);
+			itemData.current = 1;
+			itemData.orderIndex = item.orderIndex;
+			items.push(itemData);
+			counter++;
+		});
 		await this.setState({ items: items });
 		await this.setState({ role: getProfile().role})
+		await this.setState({ title: this.props.cardName })
+		this.setState({ counter: counter });
 		this.setState({ loaded: true });
+		this.setState({ errorMessage: "Error: Fill out empty inputs (title, icons, text)" })
+	}
+
+	getChilds(id) {
+		var results = this.props.items.reduce(function (result, item) {
+			if (item.parentId === id) {
+				result.push(item);
+			}
+			return result;
+		}, []);
+		return results.length ? results : false
+	}
+
+	//given a list of items
+	//check each item. grab its item id, and check list again for items whose parent id match. assume sorted by order index already.
+	//result: to list each one in order, from top to bottom
+	recurseItems(item, used, items, isChild, prevDepth) {	//isChild = marks if it has any parent, for coloring
+		let childs = this.getChilds(item.itemId); //get all childs of this item
+		if (!(used.includes(item.itemId))) {
+			used.push(item.itemId); //push used
+			//assign depth if child using prevDepth
+			if(isChild)
+				item.depth = prevDepth + 1;
+			else
+				item.depth = 0;
+			if (childs) {	
+				//push item
+				items.push(item);
+				//recurse over childs found
+				childs.map((child) => (this.recurseItems(child, used, items, true, item.depth)))
+			} else {
+				items.push(item);
+			}
+		}
+	}
+
+	generateItems() {
+		let items = []; //hold items
+		let used = []; //hold used items to avoid looping over again
+		this.props.items.map((item) => { //loop through each item (if not used), and grab its childs
+			this.recurseItems(item, used, items, false, 0)
+			return null;
+		})
+		return items;
+	}
+
+	findDepth(item, itemArr, i) {
+		//No parent is depth 0
+		if (!itemArr.length || item.parentId === null)
+			return 0;
+		//Check if previous item's parent is null, item depth is default 1
+		if (itemArr[i - 1].parentId === null)
+			return 1;
+		//Shares same parent as previous item, return same depth
+		else if (item.parentId === itemArr[i - 1].parentId) {
+			return itemArr[i - 1].depth;
+		}
+		//Does not share same parent
+		else if (item.parentId !== itemArr[i-1].parentId) {
+			return itemArr[i - 1].depth + 1;
+		}
+		//New case
+		else {
+			return itemArr[i - 1].depth - 1;
+		}
 	}
 
 	handleClose = () => this.setState({ show: false });
 	handleShow = () => this.setState({ show: true });
+
+	getContentType(text, label, url) {
+		if (text !== "" && label === "" && url === "")
+			return 1;
+		if (text === "" && label !== "" && url !== "")
+			return 2;
+		if (text !== "" && label !== "" && url !== "")
+			return 3;
+	}
 
 	incrementCounter = (contentType) => {
 		let count = this.state.counter;
@@ -56,7 +143,6 @@ class CreateCard extends React.Component {
 
 		this.setState({ items: copy });
 		this.setState({ counter: count + 1 });
-
 	}
 
 	/**
@@ -83,6 +169,7 @@ class CreateCard extends React.Component {
 		item.depth = copy[idx].depth + 1;
 		item.icon = null;
 		item.contentType = 1;
+		item.current = 0;
 
 		//Increment counter and insert child
 		copy.splice(idx + 1, 0, item);	//Initialize empty
@@ -100,15 +187,16 @@ class CreateCard extends React.Component {
 			console.log("error ", idx, this.state.items);
 			return;
 		}
-
 		idx = parseInt(idx);
+
+		let toDelete = [...this.state.toDelete];
 		let copy = [...this.state.items];
 		let i, remove = 1, parent = copy[idx].depth, start = idx + 1;
 
 		// Delete children if any (if greater than parent subpoint depth, it is a child)
 		if (idx !== this.state.items.length - 1) {
 			for (i = start; i < this.state.items.length && parent < copy[i].depth; i++) {
-				console.log(copy[i].depth)
+				toDelete.push(this.state.items[i].itemId)
 				remove++;
 			}
 		}
@@ -119,6 +207,10 @@ class CreateCard extends React.Component {
 		copy.splice(idx, remove);	//Initialize empty
 		this.setState({ items: copy });
 		this.setState({ counter: count - remove });
+
+		//Set up Ids to be deleted
+		toDelete.push(this.state.items[idx].itemId);
+		this.setState({ toDelete: toDelete });
 	}
 
 	/**
@@ -148,7 +240,21 @@ class CreateCard extends React.Component {
 			return 1;
 		//if left sibling of item has same depth, order index inc
 		if (items[i - 1].depth === items[i].depth)
-			return items[i - 1].depth + 1;
+			return items[i - 1].depth + 1 && console.log("return ", items[i - 1].depth + 1);
+	}
+
+	deleteCard = async () => {
+		//Close modal
+		this.handleClose();
+
+		//Send call to backend to delete card
+		fetch(`/cards/${this.props.cardId}`, {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' }
+		})
+
+		//Reload page after deleting
+		this.props.refresh();
 	}
 
 	handleSubmit = async () => {
@@ -163,26 +269,19 @@ class CreateCard extends React.Component {
 		//Prepare data for new card
 		let cardData = {
 			headerId: this.props.headerId,
-			orderIndex: this.props.numCards + 1, //append to end of list of cards for this header
+			orderIndex: this.props.orderIndex,
 			title: this.state.title,
-			userId: 1
 		}
 
 		//Store item ids to handle parentId 
 		let itemIds = [];
 
-		//Create new card
-		await fetch("/cards/", {
-			method: 'POST',
+		//Edit card
+		await fetch(`/cards/${this.props.cardId}`, {
+			method: 'PATCH',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(cardData)
 		}).then(function (res) {
-			// if the user is performing an unauthorized action
-			// log them out and return them to the homepage
-			if (res.status === 401) {
-				logout();
-				window.location.href = "/";
-			}
 			if (res.status >= 400) {
 				throw new Error("Bad response from server");
 			}
@@ -190,30 +289,51 @@ class CreateCard extends React.Component {
 		}).then(async (cardData) => {
 			//Loop through state items and create 
 			for (const key in this.state.items) {
+				let current = this.state.items[key].current;
 				let itemData = {
-					orderIndex: this.findOrderIndex(key),
+					cardId: this.props.cardId,
 					contentText: this.state.items[key].content.text,
 					contentLabel: this.state.items[key].content.label,
 					contentUrl: this.state.items[key].content.url,
-					cardId: cardData.insertId,
 					iconType: this.state.items[key].icon,
-					parentId: this.findParent(key, this.state.items[key].depth, itemIds),
+					approved: 1 //temporary placeholder
 				}
-				console.log(itemData);
-				//Items can be dependent on previous item to be created (parentId), use await
-				await fetch("/items/", {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(itemData)
-				})
-					.then((response) => response.json())
-					.then(function (res) {
-						itemIds.push(res.insertId);
-					}).catch(function (err) {
-						console.log(itemData);
-						console.log(err);
+				//Item is being edited
+				if (current) {
+					itemData.itemId = this.state.items[key].itemId;
+					itemData.orderIndex = this.findOrderIndex(key);
+					itemData.parentId = this.state.items[key].parentId;
+					fetch(`/items/${itemData.itemId}`, {
+						method: 'PATCH',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(itemData)
 					})
-
+						.then((response) => response.json())
+						.then(itemIds.push(itemData.itemId))
+				} else { //Item is being created through edits
+					//Items can be dependent on previous item to be created (parentId), use await
+					itemData.parentId = this.findParent(key, this.state.items[key].depth, itemIds);
+					itemData.orderIndex = parseInt(key) + 1;
+					await fetch("/items/", {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(itemData)
+					})
+						.then((response) => response.json())
+						.then(function (res) {
+							itemIds.push(res.insertId);
+						}).catch(function (err) {
+							console.log(err);
+						})
+				}
+			}
+			//Loop through item ids to remove from state and delete
+			let i;
+			for (i = 0; i < this.state.toDelete.length; i++) {
+				fetch(`/items/${this.state.toDelete[i]}`, {
+					method: 'DELETE',
+					headers: { 'Content-Type': 'application/json' }
+				})
 			}
 		}).catch(function (err) {
 			console.log(err);
@@ -223,9 +343,11 @@ class CreateCard extends React.Component {
 		this.props.refresh();
 	}
 
+	//Check for empty inputs (card title, item text/content/labels, icons)
 	checkInputs() {
 		let emptyFound = false;
 		let errorMessage = this.state.errorMessage;
+		let i = 0;
 
 		//Empty title
 		if (!this.state.title.length) {
@@ -238,7 +360,7 @@ class CreateCard extends React.Component {
 			}
 		}
 		//Empty item text
-		for (let i = 0; i < this.state.items.length; i++) {
+		for (i = 0; i < this.state.items.length; i++) {
 			let item = this.state.items[i];
 			if (item.contentType === 1) { //text
 				if (item.content.text === "") {
@@ -273,32 +395,17 @@ class CreateCard extends React.Component {
 		return false;
 	}
 
+	//Control input coming from <ItemInput> for each row according to contentType and index in this.state.items
 	handleInput = (e, index, contentType) => {
 		let key = index.toString();
 		let copy = [...this.state.items];
-
 		if (contentType === 1)
 			copy[key].content.text = e.target.value;
 		else if (contentType === 2)
 			copy[key].content.label = e.target.value;
 		else if (contentType === 3)
 			copy[key].content.url = e.target.value;
-
 		this.setState({ items: copy });
-		/* Example of items
-		* {
-		*   '0': {
-		*			'text': "Hello",
-		*			'label': "",
-		*			'url': ""
-		* 		}
-		*		'1': {
-		*			'text': "",
-		*			'label': "picture of a dog",
-		*			'url': "imgur.com/a23Xva"	
-		*			}
-		*	}
-		*/
 	}
 
 	/**
@@ -310,8 +417,16 @@ class CreateCard extends React.Component {
 	updateIcon(icon, index) {
 		let copy = [...this.state.items];
 		copy[index].icon = icon;
-		console.log(icon, index);
 		this.setState({ items: copy });
+	}
+
+	getIconName(id) {
+		let i;
+		for (i = 0; i < this.props.icons.length; i++) {
+			if (this.props.icons[i].iconType === id)
+				return i;
+		}
+		return null;
 	}
 
 	/**
@@ -321,7 +436,7 @@ class CreateCard extends React.Component {
 	*/
 	generateIcons(i) {
 		let list = [], jsx = [], values = [];
-		this.props.icons.map((type) => {
+		this.props.icons.map((type, index) => {
 			jsx.push(<div className="dropdown-item clickIcon" style={{ cursor: "pointer" }}>
 				<i className={`fas fa-${type.typeName}`} /> {type.typeKeyword}
 			</div>);
@@ -334,6 +449,11 @@ class CreateCard extends React.Component {
 		return list;
 	}
 
+	/**
+	* Returns JSX showing indentation of items
+	* @param {Number} i item index passed from generateInputs()
+	* @return {JSX}    Array of JSX of icons
+	*/
 	getDepth(idx) {
 		let jsx = [];
 		let i = 0;
@@ -351,7 +471,7 @@ class CreateCard extends React.Component {
 				<Row className="mb-2" key={i + 1}>
 					{this.getDepth(i)} {/*return indentation for subpoints*/}
 					<div className="col-1">
-						<Dropdown key={i} idx={i} list={this.generateIcons(i)} handleClick={(id, idx) => this.updateIcon(id, idx)} />
+						<Dropdown key={i} idx={i} list={this.generateIcons(i)} selectedIndex={this.getIconName(this.state.items[i].icon)} handleClick={(id, idx) => this.updateIcon(id, idx)} edit />
 					</div>
 
 					<div className="input-group col-9">
@@ -362,7 +482,7 @@ class CreateCard extends React.Component {
 							value={this.state.items[i]}
 							contentType={this.state.items[i].contentType}
 						/>
-						{subpointDepth < 6 &&	//set maximum depth to 6
+						{subpointDepth < 6 &&	//set maximum depth to 6, can be increased if it fits the screen
 							<span>
 								<button className='btn btn-success btn-sm ml-2' key={i} data-index={i} onClick={(e) => this.updateSubpoints(e.target.getAttribute("data-index"))}>
 									<i className='fas fa-plus' /> Sub
@@ -381,12 +501,12 @@ class CreateCard extends React.Component {
 
 	render() {
 		return this.state.loaded && this.state.role >= 3 ? (
-			<div className='text-center mt-3 mb-2'>
-				<Button variant="info" onClick={this.handleShow}>
+			<div className='text-center'>
+				<Button size="sm" variant="info" onClick={this.handleShow}>
 					<i
-						className='fas fa-plus-circle text-white mr-2'
+						className='fas fa-edit text-white mr-2'
 						style={{ transform: 'scale(1.5)' }}></i>
-					Create Card
+					<span className="text-white">Edit Card</span>
 				</Button>
 				<Modal show={this.state.show} onHide={this.handleClose} dialogClassName="modal-width">
 					<Modal.Header>
@@ -394,7 +514,6 @@ class CreateCard extends React.Component {
 						<Button variant="none" onClick={this.handleClose}>
 							<span aria-hidden="true">&times;</span>
 						</Button>
-
 					</Modal.Header>
 
 					<Modal.Body >
@@ -402,7 +521,7 @@ class CreateCard extends React.Component {
 							<Col>
 								<Form.Group controlId="formTitle">
 									<Form.Label className="font-weight-bold">Card Title</Form.Label>
-									<Form.Control type="text" placeholder="Enter title" onChange={(e) => this.setState({ title: e.target.value })} />
+									<Form.Control type="text" defaultValue={this.state.title} onChange={(e) => this.setState({ title: e.target.value })} />
 								</Form.Group>
 							</Col>
 						</Row>
@@ -420,7 +539,7 @@ class CreateCard extends React.Component {
 
 						<Row>
 							<div className='col-3' />
-							<div className='col-6 mt-4'>
+							<div className='col-6'>
 								<Error
 									empty={this.state.emptyInputs}
 									message={this.state.errorMessage}
@@ -430,8 +549,9 @@ class CreateCard extends React.Component {
 					</Modal.Body>
 
 					<Modal.Footer className="modal-footer">
-						<Button variant="secondary" onClick={this.handleClose}>Close</Button>
-						<Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Create Card</Button>
+						<Button variant="secondary" onClick={this.handleClose}>Cancel</Button>
+						<Button variant="danger" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.deleteCard() }}>Delete Card</Button>
+						<Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Card Edit</Button>
 					</Modal.Footer>
 				</Modal>
 			</div>
@@ -439,8 +559,16 @@ class CreateCard extends React.Component {
 	}
 }
 
-CreateCard.propTypes = {
+EditCard.propTypes = {
 	title: PropTypes.string,
-	icons: PropTypes.array
+	icons: PropTypes.array,
+	cardName: PropTypes.string,
+	items: PropTypes.array,
+	headerId: PropTypes.number,
+	cardId: PropTypes.number,
+	parentId: PropTypes.number,
+	orderIndex: PropTypes.number,
+	refresh: PropTypes.func,
 };
-export default CreateCard;
+
+export default EditCard;
