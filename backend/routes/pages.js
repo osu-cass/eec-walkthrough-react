@@ -136,7 +136,7 @@ app.get("/:pageId/all", getUserID, getPageVal.validation, async (req, res) => {
 
 
 // get a list of pages based on a search query
-app.get("/search/:text/:cursorPrimary/:cursorSecondary", searchPageVal.validation, async (req, res) => {
+app.get("/search/:text/:cursorPrimary/:cursorSecondary", getUserID, searchPageVal.validation, async (req, res) => {
 
   try {
 
@@ -155,8 +155,14 @@ app.get("/search/:text/:cursorPrimary/:cursorSecondary", searchPageVal.validatio
       secondary: req.params.cursorSecondary
     };
 
+    // check if the current user should be able to view this content
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
     // search for pages
-    const results = await searchPages(text, cursor);
+    const results = await searchPages(text, cursor, viewAll);
 
     if (results.pages.length) {
       res.status(200).send(results);
