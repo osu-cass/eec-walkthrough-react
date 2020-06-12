@@ -5,14 +5,23 @@ const {pool} = require("../services/database/mysqlPool");
 
 
 // return information about the specific page
-async function getPage(pageId) {
+async function getPage(pageId, viewAll) {
 
   try {
 
+    let sql = "";
+
     // get the specified page
-    const sql = "SELECT * " +
+    if (viewAll) {
+      sql = "SELECT * " +
       "FROM Pages " +
       "WHERE pageId = ?;";
+    } else {
+      sql = "SELECT * " +
+      "FROM Pages " +
+      "WHERE pageId = ? " +
+      "AND approved = 1;";
+    }
 
     let results = await pool.query(sql, pageId);
 
@@ -26,23 +35,45 @@ async function getPage(pageId) {
 
     // get all of the subjects/industries that are related to the page
     if (pageType) {
-      const sql = "SELECT S.pageId, S.name " +
-      "FROM Pages AS S " +
-      "LEFT JOIN Industries_Subjects AS M " +
-      "ON S.pageId = M.subjectId " +
-      "WHERE M.industryId = ? " +
-      "AND S.pageType = 0 " +
-      "ORDER BY S.name ASC;";
+      if (viewAll) {
+        sql = "SELECT S.pageId, S.name " +
+        "FROM Pages AS S " +
+        "LEFT JOIN Industries_Subjects AS M " +
+        "ON S.pageId = M.subjectId " +
+        "WHERE M.industryId = ? " +
+        "AND S.pageType = 0 " +
+        "ORDER BY S.name ASC;";
+      } else {
+        sql = "SELECT S.pageId, S.name " +
+        "FROM Pages AS S " +
+        "LEFT JOIN Industries_Subjects AS M " +
+        "ON S.pageId = M.subjectId " +
+        "WHERE M.industryId = ? " +
+        "AND S.pageType = 0 " +
+        "AND S.approved = 1 " +
+        "ORDER BY S.name ASC;";
+      }
       results = await pool.query(sql, pageId);
       finalResults.relatedPages = results[0];
     } else {
-      const sql = "SELECT I.pageId, I.name " +
-      "FROM Pages AS I " +
-      "LEFT JOIN Industries_Subjects AS M " +
-      "ON I.pageId = M.industryId " +
-      "WHERE M.subjectId = ? " +
-      "AND I.pageType = 1 " +
-      "ORDER BY I.name ASC;";
+      if (viewAll) {
+        sql = "SELECT I.pageId, I.name " +
+        "FROM Pages AS I " +
+        "LEFT JOIN Industries_Subjects AS M " +
+        "ON I.pageId = M.industryId " +
+        "WHERE M.subjectId = ? " +
+        "AND I.pageType = 1 " +
+        "ORDER BY I.name ASC;";
+      } else {
+        sql = "SELECT I.pageId, I.name " +
+        "FROM Pages AS I " +
+        "LEFT JOIN Industries_Subjects AS M " +
+        "ON I.pageId = M.industryId " +
+        "WHERE M.subjectId = ? " +
+        "AND I.pageType = 1 " +
+        "AND approved = 1 " +
+        "ORDER BY I.name ASC;";
+      }
       results = await pool.query(sql, pageId);
       finalResults.relatedPages = results[0];
     }
