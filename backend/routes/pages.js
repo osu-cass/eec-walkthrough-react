@@ -60,7 +60,7 @@ app.get("/all", getUserID, async (req, res) => {
 
 
 // get information about a single page
-app.get("/:pageId", getPageVal.validation, async (req, res) => {
+app.get("/:pageId", getUserID, getPageVal.validation, async (req, res) => {
 
   try {
 
@@ -74,8 +74,14 @@ app.get("/:pageId", getPageVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
+    // check if the current user should be able to view this content
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
     // get page data
-    const results = await getPage(pageId);
+    const results = await getPage(pageId, viewAll);
 
     if (results.pageId === 0) {
       res.status(404).send({error: "Page not found."});
