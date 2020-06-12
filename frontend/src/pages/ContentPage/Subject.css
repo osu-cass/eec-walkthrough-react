@@ -1,0 +1,23 @@
+body {
+  background-color: #f8f9fa;
+  font-family: 'Roboto', sans-serif;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 70%;
+  }
+}
+
+/* Cards/Categories */
+.hide {
+  z-index: 999;
+  transform: scale(1, 0);
+  /*transition: transform 0.4s;*/
+  position: absolute;
+}
+
+.active {
+  transform: scale(1);
+  transition: transform 0.4s;
+}
