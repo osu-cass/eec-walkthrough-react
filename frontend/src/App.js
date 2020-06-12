@@ -1,12 +1,12 @@
 import React from "react";
-import Subject from "./pages/Subject";
-import Home from "./pages/Home";
-import ManageUsers from "./pages/ManageUsers";
-import Search from "./pages/Search";
-import RegisterUser from "./pages/RegisterUser";
-import EditUser from "./pages/EditUser";
-import NavBar from "./components/NavBar";
-import Sidebar from "./components/Sidebar";
+import Subject from "./pages/ContentPage/Subject";
+import Home from "./pages/Home/Home";
+import ManageUsers from "./pages/ManageUsers/ManageUsers";
+import Search from "./pages/Search/Search";
+import RegisterUser from "./pages/RegisterUser/RegisterUser";
+import EditUser from "./pages/EditUser/EditUser";
+import NavBar from "./components/NavBar/NavBar";
+import Sidebar from "./components/Sidebar/Sidebar";
 import {Route, Switch} from "react-router-dom";
 
 class App extends React.Component {
