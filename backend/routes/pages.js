@@ -6,7 +6,8 @@ const app = express();
 const {validationResult} = require("express-validator");
 const {
   roleCheck,
-  requireAuth
+  requireAuth,
+  getUserID
 } = require("../services/authentication/cookieAuth");
 const {
   postPageVal,
@@ -29,14 +30,20 @@ const {
 
 
 // get information about all pages and their related subjects/industries
-app.get("/all", async (req, res) => {
+app.get("/all", getUserID, async (req, res) => {
 
   try {
 
     console.log("Get a list of all pages and their related subjects/industries");
 
+    // check if the current user should see all or only some of the pages
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
     // get a list of all pages and their related subjects/industries
-    const results = await getPages();
+    const results = await getPages(viewAll);
 
     if (results.pages.subjects.length === 0 && results.pages.industries.length === 0) {
       res.status(404).send({error: "No pages found."});

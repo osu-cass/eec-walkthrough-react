@@ -69,10 +69,10 @@ function getUserID(req, res, next) {
     next();
 
   } catch (err) {
-    console.error("User does not have valid credentials");
     req.auth = {
       userId: 0
     };
+    next();
   }
 }
 exports.getUserID = getUserID;
