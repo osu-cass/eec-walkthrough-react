@@ -7,5 +7,5 @@
   bottom: 50%;
   width: 0;
   height: 0;
-  z-index: 99;
+  z-index: 9999;
 }

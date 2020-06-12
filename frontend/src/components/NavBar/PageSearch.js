@@ -23,7 +23,7 @@ function PageSearch(props) {
   }
 
   return (
-    <div className="search mr-3 nav-item">
+    <div className="search nav-item mx-2">
       <form className="form-inline" onSubmit={(e) => submitHandler(e)}>
         <input
           type="search"
