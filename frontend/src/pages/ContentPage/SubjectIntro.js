@@ -15,7 +15,7 @@ function SubjectIntro(props) {
       </div>
     </div>
   );
-};
+}
 export default SubjectIntro;
 
 SubjectIntro.propTypes = {
