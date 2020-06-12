@@ -17,7 +17,7 @@ function SubjectCard(props) {
       </span>
     </div>
   );
-};
+}
 export default SubjectCard;
 
 SubjectCard.propTypes = {

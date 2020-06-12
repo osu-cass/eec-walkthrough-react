@@ -9,5 +9,5 @@ function Loading() {
       </Spinner>
     </div>
   );
-};
+}
 export default Loading;

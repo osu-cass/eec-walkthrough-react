@@ -56,7 +56,7 @@ function BulletPoint (props) {
       <div className='pl-5 mt-2'>{props.children}</div>
     </div >
   );
-};
+}
 export default BulletPoint;
 
 BulletPoint.propTypes = {

@@ -8,7 +8,7 @@ function Error(props) {
       {props.message}
     </Alert>
   ) : <div className="hide" />;
-};
+}
 export default Error;
 
 Error.propTypes = {

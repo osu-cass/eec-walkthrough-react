@@ -47,7 +47,7 @@ function SidebarCollection(props) {
     </Accordion >
 
   );
-};
+}
 export default SidebarCollection;
 
 SidebarCollection.propTypes = {
