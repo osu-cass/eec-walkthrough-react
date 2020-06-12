@@ -611,7 +611,7 @@ exports.deleteSubject = deleteSubject;
 
 
 // gets pages that match the search query
-async function searchPages(text, cursor) {
+async function searchPages(text, cursor, viewAll) {
   try {
 
     const RESULTS_PER_PAGE = 25;
@@ -649,6 +649,11 @@ async function searchPages(text, cursor) {
     if (text !== "*") {
       sql += "AND name LIKE CONCAT('%', ?, '%') ";
       sqlArray.push(text);
+    }
+
+    // only show the user pages they are allowed to see
+    if (!viewAll) {
+      sql += "AND approved = 1 ";
     }
 
     // sort search results by name
