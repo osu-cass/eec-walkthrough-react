@@ -98,7 +98,7 @@ app.get("/:pageId", getUserID, getPageVal.validation, async (req, res) => {
 
 
 // get all of the page info, headers, cards, and items for a single page
-app.get("/:pageId/all", getPageVal.validation, async (req, res) => {
+app.get("/:pageId/all", getUserID, getPageVal.validation, async (req, res) => {
 
   try {
 
@@ -112,8 +112,14 @@ app.get("/:pageId/all", getPageVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
+    // check if the current user should be able to view this content
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
     // get complete page data
-    const results = await getFullPage(pageId);
+    const results = await getFullPage(pageId, viewAll);
 
     if (results.pageId === 0) {
       res.status(404).send({error: "Page not found."});
