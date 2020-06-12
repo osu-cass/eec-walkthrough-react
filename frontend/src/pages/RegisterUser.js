@@ -6,7 +6,7 @@ import validator from "validator";
 import "../components/RegisterUser.css";
 
 // user registration page
-function RegisterUser (props) {
+function RegisterUser () {
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -23,7 +23,7 @@ function RegisterUser (props) {
         firstName: first,
         lastName: last,
         email: email
-      }
+      };
 
       // construct the request url
       const postUrl = "/users";
@@ -77,58 +77,58 @@ function RegisterUser (props) {
     const password2 = document.getElementById("input-register-password-re").value;
 
     // check that all inputs are valid
-    if(username.length < 5) {
+    if (username.length < 5) {
       setErrorMessage("Username must be at least 5 characters long.");
       return;
     }
 
-    if(!validator.isEmail(email)) {
+    if (!validator.isEmail(email)) {
       setErrorMessage("Invalid email address.");
       return;
     }
 
-    if(email.length < 1) {
+    if (email.length < 1) {
       setErrorMessage("An email address is required.");
       return;
     }
 
-    if(first.length < 1) {
+    if (first.length < 1) {
       setErrorMessage("A first name is required.");
       return;
     }
 
-    if(last.length < 1) {
+    if (last.length < 1) {
       setErrorMessage("A last name is required.");
       return;
     }
 
-    if(password1.length < 8) {
+    if (password1.length < 8) {
       setErrorMessage("Password must be at least 8 characters long.");
       return;
     }
 
-    if(password1 !== password2) {
+    if (password1 !== password2) {
       setErrorMessage("Both passwords must match.");
       return;
     }
 
     // make sure no fields have spaces (besides passwords)
-    if(/\s/g.test(username)) {
+    if (/\s/g.test(username)) {
       setErrorMessage("No spaces allowed in username.");
       return;
     }
 
-    if(/\s/g.test(email)) {
+    if (/\s/g.test(email)) {
       setErrorMessage("No spaces allowed in email.");
       return;
     }
 
-    if(/\s/g.test(first)) {
+    if (/\s/g.test(first)) {
       setErrorMessage("No spaces allowed in first name.");
       return;
     }
 
-    if(/\s/g.test(last)) {
+    if (/\s/g.test(last)) {
       setErrorMessage("No spaces allowed in last name.");
       return;
     }
@@ -140,68 +140,68 @@ function RegisterUser (props) {
 
   return (
     <div className="container">
-        <LoadingOverlay loading={loading} />
-        <Card className="my-2 mb-5" id="user-register-container">
-          <Card.Header as="h2">Register User</Card.Header>
-          <div className="p-2 my-2 text-dark-50 bg-white" >
-            <form id="register-form" onSubmit={(e) => submitHandler(e)}>
-              <div className="form-group m-3">
+      <LoadingOverlay loading={loading} />
+      <Card className="my-2 mb-5" id="user-register-container">
+        <Card.Header as="h2">Register User</Card.Header>
+        <div className="p-2 my-2 text-dark-50 bg-white" >
+          <form id="register-form" onSubmit={(e) => submitHandler(e)}>
+            <div className="form-group m-3">
 
-                <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Username
-                </label>
-                <input type="text" className="form-control mx-2 mb-4"
-                  id="input-register-username" maxLength="50" />
+              </label>
+              <input type="text" className="form-control mx-2 mb-4"
+                id="input-register-username" maxLength="50" />
 
-                <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Email
-                </label>
-                <input type="email" className="form-control mx-2 mb-4"
-                  id="input-register-email" maxLength="100" />
+              </label>
+              <input type="email" className="form-control mx-2 mb-4"
+                id="input-register-email" maxLength="100" />
 
-                <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   First Name
-                </label>
-                <input type="text" className="form-control mx-2 mb-4"
-                  id="input-register-first" maxLength="50" />
+              </label>
+              <input type="text" className="form-control mx-2 mb-4"
+                id="input-register-first" maxLength="50" />
 
-                <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Last Name
-                </label>
-                <input type="text" className="form-control mx-2 mb-4"
-                  id="input-register-last" maxLength="50" />
+              </label>
+              <input type="text" className="form-control mx-2 mb-4"
+                id="input-register-last" maxLength="50" />
 
-                <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Password
-                </label>
-                <input type="password" className="form-control mx-2 mb-4"
-                  id="input-register-password" maxLength="50"
-                  autoComplete="new-password" />
+              </label>
+              <input type="password" className="form-control mx-2 mb-4"
+                id="input-register-password" maxLength="50"
+                autoComplete="new-password" />
 
-                <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Retype Password
-                </label>
-                <input type="password" className="form-control mx-2 mb-4"
-                  id="input-register-password-re" maxLength="50"
-                  autoComplete="new-password" />
+              </label>
+              <input type="password" className="form-control mx-2 mb-4"
+                id="input-register-password-re" maxLength="50"
+                autoComplete="new-password" />
 
-                <div className="ml-2 my-3 pl-2">
-                  <Error
-                    empty={!!errorMessage.length}
-                    message={errorMessage}
-                  />
-                </div>
-
-                <button type="submit" id="search-user-button" className="btn btn-info m-2">
-                  Register
-                </button>
-
+              <div className="ml-2 my-3 pl-2">
+                <Error
+                  empty={!!errorMessage.length}
+                  message={errorMessage}
+                />
               </div>
-            </form>
-          </div>
-        </Card>
+
+              <button type="submit" id="search-user-button" className="btn btn-info m-2">
+                  Register
+              </button>
+
+            </div>
+          </form>
+        </div>
+      </Card>
     </div>
-  )
+  );
 
 }
 export default RegisterUser;

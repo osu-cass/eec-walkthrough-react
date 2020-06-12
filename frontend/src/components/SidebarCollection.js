@@ -1,10 +1,10 @@
-import React, { Fragment } from "react";
+import React, {Fragment} from "react";
 import "./Sidebar.css";
-import { NavLink } from "react-router-dom";
-import PropTypes from 'prop-types';
-import Accordion from 'react-bootstrap/Accordion';
-import { Card } from 'react-bootstrap';
-import CreatePage from './CreatePage'
+import {NavLink} from "react-router-dom";
+import PropTypes from "prop-types";
+import Accordion from "react-bootstrap/Accordion";
+import {Card} from "react-bootstrap";
+import CreatePage from "./CreatePage";
 import "./SidebarCollection.css";
 
 const SidebarCollection = props => {
@@ -12,16 +12,16 @@ const SidebarCollection = props => {
     <Accordion>
       {/* If no collection passed in, make singular link */}
       {props.collection ? (
-          <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{ fontSize: "1.2rem" }} eventKey="0">
+        <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
+          {props.collectionName}
+        </Accordion.Toggle>
+      ) : (
+        <NavLink to={`/${props.collectionLink}`}>
+          <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
             {props.collectionName}
           </Accordion.Toggle>
-        ) : (
-          <NavLink to={`/${props.collectionLink}`}>
-            <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{ fontSize: "1.2rem" }} eventKey="0">
-              {props.collectionName}
-            </Accordion.Toggle>
-          </NavLink>
-        )
+        </NavLink>
+      )
       }
       {props.collection ?
         <Accordion.Collapse eventKey="0">
@@ -29,7 +29,7 @@ const SidebarCollection = props => {
             {props.collection.map((item, i) => {
               return (
                 <NavLink key={i} to={`/${props.collectionLink}/${item.pageId}`} className="ml-3 nav_link">
-                  <Card.Body key={item.pageId} style={{ fontSize: "1rem" }} className="nav_link">
+                  <Card.Body key={item.pageId} style={{fontSize: "1rem"}} className="nav_link">
                     {item.name}
                   </Card.Body>
                 </NavLink>
@@ -47,12 +47,17 @@ const SidebarCollection = props => {
     </Accordion >
 
   );
-}
+};
+export default SidebarCollection;
 
 SidebarCollection.propTypes = {
   collectionName: PropTypes.string,
   collectionLink: PropTypes.string,
-  collection: PropTypes.array
+  collection: PropTypes.array,
+  closeSidebar: PropTypes.any,
+  className: PropTypes.any,
+  closedSidebar: PropTypes.any,
+  refresh: PropTypes.any,
+  role: PropTypes.any
 };
 
-export default SidebarCollection;

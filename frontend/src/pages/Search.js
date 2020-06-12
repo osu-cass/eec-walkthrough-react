@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import LoadingOverlay from "../components/LoadingOverlay";
 import PageSearchResults from "../components/PageSearchResults";
 import {useParams, withRouter} from "react-router-dom";
+import PropTypes from "prop-types";
 
 // search results page
 function  Search (props) {
@@ -41,7 +42,7 @@ function  Search (props) {
       const newCursor = {
         primary: "null",
         secondary: "null"
-      }
+      };
       searchPages(newCursor, true, inputText);
     }
     // eslint-disable-next-line
@@ -105,11 +106,15 @@ function  Search (props) {
 
   return (
     <div className="container">
-        <LoadingOverlay loading={loading} />
-        <PageSearchResults pages={pages} cursor={cursor} loading={loading}
-              onLoading={load => setMoreLoading(load)} searchText={searchText}
-              onLoadMore={cursor => searchPages(cursor, false, searchText)} />
+      <LoadingOverlay loading={loading} />
+      <PageSearchResults pages={pages} cursor={cursor} loading={loading}
+        onLoading={load => setMoreLoading(load)} searchText={searchText}
+        onLoadMore={cursor => searchPages(cursor, false, searchText)} />
     </div>
-  )
+  );
 }
 export default withRouter(Search);
+
+Search.propTypes = {
+  history: PropTypes.object
+};

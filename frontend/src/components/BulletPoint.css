@@ -1,16 +1,16 @@
 /* Red */
 .fa-flag, .fa-fire {
-	color: #E81224 !important;
+  color: #E81224 !important;
 }
 
 /* YellowGold */
 .fa-hand-point-right, .fa-trophy, .fa-bolt {
-	color: #FFC83D !important;
+  color: #FFC83D !important;
 }
 
 /* Blue */
 .fa-thumbs-up, .fa-file {
-	color: #007BFF !important;
+  color: #007BFF !important;
 }
 
 /* LightGreen */
@@ -22,8 +22,8 @@
 }
 
 .opportunity-desc {
-	display: block;
-	margin-left: -0.30rem;
-	font-size: .9rem;
-	font-style: italic;
+  display: block;
+  margin-left: -0.30rem;
+  font-size: .9rem;
+  font-style: italic;
 }

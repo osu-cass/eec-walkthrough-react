@@ -1,7 +1,7 @@
-import React from 'react'
-import Card from './Card'
-import SubjectCard from './SubjectCard'
-import './Subject.css'
+import React from "react";
+import Card from "./Card";
+import SubjectCard from "./SubjectCard";
+import "./Subject.css";
 
 class CardContainer extends React.Component {
   state = {
@@ -9,8 +9,8 @@ class CardContainer extends React.Component {
   }
 
   generateCards() {
-    let used = []; //holds ids of all the used tidbits, prevents reprint
-    let Cards = this.props.cards.map((card, i) => { //Loop through cards
+    const used = []; // holds ids of all the used tidbits, prevents reprint
+    const Cards = this.props.cards.map((card, i) => { // Loop through cards
       return (
         <Card
           key={i}
@@ -27,11 +27,11 @@ class CardContainer extends React.Component {
       );
     });
 
-    return Cards
+    return Cards;
   }
 
   checkFilter = (id) => {
-    var i;
+    let i;
     for (i = 0; i < this.props.filter.length; i++) {
       if (this.props.filter[i].iconType === id) {
         return this.props.filter[i].hidden;
@@ -41,7 +41,7 @@ class CardContainer extends React.Component {
   }
 
   render() {
-    return this.props.cards.length ? ( //Render content when data loaded from backend
+    return this.props.cards.length ? ( // Render content when data loaded from backend
       this.generateCards()
     ) : (
       <SubjectCard subjectName={`No Cards under ${this.props.headerName}`} />
@@ -49,4 +49,4 @@ class CardContainer extends React.Component {
   }
 }
 
-export default CardContainer
+export default CardContainer;

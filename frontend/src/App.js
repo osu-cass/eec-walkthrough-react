@@ -7,7 +7,7 @@ import RegisterUser from "./pages/RegisterUser";
 import EditUser from "./pages/EditUser";
 import NavBar from "./components/NavBar";
 import Sidebar from "./components/Sidebar";
-import { Route, Switch } from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 
 class App extends React.Component {
   state = {
@@ -16,31 +16,26 @@ class App extends React.Component {
     nameChange: false
   };
 
-  componentDidMount() {
-    //fetch all pages
-    //check if route exists within pages
-  }
-
   openSidebar = () => {
-    this.setState({ sidebarOpen: true });
+    this.setState({sidebarOpen: true});
   };
 
   closeSidebar = () => {
-    this.setState({ sidebarOpen: false });
+    this.setState({sidebarOpen: false});
   };
-  
+
   handleLoginStatusChange = () => {
-    this.setState({ loginStatusChange: !this.state.loginStatusChange });
+    this.setState({loginStatusChange: !this.state.loginStatusChange});
   }
 
   handleNameChange = () => {
-    this.setState({ nameChange: !this.state.nameChange });
+    this.setState({nameChange: !this.state.nameChange});
   }
 
   render() {
     return (
       <main>
-        <NavBar 
+        <NavBar
           openSidebar={this.openSidebar} nameChange={this.state.nameChange}
           handleLoginStatusChange={this.handleLoginStatusChange}
         />
@@ -85,5 +80,4 @@ class App extends React.Component {
     );
   }
 }
-
 export default App;

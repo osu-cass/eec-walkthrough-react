@@ -34,7 +34,7 @@ function Login (props) {
       const postObj = {
         username: username,
         password: password
-      }
+      };
 
       // construct the request url
       const postUrl = "/users/login";
@@ -78,7 +78,7 @@ function Login (props) {
   }
 
   // clean up fields and error messages when the modal is reopened
-  function clearContent(e) {
+  function clearContent() {
     setErrorMessage("");
     document.getElementById("username-control").value = "";
     document.getElementById("password-control").value = "";
@@ -152,7 +152,7 @@ function Login (props) {
 
               <Form>
 
-              <div className="modal-body">
+                <div className="modal-body">
 
                   <Form.Group>
                     <Form.Label className="mr-2">Username</Form.Label>
@@ -184,35 +184,35 @@ function Login (props) {
                   <div id="no-account-login"
                     onClick={(e) => registerHandler(e)}
                   >
-                    Don't have an account?
+                    Don&apos;t have an account?
                   </div>
 
-                <div className="modal-footer">
+                  <div className="modal-footer">
 
-                  <button
-                    type="submit"
-                    className="btn btn-success"
-                    name="login"
-                    value="login"
-                    onClick={(e) => submitHandler(e)}
-                  >
+                    <button
+                      type="submit"
+                      className="btn btn-success"
+                      name="login"
+                      value="login"
+                      onClick={(e) => submitHandler(e)}
+                    >
                     Login
-                  </button>
+                    </button>
 
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    data-dismiss="modal"
-                  >
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
                     Cancel
-                  </button>
+                    </button>
 
-                  <LoadingOverlay loading={loading} />
+                    <LoadingOverlay loading={loading} />
+                  </div>
+
                 </div>
 
-              </div>
-
-            </Form>
+              </Form>
 
             </div>
           </div>

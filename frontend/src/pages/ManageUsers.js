@@ -6,7 +6,7 @@ import Container from "react-bootstrap/Container";
 import {logout} from "../utilities/cookieAuth";
 
 // manage users page
-function ManageUsers(props) {
+function ManageUsers() {
 
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
@@ -113,21 +113,21 @@ function ManageUsers(props) {
   }
 
   return (
-      <Container>
-        <LoadingOverlay loading={loading} />
+    <Container>
+      <LoadingOverlay loading={loading} />
 
-        <div id="user-manage-container">
-          <div id="user-manage-contents-container">
+      <div id="user-manage-container">
+        <div id="user-manage-contents-container">
 
-            <UserSearchForm onSearch={cursor => searchUsers(cursor, true)}/>
+          <UserSearchForm onSearch={cursor => searchUsers(cursor, true)}/>
 
-            <UserSearchResults users={users} cursor={cursor} loading={loading}
-              onLoading={load => setMoreLoading(load)} error={errorMessage}
-              onLoadMore={cursor => searchUsers(cursor, false)} />
+          <UserSearchResults users={users} cursor={cursor} loading={loading}
+            onLoading={load => setMoreLoading(load)} error={errorMessage}
+            onLoadMore={cursor => searchUsers(cursor, false)} />
 
-          </div>
         </div>
-      </Container>
+      </div>
+    </Container>
   );
 
 }

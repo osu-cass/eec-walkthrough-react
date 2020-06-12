@@ -1,19 +1,19 @@
-import React from 'react';
-import Button from 'react-bootstrap/Button';
+import React from "react";
+import Button from "react-bootstrap/Button";
 
 const AddButton = (props) => {
-	return (
-		<Button
-			variant={props.variant}
-			onClick={props.onClick}
-			className="mr-2"
-		>
-			<i
-				className='fas fa-plus-circle text-white mr-2'
-				style={{ transform: 'scale(1.5)' }}></i>
-			{props.label}
-		</Button>
-	);
-}
+  return (
+    <Button
+      variant={props.variant}
+      onClick={props.onClick}
+      className="mr-2"
+    >
+      <i
+        className='fas fa-plus-circle text-white mr-2'
+        style={{transform: "scale(1.5)"}}></i>
+      {props.label}
+    </Button>
+  );
+};
 
 export default AddButton;

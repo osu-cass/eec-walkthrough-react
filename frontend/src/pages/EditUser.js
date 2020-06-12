@@ -36,14 +36,14 @@ function EditUser (props) {
           firstName: first,
           lastName: last,
           email: email
-        }
+        };
       } else {
         postObj = {
           username: username,
           firstName: first,
           lastName: last,
           email: email
-        }
+        };
       }
 
       // get current user info
@@ -166,44 +166,44 @@ function EditUser (props) {
     }
 
     // check that all inputs are valid
-    if(username.length < 5) {
+    if (username.length < 5) {
       setErrorMessage("Username must be at least 5 characters long.");
       setSuccessMessage("");
       return;
     }
 
-    if(!validator.isEmail(email)) {
+    if (!validator.isEmail(email)) {
       setErrorMessage("Invalid email address.");
       setSuccessMessage("");
       return;
     }
 
-    if(email.length < 1) {
+    if (email.length < 1) {
       setErrorMessage("An email address is required.");
       setSuccessMessage("");
       return;
     }
 
-    if(first.length < 1) {
+    if (first.length < 1) {
       setErrorMessage("A first name is required.");
       setSuccessMessage("");
       return;
     }
 
-    if(last.length < 1) {
+    if (last.length < 1) {
       setErrorMessage("A last name is required.");
       setSuccessMessage("");
       return;
     }
 
     if (changePassword) {
-      if(oldPassword.length < 8 || newPassword1.length < 8) {
+      if (oldPassword.length < 8 || newPassword1.length < 8) {
         setErrorMessage("Password must be at least 8 characters long.");
         setSuccessMessage("");
         return;
       }
 
-      if(newPassword1 !== newPassword2) {
+      if (newPassword1 !== newPassword2) {
         setErrorMessage("Both new passwords must match.");
         setSuccessMessage("");
         return;
@@ -211,25 +211,25 @@ function EditUser (props) {
     }
 
     // make sure no fields have spaces (besides passwords)
-    if(/\s/g.test(username)) {
+    if (/\s/g.test(username)) {
       setErrorMessage("No spaces allowed in username.");
       setSuccessMessage("");
       return;
     }
 
-    if(/\s/g.test(email)) {
+    if (/\s/g.test(email)) {
       setErrorMessage("No spaces allowed in email.");
       setSuccessMessage("");
       return;
     }
 
-    if(/\s/g.test(first)) {
+    if (/\s/g.test(first)) {
       setErrorMessage("No spaces allowed in first name.");
       setSuccessMessage("");
       return;
     }
 
-    if(/\s/g.test(last)) {
+    if (/\s/g.test(last)) {
       setErrorMessage("No spaces allowed in last name.");
       setSuccessMessage("");
       return;
@@ -254,92 +254,92 @@ function EditUser (props) {
   if (activeUser) {
     return (
       <div className="container">
-          <LoadingOverlay loading={loading} />
-          <Card className="my-2 mb-5" id="user-register-container">
-            <Card.Header as="h2">Change User Information</Card.Header>
-            <div className="p-2 my-2 text-dark-50 bg-white" >
-                <div className="form-group m-3">
+        <LoadingOverlay loading={loading} />
+        <Card className="my-2 mb-5" id="user-register-container">
+          <Card.Header as="h2">Change User Information</Card.Header>
+          <div className="p-2 my-2 text-dark-50 bg-white" >
+            <div className="form-group m-3">
 
-                  <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                     Username
-                  </label>
-                  <input type="text" className="form-control mx-2 mb-4"
-                    id="input-register-username" maxLength="50" />
+              </label>
+              <input type="text" className="form-control mx-2 mb-4"
+                id="input-register-username" maxLength="50" />
 
-                  <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                     Email
-                  </label>
-                  <input type="email" className="form-control mx-2 mb-4"
-                    id="input-register-email" maxLength="100" />
+              </label>
+              <input type="email" className="form-control mx-2 mb-4"
+                id="input-register-email" maxLength="100" />
 
-                  <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                     First Name
+              </label>
+              <input type="text" className="form-control mx-2 mb-4"
+                id="input-register-first" maxLength="50" />
+
+              <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+                    Last Name
+              </label>
+              <input type="text" className="form-control mx-2 mb-4"
+                id="input-register-last" maxLength="50" />
+
+              {changePassword ? (
+                <div>
+                  <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+                        Old Password
                   </label>
-                  <input type="text" className="form-control mx-2 mb-4"
-                    id="input-register-first" maxLength="50" />
+                  <input type="password" className="form-control mx-2 mb-4"
+                    id="input-register-password-old" maxLength="50"
+                    autoComplete="new-password" />
 
                   <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
-                    Last Name
-                  </label>
-                  <input type="text" className="form-control mx-2 mb-4"
-                    id="input-register-last" maxLength="50" />
-
-                  {changePassword ? (
-                    <div>
-                      <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
-                        Old Password
-                      </label>
-                      <input type="password" className="form-control mx-2 mb-4"
-                        id="input-register-password-old" maxLength="50"
-                        autoComplete="new-password" />
-
-                      <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                         New Password
-                      </label>
-                      <input type="password" className="form-control mx-2 mb-4"
-                        id="input-register-password-new-1" maxLength="50"
-                        autoComplete="new-password" />
+                  </label>
+                  <input type="password" className="form-control mx-2 mb-4"
+                    id="input-register-password-new-1" maxLength="50"
+                    autoComplete="new-password" />
 
-                      <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
+                  <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                         Retype New Password
-                      </label>
-                      <input type="password" className="form-control mx-2 mb-4"
-                        id="input-register-password-new-2" maxLength="50"
-                        autoComplete="new-password" />
-                    </div>
-                  ) : (
-                    null
-                  )}
-
-                  <div className="ml-2 my-3 pl-2">
-                    <Success
-                      empty={!!successMessage.length}
-                      message={successMessage}
-                    />
-                    <Error
-                      empty={!!errorMessage.length}
-                      message={errorMessage}
-                    />
-                  </div>
-
-                  <button type="submit" id="search-user-button" className="btn btn-info m-2"
-                    onClick={(e) => submitHandler(e)}>
-                    Save changes
-                  </button>
-
-                  <button type="button" className="btn btn-secondary" onClick={(e) => passwordHandler(e)}>
-                  {changePassword ? (
-                    "Keep Password"
-                  ) : (
-                    "Change Password"
-                  )}
-                  </button>
-
+                  </label>
+                  <input type="password" className="form-control mx-2 mb-4"
+                    id="input-register-password-new-2" maxLength="50"
+                    autoComplete="new-password" />
                 </div>
+              ) : (
+                null
+              )}
+
+              <div className="ml-2 my-3 pl-2">
+                <Success
+                  empty={!!successMessage.length}
+                  message={successMessage}
+                />
+                <Error
+                  empty={!!errorMessage.length}
+                  message={errorMessage}
+                />
+              </div>
+
+              <button type="submit" id="search-user-button" className="btn btn-info m-2"
+                onClick={(e) => submitHandler(e)}>
+                    Save changes
+              </button>
+
+              <button type="button" className="btn btn-secondary" onClick={(e) => passwordHandler(e)}>
+                {changePassword ? (
+                  "Keep Password"
+                ) : (
+                  "Change Password"
+                )}
+              </button>
+
             </div>
-          </Card>
+          </div>
+        </Card>
       </div>
-    )
+    );
   } else {
     return (
       <Container className="text-center my-5">
