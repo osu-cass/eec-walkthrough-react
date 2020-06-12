@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Login from "./Login";
 import PageSearch from "./PageSearch";
+import PropTypes from "prop-types";
 import UserIcon from "./UserIcon";
 import {getProfile} from "../utilities/cookieAuth";
 
@@ -48,7 +49,12 @@ function NavBar (props) {
         </div>
       </nav>
     </div>
-  )
+  );
 
 }
-export default NavBar
+export default NavBar;
+
+NavBar.propTypes = {
+  handleLoginStatusChange: PropTypes.any,
+  openSidebar: PropTypes.any
+};

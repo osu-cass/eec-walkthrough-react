@@ -39,19 +39,19 @@ function PageSearchResults(props) {
           <div className="page-search-inner-container m-5">
             {props.pages.map((page, index) =>
 
-                <div className="page-info-container card m-5" key={page.pageId + "a"}>
-                  <Link to={pageLinks[index]}>
-                    <h5 className="page-link-header font-weight-bold text-left" key={page.pageId + "b"}>
-                      {page.name}
-                    </h5>
-                  </Link>
-                  <span className="text-left float-left" key={page.pageId + "c"}>
-                    {page.description}
-                  </span>
-                  <span className="page-link-created text-left float-left" key={page.pageId + "d"}>
+              <div className="page-info-container card m-5" key={page.pageId + "a"}>
+                <Link to={pageLinks[index]}>
+                  <h5 className="page-link-header font-weight-bold text-left" key={page.pageId + "b"}>
+                    {page.name}
+                  </h5>
+                </Link>
+                <span className="text-left float-left" key={page.pageId + "c"}>
+                  {page.description}
+                </span>
+                <span className="page-link-created text-left float-left" key={page.pageId + "d"}>
                     Created {formatTime(page.created)}
-                  </span>
-                </div>
+                </span>
+              </div>
 
             )}
           </div>
@@ -68,7 +68,7 @@ function PageSearchResults(props) {
     return (
       <div className="content-container mb-5">
         <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
-          <h3 className="py-5 font-weight-bold">No results found for "{props.searchText}".</h3>
+          <h3 className="py-5 font-weight-bold">No results found for &quot;{props.searchText}&quot;.</h3>
         </div>
       </div>
     );

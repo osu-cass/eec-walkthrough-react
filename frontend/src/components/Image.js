@@ -1,36 +1,8 @@
-import React from 'react'
-import { Modal, Col } from 'react-bootstrap';
-import PropTypes from 'prop-types';
-import './Image.css';
-
-function MyVerticallyCenteredModal(props) {
-  const [expand, setExpand] = React.useState(false);
-
-  return (
-    <Modal
-      {...props}
-      dialogClassName={expand ? "modal-expand" : "modal-inscreen"}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-      onExited={() => setExpand(false)}
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          {props.header}
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <img
-          src={props.url}
-          alt={props.header}
-          className="rounded img-fluid w-100 mx-auto d-block"
-          style={{ cursor: "pointer" }}
-          onClick={() => setExpand(!expand)}
-        />
-      </Modal.Body>
-    </Modal>
-  );
-}
+import React from "react";
+import {Col} from "react-bootstrap";
+import PropTypes from "prop-types";
+import MyVerticallyCenteredModal from "./MyVerticallyCenteredModal";
+import "./Image.css";
 
 function Image(props) {
   const [modalShow, setModalShow] = React.useState(false);
@@ -41,7 +13,7 @@ function Image(props) {
         src={props.url}
         alt={props.header}
         className="rounded img-fluid"
-        style={{ cursor: "pointer", maxWidth: "15em" }}
+        style={{cursor: "pointer", maxWidth: "15em"}}
         onClick={() => setModalShow(true)}
       />
 
@@ -52,12 +24,11 @@ function Image(props) {
         onHide={() => setModalShow(false)}
       />
     </Col>
-  )
+  );
 }
+export default Image;
 
 Image.propTypes = {
   url: PropTypes.string.isRequired,
   header: PropTypes.string
 };
-
-export default Image

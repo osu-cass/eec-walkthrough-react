@@ -1,0 +1,11 @@
+build/*
+*.css
+*.css.map
+*.txt
+*.png
+*.html
+*.ico
+*.map
+*.chunk.js
+*.chunk.js.map
+*.chunk.js.LICENSE

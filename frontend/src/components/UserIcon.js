@@ -34,20 +34,20 @@ function UserIcon (props) {
         <button className="btn btn-dark" type="button" id="user-navbar-icon-drp"
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-        <div className="d-flex align-items-center font-weight-bold">
-          <div className="user-icon-container text-white mx-3">
-            <div 
-              className="text-capitalize"
-              id="username-navbar"
-            >
-              {props.username}
+          <div className="d-flex align-items-center font-weight-bold">
+            <div className="user-icon-container text-white mx-3">
+              <div
+                className="text-capitalize"
+                id="username-navbar"
+              >
+                {props.username}
+              </div>
+              <div className="text-capitalize small" id="role-navbar d-block">
+                {formatRole(props.role)}
+              </div>
             </div>
-            <div className="text-capitalize small" id="role-navbar d-block">
-              {formatRole(props.role)}
-            </div>
+            <div id="user-icon-arrow" />
           </div>
-          <div id="user-icon-arrow" />
-        </div>
 
         </button>
 

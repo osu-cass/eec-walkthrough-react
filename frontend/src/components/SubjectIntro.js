@@ -1,4 +1,5 @@
-import React from 'react'
+import React from "react";
+import PropTypes from "prop-types";
 
 const SubjectIntro = props => {
   return (
@@ -9,11 +10,16 @@ const SubjectIntro = props => {
           <p>{props.description}</p>
         </div>
         <div className="col-4 text-center">
-          <img src={props.img} alt={props.header} className="subjectIntro rounded img-fluid" style={{ maxHeight: "23em" }} />
+          <img src={props.img} alt={props.header} className="subjectIntro rounded img-fluid" style={{maxHeight: "23em"}} />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
+export default SubjectIntro;
 
-export default SubjectIntro
+SubjectIntro.propTypes = {
+  header: PropTypes.string,
+  description: PropTypes.string,
+  img: PropTypes.string
+};

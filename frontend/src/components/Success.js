@@ -9,7 +9,7 @@ function Success (props) {
     </Alert>
   ) : <div className="hide" />;
 }
-export default Success
+export default Success;
 
 Success.propTypes = {
   empty: PropTypes.bool.isRequired,
