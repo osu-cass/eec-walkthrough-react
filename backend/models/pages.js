@@ -205,14 +205,23 @@ exports.getPages = getPages;
 
 
 // return all of the page info, headers, cards, and items for a single page
-async function getFullPage(pageId) {
+async function getFullPage(pageId, viewAll) {
 
   try {
 
+    let sql = "";
+
     // get the specified page
-    let sql = "SELECT * " +
+    if (viewAll) {
+      sql = "SELECT * " +
       "FROM Pages " +
       "WHERE pageId = ?;";
+    } else {
+      sql = "SELECT * " +
+      "FROM Pages " +
+      "WHERE pageId = ? " +
+      "AND approved = 1;";
+    }
 
     let results = await pool.query(sql, pageId);
     const finalResults = results[0][0];
@@ -223,10 +232,18 @@ async function getFullPage(pageId) {
     }
 
     // get all of the headers for the page
-    sql = "SELECT * " +
-    "FROM Headers " +
-    "WHERE pageId = ? " +
-    "ORDER BY orderIndex ASC, headerId ASC";
+    if (viewAll) {
+      sql = "SELECT * " +
+      "FROM Headers " +
+      "WHERE pageId = ? " +
+      "ORDER BY orderIndex ASC, headerId ASC";
+    } else {
+      sql = "SELECT * " +
+      "FROM Headers " +
+      "WHERE pageId = ? " +
+      "AND approved = 1 " +
+      "ORDER BY orderIndex ASC, headerId ASC";
+    }
 
     results = await pool.query(sql, pageId);
     finalResults.headers = results[0];
@@ -249,10 +266,18 @@ async function getFullPage(pageId) {
       results = await pool.query(sql, headerId);
       finalResults.headers[i].icons = results[0];
 
-      sql = "SELECT * " +
-      "FROM Cards " +
-      "WHERE headerId = ? " +
-      "ORDER BY orderIndex ASC, cardId ASC";
+      if (viewAll) {
+        sql = "SELECT * " +
+        "FROM Cards " +
+        "WHERE headerId = ? " +
+        "ORDER BY orderIndex ASC, cardId ASC";
+      } else {
+        sql = "SELECT * " +
+        "FROM Cards " +
+        "WHERE headerId = ? " +
+        "AND approved = 1 " +
+        "ORDER BY orderIndex ASC, cardId ASC";
+      }
 
       results = await pool.query(sql, headerId);
       finalResults.headers[i].cards = results[0];
@@ -263,14 +288,26 @@ async function getFullPage(pageId) {
 
         const cardId = finalResults.headers[i].cards[j].cardId;
 
-        const sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
-        "Items.iconType, typeName, typeKeyword, contentText, " +
-        "contentUrl, contentLabel, userId, " +
-        "created, approved " +
-        "FROM Items " +
-        "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
-        "WHERE cardId = ? " +
-        "ORDER BY orderIndex ASC, itemId ASC";
+        if (viewAll) {
+          sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+          "Items.iconType, typeName, typeKeyword, contentText, " +
+          "contentUrl, contentLabel, userId, " +
+          "created, approved " +
+          "FROM Items " +
+          "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+          "WHERE cardId = ? " +
+          "ORDER BY orderIndex ASC, itemId ASC";
+        } else {
+          sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+          "Items.iconType, typeName, typeKeyword, contentText, " +
+          "contentUrl, contentLabel, userId, " +
+          "created, approved " +
+          "FROM Items " +
+          "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+          "WHERE cardId = ? " +
+          "AND approved = 1 " +
+          "ORDER BY orderIndex ASC, itemId ASC";
+        }
 
         results = await pool.query(sql, cardId);
 
