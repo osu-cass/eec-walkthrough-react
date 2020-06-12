@@ -36,6 +36,47 @@ async function roleCheck(minRole, userId) {
 exports.roleCheck = roleCheck;
 
 
+// Middleware function that extracts the current user ID.
+// If the user does not have a designated ID then the ID is assumed to be 0.
+function getUserID(req, res, next) {
+  req.auth = {};
+  try {
+
+    const cookieObj = cookie.parse(`${req.headers.cookie}`);
+
+    // ensure that all of expected cookies are present
+    assert(cookieObj === Object(cookieObj), "No cookie provided with request");
+    assert(cookieObj.role_ck, "No role cookie provided with request");
+    assert(cookieObj.userId_ck, "No user ID cookie provided with request");
+    assert(cookieObj.auth_ck, "No auth cookie provided with request");
+
+    // get the JWT from the cookie
+    const token = cookieObj.auth_ck;
+
+    // use the JWT service to verify the JWT
+    // this function call throws an error if the JWT is invalid
+    const payload = jwt.verify(token, JWT_SECRET_KEY);
+
+    // check to make sure the user ID is valid
+    assert(validator.isInt(payload.sub + "", {min: MIN_ID, max: MAX_ID}));
+
+    // if verified, add an extra property to the request object
+    req.auth = {
+      userId: payload.sub
+    };
+
+    // if there were no issues we route to the next middleware
+    next();
+
+  } catch (err) {
+    console.error("User does not have valid credentials");
+    req.auth = {
+      userId: 0
+    };
+  }
+}
+exports.getUserID = getUserID;
+
 // Middleware function that checks if the user is authorized to perform
 // a given action.
 //
