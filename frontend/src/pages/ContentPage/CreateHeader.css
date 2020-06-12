@@ -1,0 +1,17 @@
+.createPage {
+  max-width: 100%;
+}
+
+.hidden {
+  position: fixed;
+  left: -250px;
+  transition: all 0.3s;
+  z-index: 999;
+}
+
+.visible {
+  position: fixed;
+  left: 0;
+  z-index: 999;
+  transition: all 0.3s;
+}
