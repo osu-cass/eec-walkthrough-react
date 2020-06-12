@@ -1,0 +1,15 @@
+frontend/build/*
+frontend/public/*
+*.json
+*.css
+*.css.map
+*.txt
+*.png
+*.html
+*.ico
+*.map
+*.chunk.js
+*.chunk.js.map
+*.chunk.js.LICENSE
+*.env
+*.sql

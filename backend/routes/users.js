@@ -17,7 +17,6 @@ const {
   loginUserVal,
   searchUserVal
 } = require("../services/validation/requestValidation");
-
 const {
   getUser,
   loginUser,
@@ -158,11 +157,12 @@ app.post("/", postUserVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
-    const username = req.body.username;
+    // don't allow spaces in the input
+    const username = req.body.username.replace(/\s/g, "");
     const password = req.body.password;
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
-    const email = req.body.email;
+    const firstName = req.body.firstName.replace(/\s/g, "");
+    const lastName = req.body.lastName.replace(/\s/g, "");
+    const email = req.body.email.replace(/\s/g, "");
 
     // create a user
     const results = await createUser(username, password, firstName, lastName, email);
@@ -204,11 +204,12 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
     console.log("Update a user");
 
     const userId = req.params.userId;
-    const username = req.body.username;
-    const password = req.body.password;
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
-    const email = req.body.email;
+    let username = req.body.username;
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
+    let email = req.body.email;
     const role = req.body.role;
     const currentUserId = req.auth.userId;
 
@@ -217,6 +218,20 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
     if (!errors.isEmpty()) {
       console.error(errors.array());
       return res.status(422).json({errors: errors.array()});
+    }
+
+    // don't allow spaces in the input
+    if (typeof username === "string") {
+      username = username.replace(/\s/g, "");
+    }
+    if (typeof firstName === "string") {
+      firstName = firstName.replace(/\s/g, "");
+    }
+    if (typeof lastName === "string") {
+      lastName = lastName.replace(/\s/g, "");
+    }
+    if (typeof email === "string") {
+      email = email.replace(/\s/g, "");
     }
 
     // confirm that if the role is being changed, the current user is an admin
@@ -228,7 +243,7 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
     } else {
       // since the user is changing general user data they must be
       // either the user in question or an admin
-      if (currentUserId !== userId) {
+      if (parseInt(currentUserId) !== parseInt(userId)) {
         if (!await roleCheck(4, req.auth.userId)) {
           res.status(401).send({error: "Unauthorized user attempting to update user."});
           return;
@@ -237,7 +252,7 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
     }
 
     // update a user
-    const results = await updateUser(userId, username, password, firstName, lastName, email, role);
+    const results = await updateUser(userId, username, oldPassword, newPassword, firstName, lastName, email, role);
 
     if (results.changedRows >= 0) {
       res.status(200).send(results);
@@ -246,6 +261,8 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
       if (results.error === 1) {
         res.status(404).send({error: "User not found."});
       } else if (results.error === 2) {
+        res.status(401).send({error: "The old password is incorrect."});
+      } else if (results.error === 3) {
         res.status(422).send({error: "Request doesn't include any fields to update."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});

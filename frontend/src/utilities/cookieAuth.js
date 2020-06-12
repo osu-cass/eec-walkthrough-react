@@ -59,6 +59,21 @@ export function loggedIn() {
 
 }
 
+// change the username stored in the username cookie
+export function changeUsername(newName) {
+
+  // get the current time
+  const expireTime = new Date();
+  let time = expireTime.getTime();
+
+  // set the username cookie to expire in 24 hours
+  time += 24 * 60 * 60 * 1000;
+  expireTime.setTime(time);
+
+  document.cookie = `username_ck=${newName}; expires=${expireTime}; path=/;`;
+
+}
+
 // clear user cookies
 export function logout() {
 

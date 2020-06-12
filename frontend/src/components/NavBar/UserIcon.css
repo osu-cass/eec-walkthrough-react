@@ -1,0 +1,19 @@
+#user-icon-arrow{
+  width: 0px;
+  height: 0px;
+  border-top: 10px solid white;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: none;
+}
+
+#user-navbar-icon-drp {
+  margin: 0;
+  padding: 0;
+  padding-right: 15px;
+}
+
+#user-navbar-icon-container {
+  margin: 0;
+  padding: 0;
+}

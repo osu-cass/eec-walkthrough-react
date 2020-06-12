@@ -163,8 +163,10 @@ paths:
               properties:
                 username:
                   example: User2020
-                password:
+                oldPassword:
                   example: aseoe23oexZw23!
+                newPassword:
+                  example: odpi43523WoBr4
                 firstName:
                   example: John
                 lastName:

@@ -107,10 +107,9 @@ exports.createUser = createUser;
 
 
 // update a user
-async function updateUser(userId, username, password, firstName, lastName, email, role) {
+async function updateUser(userId, username, oldPassword, newPassword, firstName, lastName, email, role) {
 
   try {
-
     const sqlArray = [];
 
     // make sure that the user exists
@@ -123,6 +122,19 @@ async function updateUser(userId, username, password, firstName, lastName, email
       return {error: 1};
     }
 
+    // if the password is being changed,
+    // make sure that the old password is correct
+    if (typeof newPassword !== "undefined") {
+      sql = "SELECT password " +
+      "FROM Users " +
+      "WHERE userId = ?;";
+      results = await pool.query(sql, userId);
+
+      if (oldPassword !== results[0][0].password) {
+        return {error: 2};
+      }
+    }
+
     // construct a sql query based on the fields given
     sql = "UPDATE Users SET ";
 
@@ -131,9 +143,9 @@ async function updateUser(userId, username, password, firstName, lastName, email
       sqlArray.push(username);
     }
 
-    if (typeof password !== "undefined") {
+    if (typeof newPassword !== "undefined") {
       sql += "password = ?,";
-      sqlArray.push(password);
+      sqlArray.push(newPassword);
     }
 
     if (typeof firstName !== "undefined") {
@@ -162,7 +174,7 @@ async function updateUser(userId, username, password, firstName, lastName, email
 
     // make sure that we are updating at least one field
     if (sqlArray.length <= 1) {
-      return {error: 2};
+      return {error: 3};
     }
 
     // perform the update query

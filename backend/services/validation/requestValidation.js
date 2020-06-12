@@ -39,7 +39,9 @@ const patchUserVal = Object.freeze({
       .isInt({min: 1, max: 4294967295}),
     check("username").optional()
       .isLength({min: 5, max: 50}),
-    check("password").optional()
+    check("oldPassword").optional()
+      .isLength({min: 8, max: 50}),
+    check("newPassword").optional()
       .isLength({min: 8, max: 50}),
     check("firstName").optional()
       .isLength({min: 1, max: 50}),
