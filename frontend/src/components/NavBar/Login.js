@@ -124,7 +124,7 @@ function Login (props) {
       <div className="login">
         {/* Login Button */}
         <button
-          className="btn btn-success ml-3"
+          className="btn btn-success mx-4 px-4"
           type="button"
           data-toggle="modal"
           data-target="#loginModal"
