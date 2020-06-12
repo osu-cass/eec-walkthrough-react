@@ -1,10 +1,12 @@
 import React, { Fragment } from 'react'
+import {getProfile} from '../utilities/cookieAuth';
 import SubjectCard from '../components/SubjectCard'
 import SubjectIntro from '../components/SubjectIntro'
 import CardContainer from '../components/CardContainer'
 import FilterBar from '../components/FilterBar'
 import Loading from '../components/Loading'
 import CreateCard from '../components/CreateCard'
+import CreateHeader from '../components/CreateHeader'
 import Container from 'react-bootstrap/Container'
 import '../components/Subject.css'
 
@@ -21,6 +23,7 @@ class Subject extends React.Component {
 
 	async componentDidMount() {
 		await this.fetchData(); //Get data about this subject (subject info, cards, figures)
+		await this.setState({ role: getProfile().role });
 	}
 
 	async componentDidUpdate(prevProps, prevState) {
@@ -96,7 +99,18 @@ class Subject extends React.Component {
 					description={this.state.subjectInfo.description}
 					img={this.state.subjectInfo.imageUrl}
 				/>
+
+				<CreateHeader 
+					pageId={parseInt(this.props.pageId)} 
+					role={this.state.role} 
+					userId={this.state.userId}
+					subject={this.state.subjectInfo.name}
+					refresh={() => this.fetchData()}
+					numHeaders={this.state.pageInfo.headers.length}
+				/>
+
 				{this.state.headers.map((header, i) => {
+					console.log(header)
 					return (
 						<Fragment key={i}>
 							<SubjectCard subjectName={header.title} sticky>
@@ -111,6 +125,10 @@ class Subject extends React.Component {
 								id={i}
 								cards={this.state.headers[i].cards}
 								filter={this.state.icons[i]}
+								headerId={header.headerId}
+								headerName={header.title}
+								iconSet={this.state.iconSet}
+								refresh={() => this.fetchData()}
 							/>
 							<CreateCard
 								title={`Create ${header.title} Card`}

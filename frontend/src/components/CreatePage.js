@@ -6,7 +6,7 @@ import Error from './Error';
 import './CreatePage.css'
 import './Subject.css'
 
-class CreateItem extends React.Component {
+class CreatePage extends React.Component {
 	state = {
 		name: "",
 		summary: "",
@@ -14,7 +14,7 @@ class CreateItem extends React.Component {
 		url: "",
 		show: false,
 		emptyInputs: false,
-		errorMessage: ""
+		errorMessage: "Error: Fill out empty inputs (title, icons, text)"
 	}
 
 	componentDidMount() {
@@ -56,6 +56,16 @@ class CreateItem extends React.Component {
 			imageUrl: this.state.url
 		}
 
+		//Reset state
+		this.setState({ emptyInputs: false });
+		this.setState({ name: "" });
+		this.setState({ summary: "" });
+		this.setState({ description: "" });
+		this.setState({ url: "" });
+
+		//Close modal
+		this.handleClose();
+	
 		//Create new page
 		await fetch("/pages/", {
 			method: 'POST',
@@ -131,9 +141,9 @@ class CreateItem extends React.Component {
 				<Modal show={this.state.show} onHide={this.handleClose} dialogClassName="modal-width">
 					<Modal.Header>
 						<h5 className="modal-title font-weight-bold" id="exampleModalLabel">{this.props.title}</h5>
-						<button type="button" className="close" data-dismiss="modal" aria-label="Close">
+						<Button variant="none" onClick={this.handleClose}>
 							<span aria-hidden="true">&times;</span>
-						</button>
+						</Button>
 
 					</Modal.Header>
 
@@ -197,9 +207,8 @@ class CreateItem extends React.Component {
 		);
 	}
 }
-
-CreateItem.propTypes = {
+export default CreatePage;
+CreatePage.propTypes = {
 	title: PropTypes.string,
 	icons: PropTypes.array
 };
-export default CreateItem;
