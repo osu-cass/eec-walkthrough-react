@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "./Card";
 import SubjectCard from "./SubjectCard";
+import PropTypes from "prop-types";
 import "./Subject.css";
 
 class CardContainer extends React.Component {
@@ -48,5 +49,13 @@ class CardContainer extends React.Component {
     );
   }
 }
-
 export default CardContainer;
+
+CardContainer.propTypes = {
+  cards: PropTypes.any,
+  headerId: PropTypes.any,
+  iconSet: PropTypes.any,
+  refresh: PropTypes.any,
+  filter: PropTypes.any,
+  headerName: PropTypes.any
+};

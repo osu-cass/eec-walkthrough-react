@@ -1,4 +1,6 @@
-build/*
+frontend/build/*
+frontend/public/*
+*.json
 *.css
 *.css.map
 *.txt
@@ -9,3 +11,5 @@ build/*
 *.chunk.js
 *.chunk.js.map
 *.chunk.js.LICENSE
+*.env
+*.sql

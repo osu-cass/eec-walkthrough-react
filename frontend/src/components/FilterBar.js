@@ -1,5 +1,6 @@
 import React from "react";
 import Filter from "./Filter";
+import PropTypes from "prop-types";
 
 class FilterBar extends React.Component {
   state = {
@@ -65,5 +66,11 @@ class FilterBar extends React.Component {
     );
   }
 }
-
 export default FilterBar;
+
+FilterBar.propTypes = {
+  data: PropTypes.any,
+  resetFilter: PropTypes.any,
+  headerIndex: PropTypes.any,
+  handleFilter: PropTypes.any
+};

@@ -103,10 +103,10 @@ class CreateCard extends React.Component {
 
     idx = parseInt(idx);
     let copy = [...this.state.items];
-    let i,
-      remove = 1,
-      parent = copy[idx].depth,
-      start = idx + 1;
+    let i;
+    let remove = 1;
+    const parent = copy[idx].depth;
+    const start = idx + 1;
 
     // Delete children if any (if greater than parent subpoint depth, it is a child)
     if (idx !== this.state.items.length - 1) {
@@ -420,9 +420,13 @@ class CreateCard extends React.Component {
     ) : "";
   }
 }
+export default CreateCard;
 
 CreateCard.propTypes = {
   title: PropTypes.string,
-  icons: PropTypes.array
+  icons: PropTypes.array,
+  headerId: PropTypes.number,
+  numCards: PropTypes.any,
+  refresh: PropTypes.any
 };
-export default CreateCard;
+

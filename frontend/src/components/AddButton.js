@@ -1,7 +1,8 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+import PropTypes from "prop-types";
 
-const AddButton = (props) => {
+function AddButton(props) {
   return (
     <Button
       variant={props.variant}
@@ -14,6 +15,11 @@ const AddButton = (props) => {
       {props.label}
     </Button>
   );
-};
-
+}
 export default AddButton;
+
+AddButton.propTypes = {
+  variant: PropTypes.any,
+  onClick: PropTypes.any,
+  label: PropTypes.any
+};

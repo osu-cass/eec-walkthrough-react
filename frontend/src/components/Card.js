@@ -2,6 +2,7 @@ import React from "react";
 import {Card as CardBS} from "react-bootstrap";
 import BulletPoint from "./BulletPoint";
 import EditCard from "./EditCard";
+import PropTypes from "prop-types";
 
 class Card extends React.Component {
   // return childs of id === parentId
@@ -87,5 +88,19 @@ class Card extends React.Component {
     );
   }
 }
-
 export default Card;
+
+Card.propTypes = {
+  items: PropTypes.any,
+  checkFilter: PropTypes.any,
+  categoryid: PropTypes.any,
+  used: PropTypes.any,
+  card: PropTypes.any,
+  iconSet: PropTypes.any,
+  headerId: PropTypes.any,
+  orderIndex: PropTypes.any,
+  refresh: PropTypes.any,
+  icon: PropTypes.any,
+  cardId: PropTypes.any,
+  parentId: PropTypes.any
+};

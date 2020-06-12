@@ -1,5 +1,6 @@
 import React, {Fragment} from "react";
 import FormControl from "react-bootstrap/FormControl";
+import PropTypes from "prop-types";
 
 class ItemInput extends React.Component {
   state = {
@@ -71,5 +72,11 @@ class ItemInput extends React.Component {
     );
   }
 }
-
 export default ItemInput;
+
+ItemInput.propTypes = {
+  contentType: PropTypes.any,
+  value: PropTypes.any,
+  handleInput: PropTypes.any,
+  index: PropTypes.any
+};

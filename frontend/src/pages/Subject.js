@@ -8,6 +8,7 @@ import Loading from "../components/Loading";
 import CreateCard from "../components/CreateCard";
 import CreateHeader from "../components/CreateHeader";
 import Container from "react-bootstrap/Container";
+import PropTypes from "prop-types";
 import "../components/Subject.css";
 
 
@@ -27,7 +28,7 @@ class Subject extends React.Component {
     await this.setState({role: getProfile().role});
   }
 
-  async componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps) {
     if (this.props.match.params.pageId !== prevProps.match.params.pageId) { // Reload state when switching between subjects
       await this.fetchData();
       await this.setState({headers: this.state.pageInfo.headers});
@@ -35,9 +36,9 @@ class Subject extends React.Component {
   }
 
   async fetchData() {
-    let i,
-      j,
-      icons = [];
+    let i = [];
+    let j = [];
+    const icons = [];
 
     // Reset state for page load
     this.setState({cards: [], headers: [], icons: [], loaded: false});
@@ -150,3 +151,8 @@ class Subject extends React.Component {
   }
 }
 export default Subject;
+
+Subject.propTypes = {
+  match: PropTypes.any,
+  pageId: PropTypes.any
+};
