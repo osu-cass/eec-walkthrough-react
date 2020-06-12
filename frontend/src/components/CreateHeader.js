@@ -131,6 +131,7 @@ class CreateHeader extends React.Component {
     );
   }
 }
+export default CreateHeader;
 
 CreateHeader.propTypes = {
   title: PropTypes.string,
@@ -138,5 +139,6 @@ CreateHeader.propTypes = {
   role: PropTypes.number,
   numHeaders: PropTypes.number,
   refresh: PropTypes.func,
+  subject: PropTypes.any
 };
-export default CreateHeader;
+

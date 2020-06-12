@@ -1,6 +1,7 @@
 import React, {Fragment} from "react";
 import Image from "./Image";
 import "./BulletPoint.css";
+import PropTypes from "prop-types";
 
 function styleText(icon) {
   if (icon === "check-square") { return "font-weight-bold"; }
@@ -56,5 +57,15 @@ const BulletPoint = props => {
     </div >
   );
 };
-
 export default BulletPoint;
+
+BulletPoint.propTypes = {
+  id: PropTypes.any,
+  hide: PropTypes.any,
+  text: PropTypes.any,
+  label: PropTypes.any,
+  url: PropTypes.any,
+  icon: PropTypes.any,
+  bold: PropTypes.any,
+  children: PropTypes.any
+};
