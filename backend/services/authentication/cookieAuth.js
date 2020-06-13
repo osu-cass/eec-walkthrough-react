@@ -24,6 +24,7 @@ async function roleCheck(minRole, userId) {
 
     const results = await pool.query(sql, userId);
 
+    assert(results[0].length, "User not found");
     assert(results[0][0].role >= minRole, "Insufficient role for this action");
 
     return true;
