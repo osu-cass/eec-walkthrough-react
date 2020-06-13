@@ -6,7 +6,8 @@ const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
   roleCheck,
-  requireAuth
+  requireAuth,
+  getUserID
 } = require("../services/authentication/cookieAuth");
 const {
   postItemVal,
@@ -22,7 +23,7 @@ const {
 
 
 // get information about a single item
-app.get("/:itemId", getItemVal.validation, async (req, res) => {
+app.get("/:itemId", getUserID, getItemVal.validation, async (req, res) => {
 
   try {
 
@@ -36,8 +37,14 @@ app.get("/:itemId", getItemVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
+    // check if the current user should be able to view this content
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
     // get item data
-    const results = await getItem(itemId);
+    const results = await getItem(itemId, viewAll);
 
     if (results.itemId === 0) {
       res.status(404).send({error: "Item not found."});
