@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import {getProfile} from "../../utilities/cookieAuth";
-import SubjectCard from "./SubjectCard";
+import PageCard from "./PageCard";
 import SubjectIntro from "./SubjectIntro";
 import CardContainer from "./CardContainer";
 import FilterBar from "./FilterBar";
@@ -9,11 +9,12 @@ import CreateCard from "./CreateCard";
 import CreateHeader from "./CreateHeader";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
-import "./Subject.css";
+import "./ContentPage.css";
 
 
-class Subject extends React.Component {
+class ContentPage extends React.Component {
   state = {
+    errorPage: false,
     sidebarOpen: false,
     pageInfo: [],
     subjectInfo: [],
@@ -43,20 +44,30 @@ class Subject extends React.Component {
     // Reset state for page load
     this.setState({cards: [], headers: [], icons: [], loaded: false});
 
-    // Load all icons
-    fetch(`/icons/all`)	// subject info (summary, name, img, description)
-      .then(res => res.json())
-      .then(iconSet => this.setState({iconSet: iconSet.icons}));
+    // Fetch all icons
+    let results = fetch(`/icons/all`);
 
-    // Page specific info
-    fetch(`/pages/${this.props.pageId}`)	// subject info (summary, name, img, description)
-      .then(res => res.json())
-      .then(subjectInfo => this.setState({subjectInfo}));
+    if (results.ok) {
+      const obj = await results.json();
+      this.setState({iconSet: obj.icons});
+    } else {
+      this.setState({errorPage: 500});
+    }
 
-    // Full page info
-    await fetch(`/pages/${this.props.pageId}/all`)
-      .then(res => res.json())
-      .then(pageInfo => this.setState({pageInfo}));
+    // Fetch page info
+    results = await fetch(`/pages/${this.props.pageId}/all`);
+
+    if (results.ok) {
+      const obj = await results.json();
+      this.setState({pageInfo: obj});
+      this.setState({subjectInfo: obj});
+    } else {
+      if (results.status === 404) {
+        this.setState({errorPage: 404});
+      } else {
+        this.setState({errorPage: 500});
+      }
+    }
 
     // Headers
     await this.setState({headers: this.state.pageInfo.headers});
@@ -96,7 +107,7 @@ class Subject extends React.Component {
   render() {
     return this.state.loaded ? ( // Render content when data loaded from backend
       <Container>
-        <SubjectCard subjectName={this.state.subjectInfo.name} />
+        <PageCard subjectName={this.state.subjectInfo.name} />
 
         <SubjectIntro
           header={this.state.subjectInfo.title}
@@ -116,14 +127,14 @@ class Subject extends React.Component {
         {this.state.headers.map((header, i) => {
           return (
             <Fragment key={i}>
-              <SubjectCard subjectName={header.title} sticky>
+              <PageCard subjectName={header.title} sticky>
                 <FilterBar
                   data={this.state.icons[i]}
                   headerIndex={i}
                   handleFilter={this.handleFilter}
                   resetFilter={(idx) => this.resetFilter(idx)}
                 />
-              </SubjectCard>
+              </PageCard>
               <CardContainer
                 id={i}
                 cards={this.state.headers[i].cards}
@@ -149,9 +160,9 @@ class Subject extends React.Component {
     ) : <Loading />;
   }
 }
-export default Subject;
+export default ContentPage;
 
-Subject.propTypes = {
+ContentPage.propTypes = {
   match: PropTypes.any,
   pageId: PropTypes.any
 };

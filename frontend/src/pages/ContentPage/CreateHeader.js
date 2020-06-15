@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {logout} from "../../utilities/cookieAuth";
 import Error from "../../components/General/Error";
 import "./CreateHeader.css";
-import "./Subject.css";
+import "./ContentPage.css";
 
 class CreateHeader extends React.Component {
   state = {

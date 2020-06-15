@@ -1,5 +1,5 @@
 import React from "react";
-import Subject from "./pages/ContentPage/Subject";
+import ContentPage from "./pages/ContentPage/ContentPage";
 import Home from "./pages/Home/Home";
 import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import Search from "./pages/Search/Search";
@@ -50,13 +50,13 @@ class App extends React.Component {
           <Route
             path='/subjects/:pageId'
             render={(props) => (
-              <Subject {...props} pageId={props.match.params.pageId} />
+              <ContentPage {...props} pageId={props.match.params.pageId} />
             )}
           />
           <Route
             path='/industries/:pageId'
             render={(props) => (
-              <Subject {...props} pageId={props.match.params.pageId} />
+              <ContentPage {...props} pageId={props.match.params.pageId} />
             )}
           />
           <Route path='/search/:searchId'>

@@ -1,8 +1,9 @@
 import React from "react";
-import "./SubjectCard.css";
+import "./PageCard.css";
 import PropTypes from "prop-types";
 
-function SubjectCard(props) {
+// card that is shown at the top of the a page
+function PageCard(props) {
 
   function hideCard() { }
 
@@ -18,9 +19,9 @@ function SubjectCard(props) {
     </div>
   );
 }
-export default SubjectCard;
+export default PageCard;
 
-SubjectCard.propTypes = {
+PageCard.propTypes = {
   sticky: PropTypes.any,
   subjectName: PropTypes.any,
   children: PropTypes.any

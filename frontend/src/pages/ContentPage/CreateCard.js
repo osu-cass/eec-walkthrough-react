@@ -7,7 +7,7 @@ import Dropdown from "./Dropdown";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import "./CreateCard.css";
-import "./Subject.css";
+import "./ContentPage.css";
 
 class CreateCard extends React.Component {
   state = {
