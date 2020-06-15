@@ -9,15 +9,16 @@ import CreateCard from "./CreateCard";
 import CreateHeader from "./CreateHeader";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
+import Error404 from "../404/Error404";
+import Error500 from "../500/Error500";
 import "./ContentPage.css";
 
-
+// a page describing an industry or subject
 class ContentPage extends React.Component {
   state = {
     errorPage: false,
     sidebarOpen: false,
     pageInfo: [],
-    subjectInfo: [],
     headers: [],
     icons: [],
     cards: [],
@@ -26,13 +27,13 @@ class ContentPage extends React.Component {
 
   async componentDidMount() {
     await this.fetchData(); // Get data about this subject (subject info, cards, figures)
-    await this.setState({role: getProfile().role});
+    this.setState({role: getProfile().role});
   }
 
   async componentDidUpdate(prevProps) {
     if (this.props.match.params.pageId !== prevProps.match.params.pageId) { // Reload state when switching between subjects
       await this.fetchData();
-      await this.setState({headers: this.state.pageInfo.headers});
+      this.setState({headers: this.state.pageInfo.headers});
     }
   }
 
@@ -45,13 +46,14 @@ class ContentPage extends React.Component {
     this.setState({cards: [], headers: [], icons: [], loaded: false});
 
     // Fetch all icons
-    let results = fetch(`/icons/all`);
+    let results = await fetch(`/icons/all`);
 
     if (results.ok) {
       const obj = await results.json();
       this.setState({iconSet: obj.icons});
     } else {
       this.setState({errorPage: 500});
+      return;
     }
 
     // Fetch page info
@@ -60,17 +62,18 @@ class ContentPage extends React.Component {
     if (results.ok) {
       const obj = await results.json();
       this.setState({pageInfo: obj});
-      this.setState({subjectInfo: obj});
     } else {
       if (results.status === 404) {
         this.setState({errorPage: 404});
+        return;
       } else {
         this.setState({errorPage: 500});
+        return;
       }
     }
 
     // Headers
-    await this.setState({headers: this.state.pageInfo.headers});
+    this.setState({headers: this.state.pageInfo.headers});
 
     // Split icons for each header
     for (i = 0; i < this.state.headers.length; i++) {
@@ -80,8 +83,8 @@ class ContentPage extends React.Component {
       }
     }
 
-    await this.setState({icons: icons});
-    await this.setState({loaded: true});
+    this.setState({icons: icons});
+    this.setState({loaded: true});
   }
 
   handleFilter = (id, idx) => {
@@ -105,59 +108,65 @@ class ContentPage extends React.Component {
   }
 
   render() {
-    return this.state.loaded ? ( // Render content when data loaded from backend
-      <Container>
-        <PageCard subjectName={this.state.subjectInfo.name} />
+    if (!this.state.errorPage) {
+      return this.state.loaded ? ( // Render content when data loaded from backend
+        <Container>
+          <PageCard subjectName={this.state.pageInfo.name} />
 
-        <SubjectIntro
-          header={this.state.subjectInfo.title}
-          description={this.state.subjectInfo.description}
-          img={this.state.subjectInfo.imageUrl}
-        />
+          <SubjectIntro
+            header={this.state.pageInfo.title}
+            description={this.state.pageInfo.description}
+            img={this.state.pageInfo.imageUrl}
+          />
 
-        <CreateHeader
-          pageId={parseInt(this.props.pageId)}
-          role={this.state.role}
-          userId={this.state.userId}
-          subject={this.state.subjectInfo.name}
-          refresh={() => this.fetchData()}
-          numHeaders={this.state.pageInfo.headers.length}
-        />
+          <CreateHeader
+            pageId={parseInt(this.props.pageId)}
+            role={this.state.role}
+            userId={this.state.userId}
+            subject={this.state.pageInfo.name}
+            refresh={() => this.fetchData()}
+            numHeaders={this.state.pageInfo.headers.length}
+          />
 
-        {this.state.headers.map((header, i) => {
-          return (
-            <Fragment key={i}>
-              <PageCard subjectName={header.title} sticky>
-                <FilterBar
-                  data={this.state.icons[i]}
-                  headerIndex={i}
-                  handleFilter={this.handleFilter}
-                  resetFilter={(idx) => this.resetFilter(idx)}
+          {this.state.headers.map((header, i) => {
+            return (
+              <Fragment key={i}>
+                <PageCard subjectName={header.title} sticky>
+                  <FilterBar
+                    data={this.state.icons[i]}
+                    headerIndex={i}
+                    handleFilter={this.handleFilter}
+                    resetFilter={(idx) => this.resetFilter(idx)}
+                  />
+                </PageCard>
+                <CardContainer
+                  id={i}
+                  cards={this.state.headers[i].cards}
+                  filter={this.state.icons[i]}
+                  headerId={header.headerId}
+                  headerName={header.title}
+                  iconSet={this.state.iconSet}
+                  refresh={() => this.fetchData()}
                 />
-              </PageCard>
-              <CardContainer
-                id={i}
-                cards={this.state.headers[i].cards}
-                filter={this.state.icons[i]}
-                headerId={header.headerId}
-                headerName={header.title}
-                iconSet={this.state.iconSet}
-                refresh={() => this.fetchData()}
-              />
-              <CreateCard
-                title={`Create ${header.title} Card`}
-                icons={this.state.iconSet}
-                numCards={this.state.headers[i].cards.length}
-                headerId={header.headerId}
-                pageType={1}
-                refresh={() => this.fetchData()}
-              />
-            </Fragment>
-          );
-        })}
+                <CreateCard
+                  title={`Create ${header.title} Card`}
+                  icons={this.state.iconSet}
+                  numCards={this.state.headers[i].cards.length}
+                  headerId={header.headerId}
+                  pageType={1}
+                  refresh={() => this.fetchData()}
+                />
+              </Fragment>
+            );
+          })}
 
-      </Container>
-    ) : <Loading />;
+        </Container>
+      ) : <Loading />;
+    } else if (this.state.errorPage === 404) {
+      return <Error404 />
+    } else {
+      return <Error500 />
+    }
   }
 }
 export default ContentPage;
