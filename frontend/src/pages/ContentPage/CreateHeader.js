@@ -113,7 +113,6 @@ class CreateHeader extends React.Component {
               <div className='col-3' />
               <div className='col-6 mt-2'>
                 <Error
-                  empty={this.state.emptyInputs}
                   message={this.state.errorMessage}
                 />
               </div>

@@ -12,13 +12,7 @@ class CreatePage extends React.Component {
     description: "",
     url: "",
     show: false,
-    emptyInputs: false,
-    errorMessage: "Error: Fill out empty inputs (title, icons, text)"
-  }
-
-  componentDidMount() {
-    // Error message will change depending on which input is missing
-    this.setState({errorMessage: "Error: Fill out empty inputs (name, summary, description, image URL)"});
+    errorMessage: ""
   }
 
   handleClose = () => this.setState({show: false});
@@ -29,16 +23,6 @@ class CreatePage extends React.Component {
     if (this.checkInputs()) {
       return;
     }
-
-    // Reset state
-    this.setState({emptyInputs: false});
-    this.setState({name: ""});
-    this.setState({summary: ""});
-    this.setState({description: ""});
-    this.setState({url: ""});
-
-    // Close modal
-    this.handleClose();
 
     // ensure that the correct page type is generated
     let pageType = 1;
@@ -55,38 +39,39 @@ class CreatePage extends React.Component {
       imageUrl: this.state.url
     };
 
-    // Reset state
-    this.setState({emptyInputs: false});
-    this.setState({name: ""});
-    this.setState({summary: ""});
-    this.setState({description: ""});
-    this.setState({url: ""});
-
-    // Close modal
-    this.handleClose();
-
     // Create new page
-    await fetch("/pages/", {
+    const results = await fetch("/pages/", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
-    }).then((res) => {
+    });
+
+    if (results.ok) {
+      // Reset state
+      this.setState({name: ""});
+      this.setState({summary: ""});
+      this.setState({description: ""});
+      this.setState({url: ""});
+      // Close modal
+      this.handleClose();
+      // Reload sidebar after adding
+      this.props.refresh();
+    } else {
+
+      const obj = await results.json();
+
       // if the user is performing an unauthorized action
       // log them out and return them to the homepage
-      if (res.status === 401) {
+      if (results.status === 401) {
         logout();
         window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        this.setState({errorMessage: "An internal server error occurred. Please try again later."});
+      } else {
+        this.setState({errorMessage: obj.error});
       }
-      if (res.status >= 400) {
-        throw new Error("Bad response from server");
-      }
-    })
-      .catch((err) => {
-        console.error(err);
-      });
+    }
 
-    // Reload sidebar after adding
-    this.props.refresh();
   }
 
   /**
@@ -97,16 +82,10 @@ class CreatePage extends React.Component {
     let emptyFound = false;
     let errorMessage = this.state.errorMessage;
     let errorCount = 0;
-    // Empty name
-    if (!this.state.name.length) {
+    // Empty url
+    if (!this.state.url.length) {
       emptyFound = true;
-      errorMessage = "Error: Empty page name";
-      errorCount++;
-    }
-    // Empty summary
-    if (!this.state.summary.length) {
-      emptyFound = true;
-      errorMessage = "Error: Empty page summary";
+      errorMessage = "Error: Empty image url";
       errorCount++;
     }
     // Empty description
@@ -115,14 +94,19 @@ class CreatePage extends React.Component {
       errorMessage = "Error: Empty page description";
       errorCount++;
     }
-    // Empty url
-    if (!this.state.url.length) {
+    // Empty summary
+    if (!this.state.summary.length) {
       emptyFound = true;
-      errorMessage = "Error: Empty page url";
+      errorMessage = "Error: Empty page summary";
       errorCount++;
     }
-    if (errorCount !== 4) { this.setState({errorMessage: errorMessage}); }
-    this.setState({emptyInputs: emptyFound});
+    // Empty name
+    if (!this.state.name.length) {
+      emptyFound = true;
+      errorMessage = "Error: Empty page name";
+      errorCount++;
+    }
+    this.setState({errorMessage: errorMessage});
     if (emptyFound) { return true; }
     return false;
   }
@@ -187,7 +171,6 @@ class CreatePage extends React.Component {
               <div className='col-3' />
               <div className='col-6 mt-2'>
                 <Error
-                  empty={this.state.emptyInputs}
                   message={this.state.errorMessage}
                 />
               </div>
