@@ -7,7 +7,7 @@ import FilterBar from "./FilterBar";
 import Loading from "../../components/General/Loading";
 import CreateCard from "./CreateCard";
 import CreateHeader from "./CreateHeader";
-import EditSubjectHeader from "./EditSubjectHeader";
+import EditHeader from "./EditHeader";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
 import "./Subject.css";
@@ -125,7 +125,7 @@ class Subject extends React.Component {
                   handleFilter={this.handleFilter}
                   resetFilter={(idx) => this.resetFilter(idx)}
                 />
-                <EditSubjectHeader subjectName={header.title} />
+                <EditHeader subjectName={header.title} />
               </SubjectCard>
               <CardContainer
                 id={i}
