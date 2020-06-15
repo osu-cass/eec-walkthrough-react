@@ -5,6 +5,8 @@ import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import Search from "./pages/Search/Search";
 import RegisterUser from "./pages/RegisterUser/RegisterUser";
 import EditUser from "./pages/EditUser/EditUser";
+import Error404 from "./pages/404/Error404";
+import Error500 from "./pages/500/Error500";
 import NavBar from "./components/NavBar/NavBar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import {Route, Switch} from "react-router-dom";
@@ -69,11 +71,14 @@ class App extends React.Component {
           <Route path='/edit-user'>
             <EditUser handleNameChange={this.handleNameChange} />
           </Route>
+          <Route path='/500'>
+            <Error500 />
+          </Route>
           <Route exact path='/'>
             <Home />
           </Route>
           <Route path='*'>
-            <Home />
+            <Error404 />
           </Route>
         </Switch>
       </main>

@@ -67,7 +67,7 @@ class CreateCard extends React.Component {
   updateSubpoints(idx) {
     // Handle random bug, will work if you keep clicking + Sub. Unknown reason.
     if (idx === null) {
-      console.log("error ", idx, this.state.items);
+      console.error("error ", idx, this.state.items);
       return;
     }
 
@@ -97,7 +97,7 @@ class CreateCard extends React.Component {
   */
   deleteSubpoints(idx) {
     if (idx === null) {
-      console.log("error ", idx, this.state.items);
+      console.error("error ", idx, this.state.items);
       return;
     }
 
@@ -111,7 +111,6 @@ class CreateCard extends React.Component {
     // Delete children if any (if greater than parent subpoint depth, it is a child)
     if (idx !== this.state.items.length - 1) {
       for (i = start; i < this.state.items.length && parent < copy[i].depth; i++) {
-        console.log(copy[i].depth);
         remove++;
       }
     }
@@ -198,7 +197,6 @@ class CreateCard extends React.Component {
             iconType: this.state.items[key].icon,
             parentId: this.findParent(key, this.state.items[key].depth, itemIds),
           };
-          console.log(itemData);
           // Items can be dependent on previous item to be created (parentId), use await
           await fetch("/items/", {
             method: "POST",
@@ -210,14 +208,13 @@ class CreateCard extends React.Component {
               itemIds.push(res.insertId);
             })
             .catch((err) => {
-              console.log(itemData);
-              console.log(err);
+              console.error(err);
             });
 
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
 
     // Reload page after adding
@@ -291,7 +288,6 @@ class CreateCard extends React.Component {
   updateIcon(icon, index) {
     const copy = [...this.state.items];
     copy[index].icon = icon;
-    console.log(icon, index);
     this.setState({items: copy});
   }
 
