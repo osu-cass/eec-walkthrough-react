@@ -176,7 +176,6 @@ function Login (props) {
                   </Form.Group>
 
                   <Error
-                    empty={!!errorMessage.length}
                     message={errorMessage}
                   />
 

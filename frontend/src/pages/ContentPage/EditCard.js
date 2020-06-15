@@ -529,7 +529,6 @@ class EditCard extends React.Component {
               <div className='col-3' />
               <div className='col-6'>
                 <Error
-                  empty={this.state.emptyInputs}
                   message={this.state.errorMessage}
                 />
               </div>

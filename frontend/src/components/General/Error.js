@@ -3,7 +3,7 @@ import Alert from "react-bootstrap/Alert";
 import PropTypes from "prop-types";
 
 function Error(props) {
-  return props.empty ? (
+  return props.message.length ? (
     <Alert className="active" variant="danger">
       {props.message}
     </Alert>
@@ -12,7 +12,6 @@ function Error(props) {
 export default Error;
 
 Error.propTypes = {
-  empty: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired
 };
 
