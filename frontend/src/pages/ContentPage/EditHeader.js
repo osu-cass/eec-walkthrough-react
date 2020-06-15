@@ -20,17 +20,17 @@ class EditHeader extends React.Component {
   }
 
   render() {
-    return (
-      <div className='text-center'>
+    return this.props.role >= 3 ? (
+      <span className='text-center'>
         <Button size="sm" variant="info" onClick={this.handleShow}>
           <i
             className='fas fa-edit text-white mr-2'
             style={{transform: "scale(1.5)"}}></i>
-          <span className="text-white">Edit Title</span>
+          <span className="text-white">Edit Header</span>
         </Button>
         <Modal show={this.state.show} onHide={this.handleClose} dialogClassName="modal-width">
           <Modal.Header>
-            <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Edit Header Title</h5>
+            <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Edit Header</h5>
             <Button variant="none" onClick={this.handleClose}>
               <span aria-hidden="true">&times;</span>
             </Button>
@@ -53,12 +53,19 @@ class EditHeader extends React.Component {
           </Modal.Body>
 
           <Modal.Footer className="modal-footer">
+            <Button
+              className="mr-auto"
+              variant="danger"
+              onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { this.handleClose(); } }}
+            >
+              Delete Header
+            </Button>
             <Button variant="secondary" onClick={this.handleClose}>Close</Button>
-            <Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Edit Title</Button>
+            <Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Header Edit</Button>
           </Modal.Footer>
         </Modal>
-      </div >
-    );
+      </span >
+    ) : "";
   }
 }
 export default EditHeader;
