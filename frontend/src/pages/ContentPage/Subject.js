@@ -125,7 +125,10 @@ class Subject extends React.Component {
                   handleFilter={this.handleFilter}
                   resetFilter={(idx) => this.resetFilter(idx)}
                 />
-                <EditHeader subjectName={header.title} />
+                <EditHeader
+                  subjectName={header.title}
+                  role={this.state.role}
+                />
               </SubjectCard>
               <CardContainer
                 id={i}
