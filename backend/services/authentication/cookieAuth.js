@@ -16,6 +16,8 @@ const MAX_ID = 4294967295;
 async function roleCheck(minRole, userId) {
   try {
 
+    assert(userId, "Not a valid user ID");
+
     // query the user role to make sure the user is currently
     // allowed to perform this action
     const sql = "SELECT role " +
@@ -30,7 +32,7 @@ async function roleCheck(minRole, userId) {
     return true;
 
   } catch (err) {
-    console.error("Error checking user role:", err);
+    console.error("User does not meet the minimum role requirement for some action");
     return false;
   }
 }
@@ -70,6 +72,7 @@ function getUserID(req, res, next) {
     next();
 
   } catch (err) {
+    console.error("Unable to find user ID");
     req.auth = {
       userId: 0
     };

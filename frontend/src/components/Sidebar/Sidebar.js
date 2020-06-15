@@ -14,17 +14,13 @@ function Sidebar(props) {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
-  // fetch page data on page load
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // check user info whenever the login status changes
+  // check user info and which pages to display when login status changes
   useEffect(() => {
 
     // check user role to see what we should render
     const user = getProfile();
     setRole(user.role);
+    fetchData();
 
   }, [props.loginStatusChange]);
 
