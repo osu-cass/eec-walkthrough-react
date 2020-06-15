@@ -47,15 +47,20 @@ class CreatePage extends React.Component {
     });
 
     if (results.ok) {
+
       // Reset state
       this.setState({name: ""});
       this.setState({summary: ""});
       this.setState({description: ""});
       this.setState({url: ""});
+      this.setState({errorMessage: ""});
+
       // Close modal
       this.handleClose();
+
       // Reload sidebar after adding
       this.props.refresh();
+
     } else {
 
       const obj = await results.json();
@@ -70,6 +75,7 @@ class CreatePage extends React.Component {
       } else {
         this.setState({errorMessage: obj.error});
       }
+
     }
 
   }
