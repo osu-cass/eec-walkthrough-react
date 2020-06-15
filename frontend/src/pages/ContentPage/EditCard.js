@@ -146,7 +146,7 @@ class EditCard extends React.Component {
   updateSubpoints(idx) {
     // Handle random bug, will work if you keep clicking + Sub. Unknown reason.
     if (idx === null) {
-      console.log("error ", idx, this.state.items);
+      console.error("error ", idx, this.state.items);
       return;
     }
 
@@ -177,7 +177,7 @@ class EditCard extends React.Component {
   */
   deleteSubpoints(idx) {
     if (idx === null) {
-      console.log("error ", idx, this.state.items);
+      console.error("error ", idx, this.state.items);
       return;
     }
     idx = parseInt(idx);
@@ -231,7 +231,7 @@ class EditCard extends React.Component {
     // if left depth is smaller, this is a new "group". order index restarts at 1
     if (items[i - 1].depth < items[i].depth) { return 1; }
     // if left sibling of item has same depth, order index inc
-    if (items[i - 1].depth === items[i].depth) { return items[i - 1].depth + 1 && console.log("return ", items[i - 1].depth + 1); }
+    if (items[i - 1].depth === items[i].depth) { return items[i - 1].depth + 1; }
   }
 
   deleteCard = async () => {
@@ -316,7 +316,7 @@ class EditCard extends React.Component {
                 itemIds.push(res.insertId);
               })
               .catch((err) => {
-                console.log(err);
+                console.error(err);
               });
           }
         }
@@ -330,7 +330,7 @@ class EditCard extends React.Component {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
 
     // Reload page after adding

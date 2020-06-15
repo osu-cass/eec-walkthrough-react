@@ -114,7 +114,6 @@ class Subject extends React.Component {
         />
 
         {this.state.headers.map((header, i) => {
-          console.log(header);
           return (
             <Fragment key={i}>
               <SubjectCard subjectName={header.title} sticky>

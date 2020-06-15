@@ -54,7 +54,7 @@ class CreateHeader extends React.Component {
       }
     })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
 
     // Reload sidebar after adding
