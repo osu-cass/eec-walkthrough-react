@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import "./CreateHeader.css";
 import "./Subject.css";
 
-class CreateHeader extends React.Component {
+class EditHeader extends React.Component {
   state = {
     title: "",
     show: false,
@@ -61,9 +61,9 @@ class CreateHeader extends React.Component {
     );
   }
 }
-export default CreateHeader;
+export default EditHeader;
 
-CreateHeader.propTypes = {
+EditHeader.propTypes = {
   title: PropTypes.string,
   pageId: PropTypes.number,
   role: PropTypes.number,
