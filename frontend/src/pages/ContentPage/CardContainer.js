@@ -1,8 +1,8 @@
 import React from "react";
 import Card from "./Card";
-import SubjectCard from "./SubjectCard";
+import PageCard from "./PageCard";
 import PropTypes from "prop-types";
-import "./Subject.css";
+import "./ContentPage.css";
 
 class CardContainer extends React.Component {
   state = {
@@ -45,7 +45,7 @@ class CardContainer extends React.Component {
     return this.props.cards.length ? ( // Render content when data loaded from backend
       this.generateCards()
     ) : (
-      <SubjectCard subjectName={`No Cards under ${this.props.headerName}`} />
+      <PageCard subjectName={`No Cards under ${this.props.headerName}`} />
     );
   }
 }
