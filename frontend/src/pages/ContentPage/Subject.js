@@ -127,7 +127,9 @@ class Subject extends React.Component {
                 />
                 <EditHeader
                   subjectName={header.title}
+                  headerId={header.headerId}
                   role={this.state.role}
+                  refresh={() => this.fetchData()}
                 />
               </SubjectCard>
               <CardContainer
