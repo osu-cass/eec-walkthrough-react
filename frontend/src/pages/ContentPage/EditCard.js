@@ -9,6 +9,7 @@ import Error from "../../components/General/Error";
 import "./CreateCard.css";
 import "./ContentPage.css";
 
+// Button and modal that allows a user to edit a card
 class EditCard extends React.Component {
   state = {
     counter: 0, // count number of inputs added
@@ -51,7 +52,7 @@ class EditCard extends React.Component {
     this.setState({errorMessage: ""});
   }
 
-  getChilds(id) {
+  getChildren(id) {
     const results = this.props.items.reduce((result, item) => {
       if (item.parentId === id) {
         result.push(item);
@@ -65,7 +66,7 @@ class EditCard extends React.Component {
   // check each item. grab its item id, and check list again for items whose parent id match. assume sorted by order index already.
   // result: to list each one in order, from top to bottom
   recurseItems(item, used, items, isChild, prevDepth) {	// isChild = marks if it has any parent, for coloring
-    const childs = this.getChilds(item.itemId); // get all childs of this item
+    const childs = this.getChildren(item.itemId); // get all childs of this item
     if (!(used.includes(item.itemId))) {
       used.push(item.itemId); // push used
       // assign depth if child using prevDepth
@@ -258,9 +259,6 @@ class EditCard extends React.Component {
     if (this.checkInputs()) {
       return;
     }
-
-    // Close modal
-    this.handleClose();
 
     // Prepare data for new card
     const cardData = {
@@ -546,7 +544,7 @@ class EditCard extends React.Component {
   render() {
     return this.state.loaded && this.state.role >= 3 ? (
       <div className='text-center'>
-        <Button size="sm" variant="info" onClick={this.handleShow}>
+        <Button className="mx-2" size="sm" variant="info" onClick={this.handleShow}>
           <i
             className='fas fa-edit text-white mr-2'
             style={{transform: "scale(1.5)"}}></i>
@@ -592,15 +590,16 @@ class EditCard extends React.Component {
           </Modal.Body>
 
           <Modal.Footer className="modal-footer">
-            <Button variant="secondary" onClick={this.handleClose}>Cancel</Button>
-            <Button variant="danger" onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { this.deleteCard(); } }}>Delete Card</Button>
             <Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Card Edit</Button>
+            <Button variant="danger" onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { this.deleteCard(); } }}>Delete Card</Button>
+            <Button variant="secondary" onClick={this.handleClose}>Cancel</Button>
           </Modal.Footer>
         </Modal>
       </div>
     ) : "";
   }
 }
+export default EditCard;
 
 EditCard.propTypes = {
   title: PropTypes.string,
@@ -611,7 +610,6 @@ EditCard.propTypes = {
   cardId: PropTypes.number,
   parentId: PropTypes.number,
   orderIndex: PropTypes.number,
-  refresh: PropTypes.func,
+  refresh: PropTypes.func
 };
 
-export default EditCard;

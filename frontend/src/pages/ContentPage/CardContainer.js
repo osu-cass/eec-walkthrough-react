@@ -11,7 +11,8 @@ class CardContainer extends React.Component {
   }
 
   generateCards() {
-    const used = []; // holds ids of all the used tidbits, prevents reprint
+    const used1 = []; // holds ids of all the used tidbits, prevents reprint
+    const used2 = []; // holds ids of all the used tidbits, prevents reprint
     const Cards = this.props.cards.map((card, i) => { // Loop through cards
       return (
         <Card
@@ -23,7 +24,10 @@ class CardContainer extends React.Component {
           orderIndex={card.orderIndex}
           cardId={card.cardId}
           approved={card.approved}
-          used={used}
+          created={card.created}
+          userId={card.userId}
+          used1={used1}
+          used2={used2}
           iconSet={this.props.iconSet}
           refresh={() => this.props.refresh()}
         />
