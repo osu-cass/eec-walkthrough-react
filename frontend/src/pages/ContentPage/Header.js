@@ -13,7 +13,7 @@ function Header(props) {
       style={{top: "1em", zIndex: "998" }}
     >
       <h4 className="flex-grow-1 font-weight-bold">{props.subjectName}</h4>
-      {props.mainPageHeader ? (
+      {props.mainPageHeader && !props.approved ? (
         <h4 className="flex-grow-1">External users can not view or search for this page</h4>
       ) : (
         null

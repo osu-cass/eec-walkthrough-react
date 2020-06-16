@@ -3,6 +3,7 @@ import {Card as CardBS} from "react-bootstrap";
 import BulletPoint from "./BulletPoint";
 import EditCard from "./EditCard";
 import PropTypes from "prop-types";
+import "./Card.css";
 
 class Card extends React.Component {
   // return children of id === parentId
@@ -66,7 +67,7 @@ class Card extends React.Component {
 
   render() {
     return (
-      <CardBS className={`my-2 shadow-sm`}>
+      <CardBS className={`my-2 shadow-sm ${this.props.approved ? "card-body-approved" : "card-body-review"}`}>
         <CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
           {this.props.card}
           <EditCard
@@ -102,5 +103,6 @@ Card.propTypes = {
   refresh: PropTypes.any,
   icon: PropTypes.any,
   cardId: PropTypes.any,
-  parentId: PropTypes.any
+  parentId: PropTypes.any,
+  approved: PropTypes.number
 };
