@@ -59,7 +59,7 @@ class Card extends React.Component {
 
   generateItems(list) {
     let used = this.props.used1;
-    if(list === 2) {
+    if (list === 2) {
       used = this.props.used2;
     }
     const jsx = []; // hold items

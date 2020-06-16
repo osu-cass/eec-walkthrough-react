@@ -38,7 +38,7 @@ class CreateHeader extends React.Component {
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
     });
-    
+
     if (results.ok) {
 
       // Reset state
