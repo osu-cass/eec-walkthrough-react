@@ -96,7 +96,7 @@ function ReviewPage(props) {
               <h3 className="font-weight-bold">{props.name}</h3>
               <h4>{props.title}</h4>
               <span>{props.description}</span>
-              <img src={`${props.imageUrl}`} className="img-fluid m-2" alt="Responsive Page"></img>
+              <img src={props.imageUrl} alt={props.name} className="header rounded img-fluid" style={{maxHeight: "23em"}} />
             </div>
           </div>
 
@@ -107,7 +107,7 @@ function ReviewPage(props) {
               <h3 className="font-weight-bold">{props.name}</h3>
               <h4>{props.title}</h4>
               <span>{props.description}</span>
-              <img src={`${props.imageUrl}`} className="img-fluid m-2" alt="Responsive Page"></img>
+              <img src={props.imageUrl} alt={props.name} className="header rounded img-fluid" style={{maxHeight: "23em"}} />
             </div>
           </div>
 
