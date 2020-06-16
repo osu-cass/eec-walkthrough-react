@@ -112,7 +112,17 @@ class ContentPage extends React.Component {
     if (!this.state.errorPage) {
       return this.state.loaded ? ( // Render content when data loaded from backend
         <Container>
-          <Header subjectName={this.state.pageInfo.name} approved={this.state.pageInfo.approved} mainPageHeader={true}/>
+          <Header title={this.state.pageInfo.name}
+            name={this.state.pageInfo.name}
+            pageTitle={this.state.pageInfo.title}
+            description={this.state.pageInfo.description}
+            imageUrl={this.state.pageInfo.imageUrl}
+            approved={this.state.pageInfo.approved}
+            mainPageHeader={1}
+            refresh={() => this.fetchData()}
+            pageId={parseInt(this.props.pageId)}
+            created={this.state.pageInfo.created}
+          />
 
           <PageDescription
             approved={this.state.pageInfo.approved}
@@ -135,7 +145,7 @@ class ContentPage extends React.Component {
               <Fragment key={i}>
                 <Header title={header.title} approved={header.approved} 
                   headerId={header.headerId} created={header.created}
-                  userId={header.userId} mainPageHeader={false} 
+                  userId={header.userId} mainPageHeader={0} 
                   refresh={() => this.fetchData()} sticky
                 >
                   <FilterBar

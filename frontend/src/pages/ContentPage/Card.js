@@ -91,7 +91,7 @@ class Card extends React.Component {
               refresh={() => this.props.refresh()}
             />
             <ReviewCard
-              title={`Review ${this.props.card} Card`}
+              title={`${this.props.card}`}
               cardId={this.props.cardId}
               refresh={() => this.props.refresh()}
               approved={this.props.approved}

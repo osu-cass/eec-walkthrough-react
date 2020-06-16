@@ -4,10 +4,10 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
-import "./ReviewCard.css";
+import "./ReviewPage.css";
 
-// Button and modal that allows a user to review a card
-function ReviewCard(props) {
+// Button and modal that allows a user to review a page
+function ReviewPage(props) {
 
   const [role, setRole] = useState(0);
   const [show, setShow] = useState(false);
@@ -34,16 +34,16 @@ function ReviewCard(props) {
       return;
     }
 
-    // Prepare data for new card
-    const cardData = {
+    // Prepare data for new page
+    const pageData = {
       approved: 1
     };
 
-    // Approve the card
-    const results = await fetch(`/cards/${props.cardId}`, {
+    // Approve the page
+    const results = await fetch(`/pages/${props.pageId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(cardData)
+      body: JSON.stringify(pageData)
     });
 
     if (results.ok) {
@@ -76,12 +76,12 @@ function ReviewCard(props) {
             className='fas fa-stamp text-white mr-2'
             style={{transform: "scale(1.5)"}}
           />
-          <span className="text-white">Review Card</span>
+          <span className="text-white">Review Page</span>
         </Button>
 
         <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
           <Modal.Header>
-            <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review {props.title} Card</h5>
+            <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review {props.name} Page</h5>
             <Button variant="none" onClick={() => handleClose()}>
               <span aria-hidden="true">&times;</span>
             </Button>
@@ -92,16 +92,22 @@ function ReviewCard(props) {
             <div className="version-container p-2 m-3 border border-dark rounded">
               <h4 className="font-weight-bold">Published Version</h4>
               <span className="created-text">Created {formatTime(props.created)}</span>
-              <div className="m-3">
-                {props.cardItems}
+              <div className="m-4">
+              <h3 className="font-weight-bold">{props.name}</h3>
+              <h4>{props.title}</h4>
+              <span>{props.description}</span>
+              <img src={`${props.imageUrl}`} className="img-fluid m-2" alt="Responsive Page"></img>
               </div>
             </div>
 
             <div className="version-container p-2 m-3 border border-dark rounded">
               <h4 className="font-weight-bold">New Version</h4>
               <span className="created-text">Created {formatTime(props.created)}</span>
-              <div className="m-3">
-                {props.cardItems}
+              <div className="m-4">
+              <h3 className="font-weight-bold">{props.name}</h3>
+              <h4>{props.title}</h4>
+              <span>{props.description}</span>
+              <img src={`${props.imageUrl}`} className="img-fluid m-2" alt="Responsive Page"></img>
               </div>
             </div>
 
@@ -126,14 +132,15 @@ function ReviewCard(props) {
     )
 
 }
-export default ReviewCard;
+export default ReviewPage;
 
-ReviewCard.propTypes = {
+ReviewPage.propTypes = {
+  name: PropTypes.string,
   title: PropTypes.string,
-  cardId: PropTypes.number,
+  description: PropTypes.string,
+  pageId: PropTypes.number,
   approved: PropTypes.number,
   refresh: PropTypes.func,
-  cardItems: PropTypes.array,
   userId: PropTypes.number,
   created: PropTypes.any
 };
