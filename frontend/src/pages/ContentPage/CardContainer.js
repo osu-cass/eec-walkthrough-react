@@ -22,6 +22,7 @@ class CardContainer extends React.Component {
           checkFilter={this.checkFilter}
           orderIndex={card.orderIndex}
           cardId={card.cardId}
+          approved={card.approved}
           used={used}
           iconSet={this.props.iconSet}
           refresh={() => this.props.refresh()}
