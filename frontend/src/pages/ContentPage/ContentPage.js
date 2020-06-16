@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 import {getProfile} from "../../utilities/cookieAuth";
 import PageCard from "./PageCard";
-import SubjectIntro from "./SubjectIntro";
+import Header from "./Header";
 import CardContainer from "./CardContainer";
 import FilterBar from "./FilterBar";
 import Loading from "../../components/General/Loading";
@@ -113,7 +113,7 @@ class ContentPage extends React.Component {
         <Container>
           <PageCard subjectName={this.state.pageInfo.name} />
 
-          <SubjectIntro
+          <Header
             header={this.state.pageInfo.title}
             description={this.state.pageInfo.description}
             img={this.state.pageInfo.imageUrl}
