@@ -1,37 +1,85 @@
 import React from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import PropTypes from "prop-types";
+import LoadingOverlay from "../../components/General/LoadingOverlay";
+import {logout} from "../../utilities/cookieAuth";
 import "./CreateHeader.css";
 import "./Subject.css";
 
 class EditHeader extends React.Component {
   state = {
     title: "",
-    show: false,
-    emptyInputs: false,
-    errorMessage: "Error: Fill out empty header title"
+    showModal: false,
+    showLoad: false,
+    errorMessage: ""
   }
 
-  handleClose = () => this.setState({show: false});
-  handleShow = () => this.setState({show: true});
+  componentDidMount() {
+    this.setState({title: this.props.subjectName});
+  }
 
-  handleSubmit = async () => {
-    this.handleClose();
+  handleCloseModal = () => this.setState({showModal: false});
+  handleShowModal = () => this.setState({showModal: true});
+
+  handleHideLoad = () => this.setState({showLoad: false});
+  handleShowLoad = () => this.setState({showLoad: true});
+
+  updateHeader = async () => {
+    this.handleShowLoad();
+    const data = {
+      title: this.state.title
+    };
+
+    await fetch(`/headers/${this.props.headerId}`, {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
+    }).then((res) => {
+      if (res.status === 401) {
+        logout();
+        window.location.href = "/";
+      }
+      if (res.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+    })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.handleHideLoad();
+    this.props.refresh();
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    const title = this.state.title;
+    if (!title.length) {
+      this.setState({errorMessage: "Error: Fill out empty header title"});
+      return;
+    }
+    if (!title.replace(/\s/g, "").length) {
+      this.setState({errorMessage: "Error: Header contains only spaces"});
+      return;
+    }
+
+    this.updateHeader();
   }
 
   render() {
     return this.props.role >= 3 ? (
       <span className='text-center'>
-        <Button size="sm" variant="info" onClick={this.handleShow}>
+        <LoadingOverlay loading={this.state.showLoad} />
+        <Button size="sm" variant="info" onClick={this.handleShowModal}>
           <i
             className='fas fa-edit text-white mr-2'
             style={{transform: "scale(1.5)"}}></i>
           <span className="text-white">Edit Header</span>
         </Button>
-        <Modal show={this.state.show} onHide={this.handleClose} dialogClassName="modal-width">
+        <Modal show={this.state.showModal} onHide={this.handleCloseModal} dialogClassName="modal-width">
           <Modal.Header>
             <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Edit Header</h5>
-            <Button variant="none" onClick={this.handleClose}>
+            <Button variant="none" onClick={this.handleCloseModal}>
               <span aria-hidden="true">&times;</span>
             </Button>
           </Modal.Header>
@@ -56,11 +104,11 @@ class EditHeader extends React.Component {
             <Button
               className="mr-auto"
               variant="danger"
-              onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { this.handleClose(); } }}
+              onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { this.handleCloseModal(); } }}
             >
               Delete Header
             </Button>
-            <Button variant="secondary" onClick={this.handleClose}>Close</Button>
+            <Button variant="secondary" onClick={this.handleCloseModal}>Close</Button>
             <Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Header Edit</Button>
           </Modal.Footer>
         </Modal>
@@ -77,5 +125,6 @@ EditHeader.propTypes = {
   numHeaders: PropTypes.number,
   refresh: PropTypes.func,
   subject: PropTypes.any,
-  subjectName: PropTypes.string
+  subjectName: PropTypes.string,
+  headerId: PropTypes.number
 };
