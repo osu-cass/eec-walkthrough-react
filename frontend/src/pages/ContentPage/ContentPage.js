@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 import {getProfile} from "../../utilities/cookieAuth";
-import PageCard from "./PageCard";
 import Header from "./Header";
+import PageDescription from "./PageDescription";
 import CardContainer from "./CardContainer";
 import FilterBar from "./FilterBar";
 import Loading from "../../components/General/Loading";
@@ -111,9 +111,9 @@ class ContentPage extends React.Component {
     if (!this.state.errorPage) {
       return this.state.loaded ? ( // Render content when data loaded from backend
         <Container>
-          <PageCard subjectName={this.state.pageInfo.name} />
+          <Header subjectName={this.state.pageInfo.name} approved={this.state.pageInfo.approved} mainPageHeader={true}/>
 
-          <Header
+          <PageDescription
             header={this.state.pageInfo.title}
             description={this.state.pageInfo.description}
             img={this.state.pageInfo.imageUrl}
@@ -131,14 +131,14 @@ class ContentPage extends React.Component {
           {this.state.headers.map((header, i) => {
             return (
               <Fragment key={i}>
-                <PageCard subjectName={header.title} sticky>
+                <Header subjectName={header.title} approved={header.approved} mainPageHeader={false} sticky>
                   <FilterBar
                     data={this.state.icons[i]}
                     headerIndex={i}
                     handleFilter={this.handleFilter}
                     resetFilter={(idx) => this.resetFilter(idx)}
                   />
-                </PageCard>
+                </Header>
                 <CardContainer
                   id={i}
                   cards={this.state.headers[i].cards}
