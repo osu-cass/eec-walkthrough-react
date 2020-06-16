@@ -46,11 +46,14 @@ function Sidebar(props) {
   }
 
   // fetch all page data
-  function fetchData() {
-    fetch("/pages/all")
-      .then(res => res.json())
-      .then(res => res.pages)
-      .then(pages => setPages(pages));
+  async function fetchData() {
+    const results = await fetch("/pages/all");
+    if (results.ok) {
+      const obj = await results.json();
+      setPages(obj.pages);
+    } else {
+      console.error("Unable to fetch pages for sidebar.")
+    }
   }
 
   return pages ? (
