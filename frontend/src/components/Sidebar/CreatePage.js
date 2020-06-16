@@ -87,30 +87,25 @@ class CreatePage extends React.Component {
   checkInputs() {
     let emptyFound = false;
     let errorMessage = this.state.errorMessage;
-    let errorCount = 0;
     // Empty url
     if (!this.state.url.length) {
       emptyFound = true;
       errorMessage = "Error: Empty image url";
-      errorCount++;
     }
     // Empty description
     if (!this.state.description.length) {
       emptyFound = true;
       errorMessage = "Error: Empty page description";
-      errorCount++;
     }
     // Empty summary
     if (!this.state.summary.length) {
       emptyFound = true;
       errorMessage = "Error: Empty page summary";
-      errorCount++;
     }
     // Empty name
     if (!this.state.name.length) {
       emptyFound = true;
       errorMessage = "Error: Empty page name";
-      errorCount++;
     }
     this.setState({errorMessage: errorMessage});
     if (emptyFound) { return true; }
