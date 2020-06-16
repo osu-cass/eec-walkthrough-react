@@ -1,9 +1,10 @@
 import React from "react";
 import Card from "./Card";
-import PageCard from "./PageCard";
+import Header from "./Header";
 import PropTypes from "prop-types";
 import "./ContentPage.css";
 
+// Contains all of the cards beneath a header
 class CardContainer extends React.Component {
   state = {
     loaded: false
@@ -45,7 +46,7 @@ class CardContainer extends React.Component {
     return this.props.cards.length ? ( // Render content when data loaded from backend
       this.generateCards()
     ) : (
-      <PageCard subjectName={`No Cards under ${this.props.headerName}`} />
+      <Header subjectName={`No Cards under ${this.props.headerName}`} approved={true} mainPageHeader={false}/>
     );
   }
 }

@@ -1,26 +1,39 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./Header.css";
 
-// header that contains some number of cards
+// Header that contains some number of cards
 function Header(props) {
+
+  function hideCard() { }
+
   return (
-    <div className="my-3 p-3 bg-white card rounded shadow-sm">
-      <div className="row">
-        <div className="col-8">
-          <h5 className='font-weight-bold'>{props.header}</h5>
-          <p>{props.description}</p>
-        </div>
-        <div className="col-4 text-center">
-          <img src={props.img} alt={props.header} className="header rounded img-fluid" style={{maxHeight: "23em"}} />
-        </div>
-      </div>
+    <div className={`d-flex ${props.sticky ? "sticky-top " : " "} ${props.approved ? "header-approved" : "header-review"}
+      header-bar justify-content-between p-3 my-3 text-dark-50 rounded shadow`}
+      style={{top: "1em", zIndex: "998" }}
+    >
+      <h4 className="flex-grow-1 font-weight-bold">{props.subjectName}</h4>
+      {props.mainPageHeader ? (
+        <h4 className="flex-grow-1">External users can not view or search for this page</h4>
+      ) : (
+        null
+      )}
+      <span
+        className="mr-5 mt-1 icons"
+        onClick={event => hideCard(event.target.getAttribute("value"))}
+      >
+        {props.children}
+      </span>
     </div>
   );
+
 }
 export default Header;
 
 Header.propTypes = {
-  header: PropTypes.string,
-  description: PropTypes.string,
-  img: PropTypes.string
+  mainPageHeader: PropTypes.any,
+  approved: PropTypes.any,
+  sticky: PropTypes.any,
+  subjectName: PropTypes.any,
+  children: PropTypes.any
 };
