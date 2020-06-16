@@ -15,6 +15,7 @@ import "./ContentPage.css";
 
 // a page describing an industry or subject
 class ContentPage extends React.Component {
+
   state = {
     errorPage: false,
     sidebarOpen: false,
