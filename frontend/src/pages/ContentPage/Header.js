@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import ReviewHeader from "./ReviewHeader";
 import "./Header.css";
 
 // Header that contains some number of cards
@@ -12,7 +13,7 @@ function Header(props) {
       header-bar justify-content-between p-3 my-3 text-dark-50 rounded shadow`}
       style={{top: "1em", zIndex: "998" }}
     >
-      <h4 className="flex-grow-1 font-weight-bold">{props.subjectName}</h4>
+      <h4 className="flex-grow-1 font-weight-bold">{props.title}</h4>
       {props.mainPageHeader && !props.approved ? (
         <h4 className="flex-grow-1">External users can not view or search for this page</h4>
       ) : (
@@ -24,6 +25,15 @@ function Header(props) {
       >
         {props.children}
       </span>
+      <ReviewHeader
+        title={props.title}
+        headerId={props.headerId}
+        refresh={() => props.refresh()}
+        approved={props.approved}
+        userId={props.userId}
+        created={props.created}
+        mainPageHeader={props.mainPageHeader}
+      />
     </div>
   );
 
@@ -31,9 +41,13 @@ function Header(props) {
 export default Header;
 
 Header.propTypes = {
+  headerId: PropTypes.number,
   mainPageHeader: PropTypes.any,
   approved: PropTypes.any,
   sticky: PropTypes.any,
-  subjectName: PropTypes.any,
-  children: PropTypes.any
+  title: PropTypes.any,
+  children: PropTypes.any,
+  refresh: PropTypes.any,
+  userId: PropTypes.number,
+  created: PropTypes.any
 };
