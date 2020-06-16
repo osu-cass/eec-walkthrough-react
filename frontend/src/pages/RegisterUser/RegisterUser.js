@@ -187,7 +187,6 @@ function RegisterUser () {
 
               <div className="ml-2 my-3 pl-2">
                 <Error
-                  empty={!!errorMessage.length}
                   message={errorMessage}
                 />
               </div>

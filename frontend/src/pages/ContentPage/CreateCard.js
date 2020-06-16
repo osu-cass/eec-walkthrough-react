@@ -7,7 +7,7 @@ import Dropdown from "./Dropdown";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import "./CreateCard.css";
-import "./Subject.css";
+import "./ContentPage.css";
 
 class CreateCard extends React.Component {
   state = {
@@ -16,8 +16,7 @@ class CreateCard extends React.Component {
     items: [],
     show: false,
     loaded: false,
-    emptyInputs: false,
-    errorMessage: "Error: Fill out empty inputs (title, icons, text)"
+    errorMessage: ""
   }
 
   async componentDidMount() {
@@ -38,7 +37,10 @@ class CreateCard extends React.Component {
     this.setState({loaded: true});
   }
 
-  handleClose = () => this.setState({show: false});
+  handleClose = () => {
+    this.setState({show: false});
+    this.setState({errorMessage: ""});
+  }
   handleShow = () => this.setState({show: true});
 
   incrementCounter = (contentType) => {
@@ -67,7 +69,7 @@ class CreateCard extends React.Component {
   updateSubpoints(idx) {
     // Handle random bug, will work if you keep clicking + Sub. Unknown reason.
     if (idx === null) {
-      console.log("error ", idx, this.state.items);
+      console.error("error ", idx, this.state.items);
       return;
     }
 
@@ -97,7 +99,7 @@ class CreateCard extends React.Component {
   */
   deleteSubpoints(idx) {
     if (idx === null) {
-      console.log("error ", idx, this.state.items);
+      console.error("error ", idx, this.state.items);
       return;
     }
 
@@ -111,7 +113,6 @@ class CreateCard extends React.Component {
     // Delete children if any (if greater than parent subpoint depth, it is a child)
     if (idx !== this.state.items.length - 1) {
       for (i = start; i < this.state.items.length && parent < copy[i].depth; i++) {
-        console.log(copy[i].depth);
         remove++;
       }
     }
@@ -155,9 +156,6 @@ class CreateCard extends React.Component {
       return;
     }
 
-    // Close modal
-    this.handleClose();
-
     // Prepare data for new card
     const cardData = {
       headerId: this.props.headerId,
@@ -170,58 +168,78 @@ class CreateCard extends React.Component {
     const itemIds = [];
 
     // Create new card
-    await fetch("/cards/", {
+    const results = await fetch("/cards/", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(cardData)
-    }).then((res) => {
+    });
+
+    if (results.ok) {
+
+      const obj = await results.json();
+
+      // reset error messages
+      this.setState({errorMessage: ""});
+
+      // Close modal
+      this.handleClose();
+
+      // Loop through state items and create
+      for (const key in this.state.items) {
+
+        // object representing a single item
+        const itemData = {
+          orderIndex: this.findOrderIndex(key),
+          contentText: this.state.items[key].content.text,
+          contentLabel: this.state.items[key].content.label,
+          contentUrl: this.state.items[key].content.url,
+          cardId: obj.insertId,
+          iconType: this.state.items[key].icon,
+          parentId: this.findParent(key, this.state.items[key].depth, itemIds)
+        };
+
+        // Items can be dependent on previous item to be created (parentId)
+        const itemResults = await fetch("/items/", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(itemData)
+        });
+
+        if (itemResults.ok) {
+          const itemObj = await itemResults.json();
+          itemIds.push(itemObj.insertId);
+        } else {
+          const itemObj = await itemResults.json();
+          if (typeof itemObj.error === "undefined") {
+            console.error("Error creating item.");
+          } else {
+            console.error("Error creating item:", itemObj.error);
+          }
+        }
+
+      }
+
+      // refresh the page
+      this.props.refresh();
+
+    } else {
+
+      // there was an error creating the card
+      const obj = await results.json();
+
       // if the user is performing an unauthorized action
       // log them out and return them to the homepage
-      if (res.status === 401) {
+      if (results.status === 401) {
         logout();
         window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        this.setState({errorMessage: "An internal server error occurred. Please try again later."});
+      } else {
+        this.setState({errorMessage: obj.error});
       }
-      if (res.status >= 400) {
-        throw new Error("Bad response from server");
-      }
-      return res.json();
-    })
-      .then(async (cardData) => {
-        // Loop through state items and create
-        for (const key in this.state.items) {
-          const itemData = {
-            orderIndex: this.findOrderIndex(key),
-            contentText: this.state.items[key].content.text,
-            contentLabel: this.state.items[key].content.label,
-            contentUrl: this.state.items[key].content.url,
-            cardId: cardData.insertId,
-            iconType: this.state.items[key].icon,
-            parentId: this.findParent(key, this.state.items[key].depth, itemIds),
-          };
-          console.log(itemData);
-          // Items can be dependent on previous item to be created (parentId), use await
-          await fetch("/items/", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(itemData)
-          })
-            .then((response) => response.json())
-            .then((res) => {
-              itemIds.push(res.insertId);
-            })
-            .catch((err) => {
-              console.log(itemData);
-              console.log(err);
-            });
 
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }
 
-    // Reload page after adding
-    this.props.refresh();
   }
 
   checkInputs() {
@@ -231,10 +249,9 @@ class CreateCard extends React.Component {
     // Empty title
     if (!this.state.title.length) {
       emptyFound = true;
-      errorMessage = "Error: Empty category title";
+      errorMessage = "Error: Empty card title";
       if (emptyFound) {
         this.setState({errorMessage: errorMessage});
-        this.setState({emptyInputs: emptyFound});
         return true;
       }
     }
@@ -268,7 +285,6 @@ class CreateCard extends React.Component {
       }
     }
     this.setState({errorMessage: errorMessage});
-    this.setState({emptyInputs: emptyFound});
     if (emptyFound) { return true; }
     return false;
   }
@@ -291,7 +307,6 @@ class CreateCard extends React.Component {
   updateIcon(icon, index) {
     const copy = [...this.state.items];
     copy[index].icon = icon;
-    console.log(icon, index);
     this.setState({items: copy});
   }
 
@@ -404,7 +419,6 @@ class CreateCard extends React.Component {
               <div className='col-3' />
               <div className='col-6 mt-4'>
                 <Error
-                  empty={this.state.emptyInputs}
                   message={this.state.errorMessage}
                 />
               </div>
