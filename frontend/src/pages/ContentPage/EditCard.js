@@ -267,6 +267,7 @@ class EditCard extends React.Component {
       headerId: this.props.headerId,
       orderIndex: this.props.orderIndex,
       title: this.state.title,
+      approved: 0
     };
 
     // Store item ids to handle parentId
@@ -298,7 +299,8 @@ class EditCard extends React.Component {
           contentText: this.state.items[key].content.text,
           contentLabel: this.state.items[key].content.label,
           contentUrl: this.state.items[key].content.url,
-          iconType: this.state.items[key].icon
+          iconType: this.state.items[key].icon,
+          approved: 0
         };
 
         // Check if item is being updated or added to the card
@@ -308,6 +310,7 @@ class EditCard extends React.Component {
           itemData.itemId = this.state.items[key].itemId;
           itemData.orderIndex = this.findOrderIndex(key);
           itemData.parentId = this.state.items[key].parentId;
+          itemData.approved = 0;
 
           // Make the request to update the item
           const itemResults = await fetch(`/items/${itemData.itemId}`, {
