@@ -10,8 +10,7 @@ class CreateHeader extends React.Component {
   state = {
     title: "",
     show: false,
-    emptyInputs: false,
-    errorMessage: "Error: Fill out empty header title"
+    errorMessage: ""
   }
 
   handleClose = () => this.setState({show: false});
@@ -30,35 +29,42 @@ class CreateHeader extends React.Component {
       orderIndex: this.props.numHeaders + 1, // append to end for now, need to add ability to reorder
     };
 
-    // Reset state
-    this.setState({emptyInputs: false});
-    this.setState({title: ""});
-
-    // Close modal
-    this.handleClose();
-
     // Create new page
-    await fetch("/headers/", {
+    const results = await fetch("/headers/", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
-    }).then((res) => {
+    });
+    
+    if (results.ok) {
+
+      // Reset state
+      this.setState({title: ""});
+      this.setState({errorMessage: ""});
+
+      // Close modal
+      this.handleClose();
+
+      // Reload page after adding
+      this.props.refresh();
+
+    } else {
+
+      const obj = await results.json();
+
       // if the user is performing an unauthorized action
       // log them out and return them to the homepage
-      if (res.status === 401) {
+      if (results.status === 401) {
         logout();
         window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        this.setState({errorMessage: "An internal server error occurred. Please try again later."});
+      } else {
+        this.setState({errorMessage: obj.error});
       }
-      if (res.status >= 400) {
-        throw new Error("Bad response from server");
-      }
-    })
-      .catch((err) => {
-        console.error(err);
-      });
 
-    // Reload sidebar after adding
-    this.props.refresh();
+    }
+
   }
 
   /**
@@ -68,15 +74,12 @@ class CreateHeader extends React.Component {
   checkInputs() {
     let emptyFound = false;
     let errorMessage = this.state.errorMessage;
-    let errorCount = 0;
     // Empty title
     if (!this.state.title.length) {
       emptyFound = true;
       errorMessage = "Error: Empty header title";
-      errorCount++;
     }
-    if (errorCount !== 1) { this.setState({errorMessage: errorMessage}); }
-    this.setState({emptyInputs: emptyFound});
+    this.setState({errorMessage: errorMessage});
     if (emptyFound) { return true; }
     return false;
   }

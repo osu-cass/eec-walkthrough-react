@@ -1,6 +1,6 @@
 import React from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
-import {getProfile} from "../../utilities/cookieAuth";
+import {getProfile, logout} from "../../utilities/cookieAuth";
 import AddButton from "./AddButton";
 import ItemInput from "./ItemInput";
 import Dropdown from "./Dropdown";
@@ -17,8 +17,7 @@ class EditCard extends React.Component {
     toDelete: [], // hold the ids to be deleted on "Remove"
     show: false,
     loaded: false,
-    emptyInputs: false,
-    errorMessage: "Error: Fill out empty inputs (title, icons, text)"
+    errorMessage: ""
   }
 
   async componentDidMount() {
@@ -44,12 +43,12 @@ class EditCard extends React.Component {
       items.push(itemData);
       counter++;
     });
-    await this.setState({items: items});
-    await this.setState({role: getProfile().role});
-    await this.setState({title: this.props.cardName});
+    this.setState({items: items});
+    this.setState({role: getProfile().role});
+    this.setState({title: this.props.cardName});
     this.setState({counter: counter});
     this.setState({loaded: true});
-    this.setState({errorMessage: "Error: Fill out empty inputs (title, icons, text)"});
+    this.setState({errorMessage: ""});
   }
 
   getChilds(id) {
@@ -268,73 +267,123 @@ class EditCard extends React.Component {
     const itemIds = [];
 
     // Edit card
-    await fetch(`/cards/${this.props.cardId}`, {
+    const results = await fetch(`/cards/${this.props.cardId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(cardData)
-    }).then((res) => {
-      if (res.status >= 400) {
-        throw new Error("Bad response from server");
-      }
-      return res.json();
-    })
-      .then(async () => {
-        // Loop through state items and create
-        for (const key in this.state.items) {
-          const current = this.state.items[key].current;
-          const itemData = {
-            cardId: this.props.cardId,
-            contentText: this.state.items[key].content.text,
-            contentLabel: this.state.items[key].content.label,
-            contentUrl: this.state.items[key].content.url,
-            iconType: this.state.items[key].icon,
-            approved: 1 // temporary placeholder
-          };
-          // Item is being edited
-          if (current) {
-            itemData.itemId = this.state.items[key].itemId;
-            itemData.orderIndex = this.findOrderIndex(key);
-            itemData.parentId = this.state.items[key].parentId;
-            fetch(`/items/${itemData.itemId}`, {
-              method: "PATCH",
-              headers: {"Content-Type": "application/json"},
-              body: JSON.stringify(itemData)
-            })
-              .then((response) => response.json())
-              .then(itemIds.push(itemData.itemId));
-          } else { // Item is being created through edits
-            // Items can be dependent on previous item to be created (parentId), use await
-            itemData.parentId = this.findParent(key, this.state.items[key].depth, itemIds);
-            itemData.orderIndex = parseInt(key) + 1;
-            await fetch("/items/", {
-              method: "POST",
-              headers: {"Content-Type": "application/json"},
-              body: JSON.stringify(itemData)
-            })
-              .then((response) => response.json())
-              .then((res) => {
-                itemIds.push(res.insertId);
-              })
-              .catch((err) => {
-                console.error(err);
-              });
-          }
-        }
-        // Loop through item ids to remove from state and delete
-        let i;
-        for (i = 0; i < this.state.toDelete.length; i++) {
-          fetch(`/items/${this.state.toDelete[i]}`, {
-            method: "DELETE",
-            headers: {"Content-Type": "application/json"}
-          });
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    });
 
-    // Reload page after adding
-    this.props.refresh();
+    if (results.ok) {
+
+      // reset error messages
+      this.setState({errorMessage: ""});
+
+      // Close modal
+      this.handleClose();
+
+      // Loop through state items and update
+      for (const key in this.state.items) {
+
+        const current = this.state.items[key].current;
+
+        // object representing a single item
+        const itemData = {
+          cardId: this.props.cardId,
+          contentText: this.state.items[key].content.text,
+          contentLabel: this.state.items[key].content.label,
+          contentUrl: this.state.items[key].content.url,
+          iconType: this.state.items[key].icon
+        };
+
+        // Check if item is being updated or added to the card
+        if (current) {
+
+          // Item is being updated
+          itemData.itemId = this.state.items[key].itemId;
+          itemData.orderIndex = this.findOrderIndex(key);
+          itemData.parentId = this.state.items[key].parentId;
+
+          // Make the request to update the item
+          const itemResults = await fetch(`/items/${itemData.itemId}`, {
+            method: "PATCH",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(itemData)
+          });
+
+          // Check if the item was updated successfully
+          if (itemResults.ok) {
+            await itemResults.json();
+            itemIds.push(itemData.itemId);
+          } else {
+            const itemObj = await itemResults.json();
+            if (typeof itemObj.error === "undefined") {
+              console.error("Error updating item.");
+            } else {
+              console.error("Error updating item:", itemObj.error);
+            }
+          }
+
+        } else {
+
+          // Item is being created
+          itemData.parentId = this.findParent(key, this.state.items[key].depth, itemIds);
+          itemData.orderIndex = parseInt(key) + 1;
+
+          // Make the request to create the item
+          const itemResults = await fetch("/items/", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(itemData)
+          });
+
+          // Check if the item was created successfully
+          if (itemResults.ok) {
+            const itemObj = await itemResults.json();
+            itemIds.push(itemObj.insertId);
+          } else {
+            const itemObj = await itemResults.json();
+            if (typeof itemObj.error === "undefined") {
+              console.error("Error creating item.");
+            } else {
+              console.error("Error creating item:", itemObj.error);
+            }
+          }
+
+        }
+      }
+
+      // Loop through old items that are no longer in the card and delete them
+      for (let i = 0; i < this.state.toDelete.length; i++) {
+        const itemResults = await fetch(`/items/${this.state.toDelete[i]}`, {
+          method: "DELETE",
+          headers: {"Content-Type": "application/json"}
+        });
+        if (!itemResults.ok) {
+          console.error("Error deleting item.");
+        }
+      }
+
+      // refresh the page
+      this.props.refresh();
+
+    } else {
+
+      // there was an error updating the card
+      const obj = await results.json();
+
+      // if the user is performing an unauthorized action
+      // log them out and return them to the homepage
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        this.setState({errorMessage: "An internal server error occurred. Please try again later."});
+      } else {
+        this.setState({errorMessage: obj.error});
+      }
+
+    }
+
   }
 
   // Check for empty inputs (card title, item text/content/labels, icons)
@@ -346,10 +395,9 @@ class EditCard extends React.Component {
     // Empty title
     if (!this.state.title.length) {
       emptyFound = true;
-      errorMessage = "Error: Empty category title";
+      errorMessage = "Error: Empty card title";
       if (emptyFound) {
         this.setState({errorMessage: errorMessage});
-        this.setState({emptyInputs: emptyFound});
         return true;
       }
     }
@@ -383,7 +431,6 @@ class EditCard extends React.Component {
       }
     }
     this.setState({errorMessage: errorMessage});
-    this.setState({emptyInputs: emptyFound});
     if (emptyFound) { return true; }
     return false;
   }
@@ -527,7 +574,7 @@ class EditCard extends React.Component {
 
             <Row>
               <div className='col-3' />
-              <div className='col-6'>
+              <div className='col-6 mt-4'>
                 <Error
                   message={this.state.errorMessage}
                 />

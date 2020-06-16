@@ -192,10 +192,10 @@ class CreateCard extends React.Component {
           contentUrl: this.state.items[key].content.url,
           cardId: obj.insertId,
           iconType: this.state.items[key].icon,
-          parentId: this.findParent(key, this.state.items[key].depth, itemIds),
+          parentId: this.findParent(key, this.state.items[key].depth, itemIds)
         };
 
-        // Items can be dependent on previous item to be created (parentId), use await
+        // Items can be dependent on previous item to be created (parentId)
         const itemResults = await fetch("/items/", {
           method: "POST",
           headers: {"Content-Type": "application/json"},
@@ -207,10 +207,10 @@ class CreateCard extends React.Component {
           itemIds.push(itemObj.insertId);
         } else {
           const itemObj = await itemResults.json();
-          if (typeof obj.error === "undefined") {
+          if (typeof itemObj.error === "undefined") {
             console.error("Error creating item.");
           } else {
-            console.error("Error creating item:", );
+            console.error("Error creating item:", itemObj.error);
           }
         }
 
@@ -221,6 +221,7 @@ class CreateCard extends React.Component {
 
     } else {
 
+      // there was an error creating the card
       const obj = await results.json();
 
       // if the user is performing an unauthorized action
@@ -245,7 +246,7 @@ class CreateCard extends React.Component {
     // Empty title
     if (!this.state.title.length) {
       emptyFound = true;
-      errorMessage = "Error: Empty category title";
+      errorMessage = "Error: Empty card title";
       if (emptyFound) {
         this.setState({errorMessage: errorMessage});
         return true;
