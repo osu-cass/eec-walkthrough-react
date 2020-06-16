@@ -6,7 +6,8 @@ const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
   roleCheck,
-  requireAuth
+  requireAuth,
+  getUserID
 } = require("../services/authentication/cookieAuth");
 const {
   postCardVal,
@@ -22,7 +23,7 @@ const {
 
 
 // get information about a single card
-app.get("/:cardId", getCardVal.validation, async (req, res) => {
+app.get("/:cardId", getUserID, getCardVal.validation, async (req, res) => {
 
   try {
 
@@ -36,8 +37,14 @@ app.get("/:cardId", getCardVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
+    // check if the current user should be able to view this content
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
     // get card data
-    const results = await getCard(cardId);
+    const results = await getCard(cardId, viewAll);
 
     if (results.cardId === 0) {
       res.status(404).send({error: "Card not found."});

@@ -14,17 +14,13 @@ function Sidebar(props) {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
-  // fetch page data on page load
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // check user info whenever the login status changes
+  // check user info and which pages to display when login status changes
   useEffect(() => {
 
     // check user role to see what we should render
     const user = getProfile();
     setRole(user.role);
+    fetchData();
 
   }, [props.loginStatusChange]);
 
@@ -50,11 +46,14 @@ function Sidebar(props) {
   }
 
   // fetch all page data
-  function fetchData() {
-    fetch("/pages/all")
-      .then(res => res.json())
-      .then(res => res.pages)
-      .then(pages => setPages(pages));
+  async function fetchData() {
+    const results = await fetch("/pages/all");
+    if (results.ok) {
+      const obj = await results.json();
+      setPages(obj.pages);
+    } else {
+      console.error("Unable to fetch pages for sidebar.");
+    }
   }
 
   return pages ? (

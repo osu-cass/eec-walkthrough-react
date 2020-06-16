@@ -1,16 +1,18 @@
 import React from "react";
 import Card from "./Card";
-import SubjectCard from "./SubjectCard";
+import Header from "./Header";
 import PropTypes from "prop-types";
-import "./Subject.css";
+import "./ContentPage.css";
 
+// Contains all of the cards beneath a header
 class CardContainer extends React.Component {
   state = {
     loaded: false
   }
 
   generateCards() {
-    const used = []; // holds ids of all the used tidbits, prevents reprint
+    const used1 = []; // holds ids of all the used tidbits, prevents reprint
+    const used2 = []; // holds ids of all the used tidbits, prevents reprint
     const Cards = this.props.cards.map((card, i) => { // Loop through cards
       return (
         <Card
@@ -21,7 +23,11 @@ class CardContainer extends React.Component {
           checkFilter={this.checkFilter}
           orderIndex={card.orderIndex}
           cardId={card.cardId}
-          used={used}
+          approved={card.approved}
+          created={card.created}
+          userId={card.userId}
+          used1={used1}
+          used2={used2}
           iconSet={this.props.iconSet}
           refresh={() => this.props.refresh()}
         />
@@ -42,11 +48,11 @@ class CardContainer extends React.Component {
   }
 
   render() {
-    return this.props.cards.length ? ( // Render content when data loaded from backend
-      this.generateCards()
-    ) : (
-      <SubjectCard subjectName={`No Cards under ${this.props.headerName}`} />
-    );
+    if (this.props.cards.length) {
+      return this.generateCards();
+    } else {
+      return <Header title={`No Cards under ${this.props.headerName}`} approved={1} mainPageHeader={0}/>;
+    }
   }
 }
 export default CardContainer;

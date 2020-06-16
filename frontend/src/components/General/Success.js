@@ -3,7 +3,7 @@ import Alert from "react-bootstrap/Alert";
 import PropTypes from "prop-types";
 
 function Success(props) {
-  return props.empty ? (
+  return props.message.length ? (
     <Alert className="active" variant="success">
       {props.message}
     </Alert>
@@ -12,7 +12,6 @@ function Success(props) {
 export default Success;
 
 Success.propTypes = {
-  empty: PropTypes.bool.isRequired,
   message: PropTypes.string.isRequired
 };
 

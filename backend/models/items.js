@@ -5,17 +5,29 @@ const {pool} = require("../services/database/mysqlPool");
 
 
 // return information about the specific item
-async function getItem(itemId) {
+async function getItem(itemId, viewAll) {
 
   try {
 
+    let sql = "";
+
     // get the specified item
-    const sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+    if (viewAll) {
+      sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
       "Items.iconType, typeName, typeKeyword, contentText, " +
-      "contentUrl, contentLabel, userId, " +
+      "contentUrl, contentLabel, userId " +
       "FROM Items " +
       "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
       "WHERE itemId = ?;";
+    } else {
+      sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+      "Items.iconType, typeName, typeKeyword, contentText, " +
+      "contentUrl, contentLabel, userId " +
+      "FROM Items " +
+      "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+      "WHERE itemId = ? " +
+      "AND approved = 1;";
+    }
 
     const results = await pool.query(sql, itemId);
 
