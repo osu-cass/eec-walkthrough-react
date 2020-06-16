@@ -11,7 +11,7 @@ function Error404() {
             <div className="col-md-12 text-center py-5 my-5">
               <span className="display-1 d-block">404</span>
               <div className="mb-4 lead">The page you are looking for was not found.</div>
-              <a href="/" class="btn btn-link">Back to Home</a>
+              <a href="/" className="btn btn-link">Back to Home</a>
             </div>
           </div>
         </div>

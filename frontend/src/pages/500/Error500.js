@@ -11,7 +11,7 @@ function Error404() {
             <div className="col-md-12 text-center py-5 my-5">
               <span className="display-1 d-block">500</span>
               <div className="mb-4 lead">Internal server error. Please try again later.</div>
-              <a href="/" class="btn btn-link">Back to Home</a>
+              <a href="/" className="btn btn-link">Back to Home</a>
             </div>
           </div>
         </div>

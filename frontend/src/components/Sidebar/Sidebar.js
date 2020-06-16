@@ -52,7 +52,7 @@ function Sidebar(props) {
       const obj = await results.json();
       setPages(obj.pages);
     } else {
-      console.error("Unable to fetch pages for sidebar.")
+      console.error("Unable to fetch pages for sidebar.");
     }
   }
 

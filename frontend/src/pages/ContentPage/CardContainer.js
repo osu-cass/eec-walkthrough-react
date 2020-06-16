@@ -49,9 +49,9 @@ class CardContainer extends React.Component {
 
   render() {
     if (this.props.cards.length) {
-      return this.generateCards()
+      return this.generateCards();
     } else {
-      return <Header title={`No Cards under ${this.props.headerName}`} approved={1} mainPageHeader={0}/>
+      return <Header title={`No Cards under ${this.props.headerName}`} approved={1} mainPageHeader={0}/>;
     }
   }
 }

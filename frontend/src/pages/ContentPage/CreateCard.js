@@ -203,7 +203,7 @@ class CreateCard extends React.Component {
           method: "POST",
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(itemData)
-        })
+        });
 
         if (itemResults.ok) {
           const itemObj = await itemResults.json();

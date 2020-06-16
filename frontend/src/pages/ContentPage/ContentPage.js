@@ -143,9 +143,9 @@ class ContentPage extends React.Component {
           {this.state.headers.map((header, i) => {
             return (
               <Fragment key={i}>
-                <Header title={header.title} approved={header.approved} 
+                <Header title={header.title} approved={header.approved}
                   headerId={header.headerId} created={header.created}
-                  userId={header.userId} mainPageHeader={0} 
+                  userId={header.userId} mainPageHeader={0}
                   refresh={() => this.fetchData()} sticky
                 >
                   <FilterBar
@@ -179,9 +179,9 @@ class ContentPage extends React.Component {
         </Container>
       ) : <Loading />;
     } else if (this.state.errorPage === 404) {
-      return <Error404 />
+      return <Error404 />;
     } else {
-      return <Error500 />
+      return <Error500 />;
     }
   }
 }
