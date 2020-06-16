@@ -48,11 +48,11 @@ class CardContainer extends React.Component {
   }
 
   render() {
-    return this.props.cards.length ? ( // Render content when data loaded from backend
-      this.generateCards()
-    ) : (
-      <Header subjectName={`No Cards under ${this.props.headerName}`} approved={true} mainPageHeader={false}/>
-    );
+    if (this.props.cards.length) {
+      return this.generateCards()
+    } else {
+      return <Header title={`No Cards under ${this.props.headerName}`} approved={1} mainPageHeader={0}/>
+    }
   }
 }
 export default CardContainer;

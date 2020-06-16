@@ -68,7 +68,7 @@ function ReviewHeader(props) {
 
   }
 
-    return role >= 3 && !props.approved && !props.mainPageHeader ? (
+    return role >= 3 && !props.approved ? (
       <div className='text-center'>
 
         <Button className="mx-2" size="sm" variant="success" onClick={() => handleShow()}>
@@ -81,7 +81,7 @@ function ReviewHeader(props) {
 
         <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
           <Modal.Header>
-            <h5 className="modal-title font-weight-bold" id="exampleModalLabel">{props.title}</h5>
+            <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review {props.title} Header</h5>
             <Button variant="none" onClick={() => handleClose()}>
               <span aria-hidden="true">&times;</span>
             </Button>
@@ -134,6 +134,5 @@ ReviewHeader.propTypes = {
   approved: PropTypes.number,
   refresh: PropTypes.func,
   userId: PropTypes.number,
-  created: PropTypes.any,
-  mainPageHeader: PropTypes.any
+  created: PropTypes.any
 };
