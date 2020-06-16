@@ -133,7 +133,11 @@ class ContentPage extends React.Component {
           {this.state.headers.map((header, i) => {
             return (
               <Fragment key={i}>
-                <Header subjectName={header.title} approved={header.approved} mainPageHeader={false} sticky>
+                <Header title={header.title} approved={header.approved} 
+                  headerId={header.headerId} created={header.created}
+                  userId={header.userId} mainPageHeader={false} 
+                  refresh={() => this.fetchData()} sticky
+                >
                   <FilterBar
                     data={this.state.icons[i]}
                     headerIndex={i}
