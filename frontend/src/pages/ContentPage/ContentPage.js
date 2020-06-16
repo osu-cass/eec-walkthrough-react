@@ -114,6 +114,7 @@ class ContentPage extends React.Component {
           <Header subjectName={this.state.pageInfo.name} approved={this.state.pageInfo.approved} mainPageHeader={true}/>
 
           <PageDescription
+            approved={this.state.pageInfo.approved}
             header={this.state.pageInfo.title}
             description={this.state.pageInfo.description}
             img={this.state.pageInfo.imageUrl}
