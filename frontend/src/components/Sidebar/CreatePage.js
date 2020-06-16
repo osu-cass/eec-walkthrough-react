@@ -15,7 +15,10 @@ class CreatePage extends React.Component {
     errorMessage: ""
   }
 
-  handleClose = () => this.setState({show: false});
+  handleClose = () => {
+    this.setState({show: false});
+    this.setState({errorMessage: ""});
+  }
   handleShow = () => this.setState({show: true});
 
   handleSubmit = async () => {

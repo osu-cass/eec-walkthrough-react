@@ -111,7 +111,10 @@ class EditCard extends React.Component {
     }
   }
 
-  handleClose = () => this.setState({show: false});
+  handleClose = () => {
+    this.setState({show: false});
+    this.setState({errorMessage: ""});
+  }
   handleShow = () => this.setState({show: true});
 
   getContentType(text, label, url) {
@@ -234,17 +237,20 @@ class EditCard extends React.Component {
   }
 
   deleteCard = async () => {
-    // Close modal
-    this.handleClose();
-
     // Send call to backend to delete card
-    fetch(`/cards/${this.props.cardId}`, {
+    const results = await fetch(`/cards/${this.props.cardId}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });
 
-    // Reload page after deleting
-    this.props.refresh();
+    if (results.ok) {
+      // Close modal
+      this.handleClose();
+      // Reload page after deleting
+      this.props.refresh();
+    } else {
+      this.setState({errorMessage: "Error deleting card. Please try again later."});
+    }
   }
 
   handleSubmit = async () => {
