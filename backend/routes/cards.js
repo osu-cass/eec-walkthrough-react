@@ -112,7 +112,8 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
 
 // delete a card
 app.delete("/:cardId", requireAuth, getCardVal.validation, async (req, res) => {
-
+  res.status(404).send({error: "Card not found."});
+  return;
   try {
 
     const cardId = req.params.cardId;

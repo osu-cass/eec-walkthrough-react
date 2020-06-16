@@ -37,7 +37,10 @@ class CreateCard extends React.Component {
     this.setState({loaded: true});
   }
 
-  handleClose = () => this.setState({show: false});
+  handleClose = () => {
+    this.setState({show: false});
+    this.setState({errorMessage: ""});
+  }
   handleShow = () => this.setState({show: true});
 
   incrementCounter = (contentType) => {
