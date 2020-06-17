@@ -24,6 +24,7 @@ class CardContainer extends React.Component {
             checkFilter={this.checkFilter}
             orderIndex={card.orderIndex}
             cardId={card.cardId}
+            cardType={card.cardType}
             approved={card.approved}
             created={card.created}
             userId={card.userId}
@@ -41,6 +42,7 @@ class CardContainer extends React.Component {
             checkFilter={this.checkFilter}
             orderIndex={card.orderIndex}
             cardId={card.cardId}
+            cardType={card.cardType}
             approved={card.approved}
             created={card.created}
             userId={card.userId}

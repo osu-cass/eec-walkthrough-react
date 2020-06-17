@@ -14,6 +14,7 @@ class EditCard extends React.Component {
   state = {
     counter: 0, // count number of inputs added
     title: "",
+    format: 0,
     items: [], // current items have current 1, new items have current 0
     toDelete: [], // hold the ids to be deleted on "Remove"
     show: false,
@@ -47,6 +48,7 @@ class EditCard extends React.Component {
     this.setState({items: items});
     this.setState({role: getProfile().role});
     this.setState({title: this.props.cardName});
+    this.setState({format: this.props.cardType});
     this.setState({counter: counter});
     this.setState({loaded: true});
     this.setState({errorMessage: ""});
@@ -579,7 +581,7 @@ class EditCard extends React.Component {
                   <Form.Label className="font-weight-bold">Card Format</Form.Label>
                   <select className="form-control"
                     id="select-edit-card-format"
-                    defaultValue="0"
+                    defaultValue={this.state.format}
                   >
                     <option value="0">Default</option>
                     <option value="1">Thumbnail Gallery</option>
@@ -628,6 +630,7 @@ EditCard.propTypes = {
   items: PropTypes.array,
   headerId: PropTypes.number,
   cardId: PropTypes.number,
+  cardType: PropTypes.number,
   parentId: PropTypes.number,
   orderIndex: PropTypes.number,
   refresh: PropTypes.func

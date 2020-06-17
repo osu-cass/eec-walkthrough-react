@@ -86,6 +86,7 @@ class Card extends React.Component {
               items={this.props.items}
               headerId={this.props.headerId}
               cardId={this.props.cardId}
+              cardType={this.props.cardType}
               parentId={this.props.parentId}
               orderIndex={this.props.orderIndex}
               refresh={() => this.props.refresh()}
@@ -123,6 +124,7 @@ Card.propTypes = {
   refresh: PropTypes.any,
   icon: PropTypes.any,
   cardId: PropTypes.any,
+  cardType: PropTypes.any,
   parentId: PropTypes.any,
   approved: PropTypes.number,
   userId: PropTypes.number,
