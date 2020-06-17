@@ -156,10 +156,15 @@ class CreateCard extends React.Component {
       return;
     }
 
+    // Get the card format from the select
+    const formatSelect = document.getElementById("select-create-card-format");
+    const cardFormat = formatSelect.options[formatSelect.selectedIndex].value;
+
     // Prepare data for new card
     const cardData = {
       headerId: this.props.headerId,
       orderIndex: this.props.numCards + 1, // append to end of list of cards for this header
+      cardType: cardFormat,
       title: this.state.title,
       userId: 1
     };
@@ -400,6 +405,21 @@ class CreateCard extends React.Component {
                 <Form.Group controlId="formTitle">
                   <Form.Label className="font-weight-bold">Card Title</Form.Label>
                   <Form.Control type="text" placeholder="Enter title" onChange={(e) => this.setState({title: e.target.value})} />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <Form.Group controlId="formTitle">
+                  <Form.Label className="font-weight-bold">Card Format</Form.Label>
+                  <select className="form-control"
+                    id="select-create-card-format"
+                    defaultValue="0"
+                  >
+                    <option value="0">Default</option>
+                    <option value="1">Thumbnail Gallery</option>
+                  </select>
                 </Form.Group>
               </Col>
             </Row>
