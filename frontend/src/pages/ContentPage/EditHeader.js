@@ -19,7 +19,11 @@ class EditHeader extends React.Component {
     this.setState({title: this.props.headerName});
   }
 
-  handleCloseModal = () => this.setState({showModal: false});
+  handleCloseModal = () => {
+    this.setState({showModal: false});
+    this.setState({title: this.props.headerName});
+    this.setState({errorMessage: ""});
+  };
   handleShowModal = () => this.setState({showModal: true});
 
   handleHideLoad = () => this.setState({showLoad: false});
