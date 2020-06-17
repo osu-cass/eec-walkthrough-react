@@ -9,3 +9,14 @@
   max-width: 95% !important;
   height: auto !important;
 }
+
+.expandable-image {
+  cursor: "pointer";
+  max-width: "15em";
+}
+
+.expandable-image .header {
+ max-height: 23em;
+ max-width: none;
+ margin: 100px;
+}

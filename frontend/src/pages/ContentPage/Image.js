@@ -11,16 +11,15 @@ function Image(props) {
     <Col>
       <img
         src={props.url}
-        alt={props.header}
-        className={`rounded img-fluid ${props.thumbnail ? ("img-thumbnail"):("")}`}
-        style={{cursor: "pointer", maxWidth: "15em"}}
+        alt={props.title}
+        className={`expandable-image rounded img-fluid ${props.thumbnail ? ("img-thumbnail"):("")} ${props.header ? ("header"):("")}`}
         onClick={() => setModalShow(true)}
       />
 
       <MyVerticallyCenteredModal
         show={modalShow}
         url={props.url}
-        header={props.header}
+        header={props.title}
         onHide={() => setModalShow(false)}
       />
     </Col>
@@ -30,6 +29,7 @@ export default Image;
 
 Image.propTypes = {
   url: PropTypes.string.isRequired,
-  header: PropTypes.string,
-  thumbnail: PropTypes.bool
+  title: PropTypes.string,
+  thumbnail: PropTypes.bool,
+  header: PropTypes.bool
 };
