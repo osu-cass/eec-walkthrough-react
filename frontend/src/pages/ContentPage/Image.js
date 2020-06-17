@@ -13,6 +13,7 @@ function Image(props) {
         <img
           src={props.url}
           alt={props.title}
+          title={props.title}
           className="expandable-image rounded img-fluid img-thumbnail"
           style={{cursor: "pointer", maxheight: "23em"}}
           onClick={() => setModalShow(true)}
