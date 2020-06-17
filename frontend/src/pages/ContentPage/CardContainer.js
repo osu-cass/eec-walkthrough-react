@@ -15,23 +15,40 @@ class CardContainer extends React.Component {
     const used1 = []; // holds ids of all the used tidbits, prevents reprint
     const used2 = []; // holds ids of all the used tidbits, prevents reprint
     const Cards = this.props.cards.map((card, i) => { // Loop through cards
-      return (
-        <GridCard
-          key={i}
-          headerId={this.props.headerId}
-          card={card.title}
-          items={card.items}
-          checkFilter={this.checkFilter}
-          orderIndex={card.orderIndex}
-          cardId={card.cardId}
-          approved={card.approved}
-          created={card.created}
-          userId={card.userId}
-          used1={used1}
-          used2={used2}
-          iconSet={this.props.iconSet}
-          refresh={() => this.props.refresh()}
-        />
+      return card.cardType ? (
+          <GridCard
+            key={i}
+            headerId={this.props.headerId}
+            card={card.title}
+            items={card.items}
+            checkFilter={this.checkFilter}
+            orderIndex={card.orderIndex}
+            cardId={card.cardId}
+            approved={card.approved}
+            created={card.created}
+            userId={card.userId}
+            used1={used1}
+            used2={used2}
+            iconSet={this.props.iconSet}
+            refresh={() => this.props.refresh()}
+          />
+        ) : (
+          <Card
+            key={i}
+            headerId={this.props.headerId}
+            card={card.title}
+            items={card.items}
+            checkFilter={this.checkFilter}
+            orderIndex={card.orderIndex}
+            cardId={card.cardId}
+            approved={card.approved}
+            created={card.created}
+            userId={card.userId}
+            used1={used1}
+            used2={used2}
+            iconSet={this.props.iconSet}
+            refresh={() => this.props.refresh()}
+          />
       );
     });
 

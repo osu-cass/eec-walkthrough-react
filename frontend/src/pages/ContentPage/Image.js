@@ -7,23 +7,61 @@ import "./Image.css";
 function Image(props) {
   const [modalShow, setModalShow] = React.useState(false);
 
-  return (
-    <Col>
-      <img
-        src={props.url}
-        alt={props.title}
-        className={`expandable-image rounded img-fluid ${props.thumbnail ? ("img-thumbnail"):("")} ${props.header ? ("header"):("")}`}
-        onClick={() => setModalShow(true)}
-      />
-
-      <MyVerticallyCenteredModal
-        show={modalShow}
-        url={props.url}
-        header={props.title}
-        onHide={() => setModalShow(false)}
-      />
-    </Col>
-  );
+  if (props.thumbnail) {
+    return (
+      <Col>
+        <img
+          src={props.url}
+          alt={props.title}
+          className="expandable-image rounded img-fluid img-thumbnail"
+          style={{cursor: "pointer", maxheight: "23em"}}
+          onClick={() => setModalShow(true)}
+        />
+        <MyVerticallyCenteredModal
+          show={modalShow}
+          url={props.url}
+          header={props.title}
+          onHide={() => setModalShow(false)}
+        />
+      </Col>
+    )
+  } else if (props.header) {
+    return (
+      <Col>
+        <img
+          src={props.url}
+          alt={props.title}
+          className="expandable-image rounded img-fluid"
+          style={{cursor: "pointer", maxheight: "23em"}}
+          onClick={() => setModalShow(true)}
+        />
+        <MyVerticallyCenteredModal
+          show={modalShow}
+          url={props.url}
+          header={props.title}
+          onHide={() => setModalShow(false)}
+        />
+      </Col>
+    )
+  } else {
+    return (
+      <Col>
+        <img
+          src={props.url}
+          alt={props.title}
+          className="expandable-image rounded img-fluid"
+          style={{cursor: "pointer", maxWidth: "15em"}}
+          onClick={() => setModalShow(true)}
+        />
+        <MyVerticallyCenteredModal
+          show={modalShow}
+          url={props.url}
+          header={props.title}
+          onHide={() => setModalShow(false)}
+        />
+      </Col>
+    )
+  }
 }
 export default Image;
 
