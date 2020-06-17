@@ -42,7 +42,7 @@ function BulletPoint (props) {
             {props.text}
           </span>
           {props.label}
-          <Image url={props.url} header={props.label} />
+          <Image url={props.url} header={props.label} thumbnail={false}/>
         </Fragment>
         : ""}
       {getContentType(props.text, props.label, props.url) === 3 ?
