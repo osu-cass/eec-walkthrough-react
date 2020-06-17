@@ -3,6 +3,7 @@ import {Card as CardBS} from "react-bootstrap";
 import EditCard from "./EditCard";
 import GridReviewCard from "./GridReviewCard";
 import PropTypes from "prop-types";
+import Image from "./Image";
 import "./GridCard.css";
 
 // A single card on a subject or industry page
@@ -56,9 +57,10 @@ function GridCard(props) {
               key={item.itemId + "a"}
             >
               <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
-                <img className="img-fluid img-thumbnail"
-                  src={item.contentUrl}
-                  alt={item.contentLabel}
+                <Image
+                  thumbnail={true}
+                  url={item.contentUrl}
+                  header={item.contentLabel}
                   key={item.itemId + "c"}
                 />
               </div>

@@ -12,7 +12,7 @@ function Image(props) {
       <img
         src={props.url}
         alt={props.header}
-        className="rounded img-fluid"
+        className={`rounded img-fluid ${props.thumbnail ? ("img-thumbnail"):("")}`}
         style={{cursor: "pointer", maxWidth: "15em"}}
         onClick={() => setModalShow(true)}
       />
@@ -30,5 +30,6 @@ export default Image;
 
 Image.propTypes = {
   url: PropTypes.string.isRequired,
-  header: PropTypes.string
+  header: PropTypes.string,
+  thumbnail: PropTypes.bool
 };
