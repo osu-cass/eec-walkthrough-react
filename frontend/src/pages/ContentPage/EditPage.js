@@ -56,6 +56,7 @@ class EditPage extends React.Component {
         console.log(err);
       });
 
+    this.props.handlePageEdit();
     this.props.refresh();
   }
 
@@ -229,5 +230,6 @@ EditPage.propTypes = {
   description: PropTypes.string,
   img: PropTypes.string,
   role: PropTypes.number,
-  refresh: PropTypes.func
+  refresh: PropTypes.func,
+  handlePageEdit: PropTypes.any
 };

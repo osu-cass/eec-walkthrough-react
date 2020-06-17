@@ -28,6 +28,11 @@ function Sidebar(props) {
 
   }, [props.loginStatusChange]);
 
+  // fetch page data on page edit
+  useEffect(() => {
+    fetchData();
+  }, [props.pageEdit]);
+
   // check for a click outside of the sidebar
   // if a click is detected, then close the sidebar
   function useOutsideAlerter(ref) {
@@ -116,6 +121,7 @@ export default Sidebar;
 
 Sidebar.propTypes = {
   loginStatusChange: PropTypes.any,
+  pageEdit: PropTypes.any,
   closeSidebar: PropTypes.any,
   className: PropTypes.any
 };

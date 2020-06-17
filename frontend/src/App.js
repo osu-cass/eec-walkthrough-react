@@ -13,6 +13,7 @@ class App extends React.Component {
   state = {
     sidebarOpen: false,
     loginStatusChange: false,
+    pageEdit: false,
     nameChange: false
   };
 
@@ -26,6 +27,9 @@ class App extends React.Component {
 
   handleLoginStatusChange = () => {
     this.setState({loginStatusChange: !this.state.loginStatusChange});
+  }
+  handlePageEdit = () => {
+    this.setState({pageEdit: !this.state.pageEdit});
   }
 
   handleNameChange = () => {
@@ -42,19 +46,26 @@ class App extends React.Component {
         <Sidebar
           className={this.state.sidebarOpen ? "visible" : "hidden"}
           loginStatusChange={this.state.loginStatusChange}
+          pageEdit={this.state.pageEdit}
           closeSidebar={this.closeSidebar}
         />
         <Switch>
           <Route
             path='/subjects/:pageId'
             render={(props) => (
-              <Subject {...props} pageId={props.match.params.pageId} />
+              <Subject {...props}
+                pageId={props.match.params.pageId}
+                handlePageEdit={this.handlePageEdit}
+              />
             )}
           />
           <Route
             path='/industries/:pageId'
             render={(props) => (
-              <Subject {...props} pageId={props.match.params.pageId} />
+              <Subject {...props}
+                pageId={props.match.params.pageId}
+                handlePageEdit={this.handlePageEdit}
+              />
             )}
           />
           <Route path='/search/:searchId'>
