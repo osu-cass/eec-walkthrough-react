@@ -35,6 +35,7 @@ function GridCard(props) {
             items={props.items}
             headerId={props.headerId}
             cardId={props.cardId}
+            cardType={props.cardType}
             parentId={props.parentId}
             orderIndex={props.orderIndex}
             refresh={() => props.refresh()}
@@ -88,6 +89,7 @@ GridCard.propTypes = {
   refresh: PropTypes.any,
   icon: PropTypes.any,
   cardId: PropTypes.any,
+  cardType: PropTypes.any,
   parentId: PropTypes.any,
   approved: PropTypes.number,
   userId: PropTypes.number,
