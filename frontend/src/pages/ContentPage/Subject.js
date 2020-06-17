@@ -107,6 +107,7 @@ class Subject extends React.Component {
             img={this.state.subjectInfo.imageUrl}
             role={this.state.role}
             refresh={() => this.fetchData()}
+            handlePageEdit={this.props.handlePageEdit}
           />
         </SubjectCard>
 
@@ -172,5 +173,6 @@ export default Subject;
 
 Subject.propTypes = {
   match: PropTypes.any,
-  pageId: PropTypes.any
+  pageId: PropTypes.any,
+  handlePageEdit: PropTypes.any
 };
