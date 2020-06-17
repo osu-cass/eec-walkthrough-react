@@ -15,7 +15,7 @@ class EditHeader extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({title: this.props.subjectName});
+    this.setState({title: this.props.headerName});
   }
 
   handleCloseModal = () => this.setState({showModal: false});
@@ -46,8 +46,7 @@ class EditHeader extends React.Component {
       .catch((err) => {
         console.log(err);
       });
-    this.handleHideLoad();
-    this.handleCloseModal();
+
     this.props.refresh();
   }
 
@@ -69,8 +68,7 @@ class EditHeader extends React.Component {
       .catch((err) => {
         console.log(err);
       });
-    this.handleHideLoad();
-    this.handleCloseModal();
+
     this.props.refresh();
   }
 
@@ -83,7 +81,7 @@ class EditHeader extends React.Component {
       return;
     }
     if (!title.replace(/\s/g, "").length) {
-      this.setState({errorMessage: "Error: Header contains only spaces"});
+      this.setState({errorMessage: "Error: Header can't be blank"});
       return;
     }
 
@@ -116,7 +114,7 @@ class EditHeader extends React.Component {
                   <Form.Control
                     type="text"
                     placeholder="Enter title"
-                    defaultValue={this.props.subjectName}
+                    defaultValue={this.props.headerName}
                     onChange={(e) => this.setState({title: e.target.value})}
                   />
                 </Form.Group>
@@ -143,12 +141,8 @@ class EditHeader extends React.Component {
 export default EditHeader;
 
 EditHeader.propTypes = {
-  title: PropTypes.string,
-  pageId: PropTypes.number,
+  headerName: PropTypes.string,
+  headerId: PropTypes.number,
   role: PropTypes.number,
-  numHeaders: PropTypes.number,
-  refresh: PropTypes.func,
-  subject: PropTypes.any,
-  subjectName: PropTypes.string,
-  headerId: PropTypes.number
+  refresh: PropTypes.func
 };
