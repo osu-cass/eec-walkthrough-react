@@ -8,6 +8,7 @@ import Loading from "../../components/General/Loading";
 import CreateCard from "./CreateCard";
 import CreateHeader from "./CreateHeader";
 import EditHeader from "./EditHeader";
+import EditPage from "./EditPage";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
 import "./Subject.css";
@@ -97,7 +98,17 @@ class Subject extends React.Component {
   render() {
     return this.state.loaded ? ( // Render content when data loaded from backend
       <Container>
-        <SubjectCard subjectName={this.state.subjectInfo.name} />
+        <SubjectCard subjectName={this.state.subjectInfo.name}>
+          <EditPage
+            pageId={parseInt(this.props.pageId)}
+            pageName={this.state.subjectInfo.name}
+            title={this.state.subjectInfo.title}
+            description={this.state.subjectInfo.description}
+            img={this.state.subjectInfo.imageUrl}
+            role={this.state.role}
+            refresh={() => this.fetchData()}
+          />
+        </SubjectCard>
 
         <SubjectIntro
           header={this.state.subjectInfo.title}
@@ -126,7 +137,7 @@ class Subject extends React.Component {
                   resetFilter={(idx) => this.resetFilter(idx)}
                 />
                 <EditHeader
-                  subjectName={header.title}
+                  headerName={header.title}
                   headerId={header.headerId}
                   role={this.state.role}
                   refresh={() => this.fetchData()}
