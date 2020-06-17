@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "./Card";
+import GridCard from "./GridCard";
 import Header from "./Header";
 import PropTypes from "prop-types";
 import "./ContentPage.css";
@@ -15,7 +16,7 @@ class CardContainer extends React.Component {
     const used2 = []; // holds ids of all the used tidbits, prevents reprint
     const Cards = this.props.cards.map((card, i) => { // Loop through cards
       return (
-        <Card
+        <GridCard
           key={i}
           headerId={this.props.headerId}
           card={card.title}
