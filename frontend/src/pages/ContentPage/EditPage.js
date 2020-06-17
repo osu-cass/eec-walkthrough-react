@@ -1,6 +1,7 @@
 import React from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import PropTypes from "prop-types";
+import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
 import "./CreateHeader.css";
@@ -89,6 +90,8 @@ class EditPage extends React.Component {
     const summary = this.state.summary;
     const description = this.state.description;
     const url = this.state.url;
+
+    this.setState({errorMessage: ""});
 
     if (!title.length) {
       this.setState({errorMessage: "Error: Fill out empty page title"});
@@ -202,6 +205,16 @@ class EditPage extends React.Component {
                   />
                 </Form.Group>
               </Col>
+            </Row>
+
+            <Row>
+              <div className='col-3' />
+              <div className='col-6 mt-2'>
+                <Error
+                  empty={!!this.state.errorMessage}
+                  message={this.state.errorMessage}
+                />
+              </div>
             </Row>
           </Modal.Body>
 
