@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Card as CardBS} from "react-bootstrap";
 import EditCard from "./EditCard";
-import ReviewCard from "./ReviewCard";
+import GridReviewCard from "./GridReviewCard";
 import PropTypes from "prop-types";
 import "./GridCard.css";
 
@@ -38,12 +38,12 @@ function GridCard(props) {
             orderIndex={props.orderIndex}
             refresh={() => props.refresh()}
           />
-          <ReviewCard
-            title={`${props.card}`}
+          <GridReviewCard
+            title={props.card}
             cardId={props.cardId}
             refresh={() => props.refresh()}
             approved={props.approved}
-            cardItems={[]}
+            cardItems={imageItems}
             userId={props.userId}
             created={props.created}
           />
