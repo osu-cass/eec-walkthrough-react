@@ -175,7 +175,6 @@ function ContentPage(props) {
     return <Error500 />;
   }
 }
-
 export default ContentPage;
 
 ContentPage.propTypes = {
