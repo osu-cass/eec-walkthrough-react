@@ -25,7 +25,14 @@ class EditPage extends React.Component {
     this.setState({url: this.props.img});
   }
 
-  handleCloseModal = () => this.setState({showModal: false});
+  handleCloseModal = () => {
+    this.setState({showModal: false});
+    this.setState({title: this.props.pageName});
+    this.setState({summary: this.props.title});
+    this.setState({description: this.props.description});
+    this.setState({url: this.props.img});
+    this.setState({errorMessage: ""});
+  };
   handleShowModal = () => this.setState({showModal: true});
 
   handleHideLoad = () => this.setState({showLoad: false});
