@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState, useEffect} from "react";
 import {getProfile} from "../../utilities/cookieAuth";
 import Header from "./Header";
 import PageDescription from "./PageDescription";
@@ -13,179 +13,169 @@ import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import "./ContentPage.css";
 
-// a page describing an industry or subject
-class ContentPage extends React.Component {
+// A page describing an industry or subject
+function ContentPage(props) {
 
-  state = {
-    errorPage: false,
-    sidebarOpen: false,
-    pageInfo: [],
-    headers: [],
-    icons: [],
-    cards: [],
-    iconSet: []
-  }
+  const [errorPage, setErrorPage] = useState(false);
+  const [pageInfo, setPageInfo] = useState([]);
+  const [icons, setIcons] = useState([]);
+  const [iconSet, setIconSet] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [userId, setUserId] = useState(0);
+  const [role, setRole] = useState(0);
 
-  async componentDidMount() {
-    await this.fetchData(); // Get data about this subject (subject info, cards, figures)
-    this.setState({role: getProfile().role});
-  }
+  // get new page data if the page ID has changed
+  useEffect(() => {
+    setUserId(getProfile().userId);
+    setRole(getProfile().role);
+    fetchData();
+    // eslint-disable-next-line
+  }, [props.pageId]);
 
-  async componentDidUpdate(prevProps) {
-    if (this.props.match.params.pageId !== prevProps.match.params.pageId) { // Reload state when switching between subjects
-      await this.fetchData();
-      this.setState({headers: this.state.pageInfo.headers});
-    }
-  }
-
-  async fetchData() {
+  async function fetchData() {
     let i = [];
     let j = [];
     const icons = [];
-
-    // Reset state for page load
-    this.setState({cards: [], headers: [], icons: [], loaded: false});
+    let obj = [];
+    setLoaded(false);
 
     // Fetch all icons
     let results = await fetch(`/icons/all`);
 
     if (results.ok) {
-      const obj = await results.json();
-      this.setState({iconSet: obj.icons});
+      obj = await results.json();
+      setIconSet(obj.icons);
     } else {
-      this.setState({errorPage: 500});
+      setErrorPage(500);
       return;
     }
 
     // Fetch page info
-    results = await fetch(`/pages/${this.props.pageId}/all`);
+    results = await fetch(`/pages/${props.pageId}/all`);
 
     if (results.ok) {
-      const obj = await results.json();
-      this.setState({pageInfo: obj});
+      obj = await results.json();
+      setPageInfo(obj);
     } else {
       if (results.status === 404) {
-        this.setState({errorPage: 404});
+        setErrorPage(404);
         return;
       } else {
-        this.setState({errorPage: 500});
+        setErrorPage(500);
         return;
       }
     }
 
     // Headers
-    this.setState({headers: this.state.pageInfo.headers});
+    const headers = obj.headers;
 
     // Split icons for each header
-    for (i = 0; i < this.state.headers.length; i++) {
-      icons[i] = this.state.headers[i].icons;
+    for (i = 0; i < headers.length; i++) {
+      icons[i] = headers[i].icons;
       for (j = 0; j < icons[i].length; j++) {
         icons[i][j].hidden = false;
       }
     }
 
-    this.setState({icons: icons});
-    this.setState({loaded: true});
+    setIcons(icons);
+    setLoaded(true);
   }
 
-  handleFilter = (id, idx) => {
-    const icons = [...this.state.icons]; // Create copy of object, update object, set state with new copy
-    let i;
-    for (i = 0; i < icons[idx].length; i++) {
-      if (icons[idx][i].iconType === id) {
-        icons[idx][i].hidden = !icons[idx][i].hidden; // Update object and change hidden to opposite
+  function handleFilter(id, idx) {
+    const newIcons = [...icons]; // Create copy of object, update object, set state with new copy
+    for (let i = 0; i < newIcons[idx].length; i++) {
+      if (newIcons[idx][i].iconType === id) {
+        newIcons[idx][i].hidden = !newIcons[idx][i].hidden; // Update object and change hidden to opposite
       }
     }
-    this.setState({icons: icons});
+    setIcons(newIcons);
   }
 
-  resetFilter(headerIdx) {
-    const icons = [...this.state.icons]; // Create copy of object, update object, set state with new copy
+  function resetFilter(headerIdx) {
+    const newIcons = [...icons]; // Create copy of object, update object, set state with new copy
     let i;
-    for (i = 0; i < icons[headerIdx].length; i++) {
-      icons[headerIdx][i].hidden = false; // Change everything to not hidden
+    for (i = 0; i < newIcons[headerIdx].length; i++) {
+      newIcons[headerIdx][i].hidden = false; // Change everything to not hidden
     }
-    this.setState({icons: icons});
+    setIcons(newIcons);
   }
 
-  render() {
-    if (!this.state.errorPage) {
-      return this.state.loaded ? ( // Render content when data loaded from backend
-        <Container>
-          <Header title={this.state.pageInfo.name}
-            name={this.state.pageInfo.name}
-            pageTitle={this.state.pageInfo.title}
-            description={this.state.pageInfo.description}
-            imageUrl={this.state.pageInfo.imageUrl}
-            approved={this.state.pageInfo.approved}
-            mainPageHeader={1}
-            refresh={() => this.fetchData()}
-            pageId={parseInt(this.props.pageId)}
-            created={this.state.pageInfo.created}
-          />
+  if (!errorPage) {
+    return loaded ? ( // Render content when data loaded from backend
+      <Container>
+        <Header title={pageInfo.name}
+          name={pageInfo.name}
+          pageTitle={pageInfo.title}
+          description={pageInfo.description}
+          imageUrl={pageInfo.imageUrl}
+          approved={pageInfo.approved}
+          mainPageHeader={1}
+          refresh={() => fetchData()}
+          pageId={parseInt(props.pageId)}
+          created={pageInfo.created}
+        />
 
-          <PageDescription
-            approved={this.state.pageInfo.approved}
-            name={this.state.pageInfo.name}
-            header={this.state.pageInfo.title}
-            description={this.state.pageInfo.description}
-            img={this.state.pageInfo.imageUrl}
-          />
+        <PageDescription
+          approved={pageInfo.approved}
+          name={pageInfo.name}
+          header={pageInfo.title}
+          description={pageInfo.description}
+          img={pageInfo.imageUrl}
+        />
 
-          <CreateHeader
-            pageId={parseInt(this.props.pageId)}
-            role={this.state.role}
-            userId={this.state.userId}
-            subject={this.state.pageInfo.name}
-            refresh={() => this.fetchData()}
-            numHeaders={this.state.pageInfo.headers.length}
-          />
+        <CreateHeader
+          pageId={parseInt(props.pageId)}
+          role={role}
+          userId={userId}
+          subject={pageInfo.name}
+          refresh={() => fetchData()}
+          numHeaders={pageInfo.headers.length}
+        />
 
-          {this.state.headers.map((header, i) => {
-            return (
-              <Fragment key={i}>
-                <Header title={header.title} approved={header.approved}
-                  headerId={header.headerId} created={header.created}
-                  userId={header.userId} mainPageHeader={0}
-                  refresh={() => this.fetchData()} sticky
-                >
-                  <FilterBar
-                    data={this.state.icons[i]}
-                    headerIndex={i}
-                    handleFilter={this.handleFilter}
-                    resetFilter={(idx) => this.resetFilter(idx)}
-                  />
-                </Header>
-                <CardContainer
-                  id={i}
-                  cards={this.state.headers[i].cards}
-                  filter={this.state.icons[i]}
-                  headerId={header.headerId}
-                  headerName={header.title}
-                  iconSet={this.state.iconSet}
-                  refresh={() => this.fetchData()}
+        {pageInfo.headers.map((header, i) => {
+          return (
+            <Fragment key={i}>
+              <Header title={header.title} approved={header.approved}
+                headerId={header.headerId} created={header.created}
+                userId={header.userId} mainPageHeader={0}
+                refresh={() => fetchData()} sticky
+              >
+                <FilterBar
+                  data={icons[i]}
+                  headerIndex={i}
+                  handleFilter={handleFilter}
+                  resetFilter={(idx) => resetFilter(idx)}
                 />
-                <CreateCard
-                  title={`Create ${header.title} Card`}
-                  icons={this.state.iconSet}
-                  numCards={this.state.headers[i].cards.length}
-                  headerId={header.headerId}
-                  pageType={1}
-                  refresh={() => this.fetchData()}
-                />
-              </Fragment>
-            );
-          })}
+              </Header>
+              <CardContainer
+                id={i}
+                cards={header.cards}
+                filter={icons[i]}
+                headerId={header.headerId}
+                headerName={header.title}
+                iconSet={iconSet}
+                refresh={() => fetchData()}
+              />
+              <CreateCard
+                title={`Create ${header.title} Card`}
+                icons={iconSet}
+                numCards={header.cards.length}
+                headerId={header.headerId}
+                refresh={() => fetchData()}
+              />
+            </Fragment>
+          );
+        })}
 
-        </Container>
-      ) : <Loading />;
-    } else if (this.state.errorPage === 404) {
-      return <Error404 />;
-    } else {
-      return <Error500 />;
-    }
+      </Container>
+    ) : <Loading />;
+  } else if (errorPage === 404) {
+    return <Error404 />;
+  } else {
+    return <Error500 />;
   }
 }
+
 export default ContentPage;
 
 ContentPage.propTypes = {
