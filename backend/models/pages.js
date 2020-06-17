@@ -324,27 +324,27 @@ async function updatePage(pageId, pageType, name, title, description, imageUrl, 
     sql = "UPDATE Pages SET ";
 
     if (typeof pageType !== "undefined") {
-      sql += "pageType = ?, ";
+      sql += "pageType = ?,";
       sqlArray.push(pageType);
     }
 
     if (typeof name !== "undefined") {
-      sql += "name = ?, ";
+      sql += "name = ?,";
       sqlArray.push(name);
     }
 
     if (typeof title !== "undefined") {
-      sql += "title = ?, ";
+      sql += "title = ?,";
       sqlArray.push(title);
     }
 
     if (typeof description !== "undefined") {
-      sql += "description = ?, ";
+      sql += "description = ?,";
       sqlArray.push(description);
     }
 
     if (typeof imageUrl !== "undefined") {
-      sql += "imageUrl = ?, ";
+      sql += "imageUrl = ?,";
       sqlArray.push(imageUrl);
     }
 
