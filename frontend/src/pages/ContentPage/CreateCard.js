@@ -399,7 +399,7 @@ class CreateCard extends React.Component {
 
           </Modal.Header>
 
-          <Modal.Body >
+          <Modal.Body>
             <Row>
               <Col>
                 <Form.Group controlId="formTitle">

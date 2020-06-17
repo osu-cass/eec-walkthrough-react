@@ -260,10 +260,15 @@ class EditCard extends React.Component {
       return;
     }
 
+    // Get the card format from the select
+    const formatSelect = document.getElementById("select-edit-card-format");
+    const cardFormat = formatSelect.options[formatSelect.selectedIndex].value;
+
     // Prepare data for new card
     const cardData = {
       headerId: this.props.headerId,
       orderIndex: this.props.orderIndex,
+      cardType: cardFormat,
       title: this.state.title,
       approved: 0
     };
@@ -564,6 +569,21 @@ class EditCard extends React.Component {
                 <Form.Group controlId="formTitle">
                   <Form.Label className="font-weight-bold">Card Title</Form.Label>
                   <Form.Control type="text" defaultValue={this.state.title} onChange={(e) => this.setState({title: e.target.value})} />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <Form.Group controlId="formTitle">
+                  <Form.Label className="font-weight-bold">Card Format</Form.Label>
+                  <select className="form-control"
+                    id="select-edit-card-format"
+                    defaultValue="0"
+                  >
+                    <option value="0">Default</option>
+                    <option value="1">Thumbnail Gallery</option>
+                  </select>
                 </Form.Group>
               </Col>
             </Row>
