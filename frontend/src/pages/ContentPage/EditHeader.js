@@ -47,6 +47,30 @@ class EditHeader extends React.Component {
         console.log(err);
       });
     this.handleHideLoad();
+    this.handleCloseModal();
+    this.props.refresh();
+  }
+
+  deleteHeader = async () => {
+    this.handleShowLoad();
+
+    await fetch(`/headers/${this.props.headerId}`, {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json"}
+    }).then((res) => {
+      if (res.status === 401) {
+        logout();
+        window.location.href = "/";
+      }
+      if (res.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+    })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.handleHideLoad();
+    this.handleCloseModal();
     this.props.refresh();
   }
 
@@ -84,7 +108,7 @@ class EditHeader extends React.Component {
             </Button>
           </Modal.Header>
 
-          <Modal.Body >
+          <Modal.Body>
             <Row>
               <Col>
                 <Form.Group controlId="formName">
@@ -104,7 +128,7 @@ class EditHeader extends React.Component {
             <Button
               className="mr-auto"
               variant="danger"
-              onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { this.handleCloseModal(); } }}
+              onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { this.deleteHeader(); } }}
             >
               Delete Header
             </Button>
@@ -112,7 +136,7 @@ class EditHeader extends React.Component {
             <Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Header Edit</Button>
           </Modal.Footer>
         </Modal>
-      </span >
+      </span>
     ) : "";
   }
 }
