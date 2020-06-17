@@ -4,6 +4,7 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
+import Image from "./Image";
 import "./ReviewPage.css";
 
 // Button and modal that allows a user to review a page
@@ -96,7 +97,11 @@ function ReviewPage(props) {
               <h3 className="font-weight-bold">{props.name}</h3>
               <h4>{props.title}</h4>
               <span>{props.description}</span>
-              <img src={props.imageUrl} alt={props.name} className="header rounded img-fluid" style={{maxHeight: "23em"}} />
+              <Image url={props.imageUrl}
+                title={props.name}
+                thumbnail={false}
+                header={true}
+              />
             </div>
           </div>
 
@@ -107,7 +112,11 @@ function ReviewPage(props) {
               <h3 className="font-weight-bold">{props.name}</h3>
               <h4>{props.title}</h4>
               <span>{props.description}</span>
-              <img src={props.imageUrl} alt={props.name} className="header rounded img-fluid" style={{maxHeight: "23em"}} />
+              <Image url={props.imageUrl}
+                title={props.name}
+                thumbnail={false}
+                header={true}
+              />
             </div>
           </div>
 

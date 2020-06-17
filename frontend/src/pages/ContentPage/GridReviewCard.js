@@ -4,6 +4,7 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
+import Image from "./Image";
 import "./GridReviewCard.css";
 
 // Button and modal that allows a user to review a card with a grid format
@@ -98,9 +99,10 @@ function GridReviewCard(props) {
                   key={item.itemId + "a"}
                 >
                   <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
-                    <img className="img-fluid img-thumbnail"
-                      src={item.contentUrl}
-                      alt={item.contentLabel}
+                    <Image
+                      thumbnail={true}
+                      url={item.contentUrl}
+                      header={item.contentLabel}
                       key={item.itemId + "c"}
                     />
                   </div>
@@ -118,11 +120,12 @@ function GridReviewCard(props) {
                   key={item.itemId + "a"}
                 >
                   <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
-                    <img className="img-fluid img-thumbnail"
-                      src={item.contentUrl}
-                      alt={item.contentLabel}
-                      key={item.itemId + "c"}
-                    />
+                  <Image
+                    thumbnail={true}
+                    url={item.contentUrl}
+                    header={item.contentLabel}
+                    key={item.itemId + "c"}
+                  />
                   </div>
                 </div>
               )}

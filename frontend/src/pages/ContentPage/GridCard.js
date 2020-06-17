@@ -58,9 +58,10 @@ function GridCard(props) {
             >
               <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
                 <Image
-                  thumbnail={true}
                   url={item.contentUrl}
-                  header={item.contentLabel}
+                  title={item.contentLabel}
+                  thumbnail={true}
+                  header={false}
                   key={item.itemId + "c"}
                 />
               </div>
