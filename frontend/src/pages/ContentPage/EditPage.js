@@ -242,7 +242,9 @@ class EditPage extends React.Component {
           </Modal.Footer>
         </Modal>
       </div>
-    ) : "";
+    ) : (
+      null
+    );
   }
 }
 export default EditPage;

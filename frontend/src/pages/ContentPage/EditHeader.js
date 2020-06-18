@@ -152,7 +152,9 @@ class EditHeader extends React.Component {
           </Modal.Footer>
         </Modal>
       </div>
-    ) : "";
+    ) : (
+      null
+    );
   }
 }
 export default EditHeader;
