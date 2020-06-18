@@ -6,7 +6,8 @@ const app = express();
 const {validationResult} = require("express-validator");
 const {
   roleCheck,
-  requireAuth
+  requireAuth,
+  getUserID
 } = require("../services/authentication/cookieAuth");
 const {
   postPageVal,
@@ -29,14 +30,20 @@ const {
 
 
 // get information about all pages and their related subjects/industries
-app.get("/all", async (req, res) => {
+app.get("/all", getUserID, async (req, res) => {
 
   try {
 
     console.log("Get a list of all pages and their related subjects/industries");
 
+    // check if the current user should see all or only some of the pages
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
     // get a list of all pages and their related subjects/industries
-    const results = await getPages();
+    const results = await getPages(viewAll);
 
     if (results.pages.subjects.length === 0 && results.pages.industries.length === 0) {
       res.status(404).send({error: "No pages found."});
@@ -53,7 +60,7 @@ app.get("/all", async (req, res) => {
 
 
 // get information about a single page
-app.get("/:pageId", getPageVal.validation, async (req, res) => {
+app.get("/:pageId", getUserID, getPageVal.validation, async (req, res) => {
 
   try {
 
@@ -67,8 +74,14 @@ app.get("/:pageId", getPageVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
+    // check if the current user should be able to view this content
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
     // get page data
-    const results = await getPage(pageId);
+    const results = await getPage(pageId, viewAll);
 
     if (results.pageId === 0) {
       res.status(404).send({error: "Page not found."});
@@ -85,7 +98,7 @@ app.get("/:pageId", getPageVal.validation, async (req, res) => {
 
 
 // get all of the page info, headers, cards, and items for a single page
-app.get("/:pageId/all", getPageVal.validation, async (req, res) => {
+app.get("/:pageId/all", getUserID, getPageVal.validation, async (req, res) => {
 
   try {
 
@@ -99,8 +112,14 @@ app.get("/:pageId/all", getPageVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
+    // check if the current user should be able to view this content
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
     // get complete page data
-    const results = await getFullPage(pageId);
+    const results = await getFullPage(pageId, viewAll);
 
     if (results.pageId === 0) {
       res.status(404).send({error: "Page not found."});
@@ -117,7 +136,7 @@ app.get("/:pageId/all", getPageVal.validation, async (req, res) => {
 
 
 // get a list of pages based on a search query
-app.get("/search/:text/:cursorPrimary/:cursorSecondary", searchPageVal.validation, async (req, res) => {
+app.get("/search/:text/:cursorPrimary/:cursorSecondary", getUserID, searchPageVal.validation, async (req, res) => {
 
   try {
 
@@ -136,8 +155,14 @@ app.get("/search/:text/:cursorPrimary/:cursorSecondary", searchPageVal.validatio
       secondary: req.params.cursorSecondary
     };
 
+    // check if the current user should be able to view this content
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
     // search for pages
-    const results = await searchPages(text, cursor);
+    const results = await searchPages(text, cursor, viewAll);
 
     if (results.pages.length) {
       res.status(200).send(results);

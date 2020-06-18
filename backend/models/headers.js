@@ -5,14 +5,23 @@ const {pool} = require("../services/database/mysqlPool");
 
 
 // return information about the specific header
-async function getHeader(headerId) {
+async function getHeader(headerId, viewAll) {
 
   try {
 
+    let sql = "";
+
     // get the specified header
-    let sql = "SELECT * " +
+    if (viewAll) {
+      sql = "SELECT * " +
       "FROM Headers " +
       "WHERE headerId = ?;";
+    } else {
+      sql = "SELECT * " +
+      "FROM Headers " +
+      "WHERE headerId = ? " +
+      "AND approved = 1;";
+    }
 
     const finalResults = await pool.query(sql, headerId);
 
@@ -22,13 +31,27 @@ async function getHeader(headerId) {
     }
 
     // get all of the icons used by the header
-    sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
-    "FROM `Headers` " +
-    "LEFT JOIN Cards on Cards.headerId = Headers.headerId " +
-    "LEFT JOIN Items on Cards.cardId = Items.cardId " +
-    "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
-    "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
-    "ORDER BY typeKeyword ASC;";
+    if (viewAll) {
+      sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
+      "FROM `Headers` " +
+      "LEFT JOIN Cards on Cards.headerId = Headers.headerId " +
+      "LEFT JOIN Items on Cards.cardId = Items.cardId " +
+      "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+      "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
+      "ORDER BY iconType ASC;";
+    } else {
+      sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
+      "FROM `Headers` " +
+      "LEFT JOIN " +
+      "(SELECT * FROM Cards WHERE approved = 1) C " +
+      "on C.headerId = Headers.headerId " +
+      "LEFT JOIN " +
+      "(SELECT * FROM Items WHERE approved = 1) I " +
+      "on C.cardId = I.cardId " +
+      "LEFT JOIN Icons on I.iconType = Icons.iconType " +
+      "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
+      "ORDER BY iconType ASC;";
+    }
 
     const results = await pool.query(sql, headerId);
 
