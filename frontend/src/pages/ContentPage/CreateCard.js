@@ -67,7 +67,7 @@ class CreateCard extends React.Component {
   }
 
   // Sort icons into three categories, general items, images, and links
-  sortIcons(icons) {
+  sortIcons() {
     const gen = [];
     const images = [];
     const links = [];
@@ -512,6 +512,7 @@ CreateCard.propTypes = {
   icons: PropTypes.array,
   headerId: PropTypes.number,
   numCards: PropTypes.any,
-  refresh: PropTypes.any
+  refresh: PropTypes.any,
+  mode: PropTypes.number
 };
 

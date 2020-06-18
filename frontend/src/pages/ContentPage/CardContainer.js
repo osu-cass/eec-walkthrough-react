@@ -53,7 +53,7 @@ class CardContainer extends React.Component {
       this.generateCards()
     ) : (
       null
-    )
+    );
   }
 }
 export default CardContainer;

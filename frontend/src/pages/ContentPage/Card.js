@@ -55,7 +55,7 @@ function Card(props) {
       const hide = props.checkFilter(items[i].iconType);
 
       // at least one root item is visible
-      if(!hide && items[i].parentId === null) {
+      if (!hide && items[i].parentId === null) {
         return false;
       }
     }
@@ -117,49 +117,49 @@ function Card(props) {
   }
 
   return itemsHidden || (!props.approved && !props.mode) ? (
-      null
+    null
   ) : (
     <CardBS className={`my-2 shadow-sm ${props.approved ? "card-body-approved" : "card-body-review"}`}>
       <CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
         {props.card}
         {props.mode ? (
-        <div className="row">
-          <EditCard
-            title={`Edit ${props.card} Card`}
-            cardName={props.card}
-            icons={props.iconSet}
-            items={props.items}
-            headerId={props.headerId}
-            cardId={props.cardId}
-            cardType={props.cardType}
-            parentId={props.parentId}
-            orderIndex={props.orderIndex}
-            refresh={() => props.refresh()}
-          />
-          {props.cardType ? (
-            <ReviewCard
-              title={props.card}
+          <div className="row">
+            <EditCard
+              title={`Edit ${props.card} Card`}
+              cardName={props.card}
+              icons={props.iconSet}
+              items={props.items}
+              headerId={props.headerId}
               cardId={props.cardId}
-              refresh={() => props.refresh()}
-              approved={props.approved}
-              cardItems={imageItems}
-              userId={props.userId}
-              created={props.created}
               cardType={props.cardType}
-            />
-          ) : (
-            <ReviewCard
-              title={props.card}
-              cardId={props.cardId}
+              parentId={props.parentId}
+              orderIndex={props.orderIndex}
               refresh={() => props.refresh()}
-              approved={props.approved}
-              cardItems={generateItems(1)}
-              userId={props.userId}
-              created={props.created}
-              cardType={props.cardType}
             />
-          )}
-        </div>
+            {props.cardType ? (
+              <ReviewCard
+                title={props.card}
+                cardId={props.cardId}
+                refresh={() => props.refresh()}
+                approved={props.approved}
+                cardItems={imageItems}
+                userId={props.userId}
+                created={props.created}
+                cardType={props.cardType}
+              />
+            ) : (
+              <ReviewCard
+                title={props.card}
+                cardId={props.cardId}
+                refresh={() => props.refresh()}
+                approved={props.approved}
+                cardItems={generateItems(1)}
+                userId={props.userId}
+                created={props.created}
+                cardType={props.cardType}
+              />
+            )}
+          </div>
         ) : (
           null
         )}

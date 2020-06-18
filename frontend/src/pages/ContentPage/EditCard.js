@@ -60,7 +60,7 @@ class EditCard extends React.Component {
   }
 
   // Sort icons into three categories, general items, images, and links
-  sortIcons(icons) {
+  sortIcons() {
     const gen = [];
     const images = [];
     const links = [];
@@ -479,10 +479,11 @@ class EditCard extends React.Component {
     const copy = [...this.state.items];
     if (contentType === 1) {
       copy[key].content.text = e.target.value;
-    } else if (contentType === 2) { 
-      copy[key].content.label = e.target.value; 
-    } else if (contentType === 3) { 
-      copy[key].content.url = e.target.value; }
+    } else if (contentType === 2) {
+      copy[key].content.label = e.target.value;
+    } else if (contentType === 3) {
+      copy[key].content.url = e.target.value;
+    }
     this.setState({items: copy});
   }
 
