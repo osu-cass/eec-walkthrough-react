@@ -4,7 +4,6 @@ import {getMode} from "../../utilities/pageMode";
 import Header from "./Header";
 import PageDescription from "./PageDescription";
 import CardContainer from "./CardContainer";
-import FilterBar from "./FilterBar";
 import Loading from "../../components/General/Loading";
 import CreateCard from "./CreateCard";
 import CreateHeader from "./CreateHeader";
@@ -14,7 +13,7 @@ import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import "./ContentPage.css";
 
-// A page describing an industry or subject
+// A page representing an industry or subject
 function ContentPage(props) {
 
   const [errorPage, setErrorPage] = useState(false);
@@ -124,6 +123,7 @@ function ContentPage(props) {
           role={role}
           mode={mode}
           onPageMode={e => handlePageMode(e)}
+          handlePageEdit={props.handlePageEdit}
         />
 
         <PageDescription
@@ -155,14 +155,11 @@ function ContentPage(props) {
                 role={role}
                 mode={mode}
                 onPageMode={(modeValue) => handlePageMode(modeValue)}
-              >
-                <FilterBar
-                  data={icons[i]}
-                  headerIndex={i}
-                  handleFilter={handleFilter}
-                  resetFilter={(idx) => resetFilter(idx)}
-                />
-              </Header>
+                filterData={icons[i]}
+                filterIndex={i}
+                handleFilter={handleFilter}
+                resetFilter={(idx) => resetFilter(idx)}
+              />
               <CardContainer
                 id={i}
                 cards={header.cards}
@@ -198,5 +195,6 @@ export default ContentPage;
 
 ContentPage.propTypes = {
   match: PropTypes.any,
-  pageId: PropTypes.any
+  pageId: PropTypes.any,
+  handlePageEdit: PropTypes.any
 };

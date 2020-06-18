@@ -16,9 +16,9 @@ function ChangeMode(props) {
   }
 
   return props.role ? (
-    <div className='text-center'>
+    <div className='text-center mx-2'>
       {pageMode ? (
-        <Button className="ml-2 mr-3" size="sm"
+        <Button size="sm"
           variant="secondary"
           onClick={() => toggleMode(0)}
         >
@@ -29,7 +29,7 @@ function ChangeMode(props) {
           <span className="text-white">View Mode</span>
         </Button>
       ) : (
-        <Button className="ml-2 mr-3" size="sm"
+        <Button size="sm"
           variant="secondary"
           onClick={() => toggleMode(1)}
         >

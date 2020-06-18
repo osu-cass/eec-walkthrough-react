@@ -69,9 +69,9 @@ function ReviewHeader(props) {
   }
 
   return role >= 3 && !props.approved ? (
-    <div className='text-center'>
+    <div className='text-center mx-2'>
 
-      <Button className="mx-2" size="sm" variant="success" onClick={() => handleShow()}>
+      <Button size="sm" variant="success" onClick={() => handleShow()}>
         <i
           className='fas fa-stamp text-white mr-2'
           style={{transform: "scale(1.5)"}}

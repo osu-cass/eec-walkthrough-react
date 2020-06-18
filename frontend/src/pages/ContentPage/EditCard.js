@@ -619,8 +619,8 @@ class EditCard extends React.Component {
 
   render() {
     return this.state.loaded && this.state.role >= 3 ? (
-      <div className='text-center'>
-        <Button className="mx-2" size="sm" variant="info" onClick={this.handleShow}>
+      <div className='text-center mx-2'>
+        <Button size="sm" variant="info" onClick={this.handleShow}>
           <i
             className='fas fa-edit text-white mr-2'
             style={{transform: "scale(1.5)"}}></i>
