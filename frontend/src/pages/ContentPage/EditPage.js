@@ -191,10 +191,14 @@ class EditPage extends React.Component {
                 <Form.Group controlId="formDescription">
                   <Form.Label className="font-weight-bold">Brief Description</Form.Label>
                   <Form.Control
-                    type="text"
+                    as="textarea"
+                    rows="4"
                     placeholder="Enter description"
                     defaultValue={this.props.description}
                     onChange={(e) => this.setState({description: e.target.value})}
+                    style={{
+                      maxHeight: "500px"
+                    }}
                   />
                 </Form.Group>
               </Col>
