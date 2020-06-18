@@ -13,26 +13,27 @@ class CardContainer extends React.Component {
     const used1 = []; // holds ids of all the used tidbits, prevents reprint
     const used2 = []; // holds ids of all the used tidbits, prevents reprint
     const Cards = this.props.cards.map((card, i) => { // Loop through cards
-    return (
-      <Card
-        key={i}
-        headerId={this.props.headerId}
-        card={card.title}
-        items={card.items}
-        checkFilter={this.checkFilter}
-        orderIndex={card.orderIndex}
-        cardId={card.cardId}
-        cardType={card.cardType}
-        approved={card.approved}
-        created={card.created}
-        userId={card.userId}
-        used1={used1}
-        used2={used2}
-        iconSet={this.props.iconSet}
-        refresh={() => this.props.refresh()}
-      />
-    );
-});
+      return (
+        <Card
+          key={i}
+          headerId={this.props.headerId}
+          card={card.title}
+          items={card.items}
+          checkFilter={this.checkFilter}
+          orderIndex={card.orderIndex}
+          cardId={card.cardId}
+          cardType={card.cardType}
+          approved={card.approved}
+          created={card.created}
+          userId={card.userId}
+          used1={used1}
+          used2={used2}
+          iconSet={this.props.iconSet}
+          refresh={() => this.props.refresh()}
+          mode={this.props.mode}
+        />
+      );
+    });
 
     return Cards;
   }
@@ -63,5 +64,6 @@ CardContainer.propTypes = {
   iconSet: PropTypes.any,
   refresh: PropTypes.any,
   filter: PropTypes.any,
-  headerName: PropTypes.any
+  headerName: PropTypes.any,
+  mode: PropTypes.number
 };

@@ -116,77 +116,79 @@ function Card(props) {
     return jsx;
   }
 
-  if (itemsHidden) {
-    return null
-  } else {
-    return (
-      <CardBS className={`my-2 shadow-sm ${props.approved ? "card-body-approved" : "card-body-review"}`}>
-        <CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
-          {props.card}
-          <div className="row">
-            <EditCard
-              title={`Edit ${props.card} Card`}
-              cardName={props.card}
-              icons={props.iconSet}
-              items={props.items}
-              headerId={props.headerId}
+  return itemsHidden || (!props.approved && !props.mode) ? (
+      null
+  ) : (
+    <CardBS className={`my-2 shadow-sm ${props.approved ? "card-body-approved" : "card-body-review"}`}>
+      <CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
+        {props.card}
+        {props.mode ? (
+        <div className="row">
+          <EditCard
+            title={`Edit ${props.card} Card`}
+            cardName={props.card}
+            icons={props.iconSet}
+            items={props.items}
+            headerId={props.headerId}
+            cardId={props.cardId}
+            cardType={props.cardType}
+            parentId={props.parentId}
+            orderIndex={props.orderIndex}
+            refresh={() => props.refresh()}
+          />
+          {props.cardType ? (
+            <ReviewCard
+              title={props.card}
               cardId={props.cardId}
-              cardType={props.cardType}
-              parentId={props.parentId}
-              orderIndex={props.orderIndex}
               refresh={() => props.refresh()}
+              approved={props.approved}
+              cardItems={imageItems}
+              userId={props.userId}
+              created={props.created}
+              cardType={props.cardType}
             />
-            {props.cardType ? (
-              <ReviewCard
-                title={props.card}
-                cardId={props.cardId}
-                refresh={() => props.refresh()}
-                approved={props.approved}
-                cardItems={imageItems}
-                userId={props.userId}
-                created={props.created}
-                cardType={props.cardType}
-              />
-            ) : (
-              <ReviewCard
-                title={props.card}
-                cardId={props.cardId}
-                refresh={() => props.refresh()}
-                approved={props.approved}
-                cardItems={generateItems(1)}
-                userId={props.userId}
-                created={props.created}
-                cardType={props.cardType}
-              />
+          ) : (
+            <ReviewCard
+              title={props.card}
+              cardId={props.cardId}
+              refresh={() => props.refresh()}
+              approved={props.approved}
+              cardItems={generateItems(1)}
+              userId={props.userId}
+              created={props.created}
+              cardType={props.cardType}
+            />
+          )}
+        </div>
+        ) : (
+          null
+        )}
+      </CardBS.Header>
+      <CardBS.Body>
+        {props.cardType ? (
+          <div className="row text-center text-lg-left">
+            {imageItems.map((item) =>
+              <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
+                key={item.itemId + "a"}
+              >
+                <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
+                  <Image
+                    url={item.contentUrl}
+                    title={item.contentLabel}
+                    thumbnail={true}
+                    header={false}
+                    key={item.itemId + "c"}
+                  />
+                </div>
+              </div>
             )}
           </div>
-        </CardBS.Header>
-        <CardBS.Body>
-          {props.cardType ? (
-            <div className="row text-center text-lg-left">
-              {imageItems.map((item) =>
-                <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
-                  key={item.itemId + "a"}
-                >
-                  <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
-                    <Image
-                      url={item.contentUrl}
-                      title={item.contentLabel}
-                      thumbnail={true}
-                      header={false}
-                      key={item.itemId + "c"}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            generateItems(2)
-          )}
-        </CardBS.Body>
-      </CardBS>
-    );
-  }
+        ) : (
+          generateItems(2)
+        )}
+      </CardBS.Body>
+    </CardBS>
+  );
 }
 export default Card;
 
@@ -207,5 +209,6 @@ Card.propTypes = {
   parentId: PropTypes.any,
   approved: PropTypes.number,
   userId: PropTypes.number,
-  created: PropTypes.any
+  created: PropTypes.any,
+  mode: PropTypes.number
 };
