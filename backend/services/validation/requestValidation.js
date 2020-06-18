@@ -35,8 +35,7 @@ exports.postUserVal = postUserVal;
 // validation checks for patch user
 const patchUserVal = Object.freeze({
   validation: [
-    check("userId").optional()
-      .isInt({min: 1, max: 4294967295}),
+    check("userId").isInt({min: 1, max: 4294967295}),
     check("username").optional()
       .isLength({min: 5, max: 50}),
     check("oldPassword").optional()
@@ -99,8 +98,7 @@ exports.postPageVal = postPageVal;
 // validation checks for patch page
 const patchPageVal = Object.freeze({
   validation: [
-    check("pageId").optional()
-      .isInt({min: 1, max: 4294967295}),
+    check("pageId").isInt({min: 1, max: 4294967295}),
     check("pageType").optional()
       .isInt({min: 0, max: 1}),
     check("name").optional()
@@ -147,8 +145,7 @@ exports.postHeaderVal = postHeaderVal;
 // validation checks for patch header
 const patchHeaderVal = Object.freeze({
   validation: [
-    check("headerId").optional()
-      .isInt({min: 1, max: 4294967295}),
+    check("headerId").isInt({min: 1, max: 4294967295}),
     check("pageId").optional()
       .isInt({min: 1, max: 4294967295}),
     check("orderIndex").optional()
@@ -183,8 +180,7 @@ exports.postCardVal = postCardVal;
 // validation checks for patch card
 const patchCardVal = Object.freeze({
   validation: [
-    check("cardId").optional()
-      .isInt({min: 1, max: 4294967295}),
+    check("cardId").isInt({min: 1, max: 4294967295}),
     check("headerId").optional()
       .isInt({min: 1, max: 4294967295}),
     check("cardType").optional()
@@ -225,8 +221,7 @@ exports.postItemVal = postItemVal;
 // validation checks for patch item
 const patchItemVal = Object.freeze({
   validation: [
-    check("itemId").optional()
-      .isInt({min: 1, max: 4294967295}),
+    check("itemId").isInt({min: 1, max: 4294967295}),
     check("cardId").optional()
       .isInt({min: 1, max: 4294967295}),
     check("parentId").optional({nullable: true})
@@ -246,3 +241,12 @@ const patchItemVal = Object.freeze({
   ]
 });
 exports.patchItemVal = patchItemVal;
+
+// validation checks for patch item timestamp
+const patchItemTimeVal = Object.freeze({
+  validation: [
+    check("itemId").isInt({min: 1, max: 4294967295}),
+    check("deadLink").isInt({min: 0, max: 1})
+  ]
+});
+exports.patchItemTimeVal = patchItemTimeVal;
