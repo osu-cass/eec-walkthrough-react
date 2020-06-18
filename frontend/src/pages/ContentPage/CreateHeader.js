@@ -6,6 +6,7 @@ import Error from "../../components/General/Error";
 import "./CreateHeader.css";
 import "./ContentPage.css";
 
+// Create header button and modal
 class CreateHeader extends React.Component {
   state = {
     title: "",
@@ -88,7 +89,7 @@ class CreateHeader extends React.Component {
   }
 
   render() {
-    return this.props.role >= 3 ? (
+    return this.props.role >= 3 && this.props.mode ? (
       <div className='text-center mt-2 mb-2 createPage'>
         <Button variant="info" onClick={this.handleShow}>
           <i
@@ -144,6 +145,7 @@ CreateHeader.propTypes = {
   role: PropTypes.number,
   numHeaders: PropTypes.number,
   refresh: PropTypes.func,
-  subject: PropTypes.any
+  subject: PropTypes.any,
+  mode: PropTypes.number
 };
 

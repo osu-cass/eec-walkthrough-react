@@ -1,5 +1,6 @@
 import React, {Fragment, useState, useEffect} from "react";
 import {getProfile} from "../../utilities/cookieAuth";
+import {getMode} from "../../utilities/pageMode";
 import Header from "./Header";
 import PageDescription from "./PageDescription";
 import CardContainer from "./CardContainer";
@@ -23,6 +24,7 @@ function ContentPage(props) {
   const [loaded, setLoaded] = useState(false);
   const [userId, setUserId] = useState(0);
   const [role, setRole] = useState(0);
+  const [mode, setMode] = useState(getMode());
 
   // get new page data if the page ID has changed
   useEffect(() => {
@@ -102,7 +104,7 @@ function ContentPage(props) {
 
   if (!errorPage) {
     return loaded ? ( // Render content when data loaded from backend
-      <Container>
+      <Container className="my-4">
         <Header title={pageInfo.name}
           name={pageInfo.name}
           pageTitle={pageInfo.title}
@@ -114,6 +116,7 @@ function ContentPage(props) {
           pageId={parseInt(props.pageId)}
           created={pageInfo.created}
           role={role}
+          mode={mode}
         />
 
         <PageDescription
@@ -122,6 +125,7 @@ function ContentPage(props) {
           header={pageInfo.title}
           description={pageInfo.description}
           img={pageInfo.imageUrl}
+          mode={mode}
         />
 
         <CreateHeader
@@ -131,6 +135,7 @@ function ContentPage(props) {
           subject={pageInfo.name}
           refresh={() => fetchData()}
           numHeaders={pageInfo.headers.length}
+          mode={mode}
         />
 
         {pageInfo.headers.map((header, i) => {
@@ -141,6 +146,7 @@ function ContentPage(props) {
                 userId={header.userId} mainPageHeader={0}
                 refresh={() => fetchData()} sticky
                 role={role}
+                mode={mode}
               >
                 <FilterBar
                   data={icons[i]}
@@ -157,6 +163,7 @@ function ContentPage(props) {
                 headerName={header.title}
                 iconSet={iconSet}
                 refresh={() => fetchData()}
+                mode={mode}
               />
               <CreateCard
                 title={`Create ${header.title} Card`}
@@ -164,6 +171,7 @@ function ContentPage(props) {
                 numCards={header.cards.length}
                 headerId={header.headerId}
                 refresh={() => fetchData()}
+                mode={mode}
               />
             </Fragment>
           );

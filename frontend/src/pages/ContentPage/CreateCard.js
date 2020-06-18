@@ -9,6 +9,7 @@ import Error from "../../components/General/Error";
 import "./CreateCard.css";
 import "./ContentPage.css";
 
+// Create card button and modal
 class CreateCard extends React.Component {
   state = {
     counter: 0, // count number of inputs added
@@ -432,7 +433,7 @@ class CreateCard extends React.Component {
   }
 
   render() {
-    return this.state.loaded && this.state.role >= 3 ? (
+    return this.state.loaded && this.state.role >= 3 && this.props.mode ? (
       <div className='text-center mt-3 mb-2'>
         <Button variant="info" onClick={this.handleShow}>
           <i

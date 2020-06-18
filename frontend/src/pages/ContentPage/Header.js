@@ -10,8 +10,9 @@ function Header(props) {
 
   function hideCard() { }
 
-  return (
-
+  return !props.approved && !props.mode && !props.mainPageHeader ? (
+    null
+  ) : (
     <div className={`d-flex ${props.sticky ? "sticky-top " : " "}
       ${props.approved ? "header-approved" : "header-review"}
       ${props.approved ? "header-approved" : "header-review"}
@@ -32,29 +33,39 @@ function Header(props) {
       </span>
       {props.mainPageHeader ? (
         <div className="row">
-          <ReviewPage
-            name={props.name}
-            title={props.pageTitle}
-            description={props.description}
-            imageUrl={props.imageUrl}
-            pageId={props.pageId}
-            headerId={props.headerId}
-            refresh={() => props.refresh()}
-            approved={props.approved}
-            userId={props.userId}
-            created={props.created}
-          />
+          {props.mode ? (
+            <ReviewPage
+              name={props.name}
+              title={props.pageTitle}
+              description={props.description}
+              imageUrl={props.imageUrl}
+              pageId={props.pageId}
+              headerId={props.headerId}
+              refresh={() => props.refresh()}
+              approved={props.approved}
+              userId={props.userId}
+              created={props.created}
+            />
+          ) : (
+            null
+          )}
           <ChangeMode role={props.role} mode={0} />
         </div>
       ) : (
-        <ReviewHeader
-          title={props.title}
-          headerId={props.headerId}
-          refresh={() => props.refresh()}
-          approved={props.approved}
-          userId={props.userId}
-          created={props.created}
-        />
+        <div className="row">
+          {props.mode ? (
+            <ReviewHeader
+              title={props.title}
+              headerId={props.headerId}
+              refresh={() => props.refresh()}
+              approved={props.approved}
+              userId={props.userId}
+              created={props.created}
+            />
+          ) : (
+            null
+          )}
+        </div>
       )}
     </div>
   );
@@ -77,5 +88,6 @@ Header.propTypes = {
   userId: PropTypes.number,
   pageId: PropTypes.number,
   created: PropTypes.any,
-  role: PropTypes.number
+  role: PropTypes.number,
+  mode: PropTypes.number
 };
