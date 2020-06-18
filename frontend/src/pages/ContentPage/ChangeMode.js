@@ -1,18 +1,18 @@
 import React, {useState} from "react";
 import {Button} from "react-bootstrap";
 import PropTypes from "prop-types";
-import {getMode, setMode} from "../../utilities/pageMode";
+import {setMode} from "../../utilities/pageMode";
 
 // Button that toggles between edit page mode and view page mode
 function ChangeMode(props) {
 
-  const [pageMode, setPageMode] = useState(getMode());
+  const [pageMode, setPageMode] = useState(props.mode);
 
   // update the mode value
   function toggleMode(modeValue) {
-    console.log("MODE:", modeValue);
     setMode(modeValue);
     setPageMode(modeValue);
+    props.onPageMode(modeValue);
   }
 
   return props.role ? (
@@ -49,5 +49,7 @@ function ChangeMode(props) {
 export default ChangeMode;
 
 ChangeMode.propTypes = {
-  role: PropTypes.number
+  role: PropTypes.number,
+  mode: PropTypes.number,
+  onPageMode: PropTypes.func
 };
