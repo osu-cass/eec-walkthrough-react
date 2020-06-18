@@ -125,5 +125,6 @@ Header.propTypes = {
   filterData: PropTypes.any,
   filterIndex: PropTypes.number,
   handleFilter: PropTypes.func,
-  resetFilter: PropTypes.func
+  resetFilter: PropTypes.func,
+  fetchData: PropTypes.any
 };
