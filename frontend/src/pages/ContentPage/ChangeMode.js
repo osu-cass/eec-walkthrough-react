@@ -17,33 +17,33 @@ function ChangeMode(props) {
 
   return props.role ? (
     <div className='text-center'>
-        {pageMode ? (
-          <Button className="ml-2 mr-3" size="sm" 
-            variant="secondary"
-            onClick={() => toggleMode(0)}
-          >
-            <i
-              className='fas fa-eye text-white mr-2'
-              style={{transform: "scale(1.5)"}}
-            />
-            <span className="text-white">View Mode</span>
-          </Button>
-        ) : (
-          <Button className="ml-2 mr-3" size="sm" 
-            variant="secondary"
-            onClick={() => toggleMode(1)}
-          >
-            <i
-              className='fas fa-wrench text-white mr-2'
-              style={{transform: "scale(1.5)"}}
-            />
-            <span className="text-white">Edit Mode</span>
-          </Button>
-        )}
+      {pageMode ? (
+        <Button className="ml-2 mr-3" size="sm"
+          variant="secondary"
+          onClick={() => toggleMode(0)}
+        >
+          <i
+            className='fas fa-eye text-white mr-2'
+            style={{transform: "scale(1.5)"}}
+          />
+          <span className="text-white">View Mode</span>
+        </Button>
+      ) : (
+        <Button className="ml-2 mr-3" size="sm"
+          variant="secondary"
+          onClick={() => toggleMode(1)}
+        >
+          <i
+            className='fas fa-wrench text-white mr-2'
+            style={{transform: "scale(1.5)"}}
+          />
+          <span className="text-white">Edit Mode</span>
+        </Button>
+      )}
     </div>
   ) : (
     null
-  )
+  );
 
 }
 export default ChangeMode;

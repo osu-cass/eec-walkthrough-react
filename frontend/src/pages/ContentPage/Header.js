@@ -17,7 +17,7 @@ function Header(props) {
       ${props.approved ? "header-approved" : "header-review"}
       ${props.approved ? "header-approved" : "header-review"}
       header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow`}
-      style={{top: "1em", zIndex: "998"}}
+    style={{top: "1em", zIndex: "998"}}
     >
       <h4 className="flex-grow-1 font-weight-bold">{props.title}</h4>
       {props.mainPageHeader && !props.approved ? (

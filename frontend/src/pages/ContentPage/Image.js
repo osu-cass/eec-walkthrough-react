@@ -25,7 +25,7 @@ function Image(props) {
           onHide={() => setModalShow(false)}
         />
       </Col>
-    )
+    );
   } else if (props.header) {
     return (
       <Col>
@@ -43,7 +43,7 @@ function Image(props) {
           onHide={() => setModalShow(false)}
         />
       </Col>
-    )
+    );
   } else {
     return (
       <Col>
@@ -61,7 +61,7 @@ function Image(props) {
           onHide={() => setModalShow(false)}
         />
       </Col>
-    )
+    );
   }
 }
 export default Image;
