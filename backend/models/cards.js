@@ -5,14 +5,23 @@ const {pool} = require("../services/database/mysqlPool");
 
 
 // return information about the specific card
-async function getCard(cardId) {
+async function getCard(cardId, viewAll) {
 
   try {
 
+    let sql = "";
+
     // get the specified card
-    const sql = "SELECT * " +
+    if (viewAll) {
+      sql = "SELECT * " +
       "FROM Cards " +
       "WHERE cardId = ?;";
+    } else {
+      sql = "SELECT * " +
+      "FROM Cards " +
+      "WHERE cardId = ? " +
+      "AND approved = 1;";
+    }
 
     const results = await pool.query(sql, cardId);
 

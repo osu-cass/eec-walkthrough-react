@@ -313,11 +313,9 @@ function EditUser(props) {
 
               <div className="ml-2 my-3 pl-2">
                 <Success
-                  empty={!!successMessage.length}
                   message={successMessage}
                 />
                 <Error
-                  empty={!!errorMessage.length}
                   message={errorMessage}
                 />
               </div>

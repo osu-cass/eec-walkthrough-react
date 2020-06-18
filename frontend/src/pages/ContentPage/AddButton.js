@@ -2,6 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 
+// generic button for adding content
 function AddButton(props) {
   return (
     <Button

@@ -1,0 +1,11 @@
+i:hover {
+  cursor: pointer;
+}
+
+.header-approved {
+  background-color: white;
+}
+
+.header-review {
+  background-color: #f8ecac;
+}

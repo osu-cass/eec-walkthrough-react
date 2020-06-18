@@ -5,7 +5,6 @@ import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
 import "./CreateHeader.css";
-import "./Subject.css";
 
 class EditPage extends React.Component {
   state = {

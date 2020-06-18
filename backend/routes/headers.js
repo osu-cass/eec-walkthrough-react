@@ -6,7 +6,8 @@ const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
   roleCheck,
-  requireAuth
+  requireAuth,
+  getUserID
 } = require("../services/authentication/cookieAuth");
 const {
   postHeaderVal,
@@ -23,7 +24,7 @@ const {
 
 
 // get information about a single header
-app.get("/:headerId", getHeaderVal.validation, async (req, res) => {
+app.get("/:headerId", getUserID, getHeaderVal.validation, async (req, res) => {
 
   try {
 
@@ -37,8 +38,14 @@ app.get("/:headerId", getHeaderVal.validation, async (req, res) => {
       return res.status(422).json({errors: errors.array()});
     }
 
+    // check if the current user should be able to view this content
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
     // get header data
-    const results = await getHeader(headerId);
+    const results = await getHeader(headerId, viewAll);
 
     if (results.headerId === 0) {
       res.status(404).send({error: "Header not found."});
