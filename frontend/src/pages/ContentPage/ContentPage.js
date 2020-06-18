@@ -7,6 +7,7 @@ import FilterBar from "./FilterBar";
 import Loading from "../../components/General/Loading";
 import CreateCard from "./CreateCard";
 import CreateHeader from "./CreateHeader";
+import EditHeader from "./EditHeader";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
 import Error404 from "../404/Error404";
@@ -122,6 +123,8 @@ class ContentPage extends React.Component {
             refresh={() => this.fetchData()}
             pageId={parseInt(this.props.pageId)}
             created={this.state.pageInfo.created}
+            handlePageEdit={this.props.handlePageEdit}
+            role={this.state.role}
           />
 
           <PageDescription
@@ -153,6 +156,13 @@ class ContentPage extends React.Component {
                     headerIndex={i}
                     handleFilter={this.handleFilter}
                     resetFilter={(idx) => this.resetFilter(idx)}
+                  />
+
+                  <EditHeader
+                    headerName={header.title}
+                    headerId={header.headerId}
+                    role={this.state.role}
+                    refresh={() => this.fetchData()}
                   />
                 </Header>
                 <CardContainer
@@ -189,5 +199,6 @@ export default ContentPage;
 
 ContentPage.propTypes = {
   match: PropTypes.any,
-  pageId: PropTypes.any
+  pageId: PropTypes.any,
+  handlePageEdit: PropTypes.any
 };

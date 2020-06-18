@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReviewHeader from "./ReviewHeader";
 import ReviewPage from "./ReviewPage";
+import EditPage from "./EditPage";
 import "./Header.css";
 
 // Header that contains some number of cards
@@ -21,27 +22,40 @@ function Header(props) {
         null
       )}
       <span
-        className="mr-5 mt-1 icons"
+        className="mr-1 mt-1 icons"
         onClick={event => hideCard(event.target.getAttribute("value"))}
       >
         {props.children}
       </span>
       {props.mainPageHeader ? (
-        <ReviewPage
-          name={props.name}
-          title={props.pageTitle}
-          description={props.description}
-          imageUrl={props.imageUrl}
-          pageId={props.pageId}
-          headerId={props.headerId}
-          refresh={() => props.refresh()}
-          approved={props.approved}
-          userId={props.userId}
-          created={props.created}
-        />
+        <>
+          <EditPage
+            pageId={parseInt(props.pageId)}
+            pageName={props.name}
+            title={props.pageTitle}
+            description={props.description}
+            img={props.imageUrl}
+            role={props.role}
+            refresh={() => props.refresh()}
+            handlePageEdit={props.handlePageEdit}
+          />
+
+          <ReviewPage
+            name={props.name}
+            title={props.pageTitle}
+            description={props.description}
+            imageUrl={props.imageUrl}
+            pageId={props.pageId}
+            headerId={props.headerId}
+            refresh={() => props.refresh()}
+            approved={props.approved}
+            userId={props.userId}
+            created={props.created}
+          />
+        </>
       ) : (
         <ReviewHeader
-          title={props.title}
+          title={props.pageTitle}
           headerId={props.headerId}
           refresh={() => props.refresh()}
           approved={props.approved}
@@ -69,5 +83,7 @@ Header.propTypes = {
   refresh: PropTypes.any,
   userId: PropTypes.number,
   pageId: PropTypes.number,
-  created: PropTypes.any
+  created: PropTypes.any,
+  handlePageEdit: PropTypes.any,
+  role: PropTypes.number
 };
