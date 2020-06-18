@@ -16,7 +16,7 @@ function GridCard(props) {
   useEffect(() => {
     const imageArray = [];
     for (let i = 0; i < props.items.length; i++) {
-      if (props.items[i].contentUrl.length) {
+      if (props.items[i].contentUrl.length && props.items[i].typeName === "chart-area") {
         imageArray.push(props.items[i]);
       }
     }

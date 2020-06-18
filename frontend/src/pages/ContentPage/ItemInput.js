@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import FormControl from "react-bootstrap/FormControl";
 import PropTypes from "prop-types";
 
+// An input field for adding or modifying items in a card modal
 class ItemInput extends React.Component {
   state = {
     input: ""
