@@ -148,4 +148,3 @@ CreateHeader.propTypes = {
   subject: PropTypes.any,
   mode: PropTypes.number
 };
-
