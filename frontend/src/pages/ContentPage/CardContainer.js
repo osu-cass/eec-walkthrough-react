@@ -1,7 +1,6 @@
 import React from "react";
 import Card from "./Card";
 import GridCard from "./GridCard";
-import Header from "./Header";
 import PropTypes from "prop-types";
 import "./ContentPage.css";
 
@@ -71,7 +70,7 @@ class CardContainer extends React.Component {
     if (this.props.cards.length) {
       return this.generateCards();
     } else {
-      return <Header title={`No Cards under ${this.props.headerName}`} approved={1} mainPageHeader={0}/>;
+      return null;
     }
   }
 }
