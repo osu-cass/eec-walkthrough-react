@@ -4,18 +4,39 @@ import BulletPoint from "./BulletPoint";
 import EditCard from "./EditCard";
 import ReviewCard from "./ReviewCard";
 import PropTypes from "prop-types";
+import Image from "./Image";
 import "./Card.css";
 
 // A single card on a subject or industry page
 function Card(props) {
 
+  const [imageItems, setImageItems] = useState([]);
   const [itemsHidden, setItemsHidden] = useState(false);
+
+  // If the current card is an Image Gallery card then
+  // whenever we get new items, filter out all of the non-image ones
+  useEffect(() => {
+    if (props.cardType === 1) {
+      const imageArray = [];
+      for (let i = 0; i < props.items.length; i++) {
+        if (props.items[i].contentUrl.length && props.items[i].typeName === "chart-area") {
+          imageArray.push(props.items[i]);
+        }
+      }
+      setImageItems(imageArray);
+    }
+    // eslint-disable-next-line
+  }, [props.items]);
 
   // check if all of the items are hidden
   useEffect(() => {
-    setItemsHidden(allHidden(props.items));
+    if (props.cardType === 1) {
+      setItemsHidden(allHidden(imageItems));
+    } else {
+      setItemsHidden(allHidden(props.items));
+    }
     // eslint-disable-next-line
-  }, [props.items, props.refresh]);
+  }, [props.items, props.refresh, imageItems]);
 
   // return children of id === parentId
   function getChildren(id) {
@@ -115,19 +136,53 @@ function Card(props) {
               orderIndex={props.orderIndex}
               refresh={() => props.refresh()}
             />
-            <ReviewCard
-              title={props.card}
-              cardId={props.cardId}
-              refresh={() => props.refresh()}
-              approved={props.approved}
-              cardItems={generateItems(1)}
-              userId={props.userId}
-              created={props.created}
-            />
+            {props.cardType ? (
+              <ReviewCard
+                title={props.card}
+                cardId={props.cardId}
+                refresh={() => props.refresh()}
+                approved={props.approved}
+                cardItems={imageItems}
+                userId={props.userId}
+                created={props.created}
+                cardType={props.cardType}
+              />
+            ) : (
+              <ReviewCard
+                title={props.card}
+                cardId={props.cardId}
+                refresh={() => props.refresh()}
+                approved={props.approved}
+                cardItems={generateItems(1)}
+                userId={props.userId}
+                created={props.created}
+                cardType={props.cardType}
+              />
+            )}
           </div>
         </CardBS.Header>
         <CardBS.Body>
-          {generateItems(2)}
+          {props.cardType ? (
+            <div className="row text-center text-lg-left">
+              {imageItems.map((item) =>
+                <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
+                  key={item.itemId + "a"}
+                >
+                  <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
+                    <Image
+                      url={item.contentUrl}
+                      title={item.contentLabel}
+                      thumbnail={true}
+                      header={false}
+                      key={item.itemId + "c"}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            generateItems(2)
+          )}
         </CardBS.Body>
       </CardBS>
     );
@@ -148,7 +203,7 @@ Card.propTypes = {
   refresh: PropTypes.any,
   icon: PropTypes.any,
   cardId: PropTypes.any,
-  cardType: PropTypes.any,
+  cardType: PropTypes.number,
   parentId: PropTypes.any,
   approved: PropTypes.number,
   userId: PropTypes.number,
