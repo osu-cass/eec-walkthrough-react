@@ -34,6 +34,12 @@ function ContentPage(props) {
     // eslint-disable-next-line
   }, [props.pageId]);
 
+  // function that sets the current page mode
+  function handlePageMode(newMode) {
+    setMode(newMode);
+  }
+
+  // fetch page data
   async function fetchData() {
     let i = [];
     let j = [];
@@ -117,6 +123,7 @@ function ContentPage(props) {
           created={pageInfo.created}
           role={role}
           mode={mode}
+          onPageMode={e => handlePageMode(e)}
         />
 
         <PageDescription
@@ -147,6 +154,7 @@ function ContentPage(props) {
                 refresh={() => fetchData()} sticky
                 role={role}
                 mode={mode}
+                onPageMode={(modeValue) => handlePageMode(modeValue)}
               >
                 <FilterBar
                   data={icons[i]}

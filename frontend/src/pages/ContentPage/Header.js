@@ -49,7 +49,7 @@ function Header(props) {
           ) : (
             null
           )}
-          <ChangeMode role={props.role} mode={0} />
+          <ChangeMode role={props.role} mode={props.mode} onPageMode={e => props.onPageMode(e)}/>
         </div>
       ) : (
         <div className="row">
@@ -89,5 +89,6 @@ Header.propTypes = {
   pageId: PropTypes.number,
   created: PropTypes.any,
   role: PropTypes.number,
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  onPageMode: PropTypes.func
 };
