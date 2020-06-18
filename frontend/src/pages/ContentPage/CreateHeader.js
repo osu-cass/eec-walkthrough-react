@@ -146,4 +146,3 @@ CreateHeader.propTypes = {
   refresh: PropTypes.func,
   subject: PropTypes.any
 };
-
