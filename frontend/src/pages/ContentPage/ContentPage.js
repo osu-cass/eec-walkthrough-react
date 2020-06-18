@@ -113,6 +113,7 @@ function ContentPage(props) {
           refresh={() => fetchData()}
           pageId={parseInt(props.pageId)}
           created={pageInfo.created}
+          role={role}
         />
 
         <PageDescription
@@ -139,6 +140,7 @@ function ContentPage(props) {
                 headerId={header.headerId} created={header.created}
                 userId={header.userId} mainPageHeader={0}
                 refresh={() => fetchData()} sticky
+                role={role}
               >
                 <FilterBar
                   data={icons[i]}

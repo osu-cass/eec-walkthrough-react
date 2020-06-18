@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReviewHeader from "./ReviewHeader";
 import ReviewPage from "./ReviewPage";
+import ChangeMode from "./ChangeMode";
 import "./Header.css";
 
 // Header that contains some number of cards
@@ -10,9 +11,12 @@ function Header(props) {
   function hideCard() { }
 
   return (
-    <div className={`d-flex ${props.sticky ? "sticky-top " : " "} ${props.approved ? "header-approved" : "header-review"}
-      header-bar justify-content-between p-3 my-3 text-dark-50 rounded shadow`}
-    style={{top: "1em", zIndex: "998"}}
+
+    <div className={`d-flex ${props.sticky ? "sticky-top " : " "}
+      ${props.approved ? "header-approved" : "header-review"}
+      ${props.approved ? "header-approved" : "header-review"}
+      header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow`}
+      style={{top: "1em", zIndex: "998"}}
     >
       <h4 className="flex-grow-1 font-weight-bold">{props.title}</h4>
       {props.mainPageHeader && !props.approved ? (
@@ -27,18 +31,21 @@ function Header(props) {
         {props.children}
       </span>
       {props.mainPageHeader ? (
-        <ReviewPage
-          name={props.name}
-          title={props.pageTitle}
-          description={props.description}
-          imageUrl={props.imageUrl}
-          pageId={props.pageId}
-          headerId={props.headerId}
-          refresh={() => props.refresh()}
-          approved={props.approved}
-          userId={props.userId}
-          created={props.created}
-        />
+        <div className="row">
+          <ReviewPage
+            name={props.name}
+            title={props.pageTitle}
+            description={props.description}
+            imageUrl={props.imageUrl}
+            pageId={props.pageId}
+            headerId={props.headerId}
+            refresh={() => props.refresh()}
+            approved={props.approved}
+            userId={props.userId}
+            created={props.created}
+          />
+          <ChangeMode role={props.role} mode={0} />
+        </div>
       ) : (
         <ReviewHeader
           title={props.title}
@@ -69,5 +76,6 @@ Header.propTypes = {
   refresh: PropTypes.any,
   userId: PropTypes.number,
   pageId: PropTypes.number,
-  created: PropTypes.any
+  created: PropTypes.any,
+  role: PropTypes.number
 };
