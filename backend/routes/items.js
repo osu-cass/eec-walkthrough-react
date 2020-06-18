@@ -228,7 +228,7 @@ app.patch("/:itemId/timeStamp", requireAuth, patchItemTimeVal.validation, async 
 
   try {
 
-    console.log("Update an item");
+    console.log("Update an items timestamp");
 
     const itemId = req.params.itemId;
     const deadLink = req.body.deadLink;
