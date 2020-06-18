@@ -4,6 +4,7 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
+import Image from "./Image";
 import "./ReviewCard.css";
 
 // Button and modal that allows a user to review a card
@@ -93,7 +94,27 @@ function ReviewCard(props) {
             <h4 className="font-weight-bold">Published Version</h4>
             <span className="created-text">Created {formatTime(props.created)}</span>
             <div className="m-3">
-              {props.cardItems}
+              {props.cardType ? (
+                <div className="row text-center text-lg-left">
+                  {props.cardItems.map((item) =>
+                    <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
+                      key={item.itemId + "a"}
+                    >
+                      <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
+                        <Image
+                          url={item.contentUrl}
+                          title={item.contentLabel}
+                          thumbnail={true}
+                          header={false}
+                          key={item.itemId + "c"}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                props.cardItems
+              )}
             </div>
           </div>
 
@@ -101,7 +122,27 @@ function ReviewCard(props) {
             <h4 className="font-weight-bold">New Version</h4>
             <span className="created-text">Created {formatTime(props.created)}</span>
             <div className="m-3">
-              {props.cardItems}
+              {props.cardType ? (
+                <div className="row text-center text-lg-left">
+                  {props.cardItems.map((item) =>
+                    <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
+                      key={item.itemId + "a"}
+                    >
+                      <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
+                        <Image
+                          url={item.contentUrl}
+                          title={item.contentLabel}
+                          thumbnail={true}
+                          header={false}
+                          key={item.itemId + "c"}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                props.cardItems
+              )}
             </div>
           </div>
 
@@ -134,6 +175,7 @@ ReviewCard.propTypes = {
   approved: PropTypes.number,
   refresh: PropTypes.func,
   cardItems: PropTypes.array,
+  cardType: PropTypes.number,
   userId: PropTypes.number,
   created: PropTypes.any
 };
