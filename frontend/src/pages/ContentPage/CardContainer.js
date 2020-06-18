@@ -49,11 +49,11 @@ class CardContainer extends React.Component {
   }
 
   render() {
-    if (this.props.cards.length) {
-      return this.generateCards();
-    } else {
-      return null;
-    }
+    return this.props.cards.length && (this.props.approved || this.props.mode) ? (
+      this.generateCards()
+    ) : (
+      null
+    )
   }
 }
 export default CardContainer;
@@ -65,5 +65,6 @@ CardContainer.propTypes = {
   refresh: PropTypes.any,
   filter: PropTypes.any,
   headerName: PropTypes.any,
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  approved: PropTypes.number
 };

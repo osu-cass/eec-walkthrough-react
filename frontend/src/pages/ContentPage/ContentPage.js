@@ -172,6 +172,7 @@ function ContentPage(props) {
                 iconSet={iconSet}
                 refresh={() => fetchData()}
                 mode={mode}
+                approved={header.approved}
               />
               <CreateCard
                 title={`Create ${header.title} Card`}
