@@ -1527,8 +1527,8 @@ components:
         application/json:
           schema:
             properties:
-              message:
-                example: Last accessed Jun 18, 2020, 6:09 PM
+              timestamp:
+                example: "2020-06-18 20:09:39"
 
     User_Login_GET_200:
       description: An object containing information about the user
