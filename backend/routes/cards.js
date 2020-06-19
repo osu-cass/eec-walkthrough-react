@@ -177,9 +177,16 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(3, req.auth.userId)) {
-      res.status(401).send({error: "Unauthorized user attempting to update card."});
-      return;
+    if (typeof approved === "undefined") {
+      if (!await roleCheck(3, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to update card."});
+        return;
+      }
+    } else {
+      if (!await roleCheck(4, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to publish card."});
+        return;
+      }
     }
 
     // update a card
