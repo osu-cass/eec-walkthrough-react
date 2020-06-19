@@ -2,7 +2,6 @@
 // Description: Provides functions for working with user data.
 
 const {pool} = require("../services/database/mysqlPool");
-const {formatTime} = require("../services/format/formatTime");
 
 
 // return information about the specific item
@@ -309,22 +308,17 @@ async function updateItemTime(itemId, deadLink) {
     // perform the update query
     results = await pool.query(sql, itemId);
 
-    let message = "This link is no longer valid";
+    // get the generated timestamp
+    sql = "SELECT created " +
+    "FROM Items " +
+    "WHERE itemId = ?;";
 
-    // get the generated time and create a message
-    if (!deadLink) {
-      sql = "SELECT created " +
-      "FROM Items " +
-      "WHERE itemId = ?;";
+    results = await pool.query(sql, itemId);
 
-      results = await pool.query(sql, itemId);
-
-      const time = formatTime(results[0][0].created);
-      message = "Last accessed " + time;
-    }
+    const timestamp = results[0][0].created + "";
 
     const finalResults = {
-      message: message
+      timestamp: timestamp
     };
 
     return finalResults;
