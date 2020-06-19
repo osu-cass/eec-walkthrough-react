@@ -1,7 +1,8 @@
 import React, {Fragment} from "react";
 import Image from "./Image";
-import "./BulletPoint.css";
 import PropTypes from "prop-types";
+import {formatTime} from "../../utilities/formatTime";
+import "./BulletPoint.css";
 
 function styleText(icon) {
   if (icon === "check-square") { return "font-weight-bold"; }
@@ -26,7 +27,10 @@ function getContentType(text, label, url) {
 
 // Represents a single item inside a card
 function BulletPoint (props) {
-  return (
+
+  // External links have additional content
+  return props.icon === "link" ? (
+
     <div key={props.id} className={`mb-2 ${filter(props.hide)}`}>
       {getContentType(props.text, props.label, props.url) === 1 ?
         <Fragment>
@@ -48,15 +52,64 @@ function BulletPoint (props) {
         : ""}
       {getContentType(props.text, props.label, props.url) === 3 ?
         <Fragment>
-          <div className=''>
+          <div>
             <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)}`} /><a href={props.url} className="text-primary"> {props.label} </a> <br></br>
             {props.text}
           </div>
         </Fragment>
         : ""}
-      <div className='pl-5 mt-2'>{props.children}</div>
-    </div >
-  );
+      <div className="pl-5 mt-2">
+        {props.children}
+      </div>
+      <Fragment>
+        {props.created ? (
+          <span className="last-accessed-link">
+            {`Last accessed ${formatTime(props.created)}`}
+          </span>
+        ) : (
+          <span className="last-accessed-link-bad">
+            {`This link is no longer valid`}
+          </span>
+        )}
+      </Fragment>
+    </div>
+
+  ) : (
+
+    <div key={props.id} className={`mb-2 ${filter(props.hide)}`}>
+      {getContentType(props.text, props.label, props.url) === 1 ?
+        <Fragment>
+          <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
+          <span className={styleText(props.icon) || isBold(props.bold)}>
+            {props.text}
+          </span>
+        </Fragment>
+        : ""}
+      {getContentType(props.text, props.label, props.url) === 2 ?
+        <Fragment>
+          <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
+          <span className={styleText(props.icon) || isBold(props.bold)}>
+            {props.text}
+          </span>
+          {props.label}
+          <Image url={props.url} title={props.label} thumbnail={false} header={false}/>
+        </Fragment>
+        : ""}
+      {getContentType(props.text, props.label, props.url) === 3 ?
+        <Fragment>
+          <div>
+            <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)}`} /><a href={props.url} className="text-primary"> {props.label} </a> <br></br>
+            {props.text}
+          </div>
+        </Fragment>
+        : ""}
+      <div className="pl-5 mt-2">
+        {props.children}
+      </div>
+    </div>
+
+  )
+
 }
 export default BulletPoint;
 
@@ -68,5 +121,6 @@ BulletPoint.propTypes = {
   url: PropTypes.any,
   icon: PropTypes.any,
   bold: PropTypes.any,
-  children: PropTypes.any
+  children: PropTypes.any,
+  created: PropTypes.any
 };

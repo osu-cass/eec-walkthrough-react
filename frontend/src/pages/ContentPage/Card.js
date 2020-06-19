@@ -78,6 +78,7 @@ function Card(props) {
             label={item.contentLabel}
             child={isChild}
             url={item.contentUrl}
+            created={item.created}
             checkFilter={props.checkFilter}
             hide={hide}
           >
@@ -93,6 +94,7 @@ function Card(props) {
           text={item.contentText}
           label={item.contentLabel}
           child={isChild}
+          created={item.created}
           checkFilter={props.checkFilter}
           hide={hide}
         />;
