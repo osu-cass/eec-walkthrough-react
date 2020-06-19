@@ -249,7 +249,7 @@ app.patch("/:itemId/timeStamp", requireAuth, patchItemTimeVal.validation, async 
     // update an item
     const results = await updateItemTime(itemId, deadLink);
 
-    if (results.changedRows >= 0) {
+    if (results.message) {
       res.status(200).send(results);
     } else {
 
