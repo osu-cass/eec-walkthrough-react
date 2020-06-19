@@ -2,6 +2,7 @@
 // Description: Provides functions for working with user data.
 
 const {pool} = require("../services/database/mysqlPool");
+const {formatTime} = require("../services/format/formatTime");
 
 
 // return information about the specific item
@@ -278,6 +279,7 @@ async function updateItem(itemId, cardId, parentId, orderIndex, iconType, conten
 }
 exports.updateItem = updateItem;
 
+
 // update an item's timestamp
 async function updateItemTime(itemId, deadLink) {
 
@@ -307,8 +309,22 @@ async function updateItemTime(itemId, deadLink) {
     // perform the update query
     results = await pool.query(sql, itemId);
 
+    let message = "This link is no longer valid";
+
+    // get the generated time and create a message
+    if (!deadLink) {
+      sql = "SELECT created " +
+      "FROM Items " +
+      "WHERE itemId = ?;";
+
+      results = await pool.query(sql, itemId);
+
+      const time = formatTime(results[0][0].created);
+      message = "Last accessed " + time;
+    }
+
     const finalResults = {
-      changedRows: results[0].changedRows
+      message: message
     };
 
     return finalResults;
