@@ -40,7 +40,7 @@ function LinkAccessButtons(props) {
   return role >= 3 ? (
     <div className="row">
       <Button className="ml-3" size="sm" variant="info" onClick={() => updateAccess(0)}>
-        Update Last Accessed
+        Confirm Valid
       </Button>
       <Button className="mx-1" size="sm" variant="danger" onClick={() => updateAccess(1)}>
         Report Dead Link

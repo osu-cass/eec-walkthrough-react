@@ -215,6 +215,8 @@ async function getFullPage(pageId, viewAll) {
     if (viewAll) {
       sql = "SELECT * " +
       "FROM Pages " +
+      "LEFT JOIN Temp_Pages " +
+      "ON pageId = tempPageId ";
       "WHERE pageId = ?;";
     } else {
       sql = "SELECT * " +
@@ -235,18 +237,21 @@ async function getFullPage(pageId, viewAll) {
     if (viewAll) {
       sql = "SELECT * " +
       "FROM Headers " +
+      "LEFT JOIN Temp_Headers " +
+      "ON headerId = tempHeaderId " +
       "WHERE pageId = ? " +
-      "ORDER BY orderIndex ASC, headerId ASC";
+      "ORDER BY orderIndex ASC, headerId ASC;";
     } else {
       sql = "SELECT * " +
       "FROM Headers " +
       "WHERE pageId = ? " +
       "AND approved = 1 " +
-      "ORDER BY orderIndex ASC, headerId ASC";
+      "ORDER BY orderIndex ASC, headerId ASC;";
     }
 
     results = await pool.query(sql, pageId);
     finalResults.headers = results[0];
+    console.log(finalResults.headers);
     const headerCount = finalResults.headers.length;
 
 
@@ -257,7 +262,7 @@ async function getFullPage(pageId, viewAll) {
       // get all icons used for each header
       if (viewAll) {
         sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
-        "FROM `Headers` " +
+        "FROM Headers " +
         "LEFT JOIN Cards on Cards.headerId = Headers.headerId " +
         "LEFT JOIN Items on Cards.cardId = Items.cardId " +
         "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
@@ -265,7 +270,7 @@ async function getFullPage(pageId, viewAll) {
         "ORDER BY iconType ASC;";
       } else {
         sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
-        "FROM `Headers` " +
+        "FROM Headers " +
         "LEFT JOIN " +
         "(SELECT * FROM Cards WHERE approved = 1) C " +
         "on C.headerId = Headers.headerId " +
@@ -278,11 +283,13 @@ async function getFullPage(pageId, viewAll) {
       }
 
       results = await pool.query(sql, headerId);
-      finalResults.headers[i].icons = results[0];
+      finalResults.headers[i].icons = [];
 
       if (viewAll) {
         sql = "SELECT * " +
         "FROM Cards " +
+        "LEFT JOIN Temp_Cards " +
+        "ON cardId = tempCardId " +
         "WHERE headerId = ? " +
         "ORDER BY orderIndex ASC, cardId ASC";
       } else {
@@ -303,6 +310,8 @@ async function getFullPage(pageId, viewAll) {
         const cardId = finalResults.headers[i].cards[j].cardId;
 
         if (viewAll) {
+
+          // get all approved items
           sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, userId, " +
@@ -310,7 +319,28 @@ async function getFullPage(pageId, viewAll) {
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
+          "AND approved = 1 " +
           "ORDER BY orderIndex ASC, itemId ASC";
+
+          results = await pool.query(sql, cardId);
+
+          finalResults.headers[i].cards[j].items = results[0];
+
+          // get all unapproved items
+          sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+          "Items.iconType, typeName, typeKeyword, contentText, " +
+          "contentUrl, contentLabel, userId, " +
+          "created, approved " +
+          "FROM Items " +
+          "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+          "WHERE cardId = ? " +
+          "AND approved = 0 " +
+          "ORDER BY orderIndex ASC, itemId ASC";
+
+          results = await pool.query(sql, cardId);
+
+          finalResults.headers[i].cards[j].tempItems = results[0];
+
         } else {
           sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
@@ -321,11 +351,12 @@ async function getFullPage(pageId, viewAll) {
           "WHERE cardId = ? " +
           "AND approved = 1 " +
           "ORDER BY orderIndex ASC, itemId ASC";
+
+          results = await pool.query(sql, cardId);
+
+          finalResults.headers[i].cards[j].items = results[0];
+
         }
-
-        results = await pool.query(sql, cardId);
-
-        finalResults.headers[i].cards[j].items = results[0];
 
       }
 
