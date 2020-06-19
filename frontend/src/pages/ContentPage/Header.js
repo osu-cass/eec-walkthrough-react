@@ -10,7 +10,6 @@ import "./Header.css";
 
 // Header that contains some number of cards
 function Header(props) {
-
   return !props.approved && !props.mode && !props.mainPageHeader ? (
     null
   ) : (

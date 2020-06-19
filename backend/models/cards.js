@@ -230,9 +230,18 @@ async function updateCard(cardId, headerId, cardType, orderIndex, title, approve
     // perform the update query
     results = await pool.query(sql, sqlArray);
 
+
     const finalResults = {
       changedRows: results[0].changedRows
     };
+
+    // if we approved a card, make sure we approve all of its items as well
+    if (approved) {
+      sql = "UPDATE Items " +
+      "SET approved = 1 " +
+      "WHERE cardId = ?;";
+      results = await pool.query(sql, cardId);
+    }
 
     return finalResults;
 
