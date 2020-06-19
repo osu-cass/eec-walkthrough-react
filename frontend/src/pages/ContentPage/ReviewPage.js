@@ -131,7 +131,11 @@ function ReviewPage(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          <Button variant="primary" onClick={(e) => handleSubmit(e)}>Approve Changes</Button>
+          {role >= 4 ? (
+            <Button variant="primary" onClick={(e) => handleSubmit(e)}>Publish Changes</Button>
+          ) : (
+            null
+          )}
           <Button variant="secondary" onClick={() => handleClose()}>Cancel</Button>
         </Modal.Footer>
       </Modal>
