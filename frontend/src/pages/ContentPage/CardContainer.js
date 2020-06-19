@@ -17,15 +17,8 @@ class CardContainer extends React.Component {
         <Card
           key={i}
           headerId={this.props.headerId}
-          card={card.title}
-          items={card.items}
+          card={card}
           checkFilter={this.checkFilter}
-          orderIndex={card.orderIndex}
-          cardId={card.cardId}
-          cardType={card.cardType}
-          approved={card.approved}
-          created={card.created}
-          userId={card.userId}
           used1={used1}
           used2={used2}
           iconSet={this.props.iconSet}

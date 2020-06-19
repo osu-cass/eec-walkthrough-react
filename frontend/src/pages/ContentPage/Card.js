@@ -16,31 +16,31 @@ function Card(props) {
   // If the current card is an Image Gallery card then
   // whenever we get new items, filter out all of the non-image ones
   useEffect(() => {
-    if (props.cardType === 1) {
+    if (props.card.cardType === 1) {
       const imageArray = [];
-      for (let i = 0; i < props.items.length; i++) {
-        if (props.items[i].contentUrl.length && props.items[i].typeName === "chart-area") {
-          imageArray.push(props.items[i]);
+      for (let i = 0; i < props.card.items.length; i++) {
+        if (props.card.items[i].contentUrl.length && props.card.items[i].typeName === "chart-area") {
+          imageArray.push(props.card.items[i]);
         }
       }
       setImageItems(imageArray);
     }
     // eslint-disable-next-line
-  }, [props.items]);
+  }, [props.card.items]);
 
   // check if all of the items are hidden
   useEffect(() => {
-    if (props.cardType === 1) {
+    if (props.card.cardType === 1) {
       setItemsHidden(allHidden(imageItems));
     } else {
-      setItemsHidden(allHidden(props.items));
+      setItemsHidden(allHidden(props.card.items));
     }
     // eslint-disable-next-line
-  }, [props.items, props.refresh, imageItems]);
+  }, [props.card.items, props.refresh, imageItems]);
 
   // return children of id === parentId
   function getChildren(id) {
-    const results = props.items.reduce((result, item) => {
+    const results = props.card.items.reduce((result, item) => {
       if (item.parentId === id) {
         result.push(item);
       }
@@ -63,7 +63,7 @@ function Card(props) {
     return true;
   }
 
-  function recurseItems(item, icon, categoryId, used, isChild) { // isChild = marks if it has any parent, for coloring
+  function recurseItems(item, used, isChild) { // isChild = marks if it has any parent, for coloring
     const children = getChildren(item.itemId); // get all children of this item
     const hide = props.checkFilter(item.iconType);
     if (!(used.includes(item.itemId))) {
@@ -79,10 +79,10 @@ function Card(props) {
             child={isChild}
             url={item.contentUrl}
             created={item.created}
-            checkFilter={props.checkFilter}
+            checkFilter={props.checkFilter()}
             hide={hide}
           >
-            {children.map((child) => (recurseItems(child, icon, categoryId, used, true)))}
+            {children.map((child) => (recurseItems(child, used, true)))}
           </BulletPoint>
         );
       } else {
@@ -95,7 +95,7 @@ function Card(props) {
           label={item.contentLabel}
           child={isChild}
           created={item.created}
-          checkFilter={props.checkFilter}
+          checkFilter={props.checkFilter()}
           hide={hide}
         />;
       } // if no children, base case
@@ -108,57 +108,54 @@ function Card(props) {
       used = props.used2;
     }
     const jsx = []; // hold items
-    props.items.map((item) => { // Loop through items of some category
-      if (item.CategoryID === props.categoryId) {
-        jsx.push(recurseItems(item, props.icon, props.categoryId, used, false));
-      }
+    props.card.items.map((item) => { // Loop through items
+      jsx.push(recurseItems(item, used, false));
       return null;
     });
 
     return jsx;
   }
 
-  return itemsHidden || (!props.approved && !props.mode) ? (
+  return itemsHidden || (!props.card.approved && !props.mode) ? (
     null
   ) : (
-    <CardBS className={`my-2 shadow-sm ${props.approved ? "card-body-approved" : "card-body-review"}`}>
+    <CardBS className={`my-2 shadow-sm ${props.card.approved ? "card-body-approved" : "card-body-review"}`}>
       <CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
-        {props.card}
+        {props.card.title}
         {props.mode ? (
           <div className="row">
             <EditCard
-              title={`Edit ${props.card} Card`}
-              cardName={props.card}
+              title={`Edit ${props.card.title} Card`}
+              cardName={props.card.title}
               icons={props.iconSet}
-              items={props.items}
-              headerId={props.headerId}
-              cardId={props.cardId}
-              cardType={props.cardType}
-              parentId={props.parentId}
+              items={props.card.items}
+              headerId={props.card.headerId}
+              cardId={props.card.cardId}
+              cardType={props.card.cardType}
               orderIndex={props.orderIndex}
               refresh={() => props.refresh()}
             />
-            {props.cardType ? (
+            {props.card.cardType ? (
               <ReviewCard
-                title={props.card}
-                cardId={props.cardId}
+                title={props.card.title}
+                cardId={props.card.cardId}
                 refresh={() => props.refresh()}
-                approved={props.approved}
+                approved={props.card.approved}
                 cardItems={imageItems}
-                userId={props.userId}
-                created={props.created}
-                cardType={props.cardType}
+                userId={props.card.userId}
+                created={props.card.created}
+                cardType={props.card.cardType}
               />
             ) : (
               <ReviewCard
-                title={props.card}
-                cardId={props.cardId}
+                title={props.card.title}
+                cardId={props.card.cardId}
                 refresh={() => props.refresh()}
-                approved={props.approved}
+                approved={props.card.approved}
                 cardItems={generateItems(1)}
-                userId={props.userId}
-                created={props.created}
-                cardType={props.cardType}
+                userId={props.card.userId}
+                created={props.card.created}
+                cardType={props.card.cardType}
               />
             )}
           </div>
@@ -167,7 +164,7 @@ function Card(props) {
         )}
       </CardBS.Header>
       <CardBS.Body>
-        {props.cardType ? (
+        {props.card.cardType ? (
           <div className="row text-center text-lg-left">
             {imageItems.map((item) =>
               <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
@@ -195,22 +192,13 @@ function Card(props) {
 export default Card;
 
 Card.propTypes = {
-  items: PropTypes.any,
   checkFilter: PropTypes.any,
   categoryId: PropTypes.any,
   used1: PropTypes.any,
   used2: PropTypes.any,
   card: PropTypes.any,
   iconSet: PropTypes.any,
-  headerId: PropTypes.any,
-  orderIndex: PropTypes.any,
   refresh: PropTypes.any,
-  icon: PropTypes.any,
-  cardId: PropTypes.any,
-  cardType: PropTypes.number,
-  parentId: PropTypes.any,
-  approved: PropTypes.number,
-  userId: PropTypes.number,
-  created: PropTypes.any,
+  card: PropTypes.object,
   mode: PropTypes.number
 };
