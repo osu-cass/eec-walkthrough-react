@@ -860,6 +860,7 @@ components:
       required:
         - cardId
         - headerId
+        - cardType
         - title
         - userId
         - created
@@ -873,6 +874,14 @@ components:
           allOf:
             - description: The unique identifier of the header that the card belongs to
             - $ref: '#/components/schemas/Id'
+        cardType:
+          allOf:
+            - description: Determines the format of the card content. A 0 represents the default card format. A 1 represents an image grid format.
+              type: integer
+              format: int16
+              minimum: 0
+              maximum: 65535
+              example: 0
         orderIndex:
           description: Value used to order objects in ascending order. This means that larger values will be shown lower on the page.
           type: integer
@@ -1130,6 +1139,8 @@ components:
             properties:
               headerId:
                 example: 25
+              cardType:
+                example: 0
               title:
                 example: Rules of Thumb
                 
@@ -1141,6 +1152,8 @@ components:
             properties:
               headerId:
                 example: 25
+              cardType:
+                example: 0
               title:
                 example: Rules of Thumb
               approved:
@@ -1621,6 +1634,7 @@ components:
                    cards: [{
                            cardId: 15,
                            headerId: 15,
+                           cardType: 0,
                            title: Best Practices,
                            userId: 15,
                            created: '2020-12-31 23:59:59',

@@ -6,6 +6,7 @@ import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
 import "./CreateHeader.css";
 
+// Button and modal that allows a user to edit a page
 class EditPage extends React.Component {
   state = {
     title: "",
@@ -140,11 +141,11 @@ class EditPage extends React.Component {
 
   render() {
     return this.props.role >= 3 ? (
-      <span className='text-center'>
+      <div className="text-center mx-2">
         <LoadingOverlay loading={this.state.showLoad} />
         <Button size="sm" variant="info" onClick={this.handleShowModal}>
           <i
-            className='fas fa-edit text-white mr-2'
+            className="fas fa-edit text-white mr-2"
             style={{transform: "scale(1.5)"}}></i>
           <span className="text-white">Edit Page</span>
         </Button>
@@ -240,8 +241,10 @@ class EditPage extends React.Component {
             <Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Page Edit</Button>
           </Modal.Footer>
         </Modal>
-      </span>
-    ) : "";
+      </div>
+    ) : (
+      null
+    );
   }
 }
 export default EditPage;

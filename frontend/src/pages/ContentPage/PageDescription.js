@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Image from "./Image";
 import "./PageDescription.css";
 
 // Card that describes the page and includes an image
@@ -12,7 +13,11 @@ function PageDescription(props) {
           <p>{props.description}</p>
         </div>
         <div className="col-4 text-center">
-          <img src={props.img} alt={props.header} className="header rounded img-fluid" style={{maxHeight: "23em"}} />
+          <Image url={props.img}
+            title={props.name}
+            thumbnail={false}
+            header={true}
+          />
         </div>
       </div>
     </div>
@@ -21,6 +26,7 @@ function PageDescription(props) {
 export default PageDescription;
 
 PageDescription.propTypes = {
+  name: PropTypes.string,
   approved: PropTypes.number,
   header: PropTypes.string,
   description: PropTypes.string,

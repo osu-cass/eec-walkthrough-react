@@ -42,7 +42,7 @@ exports.getCard = getCard;
 
 
 // create a card
-async function createCard(headerId, orderIndex, title, userId) {
+async function createCard(headerId, cardType, orderIndex, title, userId) {
 
   try {
 
@@ -68,9 +68,9 @@ async function createCard(headerId, orderIndex, title, userId) {
     }
 
     // create the new card
-    sql = "INSERT INTO Cards (headerId, orderIndex, title, userId, approved) " +
-    "VALUES (?, ?, ?, ?, 0);";
-    results = await pool.query(sql, [headerId, orderIndex, title, userId]);
+    sql = "INSERT INTO Cards (headerId, cardType, orderIndex, title, userId, approved) " +
+    "VALUES (?, ?, ?, ?, ?, 0);";
+    results = await pool.query(sql, [headerId, cardType, orderIndex, title, userId]);
 
     const finalResults = {
       insertId: results[0].insertId
@@ -126,7 +126,7 @@ exports.deleteCard = deleteCard;
 
 
 // update a card
-async function updateCard(cardId, headerId, orderIndex, title, approved) {
+async function updateCard(cardId, headerId, cardType, orderIndex, title, approved) {
 
   try {
 
@@ -171,6 +171,11 @@ async function updateCard(cardId, headerId, orderIndex, title, approved) {
     if (typeof title !== "undefined") {
       sql += "title = ?,";
       sqlArray.push(title);
+    }
+
+    if (typeof cardType !== "undefined") {
+      sql += "cardType = ?,";
+      sqlArray.push(cardType);
     }
 
     if (typeof approved !== "undefined") {

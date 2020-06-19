@@ -24,6 +24,7 @@ function getContentType(text, label, url) {
   if (text !== "" && label !== "" && url !== "") { return 3; }
 }
 
+// Represents a single item inside a card
 function BulletPoint (props) {
   return (
     <div key={props.id} className={`mb-2 ${filter(props.hide)}`}>
@@ -42,7 +43,7 @@ function BulletPoint (props) {
             {props.text}
           </span>
           {props.label}
-          <Image url={props.url} header={props.label} />
+          <Image url={props.url} title={props.label} thumbnail={false} header={false}/>
         </Fragment>
         : ""}
       {getContentType(props.text, props.label, props.url) === 3 ?

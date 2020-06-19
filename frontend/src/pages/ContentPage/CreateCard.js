@@ -9,6 +9,7 @@ import Error from "../../components/General/Error";
 import "./CreateCard.css";
 import "./ContentPage.css";
 
+// Create card button and modal
 class CreateCard extends React.Component {
   state = {
     counter: 0, // count number of inputs added
@@ -16,7 +17,10 @@ class CreateCard extends React.Component {
     items: [],
     show: false,
     loaded: false,
-    errorMessage: ""
+    errorMessage: "",
+    basicIcons: [],
+    imageIcons: [],
+    linkIcons: []
   }
 
   async componentDidMount() {
@@ -58,7 +62,27 @@ class CreateCard extends React.Component {
 
     this.setState({items: copy});
     this.setState({counter: count + 1});
+    // Sort icons into three categories, general items, images, and links
+    this.sortIcons(this.props.icons);
+  }
 
+  // Sort icons into three categories, general items, images, and links
+  sortIcons() {
+    const gen = [];
+    const images = [];
+    const links = [];
+    for (let i = 0; i < this.props.icons.length; i++) {
+      if (this.props.icons[i].typeName === "chart-area") {
+        images.push(this.props.icons[i]);
+      } else if (this.props.icons[i].typeName === "info" || this.props.icons[i].typeName === "link") {
+        links.push(this.props.icons[i]);
+      } else {
+        gen.push(this.props.icons[i]);
+      }
+    }
+    this.setState({basicIcons: gen});
+    this.setState({imageIcons: images});
+    this.setState({linkIcons: links});
   }
 
   /**
@@ -156,10 +180,15 @@ class CreateCard extends React.Component {
       return;
     }
 
+    // Get the card format from the select
+    const formatSelect = document.getElementById("select-create-card-format");
+    const cardFormat = formatSelect.options[formatSelect.selectedIndex].value;
+
     // Prepare data for new card
     const cardData = {
       headerId: this.props.headerId,
       orderIndex: this.props.numCards + 1, // append to end of list of cards for this header
+      cardType: cardFormat,
       title: this.state.title,
       userId: 1
     };
@@ -302,7 +331,7 @@ class CreateCard extends React.Component {
   * Updates dropdown icon selected for specific index
   * @param {Number} icon itemType ID of Icon
   * @param {Number} index Index of item being changed
-  * @return {State}  			Updated state, no actual return value
+  * @return {State} Updated state, no actual return value
   */
   updateIcon(icon, index) {
     const copy = [...this.state.items];
@@ -315,19 +344,41 @@ class CreateCard extends React.Component {
   * @param {Number} i item index passed from generateInputs()
   * @return {JSX}    Array of JSX of icons
   */
-  generateIcons(i) {
-    const list = [],
-      jsx = [],
-      values = [];
-    this.props.icons.map((type) => {
-      jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}}>
-        <i className={`fas fa-${type.typeName}`} /> {type.typeKeyword}
-      </div>);
-      const jsxIcon = <i className={`fas fa-${type.typeName}`} />;
-      values.push([type.iconType, jsxIcon]);
-      return null;
+  generateIcons(i, contentType) {
+    const list = [];
+    const jsx = [];
+    const values = [];
+    if (contentType === 3) {
+      this.state.linkIcons.map((type) => {
+        // filter out icons based on the content type
+        jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
+          <i className={`fas fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+        </div>);
+        const jsxIcon = <i className={`fas fa-${type.typeName}`} />;
+        values.push([type.iconType, jsxIcon]);
+        return null;
+      });
+    } else if (contentType === 2) {
+      this.state.imageIcons.map((type) => {
+        // filter out icons based on the content type
+        jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
+          <i className={`fas fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+        </div>);
+        const jsxIcon = <i className={`fas fa-${type.typeName}`} />;
+        values.push([type.iconType, jsxIcon]);
+        return null;
+      });
+    } else {
+      this.state.basicIcons.map((type) => {
+        // filter out icons based on the content type
+        jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
+          <i className={`fas fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+        </div>);
+        const jsxIcon = <i className={`fas fa-${type.typeName}`} />;
+        values.push([type.iconType, jsxIcon]);
+        return null;
+      });
     }
-    );
     list.push(jsx, values);
     return list;
   }
@@ -343,12 +394,17 @@ class CreateCard extends React.Component {
     const jsx = [];
     let i = 0;
     for (i = 0; i < this.state.counter; i++) {
+      const itemIdKey = this.state.items[i].itemId + " " + i;
       const subpointDepth = this.state.items[i].depth;
+      const contentType = this.state.items[i].contentType;
       jsx.push(
-        <Row className="mb-2" key={i + 1}>
+        <Row className="mb-2" key={itemIdKey + "a"}>
           {this.getDepth(i)} {/* return indentation for subpoints*/}
           <div className="col-1">
-            <Dropdown key={i} idx={i} list={this.generateIcons(i)} handleClick={(id, idx) => this.updateIcon(id, idx)} />
+            <Dropdown key={itemIdKey + "b"} idx={i}
+              list={this.generateIcons(i, contentType)}
+              handleClick={(id, idx) => this.updateIcon(id, idx)}
+            />
           </div>
 
           <div className="input-group col-9">
@@ -361,10 +417,10 @@ class CreateCard extends React.Component {
             />
             {subpointDepth < 6 &&	// set maximum depth to 6
               <span>
-                <button className='btn btn-success btn-sm ml-2' key={i} data-index={i} onClick={(e) => this.updateSubpoints(e.target.getAttribute("data-index"))}>
+                <button className='btn btn-success btn-sm ml-2' key={itemIdKey + "c"} data-index={i} onClick={(e) => this.updateSubpoints(e.target.getAttribute("data-index"))}>
                   <i className='fas fa-plus' /> Sub
                 </button>
-                <button className='btn btn-danger btn-sm ml-2' key={i + 100} data-index={i} onClick={(e) => this.deleteSubpoints(e.target.getAttribute("data-index"))}>
+                <button className='btn btn-danger btn-sm ml-2' key={itemIdKey + "d"} data-index={i} onClick={(e) => this.deleteSubpoints(e.target.getAttribute("data-index"))}>
                   <i className='fas fa-times' /> Remove
                 </button>
               </span>
@@ -377,7 +433,7 @@ class CreateCard extends React.Component {
   }
 
   render() {
-    return this.state.loaded && this.state.role >= 3 ? (
+    return this.state.loaded && this.state.role >= 3 && this.props.mode ? (
       <div className='text-center mt-3 mb-2'>
         <Button variant="info" onClick={this.handleShow}>
           <i
@@ -394,12 +450,27 @@ class CreateCard extends React.Component {
 
           </Modal.Header>
 
-          <Modal.Body >
+          <Modal.Body>
             <Row>
               <Col>
                 <Form.Group controlId="formTitle">
                   <Form.Label className="font-weight-bold">Card Title</Form.Label>
                   <Form.Control type="text" placeholder="Enter title" onChange={(e) => this.setState({title: e.target.value})} />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <Form.Group controlId="formTitle">
+                  <Form.Label className="font-weight-bold">Card Format</Form.Label>
+                  <select className="form-control"
+                    id="select-create-card-format"
+                    defaultValue="0"
+                  >
+                    <option value="0">Default</option>
+                    <option value="1">Thumbnail Gallery</option>
+                  </select>
                 </Form.Group>
               </Col>
             </Row>
@@ -441,6 +512,7 @@ CreateCard.propTypes = {
   icons: PropTypes.array,
   headerId: PropTypes.number,
   numCards: PropTypes.any,
-  refresh: PropTypes.any
+  refresh: PropTypes.any,
+  mode: PropTypes.number
 };
 

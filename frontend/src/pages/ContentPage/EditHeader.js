@@ -6,6 +6,7 @@ import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
 import "./CreateHeader.css";
 
+// Button and modal that allows a user to edit a header
 class EditHeader extends React.Component {
   state = {
     title: "",
@@ -96,7 +97,7 @@ class EditHeader extends React.Component {
 
   render() {
     return this.props.role >= 3 ? (
-      <span className='text-center'>
+      <div className='text-center mx-2'>
         <LoadingOverlay loading={this.state.showLoad} />
         <Button size="sm" variant="info" onClick={this.handleShowModal}>
           <i
@@ -150,8 +151,10 @@ class EditHeader extends React.Component {
             <Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Header Edit</Button>
           </Modal.Footer>
         </Modal>
-      </span>
-    ) : "";
+      </div>
+    ) : (
+      null
+    );
   }
 }
 export default EditHeader;

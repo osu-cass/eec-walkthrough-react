@@ -2,6 +2,7 @@ import React from "react";
 import Filter from "./Filter";
 import PropTypes from "prop-types";
 
+// The bar inside of a header that is used for filtering out items
 class FilterBar extends React.Component {
   state = {
     iconsActivity: []
@@ -41,7 +42,7 @@ class FilterBar extends React.Component {
 
   render() {
     return (
-      <span className="mr-5 mt-1 icons">
+      <div className="m-2 icons row">
         {this.props.data.map((obj, i) => { // for each tidbit type (pros/cons/etc.)
           return (
             <Filter
@@ -62,7 +63,7 @@ class FilterBar extends React.Component {
           value="reset"
           onClick={() => this.resetFilter()}
         ></i>
-      </span>
+      </div>
     );
   }
 }

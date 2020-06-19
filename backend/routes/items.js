@@ -12,13 +12,15 @@ const {
 const {
   postItemVal,
   getItemVal,
-  patchItemVal
+  patchItemVal,
+  patchItemTimeVal
 } = require("../services/validation/requestValidation");
 const {
   getItem,
   createItem,
   deleteItem,
-  updateItem
+  updateItem,
+  updateItemTime
 } = require("../models/items");
 
 
@@ -207,6 +209,52 @@ app.patch("/:itemId", requireAuth, patchItemVal.validation, async (req, res) => 
         res.status(403).send({error: "Invalid icon type assigned to item."});
       } else if (results.error === 5) {
         res.status(422).send({error: "Request doesn't include any fields to update."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// update an items created timestamp (used to reflect the state of a link item)
+app.patch("/:itemId/timeStamp", requireAuth, patchItemTimeVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update an items timestamp");
+
+    const itemId = req.params.itemId;
+    const deadLink = req.body.deadLink;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to update item."});
+      return;
+    }
+
+    // update an item
+    const results = await updateItemTime(itemId, deadLink);
+
+    if (results.changedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Item not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
