@@ -70,7 +70,7 @@ function BulletPoint (props) {
               <Fragment>
                 {timestamp && timestamp !== "null" ? (
                   <span className="last-accessed-link">
-                    {`Last accessed ${formatTime(timestamp)}`}
+                    {`Confirmed valid ${formatTime(timestamp)}`}
                   </span>
                 ) : (
                   <span className="last-accessed-link-bad">

@@ -15,7 +15,6 @@ function Image(props) {
           alt={props.title}
           title={props.title}
           className="expandable-image rounded img-fluid img-thumbnail"
-          style={{cursor: "pointer", maxheight: "1px"}}
           onClick={() => setModalShow(true)}
         />
         <MyVerticallyCenteredModal
@@ -33,7 +32,6 @@ function Image(props) {
           src={props.url}
           alt={props.title}
           className="expandable-image header rounded img-fluid img-normal"
-          style={{cursor: "pointer", maxHeight: "23em"}}
           onClick={() => setModalShow(true)}
         />
         <MyVerticallyCenteredModal
