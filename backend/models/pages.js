@@ -216,7 +216,7 @@ async function getFullPage(pageId, viewAll) {
       sql = "SELECT * " +
       "FROM Pages " +
       "LEFT JOIN Temp_Pages " +
-      "ON pageId = tempPageId ";
+      "ON pageId = tempPageId " +
       "WHERE pageId = ?;";
     } else {
       sql = "SELECT * " +
@@ -251,7 +251,6 @@ async function getFullPage(pageId, viewAll) {
 
     results = await pool.query(sql, pageId);
     finalResults.headers = results[0];
-    console.log(finalResults.headers);
     const headerCount = finalResults.headers.length;
 
 
