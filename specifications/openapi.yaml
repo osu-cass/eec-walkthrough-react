@@ -646,6 +646,33 @@ paths:
           $ref: '#/components/responses/401'
         '500':
           $ref: '#/components/responses/500'
+          
+  '/Items/{itemId}/timestamp':
+    patch:
+      summary: Updates the item's timestamp to the current time or NULL
+      description: >
+        Updates a timestamp used to track external links last accessed date.
+        If the link is dead then the time is set to NULL.
+      operationId: updateItemTimestamp
+      tags:
+        - Items
+      requestBody:
+        $ref: '#/components/requestBodies/Item_PATCH_TIMESTAMP'
+      parameters:
+        - $ref: '#/components/parameters/Item_itemId'
+      responses:
+        '200':
+          $ref: '#/components/responses/PATCH_200_Timestamp'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
 
   /Icons/all:
       get:
@@ -737,6 +764,7 @@ components:
         - description
         - imageUrl
         - userId
+        - orderIndex
         - created
         - approved
         - subjects/industries
@@ -1111,6 +1139,8 @@ components:
                   - $ref: '#/components/schemas/Id'
               title:
                 example: Compressed Air Opportunities to Consider
+              orderIndex:
+                example: 5
 
     Header_PATCH:
       required: true
@@ -1130,6 +1160,8 @@ components:
                 example: Compressed Air Opportunities to Consider
               approved:
                 example: 1
+              orderIndex:
+                example: 5
 
     Card_POST:
       required: true
@@ -1143,6 +1175,8 @@ components:
                 example: 0
               title:
                 example: Rules of Thumb
+              orderIndex:
+                example: 5
                 
     Card_PATCH:
       required: true
@@ -1158,6 +1192,8 @@ components:
                 example: Rules of Thumb
               approved:
                 example: 1
+              orderIndex:
+                example: 5
     
     Item_POST:
       required: true
@@ -1177,6 +1213,8 @@ components:
                 example: https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf
               contentLabel:
                 example: Assessing Industrial Air Compressor
+              orderIndex:
+                example: 5
 
     Item_PATCH:
       required: true
@@ -1196,8 +1234,19 @@ components:
                 example: https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf
               contentLabel:
                 example: Assessing Industrial Air Compressor
+              orderIndex:
+                example: 5
               approved:
                 example: 1
+                
+    Item_PATCH_TIMESTAMP:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              deadLink:
+                example: 0
 
   parameters:
 
@@ -1471,6 +1520,15 @@ components:
             properties:
               changedRows:
                 example: 3
+    
+    PATCH_200_Timestamp:
+      description: A message describing the current external link state
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                example: Last accessed Jun 18, 2020, 6:09 PM
 
     User_Login_GET_200:
       description: An object containing information about the user
