@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jun 18, 2020 at 12:39 PM
+-- Generation Time: Jun 19, 2020 at 12:55 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -138,8 +138,8 @@ INSERT INTO `Icons` (`iconType`, `typeKeyword`, `typeName`) VALUES
 (15, 'Note', 'pencil-alt'),
 (16, 'File', 'file'),
 (17, 'Document', 'copy'),
-(18, 'In Depth Resource', 'info'),
-(19, 'Link', 'link'),
+(18, 'Internal Link', 'info'),
+(19, 'External Link', 'link'),
 (20, 'Figure', 'chart-area');
 
 -- --------------------------------------------------------
@@ -284,6 +284,51 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `TempCards`
+--
+
+CREATE TABLE `TempCards` (
+  `cardId` int(10) UNSIGNED NOT NULL,
+  `cardType` tinyint(3) UNSIGNED NOT NULL,
+  `orderIndex` int(10) UNSIGNED NOT NULL,
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `userId` int(10) UNSIGNED NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `TempHeaders`
+--
+
+CREATE TABLE `TempHeaders` (
+  `headerId` int(10) UNSIGNED NOT NULL,
+  `orderIndex` int(10) UNSIGNED NOT NULL,
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `userId` int(10) UNSIGNED NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `TempPages`
+--
+
+CREATE TABLE `TempPages` (
+  `PageId` int(10) UNSIGNED NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `imageUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `userId` int(10) UNSIGNED NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Users`
 --
 
@@ -397,6 +442,27 @@ ALTER TABLE `Pages`
   ADD KEY `user_page_fk` (`userId`);
 
 --
+-- Indexes for table `TempCards`
+--
+ALTER TABLE `TempCards`
+  ADD PRIMARY KEY (`cardId`),
+  ADD KEY `fk_user_tempCard` (`userId`);
+
+--
+-- Indexes for table `TempHeaders`
+--
+ALTER TABLE `TempHeaders`
+  ADD PRIMARY KEY (`headerId`),
+  ADD KEY `fk_user_tempHeader` (`userId`);
+
+--
+-- Indexes for table `TempPages`
+--
+ALTER TABLE `TempPages`
+  ADD PRIMARY KEY (`PageId`),
+  ADD KEY `fk_user_tempPage` (`userId`);
+
+--
 -- Indexes for table `Users`
 --
 ALTER TABLE `Users`
@@ -436,13 +502,13 @@ ALTER TABLE `Items`
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- Constraints for dumped tables
@@ -483,6 +549,27 @@ ALTER TABLE `Items`
 --
 ALTER TABLE `Pages`
   ADD CONSTRAINT `user_page_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
+
+--
+-- Constraints for table `TempCards`
+--
+ALTER TABLE `TempCards`
+  ADD CONSTRAINT `fk_tempCard` FOREIGN KEY (`cardId`) REFERENCES `Cards` (`cardId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user_tempCard` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
+
+--
+-- Constraints for table `TempHeaders`
+--
+ALTER TABLE `TempHeaders`
+  ADD CONSTRAINT `fk_tempHeader` FOREIGN KEY (`headerId`) REFERENCES `Headers` (`headerId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user_tempHeader` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
+
+--
+-- Constraints for table `TempPages`
+--
+ALTER TABLE `TempPages`
+  ADD CONSTRAINT `fk_tempPage` FOREIGN KEY (`PageId`) REFERENCES `Pages` (`pageId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user_tempPage` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
