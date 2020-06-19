@@ -108,20 +108,32 @@ function Card(props) {
       used = props.used2;
     }
     const jsx = []; // hold items
-    props.card.items.map((item) => { // Loop through items
-      jsx.push(recurseItems(item, used, false));
-      return null;
-    });
-
+    // Check if we are in edit or view mode.
+    //
+    // In edit mode we always show the most recent version of the card.
+    // Check if the card has temp data. Otherwise show the normal data.
+    //
+    // In view mode we only show published versions of the card.
+    if (props.mode && props.card.tempItems.length) {
+      props.card.tempItems.map((item) => { // Loop through items
+        jsx.push(recurseItems(item, used, false));
+        return null;
+      });
+    } else {
+      props.card.items.map((item) => { // Loop through items
+        jsx.push(recurseItems(item, used, false));
+        return null;
+      });
+    }
     return jsx;
   }
 
   return itemsHidden || (!props.card.approved && !props.mode) ? (
     null
   ) : (
-    <CardBS className={`my-2 shadow-sm ${props.card.approved ? "card-body-approved" : "card-body-review"}`}>
+    <CardBS className={`my-2 shadow-sm ${(props.mode && (props.card.tempCardId || props.card.tempItems.length)) || !props.card.approved ? "card-body-review" : "card-body-approved" }`}>
       <CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
-        {props.card.title}
+        {props.mode && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
         {props.mode ? (
           <div className="row">
             <EditCard
@@ -196,7 +208,6 @@ Card.propTypes = {
   categoryId: PropTypes.any,
   used1: PropTypes.any,
   used2: PropTypes.any,
-  card: PropTypes.any,
   iconSet: PropTypes.any,
   refresh: PropTypes.any,
   card: PropTypes.object,

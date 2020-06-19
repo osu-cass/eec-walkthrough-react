@@ -195,6 +195,6 @@ export default ContentPage;
 
 ContentPage.propTypes = {
   match: PropTypes.any,
-  pageId: PropTypes.number,
+  pageId: PropTypes.string,
   handlePageEdit: PropTypes.func
 };
