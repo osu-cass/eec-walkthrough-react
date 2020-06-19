@@ -237,8 +237,8 @@ class EditPage extends React.Component {
             >
               Delete Page
             </Button>
-            <Button variant="secondary" onClick={this.handleCloseModal}>Close</Button>
             <Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Page Edit</Button>
+            <Button variant="secondary" onClick={this.handleCloseModal}>Cancel</Button>
           </Modal.Footer>
         </Modal>
       </div>

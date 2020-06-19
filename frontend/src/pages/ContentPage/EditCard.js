@@ -681,8 +681,14 @@ class EditCard extends React.Component {
           </Modal.Body>
 
           <Modal.Footer className="modal-footer">
+            <Button
+              className="mr-auto"
+              variant="danger" 
+              onClick={() => {if (window.confirm("Are you sure you wish to delete this item?")) { this.deleteCard(); } }}
+            >
+              Delete Card
+            </Button>
             <Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Card Edit</Button>
-            <Button variant="danger" onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { this.deleteCard(); } }}>Delete Card</Button>
             <Button variant="secondary" onClick={this.handleClose}>Cancel</Button>
           </Modal.Footer>
         </Modal>
