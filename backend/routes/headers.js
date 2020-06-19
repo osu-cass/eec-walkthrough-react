@@ -176,9 +176,16 @@ app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res)
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(3, req.auth.userId)) {
-      res.status(401).send({error: "Unauthorized user attempting to update header."});
-      return;
+    if (typeof approved === "undefined") {
+      if (!await roleCheck(3, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to update header."});
+        return;
+      }
+    } else {
+      if (!await roleCheck(4, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to publish header."});
+        return;
+      }
     }
 
     // update a header
