@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import Image from "./Image";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
+import LinkAccessButtons from "./LinkAccessButtons";
 import "./BulletPoint.css";
 
 function styleText(icon) {
@@ -13,7 +14,6 @@ function styleText(icon) {
 function isBold(bold) {
   if (bold) { return "font-weight-bold"; }
 }
-
 
 function filter(check) {
   if (check) { return "hide"; } else { return "active"; }
@@ -28,8 +28,7 @@ function getContentType(text, label, url) {
 // Represents a single item inside a card
 function BulletPoint (props) {
 
-  // External links have additional content
-  return props.icon === "link" ? (
+  return (
 
     <div key={props.id} className={`mb-2 ${filter(props.hide)}`}>
       {getContentType(props.text, props.label, props.url) === 1 ?
@@ -52,63 +51,39 @@ function BulletPoint (props) {
         : ""}
       {getContentType(props.text, props.label, props.url) === 3 ?
         <Fragment>
+
           <div>
             <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)}`} /><a href={props.url} className="text-primary"> {props.label} </a> <br></br>
             {props.text}
           </div>
+
+            {/* External links have additional content */}
+            {props.icon === "link" ? (
+              <Fragment>
+                {props.created ? (
+                  <span className="last-accessed-link">
+                    {`Last accessed ${formatTime(props.created)}`}
+                  </span>
+                ) : (
+                  <span className="last-accessed-link-bad">
+                    {`This link is no longer valid`}
+                  </span>
+                )}
+                <LinkAccessButtons itemId={props.id}/>
+              </Fragment>
+            ) : (
+              null
+            )}
+
         </Fragment>
         : ""}
       <div className="pl-5 mt-2">
         {props.children}
       </div>
-      <Fragment>
-        {props.created ? (
-          <span className="last-accessed-link">
-            {`Last accessed ${formatTime(props.created)}`}
-          </span>
-        ) : (
-          <span className="last-accessed-link-bad">
-            {`This link is no longer valid`}
-          </span>
-        )}
-      </Fragment>
+
     </div>
 
-  ) : (
-
-    <div key={props.id} className={`mb-2 ${filter(props.hide)}`}>
-      {getContentType(props.text, props.label, props.url) === 1 ?
-        <Fragment>
-          <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
-          <span className={styleText(props.icon) || isBold(props.bold)}>
-            {props.text}
-          </span>
-        </Fragment>
-        : ""}
-      {getContentType(props.text, props.label, props.url) === 2 ?
-        <Fragment>
-          <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
-          <span className={styleText(props.icon) || isBold(props.bold)}>
-            {props.text}
-          </span>
-          {props.label}
-          <Image url={props.url} title={props.label} thumbnail={false} header={false}/>
-        </Fragment>
-        : ""}
-      {getContentType(props.text, props.label, props.url) === 3 ?
-        <Fragment>
-          <div>
-            <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)}`} /><a href={props.url} className="text-primary"> {props.label} </a> <br></br>
-            {props.text}
-          </div>
-        </Fragment>
-        : ""}
-      <div className="pl-5 mt-2">
-        {props.children}
-      </div>
-    </div>
-
-  )
+  );
 
 }
 export default BulletPoint;

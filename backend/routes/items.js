@@ -224,7 +224,7 @@ app.patch("/:itemId", requireAuth, patchItemVal.validation, async (req, res) => 
 
 
 // update an items created timestamp (used to reflect the state of a link item)
-app.patch("/:itemId/timeStamp", requireAuth, patchItemTimeVal.validation, async (req, res) => {
+app.patch("/:itemId/timestamp", requireAuth, patchItemTimeVal.validation, async (req, res) => {
 
   try {
 
