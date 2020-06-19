@@ -1,6 +1,5 @@
 import React from "react";
 import Card from "./Card";
-import Header from "./Header";
 import PropTypes from "prop-types";
 import "./ContentPage.css";
 
@@ -23,6 +22,7 @@ class CardContainer extends React.Component {
           checkFilter={this.checkFilter}
           orderIndex={card.orderIndex}
           cardId={card.cardId}
+          cardType={card.cardType}
           approved={card.approved}
           created={card.created}
           userId={card.userId}
@@ -30,6 +30,7 @@ class CardContainer extends React.Component {
           used2={used2}
           iconSet={this.props.iconSet}
           refresh={() => this.props.refresh()}
+          mode={this.props.mode}
         />
       );
     });
@@ -48,11 +49,11 @@ class CardContainer extends React.Component {
   }
 
   render() {
-    if (this.props.cards.length) {
-      return this.generateCards();
-    } else {
-      return <Header title={`No Cards under ${this.props.headerName}`} approved={1} mainPageHeader={0}/>;
-    }
+    return this.props.cards.length && (this.props.approved || this.props.mode) ? (
+      this.generateCards()
+    ) : (
+      null
+    );
   }
 }
 export default CardContainer;
@@ -63,5 +64,7 @@ CardContainer.propTypes = {
   iconSet: PropTypes.any,
   refresh: PropTypes.any,
   filter: PropTypes.any,
-  headerName: PropTypes.any
+  headerName: PropTypes.any,
+  mode: PropTypes.number,
+  approved: PropTypes.number
 };

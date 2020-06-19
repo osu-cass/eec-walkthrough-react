@@ -14,11 +14,15 @@ class EditCard extends React.Component {
   state = {
     counter: 0, // count number of inputs added
     title: "",
+    format: 0,
     items: [], // current items have current 1, new items have current 0
     toDelete: [], // hold the ids to be deleted on "Remove"
     show: false,
     loaded: false,
-    errorMessage: ""
+    errorMessage: "",
+    basicIcons: [],
+    imageIcons: [],
+    linkIcons: []
   }
 
   async componentDidMount() {
@@ -47,9 +51,31 @@ class EditCard extends React.Component {
     this.setState({items: items});
     this.setState({role: getProfile().role});
     this.setState({title: this.props.cardName});
+    this.setState({format: this.props.cardType});
     this.setState({counter: counter});
     this.setState({loaded: true});
     this.setState({errorMessage: ""});
+    // Sort icons into three categories, general items, images, and links
+    this.sortIcons(this.props.icons);
+  }
+
+  // Sort icons into three categories, general items, images, and links
+  sortIcons() {
+    const gen = [];
+    const images = [];
+    const links = [];
+    for (let i = 0; i < this.props.icons.length; i++) {
+      if (this.props.icons[i].typeName === "chart-area") {
+        images.push(this.props.icons[i]);
+      } else if (this.props.icons[i].typeName === "info" || this.props.icons[i].typeName === "link") {
+        links.push(this.props.icons[i]);
+      } else {
+        gen.push(this.props.icons[i]);
+      }
+    }
+    this.setState({basicIcons: gen});
+    this.setState({imageIcons: images});
+    this.setState({linkIcons: links});
   }
 
   getChildren(id) {
@@ -66,16 +92,16 @@ class EditCard extends React.Component {
   // check each item. grab its item id, and check list again for items whose parent id match. assume sorted by order index already.
   // result: to list each one in order, from top to bottom
   recurseItems(item, used, items, isChild, prevDepth) {	// isChild = marks if it has any parent, for coloring
-    const childs = this.getChildren(item.itemId); // get all childs of this item
+    const children = this.getChildren(item.itemId); // get all children of this item
     if (!(used.includes(item.itemId))) {
       used.push(item.itemId); // push used
       // assign depth if child using prevDepth
       if (isChild) { item.depth = prevDepth + 1; } else { item.depth = 0; }
-      if (childs) {
+      if (children) {
         // push item
         items.push(item);
-        // recurse over childs found
-        childs.map((child) => (this.recurseItems(child, used, items, true, item.depth)));
+        // recurse over children found
+        children.map((child) => (this.recurseItems(child, used, items, true, item.depth)));
       } else {
         items.push(item);
       }
@@ -85,7 +111,7 @@ class EditCard extends React.Component {
   generateItems() {
     const items = []; // hold items
     const used = []; // hold used items to avoid looping over again
-    this.props.items.map((item) => { // loop through each item (if not used), and grab its childs
+    this.props.items.map((item) => { // loop through each item (if not used), and grab its children
       this.recurseItems(item, used, items, false, 0);
       return null;
     });
@@ -260,10 +286,15 @@ class EditCard extends React.Component {
       return;
     }
 
+    // Get the card format from the select
+    const formatSelect = document.getElementById("select-edit-card-format");
+    const cardFormat = formatSelect.options[formatSelect.selectedIndex].value;
+
     // Prepare data for new card
     const cardData = {
       headerId: this.props.headerId,
       orderIndex: this.props.orderIndex,
+      cardType: cardFormat,
       title: this.state.title,
       approved: 0
     };
@@ -446,7 +477,13 @@ class EditCard extends React.Component {
   handleInput = (e, index, contentType) => {
     const key = index.toString();
     const copy = [...this.state.items];
-    if (contentType === 1) { copy[key].content.text = e.target.value; } else if (contentType === 2) { copy[key].content.label = e.target.value; } else if (contentType === 3) { copy[key].content.url = e.target.value; }
+    if (contentType === 1) {
+      copy[key].content.text = e.target.value;
+    } else if (contentType === 2) {
+      copy[key].content.label = e.target.value;
+    } else if (contentType === 3) {
+      copy[key].content.url = e.target.value;
+    }
     this.setState({items: copy});
   }
 
@@ -454,7 +491,7 @@ class EditCard extends React.Component {
   * Updates dropdown icon selected for specific index
   * @param {Number} icon itemType ID of Icon
   * @param {Number} index Index of item being changed
-  * @return {State}  			Updated state, no actual return value
+  * @return {State} Updated state, no actual return value
   */
   updateIcon(icon, index) {
     const copy = [...this.state.items];
@@ -462,10 +499,20 @@ class EditCard extends React.Component {
     this.setState({items: copy});
   }
 
-  getIconName(id) {
+  getIconName(id, contentType) {
     let i;
-    for (i = 0; i < this.props.icons.length; i++) {
-      if (this.props.icons[i].iconType === id) { return i; }
+    if (contentType === 3) {
+      for (i = 0; i < this.state.linkIcons.length; i++) {
+        if (this.state.linkIcons[i].iconType === id) { return i; }
+      }
+    } else if (contentType === 2) {
+      for (i = 0; i < this.state.imageIcons.length; i++) {
+        if (this.state.imageIcons[i].iconType === id) { return i; }
+      }
+    } else {
+      for (i = 0; i < this.state.basicIcons.length; i++) {
+        if (this.state.basicIcons[i].iconType === id) { return i; }
+      }
     }
     return null;
   }
@@ -475,19 +522,41 @@ class EditCard extends React.Component {
   * @param {Number} i item index passed from generateInputs()
   * @return {JSX}    Array of JSX of icons
   */
-  generateIcons(i) {
-    const list = [],
-      jsx = [],
-      values = [];
-    this.props.icons.map((type) => {
-      jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}}>
-        <i className={`fas fa-${type.typeName}`} /> {type.typeKeyword}
-      </div>);
-      const jsxIcon = <i className={`fas fa-${type.typeName}`} />;
-      values.push([type.iconType, jsxIcon]);
-      return null;
+  generateIcons(i, contentType) {
+    const list = [];
+    const jsx = [];
+    const values = [];
+    if (contentType === 3) {
+      this.state.linkIcons.map((type) => {
+        // filter out icons based on the content type
+        jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
+          <i className={`fas fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+        </div>);
+        const jsxIcon = <i className={`fas fa-${type.typeName}`} />;
+        values.push([type.iconType, jsxIcon]);
+        return null;
+      });
+    } else if (contentType === 2) {
+      this.state.imageIcons.map((type) => {
+        // filter out icons based on the content type
+        jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
+          <i className={`fas fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+        </div>);
+        const jsxIcon = <i className={`fas fa-${type.typeName}`} />;
+        values.push([type.iconType, jsxIcon]);
+        return null;
+      });
+    } else {
+      this.state.basicIcons.map((type) => {
+        // filter out icons based on the content type
+        jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
+          <i className={`fas fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+        </div>);
+        const jsxIcon = <i className={`fas fa-${type.typeName}`} />;
+        values.push([type.iconType, jsxIcon]);
+        return null;
+      });
     }
-    );
     list.push(jsx, values);
     return list;
   }
@@ -508,12 +577,19 @@ class EditCard extends React.Component {
     const jsx = [];
     let i = 0;
     for (i = 0; i < this.state.counter; i++) {
+      const itemIdKey = this.state.items[i].itemId + " " + i;
       const subpointDepth = this.state.items[i].depth;
+      const contentType = this.state.items[i].contentType;
       jsx.push(
-        <Row className="mb-2" key={i + 1}>
+        <Row className="mb-2" key={itemIdKey + "a"}>
           {this.getDepth(i)} {/* return indentation for subpoints*/}
           <div className="col-1">
-            <Dropdown key={i} idx={i} list={this.generateIcons(i)} selectedIndex={this.getIconName(this.state.items[i].icon)} handleClick={(id, idx) => this.updateIcon(id, idx)} edit />
+            <Dropdown key={itemIdKey + "b"} idx={i}
+              list={this.generateIcons(i, contentType)}
+              selectedIndex={this.getIconName(this.state.items[i].icon, contentType)}
+              handleClick={(id, idx) => this.updateIcon(id, idx)}
+              edit
+            />
           </div>
 
           <div className="input-group col-9">
@@ -526,10 +602,10 @@ class EditCard extends React.Component {
             />
             {subpointDepth < 6 &&	// set maximum depth to 6, can be increased if it fits the screen
               <span>
-                <button className='btn btn-success btn-sm ml-2' key={i} data-index={i} onClick={(e) => this.updateSubpoints(e.target.getAttribute("data-index"))}>
+                <button className='btn btn-success btn-sm ml-2' key={itemIdKey + "c"} data-index={i} onClick={(e) => this.updateSubpoints(e.target.getAttribute("data-index"))}>
                   <i className='fas fa-plus' /> Sub
                 </button>
-                <button className='btn btn-danger btn-sm ml-2' key={i + 100} data-index={i} onClick={(e) => this.deleteSubpoints(e.target.getAttribute("data-index"))}>
+                <button className='btn btn-danger btn-sm ml-2' key={itemIdKey + "d"} data-index={i} onClick={(e) => this.deleteSubpoints(e.target.getAttribute("data-index"))}>
                   <i className='fas fa-times' /> Remove
                 </button>
               </span>
@@ -543,8 +619,8 @@ class EditCard extends React.Component {
 
   render() {
     return this.state.loaded && this.state.role >= 3 ? (
-      <div className='text-center'>
-        <Button className="mx-2" size="sm" variant="info" onClick={this.handleShow}>
+      <div className='text-center mx-2'>
+        <Button size="sm" variant="info" onClick={this.handleShow}>
           <i
             className='fas fa-edit text-white mr-2'
             style={{transform: "scale(1.5)"}}></i>
@@ -564,6 +640,21 @@ class EditCard extends React.Component {
                 <Form.Group controlId="formTitle">
                   <Form.Label className="font-weight-bold">Card Title</Form.Label>
                   <Form.Control type="text" defaultValue={this.state.title} onChange={(e) => this.setState({title: e.target.value})} />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <Form.Group controlId="formTitle">
+                  <Form.Label className="font-weight-bold">Card Format</Form.Label>
+                  <select className="form-control"
+                    id="select-edit-card-format"
+                    defaultValue={this.state.format}
+                  >
+                    <option value="0">Default</option>
+                    <option value="1">Thumbnail Gallery</option>
+                  </select>
                 </Form.Group>
               </Col>
             </Row>
@@ -608,6 +699,7 @@ EditCard.propTypes = {
   items: PropTypes.array,
   headerId: PropTypes.number,
   cardId: PropTypes.number,
+  cardType: PropTypes.number,
   parentId: PropTypes.number,
   orderIndex: PropTypes.number,
   refresh: PropTypes.func

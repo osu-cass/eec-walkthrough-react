@@ -75,6 +75,7 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
     }
 
     const headerId = req.body.headerId;
+    const cardType = req.body.cardType;
     const orderIndex = req.body.orderIndex;
     const title = req.body.title;
     const userId = req.auth.userId;
@@ -86,7 +87,7 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
     }
 
     // create a card
-    const results = await createCard(headerId, orderIndex, title, userId);
+    const results = await createCard(headerId, cardType, orderIndex, title, userId);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -163,6 +164,7 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
 
     const cardId = req.params.cardId;
     const headerId = req.body.headerId;
+    const cardType = req.body.cardType;
     const orderIndex = req.body.orderIndex;
     const title = req.body.title;
     const approved = req.body.approved;
@@ -181,7 +183,7 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
     }
 
     // update a card
-    const results = await updateCard(cardId, headerId, orderIndex, title, approved);
+    const results = await updateCard(cardId, headerId, cardType, orderIndex, title, approved);
 
     if (results.changedRows >= 0) {
       res.status(200).send(results);

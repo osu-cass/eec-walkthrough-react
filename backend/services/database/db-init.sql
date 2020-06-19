@@ -2,9 +2,9 @@
 -- version 4.9.4
 -- https://www.phpmyadmin.net/
 --
--- Host: classmysql.engr.oregonstate.edu:3306
--- Generation Time: Jun 11, 2020 at 09:48 PM
--- Server version: 10.4.11-MariaDB-log
+-- Host: engr-db.engr.oregonstate.edu:3307
+-- Generation Time: Jun 18, 2020 at 12:39 PM
+-- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `capstone_2019_thomasza`
+-- Database: `eec_walkthrough`
 --
 
 -- --------------------------------------------------------
@@ -31,10 +31,11 @@ SET time_zone = "+00:00";
 CREATE TABLE `Cards` (
   `cardId` int(10) UNSIGNED NOT NULL,
   `headerId` int(10) UNSIGNED NOT NULL,
+  `cardType` tinyint(3) UNSIGNED NOT NULL,
   `orderIndex` int(10) UNSIGNED NOT NULL,
   `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `userId` int(10) UNSIGNED NOT NULL,
-  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `approved` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -42,28 +43,31 @@ CREATE TABLE `Cards` (
 -- Dumping data for table `Cards`
 --
 
-INSERT INTO `Cards` (`cardId`, `headerId`, `orderIndex`, `title`, `userId`, `created`, `approved`) VALUES
-(3, 1, 2, 'Figures, Charts, and Tables', 2, '2020-05-23 17:18:45', 1),
-(8, 2, 1, 'Reduce Compressed Air Pressure\r\n', 1, '2020-05-22 21:22:22', 1),
-(9, 1, 1, 'Pros', 1, '2020-06-02 20:58:31', 1),
-(13, 1, 1, 'Cons', 1, '2020-05-23 22:20:20', 0),
-(16, 1, 1, 'Caveats', 1, '2020-05-23 22:27:44', 0),
-(17, 1, 1, 'Best Practices', 1, '2020-05-23 22:28:37', 0),
-(18, 1, 1, 'Rules of Thumb', 1, '2020-05-23 22:31:49', 0),
-(19, 1, 7, 'Tips', 1, '2020-05-23 22:33:25', 0),
-(27, 2, 2, 'Reduce Compressed Air Required', 1, '2020-05-23 23:11:46', 0),
-(29, 1, 9, 'Site Resource Test', 1, '2020-05-24 15:42:55', 0),
-(30, 3, 4, 'Test', 1, '2020-05-25 03:22:57', 0),
-(36, 1, 9, 'Tools', 1, '2020-06-09 19:49:41', 0),
-(42, 3, 5, 'Test for Meeting', 1, '2020-06-09 05:47:48', 0),
-(47, 16, 1, 'Engines', 47, '2020-06-09 18:46:30', 0),
-(48, 17, 1, 'Signs of Turbulence ', 47, '2020-06-09 18:51:47', 0),
-(49, 18, 1, 'Environment', 47, '2020-06-09 18:57:05', 0),
-(52, 20, 1, 'Test', 47, '2020-06-09 21:15:46', 0),
-(53, 18, 2, 'New card', 42, '2020-06-11 21:47:58', 0),
-(54, 17, 2, 'This card', 42, '2020-06-11 23:29:50', 0),
-(55, 21, 1, 'Basic Air', 42, '2020-06-12 00:12:01', 0),
-(57, 18, 3, 'Newest Card', 42, '2020-06-12 04:41:06', 0);
+INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `userId`, `created`, `approved`) VALUES
+(3, 1, 0, 2, 'Figures, Charts, and Tables', 2, '2020-06-17 17:09:17', 1),
+(8, 2, 0, 1, 'Reduce Compressed Air Pressure\r\n', 1, '2020-05-22 21:22:22', 1),
+(9, 1, 0, 1, 'Pros', 1, '2020-06-02 20:58:31', 1),
+(13, 1, 0, 1, 'Cons', 1, '2020-05-23 22:20:20', 0),
+(16, 1, 0, 1, 'Caveats', 1, '2020-05-23 22:27:44', 0),
+(17, 1, 0, 1, 'Best Practices', 1, '2020-05-23 22:28:37', 0),
+(18, 1, 0, 1, 'Rules of Thumb', 1, '2020-05-23 22:31:49', 0),
+(19, 1, 0, 7, 'Tips', 1, '2020-05-23 22:33:25', 0),
+(27, 2, 0, 2, 'Reduce Compressed Air Required', 1, '2020-05-23 23:11:46', 0),
+(29, 1, 0, 9, 'Site Resource Test', 1, '2020-05-24 15:42:55', 0),
+(30, 3, 0, 4, 'Test', 1, '2020-05-25 03:22:57', 0),
+(36, 1, 0, 9, 'Tools', 1, '2020-06-09 19:49:41', 0),
+(42, 3, 0, 5, 'Test for Meeting', 1, '2020-06-09 05:47:48', 0),
+(47, 16, 0, 1, 'Engines', 47, '2020-06-16 09:03:35', 1),
+(48, 17, 0, 1, 'Signs of Turbulence ', 47, '2020-06-09 18:51:47', 0),
+(49, 18, 0, 1, 'Environment', 47, '2020-06-16 09:03:55', 1),
+(52, 20, 0, 1, 'Test', 47, '2020-06-09 21:15:46', 0),
+(53, 18, 0, 2, 'New card', 42, '2020-06-11 21:47:58', 0),
+(54, 17, 0, 2, 'This card', 42, '2020-06-16 21:10:31', 1),
+(55, 21, 0, 1, 'Basic Air', 42, '2020-06-12 00:12:01', 0),
+(57, 18, 0, 3, 'Newest Card', 42, '2020-06-12 04:41:06', 0),
+(58, 22, 0, 1, 'Bolt', 42, '2020-06-13 01:17:33', 0),
+(59, 23, 0, 1, 'Cheap Brands', 42, '2020-06-16 09:14:53', 0),
+(60, 18, 0, 4, 'Some Links', 42, '2020-06-18 17:38:20', 1);
 
 -- --------------------------------------------------------
 
@@ -77,7 +81,7 @@ CREATE TABLE `Headers` (
   `orderIndex` int(10) UNSIGNED NOT NULL,
   `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `userId` int(10) UNSIGNED NOT NULL,
-  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `approved` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -91,12 +95,14 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `userId`, `c
 (3, 1, 1, 'Boilers', 1, '2020-05-22 21:22:38', 1),
 (4, 3, 1, 'Refrigeration', 2, '2020-05-22 21:22:38', 1),
 (15, 1, 2, 'Test', 1, '2020-06-09 18:04:02', 0),
-(16, 25, 1, 'Engine Info', 1, '2020-06-09 18:44:53', 0),
+(16, 25, 1, 'Engine Info', 1, '2020-06-16 09:03:41', 1),
 (17, 25, 2, 'Turbulence', 47, '2020-06-09 18:51:20', 0),
 (18, 25, 3, 'Economics', 47, '2020-06-09 18:56:36', 0),
 (19, 1, 3, 'New Header', 42, '2020-06-09 19:19:11', 0),
 (20, 1, 4, 'Test Test', 47, '2020-06-09 21:15:35', 0),
-(21, 27, 1, 'General Info about Air', 42, '2020-06-12 00:11:28', 0);
+(21, 27, 1, 'General Info about Air', 42, '2020-06-12 00:11:28', 0),
+(22, 5, 1, 'Lightning', 42, '2020-06-13 01:17:09', 0),
+(23, 26, 1, 'Types of Air Conditioners', 42, '2020-06-16 09:13:15', 0);
 
 -- --------------------------------------------------------
 
@@ -127,7 +133,7 @@ INSERT INTO `Icons` (`iconType`, `typeKeyword`, `typeName`) VALUES
 (10, 'Opportunity Chance', 'flag'),
 (11, 'Opportunity', 'check-square'),
 (12, 'Point', 'square-full'),
-(13, 'Opportunity Description', 'opportunity-desc'),
+(13, 'Opportunity Description', 'angle-right'),
 (14, 'Question', 'question'),
 (15, 'Note', 'pencil-alt'),
 (16, 'File', 'file'),
@@ -173,7 +179,7 @@ CREATE TABLE `Items` (
   `contentUrl` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentLabel` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `userId` int(10) UNSIGNED NOT NULL,
-  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created` timestamp NULL DEFAULT current_timestamp(),
   `approved` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -182,8 +188,7 @@ CREATE TABLE `Items` (
 --
 
 INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `parentId`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `userId`, `created`, `approved`) VALUES
-(7, 3, 1, NULL, 20, '', 'https://i.imgur.com/V0dkW5l.png', 'Screw compressor power vs output for various control strategies', 1, '2020-05-22 22:34:06', 1),
-(8, 3, 1, NULL, 20, '', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg/1024px-Two-Stage_Air_Compressor_assembled_on_a_vertical_tank_and_equipped_with_a_Joule-Thomson_%28JT%29_type_refrigerated_compressed_air_dryer.jpg', 'Technical Illustration of a two-stage air compressor', 2, '2020-05-22 22:33:57', 1),
+(7, 3, 1, NULL, 20, '', 'https://i.imgur.com/V0dkW5l.png', 'Screw compressor power vs output for various control strategies', 1, '2020-06-17 17:09:09', 0),
 (23, 8, 1, NULL, 8, 'Reduced air pressure not only reduces air compressor energy required for a set volume of air, it will also result in less air volume consumed by leaks and unregulated air uses (although it can be hard to estimate the volume reduction).\r\n', '', '', 1, '2020-05-22 21:23:14', 1),
 (24, 8, 1, NULL, 11, 'System pressure is set over 100 PSI for a compressed air system serving standard industrial utilities and controls.\r\n', '', '', 2, '2020-05-22 21:23:14', 1),
 (25, 9, 1, NULL, 1, 'Versatile. Offers compact energy density. Easy quick fix for many issues. ', '', '', 1, '2020-06-02 22:38:04', 1),
@@ -233,7 +238,16 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `parentId`, `iconType`, `
 (148, 55, 1, NULL, 5, 'there is fire', '', '', 42, '2020-06-12 00:12:21', 1),
 (149, 55, 1, NULL, 6, 'there is bolt', '', '', 42, '2020-06-12 00:12:21', 1),
 (150, 55, 1, 149, 3, 'there is thumb', '', '', 42, '2020-06-12 00:12:21', 1),
-(152, 57, 1, NULL, 16, 'file123', '', '', 42, '2020-06-12 04:41:06', 0);
+(152, 57, 1, NULL, 16, 'file123', '', '', 42, '2020-06-12 04:41:06', 0),
+(153, 58, 1, NULL, 6, 'Zap 1', '', '', 42, '2020-06-13 01:17:33', 0),
+(154, 58, 1, 153, 6, 'Zap 2', '', '', 42, '2020-06-13 01:17:33', 0),
+(155, 58, 1, 154, 6, 'Zap 3', '', '', 42, '2020-06-13 01:17:33', 0),
+(156, 59, 1, NULL, 20, '', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQotWb6qWsAky6knQEWv1tYmhJn3iXJOzXliagMoEDeTkgLwucE&usqp=CAU', 'AC1', 42, '2020-06-16 09:16:19', 0),
+(157, 59, 1, NULL, 20, '', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQBhnfIntaYkvfxgPDkqPcFzVMXih4gRj4Gv_HEJY8sxU6kCJgbb-J4GxbhmWKQtb3tKWtt5XVG&usqp=CAc', 'AC2', 42, '2020-06-16 09:16:48', 0),
+(158, 59, 1, NULL, 20, '', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRrLtOorN06C4SPJapwT-0YPq06ZNlXUEdEhdC1OmNZY8ccvB0h&usqp=CAU', 'AC3', 42, '2020-06-16 09:16:48', 0),
+(159, 59, 4, 158, 6, 'A family of air conditioners', '', '', 42, '2020-06-16 09:16:48', 0),
+(160, 60, 1, NULL, 18, 'This is an internal resource. The link connects to some resource at OSU. We are not worried about this being a dead link.', 'http://placekitten.com/300/300', 'Some Link', 42, '2020-06-18 17:37:19', 0),
+(161, 60, 2, NULL, 19, 'This is an external resource. We worry that it might be a dead link, so we want to track the date.', 'http://placekitten.com/500/500', 'Another Link', 42, '2020-06-18 17:38:01', 0);
 
 -- --------------------------------------------------------
 
@@ -249,7 +263,7 @@ CREATE TABLE `Pages` (
   `description` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `imageUrl` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `userId` int(10) UNSIGNED NOT NULL,
-  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `approved` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -326,7 +340,7 @@ INSERT INTO `Users` (`userId`, `username`, `password`, `firstName`, `lastName`, 
 (41, 'Seth45', 'oteroipietroitroeiporte888', 'Seth', 'Kratzer', 'Seth45@yahoo.com', 3),
 (42, 'Silverware', 'Dwzp342=Z2!', 'Zachary', 'Thomas', 'thomasza@oregonstate.edu', 4),
 (47, 'rogrogrog', 'test1234', 'rog', 'rog', 'rog@gmail.com', 4),
-(51, 'JoeJunker', 'use2havefund', 'Joe', 'Junker', 'joseph.f.junker@gmail.com', 4),
+(51, 'JoeJunker', 'use2havefun', 'Joe', 'Junker', 'joseph.f.junker@gmail.com', 4),
 (52, 'mattye', 'efficiency', 'Ethan', 'Matty', 'mattye.eec@gmail.com', 4);
 
 --
@@ -398,13 +412,13 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `Icons`
@@ -416,7 +430,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=162;
 
 --
 -- AUTO_INCREMENT for table `Pages`
