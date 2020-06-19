@@ -1,9 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import Button from "react-bootstrap/Button";
+import {getProfile} from "../../utilities/cookieAuth";
+
 import PropTypes from "prop-types";
 
 // Buttons for updating the last access data of an external link
 function LinkAccessButtons(props) {
+
+  const [role] = useState(getProfile().role);
 
   // Set a new accessed date for the current item
   // If deadLink is true, then update the link item to show that it is dead
@@ -33,7 +37,7 @@ function LinkAccessButtons(props) {
     }
   }
 
-  return (
+  return role > 3 ? (
     <div className="row">
       <Button className="ml-3" size="sm" variant="info" onClick={() => updateAccess(0)}>
         Update Last Accessed
@@ -42,6 +46,8 @@ function LinkAccessButtons(props) {
         Report Dead Link
       </Button>
     </div>
+  ) : (
+    null
   );
 
 }
