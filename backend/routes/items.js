@@ -228,7 +228,7 @@ app.patch("/:itemId/timestamp", requireAuth, patchItemTimeVal.validation, async 
 
   try {
 
-    console.log("Update an items timestamp");
+    console.log("Update an item's timestamp");
 
     const itemId = req.params.itemId;
     const deadLink = req.body.deadLink;
@@ -249,7 +249,7 @@ app.patch("/:itemId/timestamp", requireAuth, patchItemTimeVal.validation, async 
     // update an item
     const results = await updateItemTime(itemId, deadLink);
 
-    if (results.message) {
+    if (typeof results.timestamp !== "undefined") {
       res.status(200).send(results);
     } else {
 

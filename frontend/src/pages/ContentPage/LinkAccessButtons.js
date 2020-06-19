@@ -1,14 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 
 // Buttons for updating the last access data of an external link
 function LinkAccessButtons(props) {
-
-  const [someState, setSomeState] = useState(0); 
-
-  useEffect(() => {
-  }, []);
 
   // Set a new accessed date for the current item
   // If deadLink is true, then update the link item to show that it is dead
@@ -31,7 +26,8 @@ function LinkAccessButtons(props) {
     });
 
     if (results.ok) {
-      // update the link accessed message
+      const obj = await results.json();
+      props.handleTimestampChange(obj.timestamp);
     } else {
       console.error("Error while attempting to update link accessed message.")
     }
@@ -52,5 +48,7 @@ function LinkAccessButtons(props) {
 export default LinkAccessButtons;
 
 LinkAccessButtons.propTypes = {
-  itemId: PropTypes.number
+  itemId: PropTypes.number,
+  handleTimestampChange: PropTypes.func,
+  handleTimestampTemp: PropTypes.func
 };
