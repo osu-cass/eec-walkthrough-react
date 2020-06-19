@@ -15,7 +15,7 @@ function ChangeMode(props) {
     props.onPageMode(modeValue);
   }
 
-  return props.role ? (
+  return props.role >= 2 ? (
     <div className='text-center mx-2'>
       {pageMode ? (
         <Button size="sm"
