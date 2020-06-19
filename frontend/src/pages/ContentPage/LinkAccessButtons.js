@@ -37,7 +37,7 @@ function LinkAccessButtons(props) {
     }
   }
 
-  return role > 3 ? (
+  return role >= 3 ? (
     <div className="row">
       <Button className="ml-3" size="sm" variant="info" onClick={() => updateAccess(0)}>
         Update Last Accessed
