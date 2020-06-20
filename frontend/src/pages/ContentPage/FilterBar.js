@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
+import "./FilterBar.css";
 
 // The bar inside of a header that is used for filtering out items
 function FilterBar(props) {
@@ -26,9 +27,9 @@ function FilterBar(props) {
           <i
             key={props.filterIcons[i]}
             className={`fas fa-${iconNames[i]} ${
-              true ? "" : "fa-disabled"
+              props.filterShow[props.filterIcons[i]] ? "" : "fa-disabled"
             } text-dark mr-3`}
-            onClick={() => {}}
+            onClick={() => props.updateIcon(props.filterIcons[i], props.filterShow[props.filterIcons[i]])}
           />
         );
       })}
@@ -45,6 +46,8 @@ function FilterBar(props) {
 export default FilterBar;
 
 FilterBar.propTypes = {
+  updateIcon: PropTypes.func,
+  filterShow: PropTypes.array,
   iconSet: PropTypes.array,
   filterIcons: PropTypes.array
 };
