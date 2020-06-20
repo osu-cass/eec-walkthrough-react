@@ -37,7 +37,7 @@ function FilterBar(props) {
         id="reset"
         className={`fas fa-undo text-dark mr-3`}
         value="reset"
-        onClick={() => {}}
+        onClick={() => props.resetIcons()}
       />
     </div>
   );
@@ -47,6 +47,7 @@ export default FilterBar;
 
 FilterBar.propTypes = {
   updateIcon: PropTypes.func,
+  resetIcons: PropTypes.func,
   filterShow: PropTypes.array,
   iconSet: PropTypes.array,
   filterIcons: PropTypes.array
