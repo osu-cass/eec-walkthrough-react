@@ -13,7 +13,7 @@ import "./Header.css";
 function Header(props) {
 
   const [filterIcons, setFilterIcons] = useState([]);
-  const [filterState, setFilterState] = useState([]);
+  const [filterShow, setFilterShow] = useState([]);
 
   // Get all of the icons that could be used for filtering
   useEffect(() => {
@@ -37,6 +37,22 @@ function Header(props) {
     }
     setFilterIcons(allIcons);
   }, [props.cards]);
+
+  // Gets all of the possible icons and set the default viewing state for them
+  useEffect(() => {
+    const allIcons = [];
+    for (let i = 0; i <= props.iconSet.length; i++) {
+      allIcons.push(true);
+    }
+    setFilterShow(allIcons);
+  }, [props.iconSet]);
+
+  // Toggles the viewing state for an icon type
+  function updateIcon(iconId, state) {
+    const allIcons = [...filterShow];
+    allIcons[iconId] = !state;
+    setFilterShow(allIcons);
+  }
 
   return !props.approved && !props.mode && !props.mainPageHeader ? (
     null
@@ -97,7 +113,9 @@ function Header(props) {
             {props.mode ? (
               <div className="row">
                 <FilterBar
+                  updateIcon={(e, i) => updateIcon(e, i)}
                   filterIcons={filterIcons}
+                  filterShow={filterShow}
                   iconSet={props.iconSet}
                 />
                 <EditHeader
@@ -118,7 +136,9 @@ function Header(props) {
             ) : (
               <div>
                 <FilterBar
+                  updateIcon={(e) => updateIcon(e)}
                   filterIcons={filterIcons}
+                  filterShow={filterShow}
                   iconSet={props.iconSet}
                 />
               </div>
@@ -138,7 +158,6 @@ function Header(props) {
           refresh={() => props.refresh}
           mode={props.mode}
           iconSet={props.iconSet}
-          // filter={icons[i]}
         />
       )}
     </div>

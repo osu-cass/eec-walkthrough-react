@@ -58,7 +58,7 @@ function ContentPage(props) {
     if (results.ok) {
       obj = await results.json();
       setPageInfo(obj);
-      console.log("Page data:", obj);
+      console.log("Page Data:", obj);
     } else {
       if (results.status === 404) {
         setErrorPage(404);
@@ -77,6 +77,7 @@ function ContentPage(props) {
       <Container className="my-4">
         <Header title={pageInfo.name}
           cards={[]}
+          iconSet={[]}
           name={pageInfo.name}
           pageTitle={pageInfo.title}
           description={pageInfo.description}
