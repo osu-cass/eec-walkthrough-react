@@ -54,6 +54,15 @@ function Header(props) {
     setFilterShow(allIcons);
   }
 
+  // Resets the viewing state for all icon types
+  function resetIcons() {
+    const allIcons = [];
+    for (let i = 0; i <= props.iconSet.length; i++) {
+      allIcons.push(true);
+    }
+    setFilterShow(allIcons);
+  }
+
   return !props.approved && !props.mode && !props.mainPageHeader ? (
     null
   ) : (
@@ -114,6 +123,7 @@ function Header(props) {
               <div className="row">
                 <FilterBar
                   updateIcon={(e, i) => updateIcon(e, i)}
+                  resetIcons={() => resetIcons()}
                   filterIcons={filterIcons}
                   filterShow={filterShow}
                   iconSet={props.iconSet}
@@ -137,6 +147,7 @@ function Header(props) {
               <div>
                 <FilterBar
                   updateIcon={(e) => updateIcon(e)}
+                  resetIcons={() => resetIcons()}
                   filterIcons={filterIcons}
                   filterShow={filterShow}
                   iconSet={props.iconSet}
