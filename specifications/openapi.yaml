@@ -1679,16 +1679,6 @@ components:
                    "userId": 15,
                    "created": "2020-12-31 23:59:59",
                    "approved": 0,
-                   "icons": [
-                        {
-                          "iconType": 5,
-                          "typeName": "fire"
-                        },
-                        {
-                          "iconType": 6,
-                          "typeName": "bolt"
-                        }
-                     ],
                    cards: [{
                            cardId: 15,
                            headerId: 15,

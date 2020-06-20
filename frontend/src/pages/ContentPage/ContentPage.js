@@ -3,7 +3,6 @@ import {getProfile} from "../../utilities/cookieAuth";
 import {getMode} from "../../utilities/pageMode";
 import Header from "./Header";
 import PageDescription from "./PageDescription";
-import CardContainer from "./CardContainer";
 import Loading from "../../components/General/Loading";
 import CreateCard from "./CreateCard";
 import CreateHeader from "./CreateHeader";
@@ -18,7 +17,6 @@ function ContentPage(props) {
 
   const [errorPage, setErrorPage] = useState(false);
   const [pageInfo, setPageInfo] = useState([]);
-  const [icons, setIcons] = useState([]);
   const [iconSet, setIconSet] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [userId, setUserId] = useState(0);
@@ -40,9 +38,6 @@ function ContentPage(props) {
 
   // fetch page data
   async function fetchData() {
-    let i = [];
-    let j = [];
-    const icons = [];
     let obj = [];
     setLoaded(false);
 
@@ -63,6 +58,7 @@ function ContentPage(props) {
     if (results.ok) {
       obj = await results.json();
       setPageInfo(obj);
+      console.log("Page data:", obj);
     } else {
       if (results.status === 404) {
         setErrorPage(404);
@@ -73,38 +69,7 @@ function ContentPage(props) {
       }
     }
 
-    // Headers
-    const headers = obj.headers;
-
-    // Split icons for each header
-    for (i = 0; i < headers.length; i++) {
-      icons[i] = headers[i].icons;
-      for (j = 0; j < icons[i].length; j++) {
-        icons[i][j].hidden = false;
-      }
-    }
-
-    setIcons(icons);
     setLoaded(true);
-  }
-
-  function handleFilter(id, idx) {
-    const newIcons = [...icons]; // Create copy of object, update object, set state with new copy
-    for (let i = 0; i < newIcons[idx].length; i++) {
-      if (newIcons[idx][i].iconType === id) {
-        newIcons[idx][i].hidden = !newIcons[idx][i].hidden; // Update object and change hidden to opposite
-      }
-    }
-    setIcons(newIcons);
-  }
-
-  function resetFilter(headerIdx) {
-    const newIcons = [...icons]; // Create copy of object, update object, set state with new copy
-    let i;
-    for (i = 0; i < newIcons[headerIdx].length; i++) {
-      newIcons[headerIdx][i].hidden = false; // Change everything to not hidden
-    }
-    setIcons(newIcons);
   }
 
   if (!errorPage) {
@@ -148,28 +113,19 @@ function ContentPage(props) {
         {pageInfo.headers.map((header, i) => {
           return (
             <Fragment key={i}>
-              <Header title={header.title} approved={header.approved}
-                headerId={header.headerId} created={header.created}
-                userId={header.userId} mainPageHeader={0}
-                refresh={() => fetchData()} sticky
+              <Header title={header.title}
+                approved={header.approved}
+                headerId={header.headerId}
+                created={header.created}
+                userId={header.userId}
+                cards={header.cards}
+                mainPageHeader={0}
+                refresh={() => fetchData()}
                 role={role}
                 mode={mode}
                 onPageMode={(modeValue) => handlePageMode(modeValue)}
-                filterData={icons[i]}
-                filterIndex={i}
-                handleFilter={handleFilter}
-                resetFilter={(idx) => resetFilter(idx)}
-              />
-              <CardContainer
-                id={i}
-                cards={header.cards}
-                filter={icons[i]}
-                headerId={header.headerId}
-                headerName={header.title}
                 iconSet={iconSet}
-                refresh={() => fetchData()}
-                mode={mode}
-                approved={header.approved}
+                sticky
               />
               <CreateCard
                 title={`Create ${header.title} Card`}

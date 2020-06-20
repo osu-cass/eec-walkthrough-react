@@ -24,10 +24,6 @@ function BulletPoint (props) {
     if (bold) { return "font-weight-bold"; }
   }
   
-  function filter(check) {
-    if (check) { return "hide"; } else { return "active"; }
-  }
-  
   function getContentType(text, label, url) {
     if (text !== "" && label === "" && url === "") { return 1; }
     if (text === "" && label !== "" && url !== "") { return 2; }
@@ -36,7 +32,7 @@ function BulletPoint (props) {
 
   return (
 
-    <div key={props.id} className={`mb-2 ${filter(props.hide)}`}>
+    <div key={props.id} className={`mb-2`}>
       {getContentType(props.text, props.label, props.url) === 1 ? (
         <Fragment>
           <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
@@ -100,7 +96,6 @@ export default BulletPoint;
 
 BulletPoint.propTypes = {
   id: PropTypes.any,
-  hide: PropTypes.any,
   text: PropTypes.any,
   label: PropTypes.any,
   url: PropTypes.any,
