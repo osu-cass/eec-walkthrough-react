@@ -27,9 +27,9 @@ function FilterBar(props) {
           <i
             key={props.filterIcons[i]}
             className={`fas fa-${iconNames[i]} ${
-              props.filterShow[props.filterIcons[i]] ? "" : "fa-disabled"
+              props.filterShow[obj] ? "" : "fa-disabled"
             } text-dark mr-3`}
-            onClick={() => props.updateIcon(props.filterIcons[i], props.filterShow[props.filterIcons[i]])}
+            onClick={() => props.updateIcon(props.filterIcons[i], props.filterShow[obj])}
           />
         );
       })}

@@ -14,6 +14,7 @@ function Header(props) {
 
   const [filterIcons, setFilterIcons] = useState([]);
   const [filterShow, setFilterShow] = useState([]);
+  const [cards, setCards] = useState(props.cards);
 
   // Get all of the icons that could be used for filtering
   useEffect(() => {
@@ -47,20 +48,49 @@ function Header(props) {
     setFilterShow(allIcons);
   }, [props.iconSet]);
 
-  // Toggles the viewing state for an icon type
+  // Toggles the viewing state for an icon type.
+  // Also updates the shown cards / items.
   function updateIcon(iconId, state) {
     const allIcons = [...filterShow];
     allIcons[iconId] = !state;
     setFilterShow(allIcons);
+    updateCardState(allIcons);
   }
 
-  // Resets the viewing state for all icon types
+  // Resets the viewing state for all icon types.
+  // Also updates the shown cards / items.
   function resetIcons() {
     const allIcons = [];
     for (let i = 0; i <= props.iconSet.length; i++) {
       allIcons.push(true);
     }
     setFilterShow(allIcons);
+    updateCardState(allIcons);
+  }
+
+  // Updates the cards / items that are shown.
+  function updateCardState(filterState) {
+    const allCards = [];
+    for (let i = 0; i < props.cards.length; i++) {
+      // Filter items out of the current card
+      const card = JSON.parse(JSON.stringify(props.cards[i]));
+      const allItems = [];
+
+      for (let j = 0; j < props.cards[i].items.length; j++) {
+        // see if the item should be filtered or not
+        if (filterState[props.cards[i].items[j].iconType])
+          allItems.push(props.cards[i].items[j]);
+        }
+
+      // Set the current cards items
+      card.items = allItems;
+
+      // If the current card is not empty, then add it to the list of cards
+      if (card.items.length) {
+        allCards.push(card);
+      }
+    }
+    setCards(allCards);
   }
 
   return !props.approved && !props.mode && !props.mainPageHeader ? (
@@ -122,7 +152,7 @@ function Header(props) {
             {props.mode ? (
               <div className="row">
                 <FilterBar
-                  updateIcon={(e, i) => updateIcon(e, i)}
+                  updateIcon={(e1, e2) => updateIcon(e1, e2)}
                   resetIcons={() => resetIcons()}
                   filterIcons={filterIcons}
                   filterShow={filterShow}
@@ -146,7 +176,7 @@ function Header(props) {
             ) : (
               <div>
                 <FilterBar
-                  updateIcon={(e) => updateIcon(e)}
+                  updateIcon={(e1, e2) => updateIcon(e1, e2)}
                   resetIcons={() => resetIcons()}
                   filterIcons={filterIcons}
                   filterShow={filterShow}
@@ -162,7 +192,7 @@ function Header(props) {
       ) : (
         <CardContainer
           id={props.filterIndex}
-          cards={props.cards}
+          cards={cards}
           headerId={props.headerId}
           headerName={props.title}
           approved={props.approved}
