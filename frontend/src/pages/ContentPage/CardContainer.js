@@ -3,27 +3,23 @@ import Card from "./Card";
 import PropTypes from "prop-types";
 import "./ContentPage.css";
 
-// Contains all of the cards beneath a header
-class CardContainer extends React.Component {
-  state = {
-    loaded: false
-  }
+// Contains all of the cards inside a header
+function CardContainer(props) {
 
-  generateCards() {
+  function generateCards() {
     const used1 = []; // holds ids of all the used tidbits, prevents reprint
     const used2 = []; // holds ids of all the used tidbits, prevents reprint
-    const Cards = this.props.cards.map((card, i) => { // Loop through cards
+    const Cards = props.cards.map((card, i) => { // Loop through cards
       return (
         <Card
           key={i}
-          headerId={this.props.headerId}
+          headerId={props.headerId}
           card={card}
-          checkFilter={this.checkFilter}
           used1={used1}
           used2={used2}
-          iconSet={this.props.iconSet}
-          refresh={() => this.props.refresh()}
-          mode={this.props.mode}
+          refresh={() => props.refresh()}
+          mode={props.mode}
+          iconSet={props.iconSet}
         />
       );
     });
@@ -31,33 +27,21 @@ class CardContainer extends React.Component {
     return Cards;
   }
 
-  checkFilter = (id) => {
-    let i;
-    for (i = 0; i < this.props.filter.length; i++) {
-      if (this.props.filter[i].iconType === id) {
-        return this.props.filter[i].hidden;
-      }
-    }
-    return false;
-  }
+  return props.cards.length && (props.approved || props.mode) ? (
+    generateCards()
+  ) : (
+    null
+  );
 
-  render() {
-    return this.props.cards.length && (this.props.approved || this.props.mode) ? (
-      this.generateCards()
-    ) : (
-      null
-    );
-  }
 }
 export default CardContainer;
 
 CardContainer.propTypes = {
   cards: PropTypes.any,
   headerId: PropTypes.any,
-  iconSet: PropTypes.any,
   refresh: PropTypes.any,
-  filter: PropTypes.any,
   headerName: PropTypes.any,
   mode: PropTypes.number,
-  approved: PropTypes.number
+  approved: PropTypes.number,
+  iconSet: PropTypes.any
 };

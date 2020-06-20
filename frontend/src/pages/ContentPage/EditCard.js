@@ -56,7 +56,7 @@ class EditCard extends React.Component {
     this.setState({loaded: true});
     this.setState({errorMessage: ""});
     // Sort icons into three categories, general items, images, and links
-    this.sortIcons(this.props.icons);
+    this.sortIcons(this.props.iconSet);
   }
 
   // Sort icons into three categories, general items, images, and links
@@ -64,13 +64,13 @@ class EditCard extends React.Component {
     const gen = [];
     const images = [];
     const links = [];
-    for (let i = 0; i < this.props.icons.length; i++) {
-      if (this.props.icons[i].typeName === "chart-area") {
-        images.push(this.props.icons[i]);
-      } else if (this.props.icons[i].typeName === "info" || this.props.icons[i].typeName === "link") {
-        links.push(this.props.icons[i]);
+    for (let i = 0; i < this.props.iconSet.length; i++) {
+      if (this.props.iconSet[i].typeName === "chart-area") {
+        images.push(this.props.iconSet[i]);
+      } else if (this.props.iconSet[i].typeName === "info" || this.props.iconSet[i].typeName === "link") {
+        links.push(this.props.iconSet[i]);
       } else {
-        gen.push(this.props.icons[i]);
+        gen.push(this.props.iconSet[i]);
       }
     }
     this.setState({basicIcons: gen});
@@ -700,7 +700,7 @@ export default EditCard;
 
 EditCard.propTypes = {
   title: PropTypes.string,
-  icons: PropTypes.array,
+  iconSet: PropTypes.array,
   cardName: PropTypes.string,
   items: PropTypes.array,
   headerId: PropTypes.number,

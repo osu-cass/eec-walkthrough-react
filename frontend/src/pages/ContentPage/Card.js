@@ -11,7 +11,6 @@ import "./Card.css";
 function Card(props) {
 
   const [imageItems, setImageItems] = useState([]);
-  const [itemsHidden, setItemsHidden] = useState(false);
 
   // If the current card is an Image Gallery card then
   // whenever we get new items, filter out all of the non-image ones
@@ -28,16 +27,6 @@ function Card(props) {
     // eslint-disable-next-line
   }, [props.card.items]);
 
-  // check if all of the items are hidden
-  useEffect(() => {
-    if (props.card.cardType === 1) {
-      setItemsHidden(allHidden(imageItems));
-    } else {
-      setItemsHidden(allHidden(props.card.items));
-    }
-    // eslint-disable-next-line
-  }, [props.card.items, props.refresh, imageItems]);
-
   // return children of id === parentId
   function getChildren(id) {
     const results = props.card.items.reduce((result, item) => {
@@ -49,23 +38,8 @@ function Card(props) {
     return results.length ? results : false;
   }
 
-  // see if all of the items in the card are hidden by the filter
-  function allHidden(items) {
-    for (let i = 0; i < items.length; i++) {
-      const hide = props.checkFilter(items[i].iconType);
-
-      // at least one root item is visible
-      if (!hide && items[i].parentId === null) {
-        return false;
-      }
-    }
-    // all items are hidden
-    return true;
-  }
-
   function recurseItems(item, used, isChild) { // isChild = marks if it has any parent, for coloring
     const children = getChildren(item.itemId); // get all children of this item
-    const hide = props.checkFilter(item.iconType);
     if (!(used.includes(item.itemId))) {
       used.push(item.itemId);  // push used
       if (children) {  // if has child, recurse
@@ -79,8 +53,6 @@ function Card(props) {
             child={isChild}
             url={item.contentUrl}
             created={item.created}
-            checkFilter={props.checkFilter()}
-            hide={hide}
           >
             {children.map((child) => (recurseItems(child, used, true)))}
           </BulletPoint>
@@ -95,8 +67,6 @@ function Card(props) {
           label={item.contentLabel}
           child={isChild}
           created={item.created}
-          checkFilter={props.checkFilter()}
-          hide={hide}
         />;
       } // if no children, base case
     }
@@ -128,7 +98,7 @@ function Card(props) {
     return jsx;
   }
 
-  return itemsHidden || (!props.card.approved && !props.mode) ? (
+  return !props.card.approved && !props.mode ? (
     null
   ) : (
     <CardBS className={`my-2 shadow-sm ${(props.mode && (props.card.tempCardId || props.card.tempItems.length)) || !props.card.approved ? "card-body-review" : "card-body-approved" }`}>
@@ -139,13 +109,13 @@ function Card(props) {
             <EditCard
               title={`Edit ${props.card.title} Card`}
               cardName={props.card.title}
-              icons={props.iconSet}
               items={props.card.items}
               headerId={props.card.headerId}
               cardId={props.card.cardId}
               cardType={props.card.cardType}
               orderIndex={props.orderIndex}
               refresh={() => props.refresh()}
+              iconSet={props.iconSet}
             />
             {props.card.cardType ? (
               <ReviewCard
@@ -204,11 +174,9 @@ function Card(props) {
 export default Card;
 
 Card.propTypes = {
-  checkFilter: PropTypes.any,
   categoryId: PropTypes.any,
   used1: PropTypes.any,
   used2: PropTypes.any,
-  iconSet: PropTypes.any,
   refresh: PropTypes.any,
   card: PropTypes.object,
   mode: PropTypes.number

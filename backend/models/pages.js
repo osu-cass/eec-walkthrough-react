@@ -254,35 +254,9 @@ async function getFullPage(pageId, viewAll) {
     const headerCount = finalResults.headers.length;
 
 
-    // get all of the cards for each header and icons used for each header
+    // get all of the cards for each header
     for (let i = 0; i < headerCount; i++) {
       const headerId = finalResults.headers[i].headerId;
-
-      // get all icons used for each header
-      if (viewAll) {
-        sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
-        "FROM Headers " +
-        "LEFT JOIN Cards on Cards.headerId = Headers.headerId " +
-        "LEFT JOIN Items on Cards.cardId = Items.cardId " +
-        "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
-        "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
-        "ORDER BY iconType ASC;";
-      } else {
-        sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
-        "FROM Headers " +
-        "LEFT JOIN " +
-        "(SELECT * FROM Cards WHERE approved = 1) C " +
-        "on C.headerId = Headers.headerId " +
-        "LEFT JOIN " +
-        "(SELECT * FROM Items WHERE approved = 1) I " +
-        "on C.cardId = I.cardId " +
-        "LEFT JOIN Icons on I.iconType = Icons.iconType " +
-        "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
-        "ORDER BY iconType ASC;";
-      }
-
-      results = await pool.query(sql, headerId);
-      finalResults.headers[i].icons = [];
 
       if (viewAll) {
         sql = "SELECT * " +
