@@ -14,6 +14,28 @@ function Header(props) {
 
   const [filterIcons, setFilterIcons] = useState([]);
 
+  // Get all of the icons that could be used for filtering
+  useEffect(() => {
+    const allIcons = [];
+    let duplicate = false;
+    for (let i = 0; i < props.cards.length; i++) {
+      for (let j = 0; j < props.cards[i].items.length; j++) {
+        for (let k = 0; k < allIcons.length; k++) {
+          // see if the item is already in the array
+          if (props.cards[i].items[j].iconType === allIcons[k])
+          {
+            duplicate = true;
+            break;
+          }
+        }
+        // if the item wasn't already in the array then add it
+        if (!duplicate) {
+          allIcons.push(props.cards[i].items[j].iconType);
+        }
+      }
+    }
+  }, [props.cards]);
+
   return !props.approved && !props.mode && !props.mainPageHeader ? (
     null
   ) : (
@@ -132,6 +154,7 @@ function Header(props) {
 export default Header;
 
 Header.propTypes = {
+  cards: PropTypes.array,
   name: PropTypes.string,
   pageTitle: PropTypes.string,
   description: PropTypes.string,

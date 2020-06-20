@@ -76,6 +76,7 @@ function ContentPage(props) {
     return loaded ? ( // Render content when data loaded from backend
       <Container className="my-4">
         <Header title={pageInfo.name}
+          cards={[]}
           name={pageInfo.name}
           pageTitle={pageInfo.title}
           description={pageInfo.description}
