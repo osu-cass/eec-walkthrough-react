@@ -13,6 +13,7 @@ import "./Header.css";
 function Header(props) {
 
   const [filterIcons, setFilterIcons] = useState([]);
+  const [filterState, setFilterState] = useState([]);
 
   // Get all of the icons that could be used for filtering
   useEffect(() => {
@@ -34,6 +35,7 @@ function Header(props) {
         }
       }
     }
+    setFilterIcons(allIcons);
   }, [props.cards]);
 
   return !props.approved && !props.mode && !props.mainPageHeader ? (
@@ -94,14 +96,10 @@ function Header(props) {
           <div className="row mx-2">
             {props.mode ? (
               <div className="row">
-                {/*
                 <FilterBar
-                  data={() => {}}
-                  headerIndex={1}
-                  handleFilter={() => {}}
-                  resetFilter={() => {}}
+                  filterIcons={filterIcons}
+                  iconSet={props.iconSet}
                 />
-                */}
                 <EditHeader
                   headerName={props.title}
                   headerId={props.headerId}
@@ -119,14 +117,10 @@ function Header(props) {
               </div>
             ) : (
               <div>
-                {/*
                 <FilterBar
-                  data={() => {}}
-                  headerIndex={1}
-                  handleFilter={() => {}}
-                  resetFilter={() => {}}
+                  filterIcons={filterIcons}
+                  iconSet={props.iconSet}
                 />
-                */}
               </div>
             )}
           </div>
