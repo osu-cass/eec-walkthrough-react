@@ -75,15 +75,12 @@ function ContentPage(props) {
   if (!errorPage) {
     return loaded ? ( // Render content when data loaded from backend
       <Container className="my-4">
-        <Header title={pageInfo.name}
-          cards={[]}
-          iconSet={[]}
+        <PageDescription
           name={pageInfo.name}
-          pageTitle={pageInfo.title}
+          title={pageInfo.title}
           description={pageInfo.description}
-          imageUrl={pageInfo.imageUrl}
           approved={pageInfo.approved}
-          mainPageHeader={1}
+          imageUrl={pageInfo.imageUrl}
           refresh={() => fetchData()}
           pageId={parseInt(props.pageId)}
           created={pageInfo.created}
@@ -91,15 +88,6 @@ function ContentPage(props) {
           mode={mode}
           onPageMode={e => handlePageMode(e)}
           handlePageEdit={props.handlePageEdit}
-        />
-
-        <PageDescription
-          approved={pageInfo.approved}
-          name={pageInfo.name}
-          header={pageInfo.title}
-          description={pageInfo.description}
-          img={pageInfo.imageUrl}
-          mode={mode}
         />
 
         <CreateHeader
@@ -115,19 +103,12 @@ function ContentPage(props) {
         {pageInfo.headers.map((header, i) => {
           return (
             <Fragment key={i}>
-              <Header title={header.title}
-                approved={header.approved}
-                headerId={header.headerId}
-                created={header.created}
-                userId={header.userId}
-                cards={header.cards}
-                mainPageHeader={0}
+              <Header
+                header={header}
                 refresh={() => fetchData()}
                 role={role}
                 mode={mode}
-                onPageMode={(modeValue) => handlePageMode(modeValue)}
                 iconSet={iconSet}
-                sticky
               />
               <CreateCard
                 title={`Create ${header.title} Card`}
