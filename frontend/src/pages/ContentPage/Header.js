@@ -16,6 +16,7 @@ function Header(props) {
   const [tempFilterIcons, setTempFilterIcons] = useState([]);
   const [filterShow, setFilterShow] = useState([]);
   const [cards, setCards] = useState(props.cards);
+  const [unfilteredCards, setUnfilteredCards] = useState(props.cards);
 
   // Get all of the icons that could be used for published filtering
   useEffect(() => {
@@ -127,6 +128,7 @@ function Header(props) {
   // Updates the cards / items that are shown.
   function updateCardState(filterState) {
     const allCards = [];
+    const allUnfilteredCards = [];
 
     // Check each card
     for (let i = 0; i < props.cards.length; i++) {
@@ -139,6 +141,7 @@ function Header(props) {
 
       // Filter items out of the current card
       const card = JSON.parse(JSON.stringify(props.cards[i]));
+      const fullCard = JSON.parse(JSON.stringify(props.cards[i]));
       let allItems = [];
       let allTempItems = [];
 
@@ -203,12 +206,15 @@ function Header(props) {
           (props.mode && itemsParent && !cardView)) {
         card.edited = false;
         allCards.push(card);
+        allUnfilteredCards.push(fullCard);
       } else if (props.mode && tempItemsParent) {
         card.edited = true;
         allCards.push(card);
+        allUnfilteredCards.push(fullCard);
       }
     }
     setCards(allCards);
+    setUnfilteredCards(allUnfilteredCards);
   }
 
   return !props.approved && !props.mode && !props.mainPageHeader ? (
@@ -315,6 +321,7 @@ function Header(props) {
         <CardContainer
           id={props.filterIndex}
           cards={cards}
+          unfilteredCards={unfilteredCards}
           headerId={props.headerId}
           headerName={props.title}
           approved={props.approved}

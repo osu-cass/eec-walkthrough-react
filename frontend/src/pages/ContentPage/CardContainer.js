@@ -12,6 +12,7 @@ function CardContainer(props) {
         <Card
           key={i}
           headerId={props.headerId}
+          unfilteredCard={props.unfilteredCards[i]}
           card={card}
           refresh={() => props.refresh()}
           mode={props.mode}
@@ -33,6 +34,7 @@ function CardContainer(props) {
 export default CardContainer;
 
 CardContainer.propTypes = {
+  unfilteredCards: PropTypes.array,
   cards: PropTypes.any,
   headerId: PropTypes.any,
   refresh: PropTypes.any,

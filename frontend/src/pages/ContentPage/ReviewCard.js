@@ -101,7 +101,7 @@ function ReviewCard(props) {
             null
           )}
 
-          {props.card.approved ? (
+          {props.card.approved && props.card.tempTitle ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
               <h4 className="font-weight-bold">{props.card.tempTitle} (New Version)</h4>
               <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
