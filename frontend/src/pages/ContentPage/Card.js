@@ -3,33 +3,39 @@ import {Card as CardBS} from "react-bootstrap";
 import BulletPoint from "./BulletPoint";
 import EditCard from "./EditCard";
 import ReviewCard from "./ReviewCard";
+import ThumbnailGallery from "./ThumbnailGallery";
 import PropTypes from "prop-types";
-import Image from "./Image";
 import "./Card.css";
 
 // A single card on a subject or industry page
 function Card(props) {
 
   const [imageItems, setImageItems] = useState([]);
+  const [imageTempItems, setTempImageItems] = useState([]);
 
   // If the current card is an Image Gallery card then
   // whenever we get new items, filter out all of the non-image ones
   useEffect(() => {
-    if (props.card.cardType === 1) {
       const imageArray = [];
+      const tempImageArray = [];
       for (let i = 0; i < props.card.items.length; i++) {
         if (props.card.items[i].contentUrl.length && props.card.items[i].typeName === "chart-area") {
           imageArray.push(props.card.items[i]);
         }
       }
+      for (let i = 0; i < props.card.tempItems.length; i++) {
+        if (props.card.tempItems[i].contentUrl.length && props.card.tempItems[i].typeName === "chart-area") {
+          tempImageArray.push(props.card.tempItems[i]);
+        }
+      }
       setImageItems(imageArray);
-    }
+      setTempImageItems(tempImageArray);
     // eslint-disable-next-line
   }, [props.card.items]);
 
   // return children of id === parentId
   function getChildren(id, edited) {
-    if(edited) {
+    if (edited) {
       const results = props.card.tempItems.reduce((result, item) => {
         if (item.parentId === id) {
           result.push(item);
@@ -92,15 +98,26 @@ function Card(props) {
     //
     // In view mode we only show published versions of the card.
     if (edited) {
-      props.card.tempItems.map((item) => {
-        jsx.push(recurseItems(item, item.itemId, false, edited));
-        return null;
-      });
+
+      if ((props.card.approved && props.card.tempCardType) || (!props.card.approved && props.card.cardType)) {
+        jsx.push(<ThumbnailGallery imageItems={imageTempItems} key={props.card.cardId} />)
+      } else {
+        props.card.tempItems.map((item) => {
+          jsx.push(recurseItems(item, item.itemId, false, edited));
+          return null;
+        });
+      }
+
     } else {
-      props.card.items.map((item) => {
-        jsx.push(recurseItems(item, item.itemId, false, edited));
-        return null;
-      });
+
+      if (props.card.cardType) {
+        jsx.push(<ThumbnailGallery imageItems={imageItems} key={props.card.cardId} />)
+      } else {
+        props.card.items.map((item) => {
+          jsx.push(recurseItems(item, item.itemId, false, edited));
+          return null;
+        });
+      }
     }
     return jsx;
   }
@@ -124,64 +141,20 @@ function Card(props) {
               refresh={() => props.refresh()}
               iconSet={props.iconSet}
             />
-            {props.card.cardType ? (
-              <ReviewCard
-                title={props.card.title}
-                cardId={props.card.cardId}
-                refresh={() => props.refresh()}
-                approved={props.card.approved}
-                edited={props.card.edited}
-                cardItems={imageItems}
-                userId={props.card.userId}
-                created={props.card.created}
-                cardType={props.card.cardType}
-              />
-            ) : (
-              <ReviewCard
-                title={props.card.title}
-                cardId={props.card.cardId}
-                refresh={() => props.refresh()}
-                approved={props.card.approved}
-                edited={props.card.edited}
-                cardItems={generateItems(true)}
-                userId={props.card.userId}
-                created={props.card.created}
-                cardType={props.card.cardType}
-              />
-            )}
+            <ReviewCard
+              refresh={() => props.refresh()}
+              edited={props.card.edited}
+              cardItems={generateItems(false)}
+              cardTempItems={generateItems(true)}
+              card={props.card}
+            />
           </div>
         ) : (
           null
         )}
       </CardBS.Header>
       <CardBS.Body>
-        {props.card.cardType ? (
-          <div className="row text-center text-lg-left">
-            {imageItems.map((item) =>
-              <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
-                key={item.itemId + "a"}
-              >
-                <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
-                  <Image
-                    url={item.contentUrl}
-                    title={item.contentLabel}
-                    thumbnail={true}
-                    header={false}
-                    key={item.itemId + "c"}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div>
-            {props.card.edited ? (
-              generateItems(true)
-            ) : (
-              generateItems(false)
-            )}
-          </div>
-        )}
+        {generateItems(props.card.edited)}
       </CardBS.Body>
     </CardBS>
   );

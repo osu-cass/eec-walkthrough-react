@@ -7,7 +7,7 @@ import "./ContentPage.css";
 function CardContainer(props) {
 
   function generateCards() {
-    const Cards = props.cards.map((card, i) => { // Loop through cards
+    const Cards = props.cards.map((card, i) => {
       return (
         <Card
           key={i}

@@ -4,7 +4,6 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
-import Image from "./Image";
 import "./ReviewCard.css";
 
 // Button and modal that allows a user to review a card
@@ -41,7 +40,7 @@ function ReviewCard(props) {
     };
 
     // Approve the card
-    const results = await fetch(`/cards/${props.cardId}`, {
+    const results = await fetch(`/cards/${props.card.cardId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(cardData)
@@ -82,7 +81,7 @@ function ReviewCard(props) {
 
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
-          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review {props.title} Card</h5>
+          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review {props.card.title} Card</h5>
           <Button variant="none" onClick={() => handleClose()}>
             <span aria-hidden="true">&times;</span>
           </Button>
@@ -90,61 +89,35 @@ function ReviewCard(props) {
 
         <Modal.Body>
 
-          <div className="version-container p-2 m-3 border border-dark rounded">
-            <h4 className="font-weight-bold">Published Version</h4>
-            <span className="created-text">Created {formatTime(props.created)}</span>
-            <div className="m-3">
-              {props.cardType ? (
-                <div className="row text-center text-lg-left">
-                  {props.cardItems.map((item) =>
-                    <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
-                      key={item.itemId + "a"}
-                    >
-                      <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
-                        <Image
-                          url={item.contentUrl}
-                          title={item.contentLabel}
-                          thumbnail={true}
-                          header={false}
-                          key={item.itemId + "c"}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                props.cardItems
-              )}
+          {props.card.approved ? (
+            <div className="version-container p-2 m-3 border border-dark rounded">
+              <h4 className="font-weight-bold">{props.card.title} (Published Version)</h4>
+              <span className="created-text">Created {formatTime(props.card.created)}</span>
+              <div className="m-3">
+                {props.cardItems}
+              </div>
             </div>
-          </div>
+          ) : (
+            null
+          )}
 
-          <div className="version-container p-2 m-3 border border-dark rounded">
-            <h4 className="font-weight-bold">New Version</h4>
-            <span className="created-text">Created {formatTime(props.created)}</span>
-            <div className="m-3">
-              {props.cardType ? (
-                <div className="row text-center text-lg-left">
-                  {props.cardItems.map((item) =>
-                    <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
-                      key={item.itemId + "a"}
-                    >
-                      <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
-                        <Image
-                          url={item.contentUrl}
-                          title={item.contentLabel}
-                          thumbnail={true}
-                          header={false}
-                          key={item.itemId + "c"}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                props.cardItems
-              )}
+          {props.card.approved ? (
+            <div className="version-container p-2 m-3 border border-dark rounded">
+              <h4 className="font-weight-bold">{props.card.tempTitle} (New Version)</h4>
+              <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
+              <div className="m-3">
+                {props.cardTempItems}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="version-container p-2 m-3 border border-dark rounded">
+              <h4 className="font-weight-bold">{props.card.title} (New Version)</h4>
+              <span className="created-text">Created {formatTime(props.card.created)}</span>
+              <div className="m-3">
+                {props.cardTempItems}
+              </div>
+            </div>
+          )}
 
           <Row>
             <div className='col-3' />
@@ -174,13 +147,9 @@ function ReviewCard(props) {
 export default ReviewCard;
 
 ReviewCard.propTypes = {
-  title: PropTypes.string,
-  cardId: PropTypes.number,
-  approved: PropTypes.number,
   edited: PropTypes.bool,
   refresh: PropTypes.func,
   cardItems: PropTypes.array,
-  cardType: PropTypes.number,
-  userId: PropTypes.number,
-  created: PropTypes.any
+  cardTempItems: PropTypes.array,
+  card: PropTypes.object
 };
