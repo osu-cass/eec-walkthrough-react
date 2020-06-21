@@ -7,16 +7,12 @@ import "./ContentPage.css";
 function CardContainer(props) {
 
   function generateCards() {
-    const used1 = []; // holds ids of all the used tidbits, prevents reprint
-    const used2 = []; // holds ids of all the used tidbits, prevents reprint
     const Cards = props.cards.map((card, i) => { // Loop through cards
       return (
         <Card
           key={i}
           headerId={props.headerId}
           card={card}
-          used1={used1}
-          used2={used2}
           refresh={() => props.refresh()}
           mode={props.mode}
           iconSet={props.iconSet}

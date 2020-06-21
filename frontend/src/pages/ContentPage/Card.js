@@ -28,21 +28,32 @@ function Card(props) {
   }, [props.card.items]);
 
   // return children of id === parentId
-  function getChildren(id) {
-    const results = props.card.items.reduce((result, item) => {
-      if (item.parentId === id) {
-        result.push(item);
-      }
-      return result;
-    }, []);
-    return results.length ? results : false;
+  function getChildren(id, edited) {
+    if(edited) {
+      const results = props.card.tempItems.reduce((result, item) => {
+        if (item.parentId === id) {
+          result.push(item);
+        }
+        return result;
+      }, []);
+      return results.length ? results : false;
+    } else {
+      const results = props.card.items.reduce((result, item) => {
+        if (item.parentId === id) {
+          result.push(item);
+        }
+        return result;
+      }, []);
+      return results.length ? results : false;
+    }
   }
 
-  function recurseItems(item, used, isChild) { // isChild = marks if it has any parent, for coloring
-    const children = getChildren(item.itemId); // get all children of this item
-    if (!(used.includes(item.itemId))) {
-      used.push(item.itemId);  // push used
-      if (children) {  // if has child, recurse
+  function recurseItems(item, startId, isChild, edited) { // isChild = marks if it has any parent, for coloring
+    const children = getChildren(item.itemId, edited); // get all children of this item
+    // Don't allow looping in a parent child relationship.
+    // Don't allow a child to be printed if it isn't currently being referenced by a parent.
+    if ((startId !== item.itemId || !isChild) && (!item.parentId || isChild)) {
+      if (children) {
         return (
           <BulletPoint
             key={item.itemId}
@@ -54,7 +65,7 @@ function Card(props) {
             url={item.contentUrl}
             created={item.created}
           >
-            {children.map((child) => (recurseItems(child, used, true)))}
+            {children.map((child) => (recurseItems(child, startId, true, edited)))}
           </BulletPoint>
         );
       } else {
@@ -72,11 +83,7 @@ function Card(props) {
     }
   }
 
-  function generateItems(list) {
-    let used = props.used1;
-    if (list === 2) {
-      used = props.used2;
-    }
+  function generateItems(edited) {
     const jsx = []; // hold items
     // Check if we are in edit or view mode.
     //
@@ -84,14 +91,14 @@ function Card(props) {
     // Check if the card has temp data. Otherwise show the normal data.
     //
     // In view mode we only show published versions of the card.
-    if (props.mode && props.card.tempItems.length) {
-      props.card.tempItems.map((item) => { // Loop through items
-        jsx.push(recurseItems(item, used, false));
+    if (edited) {
+      props.card.tempItems.map((item) => {
+        jsx.push(recurseItems(item, item.itemId, false, edited));
         return null;
       });
     } else {
-      props.card.items.map((item) => { // Loop through items
-        jsx.push(recurseItems(item, used, false));
+      props.card.items.map((item) => {
+        jsx.push(recurseItems(item, item.itemId, false, edited));
         return null;
       });
     }
@@ -136,7 +143,7 @@ function Card(props) {
                 refresh={() => props.refresh()}
                 approved={props.card.approved}
                 edited={props.card.edited}
-                cardItems={generateItems(1)}
+                cardItems={generateItems(true)}
                 userId={props.card.userId}
                 created={props.card.created}
                 cardType={props.card.cardType}
@@ -167,7 +174,13 @@ function Card(props) {
             )}
           </div>
         ) : (
-          generateItems(2)
+          <div>
+            {props.card.edited ? (
+              generateItems(true)
+            ) : (
+              generateItems(false)
+            )}
+          </div>
         )}
       </CardBS.Body>
     </CardBS>
@@ -177,8 +190,6 @@ export default Card;
 
 Card.propTypes = {
   categoryId: PropTypes.any,
-  used1: PropTypes.any,
-  used2: PropTypes.any,
   refresh: PropTypes.any,
   card: PropTypes.object,
   mode: PropTypes.number
