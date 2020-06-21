@@ -69,7 +69,7 @@ function ReviewCard(props) {
 
   }
 
-  return role >= 3 && !props.approved ? (
+  return role >= 3 && props.edited ? (
     <div className='text-center mx-2'>
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
@@ -177,6 +177,7 @@ ReviewCard.propTypes = {
   title: PropTypes.string,
   cardId: PropTypes.number,
   approved: PropTypes.number,
+  edited: PropTypes.bool,
   refresh: PropTypes.func,
   cardItems: PropTypes.array,
   cardType: PropTypes.number,

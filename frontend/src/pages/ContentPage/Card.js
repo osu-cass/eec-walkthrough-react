@@ -101,7 +101,7 @@ function Card(props) {
   return !props.card.approved && !props.mode ? (
     null
   ) : (
-    <CardBS className={`my-2 shadow-sm ${(props.mode && (props.card.tempCardId || props.card.tempItems.length)) || !props.card.approved ? "card-body-review" : "card-body-approved" }`}>
+    <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" }`}>
       <CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
         {props.mode && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
         {props.mode ? (
@@ -123,6 +123,7 @@ function Card(props) {
                 cardId={props.card.cardId}
                 refresh={() => props.refresh()}
                 approved={props.card.approved}
+                edited={props.card.edited}
                 cardItems={imageItems}
                 userId={props.card.userId}
                 created={props.card.created}
@@ -134,6 +135,7 @@ function Card(props) {
                 cardId={props.card.cardId}
                 refresh={() => props.refresh()}
                 approved={props.card.approved}
+                edited={props.card.edited}
                 cardItems={generateItems(1)}
                 userId={props.card.userId}
                 created={props.card.created}

@@ -194,10 +194,14 @@ function Header(props) {
       card.items = allItems;
       card.tempItems = allTempItems;
 
-      // If the current card in current view mode is empty, hide it
-      if ((!props.mode && card.items.length) || 
-          (props.mode && card.tempItems.length) ||
+      // If the current card in current view mode is empty, hide it.
+      // Mark the card as edited or published
+      if ((!props.mode && card.items.length) ||
           (props.mode && card.items.length && !cardView)) {
+        card.edited = false;
+        allCards.push(card);
+      } else if (props.mode && card.tempItems.length) {
+        card.edited = true;
         allCards.push(card);
       }
     }
