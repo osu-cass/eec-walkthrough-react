@@ -19,11 +19,11 @@ function BulletPoint (props) {
     if (icon === "flag") { return "font-italic mt-4"; }	// break between every flag icon
     if (icon === "opportunity-desc") { return "opportunity-desc"; }
   }
-  
+
   function isBold(bold) {
     if (bold) { return "font-weight-bold"; }
   }
-  
+
   function getContentType(text, label, url) {
     if (text !== "" && label === "" && url === "") { return 1; }
     if (text === "" && label !== "" && url !== "") { return 2; }

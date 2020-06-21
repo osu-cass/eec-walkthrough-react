@@ -13,10 +13,11 @@ import "./Header.css";
 function Header(props) {
 
   const [filterIcons, setFilterIcons] = useState([]);
+  const [tempFilterIcons, setTempFilterIcons] = useState([]);
   const [filterShow, setFilterShow] = useState([]);
   const [cards, setCards] = useState(props.cards);
 
-  // Get all of the icons that could be used for filtering
+  // Get all of the icons that could be used for published filtering
   useEffect(() => {
     const allIcons = [];
     let duplicate = false;
@@ -34,9 +35,60 @@ function Header(props) {
         if (!duplicate) {
           allIcons.push(props.cards[i].items[j].iconType);
         }
+        duplicate = false;
       }
     }
     setFilterIcons(allIcons);
+  }, [props.cards]);
+
+  // Get all of the icons that could be used for filtering temp items
+  useEffect(() => {
+    const allIcons = [];
+    let duplicate = false;
+
+    // Check each card for icons
+    for (let i = 0; i < props.cards.length; i++) {
+
+      // See if the card is published and has no temp items
+      if (props.cards[i].approved && props.cards[i].tempItems.length === 0) {
+        
+        for (let j = 0; j < props.cards[i].items.length; j++) {
+          for (let k = 0; k < allIcons.length; k++) {
+            // see if the item is already in the array
+            if (props.cards[i].items[j].iconType === allIcons[k])
+            {
+              duplicate = true;
+              break;
+            }
+          }
+          // if the item wasn't already in the array then add it
+          if (!duplicate) {
+            allIcons.push(props.cards[i].items[j].iconType);
+          }
+          duplicate = false;
+        }
+
+      } else {
+
+        for (let j = 0; j < props.cards[i].tempItems.length; j++) {
+          for (let k = 0; k < allIcons.length; k++) {
+            // see if the item is already in the array
+            if (props.cards[i].tempItems[j].iconType === allIcons[k])
+            {
+              duplicate = true;
+              break;
+            }
+          }
+          // if the item wasn't already in the array then add it
+          if (!duplicate) {
+            allIcons.push(props.cards[i].tempItems[j].iconType);
+          }
+          duplicate = false;
+        }
+
+      }
+    }
+    setTempFilterIcons(allIcons);
   }, [props.cards]);
 
   // Gets all of the possible icons and set the default viewing state for them
@@ -48,45 +100,104 @@ function Header(props) {
     setFilterShow(allIcons);
   }, [props.iconSet]);
 
+  // If the viewing mode changes or the selected filters,
+  // Then update the card state
+  useEffect(() => {
+    updateCardState(filterShow);
+    // eslint-disable-next-line
+  }, [props.mode, filterShow]);
+
   // Toggles the viewing state for an icon type.
-  // Also updates the shown cards / items.
+
   function updateIcon(iconId, state) {
     const allIcons = [...filterShow];
     allIcons[iconId] = !state;
     setFilterShow(allIcons);
-    updateCardState(allIcons);
   }
 
   // Resets the viewing state for all icon types.
-  // Also updates the shown cards / items.
   function resetIcons() {
     const allIcons = [];
     for (let i = 0; i <= props.iconSet.length; i++) {
       allIcons.push(true);
     }
     setFilterShow(allIcons);
-    updateCardState(allIcons);
   }
 
   // Updates the cards / items that are shown.
   function updateCardState(filterState) {
     const allCards = [];
+
+    // Check each card
     for (let i = 0; i < props.cards.length; i++) {
+
+      // Check if the card should be shown as edited or published
+      let cardView = 0;
+      if (props.cards[i].tempItems.length) {
+        cardView = 1;
+      }
+
       // Filter items out of the current card
       const card = JSON.parse(JSON.stringify(props.cards[i]));
-      const allItems = [];
+      let allItems = [];
+      let allTempItems = [];
 
+      // check each normal item in the card
       for (let j = 0; j < props.cards[i].items.length; j++) {
         // see if the item should be filtered or not
-        if (filterState[props.cards[i].items[j].iconType])
+        if (filterState[props.cards[i].items[j].iconType]) {
           allItems.push(props.cards[i].items[j]);
         }
+      }
+
+      // check each temp item in the card
+      for (let k = 0; k < props.cards[i].tempItems.length; k++) {
+        // see if the item should be filtered or not
+        if (filterState[props.cards[i].tempItems[k].iconType]) {
+          allTempItems.push(props.cards[i].tempItems[k]);
+        }
+      }
 
       // Set the current cards items
       card.items = allItems;
+      card.tempItems = allTempItems;
+      allItems = [];
+      allTempItems = [];
 
-      // If the current card is not empty, then add it to the list of cards
-      if (card.items.length) {
+      // Do one last check to filter out items that are missing a parent
+      for (let i = 0; i < card.items.length; i++) {
+        if (card.items[i].parentId === null) {
+          allItems.push(card.items[i]);
+        } else {
+          for (let j = 0; j < card.items.length; j++) {
+            if (card.items[i].parentId === card.items[j].itemId) {
+              allItems.push(card.items[i]);
+              break;
+            }
+          }
+        }
+      }
+      for (let i = 0; i < card.tempItems.length; i++) {
+        if (card.tempItems[i].parentId === null) {
+          allTempItems.push(card.tempItems[i]);
+        } else {
+          for (let j = 0; j < card.tempItems.length; j++) {
+            if (card.tempItems[i].parentId === card.tempItems[j].itemId) {
+              allTempItems.push(card.tempItems[i]);
+              break;
+            }
+          }
+        }
+      }
+
+      // Set the current cards items
+      card.items = allItems;
+      card.tempItems = allTempItems;
+
+      // If the current card in current view mode is empty, hide it
+      if ((!props.mode && card.items.length) || 
+          (props.mode && card.tempItems.length) ||
+          (props.mode && card.items.length && !cardView)) {
         allCards.push(card);
       }
     }
@@ -155,8 +266,10 @@ function Header(props) {
                   updateIcon={(e1, e2) => updateIcon(e1, e2)}
                   resetIcons={() => resetIcons()}
                   filterIcons={filterIcons}
+                  tempFilterIcons={tempFilterIcons}
                   filterShow={filterShow}
                   iconSet={props.iconSet}
+                  mode={props.mode}
                 />
                 <EditHeader
                   headerName={props.title}
@@ -179,8 +292,10 @@ function Header(props) {
                   updateIcon={(e1, e2) => updateIcon(e1, e2)}
                   resetIcons={() => resetIcons()}
                   filterIcons={filterIcons}
+                  tempFilterIcons={tempFilterIcons}
                   filterShow={filterShow}
                   iconSet={props.iconSet}
+                  mode={props.mode}
                 />
               </div>
             )}
