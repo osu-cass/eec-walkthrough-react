@@ -89,35 +89,64 @@ function Card(props) {
     }
   }
 
-  function generateItems(edited) {
+  function generateItems(edited, unfiltered) {
     const jsx = []; // hold items
+    // Check if we want unfiltered results.
+    //
     // Check if we are in edit or view mode.
     //
     // In edit mode we always show the most recent version of the card.
     // Check if the card has temp data. Otherwise show the normal data.
     //
     // In view mode we only show published versions of the card.
-    if (edited) {
+    if (unfiltered) {
+      if (edited) {
 
-      if ((props.card.approved && props.card.tempCardType) || (!props.card.approved && props.card.cardType)) {
-        jsx.push(<ThumbnailGallery imageItems={imageTempItems} key={props.card.cardId} />)
+        if ((props.unfilteredCard.approved && props.unfilteredCard.tempCardType) || (!props.unfilteredCard.approved && props.unfilteredCard.cardType)) {
+          jsx.push(<ThumbnailGallery imageItems={imageTempItems} key={props.unfilteredCard.cardId} />)
+        } else {
+          props.unfilteredCard.tempItems.map((item) => {
+            jsx.push(recurseItems(item, item.itemId, false, edited));
+            return null;
+          });
+        }
+
       } else {
-        props.card.tempItems.map((item) => {
-          jsx.push(recurseItems(item, item.itemId, false, edited));
-          return null;
-        });
+
+        if (props.unfilteredCard.cardType) {
+          jsx.push(<ThumbnailGallery imageItems={imageItems} key={props.unfilteredCard.cardId} />)
+        } else {
+          props.unfilteredCard.items.map((item) => {
+            jsx.push(recurseItems(item, item.itemId, false, edited));
+            return null;
+          });
+        }
       }
 
     } else {
+      if (edited) {
 
-      if (props.card.cardType) {
-        jsx.push(<ThumbnailGallery imageItems={imageItems} key={props.card.cardId} />)
+        if ((props.card.approved && props.card.tempCardType) || (!props.card.approved && props.card.cardType)) {
+          jsx.push(<ThumbnailGallery imageItems={imageTempItems} key={props.card.cardId} />)
+        } else {
+          props.card.tempItems.map((item) => {
+            jsx.push(recurseItems(item, item.itemId, false, edited));
+            return null;
+          });
+        }
+  
       } else {
-        props.card.items.map((item) => {
-          jsx.push(recurseItems(item, item.itemId, false, edited));
-          return null;
-        });
+  
+        if (props.card.cardType) {
+          jsx.push(<ThumbnailGallery imageItems={imageItems} key={props.card.cardId} />)
+        } else {
+          props.card.items.map((item) => {
+            jsx.push(recurseItems(item, item.itemId, false, edited));
+            return null;
+          });
+        }
       }
+
     }
     return jsx;
   }
@@ -144,9 +173,9 @@ function Card(props) {
             <ReviewCard
               refresh={() => props.refresh()}
               edited={props.card.edited}
-              cardItems={generateItems(false)}
-              cardTempItems={generateItems(true)}
-              card={props.card}
+              cardItems={generateItems(false, true)}
+              cardTempItems={generateItems(true, true)}
+              card={props.unfilteredCard}
             />
           </div>
         ) : (
@@ -154,7 +183,7 @@ function Card(props) {
         )}
       </CardBS.Header>
       <CardBS.Body>
-        {generateItems(props.card.edited)}
+        {generateItems(props.card.edited, false)}
       </CardBS.Body>
     </CardBS>
   );
@@ -165,5 +194,6 @@ Card.propTypes = {
   categoryId: PropTypes.any,
   refresh: PropTypes.any,
   card: PropTypes.object,
+  unfilteredCard: PropTypes.object,
   mode: PropTypes.number
 };
