@@ -138,10 +138,6 @@ function ReviewHeader(props) {
 export default ReviewHeader;
 
 ReviewHeader.propTypes = {
-  title: PropTypes.string,
-  headerId: PropTypes.number,
-  approved: PropTypes.number,
-  refresh: PropTypes.func,
-  userId: PropTypes.number,
-  created: PropTypes.any
+  header: PropTypes.object,
+  refresh: PropTypes.func
 };
