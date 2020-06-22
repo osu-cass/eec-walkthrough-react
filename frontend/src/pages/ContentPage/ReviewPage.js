@@ -69,7 +69,7 @@ function ReviewPage(props) {
 
   }
 
-  return role >= 3 && !props.approved ? (
+  return role >= 3 && (!props.approved || props.tempPageId) ? (
     <div className='text-center mx-2'>
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
@@ -82,7 +82,7 @@ function ReviewPage(props) {
 
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
-          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review {props.name} Page</h5>
+          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review Page</h5>
           <Button variant="none" onClick={() => handleClose()}>
             <span aria-hidden="true">&times;</span>
           </Button>

@@ -9,42 +9,119 @@ import "./PageDescription.css";
 // Header and card that describes the page
 function PageDescription(props) {
 
-  return (
+  return props.mode ? (
+
     <div>
-      <div className={`d-flex ${props.sticky ? "sticky-top " : " "}
-        ${props.approved ? "header-approved" : "header-review"}
-        ${props.approved ? "header-approved" : "header-review"}
-        header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow`}
+      <div className={`d-flex header-bar justify-content-between
+        ${props.page.approved && !props.page.tempPageId ? "page-approved" : "page-review"}
+        my-3 p-3 text-dark-50 rounded shadow`}
         style={{top: "1em", zIndex: "998"}}
       >
         <div className="row mx-2">
-          <h4 className="flex-grow-1 font-weight-bold">{props.name}</h4>
+          <h4 className="flex-grow-1 font-weight-bold">
+            {props.page.tempPageId ? (
+              props.page.tempName
+            ) : (
+              props.page.name
+            )}
+          </h4>
+          <h4 className="ml-4">{props.page.approved ? null : "<This page is unpublished>"}</h4>
+        </div>
+
+        <div className="row mx-2">
+          <div className="row">
+            <EditPage
+              pageId={parseInt(props.page.pageId)}
+              pageName={props.page.name}
+              title={props.page.title}
+              description={props.page.description}
+              img={props.page.imageUrl}
+              role={props.role}
+              refresh={() => props.refresh()}
+              handlePageEdit={props.handlePageEdit}
+            />
+            <ReviewPage
+              page={props.page}
+              refresh={() => props.refresh()}
+            />
+            <ChangeMode role={props.role}
+              mode={props.mode}
+              onPageMode={e => props.onPageMode(e)}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className={`${props.page.approved && !props.page.tempPageId ? "page-approved" : "page-review"}
+        my-3 p-3 card rounded shadow-sm`}
+      >
+        <div>
+          {props.page.tempPageId ? (
+
+            <div className="row">
+              <div className="col-8">
+                <h5 className='font-weight-bold'>{props.page.tempTitle}</h5>
+                <p>{props.page.tempDescription}</p>
+              </div>
+              <div className="col-4 text-center">
+                <Image url={props.page.tempImageUrl}
+                  title={props.page.tempName}
+                  thumbnail={false}
+                  header={true}
+                />
+              </div>
+            </div>
+
+          ) : (
+
+            <div className="row">
+              <div className="col-8">
+                <h5 className='font-weight-bold'>{props.page.title}</h5>
+                <p>{props.page.description}</p>
+              </div>
+              <div className="col-4 text-center">
+                <Image url={props.page.imageUrl}
+                  title={props.page.name}
+                  thumbnail={false}
+                  header={true}
+                />
+              </div>
+            </div>
+
+          )}
+        </div>
+      </div>
+    </div>
+
+  ) : (
+
+    <div>
+      <div className={`d-flex header-bar
+      ${props.page.approved ? "page-approved" : "page-review"}
+      justify-content-between my-3 p-3 text-dark-50 rounded shadow`}
+        style={{top: "1em", zIndex: "998"}}
+      >
+        <div className="row mx-2 align-middle">
+          <h4 className="flex-grow-1 font-weight-bold">{props.page.name}</h4>
+          <h4 className="ml-4">{props.page.approved ? null : "<This page is unpublished>"}</h4>
         </div>
 
         <div className="row mx-2">
           {props.mode ? (
             <div className="row">
               <EditPage
-                pageId={parseInt(props.pageId)}
-                pageName={props.name}
-                title={props.title}
-                description={props.description}
-                img={props.imageUrl}
+                pageId={parseInt(props.page.pageId)}
+                pageName={props.page.name}
+                title={props.page.title}
+                description={props.page.description}
+                img={props.page.imageUrl}
                 role={props.role}
                 refresh={() => props.refresh()}
                 handlePageEdit={props.handlePageEdit}
               />
               <ReviewPage
-                name={props.name}
-                title={props.title}
-                description={props.description}
-                imageUrl={props.imageUrl}
-                pageId={props.pageId}
-                headerId={props.headerId}
+                page={props.page}
                 refresh={() => props.refresh()}
-                approved={props.approved}
-                userId={props.userId}
-                created={props.created}
               />
               <ChangeMode role={props.role}
                 mode={props.mode}
@@ -62,39 +139,35 @@ function PageDescription(props) {
         </div>
       </div>
 
-      <div className={`${props.approved ? "card-approved" : "card-review"} my-3 p-3 card rounded shadow-sm`}>
+      <div className={`${props.page.approved ? "page-approved" : "page-review"}
+        my-3 p-3 card rounded shadow-sm`}
+      >
         <div className="row">
           <div className="col-8">
-            <h5 className='font-weight-bold'>{props.title}</h5>
-            <p>{props.description}</p>
+            <h5 className='font-weight-bold'>{props.page.title}</h5>
+            <p>{props.page.description}</p>
           </div>
           <div className="col-4 text-center">
-            <Image url={props.imageUrl}
-              title={props.name}
+            <Image url={props.page.imageUrl}
+              title={props.page.name}
               thumbnail={false}
               header={true}
             />
           </div>
         </div>
       </div>
-
     </div>
+
   );
 
 }
 export default PageDescription;
 
 PageDescription.propTypes = {
-  name: PropTypes.string,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  approved: PropTypes.number,
-  imageUrl: PropTypes.string,
-  refresh: PropTypes.func,
-  pageId: PropTypes.number,
-  created: PropTypes.any,
+  page: PropTypes.object,
   role: PropTypes.number,
   mode: PropTypes.number,
   onPageMode: PropTypes.func,
-  handlePageEdit: PropTypes.func
+  handlePageEdit: PropTypes.func,
+  refresh: PropTypes.func
 };
