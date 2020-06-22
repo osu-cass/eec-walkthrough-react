@@ -160,11 +160,7 @@ function Card(props) {
         {props.mode ? (
           <div className="row">
             <EditCard
-              cardName={props.card.title}
-              items={props.card.items}
-              headerId={props.card.headerId}
-              cardId={props.card.cardId}
-              cardType={props.card.cardType}
+              card={props.card}
               orderIndex={props.orderIndex}
               refresh={() => props.refresh()}
               iconSet={props.iconSet}
