@@ -41,7 +41,7 @@ function ReviewPage(props) {
     };
 
     // Approve the page
-    const results = await fetch(`/pages/${props.pageId}`, {
+    const results = await fetch(`/pages/${props.page.pageId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(pageData)
@@ -69,7 +69,7 @@ function ReviewPage(props) {
 
   }
 
-  return role >= 3 && (!props.approved || props.tempPageId) ? (
+  return role >= 3 && (!props.page.approved || props.page.tempPageId) ? (
     <div className='text-center mx-2'>
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
@@ -90,35 +90,56 @@ function ReviewPage(props) {
 
         <Modal.Body>
 
+        {props.page.approved ? (
           <div className="version-container p-2 m-3 border border-dark rounded">
             <h4 className="font-weight-bold">Published Version</h4>
-            <span className="created-text">Created {formatTime(props.created)}</span>
+            <span className="created-text">Created {formatTime(props.page.created)}</span>
             <div className="m-4">
-              <h3 className="font-weight-bold">{props.name}</h3>
-              <h4>{props.title}</h4>
-              <span>{props.description}</span>
-              <Image url={props.imageUrl}
-                title={props.name}
+              <h3 className="font-weight-bold">{props.page.name}</h3>
+              <h4>{props.page.title}</h4>
+              <span>{props.page.description}</span>
+              <Image url={props.page.imageUrl}
+                title={props.page.name}
                 thumbnail={false}
                 header={true}
               />
             </div>
           </div>
+        ) : (
+          null
+        )}
 
+        {props.page.approved && props.page.tempPageId ? (
           <div className="version-container p-2 m-3 border border-dark rounded">
             <h4 className="font-weight-bold">New Version</h4>
-            <span className="created-text">Created {formatTime(props.created)}</span>
+            <span className="created-text">Created {formatTime(props.page.tempCreated)}</span>
             <div className="m-4">
-              <h3 className="font-weight-bold">{props.name}</h3>
-              <h4>{props.title}</h4>
-              <span>{props.description}</span>
-              <Image url={props.imageUrl}
-                title={props.name}
+              <h3 className="font-weight-bold">{props.page.tempName}</h3>
+              <h4>{props.page.tempTitle}</h4>
+              <span>{props.page.tempDescription}</span>
+              <Image url={props.page.tempImageUrl}
+                title={props.page.tempName}
                 thumbnail={false}
                 header={true}
               />
             </div>
           </div>
+        ) : (
+          <div className="version-container p-2 m-3 border border-dark rounded">
+            <h4 className="font-weight-bold">New Version</h4>
+            <span className="created-text">Created {formatTime(props.page.created)}</span>
+            <div className="m-4">
+              <h3 className="font-weight-bold">{props.page.name}</h3>
+              <h4>{props.page.title}</h4>
+              <span>{props.page.description}</span>
+              <Image url={props.page.imageUrl}
+                title={props.page.name}
+                thumbnail={false}
+                header={true}
+              />
+            </div>
+          </div>
+        )}
 
           <Row>
             <div className='col-3' />
@@ -148,13 +169,6 @@ function ReviewPage(props) {
 export default ReviewPage;
 
 ReviewPage.propTypes = {
-  name: PropTypes.string,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  imageUrl: PropTypes.string,
-  pageId: PropTypes.number,
-  approved: PropTypes.number,
-  refresh: PropTypes.func,
-  userId: PropTypes.number,
-  created: PropTypes.any
+  page: PropTypes.object,
+  refresh: PropTypes.func
 };
