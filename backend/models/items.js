@@ -15,14 +15,14 @@ async function getItem(itemId, viewAll) {
     if (viewAll) {
       sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
       "Items.iconType, typeName, typeKeyword, contentText, " +
-      "contentUrl, contentLabel, userId " +
+      "contentUrl, contentLabel " +
       "FROM Items " +
       "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
       "WHERE itemId = ?;";
     } else {
       sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
       "Items.iconType, typeName, typeKeyword, contentText, " +
-      "contentUrl, contentLabel, userId " +
+      "contentUrl, contentLabel " +
       "FROM Items " +
       "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
       "WHERE itemId = ? " +
@@ -48,7 +48,7 @@ exports.getItem = getItem;
 
 
 // create an item
-async function createItem(cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, userId) {
+async function createItem(cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel) {
 
   try {
 
@@ -92,9 +92,9 @@ async function createItem(cardId, parentId, orderIndex, iconType, contentText, c
     }
 
     // create the new item
-    sql = "INSERT INTO Items (cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, userId, approved) " +
+    sql = "INSERT INTO Items (cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, approved) " +
     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0);";
-    results = await pool.query(sql, [cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, userId]);
+    results = await pool.query(sql, [cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel]);
 
     const finalResults = {
       insertId: results[0].insertId

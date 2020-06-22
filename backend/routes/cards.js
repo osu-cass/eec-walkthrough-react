@@ -163,11 +163,11 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
     console.log("Update a card");
 
     const cardId = req.params.cardId;
-    const headerId = req.body.headerId;
     const cardType = req.body.cardType;
     const orderIndex = req.body.orderIndex;
     const title = req.body.title;
-    const approved = req.body.approved;
+    const items = req.body.items;
+    const userId = req.auth.userId;
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -177,33 +177,22 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
     }
 
     // make sure the user is allowed to perform this action
-    if (typeof approved === "undefined") {
-      if (!await roleCheck(3, req.auth.userId)) {
-        res.status(401).send({error: "Unauthorized user attempting to update card."});
-        return;
-      }
-    } else {
-      if (!await roleCheck(4, req.auth.userId)) {
-        res.status(401).send({error: "Unauthorized user attempting to publish card."});
-        return;
-      }
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to update card."});
+      return;
     }
 
     // update a card
-    const results = await updateCard(cardId, headerId, cardType, orderIndex, title, approved);
+    const results = await updateCard(cardId, cardType, orderIndex, title, items, userId);
 
-    if (results.changedRows >= 0) {
+    if (results.cardsUpdated >= 0) {
       res.status(200).send(results);
     } else {
 
       if (results.error === 1) {
         res.status(404).send({error: "Card not found."});
-      } else if (results.error === 2) {
-        res.status(403).send({error: "Selected parent header does not exist."});
       } else if (results.error === 3) {
         res.status(403).send({error: "Selected parent header already has a card with the selected title."});
-      } else if (results.error === 4) {
-        res.status(422).send({error: "Request doesn't include any fields to update."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
