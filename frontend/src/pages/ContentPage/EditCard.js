@@ -242,31 +242,6 @@ function EditCard(props) {
     setToDelete(toDeleteList);
   }
 
-  /**
-  * Find parent of item by finding closest index of (subpoint depth - 1) to the left
-  * @param {Number} idx Index of item
-  * @param {Number} val Value of depth of this item
-  * @return {Number}    Index of parent
-  */
-  function findParent(idx, val, ids) {
-    let closestIdx = null;
-    items.forEach((item, i) => {
-      if (i >= idx) { return closestIdx; }
-      if (item.depth === (val - 1)) { closestIdx = i; }
-    });
-    return closestIdx !== null ? ids[closestIdx] : null;
-  }
-
-  function findOrderIndex(i) {
-    const itemsList = items;
-    // base case
-    if (i === 0 || itemsList[i].depth === 0) { return 1; }
-    // if left depth is smaller, this is a new "group". order index restarts at 1
-    if (itemsList[i - 1].depth < itemsList[i].depth) { return 1; }
-    // if left sibling of item has same depth, order index inc
-    if (itemsList[i - 1].depth === itemsList[i].depth) { return itemsList[i - 1].depth + 1; }
-  }
-
   async function deleteCard() {
     // Send call to backend to delete card
     const results = await fetch(`/cards/${props.card.cardId}`, {
@@ -311,9 +286,6 @@ function EditCard(props) {
         title: title
       };
     }
-
-    // Store item ids to handle parentId
-    const itemIds = [];
 
     // Edit card
     const results = await fetch(`/cards/${props.card.cardId}`, {

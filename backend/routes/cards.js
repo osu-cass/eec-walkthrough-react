@@ -18,7 +18,8 @@ const {
   getCard,
   createCard,
   deleteCard,
-  updateCard
+  updateCard,
+  publishCard
 } = require("../models/cards");
 
 
@@ -191,8 +192,6 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
 
       if (results.error === 1) {
         res.status(404).send({error: "Card not found."});
-      } else if (results.error === 3) {
-        res.status(403).send({error: "Selected parent header already has a card with the selected title."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -206,5 +205,51 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
 
 });
 
+
+// publish a card
+app.post("/:cardId/publish", getUserID, getCardVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Publish a card");
+
+    const cardId = req.params.cardId;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to publish a card."});
+      return;
+    }
+
+    // publish a card
+    const results = await publishCard(cardId);
+
+    if (results.publishedId >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Card not found."});
+      } else if (results.error === 2) {
+        res.status(403).send({error: "A card with this name already exists under this header."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
 
 module.exports = app;
