@@ -628,7 +628,7 @@ class EditCard extends React.Component {
         </Button>
         <Modal show={this.state.show} onHide={this.handleClose} dialogClassName="modal-width">
           <Modal.Header>
-            <h5 className="modal-title font-weight-bold" id="exampleModalLabel">{this.props.title}</h5>
+            <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Edit Card</h5>
             <Button variant="none" onClick={this.handleClose}>
               <span aria-hidden="true">&times;</span>
             </Button>
@@ -699,7 +699,6 @@ class EditCard extends React.Component {
 export default EditCard;
 
 EditCard.propTypes = {
-  title: PropTypes.string,
   iconSet: PropTypes.array,
   cardName: PropTypes.string,
   items: PropTypes.array,

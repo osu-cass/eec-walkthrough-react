@@ -76,14 +76,8 @@ function ContentPage(props) {
     return loaded ? ( // Render content when data loaded from backend
       <Container className="my-4">
         <PageDescription
-          name={pageInfo.name}
-          title={pageInfo.title}
-          description={pageInfo.description}
-          approved={pageInfo.approved}
-          imageUrl={pageInfo.imageUrl}
+          page={pageInfo}
           refresh={() => fetchData()}
-          pageId={parseInt(props.pageId)}
-          created={pageInfo.created}
           role={role}
           mode={mode}
           onPageMode={e => handlePageMode(e)}

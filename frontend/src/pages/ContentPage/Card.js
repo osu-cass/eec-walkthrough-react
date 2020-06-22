@@ -160,7 +160,6 @@ function Card(props) {
         {props.mode ? (
           <div className="row">
             <EditCard
-              title={`Edit ${props.card.title} Card`}
               cardName={props.card.title}
               items={props.card.items}
               headerId={props.card.headerId}
