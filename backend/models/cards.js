@@ -92,12 +92,43 @@ async function deleteCard(cardId) {
 
   try {
 
-    // check to see if the card exists
+    // checks to see if there is an edited version of the card to delete
     let sql = "SELECT * " +
+    "FROM Items " +
+    "WHERE cardId = ? " +
+    "AND approved = 0;";
+
+    let results = await pool.query(sql, cardId);
+
+    // prioritize deleting the edited version
+    // a second delete will remove the real one
+    if (results[0].length) {
+      sql = "DELETE " +
+        "FROM Temp_Cards " +
+        "WHERE tempCardId = ?;";
+
+      results = await pool.query(sql, cardId);
+
+      sql = "DELETE " +
+      "FROM Items " +
+      "WHERE cardId = ? " +
+      "AND approved = 0;";
+
+      results = await pool.query(sql, cardId);
+
+      const finalResults = {
+        affectedRows: results[0].affectedRows
+      };
+
+      return finalResults;
+    }
+
+    // check to see if the card exists
+    sql = "SELECT * " +
       "FROM Cards " +
       "WHERE cardId = ?;";
 
-    let results = await pool.query(sql, cardId);
+    results = await pool.query(sql, cardId);
 
     if (!results[0].length) {
       return {error: 1};
