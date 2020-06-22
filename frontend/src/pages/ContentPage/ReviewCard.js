@@ -91,9 +91,10 @@ function ReviewCard(props) {
 
           {props.card.approved ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
-              <h4 className="font-weight-bold">{props.card.title} (Published Version)</h4>
+              <h4 className="font-weight-bold">Published Version</h4>
               <span className="created-text">Created {formatTime(props.card.created)}</span>
               <div className="m-3">
+                <h3 className="font-weight-bold">{props.card.title}</h3>
                 {props.cardItems}
               </div>
             </div>
@@ -103,17 +104,19 @@ function ReviewCard(props) {
 
           {props.card.approved && props.card.tempCardId ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
-              <h4 className="font-weight-bold">{props.card.tempTitle} (New Version)</h4>
+              <h4 className="font-weight-bold">New Version</h4>
               <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
               <div className="m-3">
+                <h3 className="font-weight-bold">{props.card.tempTitle}</h3>
                 {props.cardTempItems}
               </div>
             </div>
           ) : (
             <div className="version-container p-2 m-3 border border-dark rounded">
-              <h4 className="font-weight-bold">{props.card.title} (New Version)</h4>
+              <h4 className="font-weight-bold">New Version</h4>
               <span className="created-text">Created {formatTime(props.card.created)}</span>
               <div className="m-3">
+                <h3 className="font-weight-bold">{props.card.title}</h3>
                 {props.cardTempItems}
               </div>
             </div>

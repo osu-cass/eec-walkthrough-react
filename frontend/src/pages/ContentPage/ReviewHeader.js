@@ -91,8 +91,11 @@ function ReviewHeader(props) {
 
           {props.header.approved ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
-              <h4 className="font-weight-bold">{props.header.title} (Published Version)</h4>
+              <h4 className="font-weight-bold">Published Version</h4>
               <span className="created-text">Created {formatTime(props.header.created)}</span>
+              <div className="m-4">
+                <h3 className="font-weight-bold">{props.header.title}</h3>
+              </div>
             </div>
           ) : (
             null
@@ -100,13 +103,19 @@ function ReviewHeader(props) {
 
           {props.header.approved && props.header.tempHeaderId ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
-              <h4 className="font-weight-bold">{props.header.tempTitle} (New Version)</h4>
+              <h4 className="font-weight-bold">New Version</h4>
               <span className="created-text">Created {formatTime(props.header.tempCreated)}</span>
+              <div className="m-4">
+                <h3 className="font-weight-bold">{props.header.tempTitle}</h3>
+              </div>
             </div>
           ) : (
             <div className="version-container p-2 m-3 border border-dark rounded">
-              <h4 className="font-weight-bold">{props.header.title} (New Version)</h4>
+              <h4 className="font-weight-bold">New Version</h4>
               <span className="created-text">Created {formatTime(props.header.created)}</span>
+              <div className="m-4">
+                <h3 className="font-weight-bold">{props.header.title}</h3>
+              </div>
             </div>
           )}
 
