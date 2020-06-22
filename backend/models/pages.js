@@ -328,6 +328,7 @@ async function getFullPage(pageId, viewAll) {
           results = await pool.query(sql, cardId);
 
           finalResults.headers[i].cards[j].items = results[0];
+          finalResults.headers[i].cards[j].tempItems = [];
 
         }
 

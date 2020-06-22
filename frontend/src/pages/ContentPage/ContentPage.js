@@ -3,7 +3,7 @@ import {getProfile} from "../../utilities/cookieAuth";
 import {getMode} from "../../utilities/pageMode";
 import Header from "./Header";
 import PageDescription from "./PageDescription";
-import Loading from "../../components/General/Loading";
+import LoadingOverlay from "../../components/General/LoadingOverlay";
 import CreateCard from "./CreateCard";
 import CreateHeader from "./CreateHeader";
 import Container from "react-bootstrap/Container";
@@ -123,7 +123,7 @@ function ContentPage(props) {
         })}
 
       </Container>
-    ) : <Loading />;
+    ) : <LoadingOverlay loading={true} />;
   } else if (errorPage === 404) {
     return <Error404 />;
   } else {
