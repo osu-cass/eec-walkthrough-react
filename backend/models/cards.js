@@ -160,7 +160,6 @@ exports.deleteCard = deleteCard;
 async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
 
   try {
-    console.log("CARDID", cardId);
     const sqlArray = [];
 
     // make sure that the card exists
@@ -238,7 +237,7 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
 
     // commit our query
     sql += "COMMIT;";
-    console.log(sql, sqlArray);
+
     // perform the update query
     results = await pool.query(sql, sqlArray);
 
@@ -255,3 +254,86 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
 
 }
 exports.updateCard = updateCard;
+
+
+async function publishCard(cardId) {
+
+  try {
+
+    // make sure that the card exists
+    let sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE cardId = ?;";
+    let results = await pool.query(sql, cardId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const title = results[0][0].title;
+    const headerId = results[0][0].headerId;
+
+    // make sure no other cards share the same name
+    sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE headerId = ? " +
+    "AND title = ? " +
+    "AND cardId != ? " +
+    "AND approved = 1;";
+    results = await pool.query(sql, [headerId, title, cardId]);
+
+    if (results[0].length) {
+      return {error: 2};
+    }
+
+    // delete all of the old items
+    sql = "DELETE FROM Items " +
+    "WHERE cardId = ? " +
+    "AND approved = 1;";
+    results = await pool.query(sql, cardId);
+
+    // approve all of the new items
+    sql = "UPDATE Items " +
+    "SET approved = 1 " +
+    "WHERE cardId = ?;";
+    results = await pool.query(sql, cardId);
+
+    // check if there is new card data
+    sql = "SELECT * " +
+    "FROM Temp_Cards " +
+    "WHERE tempCardId = ?;";
+    results = await pool.query(sql, cardId);
+
+    const tempCard = results[0][0];
+
+    // if there is new card data, replace the old data
+    // otherwise simply update the approved value
+    if (tempCard) {
+      "UPDATE Cards " +
+      "SET cardType = ?, orderIndex = ?, title = ?, userId = ?, created = ? " +
+      "WHERE cardId = ?;";
+
+      const tempArray = [tempCard.tempCardType, tempCard.tempOrderIndex,
+        tempCard.tempTitle, tempCard.tempUserId, tempCard.tempCreated];
+
+      results = await pool.query(sql, tempArray);
+    } else {
+      sql = "UPDATE Cards " +
+      "SET approved = 1 " +
+      "WHERE cardId = ?;";
+      results = await pool.query(sql, cardId);
+    }
+
+    const finalResults = {
+      publishedId: cardId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error publishing card");
+    throw Error(err);
+  }
+
+}
+exports.publishCard = publishCard;

@@ -34,16 +34,10 @@ function ReviewCard(props) {
       return;
     }
 
-    // Prepare data for new card
-    const cardData = {
-      approved: 1
-    };
-
     // Approve the card
-    const results = await fetch(`/cards/${props.card.cardId}`, {
-      method: "PATCH",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(cardData)
+    const results = await fetch(`/cards/${props.card.cardId}/publish`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"}
     });
 
     if (results.ok) {
