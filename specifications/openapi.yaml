@@ -536,7 +536,7 @@ paths:
         - $ref: '#/components/parameters/Card_cardId'
       responses:
         '200':
-          $ref: '#/components/responses/PATCH_200'
+          $ref: '#/components/responses/PATCH_200_CARD'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -1194,6 +1194,21 @@ components:
                 example: 1
               orderIndex:
                 example: 5
+              items: 
+                example: [
+            {
+              "itemId": 15,
+              "cardId": 10,
+              "parentId": null,
+              "iconType": 5,
+              "typeName": "bolt",
+              "typeKeyword": "Electricity",
+              "contentText": "This guide focuses mainly on screw and reciprocating compressors. These are the most common...",
+              "contentUrl": "https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf",
+              "contentLabel": "Assessing Industrial Air Compressor",
+              "userId": 15,
+              "created": "2020-12-31 23:59:59",
+            }]
     
     Item_POST:
       required: true
@@ -1521,6 +1536,15 @@ components:
               changedRows:
                 example: 3
     
+    PATCH_200_CARD:
+      description: An object containing information about the changed card
+      content:
+        application/json:
+          schema:
+            properties:
+              cardsUpdated:
+                example: 1
+    
     PATCH_200_Timestamp:
       description: A message describing the current external link state
       content:
@@ -1694,15 +1718,31 @@ components:
                                     iconType: 5,
                                     typeName: bolt,
                                     typeKeyword: Electricity,
-                                    contentText: This guide focuses mainly on screw and reciprocating compressors. These are the most common...,
-                                    contentUrl: 'https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf',
+                                    contentText: This guide focuses mainly...,
+                                    contentUrl: 'https://www.Improving_Compressed_Air.com',
                                     contentLabel: Assessing Industrial Air Compressor,
                                     userId: 15,
                                     created: '2020-12-31 23:59:59',
+                                    approved: 1
+                                  }],
+                            tempItems: [{
+                                    itemId: 24,
+                                    cardId: 15,
+                                    parentId: null,
+                                    iconType: 5,
+                                    typeName: bolt,
+                                    typeKeyword: Electricity,
+                                    contentText: This is an item,
+                                    contentUrl: www.Someurl.com,
+                                    contentLabel: Assessing Items,
+                                    userId: 13,
+                                    created: '2020-12-31 23:59:59',
                                     approved: 0
-                                  }]
-                          }]
-                 }
+                           }]
+                              
+                          }],
+  
+                        }
                 ]
 
     DELETE_200:
