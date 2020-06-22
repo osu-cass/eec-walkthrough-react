@@ -37,7 +37,7 @@ CardContainer.propTypes = {
   unfilteredCards: PropTypes.array,
   cards: PropTypes.any,
   headerId: PropTypes.any,
-  refresh: PropTypes.any,
+  refresh: PropTypes.func,
   headerName: PropTypes.any,
   mode: PropTypes.number,
   approved: PropTypes.number,

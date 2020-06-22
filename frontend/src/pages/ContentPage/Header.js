@@ -267,7 +267,7 @@ function Header(props) {
             headerId={props.header.headerId}
             headerName={props.header.title}
             approved={props.header.approved}
-            refresh={() => props.refresh}
+            refresh={() => props.refresh()}
             mode={props.mode}
             iconSet={props.iconSet}
           />
@@ -309,7 +309,7 @@ function Header(props) {
             headerId={props.header.headerId}
             headerName={props.header.title}
             approved={props.header.approved}
-            refresh={() => props.refresh}
+            refresh={() => props.refresh()}
             mode={props.mode}
             iconSet={props.iconSet}
           />
