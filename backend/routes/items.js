@@ -83,7 +83,6 @@ app.post("/", requireAuth, postItemVal.validation, async (req, res) => {
     const contentText = req.body.contentText;
     const contentUrl = req.body.contentUrl;
     const contentLabel = req.body.contentLabel;
-    const userId = req.auth.userId;
 
     // make sure the user is allowed to perform this action
     if (!await roleCheck(3, req.auth.userId)) {
@@ -92,7 +91,7 @@ app.post("/", requireAuth, postItemVal.validation, async (req, res) => {
     }
 
     // create an item
-    const results = await createItem(cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, userId);
+    const results = await createItem(cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel);
 
     if (results.insertId) {
       res.status(201).send(results);

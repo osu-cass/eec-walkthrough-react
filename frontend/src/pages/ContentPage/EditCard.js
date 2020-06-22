@@ -45,9 +45,12 @@ function EditCard(props) {
         label: item.contentLabel,
         url: item.contentUrl
       };
+      itemData.contentText = item.contentText;
+      itemData.contentLabel = item.contentLabel;
+      itemData.contentUrl = item.contentUrl;
       itemData.parentId = item.parentId;
       itemData.depth = item.depth;
-      itemData.icon = item.iconType;
+      itemData.iconType = item.iconType;
       itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
       itemData.current = 1;
       itemData.orderIndex = item.orderIndex;
@@ -59,7 +62,6 @@ function EditCard(props) {
     setCounter(counter);
     setLoaded(true);
     setErrorMessage("");
-    console.log(props.card)
     if (props.card.tempCardId) {
       setTitle(props.card.tempTitle);
       setFormat(props.card.tempCardType);
@@ -156,9 +158,12 @@ function EditCard(props) {
     copy[key] = {};
     copy[key].content = content;
     copy[key].depth = 0;
-    copy[key].icon = null;
+    copy[key].iconType = null;
     copy[key].contentType = contentType;
-
+    copy[key].contentText = content.text;
+    copy[key].contentLabel = content.label;
+    copy[key].contentUrl = content.url;
+    copy[key].orderIndex = 1;
     setItems(copy);
     setCounter(count + 1);
   }
@@ -180,14 +185,17 @@ function EditCard(props) {
     const content = {text: "", label: "", url: ""};
     const item = {};
     const count = counter;
-    // let key = (idx + 1).toString();
 
     // Init empty item
     item.content = content;
     item.depth = copy[idx].depth + 1;
-    item.icon = null;
+    item.iconType = null;
     item.contentType = 1;
     item.current = 0;
+    item.contentText = content.text;
+    item.contentLabel = content.label;
+    item.contentUrl = content.url;
+    item.orderIndex = 1;
 
     // Increment counter and insert child
     copy.splice(idx + 1, 0, item); // Initialize empty
@@ -270,7 +278,6 @@ function EditCard(props) {
       // Close modal
       handleClose();
       // Reload page after deleting
-      console.log("R2")
       props.refresh();
     } else {
       setErrorMessage("Error deleting card. Please try again later.");
@@ -287,14 +294,23 @@ function EditCard(props) {
     const formatSelect = document.getElementById("select-edit-card-format");
     const newCardFormat = formatSelect.options[formatSelect.selectedIndex].value;
 
+    let cardData = {};
+
     // Prepare data for new card
-    const cardData = {
-      headerId: props.card.headerId,
-      orderIndex: props.card.orderIndex,
-      cardType: newCardFormat,
-      title: title,
-      approved: 0
-    };
+    if (items.length) {
+      cardData = {
+        orderIndex: props.card.orderIndex,
+        cardType: newCardFormat,
+        title: title,
+        items: items
+      };
+    } else {
+      cardData = {
+        orderIndex: props.card.orderIndex,
+        cardType: newCardFormat,
+        title: title
+      };
+    }
 
     // Store item ids to handle parentId
     const itemIds = [];
@@ -311,95 +327,10 @@ function EditCard(props) {
       // reset error messages
       setErrorMessage("");
 
-      // Close modal
+      // close the modal
       handleClose();
 
-      // Loop through state items and update
-      for (const key in items) {
-
-        const current = items[key].current;
-
-        // object representing a single item
-        const itemData = {
-          cardId: props.card.cardId,
-          contentText: items[key].content.text,
-          contentLabel: items[key].content.label,
-          contentUrl: items[key].content.url,
-          iconType: items[key].icon,
-          approved: 0
-        };
-
-        // Check if item is being updated or added to the card
-        if (current) {
-
-          // Item is being updated
-          itemData.itemId = items[key].itemId;
-          itemData.orderIndex = findOrderIndex(key);
-          itemData.parentId = items[key].parentId;
-          itemData.approved = 0;
-
-          // Make the request to update the item
-          const itemResults = await fetch(`/items/${itemData.itemId}`, {
-            method: "PATCH",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(itemData)
-          });
-
-          // Check if the item was updated successfully
-          if (itemResults.ok) {
-            await itemResults.json();
-            itemIds.push(itemData.itemId);
-          } else {
-            const itemObj = await itemResults.json();
-            if (typeof itemObj.error === "undefined") {
-              console.error("Error updating item.");
-            } else {
-              console.error("Error updating item:", itemObj.error);
-            }
-          }
-
-        } else {
-
-          // Item is being created
-          itemData.parentId = findParent(key, items[key].depth, itemIds);
-          itemData.orderIndex = parseInt(key) + 1;
-
-          // Make the request to create the item
-          const itemResults = await fetch("/items/", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(itemData)
-          });
-
-          // Check if the item was created successfully
-          if (itemResults.ok) {
-            const itemObj = await itemResults.json();
-            itemIds.push(itemObj.insertId);
-          } else {
-            const itemObj = await itemResults.json();
-            if (typeof itemObj.error === "undefined") {
-              console.error("Error creating item.");
-            } else {
-              console.error("Error creating item:", itemObj.error);
-            }
-          }
-
-        }
-      }
-
-      // Loop through old items that are no longer in the card and delete them
-      for (let i = 0; i < toDelete.length; i++) {
-        const itemResults = await fetch(`/items/${toDelete[i]}`, {
-          method: "DELETE",
-          headers: {"Content-Type": "application/json"}
-        });
-        if (!itemResults.ok) {
-          console.error("Error deleting item.");
-        }
-      }
-
       // refresh the page
-      console.log("R1")
       props.refresh();
 
     } else {
@@ -460,7 +391,7 @@ function EditCard(props) {
         }
       }
       // Check icons
-      if (item.icon === null) {
+      if (item.iconType === null) {
         emptyFound = true;
         newErrorMessage = "Error: Empty item icon on line " + (i + 1);
         break;
@@ -483,6 +414,9 @@ function EditCard(props) {
     } else if (contentType === 3) {
       copy[key].content.url = e.target.value;
     }
+    copy[key].contentText = copy[key].content.text;
+    copy[key].contentLabel = copy[key].content.label;
+    copy[key].contentUrl = copy[key].content.url;
     setItems(copy);
   }
 
@@ -494,7 +428,7 @@ function EditCard(props) {
   */
   function updateIcon(icon, index) {
     const copy = [...items];
-    copy[index].icon = icon;
+    copy[index].iconType = icon;
     setItems(copy);
   }
 
@@ -585,7 +519,7 @@ function EditCard(props) {
           <div className="col-1">
             <Dropdown key={itemIdKey + "b"} idx={i}
               list={generateIcons(i, contentType)}
-              selectedIndex={getIconName(items[i].icon, contentType)}
+              selectedIndex={getIconName(items[i].iconType, contentType)}
               handleClick={(id, idx) => updateIcon(id, idx)}
               edit
             />
