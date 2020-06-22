@@ -81,7 +81,7 @@ function ReviewCard(props) {
 
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
-          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review {props.card.title} Card</h5>
+          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review Card</h5>
           <Button variant="none" onClick={() => handleClose()}>
             <span aria-hidden="true">&times;</span>
           </Button>
@@ -101,7 +101,7 @@ function ReviewCard(props) {
             null
           )}
 
-          {props.card.approved && props.card.tempTitle ? (
+          {props.card.approved && props.card.tempCardId ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
               <h4 className="font-weight-bold">{props.card.tempTitle} (New Version)</h4>
               <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>

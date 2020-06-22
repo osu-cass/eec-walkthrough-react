@@ -218,72 +218,103 @@ function Header(props) {
     null
   ) : (
     <div>
-      <div className={`d-flex sticky-top
-        ${props.header.approved ? "header-approved" : "header-review"}
-        ${props.header.approved ? "header-approved" : "header-review"}
-        header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow`}
-        style={{top: "1em", zIndex: "998"}}
-      >
-        <div className="row mx-2">
-          <h4 className="flex-grow-1 font-weight-bold">{props.header.title}</h4>
+      {props.mode ? (
+
+        <div>
+          <div className={`d-flex sticky-top
+            ${props.header.approved && !props.header.tempHeaderId ? "header-approved" : "header-review"}
+            header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow`}
+            style={{top: "1em", zIndex: "998"}}
+          >
+            <div className="row mx-2">
+              <h4 className="flex-grow-1 font-weight-bold">
+                {props.header.approved && props.header.tempHeaderId ? (
+                  props.header.tempTitle
+                ) : (
+                  props.header.title
+                )}
+              </h4>
+            </div>
+
+            <div className="row mx-2">
+              <div className="row">
+                <FilterBar
+                  updateIcon={(e1, e2) => updateIcon(e1, e2)}
+                  resetIcons={() => resetIcons()}
+                  filterIcons={filterIcons}
+                  tempFilterIcons={tempFilterIcons}
+                  filterShow={filterShow}
+                  iconSet={props.iconSet}
+                  mode={props.mode}
+                />
+                <EditHeader
+                  header={props.header}
+                  role={props.role}
+                  refresh={() => props.refresh()}
+                />
+                <ReviewHeader
+                  header={props.header}
+                  refresh={() => props.refresh()}
+                />
+              </div>
+            </div>
+          </div>
+
+          <CardContainer
+            id={props.filterIndex}
+            cards={cards}
+            unfilteredCards={unfilteredCards}
+            headerId={props.header.headerId}
+            headerName={props.header.title}
+            approved={props.header.approved}
+            refresh={() => props.refresh}
+            mode={props.mode}
+            iconSet={props.iconSet}
+          />
         </div>
 
-        <div className="row mx-2">
-          {props.mode ? (
-            <div className="row">
-              <FilterBar
-                updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                resetIcons={() => resetIcons()}
-                filterIcons={filterIcons}
-                tempFilterIcons={tempFilterIcons}
-                filterShow={filterShow}
-                iconSet={props.iconSet}
-                mode={props.mode}
-              />
-              <EditHeader
-                headerName={props.header.title}
-                headerId={props.header.headerId}
-                role={props.role}
-                refresh={() => props.refresh()}
-              />
-              <ReviewHeader
-                title={props.header.title}
-                headerId={props.header.headerId}
-                refresh={() => props.refresh()}
-                approved={props.header.approved}
-                userId={props.header.userId}
-                created={props.header.created}
-              />
+      ) : (
+
+        <div>
+          <div className={`d-flex sticky-top
+            ${props.header.approved ? "header-approved" : "header-review"}
+            header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow`}
+            style={{top: "1em", zIndex: "998"}}
+          >
+            <div className="row mx-2">
+              <h4 className="flex-grow-1 font-weight-bold">
+                {props.header.title}
+              </h4>
             </div>
-          ) : (
-            <div>
-              <FilterBar
-                updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                resetIcons={() => resetIcons()}
-                filterIcons={filterIcons}
-                tempFilterIcons={tempFilterIcons}
-                filterShow={filterShow}
-                iconSet={props.iconSet}
-                mode={props.mode}
-              />
+
+          <div className="row mx-2">
+              <div className="row">
+                <FilterBar
+                  updateIcon={(e1, e2) => updateIcon(e1, e2)}
+                  resetIcons={() => resetIcons()}
+                  filterIcons={filterIcons}
+                  tempFilterIcons={tempFilterIcons}
+                  filterShow={filterShow}
+                  iconSet={props.iconSet}
+                  mode={props.mode}
+                />
+              </div>
             </div>
-          )}
+          </div>
+
+          <CardContainer
+            id={props.filterIndex}
+            cards={cards}
+            unfilteredCards={unfilteredCards}
+            headerId={props.header.headerId}
+            headerName={props.header.title}
+            approved={props.header.approved}
+            refresh={() => props.refresh}
+            mode={props.mode}
+            iconSet={props.iconSet}
+          />
         </div>
-
-      </div>
-
-      <CardContainer
-        id={props.filterIndex}
-        cards={cards}
-        unfilteredCards={unfilteredCards}
-        headerId={props.header.headerId}
-        headerName={props.header.title}
-        approved={props.header.approved}
-        refresh={() => props.refresh}
-        mode={props.mode}
-        iconSet={props.iconSet}
-      />
-
+      )}
     </div>
   );
 

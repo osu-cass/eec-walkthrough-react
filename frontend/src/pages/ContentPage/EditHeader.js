@@ -16,12 +16,12 @@ class EditHeader extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({title: this.props.headerName});
+    this.setState({title: this.props.header.title});
   }
 
   handleCloseModal = () => {
     this.setState({showModal: false});
-    this.setState({title: this.props.headerName});
+    this.setState({title: this.props.header.title});
     this.setState({errorMessage: ""});
   };
   handleShowModal = () => this.setState({showModal: true});
@@ -35,7 +35,7 @@ class EditHeader extends React.Component {
       title: this.state.title
     };
 
-    await fetch(`/headers/${this.props.headerId}`, {
+    await fetch(`/headers/${this.props.header.headerId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
@@ -58,7 +58,7 @@ class EditHeader extends React.Component {
   deleteHeader = async () => {
     this.handleShowLoad();
 
-    await fetch(`/headers/${this.props.headerId}`, {
+    await fetch(`/headers/${this.props.header.headerId}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     }).then((res) => {
@@ -121,7 +121,7 @@ class EditHeader extends React.Component {
                   <Form.Control
                     type="text"
                     placeholder="Enter title"
-                    defaultValue={this.props.headerName}
+                    defaultValue={this.props.header.title}
                     onChange={(e) => this.setState({title: e.target.value})}
                   />
                 </Form.Group>
@@ -160,8 +160,7 @@ class EditHeader extends React.Component {
 export default EditHeader;
 
 EditHeader.propTypes = {
-  headerName: PropTypes.string,
-  headerId: PropTypes.number,
+  header: PropTypes.object,
   role: PropTypes.number,
   refresh: PropTypes.func
 };
