@@ -26,10 +26,16 @@ function EditCard(props) {
   const [role, setRole] = useState(0);
 
   useEffect(() => {
+    // Get data from the published or edited card
     const items = [];
     let itemData = {};
     let counter = 0;
-    const itemSet = generateItems();
+    let itemSet = [];
+    if (props.card.tempItems.length) {
+      itemSet = generateItems(props.card.tempItems);
+    } else {
+      itemSet = generateItems(props.card.items);
+    }
     // Push items from props to state
     itemSet.forEach((item) => {
       itemData = {};
@@ -50,13 +56,20 @@ function EditCard(props) {
     });
     setItems(items);
     setRole(getProfile().role);
-    setTitle(props.card.cardName);
-    setFormat(props.card.cardType);
     setCounter(counter);
     setLoaded(true);
     setErrorMessage("");
+    console.log(props.card)
+    if (props.card.tempCardId) {
+      setTitle(props.card.tempTitle);
+      setFormat(props.card.tempCardType);
+    } else {
+      setTitle(props.card.title);
+      setFormat(props.card.cardType);
+    }
     // Sort icons into three categories, general items, images, and links
     sortIcons(props.iconSet);
+    // eslint-disable-next-line
   }, []);
 
   // Sort icons into three categories, general items, images, and links
@@ -108,34 +121,14 @@ function EditCard(props) {
     }
   }
 
-  function generateItems() {
+  function generateItems(itemList) {
     const items = []; // hold items
     const used = []; // hold used items to avoid looping over again
-    props.card.items.map((item) => { // loop through each item (if not used), and grab its children
+    itemList.map((item) => { // loop through each item (if not used), and grab its children
       recurseItems(item, used, items, false, 0);
       return null;
     });
     return items;
-  }
-
-  function findDepth(item, itemArr, i) {
-    // No parent is depth 0
-    if (!itemArr.length || item.parentId === null) {
-      return 0;
-    }
-    // Check if previous item's parent is null, item depth is default 1
-    if (itemArr[i - 1].parentId === null) {
-      return 1;
-    } else if (item.parentId === itemArr[i - 1].parentId) {
-      // Shares same parent as previous item, return same depth
-      return itemArr[i - 1].depth;
-    } else if (item.parentId !== itemArr[i - 1].parentId) {
-      // Does not share same parent
-      return itemArr[i - 1].depth + 1;
-    } else {
-      // New case
-      return itemArr[i - 1].depth - 1;
-    }
   }
 
   function handleClose() {
@@ -277,6 +270,7 @@ function EditCard(props) {
       // Close modal
       handleClose();
       // Reload page after deleting
+      console.log("R2")
       props.refresh();
     } else {
       setErrorMessage("Error deleting card. Please try again later.");
@@ -405,6 +399,7 @@ function EditCard(props) {
       }
 
       // refresh the page
+      console.log("R1")
       props.refresh();
 
     } else {
