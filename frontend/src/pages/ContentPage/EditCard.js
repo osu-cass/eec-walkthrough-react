@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {getProfile, logout} from "../../utilities/cookieAuth";
 import AddButton from "./AddButton";
@@ -10,26 +10,26 @@ import "./CreateCard.css";
 import "./ContentPage.css";
 
 // Button and modal that allows a user to edit a card
-class EditCard extends React.Component {
-  state = {
-    counter: 0, // count number of inputs added
-    title: "",
-    format: 0,
-    items: [], // current items have current 1, new items have current 0
-    toDelete: [], // hold the ids to be deleted on "Remove"
-    show: false,
-    loaded: false,
-    errorMessage: "",
-    basicIcons: [],
-    imageIcons: [],
-    linkIcons: []
-  }
+function EditCard(props) {
 
-  async componentDidMount() {
+  const [counter, setCounter] = useState(0);
+  const [title, setTitle] = useState("");
+  const [format, setFormat] = useState(0);
+  const [items, setItems] = useState([]);
+  const [toDelete, setToDelete] = useState([]);
+  const [show, setShow] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [basicIcons, setBasicIcons] = useState([]);
+  const [imageIcons, setImageIcons] = useState([]);
+  const [linkIcons, setLinkIcons] = useState([]);
+  const [role, setRole] = useState(0);
+
+  useEffect(() => {
     const items = [];
     let itemData = {};
     let counter = 0;
-    const itemSet = this.generateItems();
+    const itemSet = generateItems();
     // Push items from props to state
     itemSet.forEach((item) => {
       itemData = {};
@@ -42,44 +42,44 @@ class EditCard extends React.Component {
       itemData.parentId = item.parentId;
       itemData.depth = item.depth;
       itemData.icon = item.iconType;
-      itemData.contentType = this.getContentType(item.contentText, item.contentLabel, item.contentUrl);
+      itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
       itemData.current = 1;
       itemData.orderIndex = item.orderIndex;
       items.push(itemData);
       counter++;
     });
-    this.setState({items: items});
-    this.setState({role: getProfile().role});
-    this.setState({title: this.props.cardName});
-    this.setState({format: this.props.cardType});
-    this.setState({counter: counter});
-    this.setState({loaded: true});
-    this.setState({errorMessage: ""});
+    setItems(items);
+    setRole(getProfile().role);
+    setTitle(props.card.cardName);
+    setFormat(props.card.cardType);
+    setCounter(counter);
+    setLoaded(true);
+    setErrorMessage("");
     // Sort icons into three categories, general items, images, and links
-    this.sortIcons(this.props.iconSet);
-  }
+    sortIcons(props.iconSet);
+  }, []);
 
   // Sort icons into three categories, general items, images, and links
-  sortIcons() {
+  function sortIcons() {
     const gen = [];
     const images = [];
     const links = [];
-    for (let i = 0; i < this.props.iconSet.length; i++) {
-      if (this.props.iconSet[i].typeName === "chart-area") {
-        images.push(this.props.iconSet[i]);
-      } else if (this.props.iconSet[i].typeName === "info" || this.props.iconSet[i].typeName === "link") {
-        links.push(this.props.iconSet[i]);
+    for (let i = 0; i < props.iconSet.length; i++) {
+      if (props.iconSet[i].typeName === "chart-area") {
+        images.push(props.iconSet[i]);
+      } else if (props.iconSet[i].typeName === "info" || props.iconSet[i].typeName === "link") {
+        links.push(props.iconSet[i]);
       } else {
-        gen.push(this.props.iconSet[i]);
+        gen.push(props.iconSet[i]);
       }
     }
-    this.setState({basicIcons: gen});
-    this.setState({imageIcons: images});
-    this.setState({linkIcons: links});
+    setBasicIcons(gen);
+    setImageIcons(images);
+    setLinkIcons(links);
   }
 
-  getChildren(id) {
-    const results = this.props.items.reduce((result, item) => {
+  function getChildren(id) {
+    const results = props.card.items.reduce((result, item) => {
       if (item.parentId === id) {
         result.push(item);
       }
@@ -91,8 +91,8 @@ class EditCard extends React.Component {
   // given a list of items
   // check each item. grab its item id, and check list again for items whose parent id match. assume sorted by order index already.
   // result: to list each one in order, from top to bottom
-  recurseItems(item, used, items, isChild, prevDepth) {	// isChild = marks if it has any parent, for coloring
-    const children = this.getChildren(item.itemId); // get all children of this item
+  function recurseItems(item, used, items, isChild, prevDepth) {  // isChild = marks if it has any parent, for coloring
+    const children = getChildren(item.itemId); // get all children of this item
     if (!(used.includes(item.itemId))) {
       used.push(item.itemId); // push used
       // assign depth if child using prevDepth
@@ -101,24 +101,24 @@ class EditCard extends React.Component {
         // push item
         items.push(item);
         // recurse over children found
-        children.map((child) => (this.recurseItems(child, used, items, true, item.depth)));
+        children.map((child) => (recurseItems(child, used, items, true, item.depth)));
       } else {
         items.push(item);
       }
     }
   }
 
-  generateItems() {
+  function generateItems() {
     const items = []; // hold items
     const used = []; // hold used items to avoid looping over again
-    this.props.items.map((item) => { // loop through each item (if not used), and grab its children
-      this.recurseItems(item, used, items, false, 0);
+    props.card.items.map((item) => { // loop through each item (if not used), and grab its children
+      recurseItems(item, used, items, false, 0);
       return null;
     });
     return items;
   }
 
-  findDepth(item, itemArr, i) {
+  function findDepth(item, itemArr, i) {
     // No parent is depth 0
     if (!itemArr.length || item.parentId === null) {
       return 0;
@@ -138,22 +138,25 @@ class EditCard extends React.Component {
     }
   }
 
-  handleClose = () => {
-    this.setState({show: false});
-    this.setState({errorMessage: ""});
+  function handleClose() {
+    setShow(false);
+    setErrorMessage("");
   }
-  handleShow = () => this.setState({show: true});
 
-  getContentType(text, label, url) {
+  function handleShow() {
+    setShow(true);
+  }
+
+  function getContentType(text, label, url) {
     if (text !== "" && label === "" && url === "") { return 1; }
     if (text === "" && label !== "" && url !== "") { return 2; }
     if (text !== "" && label !== "" && url !== "") { return 3; }
   }
 
-  incrementCounter = (contentType) => {
-    const count = this.state.counter;
+  function incrementCounter(contentType) {
+    const count = counter;
     const key = (count).toString();
-    const copy = [...this.state.items];
+    const copy = [...items];
     const content = {text: "", label: "", url: ""};
 
     // Init new empty item
@@ -163,8 +166,8 @@ class EditCard extends React.Component {
     copy[key].icon = null;
     copy[key].contentType = contentType;
 
-    this.setState({items: copy});
-    this.setState({counter: count + 1});
+    setItems(copy);
+    setCounter(count + 1);
   }
 
   /**
@@ -172,18 +175,18 @@ class EditCard extends React.Component {
   * @param {Number} idx Index of item
   * @return {State}    Updated state, no actual return value
   */
-  updateSubpoints(idx) {
+  function updateSubpoints(idx) {
     // Handle random bug, will work if you keep clicking + Sub. Unknown reason.
     if (idx === null) {
-      console.error("error ", idx, this.state.items);
+      console.error("error ", idx, items);
       return;
     }
 
     idx = parseInt(idx);
-    const copy = [...this.state.items];
+    const copy = [...items];
     const content = {text: "", label: "", url: ""};
     const item = {};
-    const count = this.state.counter;
+    const count = counter;
     // let key = (idx + 1).toString();
 
     // Init empty item
@@ -194,9 +197,9 @@ class EditCard extends React.Component {
     item.current = 0;
 
     // Increment counter and insert child
-    copy.splice(idx + 1, 0, item);	// Initialize empty
-    this.setState({items: copy});
-    this.setState({counter: count + 1});
+    copy.splice(idx + 1, 0, item); // Initialize empty
+    setItems(copy);
+    setCounter(count + 1);
   }
 
   /**
@@ -204,38 +207,38 @@ class EditCard extends React.Component {
   * @param {Number} idx Index of item
   * @return {State}    Updated state, no actual return value
   */
-  deleteSubpoints(idx) {
+  function deleteSubpoints(idx) {
     if (idx === null) {
-      console.error("error ", idx, this.state.items);
+      console.error("error ", idx, items);
       return;
     }
     idx = parseInt(idx);
 
-    const toDelete = [...this.state.toDelete];
-    let copy = [...this.state.items];
+    const toDeleteList = [...toDelete];
+    let copy = [...items];
     let i;
     let remove = 1;
     const parent = copy[idx].depth;
     const start = idx + 1;
 
     // Delete children if any (if greater than parent subpoint depth, it is a child)
-    if (idx !== this.state.items.length - 1) {
-      for (i = start; i < this.state.items.length && parent < copy[i].depth; i++) {
-        toDelete.push(this.state.items[i].itemId);
+    if (idx !== items.length - 1) {
+      for (i = start; i < items.length && parent < copy[i].depth; i++) {
+        toDeleteList.push(items[i].itemId);
         remove++;
       }
     }
 
     // Delete from state.items
-    const count = this.state.counter;
-    copy = [...this.state.items];
+    const count = counter;
+    copy = [...items];
     copy.splice(idx, remove);	// Initialize empty
-    this.setState({items: copy});
-    this.setState({counter: count - remove});
+    setItems(copy);
+    setCounter(count - remove);
 
     // Set up Ids to be deleted
-    toDelete.push(this.state.items[idx].itemId);
-    this.setState({toDelete: toDelete});
+    toDeleteList.push(items[idx].itemId);
+    setToDelete(toDeleteList);
   }
 
   /**
@@ -244,58 +247,58 @@ class EditCard extends React.Component {
   * @param {Number} val Value of depth of this item
   * @return {Number}    Index of parent
   */
-  findParent(idx, val, ids) {
+  function findParent(idx, val, ids) {
     let closestIdx = null;
-    this.state.items.forEach((item, i) => {
+    items.forEach((item, i) => {
       if (i >= idx) { return closestIdx; }
       if (item.depth === (val - 1)) { closestIdx = i; }
     });
     return closestIdx !== null ? ids[closestIdx] : null;
   }
 
-  findOrderIndex(i) {
-    const items = this.state.items;
+  function findOrderIndex(i) {
+    const itemsList = items;
     // base case
-    if (i === 0 || items[i].depth === 0) { return 1; }
+    if (i === 0 || itemsList[i].depth === 0) { return 1; }
     // if left depth is smaller, this is a new "group". order index restarts at 1
-    if (items[i - 1].depth < items[i].depth) { return 1; }
+    if (itemsList[i - 1].depth < itemsList[i].depth) { return 1; }
     // if left sibling of item has same depth, order index inc
-    if (items[i - 1].depth === items[i].depth) { return items[i - 1].depth + 1; }
+    if (itemsList[i - 1].depth === itemsList[i].depth) { return itemsList[i - 1].depth + 1; }
   }
 
-  deleteCard = async () => {
+  async function deleteCard() {
     // Send call to backend to delete card
-    const results = await fetch(`/cards/${this.props.cardId}`, {
+    const results = await fetch(`/cards/${props.card.cardId}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });
 
     if (results.ok) {
       // Close modal
-      this.handleClose();
+      handleClose();
       // Reload page after deleting
-      this.props.refresh();
+      props.refresh();
     } else {
-      this.setState({errorMessage: "Error deleting card. Please try again later."});
+      setErrorMessage("Error deleting card. Please try again later.");
     }
   }
 
-  handleSubmit = async () => {
+  async function handleSubmit() {
     // Check for empty inputs
-    if (this.checkInputs()) {
+    if (checkInputs()) {
       return;
     }
 
     // Get the card format from the select
     const formatSelect = document.getElementById("select-edit-card-format");
-    const cardFormat = formatSelect.options[formatSelect.selectedIndex].value;
+    const newCardFormat = formatSelect.options[formatSelect.selectedIndex].value;
 
     // Prepare data for new card
     const cardData = {
-      headerId: this.props.headerId,
-      orderIndex: this.props.orderIndex,
-      cardType: cardFormat,
-      title: this.state.title,
+      headerId: props.card.headerId,
+      orderIndex: props.card.orderIndex,
+      cardType: newCardFormat,
+      title: title,
       approved: 0
     };
 
@@ -303,7 +306,7 @@ class EditCard extends React.Component {
     const itemIds = [];
 
     // Edit card
-    const results = await fetch(`/cards/${this.props.cardId}`, {
+    const results = await fetch(`/cards/${props.card.cardId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(cardData)
@@ -312,23 +315,23 @@ class EditCard extends React.Component {
     if (results.ok) {
 
       // reset error messages
-      this.setState({errorMessage: ""});
+      setErrorMessage("");
 
       // Close modal
-      this.handleClose();
+      handleClose();
 
       // Loop through state items and update
-      for (const key in this.state.items) {
+      for (const key in items) {
 
-        const current = this.state.items[key].current;
+        const current = items[key].current;
 
         // object representing a single item
         const itemData = {
-          cardId: this.props.cardId,
-          contentText: this.state.items[key].content.text,
-          contentLabel: this.state.items[key].content.label,
-          contentUrl: this.state.items[key].content.url,
-          iconType: this.state.items[key].icon,
+          cardId: props.card.cardId,
+          contentText: items[key].content.text,
+          contentLabel: items[key].content.label,
+          contentUrl: items[key].content.url,
+          iconType: items[key].icon,
           approved: 0
         };
 
@@ -336,9 +339,9 @@ class EditCard extends React.Component {
         if (current) {
 
           // Item is being updated
-          itemData.itemId = this.state.items[key].itemId;
-          itemData.orderIndex = this.findOrderIndex(key);
-          itemData.parentId = this.state.items[key].parentId;
+          itemData.itemId = items[key].itemId;
+          itemData.orderIndex = findOrderIndex(key);
+          itemData.parentId = items[key].parentId;
           itemData.approved = 0;
 
           // Make the request to update the item
@@ -364,7 +367,7 @@ class EditCard extends React.Component {
         } else {
 
           // Item is being created
-          itemData.parentId = this.findParent(key, this.state.items[key].depth, itemIds);
+          itemData.parentId = findParent(key, items[key].depth, itemIds);
           itemData.orderIndex = parseInt(key) + 1;
 
           // Make the request to create the item
@@ -391,8 +394,8 @@ class EditCard extends React.Component {
       }
 
       // Loop through old items that are no longer in the card and delete them
-      for (let i = 0; i < this.state.toDelete.length; i++) {
-        const itemResults = await fetch(`/items/${this.state.toDelete[i]}`, {
+      for (let i = 0; i < toDelete.length; i++) {
+        const itemResults = await fetch(`/items/${toDelete[i]}`, {
           method: "DELETE",
           headers: {"Content-Type": "application/json"}
         });
@@ -402,7 +405,7 @@ class EditCard extends React.Component {
       }
 
       // refresh the page
-      this.props.refresh();
+      props.refresh();
 
     } else {
 
@@ -415,9 +418,9 @@ class EditCard extends React.Component {
         logout();
         window.location.href = "/";
       } else if (results.status === 500 || typeof obj.error === "undefined") {
-        this.setState({errorMessage: "An internal server error occurred. Please try again later."});
+        setErrorMessage("An internal server error occurred. Please try again later.");
       } else {
-        this.setState({errorMessage: obj.error});
+        setErrorMessage(obj.error);
       }
 
     }
@@ -425,58 +428,59 @@ class EditCard extends React.Component {
   }
 
   // Check for empty inputs (card title, item text/content/labels, icons)
-  checkInputs() {
+  function checkInputs() {
     let emptyFound = false;
-    let errorMessage = this.state.errorMessage;
+    let newErrorMessage = errorMessage;
     let i = 0;
 
     // Empty title
-    if (!this.state.title.length) {
+    if (!title.length) {
       emptyFound = true;
-      errorMessage = "Error: Empty card title";
+      newErrorMessage = "Error: Empty card title";
       if (emptyFound) {
-        this.setState({errorMessage: errorMessage});
+        setErrorMessage(newErrorMessage);
         return true;
       }
     }
     // Empty item text
-    for (i = 0; i < this.state.items.length; i++) {
-      const item = this.state.items[i];
+    for (i = 0; i < items.length; i++) {
+      const item = items[i];
       if (item.contentType === 1) { // text
         if (item.content.text === "") {
           emptyFound = true;
-          errorMessage = "Error: Item is not filled out completely on line " + (i + 1);
+          newErrorMessage = "Error: Item is not filled out completely on line " + (i + 1);
           break;
         }
       } else if (item.contentType === 2) { // label + url
         if (item.content.label === "" || item.content.url === "") {
           emptyFound = true;
-          errorMessage = "Error: Graphic is not filled out completely on line " + (i + 1);
+          newErrorMessage = "Error: Graphic is not filled out completely on line " + (i + 1);
           break;
         }
       } else if (item.contentType === 3) { // text + label + url
         if (item.content.text === "" || item.content.label === "" || item.content.url === "") {
           emptyFound = true;
-          errorMessage = "Error: Resource is not filled out completely on line " + (i + 1);
+          newErrorMessage = "Error: Resource is not filled out completely on line " + (i + 1);
           break;
         }
       }
       // Check icons
       if (item.icon === null) {
         emptyFound = true;
-        errorMessage = "Error: Empty item icon on line " + (i + 1);
+        newErrorMessage = "Error: Empty item icon on line " + (i + 1);
         break;
       }
     }
-    this.setState({errorMessage: errorMessage});
+    setErrorMessage(newErrorMessage);
     if (emptyFound) { return true; }
     return false;
   }
 
-  // Control input coming from <ItemInput> for each row according to contentType and index in this.state.items
-  handleInput = (e, index, contentType) => {
+  // Control input coming from <ItemInput> for each row according to
+  // contentType and index in the items state
+  function handleInput(e, index, contentType) {
     const key = index.toString();
-    const copy = [...this.state.items];
+    const copy = [...items];
     if (contentType === 1) {
       copy[key].content.text = e.target.value;
     } else if (contentType === 2) {
@@ -484,7 +488,7 @@ class EditCard extends React.Component {
     } else if (contentType === 3) {
       copy[key].content.url = e.target.value;
     }
-    this.setState({items: copy});
+    setItems(copy);
   }
 
   /**
@@ -493,25 +497,25 @@ class EditCard extends React.Component {
   * @param {Number} index Index of item being changed
   * @return {State} Updated state, no actual return value
   */
-  updateIcon(icon, index) {
-    const copy = [...this.state.items];
+  function updateIcon(icon, index) {
+    const copy = [...items];
     copy[index].icon = icon;
-    this.setState({items: copy});
+    setItems(copy);
   }
 
-  getIconName(id, contentType) {
+  function getIconName(id, contentType) {
     let i;
     if (contentType === 3) {
-      for (i = 0; i < this.state.linkIcons.length; i++) {
-        if (this.state.linkIcons[i].iconType === id) { return i; }
+      for (i = 0; i < linkIcons.length; i++) {
+        if (linkIcons[i].iconType === id) { return i; }
       }
     } else if (contentType === 2) {
-      for (i = 0; i < this.state.imageIcons.length; i++) {
-        if (this.state.imageIcons[i].iconType === id) { return i; }
+      for (i = 0; i < imageIcons.length; i++) {
+        if (imageIcons[i].iconType === id) { return i; }
       }
     } else {
-      for (i = 0; i < this.state.basicIcons.length; i++) {
-        if (this.state.basicIcons[i].iconType === id) { return i; }
+      for (i = 0; i < basicIcons.length; i++) {
+        if (basicIcons[i].iconType === id) { return i; }
       }
     }
     return null;
@@ -522,12 +526,12 @@ class EditCard extends React.Component {
   * @param {Number} i item index passed from generateInputs()
   * @return {JSX}    Array of JSX of icons
   */
-  generateIcons(i, contentType) {
+  function generateIcons(i, contentType) {
     const list = [];
     const jsx = [];
     const values = [];
     if (contentType === 3) {
-      this.state.linkIcons.map((type) => {
+      linkIcons.map((type) => {
         // filter out icons based on the content type
         jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
           <i className={`fas fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
@@ -537,7 +541,7 @@ class EditCard extends React.Component {
         return null;
       });
     } else if (contentType === 2) {
-      this.state.imageIcons.map((type) => {
+      imageIcons.map((type) => {
         // filter out icons based on the content type
         jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
           <i className={`fas fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
@@ -547,7 +551,7 @@ class EditCard extends React.Component {
         return null;
       });
     } else {
-      this.state.basicIcons.map((type) => {
+      basicIcons.map((type) => {
         // filter out icons based on the content type
         jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
           <i className={`fas fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
@@ -566,28 +570,28 @@ class EditCard extends React.Component {
   * @param {Number} i item index passed from generateInputs()
   * @return {JSX}    Array of JSX of icons
   */
-  getDepth(idx) {
+  function getDepth(idx) {
     const jsx = [];
     let i = 0;
-    for (i = 0; i < this.state.items[idx].depth; i++) { jsx.push(<div key={i} className="pl-2 ml-1"><i className="fas fa-long-arrow-alt-right mt-2 text-secondary"></i></div>); }
+    for (i = 0; i < items[idx].depth; i++) { jsx.push(<div key={i} className="pl-2 ml-1"><i className="fas fa-long-arrow-alt-right mt-2 text-secondary"></i></div>); }
     return jsx;
   }
 
-  generateInputs() {
+  function generateInputs() {
     const jsx = [];
     let i = 0;
-    for (i = 0; i < this.state.counter; i++) {
-      const itemIdKey = this.state.items[i].itemId + " " + i;
-      const subpointDepth = this.state.items[i].depth;
-      const contentType = this.state.items[i].contentType;
+    for (i = 0; i < counter; i++) {
+      const itemIdKey = items[i].itemId + " " + i;
+      const subpointDepth = items[i].depth;
+      const contentType = items[i].contentType;
       jsx.push(
         <Row className="mb-2" key={itemIdKey + "a"}>
-          {this.getDepth(i)} {/* return indentation for subpoints*/}
+          {getDepth(i)} {/* return indentation for subpoints*/}
           <div className="col-1">
             <Dropdown key={itemIdKey + "b"} idx={i}
-              list={this.generateIcons(i, contentType)}
-              selectedIndex={this.getIconName(this.state.items[i].icon, contentType)}
-              handleClick={(id, idx) => this.updateIcon(id, idx)}
+              list={generateIcons(i, contentType)}
+              selectedIndex={getIconName(items[i].icon, contentType)}
+              handleClick={(id, idx) => updateIcon(id, idx)}
               edit
             />
           </div>
@@ -595,17 +599,17 @@ class EditCard extends React.Component {
           <div className="input-group col-9">
             <ItemInput
               title='Text'
-              handleInput={this.handleInput}
+              handleInput={(e1, e2, e3) => handleInput(e1, e2, e3)}
               index={i}
-              value={this.state.items[i]}
-              contentType={this.state.items[i].contentType}
+              value={items[i]}
+              contentType={items[i].contentType}
             />
             {subpointDepth < 6 &&	// set maximum depth to 6, can be increased if it fits the screen
               <span>
-                <button className='btn btn-success btn-sm ml-2' key={itemIdKey + "c"} data-index={i} onClick={(e) => this.updateSubpoints(e.target.getAttribute("data-index"))}>
+                <button className='btn btn-success btn-sm ml-2' key={itemIdKey + "c"} data-index={i} onClick={(e) => updateSubpoints(e.target.getAttribute("data-index"))}>
                   <i className='fas fa-plus' /> Sub
                 </button>
-                <button className='btn btn-danger btn-sm ml-2' key={itemIdKey + "d"} data-index={i} onClick={(e) => this.deleteSubpoints(e.target.getAttribute("data-index"))}>
+                <button className='btn btn-danger btn-sm ml-2' key={itemIdKey + "d"} data-index={i} onClick={(e) => deleteSubpoints(e.target.getAttribute("data-index"))}>
                   <i className='fas fa-times' /> Remove
                 </button>
               </span>
@@ -617,96 +621,92 @@ class EditCard extends React.Component {
     return jsx;
   }
 
-  render() {
-    return this.state.loaded && this.state.role >= 3 ? (
-      <div className='text-center mx-2'>
-        <Button size="sm" variant="info" onClick={this.handleShow}>
-          <i
-            className='fas fa-edit text-white mr-2'
-            style={{transform: "scale(1.5)"}}></i>
-          <span className="text-white">Edit Card</span>
-        </Button>
-        <Modal show={this.state.show} onHide={this.handleClose} dialogClassName="modal-width">
-          <Modal.Header>
-            <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Edit Card</h5>
-            <Button variant="none" onClick={this.handleClose}>
-              <span aria-hidden="true">&times;</span>
-            </Button>
-          </Modal.Header>
+  return loaded && role >= 3 ? (
+    <div className='text-center mx-2'>
+      <Button size="sm" variant="info" onClick={() => handleShow()}>
+        <i
+          className='fas fa-edit text-white mr-2'
+          style={{transform: "scale(1.5)"}}></i>
+        <span className="text-white">Edit Card</span>
+      </Button>
+      <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
+        <Modal.Header>
+          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Edit Card</h5>
+          <Button variant="none" onClick={() => handleClose()}>
+            <span aria-hidden="true">&times;</span>
+          </Button>
+        </Modal.Header>
 
-          <Modal.Body >
-            <Row>
-              <Col>
-                <Form.Group controlId="formTitle">
-                  <Form.Label className="font-weight-bold">Card Title</Form.Label>
-                  <Form.Control type="text" defaultValue={this.state.title} onChange={(e) => this.setState({title: e.target.value})} />
-                </Form.Group>
-              </Col>
-            </Row>
+        <Modal.Body >
+          <Row>
+            <Col>
+              <Form.Group controlId="formTitle">
+                <Form.Label className="font-weight-bold">Card Title</Form.Label>
+                <Form.Control type="text" defaultValue={title} onChange={(e) => setTitle(e.target.value)} />
+              </Form.Group>
+            </Col>
+          </Row>
 
-            <Row>
-              <Col>
-                <Form.Group controlId="formTitle">
-                  <Form.Label className="font-weight-bold">Card Format</Form.Label>
-                  <select className="form-control"
-                    id="select-edit-card-format"
-                    defaultValue={this.state.format}
-                  >
-                    <option value="0">Default</option>
-                    <option value="1">Thumbnail Gallery</option>
-                  </select>
-                </Form.Group>
-              </Col>
-            </Row>
+          <Row>
+            <Col>
+              <Form.Group controlId="formTitle">
+                <Form.Label className="font-weight-bold">Card Format</Form.Label>
+                <select className="form-control"
+                  id="select-edit-card-format"
+                  defaultValue={format}
+                >
+                  <option value="0">Default</option>
+                  <option value="1">Thumbnail Gallery</option>
+                </select>
+              </Form.Group>
+            </Col>
+          </Row>
 
-            <div className="font-weight-bold">Items</div>
-            {this.generateInputs()}
+          <div className="font-weight-bold">Items</div>
+          {generateInputs()}
 
-            <Row>
-              <Col className="mt-2">
-                <AddButton variant="success" label="Add Item" onClick={() => this.incrementCounter(1)} />
-                <AddButton variant="primary" label="Add Graphic" onClick={() => this.incrementCounter(2)} />
-                <AddButton variant="info" label="Add Site Resource" onClick={() => this.incrementCounter(3)} />
-              </Col>
-            </Row>
+          <Row>
+            <Col className="mt-2">
+              <AddButton variant="success" label="Add Item" onClick={() => incrementCounter(1)} />
+              <AddButton variant="primary" label="Add Graphic" onClick={() => incrementCounter(2)} />
+              <AddButton variant="info" label="Add Site Resource" onClick={() => incrementCounter(3)} />
+            </Col>
+          </Row>
 
-            <Row>
-              <div className='col-3' />
-              <div className='col-6 mt-4'>
-                <Error
-                  message={this.state.errorMessage}
-                />
-              </div>
-            </Row>
-          </Modal.Body>
+          <Row>
+            <div className='col-3' />
+            <div className='col-6 mt-4'>
+              <Error
+                message={errorMessage}
+              />
+            </div>
+          </Row>
+        </Modal.Body>
 
-          <Modal.Footer className="modal-footer">
-            <Button
-              className="mr-auto"
-              variant="danger" 
-              onClick={() => {if (window.confirm("Are you sure you wish to delete this item?")) { this.deleteCard(); } }}
-            >
-              Delete Card
-            </Button>
-            <Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Card Edit</Button>
-            <Button variant="secondary" onClick={this.handleClose}>Cancel</Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
-    ) : "";
-  }
+        <Modal.Footer className="modal-footer">
+          <Button
+            className="mr-auto"
+            variant="danger" 
+            onClick={() => {if (window.confirm("Are you sure you wish to delete this item?")) { deleteCard(); } }}
+          >
+            Delete Card
+          </Button>
+          <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Card Edit</Button>
+          <Button variant="secondary" onClick={() => handleClose()}>Cancel</Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  ) : (
+    null
+  );
+
 }
 export default EditCard;
 
 EditCard.propTypes = {
-  iconSet: PropTypes.array,
-  cardName: PropTypes.string,
-  items: PropTypes.array,
-  headerId: PropTypes.number,
-  cardId: PropTypes.number,
-  cardType: PropTypes.number,
-  parentId: PropTypes.number,
+  card: PropTypes.object,
   orderIndex: PropTypes.number,
-  refresh: PropTypes.func
+  refresh: PropTypes.func,
+  iconSet: PropTypes.array
 };
 
