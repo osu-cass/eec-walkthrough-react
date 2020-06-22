@@ -40,7 +40,7 @@ function ReviewHeader(props) {
     };
 
     // Approve the header
-    const results = await fetch(`/headers/${props.headerId}`, {
+    const results = await fetch(`/headers/${props.header.headerId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(headerData)
@@ -68,7 +68,7 @@ function ReviewHeader(props) {
 
   }
 
-  return role >= 3 && !props.approved ? (
+  return role >= 3 && (!props.header.approved || props.header.tempHeaderId) ? (
     <div className='text-center mx-2'>
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
@@ -81,7 +81,7 @@ function ReviewHeader(props) {
 
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
-          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review {props.title} Header</h5>
+          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review Header</h5>
           <Button variant="none" onClick={() => handleClose()}>
             <span aria-hidden="true">&times;</span>
           </Button>
@@ -89,21 +89,26 @@ function ReviewHeader(props) {
 
         <Modal.Body>
 
-          <div className="version-container p-2 m-3 border border-dark rounded">
-            <h4 className="font-weight-bold">Published Version</h4>
-            <span className="created-text">Created {formatTime(props.created)}</span>
-            <div className="m-3">
-              <h4>{props.title}</h4>
+          {props.header.approved ? (
+            <div className="version-container p-2 m-3 border border-dark rounded">
+              <h4 className="font-weight-bold">{props.header.title} (Published Version)</h4>
+              <span className="created-text">Created {formatTime(props.header.created)}</span>
             </div>
-          </div>
+          ) : (
+            null
+          )}
 
-          <div className="version-container p-2 m-3 border border-dark rounded">
-            <h4 className="font-weight-bold">New Version</h4>
-            <span className="created-text">Created {formatTime(props.created)}</span>
-            <div className="m-3">
-              <h4>{props.title}</h4>
+          {props.header.approved && props.header.tempHeaderId ? (
+            <div className="version-container p-2 m-3 border border-dark rounded">
+              <h4 className="font-weight-bold">{props.header.tempTitle} (New Version)</h4>
+              <span className="created-text">Created {formatTime(props.header.tempCreated)}</span>
             </div>
-          </div>
+          ) : (
+            <div className="version-container p-2 m-3 border border-dark rounded">
+              <h4 className="font-weight-bold">{props.header.title} (New Version)</h4>
+              <span className="created-text">Created {formatTime(props.header.created)}</span>
+            </div>
+          )}
 
           <Row>
             <div className='col-3' />
