@@ -45,12 +45,9 @@ function EditCard(props) {
         label: item.contentLabel,
         url: item.contentUrl
       };
-      itemData.contentText = item.contentText;
-      itemData.contentLabel = item.contentLabel;
-      itemData.contentUrl = item.contentUrl;
       itemData.parentId = item.parentId;
       itemData.depth = item.depth;
-      itemData.iconType = item.iconType;
+      itemData.icon = item.iconType;
       itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
       itemData.current = 1;
       itemData.orderIndex = item.orderIndex;
@@ -94,19 +91,29 @@ function EditCard(props) {
   }
 
   function getChildren(id) {
-    const results = props.card.items.reduce((result, item) => {
-      if (item.parentId === id) {
-        result.push(item);
-      }
-      return result;
-    }, []);
-    return results.length ? results : false;
+    if (props.card.tempItems.length) {
+      const results = props.card.tempItems.reduce((result, item) => {
+        if (item.parentId === id) {
+          result.push(item);
+        }
+        return result;
+      }, []);
+      return results.length ? results : false;
+    } else {
+      const results = props.card.items.reduce((result, item) => {
+        if (item.parentId === id) {
+          result.push(item);
+        }
+        return result;
+      }, []);
+      return results.length ? results : false;
+    }
   }
 
   // given a list of items
   // check each item. grab its item id, and check list again for items whose parent id match. assume sorted by order index already.
   // result: to list each one in order, from top to bottom
-  function recurseItems(item, used, items, isChild, prevDepth) {  // isChild = marks if it has any parent, for coloring
+  function recurseItems(item, used, itemsArray, isChild, prevDepth) {  // isChild = marks if it has any parent, for coloring
     const children = getChildren(item.itemId); // get all children of this item
     if (!(used.includes(item.itemId))) {
       used.push(item.itemId); // push used
@@ -114,23 +121,43 @@ function EditCard(props) {
       if (isChild) { item.depth = prevDepth + 1; } else { item.depth = 0; }
       if (children) {
         // push item
-        items.push(item);
+        itemsArray.push(item);
         // recurse over children found
-        children.map((child) => (recurseItems(child, used, items, true, item.depth)));
+        children.map((child) => (recurseItems(child, used, itemsArray, true, item.depth)));
       } else {
-        items.push(item);
+        itemsArray.push(item);
       }
     }
   }
 
   function generateItems(itemList) {
-    const items = []; // hold items
+    const itemArray = []; // hold items
     const used = []; // hold used items to avoid looping over again
     itemList.map((item) => { // loop through each item (if not used), and grab its children
-      recurseItems(item, used, items, false, 0);
+      recurseItems(item, used, itemArray, false, 0);
       return null;
     });
-    return items;
+    return itemArray;
+  }
+
+  function findDepth(item, itemArr, i) {
+    // No parent is depth 0
+    if (!itemArr.length || item.parentId === null) {
+      return 0;
+    }
+    // Check if previous item's parent is null, item depth is default 1
+    if (itemArr[i - 1].parentId === null) {
+      return 1;
+    } else if (item.parentId === itemArr[i - 1].parentId) {
+      // Shares same parent as previous item, return same depth
+      return itemArr[i - 1].depth;
+    } else if (item.parentId !== itemArr[i - 1].parentId) {
+      // Does not share same parent
+      return itemArr[i - 1].depth + 1;
+    } else {
+      // New case
+      return itemArr[i - 1].depth - 1;
+    }
   }
 
   function handleClose() {
@@ -158,21 +185,18 @@ function EditCard(props) {
     copy[key] = {};
     copy[key].content = content;
     copy[key].depth = 0;
-    copy[key].iconType = null;
+    copy[key].icon = null;
     copy[key].contentType = contentType;
-    copy[key].contentText = content.text;
-    copy[key].contentLabel = content.label;
-    copy[key].contentUrl = content.url;
     copy[key].orderIndex = 1;
+
     setItems(copy);
     setCounter(count + 1);
   }
 
-  /**
-  * Update state relating to subpoint depth (how far item is tabbed)
-  * @param {Number} idx Index of item
-  * @return {State}    Updated state, no actual return value
-  */
+ 
+  // Update state relating to subpoint depth (how far item is tabbed)
+  // @param {Number} idx Index of item
+  // @return {State}    Updated state, no actual return value
   function updateSubpoints(idx) {
     // Handle random bug, will work if you keep clicking + Sub. Unknown reason.
     if (idx === null) {
@@ -189,12 +213,9 @@ function EditCard(props) {
     // Init empty item
     item.content = content;
     item.depth = copy[idx].depth + 1;
-    item.iconType = null;
+    item.icon = null;
     item.contentType = 1;
     item.current = 0;
-    item.contentText = content.text;
-    item.contentLabel = content.label;
-    item.contentUrl = content.url;
     item.orderIndex = 1;
 
     // Increment counter and insert child
@@ -203,11 +224,9 @@ function EditCard(props) {
     setCounter(count + 1);
   }
 
-  /**
-  * Update state by removing selected item
-  * @param {Number} idx Index of item
-  * @return {State}    Updated state, no actual return value
-  */
+  // Update state by removing selected item
+  // @param {Number} idx Index of item
+  // @return {State} Updated state, no actual return value
   function deleteSubpoints(idx) {
     if (idx === null) {
       console.error("error ", idx, items);
@@ -242,6 +261,28 @@ function EditCard(props) {
     setToDelete(toDeleteList);
   }
 
+  // Find parent of item by finding closest index of (subpoint depth - 1) to the left
+  // @param {Number} idx Index of item
+  // @param {Number} val Value of depth of this item
+  // @return {Number}    Index of parent
+  function findParent(idx, val, ids) {
+    let closestIdx = null;
+    items.forEach((item, i) => {
+      if (i >= idx) { return closestIdx; }
+      if (item.depth === (val - 1)) { closestIdx = i; }
+    });
+    return closestIdx !== null ? ids[closestIdx] : null;
+  }
+
+  function findOrderIndex(i) {
+    // base case
+    if (i === 0 || items[i].depth === 0) { return 1; }
+    // if left depth is smaller, this is a new "group". order index restarts at 1
+    if (items[i - 1].depth < items[i].depth) { return 1; }
+    // if left sibling of item has same depth, order index inc
+    if (items[i - 1].depth === items[i].depth) { return items[i - 1].depth + 1; }
+  }
+
   async function deleteCard() {
     // Send call to backend to delete card
     const results = await fetch(`/cards/${props.card.cardId}`, {
@@ -269,6 +310,7 @@ function EditCard(props) {
     const formatSelect = document.getElementById("select-edit-card-format");
     const newCardFormat = formatSelect.options[formatSelect.selectedIndex].value;
 
+    const itemIds = [];
     let cardData = {};
 
     // Prepare data for new card
@@ -295,6 +337,40 @@ function EditCard(props) {
     });
 
     if (results.ok) {
+
+      // Loop through state items and create
+      for (const key in items) {
+
+        // object representing a single item
+        const itemData = {
+          cardId: props.card.cardId,
+          contentText: items[key].content.text,
+          contentLabel: items[key].content.label,
+          contentUrl: items[key].content.url,
+          iconType: items[key].icon,
+          orderIndex: items[key].orderIndex
+        };
+
+        // Items can be dependent on previous item to be created (parentId)
+        const itemResults = await fetch("/items/", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(itemData)
+        });
+
+        if (itemResults.ok) {
+          const itemObj = await itemResults.json();
+          itemIds.push(itemObj.insertId);
+        } else {
+          const itemObj = await itemResults.json();
+          if (typeof itemObj.error === "undefined") {
+            console.error("Error creating item.");
+          } else {
+            console.error("Error creating item:", itemObj.error);
+          }
+        }
+
+      }
 
       // reset error messages
       setErrorMessage("");
@@ -363,7 +439,7 @@ function EditCard(props) {
         }
       }
       // Check icons
-      if (item.iconType === null) {
+      if (item.icon === null) {
         emptyFound = true;
         newErrorMessage = "Error: Empty item icon on line " + (i + 1);
         break;
@@ -386,21 +462,17 @@ function EditCard(props) {
     } else if (contentType === 3) {
       copy[key].content.url = e.target.value;
     }
-    copy[key].contentText = copy[key].content.text;
-    copy[key].contentLabel = copy[key].content.label;
-    copy[key].contentUrl = copy[key].content.url;
     setItems(copy);
   }
 
-  /**
-  * Updates dropdown icon selected for specific index
-  * @param {Number} icon itemType ID of Icon
-  * @param {Number} index Index of item being changed
-  * @return {State} Updated state, no actual return value
-  */
+
+  // Updates dropdown icon selected for specific index
+  // @param {Number} icon itemType ID of Icon
+  // @param {Number} index Index of item being changed
+  // @return {State} Updated state, no actual return value
   function updateIcon(icon, index) {
     const copy = [...items];
-    copy[index].iconType = icon;
+    copy[index].icon = icon;
     setItems(copy);
   }
 
@@ -422,11 +494,9 @@ function EditCard(props) {
     return null;
   }
 
-  /**
-  * Returns JSX for dropdown of all icons
-  * @param {Number} i item index passed from generateInputs()
-  * @return {JSX}    Array of JSX of icons
-  */
+  // Returns JSX for dropdown of all icons
+  // @param {Number} i item index passed from generateInputs()
+  // @return {JSX}   Array of JSX of icons
   function generateIcons(i, contentType) {
     const list = [];
     const jsx = [];
@@ -466,11 +536,9 @@ function EditCard(props) {
     return list;
   }
 
-  /**
-  * Returns JSX showing indentation of items
-  * @param {Number} i item index passed from generateInputs()
-  * @return {JSX}    Array of JSX of icons
-  */
+  // Returns JSX showing indentation of items
+  // @param {Number} i item index passed from generateInputs()
+  // @return {JSX}    Array of JSX of icons
   function getDepth(idx) {
     const jsx = [];
     let i = 0;
@@ -491,7 +559,7 @@ function EditCard(props) {
           <div className="col-1">
             <Dropdown key={itemIdKey + "b"} idx={i}
               list={generateIcons(i, contentType)}
-              selectedIndex={getIconName(items[i].iconType, contentType)}
+              selectedIndex={getIconName(items[i].icon, contentType)}
               handleClick={(id, idx) => updateIcon(id, idx)}
               edit
             />

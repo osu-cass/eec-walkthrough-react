@@ -227,6 +227,7 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
         "WHERE cardId = ? AND approved = 0;";
         sqlArray.push(cardId);
 
+        /* DON'T CREATE ITEMS IN THIS FUNCTION FOR NOW
         // create all of the new items
         sql += "INSERT INTO Items (cardId, parentId, orderIndex, iconType, " +
         "contentText, contentUrl, contentLabel, approved) VALUES ";
@@ -245,6 +246,7 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
 
         // replace the final comma with a semicolon
         sql = sql.replace(/.$/, ";");
+        */
       }
     }
 

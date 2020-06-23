@@ -88,7 +88,7 @@ function ReviewCard(props) {
         <Modal.Body>
 
           {props.card.approved ? (
-            <div className="version-container p-2 m-3 border border-dark rounded">
+            <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
               <h4 className="font-weight-bold">Published Version</h4>
               <span className="created-text">Created {formatTime(props.card.created)}</span>
               <div className="m-3">
@@ -101,7 +101,7 @@ function ReviewCard(props) {
           )}
 
           {props.card.approved && props.card.tempCardId ? (
-            <div className="version-container p-2 m-3 border border-dark rounded">
+            <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
               <h4 className="font-weight-bold">New Version</h4>
               <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
               <div className="m-3">
@@ -110,7 +110,7 @@ function ReviewCard(props) {
               </div>
             </div>
           ) : (
-            <div className="version-container p-2 m-3 border border-dark rounded">
+            <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
               <h4 className="font-weight-bold">New Version</h4>
               <span className="created-text">Created {formatTime(props.card.created)}</span>
               <div className="m-3">

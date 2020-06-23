@@ -203,8 +203,6 @@ exports.postItemVal = postItemVal;
 const patchItemVal = Object.freeze({
   validation: [
     check("itemId").isInt({min: 1, max: 4294967295}),
-    check("cardId").optional()
-      .isInt({min: 1, max: 4294967295}),
     check("parentId").optional({nullable: true})
       .isInt({min: 0, max: 4294967295}),
     check("orderIndex").optional()
@@ -216,9 +214,7 @@ const patchItemVal = Object.freeze({
     check("contentUrl").optional()
       .isLength({min: 0, max: 1000}),
     check("contentLabel").optional()
-      .isLength({min: 0, max: 1000}),
-    check("approved").optional()
-      .isInt({min: 0, max: 1})
+      .isLength({min: 0, max: 1000})
   ]
 });
 exports.patchItemVal = patchItemVal;
