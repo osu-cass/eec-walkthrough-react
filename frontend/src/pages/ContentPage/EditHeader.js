@@ -15,12 +15,20 @@ function EditHeader(props) {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    setTitle(props.header.title);
-  }, []);
+    if (props.header.tempHeaderId) {
+      setTitle(props.header.tempTitle);
+    } else {
+      setTitle(props.header.title);
+    }
+  }, [props.header.title]);
 
   function handleCloseModal() {
     setShowModal(false);
-    setTitle(props.header.title);
+    if (props.header.tempHeaderId) {
+      setTitle(props.header.tempTitle);
+    } else {
+      setTitle(props.header.title);
+    }
     setErrorMessage("");
   };
 
@@ -134,7 +142,7 @@ function EditHeader(props) {
                 <Form.Control
                   type="text"
                   placeholder="Enter title"
-                  defaultValue={props.header.title}
+                  defaultValue={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Group>
