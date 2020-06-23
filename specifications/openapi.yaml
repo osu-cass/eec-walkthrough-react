@@ -587,65 +587,65 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/Items/{itemId}':
-    get:
-      summary: Gets an item by ID
-      description: >
-        Gets an item using the item ID
-      operationId: getItem
-      tags:
-        - Items
-      parameters:
-        - $ref: '#/components/parameters/Item_itemId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Item_GET_200'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
+  #'/Items/{itemId}':
+  #  get:
+  #    summary: Gets an item by ID
+  #    description: >
+  #      Gets an item using the item ID
+  #    operationId: getItem
+  #    tags:
+  #      - Items
+  #    parameters:
+  #      - $ref: '#/components/parameters/Item_itemId'
+  #    responses:
+  #      '200':
+  #        $ref: '#/components/responses/Item_GET_200'
+  #      '404':
+  #        $ref: '#/components/responses/404'
+  #      '500':
+  #        $ref: '#/components/responses/500'
 
-    patch:
-      summary: Update an item by ID
-      description: >
-        Updates one or more item fields
-      operationId: updateItem
-      tags:
-        - Items
-      requestBody:
-        $ref: '#/components/requestBodies/Item_PATCH'
-      parameters:
-        - $ref: '#/components/parameters/Item_itemId'
-      responses:
-        '200':
-          $ref: '#/components/responses/PATCH_200'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '422':
-          $ref: '#/components/responses/422'
-        '500':
-          $ref: '#/components/responses/500'
+  #  patch:
+  #    summary: Update an item by ID
+  #    description: >
+  #      Updates one or more item fields
+  #    operationId: updateItem
+  #    tags:
+  #      - Items
+  #    requestBody:
+  #      $ref: '#/components/requestBodies/Item_PATCH'
+  #    parameters:
+  #      - $ref: '#/components/parameters/Item_itemId'
+  #    responses:
+  #      '200':
+  #        $ref: '#/components/responses/PATCH_200'
+  #      '401':
+  #        $ref: '#/components/responses/401'
+  #      '403':
+  #        $ref: '#/components/responses/403'
+  #      '404':
+  #        $ref: '#/components/responses/404'
+  #      '422':
+  #        $ref: '#/components/responses/422'
+  #      '500':
+  #        $ref: '#/components/responses/500'
 
-    delete:
-      summary: Delete an item by ID
-      description: >
-        Delete an item using the item ID
-      operationId: deleteItem
-      tags:
-        - Items
-      parameters:
-        - $ref: '#/components/parameters/Item_itemId'
-      responses:
-        '200':
-          $ref: '#/components/responses/DELETE_200'
-        '401':
-          $ref: '#/components/responses/401'
-        '500':
-          $ref: '#/components/responses/500'
+  #  delete:
+  #    summary: Delete an item by ID
+  #    description: >
+  #      Delete an item using the item ID
+  #    operationId: deleteItem
+  #    tags:
+  #      - Items
+  #    parameters:
+  #      - $ref: '#/components/parameters/Item_itemId'
+  #    responses:
+  #      '200':
+  #        $ref: '#/components/responses/DELETE_200'
+  #      '401':
+  #        $ref: '#/components/responses/401'
+  #      '500':
+  #        $ref: '#/components/responses/500'
           
   '/Items/{itemId}/timestamp':
     patch:
@@ -1007,10 +1007,6 @@ components:
           minLength: 0
           maxLength: 1000
           example: Assessing Industrial Air Compressor
-        userId:
-          allOf:
-            - description: The user ID of the user who created the item
-            - $ref: '#/components/schemas/Id'
         created:
           allOf:
             - description: The time that the item was created
@@ -1125,8 +1121,6 @@ components:
                       example: Compressed air has been a key industrial utility since the...
                     imageUrl:
                       example: http://flip2.engr.oregonstate.edu:1111/images/aircompressor.png
-                    approved:
-                      example: 1
 
     Header_POST:
       required: true
@@ -1148,18 +1142,12 @@ components:
         application/json:
           schema:
             properties:
-              pageId:
-                allOf:
-                  - description: The unique identifier of the page that this header belongs to
-                  - $ref: '#/components/schemas/Id'
               title:
                 description: The title of the header
                 type: string
                 minLength: 1
                 maxLength: 100
                 example: Compressed Air Opportunities to Consider
-              approved:
-                example: 1
               orderIndex:
                 example: 5
 
@@ -1184,8 +1172,6 @@ components:
         application/json:
           schema:
             properties:
-              headerId:
-                example: 25
               cardType:
                 example: 0
               title:
