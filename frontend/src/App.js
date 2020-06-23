@@ -41,6 +41,7 @@ class App extends React.Component {
   render() {
     return (
       <main>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
         <NavBar
           openSidebar={this.openSidebar} nameChange={this.state.nameChange}
           handleLoginStatusChange={this.handleLoginStatusChange}

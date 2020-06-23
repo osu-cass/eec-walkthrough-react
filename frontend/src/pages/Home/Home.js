@@ -1,5 +1,5 @@
 import React from "react";
-import {Card} from "react-bootstrap";
+import {Card, Col} from "react-bootstrap";
 import "./Home.css";
 
 function Home() {
@@ -89,31 +89,27 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               <li className="my-2">
-                <i className={`fas fa-plus mr-2`} />
+                <i className={`fas fa-list-ol mr-2`} />
                 <span className="font-weight-normal">Analysis Tool</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-plus mr-2`} />
+                <i className={`fas fa-copy mr-2`} />
                 <span className="font-weight-normal">Document</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-plus mr-2`} />
+                <i className={`fas fa-square-full mr-2`} />
                 <span className="font-weight-normal">Slideshow</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-plus mr-2`} />
-                <span className="font-weight-normal">Picture Gallery</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-plus mr-2`} />
+                <i className={`fas fa-video-camera mr-2`} />
                 <span className="font-weight-normal">Video</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-plus mr-2`} />
+                <i className={`fas mr-2 letter-icon-bordered`}>W</i>
                 <span className="font-weight-normal">Informational Website</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-plus mr-2`} />
+                <i className={`fas mr-2 letter-icon-bordered`}>V</i>
                 <span className="font-weight-normal">Vendor Website</span>
               </li>
             </ul>
@@ -135,7 +131,7 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               <li className="my-2">
-                <i className={`fas fa-plus mr-2`} />
+                <i className={`fas fa-arrow-down mr-2`} />
                 <span className="font-weight-normal">Download of learning resource</span>
               </li>
             </ul>
@@ -194,6 +190,20 @@ function Home() {
         <Card.Header>
           <h5>Sponsors</h5>
         </Card.Header>
+        <Col className="my-4">
+          <img
+            src={"/images/BPA.png"}
+            alt={"Industrial Assessment Center"}
+            title={"Industrial Assessment Center"}
+            className="expandable-image img-fluid img-thumbnail mr-5"
+          />
+          <img
+            src={"/images/IAC.png"}
+            alt={"Industrial Assessment Center"}
+            title={"Industrial Assessment Center"}
+            className="expandable-image img-fluid img-thumbnail ml-5"
+          />
+        </Col>
         <div className="p-4 my-2 text-dark-50 bg-white" >
           <div className="font-weight-bold mb-3">This guide has been developed with support from</div>
           <div>
