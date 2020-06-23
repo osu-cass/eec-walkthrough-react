@@ -422,7 +422,7 @@ exports.deletePage = deletePage;
 
 
 // update a page
-async function updatePage(pageId, pageType, name, title, description, imageUrl, approved) {
+async function updatePage(pageId, name, title, description, imageUrl, userId) {
 
   try {
 
@@ -438,65 +438,44 @@ async function updatePage(pageId, pageType, name, title, description, imageUrl, 
       return {error: 1};
     }
 
-    // make sure that the page name and type combination doesn't already exist
+    // See if we already have an unpublished page.
+    // Either create a new one or update the existing one.
     sql = "SELECT * " +
-    "FROM Pages " +
-    "WHERE pageType = ? " +
-    "AND name = ? " +
-    "AND NOT pageId = ?;";
-    results = await pool.query(sql, [pageType, name, pageId]);
+    "FROM Temp_Pages " +
+    "WHERE tempPageId = ?;";
+    results = await pool.query(sql, pageId);
 
     if (results[0].length) {
-      return {error: 2};
-    }
 
-    // construct a sql query based on the fields given
-    sql = "UPDATE Pages SET ";
-
-    if (typeof pageType !== "undefined") {
-      sql += "pageType = ?,";
-      sqlArray.push(pageType);
-    }
-
-    if (typeof name !== "undefined") {
-      sql += "name = ?,";
+      sql = "UPDATE Temp_Pages " +
+      "SET tempName = ?, tempTitle = ?, tempDescription = ?, tempImageUrl = ?, tempUserId = ? " +
+      "WHERE tempPageId = ?;";
       sqlArray.push(name);
-    }
-
-    if (typeof title !== "undefined") {
-      sql += "title = ?,";
       sqlArray.push(title);
-    }
-
-    if (typeof description !== "undefined") {
-      sql += "description = ?,";
       sqlArray.push(description);
-    }
-
-    if (typeof imageUrl !== "undefined") {
-      sql += "imageUrl = ?,";
       sqlArray.push(imageUrl);
-    }
+      sqlArray.push(userId);
+      sqlArray.push(pageId);
 
-    if (typeof approved !== "undefined") {
-      sql += "approved = ?,";
-      sqlArray.push(approved);
-    }
+    } else {
 
-    // add the last line of the SQL query
-    sql = sql.replace(/.$/, " WHERE pageId = ?;");
-    sqlArray.push(pageId);
+      sql = "INSERT INTO Temp_Pages (tempPageId, " +
+      "tempName, tempTitle, tempDescription, tempImageUrl, tempUserId) " +
+      "VALUES (?, ?, ?, ?, ?, ?);";
+      sqlArray.push(pageId);
+      sqlArray.push(name);
+      sqlArray.push(title);
+      sqlArray.push(description);
+      sqlArray.push(imageUrl);
+      sqlArray.push(userId);
 
-    // make sure that we are updating at least one field
-    if (sqlArray.length <= 1) {
-      return {error: 3};
     }
 
     // perform the update query
     results = await pool.query(sql, sqlArray);
 
     const finalResults = {
-      changedRows: results[0].changedRows
+      pageId: pageId
     };
 
     return finalResults;

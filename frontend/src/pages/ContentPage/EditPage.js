@@ -18,18 +18,32 @@ function EditPage(props) {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    setTitle(props.page.pageName);
-    setSummary(props.page.title);
-    setDescription(props.page.description);
-    setUrl(props.page.img);
-  }, [props.page.pageName, props.page.title, props.page.description, props.page.img]);
+    if (props.page.tempPageId) {
+      setTitle(props.page.tempName);
+      setSummary(props.page.tempTitle);
+      setDescription(props.page.tempDescription);
+      setUrl(props.page.tempImageUrl);
+    } else {
+      setTitle(props.page.name);
+      setSummary(props.page.title);
+      setDescription(props.page.description);
+      setUrl(props.page.imageUrl);
+    }
+  }, [props.page]);
 
   function handleCloseModal() {
     setShowModal(false);
-    setTitle(props.page.pageName);
-    setSummary(props.page.title);
-    setDescription(props.page.description);
-    setUrl(props.page.img);
+    if (props.page.tempPageId) {
+      setTitle(props.page.tempName);
+      setSummary(props.page.tempTitle);
+      setDescription(props.page.tempDescription);
+      setUrl(props.page.tempImageUrl);
+    } else {
+      setTitle(props.page.name);
+      setSummary(props.page.title);
+      setDescription(props.page.description);
+      setUrl(props.page.imageUrl);
+    }
     setErrorMessage("");
   };
 
@@ -107,11 +121,6 @@ function EditPage(props) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const title = title;
-    const summary = summary;
-    const description = description;
-    const url = url;
-
     setErrorMessage("");
 
     if (!title.length) {
@@ -178,7 +187,7 @@ function EditPage(props) {
                 <Form.Control
                   type="text"
                   placeholder="Enter title"
-                  defaultValue={props.page.pageName}
+                  defaultValue={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Group>
@@ -192,7 +201,7 @@ function EditPage(props) {
                 <Form.Control
                   type="text"
                   placeholder="Enter summary"
-                  defaultValue={props.page.title}
+                  defaultValue={summary}
                   onChange={(e) => setSummary(e.target.value)}
                 />
               </Form.Group>
@@ -207,7 +216,7 @@ function EditPage(props) {
                   as="textarea"
                   rows="4"
                   placeholder="Enter description"
-                  defaultValue={props.page.description}
+                  defaultValue={description}
                   onChange={(e) => setDescription(e.target.value)}
                   style={{
                     maxHeight: "500px"
@@ -224,7 +233,7 @@ function EditPage(props) {
                 <Form.Control
                   type="text"
                   placeholder="Enter URL"
-                  defaultValue={props.page.img}
+                  defaultValue={url}
                   onChange={(e) => setUrl(e.target.value)}
                 />
               </Form.Group>
