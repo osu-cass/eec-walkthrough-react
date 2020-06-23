@@ -186,6 +186,7 @@ function EditPage(props) {
                 <Form.Label className="font-weight-bold">Page Title</Form.Label>
                 <Form.Control
                   type="text"
+                  maxLength="100"
                   placeholder="Enter title"
                   defaultValue={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -200,6 +201,7 @@ function EditPage(props) {
                 <Form.Label className="font-weight-bold">Summary</Form.Label>
                 <Form.Control
                   type="text"
+                  maxLength="1000"
                   placeholder="Enter summary"
                   defaultValue={summary}
                   onChange={(e) => setSummary(e.target.value)}
@@ -214,6 +216,7 @@ function EditPage(props) {
                 <Form.Label className="font-weight-bold">Brief Description</Form.Label>
                 <Form.Control
                   as="textarea"
+                  maxLength="1000"
                   rows="4"
                   placeholder="Enter description"
                   defaultValue={description}
@@ -232,6 +235,7 @@ function EditPage(props) {
                 <Form.Label className="font-weight-bold">Image URL</Form.Label>
                 <Form.Control
                   type="text"
+                  maxLength="1000"
                   placeholder="Enter URL"
                   defaultValue={url}
                   onChange={(e) => setUrl(e.target.value)}
