@@ -93,7 +93,7 @@ async function createItem(cardId, parentId, orderIndex, iconType, contentText, c
 
     // create the new item
     sql = "INSERT INTO Items (cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, approved) " +
-    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0);";
+    "VALUES (?, ?, ?, ?, ?, ?, ?, 0);";
     results = await pool.query(sql, [cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel]);
 
     const finalResults = {
