@@ -548,7 +548,8 @@ function EditCard(props) {
 
           <div className="input-group col-9">
             <ItemInput
-              title='Text'
+              title="Text"
+              maxLength="1000"
               handleInput={(e1, e2, e3) => handleInput(e1, e2, e3)}
               index={i}
               value={items[i]}
@@ -592,7 +593,7 @@ function EditCard(props) {
             <Col>
               <Form.Group controlId="formTitle">
                 <Form.Label className="font-weight-bold">Card Title</Form.Label>
-                <Form.Control type="text" defaultValue={title} onChange={(e) => setTitle(e.target.value)} />
+                <Form.Control type="text" maxLength="100" defaultValue={title} onChange={(e) => setTitle(e.target.value)} />
               </Form.Group>
             </Col>
           </Row>
