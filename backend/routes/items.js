@@ -7,23 +7,23 @@ const {validationResult} = require("express-validator");
 const {
   roleCheck,
   requireAuth,
-  getUserID
+  // getUserID
 } = require("../services/authentication/cookieAuth");
 const {
   postItemVal,
-  getItemVal,
-  patchItemVal,
+  // getItemVal,
+  // patchItemVal,
   patchItemTimeVal
 } = require("../services/validation/requestValidation");
 const {
-  getItem,
+  // getItem,
   createItem,
-  deleteItem,
-  updateItem,
+  // deleteItem,
+  // updateItem,
   updateItemTime
 } = require("../models/items");
 
-
+/* DISABLE UNUSED ENDPOINT
 // get information about a single item
 app.get("/:itemId", getUserID, getItemVal.validation, async (req, res) => {
 
@@ -60,7 +60,7 @@ app.get("/:itemId", getUserID, getItemVal.validation, async (req, res) => {
   }
 
 });
-
+*/
 
 // create an item
 app.post("/", requireAuth, postItemVal.validation, async (req, res) => {
@@ -116,7 +116,7 @@ app.post("/", requireAuth, postItemVal.validation, async (req, res) => {
 
 });
 
-
+/* DISABLE UNUSED ENDPOINT
 // delete an item
 app.delete("/:itemId", requireAuth, getItemVal.validation, async (req, res) => {
 
@@ -159,8 +159,9 @@ app.delete("/:itemId", requireAuth, getItemVal.validation, async (req, res) => {
   }
 
 });
+*/
 
-
+/* DISABLE UNUSED ENDPOINT
 // update an item
 app.patch("/:itemId", requireAuth, patchItemVal.validation, async (req, res) => {
 
@@ -227,7 +228,7 @@ app.patch("/:itemId", requireAuth, patchItemVal.validation, async (req, res) => 
   }
 
 });
-
+*/
 
 // update an items created timestamp (used to reflect the state of a link item)
 app.patch("/:itemId/timestamp", requireAuth, patchItemTimeVal.validation, async (req, res) => {
