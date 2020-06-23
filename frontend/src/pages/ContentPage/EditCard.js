@@ -348,7 +348,8 @@ function EditCard(props) {
           contentLabel: items[key].content.label,
           contentUrl: items[key].content.url,
           iconType: items[key].icon,
-          orderIndex: items[key].orderIndex
+          orderIndex: findOrderIndex(key),
+          parentId: findParent(key, items[key].depth, itemIds)
         };
 
         // Items can be dependent on previous item to be created (parentId)
