@@ -438,6 +438,8 @@ async function updatePage(pageId, name, title, description, imageUrl, userId) {
       return {error: 1};
     }
 
+    const approved = results[0][0].approved;
+
     // See if we already have an unpublished page.
     // Either create a new one or update the existing one.
     sql = "SELECT * " +
@@ -450,6 +452,18 @@ async function updatePage(pageId, name, title, description, imageUrl, userId) {
       sql = "UPDATE Temp_Pages " +
       "SET tempName = ?, tempTitle = ?, tempDescription = ?, tempImageUrl = ?, tempUserId = ? " +
       "WHERE tempPageId = ?;";
+      sqlArray.push(name);
+      sqlArray.push(title);
+      sqlArray.push(description);
+      sqlArray.push(imageUrl);
+      sqlArray.push(userId);
+      sqlArray.push(pageId);
+
+    } else if (approved === 0) {
+
+      sql = "UPDATE Pages " +
+      "SET name = ?, title = ?, description = ?, imageUrl = ?, userId = ? " +
+      "WHERE pageId = ?;";
       sqlArray.push(name);
       sqlArray.push(title);
       sqlArray.push(description);

@@ -172,6 +172,8 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
       return {error: 1};
     }
 
+    const approved = results[0][0].approved;
+
     // See if we already have an unpublished card.
     // Either create a new one or update the existing one.
     sql = "SELECT * " +
@@ -185,6 +187,18 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
       "UPDATE Temp_Cards " +
       "SET tempCardType = ?, tempOrderIndex = ?, tempTitle = ?, tempUserId = ? " +
       "WHERE tempCardId = ?;";
+      sqlArray.push(cardType);
+      sqlArray.push(orderIndex);
+      sqlArray.push(title);
+      sqlArray.push(userId);
+      sqlArray.push(cardId);
+
+    } else if (approved === 0) {
+
+      sql = "BEGIN; " +
+      "UPDATE Cards " +
+      "SET cardType = ?, orderIndex = ?, title = ?, userId = ? " +
+      "WHERE cardId = ?;";
       sqlArray.push(cardType);
       sqlArray.push(orderIndex);
       sqlArray.push(title);
