@@ -308,15 +308,24 @@ async function publishCard(cardId) {
     // if there is new card data, replace the old data
     // otherwise simply update the approved value
     if (tempCard) {
-      "UPDATE Cards " +
-      "SET cardType = ?, orderIndex = ?, title = ?, userId = ?, created = ? " +
+
+      // update the published card
+      sql = "UPDATE Cards " +
+      "SET cardType = ?, orderIndex = ?, title = ?, userId = ?, created = ?, approved = 1 " +
       "WHERE cardId = ?;";
 
       const tempArray = [tempCard.tempCardType, tempCard.tempOrderIndex,
-        tempCard.tempTitle, tempCard.tempUserId, tempCard.tempCreated];
+        tempCard.tempTitle, tempCard.tempUserId, tempCard.tempCreated, cardId];
 
       results = await pool.query(sql, tempArray);
+
+      // delete the old temp card
+      sql = "DELETE FROM Temp_Cards " +
+      "WHERE tempCardId = ?;";
+      results = await pool.query(sql, cardId);
+
     } else {
+      console.log("2");
       sql = "UPDATE Cards " +
       "SET approved = 1 " +
       "WHERE cardId = ?;";

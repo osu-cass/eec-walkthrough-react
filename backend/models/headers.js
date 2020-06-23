@@ -119,12 +119,35 @@ async function deleteHeader(headerId) {
 
   try {
 
-    // check to see if the header exists
+    // checks to see if there is an edited version of the header to delete
     let sql = "SELECT * " +
-      "FROM Headers " +
-      "WHERE headerId = ?;";
+    "FROM Temp_Headers " +
+    "WHERE tempHeaderId = ?;";
 
     let results = await pool.query(sql, headerId);
+
+    // prioritize deleting the edited version
+    // a second delete will remove the real one
+    if (results[0].length) {
+      sql = "DELETE " +
+        "FROM Temp_Headers " +
+        "WHERE tempHeaderId = ?;";
+
+      results = await pool.query(sql, headerId);
+
+      const finalResults = {
+        affectedRows: results[0].affectedRows
+      };
+
+      return finalResults;
+    }
+
+    // check to see if the header exists
+    sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ?;";
+
+    results = await pool.query(sql, headerId);
 
     if (!results[0].length) {
       return {error: 1};
@@ -190,7 +213,7 @@ async function updateHeader(headerId, orderIndex, title, userId) {
 
       sql = "INSERT INTO Temp_Headers (tempHeaderId, " +
       "tempOrderIndex, tempTitle, tempUserId) " +
-      "VALUES (?, ?, ?, ?, ?);";
+      "VALUES (?, ?, ?, ?);";
       sqlArray.push(headerId);
       sqlArray.push(orderIndex);
       sqlArray.push(title);

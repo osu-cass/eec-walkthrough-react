@@ -99,16 +99,11 @@ exports.postPageVal = postPageVal;
 const patchPageVal = Object.freeze({
   validation: [
     check("pageId").isInt({min: 1, max: 4294967295}),
-    check("pageType").optional()
-      .isInt({min: 0, max: 1}),
-    check("name").optional()
-      .isLength({min: 1, max: 100}),
-    check("title").optional()
-      .isLength({min: 1, max: 1000}),
-    check("description").optional()
-      .isLength({min: 1, max: 1000}),
-    check("imageUrl").optional()
-      .isLength({min: 1, max: 1000})
+    check("pageType").isInt({min: 0, max: 1}),
+    check("name").isLength({min: 1, max: 100}),
+    check("title").isLength({min: 1, max: 1000}),
+    check("description").isLength({min: 1, max: 1000}),
+    check("imageUrl").isLength({min: 1, max: 1000})
   ]
 });
 exports.patchPageVal = patchPageVal;
@@ -144,10 +139,8 @@ exports.postHeaderVal = postHeaderVal;
 const patchHeaderVal = Object.freeze({
   validation: [
     check("headerId").isInt({min: 1, max: 4294967295}),
-    check("orderIndex").optional()
-      .isInt({min: 0, max: 4294967295}),
-    check("title").optional()
-      .isLength({min: 1, max: 1000})
+    check("orderIndex").isInt({min: 0, max: 4294967295}),
+    check("title").isLength({min: 1, max: 1000})
   ]
 });
 exports.patchHeaderVal = patchHeaderVal;
