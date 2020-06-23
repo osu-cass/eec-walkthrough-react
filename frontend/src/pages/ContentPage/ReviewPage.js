@@ -89,56 +89,56 @@ function ReviewPage(props) {
 
         <Modal.Body>
 
-        {props.page.approved ? (
-          <div className="version-container p-2 m-3 border border-dark rounded">
-            <h4 className="font-weight-bold">Published Version</h4>
-            <span className="created-text">Created {formatTime(props.page.created)}</span>
-            <div className="m-4">
-              <h3 className="font-weight-bold">{props.page.name}</h3>
-              <h4>{props.page.title}</h4>
-              <span>{props.page.description}</span>
-              <Image url={props.page.imageUrl}
-                title={props.page.name}
-                thumbnail={false}
-                header={true}
-              />
+          {props.page.approved ? (
+            <div className="version-container p-2 m-3 border border-dark rounded">
+              <h4 className="font-weight-bold">Published Version</h4>
+              <span className="created-text">Created {formatTime(props.page.created)}</span>
+              <div className="m-4">
+                <h3 className="font-weight-bold">{props.page.name}</h3>
+                <h4>{props.page.title}</h4>
+                <span>{props.page.description}</span>
+                <Image url={props.page.imageUrl}
+                  title={props.page.name}
+                  thumbnail={false}
+                  header={true}
+                />
+              </div>
             </div>
-          </div>
-        ) : (
-          null
-        )}
+          ) : (
+            null
+          )}
 
-        {props.page.approved && props.page.tempPageId ? (
-          <div className="version-container p-2 m-3 border border-dark rounded">
-            <h4 className="font-weight-bold">New Version</h4>
-            <span className="created-text">Created {formatTime(props.page.tempCreated)}</span>
-            <div className="m-4">
-              <h3 className="font-weight-bold">{props.page.tempName}</h3>
-              <h4>{props.page.tempTitle}</h4>
-              <span>{props.page.tempDescription}</span>
-              <Image url={props.page.tempImageUrl}
-                title={props.page.tempName}
-                thumbnail={false}
-                header={true}
-              />
+          {props.page.approved && props.page.tempPageId ? (
+            <div className="version-container p-2 m-3 border border-dark rounded">
+              <h4 className="font-weight-bold">New Version</h4>
+              <span className="created-text">Created {formatTime(props.page.tempCreated)}</span>
+              <div className="m-4">
+                <h3 className="font-weight-bold">{props.page.tempName}</h3>
+                <h4>{props.page.tempTitle}</h4>
+                <span>{props.page.tempDescription}</span>
+                <Image url={props.page.tempImageUrl}
+                  title={props.page.tempName}
+                  thumbnail={false}
+                  header={true}
+                />
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="version-container p-2 m-3 border border-dark rounded">
-            <h4 className="font-weight-bold">New Version</h4>
-            <span className="created-text">Created {formatTime(props.page.created)}</span>
-            <div className="m-4">
-              <h3 className="font-weight-bold">{props.page.name}</h3>
-              <h4>{props.page.title}</h4>
-              <span>{props.page.description}</span>
-              <Image url={props.page.imageUrl}
-                title={props.page.name}
-                thumbnail={false}
-                header={true}
-              />
+          ) : (
+            <div className="version-container p-2 m-3 border border-dark rounded">
+              <h4 className="font-weight-bold">New Version</h4>
+              <span className="created-text">Created {formatTime(props.page.created)}</span>
+              <div className="m-4">
+                <h3 className="font-weight-bold">{props.page.name}</h3>
+                <h4>{props.page.title}</h4>
+                <span>{props.page.description}</span>
+                <Image url={props.page.imageUrl}
+                  title={props.page.name}
+                  thumbnail={false}
+                  header={true}
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
           <Row>
             <div className='col-3' />

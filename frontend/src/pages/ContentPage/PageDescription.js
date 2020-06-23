@@ -32,12 +32,12 @@ function PageDescription(props) {
     <div>
       <div className={`d-flex header-bar justify-content-between
         ${props.page.approved && (!props.page.tempPageId || !props.mode) ? (
-          "page-approved" 
-        ) : (
-          "page-review"
-        )}
+      "page-approved"
+    ) : (
+      "page-review"
+    )}
         my-3 p-3 text-dark-50 rounded shadow`}
-        style={{top: "1em", zIndex: "998"}}
+      style={{top: "1em", zIndex: "998"}}
       >
         <div className="row mx-2">
           <h4 className="flex-grow-1 font-weight-bold">
@@ -70,19 +70,19 @@ function PageDescription(props) {
         my-3 p-3 card rounded shadow-sm`}
       >
         <div>
-            <div className="row">
-              <div className="col-8">
-                <h5 className='font-weight-bold'>{title}</h5>
-                <p>{description}</p>
-              </div>
-              <div className="col-4 text-center">
-                <Image url={imageUrl}
-                  title={name}
-                  thumbnail={false}
-                  header={true}
-                />
-              </div>
+          <div className="row">
+            <div className="col-8">
+              <h5 className='font-weight-bold'>{title}</h5>
+              <p>{description}</p>
             </div>
+            <div className="col-4 text-center">
+              <Image url={imageUrl}
+                title={name}
+                thumbnail={false}
+                header={true}
+              />
+            </div>
+          </div>
         </div>
 
       </div>

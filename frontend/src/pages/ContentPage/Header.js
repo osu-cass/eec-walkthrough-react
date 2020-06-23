@@ -23,8 +23,7 @@ function Header(props) {
       for (let j = 0; j < props.header.cards[i].items.length; j++) {
         for (let k = 0; k < allIcons.length; k++) {
           // see if the item is already in the array
-          if (props.header.cards[i].items[j].iconType === allIcons[k])
-          {
+          if (props.header.cards[i].items[j].iconType === allIcons[k]) {
             duplicate = true;
             break;
           }
@@ -49,12 +48,11 @@ function Header(props) {
 
       // See if the card is published and has no temp items
       if (props.header.cards[i].approved && props.header.cards[i].tempItems.length === 0) {
-        
+
         for (let j = 0; j < props.header.cards[i].items.length; j++) {
           for (let k = 0; k < allIcons.length; k++) {
             // see if the item is already in the array
-            if (props.header.cards[i].items[j].iconType === allIcons[k])
-            {
+            if (props.header.cards[i].items[j].iconType === allIcons[k]) {
               duplicate = true;
               break;
             }
@@ -71,8 +69,7 @@ function Header(props) {
         for (let j = 0; j < props.header.cards[i].tempItems.length; j++) {
           for (let k = 0; k < allIcons.length; k++) {
             // see if the item is already in the array
-            if (props.header.cards[i].tempItems[j].iconType === allIcons[k])
-            {
+            if (props.header.cards[i].tempItems[j].iconType === allIcons[k]) {
               duplicate = true;
               break;
             }
@@ -224,7 +221,7 @@ function Header(props) {
           <div className={`d-flex sticky-top
             ${props.header.approved && !props.header.tempHeaderId ? "header-approved" : "header-review"}
             header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow`}
-            style={{top: "1em", zIndex: "998"}}
+          style={{top: "1em", zIndex: "998"}}
           >
             <div className="row mx-2">
               <h4 className="flex-grow-1 font-weight-bold">
@@ -261,7 +258,6 @@ function Header(props) {
           </div>
 
           <CardContainer
-            id={props.filterIndex}
             cards={cards}
             unfilteredCards={unfilteredCards}
             headerId={props.header.headerId}
@@ -279,7 +275,7 @@ function Header(props) {
           <div className={`d-flex sticky-top
             ${props.header.approved ? "header-approved" : "header-review"}
             header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow`}
-            style={{top: "1em", zIndex: "998"}}
+          style={{top: "1em", zIndex: "998"}}
           >
             <div className="row mx-2">
               <h4 className="flex-grow-1 font-weight-bold">
@@ -287,7 +283,7 @@ function Header(props) {
               </h4>
             </div>
 
-          <div className="row mx-2">
+            <div className="row mx-2">
               <div className="row">
                 <FilterBar
                   updateIcon={(e1, e2) => updateIcon(e1, e2)}
@@ -303,7 +299,6 @@ function Header(props) {
           </div>
 
           <CardContainer
-            id={props.filterIndex}
             cards={cards}
             unfilteredCards={unfilteredCards}
             headerId={props.header.headerId}

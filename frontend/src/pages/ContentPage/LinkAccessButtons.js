@@ -33,7 +33,7 @@ function LinkAccessButtons(props) {
       const obj = await results.json();
       props.handleTimestampChange(obj.timestamp);
     } else {
-      console.error("Error while attempting to update link accessed message.")
+      console.error("Error while attempting to update link accessed message.");
     }
   }
 
