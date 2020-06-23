@@ -192,6 +192,8 @@ async function updateHeader(headerId, orderIndex, title, userId) {
       return {error: 1};
     }
 
+    const approved = results[0][0].approved;
+
     // See if we already have an unpublished header.
     // Either create a new one or update the existing one.
     sql = "SELECT * " +
@@ -204,6 +206,16 @@ async function updateHeader(headerId, orderIndex, title, userId) {
       sql = "UPDATE Temp_Headers " +
       "SET tempOrderIndex = ?, tempTitle = ?, tempUserId = ? " +
       "WHERE tempHeaderId = ?;";
+      sqlArray.push(orderIndex);
+      sqlArray.push(title);
+      sqlArray.push(userId);
+      sqlArray.push(headerId);
+
+    } else if (approved === 0) {
+
+      sql = "UPDATE Headers " +
+      "SET orderIndex = ?, title = ?, userId = ? " +
+      "WHERE headerId = ?;";
       sqlArray.push(orderIndex);
       sqlArray.push(title);
       sqlArray.push(userId);
