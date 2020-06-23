@@ -755,19 +755,6 @@ async function publishPage(pageId) {
     const name = results[0][0].name;
     const pageType = results[0][0].pageType;
 
-    // make sure no other pages share the same name
-    sql = "SELECT * " +
-    "FROM Pages " +
-    "WHERE name = ? " +
-    "AND pageType = ? " +
-    "AND pageId != ? " +
-    "AND approved = 1;";
-    results = await pool.query(sql, [name, pageType, pageId]);
-
-    if (results[0].length) {
-      return {error: 2};
-    }
-
     // check if there is new page data
     sql = "SELECT * " +
     "FROM Temp_Pages " +
@@ -789,6 +776,20 @@ async function publishPage(pageId) {
       const tempArray = [tempPage.tempName, tempPage.tempTitle, tempPage.tempDescription,
         tempPage.tempImageUrl, tempPage.tempUserId, tempPage.tempCreated, pageId];
 
+      // make sure no other pages share the same name
+      const checkSql = "SELECT * " +
+      "FROM Pages " +
+      "WHERE name = ? " +
+      "AND pageType = ? " +
+      "AND pageId != ? " +
+      "AND approved = 1;";
+      results = await pool.query(checkSql, [tempPage.tempName, pageType, pageId]);
+      console.log(tempPage.tempName, pageType);
+      if (results[0].length) {
+        return {error: 2};
+      }
+
+      // publish
       results = await pool.query(sql, tempArray);
 
       // delete the old temp page
@@ -797,10 +798,27 @@ async function publishPage(pageId) {
       results = await pool.query(sql, pageId);
 
     } else {
+
       sql = "UPDATE Pages " +
       "SET approved = 1 " +
       "WHERE pageId = ?;";
+
+      // make sure no other pages share the same name
+      const checkSql = "SELECT * " +
+      "FROM Pages " +
+      "WHERE name = ? " +
+      "AND pageType = ? " +
+      "AND pageId != ? " +
+      "AND approved = 1;";
+      results = await pool.query(checkSql, [name, pageType, pageId]);
+
+      if (results[0].length) {
+        return {error: 2};
+      }
+
+      // publish
       results = await pool.query(sql, pageId);
+
     }
 
     const finalResults = {
