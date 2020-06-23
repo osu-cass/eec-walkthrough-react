@@ -37,7 +37,7 @@ function NavBar (props) {
             <i className="fas fa-bars"></i>
           </button>
           <a className="mx-2 align-middle" href="/">
-            EEC Walkthrough
+            EEC Walkthrough (Demo)
           </a>
         </h3>
 
