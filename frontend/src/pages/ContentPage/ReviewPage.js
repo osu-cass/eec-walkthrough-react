@@ -50,13 +50,18 @@ function ReviewPage(props) {
 
       // refresh the page
       props.refresh();
+
     } else {
+
+      const obj = await results.json();
 
       if (results.status === 401) {
         logout();
         window.location.href = "/";
-      } else {
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
         setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
       }
 
     }

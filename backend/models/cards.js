@@ -286,31 +286,6 @@ async function publishCard(cardId) {
     const title = results[0][0].title;
     const headerId = results[0][0].headerId;
 
-    // make sure no other cards share the same name
-    sql = "SELECT * " +
-    "FROM Cards " +
-    "WHERE headerId = ? " +
-    "AND title = ? " +
-    "AND cardId != ? " +
-    "AND approved = 1;";
-    results = await pool.query(sql, [headerId, title, cardId]);
-
-    if (results[0].length) {
-      return {error: 2};
-    }
-
-    // delete all of the old items
-    sql = "DELETE FROM Items " +
-    "WHERE cardId = ? " +
-    "AND approved = 1;";
-    results = await pool.query(sql, cardId);
-
-    // approve all of the new items
-    sql = "UPDATE Items " +
-    "SET approved = 1 " +
-    "WHERE cardId = ?;";
-    results = await pool.query(sql, cardId);
-
     // check if there is new card data
     sql = "SELECT * " +
     "FROM Temp_Cards " +
@@ -331,6 +306,20 @@ async function publishCard(cardId) {
       const tempArray = [tempCard.tempCardType, tempCard.tempOrderIndex,
         tempCard.tempTitle, tempCard.tempUserId, tempCard.tempCreated, cardId];
 
+      // make sure no other cards share the same name
+      const checkSql = "SELECT * " +
+      "FROM Cards " +
+      "WHERE headerId = ? " +
+      "AND title = ? " +
+      "AND cardId != ? " +
+      "AND approved = 1;";
+      results = await pool.query(checkSql, [headerId, tempCard.tempTitle, cardId]);
+
+      if (results[0].length) {
+        return {error: 2};
+      }
+
+      // publish
       results = await pool.query(sql, tempArray);
 
       // delete the old temp card
@@ -339,11 +328,40 @@ async function publishCard(cardId) {
       results = await pool.query(sql, cardId);
 
     } else {
+
       sql = "UPDATE Cards " +
       "SET approved = 1 " +
       "WHERE cardId = ?;";
+
+      // make sure no other cards share the same name
+      const checkSql = "SELECT * " +
+      "FROM Cards " +
+      "WHERE headerId = ? " +
+      "AND title = ? " +
+      "AND cardId != ? " +
+      "AND approved = 1;";
+      results = await pool.query(checkSql, [headerId, title, cardId]);
+
+      if (results[0].length) {
+        return {error: 2};
+      }
+
+      // publish
       results = await pool.query(sql, cardId);
+
     }
+
+    // delete all of the old items
+    sql = "DELETE FROM Items " +
+    "WHERE cardId = ? " +
+    "AND approved = 1;";
+    results = await pool.query(sql, cardId);
+
+    // approve all of the new items
+    sql = "UPDATE Items " +
+    "SET approved = 1 " +
+    "WHERE cardId = ?;";
+    results = await pool.query(sql, cardId);
 
     const finalResults = {
       cardId: cardId
