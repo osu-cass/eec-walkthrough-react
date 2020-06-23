@@ -736,3 +736,83 @@ async function searchPages(text, cursor, viewAll) {
   }
 }
 exports.searchPages = searchPages;
+
+
+async function publishPage(pageId) {
+
+  try {
+
+    // make sure that the page exists
+    let sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ?;";
+    let results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const name = results[0][0].name;
+    const pageType = results[0][0].pageType;
+
+    // make sure no other pages share the same name
+    sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE name = ? " +
+    "AND pageType = ? " +
+    "AND pageId != ? " +
+    "AND approved = 1;";
+    results = await pool.query(sql, [name, pageType, pageId]);
+
+    if (results[0].length) {
+      return {error: 2};
+    }
+
+    // check if there is new page data
+    sql = "SELECT * " +
+    "FROM Temp_Pages " +
+    "WHERE tempPageId = ?;";
+    results = await pool.query(sql, pageId);
+
+    const tempPage = results[0][0];
+
+    // if there is new page data, replace the old data
+    // otherwise simply update the approved value
+    if (tempPage) {
+
+      // update the published page
+      sql = "UPDATE Pages " +
+      "SET name = ?, title = ?, description = ?, imageUrl = ?, " +
+      "userId = ?, created = ?, approved = 1 " +
+      "WHERE pageId = ?;";
+
+      const tempArray = [tempPage.tempName, tempPage.tempTitle, tempPage.tempDescription,
+        tempPage.tempImageUrl, tempPage.tempUserId, tempPage.tempCreated, pageId];
+
+      results = await pool.query(sql, tempArray);
+
+      // delete the old temp page
+      sql = "DELETE FROM Temp_Pages " +
+      "WHERE tempPageId = ?;";
+      results = await pool.query(sql, pageId);
+
+    } else {
+      sql = "UPDATE Pages " +
+      "SET approved = 1 " +
+      "WHERE pageId = ?;";
+      results = await pool.query(sql, pageId);
+    }
+
+    const finalResults = {
+      pageId: pageId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error publishing page");
+    throw Error(err);
+  }
+
+}
+exports.publishPage = publishPage;
