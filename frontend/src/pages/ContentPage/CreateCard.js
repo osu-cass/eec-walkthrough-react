@@ -409,7 +409,8 @@ class CreateCard extends React.Component {
 
           <div className="input-group col-9">
             <ItemInput
-              title='Text'
+              title="Text"
+              maxLength="1000"
               handleInput={this.handleInput}
               index={i}
               value={this.state.items[i]}
@@ -455,7 +456,7 @@ class CreateCard extends React.Component {
               <Col>
                 <Form.Group controlId="formTitle">
                   <Form.Label className="font-weight-bold">Card Title</Form.Label>
-                  <Form.Control type="text" placeholder="Enter title" onChange={(e) => this.setState({title: e.target.value})} />
+                  <Form.Control type="text" maxLength="100" placeholder="Enter title" onChange={(e) => this.setState({title: e.target.value})} />
                 </Form.Group>
               </Col>
             </Row>

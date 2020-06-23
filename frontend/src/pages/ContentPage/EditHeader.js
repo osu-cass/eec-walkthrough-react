@@ -149,6 +149,7 @@ function EditHeader(props) {
                 <Form.Label className="font-weight-bold">Header Title</Form.Label>
                 <Form.Control
                   type="text"
+                  maxLength="100"
                   placeholder="Enter title"
                   defaultValue={title}
                   onChange={(e) => setTitle(e.target.value)}
