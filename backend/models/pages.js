@@ -388,12 +388,35 @@ async function deletePage(pageId) {
 
   try {
 
-    // check to see if the page exists
+    // checks to see if there is an edited version of the page to delete
     let sql = "SELECT * " +
+    "FROM Temp_Pages " +
+    "WHERE tempPageId = ?;";
+
+    let results = await pool.query(sql, pageId);
+
+    // prioritize deleting the edited version
+    // a second delete will remove the real one
+    if (results[0].length) {
+      sql = "DELETE " +
+        "FROM Temp_Pages " +
+        "WHERE tempPageId = ?;";
+
+      results = await pool.query(sql, pageId);
+
+      const finalResults = {
+        affectedRows: results[0].affectedRows
+      };
+
+      return finalResults;
+    }
+
+    // check to see if the page exists
+    sql = "SELECT * " +
       "FROM Pages " +
       "WHERE pageId = ?;";
 
-    let results = await pool.query(sql, pageId);
+    results = await pool.query(sql, pageId);
 
     if (!results[0].length) {
       return {error: 1};
