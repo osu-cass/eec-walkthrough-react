@@ -325,7 +325,6 @@ async function publishCard(cardId) {
       results = await pool.query(sql, cardId);
 
     } else {
-      console.log("2");
       sql = "UPDATE Cards " +
       "SET approved = 1 " +
       "WHERE cardId = ?;";

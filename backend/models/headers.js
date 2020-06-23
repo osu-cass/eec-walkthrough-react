@@ -237,3 +237,82 @@ async function updateHeader(headerId, orderIndex, title, userId) {
 
 }
 exports.updateHeader = updateHeader;
+
+
+async function publishHeader(headerId) {
+
+  try {
+
+    // make sure that the header exists
+    let sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ?;";
+    let results = await pool.query(sql, headerId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const title = results[0][0].title;
+    const pageId = results[0][0].pageId;
+
+    // make sure no other headers share the same name
+    sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE pageId = ? " +
+    "AND title = ? " +
+    "AND headerId != ? " +
+    "AND approved = 1;";
+    results = await pool.query(sql, [pageId, title, headerId]);
+
+    if (results[0].length) {
+      return {error: 2};
+    }
+
+    // check if there is new header data
+    sql = "SELECT * " +
+    "FROM Temp_Headers " +
+    "WHERE tempHeaderId = ?;";
+    results = await pool.query(sql, headerId);
+
+    const tempHeader = results[0][0];
+
+    // if there is new header data, replace the old data
+    // otherwise simply update the approved value
+    if (tempHeader) {
+
+      // update the published header
+      sql = "UPDATE Headers " +
+      "SET orderIndex = ?, title = ?, userId = ?, created = ?, approved = 1 " +
+      "WHERE headerId = ?;";
+
+      const tempArray = [tempHeader.tempOrderIndex, tempHeader.tempTitle,
+        tempHeader.tempUserId, tempHeader.tempCreated, headerId];
+
+      results = await pool.query(sql, tempArray);
+
+      // delete the old temp header
+      sql = "DELETE FROM Temp_Headers " +
+      "WHERE tempHeaderId = ?;";
+      results = await pool.query(sql, headerId);
+
+    } else {
+      sql = "UPDATE Headers " +
+      "SET approved = 1 " +
+      "WHERE headerId = ?;";
+      results = await pool.query(sql, headerId);
+    }
+
+    const finalResults = {
+      headerId: headerId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error publishing header");
+    throw Error(err);
+  }
+
+}
+exports.publishHeader = publishHeader;

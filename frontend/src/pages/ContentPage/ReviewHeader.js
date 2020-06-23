@@ -34,16 +34,10 @@ function ReviewHeader(props) {
       return;
     }
 
-    // Prepare data for new header
-    const headerData = {
-      approved: 1
-    };
-
     // Approve the header
-    const results = await fetch(`/headers/${props.header.headerId}`, {
-      method: "PATCH",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(headerData)
+    const results = await fetch(`/headers/${props.header.headerId}/publish`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"}
     });
 
     if (results.ok) {
