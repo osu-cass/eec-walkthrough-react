@@ -5,6 +5,35 @@ body {
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 70%;
+    max-width: 80%;
   }
+}
+
+.home-page-container a {
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
+}
+
+.home-page-container a:link {
+  color: #0000EE;
+}
+
+.home-page-container a:visited {
+  color: #0000EE;
+}
+
+.home-page-container a:focus {
+  border-bottom: 1px solid;
+  background: #d8ebff;
+}
+
+.home-page-container a:hover {
+  border-bottom: 1px solid;     
+  background: #d8ebff;
+}
+
+.home-page-container a:active {
+  background: #d8ebff;
+  color: #0000EE;
 }
