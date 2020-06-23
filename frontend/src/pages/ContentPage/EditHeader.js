@@ -30,11 +30,11 @@ function EditHeader(props) {
       setTitle(props.header.title);
     }
     setErrorMessage("");
-  };
+  }
 
   function handleShowModal() {
     setShowModal(true);
-  };
+  }
 
   async function updateHeader() {
     setShowLoad(true);
@@ -56,7 +56,7 @@ function EditHeader(props) {
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
     });
-    
+
     if (results.ok) {
 
       setShowLoad(false);

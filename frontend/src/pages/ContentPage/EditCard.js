@@ -140,26 +140,6 @@ function EditCard(props) {
     return itemArray;
   }
 
-  function findDepth(item, itemArr, i) {
-    // No parent is depth 0
-    if (!itemArr.length || item.parentId === null) {
-      return 0;
-    }
-    // Check if previous item's parent is null, item depth is default 1
-    if (itemArr[i - 1].parentId === null) {
-      return 1;
-    } else if (item.parentId === itemArr[i - 1].parentId) {
-      // Shares same parent as previous item, return same depth
-      return itemArr[i - 1].depth;
-    } else if (item.parentId !== itemArr[i - 1].parentId) {
-      // Does not share same parent
-      return itemArr[i - 1].depth + 1;
-    } else {
-      // New case
-      return itemArr[i - 1].depth - 1;
-    }
-  }
-
   function handleClose() {
     setShow(false);
     setErrorMessage("");
@@ -193,7 +173,7 @@ function EditCard(props) {
     setCounter(count + 1);
   }
 
- 
+
   // Update state relating to subpoint depth (how far item is tabbed)
   // @param {Number} idx Index of item
   // @return {State}    Updated state, no actual return value
@@ -656,8 +636,8 @@ function EditCard(props) {
         <Modal.Footer className="modal-footer">
           <Button
             className="mr-auto"
-            variant="danger" 
-            onClick={() => {if (window.confirm("Are you sure you wish to delete this item?")) { deleteCard(); } }}
+            variant="danger"
+            onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { deleteCard(); } }}
           >
             Delete Card
           </Button>
@@ -675,7 +655,6 @@ export default EditCard;
 
 EditCard.propTypes = {
   card: PropTypes.object,
-  orderIndex: PropTypes.number,
   refresh: PropTypes.func,
   iconSet: PropTypes.array
 };

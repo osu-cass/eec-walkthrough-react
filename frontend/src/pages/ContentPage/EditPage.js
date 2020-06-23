@@ -45,7 +45,7 @@ function EditPage(props) {
       setUrl(props.page.imageUrl);
     }
     setErrorMessage("");
-  };
+  }
 
   function handleShowModal() {
     setShowModal(true);

@@ -16,20 +16,20 @@ function Card(props) {
   // If the current card is an Image Gallery card then
   // whenever we get new items, filter out all of the non-image ones
   useEffect(() => {
-      const imageArray = [];
-      const tempImageArray = [];
-      for (let i = 0; i < props.card.items.length; i++) {
-        if (props.card.items[i].contentUrl.length && props.card.items[i].typeName === "chart-area") {
-          imageArray.push(props.card.items[i]);
-        }
+    const imageArray = [];
+    const tempImageArray = [];
+    for (let i = 0; i < props.card.items.length; i++) {
+      if (props.card.items[i].contentUrl.length && props.card.items[i].typeName === "chart-area") {
+        imageArray.push(props.card.items[i]);
       }
-      for (let i = 0; i < props.card.tempItems.length; i++) {
-        if (props.card.tempItems[i].contentUrl.length && props.card.tempItems[i].typeName === "chart-area") {
-          tempImageArray.push(props.card.tempItems[i]);
-        }
+    }
+    for (let i = 0; i < props.card.tempItems.length; i++) {
+      if (props.card.tempItems[i].contentUrl.length && props.card.tempItems[i].typeName === "chart-area") {
+        tempImageArray.push(props.card.tempItems[i]);
       }
-      setImageItems(imageArray);
-      setTempImageItems(tempImageArray);
+    }
+    setImageItems(imageArray);
+    setTempImageItems(tempImageArray);
     // eslint-disable-next-line
   }, [props.card.items]);
 
@@ -103,7 +103,7 @@ function Card(props) {
       if (edited) {
 
         if ((props.unfilteredCard.approved && props.unfilteredCard.tempCardType) || (!props.unfilteredCard.approved && props.unfilteredCard.cardType)) {
-          jsx.push(<ThumbnailGallery imageItems={imageTempItems} key={props.unfilteredCard.cardId} />)
+          jsx.push(<ThumbnailGallery imageItems={imageTempItems} key={props.unfilteredCard.cardId} />);
         } else {
           props.unfilteredCard.tempItems.map((item) => {
             jsx.push(recurseItems(item, item.itemId, false, edited));
@@ -114,7 +114,7 @@ function Card(props) {
       } else {
 
         if (props.unfilteredCard.cardType) {
-          jsx.push(<ThumbnailGallery imageItems={imageItems} key={props.unfilteredCard.cardId} />)
+          jsx.push(<ThumbnailGallery imageItems={imageItems} key={props.unfilteredCard.cardId} />);
         } else {
           props.unfilteredCard.items.map((item) => {
             jsx.push(recurseItems(item, item.itemId, false, edited));
@@ -127,18 +127,18 @@ function Card(props) {
       if (edited) {
 
         if ((props.card.approved && props.card.tempCardType) || (!props.card.approved && props.card.cardType)) {
-          jsx.push(<ThumbnailGallery imageItems={imageTempItems} key={props.card.cardId} />)
+          jsx.push(<ThumbnailGallery imageItems={imageTempItems} key={props.card.cardId} />);
         } else {
           props.card.tempItems.map((item) => {
             jsx.push(recurseItems(item, item.itemId, false, edited));
             return null;
           });
         }
-  
+
       } else {
-  
+
         if (props.card.cardType) {
-          jsx.push(<ThumbnailGallery imageItems={imageItems} key={props.card.cardId} />)
+          jsx.push(<ThumbnailGallery imageItems={imageItems} key={props.card.cardId} />);
         } else {
           props.card.items.map((item) => {
             jsx.push(recurseItems(item, item.itemId, false, edited));
@@ -161,7 +161,6 @@ function Card(props) {
           <div className="row">
             <EditCard
               card={props.card}
-              orderIndex={props.orderIndex}
               refresh={() => props.refresh()}
               iconSet={props.iconSet}
             />
@@ -190,5 +189,6 @@ Card.propTypes = {
   refresh: PropTypes.any,
   card: PropTypes.object,
   unfilteredCard: PropTypes.object,
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  iconSet: PropTypes.any
 };
