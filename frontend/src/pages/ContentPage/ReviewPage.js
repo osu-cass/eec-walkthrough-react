@@ -35,16 +35,10 @@ function ReviewPage(props) {
       return;
     }
 
-    // Prepare data for new page
-    const pageData = {
-      approved: 1
-    };
-
     // Approve the page
-    const results = await fetch(`/pages/${props.page.pageId}`, {
-      method: "PATCH",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(pageData)
+    const results = await fetch(`/pages/${props.page.pageId}/publish`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"}
     });
 
     if (results.ok) {
