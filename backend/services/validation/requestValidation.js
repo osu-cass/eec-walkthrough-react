@@ -108,9 +108,7 @@ const patchPageVal = Object.freeze({
     check("description").optional()
       .isLength({min: 1, max: 1000}),
     check("imageUrl").optional()
-      .isLength({min: 1, max: 1000}),
-    check("approved").optional()
-      .isInt({min: 0, max: 1})
+      .isLength({min: 1, max: 1000})
   ]
 });
 exports.patchPageVal = patchPageVal;
@@ -146,14 +144,10 @@ exports.postHeaderVal = postHeaderVal;
 const patchHeaderVal = Object.freeze({
   validation: [
     check("headerId").isInt({min: 1, max: 4294967295}),
-    check("pageId").optional()
-      .isInt({min: 1, max: 4294967295}),
     check("orderIndex").optional()
       .isInt({min: 0, max: 4294967295}),
     check("title").optional()
-      .isLength({min: 1, max: 1000}),
-    check("approved").optional()
-      .isInt({min: 0, max: 1})
+      .isLength({min: 1, max: 1000})
   ]
 });
 exports.patchHeaderVal = patchHeaderVal;

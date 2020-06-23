@@ -186,7 +186,7 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
     // update a card
     const results = await updateCard(cardId, cardType, orderIndex, title, items, userId);
 
-    if (results.cardsUpdated >= 0) {
+    if (results.cardId >= 0) {
       res.status(200).send(results);
     } else {
 
@@ -231,7 +231,7 @@ app.post("/:cardId/publish", getUserID, getCardVal.validation, async (req, res) 
     // publish a card
     const results = await publishCard(cardId);
 
-    if (results.publishedId >= 0) {
+    if (results.cardId >= 0) {
       res.status(200).send(results);
     } else {
 

@@ -172,9 +172,8 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
       return {error: 1};
     }
 
-    // Construct a sql query based on the fields given.
-    // See if we already have an unpublished card and either create a new one
-    // or update the current one.
+    // See if we already have an unpublished card.
+    // Either create a new one or update the existing one.
     sql = "SELECT * " +
     "FROM Temp_Cards " +
     "WHERE tempCardId = ?;";
@@ -242,7 +241,7 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
     results = await pool.query(sql, sqlArray);
 
     const finalResults = {
-      cardsUpdated: 1
+      cardId: cardId
     };
 
     return finalResults;
@@ -325,7 +324,7 @@ async function publishCard(cardId) {
     }
 
     const finalResults = {
-      publishedId: cardId
+      cardId: cardId
     };
 
     return finalResults;
