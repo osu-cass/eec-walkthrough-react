@@ -20,7 +20,7 @@ function EditHeader(props) {
     } else {
       setTitle(props.header.title);
     }
-  }, [props.header.title]);
+  }, [props.header.tempHeaderId, props.header.tempTitle, props.header.title]);
 
   function handleCloseModal() {
     setShowModal(false);

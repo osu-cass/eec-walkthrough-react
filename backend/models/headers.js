@@ -231,7 +231,7 @@ async function updateHeader(headerId, orderIndex, title, userId) {
     return finalResults;
 
   } catch (err) {
-    console.error("Error updating card");
+    console.error("Error updating header");
     throw Error(err);
   }
 
