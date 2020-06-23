@@ -31,11 +31,7 @@ function PageDescription(props) {
         <div className="row mx-2">
           <div className="row">
             <EditPage
-              pageId={parseInt(props.page.pageId)}
-              pageName={props.page.name}
-              title={props.page.title}
-              description={props.page.description}
-              img={props.page.imageUrl}
+              page={props.page}
               role={props.role}
               refresh={() => props.refresh()}
               handlePageEdit={props.handlePageEdit}
@@ -110,11 +106,7 @@ function PageDescription(props) {
           {props.mode ? (
             <div className="row">
               <EditPage
-                pageId={parseInt(props.page.pageId)}
-                pageName={props.page.name}
-                title={props.page.title}
-                description={props.page.description}
-                img={props.page.imageUrl}
+                page={props.page}
                 role={props.role}
                 refresh={() => props.refresh()}
                 handlePageEdit={props.handlePageEdit}
