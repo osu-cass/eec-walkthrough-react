@@ -92,12 +92,43 @@ async function deleteCard(cardId) {
 
   try {
 
-    // check to see if the card exists
+    // checks to see if there is an edited version of the card to delete
     let sql = "SELECT * " +
+    "FROM Items " +
+    "WHERE cardId = ? " +
+    "AND approved = 0;";
+
+    let results = await pool.query(sql, cardId);
+
+    // prioritize deleting the edited version
+    // a second delete will remove the real one
+    if (results[0].length) {
+      sql = "DELETE " +
+        "FROM Temp_Cards " +
+        "WHERE tempCardId = ?;";
+
+      results = await pool.query(sql, cardId);
+
+      sql = "DELETE " +
+      "FROM Items " +
+      "WHERE cardId = ? " +
+      "AND approved = 0;";
+
+      results = await pool.query(sql, cardId);
+
+      const finalResults = {
+        affectedRows: results[0].affectedRows
+      };
+
+      return finalResults;
+    }
+
+    // check to see if the card exists
+    sql = "SELECT * " +
       "FROM Cards " +
       "WHERE cardId = ?;";
 
-    let results = await pool.query(sql, cardId);
+    results = await pool.query(sql, cardId);
 
     if (!results[0].length) {
       return {error: 1};
@@ -126,10 +157,9 @@ exports.deleteCard = deleteCard;
 
 
 // update a card
-async function updateCard(cardId, headerId, cardType, orderIndex, title, approved) {
+async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
 
   try {
-
     const sqlArray = [];
 
     // make sure that the card exists
@@ -142,96 +172,92 @@ async function updateCard(cardId, headerId, cardType, orderIndex, title, approve
       return {error: 1};
     }
 
-    // construct a sql query based on the fields given
-    sql = "UPDATE Cards SET ";
+    const approved = results[0][0].approved;
 
-    if (typeof headerId !== "undefined") {
+    // See if we already have an unpublished card.
+    // Either create a new one or update the existing one.
+    sql = "SELECT * " +
+    "FROM Temp_Cards " +
+    "WHERE tempCardId = ?;";
+    results = await pool.query(sql, cardId);
 
-      // confirm that the parent exists
-      const checkSql = "SELECT * " +
-      "FROM Headers " +
-      "WHERE headerId = ?;";
+    if (results[0].length) {
 
-      results = await pool.query(checkSql, headerId);
-
-      if (!results[0].length) {
-        return {error: 2};
-      }
-
-      sql += "headerId = ?,";
-      sqlArray.push(headerId);
-
-    }
-
-    if (typeof orderIndex !== "undefined") {
-      sql += "orderIndex = ?,";
-      sqlArray.push(orderIndex);
-    }
-
-    if (typeof title !== "undefined") {
-      sql += "title = ?,";
-      sqlArray.push(title);
-    }
-
-    if (typeof cardType !== "undefined") {
-      sql += "cardType = ?,";
+      sql = "BEGIN; " +
+      "UPDATE Temp_Cards " +
+      "SET tempCardType = ?, tempOrderIndex = ?, tempTitle = ?, tempUserId = ? " +
+      "WHERE tempCardId = ?;";
       sqlArray.push(cardType);
+      sqlArray.push(orderIndex);
+      sqlArray.push(title);
+      sqlArray.push(userId);
+      sqlArray.push(cardId);
+
+    } else if (approved === 0) {
+
+      sql = "BEGIN; " +
+      "UPDATE Cards " +
+      "SET cardType = ?, orderIndex = ?, title = ?, userId = ? " +
+      "WHERE cardId = ?;";
+      sqlArray.push(cardType);
+      sqlArray.push(orderIndex);
+      sqlArray.push(title);
+      sqlArray.push(userId);
+      sqlArray.push(cardId);
+
+    } else {
+
+      sql = "BEGIN; " +
+      "INSERT INTO Temp_Cards (tempCardId, tempCardType, " +
+      "tempOrderIndex, tempTitle, tempUserId) " +
+      "VALUES (?, ?, ?, ?, ?);";
+      sqlArray.push(cardId);
+      sqlArray.push(cardType);
+      sqlArray.push(orderIndex);
+      sqlArray.push(title);
+      sqlArray.push(userId);
+
     }
 
-    if (typeof approved !== "undefined") {
-      sql += "approved = ?,";
-      sqlArray.push(approved);
-    }
+    // see if we need to update items
+    if (typeof items !== "undefined") {
+      if (items.length) {
+        // delete all of the old items
+        sql += "DELETE FROM Items " +
+        "WHERE cardId = ? AND approved = 0;";
+        sqlArray.push(cardId);
 
-    // add the last line of the SQL query
-    sql = sql.replace(/.$/, " WHERE cardId = ?;");
-    sqlArray.push(cardId);
+        /* DON'T CREATE ITEMS IN THIS FUNCTION FOR NOW
+        // create all of the new items
+        sql += "INSERT INTO Items (cardId, parentId, orderIndex, iconType, " +
+        "contentText, contentUrl, contentLabel, approved) VALUES ";
 
-    // confirm that the parent doesn't already
-    // have a child with the same title
-    if (typeof headerId !== "undefined" || typeof title !== "undefined") {
+        // expand the sql string and array based on the number of items
+        items.forEach((currentValue) => {
+          sql += "(?, ?, ?, ?, ?, ?, ?, 0),";
+          sqlArray.push(cardId);
+          sqlArray.push(currentValue.parentId);
+          sqlArray.push(currentValue.orderIndex);
+          sqlArray.push(currentValue.iconType);
+          sqlArray.push(currentValue.contentText);
+          sqlArray.push(currentValue.contentUrl);
+          sqlArray.push(currentValue.contentLabel);
+        });
 
-      // check if we are using a new or old parent Id
-      if (typeof headerId === "undefined") {
-        const checkSql = "SELECT headerId " +
-        "FROM Cards " +
-        "WHERE cardId = ?;";
-        results = await pool.query(checkSql, cardId);
-        headerId = results[0][0].headerId;
+        // replace the final comma with a semicolon
+        sql = sql.replace(/.$/, ";");
+        */
       }
-
-      // check if we are using a new or old title
-      if (typeof title === "undefined") {
-        const checkSql = "SELECT title " +
-        "FROM Cards " +
-        "WHERE cardId = ?;";
-        results = await pool.query(checkSql, cardId);
-        title = results[0][0].title;
-      }
-
-      // look for duplicate titles
-      const checkSql = "SELECT * " +
-      "FROM Cards " +
-      "WHERE headerId = ? " +
-      "AND title = ? " +
-      "AND NOT cardId = ?;";
-      results = await pool.query(checkSql, [headerId, title, cardId]);
-
-      if (results[0].length) {
-        return {error: 3};
-      }
     }
 
-    // make sure that we are updating at least one field
-    if (sqlArray.length <= 1) {
-      return {error: 4};
-    }
+    // commit our query
+    sql += "COMMIT;";
 
     // perform the update query
     results = await pool.query(sql, sqlArray);
 
     const finalResults = {
-      changedRows: results[0].changedRows
+      cardId: cardId
     };
 
     return finalResults;
@@ -243,3 +269,112 @@ async function updateCard(cardId, headerId, cardType, orderIndex, title, approve
 
 }
 exports.updateCard = updateCard;
+
+
+async function publishCard(cardId) {
+
+  try {
+
+    // make sure that the card exists
+    let sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE cardId = ?;";
+    let results = await pool.query(sql, cardId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const title = results[0][0].title;
+    const headerId = results[0][0].headerId;
+
+    // check if there is new card data
+    sql = "SELECT * " +
+    "FROM Temp_Cards " +
+    "WHERE tempCardId = ?;";
+    results = await pool.query(sql, cardId);
+
+    const tempCard = results[0][0];
+
+    // if there is new card data, replace the old data
+    // otherwise simply update the approved value
+    if (tempCard) {
+
+      // update the published card
+      sql = "UPDATE Cards " +
+      "SET cardType = ?, orderIndex = ?, title = ?, userId = ?, created = ?, approved = 1 " +
+      "WHERE cardId = ?;";
+
+      const tempArray = [tempCard.tempCardType, tempCard.tempOrderIndex,
+        tempCard.tempTitle, tempCard.tempUserId, tempCard.tempCreated, cardId];
+
+      // make sure no other cards share the same name
+      const checkSql = "SELECT * " +
+      "FROM Cards " +
+      "WHERE headerId = ? " +
+      "AND title = ? " +
+      "AND cardId != ? " +
+      "AND approved = 1;";
+      results = await pool.query(checkSql, [headerId, tempCard.tempTitle, cardId]);
+
+      if (results[0].length) {
+        return {error: 2};
+      }
+
+      // publish
+      results = await pool.query(sql, tempArray);
+
+      // delete the old temp card
+      sql = "DELETE FROM Temp_Cards " +
+      "WHERE tempCardId = ?;";
+      results = await pool.query(sql, cardId);
+
+    } else {
+
+      sql = "UPDATE Cards " +
+      "SET approved = 1 " +
+      "WHERE cardId = ?;";
+
+      // make sure no other cards share the same name
+      const checkSql = "SELECT * " +
+      "FROM Cards " +
+      "WHERE headerId = ? " +
+      "AND title = ? " +
+      "AND cardId != ? " +
+      "AND approved = 1;";
+      results = await pool.query(checkSql, [headerId, title, cardId]);
+
+      if (results[0].length) {
+        return {error: 2};
+      }
+
+      // publish
+      results = await pool.query(sql, cardId);
+
+    }
+
+    // delete all of the old items
+    sql = "DELETE FROM Items " +
+    "WHERE cardId = ? " +
+    "AND approved = 1;";
+    results = await pool.query(sql, cardId);
+
+    // approve all of the new items
+    sql = "UPDATE Items " +
+    "SET approved = 1 " +
+    "WHERE cardId = ?;";
+    results = await pool.query(sql, cardId);
+
+    const finalResults = {
+      cardId: cardId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error publishing card");
+    throw Error(err);
+  }
+
+}
+exports.publishCard = publishCard;

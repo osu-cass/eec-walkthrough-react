@@ -9,3 +9,14 @@
   max-width: 95% !important;
   height: auto !important;
 }
+
+.img-thumbnail {
+  max-height: 10em !important;
+  min-height: 5em !important;
+  cursor: pointer;
+}
+
+.img-normal {
+  max-height: 23em !important;
+  cursor: pointer;
+}

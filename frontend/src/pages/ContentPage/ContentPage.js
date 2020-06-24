@@ -3,8 +3,7 @@ import {getProfile} from "../../utilities/cookieAuth";
 import {getMode} from "../../utilities/pageMode";
 import Header from "./Header";
 import PageDescription from "./PageDescription";
-import CardContainer from "./CardContainer";
-import Loading from "../../components/General/Loading";
+import LoadingOverlay from "../../components/General/LoadingOverlay";
 import CreateCard from "./CreateCard";
 import CreateHeader from "./CreateHeader";
 import Container from "react-bootstrap/Container";
@@ -18,7 +17,6 @@ function ContentPage(props) {
 
   const [errorPage, setErrorPage] = useState(false);
   const [pageInfo, setPageInfo] = useState([]);
-  const [icons, setIcons] = useState([]);
   const [iconSet, setIconSet] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [userId, setUserId] = useState(0);
@@ -40,9 +38,6 @@ function ContentPage(props) {
 
   // fetch page data
   async function fetchData() {
-    let i = [];
-    let j = [];
-    const icons = [];
     let obj = [];
     setLoaded(false);
 
@@ -63,6 +58,7 @@ function ContentPage(props) {
     if (results.ok) {
       obj = await results.json();
       setPageInfo(obj);
+      console.log("Page Data:", obj);
     } else {
       if (results.status === 404) {
         setErrorPage(404);
@@ -73,66 +69,19 @@ function ContentPage(props) {
       }
     }
 
-    // Headers
-    const headers = obj.headers;
-
-    // Split icons for each header
-    for (i = 0; i < headers.length; i++) {
-      icons[i] = headers[i].icons;
-      for (j = 0; j < icons[i].length; j++) {
-        icons[i][j].hidden = false;
-      }
-    }
-
-    setIcons(icons);
     setLoaded(true);
-  }
-
-  function handleFilter(id, idx) {
-    const newIcons = [...icons]; // Create copy of object, update object, set state with new copy
-    for (let i = 0; i < newIcons[idx].length; i++) {
-      if (newIcons[idx][i].iconType === id) {
-        newIcons[idx][i].hidden = !newIcons[idx][i].hidden; // Update object and change hidden to opposite
-      }
-    }
-    setIcons(newIcons);
-  }
-
-  function resetFilter(headerIdx) {
-    const newIcons = [...icons]; // Create copy of object, update object, set state with new copy
-    let i;
-    for (i = 0; i < newIcons[headerIdx].length; i++) {
-      newIcons[headerIdx][i].hidden = false; // Change everything to not hidden
-    }
-    setIcons(newIcons);
   }
 
   if (!errorPage) {
     return loaded ? ( // Render content when data loaded from backend
       <Container className="my-4">
-        <Header title={pageInfo.name}
-          name={pageInfo.name}
-          pageTitle={pageInfo.title}
-          description={pageInfo.description}
-          imageUrl={pageInfo.imageUrl}
-          approved={pageInfo.approved}
-          mainPageHeader={1}
+        <PageDescription
+          page={pageInfo}
           refresh={() => fetchData()}
-          pageId={parseInt(props.pageId)}
-          created={pageInfo.created}
           role={role}
           mode={mode}
           onPageMode={e => handlePageMode(e)}
           handlePageEdit={props.handlePageEdit}
-        />
-
-        <PageDescription
-          approved={pageInfo.approved}
-          name={pageInfo.name}
-          header={pageInfo.title}
-          description={pageInfo.description}
-          img={pageInfo.imageUrl}
-          mode={mode}
         />
 
         <CreateHeader
@@ -148,28 +97,12 @@ function ContentPage(props) {
         {pageInfo.headers.map((header, i) => {
           return (
             <Fragment key={i}>
-              <Header title={header.title} approved={header.approved}
-                headerId={header.headerId} created={header.created}
-                userId={header.userId} mainPageHeader={0}
-                refresh={() => fetchData()} sticky
+              <Header
+                header={header}
+                refresh={() => fetchData()}
                 role={role}
                 mode={mode}
-                onPageMode={(modeValue) => handlePageMode(modeValue)}
-                filterData={icons[i]}
-                filterIndex={i}
-                handleFilter={handleFilter}
-                resetFilter={(idx) => resetFilter(idx)}
-              />
-              <CardContainer
-                id={i}
-                cards={header.cards}
-                filter={icons[i]}
-                headerId={header.headerId}
-                headerName={header.title}
                 iconSet={iconSet}
-                refresh={() => fetchData()}
-                mode={mode}
-                approved={header.approved}
               />
               <CreateCard
                 title={`Create ${header.title} Card`}
@@ -184,7 +117,7 @@ function ContentPage(props) {
         })}
 
       </Container>
-    ) : <Loading />;
+    ) : <LoadingOverlay loading={true} />;
   } else if (errorPage === 404) {
     return <Error404 />;
   } else {
@@ -195,6 +128,6 @@ export default ContentPage;
 
 ContentPage.propTypes = {
   match: PropTypes.any,
-  pageId: PropTypes.any,
-  handlePageEdit: PropTypes.any
+  pageId: PropTypes.string,
+  handlePageEdit: PropTypes.func
 };

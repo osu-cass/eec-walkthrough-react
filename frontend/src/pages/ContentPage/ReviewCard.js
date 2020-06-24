@@ -4,7 +4,6 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
-import Image from "./Image";
 import "./ReviewCard.css";
 
 // Button and modal that allows a user to review a card
@@ -35,16 +34,10 @@ function ReviewCard(props) {
       return;
     }
 
-    // Prepare data for new card
-    const cardData = {
-      approved: 1
-    };
-
     // Approve the card
-    const results = await fetch(`/cards/${props.cardId}`, {
-      method: "PATCH",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(cardData)
+    const results = await fetch(`/cards/${props.card.cardId}/publish`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"}
     });
 
     if (results.ok) {
@@ -58,18 +51,22 @@ function ReviewCard(props) {
       props.refresh();
     } else {
 
+      const obj = await results.json();
+
       if (results.status === 401) {
         logout();
         window.location.href = "/";
-      } else {
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
         setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
       }
 
     }
 
   }
 
-  return role >= 3 && !props.approved ? (
+  return role >= 3 && props.edited ? (
     <div className='text-center mx-2'>
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
@@ -82,7 +79,7 @@ function ReviewCard(props) {
 
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
-          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review {props.title} Card</h5>
+          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review Card</h5>
           <Button variant="none" onClick={() => handleClose()}>
             <span aria-hidden="true">&times;</span>
           </Button>
@@ -90,61 +87,38 @@ function ReviewCard(props) {
 
         <Modal.Body>
 
-          <div className="version-container p-2 m-3 border border-dark rounded">
-            <h4 className="font-weight-bold">Published Version</h4>
-            <span className="created-text">Created {formatTime(props.created)}</span>
-            <div className="m-3">
-              {props.cardType ? (
-                <div className="row text-center text-lg-left">
-                  {props.cardItems.map((item) =>
-                    <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
-                      key={item.itemId + "a"}
-                    >
-                      <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
-                        <Image
-                          url={item.contentUrl}
-                          title={item.contentLabel}
-                          thumbnail={true}
-                          header={false}
-                          key={item.itemId + "c"}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                props.cardItems
-              )}
+          {props.card.approved ? (
+            <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
+              <h4 className="font-weight-bold">Published Version</h4>
+              <span className="created-text">Created {formatTime(props.card.created)}</span>
+              <div className="m-3">
+                <h3 className="font-weight-bold">{props.card.title}</h3>
+                {props.cardItems}
+              </div>
             </div>
-          </div>
+          ) : (
+            null
+          )}
 
-          <div className="version-container p-2 m-3 border border-dark rounded">
-            <h4 className="font-weight-bold">New Version</h4>
-            <span className="created-text">Created {formatTime(props.created)}</span>
-            <div className="m-3">
-              {props.cardType ? (
-                <div className="row text-center text-lg-left">
-                  {props.cardItems.map((item) =>
-                    <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
-                      key={item.itemId + "a"}
-                    >
-                      <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
-                        <Image
-                          url={item.contentUrl}
-                          title={item.contentLabel}
-                          thumbnail={true}
-                          header={false}
-                          key={item.itemId + "c"}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                props.cardItems
-              )}
+          {props.card.approved && props.card.tempCardId ? (
+            <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
+              <h4 className="font-weight-bold">New Version</h4>
+              <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
+              <div className="m-3">
+                <h3 className="font-weight-bold">{props.card.tempTitle}</h3>
+                {props.cardTempItems}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
+              <h4 className="font-weight-bold">New Version</h4>
+              <span className="created-text">Created {formatTime(props.card.created)}</span>
+              <div className="m-3">
+                <h3 className="font-weight-bold">{props.card.title}</h3>
+                {props.cardTempItems}
+              </div>
+            </div>
+          )}
 
           <Row>
             <div className='col-3' />
@@ -157,7 +131,11 @@ function ReviewCard(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          <Button variant="primary" onClick={(e) => handleSubmit(e)}>Approve Changes</Button>
+          {role >= 4 ? (
+            <Button variant="primary" onClick={(e) => handleSubmit(e)}>Publish Changes</Button>
+          ) : (
+            null
+          )}
           <Button variant="secondary" onClick={() => handleClose()}>Cancel</Button>
         </Modal.Footer>
       </Modal>
@@ -170,12 +148,9 @@ function ReviewCard(props) {
 export default ReviewCard;
 
 ReviewCard.propTypes = {
-  title: PropTypes.string,
-  cardId: PropTypes.number,
-  approved: PropTypes.number,
+  edited: PropTypes.bool,
   refresh: PropTypes.func,
   cardItems: PropTypes.array,
-  cardType: PropTypes.number,
-  userId: PropTypes.number,
-  created: PropTypes.any
+  cardTempItems: PropTypes.array,
+  card: PropTypes.object
 };

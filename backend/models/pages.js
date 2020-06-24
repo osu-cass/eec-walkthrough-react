@@ -215,6 +215,8 @@ async function getFullPage(pageId, viewAll) {
     if (viewAll) {
       sql = "SELECT * " +
       "FROM Pages " +
+      "LEFT JOIN Temp_Pages " +
+      "ON pageId = tempPageId " +
       "WHERE pageId = ?;";
     } else {
       sql = "SELECT * " +
@@ -235,14 +237,16 @@ async function getFullPage(pageId, viewAll) {
     if (viewAll) {
       sql = "SELECT * " +
       "FROM Headers " +
+      "LEFT JOIN Temp_Headers " +
+      "ON headerId = tempHeaderId " +
       "WHERE pageId = ? " +
-      "ORDER BY orderIndex ASC, headerId ASC";
+      "ORDER BY orderIndex ASC, headerId ASC;";
     } else {
       sql = "SELECT * " +
       "FROM Headers " +
       "WHERE pageId = ? " +
       "AND approved = 1 " +
-      "ORDER BY orderIndex ASC, headerId ASC";
+      "ORDER BY orderIndex ASC, headerId ASC;";
     }
 
     results = await pool.query(sql, pageId);
@@ -250,39 +254,15 @@ async function getFullPage(pageId, viewAll) {
     const headerCount = finalResults.headers.length;
 
 
-    // get all of the cards for each header and icons used for each header
+    // get all of the cards for each header
     for (let i = 0; i < headerCount; i++) {
       const headerId = finalResults.headers[i].headerId;
-
-      // get all icons used for each header
-      if (viewAll) {
-        sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
-        "FROM `Headers` " +
-        "LEFT JOIN Cards on Cards.headerId = Headers.headerId " +
-        "LEFT JOIN Items on Cards.cardId = Items.cardId " +
-        "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
-        "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
-        "ORDER BY iconType ASC;";
-      } else {
-        sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
-        "FROM `Headers` " +
-        "LEFT JOIN " +
-        "(SELECT * FROM Cards WHERE approved = 1) C " +
-        "on C.headerId = Headers.headerId " +
-        "LEFT JOIN " +
-        "(SELECT * FROM Items WHERE approved = 1) I " +
-        "on C.cardId = I.cardId " +
-        "LEFT JOIN Icons on I.iconType = Icons.iconType " +
-        "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
-        "ORDER BY iconType ASC;";
-      }
-
-      results = await pool.query(sql, headerId);
-      finalResults.headers[i].icons = results[0];
 
       if (viewAll) {
         sql = "SELECT * " +
         "FROM Cards " +
+        "LEFT JOIN Temp_Cards " +
+        "ON cardId = tempCardId " +
         "WHERE headerId = ? " +
         "ORDER BY orderIndex ASC, cardId ASC";
       } else {
@@ -303,29 +283,54 @@ async function getFullPage(pageId, viewAll) {
         const cardId = finalResults.headers[i].cards[j].cardId;
 
         if (viewAll) {
+
+          // get all approved items
           sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, userId, " +
-          "created, approved " +
-          "FROM Items " +
-          "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
-          "WHERE cardId = ? " +
-          "ORDER BY orderIndex ASC, itemId ASC";
-        } else {
-          sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
-          "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, userId, " +
+          "contentUrl, contentLabel, " +
           "created, approved " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
           "AND approved = 1 " +
           "ORDER BY orderIndex ASC, itemId ASC";
+
+          results = await pool.query(sql, cardId);
+
+          finalResults.headers[i].cards[j].items = results[0];
+
+          // get all unapproved items
+          sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+          "Items.iconType, typeName, typeKeyword, contentText, " +
+          "contentUrl, contentLabel, " +
+          "created, approved " +
+          "FROM Items " +
+          "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+          "WHERE cardId = ? " +
+          "AND approved = 0 " +
+          "ORDER BY orderIndex ASC, itemId ASC";
+
+          results = await pool.query(sql, cardId);
+
+          finalResults.headers[i].cards[j].tempItems = results[0];
+
+        } else {
+          sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+          "Items.iconType, typeName, typeKeyword, contentText, " +
+          "contentUrl, contentLabel, " +
+          "created, approved " +
+          "FROM Items " +
+          "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+          "WHERE cardId = ? " +
+          "AND approved = 1 " +
+          "ORDER BY orderIndex ASC, itemId ASC";
+
+          results = await pool.query(sql, cardId);
+
+          finalResults.headers[i].cards[j].items = results[0];
+          finalResults.headers[i].cards[j].tempItems = [];
+
         }
-
-        results = await pool.query(sql, cardId);
-
-        finalResults.headers[i].cards[j].items = results[0];
 
       }
 
@@ -383,12 +388,35 @@ async function deletePage(pageId) {
 
   try {
 
-    // check to see if the page exists
+    // checks to see if there is an edited version of the page to delete
     let sql = "SELECT * " +
+    "FROM Temp_Pages " +
+    "WHERE tempPageId = ?;";
+
+    let results = await pool.query(sql, pageId);
+
+    // prioritize deleting the edited version
+    // a second delete will remove the real one
+    if (results[0].length) {
+      sql = "DELETE " +
+        "FROM Temp_Pages " +
+        "WHERE tempPageId = ?;";
+
+      results = await pool.query(sql, pageId);
+
+      const finalResults = {
+        affectedRows: results[0].affectedRows
+      };
+
+      return finalResults;
+    }
+
+    // check to see if the page exists
+    sql = "SELECT * " +
       "FROM Pages " +
       "WHERE pageId = ?;";
 
-    let results = await pool.query(sql, pageId);
+    results = await pool.query(sql, pageId);
 
     if (!results[0].length) {
       return {error: 1};
@@ -417,7 +445,7 @@ exports.deletePage = deletePage;
 
 
 // update a page
-async function updatePage(pageId, pageType, name, title, description, imageUrl, approved) {
+async function updatePage(pageId, name, title, description, imageUrl, userId) {
 
   try {
 
@@ -433,65 +461,58 @@ async function updatePage(pageId, pageType, name, title, description, imageUrl, 
       return {error: 1};
     }
 
-    // make sure that the page name and type combination doesn't already exist
+    const approved = results[0][0].approved;
+
+    // See if we already have an unpublished page.
+    // Either create a new one or update the existing one.
     sql = "SELECT * " +
-    "FROM Pages " +
-    "WHERE pageType = ? " +
-    "AND name = ? " +
-    "AND NOT pageId = ?;";
-    results = await pool.query(sql, [pageType, name, pageId]);
+    "FROM Temp_Pages " +
+    "WHERE tempPageId = ?;";
+    results = await pool.query(sql, pageId);
 
     if (results[0].length) {
-      return {error: 2};
-    }
 
-    // construct a sql query based on the fields given
-    sql = "UPDATE Pages SET ";
-
-    if (typeof pageType !== "undefined") {
-      sql += "pageType = ?,";
-      sqlArray.push(pageType);
-    }
-
-    if (typeof name !== "undefined") {
-      sql += "name = ?,";
+      sql = "UPDATE Temp_Pages " +
+      "SET tempName = ?, tempTitle = ?, tempDescription = ?, tempImageUrl = ?, tempUserId = ? " +
+      "WHERE tempPageId = ?;";
       sqlArray.push(name);
-    }
-
-    if (typeof title !== "undefined") {
-      sql += "title = ?,";
       sqlArray.push(title);
-    }
-
-    if (typeof description !== "undefined") {
-      sql += "description = ?,";
       sqlArray.push(description);
-    }
-
-    if (typeof imageUrl !== "undefined") {
-      sql += "imageUrl = ?,";
       sqlArray.push(imageUrl);
-    }
+      sqlArray.push(userId);
+      sqlArray.push(pageId);
 
-    if (typeof approved !== "undefined") {
-      sql += "approved = ?,";
-      sqlArray.push(approved);
-    }
+    } else if (approved === 0) {
 
-    // add the last line of the SQL query
-    sql = sql.replace(/.$/, " WHERE pageId = ?;");
-    sqlArray.push(pageId);
+      sql = "UPDATE Pages " +
+      "SET name = ?, title = ?, description = ?, imageUrl = ?, userId = ? " +
+      "WHERE pageId = ?;";
+      sqlArray.push(name);
+      sqlArray.push(title);
+      sqlArray.push(description);
+      sqlArray.push(imageUrl);
+      sqlArray.push(userId);
+      sqlArray.push(pageId);
 
-    // make sure that we are updating at least one field
-    if (sqlArray.length <= 1) {
-      return {error: 3};
+    } else {
+
+      sql = "INSERT INTO Temp_Pages (tempPageId, " +
+      "tempName, tempTitle, tempDescription, tempImageUrl, tempUserId) " +
+      "VALUES (?, ?, ?, ?, ?, ?);";
+      sqlArray.push(pageId);
+      sqlArray.push(name);
+      sqlArray.push(title);
+      sqlArray.push(description);
+      sqlArray.push(imageUrl);
+      sqlArray.push(userId);
+
     }
 
     // perform the update query
     results = await pool.query(sql, sqlArray);
 
     const finalResults = {
-      changedRows: results[0].changedRows
+      pageId: pageId
     };
 
     return finalResults;
@@ -715,3 +736,101 @@ async function searchPages(text, cursor, viewAll) {
   }
 }
 exports.searchPages = searchPages;
+
+
+async function publishPage(pageId) {
+
+  try {
+
+    // make sure that the page exists
+    let sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ?;";
+    let results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const name = results[0][0].name;
+    const pageType = results[0][0].pageType;
+
+    // check if there is new page data
+    sql = "SELECT * " +
+    "FROM Temp_Pages " +
+    "WHERE tempPageId = ?;";
+    results = await pool.query(sql, pageId);
+
+    const tempPage = results[0][0];
+
+    // if there is new page data, replace the old data
+    // otherwise simply update the approved value
+    if (tempPage) {
+
+      // update the published page
+      sql = "UPDATE Pages " +
+      "SET name = ?, title = ?, description = ?, imageUrl = ?, " +
+      "userId = ?, created = ?, approved = 1 " +
+      "WHERE pageId = ?;";
+
+      const tempArray = [tempPage.tempName, tempPage.tempTitle, tempPage.tempDescription,
+        tempPage.tempImageUrl, tempPage.tempUserId, tempPage.tempCreated, pageId];
+
+      // make sure no other pages share the same name
+      const checkSql = "SELECT * " +
+      "FROM Pages " +
+      "WHERE name = ? " +
+      "AND pageType = ? " +
+      "AND pageId != ? " +
+      "AND approved = 1;";
+      results = await pool.query(checkSql, [tempPage.tempName, pageType, pageId]);
+      console.log(tempPage.tempName, pageType);
+      if (results[0].length) {
+        return {error: 2};
+      }
+
+      // publish
+      results = await pool.query(sql, tempArray);
+
+      // delete the old temp page
+      sql = "DELETE FROM Temp_Pages " +
+      "WHERE tempPageId = ?;";
+      results = await pool.query(sql, pageId);
+
+    } else {
+
+      sql = "UPDATE Pages " +
+      "SET approved = 1 " +
+      "WHERE pageId = ?;";
+
+      // make sure no other pages share the same name
+      const checkSql = "SELECT * " +
+      "FROM Pages " +
+      "WHERE name = ? " +
+      "AND pageType = ? " +
+      "AND pageId != ? " +
+      "AND approved = 1;";
+      results = await pool.query(checkSql, [name, pageType, pageId]);
+
+      if (results[0].length) {
+        return {error: 2};
+      }
+
+      // publish
+      results = await pool.query(sql, pageId);
+
+    }
+
+    const finalResults = {
+      pageId: pageId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error publishing page");
+    throw Error(err);
+  }
+
+}
+exports.publishPage = publishPage;

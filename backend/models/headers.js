@@ -119,12 +119,35 @@ async function deleteHeader(headerId) {
 
   try {
 
-    // check to see if the header exists
+    // checks to see if there is an edited version of the header to delete
     let sql = "SELECT * " +
-      "FROM Headers " +
-      "WHERE headerId = ?;";
+    "FROM Temp_Headers " +
+    "WHERE tempHeaderId = ?;";
 
     let results = await pool.query(sql, headerId);
+
+    // prioritize deleting the edited version
+    // a second delete will remove the real one
+    if (results[0].length) {
+      sql = "DELETE " +
+        "FROM Temp_Headers " +
+        "WHERE tempHeaderId = ?;";
+
+      results = await pool.query(sql, headerId);
+
+      const finalResults = {
+        affectedRows: results[0].affectedRows
+      };
+
+      return finalResults;
+    }
+
+    // check to see if the header exists
+    sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ?;";
+
+    results = await pool.query(sql, headerId);
 
     if (!results[0].length) {
       return {error: 1};
@@ -153,7 +176,7 @@ exports.deleteHeader = deleteHeader;
 
 
 // update a header
-async function updateHeader(headerId, pageId, orderIndex, title, approved) {
+async function updateHeader(headerId, orderIndex, title, userId) {
 
   try {
 
@@ -169,92 +192,52 @@ async function updateHeader(headerId, pageId, orderIndex, title, approved) {
       return {error: 1};
     }
 
-    // construct a sql query based on the fields given
-    sql = "UPDATE Headers SET ";
+    const approved = results[0][0].approved;
 
-    if (typeof pageId !== "undefined") {
+    // See if we already have an unpublished header.
+    // Either create a new one or update the existing one.
+    sql = "SELECT * " +
+    "FROM Temp_Headers " +
+    "WHERE tempHeaderId = ?;";
+    results = await pool.query(sql, headerId);
 
-      // confirm that the parent exists
-      const checkSql = "SELECT * " +
-      "FROM Pages " +
-      "WHERE pageId = ?;";
+    if (results[0].length) {
 
-      results = await pool.query(checkSql, pageId);
-
-      if (!results[0].length) {
-        return {error: 2};
-      }
-
-      sql += "pageId = ?,";
-      sqlArray.push(pageId);
-
-    }
-
-    if (typeof orderIndex !== "undefined") {
-      sql += "orderIndex = ?,";
+      sql = "UPDATE Temp_Headers " +
+      "SET tempOrderIndex = ?, tempTitle = ?, tempUserId = ? " +
+      "WHERE tempHeaderId = ?;";
       sqlArray.push(orderIndex);
-    }
-
-    if (typeof title !== "undefined") {
-      sql += "title = ?,";
       sqlArray.push(title);
-    }
+      sqlArray.push(userId);
+      sqlArray.push(headerId);
 
-    if (typeof approved !== "undefined") {
-      sql += "approved = ?,";
-      sqlArray.push(approved);
-    }
+    } else if (approved === 0) {
 
-    // add the last line of the SQL query
-    sql = sql.replace(/.$/, " WHERE headerId = ?;");
-    sqlArray.push(headerId);
+      sql = "UPDATE Headers " +
+      "SET orderIndex = ?, title = ?, userId = ? " +
+      "WHERE headerId = ?;";
+      sqlArray.push(orderIndex);
+      sqlArray.push(title);
+      sqlArray.push(userId);
+      sqlArray.push(headerId);
 
-    // confirm that the parent doesn't already
-    // have a child with the same title
-    if (typeof pageId !== "undefined" || typeof title !== "undefined") {
+    } else {
 
-      // check if we are using a new or old parent Id
-      if (typeof pageId === "undefined") {
-        const checkSql = "SELECT pageId " +
-        "FROM Headers " +
-        "WHERE headerId = ?;";
-        results = await pool.query(checkSql, headerId);
-        pageId = results[0][0].pageId;
-      }
+      sql = "INSERT INTO Temp_Headers (tempHeaderId, " +
+      "tempOrderIndex, tempTitle, tempUserId) " +
+      "VALUES (?, ?, ?, ?);";
+      sqlArray.push(headerId);
+      sqlArray.push(orderIndex);
+      sqlArray.push(title);
+      sqlArray.push(userId);
 
-      // check if we are using a new or old title
-      if (typeof title === "undefined") {
-        const checkSql = "SELECT title " +
-        "FROM Headers " +
-        "WHERE headerId = ?;";
-        results = await pool.query(checkSql, headerId);
-        title = results[0][0].title;
-      }
-
-      // look for duplicate titles
-      const checkSql = "SELECT * " +
-      "FROM Headers " +
-      "WHERE pageId = ? " +
-      "AND title = ? " +
-      "AND NOT headerId = ?;";
-      results = await pool.query(checkSql, [pageId, title, headerId]);
-
-      if (results[0].length) {
-        return {error: 3};
-      }
-    }
-
-
-    // make sure that we are updating at least one field
-    if (sqlArray.length <= 1) {
-      return {error: 4};
     }
 
     // perform the update query
     results = await pool.query(sql, sqlArray);
 
     const finalResults = {
-      changedRows: results[0].changedRows
+      headerId: headerId
     };
 
     return finalResults;
@@ -266,3 +249,100 @@ async function updateHeader(headerId, pageId, orderIndex, title, approved) {
 
 }
 exports.updateHeader = updateHeader;
+
+
+async function publishHeader(headerId) {
+
+  try {
+
+    // make sure that the header exists
+    let sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ?;";
+    let results = await pool.query(sql, headerId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const title = results[0][0].title;
+    const pageId = results[0][0].pageId;
+
+    // check if there is new header data
+    sql = "SELECT * " +
+    "FROM Temp_Headers " +
+    "WHERE tempHeaderId = ?;";
+    results = await pool.query(sql, headerId);
+
+    const tempHeader = results[0][0];
+
+    // if there is new header data, replace the old data
+    // otherwise simply update the approved value
+    if (tempHeader) {
+
+      // update the published header
+      sql = "UPDATE Headers " +
+      "SET orderIndex = ?, title = ?, userId = ?, created = ?, approved = 1 " +
+      "WHERE headerId = ?;";
+
+      const tempArray = [tempHeader.tempOrderIndex, tempHeader.tempTitle,
+        tempHeader.tempUserId, tempHeader.tempCreated, headerId];
+
+      // make sure no other headers share the same title
+      const checkSql = "SELECT * " +
+      "FROM Headers " +
+      "WHERE pageId = ? " +
+      "AND title = ? " +
+      "AND headerId != ? " +
+      "AND approved = 1;";
+      results = await pool.query(checkSql, [pageId, tempHeader.tempTitle, headerId]);
+
+      if (results[0].length) {
+        return {error: 2};
+      }
+
+      // publish
+      results = await pool.query(sql, tempArray);
+
+      // delete the old temp header
+      sql = "DELETE FROM Temp_Headers " +
+      "WHERE tempHeaderId = ?;";
+      results = await pool.query(sql, headerId);
+
+    } else {
+
+      sql = "UPDATE Headers " +
+      "SET approved = 1 " +
+      "WHERE headerId = ?;";
+
+      // make sure no other headers share the same title
+      const checkSql = "SELECT * " +
+      "FROM Headers " +
+      "WHERE pageId = ? " +
+      "AND title = ? " +
+      "AND headerId != ? " +
+      "AND approved = 1;";
+      results = await pool.query(checkSql, [pageId, title, headerId]);
+
+      if (results[0].length) {
+        return {error: 2};
+      }
+
+      // publish
+      results = await pool.query(sql, headerId);
+
+    }
+
+    const finalResults = {
+      headerId: headerId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error publishing header");
+    throw Error(err);
+  }
+
+}
+exports.publishHeader = publishHeader;

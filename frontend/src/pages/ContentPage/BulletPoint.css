@@ -15,10 +15,17 @@
 
 /* LightGreen */
 .fa-chart-area{
-    color: #32C332 !important;
+  color: #32C332 !important;
 }
 
-.fa-plus {
+/* Green */
+.last-accessed-link {
+  color: #28a428 !important;
+}
+
+/* Red */
+.last-accessed-link-bad {
+  color: #E81224 !important;
 }
 
 .opportunity-desc {
