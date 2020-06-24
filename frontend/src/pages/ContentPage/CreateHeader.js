@@ -111,7 +111,7 @@ class CreateHeader extends React.Component {
               <Col>
                 <Form.Group controlId="formName">
                   <Form.Label className="font-weight-bold">Header Title</Form.Label>
-                  <Form.Control type="text" placeholder="Enter title" onChange={(e) => this.setState({title: e.target.value})} />
+                  <Form.Control type="text" maxLength="100" placeholder="Enter title" onChange={(e) => this.setState({title: e.target.value})} />
                 </Form.Group>
               </Col>
             </Row>

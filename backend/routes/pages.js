@@ -25,7 +25,8 @@ const {
   deletePage,
   updatePage,
   addSubject,
-  deleteSubject
+  deleteSubject,
+  publishPage
 } = require("../models/pages");
 
 
@@ -280,12 +281,11 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
     console.log("Update a page");
 
     const pageId = req.params.pageId;
-    const pageType = req.body.pageType;
     const name = req.body.name;
     const title = req.body.title;
     const description = req.body.description;
     const imageUrl = req.body.imageUrl;
-    const approved = req.body.approved;
+    const userId = req.auth.userId;
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -301,18 +301,14 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
     }
 
     // update a page
-    const results = await updatePage(pageId, pageType, name, title, description, imageUrl, approved);
+    const results = await updatePage(pageId, name, title, description, imageUrl, userId);
 
-    if (results.changedRows >= 0) {
+    if (results.pageId >= 0) {
       res.status(200).send(results);
     } else {
 
       if (results.error === 1) {
         res.status(404).send({error: "Page not found."});
-      } else if (results.error === 2) {
-        res.status(403).send({error: "Page name and type combination already exists."});
-      } else if (results.error === 3) {
-        res.status(422).send({error: "Request doesn't include any fields to update."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -411,6 +407,53 @@ app.delete("/industries/:industryId/subjects/:subjectId", requireAuth, industryS
         res.status(404).send({error: "Industry page not found."});
       } else if (results.error === 3) {
         res.status(404).send({error: "This subject is not part of this industry."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// publish a page
+app.post("/:pageId/publish", getUserID, getPageVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Publish a page");
+
+    const pageId = req.params.pageId;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to publish a page."});
+      return;
+    }
+
+    // publish a page
+    const results = await publishPage(pageId);
+
+    if (results.pageId >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Page not found."});
+      } else if (results.error === 2) {
+        res.status(403).send({error: "A page with the same name and type already exists."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

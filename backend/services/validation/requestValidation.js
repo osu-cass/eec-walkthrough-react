@@ -99,18 +99,10 @@ exports.postPageVal = postPageVal;
 const patchPageVal = Object.freeze({
   validation: [
     check("pageId").isInt({min: 1, max: 4294967295}),
-    check("pageType").optional()
-      .isInt({min: 0, max: 1}),
-    check("name").optional()
-      .isLength({min: 1, max: 100}),
-    check("title").optional()
-      .isLength({min: 1, max: 1000}),
-    check("description").optional()
-      .isLength({min: 1, max: 1000}),
-    check("imageUrl").optional()
-      .isLength({min: 1, max: 1000}),
-    check("approved").optional()
-      .isInt({min: 0, max: 1})
+    check("name").isLength({min: 1, max: 100}),
+    check("title").isLength({min: 1, max: 1000}),
+    check("description").isLength({min: 1, max: 1000}),
+    check("imageUrl").isLength({min: 1, max: 1000})
   ]
 });
 exports.patchPageVal = patchPageVal;
@@ -146,14 +138,8 @@ exports.postHeaderVal = postHeaderVal;
 const patchHeaderVal = Object.freeze({
   validation: [
     check("headerId").isInt({min: 1, max: 4294967295}),
-    check("pageId").optional()
-      .isInt({min: 1, max: 4294967295}),
-    check("orderIndex").optional()
-      .isInt({min: 0, max: 4294967295}),
-    check("title").optional()
-      .isLength({min: 1, max: 1000}),
-    check("approved").optional()
-      .isInt({min: 0, max: 1})
+    check("orderIndex").isInt({min: 0, max: 4294967295}),
+    check("title").isLength({min: 1, max: 1000})
   ]
 });
 exports.patchHeaderVal = patchHeaderVal;
@@ -181,16 +167,11 @@ exports.postCardVal = postCardVal;
 const patchCardVal = Object.freeze({
   validation: [
     check("cardId").isInt({min: 1, max: 4294967295}),
-    check("headerId").optional()
-      .isInt({min: 1, max: 4294967295}),
-    check("cardType").optional()
-      .isInt({min: 0, max: 65535}),
-    check("orderIndex").optional()
-      .isInt({min: 0, max: 4294967295}),
-    check("title").optional()
-      .isLength({min: 1, max: 1000}),
-    check("approved").optional()
-      .isInt({min: 0, max: 1})
+    check("cardType").isInt({min: 0, max: 65535}),
+    check("orderIndex").isInt({min: 0, max: 4294967295}),
+    check("title").isLength({min: 1, max: 1000}),
+    check("items").optional()
+      .isArray()
   ]
 });
 exports.patchCardVal = patchCardVal;
@@ -222,8 +203,6 @@ exports.postItemVal = postItemVal;
 const patchItemVal = Object.freeze({
   validation: [
     check("itemId").isInt({min: 1, max: 4294967295}),
-    check("cardId").optional()
-      .isInt({min: 1, max: 4294967295}),
     check("parentId").optional({nullable: true})
       .isInt({min: 0, max: 4294967295}),
     check("orderIndex").optional()
@@ -235,9 +214,7 @@ const patchItemVal = Object.freeze({
     check("contentUrl").optional()
       .isLength({min: 0, max: 1000}),
     check("contentLabel").optional()
-      .isLength({min: 0, max: 1000}),
-    check("approved").optional()
-      .isInt({min: 0, max: 1})
+      .isLength({min: 0, max: 1000})
   ]
 });
 exports.patchItemVal = patchItemVal;

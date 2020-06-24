@@ -536,7 +536,7 @@ paths:
         - $ref: '#/components/parameters/Card_cardId'
       responses:
         '200':
-          $ref: '#/components/responses/PATCH_200'
+          $ref: '#/components/responses/PATCH_200_CARD'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -587,38 +587,82 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/Items/{itemId}':
-    get:
-      summary: Gets an item by ID
-      description: >
-        Gets an item using the item ID
-      operationId: getItem
-      tags:
-        - Items
-      parameters:
-        - $ref: '#/components/parameters/Item_itemId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Item_GET_200'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
+  #'/Items/{itemId}':
+  #  get:
+  #    summary: Gets an item by ID
+  #    description: >
+  #      Gets an item using the item ID
+  #    operationId: getItem
+  #    tags:
+  #      - Items
+  #    parameters:
+  #      - $ref: '#/components/parameters/Item_itemId'
+  #    responses:
+  #      '200':
+  #        $ref: '#/components/responses/Item_GET_200'
+  #      '404':
+  #        $ref: '#/components/responses/404'
+  #      '500':
+  #        $ref: '#/components/responses/500'
 
+  #  patch:
+  #    summary: Update an item by ID
+  #    description: >
+  #      Updates one or more item fields
+  #    operationId: updateItem
+  #    tags:
+  #      - Items
+  #    requestBody:
+  #      $ref: '#/components/requestBodies/Item_PATCH'
+  #    parameters:
+  #      - $ref: '#/components/parameters/Item_itemId'
+  #    responses:
+  #      '200':
+  #        $ref: '#/components/responses/PATCH_200'
+  #      '401':
+  #        $ref: '#/components/responses/401'
+  #      '403':
+  #        $ref: '#/components/responses/403'
+  #      '404':
+  #        $ref: '#/components/responses/404'
+  #      '422':
+  #        $ref: '#/components/responses/422'
+  #      '500':
+  #        $ref: '#/components/responses/500'
+
+  #  delete:
+  #    summary: Delete an item by ID
+  #    description: >
+  #      Delete an item using the item ID
+  #    operationId: deleteItem
+  #    tags:
+  #      - Items
+  #    parameters:
+  #      - $ref: '#/components/parameters/Item_itemId'
+  #    responses:
+  #      '200':
+  #        $ref: '#/components/responses/DELETE_200'
+  #      '401':
+  #        $ref: '#/components/responses/401'
+  #      '500':
+  #        $ref: '#/components/responses/500'
+          
+  '/Items/{itemId}/timestamp':
     patch:
-      summary: Update an item by ID
+      summary: Updates the item's timestamp to the current time or NULL
       description: >
-        Updates one or more item fields
-      operationId: updateItem
+        Updates a timestamp used to track external links last accessed date.
+        If the link is dead then the time is set to NULL.
+      operationId: updateItemTimestamp
       tags:
         - Items
       requestBody:
-        $ref: '#/components/requestBodies/Item_PATCH'
+        $ref: '#/components/requestBodies/Item_PATCH_TIMESTAMP'
       parameters:
         - $ref: '#/components/parameters/Item_itemId'
       responses:
         '200':
-          $ref: '#/components/responses/PATCH_200'
+          $ref: '#/components/responses/PATCH_200_Timestamp'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -627,23 +671,6 @@ paths:
           $ref: '#/components/responses/404'
         '422':
           $ref: '#/components/responses/422'
-        '500':
-          $ref: '#/components/responses/500'
-
-    delete:
-      summary: Delete an item by ID
-      description: >
-        Delete an item using the item ID
-      operationId: deleteItem
-      tags:
-        - Items
-      parameters:
-        - $ref: '#/components/parameters/Item_itemId'
-      responses:
-        '200':
-          $ref: '#/components/responses/DELETE_200'
-        '401':
-          $ref: '#/components/responses/401'
         '500':
           $ref: '#/components/responses/500'
 
@@ -737,6 +764,7 @@ components:
         - description
         - imageUrl
         - userId
+        - orderIndex
         - created
         - approved
         - subjects/industries
@@ -979,10 +1007,6 @@ components:
           minLength: 0
           maxLength: 1000
           example: Assessing Industrial Air Compressor
-        userId:
-          allOf:
-            - description: The user ID of the user who created the item
-            - $ref: '#/components/schemas/Id'
         created:
           allOf:
             - description: The time that the item was created
@@ -1097,8 +1121,6 @@ components:
                       example: Compressed air has been a key industrial utility since the...
                     imageUrl:
                       example: http://flip2.engr.oregonstate.edu:1111/images/aircompressor.png
-                    approved:
-                      example: 1
 
     Header_POST:
       required: true
@@ -1111,6 +1133,8 @@ components:
                   - $ref: '#/components/schemas/Id'
               title:
                 example: Compressed Air Opportunities to Consider
+              orderIndex:
+                example: 5
 
     Header_PATCH:
       required: true
@@ -1118,18 +1142,14 @@ components:
         application/json:
           schema:
             properties:
-              pageId:
-                allOf:
-                  - description: The unique identifier of the page that this header belongs to
-                  - $ref: '#/components/schemas/Id'
               title:
                 description: The title of the header
                 type: string
                 minLength: 1
                 maxLength: 100
                 example: Compressed Air Opportunities to Consider
-              approved:
-                example: 1
+              orderIndex:
+                example: 5
 
     Card_POST:
       required: true
@@ -1143,6 +1163,8 @@ components:
                 example: 0
               title:
                 example: Rules of Thumb
+              orderIndex:
+                example: 5
                 
     Card_PATCH:
       required: true
@@ -1150,14 +1172,29 @@ components:
         application/json:
           schema:
             properties:
-              headerId:
-                example: 25
               cardType:
                 example: 0
               title:
                 example: Rules of Thumb
               approved:
                 example: 1
+              orderIndex:
+                example: 5
+              items: 
+                example: [
+            {
+              "itemId": 15,
+              "cardId": 10,
+              "parentId": null,
+              "iconType": 5,
+              "typeName": "bolt",
+              "typeKeyword": "Electricity",
+              "contentText": "This guide focuses mainly on screw and reciprocating compressors. These are the most common...",
+              "contentUrl": "https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf",
+              "contentLabel": "Assessing Industrial Air Compressor",
+              "userId": 15,
+              "created": "2020-12-31 23:59:59",
+            }]
     
     Item_POST:
       required: true
@@ -1177,6 +1214,8 @@ components:
                 example: https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf
               contentLabel:
                 example: Assessing Industrial Air Compressor
+              orderIndex:
+                example: 5
 
     Item_PATCH:
       required: true
@@ -1196,8 +1235,19 @@ components:
                 example: https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf
               contentLabel:
                 example: Assessing Industrial Air Compressor
+              orderIndex:
+                example: 5
               approved:
                 example: 1
+                
+    Item_PATCH_TIMESTAMP:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              deadLink:
+                example: 0
 
   parameters:
 
@@ -1471,6 +1521,24 @@ components:
             properties:
               changedRows:
                 example: 3
+    
+    PATCH_200_CARD:
+      description: An object containing information about the changed card
+      content:
+        application/json:
+          schema:
+            properties:
+              cardsUpdated:
+                example: 1
+    
+    PATCH_200_Timestamp:
+      description: A message describing the current external link state
+      content:
+        application/json:
+          schema:
+            properties:
+              timestamp:
+                example: "2020-06-18 20:09:39"
 
     User_Login_GET_200:
       description: An object containing information about the user
@@ -1621,16 +1689,6 @@ components:
                    "userId": 15,
                    "created": "2020-12-31 23:59:59",
                    "approved": 0,
-                   "icons": [
-                        {
-                          "iconType": 5,
-                          "typeName": "fire"
-                        },
-                        {
-                          "iconType": 6,
-                          "typeName": "bolt"
-                        }
-                     ],
                    cards: [{
                            cardId: 15,
                            headerId: 15,
@@ -1646,15 +1704,31 @@ components:
                                     iconType: 5,
                                     typeName: bolt,
                                     typeKeyword: Electricity,
-                                    contentText: This guide focuses mainly on screw and reciprocating compressors. These are the most common...,
-                                    contentUrl: 'https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf',
+                                    contentText: This guide focuses mainly...,
+                                    contentUrl: 'https://www.Improving_Compressed_Air.com',
                                     contentLabel: Assessing Industrial Air Compressor,
                                     userId: 15,
                                     created: '2020-12-31 23:59:59',
+                                    approved: 1
+                                  }],
+                            tempItems: [{
+                                    itemId: 24,
+                                    cardId: 15,
+                                    parentId: null,
+                                    iconType: 5,
+                                    typeName: bolt,
+                                    typeKeyword: Electricity,
+                                    contentText: This is an item,
+                                    contentUrl: www.Someurl.com,
+                                    contentLabel: Assessing Items,
+                                    userId: 13,
+                                    created: '2020-12-31 23:59:59',
                                     approved: 0
-                                  }]
-                          }]
-                 }
+                           }]
+                              
+                          }],
+  
+                        }
                 ]
 
     DELETE_200:

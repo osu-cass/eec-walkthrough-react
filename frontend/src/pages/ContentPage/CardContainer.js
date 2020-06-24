@@ -3,34 +3,20 @@ import Card from "./Card";
 import PropTypes from "prop-types";
 import "./ContentPage.css";
 
-// Contains all of the cards beneath a header
-class CardContainer extends React.Component {
-  state = {
-    loaded: false
-  }
+// Contains all of the cards inside a header
+function CardContainer(props) {
 
-  generateCards() {
-    const used1 = []; // holds ids of all the used tidbits, prevents reprint
-    const used2 = []; // holds ids of all the used tidbits, prevents reprint
-    const Cards = this.props.cards.map((card, i) => { // Loop through cards
+  function generateCards() {
+    const Cards = props.cards.map((card, i) => {
       return (
         <Card
           key={i}
-          headerId={this.props.headerId}
-          card={card.title}
-          items={card.items}
-          checkFilter={this.checkFilter}
-          orderIndex={card.orderIndex}
-          cardId={card.cardId}
-          cardType={card.cardType}
-          approved={card.approved}
-          created={card.created}
-          userId={card.userId}
-          used1={used1}
-          used2={used2}
-          iconSet={this.props.iconSet}
-          refresh={() => this.props.refresh()}
-          mode={this.props.mode}
+          headerId={props.headerId}
+          unfilteredCard={props.unfilteredCards[i]}
+          card={card}
+          refresh={() => props.refresh()}
+          mode={props.mode}
+          iconSet={props.iconSet}
         />
       );
     });
@@ -38,33 +24,22 @@ class CardContainer extends React.Component {
     return Cards;
   }
 
-  checkFilter = (id) => {
-    let i;
-    for (i = 0; i < this.props.filter.length; i++) {
-      if (this.props.filter[i].iconType === id) {
-        return this.props.filter[i].hidden;
-      }
-    }
-    return false;
-  }
+  return props.cards.length && (props.approved || props.mode) ? (
+    generateCards()
+  ) : (
+    null
+  );
 
-  render() {
-    return this.props.cards.length && (this.props.approved || this.props.mode) ? (
-      this.generateCards()
-    ) : (
-      null
-    );
-  }
 }
 export default CardContainer;
 
 CardContainer.propTypes = {
+  unfilteredCards: PropTypes.array,
   cards: PropTypes.any,
   headerId: PropTypes.any,
-  iconSet: PropTypes.any,
-  refresh: PropTypes.any,
-  filter: PropTypes.any,
+  refresh: PropTypes.func,
   headerName: PropTypes.any,
   mode: PropTypes.number,
-  approved: PropTypes.number
+  approved: PropTypes.number,
+  iconSet: PropTypes.any
 };

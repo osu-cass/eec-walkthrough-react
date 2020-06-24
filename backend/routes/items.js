@@ -7,23 +7,23 @@ const {validationResult} = require("express-validator");
 const {
   roleCheck,
   requireAuth,
-  getUserID
+  // getUserID
 } = require("../services/authentication/cookieAuth");
 const {
   postItemVal,
-  getItemVal,
-  patchItemVal,
+  // getItemVal,
+  // patchItemVal,
   patchItemTimeVal
 } = require("../services/validation/requestValidation");
 const {
-  getItem,
+  // getItem,
   createItem,
-  deleteItem,
-  updateItem,
+  // deleteItem,
+  // updateItem,
   updateItemTime
 } = require("../models/items");
 
-
+/* DISABLE UNUSED ENDPOINT
 // get information about a single item
 app.get("/:itemId", getUserID, getItemVal.validation, async (req, res) => {
 
@@ -60,7 +60,7 @@ app.get("/:itemId", getUserID, getItemVal.validation, async (req, res) => {
   }
 
 });
-
+*/
 
 // create an item
 app.post("/", requireAuth, postItemVal.validation, async (req, res) => {
@@ -83,7 +83,6 @@ app.post("/", requireAuth, postItemVal.validation, async (req, res) => {
     const contentText = req.body.contentText;
     const contentUrl = req.body.contentUrl;
     const contentLabel = req.body.contentLabel;
-    const userId = req.auth.userId;
 
     // make sure the user is allowed to perform this action
     if (!await roleCheck(3, req.auth.userId)) {
@@ -92,7 +91,7 @@ app.post("/", requireAuth, postItemVal.validation, async (req, res) => {
     }
 
     // create an item
-    const results = await createItem(cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, userId);
+    const results = await createItem(cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -117,7 +116,7 @@ app.post("/", requireAuth, postItemVal.validation, async (req, res) => {
 
 });
 
-
+/* DISABLE UNUSED ENDPOINT
 // delete an item
 app.delete("/:itemId", requireAuth, getItemVal.validation, async (req, res) => {
 
@@ -160,8 +159,9 @@ app.delete("/:itemId", requireAuth, getItemVal.validation, async (req, res) => {
   }
 
 });
+*/
 
-
+/* DISABLE UNUSED ENDPOINT
 // update an item
 app.patch("/:itemId", requireAuth, patchItemVal.validation, async (req, res) => {
 
@@ -187,9 +187,16 @@ app.patch("/:itemId", requireAuth, patchItemVal.validation, async (req, res) => 
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(3, req.auth.userId)) {
-      res.status(401).send({error: "Unauthorized user attempting to update item."});
-      return;
+    if (typeof approved === "undefined") {
+      if (!await roleCheck(3, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to update item."});
+        return;
+      }
+    } else {
+      if (!await roleCheck(4, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to publish item."});
+        return;
+      }
     }
 
     // update an item
@@ -221,14 +228,14 @@ app.patch("/:itemId", requireAuth, patchItemVal.validation, async (req, res) => 
   }
 
 });
-
+*/
 
 // update an items created timestamp (used to reflect the state of a link item)
-app.patch("/:itemId/timeStamp", requireAuth, patchItemTimeVal.validation, async (req, res) => {
+app.patch("/:itemId/timestamp", requireAuth, patchItemTimeVal.validation, async (req, res) => {
 
   try {
 
-    console.log("Update an items timestamp");
+    console.log("Update an item's timestamp");
 
     const itemId = req.params.itemId;
     const deadLink = req.body.deadLink;
@@ -249,7 +256,7 @@ app.patch("/:itemId/timeStamp", requireAuth, patchItemTimeVal.validation, async 
     // update an item
     const results = await updateItemTime(itemId, deadLink);
 
-    if (results.changedRows >= 0) {
+    if (typeof results.timestamp !== "undefined") {
       res.status(200).send(results);
     } else {
 
