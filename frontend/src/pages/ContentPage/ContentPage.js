@@ -104,6 +104,7 @@ function ContentPage(props) {
                 mode={mode}
                 iconSet={iconSet}
               />
+              {/*
               <CreateCard
                 title={`Create ${header.title} Card`}
                 icons={iconSet}
@@ -112,6 +113,7 @@ function ContentPage(props) {
                 refresh={() => fetchData()}
                 mode={mode}
               />
+              */}
             </Fragment>
           );
         })}

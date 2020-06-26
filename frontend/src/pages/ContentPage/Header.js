@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import EditHeader from "./EditHeader";
 import ReviewHeader from "./ReviewHeader";
 import FilterBar from "./FilterBar";
-import CardContainer from "./CardContainer";
+import Card from "./Card";
 import "./Header.css";
 
 // Header that contains some number of cards
@@ -165,24 +165,24 @@ function Header(props) {
 
       // Do one last check to filter out items that are missing a parent
       for (let i = 0; i < card.items.length; i++) {
-        if (card.items[i].parentId === null) {
+        if (!card.items[i].indentation) {
           allItems.push(card.items[i]);
           itemsParent = true;
         } else {
           for (let j = 0; j < card.items.length; j++) {
-            if (card.items[i].parentId === card.items[j].itemId) {
+            if (card.items[i].indentation === card.items[j].itemId) {
               allItems.push(card.items[i]);
             }
           }
         }
       }
       for (let i = 0; i < card.tempItems.length; i++) {
-        if (card.tempItems[i].parentId === null) {
+        if (card.tempItems[i].indentation === null) {
           allTempItems.push(card.tempItems[i]);
           tempItemsParent = true;
         } else {
           for (let j = 0; j < card.tempItems.length; j++) {
-            if (card.tempItems[i].parentId === card.tempItems[j].itemId) {
+            if (card.tempItems[i].indentation === card.tempItems[j].itemId) {
               allTempItems.push(card.tempItems[i]);
               break;
             }
@@ -257,16 +257,20 @@ function Header(props) {
             </div>
           </div>
 
-          <CardContainer
-            cards={cards}
-            unfilteredCards={unfilteredCards}
-            headerId={props.header.headerId}
-            headerName={props.header.title}
-            approved={props.header.approved}
-            refresh={() => props.refresh()}
-            mode={props.mode}
-            iconSet={props.iconSet}
-          />
+          <div>
+            {cards.map((card, i) =>
+              <Card
+                key={card.cardId}
+                headerId={props.header.headerId}
+                unfilteredCard={unfilteredCards[i]}
+                card={card}
+                refresh={() => props.refresh()}
+                mode={props.mode}
+                iconSet={props.iconSet}
+              />
+            )}
+          </div>
+
         </div>
 
       ) : (
@@ -298,16 +302,20 @@ function Header(props) {
             </div>
           </div>
 
-          <CardContainer
-            cards={cards}
-            unfilteredCards={unfilteredCards}
-            headerId={props.header.headerId}
-            headerName={props.header.title}
-            approved={props.header.approved}
-            refresh={() => props.refresh()}
-            mode={props.mode}
-            iconSet={props.iconSet}
-          />
+          <div>
+            {cards.map((card, i) =>
+              <Card
+                key={card.cardId}
+                headerId={props.header.headerId}
+                unfilteredCard={unfilteredCards[i]}
+                card={card}
+                refresh={() => props.refresh()}
+                mode={props.mode}
+                iconSet={props.iconSet}
+              />
+            )}
+          </div>
+
         </div>
       )}
     </div>

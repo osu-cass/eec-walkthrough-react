@@ -45,7 +45,7 @@ function EditCard(props) {
         label: item.contentLabel,
         url: item.contentUrl
       };
-      itemData.parentId = item.parentId;
+      itemData.indentation = item.indentation;
       itemData.depth = item.depth;
       itemData.icon = item.iconType;
       itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
@@ -90,51 +90,10 @@ function EditCard(props) {
     setLinkIcons(links);
   }
 
-  function getChildren(id) {
-    if (props.card.tempItems.length) {
-      const results = props.card.tempItems.reduce((result, item) => {
-        if (item.parentId === id) {
-          result.push(item);
-        }
-        return result;
-      }, []);
-      return results.length ? results : false;
-    } else {
-      const results = props.card.items.reduce((result, item) => {
-        if (item.parentId === id) {
-          result.push(item);
-        }
-        return result;
-      }, []);
-      return results.length ? results : false;
-    }
-  }
-
-  // given a list of items
-  // check each item. grab its item id, and check list again for items whose parent id match. assume sorted by order index already.
-  // result: to list each one in order, from top to bottom
-  function recurseItems(item, used, itemsArray, isChild, prevDepth) {  // isChild = marks if it has any parent, for coloring
-    const children = getChildren(item.itemId); // get all children of this item
-    if (!(used.includes(item.itemId))) {
-      used.push(item.itemId); // push used
-      // assign depth if child using prevDepth
-      if (isChild) { item.depth = prevDepth + 1; } else { item.depth = 0; }
-      if (children) {
-        // push item
-        itemsArray.push(item);
-        // recurse over children found
-        children.map((child) => (recurseItems(child, used, itemsArray, true, item.depth)));
-      } else {
-        itemsArray.push(item);
-      }
-    }
-  }
-
   function generateItems(itemList) {
     const itemArray = []; // hold items
-    const used = []; // hold used items to avoid looping over again
-    itemList.map((item) => { // loop through each item (if not used), and grab its children
-      recurseItems(item, used, itemArray, false, 0);
+    itemList.map((item) => {
+      itemArray.push(item);
       return null;
     });
     return itemArray;
@@ -174,10 +133,10 @@ function EditCard(props) {
   }
 
 
-  // Update state relating to subpoint depth (how far item is tabbed)
+  // Update state relating to sub-item depth (how far item is tabbed)
   // @param {Number} idx Index of item
   // @return {State}    Updated state, no actual return value
-  function updateSubpoints(idx) {
+  function updateSubItems(idx) {
     // Handle random bug, will work if you keep clicking + Sub. Unknown reason.
     if (idx === null) {
       console.error("error ", idx, items);
@@ -207,7 +166,7 @@ function EditCard(props) {
   // Update state by removing selected item
   // @param {Number} idx Index of item
   // @return {State} Updated state, no actual return value
-  function deleteSubpoints(idx) {
+  function deleteSubItems(idx) {
     if (idx === null) {
       console.error("error ", idx, items);
       return;
@@ -221,7 +180,7 @@ function EditCard(props) {
     const parent = copy[idx].depth;
     const start = idx + 1;
 
-    // Delete children if any (if greater than parent subpoint depth, it is a child)
+    // Delete children if any (if greater than parent sub-item depth, it is a child)
     if (idx !== items.length - 1) {
       for (i = start; i < items.length && parent < copy[i].depth; i++) {
         toDeleteList.push(items[i].itemId);
@@ -241,7 +200,7 @@ function EditCard(props) {
     setToDelete(toDeleteList);
   }
 
-  // Find parent of item by finding closest index of (subpoint depth - 1) to the left
+  // Find parent of item by finding closest index of (sub-item depth - 1) to the left
   // @param {Number} idx Index of item
   // @param {Number} val Value of depth of this item
   // @return {Number}    Index of parent
@@ -317,41 +276,6 @@ function EditCard(props) {
     });
 
     if (results.ok) {
-
-      // Loop through state items and create
-      for (const key in items) {
-
-        // object representing a single item
-        const itemData = {
-          cardId: props.card.cardId,
-          contentText: items[key].content.text,
-          contentLabel: items[key].content.label,
-          contentUrl: items[key].content.url,
-          iconType: items[key].icon,
-          orderIndex: findOrderIndex(key),
-          parentId: findParent(key, items[key].depth, itemIds)
-        };
-
-        // Items can be dependent on previous item to be created (parentId)
-        const itemResults = await fetch("/items/", {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(itemData)
-        });
-
-        if (itemResults.ok) {
-          const itemObj = await itemResults.json();
-          itemIds.push(itemObj.insertId);
-        } else {
-          const itemObj = await itemResults.json();
-          if (typeof itemObj.error === "undefined") {
-            console.error("Error creating item.");
-          } else {
-            console.error("Error creating item:", itemObj.error);
-          }
-        }
-
-      }
 
       // reset error messages
       setErrorMessage("");
@@ -532,11 +456,11 @@ function EditCard(props) {
     let i = 0;
     for (i = 0; i < counter; i++) {
       const itemIdKey = items[i].itemId + " " + i;
-      const subpointDepth = items[i].depth;
+      const itemDepth = items[i].depth;
       const contentType = items[i].contentType;
       jsx.push(
         <Row className="mb-2" key={itemIdKey + "a"}>
-          {getDepth(i)} {/* return indentation for subpoints*/}
+          {items[i].indentation} {/* return indentation for SubItems*/}
           <div className="col-1">
             <Dropdown key={itemIdKey + "b"} idx={i}
               list={generateIcons(i, contentType)}
@@ -555,12 +479,12 @@ function EditCard(props) {
               value={items[i]}
               contentType={items[i].contentType}
             />
-            {subpointDepth < 6 &&	// set maximum depth to 6, can be increased if it fits the screen
+            {itemDepth < 6 &&	// set maximum depth to 6, can be increased if it fits the screen
               <span>
-                <button className='btn btn-success btn-sm ml-2' key={itemIdKey + "c"} data-index={i} onClick={(e) => updateSubpoints(e.target.getAttribute("data-index"))}>
+                <button className='btn btn-success btn-sm ml-2' key={itemIdKey + "c"} data-index={i} onClick={(e) => updateSubItems(e.target.getAttribute("data-index"))}>
                   <i className='fas fa-plus' /> Sub
                 </button>
-                <button className='btn btn-danger btn-sm ml-2' key={itemIdKey + "d"} data-index={i} onClick={(e) => deleteSubpoints(e.target.getAttribute("data-index"))}>
+                <button className='btn btn-danger btn-sm ml-2' key={itemIdKey + "d"} data-index={i} onClick={(e) => deleteSubItems(e.target.getAttribute("data-index"))}>
                   <i className='fas fa-times' /> Remove
                 </button>
               </span>

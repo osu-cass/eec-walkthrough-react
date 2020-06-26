@@ -77,7 +77,7 @@ app.post("/", requireAuth, postItemVal.validation, async (req, res) => {
     }
 
     const cardId = req.body.cardId;
-    const parentId = req.body.parentId;
+    const indentation = req.body.indentation;
     const orderIndex = req.body.orderIndex;
     const iconType = req.body.iconType;
     const contentText = req.body.contentText;
@@ -91,7 +91,7 @@ app.post("/", requireAuth, postItemVal.validation, async (req, res) => {
     }
 
     // create an item
-    const results = await createItem(cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel);
+    const results = await createItem(cardId, indentation, orderIndex, iconType, contentText, contentUrl, contentLabel);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -171,7 +171,7 @@ app.patch("/:itemId", requireAuth, patchItemVal.validation, async (req, res) => 
 
     const itemId = req.params.itemId;
     const cardId = req.body.cardId;
-    const parentId = req.body.parentId;
+    const indentation = req.body.indentation;
     const orderIndex = req.body.orderIndex;
     const iconType = req.body.iconType;
     const contentText = req.body.contentText;
@@ -200,7 +200,7 @@ app.patch("/:itemId", requireAuth, patchItemVal.validation, async (req, res) => 
     }
 
     // update an item
-    const results = await updateItem(itemId, cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, approved);
+    const results = await updateItem(itemId, cardId, indentation, orderIndex, iconType, contentText, contentUrl, contentLabel, approved);
 
     if (results.changedRows >= 0) {
       res.status(200).send(results);

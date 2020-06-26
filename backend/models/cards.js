@@ -227,16 +227,15 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
         "WHERE cardId = ? AND approved = 0;";
         sqlArray.push(cardId);
 
-        /* DON'T CREATE ITEMS IN THIS FUNCTION FOR NOW
         // create all of the new items
-        sql += "INSERT INTO Items (cardId, parentId, orderIndex, iconType, " +
+        sql += "INSERT INTO Items (cardId, indentation, orderIndex, iconType, " +
         "contentText, contentUrl, contentLabel, approved) VALUES ";
 
         // expand the sql string and array based on the number of items
         items.forEach((currentValue) => {
           sql += "(?, ?, ?, ?, ?, ?, ?, 0),";
           sqlArray.push(cardId);
-          sqlArray.push(currentValue.parentId);
+          sqlArray.push(currentValue.indentation);
           sqlArray.push(currentValue.orderIndex);
           sqlArray.push(currentValue.iconType);
           sqlArray.push(currentValue.contentText);
@@ -246,7 +245,6 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
 
         // replace the final comma with a semicolon
         sql = sql.replace(/.$/, ";");
-        */
       }
     }
 
