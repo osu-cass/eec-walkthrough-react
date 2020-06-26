@@ -386,7 +386,7 @@ class CreateCard extends React.Component {
   getDepth(idx) {
     const jsx = [];
     let i = 0;
-    for (i = 0; i < this.state.items[idx].depth; i++) { jsx.push(<div key={i} className="pl-2 ml-1"><i className="fas fa-long-arrow-alt-right mt-2 text-secondary"></i></div>); }
+    for (i = 0; i < this.state.items[idx].depth; i++) { jsx.push(<div key={i} className="pl-2 ml-1"><i className="fas fa-long-arrow-alt-right mt-2 text-secondary"/></div>); }
     return jsx;
   }
 
