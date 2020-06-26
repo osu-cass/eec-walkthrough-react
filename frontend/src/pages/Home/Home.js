@@ -93,7 +93,7 @@ function Home() {
                 <span className="font-weight-normal">Analysis Tool</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-copy mr-2`} />
+                <i className={`fas fa-copy mr-2`} style={{color: "blue"}} />
                 <span className="font-weight-normal">Document</span>
               </li>
               <li className="my-2">
@@ -101,7 +101,7 @@ function Home() {
                 <span className="font-weight-normal">Slideshow</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-video-camera mr-2`} />
+                <i className={`fas fa-video-camera mr-2`} style={{color: "blue"}} />
                 <span className="font-weight-normal">Video</span>
               </li>
               <li className="my-2">
@@ -131,7 +131,7 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               <li className="my-2">
-                <i className={`fas fa-arrow-down mr-2`} />
+                <i className={`fas fa-arrow-down mr-2`} style={{color: "green"}}/>
                 <span className="font-weight-normal">Download of learning resource</span>
               </li>
             </ul>
