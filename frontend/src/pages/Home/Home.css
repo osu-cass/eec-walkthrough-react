@@ -25,7 +25,7 @@ body {
 
 .home-page-container a:focus {
   border-bottom: 1px solid;
-  background: #d8ebff;
+  background: #000;
 }
 
 .home-page-container a:hover {

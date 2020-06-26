@@ -36,7 +36,7 @@ function PageDescription(props) {
     ) : (
       "page-review"
     )}
-        my-3 p-3 text-dark-50 rounded shadow`}
+        my-3 p-3 text-dark-50 rounded shadow-sm border`}
       style={{top: "1em", zIndex: "998"}}
       >
         <div className="row mx-2">
