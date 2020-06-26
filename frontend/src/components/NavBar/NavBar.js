@@ -35,7 +35,7 @@ function NavBar (props) {
             href="#"
             onClick={props.openSidebar}
           >
-            <i className="fas fa-bars fa-3x" />
+            <i className="nav-hamburger-icon fas fa-bars fa-3x" />
           </button>
           <img
             className="osu-logo ml-4 mr-5"

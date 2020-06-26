@@ -16,7 +16,7 @@ function SidebarCollection(props) {
           {props.collectionName}
         </Accordion.Toggle>
       ) : (
-        <NavLink to={`/${props.collectionLink}`}>
+        <NavLink className="page-sidebar-nav-link" to={`/${props.collectionLink}`}>
           <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
             {props.collectionName}
           </Accordion.Toggle>

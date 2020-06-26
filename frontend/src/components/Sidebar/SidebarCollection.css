@@ -1,21 +1,36 @@
 #sidebarCollection.card-header {
   cursor: pointer;
   color: #FFFFFF;
-  background: #169DB2;
+  /* background: var(--info); */
+  background: #d73f09;
+  text-decoration: none;
 }
 
 .nav_link:hover {
   color: #FFFFFF;
   background: #41484E;
+  text-decoration: none;
 }
 
 div.nav_link {
+  color: #FFFFFF;
   padding: 1rem;
   margin-top: -1.5rem;
+  text-decoration: none;
 }
 
 #sidebarCollection.card-header:hover {
   cursor: pointer;
   color: #FFFFFF;
-  background: #027484;
+  /* background: var(--info); */
+  background: #d73f09;
+  text-decoration: none;
+}
+
+#sidebarCollection.card-header:hover {
+  text-decoration: none;
+}
+
+.page-sidebar-nav-link:hover {
+  text-decoration: none;
 }
