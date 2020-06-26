@@ -50,45 +50,51 @@ function BulletPoint (props) {
       )}
 
       {getContentType(props.text, props.label, props.url) === 2 ? (
-        <Fragment>
-          <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
-          <span className={styleText(props.icon) || isBold(props.bold)}>
-            {props.text}
-          </span>
-          {props.label}
-          <Image url={props.url} title={props.label} thumbnail={false} header={false}/>
-        </Fragment>
+        <div className="row">
+          <Indent indentLevel={props.indentation} />
+          <Fragment>
+            <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
+            <span className={styleText(props.icon) || isBold(props.bold)}>
+              {props.text}
+            </span>
+            {props.label}
+            <Image url={props.url} title={props.label} thumbnail={false} header={false}/>
+          </Fragment>
+        </div>
       ) : (
         null
       )}
 
       {getContentType(props.text, props.label, props.url) === 3 ? (
-        <Fragment>
-          <div>
-            <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)}`} /><a href={props.url} className="text-primary"> {props.label} </a> <br></br>
-            {props.text}
-          </div>
-          {/* External links have additional content */}
-          {props.icon === "link" ? (
-            <Fragment>
-              {timestamp && timestamp !== "null" ? (
-                <span className="last-accessed-link">
-                  {`Confirmed valid ${formatTime(timestamp)}`}
-                </span>
-              ) : (
-                <span className="last-accessed-link-bad">
-                  {`This link is no longer valid`}
-                </span>
-              )}
-              <LinkAccessButtons
-                itemId={props.id}
-                handleTimestampChange={(e) => handleTimestampChange(e)}
-              />
-            </Fragment>
-          ) : (
-            null
-          )}
-        </Fragment>
+        <div className="row">
+        <Indent indentLevel={props.indentation} />
+          <Fragment>
+            <div>
+              <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)}`} /><a href={props.url} className="text-primary"> {props.label} </a> <br></br>
+              {props.text}
+            </div>
+            {/* External links have additional content */}
+            {props.icon === "link" ? (
+              <Fragment>
+                {timestamp && timestamp !== "null" ? (
+                  <span className="last-accessed-link">
+                    {`Confirmed valid ${formatTime(timestamp)}`}
+                  </span>
+                ) : (
+                  <span className="last-accessed-link-bad">
+                    {`This link is no longer valid`}
+                  </span>
+                )}
+                <LinkAccessButtons
+                  itemId={props.id}
+                  handleTimestampChange={(e) => handleTimestampChange(e)}
+                />
+              </Fragment>
+            ) : (
+              null
+            )}
+          </Fragment>
+        </div>
       ) : (
         null
       )}

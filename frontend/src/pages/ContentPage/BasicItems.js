@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 function BasicItems(props) {
 
   return (
-    <div>
+    <div className="mx-4">
       {props.items.map((item) =>
         <BulletPoint
           key={item.itemId}
