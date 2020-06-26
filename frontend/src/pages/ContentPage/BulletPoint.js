@@ -36,7 +36,7 @@ function BulletPoint (props) {
     <div key={props.id} className={`mb-2`}>
 
       {getContentType(props.text, props.label, props.url) === 1 ? (
-        <div className="row">
+        <Fragment>
           <Indent indentLevel={props.indentation} />
           <Fragment>
             <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
@@ -44,13 +44,13 @@ function BulletPoint (props) {
               {props.text}
             </span>
           </Fragment>
-        </div>
+        </Fragment>
       ) : (
         null
       )}
 
       {getContentType(props.text, props.label, props.url) === 2 ? (
-        <div className="row">
+        <Fragment>
           <Indent indentLevel={props.indentation} />
           <Fragment>
             <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
@@ -60,14 +60,14 @@ function BulletPoint (props) {
             {props.label}
             <Image url={props.url} title={props.label} thumbnail={false} header={false}/>
           </Fragment>
-        </div>
+        </Fragment>
       ) : (
         null
       )}
 
       {getContentType(props.text, props.label, props.url) === 3 ? (
-        <div className="row">
-        <Indent indentLevel={props.indentation} />
+        <Fragment>
+          <Indent indentLevel={props.indentation} />
           <Fragment>
             <div>
               <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)}`} /><a href={props.url} className="text-primary"> {props.label} </a> <br></br>
@@ -94,7 +94,7 @@ function BulletPoint (props) {
               null
             )}
           </Fragment>
-        </div>
+        </Fragment>
       ) : (
         null
       )}

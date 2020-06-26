@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import BulletPoint from "./BulletPoint";
 import PropTypes from "prop-types";
 
@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 function BasicItems(props) {
 
   return (
-    <div className="mx-4">
+    <Fragment>
       {props.items.map((item) =>
         <BulletPoint
           key={item.itemId}
@@ -19,7 +19,7 @@ function BasicItems(props) {
           indentation={item.indentation}
         />
       )}
-    </div>
+    </Fragment>
   );
 
 }
