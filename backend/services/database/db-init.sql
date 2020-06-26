@@ -162,7 +162,7 @@ CREATE TABLE `items` (
   `itemId` int(10) UNSIGNED NOT NULL,
   `cardId` int(10) UNSIGNED NOT NULL,
   `orderIndex` int(10) UNSIGNED NOT NULL,
-  `parentId` int(10) UNSIGNED DEFAULT NULL,
+  `indentation` int(10) UNSIGNED DEFAULT NULL,
   `iconType` int(10) UNSIGNED NOT NULL,
   `contentText` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentUrl` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -175,7 +175,7 @@ CREATE TABLE `items` (
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`itemId`, `cardId`, `orderIndex`, `parentId`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `created`, `approved`) VALUES
+INSERT INTO `items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `created`, `approved`) VALUES
 (7, 3, 1, NULL, 20, '', 'https://i.imgur.com/V0dkW5l.png', 'Screw compressor power vs output for various control strategies', '2020-06-17 17:09:09', 1),
 (23, 8, 1, NULL, 8, 'Reduced air pressure not only reduces air compressor energy required for a set volume of air, it will also result in less air volume consumed by leaks and unregulated air uses (although it can be hard to estimate the volume reduction).\r\n', '', '', '2020-05-22 21:23:14', 1),
 (24, 8, 1, NULL, 10, 'System pressure is set over 100 PSI for a compressed air system serving standard industrial utilities and controls.\r\n', '', '', '2020-05-22 21:23:14', 1),
@@ -424,7 +424,7 @@ ALTER TABLE `industries_subjects`
 ALTER TABLE `items`
   ADD PRIMARY KEY (`itemId`),
   ADD KEY `card_fk` (`cardId`),
-  ADD KEY `parentId_fk` (`parentId`),
+  ADD KEY `indentation_fk` (`indentation`),
   ADD KEY `iconId_fk` (`iconType`);
 
 --
@@ -534,7 +534,7 @@ ALTER TABLE `industries_subjects`
 ALTER TABLE `items`
   ADD CONSTRAINT `card_fk` FOREIGN KEY (`cardId`) REFERENCES `cards` (`cardId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `iconId_fk` FOREIGN KEY (`iconType`) REFERENCES `icons` (`iconType`),
-  ADD CONSTRAINT `parentId_fk` FOREIGN KEY (`parentId`) REFERENCES `items` (`itemId`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `indentation_fk` FOREIGN KEY (`indentation`) REFERENCES `items` (`itemId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pages`

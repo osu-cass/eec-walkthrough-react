@@ -285,7 +285,7 @@ async function getFullPage(pageId, viewAll) {
         if (viewAll) {
 
           // get all approved items
-          sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+          sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, " +
           "created, approved " +
@@ -300,7 +300,7 @@ async function getFullPage(pageId, viewAll) {
           finalResults.headers[i].cards[j].items = results[0];
 
           // get all unapproved items
-          sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+          sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, " +
           "created, approved " +
@@ -315,7 +315,7 @@ async function getFullPage(pageId, viewAll) {
           finalResults.headers[i].cards[j].tempItems = results[0];
 
         } else {
-          sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+          sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, " +
           "created, approved " +

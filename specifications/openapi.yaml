@@ -943,7 +943,7 @@ components:
       required:
         - itemId
         - cardId
-        - parentId
+        - indentation
         - iconType
         - contentText
         - contentUrl
@@ -960,7 +960,7 @@ components:
           allOf:
             - description: The unique identifier of the card that the item belongs to
             - $ref: '#/components/schemas/Id'
-        parentId:
+        indentation:
           allOf:
             - description: The ID of the parent item that this item belongs to. The child item of a parent is indented relative to the parent's level of indentation. Defaults to NULL if there is no parent item.
               type: integer
@@ -1185,7 +1185,7 @@ components:
             {
               "itemId": 15,
               "cardId": 10,
-              "parentId": null,
+              "indentation": null,
               "iconType": 5,
               "typeName": "bolt",
               "typeKeyword": "Electricity",
@@ -1204,7 +1204,7 @@ components:
             properties:
               cardId:
                 example: 35
-              parentId:
+              indentation:
                 example: 40
               iconType:
                 example: 5
@@ -1225,7 +1225,7 @@ components:
             properties:
               cardId:
                 example: 35
-              parentId:
+              indentation:
                 example: 40
               iconType:
                 example: 5
@@ -1700,7 +1700,7 @@ components:
                            items: [{
                                     itemId: 15,
                                     cardId: 15,
-                                    parentId: 15,
+                                    indentation: 15,
                                     iconType: 5,
                                     typeName: bolt,
                                     typeKeyword: Electricity,
@@ -1714,12 +1714,12 @@ components:
                             tempItems: [{
                                     itemId: 24,
                                     cardId: 15,
-                                    parentId: null,
+                                    indentation: null,
                                     iconType: 5,
                                     typeName: bolt,
                                     typeKeyword: Electricity,
                                     contentText: This is an item,
-                                    contentUrl: www.Someurl.com,
+                                    contentUrl: www.SomeUrl.com,
                                     contentLabel: Assessing Items,
                                     userId: 13,
                                     created: '2020-12-31 23:59:59',

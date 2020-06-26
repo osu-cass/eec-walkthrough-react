@@ -16,7 +16,7 @@ function BulletPoint (props) {
 
   function styleText(icon) {
     if (icon === "check-square") { return "font-weight-bold"; }
-    if (icon === "flag") { return "font-italic mt-4"; }	// break between every flag icon
+    if (icon === "flag") { return "font-italic"; }
     if (icon === "opportunity-desc") { return "opportunity-desc"; }
   }
 
@@ -85,9 +85,6 @@ function BulletPoint (props) {
       ) : (
         null
       )}
-      <div className="pl-5 mt-2">
-        {props.children}
-      </div>
     </div>
   );
 
@@ -101,6 +98,6 @@ BulletPoint.propTypes = {
   url: PropTypes.any,
   icon: PropTypes.any,
   bold: PropTypes.any,
-  children: PropTypes.any,
-  created: PropTypes.any
+  created: PropTypes.any,
+  indentation: PropTypes.number
 };
