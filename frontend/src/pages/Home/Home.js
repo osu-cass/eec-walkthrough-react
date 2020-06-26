@@ -191,12 +191,14 @@ function Home() {
           <h5>Sponsors</h5>
         </Card.Header>
         <Col className="my-4">
+          {/* 
           <img
             src={"/images/BPA.png"}
             alt={"Industrial Assessment Center"}
             title={"Industrial Assessment Center"}
             className="expandable-image img-fluid img-thumbnail mr-5"
           />
+          */}
           <img
             src={"/images/IAC.png"}
             alt={"Industrial Assessment Center"}
@@ -204,8 +206,11 @@ function Home() {
             className="expandable-image img-fluid img-thumbnail ml-5"
           />
         </Col>
+
         <div className="p-4 my-2 text-dark-50 bg-white" >
           <div className="font-weight-bold mb-3">This guide has been developed with support from</div>
+
+          {/*
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
               <li>
@@ -213,6 +218,8 @@ function Home() {
               </li>
             </ul>
           </div>
+          */}
+
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
               <li>
@@ -220,6 +227,7 @@ function Home() {
               </li>
             </ul>
           </div>
+
         </div>
       </Card>
     </div>
