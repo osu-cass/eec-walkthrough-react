@@ -61,5 +61,5 @@ table tbody tr td {
 }
 
 .page-info-container {
-  border: none;
+  border: none !important;
 }
