@@ -141,39 +141,6 @@ function Home() {
 
       <Card className="my-2 mb-5">
         <Card.Header>
-          <h5>Disclaimer</h5>
-        </Card.Header>
-        <div className="p-4 my-2 text-dark-50 bg-white" >
-          <div className="mb-3">
-            <small>
-              The primary objective of the OSU EEC is to promote energy efficiency, waste minimization, and productivity in the industrial, commercial, agricultural, and residential sectors. A key strategy has included performance of energy and efficiency site assessments. This work is intended is to provide background and tools that will be helpful in identifying and evaluating potential opportunities.
-            </small>
-          </div>
-          <div className="my-3">
-            <small>
-              We believe Industrial Walkthrough Checklist &amp; Reference to be a reasonably accurate representation of opportunities to reduce energy use, lower waste generation, and make production practices more efficient. However, the OSU EEC cannot guarantee the accuracy, completeness, or usefulness of the information contained on this website, nor assume any liability for damages resulting from the use of any information, equipment, method or process disclosed on this website.
-            </small>
-          </div>
-          <div className="my-3">
-            <small>
-              Pollution prevention recommendations are not intended to deal with the issue of compliance with applicable environmental regulations. Questions regarding compliance should be addressed to either a reputable consulting engineering firm experienced with environmental regulations or to the appropriate regulatory agency. Clients are encouraged to develop positive working relationships with regulators so that compliance issues can be addressed and resolved.
-            </small>
-          </div>
-          <div className="my-3">
-            <small>
-              The assumptions and equations used to arrive at energy, waste, productivity, and cost savings for the opportunities are presented on this website. We believe the assumptions to be conservative. If you would like to revise the assumptions you may follow the calculation methodologies presented using adjusted assumptions to develop your own revised estimates of energy, waste, productivity, and cost savings.
-            </small>
-          </div>
-          <div className="mt-3">
-            <small>
-              Please feel welcome to contact the OSU EEC if you would like to discuss the content of this website or if you have another question about energy use or pollution prevention.
-            </small>
-          </div>
-        </div>
-      </Card>
-
-      <Card className="my-2 mb-5">
-        <Card.Header>
           <h5>Content Contributors</h5>
         </Card.Header>
         <div className="p-4 my-2 text-dark-50 bg-white" >
@@ -209,7 +176,6 @@ function Home() {
 
         <div className="p-4 my-2 text-dark-50 bg-white" >
           <div className="font-weight-bold mb-3">This guide has been developed with support from</div>
-
           {/*
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
@@ -219,7 +185,6 @@ function Home() {
             </ul>
           </div>
           */}
-
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
               <li>
@@ -227,9 +192,42 @@ function Home() {
               </li>
             </ul>
           </div>
-
         </div>
       </Card>
+
+      <Card className="my-2 mb-5">
+        <Card.Header>
+          <h5>Disclaimer</h5>
+        </Card.Header>
+        <div className="p-4 my-2 text-dark-50 bg-white" >
+          <div className="mb-3">
+            <small>
+              The primary objective of the OSU EEC is to promote energy efficiency, waste minimization, and productivity in the industrial, commercial, agricultural, and residential sectors. A key strategy has included performance of energy and efficiency site assessments. This work is intended is to provide background and tools that will be helpful in identifying and evaluating potential opportunities.
+            </small>
+          </div>
+          <div className="my-3">
+            <small>
+              We believe Industrial Walkthrough Checklist &amp; Reference to be a reasonably accurate representation of opportunities to reduce energy use, lower waste generation, and make production practices more efficient. However, the OSU EEC cannot guarantee the accuracy, completeness, or usefulness of the information contained on this website, nor assume any liability for damages resulting from the use of any information, equipment, method or process disclosed on this website.
+            </small>
+          </div>
+          <div className="my-3">
+            <small>
+              Pollution prevention recommendations are not intended to deal with the issue of compliance with applicable environmental regulations. Questions regarding compliance should be addressed to either a reputable consulting engineering firm experienced with environmental regulations or to the appropriate regulatory agency. Clients are encouraged to develop positive working relationships with regulators so that compliance issues can be addressed and resolved.
+            </small>
+          </div>
+          <div className="my-3">
+            <small>
+              The assumptions and equations used to arrive at energy, waste, productivity, and cost savings for the opportunities are presented on this website. We believe the assumptions to be conservative. If you would like to revise the assumptions you may follow the calculation methodologies presented using adjusted assumptions to develop your own revised estimates of energy, waste, productivity, and cost savings.
+            </small>
+          </div>
+          <div className="mt-3">
+            <small>
+              Please feel welcome to contact the OSU EEC if you would like to discuss the content of this website or if you have another question about energy use or pollution prevention.
+            </small>
+          </div>
+        </div>
+      </Card>
+
     </div>
   );
 }
