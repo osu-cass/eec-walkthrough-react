@@ -158,50 +158,14 @@ function Header(props) {
       // Set the current cards items
       card.items = allItems;
       card.tempItems = allTempItems;
-      allItems = [];
-      allTempItems = [];
-      let itemsParent = false;
-      let tempItemsParent = false;
-
-      // Do one last check to filter out items that are missing a parent
-      for (let i = 0; i < card.items.length; i++) {
-        if (!card.items[i].indentation) {
-          allItems.push(card.items[i]);
-          itemsParent = true;
-        } else {
-          for (let j = 0; j < card.items.length; j++) {
-            if (card.items[i].indentation === card.items[j].itemId) {
-              allItems.push(card.items[i]);
-            }
-          }
-        }
-      }
-      for (let i = 0; i < card.tempItems.length; i++) {
-        if (card.tempItems[i].indentation === null) {
-          allTempItems.push(card.tempItems[i]);
-          tempItemsParent = true;
-        } else {
-          for (let j = 0; j < card.tempItems.length; j++) {
-            if (card.tempItems[i].indentation === card.tempItems[j].itemId) {
-              allTempItems.push(card.tempItems[i]);
-              break;
-            }
-          }
-        }
-      }
-
-      // Set the current cards items
-      card.items = allItems;
-      card.tempItems = allTempItems;
 
       // Mark the card as edited or published.
       // If the card in current view mode is empty, hide it.
-      if ((!props.mode && itemsParent) ||
-          (props.mode && itemsParent && !cardView)) {
+      if ((!props.mode) || (props.mode && !cardView)) {
         card.edited = false;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
-      } else if (props.mode && tempItemsParent) {
+      } else if (props.mode) {
         card.edited = true;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);

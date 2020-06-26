@@ -3,6 +3,7 @@ import Image from "./Image";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import LinkAccessButtons from "./LinkAccessButtons";
+import Indent from "./Indent";
 import "./BulletPoint.css";
 
 // Represents a single item inside a card
@@ -33,16 +34,21 @@ function BulletPoint (props) {
   return (
 
     <div key={props.id} className={`mb-2`}>
+
       {getContentType(props.text, props.label, props.url) === 1 ? (
-        <Fragment>
-          <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
-          <span className={styleText(props.icon) || isBold(props.bold)}>
-            {props.text}
-          </span>
-        </Fragment>
+        <div className="row">
+          <Indent indentLevel={props.indentation} />
+          <Fragment>
+            <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
+            <span className={styleText(props.icon) || isBold(props.bold)}>
+              {props.text}
+            </span>
+          </Fragment>
+        </div>
       ) : (
         null
       )}
+
       {getContentType(props.text, props.label, props.url) === 2 ? (
         <Fragment>
           <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
@@ -55,6 +61,7 @@ function BulletPoint (props) {
       ) : (
         null
       )}
+
       {getContentType(props.text, props.label, props.url) === 3 ? (
         <Fragment>
           <div>
@@ -85,6 +92,7 @@ function BulletPoint (props) {
       ) : (
         null
       )}
+
     </div>
   );
 
