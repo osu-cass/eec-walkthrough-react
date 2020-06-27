@@ -180,6 +180,52 @@ function EditCard(props) {
 
   }
 
+  // Change the placement order of the selected item
+  function changeOrder(counterId, up) {
+    let arrayIndex = -1;
+    let copy = [...items];
+    
+    // Find the index of this item
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].counterId === counterId) {
+        arrayIndex = i;
+        break;
+      }
+    }
+
+    // If we cannot find the index, then return
+    if (arrayIndex === -1) {
+      return;
+    }
+
+    // Check if we are trying to move up or down the card
+    if (up) {
+      // if this is not the top item on the card, swap it with the item above it
+      if (arrayIndex !== 0) {
+        [copy[arrayIndex], copy[arrayIndex - 1]] = [copy[arrayIndex - 1], copy[arrayIndex]];
+        let tempOrderIndex = copy[arrayIndex].orderIndex;
+        copy[arrayIndex].orderIndex = copy[arrayIndex - 1].orderIndex;
+        copy[arrayIndex - 1].orderIndex = tempOrderIndex;
+        let tempIndentation = copy[arrayIndex].indentation;
+        copy[arrayIndex].indentation = copy[arrayIndex - 1].indentation;
+        copy[arrayIndex - 1].indentation = tempIndentation;
+        setItems(copy);
+      }
+    } else {
+      // if this is not the bottom item on the card, swap it with the item below it
+      if (arrayIndex + 1 < copy.length) {
+        [copy[arrayIndex], copy[arrayIndex + 1]] = [copy[arrayIndex + 1], copy[arrayIndex]];
+        let tempOrderIndex = copy[arrayIndex].orderIndex;
+        copy[arrayIndex].orderIndex = copy[arrayIndex + 1].orderIndex;
+        copy[arrayIndex + 1].orderIndex = tempOrderIndex;
+        let tempIndentation = copy[arrayIndex].indentation;
+        copy[arrayIndex].indentation = copy[arrayIndex + 1].indentation;
+        copy[arrayIndex + 1].indentation = tempIndentation;
+        setItems(copy);
+      }
+    }
+  }
+
   // Deletes the selected item
   function deleteItem(counterId) {
     let arrayIndex = -1;
@@ -220,14 +266,12 @@ function EditCard(props) {
     if (itemArray.length) {
       itemArray[0].indentation = 0;
     }
-
     // Update the indentation of the rest of the items
     for (let i = 1; i < itemArray.length; i++) {
       if (itemArray[i].indentation > itemArray[i-1].indentation + 1) {
         itemArray[i].indentation = itemArray[i-1].indentation + 1;
       }
     }
-
     return itemArray;
   }
 
@@ -302,9 +346,7 @@ function EditCard(props) {
       } else {
         setErrorMessage(obj.error);
       }
-
     }
-
   }
 
   // Check for empty inputs (card title, item text/content/labels, icons)
@@ -484,31 +526,19 @@ function EditCard(props) {
             </Col>
           </Row>
 
-          <div className="font-weight-bold">Items</div>
+          <div className="font-weight-bold mb-2">Items</div>
 
           {/* Item Input Fields */}
 
           {items.map((item, i) =>
             <Row className="mb-2" key={item.counterId + "a"}>
-              <Indent indentLevel={item.indentation} />
-              <div className="col-1">
-                <IconDropdown key={item.counterId + "b"} idx={i}
-                  list={generateIcons(i, item.contentType)}
-                  selectedIndex={getIconName(item.iconType, item.contentType)}
-                  handleClick={(id, idx) => updateIcon(id, idx)}
-                  edit
-                />
-              </div>
-              <div className="input-group col-9">
-                <ItemInput
-                  title="Text"
-                  maxLength="1000"
-                  handleInput={(e1, e2, e3) => handleInput(e1, e2, e3)}
-                  index={i}
-                  value={item}
-                  contentType={item.contentType}
-                />
-                <span>
+              <div className="input-group">
+                <span className="ml-2 mr-3">
+                  <button className='btn btn-danger btn-sm ml-2' key={item.counterId + "g"} data-index={i}
+                    onClick={(e) => deleteItem(item.counterId)}
+                  >
+                    <i className='fas fa-times' />
+                  </button>
                   <button className='btn btn-success btn-sm ml-2' key={item.counterId + "c"} data-index={i}
                     onClick={(e) => changeIndent(item.counterId, -1)}
                   >
@@ -519,13 +549,32 @@ function EditCard(props) {
                   >
                     <i className='fas fa-plus' />
                   </button>
-                  <button className='btn btn-danger btn-sm ml-2' key={item.counterId + "e"} data-index={i}
-                    onClick={(e) => deleteItem(item.counterId)}
+                  <button className='btn btn-primary btn-sm ml-2' key={item.counterId + "e"} data-index={i}
+                    onClick={(e) => changeOrder(item.counterId, true)}
                   >
-                    <i className='fas fa-times' /> Remove
+                    <i className='fas fa-arrow-up' />
+                  </button>
+                  <button className='btn btn-primary btn-sm ml-2' key={item.counterId + "f"} data-index={i}
+                    onClick={(e) => changeOrder(item.counterId, false)}
+                  >
+                    <i className='fas fa-arrow-down' />
                   </button>
                 </span>
-
+                <Indent indentLevel={item.indentation} />
+                <IconDropdown key={item.counterId + "b"} idx={i}
+                  list={generateIcons(i, item.contentType)}
+                  selectedIndex={getIconName(item.iconType, item.contentType)}
+                  handleClick={(id, idx) => updateIcon(id, idx)}
+                  edit
+                />
+                <ItemInput
+                  title="Text"
+                  maxLength="1000"
+                  handleInput={(e1, e2, e3) => handleInput(e1, e2, e3)}
+                  index={i}
+                  value={item}
+                  contentType={item.contentType}
+                />
               </div>
             </Row>
           )}
@@ -546,6 +595,7 @@ function EditCard(props) {
               />
             </div>
           </Row>
+          
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">

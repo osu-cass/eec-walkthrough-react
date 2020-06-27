@@ -31,7 +31,7 @@ function IconDropdown(props) {
 
   return (
     <Fragment key={props.index}>
-      <Dropdown>
+      <Dropdown className="icon-drop-down-menu">
         <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
           {props.edit ? (
             props.selectedIndex === null ? (
