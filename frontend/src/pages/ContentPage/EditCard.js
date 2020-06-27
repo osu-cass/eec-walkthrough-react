@@ -27,7 +27,7 @@ function EditCard(props) {
 
   useEffect(() => {
     // Get data from the published or edited card
-    const newItems = [];
+    let newItems = [];
     let itemData = {};
     let newCounter = 0;
     let itemSet = [];
@@ -52,8 +52,8 @@ function EditCard(props) {
       newItems.push(itemData);
       newCounter++;
     });
+    newItems = scanIndentation(newItems);
     setItems(newItems);
-    console.log("NEW ITEMS:", newItems, counter);
     setRole(getProfile().role);
     setCounter(newCounter);
     setLoaded(true);
@@ -121,7 +121,7 @@ function EditCard(props) {
   function incrementCounter(contentType) {
     const newCounter = counter;
     const key = (newCounter).toString();
-    const copy = [...items];
+    let copy = [...items];
 
     // Init new empty item
     copy[key] = {};
@@ -133,6 +133,9 @@ function EditCard(props) {
     copy[key].contentType = contentType;
     copy[key].orderIndex = 1;
     copy[key].indentation = 0;
+
+    // Make sure the indentation is up to date
+    copy = scanIndentation(copy);
 
     setItems(copy);
     setCounter(newCounter + 1);
@@ -151,8 +154,7 @@ function EditCard(props) {
       }
     }
 
-    // If the current index is the first item on the card
-    // or we can not find the index, then return
+    // If the current index is the first item on the card or we can not find the index
     if (!arrayIndex || (amount === -1 && copy[arrayIndex].indentation === 0)) {
       return;
     }
@@ -168,14 +170,19 @@ function EditCard(props) {
 
       // We are done. Save the changes and return
       setItems(copy);
-      return;
-    }
+    } else {
 
     // Check if we should be able to update our indentation and by how much
     const prevIndent = copy[arrayIndex - 1].indentation;
-    if (copy[arrayIndex].indentation <= prevIndent && prevIndent < 4) {
+    if (copy[arrayIndex].indentation <= prevIndent && copy[arrayIndex].indentation <= 3) {
       copy[arrayIndex].indentation += 1;
+
+      // Update the indentation level across the card
+      copy = scanIndentation(copy);
+
       setItems(copy);
+    }
+
     }
 
   }
@@ -203,24 +210,24 @@ function EditCard(props) {
       // if this is not the top item on the card, swap it with the item above it
       if (arrayIndex !== 0) {
         [copy[arrayIndex], copy[arrayIndex - 1]] = [copy[arrayIndex - 1], copy[arrayIndex]];
-        let tempOrderIndex = copy[arrayIndex].orderIndex;
-        copy[arrayIndex].orderIndex = copy[arrayIndex - 1].orderIndex;
-        copy[arrayIndex - 1].orderIndex = tempOrderIndex;
         let tempIndentation = copy[arrayIndex].indentation;
         copy[arrayIndex].indentation = copy[arrayIndex - 1].indentation;
         copy[arrayIndex - 1].indentation = tempIndentation;
+        let tempMaxIndent = copy[arrayIndex].maxIndent;
+        copy[arrayIndex].maxIndent = copy[arrayIndex - 1].maxIndent;
+        copy[arrayIndex - 1].maxIndent = tempMaxIndent;
         setItems(copy);
       }
     } else {
       // if this is not the bottom item on the card, swap it with the item below it
       if (arrayIndex + 1 < copy.length) {
         [copy[arrayIndex], copy[arrayIndex + 1]] = [copy[arrayIndex + 1], copy[arrayIndex]];
-        let tempOrderIndex = copy[arrayIndex].orderIndex;
-        copy[arrayIndex].orderIndex = copy[arrayIndex + 1].orderIndex;
-        copy[arrayIndex + 1].orderIndex = tempOrderIndex;
         let tempIndentation = copy[arrayIndex].indentation;
         copy[arrayIndex].indentation = copy[arrayIndex + 1].indentation;
         copy[arrayIndex + 1].indentation = tempIndentation;
+        let tempMaxIndent = copy[arrayIndex].maxIndent;
+        copy[arrayIndex].maxIndent = copy[arrayIndex + 1].maxIndent;
+        copy[arrayIndex + 1].maxIndent = tempMaxIndent;
         setItems(copy);
       }
     }
@@ -265,16 +272,20 @@ function EditCard(props) {
     // The first item in the card can never be indented
     if (itemArray.length) {
       itemArray[0].indentation = 0;
+      itemArray[0].maxIndent = 0;
     }
     // Update the indentation of the rest of the items
     for (let i = 1; i < itemArray.length; i++) {
       if (itemArray[i].indentation > itemArray[i-1].indentation + 1) {
         itemArray[i].indentation = itemArray[i-1].indentation + 1;
       }
+      itemArray[i].maxIndent = itemArray[i-1].indentation + 1;
     }
+    console.log("ITEMS", itemArray);
     return itemArray;
   }
 
+  // Delete the current card
   async function deleteCard() {
     // Send call to backend to delete card
     const results = await fetch(`/cards/${props.card.cardId}`, {
@@ -292,6 +303,7 @@ function EditCard(props) {
     }
   }
 
+  // Submit the current card
   async function handleSubmit() {
     // Check for empty inputs
     if (checkInputs()) {
@@ -302,15 +314,18 @@ function EditCard(props) {
     const formatSelect = document.getElementById("select-edit-card-format");
     const newCardFormat = formatSelect.options[formatSelect.selectedIndex].value;
 
-    const itemIds = [];
-    let cardData = {};
+    // Update the order index of each item
+    const copy = items;
+    for (let i = 0; i < copy.length; i++) {
+      copy[i].orderIndex = i;
+    }
 
     // Prepare data for new card
-    cardData = {
+    let cardData = {
       orderIndex: props.card.orderIndex,
       cardType: newCardFormat,
       title: title,
-      items: items
+      items: copy
     };
 
     // Edit card
@@ -534,28 +549,38 @@ function EditCard(props) {
             <Row className="mb-2" key={item.counterId + "a"}>
               <div className="input-group">
                 <span className="ml-2 mr-3">
-                  <button className='btn btn-danger btn-sm ml-2' key={item.counterId + "g"} data-index={i}
+                  <button className='btn btn-danger btn-sm ml-2'
                     onClick={(e) => deleteItem(item.counterId)}
+                    key={item.counterId + "g"}
+                    data-index={i}
                   >
                     <i className='fas fa-times' />
                   </button>
-                  <button className='btn btn-success btn-sm ml-2' key={item.counterId + "c"} data-index={i}
+                  <button className={`btn btn-success btn-sm ml-2 ${item.indentation === 0 ? "disabled" : ""}`}
                     onClick={(e) => changeIndent(item.counterId, -1)}
+                    key={item.counterId + "c"}
+                    data-index={i}
                   >
                     <i className='fas fa-minus' />
                   </button>
-                  <button className='btn btn-success btn-sm ml-2' key={item.counterId + "d"} data-index={i}
+                  <button className={`btn btn-success btn-sm ml-2 ${item.maxIndent <= item.indentation || item.indentation === 4 ? "disabled" : ""}`}
                     onClick={(e) => changeIndent(item.counterId, 1)}
+                    key={item.counterId + "d"}
+                    data-index={i}
                   >
                     <i className='fas fa-plus' />
                   </button>
-                  <button className='btn btn-primary btn-sm ml-2' key={item.counterId + "e"} data-index={i}
+                  <button className={`btn btn-primary btn-sm ml-2 ${i ? "" : "disabled"}`}
                     onClick={(e) => changeOrder(item.counterId, true)}
+                    key={item.counterId + "e"}
+                    data-index={i}
                   >
                     <i className='fas fa-arrow-up' />
                   </button>
-                  <button className='btn btn-primary btn-sm ml-2' key={item.counterId + "f"} data-index={i}
+                  <button className={`btn btn-primary btn-sm ml-2 ${i + 1 < items.length ? "" : "disabled"}`}
                     onClick={(e) => changeOrder(item.counterId, false)}
+                    key={item.counterId + "f"}
+                    data-index={i}
                   >
                     <i className='fas fa-arrow-down' />
                   </button>
