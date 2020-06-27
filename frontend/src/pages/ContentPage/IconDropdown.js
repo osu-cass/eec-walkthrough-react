@@ -13,12 +13,12 @@ function IconDropdown(props) {
     setSelectedID(id);
     setSelectedIndex(idx);
     // Pass back up to parent
-    handleClick(id, props.idx);
+    props.handleClick(id, props.idx);
   }
 
   function generateList() {
     const jsx = [];
-    this.props.list[0].map((elem, idx) => {
+    props.list[0].map((elem, idx) => {
       jsx.push(
         <Dropdown.Item key={idx} style={{cursor: "pointer"}} onClick={() => newClick(props.list[1][idx][0], idx)}>
           {elem}
