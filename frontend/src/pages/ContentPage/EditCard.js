@@ -3,7 +3,7 @@ import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {getProfile, logout} from "../../utilities/cookieAuth";
 import AddButton from "./AddButton";
 import ItemInput from "./ItemInput";
-import Dropdown from "./Dropdown";
+import IconDropdown from "./IconDropdown";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import "./CreateCard.css";
@@ -195,28 +195,6 @@ function EditCard(props) {
     // Set up Ids to be deleted
     toDeleteList.push(items[idx].itemId);
     setToDelete(toDeleteList);
-  }
-
-  // Find parent of item by finding closest index of (sub-item depth - 1) to the left
-  // @param {Number} idx Index of item
-  // @param {Number} val Value of depth of this item
-  // @return {Number}    Index of parent
-  function findParent(idx, val, ids) {
-    let closestIdx = null;
-    items.forEach((item, i) => {
-      if (i >= idx) { return closestIdx; }
-      if (item.depth === (val - 1)) { closestIdx = i; }
-    });
-    return closestIdx !== null ? ids[closestIdx] : null;
-  }
-
-  function findOrderIndex(i) {
-    // base case
-    if (i === 0 || items[i].depth === 0) { return 1; }
-    // if left depth is smaller, this is a new "group". order index restarts at 1
-    if (items[i - 1].depth < items[i].depth) { return 1; }
-    // if left sibling of item has same depth, order index inc
-    if (items[i - 1].depth === items[i].depth) { return items[i - 1].depth + 1; }
   }
 
   async function deleteCard() {
@@ -438,16 +416,6 @@ function EditCard(props) {
     return list;
   }
 
-  // Returns JSX showing indentation of items
-  // @param {Number} i item index passed from generateInputs()
-  // @return {JSX}    Array of JSX of icons
-  function getDepth(idx) {
-    const jsx = [];
-    let i = 0;
-    for (i = 0; i < items[idx].depth; i++) { jsx.push(<div key={i} className="pl-2 ml-1"><i className="fas fa-long-arrow-alt-right mt-2 text-secondary"></i></div>); }
-    return jsx;
-  }
-
   function generateInputs() {
     const jsx = [];
     let i = 0;
@@ -459,7 +427,7 @@ function EditCard(props) {
         <Row className="mb-2" key={itemIdKey + "a"}>
           {items[i].indentation} {/* return indentation for SubItems*/}
           <div className="col-1">
-            <Dropdown key={itemIdKey + "b"} idx={i}
+            <IconDropdown key={itemIdKey + "b"} idx={i}
               list={generateIcons(i, contentType)}
               selectedIndex={getIconName(items[i].icon, contentType)}
               handleClick={(id, idx) => updateIcon(id, idx)}
