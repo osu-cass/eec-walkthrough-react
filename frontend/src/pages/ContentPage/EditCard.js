@@ -27,7 +27,7 @@ function EditCard(props) {
 
   useEffect(() => {
     // Get data from the published or edited card
-    const items = [];
+    const newItems = [];
     let itemData = {};
     let counter = 0;
     let itemSet = [];
@@ -40,21 +40,18 @@ function EditCard(props) {
     itemSet.forEach((item) => {
       itemData = {};
       itemData.itemId = item.itemId;
-      itemData.content = {
-        text: item.contentText,
-        label: item.contentLabel,
-        url: item.contentUrl
-      };
+      itemData.contentText = item.contentText;
+      itemData.contentLabel = item.contentLabel;
+      itemData.contentUrl = item.contentUrl;
       itemData.indentation = item.indentation;
-      itemData.depth = item.depth;
-      itemData.icon = item.iconType;
+      itemData.iconType = item.iconType;
       itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
       itemData.current = 1;
       itemData.orderIndex = item.orderIndex;
-      items.push(itemData);
+      newItems.push(itemData);
       counter++;
     });
-    setItems(items);
+    setItems(newItems);
     setRole(getProfile().role);
     setCounter(counter);
     setLoaded(true);

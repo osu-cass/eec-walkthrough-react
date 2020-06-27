@@ -11,7 +11,7 @@ function ThumbnailGallery(props) {
         <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
           key={item.itemId + "a"}
         >
-          <div className="d-block mb-4 h-100" key={item.itemId + "b"}>
+          <div className="d-block my-2 h-100" key={item.itemId + "b"}>
             <Image
               url={item.contentUrl}
               title={item.contentLabel}

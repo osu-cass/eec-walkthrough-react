@@ -138,12 +138,15 @@ function Header(props) {
       const fullCard = JSON.parse(JSON.stringify(props.header.cards[i]));
       let allItems = [];
       let allTempItems = [];
+      let itemExists = false;
+      let tempItemExists = false;
 
       // check each normal item in the card
       for (let j = 0; j < props.header.cards[i].items.length; j++) {
         // see if the item should be filtered or not
         if (filterState[props.header.cards[i].items[j].iconType]) {
           allItems.push(props.header.cards[i].items[j]);
+          itemExists = true;
         }
       }
 
@@ -152,6 +155,7 @@ function Header(props) {
         // see if the item should be filtered or not
         if (filterState[props.header.cards[i].tempItems[k].iconType]) {
           allTempItems.push(props.header.cards[i].tempItems[k]);
+          tempItemExists = true;
         }
       }
 
@@ -161,11 +165,12 @@ function Header(props) {
 
       // Mark the card as edited or published.
       // If the card in current view mode is empty, hide it.
-      if ((!props.mode) || (props.mode && !cardView)) {
+      if ((!props.mode && itemExists) || 
+          (props.mode && !cardView && itemExists)) {
         card.edited = false;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
-      } else if (props.mode) {
+      } else if (props.mode && tempItemExists) {
         card.edited = true;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
