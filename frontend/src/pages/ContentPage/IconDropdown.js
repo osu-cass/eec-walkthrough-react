@@ -34,10 +34,18 @@ function IconDropdown(props) {
       <Dropdown>
         <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
           {props.edit ? (
-            props.selectedIndex === null ? "Icon" : props.list[1][props.selectedIndex][1]
+            props.selectedIndex === null ? (
+              "Icon"
+            ) : (
+              props.list[1][props.selectedIndex][1]
+            )
           ) : (
-            selectedIndex === null ? "Icon" : props.list[1][selectedIndex][1]
-          )};
+            selectedIndex === null ? (
+              "Icon"
+            ) : (
+              props.list[1][selectedIndex][1]
+            )
+          )}
         </Dropdown.Toggle>
         <Dropdown.Menu>
           {generateList()}

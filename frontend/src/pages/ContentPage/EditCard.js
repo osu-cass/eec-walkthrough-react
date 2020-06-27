@@ -48,11 +48,12 @@ function EditCard(props) {
       itemData.iconType = item.iconType;
       itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
       itemData.current = 1;
-      itemData.orderIndex = item.orderIndex;
+      itemData.orderIndex = newCounter + 1;
       newItems.push(itemData);
       newCounter++;
     });
     setItems(newItems);
+    console.log("NEW ITEMS:", newItems, counter);
     setRole(getProfile().role);
     setCounter(newCounter);
     setLoaded(true);
@@ -128,7 +129,7 @@ function EditCard(props) {
     copy[key].contentText = "";
     copy[key].contentLabel = "";
     copy[key].contentUrl = "";
-    copy[key].icon = null;
+    copy[key].iconType = null;
     copy[key].contentType = contentType;
     copy[key].orderIndex = 1;
     copy[key].indentation = 0;
@@ -150,17 +151,33 @@ function EditCard(props) {
       }
     }
 
-    // If we can not find the index, then exit
-    if (arrayIndex === -1) {
-      console.error("Unable to find the item to indent");
+    // If the current index is the first item on the card
+    // or we can not find the index, then return
+    if (!arrayIndex || (amount === -1 && copy[arrayIndex].indentation === 0)) {
       return;
     }
 
-    // Update the indentation leven
-    if (copy[arrayIndex].indentation + amount <= 4 && copy[arrayIndex].indentation + amount >= 0 ) {
-      copy[arrayIndex].indentation += amount;
+    // If we are removing indentation do that and return
+    if (amount === -1 && copy[arrayIndex].indentation >= 0) {
+
+      // Lower our indentation level
+      copy[arrayIndex].indentation += -1;
+
+      // Update the indentation level across the card
+      copy = scanIndentation(copy);
+
+      // We are done. Save the changes and return
+      setItems(copy);
+      return;
+    }
+
+    // Check if we should be able to update our indentation and by how much
+    const prevIndent = copy[arrayIndex - 1].indentation;
+    if (copy[arrayIndex].indentation <= prevIndent && prevIndent < 4) {
+      copy[arrayIndex].indentation += 1;
       setItems(copy);
     }
+
   }
 
   // Deletes the selected item
@@ -168,6 +185,10 @@ function EditCard(props) {
     let arrayIndex = -1;
     let copy = [...items];
     
+    if (!window.confirm("Are you sure you wish to delete this item?")) {
+      return;
+    }
+
     // Find the index of this item
     for (let i = 0; i < copy.length; i++) {
       if (copy[i].counterId === counterId) {
@@ -182,11 +203,32 @@ function EditCard(props) {
       return;
     }
 
-    // Delete from state.items
+    // Delete the selected item
     const count = counter;
-    copy.splice(arrayIndex, 1);	// Initialize empty
+    copy.splice(arrayIndex, 1);
+
+    // Update the indentation level across the card
+    copy = scanIndentation(copy);
+
     setItems(copy);
     setCounter(count - 1);
+  }
+
+  // Scans through items to ensure they are all indented correctly
+  function scanIndentation(itemArray) {
+    // The first item in the card can never be indented
+    if (itemArray.length) {
+      itemArray[0].indentation = 0;
+    }
+
+    // Update the indentation of the rest of the items
+    for (let i = 1; i < itemArray.length; i++) {
+      if (itemArray[i].indentation > itemArray[i-1].indentation + 1) {
+        itemArray[i].indentation = itemArray[i-1].indentation + 1;
+      }
+    }
+
+    return itemArray;
   }
 
   async function deleteCard() {
@@ -220,20 +262,12 @@ function EditCard(props) {
     let cardData = {};
 
     // Prepare data for new card
-    if (items.length) {
-      cardData = {
-        orderIndex: props.card.orderIndex,
-        cardType: newCardFormat,
-        title: title,
-        items: items
-      };
-    } else {
-      cardData = {
-        orderIndex: props.card.orderIndex,
-        cardType: newCardFormat,
-        title: title
-      };
-    }
+    cardData = {
+      orderIndex: props.card.orderIndex,
+      cardType: newCardFormat,
+      title: title,
+      items: items
+    };
 
     // Edit card
     const results = await fetch(`/cards/${props.card.cardId}`, {
@@ -292,26 +326,26 @@ function EditCard(props) {
     for (i = 0; i < items.length; i++) {
       const item = items[i];
       if (item.contentType === 1) { // text
-        if (item.content.text === "") {
+        if (item.contentText === "") {
           emptyFound = true;
           newErrorMessage = "Error: Item is not filled out completely on line " + (i + 1);
           break;
         }
       } else if (item.contentType === 2) { // label + url
-        if (item.content.label === "" || item.content.url === "") {
+        if (item.contentLabel === "" || item.contentUrl === "") {
           emptyFound = true;
           newErrorMessage = "Error: Graphic is not filled out completely on line " + (i + 1);
           break;
         }
       } else if (item.contentType === 3) { // text + label + url
-        if (item.content.text === "" || item.content.label === "" || item.content.url === "") {
+        if (item.contentText === "" || item.contentLabel === "" || item.contentUrl === "") {
           emptyFound = true;
           newErrorMessage = "Error: Resource is not filled out completely on line " + (i + 1);
           break;
         }
       }
       // Check icons
-      if (item.icon === null) {
+      if (item.iconType === null) {
         emptyFound = true;
         newErrorMessage = "Error: Empty item icon on line " + (i + 1);
         break;
@@ -328,11 +362,11 @@ function EditCard(props) {
     const key = index.toString();
     const copy = [...items];
     if (contentType === 1) {
-      copy[key].content.text = e.target.value;
+      copy[key].contentText = e.target.value;
     } else if (contentType === 2) {
-      copy[key].content.label = e.target.value;
+      copy[key].contentLabel = e.target.value;
     } else if (contentType === 3) {
-      copy[key].content.url = e.target.value;
+      copy[key].contentUrl = e.target.value;
     }
     setItems(copy);
   }
@@ -344,10 +378,11 @@ function EditCard(props) {
   // @return {State} Updated state, no actual return value
   function updateIcon(icon, index) {
     const copy = [...items];
-    copy[index].icon = icon;
+    copy[index].iconType = icon;
     setItems(copy);
   }
 
+  // Gets the name of an icon given an ID and content type
   function getIconName(id, contentType) {
     let i;
     if (contentType === 3) {
@@ -459,7 +494,7 @@ function EditCard(props) {
               <div className="col-1">
                 <IconDropdown key={item.counterId + "b"} idx={i}
                   list={generateIcons(i, item.contentType)}
-                  selectedIndex={getIconName(item.icon, item.contentType)}
+                  selectedIndex={getIconName(item.iconType, item.contentType)}
                   handleClick={(id, idx) => updateIcon(id, idx)}
                   edit
                 />
@@ -517,7 +552,7 @@ function EditCard(props) {
           <Button
             className="mr-auto"
             variant="danger"
-            onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { deleteCard(); } }}
+            onClick={() => { if (window.confirm("Are you sure you wish to delete this card?")) { deleteCard(); } }}
           >
             Delete Card
           </Button>
