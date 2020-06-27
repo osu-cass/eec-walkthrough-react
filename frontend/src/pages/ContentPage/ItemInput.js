@@ -9,6 +9,7 @@ function ItemInput(props) {
       <Fragment>
         {props.contentType === 1 ?
           <FormControl
+            className="mx-3"
             placeholder="Item text"
             value={props.value.contentText}
             aria-label="Insert Username"
@@ -20,6 +21,7 @@ function ItemInput(props) {
         {props.contentType === 2 ?
           <Fragment>
             <FormControl
+              className="ml-3"
               placeholder="Graphic description"
               value={props.value.contentLabel}
               aria-label="Insert Username"
@@ -28,6 +30,7 @@ function ItemInput(props) {
               required
             />
             <FormControl
+              className="mr-3"
               placeholder="Graphic URL"
               value={props.value.contentUrl}
               aria-label="Insert Username"
@@ -40,6 +43,7 @@ function ItemInput(props) {
         {props.contentType === 3 ? (
           <Fragment>
             <FormControl
+              className="ml-3"
               placeholder="Resource text/description"
               value={props.value.contentText}
               aria-label="Insert Username"
@@ -56,6 +60,7 @@ function ItemInput(props) {
               required
             />
             <FormControl
+              className="mr-3"
               placeholder="Resource URL"
               value={props.value.contentUrl}
               aria-label="Insert Username"
