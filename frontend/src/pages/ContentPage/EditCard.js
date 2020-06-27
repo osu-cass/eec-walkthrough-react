@@ -14,6 +14,7 @@ import "./ContentPage.css";
 function EditCard(props) {
 
   const [counter, setCounter] = useState(0);
+  const [pureCounter, setPureCounter] = useState(0);
   const [title, setTitle] = useState("");
   const [format, setFormat] = useState(0);
   const [items, setItems] = useState([]);
@@ -56,6 +57,7 @@ function EditCard(props) {
     setItems(newItems);
     setRole(getProfile().role);
     setCounter(newCounter);
+    setPureCounter(pureCounter + newCounter);
     setLoaded(true);
     setErrorMessage("");
     if (props.card.tempCardId) {
@@ -120,12 +122,13 @@ function EditCard(props) {
   // Keeps track of the current number of input fields
   function incrementCounter(contentType) {
     const newCounter = counter;
+    const pureId = pureCounter;
     const key = (newCounter).toString();
     let copy = [...items];
 
     // Init new empty item
     copy[key] = {};
-    copy[key].counterId = newCounter + 1;
+    copy[key].counterId = pureId + 1;
     copy[key].contentText = "";
     copy[key].contentLabel = "";
     copy[key].contentUrl = "";
@@ -139,6 +142,7 @@ function EditCard(props) {
 
     setItems(copy);
     setCounter(newCounter + 1);
+    setPureCounter(pureCounter + newCounter + 1);
   }
 
   // Increase the indentation level of the item
@@ -281,7 +285,6 @@ function EditCard(props) {
       }
       itemArray[i].maxIndent = itemArray[i-1].indentation + 1;
     }
-    console.log("ITEMS", itemArray);
     return itemArray;
   }
 
