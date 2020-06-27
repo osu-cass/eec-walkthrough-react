@@ -3,75 +3,73 @@ import FormControl from "react-bootstrap/FormControl";
 import PropTypes from "prop-types";
 
 // An input field for adding or modifying items in a card modal
-class ItemInput extends React.Component {
-  state = {
-    input: ""
-  }
+function ItemInput(props) {
 
-  render() {
     return (
       <Fragment>
-        {this.props.contentType === 1 ?
+        {props.contentType === 1 ?
           <FormControl
             placeholder="Item text"
-            value={this.props.value.content.text}
+            value={props.value.contentText}
             aria-label="Insert Username"
             aria-describedby="basic-addon1"
-            onChange={(e) => this.props.handleInput(e, this.props.index, 1)}
+            onChange={(e) => props.handleInput(e, props.index, 1)}
             required
           />
           : ""}
-        {this.props.contentType === 2 ?
+        {props.contentType === 2 ?
           <Fragment>
             <FormControl
               placeholder="Graphic description"
-              value={this.props.value.content.label}
+              value={props.value.contentLabel}
               aria-label="Insert Username"
               aria-describedby="basic-addon1"
-              onChange={(e) => this.props.handleInput(e, this.props.index, 2)}
+              onChange={(e) => props.handleInput(e, props.index, 2)}
               required
             />
             <FormControl
               placeholder="Graphic URL"
-              value={this.props.value.content.url}
+              value={props.value.contentUrl}
               aria-label="Insert Username"
               aria-describedby="basic-addon1"
-              onChange={(e) => this.props.handleInput(e, this.props.index, 3)}
+              onChange={(e) => props.handleInput(e, props.index, 3)}
               required
             />
           </Fragment>
           : ""}
-        {this.props.contentType === 3 ?
+        {props.contentType === 3 ? (
           <Fragment>
             <FormControl
               placeholder="Resource text/description"
-              value={this.props.value.content.text}
+              value={props.value.contentText}
               aria-label="Insert Username"
               aria-describedby="basic-addon1"
-              onChange={(e) => this.props.handleInput(e, this.props.index, 1)}
+              onChange={(e) => props.handleInput(e, props.index, 1)}
               required
             />
             <FormControl
               placeholder="Resource URL label"
-              value={this.props.value.content.label}
+              value={props.value.contentLabel}
               aria-label="Insert Username"
               aria-describedby="basic-addon1"
-              onChange={(e) => this.props.handleInput(e, this.props.index, 2)}
+              onChange={(e) => props.handleInput(e, props.index, 2)}
               required
             />
             <FormControl
               placeholder="Resource URL"
-              value={this.props.value.content.url}
+              value={props.value.contentUrl}
               aria-label="Insert Username"
               aria-describedby="basic-addon1"
-              onChange={(e) => this.props.handleInput(e, this.props.index, 3)}
+              onChange={(e) => props.handleInput(e, props.index, 3)}
               required
             />
           </Fragment>
-          : ""}
+        ) : (
+          null
+        )}
       </Fragment>
     );
-  }
+
 }
 export default ItemInput;
 

@@ -113,13 +113,12 @@ function Card(props) {
         {props.mode && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
         {props.mode ? (
           <div className="row">
-            {/*
             <EditCard
               card={props.card}
               refresh={() => props.refresh()}
               iconSet={props.iconSet}
             />
-
+            {/*
             <ReviewCard
               refresh={() => props.refresh()}
               edited={props.card.edited}

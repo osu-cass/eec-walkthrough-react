@@ -4,6 +4,7 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import AddButton from "./AddButton";
 import ItemInput from "./ItemInput";
 import IconDropdown from "./IconDropdown";
+import Indent from "./Indent";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import "./CreateCard.css";
@@ -16,7 +17,6 @@ function EditCard(props) {
   const [title, setTitle] = useState("");
   const [format, setFormat] = useState(0);
   const [items, setItems] = useState([]);
-  const [toDelete, setToDelete] = useState([]);
   const [show, setShow] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -29,7 +29,7 @@ function EditCard(props) {
     // Get data from the published or edited card
     const newItems = [];
     let itemData = {};
-    let counter = 0;
+    let newCounter = 0;
     let itemSet = [];
     if (props.card.tempItems.length) {
       itemSet = generateItems(props.card.tempItems);
@@ -39,6 +39,7 @@ function EditCard(props) {
     // Push items from props to state
     itemSet.forEach((item) => {
       itemData = {};
+      itemData.counterId = newCounter + 1;
       itemData.itemId = item.itemId;
       itemData.contentText = item.contentText;
       itemData.contentLabel = item.contentLabel;
@@ -49,11 +50,11 @@ function EditCard(props) {
       itemData.current = 1;
       itemData.orderIndex = item.orderIndex;
       newItems.push(itemData);
-      counter++;
+      newCounter++;
     });
     setItems(newItems);
     setRole(getProfile().role);
-    setCounter(counter);
+    setCounter(newCounter);
     setLoaded(true);
     setErrorMessage("");
     if (props.card.tempCardId) {
@@ -87,8 +88,9 @@ function EditCard(props) {
     setLinkIcons(links);
   }
 
+  // Makes a copy of the items in the props
   function generateItems(itemList) {
-    const itemArray = []; // hold items
+    const itemArray = [];
     itemList.map((item) => {
       itemArray.push(item);
       return null;
@@ -96,105 +98,95 @@ function EditCard(props) {
     return itemArray;
   }
 
+  // Hides the modal
   function handleClose() {
     setShow(false);
     setErrorMessage("");
   }
 
+  // Shows the modal
   function handleShow() {
     setShow(true);
   }
 
+  // Returns the content type (number of fields)
   function getContentType(text, label, url) {
     if (text !== "" && label === "" && url === "") { return 1; }
     if (text === "" && label !== "" && url !== "") { return 2; }
     if (text !== "" && label !== "" && url !== "") { return 3; }
   }
 
+  // Keeps track of the current number of input fields
   function incrementCounter(contentType) {
-    const count = counter;
-    const key = (count).toString();
+    const newCounter = counter;
+    const key = (newCounter).toString();
     const copy = [...items];
-    const content = {text: "", label: "", url: ""};
 
     // Init new empty item
     copy[key] = {};
-    copy[key].content = content;
-    copy[key].depth = 0;
+    copy[key].counterId = newCounter + 1;
+    copy[key].contentText = "";
+    copy[key].contentLabel = "";
+    copy[key].contentUrl = "";
     copy[key].icon = null;
     copy[key].contentType = contentType;
     copy[key].orderIndex = 1;
+    copy[key].indentation = 0;
 
     setItems(copy);
-    setCounter(count + 1);
+    setCounter(newCounter + 1);
   }
 
-
-  // Update state relating to sub-item depth (how far item is tabbed)
-  // @param {Number} idx Index of item
-  // @return {State}    Updated state, no actual return value
-  function updateSubItems(idx) {
-    // Handle random bug, will work if you keep clicking + Sub. Unknown reason.
-    if (idx === null) {
-      console.error("error ", idx, items);
-      return;
-    }
-
-    idx = parseInt(idx);
-    const copy = [...items];
-    const content = {text: "", label: "", url: ""};
-    const item = {};
-    const count = counter;
-
-    // Init empty item
-    item.content = content;
-    item.depth = copy[idx].depth + 1;
-    item.icon = null;
-    item.contentType = 1;
-    item.current = 0;
-    item.orderIndex = 1;
-
-    // Increment counter and insert child
-    copy.splice(idx + 1, 0, item); // Initialize empty
-    setItems(copy);
-    setCounter(count + 1);
-  }
-
-  // Update state by removing selected item
-  // @param {Number} idx Index of item
-  // @return {State} Updated state, no actual return value
-  function deleteSubItems(idx) {
-    if (idx === null) {
-      console.error("error ", idx, items);
-      return;
-    }
-    idx = parseInt(idx);
-
-    const toDeleteList = [...toDelete];
+  // Increase the indentation level of the item
+  function changeIndent(counterId, amount) {
+    let arrayIndex = -1;
     let copy = [...items];
-    let i;
-    let remove = 1;
-    const parent = copy[idx].depth;
-    const start = idx + 1;
-
-    // Delete children if any (if greater than parent sub-item depth, it is a child)
-    if (idx !== items.length - 1) {
-      for (i = start; i < items.length && parent < copy[i].depth; i++) {
-        toDeleteList.push(items[i].itemId);
-        remove++;
+    
+    // Find the index of this item
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].counterId === counterId) {
+        arrayIndex = i;
+        break;
       }
+    }
+
+    // If we can not find the index, then exit
+    if (arrayIndex === -1) {
+      console.error("Unable to find the item to indent");
+      return;
+    }
+
+    // Update the indentation leven
+    if (copy[arrayIndex].indentation + amount <= 4 && copy[arrayIndex].indentation + amount >= 0 ) {
+      copy[arrayIndex].indentation += amount;
+      setItems(copy);
+    }
+  }
+
+  // Deletes the selected item
+  function deleteItem(counterId) {
+    let arrayIndex = -1;
+    let copy = [...items];
+    
+    // Find the index of this item
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].counterId === counterId) {
+        arrayIndex = i;
+        break;
+      }
+    }
+
+    // If we can not find the index, then exit
+    if (arrayIndex === -1) {
+      console.error("Unable to find the item to indent");
+      return;
     }
 
     // Delete from state.items
     const count = counter;
-    copy = [...items];
-    copy.splice(idx, remove);	// Initialize empty
+    copy.splice(arrayIndex, 1);	// Initialize empty
     setItems(copy);
-    setCounter(count - remove);
-
-    // Set up Ids to be deleted
-    toDeleteList.push(items[idx].itemId);
-    setToDelete(toDeleteList);
+    setCounter(count - 1);
   }
 
   async function deleteCard() {
@@ -416,51 +408,6 @@ function EditCard(props) {
     return list;
   }
 
-  function generateInputs() {
-    const jsx = [];
-    let i = 0;
-    for (i = 0; i < counter; i++) {
-      const itemIdKey = items[i].itemId + " " + i;
-      const itemDepth = items[i].depth;
-      const contentType = items[i].contentType;
-      jsx.push(
-        <Row className="mb-2" key={itemIdKey + "a"}>
-          {items[i].indentation} {/* return indentation for SubItems*/}
-          <div className="col-1">
-            <IconDropdown key={itemIdKey + "b"} idx={i}
-              list={generateIcons(i, contentType)}
-              selectedIndex={getIconName(items[i].icon, contentType)}
-              handleClick={(id, idx) => updateIcon(id, idx)}
-              edit
-            />
-          </div>
-
-          <div className="input-group col-9">
-            <ItemInput
-              title="Text"
-              maxLength="1000"
-              handleInput={(e1, e2, e3) => handleInput(e1, e2, e3)}
-              index={i}
-              value={items[i]}
-              contentType={items[i].contentType}
-            />
-            {itemDepth < 6 &&	// set maximum depth to 6, can be increased if it fits the screen
-              <span>
-                <button className='btn btn-success btn-sm ml-2' key={itemIdKey + "c"} data-index={i} onClick={(e) => updateSubItems(e.target.getAttribute("data-index"))}>
-                  <i className='fas fa-plus' /> Sub
-                </button>
-                <button className='btn btn-danger btn-sm ml-2' key={itemIdKey + "d"} data-index={i} onClick={(e) => deleteSubItems(e.target.getAttribute("data-index"))}>
-                  <i className='fas fa-times' /> Remove
-                </button>
-              </span>
-            }
-          </div>
-        </Row>
-      );
-    }
-    return jsx;
-  }
-
   return loaded && role >= 3 ? (
     <div className='text-center mx-2'>
       <Button size="sm" variant="info" onClick={() => handleShow()}>
@@ -503,7 +450,50 @@ function EditCard(props) {
           </Row>
 
           <div className="font-weight-bold">Items</div>
-          {generateInputs()}
+
+          {/* Item Input Fields */}
+
+          {items.map((item, i) =>
+            <Row className="mb-2" key={item.counterId + "a"}>
+              <Indent indentLevel={item.indentation} />
+              <div className="col-1">
+                <IconDropdown key={item.counterId + "b"} idx={i}
+                  list={generateIcons(i, item.contentType)}
+                  selectedIndex={getIconName(item.icon, item.contentType)}
+                  handleClick={(id, idx) => updateIcon(id, idx)}
+                  edit
+                />
+              </div>
+              <div className="input-group col-9">
+                <ItemInput
+                  title="Text"
+                  maxLength="1000"
+                  handleInput={(e1, e2, e3) => handleInput(e1, e2, e3)}
+                  index={i}
+                  value={item}
+                  contentType={item.contentType}
+                />
+                <span>
+                  <button className='btn btn-success btn-sm ml-2' key={item.counterId + "c"} data-index={i}
+                    onClick={(e) => changeIndent(item.counterId, -1)}
+                  >
+                    <i className='fas fa-minus' />
+                  </button>
+                  <button className='btn btn-success btn-sm ml-2' key={item.counterId + "d"} data-index={i}
+                    onClick={(e) => changeIndent(item.counterId, 1)}
+                  >
+                    <i className='fas fa-plus' />
+                  </button>
+                  <button className='btn btn-danger btn-sm ml-2' key={item.counterId + "e"} data-index={i}
+                    onClick={(e) => deleteItem(item.counterId)}
+                  >
+                    <i className='fas fa-times' /> Remove
+                  </button>
+                </span>
+
+              </div>
+            </Row>
+          )}
 
           <Row>
             <Col className="mt-2">
