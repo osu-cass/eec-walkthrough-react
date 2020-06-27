@@ -3,7 +3,7 @@ import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {getProfile, logout} from "../../utilities/cookieAuth";
 import AddButton from "./AddButton";
 import ItemInput from "./ItemInput";
-import Dropdown from "./Dropdown";
+import IconDropdown from "./IconDropdown";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import "./CreateCard.css";
@@ -401,7 +401,7 @@ class CreateCard extends React.Component {
         <Row className="mb-2" key={itemIdKey + "a"}>
           {this.getDepth(i)} {/* return indentation for subpoints*/}
           <div className="col-1">
-            <Dropdown key={itemIdKey + "b"} idx={i}
+            <IconDropdown key={itemIdKey + "b"} idx={i}
               list={this.generateIcons(i, contentType)}
               handleClick={(id, idx) => this.updateIcon(id, idx)}
             />
