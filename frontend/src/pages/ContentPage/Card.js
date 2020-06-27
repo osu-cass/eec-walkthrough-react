@@ -2,8 +2,8 @@ import React, {useState, useEffect} from "react";
 import {Card as CardBS} from "react-bootstrap";
 import EditCard from "./EditCard";
 import ReviewCard from "./ReviewCard";
-import ThumbnailGallery from "./ThumbnailGallery";
 import BasicItems from "./BasicItems";
+import ThumbnailGallery from "./ThumbnailGallery";
 import PropTypes from "prop-types";
 import "./Card.css";
 
@@ -35,19 +35,16 @@ function Card(props) {
     // eslint-disable-next-line
   }, [props.card.items, props.card.tempItems]);
 
-
   // Get information about the current card type and the correct set of items
   useEffect(() => {
-    let itemInfo = getItemInfo(props.card.edited, false);
+    const itemInfo = getItemInfo(props.card.edited);
     setCardType(itemInfo.cardType);
     setItems(itemInfo.items);
   }, [props.card.items, props.card.tempItems, imageItems, imageTempItems]);
 
   // Returns information about the correct array of items to use
-  function getItemInfo(edited, unfiltered) {
+  function getItemInfo(edited) {
 
-    // Check if we want unfiltered results.
-    //
     // Check if we are in edit or view mode.
     //
     // In edit mode we always show the most recent version of the card.
@@ -58,41 +55,21 @@ function Card(props) {
     let newItems = [];
     let cardType = 0;
 
-    if (unfiltered) {
-      if (edited) {
-        if ((props.unfilteredCard.approved && props.unfilteredCard.tempCardType) || (!props.unfilteredCard.approved && props.unfilteredCard.cardType)) {
-          cardType = 1;
-          newItems = imageTempItems;
-        } else {
-          cardType = 0;
-          newItems = props.unfilteredCard.tempItems;
-        }
+    if (edited) {
+      if ((props.card.approved && props.card.tempCardType) || (!props.card.approved && props.card.cardType)) {
+        cardType = 1;
+        newItems = imageTempItems;
       } else {
-        if (props.unfilteredCard.cardType) {
-          cardType = 1;
-          newItems = imageItems;
-        } else {
-          cardType = 0;
-          newItems = props.unfilteredCard.items;
-        }
+        cardType = 0;
+        newItems = props.card.tempItems;
       }
     } else {
-      if (edited) {
-        if ((props.card.approved && props.card.tempCardType) || (!props.card.approved && props.card.cardType)) {
-          cardType = 1;
-          newItems = imageTempItems;
-        } else {
-          cardType = 0;
-          newItems = props.card.tempItems;
-        }
+      if (props.card.cardType) {
+        cardType = 1;
+        newItems = imageItems;
       } else {
-        if (props.card.cardType) {
-          cardType = 1;
-          newItems = imageItems;
-        } else {
-          cardType = 0;
-          newItems = props.card.items;
-        }
+        cardType = 0;
+        newItems = props.card.items;
       }
     }
 
@@ -118,15 +95,11 @@ function Card(props) {
               refresh={() => props.refresh()}
               iconSet={props.iconSet}
             />
-            {/*
             <ReviewCard
               refresh={() => props.refresh()}
               edited={props.card.edited}
-              cardItems={generateItems(false, true)}
-              cardTempItems={generateItems(true, true)}
               card={props.unfilteredCard}
             />
-            */}
           </div>
         ) : (
           null
