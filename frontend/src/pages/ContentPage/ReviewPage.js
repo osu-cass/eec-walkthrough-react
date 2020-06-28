@@ -68,7 +68,7 @@ function ReviewPage(props) {
 
   }
 
-  return role >= 3 && (!props.page.approved || props.page.tempPageId) ? (
+  return role >= 3 && props.mode && (!props.page.approved || props.page.tempPageId) ? (
     <div className='text-center mx-2'>
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
@@ -168,6 +168,7 @@ function ReviewPage(props) {
 export default ReviewPage;
 
 ReviewPage.propTypes = {
+  mode: PropTypes.number,
   page: PropTypes.object,
   refresh: PropTypes.func
 };

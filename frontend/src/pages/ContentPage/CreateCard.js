@@ -6,8 +6,6 @@ import ItemInput from "./ItemInput";
 import IconDropdown from "./IconDropdown";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
-import "./CreateCard.css";
-import "./ContentPage.css";
 
 // Create card button and modal
 class CreateCard extends React.Component {
