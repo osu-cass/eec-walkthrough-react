@@ -472,9 +472,9 @@ function EditCard(props) {
       linkIcons.map((type) => {
         // filter out icons based on the content type
         jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
         </div>);
-        const jsxIcon = <i className={`fas fa-${type.typeName}`} />;
+        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} />;
         values.push([type.iconType, jsxIcon]);
         return null;
       });
@@ -482,9 +482,9 @@ function EditCard(props) {
       imageIcons.map((type) => {
         // filter out icons based on the content type
         jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
         </div>);
-        const jsxIcon = <i className={`fas fa-${type.typeName}`} />;
+        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} />;
         values.push([type.iconType, jsxIcon]);
         return null;
       });
@@ -492,9 +492,9 @@ function EditCard(props) {
       basicIcons.map((type) => {
         // filter out icons based on the content type
         jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
         </div>);
-        const jsxIcon = <i className={`fas fa-${type.typeName}`} />;
+        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} />;
         values.push([type.iconType, jsxIcon]);
         return null;
       });
@@ -507,7 +507,7 @@ function EditCard(props) {
     <div className='text-center mx-2'>
       <Button size="sm" variant="info" onClick={() => handleShow()}>
         <i
-          className='fas fa-edit text-white mr-2'
+          className='fas fa-fw fa-edit text-white mr-2'
           style={{transform: "scale(1.5)"}}></i>
         <span className="text-white">Edit Card</span>
       </Button>
@@ -557,35 +557,35 @@ function EditCard(props) {
                     key={item.counterId + "g"}
                     data-index={i}
                   >
-                    <i className='fas fa-times' />
+                    <i className='fas fa-fw fa-times' />
                   </button>
                   <button className={`btn btn-success btn-sm ml-2 ${item.indentation === 0 ? "disabled" : ""}`}
                     onClick={(e) => changeIndent(item.counterId, -1)}
                     key={item.counterId + "c"}
                     data-index={i}
                   >
-                    <i className='fas fa-minus' />
+                    <i className='fas fa-fw fa-minus' />
                   </button>
                   <button className={`btn btn-success btn-sm ml-2 ${item.maxIndent <= item.indentation || item.indentation === 4 ? "disabled" : ""}`}
                     onClick={(e) => changeIndent(item.counterId, 1)}
                     key={item.counterId + "d"}
                     data-index={i}
                   >
-                    <i className='fas fa-plus' />
+                    <i className='fas fa-fw fa-plus' />
                   </button>
                   <button className={`btn btn-primary btn-sm ml-2 ${i ? "" : "disabled"}`}
                     onClick={(e) => changeOrder(item.counterId, true)}
                     key={item.counterId + "e"}
                     data-index={i}
                   >
-                    <i className='fas fa-arrow-up' />
+                    <i className='fas fa-fw fa-arrow-up' />
                   </button>
                   <button className={`btn btn-primary btn-sm ml-2 ${i + 1 < items.length ? "" : "disabled"}`}
                     onClick={(e) => changeOrder(item.counterId, false)}
                     key={item.counterId + "f"}
                     data-index={i}
                   >
-                    <i className='fas fa-arrow-down' />
+                    <i className='fas fa-fw fa-arrow-down' />
                   </button>
                 </span>
                 <Indent indentLevel={item.indentation} />
