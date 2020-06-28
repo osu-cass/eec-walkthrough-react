@@ -39,7 +39,7 @@ function BulletPoint (props) {
         <div className="row mx-auto">
           <div className="icon-td pb-2">
             <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `} />
+            <i className={`fas fa-fw fa-${props.icon} mr-2 ${styleText(props.icon)} `} />
           </div>
           <div className="content-td pb-2 col">
             <span className={styleText(props.icon) || isBold(props.bold)}>
@@ -55,7 +55,7 @@ function BulletPoint (props) {
         <div className="row mx-auto">
           <div className="icon-td pb-2">
             <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `} />
+            <i className={`fas fa-fw fa-${props.icon} mr-2 ${styleText(props.icon)} `} />
           </div>
           <div className="content-td pb-2 col">
             <div className="pb-1">
@@ -75,7 +75,7 @@ function BulletPoint (props) {
         <div className="row mx-auto">
           <div className="icon-td pb-2">
             <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)}`} />
+            <i className={`fas fa-fw fa-${props.icon} mr-2 ${styleText(props.icon)}`} />
           </div>
           <div className="content-td pb-2 col">
             <div>
