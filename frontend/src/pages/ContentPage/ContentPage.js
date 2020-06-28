@@ -104,16 +104,12 @@ function ContentPage(props) {
                 mode={mode}
                 iconSet={iconSet}
               />
-              {/*
               <CreateCard
-                title={`Create ${header.title} Card`}
-                icons={iconSet}
-                numCards={header.cards.length}
                 headerId={header.headerId}
                 refresh={() => fetchData()}
                 mode={mode}
+                iconSet={iconSet}
               />
-              */}
             </Fragment>
           );
         })}

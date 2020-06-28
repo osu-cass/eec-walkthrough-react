@@ -8,7 +8,6 @@
 .hide {
   z-index: 999;
   transform: scale(1, 0);
-  /*transition: transform 0.4s;*/
   position: absolute;
 }
 

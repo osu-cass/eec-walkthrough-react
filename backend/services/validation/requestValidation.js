@@ -159,6 +159,7 @@ const postCardVal = Object.freeze({
     check("cardType").isInt({min: 0, max: 65535}),
     check("orderIndex").isInt({min: 0, max: 4294967295}),
     check("title").isLength({min: 1, max: 1000}),
+    check("items").isArray({min: 1})
   ]
 });
 exports.postCardVal = postCardVal;
@@ -171,7 +172,7 @@ const patchCardVal = Object.freeze({
     check("orderIndex").isInt({min: 0, max: 4294967295}),
     check("title").isLength({min: 1, max: 1000}),
     check("items").optional()
-      .isArray()
+      .isArray({min: 1})
   ]
 });
 exports.patchCardVal = patchCardVal;
