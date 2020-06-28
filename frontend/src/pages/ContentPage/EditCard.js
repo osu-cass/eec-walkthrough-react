@@ -214,24 +214,14 @@ function EditCard(props) {
       // if this is not the top item on the card, swap it with the item above it
       if (arrayIndex !== 0) {
         [copy[arrayIndex], copy[arrayIndex - 1]] = [copy[arrayIndex - 1], copy[arrayIndex]];
-        let tempIndentation = copy[arrayIndex].indentation;
-        copy[arrayIndex].indentation = copy[arrayIndex - 1].indentation;
-        copy[arrayIndex - 1].indentation = tempIndentation;
-        let tempMaxIndent = copy[arrayIndex].maxIndent;
-        copy[arrayIndex].maxIndent = copy[arrayIndex - 1].maxIndent;
-        copy[arrayIndex - 1].maxIndent = tempMaxIndent;
+        copy = scanIndentation(copy);
         setItems(copy);
       }
     } else {
       // if this is not the bottom item on the card, swap it with the item below it
       if (arrayIndex + 1 < copy.length) {
         [copy[arrayIndex], copy[arrayIndex + 1]] = [copy[arrayIndex + 1], copy[arrayIndex]];
-        let tempIndentation = copy[arrayIndex].indentation;
-        copy[arrayIndex].indentation = copy[arrayIndex + 1].indentation;
-        copy[arrayIndex + 1].indentation = tempIndentation;
-        let tempMaxIndent = copy[arrayIndex].maxIndent;
-        copy[arrayIndex].maxIndent = copy[arrayIndex + 1].maxIndent;
-        copy[arrayIndex + 1].maxIndent = tempMaxIndent;
+        copy = scanIndentation(copy);
         setItems(copy);
       }
     }
