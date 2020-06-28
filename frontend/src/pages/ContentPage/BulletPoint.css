@@ -28,6 +28,12 @@
   color: #E81224 !important;
 }
 
+.icon-td, .content-td {
+  vertical-align: top !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 .opportunity-desc {
   display: block;
   margin-left: -0.30rem;
