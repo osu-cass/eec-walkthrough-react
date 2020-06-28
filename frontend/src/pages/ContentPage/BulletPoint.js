@@ -33,44 +33,54 @@ function BulletPoint (props) {
 
   return (
 
-    <div key={props.id} className={`mb-2`}>
+    <Fragment>
 
       {getContentType(props.text, props.label, props.url) === 1 ? (
-        <Fragment>
-          <Indent indentLevel={props.indentation} />
-          <Fragment>
-            <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
+        <div className="row mx-auto">
+          <div className="icon-td pb-2">
+            <Indent indentLevel={props.indentation} />
+            <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `} />
+          </div>
+          <div className="content-td pb-2 col">
             <span className={styleText(props.icon) || isBold(props.bold)}>
               {props.text}
             </span>
-          </Fragment>
-        </Fragment>
+          </div>
+        </div>
       ) : (
         null
       )}
 
       {getContentType(props.text, props.label, props.url) === 2 ? (
-        <Fragment>
-          <Indent indentLevel={props.indentation} />
-          <Fragment>
-            <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `}></i>
-            <span className={styleText(props.icon) || isBold(props.bold)}>
-              {props.text}
-            </span>
-            {props.label}
+        <div className="row mx-auto">
+          <div className="icon-td pb-2">
+            <Indent indentLevel={props.indentation} />
+            <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)} `} />
+          </div>
+          <div className="content-td pb-2 col">
+            <div className="pb-1">
+              <span className={styleText(props.icon) || isBold(props.bold)}>
+                {props.text}
+              </span>
+              {props.label}
+            </div>
             <Image url={props.url} title={props.label} thumbnail={false} header={false}/>
-          </Fragment>
-        </Fragment>
+          </div>
+        </div>
       ) : (
         null
       )}
 
       {getContentType(props.text, props.label, props.url) === 3 ? (
-        <Fragment>
-          <Indent indentLevel={props.indentation} />
-          <Fragment>
+        <div className="row mx-auto">
+          <div className="icon-td pb-2">
+            <Indent indentLevel={props.indentation} />
+            <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)}`} />
+          </div>
+          <div className="content-td pb-2 col">
             <div>
-              <i className={`fas fa-${props.icon} mr-2 ${styleText(props.icon)}`} /><a href={props.url} className="text-primary"> {props.label} </a> <br></br>
+              <a href={props.url} className="text-primary"> {props.label} </a>
+              <br/>
               {props.text}
             </div>
             {/* External links have additional content */}
@@ -93,13 +103,13 @@ function BulletPoint (props) {
             ) : (
               null
             )}
-          </Fragment>
-        </Fragment>
+          </div>
+        </div>
       ) : (
         null
       )}
 
-    </div>
+    </Fragment>
   );
 
 }
