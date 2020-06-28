@@ -162,7 +162,7 @@ function EditPage(props) {
     updatePage();
   }
 
-  return props.role >= 3 ? (
+  return props.role >= 3 && props.mode ? (
     <div className="text-center mx-2">
       <LoadingOverlay loading={showLoad} />
       <Button size="sm" variant="info" onClick={() => handleShowModal()}>
@@ -277,6 +277,7 @@ export default EditPage;
 EditPage.propTypes = {
   page: PropTypes.object,
   role: PropTypes.number,
+  mode: PropTypes.number,
   refresh: PropTypes.func,
   handlePageEdit: PropTypes.any
 };

@@ -51,11 +51,13 @@ function PageDescription(props) {
             <EditPage
               page={props.page}
               role={props.role}
+              mode={props.mode}
               refresh={() => props.refresh()}
               handlePageEdit={props.handlePageEdit}
             />
             <ReviewPage
               page={props.page}
+              mode={props.mode}
               refresh={() => props.refresh()}
             />
             <ChangeMode role={props.role}
