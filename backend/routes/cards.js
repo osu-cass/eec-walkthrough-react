@@ -79,6 +79,7 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
     const cardType = req.body.cardType;
     const orderIndex = req.body.orderIndex;
     const title = req.body.title;
+    const items = req.body.items;
     const userId = req.auth.userId;
 
     // make sure the user is allowed to perform this action
@@ -88,7 +89,7 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
     }
 
     // create a card
-    const results = await createCard(headerId, cardType, orderIndex, title, userId);
+    const results = await createCard(headerId, cardType, orderIndex, title, items, userId);
 
     if (results.insertId) {
       res.status(201).send(results);

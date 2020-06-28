@@ -42,9 +42,11 @@ exports.getCard = getCard;
 
 
 // create a card
-async function createCard(headerId, cardType, orderIndex, title, userId) {
+async function createCard(headerId, cardType, orderIndex, title, items, userId) {
 
   try {
+
+    const sqlArray = [];
 
     // make sure the card does not already exist
     let sql = "SELECT * " +
@@ -70,10 +72,32 @@ async function createCard(headerId, cardType, orderIndex, title, userId) {
     // create the new card
     sql = "INSERT INTO Cards (headerId, cardType, orderIndex, title, userId, approved) " +
     "VALUES (?, ?, ?, ?, ?, 0);";
+
     results = await pool.query(sql, [headerId, cardType, orderIndex, title, userId]);
+    const cardId = results[0].insertId;
+
+    // create the new items
+    sql = "INSERT INTO Items (cardId, indentation, orderIndex, iconType, " +
+    "contentText, contentUrl, contentLabel, approved) VALUES ";
+
+    // expand the sql string and array based on the number of items
+    items.forEach((currentValue) => {
+      sql += "(?, ?, ?, ?, ?, ?, ?, 0),";
+      sqlArray.push(cardId);
+      sqlArray.push(currentValue.indentation);
+      sqlArray.push(currentValue.orderIndex);
+      sqlArray.push(currentValue.iconType);
+      sqlArray.push(currentValue.contentText);
+      sqlArray.push(currentValue.contentUrl);
+      sqlArray.push(currentValue.contentLabel);
+    });
+
+    // replace the final comma with a semicolon
+    sql = sql.replace(/.$/, ";");
+    results = await pool.query(sql, sqlArray);
 
     const finalResults = {
-      insertId: results[0].insertId
+      insertId: cardId
     };
 
     return finalResults;
@@ -160,7 +184,6 @@ exports.deleteCard = deleteCard;
 async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
 
   try {
-    const sqlArray = [];
 
     // make sure that the card exists
     let sql = "SELECT * " +
@@ -183,52 +206,40 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
 
     if (results[0].length) {
 
-      sql = "BEGIN; " +
-      "UPDATE Temp_Cards " +
+      sql = "UPDATE Temp_Cards " +
       "SET tempCardType = ?, tempOrderIndex = ?, tempTitle = ?, tempUserId = ? " +
       "WHERE tempCardId = ?;";
-      sqlArray.push(cardType);
-      sqlArray.push(orderIndex);
-      sqlArray.push(title);
-      sqlArray.push(userId);
-      sqlArray.push(cardId);
+      results = await pool.query(sql, [cardType, orderIndex, title, userId, cardId]);
 
     } else if (approved === 0) {
 
-      sql = "BEGIN; " +
-      "UPDATE Cards " +
+      sql = "UPDATE Cards " +
       "SET cardType = ?, orderIndex = ?, title = ?, userId = ? " +
       "WHERE cardId = ?;";
-      sqlArray.push(cardType);
-      sqlArray.push(orderIndex);
-      sqlArray.push(title);
-      sqlArray.push(userId);
-      sqlArray.push(cardId);
+      results = await pool.query(sql, [cardType, orderIndex, title, userId, cardId]);
 
     } else {
 
-      sql = "BEGIN; " +
-      "INSERT INTO Temp_Cards (tempCardId, tempCardType, " +
+      sql = "INSERT INTO Temp_Cards (tempCardId, tempCardType, " +
       "tempOrderIndex, tempTitle, tempUserId) " +
       "VALUES (?, ?, ?, ?, ?);";
-      sqlArray.push(cardId);
-      sqlArray.push(cardType);
-      sqlArray.push(orderIndex);
-      sqlArray.push(title);
-      sqlArray.push(userId);
+      results = await pool.query(sql, [cardId, cardType, orderIndex, title, userId]);
 
     }
 
     // see if we need to update items
     if (typeof items !== "undefined") {
       if (items.length) {
+
+        const sqlArray = [];
+
         // delete all of the old items
-        sql += "DELETE FROM Items " +
+        sql = "DELETE FROM Items " +
         "WHERE cardId = ? AND approved = 0;";
-        sqlArray.push(cardId);
+        results = await pool.query(sql, cardId);
 
         // create all of the new items
-        sql += "INSERT INTO Items (cardId, indentation, orderIndex, iconType, " +
+        sql = "INSERT INTO Items (cardId, indentation, orderIndex, iconType, " +
         "contentText, contentUrl, contentLabel, approved) VALUES ";
 
         // expand the sql string and array based on the number of items
@@ -245,14 +256,11 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
 
         // replace the final comma with a semicolon
         sql = sql.replace(/.$/, ";");
+
+        results = await pool.query(sql, sqlArray);
+
       }
     }
-
-    // commit our query
-    sql += "COMMIT;";
-
-    // perform the update query
-    results = await pool.query(sql, sqlArray);
 
     const finalResults = {
       cardId: cardId

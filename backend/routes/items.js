@@ -62,6 +62,7 @@ app.get("/:itemId", getUserID, getItemVal.validation, async (req, res) => {
 });
 */
 
+/* DISABLE UNUSED ENDPOINT
 // create an item
 app.post("/", requireAuth, postItemVal.validation, async (req, res) => {
 
@@ -115,6 +116,7 @@ app.post("/", requireAuth, postItemVal.validation, async (req, res) => {
   }
 
 });
+*/
 
 /* DISABLE UNUSED ENDPOINT
 // delete an item

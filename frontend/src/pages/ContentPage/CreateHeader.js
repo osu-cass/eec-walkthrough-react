@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import {logout} from "../../utilities/cookieAuth";
 import Error from "../../components/General/Error";
 import "./CreateHeader.css";
-import "./ContentPage.css";
 
 // Create header button and modal
 class CreateHeader extends React.Component {

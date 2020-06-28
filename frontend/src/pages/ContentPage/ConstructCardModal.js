@@ -22,7 +22,16 @@ function ConstructCardModal(props) {
   const [imageIcons, setImageIcons] = useState([]);
   const [linkIcons, setLinkIcons] = useState([]);
 
+  // setup card data
   useEffect(() => {
+    // Sort icons into three categories, general items, images, and links
+    sortIcons(props.iconSet);
+
+    // If we are a new card, just leave card data blank
+    if (!props.edit) {
+      return;
+    }
+
     // Get data from the published or edited card
     let newItems = [];
     let itemData = {};
@@ -61,8 +70,6 @@ function ConstructCardModal(props) {
       setTitle(props.card.title);
       setFormat(props.card.cardType);
     }
-    // Sort icons into three categories, general items, images, and links
-    sortIcons(props.iconSet);
     // eslint-disable-next-line
   }, []);
 
@@ -217,18 +224,75 @@ function ConstructCardModal(props) {
   }
 
   async function handleCreate() {
-    // Place holder
-  }
-
-   // Submit the current card
-   async function handleEdit() {
     // Check for empty inputs
     if (checkInputs()) {
       return;
     }
 
     // Get the card format from the select
-    const formatSelect = document.getElementById("select-edit-card-format");
+    const formatSelect = document.getElementById("select-new-card-format");
+    const newCardFormat = formatSelect.options[formatSelect.selectedIndex].value;
+
+    // Update the order index of each item
+    const copy = items;
+    for (let i = 0; i < copy.length; i++) {
+      copy[i].orderIndex = i;
+    }
+
+    // Prepare data for new card
+    let cardData = {
+      headerId: props.headerId,
+      cardType: newCardFormat,
+      title: title,
+      orderIndex: 10, // place holder
+      items: copy
+    };
+
+    // Create the new card
+    const results = await fetch(`/cards`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(cardData)
+    });
+
+    if (results.ok) {
+
+      // reset error messages
+      setErrorMessage("");
+
+      // close the modal
+      props.handleClose();
+
+      // refresh the page
+      props.refresh();
+
+    } else {
+
+      // there was an error updating the card
+      const obj = await results.json();
+
+      // if the user is performing an unauthorized action
+      // log them out and return them to the homepage
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+    }
+  }
+
+  // Submit the current card
+  async function handleEdit() {
+    // Check for empty inputs
+    if (checkInputs()) {
+      return;
+    }
+
+    // Get the card format from the select
+    const formatSelect = document.getElementById("select-new-card-format");
     const newCardFormat = formatSelect.options[formatSelect.selectedIndex].value;
 
     // Update the order index of each item
@@ -511,7 +575,7 @@ function ConstructCardModal(props) {
               <Form.Group controlId="formTitle">
                 <Form.Label className="font-weight-bold">Card Format</Form.Label>
                 <select className="form-control"
-                  id="select-edit-card-format"
+                  id="select-new-card-format"
                   defaultValue={format}
                 >
                   <option value="0">Default</option>
@@ -635,6 +699,7 @@ ConstructCardModal.propTypes = {
   show: PropTypes.bool,
   card: PropTypes.object,
   refresh: PropTypes.func,
-  iconSet: PropTypes.array
+  iconSet: PropTypes.array,
+  headerId: PropTypes.number
 };
 
