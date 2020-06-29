@@ -31,7 +31,7 @@ function ContentPage(props) {
     // eslint-disable-next-line
   }, [props.pageId]);
 
-  // function that sets the current page mode
+  // sets the current page mode (view / edit)
   function handlePageMode(newMode) {
     setMode(newMode);
   }
@@ -72,6 +72,11 @@ function ContentPage(props) {
     setLoaded(true);
   }
 
+  // Moves the specified header up or down one in relation to other headers
+  function handleMoveHeader(id, up) {
+    console.log("Move header", up);
+  }
+
   if (!errorPage) {
     return loaded ? ( // Render content when data loaded from backend
       <Container className="my-4">
@@ -99,6 +104,7 @@ function ContentPage(props) {
             <Fragment key={i}>
               <Header
                 header={header}
+                handleMoveHeader={(id, up) => handleMoveHeader(id, up)}
                 refresh={() => fetchData()}
                 role={role}
                 mode={mode}
