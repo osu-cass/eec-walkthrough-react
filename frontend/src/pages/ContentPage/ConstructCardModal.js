@@ -600,28 +600,28 @@ function ConstructCardModal(props) {
                   >
                     <i className='fas fa-fw fa-times' />
                   </button>
-                  <button className={`btn btn-success btn-sm ml-2 ${item.indentation === 0 ? "disabled" : ""}`}
+                  <button className={`btn btn-primary btn-sm ml-2 ${item.indentation === 0 ? "disabled" : ""}`}
                     onClick={(e) => changeIndent(item.counterId, -1)}
                     key={item.counterId + "c"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-minus' />
                   </button>
-                  <button className={`btn btn-success btn-sm ml-2 ${item.maxIndent <= item.indentation || item.indentation === 4 ? "disabled" : ""}`}
+                  <button className={`btn btn-primary btn-sm ml-2 ${item.maxIndent <= item.indentation || item.indentation === 4 ? "disabled" : ""}`}
                     onClick={(e) => changeIndent(item.counterId, 1)}
                     key={item.counterId + "d"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-plus' />
                   </button>
-                  <button className={`btn btn-primary btn-sm ml-2 ${i ? "" : "disabled"}`}
+                  <button className={`btn btn-success btn-sm ml-2 ${i ? "" : "disabled"}`}
                     onClick={(e) => changeOrder(item.counterId, true)}
                     key={item.counterId + "e"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-arrow-up' />
                   </button>
-                  <button className={`btn btn-primary btn-sm ml-2 ${i + 1 < items.length ? "" : "disabled"}`}
+                  <button className={`btn btn-success btn-sm ml-2 ${i + 1 < items.length ? "" : "disabled"}`}
                     onClick={(e) => changeOrder(item.counterId, false)}
                     key={item.counterId + "f"}
                     data-index={i}
