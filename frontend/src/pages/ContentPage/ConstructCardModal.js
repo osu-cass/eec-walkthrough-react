@@ -54,7 +54,6 @@ function ConstructCardModal(props) {
       itemData.iconType = item.iconType;
       itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
       itemData.current = 1;
-      itemData.orderIndex = newCounter + 1;
       newItems.push(itemData);
       newCounter++;
     });
@@ -130,7 +129,6 @@ function ConstructCardModal(props) {
     copy[key].contentUrl = "";
     copy[key].iconType = null;
     copy[key].contentType = contentType;
-    copy[key].orderIndex = 1;
     copy[key].indentation = 0;
 
     // Make sure the indentation is up to date
@@ -244,7 +242,6 @@ function ConstructCardModal(props) {
       headerId: props.headerId,
       cardType: newCardFormat,
       title: title,
-      orderIndex: 10, // place holder
       items: copy
     };
 
@@ -295,7 +292,7 @@ function ConstructCardModal(props) {
     const formatSelect = document.getElementById("select-new-card-format");
     const newCardFormat = formatSelect.options[formatSelect.selectedIndex].value;
 
-    // Update the order index of each item
+    // Set the order index of each item
     const copy = items;
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
@@ -303,7 +300,6 @@ function ConstructCardModal(props) {
 
     // Prepare data for new card
     let cardData = {
-      orderIndex: props.card.orderIndex,
       cardType: newCardFormat,
       title: title,
       items: copy

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import PropTypes from "prop-types";
 import EditHeader from "./EditHeader";
 import ReviewHeader from "./ReviewHeader";
@@ -166,16 +166,16 @@ function Header(props) {
 
       // Mark the card as edited or published.
       // If the card in current view mode is empty, hide it.
-      if ((!props.mode && itemExists) || 
-          (props.mode && !cardView && itemExists)) {
+      if ((props.mode !== 1 && itemExists) || 
+          (props.mode === 1 && !cardView && itemExists)) {
         card.edited = false;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
-      } else if (props.mode && tempItemExists) {
+      } else if (props.mode === 1 && tempItemExists) {
         card.edited = true;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
-      } else if (props.mode && !props.header.cards[i].tempItems.length && !props.header.cards[i].items.length) {
+      } else if (props.mode === 1 && !props.header.cards[i].tempItems.length && !props.header.cards[i].items.length) {
         card.invalid = true;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
@@ -185,7 +185,7 @@ function Header(props) {
     setUnfilteredCards(allUnfilteredCards);
   }
 
-  return !props.header.approved && !props.mode ? (
+  return !props.header.approved && props.mode !== 1 ? (
     null
   ) : (
     <div>
@@ -209,38 +209,54 @@ function Header(props) {
 
             <div className="row mx-2">
               <div className="row">
-                <FilterBar
-                  updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                  resetIcons={() => resetIcons()}
-                  filterIcons={filterIcons}
-                  tempFilterIcons={tempFilterIcons}
-                  filterShow={filterShow}
-                  iconSet={props.iconSet}
-                  mode={props.mode}
-                />
-                <OrderObjectButton
-                  up={true}
-                  header={true}
-                  objectId={props.header.headerId}
-                  handleMove={(id, up) => props.handleMoveHeader(id, up)}
-                  top={props.top}
-                />
-                <OrderObjectButton
-                  up={false}
-                  header={true}
-                  objectId={props.header.headerId}
-                  handleMove={(id, up) => props.handleMoveHeader(id, up)}
-                  bottom={props.bottom}
-                />
-                <EditHeader
-                  header={props.header}
-                  role={props.role}
-                  refresh={() => props.refresh()}
-                />
-                <ReviewHeader
-                  header={props.header}
-                  refresh={() => props.refresh()}
-                />
+                {props.mode === 1 ? (
+                  <Fragment>
+                    <FilterBar
+                      updateIcon={(e1, e2) => updateIcon(e1, e2)}
+                      resetIcons={() => resetIcons()}
+                      filterIcons={filterIcons}
+                      tempFilterIcons={tempFilterIcons}
+                      filterShow={filterShow}
+                      iconSet={props.iconSet}
+                      mode={props.mode}
+                    />
+                    <EditHeader
+                      header={props.header}
+                      role={props.role}
+                      refresh={() => props.refresh()}
+                    />
+                    <ReviewHeader
+                      header={props.header}
+                      refresh={() => props.refresh()}
+                    />
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <FilterBar
+                      updateIcon={(e1, e2) => updateIcon(e1, e2)}
+                      resetIcons={() => resetIcons()}
+                      filterIcons={filterIcons}
+                      tempFilterIcons={tempFilterIcons}
+                      filterShow={filterShow}
+                      iconSet={props.iconSet}
+                      mode={props.mode}
+                    />
+                    <OrderObjectButton
+                      up={true}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
+                      top={props.top}
+                    />
+                    <OrderObjectButton
+                      up={false}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
+                      bottom={props.bottom}
+                    />
+                  </Fragment>
+                )}
               </div>
             </div>
           </div>
@@ -256,6 +272,8 @@ function Header(props) {
                 mode={props.mode}
                 iconSet={props.iconSet}
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
+                top={i === 0 ? (true) : (false)}
+                bottom={i >= cards.length - 1 ? (true) : (false)}
               />
             )}
           </div>

@@ -68,7 +68,7 @@ function ReviewPage(props) {
 
   }
 
-  return role >= 3 && props.mode && (!props.page.approved || props.page.tempPageId) ? (
+  return role >= 3 && props.mode === 1 && (!props.page.approved || props.page.tempPageId) ? (
     <div className='text-center mx-2'>
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>

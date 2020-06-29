@@ -21,7 +21,7 @@ function CreateCard(props) {
     setShow(true);
   }
 
-  return role >= 3 ? (
+  return role >= 3 && props.mode === 1 ? (
     <div className="text-center mt-3 mb-2">
       <Button variant="info" onClick={() => handleShow()}>
         <i
@@ -48,5 +48,6 @@ export default CreateCard;
 CreateCard.propTypes = {
   refresh: PropTypes.func,
   iconSet: PropTypes.array,
-  headerId: PropTypes.number
+  headerId: PropTypes.number,
+  mode: PropTypes.number
 };
