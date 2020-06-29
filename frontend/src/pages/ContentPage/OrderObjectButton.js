@@ -26,6 +26,6 @@ OrderObjectButton.propTypes = {
   header: PropTypes.bool,
   objectId: PropTypes.number,
   handleMove: PropTypes.func,
-  top: PropTypes.number,
-  bottom: PropTypes.number
+  top: PropTypes.bool,
+  bottom: PropTypes.bool
 };

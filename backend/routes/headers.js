@@ -77,7 +77,6 @@ app.post("/", requireAuth, postHeaderVal.validation, async (req, res) => {
     }
 
     const pageId = req.body.pageId;
-    const orderIndex = req.body.orderIndex;
     const title = req.body.title;
     const userId = req.auth.userId;
 
@@ -88,7 +87,7 @@ app.post("/", requireAuth, postHeaderVal.validation, async (req, res) => {
     }
 
     // create a header
-    const results = await createHeader(pageId, orderIndex, title, userId);
+    const results = await createHeader(pageId, title, userId);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -164,7 +163,6 @@ app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res)
     console.log("Update a header");
 
     const headerId = req.params.headerId;
-    const orderIndex = req.body.orderIndex;
     const title = req.body.title;
     const userId = req.auth.userId;
 
@@ -182,7 +180,7 @@ app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res)
     }
 
     // update a header
-    const results = await updateHeader(headerId, orderIndex, title, userId);
+    const results = await updateHeader(headerId, title, userId);
 
     if (results.headerId >= 0) {
       res.status(200).send(results);
