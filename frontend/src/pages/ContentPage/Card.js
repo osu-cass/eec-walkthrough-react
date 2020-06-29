@@ -88,7 +88,6 @@ function Card(props) {
     null
   ) : (
     <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" }`}>
-                                {console.log(props.top)}
       <CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
         {props.mode && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
         {props.mode ? (
@@ -97,15 +96,14 @@ function Card(props) {
               up={true}
               header={false}
               objectId={props.card.cardId}
-              handleMove={(id, up) => props.handleMoveCard(id, up)}
+              handleMove={(id, up) => props.handleMoveCard(id, props.card.headerId, up)}
               top={props.top}
             />
-                          {console.log(props.top)}
             <OrderObjectButton
               up={false}
               header={false}
               objectId={props.card.cardId}
-              handleMove={(id, up) => props.handleMoveCard(id, up)}
+              handleMove={(id, up) => props.handleMoveCard(id, props.card.headerId, up)}
               bottom={props.bottom}
             />
             <EditCard

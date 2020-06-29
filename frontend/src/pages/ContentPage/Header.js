@@ -85,7 +85,7 @@ function Header(props) {
       }
     }
     setTempFilterIcons(allIcons);
-  }, [props.header.cards]);
+  }, [props.header]);
 
   // Gets all of the possible icons and set the default viewing state for them
   useEffect(() => {
@@ -101,7 +101,7 @@ function Header(props) {
   useEffect(() => {
     updateCardState(filterShow);
     // eslint-disable-next-line
-  }, [props.mode, filterShow]);
+  }, [props.mode, filterShow, props.header, props.cardState]);
 
   // Toggles the viewing state for an icon type.
 
@@ -181,40 +181,6 @@ function Header(props) {
     setUnfilteredCards(allUnfilteredCards);
   }
 
-  // Moves the specified header up or down one in relation to other headers
-  function handleMoveCard(id, up) {
-    let arrayIndex = -1;
-    let copy = [...cards];
-    
-    // Find the index of this card
-    for (let i = 0; i < copy.length; i++) {
-      if (copy[i].cardId === id) {
-        arrayIndex = i;
-        break;
-      }
-    }
-
-    // If we cannot find the index, then return
-    if (arrayIndex === -1) {
-      return;
-    }
-
-    // Check if we are trying to move up or down the card
-    if (up) {
-      // if this is not the top card of this header, swap it with the item above it
-      if (arrayIndex !== 0) {
-        [copy[arrayIndex], copy[arrayIndex - 1]] = [copy[arrayIndex - 1], copy[arrayIndex]];
-        setCards(copy);
-      }
-    } else {
-      // if this is not the bottom card of this header, swap it with the card below it
-      if (arrayIndex + 1 < copy.length) {
-        [copy[arrayIndex], copy[arrayIndex + 1]] = [copy[arrayIndex + 1], copy[arrayIndex]];
-        setCards(copy);
-      }
-    }
-  }
-
   return !props.header.approved && !props.mode ? (
     null
   ) : (
@@ -285,7 +251,7 @@ function Header(props) {
                 refresh={() => props.refresh()}
                 mode={props.mode}
                 iconSet={props.iconSet}
-                handleMoveCard={(id, up) => handleMoveCard(id, up)}
+                handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
               />
             )}
           </div>
@@ -328,10 +294,10 @@ function Header(props) {
                 headerId={props.header.headerId}
                 unfilteredCard={unfilteredCards[i]}
                 card={card}
-                handleMoveCard={(id, up) => handleMoveCard(id, up)}
                 refresh={() => props.refresh()}
                 mode={props.mode}
                 iconSet={props.iconSet}
+                handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
               />
             )}
           </div>
@@ -347,10 +313,12 @@ export default Header;
 Header.propTypes = {
   header: PropTypes.object,
   handleMoveHeader: PropTypes.func,
+  handleMoveCard: PropTypes.func,
   refresh: PropTypes.func,
   role: PropTypes.number,
   mode: PropTypes.number,
   iconSet: PropTypes.any,
   top: PropTypes.bool,
-  bottom: PropTypes.bool
+  bottom: PropTypes.bool,
+  cardState: PropTypes.number
 };
