@@ -32,7 +32,7 @@ function FilterBar(props) {
     setTempIconNames(tempNames);
   }, [props.filterIcons, props.tempFilterIcons, props.iconSet]);
 
-  return props.mode ? (
+  return props.mode === 1 ? (
     <div className="m-2 icons row">
       {props.tempFilterIcons.map((obj, i) => {
         return (

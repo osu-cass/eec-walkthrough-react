@@ -145,7 +145,7 @@ function ContentPage(props) {
     if (up) {
       // if this is not the top card of this header, swap it with the card above it
       if (cardIndex !== 0) {
-        let tempCard = copy[headerIndex].cards[cardIndex];
+        const tempCard = copy[headerIndex].cards[cardIndex];
         copy[headerIndex].cards[cardIndex] = copy[headerIndex].cards[cardIndex - 1];
         copy[headerIndex].cards[cardIndex - 1] = tempCard;
         setHeaders(copy);
@@ -154,7 +154,7 @@ function ContentPage(props) {
     } else {
       // if this is not the bottom card of this header, swap it with the card below it
       if (cardIndex + 1 < copy[headerIndex].cards.length) {
-        let tempCard = copy[headerIndex].cards[cardIndex];
+        const tempCard = copy[headerIndex].cards[cardIndex];
         copy[headerIndex].cards[cardIndex] = copy[headerIndex].cards[cardIndex + 1];
         copy[headerIndex].cards[cardIndex + 1] = tempCard;
         setHeaders(copy);
@@ -197,6 +197,8 @@ function ContentPage(props) {
                 mode={mode}
                 iconSet={iconSet}
                 cardState={cardState}
+                top={i === 0 ? (true) : (false)}
+                bottom={i >= headers.length - 1 ? (true) : (false)}
               />
               <CreateCard
                 headerId={header.headerId}

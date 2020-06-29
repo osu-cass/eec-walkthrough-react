@@ -84,28 +84,14 @@ function Card(props) {
 
   }
 
-  return !props.card.approved && !props.mode ? (
+  return !props.card.approved && props.mode !== 1 ? (
     null
   ) : (
     <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" } ${props.card.invalid ? "card-body-invalid" : ""}`}>
       <CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
-        {props.mode && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
-        {props.mode ? (
+        {props.mode === 1 && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
+        {props.mode === 1 ? (
           <div className="row">
-            <OrderObjectButton
-              up={true}
-              header={false}
-              objectId={props.card.cardId}
-              handleMove={(id, up) => props.handleMoveCard(id, props.card.headerId, up)}
-              top={props.top}
-            />
-            <OrderObjectButton
-              up={false}
-              header={false}
-              objectId={props.card.cardId}
-              handleMove={(id, up) => props.handleMoveCard(id, props.card.headerId, up)}
-              bottom={props.bottom}
-            />
             <EditCard
               card={props.card}
               refresh={() => props.refresh()}
@@ -118,7 +104,28 @@ function Card(props) {
             />
           </div>
         ) : (
-          null
+          <Fragment>
+            {props.mode === 2 ? (
+              <div className="row">
+                <OrderObjectButton
+                  up={true}
+                  header={false}
+                  objectId={props.card.cardId}
+                  handleMove={(id, up) => props.handleMoveCard(id, props.card.headerId, up)}
+                  top={props.top}
+                />
+                <OrderObjectButton
+                  up={false}
+                  header={false}
+                  objectId={props.card.cardId}
+                  handleMove={(id, up) => props.handleMoveCard(id, props.card.headerId, up)}
+                  bottom={props.bottom}
+                />
+              </div>
+            ) : (
+              null
+            )}
+          </Fragment>
         )}
       </CardBS.Header>
       <CardBS.Body>
