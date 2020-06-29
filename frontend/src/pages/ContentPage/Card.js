@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import {Card as CardBS} from "react-bootstrap";
 import EditCard from "./EditCard";
 import ReviewCard from "./ReviewCard";
@@ -87,7 +87,7 @@ function Card(props) {
   return !props.card.approved && !props.mode ? (
     null
   ) : (
-    <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" }`}>
+    <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" } ${props.card.invalid ? "card-body-invalid" : ""}`}>
       <CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
         {props.mode && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
         {props.mode ? (
@@ -122,6 +122,17 @@ function Card(props) {
         )}
       </CardBS.Header>
       <CardBS.Body>
+        {props.card.invalid ? (
+          <Fragment>
+          <h4>INVALID CARD!</h4>
+          <p> 
+            This card has no content.
+            Either add content to this card or delete it.
+          </p>
+          </Fragment>
+        ) : (
+          null
+        )}
         {cardType ? (
           <ThumbnailGallery items={items} />
         ): (

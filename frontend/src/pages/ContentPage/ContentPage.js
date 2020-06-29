@@ -150,7 +150,6 @@ function ContentPage(props) {
         copy[headerIndex].cards[cardIndex - 1] = tempCard;
         setHeaders(copy);
         setCardState(cardState + 1);
-        console.log("P-CardState", cardState);
       }
     } else {
       // if this is not the bottom card of this header, swap it with the card below it
@@ -160,7 +159,6 @@ function ContentPage(props) {
         copy[headerIndex].cards[cardIndex + 1] = tempCard;
         setHeaders(copy);
         setCardState(cardState + 1);
-        console.log("P-CardState", cardState);
       }
     }
   }
