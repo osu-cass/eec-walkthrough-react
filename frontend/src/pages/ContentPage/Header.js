@@ -122,6 +122,14 @@ function Header(props) {
 
   // Updates the cards / items that are shown.
   function updateCardState(filterState) {
+
+    // Don't bother filtering if in move mode
+    if (props.mode === 2) {
+      setCards(props.header.cards);
+      setUnfilteredCards(props.header.cards);
+      return;
+    }
+
     const allCards = [];
     const allUnfilteredCards = [];
 
@@ -232,15 +240,6 @@ function Header(props) {
                   </Fragment>
                 ) : (
                   <Fragment>
-                    <FilterBar
-                      updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                      resetIcons={() => resetIcons()}
-                      filterIcons={filterIcons}
-                      tempFilterIcons={tempFilterIcons}
-                      filterShow={filterShow}
-                      iconSet={props.iconSet}
-                      mode={props.mode}
-                    />
                     <OrderObjectButton
                       up={true}
                       header={true}
