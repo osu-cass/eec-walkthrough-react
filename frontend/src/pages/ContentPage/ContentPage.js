@@ -16,12 +16,14 @@ import "./ContentPage.css";
 function ContentPage(props) {
 
   const [errorPage, setErrorPage] = useState(false);
-  const [pageInfo, setPageInfo] = useState([]);
+  const [pageInfo, setPageInfo] = useState({});
+  const [headers, setHeaders] = useState([])
   const [iconSet, setIconSet] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [userId, setUserId] = useState(0);
   const [role, setRole] = useState(0);
   const [mode, setMode] = useState(getMode());
+  const [cardState, setCardState] = useState(0);
 
   // get new page data if the page ID has changed
   useEffect(() => {
@@ -58,6 +60,7 @@ function ContentPage(props) {
     if (results.ok) {
       obj = await results.json();
       setPageInfo(obj);
+      setHeaders(obj.headers);
       console.log("Page Data:", obj);
     } else {
       if (results.status === 404) {
@@ -74,7 +77,92 @@ function ContentPage(props) {
 
   // Moves the specified header up or down one in relation to other headers
   function handleMoveHeader(id, up) {
-    console.log("Move header", up);
+    let arrayIndex = -1;
+    let copy = [...headers];
+    
+    // Find the index of this header
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].headerId === id) {
+        arrayIndex = i;
+        break;
+      }
+    }
+
+    // If we cannot find the index, then return
+    if (arrayIndex === -1) {
+      return;
+    }
+
+    // Check if we are trying to move up or down
+    if (up) {
+      // if this is not the top header of this page, swap it with the header above it
+      if (arrayIndex !== 0) {
+        [copy[arrayIndex], copy[arrayIndex - 1]] = [copy[arrayIndex - 1], copy[arrayIndex]];
+        setHeaders(copy);
+      }
+    } else {
+      // if this is not the bottom header of this header, swap it with the header below it
+      if (arrayIndex + 1 < copy.length) {
+        [copy[arrayIndex], copy[arrayIndex + 1]] = [copy[arrayIndex + 1], copy[arrayIndex]];
+        setHeaders(copy);
+      }
+    }
+  }
+
+  // Moves the specified card up or down one in relation to other cards
+  function handleMoveCard(cardId, headerId, up) {
+    let headerIndex = -1;
+    let cardIndex = -1;
+    let copy = [...headers];
+    
+    // Find the index of this header
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].headerId === headerId) {
+        headerIndex = i;
+        break;
+      }
+    }
+
+    // If we cannot find the index, then return
+    if (headerIndex === -1) {
+      return;
+    }
+
+    // Find the index of this card
+    for (let i = 0; i < copy[headerIndex].cards.length; i++) {
+      if (copy[headerIndex].cards[i].cardId === cardId) {
+        cardIndex = i;
+        break;
+      }
+    }
+
+    // If we cannot find the index, then return
+    if (cardIndex === -1) {
+      return;
+    }
+
+    // Check if we are trying to move up or down
+    if (up) {
+      // if this is not the top card of this header, swap it with the card above it
+      if (cardIndex !== 0) {
+        let tempCard = copy[headerIndex].cards[cardIndex];
+        copy[headerIndex].cards[cardIndex] = copy[headerIndex].cards[cardIndex - 1];
+        copy[headerIndex].cards[cardIndex - 1] = tempCard;
+        setHeaders(copy);
+        setCardState(cardState + 1);
+        console.log("P-CardState", cardState);
+      }
+    } else {
+      // if this is not the bottom card of this header, swap it with the card below it
+      if (cardIndex + 1 < copy[headerIndex].cards.length) {
+        let tempCard = copy[headerIndex].cards[cardIndex];
+        copy[headerIndex].cards[cardIndex] = copy[headerIndex].cards[cardIndex + 1];
+        copy[headerIndex].cards[cardIndex + 1] = tempCard;
+        setHeaders(copy);
+        setCardState(cardState + 1);
+        console.log("P-CardState", cardState);
+      }
+    }
   }
 
   if (!errorPage) {
@@ -95,20 +183,22 @@ function ContentPage(props) {
           userId={userId}
           subject={pageInfo.name}
           refresh={() => fetchData()}
-          numHeaders={pageInfo.headers.length}
+          numHeaders={headers.length}
           mode={mode}
         />
 
-        {pageInfo.headers.map((header, i) => {
+        {headers.map((header, i) => {
           return (
             <Fragment key={i}>
               <Header
                 header={header}
                 handleMoveHeader={(id, up) => handleMoveHeader(id, up)}
+                handleMoveCard={(cardId, headerId, up) => handleMoveCard(cardId, headerId, up)}
                 refresh={() => fetchData()}
                 role={role}
                 mode={mode}
                 iconSet={iconSet}
+                cardState={cardState}
               />
               <CreateCard
                 headerId={header.headerId}
