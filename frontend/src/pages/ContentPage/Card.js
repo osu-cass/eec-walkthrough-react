@@ -41,6 +41,7 @@ function Card(props) {
     const itemInfo = getItemInfo(props.card.edited);
     setCardType(itemInfo.cardType);
     setItems(itemInfo.items);
+    // eslint-disable-next-line
   }, [props.card.items, props.card.tempItems, imageItems, imageTempItems]);
 
   // Returns information about the correct array of items to use
@@ -87,6 +88,7 @@ function Card(props) {
     null
   ) : (
     <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" }`}>
+                                {console.log(props.top)}
       <CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
         {props.mode && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
         {props.mode ? (
@@ -95,11 +97,16 @@ function Card(props) {
               up={true}
               header={false}
               objectId={props.card.cardId}
+              handleMove={(id, up) => props.handleMoveCard(id, up)}
+              top={props.top}
             />
+                          {console.log(props.top)}
             <OrderObjectButton
               up={false}
               header={false}
               objectId={props.card.cardId}
+              handleMove={(id, up) => props.handleMoveCard(id, up)}
+              bottom={props.bottom}
             />
             <EditCard
               card={props.card}
@@ -132,7 +139,10 @@ Card.propTypes = {
   categoryId: PropTypes.any,
   refresh: PropTypes.any,
   card: PropTypes.object,
+  handleMoveCard: PropTypes.func,
   unfilteredCard: PropTypes.object,
   mode: PropTypes.number,
-  iconSet: PropTypes.any
+  iconSet: PropTypes.any,
+  top: PropTypes.bool,
+  bottom: PropTypes.bool
 };

@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React from "react";
 import BulletPoint from "./BulletPoint";
 import PropTypes from "prop-types";
 import "./BasicItems.css";
