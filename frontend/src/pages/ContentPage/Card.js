@@ -4,6 +4,7 @@ import EditCard from "./EditCard";
 import ReviewCard from "./ReviewCard";
 import BasicItems from "./BasicItems";
 import ThumbnailGallery from "./ThumbnailGallery";
+import OrderObjectButton from "./OrderObjectButton";
 import PropTypes from "prop-types";
 import "./Card.css";
 
@@ -90,6 +91,16 @@ function Card(props) {
         {props.mode && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
         {props.mode ? (
           <div className="row">
+            <OrderObjectButton
+              up={true}
+              header={false}
+              objectId={props.card.cardId}
+            />
+            <OrderObjectButton
+              up={false}
+              header={false}
+              objectId={props.card.cardId}
+            />
             <EditCard
               card={props.card}
               refresh={() => props.refresh()}

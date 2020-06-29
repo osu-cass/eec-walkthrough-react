@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import EditHeader from "./EditHeader";
 import ReviewHeader from "./ReviewHeader";
 import FilterBar from "./FilterBar";
+import OrderObjectButton from "./OrderObjectButton";
 import Card from "./Card";
 import "./Header.css";
 
@@ -212,6 +213,16 @@ function Header(props) {
                   filterShow={filterShow}
                   iconSet={props.iconSet}
                   mode={props.mode}
+                />
+                <OrderObjectButton
+                  up={true}
+                  header={true}
+                  objectId={props.header.headerId}
+                />
+                <OrderObjectButton
+                  up={false}
+                  header={true}
+                  objectId={props.header.headerId}
                 />
                 <EditHeader
                   header={props.header}
