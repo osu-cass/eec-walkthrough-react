@@ -175,6 +175,10 @@ function Header(props) {
         card.edited = true;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
+      } else if (props.mode && !props.header.cards[i].tempItems.length && !props.header.cards[i].items.length) {
+        card.invalid = true;
+        allCards.push(card);
+        allUnfilteredCards.push(fullCard);
       }
     }
     setCards(allCards);

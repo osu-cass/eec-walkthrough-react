@@ -5,3 +5,7 @@
 .card-body-review {
   background-color: #fcf7db;
 }
+
+.card-body-invalid {
+  background-color: #ffa6a6 !important;
+}
