@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from "react";
+import React, {useState} from "react";
 import {Button} from "react-bootstrap";
 import PropTypes from "prop-types";
 import {setMode} from "../../utilities/pageMode";

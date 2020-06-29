@@ -42,7 +42,7 @@ exports.getCard = getCard;
 
 
 // create a card
-async function createCard(headerId, cardType, orderIndex, title, items, userId) {
+async function createCard(headerId, cardType, title, items, userId) {
 
   try {
 
@@ -70,22 +70,27 @@ async function createCard(headerId, cardType, orderIndex, title, items, userId) 
     }
 
     // create the new card
-    sql = "INSERT INTO Cards (headerId, cardType, orderIndex, title, userId, approved) " +
-    "VALUES (?, ?, ?, ?, ?, 0);";
+    sql = "INSERT INTO Cards (headerId, cardType, title, userId, orderIndex, approved) " +
+    "VALUES (?, ?, ?, ?, 0, 0);";
 
-    results = await pool.query(sql, [headerId, cardType, orderIndex, title, userId]);
+    results = await pool.query(sql, [headerId, cardType, title, userId]);
     const cardId = results[0].insertId;
 
+    // update the order index of the new card
+    sql = "UPDATE Cards " +
+    "SET orderIndex = ? " +
+    "WHERE cardId = ?;";
+    sql = await pool.query(sql, [cardId, cardId]);
+
     // create the new items
-    sql = "INSERT INTO Items (cardId, indentation, orderIndex, iconType, " +
+    sql = "INSERT INTO Items (cardId, indentation, iconType, " +
     "contentText, contentUrl, contentLabel, approved) VALUES ";
 
     // expand the sql string and array based on the number of items
     items.forEach((currentValue) => {
-      sql += "(?, ?, ?, ?, ?, ?, ?, 0),";
+      sql += "(?, ?, ?, ?, ?, ?, 0),";
       sqlArray.push(cardId);
       sqlArray.push(currentValue.indentation);
-      sqlArray.push(currentValue.orderIndex);
       sqlArray.push(currentValue.iconType);
       sqlArray.push(currentValue.contentText);
       sqlArray.push(currentValue.contentUrl);
@@ -124,9 +129,16 @@ async function deleteCard(cardId) {
 
     let results = await pool.query(sql, cardId);
 
+    sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE cardId = ? " +
+    "AND approved = 1;";
+
+    const checkApproved = await pool.query(sql, cardId);
+
     // prioritize deleting the edited version
     // a second delete will remove the real one
-    if (results[0].length) {
+    if (results[0].length && checkApproved[0].length) {
       sql = "DELETE " +
         "FROM Temp_Cards " +
         "WHERE tempCardId = ?;";
@@ -181,7 +193,7 @@ exports.deleteCard = deleteCard;
 
 
 // update a card
-async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
+async function updateCard(cardId, cardType, title, items, userId) {
 
   try {
 
@@ -207,23 +219,23 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
     if (results[0].length) {
 
       sql = "UPDATE Temp_Cards " +
-      "SET tempCardType = ?, tempOrderIndex = ?, tempTitle = ?, tempUserId = ? " +
+      "SET tempCardType = ?, tempTitle = ?, tempUserId = ? " +
       "WHERE tempCardId = ?;";
-      results = await pool.query(sql, [cardType, orderIndex, title, userId, cardId]);
+      results = await pool.query(sql, [cardType, title, userId, cardId]);
 
     } else if (approved === 0) {
 
       sql = "UPDATE Cards " +
-      "SET cardType = ?, orderIndex = ?, title = ?, userId = ? " +
+      "SET cardType = ?, title = ?, userId = ? " +
       "WHERE cardId = ?;";
-      results = await pool.query(sql, [cardType, orderIndex, title, userId, cardId]);
+      results = await pool.query(sql, [cardType, title, userId, cardId]);
 
     } else {
 
       sql = "INSERT INTO Temp_Cards (tempCardId, tempCardType, " +
-      "tempOrderIndex, tempTitle, tempUserId) " +
-      "VALUES (?, ?, ?, ?, ?);";
-      results = await pool.query(sql, [cardId, cardType, orderIndex, title, userId]);
+      "tempTitle, tempUserId) " +
+      "VALUES (?, ?, ?, ?);";
+      results = await pool.query(sql, [cardId, cardType, title, userId]);
 
     }
 
@@ -239,15 +251,14 @@ async function updateCard(cardId, cardType, orderIndex, title, items, userId) {
         results = await pool.query(sql, cardId);
 
         // create all of the new items
-        sql = "INSERT INTO Items (cardId, indentation, orderIndex, iconType, " +
+        sql = "INSERT INTO Items (cardId, indentation, iconType, " +
         "contentText, contentUrl, contentLabel, approved) VALUES ";
 
         // expand the sql string and array based on the number of items
         items.forEach((currentValue) => {
-          sql += "(?, ?, ?, ?, ?, ?, ?, 0),";
+          sql += "(?, ?, ?, ?, ?, ?, 0),";
           sqlArray.push(cardId);
           sqlArray.push(currentValue.indentation);
-          sqlArray.push(currentValue.orderIndex);
           sqlArray.push(currentValue.iconType);
           sqlArray.push(currentValue.contentText);
           sqlArray.push(currentValue.contentUrl);
@@ -308,11 +319,11 @@ async function publishCard(cardId) {
 
       // update the published card
       sql = "UPDATE Cards " +
-      "SET cardType = ?, orderIndex = ?, title = ?, userId = ?, created = ?, approved = 1 " +
+      "SET cardType = ?, title = ?, userId = ?, created = ?, approved = 1 " +
       "WHERE cardId = ?;";
 
-      const tempArray = [tempCard.tempCardType, tempCard.tempOrderIndex,
-        tempCard.tempTitle, tempCard.tempUserId, tempCard.tempCreated, cardId];
+      const tempArray = [tempCard.tempCardType, tempCard.tempTitle,
+        tempCard.tempUserId, tempCard.tempCreated, cardId];
 
       // make sure no other cards share the same name
       const checkSql = "SELECT * " +
@@ -384,3 +395,90 @@ async function publishCard(cardId) {
 
 }
 exports.publishCard = publishCard;
+
+
+// move a card
+async function moveCard(cardId, direction) {
+
+  try {
+
+    // make sure that the card exists
+    let sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE cardId = ? " +
+    "AND approved = true";
+    let results = await pool.query(sql, cardId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const headerId = results[0][0].headerId;
+
+    // get all of the cards under the current header
+    sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE headerId = ? " +
+    "AND approved = true " +
+    "ORDER BY orderIndex ASC, cardId ASC";
+    results = await pool.query(sql, headerId);
+
+    const cards = results[0];
+    let cardIndex = -1;
+    let otherCardIndex = -1;
+
+    // find the index of this card
+    for (let i = 0; i < cards.length; i++) {
+      if (cards[i].cardId === parseInt(cardId, 10)) {
+        cardIndex = i;
+        break;
+      }
+    }
+
+    // if we cannot find the index, then we can't find the card
+    if (cardIndex === -1) {
+      return {error: 1};
+    }
+
+    // check if we are trying to move up or down and make sure card exists
+    // in the specific direction
+    if (direction) {
+      if (cardIndex !== 0) {
+        otherCardIndex = cardIndex - 1;
+      }
+    } else {
+      if (cardIndex + 1 < cards.length) {
+        otherCardIndex = cardIndex + 1;
+      }
+    }
+
+    // if we cannot find the other index, then we can't find the other card
+    if (otherCardIndex === -1) {
+      return {error: 2};
+    }
+
+    // swap the cards order indexes
+    sql = "UPDATE Cards " +
+    "SET orderIndex = IF(cardId=?, ?, ?) " +
+    "WHERE cardId IN (?, ?);";
+    const sqlArray = [];
+    sqlArray.push(cardId);
+    sqlArray.push(cards[otherCardIndex].orderIndex);
+    sqlArray.push(cards[cardIndex].orderIndex);
+    sqlArray.push(cardId);
+    sqlArray.push(cards[otherCardIndex].cardId);
+    results = await pool.query(sql, sqlArray);
+
+    const finalResults = {
+      cardId: cardId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error moving card");
+    throw Error(err);
+  }
+
+}
+exports.moveCard = moveCard;

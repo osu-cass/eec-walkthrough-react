@@ -1,5 +1,5 @@
 import React, {Fragment, useState, useEffect} from "react";
-import {getProfile} from "../../utilities/cookieAuth";
+import {getProfile, logout} from "../../utilities/cookieAuth";
 import {getMode} from "../../utilities/pageMode";
 import Header from "./Header";
 import PageDescription from "./PageDescription";
@@ -110,10 +110,11 @@ function ContentPage(props) {
   }
 
   // Moves the specified card up or down one in relation to other cards
-  function handleMoveCard(cardId, headerId, up) {
+  async function handleMoveCard(cardId, headerId, up) {
+    const copy = [...headers];
     let headerIndex = -1;
     let cardIndex = -1;
-    let copy = [...headers];
+    let moved = false;
     
     // Find the index of this header
     for (let i = 0; i < copy.length; i++) {
@@ -128,9 +129,19 @@ function ContentPage(props) {
       return;
     }
 
-    // Find the index of this card
+    // Create a list of only approved cards
+    const approvedCards = [];
     for (let i = 0; i < copy[headerIndex].cards.length; i++) {
-      if (copy[headerIndex].cards[i].cardId === cardId) {
+      if (copy[headerIndex].cards[i].approved) {
+        const newCard = copy[headerIndex].cards[i];
+        newCard.trueIndex = i;
+        approvedCards.push(newCard);
+      }
+    }
+
+    // Find the index of this card
+    for (let i = 0; i < approvedCards.length; i++) {
+      if (approvedCards[i].cardId === cardId) {
         cardIndex = i;
         break;
       }
@@ -144,21 +155,58 @@ function ContentPage(props) {
     // Check if we are trying to move up or down
     if (up) {
       // if this is not the top card of this header, swap it with the card above it
-      if (cardIndex !== 0) {
-        const tempCard = copy[headerIndex].cards[cardIndex];
-        copy[headerIndex].cards[cardIndex] = copy[headerIndex].cards[cardIndex - 1];
-        copy[headerIndex].cards[cardIndex - 1] = tempCard;
-        setHeaders(copy);
-        setCardState(cardState + 1);
-      }
+        if (cardIndex > 0) {
+          const trueIndex = approvedCards[cardIndex].trueIndex;
+          const otherTrueIndex = approvedCards[cardIndex - 1].trueIndex;
+          const tempCard = copy[headerIndex].cards[trueIndex];
+          copy[headerIndex].cards[trueIndex] = copy[headerIndex].cards[otherTrueIndex];
+          copy[headerIndex].cards[otherTrueIndex] = tempCard;
+          setHeaders(copy);
+          setCardState(cardState + 1);
+          moved = true;
+        }
     } else {
       // if this is not the bottom card of this header, swap it with the card below it
-      if (cardIndex + 1 < copy[headerIndex].cards.length) {
-        const tempCard = copy[headerIndex].cards[cardIndex];
-        copy[headerIndex].cards[cardIndex] = copy[headerIndex].cards[cardIndex + 1];
-        copy[headerIndex].cards[cardIndex + 1] = tempCard;
+      if (cardIndex + 1 < approvedCards.length) {
+        const trueIndex = approvedCards[cardIndex].trueIndex;
+        const otherTrueIndex = approvedCards[cardIndex + 1].trueIndex;
+        const tempCard = copy[headerIndex].cards[trueIndex];
+        copy[headerIndex].cards[trueIndex] = copy[headerIndex].cards[otherTrueIndex];
+        copy[headerIndex].cards[otherTrueIndex] = tempCard;
         setHeaders(copy);
         setCardState(cardState + 1);
+        moved = true;
+      }
+    }
+
+    let direction = 0;
+    if (up) {
+      direction = 1;
+    }
+
+    // send our move to the API
+    if (moved) {
+      const results = await fetch(`/cards/${cardId}/move/${direction}`, {
+        method: "PATCH",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (!results.ok) {
+
+        const obj = await results.json();
+
+        if (results.status === 404) {
+          console.error("Couldn't find card to move");
+        } else if (results.status === 500 || typeof obj.error === "undefined") {
+          console.error("An internal server error occurred while trying to move the card.");
+        } else {
+          console.error(obj.error);
+        }
+
+        if (results.status === 401) {
+          logout();
+          window.location.href = "/";
+        }
       }
     }
   }
