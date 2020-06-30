@@ -10,6 +10,7 @@ function ItemInput(props) {
 
   useEffect(() => {
     updateLink(props.value.contentMode);
+    // eslint-disable-next-line
   }, [props.value.contentMode]);
 
   function updateLink(value) {
