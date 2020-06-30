@@ -54,6 +54,9 @@ function ConstructCardModal(props) {
       itemData.iconType = item.iconType;
       itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
       itemData.current = 1;
+      if (item.contentText === "$empty") {
+        itemData.contentText = "";
+      }
       newItems.push(itemData);
       newCounter++;
     });
@@ -111,7 +114,7 @@ function ConstructCardModal(props) {
   function getContentType(text, label, url) {
     if (text !== "" && label === "" && url === "") { return 1; }
     if (text === "" && label !== "" && url !== "") { return 2; }
-    if (text !== "" && label !== "" && url !== "") { return 3; }
+    if ((text !== "" || text === "$empty") && label !== "" && url !== "") { return 3; }
   }
 
   // Keeps track of the current number of input fields
@@ -122,7 +125,7 @@ function ConstructCardModal(props) {
     let copy = [...items];
 
     let newIconType = null;
-    if (items[items.length - 1].contentType === contentType) {
+    if (items.length && items[items.length - 1].contentType === contentType) {
       newIconType = items[items.length - 1].iconType;
     }
 
@@ -175,16 +178,16 @@ function ConstructCardModal(props) {
       setItems(copy);
     } else {
 
-    // Check if we should be able to update our indentation and by how much
-    const prevIndent = copy[arrayIndex - 1].indentation;
-    if (copy[arrayIndex].indentation <= prevIndent && copy[arrayIndex].indentation <= 3) {
-      copy[arrayIndex].indentation += 1;
+      // Check if we should be able to update our indentation and by how much
+      const prevIndent = copy[arrayIndex - 1].indentation;
+      if (copy[arrayIndex].indentation <= prevIndent && copy[arrayIndex].indentation <= 3) {
+        copy[arrayIndex].indentation += 1;
 
-      // Update the indentation level across the card
-      copy = scanIndentation(copy);
+        // Update the indentation level across the card
+        copy = scanIndentation(copy);
 
-      setItems(copy);
-    }
+        setItems(copy);
+      }
 
     }
 
@@ -297,10 +300,13 @@ function ConstructCardModal(props) {
     const formatSelect = document.getElementById("select-new-card-format");
     const newCardFormat = formatSelect.options[formatSelect.selectedIndex].value;
 
-    // Set the order index of each item
+    // Set the order index of each item and clean up assign empty strings as needed
     const copy = items;
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
+      if (copy[i].contentType === 3 && copy[i].contentText === "") {
+        copy[i].contentText = "$empty";
+      }
     }
 
     // Prepare data for new card
@@ -446,7 +452,7 @@ function ConstructCardModal(props) {
           break;
         }
       } else if (item.contentType === 3) { // text + label + url
-        if (item.contentText === "" || item.contentLabel === "" || item.contentUrl === "") {
+        if (item.contentLabel === "" || item.contentUrl === "") {
           emptyFound = true;
           newErrorMessage = "Error: Resource is not filled out completely on line " + (i + 1);
           break;
