@@ -76,35 +76,87 @@ function ContentPage(props) {
   }
 
   // Moves the specified header up or down one in relation to other headers
-  function handleMoveHeader(id, up) {
-    let arrayIndex = -1;
-    let copy = [...headers];
+  async function handleMoveHeader(headerId, up) {
+    const copy = [...headers];
+    let headerIndex = -1;
+    let moved = false;
     
-    // Find the index of this header
+    // Create a list of only approved headers
+    const approvedHeaders = [];
     for (let i = 0; i < copy.length; i++) {
-      if (copy[i].headerId === id) {
-        arrayIndex = i;
+      if (copy[i].approved) {
+        const newHeader = copy[i];
+        newHeader.trueIndex = i;
+        approvedHeaders.push(newHeader);
+      }
+    }
+
+    // Find the index of this header
+    for (let i = 0; i < approvedHeaders.length; i++) {
+      if (approvedHeaders[i].headerId === headerId) {
+        headerIndex = i;
         break;
       }
     }
 
     // If we cannot find the index, then return
-    if (arrayIndex === -1) {
+    if (headerIndex === -1) {
       return;
     }
 
     // Check if we are trying to move up or down
     if (up) {
       // if this is not the top header of this page, swap it with the header above it
-      if (arrayIndex !== 0) {
-        [copy[arrayIndex], copy[arrayIndex - 1]] = [copy[arrayIndex - 1], copy[arrayIndex]];
-        setHeaders(copy);
-      }
+        if (headerIndex > 0) {
+          const trueIndex = approvedHeaders[headerIndex].trueIndex;
+          const otherTrueIndex = approvedHeaders[headerIndex - 1].trueIndex;
+          const tempHeader = copy[trueIndex];
+          copy[trueIndex] = copy[otherTrueIndex];
+          copy[otherTrueIndex] = tempHeader;
+          setHeaders(copy);
+          moved = true;
+        }
     } else {
-      // if this is not the bottom header of this header, swap it with the header below it
-      if (arrayIndex + 1 < copy.length) {
-        [copy[arrayIndex], copy[arrayIndex + 1]] = [copy[arrayIndex + 1], copy[arrayIndex]];
+      // if this is not the bottom header of this page, swap it with the header below it
+      if (headerIndex + 1 < approvedHeaders.length) {
+        const trueIndex = approvedHeaders[headerIndex].trueIndex;
+        const otherTrueIndex = approvedHeaders[headerIndex + 1].trueIndex;
+        const tempHeader = copy[trueIndex];
+        copy[trueIndex] = copy[otherTrueIndex];
+        copy[otherTrueIndex] = tempHeader;
         setHeaders(copy);
+        moved = true;
+      }
+    }
+
+    let direction = 0;
+    if (up) {
+      direction = 1;
+    }
+
+    // send our move to the API
+    if (moved) {
+      const results = await fetch(`/headers/${headerId}/move/${direction}`, {
+        method: "PATCH",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (!results.ok) {
+
+        const obj = await results.json();
+
+        if (results.status === 404) {
+          console.error("Couldn't find header to move");
+        } else if (results.status === 500 || typeof obj.error === "undefined") {
+          console.error("An internal server error occurred while trying to move the header.");
+        } else {
+          console.error(obj.error);
+        }
+
+        if (results.status === 401) {
+          logout();
+          window.location.href = "/";
+        }
       }
     }
   }

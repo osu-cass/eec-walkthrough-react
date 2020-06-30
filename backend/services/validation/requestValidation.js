@@ -124,6 +124,15 @@ const getHeaderVal = Object.freeze({
 });
 exports.getHeaderVal = getHeaderVal;
 
+// validation checks for move header
+const patchHeaderMove = Object.freeze({
+  validation: [
+    check("headerId").isInt({min: 1, max: 4294967295}),
+    check("direction").isInt({min: 0, max: 1}),
+  ]
+});
+exports.patchHeaderMove = patchHeaderMove;
+
 // validation checks for post header
 const postHeaderVal = Object.freeze({
   validation: [

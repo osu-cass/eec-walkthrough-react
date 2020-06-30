@@ -350,3 +350,90 @@ async function publishHeader(headerId) {
 
 }
 exports.publishHeader = publishHeader;
+
+
+// move a header
+async function moveHeader(headerId, direction) {
+
+  try {
+
+    // make sure that the header exists
+    let sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ? " +
+    "AND approved = true";
+    let results = await pool.query(sql, headerId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const pageId = results[0][0].pageId;
+
+    // get all of the header under the current page
+    sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE pageId = ? " +
+    "AND approved = true " +
+    "ORDER BY orderIndex ASC, headerId ASC";
+    results = await pool.query(sql, pageId);
+
+    const headers = results[0];
+    let headerIndex = -1;
+    let otherHeaderIndex = -1;
+
+    // find the index of this header
+    for (let i = 0; i < headers.length; i++) {
+      if (headers[i].headerId === parseInt(headerId, 10)) {
+        headerIndex = i;
+        break;
+      }
+    }
+
+    // if we cannot find the index, then we can't find the header
+    if (headerIndex === -1) {
+      return {error: 1};
+    }
+
+    // check if we are trying to move up or down and make sure header exists
+    // in the specific direction
+    if (direction) {
+      if (headerIndex !== 0) {
+        otherHeaderIndex = headerIndex - 1;
+      }
+    } else {
+      if (headerIndex + 1 < headers.length) {
+        otherHeaderIndex = headerIndex + 1;
+      }
+    }
+
+    // if we cannot find the other index, then we can't find the other header
+    if (otherHeaderIndex === -1) {
+      return {error: 2};
+    }
+
+    // swap the headers order indexes
+    sql = "UPDATE Headers " +
+    "SET orderIndex = IF(headerId=?, ?, ?) " +
+    "WHERE headerId IN (?, ?);";
+    const sqlArray = [];
+    sqlArray.push(headerId);
+    sqlArray.push(headers[otherHeaderIndex].orderIndex);
+    sqlArray.push(headers[headerIndex].orderIndex);
+    sqlArray.push(headerId);
+    sqlArray.push(headers[otherHeaderIndex].headerId);
+    results = await pool.query(sql, sqlArray);
+
+    const finalResults = {
+      headerId: headerId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error moving header");
+    throw Error(err);
+  }
+
+}
+exports.moveHeader = moveHeader;
