@@ -131,7 +131,7 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               <li className="my-2">
-                <i className={`fas fa-fw fa-arrow-down mr-2`} style={{color: "green"}}/>
+                <i className={`fas fa-fw fa-download mr-2`} />
                 <span className="font-weight-normal">Download of learning resource</span>
               </li>
             </ul>
@@ -158,7 +158,7 @@ function Home() {
           <h5>Sponsors</h5>
         </Card.Header>
         <Col className="my-4">
-          {/* 
+          {/*
           <img
             src={"/images/BPA.png"}
             alt={"Industrial Assessment Center"}

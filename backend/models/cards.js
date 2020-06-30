@@ -84,17 +84,17 @@ async function createCard(headerId, cardType, title, items, userId) {
 
     // create the new items
     sql = "INSERT INTO Items (cardId, indentation, iconType, " +
-    "contentText, contentUrl, contentLabel, approved) VALUES ";
-
+    "contentText, contentUrl, contentLabel, contentMode, approved) VALUES ";
     // expand the sql string and array based on the number of items
     items.forEach((currentValue) => {
-      sql += "(?, ?, ?, ?, ?, ?, 0),";
+      sql += "(?, ?, ?, ?, ?, ?, ?, 0),";
       sqlArray.push(cardId);
       sqlArray.push(currentValue.indentation);
       sqlArray.push(currentValue.iconType);
       sqlArray.push(currentValue.contentText);
       sqlArray.push(currentValue.contentUrl);
       sqlArray.push(currentValue.contentLabel);
+      sqlArray.push(currentValue.contentMode);
     });
 
     // replace the final comma with a semicolon
@@ -252,17 +252,18 @@ async function updateCard(cardId, cardType, title, items, userId) {
 
         // create all of the new items
         sql = "INSERT INTO Items (cardId, indentation, iconType, " +
-        "contentText, contentUrl, contentLabel, approved) VALUES ";
+        "contentText, contentUrl, contentLabel, contentMode, approved) VALUES ";
 
         // expand the sql string and array based on the number of items
         items.forEach((currentValue) => {
-          sql += "(?, ?, ?, ?, ?, ?, 0),";
+          sql += "(?, ?, ?, ?, ?, ?, ?, 0),";
           sqlArray.push(cardId);
           sqlArray.push(currentValue.indentation);
           sqlArray.push(currentValue.iconType);
           sqlArray.push(currentValue.contentText);
           sqlArray.push(currentValue.contentUrl);
           sqlArray.push(currentValue.contentLabel);
+          sqlArray.push(currentValue.contentMode);
         });
 
         // replace the final comma with a semicolon

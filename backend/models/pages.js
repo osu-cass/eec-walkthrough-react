@@ -287,7 +287,7 @@ async function getFullPage(pageId, viewAll) {
           // get all approved items
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, " +
+          "contentUrl, contentLabel, contentMode, " +
           "created, approved " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
@@ -296,13 +296,13 @@ async function getFullPage(pageId, viewAll) {
           "ORDER BY orderIndex ASC, itemId ASC";
 
           results = await pool.query(sql, cardId);
-
+          console.log(results[0]);
           finalResults.headers[i].cards[j].items = results[0];
 
           // get all unapproved items
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, " +
+          "contentUrl, contentLabel, contentMode, " +
           "created, approved " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
@@ -317,7 +317,7 @@ async function getFullPage(pageId, viewAll) {
         } else {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, " +
+          "contentUrl, contentLabel, contentMode, " +
           "created, approved " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +

@@ -52,6 +52,7 @@ function ConstructCardModal(props) {
       itemData.contentUrl = item.contentUrl;
       itemData.indentation = item.indentation;
       itemData.iconType = item.iconType;
+      itemData.contentMode = item.contentMode;
       itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
       itemData.current = 1;
       if (item.contentText === "$empty") {
@@ -89,12 +90,11 @@ function ConstructCardModal(props) {
     for (let i = 0; i < props.iconSet.length; i++) {
       if (props.iconSet[i].typeName === "chart-area") {
         images.push(props.iconSet[i]);
-      } else if (props.iconSet[i].typeName === "info" || props.iconSet[i].typeName === "link" ||
-        props.iconSet[i].typeName === "document" || props.iconSet[i].typeName === "list"||
+      } else if (props.iconSet[i].typeName === "copy" || props.iconSet[i].typeName === "list"||
         props.iconSet[i].typeName === "play" || props.iconSet[i].typeName === "video-camera" ||
         props.iconSet[i].typeName === "book" || props.iconSet[i].typeName === "truck" ) {
         links.push(props.iconSet[i]);
-      } else {
+      } else if (props.iconSet[i].typeName !== "info" && props.iconSet[i].typeName !== "link") {
         gen.push(props.iconSet[i]);
       }
     }
@@ -140,6 +140,7 @@ function ConstructCardModal(props) {
     copy[key].contentUrl = "";
     copy[key].iconType = newIconType;
     copy[key].contentType = contentType;
+    copy[key].contentMode = -1;
     copy[key].indentation = 0;
 
     // Make sure the indentation is up to date
@@ -460,6 +461,11 @@ function ConstructCardModal(props) {
           newErrorMessage = "Error: Resource is not filled out completely on line " + (i + 1);
           break;
         }
+        if (item.contentMode < 0) {
+          emptyFound = true;
+          newErrorMessage = "Error: Resource link type is not selected on line " + (i + 1);
+          break;
+        }
       }
       // Check icons
       if (item.iconType === null) {
@@ -488,6 +494,13 @@ function ConstructCardModal(props) {
     setItems(copy);
   }
 
+  // Controls link data changes coming from <ItemInput>
+  function handleLinkValue(index, value) {
+    const key = index.toString();
+    const copy = [...items];
+    copy[key].contentMode = value;
+    setItems(copy);
+  }
 
   // Updates dropdown icon selected for specific index
   // @param {Number} icon itemType ID of Icon
@@ -650,6 +663,7 @@ function ConstructCardModal(props) {
                   title="Text"
                   maxLength="1000"
                   handleInput={(e1, e2, e3) => handleInput(e1, e2, e3)}
+                  handleLinkValue={(e1, e2) => handleLinkValue(e1, e2)}
                   index={i}
                   value={item}
                   contentType={item.contentType}
