@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Jun 30, 2020 at 08:59 AM
+-- Generation Time: Jun 30, 2020 at 11:15 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.31
 
@@ -44,7 +44,7 @@ CREATE TABLE `cards` (
 
 INSERT INTO `cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `userId`, `created`, `approved`) VALUES
 (3, 1, 0, 3, 'Figures, Charts, and Tables', 2, '2020-06-17 17:09:17', 1),
-(8, 2, 0, 8, 'Reduce Compressed Air Pressure\r\n', 42, '2020-06-30 06:01:26', 1),
+(8, 2, 0, 8, 'Reduce Compressed Air Pressure\r\n', 42, '2020-06-30 07:17:35', 1),
 (9, 1, 0, 9, 'Pros', 1, '2020-06-02 20:58:31', 1),
 (13, 1, 0, 13, 'Cons', 1, '2020-05-23 22:20:20', 1),
 (16, 1, 0, 16, 'Caveats', 1, '2020-05-23 22:27:44', 1),
@@ -207,8 +207,8 @@ INSERT INTO `items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (36, 18, 1, 0, 3, '80 to 90% of energy for compressed air is lost as heat', '', '', 0, '2020-06-10 03:40:49', 1),
 (37, 19, 1, 0, 8, 'Use a pressure gage with standard quick connects typically used in compressed air lines to diagnose line pressure drops', '', '', 0, '2020-05-23 22:33:25', 1),
 (43, 13, 1, 0, 2, 'Function provided can often be replace with significantly lower power approach.', '', '', 0, '2020-06-09 19:50:02', 1),
-(160, 60, 1, 0, 18, 'This is an internal resource. The link connects to some resource at OSU. We are not worried about this being a dead link.', 'http://placekitten.com/300/300', 'Some Link', 0, '2020-06-18 17:37:19', 1),
-(161, 60, 2, 0, 19, 'This is an external resource. We worry that it might be a dead link, so we want to track the date.', 'http://placekitten.com/500/500', 'Another Link', 0, '2020-06-23 22:18:09', 1),
+(160, 60, 1, 0, 17, 'This is an internal resource. The link connects to some resource at OSU. We are not worried about this being a dead link.', 'http://placekitten.com/300/300', 'Some Link', 0, '2020-06-18 17:37:19', 1),
+(161, 60, 2, 0, 17, 'This is an external resource. We worry that it might be a dead link, so we want to track the date.', 'http://placekitten.com/500/500', 'Another Link', 1, '2020-06-23 22:18:09', 1),
 (162, 9, 1, 0, 1, 'Can be used as an easy quick fix for many issues', '', '', 0, '2020-06-22 19:18:35', 1),
 (163, 9, 1, 0, 1, 'Familiar utility for industrial personnel', '', '', 0, '2020-06-22 19:18:36', 1),
 (164, 9, 1, 0, 1, 'A single mechanical energy input at the compressor can be distributed throughout a facility. ', '', '', 0, '2020-06-22 19:18:36', 1),
@@ -221,7 +221,7 @@ INSERT INTO `items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (196, 59, 1, 0, 20, '', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRrLtOorN06C4SPJapwT-0YPq06ZNlXUEdEhdC1OmNZY8ccvB0h&usqp=CAU', 'AC3', 0, '2020-06-23 05:51:09', 1),
 (197, 30, 1, 0, 20, '', 'https://www.hurstboiler.com/images2/series-300_shrink.png', 'Boiler Picture', 0, '2020-06-23 05:53:07', 1),
 (198, 30, 1, 0, 2, 'Lectus mauris ultrices eros in cursus.', '', '', 0, '2020-06-23 05:53:07', 1),
-(199, 30, 1, 0, 19, 'Hurst Series 300', 'https://www.hurstboiler.com/boilers/scotch_marine/series_300', 'Big boiler link', 0, '2020-06-27 20:48:34', 1),
+(199, 30, 1, 0, 17, 'Hurst Series 300', 'https://www.hurstboiler.com/boilers/scotch_marine/series_300', 'Big boiler link', 1, '2020-06-27 20:48:34', 1),
 (208, 65, 1, 0, 4, 'Eu consequat ac felis donec et odio.', '', '', 0, '2020-06-23 05:55:59', 0),
 (215, 66, 1, 0, 15, 'Pharetra massa massa ultricies mi quis hendrerit dolor.', '', '', 0, '2020-06-23 05:58:02', 1),
 (216, 66, 1, 0, 11, 'Vitae semper quis lectus nulla.', '', '', 0, '2020-06-23 05:58:02', 1),
@@ -254,12 +254,12 @@ INSERT INTO `items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (316, 68, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-industry-construction-parts-cuttings-600w-1236143197.jpg', 'Plywood D', 0, '2020-06-23 22:18:31', 1),
 (317, 68, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/warehouse-fiberboard-chipboard-construction-materials-600w-1035511318.jpg', 'Plywood E', 0, '2020-06-23 22:18:31', 1),
 (318, 68, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-residential-building-materials-600w-1005863455.jpg', 'Plywood F', 0, '2020-06-23 22:18:31', 1),
-(323, 29, 1, 0, 18, 'This guide focuses mainly on screw and reciprocating compressors. These are the most common types of compressors used in the northwest. Other types of compressors such as rotary vane, centrifugal, lobe and radial compressors are much less common and are only introduced in this guide.', 'https://drive.google.com/file/d/12Co0C6JBK5CqoYhZQBcD0VX6JVBXy86o/view', 'Assessing Industrial Air Compressors', 0, '2020-06-26 23:33:35', 1),
-(324, 29, 1, 0, 18, 'A short slideshow of common industrial compressed air equipment and applicatons s', 'https://docs.google.com/presentation/d/1khB1tPIND-ooBy1yCCL-rDf09Gf4Q8nr/edit#slide=id.p7', 'Industrial Compressed Air (a slideshow)', 0, '2020-06-26 23:33:35', 1),
+(323, 29, 1, 0, 17, 'This guide focuses mainly on screw and reciprocating compressors. These are the most common types of compressors used in the northwest. Other types of compressors such as rotary vane, centrifugal, lobe and radial compressors are much less common and are only introduced in this guide.', 'https://drive.google.com/file/d/12Co0C6JBK5CqoYhZQBcD0VX6JVBXy86o/view', 'Assessing Industrial Air Compressors', 0, '2020-06-26 23:33:35', 1),
+(324, 29, 1, 0, 17, 'A short slideshow of common industrial compressed air equipment and applicatons s', 'https://docs.google.com/presentation/d/1khB1tPIND-ooBy1yCCL-rDf09Gf4Q8nr/edit#slide=id.p7', 'Industrial Compressed Air (a slideshow)', 0, '2020-06-26 23:33:35', 1),
 (327, 73, 1, 0, 20, '', 'https://live.staticflickr.com/3821/13183445925_e4cab33b53_h.jpg', 'Wood fired boiler', 0, '2020-06-27 20:42:02', 0),
-(337, 74, 1, 0, 19, 'See steam system sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 0, '2020-06-27 20:57:47', 1),
-(338, 74, 1, 0, 19, '.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam15_benchmark.pdf', 'Benchmark the Fuel Cost of Steam Generation', 0, '2020-06-27 20:57:47', 1),
-(339, 74, 1, 0, 19, '.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam7_surfaces.pdf', 'Clean Firetube Boiler Waterside Heat Transfer Surfaces', 0, '2020-06-27 20:57:48', 1),
+(337, 74, 1, 0, 17, 'See steam system sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-06-27 20:57:47', 1),
+(338, 74, 1, 0, 17, '.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam15_benchmark.pdf', 'Benchmark the Fuel Cost of Steam Generation', 1, '2020-06-27 20:57:47', 1),
+(339, 74, 1, 0, 17, '.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam7_surfaces.pdf', 'Clean Firetube Boiler Waterside Heat Transfer Surfaces', 1, '2020-06-27 20:57:48', 1),
 (360, 72, 1, 0, 20, '', 'https://live.staticflickr.com/65535/50059466996_fef52d0c1d_b.jpg', 'Dry sprinkler systems need compressed air', 0, '2020-06-29 20:11:42', 1),
 (361, 72, 1, 0, 20, '', 'https://live.staticflickr.com/65535/50059714077_4cbe180ced_h.jpg', 'Blow off wand and hose', 0, '2020-06-29 20:11:42', 1),
 (362, 72, 1, 0, 20, '', 'https://live.staticflickr.com/65535/50058900113_346401bed4_h.jpg', 'Air Motors used to mix paint can be replaced with explosion proof electric motors', 0, '2020-06-29 20:11:42', 1),
@@ -270,26 +270,9 @@ INSERT INTO `items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (367, 72, 1, 0, 20, '', 'https://live.staticflickr.com/65535/50058897108_515a6e6204_h.jpg', 'Small reciprocating industrial air compressor', 0, '2020-06-29 20:11:44', 1),
 (368, 72, 1, 0, 20, '', 'https://live.staticflickr.com/65535/50059709462_8f95f4a494_h.jpg', 'Desiccant compressed air dryer ', 0, '2020-06-29 20:11:44', 1),
 (369, 72, 1, 0, 20, '', 'https://live.staticflickr.com/65535/50059464881_10ac908b13_b.jpg', 'Compressed Air Receiver Tank', 0, '2020-06-29 20:11:44', 1),
-(383, 76, 1, 0, 19, 'This sourcebook is designed to provide compressed air system users with a reference that outlines opportunities for system performance improvements.', 'https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf', 'Improving Compressed Air System Performance. A Sourcebook for Industry.  Third Edition. U.S.DOE', 0, '2020-06-29 21:22:31', 1),
-(384, 76, 1, 0, 19, 'MEASUR is open source software that consists of the following DOE legacy energy system assessment tools (updated): Pumping System Assessment Tool (PSAT), Process Heating Assessment and Survey Tool (PHAST), Fan System Assessment Tool (FSAT), Steam System Assessment Tool (SSAT)/ Steam System Modeler (SSMT), AIRMaster+ (Last accessed 12/2/2019)   ', 'https://www.energy.gov/eere/amo/measur', 'U.S. Department of Energy MEASUR analysis tool', 0, '2020-06-29 20:55:45', 1),
-(385, 76, 1, 0, 19, 'An informational page with analysis tools, case studies, tip sheets, and checklists', 'https://www.bpa.gov/EE/Sectors/Industrial/Pages/Compressed-Air.aspx', 'Bonneville Power Administration Compressed Air Page', 0, '2020-06-29 20:55:45', 1),
-(560, 8, 0, 0, 8, 'Reduced air pressure not only reduces air compressor energy required for a set volume of air, it will also result in less air volume consumed by leaks and unregulated air uses (although it can be hard to estimate the volume reduction).\r\n', '', '', 0, '2020-06-30 06:01:27', 1),
-(561, 8, 0, 0, 10, 'System pressure is set over 100 PSI for a compressed air system serving standard industrial utilities and controls.\r\n', '', '', 0, '2020-06-30 06:01:27', 1),
-(562, 8, 0, 0, 11, 'Reduce compressed air system pressure to the 95-100 PSI range.', '', '', 0, '2020-06-30 06:01:27', 1),
-(563, 8, 0, 1, 8, 'Check end use requirements. Most equipment requires ~ 85 PSI. Allowing for a 10 PSI system distribution pressure drop should allow the minimum pressure to be set for 95 PSI	', '', '', 0, '2020-06-30 06:01:27', 1),
-(564, 8, 0, 1, 12, 'Try incrementally dropping pressure while checking to ensure no production issues occur', '', '', 0, '2020-06-30 06:01:27', 1),
-(565, 8, 0, 1, 3, 'Expect a 1% drop in compressor energy and cost per 2 PSI in compressor outlet pressure drop (for standard nominal ~100 PSI range systems)', '', '', 0, '2020-06-30 06:01:27', 1),
-(566, 8, 0, 1, 14, 'Does pressure drop more than 10 PSI from the compressor to any location at any time (particularly remote locations or near shorter duration high volume uses)?', '', '', 0, '2020-06-30 06:01:27', 1),
-(567, 8, 0, 2, 12, 'Reduce line pressure losses in compressed air distribution system:', '', '', 0, '2020-06-30 06:01:27', 1),
-(568, 8, 0, 3, 8, 'Pay close attention to oil filters, complex fittings, poor takeoffs, and bottlenecked and overly small pipe diameters', '', '', 0, '2020-06-30 06:01:27', 1),
-(569, 8, 0, 3, 8, 'Critically evaluate regulator placement (and settings)	', '', '', 0, '2020-06-30 06:01:27', 1),
-(570, 8, 0, 2, 12, 'Add receivers close to equipment with periodic high volume air uses (that might be creating local pressure drops).', '', '', 0, '2020-06-30 06:01:27', 1),
-(571, 8, 0, 1, 15, 'Collect pressure settings: current and proposed', '', '', 0, '2020-06-30 06:01:27', 1),
-(572, 8, 0, 1, 15, 'Set up data loggers to collect compressor power over time ', '', '', 0, '2020-06-30 06:01:27', 1),
-(573, 8, 0, 0, 18, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://drive.google.com/open?id=1ZrFL3Cc2rmiRL-lkODnqn4smkZo7BiRX', 'Analysis Template: Reduce Compressed Air Pressure ', 0, '2020-06-30 06:01:27', 1),
-(574, 8, 0, 0, 10, 'An entire plant air system is set at a high pressure because a few pieces of equipment require higher pressure air.		', '', '', 0, '2020-06-30 06:01:27', 1),
-(575, 8, 0, 0, 11, 'Serve high pressure compressed air end use with separate system or a booster	', '', '', 0, '2020-06-30 06:01:27', 1),
-(576, 8, 0, 1, 15, 'Inventory equipment needing higher than average pressures, noting minimum pressure and estimating air volume required.', '', '', 0, '2020-06-30 06:01:27', 1),
+(383, 76, 1, 0, 17, 'This sourcebook is designed to provide compressed air system users with a reference that outlines opportunities for system performance improvements.', 'https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf', 'Improving Compressed Air System Performance. A Sourcebook for Industry.  Third Edition. U.S.DOE', 1, '2020-06-29 21:22:31', 1),
+(384, 76, 1, 0, 17, 'MEASUR is open source software that consists of the following DOE legacy energy system assessment tools (updated): Pumping System Assessment Tool (PSAT), Process Heating Assessment and Survey Tool (PHAST), Fan System Assessment Tool (FSAT), Steam System Assessment Tool (SSAT)/ Steam System Modeler (SSMT), AIRMaster+ (Last accessed 12/2/2019)   ', 'https://www.energy.gov/eere/amo/measur', 'U.S. Department of Energy MEASUR analysis tool', 1, '2020-06-29 20:55:45', 1),
+(385, 76, 1, 0, 17, 'An informational page with analysis tools, case studies, tip sheets, and checklists', 'https://www.bpa.gov/EE/Sectors/Industrial/Pages/Compressed-Air.aspx', 'Bonneville Power Administration Compressed Air Page', 1, '2020-06-29 20:55:45', 1),
 (577, 27, 0, 0, 8, 'Energy savings associated with reductions in compressed air use are very dependent on the compressor control strategy. In the worst case, a compressor with blow off control might not yield any energy savings with compressed air use reductions, and one with inlet modulation might yield only a small part of potential savings.', '', '', 0, '2020-06-30 06:05:38', 1),
 (578, 27, 0, 0, 10, 'The compressed air leak rate exceeds 20 to 30% of air used in the process.', '', '', 0, '2020-06-30 06:05:38', 1),
 (579, 27, 0, 0, 11, 'Reduce compressed air leaks', '', '', 0, '2020-06-30 06:05:38', 1),
@@ -299,7 +282,7 @@ INSERT INTO `items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (583, 27, 0, 1, 15, 'Air use during idle period (often inferred from datalog of power or amps over time)', '', '', 0, '2020-06-30 06:05:38', 1),
 (584, 27, 0, 1, 15, 'Air use during production (often inferred from datalog of power or amps over time)', '', '', 0, '2020-06-30 06:05:38', 1),
 (585, 27, 0, 1, 15, 'Compressor power over time', '', '', 0, '2020-06-30 06:05:38', 1),
-(586, 27, 0, 0, 18, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'vhttps://drive.google.com/drive/u/0/folders/1pJoEFwdmULog_SRARRlqzFfzX5cpV6cI', 'Analysis Template: Repair Compressed Air Leaks ', 0, '2020-06-30 06:05:38', 1),
+(586, 27, 0, 0, 17, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'vhttps://drive.google.com/drive/u/0/folders/1pJoEFwdmULog_SRARRlqzFfzX5cpV6cI', 'Analysis Template: Repair Compressed Air Leaks ', 0, '2020-06-30 06:05:38', 1),
 (587, 27, 0, 0, 10, 'Compressed air used as a temporary quick fix for applications such as cooling bearings, or moving lightweight items that are getting stuck on conveyor.', '', '', 0, '2020-06-30 06:05:38', 1),
 (588, 27, 0, 0, 11, 'Eliminate the use of compressed air “quick fixes” by correcting base issues', '', '', 0, '2020-06-30 06:05:38', 1),
 (589, 27, 0, 1, 13, 'Compressed air is a handy utility that can be used for a temporary resolution of miscellaneous production issues, at the cost of expensive air use. Often these fixes persist without correction of the underlying issue.', '', '', 0, '2020-06-30 06:05:38', 1),
@@ -328,23 +311,39 @@ INSERT INTO `items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (612, 77, 0, 1, 15, 'Complete picture of compressed air system and control strategy', '', '', 0, '2020-06-30 06:08:14', 1),
 (613, 77, 0, 1, 15, 'Average ambient temperature at current and proposed inlet locations', '', '', 0, '2020-06-30 06:08:14', 1),
 (614, 77, 0, 0, 13, 'If implementation requires much more than re-ducting, the chances of this opportunitity being worthwhile are low. ', '', '', 0, '2020-06-30 06:08:14', 1),
-(615, 77, 0, 0, 18, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/zk1aol8rf88aul9klflbxkikz6l2ku47', 'Analysis Template: Reduce Inlet Air Temperature', 0, '2020-06-30 06:08:14', 1),
-(616, 77, 0, 0, 19, 'An article from Compressed Air Best Practices by  Tim Dugan, P.E., President, Compression Engineering Corporation', 'https://www.airbestpractices.com/system-assessments/compressor-controls/inlet-air-temperature-impacts-air-compressor-performance', 'Inlet Air Temperature Impacts on Air Compressor Performance', 0, '2020-06-30 06:08:14', 1),
+(615, 77, 0, 0, 17, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/zk1aol8rf88aul9klflbxkikz6l2ku47', 'Analysis Template: Reduce Inlet Air Temperature', 0, '2020-06-30 06:08:14', 1),
+(616, 77, 0, 0, 17, 'An article from Compressed Air Best Practices by  Tim Dugan, P.E., President, Compression Engineering Corporation', 'https://www.airbestpractices.com/system-assessments/compressor-controls/inlet-air-temperature-impacts-air-compressor-performance', 'Inlet Air Temperature Impacts on Air Compressor Performance', 1, '2020-06-30 06:08:14', 1),
 (617, 47, 0, 0, 5, 'Jet fuel is flammable', '', '', 0, '2020-06-30 06:11:00', 1),
 (618, 47, 0, 1, 4, 'Be careful', '', '', 0, '2020-06-30 06:11:00', 1),
 (619, 47, 0, 0, 20, '', 'https://blog.klm.com/assets/uploads/2018/12/Jet-engine-KLM-768x510.jpg', 'KLM Jet Engine', 0, '2020-06-30 06:11:00', 1),
-(620, 47, 0, 0, 19, 'Learn more about Jet Engines', 'https://en.wikipedia.org/wiki/Jet_engine', 'Wikipedia - Jet Engines', 0, '2020-06-30 06:11:00', 1),
+(620, 47, 0, 0, 17, 'Learn more about Jet Engines', 'https://en.wikipedia.org/wiki/Jet_engine', 'Wikipedia - Jet Engines', 1, '2020-06-30 06:11:00', 1),
 (621, 49, 0, 0, 2, 'Uses a lot of fossil fuels', '', '', 0, '2020-06-30 06:11:15', 1),
 (622, 49, 0, 1, 4, 'Hurts birds', '', '', 0, '2020-06-30 06:11:15', 1),
 (623, 49, 0, 2, 5, 'Uses a lot of steel', '', '', 0, '2020-06-30 06:11:15', 1),
-(637, 75, 0, 0, 19, 'See compressed air tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 0, '2020-06-30 06:38:26', 1),
-(638, 75, 0, 0, 19, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air11.pdf', 'Alternative Strategies for Low-Pressure End Uses', 0, '2020-06-30 06:38:26', 1),
-(639, 75, 0, 0, 19, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air4.pdf', 'Analyzing Your Compressed Air System', 0, '2020-06-30 06:38:26', 1),
+(637, 75, 0, 0, 17, 'See compressed air tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-06-30 06:38:26', 1),
+(638, 75, 0, 0, 17, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air11.pdf', 'Alternative Strategies for Low-Pressure End Uses', 1, '2020-06-30 06:38:26', 1),
+(639, 75, 0, 0, 17, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air4.pdf', 'Analyzing Your Compressed Air System', 1, '2020-06-30 06:38:26', 1),
 (640, 47, 0, 0, 5, 'Jet fuel is flammable', '', '', 0, '2020-06-30 06:58:38', 0),
 (641, 47, 0, 1, 4, 'Be careful', '', '', 0, '2020-06-30 06:58:38', 0),
 (642, 47, 0, 0, 20, '', 'https://blog.klm.com/assets/uploads/2018/12/Jet-engine-KLM-768x510.jpg', 'KLM Jet Engine', 0, '2020-06-30 06:58:38', 0),
-(643, 47, 0, 0, 19, 'Learn more about Jet Engines', 'https://en.wikipedia.org/wiki/Jet_engine', 'Wikipedia - Jet Engines', 0, '2020-06-30 06:58:38', 0),
-(644, 47, 0, 0, 22, '$empty', '234234234', 'SLIDESHOW!', 0, '2020-06-30 06:58:38', 0);
+(643, 47, 0, 0, 17, 'Learn more about Jet Engines', 'https://en.wikipedia.org/wiki/Jet_engine', 'Wikipedia - Jet Engines', 1, '2020-06-30 06:58:38', 0),
+(645, 8, 0, 0, 8, 'Reduced air pressure not only reduces air compressor energy required for a set volume of air, it will also result in less air volume consumed by leaks and unregulated air uses (although it can be hard to estimate the volume reduction).\r\n', '', '', 0, '2020-06-30 07:17:35', 1),
+(646, 8, 0, 0, 10, 'System pressure is set over 100 PSI for a compressed air system serving standard industrial utilities and controls.\r\n', '', '', 0, '2020-06-30 07:17:35', 1),
+(647, 8, 0, 0, 11, 'Reduce compressed air system pressure to the 95-100 PSI range.', '', '', 0, '2020-06-30 07:17:35', 1),
+(648, 8, 0, 1, 8, 'Check end use requirements. Most equipment requires ~ 85 PSI. Allowing for a 10 PSI system distribution pressure drop should allow the minimum pressure to be set for 95 PSI	', '', '', 0, '2020-06-30 07:17:35', 1),
+(649, 8, 0, 1, 12, 'Try incrementally dropping pressure while checking to ensure no production issues occur', '', '', 0, '2020-06-30 07:17:35', 1),
+(650, 8, 0, 1, 3, 'Expect a 1% drop in compressor energy and cost per 2 PSI in compressor outlet pressure drop (for standard nominal ~100 PSI range systems)', '', '', 0, '2020-06-30 07:17:35', 1),
+(651, 8, 0, 1, 14, 'Does pressure drop more than 10 PSI from the compressor to any location at any time (particularly remote locations or near shorter duration high volume uses)?', '', '', 0, '2020-06-30 07:17:35', 1),
+(652, 8, 0, 2, 12, 'Reduce line pressure losses in compressed air distribution system:', '', '', 0, '2020-06-30 07:17:35', 1),
+(653, 8, 0, 3, 8, 'Pay close attention to oil filters, complex fittings, poor takeoffs, and bottlenecked and overly small pipe diameters', '', '', 0, '2020-06-30 07:17:35', 1),
+(654, 8, 0, 3, 8, 'Critically evaluate regulator placement (and settings)	', '', '', 0, '2020-06-30 07:17:35', 1),
+(655, 8, 0, 2, 12, 'Add receivers close to equipment with periodic high volume air uses (that might be creating local pressure drops).', '', '', 0, '2020-06-30 07:17:35', 1),
+(656, 8, 0, 1, 15, 'Collect pressure settings: current and proposed', '', '', 0, '2020-06-30 07:17:35', 1),
+(657, 8, 0, 1, 15, 'Set up data loggers to collect compressor power over time ', '', '', 0, '2020-06-30 07:17:35', 1),
+(658, 8, 0, 0, 17, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://drive.google.com/open?id=1ZrFL3Cc2rmiRL-lkODnqn4smkZo7BiRX', 'Analysis Template: Reduce Compressed Air Pressure ', 0, '2020-06-30 07:17:35', 1),
+(659, 8, 0, 0, 10, 'An entire plant air system is set at a high pressure because a few pieces of equipment require higher pressure air.		', '', '', 0, '2020-06-30 07:17:35', 1),
+(660, 8, 0, 0, 11, 'Serve high pressure compressed air end use with separate system or a booster	', '', '', 0, '2020-06-30 07:17:35', 1),
+(661, 8, 0, 1, 15, 'Inventory equipment needing higher than average pressures, noting minimum pressure and estimating air volume required.', '', '', 0, '2020-06-30 07:17:35', 1);
 
 -- --------------------------------------------------------
 
@@ -597,7 +596,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cards`
 --
 ALTER TABLE `cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `headers`
@@ -615,7 +614,7 @@ ALTER TABLE `icons`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=645;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=667;
 
 --
 -- AUTO_INCREMENT for table `pages`
