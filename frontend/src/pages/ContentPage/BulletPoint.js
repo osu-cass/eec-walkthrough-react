@@ -81,7 +81,7 @@ function BulletPoint (props) {
             <div>
               <a href={props.url} className={`${props.icon === "link" ? "text-primary" : "osu-link"}`}> {props.label} </a>
               <br/>
-              {props.text}
+              {props.text === "$empty" ? (null) : (props.text)}
             </div>
             {/* External links have additional content */}
             {props.icon === "link" ? (

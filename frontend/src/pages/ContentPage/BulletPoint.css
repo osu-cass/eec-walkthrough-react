@@ -1,4 +1,4 @@
-.fa-flag, .fa-fire {
+.fa-flag, .fa-fire, .fa-book {
   color: #E81224 !important;
 }
 
@@ -6,11 +6,11 @@
   color: #FFC83D !important;
 }
 
-.fa-thumbs-up, .fa-file {
+.fa-thumbs-up, .fa-file, .fa-video-camera {
   color: #007BFF !important;
 }
 
-.fa-chart-area{
+.fa-chart-area, .fa-play {
   color: #32C332 !important;
 }
 
