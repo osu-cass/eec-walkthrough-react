@@ -89,7 +89,10 @@ function ConstructCardModal(props) {
     for (let i = 0; i < props.iconSet.length; i++) {
       if (props.iconSet[i].typeName === "chart-area") {
         images.push(props.iconSet[i]);
-      } else if (props.iconSet[i].typeName === "info" || props.iconSet[i].typeName === "link") {
+      } else if (props.iconSet[i].typeName === "info" || props.iconSet[i].typeName === "link" ||
+        props.iconSet[i].typeName === "document" || props.iconSet[i].typeName === "list"||
+        props.iconSet[i].typeName === "play" || props.iconSet[i].typeName === "video-camera" ||
+        props.iconSet[i].typeName === "book" || props.iconSet[i].typeName === "truck" ) {
         links.push(props.iconSet[i]);
       } else {
         gen.push(props.iconSet[i]);
