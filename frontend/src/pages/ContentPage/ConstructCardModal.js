@@ -132,6 +132,11 @@ function ConstructCardModal(props) {
       newIconType = items[items.length - 1].iconType;
     }
 
+    let newContentMode = -1;
+    if (items.length && items[items.length - 1].contentType === 3) {
+      newContentMode = items[items.length - 1].contentMode;
+    }
+
     // Init new empty item
     copy[key] = {};
     copy[key].counterId = pureId + 1;
@@ -140,9 +145,9 @@ function ConstructCardModal(props) {
     copy[key].contentUrl = "";
     copy[key].iconType = newIconType;
     copy[key].contentType = contentType;
-    copy[key].contentMode = -1;
+    copy[key].contentMode = newContentMode;
     copy[key].indentation = 0;
-
+    console.log("NEW content MODE",newContentMode );
     // Make sure the indentation is up to date
     copy = scanIndentation(copy);
 
