@@ -51,7 +51,7 @@ function NavBar (props) {
               Industrial Walkthrough Checklist &amp; Reference (Demo)
             </h4>
           </div>
-            
+
         </div>
 
         <div className="d-flex nav-item align-items-center mt-3">

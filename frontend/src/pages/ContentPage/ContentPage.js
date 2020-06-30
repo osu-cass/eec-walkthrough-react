@@ -17,7 +17,7 @@ function ContentPage(props) {
 
   const [errorPage, setErrorPage] = useState(false);
   const [pageInfo, setPageInfo] = useState({});
-  const [headers, setHeaders] = useState([])
+  const [headers, setHeaders] = useState([]);
   const [iconSet, setIconSet] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [userId, setUserId] = useState(0);
@@ -80,7 +80,7 @@ function ContentPage(props) {
     const copy = [...headers];
     let headerIndex = -1;
     let moved = false;
-    
+
     // Create a list of only approved headers
     const approvedHeaders = [];
     for (let i = 0; i < copy.length; i++) {
@@ -107,15 +107,15 @@ function ContentPage(props) {
     // Check if we are trying to move up or down
     if (up) {
       // if this is not the top header of this page, swap it with the header above it
-        if (headerIndex > 0) {
-          const trueIndex = approvedHeaders[headerIndex].trueIndex;
-          const otherTrueIndex = approvedHeaders[headerIndex - 1].trueIndex;
-          const tempHeader = copy[trueIndex];
-          copy[trueIndex] = copy[otherTrueIndex];
-          copy[otherTrueIndex] = tempHeader;
-          setHeaders(copy);
-          moved = true;
-        }
+      if (headerIndex > 0) {
+        const trueIndex = approvedHeaders[headerIndex].trueIndex;
+        const otherTrueIndex = approvedHeaders[headerIndex - 1].trueIndex;
+        const tempHeader = copy[trueIndex];
+        copy[trueIndex] = copy[otherTrueIndex];
+        copy[otherTrueIndex] = tempHeader;
+        setHeaders(copy);
+        moved = true;
+      }
     } else {
       // if this is not the bottom header of this page, swap it with the header below it
       if (headerIndex + 1 < approvedHeaders.length) {
@@ -167,7 +167,7 @@ function ContentPage(props) {
     let headerIndex = -1;
     let cardIndex = -1;
     let moved = false;
-    
+
     // Find the index of this header
     for (let i = 0; i < copy.length; i++) {
       if (copy[i].headerId === headerId) {
@@ -207,16 +207,16 @@ function ContentPage(props) {
     // Check if we are trying to move up or down
     if (up) {
       // if this is not the top card of this header, swap it with the card above it
-        if (cardIndex > 0) {
-          const trueIndex = approvedCards[cardIndex].trueIndex;
-          const otherTrueIndex = approvedCards[cardIndex - 1].trueIndex;
-          const tempCard = copy[headerIndex].cards[trueIndex];
-          copy[headerIndex].cards[trueIndex] = copy[headerIndex].cards[otherTrueIndex];
-          copy[headerIndex].cards[otherTrueIndex] = tempCard;
-          setHeaders(copy);
-          setCardState(cardState + 1);
-          moved = true;
-        }
+      if (cardIndex > 0) {
+        const trueIndex = approvedCards[cardIndex].trueIndex;
+        const otherTrueIndex = approvedCards[cardIndex - 1].trueIndex;
+        const tempCard = copy[headerIndex].cards[trueIndex];
+        copy[headerIndex].cards[trueIndex] = copy[headerIndex].cards[otherTrueIndex];
+        copy[headerIndex].cards[otherTrueIndex] = tempCard;
+        setHeaders(copy);
+        setCardState(cardState + 1);
+        moved = true;
+      }
     } else {
       // if this is not the bottom card of this header, swap it with the card below it
       if (cardIndex + 1 < approvedCards.length) {

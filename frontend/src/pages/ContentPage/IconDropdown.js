@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 // Drop down menu that contains icons for creating items in a card
 function IconDropdown(props) {
 
-  const[selectedIndex, setSelectedIndex] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   function newClick(id, idx) {
     // Set state of current dropdown menu

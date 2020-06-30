@@ -90,9 +90,9 @@ function ConstructCardModal(props) {
     for (let i = 0; i < props.iconSet.length; i++) {
       if (props.iconSet[i].typeName === "chart-area") {
         images.push(props.iconSet[i]);
-      } else if (props.iconSet[i].typeName === "copy" || props.iconSet[i].typeName === "list"||
+      } else if (props.iconSet[i].typeName === "copy" || props.iconSet[i].typeName === "list" ||
         props.iconSet[i].typeName === "play" || props.iconSet[i].typeName === "video-camera" ||
-        props.iconSet[i].typeName === "book" || props.iconSet[i].typeName === "truck" ) {
+        props.iconSet[i].typeName === "book" || props.iconSet[i].typeName === "truck") {
         links.push(props.iconSet[i]);
       } else if (props.iconSet[i].typeName !== "info" && props.iconSet[i].typeName !== "link") {
         gen.push(props.iconSet[i]);
@@ -147,7 +147,7 @@ function ConstructCardModal(props) {
     copy[key].contentType = contentType;
     copy[key].contentMode = newContentMode;
     copy[key].indentation = 0;
-    console.log("NEW content MODE",newContentMode );
+
     // Make sure the indentation is up to date
     copy = scanIndentation(copy);
 
@@ -160,7 +160,7 @@ function ConstructCardModal(props) {
   function changeIndent(counterId, amount) {
     let arrayIndex = -1;
     let copy = [...items];
-    
+
     // Find the index of this item
     for (let i = 0; i < copy.length; i++) {
       if (copy[i].counterId === counterId) {
@@ -206,7 +206,7 @@ function ConstructCardModal(props) {
   function changeOrder(counterId, up) {
     let arrayIndex = -1;
     let copy = [...items];
-    
+
     // Find the index of this item
     for (let i = 0; i < copy.length; i++) {
       if (copy[i].counterId === counterId) {
@@ -255,7 +255,7 @@ function ConstructCardModal(props) {
     }
 
     // Prepare data for new card
-    let cardData = {
+    const cardData = {
       headerId: props.headerId,
       cardType: newCardFormat,
       title: title,
@@ -319,7 +319,7 @@ function ConstructCardModal(props) {
     }
 
     // Prepare data for new card
-    let cardData = {
+    const cardData = {
       cardType: newCardFormat,
       title: title,
       items: copy
@@ -365,7 +365,7 @@ function ConstructCardModal(props) {
   function deleteItem(counterId) {
     let arrayIndex = -1;
     let copy = [...items];
-    
+
     if (!window.confirm("Are you sure you wish to delete this item?")) {
       return;
     }
@@ -404,10 +404,10 @@ function ConstructCardModal(props) {
     }
     // Update the indentation of the rest of the items
     for (let i = 1; i < itemArray.length; i++) {
-      if (itemArray[i].indentation > itemArray[i-1].indentation + 1) {
-        itemArray[i].indentation = itemArray[i-1].indentation + 1;
+      if (itemArray[i].indentation > itemArray[i - 1].indentation + 1) {
+        itemArray[i].indentation = itemArray[i - 1].indentation + 1;
       }
-      itemArray[i].maxIndent = itemArray[i-1].indentation + 1;
+      itemArray[i].maxIndent = itemArray[i - 1].indentation + 1;
     }
     return itemArray;
   }
@@ -622,35 +622,35 @@ function ConstructCardModal(props) {
               <div className="input-group">
                 <span className="ml-2 mr-3">
                   <button className='btn btn-danger btn-sm ml-2'
-                    onClick={(e) => deleteItem(item.counterId)}
+                    onClick={() => deleteItem(item.counterId)}
                     key={item.counterId + "g"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-times' />
                   </button>
                   <button className={`btn btn-primary btn-sm ml-2 ${item.indentation === 0 ? "disabled" : ""}`}
-                    onClick={(e) => changeIndent(item.counterId, -1)}
+                    onClick={() => changeIndent(item.counterId, -1)}
                     key={item.counterId + "c"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-minus' />
                   </button>
                   <button className={`btn btn-primary btn-sm ml-2 ${item.maxIndent <= item.indentation || item.indentation === 4 ? "disabled" : ""}`}
-                    onClick={(e) => changeIndent(item.counterId, 1)}
+                    onClick={() => changeIndent(item.counterId, 1)}
                     key={item.counterId + "d"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-plus' />
                   </button>
                   <button className={`btn btn-success btn-sm ml-2 ${i ? "" : "disabled"}`}
-                    onClick={(e) => changeOrder(item.counterId, true)}
+                    onClick={() => changeOrder(item.counterId, true)}
                     key={item.counterId + "e"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-arrow-up' />
                   </button>
                   <button className={`btn btn-success btn-sm ml-2 ${i + 1 < items.length ? "" : "disabled"}`}
-                    onClick={(e) => changeOrder(item.counterId, false)}
+                    onClick={() => changeOrder(item.counterId, false)}
                     key={item.counterId + "f"}
                     data-index={i}
                   >
@@ -693,7 +693,7 @@ function ConstructCardModal(props) {
               />
             </div>
           </Row>
-          
+
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">

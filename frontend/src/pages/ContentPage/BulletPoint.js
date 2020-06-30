@@ -80,12 +80,12 @@ function BulletPoint (props) {
           <div className="content-td pb-2 col">
             <div>
               <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}> {props.label} </a>
-              {props.contentMode === 1 || props.contentMode === 3 ?(
+              {props.contentMode === 1 || props.contentMode === 3 ? (
                 <i className={`fas fa-fw fa-sm fa-link mx-1`} />
               ) : (
                 <i className={`fas fa-fw fa-sm fa-info mx-1`} />
               )}
-              {props.contentMode === 2 || props.contentMode === 3 ?(
+              {props.contentMode === 2 || props.contentMode === 3 ? (
                 <i className={`fas fa-fw fa-sm fa-download mr-1`} />
               ) : (
                 null
@@ -137,5 +137,6 @@ BulletPoint.propTypes = {
   bold: PropTypes.any,
   created: PropTypes.any,
   indentation: PropTypes.number,
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  contentMode: PropTypes.number
 };
