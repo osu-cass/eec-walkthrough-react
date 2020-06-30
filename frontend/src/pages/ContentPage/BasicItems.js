@@ -16,6 +16,7 @@ function BasicItems(props) {
             icon={item.typeName}
             text={item.contentText}
             label={item.contentLabel}
+            contentMode={item.contentMode}
             created={item.created}
             indentation={item.indentation}
             mode={props.mode}

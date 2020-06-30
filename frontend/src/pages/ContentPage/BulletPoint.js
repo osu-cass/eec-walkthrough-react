@@ -71,7 +71,7 @@ function BulletPoint (props) {
         null
       )}
 
-      {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 || props.icon !== "link" || timestamp !== null) ? (
+      {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 || props.contentMode === 1 || props.contentMode === 3 || timestamp !== null) ? (
         <div className="row mx-auto">
           <div className="icon-td pb-2">
             <Indent indentLevel={props.indentation} />
@@ -79,27 +79,40 @@ function BulletPoint (props) {
           </div>
           <div className="content-td pb-2 col">
             <div>
-              <a href={props.url} className={`${props.icon === "link" ? "text-primary" : "osu-link"}`}> {props.label} </a>
+              <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}> {props.label} </a>
+              {props.contentMode === 1 || props.contentMode === 3 ?(
+                <i className={`fas fa-fw fa-sm fa-link mx-1`} />
+              ) : (
+                <i className={`fas fa-fw fa-sm fa-info mx-1`} />
+              )}
+              {props.contentMode === 2 || props.contentMode === 3 ?(
+                <i className={`fas fa-fw fa-sm fa-download mr-1`} />
+              ) : (
+                null
+              )}
+              {props.contentMode === 1 || props.contentMode === 3 ? (
+                <Fragment>
+                  {timestamp && timestamp !== "null" ? (
+                    <small className="last-accessed-link">
+                      {`Confirmed valid ${formatTime(timestamp)}`}
+                    </small>
+                  ) : (
+                    <small className="last-accessed-link-bad">
+                      {`This link is no longer valid`}
+                    </small>
+                  )}
+                </Fragment>
+              ) : (
+                null
+              )}
               <br/>
               {props.text === "$empty" ? (null) : (props.text)}
             </div>
-            {/* External links have additional content */}
-            {props.icon === "link" ? (
-              <Fragment>
-                {timestamp && timestamp !== "null" ? (
-                  <span className="last-accessed-link">
-                    {`Confirmed valid ${formatTime(timestamp)}`}
-                  </span>
-                ) : (
-                  <span className="last-accessed-link-bad">
-                    {`This link is no longer valid`}
-                  </span>
-                )}
-                <LinkAccessButtons
-                  itemId={props.id}
-                  handleTimestampChange={(e) => handleTimestampChange(e)}
-                />
-              </Fragment>
+            {props.contentMode === 1 || props.contentMode === 3 ? (
+              <LinkAccessButtons
+                itemId={props.id}
+                handleTimestampChange={(e) => handleTimestampChange(e)}
+              />
             ) : (
               null
             )}
