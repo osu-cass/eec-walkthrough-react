@@ -120,7 +120,7 @@ function ReviewCard(props) {
                   {props.card.cardType ? (
                     <ThumbnailGallery items={imageItems} />
                   ): (
-                    <BasicItems items={props.card.items} />
+                    <BasicItems items={props.card.items} mode={props.mode} />
                   )}
                 {props.cardItems}
               </div>
@@ -138,7 +138,7 @@ function ReviewCard(props) {
                   {props.card.tempCardType ? (
                     <ThumbnailGallery items={imageTempItems} />
                   ): (
-                    <BasicItems items={props.card.tempItems} />
+                    <BasicItems items={props.card.tempItems} mode={props.mode} />
                   )}
               </div>
             </div>
@@ -187,5 +187,6 @@ export default ReviewCard;
 ReviewCard.propTypes = {
   edited: PropTypes.bool,
   refresh: PropTypes.func,
-  card: PropTypes.object
+  card: PropTypes.object,
+  mode: PropTypes.number
 };

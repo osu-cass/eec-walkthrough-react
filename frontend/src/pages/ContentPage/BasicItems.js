@@ -18,6 +18,7 @@ function BasicItems(props) {
             label={item.contentLabel}
             created={item.created}
             indentation={item.indentation}
+            mode={props.mode}
           />
         )}
     </div>
@@ -27,5 +28,6 @@ function BasicItems(props) {
 export default BasicItems;
 
 BasicItems.propTypes = {
-  items: PropTypes.array
+  items: PropTypes.array,
+  mode: PropTypes.number
 };

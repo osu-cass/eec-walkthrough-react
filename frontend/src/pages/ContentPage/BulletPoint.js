@@ -71,7 +71,7 @@ function BulletPoint (props) {
         null
       )}
 
-      {getContentType(props.text, props.label, props.url) === 3 ? (
+      {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 || props.icon !== "link" || timestamp !== null) ? (
         <div className="row mx-auto">
           <div className="icon-td pb-2">
             <Indent indentLevel={props.indentation} />
@@ -123,5 +123,6 @@ BulletPoint.propTypes = {
   icon: PropTypes.any,
   bold: PropTypes.any,
   created: PropTypes.any,
-  indentation: PropTypes.number
+  indentation: PropTypes.number,
+  mode: PropTypes.number
 };
