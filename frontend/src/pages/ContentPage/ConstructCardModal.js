@@ -121,13 +121,18 @@ function ConstructCardModal(props) {
     const key = (newCounter).toString();
     let copy = [...items];
 
+    let newIconType = null;
+    if (items[items.length - 1].contentType === contentType) {
+      newIconType = items[items.length - 1].iconType;
+    }
+
     // Init new empty item
     copy[key] = {};
     copy[key].counterId = pureId + 1;
     copy[key].contentText = "";
     copy[key].contentLabel = "";
     copy[key].contentUrl = "";
-    copy[key].iconType = null;
+    copy[key].iconType = newIconType;
     copy[key].contentType = contentType;
     copy[key].indentation = 0;
 
