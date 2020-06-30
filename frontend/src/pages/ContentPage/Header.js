@@ -149,22 +149,47 @@ function Header(props) {
       let allTempItems = [];
       let itemExists = false;
       let tempItemExists = false;
+      let hideIndent = false;
 
       // check each normal item in the card
       for (let j = 0; j < props.header.cards[i].items.length; j++) {
+        // check if this item is indented and if it needs to be hidden
+        if (props.header.cards[i].items[j].indentation) {
+          if (hideIndent) {
+            continue;
+          }
+        } else {
+          hideIndent = false;
+        }
         // see if the item should be filtered or not
         if (filterState[props.header.cards[i].items[j].iconType]) {
           allItems.push(props.header.cards[i].items[j]);
           itemExists = true;
+        } else {
+          // if this item has children they need to be hidden
+          hideIndent = true;
         }
       }
 
+      hideIndent = false;
+
       // check each temp item in the card
-      for (let k = 0; k < props.header.cards[i].tempItems.length; k++) {
+      for (let j = 0; j < props.header.cards[i].tempItems.length; j++) {
+        // check if this item is indented and if it needs to be hidden
+        if (props.header.cards[i].tempItems[j].indentation) {
+          if (hideIndent) {
+            continue;
+          }
+        } else {
+          hideIndent = false;
+        }
         // see if the item should be filtered or not
-        if (filterState[props.header.cards[i].tempItems[k].iconType]) {
-          allTempItems.push(props.header.cards[i].tempItems[k]);
+        if (filterState[props.header.cards[i].tempItems[j].iconType]) {
+          allTempItems.push(props.header.cards[i].tempItems[j]);
           tempItemExists = true;
+        } else {
+          // if this item has children they need to be hidden
+          hideIndent = true;
         }
       }
 
@@ -174,7 +199,7 @@ function Header(props) {
 
       // Mark the card as edited or published.
       // If the card in current view mode is empty, hide it.
-      if ((props.mode !== 1 && itemExists) || 
+      if ((props.mode !== 1 && itemExists) ||
           (props.mode === 1 && !cardView && itemExists)) {
         card.edited = false;
         allCards.push(card);
