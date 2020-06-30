@@ -101,6 +101,7 @@ function Card(props) {
               refresh={() => props.refresh()}
               edited={props.card.edited}
               card={props.unfilteredCard}
+              mode={props.mode}
             />
           </div>
         ) : (
@@ -143,7 +144,7 @@ function Card(props) {
         {cardType ? (
           <ThumbnailGallery items={items} />
         ): (
-          <BasicItems items={items} />
+          <BasicItems items={items} mode={props.mode}/>
         )}
       </CardBS.Body>
     </CardBS>
