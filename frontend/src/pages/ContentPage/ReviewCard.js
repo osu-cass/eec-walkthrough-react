@@ -149,9 +149,9 @@ function ReviewCard(props) {
               <div className="m-3">
                 <h3 className="font-weight-bold">{props.card.title}</h3>
                   {props.card.cardType ? (
-                    <ThumbnailGallery items={imageItems} />
+                    <ThumbnailGallery items={imageTempItems} />
                   ): (
-                    <BasicItems items={props.card.items} />
+                    <BasicItems items={props.card.tempItems} />
                   )}
               </div>
             </div>
