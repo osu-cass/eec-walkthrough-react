@@ -117,12 +117,11 @@ function ReviewCard(props) {
               <span className="created-text">Created {formatTime(props.card.created)}</span>
               <div className="m-3">
                 <h3 className="font-weight-bold">{props.card.title}</h3>
-                  {props.card.cardType ? (
-                    <ThumbnailGallery items={imageItems} />
-                  ): (
-                    <BasicItems items={props.card.items} mode={props.mode} />
-                  )}
-                {props.cardItems}
+                {props.card.cardType ? (
+                  <ThumbnailGallery items={imageItems} />
+                ) : (
+                  <BasicItems items={props.card.items} mode={props.mode} />
+                )}
               </div>
             </div>
           ) : (
@@ -135,11 +134,11 @@ function ReviewCard(props) {
               <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
               <div className="m-3">
                 <h3 className="font-weight-bold">{props.card.tempTitle}</h3>
-                  {props.card.tempCardType ? (
-                    <ThumbnailGallery items={imageTempItems} />
-                  ): (
-                    <BasicItems items={props.card.tempItems} mode={props.mode} />
-                  )}
+                {props.card.tempCardType ? (
+                  <ThumbnailGallery items={imageTempItems} />
+                ) : (
+                  <BasicItems items={props.card.tempItems} mode={props.mode} />
+                )}
               </div>
             </div>
           ) : (
@@ -148,11 +147,11 @@ function ReviewCard(props) {
               <span className="created-text">Created {formatTime(props.card.created)}</span>
               <div className="m-3">
                 <h3 className="font-weight-bold">{props.card.title}</h3>
-                  {props.card.cardType ? (
-                    <ThumbnailGallery items={imageTempItems} />
-                  ): (
-                    <BasicItems items={props.card.tempItems} />
-                  )}
+                {props.card.cardType ? (
+                  <ThumbnailGallery items={imageTempItems} />
+                ) : (
+                  <BasicItems items={props.card.tempItems} />
+                )}
               </div>
             </div>
           )}

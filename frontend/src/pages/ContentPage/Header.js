@@ -145,8 +145,8 @@ function Header(props) {
       // Filter items out of the current card
       const card = JSON.parse(JSON.stringify(props.header.cards[i]));
       const fullCard = JSON.parse(JSON.stringify(props.header.cards[i]));
-      let allItems = [];
-      let allTempItems = [];
+      const allItems = [];
+      const allTempItems = [];
       let itemExists = false;
       let tempItemExists = false;
       let hideIndent = false;

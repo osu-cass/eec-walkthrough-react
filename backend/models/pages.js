@@ -784,7 +784,7 @@ async function publishPage(pageId) {
       "AND pageId != ? " +
       "AND approved = 1;";
       results = await pool.query(checkSql, [tempPage.tempName, pageType, pageId]);
-      console.log(tempPage.tempName, pageType);
+
       if (results[0].length) {
         return {error: 2};
       }

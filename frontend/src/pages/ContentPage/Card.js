@@ -78,7 +78,7 @@ function Card(props) {
     const cardData = {
       items: newItems,
       cardType: cardType
-    }
+    };
 
     return cardData;
 
@@ -132,18 +132,18 @@ function Card(props) {
       <CardBS.Body>
         {props.card.invalid ? (
           <Fragment>
-          <h4>INVALID CARD!</h4>
-          <p> 
+            <h4>INVALID CARD!</h4>
+            <p>
             This card has no content.
             Either add content to this card or delete it.
-          </p>
+            </p>
           </Fragment>
         ) : (
           null
         )}
         {cardType ? (
           <ThumbnailGallery items={items} />
-        ): (
+        ) : (
           <BasicItems items={items} mode={props.mode}/>
         )}
       </CardBS.Body>
