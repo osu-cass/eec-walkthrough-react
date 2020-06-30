@@ -64,7 +64,7 @@ function BulletPoint (props) {
               </span>
               {props.label}
             </div>
-            <Image url={props.url} title={props.label} thumbnail={false} header={false}/>
+            <Image url={props.url} title={props.label} thumbnail={false} header={false} />
           </div>
         </div>
       ) : (
@@ -79,7 +79,7 @@ function BulletPoint (props) {
           </div>
           <div className="content-td pb-2 col">
             <div>
-              <a href={props.url} className="text-primary"> {props.label} </a>
+              <a href={props.url} className={`${props.icon === "link" ? "text-primary" : "osu-link"}`}> {props.label} </a>
               <br/>
               {props.text}
             </div>
