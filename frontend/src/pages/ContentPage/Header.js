@@ -298,6 +298,7 @@ function Header(props) {
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
                 top={i === 0 ? (true) : (false)}
                 bottom={i >= cards.length - 1 ? (true) : (false)}
+                handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
               />
             )}
           </div>
@@ -344,6 +345,7 @@ function Header(props) {
                 mode={props.mode}
                 iconSet={props.iconSet}
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
+                handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
               />
             )}
           </div>
@@ -366,5 +368,6 @@ Header.propTypes = {
   iconSet: PropTypes.any,
   top: PropTypes.bool,
   bottom: PropTypes.bool,
-  cardState: PropTypes.number
+  cardState: PropTypes.number,
+  handleTimestamp: PropTypes.func
 };

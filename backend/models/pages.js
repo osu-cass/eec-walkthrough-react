@@ -296,7 +296,7 @@ async function getFullPage(pageId, viewAll) {
           "ORDER BY orderIndex ASC, itemId ASC";
 
           results = await pool.query(sql, cardId);
-          console.log(results[0]);
+
           finalResults.headers[i].cards[j].items = results[0];
 
           // get all unapproved items

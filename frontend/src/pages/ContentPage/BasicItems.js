@@ -20,6 +20,7 @@ function BasicItems(props) {
           created={item.created}
           indentation={item.indentation}
           mode={props.mode}
+          handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
         />
       )}
     </div>
@@ -29,6 +30,7 @@ function BasicItems(props) {
 export default BasicItems;
 
 BasicItems.propTypes = {
+  handleTimestamp: PropTypes.func,
   items: PropTypes.array,
   mode: PropTypes.number
 };
