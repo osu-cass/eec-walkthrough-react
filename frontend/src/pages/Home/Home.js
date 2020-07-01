@@ -1,5 +1,6 @@
 import React from "react";
 import {Card, Col} from "react-bootstrap";
+import {NavLink} from "react-router-dom";
 import "./Home.css";
 
 function Home() {
@@ -16,16 +17,16 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
               <li>
-                <span className="font-weight-bold">Subjects </span>
-                <span className="font-weight-normal">An introduction to a subject industrial technology, process or technique, followed by specific improvement opportunities to consider.</span>
+                <NavLink to="/page-list/subjects"><b>Subjects</b></NavLink>
+                <span className="font-weight-normal">: An introduction to a subject industrial technology, process or technique, followed by specific improvement opportunities to consider.</span>
               </li>
             </ul>
           </div>
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
               <li>
-                <span className="font-weight-bold">Industries </span>
-                <span className="font-weight-normal">An overview of the industry is followed by a list of common related subjects.</span>
+                <NavLink to="/page-list/industries"><b>Industries</b></NavLink>
+                <span className="font-weight-normal">: An overview of the industry is followed by a list of common related subjects.</span>
               </li>
             </ul>
           </div>
