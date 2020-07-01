@@ -75,6 +75,38 @@ function ContentPage(props) {
     setLoaded(true);
   }
 
+  // Updates a timestamp (for an external link) that has been edited
+  function handleTimestamp(message, approved, itemId, cardId, headerId) {
+    let copy = [...headers];
+
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].headerId === headerId) {
+        for (let j = 0; j < copy[i].cards.length; j++) {
+          if (copy[i].cards[j].cardId === cardId) {
+            if (approved) {
+              for (let k = 0; k < copy[i].cards[j].items.length; k++) {
+                if (copy[i].cards[j].items[k].itemId === itemId) {
+                  copy[i].cards[j].items[k].created = message;
+                  setHeaders(copy);
+                  return;
+                }
+              }
+            } else {
+              for (let k = 0; k < copy[i].cards[j].tempItems.length; k++) {
+                if (copy[i].cards[j].tempItems[k].itemId === itemId) {
+                  copy[i].cards[j].tempItems[k].created = message;
+                  setHeaders(copy);
+                  return;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
+  }
+
   // Moves the specified header up or down one in relation to other headers
   async function handleMoveHeader(headerId, up) {
     const copy = [...headers];
@@ -299,6 +331,7 @@ function ContentPage(props) {
                 cardState={cardState}
                 top={i === 0 ? (true) : (false)}
                 bottom={i >= headers.length - 1 ? (true) : (false)}
+                handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
               />
               <CreateCard
                 headerId={header.headerId}

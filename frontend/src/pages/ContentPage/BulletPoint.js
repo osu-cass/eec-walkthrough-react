@@ -9,12 +9,6 @@ import "./BulletPoint.css";
 // Represents a single item inside a card
 function BulletPoint (props) {
 
-  const [timestamp, setTimestamp] = useState(props.created);
-
-  function handleTimestampChange(message) {
-    setTimestamp(message);
-  }
-
   function styleText(icon) {
     if (icon === "check-square") { return "font-weight-bold"; }
     if (icon === "flag") { return "font-italic"; }
@@ -71,7 +65,7 @@ function BulletPoint (props) {
         null
       )}
 
-      {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 || props.contentMode === 1 || props.contentMode === 3 || timestamp !== null) ? (
+      {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 || props.contentMode === 0 || props.contentMode === 2 || props.created !== null) ? (
         <div className="row mx-auto">
           <div className="icon-td pb-2">
             <Indent indentLevel={props.indentation} />
@@ -92,9 +86,9 @@ function BulletPoint (props) {
               )}
               {props.contentMode === 1 || props.contentMode === 3 ? (
                 <Fragment>
-                  {timestamp && timestamp !== "null" ? (
+                  {props.created !== null ? (
                     <small className="last-accessed-link">
-                      {`Confirmed valid ${formatTime(timestamp)}`}
+                      {`Confirmed valid ${formatTime(props.created)}`}
                     </small>
                   ) : (
                     <small className="last-accessed-link-bad">
@@ -111,7 +105,7 @@ function BulletPoint (props) {
             {props.contentMode === 1 || props.contentMode === 3 ? (
               <LinkAccessButtons
                 itemId={props.id}
-                handleTimestampChange={(e) => handleTimestampChange(e)}
+                handleTimestamp={(m) => props.handleTimestamp(m)}
               />
             ) : (
               null
@@ -138,5 +132,6 @@ BulletPoint.propTypes = {
   created: PropTypes.any,
   indentation: PropTypes.number,
   mode: PropTypes.number,
-  contentMode: PropTypes.number
+  contentMode: PropTypes.number,
+  handleTimestamp: PropTypes.func
 };

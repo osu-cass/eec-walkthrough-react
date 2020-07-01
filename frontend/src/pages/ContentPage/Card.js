@@ -144,7 +144,11 @@ function Card(props) {
         {cardType ? (
           <ThumbnailGallery items={items} />
         ) : (
-          <BasicItems items={items} mode={props.mode}/>
+          <BasicItems 
+            items={items}
+            mode={props.mode}
+            handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+          />
         )}
       </CardBS.Body>
     </CardBS>
@@ -161,5 +165,6 @@ Card.propTypes = {
   mode: PropTypes.number,
   iconSet: PropTypes.any,
   top: PropTypes.bool,
-  bottom: PropTypes.bool
+  bottom: PropTypes.bool,
+  handleTimestamp: PropTypes.func
 };

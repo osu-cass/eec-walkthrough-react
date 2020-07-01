@@ -315,7 +315,7 @@ async function updateItemTime(itemId, deadLink) {
 
     results = await pool.query(sql, itemId);
 
-    const timestamp = results[0][0].created + "";
+    const timestamp = results[0][0].created;
 
     const finalResults = {
       timestamp: timestamp

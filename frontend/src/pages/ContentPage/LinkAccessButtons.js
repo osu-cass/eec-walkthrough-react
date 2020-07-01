@@ -31,7 +31,7 @@ function LinkAccessButtons(props) {
 
     if (results.ok) {
       const obj = await results.json();
-      props.handleTimestampChange(obj.timestamp);
+      props.handleTimestamp(obj.timestamp);
     } else {
       console.error("Error while attempting to update link valid message.");
     }
@@ -55,6 +55,5 @@ export default LinkAccessButtons;
 
 LinkAccessButtons.propTypes = {
   itemId: PropTypes.number,
-  handleTimestampChange: PropTypes.func,
-  handleTimestampTemp: PropTypes.func
+  handleTimestamp: PropTypes.func
 };
