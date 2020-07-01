@@ -41,35 +41,35 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               <li className="my-2">
-                <i className={`fas fa-plus mr-2`} />
+                <i className={`fas fa-fw fa-plus mr-2`} />
                 <span className="font-weight-normal">Pro - Advantage</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-minus mr-2`} />
+                <i className={`fas fa-fw fa-minus mr-2`} />
                 <span className="font-weight-normal">Con - Disadvantage</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-skull mr-2`} />
+                <i className={`fas fa-fw fa-skull mr-2`} />
                 <span className="font-weight-normal">Caveat</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-thumbs-up mr-2`} />
+                <i className={`fas fa-fw fa-thumbs-up mr-2`} />
                 <span className="font-weight-normal">Rule of Thumb</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-pencil-alt mr-2`} />
+                <i className={`fas fa-fw fa-pencil-alt mr-2`} />
                 <span className="font-weight-normal">Data to Collect</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-hand-point-right mr-2`} />
+                <i className={`fas fa-fw fa-hand-point-right mr-2`} />
                 <span className="font-weight-normal">Tip</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-check-square mr-2`} />
+                <i className={`fas fa-fw fa-check-square mr-2`} />
                 <span className="font-weight-normal">Best Practice</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-chart-area mr-2`} />
+                <i className={`fas fa-fw fa-chart-area mr-2`} />
                 <span className="font-weight-normal">Instructive Data Charts, Tables, Figures, and Pictures</span>
               </li>
             </ul>
@@ -89,27 +89,27 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               <li className="my-2">
-                <i className={`fas fa-list-ol mr-2`} />
+                <i className={`fas fa-fw fa-list mr-2`} />
                 <span className="font-weight-normal">Analysis Tool</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-copy mr-2`} />
+                <i className={`fas fa-fw fa-copy mr-2`} />
                 <span className="font-weight-normal">Document</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-square-full mr-2`} />
+                <i className={`fas fa-fw fa-play mr-2`} />
                 <span className="font-weight-normal">Slideshow</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-video-camera mr-2`} />
+                <i className={`fas fa-fw fa-video-camera mr-2`} style={{color: "blue"}} />
                 <span className="font-weight-normal">Video</span>
               </li>
               <li className="my-2">
-                <i className={`fas mr-2 letter-icon-bordered`}>W</i>
+                <i className={`fas fa-fw fa-book mr-2`} />
                 <span className="font-weight-normal">Informational Website</span>
               </li>
               <li className="my-2">
-                <i className={`fas mr-2 letter-icon-bordered`}>V</i>
+                <i className={`fas fa-fw fa-truck mr-2`} />
                 <span className="font-weight-normal">Vendor Website</span>
               </li>
             </ul>
@@ -118,11 +118,11 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               <li className="my-2">
-                <i className={`fas fa-info mr-2`} />
+                <i className={`fas fa-fw fa-info mr-2`} />
                 <span className="font-weight-normal">In Depth OSU EEC Resource</span>
               </li>
               <li className="my-2">
-                <i className={`fas fa-link mr-2`} />
+                <i className={`fas fa-fw fa-link mr-2`} />
                 <span className="font-weight-normal">Link to external resource</span>
               </li>
             </ul>
@@ -131,8 +131,64 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               <li className="my-2">
-                <i className={`fas fa-arrow-down mr-2`} />
+                <i className={`fas fa-fw fa-download mr-2`} />
                 <span className="font-weight-normal">Download of learning resource</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </Card>
+
+      <Card className="my-2 mb-5">
+        <Card.Header>
+          <h5>Content Contributors</h5>
+        </Card.Header>
+        <div className="p-4 my-2 text-dark-50 bg-white" >
+          <div className="my-2">
+            <span>
+              This guide includes content developed by past <a href="https://eec.oregonstate.edu/book/our-alumni">OSU EEC Alumni &amp; Faculty</a> that participated the OSU Energy Efficiency Center and Industrial Assessment Center project since its inception in 1986.
+              New Content is being added regularly by current <a href="https://eec.oregonstate.edu/our-people">OSU EEC Students &amp; Faculty</a>.
+            </span>
+          </div>
+        </div>
+      </Card>
+
+      <Card className="my-2 mb-5">
+        <Card.Header>
+          <h5>Sponsors</h5>
+        </Card.Header>
+        <Col className="my-4">
+          {/*
+          <img
+            src={"/images/BPA.png"}
+            alt={"Industrial Assessment Center"}
+            title={"Industrial Assessment Center"}
+            className="expandable-image img-fluid img-thumbnail mr-5"
+          />
+          */}
+          <img
+            src={"/images/IAC.png"}
+            alt={"Industrial Assessment Center"}
+            title={"Industrial Assessment Center"}
+            className="expandable-image img-fluid img-thumbnail ml-5"
+          />
+        </Col>
+
+        <div className="p-4 my-2 text-dark-50 bg-white" >
+          <div className="font-weight-bold mb-3">This guide has been developed with support from</div>
+          {/*
+          <div>
+            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
+              <li>
+                <a href="https://www.bpa.gov/pages/home.aspx">The Bonneville Power Administration</a>
+              </li>
+            </ul>
+          </div>
+          */}
+          <div>
+            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
+              <li>
+                <a href="https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs">U.S. Department of Energy, Office of Energy Efficiency &amp; Renewable Energy, Advanced Manufacturing Office, Industrial Assessment Centers</a>
               </li>
             </ul>
           </div>
@@ -172,56 +228,6 @@ function Home() {
         </div>
       </Card>
 
-      <Card className="my-2 mb-5">
-        <Card.Header>
-          <h5>Content Contributors</h5>
-        </Card.Header>
-        <div className="p-4 my-2 text-dark-50 bg-white" >
-          <div className="my-2">
-            <span>
-              This guide includes content developed by past <a href="https://eec.oregonstate.edu/book/our-alumni">OSU EEC Alumni &amp; Faculty</a> that participated the OSU Energy Efficiency Center and Industrial Assessment Center project since its inception in 1986.
-              New Content is being added regularly by current <a href="https://eec.oregonstate.edu/our-people">OSU EEC Students &amp; Faculty</a>.
-            </span>
-          </div>
-        </div>
-      </Card>
-
-      <Card className="my-2 mb-5">
-        <Card.Header>
-          <h5>Sponsors</h5>
-        </Card.Header>
-        <Col className="my-4">
-          <img
-            src={"/images/BPA.png"}
-            alt={"Industrial Assessment Center"}
-            title={"Industrial Assessment Center"}
-            className="expandable-image img-fluid img-thumbnail mr-5"
-          />
-          <img
-            src={"/images/IAC.png"}
-            alt={"Industrial Assessment Center"}
-            title={"Industrial Assessment Center"}
-            className="expandable-image img-fluid img-thumbnail ml-5"
-          />
-        </Col>
-        <div className="p-4 my-2 text-dark-50 bg-white" >
-          <div className="font-weight-bold mb-3">This guide has been developed with support from</div>
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <a href="https://www.bpa.gov/pages/home.aspx">The Bonneville Power Administration</a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <a href="https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs">U.S. Department of Energy, Office of Energy Efficiency &amp; Renewable Energy, Advanced Manufacturing Office, Industrial Assessment Centers</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </Card>
     </div>
   );
 }

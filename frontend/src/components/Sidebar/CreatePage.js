@@ -120,7 +120,7 @@ class CreatePage extends React.Component {
       <div className='text-center mt-2 mb-2 createPage'>
         <Button variant="outline-info" className="createPage" onClick={this.handleShow}>
           <i
-            className='fas fa-plus-circle text-info mr-2'
+            className='create-page-icon fas fa-plus-circle text-info mr-2'
             style={{transform: "scale(1.5)"}}></i>
               Create {this.props.collectionName}
         </Button>

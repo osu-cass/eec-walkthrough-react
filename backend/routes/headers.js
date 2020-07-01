@@ -12,7 +12,8 @@ const {
 const {
   postHeaderVal,
   getHeaderVal,
-  patchHeaderVal
+  patchHeaderVal,
+  patchHeaderMove
 } = require("../services/validation/requestValidation");
 
 const {
@@ -20,7 +21,8 @@ const {
   createHeader,
   deleteHeader,
   updateHeader,
-  publishHeader
+  publishHeader,
+  moveHeader
 } = require("../models/headers");
 
 
@@ -77,7 +79,6 @@ app.post("/", requireAuth, postHeaderVal.validation, async (req, res) => {
     }
 
     const pageId = req.body.pageId;
-    const orderIndex = req.body.orderIndex;
     const title = req.body.title;
     const userId = req.auth.userId;
 
@@ -88,7 +89,7 @@ app.post("/", requireAuth, postHeaderVal.validation, async (req, res) => {
     }
 
     // create a header
-    const results = await createHeader(pageId, orderIndex, title, userId);
+    const results = await createHeader(pageId, title, userId);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -164,7 +165,6 @@ app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res)
     console.log("Update a header");
 
     const headerId = req.params.headerId;
-    const orderIndex = req.body.orderIndex;
     const title = req.body.title;
     const userId = req.auth.userId;
 
@@ -182,7 +182,7 @@ app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res)
     }
 
     // update a header
-    const results = await updateHeader(headerId, orderIndex, title, userId);
+    const results = await updateHeader(headerId, title, userId);
 
     if (results.headerId >= 0) {
       res.status(200).send(results);
@@ -237,6 +237,62 @@ app.post("/:headerId/publish", getUserID, getHeaderVal.validation, async (req, r
         res.status(404).send({error: "Header not found."});
       } else if (results.error === 2) {
         res.status(403).send({error: "A header with this name already exists on this page."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// move a header relative to other headers
+app.patch("/:headerId/move/:direction", requireAuth, patchHeaderMove.validation, async (req, res) => {
+
+  try {
+
+    const headerId = req.params.headerId;
+    const direction = req.params.direction;
+
+    if (parseInt(direction, 10)) {
+      console.log("Move header", headerId, "up");
+    } else {
+      console.log("Move header", headerId, "down");
+    }
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to move header."});
+      return;
+    }
+
+    // update a header
+    const results = await moveHeader(headerId, parseInt(direction, 10));
+
+    if (results.headerId >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Header not found."});
+      } else if (results.error === 2) {
+        if (parseInt(direction, 10)) {
+          res.status(403).send({error: "No header exists above this header"});
+        } else {
+          res.status(403).send({error: "No header exists below this header"});
+        }
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

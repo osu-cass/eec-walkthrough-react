@@ -3,6 +3,16 @@
 */
 @import 'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700';
 
+#sidebar .card-header, #sidebar h2 {
+  /* background: var(--info); */
+  background: #faa945 !important;
+  border-color: #faa945!important;
+}
+
+.sidebar-page-container {
+  border-color: #faa945 !important;
+}
+
 a,
 a:hover,
 a:focus {
@@ -53,7 +63,8 @@ a:focus {
   height: 35px;
   line-height: 35px;
   text-align: center;
-  background: #01626f;
+  /* background: var(--info); */
+  background: #faa945;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -86,7 +97,8 @@ a:focus {
 
 #sidebar .sidebar-header {
   padding: 20px;
-  background: #17a2b8;
+  /* background: var(--info); */
+  background: #faa945;
 }
 
 #sidebar ul.components {
@@ -119,9 +131,6 @@ a[aria-expanded='true']::before {
   display: block;
   position: absolute;
   right: 20px;
-}
-
-a[aria-expanded='true']::before {
 }
 
 ul ul a {

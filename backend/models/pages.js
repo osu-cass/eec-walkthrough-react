@@ -285,9 +285,9 @@ async function getFullPage(pageId, viewAll) {
         if (viewAll) {
 
           // get all approved items
-          sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+          sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, " +
+          "contentUrl, contentLabel, contentMode, " +
           "created, approved " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
@@ -300,9 +300,9 @@ async function getFullPage(pageId, viewAll) {
           finalResults.headers[i].cards[j].items = results[0];
 
           // get all unapproved items
-          sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+          sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, " +
+          "contentUrl, contentLabel, contentMode, " +
           "created, approved " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
@@ -315,9 +315,9 @@ async function getFullPage(pageId, viewAll) {
           finalResults.headers[i].cards[j].tempItems = results[0];
 
         } else {
-          sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+          sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, " +
+          "contentUrl, contentLabel, contentMode, " +
           "created, approved " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
@@ -784,7 +784,7 @@ async function publishPage(pageId) {
       "AND pageId != ? " +
       "AND approved = 1;";
       results = await pool.query(checkSql, [tempPage.tempName, pageType, pageId]);
-      console.log(tempPage.tempName, pageType);
+
       if (results[0].length) {
         return {error: 2};
       }

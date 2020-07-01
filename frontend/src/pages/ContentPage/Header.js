@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import PropTypes from "prop-types";
 import EditHeader from "./EditHeader";
 import ReviewHeader from "./ReviewHeader";
 import FilterBar from "./FilterBar";
-import CardContainer from "./CardContainer";
+import OrderObjectButton from "./OrderObjectButton";
+import Card from "./Card";
 import "./Header.css";
 
 // Header that contains some number of cards
@@ -84,7 +85,7 @@ function Header(props) {
       }
     }
     setTempFilterIcons(allIcons);
-  }, [props.header.cards]);
+  }, [props.header]);
 
   // Gets all of the possible icons and set the default viewing state for them
   useEffect(() => {
@@ -100,7 +101,7 @@ function Header(props) {
   useEffect(() => {
     updateCardState(filterShow);
     // eslint-disable-next-line
-  }, [props.mode, filterShow]);
+  }, [props.mode, filterShow, props.header, props.cardState]);
 
   // Toggles the viewing state for an icon type.
 
@@ -121,6 +122,14 @@ function Header(props) {
 
   // Updates the cards / items that are shown.
   function updateCardState(filterState) {
+
+    // Don't bother filtering if in move mode
+    if (props.mode === 2) {
+      setCards(props.header.cards);
+      setUnfilteredCards(props.header.cards);
+      return;
+    }
+
     const allCards = [];
     const allUnfilteredCards = [];
 
@@ -136,57 +145,51 @@ function Header(props) {
       // Filter items out of the current card
       const card = JSON.parse(JSON.stringify(props.header.cards[i]));
       const fullCard = JSON.parse(JSON.stringify(props.header.cards[i]));
-      let allItems = [];
-      let allTempItems = [];
+      const allItems = [];
+      const allTempItems = [];
+      let itemExists = false;
+      let tempItemExists = false;
+      let hideIndent = false;
 
       // check each normal item in the card
       for (let j = 0; j < props.header.cards[i].items.length; j++) {
+        // check if this item is indented and if it needs to be hidden
+        if (props.header.cards[i].items[j].indentation) {
+          if (hideIndent) {
+            continue;
+          }
+        } else {
+          hideIndent = false;
+        }
         // see if the item should be filtered or not
         if (filterState[props.header.cards[i].items[j].iconType]) {
           allItems.push(props.header.cards[i].items[j]);
+          itemExists = true;
+        } else {
+          // if this item has children they need to be hidden
+          hideIndent = true;
         }
       }
+
+      hideIndent = false;
 
       // check each temp item in the card
-      for (let k = 0; k < props.header.cards[i].tempItems.length; k++) {
+      for (let j = 0; j < props.header.cards[i].tempItems.length; j++) {
+        // check if this item is indented and if it needs to be hidden
+        if (props.header.cards[i].tempItems[j].indentation) {
+          if (hideIndent) {
+            continue;
+          }
+        } else {
+          hideIndent = false;
+        }
         // see if the item should be filtered or not
-        if (filterState[props.header.cards[i].tempItems[k].iconType]) {
-          allTempItems.push(props.header.cards[i].tempItems[k]);
-        }
-      }
-
-      // Set the current cards items
-      card.items = allItems;
-      card.tempItems = allTempItems;
-      allItems = [];
-      allTempItems = [];
-      let itemsParent = false;
-      let tempItemsParent = false;
-
-      // Do one last check to filter out items that are missing a parent
-      for (let i = 0; i < card.items.length; i++) {
-        if (card.items[i].parentId === null) {
-          allItems.push(card.items[i]);
-          itemsParent = true;
+        if (filterState[props.header.cards[i].tempItems[j].iconType]) {
+          allTempItems.push(props.header.cards[i].tempItems[j]);
+          tempItemExists = true;
         } else {
-          for (let j = 0; j < card.items.length; j++) {
-            if (card.items[i].parentId === card.items[j].itemId) {
-              allItems.push(card.items[i]);
-            }
-          }
-        }
-      }
-      for (let i = 0; i < card.tempItems.length; i++) {
-        if (card.tempItems[i].parentId === null) {
-          allTempItems.push(card.tempItems[i]);
-          tempItemsParent = true;
-        } else {
-          for (let j = 0; j < card.tempItems.length; j++) {
-            if (card.tempItems[i].parentId === card.tempItems[j].itemId) {
-              allTempItems.push(card.tempItems[i]);
-              break;
-            }
-          }
+          // if this item has children they need to be hidden
+          hideIndent = true;
         }
       }
 
@@ -196,13 +199,17 @@ function Header(props) {
 
       // Mark the card as edited or published.
       // If the card in current view mode is empty, hide it.
-      if ((!props.mode && itemsParent) ||
-          (props.mode && itemsParent && !cardView)) {
+      if ((props.mode !== 1 && itemExists) ||
+          (props.mode === 1 && !cardView && itemExists)) {
         card.edited = false;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
-      } else if (props.mode && tempItemsParent) {
+      } else if (props.mode === 1 && tempItemExists) {
         card.edited = true;
+        allCards.push(card);
+        allUnfilteredCards.push(fullCard);
+      } else if (props.mode === 1 && !props.header.cards[i].tempItems.length && !props.header.cards[i].items.length) {
+        card.invalid = true;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
       }
@@ -211,7 +218,7 @@ function Header(props) {
     setUnfilteredCards(allUnfilteredCards);
   }
 
-  return !props.header.approved && !props.mode ? (
+  return !props.header.approved && props.mode !== 1 ? (
     null
   ) : (
     <div>
@@ -220,7 +227,7 @@ function Header(props) {
         <div>
           <div className={`d-flex sticky-top
             ${props.header.approved && !props.header.tempHeaderId ? "header-approved" : "header-review"}
-            header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow`}
+            header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
           style={{top: "1em", zIndex: "998"}}
           >
             <div className="row mx-2">
@@ -235,38 +242,67 @@ function Header(props) {
 
             <div className="row mx-2">
               <div className="row">
-                <FilterBar
-                  updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                  resetIcons={() => resetIcons()}
-                  filterIcons={filterIcons}
-                  tempFilterIcons={tempFilterIcons}
-                  filterShow={filterShow}
-                  iconSet={props.iconSet}
-                  mode={props.mode}
-                />
-                <EditHeader
-                  header={props.header}
-                  role={props.role}
-                  refresh={() => props.refresh()}
-                />
-                <ReviewHeader
-                  header={props.header}
-                  refresh={() => props.refresh()}
-                />
+                {props.mode === 1 ? (
+                  <Fragment>
+                    <FilterBar
+                      updateIcon={(e1, e2) => updateIcon(e1, e2)}
+                      resetIcons={() => resetIcons()}
+                      filterIcons={filterIcons}
+                      tempFilterIcons={tempFilterIcons}
+                      filterShow={filterShow}
+                      iconSet={props.iconSet}
+                      mode={props.mode}
+                    />
+                    <EditHeader
+                      header={props.header}
+                      role={props.role}
+                      refresh={() => props.refresh()}
+                    />
+                    <ReviewHeader
+                      header={props.header}
+                      refresh={() => props.refresh()}
+                    />
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <OrderObjectButton
+                      up={true}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
+                      top={props.top}
+                    />
+                    <OrderObjectButton
+                      up={false}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
+                      bottom={props.bottom}
+                    />
+                  </Fragment>
+                )}
               </div>
             </div>
           </div>
 
-          <CardContainer
-            cards={cards}
-            unfilteredCards={unfilteredCards}
-            headerId={props.header.headerId}
-            headerName={props.header.title}
-            approved={props.header.approved}
-            refresh={() => props.refresh()}
-            mode={props.mode}
-            iconSet={props.iconSet}
-          />
+          <div>
+            {cards.map((card, i) =>
+              <Card
+                key={card.cardId}
+                headerId={props.header.headerId}
+                unfilteredCard={unfilteredCards[i]}
+                card={card}
+                refresh={() => props.refresh()}
+                mode={props.mode}
+                iconSet={props.iconSet}
+                handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
+                top={i === 0 ? (true) : (false)}
+                bottom={i >= cards.length - 1 ? (true) : (false)}
+                handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
+              />
+            )}
+          </div>
+
         </div>
 
       ) : (
@@ -274,7 +310,7 @@ function Header(props) {
         <div>
           <div className={`d-flex sticky-top
             ${props.header.approved ? "header-approved" : "header-review"}
-            header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow`}
+            header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
           style={{top: "1em", zIndex: "998"}}
           >
             <div className="row mx-2">
@@ -298,16 +334,22 @@ function Header(props) {
             </div>
           </div>
 
-          <CardContainer
-            cards={cards}
-            unfilteredCards={unfilteredCards}
-            headerId={props.header.headerId}
-            headerName={props.header.title}
-            approved={props.header.approved}
-            refresh={() => props.refresh()}
-            mode={props.mode}
-            iconSet={props.iconSet}
-          />
+          <div>
+            {cards.map((card, i) =>
+              <Card
+                key={card.cardId}
+                headerId={props.header.headerId}
+                unfilteredCard={unfilteredCards[i]}
+                card={card}
+                refresh={() => props.refresh()}
+                mode={props.mode}
+                iconSet={props.iconSet}
+                handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
+                handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
+              />
+            )}
+          </div>
+
         </div>
       )}
     </div>
@@ -318,8 +360,14 @@ export default Header;
 
 Header.propTypes = {
   header: PropTypes.object,
+  handleMoveHeader: PropTypes.func,
+  handleMoveCard: PropTypes.func,
   refresh: PropTypes.func,
   role: PropTypes.number,
   mode: PropTypes.number,
-  iconSet: PropTypes.any
+  iconSet: PropTypes.any,
+  top: PropTypes.bool,
+  bottom: PropTypes.bool,
+  cardState: PropTypes.number,
+  handleTimestamp: PropTypes.func
 };

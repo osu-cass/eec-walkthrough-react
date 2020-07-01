@@ -1,0 +1,16 @@
+.item-separator-table tbody tr td {
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.item-separator-div {
+  width: 100% !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-align: left !important;
+  vertical-align: top !important;
+  background: transparent !important;
+  border-collapse: separate !important;
+  border-spacing: 0 0 !important;
+}

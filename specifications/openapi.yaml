@@ -372,7 +372,7 @@ paths:
         - $ref: '#/components/parameters/Page_pageId'
       responses:
         '200':
-          $ref: '#/components/responses/PATCH_200'
+          $ref: '#/components/responses/PATCH_200_PAGE'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -454,7 +454,7 @@ paths:
         - $ref: '#/components/parameters/Header_headerId'
       responses:
         '200':
-          $ref: '#/components/responses/PATCH_200'
+          $ref: '#/components/responses/PATCH_200_HEADER'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -943,7 +943,7 @@ components:
       required:
         - itemId
         - cardId
-        - parentId
+        - indentation
         - iconType
         - contentText
         - contentUrl
@@ -960,14 +960,14 @@ components:
           allOf:
             - description: The unique identifier of the card that the item belongs to
             - $ref: '#/components/schemas/Id'
-        parentId:
+        indentation:
           allOf:
-            - description: The ID of the parent item that this item belongs to. The child item of a parent is indented relative to the parent's level of indentation. Defaults to NULL if there is no parent item.
+            - description: The level of indentation for this item. It must be between 0 and 4.
               type: integer
               format: int32
-              minimum: 1
-              maximum: 4294967295
-              example: 15
+              minimum: 0
+              maximum: 4
+              example: 4
         orderIndex:
           description: Value used to order objects in ascending order. This means that larger values will be shown lower on the page.
           type: integer
@@ -1111,8 +1111,6 @@ components:
         application/json:
           schema:
             properties:
-                    pageType:
-                      example: 1
                     name:
                       example: Compressed Air
                     title:
@@ -1133,8 +1131,6 @@ components:
                   - $ref: '#/components/schemas/Id'
               title:
                 example: Compressed Air Opportunities to Consider
-              orderIndex:
-                example: 5
 
     Header_PATCH:
       required: true
@@ -1148,8 +1144,6 @@ components:
                 minLength: 1
                 maxLength: 100
                 example: Compressed Air Opportunities to Consider
-              orderIndex:
-                example: 5
 
     Card_POST:
       required: true
@@ -1163,8 +1157,6 @@ components:
                 example: 0
               title:
                 example: Rules of Thumb
-              orderIndex:
-                example: 5
                 
     Card_PATCH:
       required: true
@@ -1178,14 +1170,12 @@ components:
                 example: Rules of Thumb
               approved:
                 example: 1
-              orderIndex:
-                example: 5
               items: 
                 example: [
             {
               "itemId": 15,
               "cardId": 10,
-              "parentId": null,
+              "indentation": 0,
               "iconType": 5,
               "typeName": "bolt",
               "typeKeyword": "Electricity",
@@ -1204,8 +1194,8 @@ components:
             properties:
               cardId:
                 example: 35
-              parentId:
-                example: 40
+              indentation:
+                example: 1
               iconType:
                 example: 5
               contentText:
@@ -1521,14 +1511,32 @@ components:
             properties:
               changedRows:
                 example: 3
-    
+
+    PATCH_200_PAGE:
+      description: An object containing information about the changed rows
+      content:
+        application/json:
+          schema:
+            properties:
+              pageId:
+                example: 3
+
+    PATCH_200_HEADER:
+      description: An object containing information about the changed rows
+      content:
+        application/json:
+          schema:
+            properties:
+              headerId:
+                example: 3
+
     PATCH_200_CARD:
       description: An object containing information about the changed card
       content:
         application/json:
           schema:
             properties:
-              cardsUpdated:
+              cardId:
                 example: 1
     
     PATCH_200_Timestamp:
