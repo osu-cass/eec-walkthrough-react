@@ -2,6 +2,8 @@ import React, {useState, useEffect} from "react";
 import {Modal, Button, Row} from "react-bootstrap";
 import {getProfile, logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
+import BasicItems from "./BasicItems";
+import ThumbnailGallery from "./ThumbnailGallery";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
 import "./ReviewCard.css";
@@ -11,6 +13,8 @@ function ReviewCard(props) {
 
   const [role, setRole] = useState(0);
   const [show, setShow] = useState(false);
+  const [imageItems, setImageItems] = useState([]);
+  const [imageTempItems, setTempImageItems] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
   // get the current users role
@@ -18,6 +22,26 @@ function ReviewCard(props) {
     const user = getProfile();
     setRole(user.role);
   }, []);
+
+  // If the current card is an Image Gallery card then
+  // whenever we get new items, filter out all of the non-image ones
+  useEffect(() => {
+    const imageArray = [];
+    const tempImageArray = [];
+    for (let i = 0; i < props.card.items.length; i++) {
+      if (props.card.items[i].contentUrl.length && props.card.items[i].typeName === "chart-area") {
+        imageArray.push(props.card.items[i]);
+      }
+    }
+    for (let i = 0; i < props.card.tempItems.length; i++) {
+      if (props.card.tempItems[i].contentUrl.length && props.card.tempItems[i].typeName === "chart-area") {
+        tempImageArray.push(props.card.tempItems[i]);
+      }
+    }
+    setImageItems(imageArray);
+    setTempImageItems(tempImageArray);
+    // eslint-disable-next-line
+  }, [props.card.items, props.card.tempItems]);
 
   function handleClose() {
     setShow(false);
@@ -93,7 +117,11 @@ function ReviewCard(props) {
               <span className="created-text">Created {formatTime(props.card.created)}</span>
               <div className="m-3">
                 <h3 className="font-weight-bold">{props.card.title}</h3>
-                {props.cardItems}
+                {props.card.cardType ? (
+                  <ThumbnailGallery items={imageItems} />
+                ) : (
+                  <BasicItems items={props.card.items} mode={props.mode} />
+                )}
               </div>
             </div>
           ) : (
@@ -106,7 +134,11 @@ function ReviewCard(props) {
               <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
               <div className="m-3">
                 <h3 className="font-weight-bold">{props.card.tempTitle}</h3>
-                {props.cardTempItems}
+                {props.card.tempCardType ? (
+                  <ThumbnailGallery items={imageTempItems} />
+                ) : (
+                  <BasicItems items={props.card.tempItems} mode={props.mode} />
+                )}
               </div>
             </div>
           ) : (
@@ -115,7 +147,11 @@ function ReviewCard(props) {
               <span className="created-text">Created {formatTime(props.card.created)}</span>
               <div className="m-3">
                 <h3 className="font-weight-bold">{props.card.title}</h3>
-                {props.cardTempItems}
+                {props.card.cardType ? (
+                  <ThumbnailGallery items={imageTempItems} />
+                ) : (
+                  <BasicItems items={props.card.tempItems} />
+                )}
               </div>
             </div>
           )}
@@ -150,7 +186,6 @@ export default ReviewCard;
 ReviewCard.propTypes = {
   edited: PropTypes.bool,
   refresh: PropTypes.func,
-  cardItems: PropTypes.array,
-  cardTempItems: PropTypes.array,
-  card: PropTypes.object
+  card: PropTypes.object,
+  mode: PropTypes.number
 };

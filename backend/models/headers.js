@@ -69,7 +69,7 @@ exports.getHeader = getHeader;
 
 
 // create a header
-async function createHeader(pageId, orderIndex, title, userId) {
+async function createHeader(pageId, title, userId) {
 
   try {
 
@@ -95,12 +95,19 @@ async function createHeader(pageId, orderIndex, title, userId) {
     }
 
     // create the new header
-    sql = "INSERT INTO Headers (pageId, orderIndex, title, userId, approved) " +
-    "VALUES (?, ?, ?, ?, 0);";
-    results = await pool.query(sql, [pageId, orderIndex, title, userId]);
+    sql = "INSERT INTO Headers (pageId, title, userId, orderIndex, approved) " +
+    "VALUES (?, ?, ?, 0, 0);";
+    results = await pool.query(sql, [pageId, title, userId]);
+    const headerId = results[0].insertId;
+
+    // update the order index of the new header
+    sql = "UPDATE Headers " +
+    "SET orderIndex = ? " +
+    "WHERE headerId = ?;";
+    sql = await pool.query(sql, [headerId, headerId]);
 
     const finalResults = {
-      insertId: results[0].insertId
+      insertId: headerId
     };
 
     return finalResults;
@@ -176,7 +183,7 @@ exports.deleteHeader = deleteHeader;
 
 
 // update a header
-async function updateHeader(headerId, orderIndex, title, userId) {
+async function updateHeader(headerId, title, userId) {
 
   try {
 
@@ -204,9 +211,8 @@ async function updateHeader(headerId, orderIndex, title, userId) {
     if (results[0].length) {
 
       sql = "UPDATE Temp_Headers " +
-      "SET tempOrderIndex = ?, tempTitle = ?, tempUserId = ? " +
+      "SET tempTitle = ?, tempUserId = ? " +
       "WHERE tempHeaderId = ?;";
-      sqlArray.push(orderIndex);
       sqlArray.push(title);
       sqlArray.push(userId);
       sqlArray.push(headerId);
@@ -214,9 +220,8 @@ async function updateHeader(headerId, orderIndex, title, userId) {
     } else if (approved === 0) {
 
       sql = "UPDATE Headers " +
-      "SET orderIndex = ?, title = ?, userId = ? " +
+      "SET title = ?, userId = ? " +
       "WHERE headerId = ?;";
-      sqlArray.push(orderIndex);
       sqlArray.push(title);
       sqlArray.push(userId);
       sqlArray.push(headerId);
@@ -224,10 +229,9 @@ async function updateHeader(headerId, orderIndex, title, userId) {
     } else {
 
       sql = "INSERT INTO Temp_Headers (tempHeaderId, " +
-      "tempOrderIndex, tempTitle, tempUserId) " +
-      "VALUES (?, ?, ?, ?);";
+      "tempTitle, tempUserId) " +
+      "VALUES (?, ?, ?);";
       sqlArray.push(headerId);
-      sqlArray.push(orderIndex);
       sqlArray.push(title);
       sqlArray.push(userId);
 
@@ -282,10 +286,10 @@ async function publishHeader(headerId) {
 
       // update the published header
       sql = "UPDATE Headers " +
-      "SET orderIndex = ?, title = ?, userId = ?, created = ?, approved = 1 " +
+      "SET title = ?, userId = ?, created = ?, approved = 1 " +
       "WHERE headerId = ?;";
 
-      const tempArray = [tempHeader.tempOrderIndex, tempHeader.tempTitle,
+      const tempArray = [tempHeader.tempTitle,
         tempHeader.tempUserId, tempHeader.tempCreated, headerId];
 
       // make sure no other headers share the same title
@@ -346,3 +350,90 @@ async function publishHeader(headerId) {
 
 }
 exports.publishHeader = publishHeader;
+
+
+// move a header
+async function moveHeader(headerId, direction) {
+
+  try {
+
+    // make sure that the header exists
+    let sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ? " +
+    "AND approved = true";
+    let results = await pool.query(sql, headerId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const pageId = results[0][0].pageId;
+
+    // get all of the header under the current page
+    sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE pageId = ? " +
+    "AND approved = true " +
+    "ORDER BY orderIndex ASC, headerId ASC";
+    results = await pool.query(sql, pageId);
+
+    const headers = results[0];
+    let headerIndex = -1;
+    let otherHeaderIndex = -1;
+
+    // find the index of this header
+    for (let i = 0; i < headers.length; i++) {
+      if (headers[i].headerId === parseInt(headerId, 10)) {
+        headerIndex = i;
+        break;
+      }
+    }
+
+    // if we cannot find the index, then we can't find the header
+    if (headerIndex === -1) {
+      return {error: 1};
+    }
+
+    // check if we are trying to move up or down and make sure header exists
+    // in the specific direction
+    if (direction) {
+      if (headerIndex !== 0) {
+        otherHeaderIndex = headerIndex - 1;
+      }
+    } else {
+      if (headerIndex + 1 < headers.length) {
+        otherHeaderIndex = headerIndex + 1;
+      }
+    }
+
+    // if we cannot find the other index, then we can't find the other header
+    if (otherHeaderIndex === -1) {
+      return {error: 2};
+    }
+
+    // swap the headers order indexes
+    sql = "UPDATE Headers " +
+    "SET orderIndex = IF(headerId=?, ?, ?) " +
+    "WHERE headerId IN (?, ?);";
+    const sqlArray = [];
+    sqlArray.push(headerId);
+    sqlArray.push(headers[otherHeaderIndex].orderIndex);
+    sqlArray.push(headers[headerIndex].orderIndex);
+    sqlArray.push(headerId);
+    sqlArray.push(headers[otherHeaderIndex].headerId);
+    results = await pool.query(sql, sqlArray);
+
+    const finalResults = {
+      headerId: headerId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error moving header");
+    throw Error(err);
+  }
+
+}
+exports.moveHeader = moveHeader;

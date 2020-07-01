@@ -39,16 +39,8 @@ function EditHeader(props) {
   async function updateHeader() {
     setShowLoad(true);
 
-    let order;
-    if (props.header.tempHeaderId) {
-      order = props.header.tempOrderIndex;
-    } else {
-      order = props.header.orderIndex;
-    }
-
     const data = {
-      title: title,
-      orderIndex: order
+      title: title
     };
 
     const results = await fetch(`/headers/${props.header.headerId}`, {

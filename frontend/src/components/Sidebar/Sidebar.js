@@ -2,7 +2,6 @@ import React, {useState, useEffect, useRef, Fragment} from "react";
 import SidebarCollection from "./SidebarCollection";
 import {getProfile} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
-import {NavLink} from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import "./Sidebar.css";
@@ -75,7 +74,7 @@ function Sidebar(props) {
         </Card>
 
         <Col className="mt-3">
-          <Card bg="dark" border="info" style={{cursor: "pointer"}}>
+          <Card className="sidebar-page-container" bg="dark" border="info" style={{cursor: "pointer"}}>
             <SidebarCollection
               collectionName="Home"
               collectionLink=""
@@ -102,12 +101,6 @@ function Sidebar(props) {
             ) : (
               null
             )}
-          </Card>
-
-          <Card bg="info" border="dark" as="h5" className="mt-3 p-2 back">
-            <NavLink to={`/`} onClick={props.closeSidebar} className="text-center">
-              Back to Page
-            </NavLink>
           </Card>
         </Col>
       </nav>

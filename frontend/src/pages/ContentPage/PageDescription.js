@@ -15,7 +15,7 @@ function PageDescription(props) {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
-    if (props.page.approved && props.page.tempPageId && props.mode) {
+    if (props.page.approved && props.page.tempPageId && props.mode === 1) {
       setName(props.page.tempName);
       setTitle(props.page.tempTitle);
       setDescription(props.page.tempDescription);
@@ -31,12 +31,12 @@ function PageDescription(props) {
   return (
     <div>
       <div className={`d-flex header-bar justify-content-between
-        ${props.page.approved && (!props.page.tempPageId || !props.mode) ? (
+        ${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? (
       "page-approved"
     ) : (
       "page-review"
     )}
-        my-3 p-3 text-dark-50 rounded shadow`}
+        my-3 p-3 text-dark-50 rounded shadow-sm border`}
       style={{top: "1em", zIndex: "998"}}
       >
         <div className="row mx-2">
@@ -51,11 +51,13 @@ function PageDescription(props) {
             <EditPage
               page={props.page}
               role={props.role}
+              mode={props.mode}
               refresh={() => props.refresh()}
               handlePageEdit={props.handlePageEdit}
             />
             <ReviewPage
               page={props.page}
+              mode={props.mode}
               refresh={() => props.refresh()}
             />
             <ChangeMode role={props.role}
@@ -66,7 +68,7 @@ function PageDescription(props) {
         </div>
       </div>
 
-      <div className={`${props.page.approved && (!props.page.tempPageId || !props.mode) ? "page-approved" : "page-review"}
+      <div className={`${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? "page-approved" : "page-review"}
         my-3 p-3 card rounded shadow-sm`}
       >
         <div>

@@ -1,31 +1,39 @@
-/* Red */
-.fa-flag, .fa-fire {
+.fa-flag, .fa-fire, .fa-book {
   color: #E81224 !important;
 }
 
-/* YellowGold */
 .fa-hand-point-right, .fa-trophy, .fa-bolt {
   color: #FFC83D !important;
 }
 
-/* Blue */
-.fa-thumbs-up, .fa-file {
+.fa-thumbs-up, .fa-file, .fa-video-camera {
   color: #007BFF !important;
 }
 
-/* LightGreen */
-.fa-chart-area{
+.fa-chart-area, .fa-play {
   color: #32C332 !important;
 }
 
-/* Green */
 .last-accessed-link {
   color: #28a428 !important;
 }
 
-/* Red */
 .last-accessed-link-bad {
   color: #E81224 !important;
+}
+
+.osu-link, .osu-link:visited {
+  color: #ff9100 !important;
+}
+
+.osu-link:hover, .osu-link:active {
+  color: #b36600 !important;
+}
+
+.icon-td, .content-td {
+  vertical-align: top !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 .opportunity-desc {

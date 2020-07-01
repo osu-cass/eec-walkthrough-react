@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import {logout} from "../../utilities/cookieAuth";
 import Error from "../../components/General/Error";
 import "./CreateHeader.css";
-import "./ContentPage.css";
 
 // Create header button and modal
 class CreateHeader extends React.Component {
@@ -30,10 +29,9 @@ class CreateHeader extends React.Component {
     const data = {
       pageId: this.props.pageId,
       title: this.state.title,
-      orderIndex: this.props.numHeaders + 1, // append to end for now, need to add ability to reorder
     };
 
-    // Create new page
+    // Create new header
     const results = await fetch("/headers/", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -89,7 +87,7 @@ class CreateHeader extends React.Component {
   }
 
   render() {
-    return this.props.role >= 3 && this.props.mode ? (
+    return this.props.role >= 3 && this.props.mode === 1 ? (
       <div className='text-center mt-2 mb-2 createPage'>
         <Button variant="info" onClick={this.handleShow}>
           <i

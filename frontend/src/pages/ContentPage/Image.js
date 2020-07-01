@@ -1,7 +1,7 @@
-import React from "react";
+import React, {Fragment} from "react";
 import {Col} from "react-bootstrap";
 import PropTypes from "prop-types";
-import MyVerticallyCenteredModal from "./MyVerticallyCenteredModal";
+import VerticallyCenteredModal from "./VerticallyCenteredModal";
 import "./Image.css";
 
 function Image(props) {
@@ -17,7 +17,7 @@ function Image(props) {
           className="expandable-image rounded img-fluid img-thumbnail"
           onClick={() => setModalShow(true)}
         />
-        <MyVerticallyCenteredModal
+        <VerticallyCenteredModal
           show={modalShow}
           url={props.url}
           header={props.title}
@@ -34,7 +34,7 @@ function Image(props) {
           className="expandable-image header rounded img-fluid img-normal"
           onClick={() => setModalShow(true)}
         />
-        <MyVerticallyCenteredModal
+        <VerticallyCenteredModal
           show={modalShow}
           url={props.url}
           header={props.title}
@@ -44,7 +44,7 @@ function Image(props) {
     );
   } else {
     return (
-      <Col>
+      <Fragment>
         <img
           src={props.url}
           alt={props.title}
@@ -52,13 +52,13 @@ function Image(props) {
           style={{cursor: "pointer", maxWidth: "15em"}}
           onClick={() => setModalShow(true)}
         />
-        <MyVerticallyCenteredModal
+        <VerticallyCenteredModal
           show={modalShow}
           url={props.url}
           header={props.title}
           onHide={() => setModalShow(false)}
         />
-      </Col>
+      </Fragment>
     );
   }
 }

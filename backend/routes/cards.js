@@ -12,14 +12,16 @@ const {
 const {
   postCardVal,
   getCardVal,
-  patchCardVal
+  patchCardVal,
+  patchCardMove
 } = require("../services/validation/requestValidation");
 const {
   getCard,
   createCard,
   deleteCard,
   updateCard,
-  publishCard
+  publishCard,
+  moveCard
 } = require("../models/cards");
 
 
@@ -77,8 +79,8 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
 
     const headerId = req.body.headerId;
     const cardType = req.body.cardType;
-    const orderIndex = req.body.orderIndex;
     const title = req.body.title;
+    const items = req.body.items;
     const userId = req.auth.userId;
 
     // make sure the user is allowed to perform this action
@@ -88,7 +90,7 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
     }
 
     // create a card
-    const results = await createCard(headerId, cardType, orderIndex, title, userId);
+    const results = await createCard(headerId, cardType, title, items, userId);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -165,7 +167,6 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
 
     const cardId = req.params.cardId;
     const cardType = req.body.cardType;
-    const orderIndex = req.body.orderIndex;
     const title = req.body.title;
     const items = req.body.items;
     const userId = req.auth.userId;
@@ -184,7 +185,7 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
     }
 
     // update a card
-    const results = await updateCard(cardId, cardType, orderIndex, title, items, userId);
+    const results = await updateCard(cardId, cardType, title, items, userId);
 
     if (results.cardId >= 0) {
       res.status(200).send(results);
@@ -239,6 +240,62 @@ app.post("/:cardId/publish", getUserID, getCardVal.validation, async (req, res) 
         res.status(404).send({error: "Card not found."});
       } else if (results.error === 2) {
         res.status(403).send({error: "A card with this name already exists under this header."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// move a card relative to other cards
+app.patch("/:cardId/move/:direction", requireAuth, patchCardMove.validation, async (req, res) => {
+
+  try {
+
+    const cardId = req.params.cardId;
+    const direction = req.params.direction;
+
+    if (parseInt(direction, 10)) {
+      console.log("Move card", cardId, "up");
+    } else {
+      console.log("Move card", cardId, "down");
+    }
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to move card."});
+      return;
+    }
+
+    // update a card
+    const results = await moveCard(cardId, parseInt(direction, 10));
+
+    if (results.cardId >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Card not found."});
+      } else if (results.error === 2) {
+        if (parseInt(direction, 10)) {
+          res.status(403).send({error: "No card exists above this card"});
+        } else {
+          res.status(403).send({error: "No card exists below this card"});
+        }
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

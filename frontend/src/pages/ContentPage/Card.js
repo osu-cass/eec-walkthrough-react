@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import {Card as CardBS} from "react-bootstrap";
-import BulletPoint from "./BulletPoint";
 import EditCard from "./EditCard";
 import ReviewCard from "./ReviewCard";
+import BasicItems from "./BasicItems";
 import ThumbnailGallery from "./ThumbnailGallery";
+import OrderObjectButton from "./OrderObjectButton";
 import PropTypes from "prop-types";
 import "./Card.css";
 
@@ -12,6 +13,8 @@ function Card(props) {
 
   const [imageItems, setImageItems] = useState([]);
   const [imageTempItems, setTempImageItems] = useState([]);
+  const [cardType, setCardType] = useState(0);
+  const [items, setItems] = useState([]);
 
   // If the current card is an Image Gallery card then
   // whenever we get new items, filter out all of the non-image ones
@@ -31,133 +34,63 @@ function Card(props) {
     setImageItems(imageArray);
     setTempImageItems(tempImageArray);
     // eslint-disable-next-line
-  }, [props.card.items]);
+  }, [props.card.items, props.card.tempItems]);
 
-  // return children of id === parentId
-  function getChildren(id, edited) {
-    if (edited) {
-      const results = props.card.tempItems.reduce((result, item) => {
-        if (item.parentId === id) {
-          result.push(item);
-        }
-        return result;
-      }, []);
-      return results.length ? results : false;
-    } else {
-      const results = props.card.items.reduce((result, item) => {
-        if (item.parentId === id) {
-          result.push(item);
-        }
-        return result;
-      }, []);
-      return results.length ? results : false;
-    }
-  }
+  // Get information about the current card type and the correct set of items
+  useEffect(() => {
+    const itemInfo = getItemInfo(props.card.edited);
+    setCardType(itemInfo.cardType);
+    setItems(itemInfo.items);
+    // eslint-disable-next-line
+  }, [props.card.items, props.card.tempItems, imageItems, imageTempItems]);
 
-  function recurseItems(item, startId, isChild, edited) { // isChild = marks if it has any parent, for coloring
-    const children = getChildren(item.itemId, edited); // get all children of this item
-    // Don't allow looping in a parent child relationship.
-    // Don't allow a child to be printed if it isn't currently being referenced by a parent.
-    if ((startId !== item.itemId || !isChild) && (!item.parentId || isChild)) {
-      if (children) {
-        return (
-          <BulletPoint
-            key={item.itemId}
-            id={item.itemId}
-            icon={item.typeName}
-            text={item.contentText}
-            label={item.contentLabel}
-            child={isChild}
-            url={item.contentUrl}
-            created={item.created}
-          >
-            {children.map((child) => (recurseItems(child, startId, true, edited)))}
-          </BulletPoint>
-        );
-      } else {
-        return <BulletPoint
-          key={item.itemId}
-          url={item.contentUrl}
-          id={item.itemId}
-          icon={item.typeName}
-          text={item.contentText}
-          label={item.contentLabel}
-          child={isChild}
-          created={item.created}
-        />;
-      } // if no children, base case
-    }
-  }
+  // Returns information about the correct array of items to use
+  function getItemInfo(edited) {
 
-  function generateItems(edited, unfiltered) {
-    const jsx = []; // hold items
-    // Check if we want unfiltered results.
-    //
     // Check if we are in edit or view mode.
     //
     // In edit mode we always show the most recent version of the card.
     // Check if the card has temp data. Otherwise show the normal data.
     //
     // In view mode we only show published versions of the card.
-    if (unfiltered) {
-      if (edited) {
 
-        if ((props.unfilteredCard.approved && props.unfilteredCard.tempCardType) || (!props.unfilteredCard.approved && props.unfilteredCard.cardType)) {
-          jsx.push(<ThumbnailGallery imageItems={imageTempItems} key={props.unfilteredCard.cardId} />);
-        } else {
-          props.unfilteredCard.tempItems.map((item) => {
-            jsx.push(recurseItems(item, item.itemId, false, edited));
-            return null;
-          });
-        }
+    let newItems = [];
+    let cardType = 0;
 
+    if (edited) {
+      if ((props.card.approved && props.card.tempCardType) || (!props.card.approved && props.card.cardType)) {
+        cardType = 1;
+        newItems = imageTempItems;
       } else {
-
-        if (props.unfilteredCard.cardType) {
-          jsx.push(<ThumbnailGallery imageItems={imageItems} key={props.unfilteredCard.cardId} />);
-        } else {
-          props.unfilteredCard.items.map((item) => {
-            jsx.push(recurseItems(item, item.itemId, false, edited));
-            return null;
-          });
-        }
+        cardType = 0;
+        newItems = props.card.tempItems;
       }
-
     } else {
-      if (edited) {
-
-        if ((props.card.approved && props.card.tempCardType) || (!props.card.approved && props.card.cardType)) {
-          jsx.push(<ThumbnailGallery imageItems={imageTempItems} key={props.card.cardId} />);
-        } else {
-          props.card.tempItems.map((item) => {
-            jsx.push(recurseItems(item, item.itemId, false, edited));
-            return null;
-          });
-        }
-
+      if (props.card.cardType) {
+        cardType = 1;
+        newItems = imageItems;
       } else {
-
-        if (props.card.cardType) {
-          jsx.push(<ThumbnailGallery imageItems={imageItems} key={props.card.cardId} />);
-        } else {
-          props.card.items.map((item) => {
-            jsx.push(recurseItems(item, item.itemId, false, edited));
-            return null;
-          });
-        }
+        cardType = 0;
+        newItems = props.card.items;
       }
-
     }
-    return jsx;
+
+    const cardData = {
+      items: newItems,
+      cardType: cardType
+    };
+
+    return cardData;
+
   }
 
-  return !props.card.approved && !props.mode ? (
+  return !props.card.approved && props.mode !== 1 ? (
     null
   ) : (
-    <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" }`}>
+    <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" } ${props.card.invalid ? "card-body-invalid" : ""}`}>
       <CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
-        {props.mode && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
-        {props.mode ? (
+        {props.mode === 1 && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
+        {props.mode === 1 ? (
           <div className="row">
             <EditCard
               card={props.card}
@@ -167,17 +100,56 @@ function Card(props) {
             <ReviewCard
               refresh={() => props.refresh()}
               edited={props.card.edited}
-              cardItems={generateItems(false, true)}
-              cardTempItems={generateItems(true, true)}
               card={props.unfilteredCard}
+              mode={props.mode}
             />
           </div>
         ) : (
-          null
+          <Fragment>
+            {props.mode === 2 ? (
+              <div className="row">
+                <OrderObjectButton
+                  up={true}
+                  header={false}
+                  objectId={props.card.cardId}
+                  handleMove={(id, up) => props.handleMoveCard(id, props.card.headerId, up)}
+                  top={props.top}
+                />
+                <OrderObjectButton
+                  up={false}
+                  header={false}
+                  objectId={props.card.cardId}
+                  handleMove={(id, up) => props.handleMoveCard(id, props.card.headerId, up)}
+                  bottom={props.bottom}
+                />
+              </div>
+            ) : (
+              null
+            )}
+          </Fragment>
         )}
       </CardBS.Header>
       <CardBS.Body>
-        {generateItems(props.card.edited, false)}
+        {props.card.invalid ? (
+          <Fragment>
+            <h4>INVALID CARD!</h4>
+            <p>
+            This card has no content.
+            Either add content to this card or delete it.
+            </p>
+          </Fragment>
+        ) : (
+          null
+        )}
+        {cardType ? (
+          <ThumbnailGallery items={items} />
+        ) : (
+          <BasicItems 
+            items={items}
+            mode={props.mode}
+            handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+          />
+        )}
       </CardBS.Body>
     </CardBS>
   );
@@ -188,7 +160,11 @@ Card.propTypes = {
   categoryId: PropTypes.any,
   refresh: PropTypes.any,
   card: PropTypes.object,
+  handleMoveCard: PropTypes.func,
   unfilteredCard: PropTypes.object,
   mode: PropTypes.number,
-  iconSet: PropTypes.any
+  iconSet: PropTypes.any,
+  top: PropTypes.bool,
+  bottom: PropTypes.bool,
+  handleTimestamp: PropTypes.func
 };

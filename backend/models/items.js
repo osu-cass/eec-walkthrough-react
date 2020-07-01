@@ -13,14 +13,14 @@ async function getItem(itemId, viewAll) {
 
     // get the specified item
     if (viewAll) {
-      sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+      sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
       "Items.iconType, typeName, typeKeyword, contentText, " +
       "contentUrl, contentLabel " +
       "FROM Items " +
       "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
       "WHERE itemId = ?;";
     } else {
-      sql = "SELECT DISTINCT itemId, cardId, parentId, orderIndex, " +
+      sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
       "Items.iconType, typeName, typeKeyword, contentText, " +
       "contentUrl, contentLabel " +
       "FROM Items " +
@@ -48,7 +48,7 @@ exports.getItem = getItem;
 
 
 // create an item
-async function createItem(cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel) {
+async function createItem(cardId, indentation, orderIndex, iconType, contentText, contentUrl, contentLabel) {
 
   try {
 
@@ -63,12 +63,12 @@ async function createItem(cardId, parentId, orderIndex, iconType, contentText, c
     }
 
     // make sure the parent item exists
-    if (parentId) {
+    if (indentation) {
 
       sql = "SELECT * " +
       "FROM Items " +
       "WHERE itemId = ?;";
-      results = await pool.query(sql, parentId);
+      results = await pool.query(sql, indentation);
 
       if (!results[0].length) {
         return {error: 2};
@@ -92,9 +92,9 @@ async function createItem(cardId, parentId, orderIndex, iconType, contentText, c
     }
 
     // create the new item
-    sql = "INSERT INTO Items (cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, approved) " +
+    sql = "INSERT INTO Items (cardId, indentation, orderIndex, iconType, contentText, contentUrl, contentLabel, approved) " +
     "VALUES (?, ?, ?, ?, ?, ?, ?, 0);";
-    results = await pool.query(sql, [cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel]);
+    results = await pool.query(sql, [cardId, indentation, orderIndex, iconType, contentText, contentUrl, contentLabel]);
 
     const finalResults = {
       insertId: results[0].insertId
@@ -150,7 +150,7 @@ exports.deleteItem = deleteItem;
 
 
 // update an item
-async function updateItem(itemId, cardId, parentId, orderIndex, iconType, contentText, contentUrl, contentLabel, approved) {
+async function updateItem(itemId, cardId, indentation, orderIndex, iconType, contentText, contentUrl, contentLabel, approved) {
 
   try {
 
@@ -187,23 +187,23 @@ async function updateItem(itemId, cardId, parentId, orderIndex, iconType, conten
 
     }
 
-    if (typeof parentId !== "undefined") {
+    if (typeof indentation !== "undefined") {
 
       // confirm that the parent item exists
-      if (parentId) {
+      if (indentation) {
         const checkSql = "SELECT * " +
         "FROM Items " +
         "WHERE itemId = ?;";
 
-        results = await pool.query(checkSql, parentId);
+        results = await pool.query(checkSql, indentation);
 
         if (!results[0].length) {
           return {error: 3};
         }
       }
 
-      sql += "parentId = ?,";
-      sqlArray.push(parentId);
+      sql += "indentation = ?,";
+      sqlArray.push(indentation);
 
     }
 
@@ -315,7 +315,7 @@ async function updateItemTime(itemId, deadLink) {
 
     results = await pool.query(sql, itemId);
 
-    const timestamp = results[0][0].created + "";
+    const timestamp = results[0][0].created;
 
     const finalResults = {
       timestamp: timestamp
