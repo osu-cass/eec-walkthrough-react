@@ -120,6 +120,12 @@ function Header(props) {
     setFilterShow(allIcons);
   }
 
+  // Clears the viewing state for all icon types.
+  function clearIcons() {
+    const allIcons = [];
+    setFilterShow(allIcons);
+  }
+
   // Updates the cards / items that are shown.
   function updateCardState(filterState) {
 
@@ -247,6 +253,7 @@ function Header(props) {
                     <FilterBar
                       updateIcon={(e1, e2) => updateIcon(e1, e2)}
                       resetIcons={() => resetIcons()}
+                      clearIcons={() => clearIcons()}
                       filterIcons={filterIcons}
                       tempFilterIcons={tempFilterIcons}
                       filterShow={filterShow}
@@ -324,6 +331,7 @@ function Header(props) {
                 <FilterBar
                   updateIcon={(e1, e2) => updateIcon(e1, e2)}
                   resetIcons={() => resetIcons()}
+                  clearIcons={() => clearIcons()}
                   filterIcons={filterIcons}
                   tempFilterIcons={tempFilterIcons}
                   filterShow={filterShow}
