@@ -232,7 +232,7 @@ async function searchUsers(text, role, sort, order, cursor) {
 
       switch (sort) {
         case 0:
-          sql += `WHERE username ${orderChar}= ? AND ` +
+          sql += `WHERE (username ${orderChar}= ? AND ` +
             `(username ${orderChar} ? OR userId >= ? )) `;
           break;
         case 1:
@@ -256,7 +256,7 @@ async function searchUsers(text, role, sort, order, cursor) {
             `(role ${orderChar} ? OR userId >= ? )) `;
           break;
         default:
-          sql += `WHERE username ${orderChar}= ? AND ` +
+          sql += `WHERE (username ${orderChar}= ? AND ` +
             `(username ${orderChar} ? OR userId >= ? )) `;
       }
       sqlArray.push(cursor.primary);
@@ -318,6 +318,7 @@ async function searchUsers(text, role, sort, order, cursor) {
     sqlArray.push(RESULTS_PER_PAGE + 1);
 
     // perform the query
+    console.log("SQL:", sql);
     const results = await pool.query(sql, sqlArray);
 
     // get the next cursor and return the correct number of users
