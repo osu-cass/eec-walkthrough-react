@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from "react";
 import {useParams, withRouter, Link} from "react-router-dom";
-import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import "./PageList.css";
 
-// search results for a page search
+// lists pages for each section
 function PageList() {
 
   const {pageName} = useParams();
@@ -12,6 +11,7 @@ function PageList() {
   const [pageLinks, setPageLinks] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // display loading spinner and gets pages
   useEffect(() => {
     setLoading(true);
     getPage();
@@ -36,10 +36,13 @@ function PageList() {
     }
 
     setPageLinks(linkArray);
+
+    // remove spinner after finished generating links
     setLoading(false);
 
   }, [pages]);
 
+  // grabs and returns list of relevant pages
   async function getPage() {
     const page = pageName;
     const getUrl = "/pages/all";
@@ -108,13 +111,3 @@ function PageList() {
 
 }
 export default withRouter(PageList);
-
-PageList.propTypes = {
-  searchText: PropTypes.string,
-  loading: PropTypes.bool,
-  history: PropTypes.object,
-  pages: PropTypes.array,
-  cursor: PropTypes.object,
-  onLoadMore: PropTypes.func,
-  onLoading: PropTypes.func
-};
