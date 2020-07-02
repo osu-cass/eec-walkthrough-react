@@ -100,7 +100,7 @@ app.post("/login", loginUserVal.validation, async (req, res) => {
 
 
 // get a list of users based on a search query
-app.get("/search/:text/:role/:cursorPrimary/:cursorSecondary", requireAuth, searchUserVal.validation, async (req, res) => {
+app.get("/search/:text/:role/:sort/:order/:cursorPrimary/:cursorSecondary", requireAuth, searchUserVal.validation, async (req, res) => {
 
   try {
 
@@ -115,6 +115,8 @@ app.get("/search/:text/:role/:cursorPrimary/:cursorSecondary", requireAuth, sear
 
     const text = req.params.text;
     const role = req.params.role;
+    const sort = req.params.sort;
+    const order = req.params.order;
     const cursor = {
       primary: req.params.cursorPrimary,
       secondary: req.params.cursorSecondary
@@ -127,7 +129,8 @@ app.get("/search/:text/:role/:cursorPrimary/:cursorSecondary", requireAuth, sear
     }
 
     // search for users
-    const results = await searchUsers(text, parseInt(role, 10), cursor);
+    const results = await searchUsers(text, parseInt(role, 10), parseInt(sort, 10),
+      parseInt(order, 10), cursor);
 
     if (results.users.length) {
       res.status(200).send(results);

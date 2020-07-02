@@ -58,7 +58,9 @@ exports.patchUserVal = patchUserVal;
 const searchUserVal = Object.freeze({
   validation: [
     check("text").isLength({min: 0, max: 1000}),
-    check("role").isLength({min: 0, max: 4}),
+    check("role").isInt({min: 0, max: 4}),
+    check("sort").isInt({min: 0, max: 10}),
+    check("order").isInt({min: 0, max: 1}),
     check("cursorPrimary").isLength({min: 1, max: 1000}),
     check("cursorSecondary").isLength({min: 1, max: 1000})
   ]
