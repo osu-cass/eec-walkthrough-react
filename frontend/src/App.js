@@ -5,7 +5,7 @@ import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import Search from "./pages/Search/Search";
 import RegisterUser from "./pages/RegisterUser/RegisterUser";
 import EditUser from "./pages/EditUser/EditUser";
-import PageList from "./pages/ContentPage/PageList";
+import PageList from "./pages/PageList/PageList";
 import Error404 from "./pages/404/Error404";
 import Error500 from "./pages/500/Error500";
 import NavBar from "./components/NavBar/NavBar";
