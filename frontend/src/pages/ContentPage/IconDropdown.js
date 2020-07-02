@@ -1,6 +1,7 @@
 import React, {Fragment, useState} from "react";
 import {Dropdown} from "react-bootstrap";
 import PropTypes from "prop-types";
+import "./IconDropdown.css";
 
 // Drop down menu that contains icons for creating items in a card
 function IconDropdown(props) {
