@@ -209,7 +209,7 @@ async function searchUsers(text, role, cursor) {
 
     // initial sql query
     let sql =
-      "SELECT userId, username, firstName, lastName, email, role FROM Users ";
+      "SELECT userId, username, firstName, lastName, email, created, role FROM Users ";
 
     // only use the cursor if it isn't the initial search request
     if (cursor.primary === "null") {

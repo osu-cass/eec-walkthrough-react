@@ -1,5 +1,6 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
+import {formatTime} from "../../utilities/formatTime";
 import UserSelectRole from "./UserSelectRole";
 import PropTypes from "prop-types";
 import LoadMoreButton from "../../components/General/LoadMoreButton";
@@ -14,11 +15,12 @@ function UserSearchResults(props) {
         <table className="user-table shadow">
           <thead>
             <tr>
-              <th className="user-data">username</th>
-              <th className="user-data">Name</th>
-              <th className="user-data">User ID</th>
-              <th className="user-data">Email</th>
-              <th className="user-data">Role</th>
+              <th className="user-data" style={{width: "18%"}}>username</th>
+              <th className="user-data" style={{width: "18%"}}>Name</th>
+              <th className="user-data" style={{width: "10%"}}>User ID</th>
+              <th className="user-data" style={{width: "18%"}}>Email</th>
+              <th className="user-data" style={{width: "18%"}}>Created</th>
+              <th className="user-data" style={{width: "18%"}}>Role</th>
             </tr>
           </thead>
           <tbody>
@@ -30,11 +32,19 @@ function UserSearchResults(props) {
                 <td className="user-data" key={user.userId + "b"}>
                   {user.firstName + " " + user.lastName}
                 </td>
-                <td className="user-data" key={user.userId + "c"}>{user.userId}</td>
-                <td className="user-data" key={user.userId + "d"}>{user.email}</td>
+                <td className="user-data" key={user.userId + "c"}>
+                  {user.userId}
+                </td>
+                <td className="user-data" key={user.userId + "d"}>
+                  {user.email}
+                </td>
                 <td className="user-data" key={user.userId + "e"}>
+                  {formatTime(user.created)}
+                </td>
+                <td className="user-data" key={user.userId + "f"}>
                   <UserSelectRole role={user.role} userId={user.userId} index={index}
-                    username={user.firstName + " " + user.lastName} onLoading={load => props.onLoading(load)} />
+                    username={user.firstName + " " + user.lastName} onLoading={load => props.onLoading(load)}
+                  />
                 </td>
               </tr>
             )}
