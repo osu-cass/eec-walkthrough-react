@@ -196,9 +196,10 @@ exports.updateUser = updateUser;
 
 
 // gets users who match the search query
-async function searchUsers(text, role, cursor) {
+async function searchUsers(text, role, sort, order, cursor) {
   try {
 
+    const ASC = 1;
     const RESULTS_PER_PAGE = 25;
     const sqlArray = [];
     let users;
@@ -209,7 +210,9 @@ async function searchUsers(text, role, cursor) {
 
     // initial sql query
     let sql =
-      "SELECT userId, username, firstName, lastName, email, created, role FROM Users ";
+      "SELECT userId, username, firstName, lastName, email, created, role, " +
+      "UNIX_TIMESTAMP(created) AS createdUnix " +
+      "FROM Users ";
 
     // only use the cursor if it isn't the initial search request
     if (cursor.primary === "null") {
@@ -222,8 +225,40 @@ async function searchUsers(text, role, cursor) {
       // Instances where the primary cursor value could have duplicate values
       // are handled by also sorting by user ID.
 
-      sql += "WHERE username >= ? AND " +
-        "(username > ? OR userId >= ?) ";
+      let orderChar = "<";
+      if (order === ASC) {
+        orderChar = ">";
+      }
+
+      switch (sort) {
+        case 0:
+          sql += `WHERE username ${orderChar}= ? AND ` +
+            `(username ${orderChar} ? OR userId >= ? )) `;
+          break;
+        case 1:
+          sql += `WHERE (CONCAT(firstName , ' ' , lastName) ${orderChar}= ? AND ` +
+            `(CONCAT(firstName , ' ' , lastName) ${orderChar} ? OR userId >= ? )) `;
+          break;
+        case 2:
+          sql += `WHERE (userId ${orderChar}= ? AND ` +
+            `(userId ${orderChar} ? OR userId >= ? )) `;
+          break;
+        case 3:
+          sql += `WHERE (email ${orderChar}= ? AND ` +
+            `(email ${orderChar} ? OR userId >= ? )) `;
+          break;
+        case 4:
+          sql += `WHERE (UNIX_TIMESTAMP(created) ${orderChar}= ? AND ` +
+            `(UNIX_TIMESTAMP(created) ${orderChar} ? OR userId >= ? )) `;
+          break;
+        case 5:
+          sql += `WHERE (role ${orderChar}= ? AND ` +
+            `(role ${orderChar} ? OR userId >= ? )) `;
+          break;
+        default:
+          sql += `WHERE username ${orderChar}= ? AND ` +
+            `(username ${orderChar} ? OR userId >= ? )) `;
+      }
       sqlArray.push(cursor.primary);
       sqlArray.push(cursor.primary);
       sqlArray.push(cursor.secondary);
@@ -248,9 +283,36 @@ async function searchUsers(text, role, cursor) {
       sqlArray.push(role);
     }
 
-    // sort search results by username
-    sql += "ORDER BY username ASC, " +
-      "userId ASC LIMIT ?;";
+    // get the results in the order we are sorting by
+    switch (sort) {
+      case 0:
+        sql += "ORDER BY username ";
+        break;
+      case 1:
+        sql += "ORDER BY CONCAT(firstName , ' ' , lastName) ";
+        break;
+      case 2:
+        sql += "ORDER BY userId ";
+        break;
+      case 3:
+        sql += "ORDER BY email ";
+        break;
+      case 4:
+        sql += "ORDER BY createdUnix ";
+        break;
+      case 5:
+        sql += "ORDER BY role ";
+        break;
+      default:
+        sql += "ORDER BY username ";
+    }
+
+    // order by ascending or descending
+    if (order === ASC) {
+      sql += "ASC, userId ASC LIMIT ?;";
+    } else {
+      sql += "DESC, userId ASC LIMIT ?;";
+    }
 
     // get the number of results per page (plus the next cursor)
     sqlArray.push(RESULTS_PER_PAGE + 1);
@@ -274,11 +336,31 @@ async function searchUsers(text, role, cursor) {
       // The secondary value is the user ID and it is used to sort when we
       // have results with matching primary values.
       users = results[0].slice(0, -1);
-      const nextPlan = results[0][RESULTS_PER_PAGE];
+      const nextUser = results[0][RESULTS_PER_PAGE];
 
-      // set the primary and secondary strings
-      nextCursor.primary = String(nextPlan.username);
-      nextCursor.secondary = String(nextPlan.userId);
+      switch (sort) {
+        case 0:
+          nextCursor.primary = String(nextUser.username);
+          break;
+        case 1:
+          nextCursor.primary = String(nextUser.firstName + " " + nextUser.lastName);
+          break;
+        case 2:
+          nextCursor.primary = String(nextUser.userId);
+          break;
+        case 3:
+          nextCursor.primary = String(nextUser.email);
+          break;
+        case 4:
+          nextCursor.primary = String(nextUser.createdUnix);
+          break;
+        case 5:
+          nextCursor.primary = String(nextUser.role);
+          break;
+        default:
+          nextCursor.primary = String(nextUser.username);
+      }
+      nextCursor.secondary = String(nextUser.userId);
 
     }
 
