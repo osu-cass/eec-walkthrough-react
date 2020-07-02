@@ -38,9 +38,7 @@
 
 .opportunity-desc {
   display: block;
-  margin-left: -0.30rem;
-  font-size: .9rem;
-  font-style: italic;
+  margin-left: 0.30rem;
 }
 
 .icon-item-text.check-square-icon {
