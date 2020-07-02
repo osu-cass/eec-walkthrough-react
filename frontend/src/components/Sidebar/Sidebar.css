@@ -56,6 +56,7 @@ a:focus {
   color: #fff;
   transition: all 0.3s;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+  overflow-y: scroll;
 }
 
 #dismiss {
@@ -170,4 +171,18 @@ a.article:hover {
   position: absolute;
   top: 0;
   right: 0;
+}
+
+/* ---------------------
+    SCROLLBAR STYLE
+----------------------- */
+#sidebar::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(90,90,90,1);
+  border-radius: 12px;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgba(76,83,89,1);
+  -webkit-box-shadow: inset 0 0 6px rgba(255,255,255,0.15);
 }

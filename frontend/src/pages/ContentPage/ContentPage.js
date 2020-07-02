@@ -104,7 +104,7 @@ function ContentPage(props) {
         }
       }
     }
-    
+
   }
 
   // Moves the specified header up or down one in relation to other headers
