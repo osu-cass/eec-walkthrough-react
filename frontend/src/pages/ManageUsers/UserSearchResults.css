@@ -4,6 +4,10 @@
   margin-top: 50px;
 }
 
+.active-sort { 
+  color: #d73f09;
+}
+
 .user-table {
   table-layout:fixed;
   text-align: left;
