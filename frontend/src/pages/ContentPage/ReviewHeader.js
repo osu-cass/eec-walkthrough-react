@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import {Modal, Button, Row} from "react-bootstrap";
 import {getProfile, logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
@@ -27,6 +27,47 @@ function ReviewHeader(props) {
     setShow(true);
   }
 
+   // unpublish
+   async function handleRemove() {
+
+    // Check that the user really wants to unpublish this version
+    if (!window.confirm("Are you sure you want to unpublish this header?\nThis will overwrite any unpublished version if one exists.")) {
+      return;
+    }
+
+    // Unpublish the header
+    const results = await fetch(`/headers/${props.header.headerId}/unpublish`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+      // reset error messages
+      setErrorMessage("");
+
+      // Close modal
+      handleClose();
+
+      // refresh the header
+      props.refresh();
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+  }
+
+  // publish 
   async function handleSubmit() {
 
     // Check that the user really wants to approve this version
@@ -66,7 +107,7 @@ function ReviewHeader(props) {
 
   }
 
-  return role >= 3 && (!props.header.approved || props.header.tempHeaderId) ? (
+  return role >= 3 ? (
     <div className='text-center mx-2'>
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
@@ -108,13 +149,20 @@ function ReviewHeader(props) {
               </div>
             </div>
           ) : (
-            <div className="version-container p-2 m-3 border border-dark rounded">
-              <h4 className="font-weight-bold">New Version</h4>
-              <span className="created-text">Created {formatTime(props.header.created)}</span>
-              <div className="m-4">
-                <h3 className="font-weight-bold">{props.header.title}</h3>
-              </div>
-            </div>
+            <Fragment>
+              {props.header.approved ? (
+                null
+              ) : (
+                <div className="version-container p-2 m-3 border border-dark rounded">
+                  <h4 className="font-weight-bold">New Version</h4>
+                  <span className="created-text">Created {formatTime(props.header.created)}</span>
+                  <div className="m-4">
+                    <h3 className="font-weight-bold">{props.header.title}</h3>
+                  </div>
+                </div>
+              )}
+
+            </Fragment>
           )}
 
           <Row>
@@ -129,7 +177,28 @@ function ReviewHeader(props) {
 
         <Modal.Footer className="modal-footer">
           {role >= 4 ? (
-            <Button variant="primary" onClick={(e) => handleSubmit(e)}>Publish Changes</Button>
+            <Fragment>
+              {props.header.approved && props.header.tempHeaderId ? (
+                <Fragment>
+                  <Button
+                    className="mr-auto"
+                    variant="danger"
+                    onClick={() => handleRemove()}
+                  >
+                    Unpublish Header
+                  </Button>
+                  <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
+                </Fragment>
+              ) : (
+                <Fragment>
+                {props.header.approved ? (
+                  <Button variant="danger" onClick={() => handleRemove()}>Unpublish Header</Button>
+                ) : (
+                  <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
+                )}
+                </Fragment>
+              )}
+            </Fragment>
           ) : (
             null
           )}
