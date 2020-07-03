@@ -80,6 +80,7 @@ function PageList() {
         <div className="content-container mb-5">
           <div className="prompt-container bg-white card rounded shadow-sm">
             <div className="page-search-inner-container m-5">
+              <h3 id="title" className="py-4 font-weight-bold">{pageName} Pages</h3>
               {pages.map((page, index) =>
 
                 <div className="page-info-container card m-5" key={page.pageId + "a"}>
@@ -102,7 +103,7 @@ function PageList() {
         <LoadingOverlay loading={loading} />
         <div className="content-container mb-5">
           <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
-            <h3 className="py-5 font-weight-bold">No results found for &quot;{pageName}&quot;.</h3>
+            <h3 className="py-5 font-weight-bold">&quot;{pageName}&quot; has no pages or doesn&apos;t exist.</h3>
           </div>
         </div>
       </div>

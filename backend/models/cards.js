@@ -398,6 +398,58 @@ async function publishCard(cardId) {
 exports.publishCard = publishCard;
 
 
+async function unpublishCard(cardId) {
+
+  try {
+
+    // make sure that the card exists
+    let sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE cardId = ?;";
+    let results = await pool.query(sql, cardId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // set the card to unpublished
+    sql = "UPDATE Cards " +
+    "SET approved = 0 " +
+    "WHERE cardId = ?;";
+    results = await pool.query(sql, cardId);
+
+    // delete any old temp cards
+    sql = "DELETE FROM Temp_Cards " +
+    "WHERE tempCardId = ?;";
+    results = await pool.query(sql, cardId);
+
+    // delete all of the edited items
+    sql = "DELETE FROM Items " +
+    "WHERE cardId = ? " +
+    "AND approved = 0;";
+    results = await pool.query(sql, cardId);
+
+    // unapprove all of the published items
+    sql = "UPDATE Items " +
+    "SET approved = 0 " +
+    "WHERE cardId = ?;";
+    results = await pool.query(sql, cardId);
+
+    const finalResults = {
+      cardId: cardId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error unpublishing card");
+    throw Error(err);
+  }
+
+}
+exports.unpublishCard = unpublishCard;
+
+
 // move a card
 async function moveCard(cardId, direction) {
 

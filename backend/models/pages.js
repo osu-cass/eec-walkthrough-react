@@ -834,3 +834,43 @@ async function publishPage(pageId) {
 
 }
 exports.publishPage = publishPage;
+
+
+async function unpublishPage(pageId) {
+
+  try {
+
+    // make sure that the page exists
+    let sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ?;";
+    let results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // set the page to unpublished
+    sql = "UPDATE Pages " +
+    "SET approved = 0 " +
+    "WHERE pageId = ?;";
+    results = await pool.query(sql, pageId);
+
+    // delete any old temp pages
+    sql = "DELETE FROM Temp_Pages " +
+    "WHERE tempPageId = ?;";
+    results = await pool.query(sql, pageId);
+
+    const finalResults = {
+      pageId: pageId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error unpublishing page");
+    throw Error(err);
+  }
+
+}
+exports.unpublishPage = unpublishPage;
