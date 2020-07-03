@@ -582,7 +582,7 @@ function ConstructCardModal(props) {
     <div className='text-center mx-2'>
       <Modal show={props.show} onHide={() => props.handleClose()} dialogClassName="modal-width">
         <Modal.Header>
-          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Edit Card</h5>
+          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">{props.edit ? "Edit Card" : "Create Card"}</h5>
           <Button variant="none" onClick={() => props.handleClose()}>
             <span aria-hidden="true">&times;</span>
           </Button>
@@ -731,4 +731,3 @@ ConstructCardModal.propTypes = {
   iconSet: PropTypes.array,
   headerId: PropTypes.number
 };
-

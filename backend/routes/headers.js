@@ -22,6 +22,7 @@ const {
   deleteHeader,
   updateHeader,
   publishHeader,
+  unpublishHeader,
   moveHeader
 } = require("../models/headers");
 
@@ -237,6 +238,51 @@ app.post("/:headerId/publish", getUserID, getHeaderVal.validation, async (req, r
         res.status(404).send({error: "Header not found."});
       } else if (results.error === 2) {
         res.status(403).send({error: "A header with this name already exists on this page."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// unpublish a header
+app.post("/:headerId/unpublish", getUserID, getHeaderVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Unpublish a header");
+
+    const headerId = req.params.headerId;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to unpublish a header."});
+      return;
+    }
+
+    // unpublish a header
+    const results = await unpublishHeader(headerId);
+
+    if (results.headerId >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Header not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

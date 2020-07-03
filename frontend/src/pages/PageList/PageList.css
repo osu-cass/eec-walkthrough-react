@@ -63,3 +63,7 @@ table tbody tr td {
 .page-info-container {
   border: none !important;
 }
+
+#title {
+  text-transform: capitalize;
+}

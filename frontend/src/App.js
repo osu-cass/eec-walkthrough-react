@@ -11,6 +11,7 @@ import Error500 from "./pages/500/Error500";
 import NavBar from "./components/NavBar/NavBar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import {Route, Switch} from "react-router-dom";
+import "./App.css";
 
 class App extends React.Component {
   state = {
