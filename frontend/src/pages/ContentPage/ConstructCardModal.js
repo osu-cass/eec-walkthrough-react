@@ -727,7 +727,7 @@ ConstructCardModal.propTypes = {
   handleClose: PropTypes.func,
   show: PropTypes.bool,
   card: PropTypes.object,
-  refresh: PropTypes.func,
+  handleUpdate: PropTypes.func,
   iconSet: PropTypes.array,
   headerId: PropTypes.number
 };

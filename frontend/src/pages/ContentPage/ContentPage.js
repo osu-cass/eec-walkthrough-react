@@ -80,6 +80,13 @@ function ContentPage(props) {
     let pageData = pageInfo;
     let headerData = [...headers];
 
+    if (type === "page") {
+      if (action === "update") {
+        setPageInfo(object);
+        console.log(object);
+      }
+    }
+
     if (type === "header") {
       if (action === "create") {
         headerData.push(object);
@@ -313,7 +320,7 @@ function ContentPage(props) {
       <Container className="my-4">
         <PageDescription
           page={pageInfo}
-          refresh={() => fetchData()}
+          handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
           role={role}
           mode={mode}
           onPageMode={e => handlePageMode(e)}

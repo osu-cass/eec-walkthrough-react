@@ -71,7 +71,58 @@ function EditPage(props) {
 
       setShowLoad(false);
       props.handlePageEdit();
-      props.refresh();
+
+      let newPage = {};
+
+      if (props.page.approved) {
+        newPage = {
+          approved: props.page.approved,
+          created: props.page.created,
+          description: props.page.description,
+          imageUrl: props.page.imageUrl,
+          name: props.page.name,
+          title: props.page.title,
+          pageId: props.page.pageId,
+          pageType: props.page.pageType,
+          tempDescription: description,
+          tempImageUrl: url,
+          tempName: title,
+          tempTitle: summary,
+          tempCreated: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          tempUserId: 0,
+          headers: []
+        }
+      } else {
+        newPage = {
+          approved: props.page.approved,
+          created: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          description: description,
+          imageUrl: url,
+          name: title,
+          title: summary,
+          pageId: props.page.pageId,
+          pageType: props.page.pageType,
+          tempDescription: props.page.tempDescription,
+          tempImageUrl: props.page.tempImageUrl,
+          tempName: props.page.tempName,
+          tempTitle: props.page.tempTitle,
+          tempCreated: props.page.tempCreated,
+          tempUserId: 0,
+          headers: []
+        }
+      }
+
+      // Reset state
+      setTitle("");
+      setSummary("");
+      setDescription("");
+      setUrl("");
+      setErrorMessage("");
+
+      // Close modal
+      handleCloseModal();
+
+      props.handleUpdate(newPage, "page", "update");
 
     } else {
 
@@ -278,6 +329,6 @@ EditPage.propTypes = {
   page: PropTypes.object,
   role: PropTypes.number,
   mode: PropTypes.number,
-  refresh: PropTypes.func,
+  handleUpdate: PropTypes.func,
   handlePageEdit: PropTypes.any
 };

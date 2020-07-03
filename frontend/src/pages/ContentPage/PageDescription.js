@@ -52,13 +52,13 @@ function PageDescription(props) {
               page={props.page}
               role={props.role}
               mode={props.mode}
-              refresh={() => props.refresh()}
+              handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
               handlePageEdit={props.handlePageEdit}
             />
             <ReviewPage
               page={props.page}
               mode={props.mode}
-              refresh={() => props.refresh()}
+              handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
             />
             <ChangeMode role={props.role}
               mode={props.mode}
@@ -100,5 +100,5 @@ PageDescription.propTypes = {
   mode: PropTypes.number,
   onPageMode: PropTypes.func,
   handlePageEdit: PropTypes.func,
-  refresh: PropTypes.func
+  handleUpdate: PropTypes.func
 };
