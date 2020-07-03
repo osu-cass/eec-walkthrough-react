@@ -352,6 +352,46 @@ async function publishHeader(headerId) {
 exports.publishHeader = publishHeader;
 
 
+async function unpublishHeader(headerId) {
+
+  try {
+
+    // make sure that the header exists
+    let sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ?;";
+    let results = await pool.query(sql, headerId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // set the header to unpublished
+    sql = "UPDATE Headers " +
+    "SET approved = 0 " +
+    "WHERE headerId = ?;";
+    results = await pool.query(sql, headerId);
+
+    // delete any old temp headers
+    sql = "DELETE FROM Temp_Headers " +
+    "WHERE tempHeaderId = ?;";
+    results = await pool.query(sql, headerId);
+
+    const finalResults = {
+      headerId: headerId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error unpublishing header");
+    throw Error(err);
+  }
+
+}
+exports.unpublishHeader = unpublishHeader;
+
+
 // move a header
 async function moveHeader(headerId, direction) {
 
