@@ -77,14 +77,17 @@ function ContentPage(props) {
 
   // update the structure of the current page object
   function handleUpdate(object, type, action) {
-    let pageData = pageInfo;
     let headerData = [...headers];
 
     if (type === "page") {
       if (action === "update") {
         setPageInfo(object);
-        console.log(object);
+      } else if (action === "publish") {
+        setPageInfo(object);
+      } else if (action === "unpublish") {
+        setPageInfo(object);
       }
+      console.log(object);
     }
 
     if (type === "header") {

@@ -43,14 +43,34 @@ function ReviewPage(props) {
     });
 
     if (results.ok) {
+
+      const newPage = {
+        approved: 0,
+        created: props.page.created,
+        description: props.page.description,
+        imageUrl: props.page.imageUrl,
+        name: props.page.name,
+        title: props.page.title,
+        pageId: props.page.pageId,
+        pageType: props.page.pageType,
+        userId: props.page.userId,
+        tempDescription: null,
+        tempImageUrl: null,
+        tempName: null,
+        tempTitle: null,
+        tempCreated: null,
+        tempUserId: null,
+        headers: []
+      }
+
+      props.handleUpdate(newPage, "page", "unpublish");
+
       // reset error messages
       setErrorMessage("");
 
       // Close modal
       handleClose();
 
-      // refresh the page
-      props.refresh();
     } else {
 
       const obj = await results.json();
@@ -83,14 +103,57 @@ function ReviewPage(props) {
     });
 
     if (results.ok) {
+      
+      let newPage = {};
+      
+      if (props.page.approved) {
+        newPage = {
+          approved: 1,
+          created: props.page.tempCreated,
+          description: props.page.tempDescription,
+          imageUrl: props.page.tempImageUrl,
+          name: props.page.tempName,
+          title: props.page.tempTitle,
+          pageId: props.page.pageId,
+          pageType: props.page.pageType,
+          userId: props.page.tempUserId,
+          tempDescription: null,
+          tempImageUrl: null,
+          tempName: null,
+          tempTitle: null,
+          tempCreated: null,
+          tempUserId: null,
+          headers: []
+        }
+      } else {
+        newPage = {
+          approved: 1,
+          created: props.page.created,
+          description: props.page.description,
+          imageUrl: props.page.imageUrl,
+          name: props.page.name,
+          title: props.page.title,
+          pageId: props.page.pageId,
+          pageType: props.page.pageType,
+          userId: props.page.userId,
+          tempDescription: null,
+          tempImageUrl: null,
+          tempName: null,
+          tempTitle: null,
+          tempCreated: null,
+          tempUserId: null,
+          headers: []
+        }
+      }
+
+      props.handleUpdate(newPage, "page", "publish");
+
       // reset error messages
       setErrorMessage("");
 
       // Close modal
       handleClose();
 
-      // refresh the page
-      props.refresh();
 
     } else {
 
@@ -238,5 +301,5 @@ export default ReviewPage;
 ReviewPage.propTypes = {
   mode: PropTypes.number,
   page: PropTypes.object,
-  refresh: PropTypes.func
+  handleUpdate: PropTypes.func
 };
