@@ -84,6 +84,8 @@ function EditPage(props) {
           title: props.page.title,
           pageId: props.page.pageId,
           pageType: props.page.pageType,
+          userId: props.page.userId,
+          tempPageId: props.page.pageId,
           tempDescription: description,
           tempImageUrl: url,
           tempName: title,
@@ -102,12 +104,14 @@ function EditPage(props) {
           title: summary,
           pageId: props.page.pageId,
           pageType: props.page.pageType,
+          userId: 0,
+          tempPageId: props.page.tempPageId,
           tempDescription: props.page.tempDescription,
           tempImageUrl: props.page.tempImageUrl,
           tempName: props.page.tempName,
           tempTitle: props.page.tempTitle,
           tempCreated: props.page.tempCreated,
-          tempUserId: 0,
+          tempUserId: props.page.tempUserId,
           headers: []
         }
       }
