@@ -191,11 +191,11 @@ function ReviewHeader(props) {
                 </Fragment>
               ) : (
                 <Fragment>
-                {props.header.approved ? (
-                  <Button variant="danger" onClick={() => handleRemove()}>Unpublish Header</Button>
-                ) : (
-                  <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
-                )}
+                  {props.header.approved ? (
+                    <Button variant="danger" onClick={() => handleRemove()}>Unpublish Header</Button>
+                  ) : (
+                    <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
+                  )}
                 </Fragment>
               )}
             </Fragment>
