@@ -90,16 +90,20 @@ function Card(props) {
     <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" } ${props.card.invalid ? "card-body-invalid" : ""}`}>
       <CardBS.Header
         as="h5"
-        id={"heading" + props.card.cardId}
-        data-toggle="collapse"
-        data-target={"#collapse" + props.card.cardId}
-        aria-expanded="true"
-        aria-controls={"collapse" + props.card.cardId}
         className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold"
       >
-        {props.mode === 1 && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
+        <div
+          id={"heading" + props.card.cardId}
+          data-toggle="collapse"
+          data-target={"#collapse" + props.card.cardId}
+          aria-expanded="true"
+          aria-controls={"collapse" + props.card.cardId}
+          className="col pr-0"
+        >
+          {props.mode === 1 && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
+        </div>
         {props.mode === 1 ? (
-          <div className="row">
+          <div className="row ml-auto">
             <EditCard
               card={props.card}
               refresh={() => props.refresh()}
@@ -115,7 +119,7 @@ function Card(props) {
         ) : (
           <Fragment>
             {props.mode === 2 ? (
-              <div className="row">
+              <div className="row ml-auto">
                 <OrderObjectButton
                   up={true}
                   header={false}
