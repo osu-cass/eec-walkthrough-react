@@ -75,6 +75,19 @@ function ContentPage(props) {
     setLoaded(true);
   }
 
+  // update the structure of the current page object
+  function handleUpdate(object, type, action) {
+    let pageData = pageInfo;
+    let headerData = [...headers];
+
+    if (type === "header") {
+      if (action === "create") {
+        headerData.push(object);
+        setHeaders(headerData);
+      }
+    }
+  }
+
   // Updates a timestamp (for an external link) that has been edited
   function handleTimestamp(message, approved, itemId, cardId, headerId) {
     let copy = [...headers];
@@ -312,9 +325,9 @@ function ContentPage(props) {
           role={role}
           userId={userId}
           subject={pageInfo.name}
-          refresh={() => fetchData()}
           numHeaders={headers.length}
           mode={mode}
+          handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
         />
 
         {headers.map((header, i) => {
@@ -324,7 +337,6 @@ function ContentPage(props) {
                 header={header}
                 handleMoveHeader={(id, up) => handleMoveHeader(id, up)}
                 handleMoveCard={(cardId, headerId, up) => handleMoveCard(cardId, headerId, up)}
-                refresh={() => fetchData()}
                 role={role}
                 mode={mode}
                 iconSet={iconSet}
@@ -332,10 +344,11 @@ function ContentPage(props) {
                 top={i === 0 ? (true) : (false)}
                 bottom={i >= headers.length - 1 ? (true) : (false)}
                 handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
+                handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
               />
               <CreateCard
                 headerId={header.headerId}
-                refresh={() => fetchData()}
+                handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
                 mode={mode}
                 iconSet={iconSet}
               />
