@@ -216,7 +216,7 @@ function EditPage(props) {
                 <Form.Label className="font-weight-bold">Brief Description</Form.Label>
                 <Form.Control
                   as="textarea"
-                  maxLength="1000"
+                  maxLength="5000"
                   rows="4"
                   placeholder="Enter description"
                   defaultValue={description}
