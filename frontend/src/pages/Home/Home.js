@@ -70,6 +70,10 @@ function Home() {
                 <span className="font-weight-normal">Best Practice</span>
               </li>
               <li className="my-2">
+                <i className={`fas fa-fw fa-ruler-vertical mr-2`} />
+                <span className="font-weight-normal">Assessment Equipment</span>
+              </li>
+              <li className="my-2">
                 <i className={`fas fa-fw fa-chart-area mr-2`} />
                 <span className="font-weight-normal">Instructive Data Charts, Tables, Figures, and Pictures</span>
               </li>
