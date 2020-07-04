@@ -16,13 +16,15 @@ function EditCard(props) {
   }
 
   // Shows the modal
-  function handleShow() {
+  function handleShow(e) {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
     setShow(true);
   }
 
   return role >= 3 ? (
     <div className="text-center mx-2">
-      <Button size="sm" variant="info" onClick={() => handleShow()}>
+      <Button size="sm" variant="info" onClick={(e) => handleShow(e)}>
         <i
           className="fas fa-fw fa-edit text-white mr-2"
           style={{transform: "scale(1.5)"}}></i>
@@ -49,4 +51,3 @@ EditCard.propTypes = {
   refresh: PropTypes.func,
   iconSet: PropTypes.array
 };
-
