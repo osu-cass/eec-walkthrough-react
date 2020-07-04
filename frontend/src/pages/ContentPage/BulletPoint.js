@@ -111,7 +111,9 @@ function BulletPoint (props) {
                 null
               )}
               <br/>
-              {props.text === "$empty" ? (null) : (props.text)}
+              <small>
+                {props.text === "$empty" ? (null) : (props.text)}
+              </small>
             </div>
             {props.contentMode === 1 || props.contentMode === 3 ? (
               <LinkAccessButtons
