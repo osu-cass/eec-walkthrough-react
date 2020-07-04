@@ -69,7 +69,6 @@ function EditPage(props) {
 
     if (results.ok) {
 
-      setShowLoad(false);
       props.handlePageEdit();
 
       let newPage = {};
@@ -142,6 +141,7 @@ function EditPage(props) {
       }
 
     }
+    setShowLoad(false);
   }
 
   async function deletePage() {

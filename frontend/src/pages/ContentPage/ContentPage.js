@@ -80,20 +80,26 @@ function ContentPage(props) {
     let headerData = [...headers];
 
     if (type === "page") {
-      if (action === "update") {
-        setPageInfo(object);
-      } else if (action === "publish") {
-        setPageInfo(object);
-      } else if (action === "unpublish") {
+      if (action === "update" || action === "publish" || action === "unpublish") {
         setPageInfo(object);
       }
-      console.log(object);
     }
 
     if (type === "header") {
       if (action === "create") {
+
         headerData.push(object);
         setHeaders(headerData);
+
+      } else if (action === "update") {
+
+        for (let i = 0; i < headerData.length; i++) {
+          if (headerData[i].headerId === object.headerId) {
+            headerData[i] = object;
+            setHeaders(headerData);
+          }
+        }
+
       }
     }
   }

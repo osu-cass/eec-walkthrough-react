@@ -51,8 +51,48 @@ function EditHeader(props) {
 
     if (results.ok) {
 
-      setShowLoad(false);
-      props.refresh();
+      let newHeader = {};
+
+      if (props.header.approved) {
+        newHeader = {
+          approved: props.header.approved,
+          created: props.header.created,
+          headerId: props.header.headerId,
+          orderIndex: props.header.orderIndex,
+          pageId: props.header.pageId,
+          tempCreated: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          tempHeaderId: props.header.headerId,
+          tempTitle: title,
+          tempUserId: 0,
+          title: props.header.title,
+          userId: props.header.userId,
+          cards: props.header.cards
+        }
+      } else {
+        newHeader = {
+          approved: props.header.approved,
+          created: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          headerId: props.header.headerId,
+          orderIndex: props.header.orderIndex,
+          pageId: props.header.pageId,
+          tempCreated: props.header.tempCreated,
+          tempHeaderId: props.header.tempHeaderId,
+          tempTitle: props.header.tempTitle,
+          tempUserId: props.header.tempUserId,
+          title: title,
+          userId: 0,
+          cards: props.header.cards
+        }
+      }
+
+      // Reset state
+      setTitle("");
+      setErrorMessage("");
+
+      // Close modal
+      handleCloseModal();
+
+      props.handleUpdate(newHeader, "header", "update");
 
     } else {
 
@@ -68,6 +108,7 @@ function EditHeader(props) {
       }
 
     }
+    setShowLoad(false);
   }
 
   async function deleteHeader() {
@@ -183,5 +224,5 @@ export default EditHeader;
 EditHeader.propTypes = {
   header: PropTypes.object,
   role: PropTypes.number,
-  refresh: PropTypes.func
+  handleUpdate: PropTypes.func
 };
