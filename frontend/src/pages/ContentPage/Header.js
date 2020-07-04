@@ -228,7 +228,7 @@ function Header(props) {
     null
   ) : (
     <div>
-      {props.mode ? (
+      {props.mode === 1 ? (
 
         <div>
           <div className={`d-flex sticky-top
@@ -263,11 +263,11 @@ function Header(props) {
                     <EditHeader
                       header={props.header}
                       role={props.role}
-                      refresh={() => props.refresh()}
+                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                     />
                     <ReviewHeader
                       header={props.header}
-                      refresh={() => props.refresh()}
+                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                     />
                   </Fragment>
                 ) : (
@@ -299,7 +299,7 @@ function Header(props) {
                 headerId={props.header.headerId}
                 unfilteredCard={unfilteredCards[i]}
                 card={card}
-                refresh={() => props.refresh()}
+                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                 mode={props.mode}
                 iconSet={props.iconSet}
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
@@ -349,7 +349,7 @@ function Header(props) {
                 headerId={props.header.headerId}
                 unfilteredCard={unfilteredCards[i]}
                 card={card}
-                refresh={() => props.refresh()}
+                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                 mode={props.mode}
                 iconSet={props.iconSet}
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
@@ -370,7 +370,7 @@ Header.propTypes = {
   header: PropTypes.object,
   handleMoveHeader: PropTypes.func,
   handleMoveCard: PropTypes.func,
-  refresh: PropTypes.func,
+  handleUpdate: PropTypes.func,
   role: PropTypes.number,
   mode: PropTypes.number,
   iconSet: PropTypes.any,
