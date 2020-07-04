@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 04, 2020 at 01:50 PM
+-- Generation Time: Jul 04, 2020 at 03:06 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -195,7 +195,8 @@ INSERT INTO `Icons` (`iconType`, `typeKeyword`, `typeName`) VALUES
 (23, 'Video', 'video-camera'),
 (24, 'Informational Website', 'book'),
 (25, 'Vendor Website', 'truck'),
-(26, 'Bullet Point', 'circle');
+(26, 'Bullet Point', 'circle'),
+(27, 'Assessment Equipment', 'ruler-vertical');
 
 -- --------------------------------------------------------
 
@@ -351,27 +352,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (842, 84, 0, 0, 11, 'Reduce Line Losses (Larger Diameter Pipes, etc)', '', '', 0, '2020-07-01 21:53:17', 0),
 (843, 84, 0, 0, 11, 'Use \"Least Closed Valve\" Strategy on Pumping Networks Serving Multiple End Points.', '', '', 0, '2020-07-01 21:53:17', 0),
 (844, 84, 0, 0, 11, 'Eliminate or Reduce Fluid \"Free Fall\" at Discharge Point.', '', '', 0, '2020-07-01 21:53:17', 0),
-<<<<<<< HEAD
-(1083, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, '2020-07-01 22:23:17', 1),
-(1084, 77, 0, 1, 13, 'Reducing the inlet air temperature of oil-injected screw compressors increases mass flow rate while maintaining power input.', '', '', 0, '2020-07-01 22:23:17', 1),
-(1085, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, '2020-07-01 22:23:17', 1),
-(1086, 77, 0, 1, 10, 'Difficulty meeting a compressor\'s rated air capacity', '', '', 0, '2020-07-01 22:23:17', 1),
-(1087, 77, 0, 1, 10, 'A compressor running hotter than its specifications', '', '', 0, '2020-07-01 22:23:17', 1),
-(1088, 77, 0, 1, 4, 'To efficiently maintain current mass flow rate a variable frequency drive is required to reduce the motor speed and associated power.', '', '', 0, '2020-07-01 22:23:17', 1),
-(1089, 77, 0, 1, 4, 'Other factors may be at play such as significant air leaks increasing the system ', '', '', 0, '2020-07-01 22:23:17', 1),
-(1090, 77, 0, 1, 12, 'Move air inlet to coolest location to reduce power and energy consumption', '', '', 0, '2020-07-01 22:23:17', 1),
-(1091, 77, 0, 1, 3, '1.9% efficiency (scfm/kW) improvement per 10 °F reduction at inlet', '', '', 0, '2020-07-01 22:23:17', 1),
-(1092, 77, 0, 1, 15, 'Compressor make, model, and nameplate data', '', '', 0, '2020-07-01 22:23:17', 1),
-(1093, 77, 0, 1, 15, 'Motor nameplate data, live power reading, and one week of amperage data', '', '', 0, '2020-07-01 22:23:17', 1),
-(1094, 77, 0, 1, 15, 'Complete picture of compressed air system and control strategy', '', '', 0, '2020-07-01 22:23:17', 1),
-(1095, 77, 0, 1, 15, 'Average ambient temperature at current and proposed inlet locations', '', '', 0, '2020-07-01 22:23:17', 1),
-(1096, 77, 0, 1, 8, 'If implementation requires much more than re-ducting, the chances of this opportunitity being worthwhile are low. ', '', '', 0, '2020-07-01 22:23:17', 1),
-(1097, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/zk1aol8rf88aul9klflbxkikz6l2ku47', 'Analysis Template: Reduce Inlet Air Temperature', 2, '2020-07-01 22:23:17', 1),
-(1098, 77, 0, 1, 17, 'An article from Compressed Air Best Practices by  Tim Dugan, P.E., President, Compression Engineering Corporation', 'https://www.airbestpractices.com/system-assessments/compressor-controls/inlet-air-temperature-impacts-air-compressor-performance', 'Inlet Air Temperature Impacts on Air Compressor Performance', 1, '2020-07-01 22:23:17', 1),
-(1099, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, '2020-07-01 22:23:17', 1),
-(1100, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, '2020-07-01 22:23:17', 1),
-=======
->>>>>>> eec-features
 (1101, 86, 0, 0, 11, 'Turn compressor(s) off when not needed - nights weekends etc	', '', '', 0, '2020-07-01 22:24:57', 1),
 (1102, 86, 0, 0, 11, 'Serve low volume around the clock  requirement with separate smaller system', '', '', 0, '2020-07-01 22:24:57', 1),
 (1103, 87, 0, 0, 11, 'Replace refrigerated compressed air dryer with more efficient refrigerated compressed air dryer', '', '', 0, '2020-07-01 22:28:10', 1),
@@ -846,7 +826,7 @@ ALTER TABLE `Headers`
 -- AUTO_INCREMENT for table `Icons`
 --
 ALTER TABLE `Icons`
-  MODIFY `iconType` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `iconType` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `Items`
