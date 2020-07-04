@@ -80,12 +80,15 @@ function ContentPage(props) {
     let headerData = [...headers];
 
     if (type === "page") {
+
       if (action === "update" || action === "publish" || action === "unpublish") {
         setPageInfo(object);
       }
+
     }
 
     if (type === "header") {
+
       if (action === "create") {
 
         headerData.push(object);
@@ -97,6 +100,25 @@ function ContentPage(props) {
           if (headerData[i].headerId === object.headerId) {
             headerData[i] = object;
             setHeaders(headerData);
+          }
+        }
+
+      } else if (action === "delete") {
+
+        for (let i = 0; i < headerData.length; i++) {
+          if (headerData[i].headerId === object.headerId) {
+            if (object.headerId === object.tempHeaderId) {
+              const newHeader = headerData[i];
+              newHeader.tempCreated = null;
+              newHeader.tempHeaderId = null;
+              newHeader.tempTitle = null;
+              newHeader.tempUserId = null;
+              headerData[i] = newHeader;
+              setHeaders(headerData);
+            } else {
+              headerData.splice(i, 1);
+              setHeaders(headerData);
+            }
           }
         }
 
