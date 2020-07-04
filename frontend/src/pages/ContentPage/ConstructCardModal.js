@@ -94,7 +94,8 @@ function ConstructCardModal(props) {
         props.iconSet[i].typeName === "play" || props.iconSet[i].typeName === "video-camera" ||
         props.iconSet[i].typeName === "book" || props.iconSet[i].typeName === "truck") {
         links.push(props.iconSet[i]);
-      } else if (props.iconSet[i].typeName !== "info" && props.iconSet[i].typeName !== "link") {
+      } else if (props.iconSet[i].typeName !== "info" && props.iconSet[i].typeName !== "link" &&
+        props.iconSet[i].typeName !== "fire" && props.iconSet[i].typeName !== "bolt") {
         gen.push(props.iconSet[i]);
       }
     }
