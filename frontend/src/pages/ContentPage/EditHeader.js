@@ -121,8 +121,19 @@ function EditHeader(props) {
 
     if (results.ok) {
 
-      setShowLoad(false);
-      props.refresh();
+      const newHeader = {
+        headerId: props.header.headerId,
+        tempHeaderId: props.header.tempHeaderId
+      };
+
+      // Reset state
+      setTitle("");
+      setErrorMessage("");
+
+      // Close modal
+      handleCloseModal();
+
+      props.handleUpdate(newHeader, "header", "delete");
 
     } else {
 
@@ -137,6 +148,7 @@ function EditHeader(props) {
         setErrorMessage(obj.error);
       }
     }
+    setShowLoad(false);
   }
 
   function handleSubmit(e) {
