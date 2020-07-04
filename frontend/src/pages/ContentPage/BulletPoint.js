@@ -9,6 +9,11 @@ import "./BulletPoint.css";
 // Represents a single item inside a card
 function BulletPoint (props) {
 
+  function styleIcon(icon) {
+    if (icon === "circle") { return "fa-xs"; }
+    return "";
+  }
+
   function styleText(icon) {
     if (icon === "check-square") { return "font-weight-bold"; }
     if (icon === "flag") { return "font-italic"; }
@@ -31,9 +36,9 @@ function BulletPoint (props) {
 
       {getContentType(props.text, props.label, props.url) === 1 ? (
         <div className="row mx-auto">
-          <div className="icon-td pb-2">
+          <div className="icon-td justify-content-center">
             <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-fw fa-${props.icon} mr-2 ${styleText(props.icon)} `} />
+            <i className={`fas fa-fw fa-${props.icon} mr-2 ${styleText(props.icon)} ${styleIcon(props.icon)}`} />
           </div>
           <div className="content-td pb-2 col">
             <span className={styleText(props.icon) || isBold(props.bold)}>
