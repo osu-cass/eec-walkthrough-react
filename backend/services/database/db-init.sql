@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 04, 2020 at 01:21 PM
+-- Generation Time: Jul 04, 2020 at 01:50 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -194,7 +194,8 @@ INSERT INTO `Icons` (`iconType`, `typeKeyword`, `typeName`) VALUES
 (22, 'Slideshow', 'play'),
 (23, 'Video', 'video-camera'),
 (24, 'Informational Website', 'book'),
-(25, 'Vendor Website', 'truck');
+(25, 'Vendor Website', 'truck'),
+(26, 'Bullet Point', 'circle');
 
 -- --------------------------------------------------------
 
@@ -824,7 +825,7 @@ ALTER TABLE `Headers`
 -- AUTO_INCREMENT for table `Icons`
 --
 ALTER TABLE `Icons`
-  MODIFY `iconType` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `iconType` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `Items`
