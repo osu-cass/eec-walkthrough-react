@@ -42,7 +42,6 @@ class CreateHeader extends React.Component {
 
       const obj = await results.json();
 
-      // Add header to front end page
       const newHeader = {
         headerId: obj.insertId,
         approved: 0,
@@ -57,6 +56,7 @@ class CreateHeader extends React.Component {
         title: this.state.title,
         userId: 0
       }
+
       this.props.handleUpdate(newHeader, "header", "create");
 
       // Reset state

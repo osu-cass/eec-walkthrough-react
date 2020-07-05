@@ -15,6 +15,7 @@ function PageList() {
   useEffect(() => {
     setLoading(true);
     getPage();
+    // eslint-disable-next-line
   }, []);
 
   // generate page links for each page
