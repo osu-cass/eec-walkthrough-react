@@ -102,6 +102,7 @@ function ContentPage(props) {
         }
 
       }
+
     }
 
     if (type === "header") {
@@ -111,7 +112,7 @@ function ContentPage(props) {
         headerData.push(object);
         setHeaders(headerData);
 
-      } else if (action === "update") {
+      } else if (action === "update" || action === "publish" || action === "unpublish") {
 
         for (let i = 0; i < headerData.length; i++) {
           if (headerData[i].headerId === object.headerId) {
@@ -141,6 +142,7 @@ function ContentPage(props) {
 
       }
     }
+
   }
 
   // Updates a timestamp (for an external link) that has been edited
