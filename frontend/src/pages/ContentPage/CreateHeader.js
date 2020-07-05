@@ -113,7 +113,7 @@ class CreateHeader extends React.Component {
         </Button>
         <Modal show={this.state.show} onHide={this.handleClose} dialogClassName="modal-width">
           <Modal.Header>
-            <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Create {this.props.subject} Header</h5>
+            <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Create Header</h5>
             <Button variant="none" onClick={this.handleClose}>
               <span aria-hidden="true">&times;</span>
             </Button>
@@ -158,7 +158,6 @@ CreateHeader.propTypes = {
   pageId: PropTypes.number,
   role: PropTypes.number,
   numHeaders: PropTypes.number,
-  subject: PropTypes.any,
   mode: PropTypes.number,
   handleUpdate: PropTypes.func
 };

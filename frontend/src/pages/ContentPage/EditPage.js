@@ -154,8 +154,28 @@ function EditPage(props) {
 
     if (results.ok) {
 
-      setShowLoad(false);
-      window.location.href = "/";
+      if (props.page.pageId === props.page.tempPageId) {
+
+        const newPage = {
+          pageId: props.page.pageId,
+          tempPageId: props.page.tempPageId
+        };
+
+        // Reset state
+        setTitle("");
+        setSummary("");
+        setDescription("");
+        setUrl("");
+        setErrorMessage("");
+
+        // Close modal
+        handleCloseModal();
+
+        props.handleUpdate(newPage, "page", "delete");
+
+        } else {
+          window.location.href = "/";
+        }
 
     } else {
 
@@ -171,6 +191,7 @@ function EditPage(props) {
       }
 
     }
+    setShowLoad(false);
   }
 
   function handleSubmit(e) {

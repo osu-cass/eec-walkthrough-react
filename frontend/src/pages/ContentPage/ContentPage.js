@@ -24,6 +24,7 @@ function ContentPage(props) {
   const [role, setRole] = useState(0);
   const [mode, setMode] = useState(getMode());
   const [cardState, setCardState] = useState(0);
+  const [pageState, setPageState] = useState(0);
 
   // get new page data if the page ID has changed
   useEffect(() => {
@@ -82,9 +83,25 @@ function ContentPage(props) {
     if (type === "page") {
 
       if (action === "update" || action === "publish" || action === "unpublish") {
-        setPageInfo(object);
-      }
 
+        setPageInfo(object);
+
+      } else if (action === "delete") {
+  
+        if (object.pageId === object.tempPageId) {
+          const newPage = pageInfo;
+          newPage.tempCreated = null;
+          newPage.tempDescription = null;
+          newPage.tempImageUrl = null;
+          newPage.tempName = null;
+          newPage.tempPageId = null;
+          newPage.tempTitle = null;
+          newPage.tempUserId = null;
+          setPageInfo(newPage);
+          setPageState(pageState + 1);
+        }
+
+      }
     }
 
     if (type === "header") {
@@ -354,6 +371,7 @@ function ContentPage(props) {
           handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
           role={role}
           mode={mode}
+          pageState={pageState}
           onPageMode={e => handlePageMode(e)}
           handlePageEdit={props.handlePageEdit}
         />
@@ -362,7 +380,6 @@ function ContentPage(props) {
           pageId={parseInt(props.pageId)}
           role={role}
           userId={userId}
-          subject={pageInfo.name}
           numHeaders={headers.length}
           mode={mode}
           handleUpdate={(object, type, action) => handleUpdate(object, type, action)}

@@ -26,7 +26,7 @@ function PageDescription(props) {
       setDescription(props.page.description);
       setImageUrl(props.page.imageUrl);
     }
-  }, [props.page, props.mode]);
+  }, [props.page, props.mode, props.pageState]);
 
   return (
     <div>
@@ -98,6 +98,7 @@ PageDescription.propTypes = {
   page: PropTypes.object,
   role: PropTypes.number,
   mode: PropTypes.number,
+  pageState: PropTypes.number,
   onPageMode: PropTypes.func,
   handlePageEdit: PropTypes.func,
   handleUpdate: PropTypes.func
