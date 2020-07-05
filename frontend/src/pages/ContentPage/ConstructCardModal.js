@@ -201,7 +201,6 @@ function ConstructCardModal(props) {
       }
 
     }
-
   }
 
   // Change the placement order of the selected item
@@ -459,10 +458,27 @@ function ConstructCardModal(props) {
     });
 
     if (results.ok) {
+
+      const newCard = {
+        cardId: props.card.cardId,
+        tempCardId: props.card.tempCardId,
+        headerId: props.card.headerId
+      };
+
+      // Reset state
+      setCounter(0);
+      setPureCounter(0);
+      setTitle("");
+      setFormat(0);
+      setItems([]);
+      setErrorMessage("");
+      setRefreshModal(refreshModal + 1);
+
       // Close modal
       props.handleClose();
-      // Reload page after deleting
-      props.refresh();
+
+      props.handleUpdate(newCard, "card", "delete");
+
     } else {
       setErrorMessage("Error deleting card. Please try again later.");
     }
