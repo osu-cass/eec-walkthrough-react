@@ -160,9 +160,40 @@ function ContentPage(props) {
       if (action === "create") {
 
         headerData[headerIndex].cards.push(object);
-        setCardState(cardState + 1);
         setHeaders(headerData);
+        setCardState(cardState + 1);
 
+      } else if (action === "update" || action === "publish" || action === "unpublish") {
+
+        for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
+          if (headerData[headerIndex].cards.cardId === object.cardId) {
+            headerData[headerIndex].cards[i] = object;
+            setHeaders(headerData);
+          }
+        }
+
+      } else if (action === "delete") {
+
+        for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
+          if (headerData[headerIndex].cards[i].cardId === object.cardId) {
+            if (object.cardId === object.tempCardId) {
+              const newCard = headerData[headerIndex].cards[i];
+              newCard.tempCardId = null;
+              newCard.tempCardType = null;
+              newCard.tempCreated = null;
+              newCard.tempTitle = null;
+              newCard.tempUserId = null;
+              newCard.tempItems = [];
+              headerData[headerIndex].cards[i] = newCard;
+              setHeaders(headerData);
+              setCardState(cardState + 1);
+            } else {
+              headerData[headerIndex].cards.splice(i, 1);
+              setHeaders(headerData);
+              setCardState(cardState + 1);
+            }
+          }
+        }
       }
 
     }

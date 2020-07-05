@@ -94,11 +94,11 @@ function Card(props) {
           <div className="row">
             <EditCard
               card={props.card}
-              refresh={() => props.refresh()}
+              handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
               iconSet={props.iconSet}
             />
             <ReviewCard
-              refresh={() => props.refresh()}
+              handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
               edited={props.card.edited}
               card={props.unfilteredCard}
               mode={props.mode}
@@ -158,7 +158,7 @@ export default Card;
 
 Card.propTypes = {
   categoryId: PropTypes.any,
-  refresh: PropTypes.any,
+  handleUpdate: PropTypes.func,
   card: PropTypes.object,
   handleMoveCard: PropTypes.func,
   unfilteredCard: PropTypes.object,

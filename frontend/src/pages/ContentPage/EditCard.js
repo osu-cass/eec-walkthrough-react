@@ -32,7 +32,7 @@ function EditCard(props) {
         edit={true}
         handleClose={() => handleClose()}
         show={show}
-        refresh={() => props.refresh()}
+        handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
         iconSet={props.iconSet}
         card={props.card}
       />
@@ -46,7 +46,7 @@ export default EditCard;
 
 EditCard.propTypes = {
   card: PropTypes.object,
-  refresh: PropTypes.func,
+  handleUpdate: PropTypes.func,
   iconSet: PropTypes.array
 };
 

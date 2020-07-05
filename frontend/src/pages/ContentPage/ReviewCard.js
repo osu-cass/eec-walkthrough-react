@@ -253,7 +253,7 @@ export default ReviewCard;
 
 ReviewCard.propTypes = {
   edited: PropTypes.bool,
-  refresh: PropTypes.func,
+  handleUpdate: PropTypes.func,
   card: PropTypes.object,
   mode: PropTypes.number
 };

@@ -85,7 +85,7 @@ function Header(props) {
       }
     }
     setTempFilterIcons(allIcons);
-  }, [props.header]);
+  }, [props.header, props.cardState]);
 
   // Gets all of the possible icons and set the default viewing state for them
   useEffect(() => {
@@ -94,7 +94,7 @@ function Header(props) {
       allIcons.push(true);
     }
     setFilterShow(allIcons);
-  }, [props.iconSet]);
+  }, [props.iconSet, props.cardState]);
 
   // If the viewing mode changes or the selected filters,
   // Then update the card state
@@ -306,6 +306,7 @@ function Header(props) {
                 top={i === 0 ? (true) : (false)}
                 bottom={i >= cards.length - 1 ? (true) : (false)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
+                cardState={props.cardState}
               />
             )}
           </div>
@@ -354,6 +355,7 @@ function Header(props) {
                 iconSet={props.iconSet}
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
+                cardState={props.cardState}
               />
             )}
           </div>
