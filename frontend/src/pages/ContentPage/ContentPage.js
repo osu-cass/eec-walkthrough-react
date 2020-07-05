@@ -166,9 +166,10 @@ function ContentPage(props) {
       } else if (action === "update" || action === "publish" || action === "unpublish") {
 
         for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
-          if (headerData[headerIndex].cards.cardId === object.cardId) {
+          if (headerData[headerIndex].cards[i].cardId === object.cardId) {
             headerData[headerIndex].cards[i] = object;
             setHeaders(headerData);
+            setCardState(cardState + 1);
           }
         }
 

@@ -21,13 +21,12 @@ function ConstructCardModal(props) {
   const [basicIcons, setBasicIcons] = useState([]);
   const [imageIcons, setImageIcons] = useState([]);
   const [linkIcons, setLinkIcons] = useState([]);
-  const [refreshModal, setRefreshModal] = useState(0);
 
   // setup card data
   useEffect(() => {
     // Sort icons into three categories, general items, images, and links
     sortIcons(props.iconSet);
-
+    console.log(props.cardState);
     // If we are a new card, just return
     if (!props.edit) {
       return;
@@ -75,7 +74,7 @@ function ConstructCardModal(props) {
       setFormat(props.card.cardType);
     }
     // eslint-disable-next-line
-  }, [refreshModal]);
+  }, [props.show]);
 
   // Clear error messages whenever the modal is opened or closed
   useEffect(() => {
@@ -299,6 +298,7 @@ function ConstructCardModal(props) {
         tempCardType: null,
         tempCreated: null,
         tempUserId: null,
+        tempTitle: null,
         tempItems: copy
       }
 
@@ -311,7 +311,6 @@ function ConstructCardModal(props) {
       setFormat(0);
       setItems([]);
       setErrorMessage("");
-      setRefreshModal(refreshModal + 1);
 
       // Close modal
       props.handleClose();
@@ -370,14 +369,69 @@ function ConstructCardModal(props) {
 
     if (results.ok) {
 
-      // reset error messages
+      // give ids and icon type names to each item
+      for (let i = 0; i < copy.length; i++) {
+        copy[i].itemId = i;
+        copy[i].approved = 0;
+        for (let j = 0; j < props.iconSet.length; j++) {
+          if (props.iconSet[j].iconType === copy[i].iconType) {
+            copy[i].typeName = props.iconSet[j].typeName;
+          }
+        }
+      }
+
+      let newCard = {};
+
+      if (props.card.approved) {
+        newCard = {
+          approved: props.card.approved,
+          cardId: props.card.cardId,
+          headerId: props.card.headerId,
+          cardType: props.card.cardType,
+          title: props.card.title,
+          items: props.card.items,
+          userId: props.card.userId,
+          created: props.card.created,
+          orderIndex: props.card.orderIndex,
+          tempCardId: props.card.cardId,
+          tempCardType: newCardFormat,
+          tempCreated: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          tempUserId: 0,
+          tempItems: copy,
+          tempTitle: title
+        }
+      } else {
+        newCard = {
+          approved: props.card.approved,
+          cardId: props.card.cardId,
+          headerId: props.card.headerId,
+          cardType: newCardFormat,
+          title: title,
+          items: props.card.items,
+          userId: 0,
+          created: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          orderIndex: props.card.orderIndex,
+          tempCardId: props.card.tempCardId,
+          tempCardType: props.card.tempCardType,
+          tempCreated: props.card.tempCreated,
+          tempUserId: props.card.tempUserId,
+          tempItems: copy,
+          tempTitle: props.card.tempTitle
+        }
+      }
+
+      // Reset state
+      setCounter(0);
+      setPureCounter(0);
+      setTitle("");
+      setFormat(0);
+      setItems([]);
       setErrorMessage("");
 
-      // close the modal
+      // Close modal
       props.handleClose();
 
-      // refresh the page
-      props.refresh();
+      props.handleUpdate(newCard, "card", "update");
 
     } else {
 
@@ -472,7 +526,6 @@ function ConstructCardModal(props) {
       setFormat(0);
       setItems([]);
       setErrorMessage("");
-      setRefreshModal(refreshModal + 1);
 
       // Close modal
       props.handleClose();

@@ -34,7 +34,7 @@ function Card(props) {
     setImageItems(imageArray);
     setTempImageItems(tempImageArray);
     // eslint-disable-next-line
-  }, [props.card.items, props.card.tempItems]);
+  }, [props.card.items, props.card.tempItems, props.cardState]);
 
   // Get information about the current card type and the correct set of items
   useEffect(() => {
@@ -42,7 +42,7 @@ function Card(props) {
     setCardType(itemInfo.cardType);
     setItems(itemInfo.items);
     // eslint-disable-next-line
-  }, [props.card.items, props.card.tempItems, imageItems, imageTempItems]);
+  }, [imageItems, imageTempItems, props.cardState]);
 
   // Returns information about the correct array of items to use
   function getItemInfo(edited) {
@@ -142,10 +142,11 @@ function Card(props) {
           null
         )}
         {cardType ? (
-          <ThumbnailGallery items={items} />
+          <ThumbnailGallery items={items} cardState={props.cardState} />
         ) : (
           <BasicItems
             items={items}
+            cardState={props.cardState}
             mode={props.mode}
             handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
           />
@@ -166,5 +167,6 @@ Card.propTypes = {
   iconSet: PropTypes.any,
   top: PropTypes.bool,
   bottom: PropTypes.bool,
-  handleTimestamp: PropTypes.func
+  handleTimestamp: PropTypes.func,
+  cardState: PropTypes.number
 };
