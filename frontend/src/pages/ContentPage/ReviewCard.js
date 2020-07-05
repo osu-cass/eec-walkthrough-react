@@ -66,14 +66,33 @@ function ReviewCard(props) {
     });
 
     if (results.ok) {
+
+      const newCard = {
+        approved: 0,
+        cardId: props.card.cardId,
+        headerId: props.card.headerId,
+        cardType: props.card.cardType,
+        title: props.card.title,
+        items: [],
+        userId: props.card.userId,
+        created: props.card.created,
+        orderIndex: props.card.orderIndex,
+        tempCardId: null,
+        tempCardType: null,
+        tempCreated: null,
+        tempUserId: null,
+        tempItems: props.card.items,
+        tempTitle: null
+      }
+
       // reset error messages
       setErrorMessage("");
 
       // Close modal
       handleClose();
 
-      // refresh the page
-      props.refresh();
+      props.handleUpdate(newCard, "card", "unpublish");
+
     } else {
 
       const obj = await results.json();
@@ -106,14 +125,55 @@ function ReviewCard(props) {
     });
 
     if (results.ok) {
+
+      let newCard = {};
+      
+      if (props.card.approved) {
+        newCard = {
+          approved: 1,
+          cardId: props.card.cardId,
+          headerId: props.card.headerId,
+          cardType: props.card.tempCardType,
+          title: props.card.tempTitle,
+          items: props.card.tempItems,
+          userId: props.card.tempUserId,
+          created: props.card.tempCreated,
+          orderIndex: props.card.orderIndex,
+          tempCardId: null,
+          tempCardType: null,
+          tempCreated: null,
+          tempUserId: null,
+          tempItems: [],
+          tempTitle: null
+        }
+      } else {
+        newCard = {
+          approved: 1,
+          cardId: props.card.cardId,
+          headerId: props.card.headerId,
+          cardType: props.card.cardType,
+          title: props.card.title,
+          items: props.card.tempItems,
+          userId: props.card.userId,
+          created: props.card.created,
+          orderIndex: props.card.orderIndex,
+          tempCardId: null,
+          tempCardType: null,
+          tempCreated: null,
+          tempUserId: null,
+          tempItems: [],
+          tempTitle: null
+        }
+      }
+
       // reset error messages
       setErrorMessage("");
 
       // Close modal
       handleClose();
 
-      // refresh the page
-      props.refresh();
+      props.handleUpdate(newCard, "card", "publish");
+
     } else {
 
       const obj = await results.json();

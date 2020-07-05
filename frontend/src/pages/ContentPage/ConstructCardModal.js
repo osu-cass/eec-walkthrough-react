@@ -26,7 +26,7 @@ function ConstructCardModal(props) {
   useEffect(() => {
     // Sort icons into three categories, general items, images, and links
     sortIcons(props.iconSet);
-    console.log(props.cardState);
+
     // If we are a new card, just return
     if (!props.edit) {
       return;
@@ -420,6 +420,8 @@ function ConstructCardModal(props) {
         }
       }
 
+      props.handleUpdate(newCard, "card", "update");
+
       // Reset state
       setCounter(0);
       setPureCounter(0);
@@ -430,8 +432,6 @@ function ConstructCardModal(props) {
 
       // Close modal
       props.handleClose();
-
-      props.handleUpdate(newCard, "card", "update");
 
     } else {
 
