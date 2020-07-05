@@ -42,14 +42,30 @@ function ReviewHeader(props) {
     });
 
     if (results.ok) {
+
+      const newHeader = {
+        approved: 0,
+        created: props.header.created,
+        headerId: props.header.headerId,
+        orderIndex: props.header.orderIndex,
+        pageId: props.header.pageId,
+        tempCreated: null,
+        tempHeaderId: null,
+        tempTitle: null,
+        tempUserId: null,
+        title: props.header.title,
+        userId: props.header.userId,
+        cards: props.header.cards
+      }
+
       // reset error messages
       setErrorMessage("");
 
       // Close modal
       handleClose();
 
-      // refresh the header
-      props.refresh();
+      props.handleUpdate(newHeader, "header", "unpublish");
+
     } else {
 
       const obj = await results.json();
@@ -82,14 +98,49 @@ function ReviewHeader(props) {
     });
 
     if (results.ok) {
+      
+      let newHeader = {};
+      
+      if (props.header.approved) {
+        newHeader = {
+          approved: 1,
+          created: props.header.tempCreated,
+          headerId: props.header.headerId,
+          orderIndex: props.header.orderIndex,
+          pageId: props.header.pageId,
+          tempCreated: null,
+          tempHeaderId: null,
+          tempTitle: null,
+          tempUserId: null,
+          title: props.header.tempTitle,
+          userId: props.header.tempUserId,
+          cards: props.header.cards
+        }
+      } else {
+        newHeader = {
+          approved: 1,
+          created: props.header.created,
+          headerId: props.header.headerId,
+          orderIndex: props.header.orderIndex,
+          pageId: props.header.pageId,
+          tempCreated: null,
+          tempHeaderId: null,
+          tempTitle: null,
+          tempUserId: null,
+          title: props.header.title,
+          userId: props.header.userId,
+          cards: props.header.cards
+        }
+      }
+
       // reset error messages
       setErrorMessage("");
 
       // Close modal
       handleClose();
 
-      // refresh the page
-      props.refresh();
+      props.handleUpdate(newHeader, "header", "publish");
+
     } else {
 
       const obj = await results.json();
@@ -215,5 +266,5 @@ export default ReviewHeader;
 
 ReviewHeader.propTypes = {
   header: PropTypes.object,
-  refresh: PropTypes.func
+  handleUpdate: PropTypes.func
 };

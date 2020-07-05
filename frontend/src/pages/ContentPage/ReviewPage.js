@@ -63,13 +63,13 @@ function ReviewPage(props) {
         headers: []
       }
 
-      props.handleUpdate(newPage, "page", "unpublish");
-
       // reset error messages
       setErrorMessage("");
 
       // Close modal
       handleClose();
+
+      props.handleUpdate(newPage, "page", "unpublish");
 
     } else {
 
@@ -146,14 +146,13 @@ function ReviewPage(props) {
         }
       }
 
-      props.handleUpdate(newPage, "page", "publish");
-
       // reset error messages
       setErrorMessage("");
 
       // Close modal
       handleClose();
 
+      props.handleUpdate(newPage, "page", "publish");
 
     } else {
 
