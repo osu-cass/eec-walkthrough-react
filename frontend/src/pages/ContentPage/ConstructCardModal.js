@@ -21,13 +21,14 @@ function ConstructCardModal(props) {
   const [basicIcons, setBasicIcons] = useState([]);
   const [imageIcons, setImageIcons] = useState([]);
   const [linkIcons, setLinkIcons] = useState([]);
+  const [refreshModal, setRefreshModal] = useState(0);
 
   // setup card data
   useEffect(() => {
     // Sort icons into three categories, general items, images, and links
     sortIcons(props.iconSet);
 
-    // If we are a new card, just leave card data blank
+    // If we are a new card, just return
     if (!props.edit) {
       return;
     }
@@ -74,7 +75,7 @@ function ConstructCardModal(props) {
       setFormat(props.card.cardType);
     }
     // eslint-disable-next-line
-  }, []);
+  }, [refreshModal]);
 
   // Clear error messages whenever the modal is opened or closed
   useEffect(() => {
@@ -247,7 +248,7 @@ function ConstructCardModal(props) {
 
     // Get the card format from the select
     const formatSelect = document.getElementById("select-new-card-format");
-    const newCardFormat = formatSelect.options[formatSelect.selectedIndex].value;
+    const newCardFormat = parseInt(formatSelect.options[formatSelect.selectedIndex].value, 10);
 
     // Update the order index of each item
     const copy = items;
@@ -272,14 +273,49 @@ function ConstructCardModal(props) {
 
     if (results.ok) {
 
-      // reset error messages
+      const obj = await results.json();
+
+      // give ids and icon type names to each item
+      for (let i = 0; i < copy.length; i++) {
+        copy[i].itemId = i;
+        copy[i].approved = 0;
+        for (let j = 0; j < props.iconSet.length; j++) {
+          if (props.iconSet[j].iconType === copy[i].iconType) {
+            copy[i].typeName = props.iconSet[j].typeName;
+          }
+        }
+      }
+
+      const newCard = {
+        approved: 0,
+        cardId: obj.insertId,
+        headerId: props.headerId,
+        cardType: newCardFormat,
+        title: title,
+        items: [],
+        userId: 0,
+        created: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        orderIndex: obj.insertId,
+        tempCardId: null,
+        tempCardType: null,
+        tempCreated: null,
+        tempUserId: null,
+        tempItems: copy
+      }
+
+      props.handleUpdate(newCard, "card", "create");
+
+      // Reset state
+      setCounter(0);
+      setPureCounter(0);
+      setTitle("");
+      setFormat(0);
+      setItems([]);
       setErrorMessage("");
+      setRefreshModal(refreshModal + 1);
 
-      // close the modal
+      // Close modal
       props.handleClose();
-
-      // refresh the page
-      props.refresh();
 
     } else {
 
@@ -308,7 +344,7 @@ function ConstructCardModal(props) {
 
     // Get the card format from the select
     const formatSelect = document.getElementById("select-new-card-format");
-    const newCardFormat = formatSelect.options[formatSelect.selectedIndex].value;
+    const newCardFormat = parseInt(formatSelect.options[formatSelect.selectedIndex].value, 10);
 
     // Set the order index of each item and clean up assign empty strings as needed
     const copy = items;
@@ -398,6 +434,7 @@ function ConstructCardModal(props) {
 
   // Scans through items to ensure they are all indented correctly
   function scanIndentation(itemArray) {
+
     // The first item in the card can never be indented
     if (itemArray.length) {
       itemArray[0].indentation = 0;

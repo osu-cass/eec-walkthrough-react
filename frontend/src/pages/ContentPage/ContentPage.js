@@ -103,9 +103,8 @@ function ContentPage(props) {
 
       }
 
-    }
 
-    if (type === "header") {
+    } else if (type === "header") {
 
       if (action === "create") {
 
@@ -141,6 +140,31 @@ function ContentPage(props) {
         }
 
       }
+
+
+    } else if (type === "card") {
+
+      // find the header index or return
+      let headerIndex = -1;
+
+      for (let i = 0; i < headerData.length; i++) {
+        if (headerData[i].headerId === object.headerId) {
+          headerIndex = i;
+        }
+      }
+
+      if (headerIndex === -1) {
+        return;
+      }
+
+      if (action === "create") {
+
+        headerData[headerIndex].cards.push(object);
+        setCardState(cardState + 1);
+        setHeaders(headerData);
+
+      }
+
     }
 
   }
