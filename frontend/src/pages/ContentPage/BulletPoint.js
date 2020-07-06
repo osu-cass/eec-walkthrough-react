@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment} from "react";
 import Image from "./Image";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
@@ -9,14 +9,24 @@ import "./BulletPoint.css";
 // Represents a single item inside a card
 function BulletPoint (props) {
 
+  function styleIcon(icon) {
+    if (icon === "circle") { return "fa-xs"; }
+    return "";
+  }
+
   function styleText(icon) {
-    if (icon === "check-square") { return "font-weight-bold"; }
+    if (icon === "check-square") { return "check-square-icon"; }
     if (icon === "flag") { return "font-italic"; }
-    if (icon === "opportunity-desc") { return "opportunity-desc"; }
+    if (icon === "angle-right") { return "opportunity-desc"; }
+    return "";
   }
 
   function isBold(bold) {
-    if (bold) { return "font-weight-bold"; }
+    if (bold) {
+      return "font-weight-bold";
+    } else {
+      return "";
+    }
   }
 
   function getContentType(text, label, url) {
@@ -31,12 +41,14 @@ function BulletPoint (props) {
 
       {getContentType(props.text, props.label, props.url) === 1 ? (
         <div className="row mx-auto">
-          <div className="icon-td pb-2">
+          <div className="icon-td justify-content-center">
             <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-fw fa-${props.icon} mr-2 ${styleText(props.icon)} `} />
+            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item
+              ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)} ${styleIcon(props.icon)}`}
+            />
           </div>
           <div className="content-td pb-2 col">
-            <span className={styleText(props.icon) || isBold(props.bold)}>
+            <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
               {props.text}
             </span>
           </div>
@@ -49,11 +61,11 @@ function BulletPoint (props) {
         <div className="row mx-auto">
           <div className="icon-td pb-2">
             <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-fw fa-${props.icon} mr-2 ${styleText(props.icon)} `} />
+            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} `} />
           </div>
           <div className="content-td pb-2 col">
             <div className="pb-1">
-              <span className={styleText(props.icon) || isBold(props.bold)}>
+              <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
                 {props.text}
               </span>
               {props.label}
@@ -69,7 +81,7 @@ function BulletPoint (props) {
         <div className="row mx-auto">
           <div className="icon-td pb-2">
             <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-fw fa-${props.icon} mr-2 ${styleText(props.icon)}`} />
+            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)}`} />
           </div>
           <div className="content-td pb-2 col">
             <div>
@@ -100,7 +112,9 @@ function BulletPoint (props) {
                 null
               )}
               <br/>
-              {props.text === "$empty" ? (null) : (props.text)}
+              <small>
+                {props.text === "$empty" ? (null) : (props.text)}
+              </small>
             </div>
             {props.contentMode === 1 || props.contentMode === 3 ? (
               <LinkAccessButtons

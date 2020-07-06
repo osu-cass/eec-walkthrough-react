@@ -27,7 +27,7 @@ function ConstructCardModal(props) {
     // Sort icons into three categories, general items, images, and links
     sortIcons(props.iconSet);
 
-    // If we are a new card, just leave card data blank
+    // If we are a new card, just return
     if (!props.edit) {
       return;
     }
@@ -74,7 +74,7 @@ function ConstructCardModal(props) {
       setFormat(props.card.cardType);
     }
     // eslint-disable-next-line
-  }, []);
+  }, [props.show]);
 
   // Clear error messages whenever the modal is opened or closed
   useEffect(() => {
@@ -94,7 +94,8 @@ function ConstructCardModal(props) {
         props.iconSet[i].typeName === "play" || props.iconSet[i].typeName === "video-camera" ||
         props.iconSet[i].typeName === "book" || props.iconSet[i].typeName === "truck") {
         links.push(props.iconSet[i]);
-      } else if (props.iconSet[i].typeName !== "info" && props.iconSet[i].typeName !== "link") {
+      } else if (props.iconSet[i].typeName !== "info" && props.iconSet[i].typeName !== "link" &&
+        props.iconSet[i].typeName !== "fire" && props.iconSet[i].typeName !== "bolt") {
         gen.push(props.iconSet[i]);
       }
     }
@@ -199,7 +200,6 @@ function ConstructCardModal(props) {
       }
 
     }
-
   }
 
   // Change the placement order of the selected item
@@ -246,7 +246,7 @@ function ConstructCardModal(props) {
 
     // Get the card format from the select
     const formatSelect = document.getElementById("select-new-card-format");
-    const newCardFormat = formatSelect.options[formatSelect.selectedIndex].value;
+    const newCardFormat = parseInt(formatSelect.options[formatSelect.selectedIndex].value, 10);
 
     // Update the order index of each item
     const copy = items;
@@ -271,14 +271,51 @@ function ConstructCardModal(props) {
 
     if (results.ok) {
 
-      // reset error messages
+      const obj = await results.json();
+
+      // give ids and icon type names to each item
+      for (let i = 0; i < copy.length; i++) {
+        copy[i].itemId = i;
+        copy[i].approved = 0;
+        for (let j = 0; j < props.iconSet.length; j++) {
+          if (props.iconSet[j].iconType === copy[i].iconType) {
+            copy[i].typeName = props.iconSet[j].typeName;
+          }
+        }
+      }
+
+      const newCard = {
+        approved: 0,
+        cardId: obj.insertId,
+        headerId: props.headerId,
+        cardType: newCardFormat,
+        title: title,
+        items: [],
+        userId: 0,
+        created: new Date().toISOString()
+          .slice(0, 19)
+          .replace("T", " "),
+        orderIndex: obj.insertId,
+        tempCardId: null,
+        tempCardType: null,
+        tempCreated: null,
+        tempUserId: null,
+        tempTitle: null,
+        tempItems: copy
+      };
+
+      props.handleUpdate(newCard, "card", "create");
+
+      // Reset state
+      setCounter(0);
+      setPureCounter(0);
+      setTitle("");
+      setFormat(0);
+      setItems([]);
       setErrorMessage("");
 
-      // close the modal
+      // Close modal
       props.handleClose();
-
-      // refresh the page
-      props.refresh();
 
     } else {
 
@@ -307,7 +344,7 @@ function ConstructCardModal(props) {
 
     // Get the card format from the select
     const formatSelect = document.getElementById("select-new-card-format");
-    const newCardFormat = formatSelect.options[formatSelect.selectedIndex].value;
+    const newCardFormat = parseInt(formatSelect.options[formatSelect.selectedIndex].value, 10);
 
     // Set the order index of each item and clean up assign empty strings as needed
     const copy = items;
@@ -334,14 +371,73 @@ function ConstructCardModal(props) {
 
     if (results.ok) {
 
-      // reset error messages
+      // give ids and icon type names to each item
+      for (let i = 0; i < copy.length; i++) {
+        copy[i].itemId = i;
+        copy[i].approved = 0;
+        for (let j = 0; j < props.iconSet.length; j++) {
+          if (props.iconSet[j].iconType === copy[i].iconType) {
+            copy[i].typeName = props.iconSet[j].typeName;
+          }
+        }
+      }
+
+      let newCard = {};
+
+      if (props.card.approved) {
+        newCard = {
+          approved: props.card.approved,
+          cardId: props.card.cardId,
+          headerId: props.card.headerId,
+          cardType: props.card.cardType,
+          title: props.card.title,
+          items: props.card.items,
+          userId: props.card.userId,
+          created: props.card.created,
+          orderIndex: props.card.orderIndex,
+          tempCardId: props.card.cardId,
+          tempCardType: newCardFormat,
+          tempCreated: new Date().toISOString()
+            .slice(0, 19)
+            .replace("T", " "),
+          tempUserId: 0,
+          tempItems: copy,
+          tempTitle: title
+        };
+      } else {
+        newCard = {
+          approved: props.card.approved,
+          cardId: props.card.cardId,
+          headerId: props.card.headerId,
+          cardType: newCardFormat,
+          title: title,
+          items: props.card.items,
+          userId: 0,
+          created: new Date().toISOString()
+            .slice(0, 19)
+            .replace("T", " "),
+          orderIndex: props.card.orderIndex,
+          tempCardId: props.card.tempCardId,
+          tempCardType: props.card.tempCardType,
+          tempCreated: props.card.tempCreated,
+          tempUserId: props.card.tempUserId,
+          tempItems: copy,
+          tempTitle: props.card.tempTitle
+        };
+      }
+
+      props.handleUpdate(newCard, "card", "update");
+
+      // Reset state
+      setCounter(0);
+      setPureCounter(0);
+      setTitle("");
+      setFormat(0);
+      setItems([]);
       setErrorMessage("");
 
-      // close the modal
+      // Close modal
       props.handleClose();
-
-      // refresh the page
-      props.refresh();
 
     } else {
 
@@ -397,6 +493,7 @@ function ConstructCardModal(props) {
 
   // Scans through items to ensure they are all indented correctly
   function scanIndentation(itemArray) {
+
     // The first item in the card can never be indented
     if (itemArray.length) {
       itemArray[0].indentation = 0;
@@ -421,10 +518,26 @@ function ConstructCardModal(props) {
     });
 
     if (results.ok) {
+
+      const newCard = {
+        cardId: props.card.cardId,
+        tempCardId: props.card.tempCardId,
+        headerId: props.card.headerId
+      };
+
+      // Reset state
+      setCounter(0);
+      setPureCounter(0);
+      setTitle("");
+      setFormat(0);
+      setItems([]);
+      setErrorMessage("");
+
       // Close modal
       props.handleClose();
-      // Reload page after deleting
-      props.refresh();
+
+      props.handleUpdate(newCard, "card", "delete");
+
     } else {
       setErrorMessage("Error deleting card. Please try again later.");
     }
@@ -727,7 +840,7 @@ ConstructCardModal.propTypes = {
   handleClose: PropTypes.func,
   show: PropTypes.bool,
   card: PropTypes.object,
-  refresh: PropTypes.func,
+  handleUpdate: PropTypes.func,
   iconSet: PropTypes.array,
   headerId: PropTypes.number
 };

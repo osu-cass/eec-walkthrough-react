@@ -40,15 +40,33 @@ class CreateHeader extends React.Component {
 
     if (results.ok) {
 
+      const obj = await results.json();
+
+      const newHeader = {
+        headerId: obj.insertId,
+        approved: 0,
+        cards: [],
+        created: new Date().toISOString()
+          .slice(0, 19)
+          .replace("T", " "),
+        orderIndex: obj.insertId,
+        pageId: this.props.pageId,
+        tempCreated: null,
+        tempHeaderId: null,
+        tempTitle: null,
+        tempUserId: null,
+        title: this.state.title,
+        userId: 0
+      };
+
+      this.props.handleUpdate(newHeader, "header", "create");
+
       // Reset state
       this.setState({title: ""});
       this.setState({errorMessage: ""});
 
       // Close modal
       this.handleClose();
-
-      // Reload page after adding
-      this.props.refresh();
 
     } else {
 
@@ -97,7 +115,7 @@ class CreateHeader extends React.Component {
         </Button>
         <Modal show={this.state.show} onHide={this.handleClose} dialogClassName="modal-width">
           <Modal.Header>
-            <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Create {this.props.subject} Header</h5>
+            <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Create Header</h5>
             <Button variant="none" onClick={this.handleClose}>
               <span aria-hidden="true">&times;</span>
             </Button>
@@ -142,7 +160,6 @@ CreateHeader.propTypes = {
   pageId: PropTypes.number,
   role: PropTypes.number,
   numHeaders: PropTypes.number,
-  refresh: PropTypes.func,
-  subject: PropTypes.any,
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  handleUpdate: PropTypes.func
 };

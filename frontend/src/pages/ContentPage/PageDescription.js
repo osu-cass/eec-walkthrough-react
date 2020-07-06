@@ -26,7 +26,7 @@ function PageDescription(props) {
       setDescription(props.page.description);
       setImageUrl(props.page.imageUrl);
     }
-  }, [props.page, props.mode]);
+  }, [props.page, props.mode, props.pageState]);
 
   return (
     <div>
@@ -52,13 +52,13 @@ function PageDescription(props) {
               page={props.page}
               role={props.role}
               mode={props.mode}
-              refresh={() => props.refresh()}
+              handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
               handlePageEdit={props.handlePageEdit}
             />
             <ReviewPage
               page={props.page}
               mode={props.mode}
-              refresh={() => props.refresh()}
+              handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
             />
             <ChangeMode role={props.role}
               mode={props.mode}
@@ -98,7 +98,8 @@ PageDescription.propTypes = {
   page: PropTypes.object,
   role: PropTypes.number,
   mode: PropTypes.number,
+  pageState: PropTypes.number,
   onPageMode: PropTypes.func,
   handlePageEdit: PropTypes.func,
-  refresh: PropTypes.func
+  handleUpdate: PropTypes.func
 };

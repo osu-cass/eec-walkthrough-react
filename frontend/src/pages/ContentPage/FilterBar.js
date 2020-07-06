@@ -46,10 +46,16 @@ function FilterBar(props) {
         );
       })}
       <i
-        id="reset"
+        id="reset-filter-icons"
         className={`fas fa-undo text-dark mr-3`}
         value="reset"
         onClick={() => props.resetIcons()}
+      />
+      <i
+        id="clear-filter-icons"
+        className={`fas fa-times text-dark mr-3`}
+        value="clear"
+        onClick={() => props.clearIcons()}
       />
     </div>
   ) : (
@@ -66,10 +72,16 @@ function FilterBar(props) {
         );
       })}
       <i
-        id="reset"
+        id="reset-filter-icons"
         className={`fas fa-undo text-dark mr-3`}
         value="reset"
         onClick={() => props.resetIcons()}
+      />
+      <i
+        id="clear-filter-icons"
+        className={`fas fa-times text-dark mr-3`}
+        value="clear"
+        onClick={() => props.clearIcons()}
       />
     </div>
   );
@@ -80,6 +92,7 @@ export default FilterBar;
 FilterBar.propTypes = {
   updateIcon: PropTypes.func,
   resetIcons: PropTypes.func,
+  clearIcons: PropTypes.func,
   filterShow: PropTypes.array,
   iconSet: PropTypes.array,
   filterIcons: PropTypes.array,

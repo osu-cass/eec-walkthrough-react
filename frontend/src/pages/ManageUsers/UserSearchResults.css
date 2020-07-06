@@ -4,15 +4,14 @@
   margin-top: 50px;
 }
 
+.active-sort { 
+  color: #d73f09;
+}
+
 .user-table {
   table-layout:fixed;
   text-align: left;
   margin: 0 auto 2rem auto;
-}
-
-th, td {
-  padding: 10px;
-  min-width: 150px;
 }
 
 table {
@@ -20,7 +19,7 @@ table {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   width: 100%;
   overflow: hidden;
-  padding: 1rem;
+  padding: 2rem !important;
   background: grey;
   background: white;
 }
@@ -33,7 +32,7 @@ table thead tr th {
   font-weight: 500;
   font-size: 12pt;
   border-bottom: none;
-  padding: 1rem 2rem;
+  padding: 1rem !important;
   font-weight: bold;
   white-space: nowrap;
   cursor: pointer;
@@ -42,5 +41,6 @@ table thead tr th {
 
 table tbody tr td {
   vertical-align: middle;
-  padding: 1rem 2rem;
+  padding: 1rem !important;
+  word-wrap: break-word;
 }

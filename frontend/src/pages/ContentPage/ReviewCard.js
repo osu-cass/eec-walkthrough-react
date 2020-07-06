@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import {Modal, Button, Row} from "react-bootstrap";
 import {getProfile, logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
@@ -51,28 +51,48 @@ function ReviewCard(props) {
     setShow(true);
   }
 
-  async function handleSubmit() {
+  // unpublish
+  async function handleRemove() {
 
-    // Check that the user really wants to approve this version
-    if (!window.confirm("Are you sure you want to approve this new version?\nThis will overwrite the published version if one exists.")) {
+    // Check that the user really wants to unpublish this version
+    if (!window.confirm("Are you sure you want to unpublish this card?\nThis will overwrite any unpublished version if one exists.")) {
       return;
     }
 
-    // Approve the card
-    const results = await fetch(`/cards/${props.card.cardId}/publish`, {
+    // Unpublish the card
+    const results = await fetch(`/cards/${props.card.cardId}/unpublish`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });
 
     if (results.ok) {
+
+      const newCard = {
+        approved: 0,
+        cardId: props.card.cardId,
+        headerId: props.card.headerId,
+        cardType: props.card.cardType,
+        title: props.card.title,
+        items: [],
+        userId: props.card.userId,
+        created: props.card.created,
+        orderIndex: props.card.orderIndex,
+        tempCardId: null,
+        tempCardType: null,
+        tempCreated: null,
+        tempUserId: null,
+        tempItems: props.card.items,
+        tempTitle: null
+      };
+
       // reset error messages
       setErrorMessage("");
 
       // Close modal
       handleClose();
 
-      // refresh the page
-      props.refresh();
+      props.handleUpdate(newCard, "card", "unpublish");
+
     } else {
 
       const obj = await results.json();
@@ -90,7 +110,88 @@ function ReviewCard(props) {
 
   }
 
-  return role >= 3 && props.edited ? (
+  // publish
+  async function handleSubmit() {
+
+    // Check that the user really wants to approve this version
+    if (!window.confirm("Are you sure you want to approve this new version?\nThis will overwrite the published version if one exists.")) {
+      return;
+    }
+
+    // Approve the card
+    const results = await fetch(`/cards/${props.card.cardId}/publish`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      let newCard = {};
+
+      if (props.card.approved) {
+        newCard = {
+          approved: 1,
+          cardId: props.card.cardId,
+          headerId: props.card.headerId,
+          cardType: props.card.tempCardType,
+          title: props.card.tempTitle,
+          items: props.card.tempItems,
+          userId: props.card.tempUserId,
+          created: props.card.tempCreated,
+          orderIndex: props.card.orderIndex,
+          tempCardId: null,
+          tempCardType: null,
+          tempCreated: null,
+          tempUserId: null,
+          tempItems: [],
+          tempTitle: null
+        };
+      } else {
+        newCard = {
+          approved: 1,
+          cardId: props.card.cardId,
+          headerId: props.card.headerId,
+          cardType: props.card.cardType,
+          title: props.card.title,
+          items: props.card.tempItems,
+          userId: props.card.userId,
+          created: props.card.created,
+          orderIndex: props.card.orderIndex,
+          tempCardId: null,
+          tempCardType: null,
+          tempCreated: null,
+          tempUserId: null,
+          tempItems: [],
+          tempTitle: null
+        };
+      }
+
+      // reset error messages
+      setErrorMessage("");
+
+      // Close modal
+      handleClose();
+
+      props.handleUpdate(newCard, "card", "publish");
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+  }
+
+  return role >= 3 ? (
     <div className='text-center mx-2'>
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
@@ -128,32 +229,38 @@ function ReviewCard(props) {
             null
           )}
 
-          {props.card.approved && props.card.tempCardId ? (
-            <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
-              <h4 className="font-weight-bold">New Version</h4>
-              <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
-              <div className="m-3">
-                <h3 className="font-weight-bold">{props.card.tempTitle}</h3>
-                {props.card.tempCardType ? (
-                  <ThumbnailGallery items={imageTempItems} />
-                ) : (
-                  <BasicItems items={props.card.tempItems} mode={props.mode} />
-                )}
-              </div>
-            </div>
+          {props.edited ? (
+            <Fragment>
+              {props.card.approved && props.card.tempCardId ? (
+                <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
+                  <h4 className="font-weight-bold">New Version</h4>
+                  <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
+                  <div className="m-3">
+                    <h3 className="font-weight-bold">{props.card.tempTitle}</h3>
+                    {props.card.tempCardType ? (
+                      <ThumbnailGallery items={imageTempItems} />
+                    ) : (
+                      <BasicItems items={props.card.tempItems} mode={props.mode} />
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
+                  <h4 className="font-weight-bold">New Version</h4>
+                  <span className="created-text">Created {formatTime(props.card.created)}</span>
+                  <div className="m-3">
+                    <h3 className="font-weight-bold">{props.card.title}</h3>
+                    {props.card.cardType ? (
+                      <ThumbnailGallery items={imageTempItems} />
+                    ) : (
+                      <BasicItems items={props.card.tempItems} />
+                    )}
+                  </div>
+                </div>
+              )}
+            </Fragment>
           ) : (
-            <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
-              <h4 className="font-weight-bold">New Version</h4>
-              <span className="created-text">Created {formatTime(props.card.created)}</span>
-              <div className="m-3">
-                <h3 className="font-weight-bold">{props.card.title}</h3>
-                {props.card.cardType ? (
-                  <ThumbnailGallery items={imageTempItems} />
-                ) : (
-                  <BasicItems items={props.card.tempItems} />
-                )}
-              </div>
-            </div>
+            null
           )}
 
           <Row>
@@ -168,7 +275,28 @@ function ReviewCard(props) {
 
         <Modal.Footer className="modal-footer">
           {role >= 4 ? (
-            <Button variant="primary" onClick={(e) => handleSubmit(e)}>Publish Changes</Button>
+            <Fragment>
+              {props.card.approved && props.edited ? (
+                <Fragment>
+                  <Button
+                    className="mr-auto"
+                    variant="danger"
+                    onClick={() => handleRemove()}
+                  >
+                    Unpublish Card
+                  </Button>
+                  <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  {props.card.approved ? (
+                    <Button variant="danger" onClick={() => handleRemove()}>Unpublish Card</Button>
+                  ) : (
+                    <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
+                  )}
+                </Fragment>
+              )}
+            </Fragment>
           ) : (
             null
           )}
@@ -185,7 +313,7 @@ export default ReviewCard;
 
 ReviewCard.propTypes = {
   edited: PropTypes.bool,
-  refresh: PropTypes.func,
+  handleUpdate: PropTypes.func,
   card: PropTypes.object,
   mode: PropTypes.number
 };

@@ -85,7 +85,7 @@ function Header(props) {
       }
     }
     setTempFilterIcons(allIcons);
-  }, [props.header]);
+  }, [props.header, props.cardState]);
 
   // Gets all of the possible icons and set the default viewing state for them
   useEffect(() => {
@@ -94,7 +94,7 @@ function Header(props) {
       allIcons.push(true);
     }
     setFilterShow(allIcons);
-  }, [props.iconSet]);
+  }, [props.iconSet, props.cardState]);
 
   // If the viewing mode changes or the selected filters,
   // Then update the card state
@@ -117,6 +117,12 @@ function Header(props) {
     for (let i = 0; i <= props.iconSet.length; i++) {
       allIcons.push(true);
     }
+    setFilterShow(allIcons);
+  }
+
+  // Clears the viewing state for all icon types.
+  function clearIcons() {
+    const allIcons = [];
     setFilterShow(allIcons);
   }
 
@@ -222,7 +228,7 @@ function Header(props) {
     null
   ) : (
     <div>
-      {props.mode ? (
+      {props.mode === 1 ? (
 
         <div>
           <div className={`d-flex sticky-top
@@ -247,6 +253,7 @@ function Header(props) {
                     <FilterBar
                       updateIcon={(e1, e2) => updateIcon(e1, e2)}
                       resetIcons={() => resetIcons()}
+                      clearIcons={() => clearIcons()}
                       filterIcons={filterIcons}
                       tempFilterIcons={tempFilterIcons}
                       filterShow={filterShow}
@@ -256,11 +263,11 @@ function Header(props) {
                     <EditHeader
                       header={props.header}
                       role={props.role}
-                      refresh={() => props.refresh()}
+                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                     />
                     <ReviewHeader
                       header={props.header}
-                      refresh={() => props.refresh()}
+                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                     />
                   </Fragment>
                 ) : (
@@ -292,13 +299,14 @@ function Header(props) {
                 headerId={props.header.headerId}
                 unfilteredCard={unfilteredCards[i]}
                 card={card}
-                refresh={() => props.refresh()}
+                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                 mode={props.mode}
                 iconSet={props.iconSet}
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
                 top={i === 0 ? (true) : (false)}
                 bottom={i >= cards.length - 1 ? (true) : (false)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
+                cardState={props.cardState}
               />
             )}
           </div>
@@ -324,6 +332,7 @@ function Header(props) {
                 <FilterBar
                   updateIcon={(e1, e2) => updateIcon(e1, e2)}
                   resetIcons={() => resetIcons()}
+                  clearIcons={() => clearIcons()}
                   filterIcons={filterIcons}
                   tempFilterIcons={tempFilterIcons}
                   filterShow={filterShow}
@@ -341,11 +350,12 @@ function Header(props) {
                 headerId={props.header.headerId}
                 unfilteredCard={unfilteredCards[i]}
                 card={card}
-                refresh={() => props.refresh()}
+                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                 mode={props.mode}
                 iconSet={props.iconSet}
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
+                cardState={props.cardState}
               />
             )}
           </div>
@@ -362,7 +372,7 @@ Header.propTypes = {
   header: PropTypes.object,
   handleMoveHeader: PropTypes.func,
   handleMoveCard: PropTypes.func,
-  refresh: PropTypes.func,
+  handleUpdate: PropTypes.func,
   role: PropTypes.number,
   mode: PropTypes.number,
   iconSet: PropTypes.any,
