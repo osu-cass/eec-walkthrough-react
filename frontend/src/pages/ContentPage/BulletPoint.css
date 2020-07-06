@@ -50,7 +50,10 @@
   margin-top: 0.33em;
 }
 
-.fa-circle {
-  margin-left: 0.4em;
-  padding-right: 0.4em; 
+.icon-item.fa-circle {
+  font-size: .50em;
+  margin-left: 0.9em;
+  padding-right: 0.4em;
+  margin-right: 1.45em !important;
+  vertical-align: 0.4em;
 }
