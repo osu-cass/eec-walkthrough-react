@@ -27,8 +27,8 @@ function ReviewHeader(props) {
     setShow(true);
   }
 
-   // unpublish
-   async function handleRemove() {
+  // unpublish
+  async function handleRemove() {
 
     // Check that the user really wants to unpublish this version
     if (!window.confirm("Are you sure you want to unpublish this header?\nThis will overwrite any unpublished version if one exists.")) {
@@ -56,7 +56,7 @@ function ReviewHeader(props) {
         title: props.header.title,
         userId: props.header.userId,
         cards: props.header.cards
-      }
+      };
 
       // reset error messages
       setErrorMessage("");
@@ -83,7 +83,7 @@ function ReviewHeader(props) {
 
   }
 
-  // publish 
+  // publish
   async function handleSubmit() {
 
     // Check that the user really wants to approve this version
@@ -98,9 +98,9 @@ function ReviewHeader(props) {
     });
 
     if (results.ok) {
-      
+
       let newHeader = {};
-      
+
       if (props.header.approved) {
         newHeader = {
           approved: 1,
@@ -115,7 +115,7 @@ function ReviewHeader(props) {
           title: props.header.tempTitle,
           userId: props.header.tempUserId,
           cards: props.header.cards
-        }
+        };
       } else {
         newHeader = {
           approved: 1,
@@ -130,7 +130,7 @@ function ReviewHeader(props) {
           title: props.header.title,
           userId: props.header.userId,
           cards: props.header.cards
-        }
+        };
       }
 
       // reset error messages

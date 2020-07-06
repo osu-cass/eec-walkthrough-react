@@ -83,7 +83,7 @@ function ReviewCard(props) {
         tempUserId: null,
         tempItems: props.card.items,
         tempTitle: null
-      }
+      };
 
       // reset error messages
       setErrorMessage("");
@@ -127,7 +127,7 @@ function ReviewCard(props) {
     if (results.ok) {
 
       let newCard = {};
-      
+
       if (props.card.approved) {
         newCard = {
           approved: 1,
@@ -145,7 +145,7 @@ function ReviewCard(props) {
           tempUserId: null,
           tempItems: [],
           tempTitle: null
-        }
+        };
       } else {
         newCard = {
           approved: 1,
@@ -163,7 +163,7 @@ function ReviewCard(props) {
           tempUserId: null,
           tempItems: [],
           tempTitle: null
-        }
+        };
       }
 
       // reset error messages
@@ -228,7 +228,7 @@ function ReviewCard(props) {
           ) : (
             null
           )}
-          
+
           {props.edited ? (
             <Fragment>
               {props.card.approved && props.card.tempCardId ? (
@@ -289,11 +289,11 @@ function ReviewCard(props) {
                 </Fragment>
               ) : (
                 <Fragment>
-                {props.card.approved ? (
-                  <Button variant="danger" onClick={() => handleRemove()}>Unpublish Card</Button>
-                ) : (
-                  <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
-                )}
+                  {props.card.approved ? (
+                    <Button variant="danger" onClick={() => handleRemove()}>Unpublish Card</Button>
+                  ) : (
+                    <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
+                  )}
                 </Fragment>
               )}
             </Fragment>

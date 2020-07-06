@@ -22,7 +22,8 @@ function BulletPoint (props) {
   }
 
   function isBold(bold) {
-    if (bold) { return "font-weight-bold"; 
+    if (bold) {
+      return "font-weight-bold";
     } else {
       return "";
     }
@@ -64,7 +65,7 @@ function BulletPoint (props) {
           </div>
           <div className="content-td pb-2 col">
             <div className="pb-1">
-            <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
+              <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
                 {props.text}
               </span>
               {props.label}

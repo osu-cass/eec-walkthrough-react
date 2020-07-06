@@ -61,7 +61,7 @@ function ReviewPage(props) {
         tempCreated: null,
         tempUserId: null,
         headers: []
-      }
+      };
 
       // reset error messages
       setErrorMessage("");
@@ -103,9 +103,9 @@ function ReviewPage(props) {
     });
 
     if (results.ok) {
-      
+
       let newPage = {};
-      
+
       if (props.page.approved) {
         newPage = {
           approved: 1,
@@ -124,7 +124,7 @@ function ReviewPage(props) {
           tempCreated: null,
           tempUserId: null,
           headers: []
-        }
+        };
       } else {
         newPage = {
           approved: 1,
@@ -143,7 +143,7 @@ function ReviewPage(props) {
           tempCreated: null,
           tempUserId: null,
           headers: []
-        }
+        };
       }
 
       // reset error messages
@@ -275,11 +275,11 @@ function ReviewPage(props) {
                 </Fragment>
               ) : (
                 <Fragment>
-                {props.page.approved ? (
-                  <Button variant="danger" onClick={() => handleRemove()}>Unpublish Page</Button>
-                ) : (
-                  <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
-                )}
+                  {props.page.approved ? (
+                    <Button variant="danger" onClick={() => handleRemove()}>Unpublish Page</Button>
+                  ) : (
+                    <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
+                  )}
                 </Fragment>
               )}
             </Fragment>

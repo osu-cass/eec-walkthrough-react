@@ -60,18 +60,22 @@ function EditHeader(props) {
           headerId: props.header.headerId,
           orderIndex: props.header.orderIndex,
           pageId: props.header.pageId,
-          tempCreated: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          tempCreated: new Date().toISOString()
+            .slice(0, 19)
+            .replace("T", " "),
           tempHeaderId: props.header.headerId,
           tempTitle: title,
           tempUserId: 0,
           title: props.header.title,
           userId: props.header.userId,
           cards: props.header.cards
-        }
+        };
       } else {
         newHeader = {
           approved: props.header.approved,
-          created: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          created: new Date().toISOString()
+            .slice(0, 19)
+            .replace("T", " "),
           headerId: props.header.headerId,
           orderIndex: props.header.orderIndex,
           pageId: props.header.pageId,
@@ -82,7 +86,7 @@ function EditHeader(props) {
           title: title,
           userId: 0,
           cards: props.header.cards
-        }
+        };
       }
 
       // Reset state

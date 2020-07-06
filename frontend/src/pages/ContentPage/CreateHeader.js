@@ -46,7 +46,9 @@ class CreateHeader extends React.Component {
         headerId: obj.insertId,
         approved: 0,
         cards: [],
-        created: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        created: new Date().toISOString()
+          .slice(0, 19)
+          .replace("T", " "),
         orderIndex: obj.insertId,
         pageId: this.props.pageId,
         tempCreated: null,
@@ -55,7 +57,7 @@ class CreateHeader extends React.Component {
         tempUserId: null,
         title: this.state.title,
         userId: 0
-      }
+      };
 
       this.props.handleUpdate(newHeader, "header", "create");
 

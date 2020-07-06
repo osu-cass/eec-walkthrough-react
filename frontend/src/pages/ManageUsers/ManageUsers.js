@@ -40,8 +40,8 @@ function ManageUsers() {
     }
   }, [userLoading, moreLoading]);
 
-   // listen for new search requests and perform a new search when one arrives
-   useEffect(() => {
+  // listen for new search requests and perform a new search when one arrives
+  useEffect(() => {
 
     // search for users
     async function searchUsers(cursor, newSearch) {
@@ -164,7 +164,7 @@ function ManageUsers() {
       roleValue: searchFields.roleValue,
       sortValue: sort,
       orderValue: order
-    })
+    });
 
   }
 

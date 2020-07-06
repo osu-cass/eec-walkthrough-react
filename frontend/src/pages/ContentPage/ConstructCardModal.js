@@ -292,7 +292,9 @@ function ConstructCardModal(props) {
         title: title,
         items: [],
         userId: 0,
-        created: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        created: new Date().toISOString()
+          .slice(0, 19)
+          .replace("T", " "),
         orderIndex: obj.insertId,
         tempCardId: null,
         tempCardType: null,
@@ -300,7 +302,7 @@ function ConstructCardModal(props) {
         tempUserId: null,
         tempTitle: null,
         tempItems: copy
-      }
+      };
 
       props.handleUpdate(newCard, "card", "create");
 
@@ -395,11 +397,13 @@ function ConstructCardModal(props) {
           orderIndex: props.card.orderIndex,
           tempCardId: props.card.cardId,
           tempCardType: newCardFormat,
-          tempCreated: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          tempCreated: new Date().toISOString()
+            .slice(0, 19)
+            .replace("T", " "),
           tempUserId: 0,
           tempItems: copy,
           tempTitle: title
-        }
+        };
       } else {
         newCard = {
           approved: props.card.approved,
@@ -409,7 +413,9 @@ function ConstructCardModal(props) {
           title: title,
           items: props.card.items,
           userId: 0,
-          created: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          created: new Date().toISOString()
+            .slice(0, 19)
+            .replace("T", " "),
           orderIndex: props.card.orderIndex,
           tempCardId: props.card.tempCardId,
           tempCardType: props.card.tempCardType,
@@ -417,7 +423,7 @@ function ConstructCardModal(props) {
           tempUserId: props.card.tempUserId,
           tempItems: copy,
           tempTitle: props.card.tempTitle
-        }
+        };
       }
 
       props.handleUpdate(newCard, "card", "update");
