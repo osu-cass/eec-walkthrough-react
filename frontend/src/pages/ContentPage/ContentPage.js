@@ -78,7 +78,7 @@ function ContentPage(props) {
 
   // update the structure of the current page object
   function handleUpdate(object, type, action) {
-    let headerData = [...headers];
+    const headerData = [...headers];
 
     if (type === "page") {
 
@@ -87,7 +87,7 @@ function ContentPage(props) {
         setPageInfo(object);
 
       } else if (action === "delete") {
-  
+
         if (object.pageId === object.tempPageId) {
           const newPage = pageInfo;
           newPage.tempCreated = null;
@@ -203,7 +203,7 @@ function ContentPage(props) {
 
   // Updates a timestamp (for an external link) that has been edited
   function handleTimestamp(message, approved, itemId, cardId, headerId) {
-    let copy = [...headers];
+    const copy = [...headers];
 
     for (let i = 0; i < copy.length; i++) {
       if (copy[i].headerId === headerId) {

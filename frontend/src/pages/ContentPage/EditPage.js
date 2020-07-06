@@ -89,14 +89,18 @@ function EditPage(props) {
           tempImageUrl: url,
           tempName: title,
           tempTitle: summary,
-          tempCreated: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          tempCreated: new Date().toISOString()
+            .slice(0, 19)
+            .replace("T", " "),
           tempUserId: 0,
           headers: []
-        }
+        };
       } else {
         newPage = {
           approved: props.page.approved,
-          created: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          created: new Date().toISOString()
+            .slice(0, 19)
+            .replace("T", " "),
           description: description,
           imageUrl: url,
           name: title,
@@ -112,7 +116,7 @@ function EditPage(props) {
           tempCreated: props.page.tempCreated,
           tempUserId: props.page.tempUserId,
           headers: []
-        }
+        };
       }
 
       // Reset state
@@ -173,9 +177,9 @@ function EditPage(props) {
 
         props.handleUpdate(newPage, "page", "delete");
 
-        } else {
-          window.location.href = "/";
-        }
+      } else {
+        window.location.href = "/";
+      }
 
     } else {
 

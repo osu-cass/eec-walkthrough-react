@@ -292,7 +292,7 @@ function Header(props) {
             </div>
           </div>
 
-          <div>
+          <div id="accordion" role="tablist" aria-multiselectable="true">
             {cards.map((card, i) =>
               <Card
                 key={card.cardId}
@@ -343,7 +343,7 @@ function Header(props) {
             </div>
           </div>
 
-          <div>
+          <div id="accordion">
             {cards.map((card, i) =>
               <Card
                 key={card.cardId}

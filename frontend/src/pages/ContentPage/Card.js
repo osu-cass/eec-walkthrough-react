@@ -88,10 +88,22 @@ function Card(props) {
     null
   ) : (
     <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" } ${props.card.invalid ? "card-body-invalid" : ""}`}>
-      <CardBS.Header as="h5" className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold">
-        {props.mode === 1 && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
+      <CardBS.Header
+        as="h5"
+        className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold"
+      >
+        <div
+          id={"heading" + props.card.cardId}
+          data-toggle="collapse"
+          data-target={"#collapse" + props.card.cardId}
+          aria-expanded="true"
+          aria-controls={"collapse" + props.card.cardId}
+          className="col pr-0"
+        >
+          {props.mode === 1 && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
+        </div>
         {props.mode === 1 ? (
-          <div className="row">
+          <div className="row ml-auto">
             <EditCard
               card={props.card}
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
@@ -107,7 +119,7 @@ function Card(props) {
         ) : (
           <Fragment>
             {props.mode === 2 ? (
-              <div className="row">
+              <div className="row ml-auto">
                 <OrderObjectButton
                   up={true}
                   header={false}
@@ -129,29 +141,30 @@ function Card(props) {
           </Fragment>
         )}
       </CardBS.Header>
-      <CardBS.Body>
-        {props.card.invalid ? (
-          <Fragment>
-            <h4>INVALID CARD!</h4>
-            <p>
-            This card has no content.
-            Either add content to this card or delete it.
-            </p>
-          </Fragment>
-        ) : (
-          null
-        )}
-        {cardType ? (
-          <ThumbnailGallery items={items} cardState={props.cardState} />
-        ) : (
-          <BasicItems
-            items={items}
-            cardState={props.cardState}
-            mode={props.mode}
-            handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
-          />
-        )}
-      </CardBS.Body>
+      <div id={"collapse" + props.card.cardId} className="collapse show" aria-labelledby={"heading" + props.card.cardId}>
+        <CardBS.Body>
+          {props.card.invalid ? (
+            <Fragment>
+              <h4>INVALID CARD!</h4>
+              <p>
+              This card has no content.
+              Either add content to this card or delete it.
+              </p>
+            </Fragment>
+          ) : (
+            null
+          )}
+          {cardType ? (
+            <ThumbnailGallery items={items} />
+          ) : (
+            <BasicItems
+              items={items}
+              mode={props.mode}
+              handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+            />
+          )}
+        </CardBS.Body>
+      </div>
     </CardBS>
   );
 }
