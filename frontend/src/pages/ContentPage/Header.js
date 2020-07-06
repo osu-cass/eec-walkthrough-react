@@ -307,6 +307,7 @@ function Header(props) {
                 bottom={i >= cards.length - 1 ? (true) : (false)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
+                role={props.role}
               />
             )}
           </div>
@@ -356,6 +357,7 @@ function Header(props) {
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
+                role={props.role}
               />
             )}
           </div>

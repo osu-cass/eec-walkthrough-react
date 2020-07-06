@@ -218,7 +218,7 @@ function ReviewCard(props) {
               <span className="created-text">Created {formatTime(props.card.created)}</span>
               <div className="m-3">
                 <h3 className="font-weight-bold">{props.card.title}</h3>
-                {props.card.cardType ? (
+                {props.card.cardType === 1 || props.card.cardType === 11 ? (
                   <ThumbnailGallery items={imageItems} />
                 ) : (
                   <BasicItems items={props.card.items} mode={props.mode} />
@@ -237,7 +237,7 @@ function ReviewCard(props) {
                   <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
                   <div className="m-3">
                     <h3 className="font-weight-bold">{props.card.tempTitle}</h3>
-                    {props.card.tempCardType ? (
+                    {props.card.tempCardType === 1 || props.card.tempCardType === 11 ? (
                       <ThumbnailGallery items={imageTempItems} />
                     ) : (
                       <BasicItems items={props.card.tempItems} mode={props.mode} />
@@ -250,7 +250,7 @@ function ReviewCard(props) {
                   <span className="created-text">Created {formatTime(props.card.created)}</span>
                   <div className="m-3">
                     <h3 className="font-weight-bold">{props.card.title}</h3>
-                    {props.card.cardType ? (
+                    {props.card.cardType === 1 || props.card.cardType === 11 ? (
                       <ThumbnailGallery items={imageTempItems} />
                     ) : (
                       <BasicItems items={props.card.tempItems} />
