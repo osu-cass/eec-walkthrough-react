@@ -36,13 +36,23 @@ function FilterBar(props) {
     <div className="m-2 icons row">
       {props.tempFilterIcons.map((obj, i) => {
         return (
-          <i
-            key={obj}
-            className={`fas fa-${tempIconNames[i]} ${
-              props.filterShow[obj] ? "" : "fa-disabled"
-            } text-dark mr-3`}
-            onClick={() => props.updateIcon(obj, props.filterShow[obj])}
-          />
+          tempIconNames[i] === "square" ? (
+            <i
+              key={obj}
+              className={`far fa-${tempIconNames[i]} ${
+                props.filterShow[obj] ? "" : "fa-disabled"
+              } text-dark mr-3`}
+              onClick={() => props.updateIcon(obj, props.filterShow[obj])}
+            />
+          ) : (
+            <i
+              key={obj}
+              className={`fas fa-${tempIconNames[i]} ${
+                props.filterShow[obj] ? "" : "fa-disabled"
+              } text-dark mr-3`}
+              onClick={() => props.updateIcon(obj, props.filterShow[obj])}
+            />
+          )
         );
       })}
       <i
