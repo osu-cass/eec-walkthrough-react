@@ -21,6 +21,7 @@ const {
   deleteCard,
   updateCard,
   publishCard,
+  unpublishCard,
   moveCard
 } = require("../models/cards");
 
@@ -240,6 +241,51 @@ app.post("/:cardId/publish", getUserID, getCardVal.validation, async (req, res) 
         res.status(404).send({error: "Card not found."});
       } else if (results.error === 2) {
         res.status(403).send({error: "A card with this name already exists under this header."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// unpublish a card
+app.post("/:cardId/unpublish", getUserID, getCardVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Unpublish a card");
+
+    const cardId = req.params.cardId;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to unpublish a card."});
+      return;
+    }
+
+    // unpublish a card
+    const results = await unpublishCard(cardId);
+
+    if (results.cardId >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Card not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

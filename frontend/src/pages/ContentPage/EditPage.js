@@ -69,9 +69,67 @@ function EditPage(props) {
 
     if (results.ok) {
 
-      setShowLoad(false);
       props.handlePageEdit();
-      props.refresh();
+
+      let newPage = {};
+
+      if (props.page.approved) {
+        newPage = {
+          approved: props.page.approved,
+          created: props.page.created,
+          description: props.page.description,
+          imageUrl: props.page.imageUrl,
+          name: props.page.name,
+          title: props.page.title,
+          pageId: props.page.pageId,
+          pageType: props.page.pageType,
+          userId: props.page.userId,
+          tempPageId: props.page.pageId,
+          tempDescription: description,
+          tempImageUrl: url,
+          tempName: title,
+          tempTitle: summary,
+          tempCreated: new Date().toISOString()
+            .slice(0, 19)
+            .replace("T", " "),
+          tempUserId: 0,
+          headers: []
+        };
+      } else {
+        newPage = {
+          approved: props.page.approved,
+          created: new Date().toISOString()
+            .slice(0, 19)
+            .replace("T", " "),
+          description: description,
+          imageUrl: url,
+          name: title,
+          title: summary,
+          pageId: props.page.pageId,
+          pageType: props.page.pageType,
+          userId: 0,
+          tempPageId: props.page.tempPageId,
+          tempDescription: props.page.tempDescription,
+          tempImageUrl: props.page.tempImageUrl,
+          tempName: props.page.tempName,
+          tempTitle: props.page.tempTitle,
+          tempCreated: props.page.tempCreated,
+          tempUserId: props.page.tempUserId,
+          headers: []
+        };
+      }
+
+      // Reset state
+      setTitle("");
+      setSummary("");
+      setDescription("");
+      setUrl("");
+      setErrorMessage("");
+
+      // Close modal
+      handleCloseModal();
+
+      props.handleUpdate(newPage, "page", "update");
 
     } else {
 
@@ -87,6 +145,7 @@ function EditPage(props) {
       }
 
     }
+    setShowLoad(false);
   }
 
   async function deletePage() {
@@ -99,8 +158,28 @@ function EditPage(props) {
 
     if (results.ok) {
 
-      setShowLoad(false);
-      window.location.href = "/";
+      if (props.page.pageId === props.page.tempPageId) {
+
+        const newPage = {
+          pageId: props.page.pageId,
+          tempPageId: props.page.tempPageId
+        };
+
+        // Reset state
+        setTitle("");
+        setSummary("");
+        setDescription("");
+        setUrl("");
+        setErrorMessage("");
+
+        // Close modal
+        handleCloseModal();
+
+        props.handleUpdate(newPage, "page", "delete");
+
+      } else {
+        window.location.href = "/";
+      }
 
     } else {
 
@@ -116,6 +195,7 @@ function EditPage(props) {
       }
 
     }
+    setShowLoad(false);
   }
 
   function handleSubmit(e) {
@@ -216,7 +296,7 @@ function EditPage(props) {
                 <Form.Label className="font-weight-bold">Brief Description</Form.Label>
                 <Form.Control
                   as="textarea"
-                  maxLength="1000"
+                  maxLength="5000"
                   rows="4"
                   placeholder="Enter description"
                   defaultValue={description}
@@ -278,6 +358,6 @@ EditPage.propTypes = {
   page: PropTypes.object,
   role: PropTypes.number,
   mode: PropTypes.number,
-  refresh: PropTypes.func,
+  handleUpdate: PropTypes.func,
   handlePageEdit: PropTypes.any
 };

@@ -8,6 +8,7 @@ import {logout} from "../../utilities/cookieAuth";
 // manage users page
 function ManageUsers() {
 
+  const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [userLoading, setUserLoading] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
@@ -15,11 +16,18 @@ function ManageUsers() {
   const [errorMessage, setErrorMessage] = useState("");
   const [searchFields, setSearchFields] = useState({
     textValue: "*",
-    roleValue: 0
+    roleValue: 0,
+    sortValue: 0,
+    orderValue: 1
   });
   const [cursor, setCursor] = useState({
     primary: "null",
     secondary: "null"
+  });
+  const [request, setRequest] = useState ({
+    primary: "null",
+    secondary: "null",
+    new: false
   });
 
   // track the loading state of multiple page components and
@@ -32,84 +40,141 @@ function ManageUsers() {
     }
   }, [userLoading, moreLoading]);
 
-  // search for users
-  async function searchUsers(cursor, newSearch) {
-    try {
-      setErrorMessage("");
-      setUserLoading(true);
+  // listen for new search requests and perform a new search when one arrives
+  useEffect(() => {
 
-      // get the search text from the search field
-      let textValue = document.getElementById("input-search-user").value;
+    // search for users
+    async function searchUsers(cursor, newSearch) {
+      try {
+        setErrorMessage("");
+        setUserLoading(true);
+        const sortValue = searchFields.sortValue;
+        const orderValue = searchFields.orderValue;
 
-      // if search text is empty we use a special char to represent
-      // any text response as valid
-      if (textValue === "") {
-        textValue = "*";
-      }
+        // get the search text from the search field
+        let textValue = document.getElementById("input-search-user").value;
 
-      // get the role from the role select
-      const roleSelect = document.getElementById("select-role");
-      let roleValue = roleSelect.options[roleSelect.selectedIndex].value;
+        // if search text is empty we use a special char to represent
+        // any text response as valid
+        if (textValue === "") {
+          textValue = "*";
+        }
 
-      // only set the search values if we are performing a new search
-      if (newSearch) {
+        // get the role from the role select
+        const roleSelect = document.getElementById("select-role");
+        let roleValue = roleSelect.options[roleSelect.selectedIndex].value;
 
-        setSearchFields({
-          textValue: textValue,
-          roleValue: roleValue
-        });
-      } else {
-        textValue = searchFields.textValue;
-        roleValue = searchFields.roleValue;
-      }
+        // only set the search values if we are performing a new search
+        if (newSearch) {
 
-      // construct the request url
-      const getUrl = `/users/search/${textValue}/${roleValue}` +
-        `/${cursor.primary}/${cursor.secondary}`;
-      let obj = [];
-
-      // get our search results
-      const results = await fetch(getUrl);
-
-      if (results.ok) {
-
-        // if the cursor is new then we will want to relist users
-        obj = await results.json();
-
-        if (cursor.primary === "null") {
-          setUsers([...obj.users]);
+          setSearchFields({
+            textValue: textValue,
+            roleValue: roleValue,
+            sortValue: sortValue,
+            orderValue: orderValue
+          });
         } else {
-          setUsers([...users, ...obj.users]);
+          textValue = searchFields.textValue;
+          roleValue = searchFields.roleValue;
         }
-        setCursor(obj.nextCursor);
 
-      } else {
+        // construct the request url
+        const getUrl = `/users/search/${textValue}/${roleValue}/` +
+          `${sortValue}/${orderValue}/${cursor.primary}/${cursor.secondary}`;
+        let obj = {};
 
-        obj = await results.json();
+        // get our search results
+        const results = await fetch(getUrl);
 
-        if (results.status === 404) {
-          setErrorMessage("No matching users found.");
-          setUsers([]);
-        } else if (results.status === 500 || typeof obj.error === "undefined") {
-          setErrorMessage("An internal server error occurred. Please try again later.");
+        if (results.ok) {
+
+          // if the cursor is new then we will want to relist users
+          obj = await results.json();
+
+          if (cursor.primary === "null") {
+            setUsers([...obj.users]);
+          } else {
+            setUsers([...users, ...obj.users]);
+          }
+          setCursor(obj.nextCursor);
+
         } else {
-          console.error(obj.error);
-          setErrorMessage(obj.error);
-        }
 
-        // if the user is performing an unauthorized action
-        // log them out and return them to the homepage
-        if (results.status === 401) {
-          logout();
-          window.location.href = "/";
-        }
+          obj = await results.json();
 
+          // there was an error while attempting to search
+          if (results.status === 404) {
+            setErrorMessage("No matching users found.");
+            setUsers([]);
+          } else if (results.status === 500 || typeof obj.error === "undefined") {
+            setErrorMessage("An internal server error occurred. Please try again later.");
+          } else {
+            console.error(obj.error);
+            setErrorMessage(obj.error);
+          }
+
+          // if the user is performing an unauthorized action
+          // log them out and return them to the homepage
+          if (results.status === 401) {
+            logout();
+            window.location.href = "/";
+          }
+
+        }
+      } catch (err) {
+        // show error message if error while searching
+        setErrorMessage("An internal server error occurred. Please try again later.");
       }
-    } catch (err) {
-      // show error message if error while searching
-      setErrorMessage("An internal server error occurred. Please try again later.");
+      setUserLoading(false);
     }
-    setUserLoading(false);
+
+    // don't load search results on the initial mount
+    if (mounted) {
+      const newCursor = {
+        primary: request.primary,
+        secondary: request.secondary
+      };
+      searchUsers(newCursor, request.new);
+    } else {
+      setMounted(true);
+    }
+
+    // eslint-disable-next-line
+  }, [request]);
+
+  // initiate a new search request when the sorting order changes
+  useEffect(() => {
+
+    if (mounted) {
+      setRequest({
+        primary: "null",
+        secondary: "null",
+        new: true
+      });
+    }
+
+    // eslint-disable-next-line
+  }, [searchFields.orderValue, searchFields.sortValue]);
+
+  // update the sorting rules
+  function handleChangeSort(sort, order) {
+
+    setSearchFields ({
+      textValue: searchFields.textValue,
+      roleValue: searchFields.roleValue,
+      sortValue: sort,
+      orderValue: order
+    });
+
+  }
+
+  // initiates a new user search
+  function callSearch(newCursor, newSearch) {
+    setRequest({
+      primary: newCursor.primary,
+      secondary: newCursor.secondary,
+      new: newSearch
+    });
   }
 
   return (
@@ -119,11 +184,14 @@ function ManageUsers() {
       <div id="user-manage-container">
         <div id="user-manage-contents-container">
 
-          <UserSearchForm onSearch={cursor => searchUsers(cursor, true)}/>
+          <UserSearchForm onSearch={cursor => callSearch(cursor, true)}/>
 
           <UserSearchResults users={users} cursor={cursor} loading={loading}
+            onChangeSort={(sort, order) => handleChangeSort(sort, order)}
             onLoading={load => setMoreLoading(load)} error={errorMessage}
-            onLoadMore={cursor => searchUsers(cursor, false)} />
+            onLoadMore={cursor => callSearch(cursor, false)}
+            searchFields={searchFields}
+          />
 
         </div>
       </div>

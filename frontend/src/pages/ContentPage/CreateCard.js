@@ -33,7 +33,7 @@ function CreateCard(props) {
         edit={false}
         handleClose={() => handleClose()}
         show={show}
-        refresh={() => props.refresh()}
+        handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
         iconSet={props.iconSet}
         headerId={props.headerId}
       />
@@ -46,7 +46,7 @@ function CreateCard(props) {
 export default CreateCard;
 
 CreateCard.propTypes = {
-  refresh: PropTypes.func,
+  handleUpdate: PropTypes.func,
   iconSet: PropTypes.array,
   headerId: PropTypes.number,
   mode: PropTypes.number

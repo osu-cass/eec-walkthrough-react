@@ -15,6 +15,7 @@ function PageList() {
   useEffect(() => {
     setLoading(true);
     getPage();
+    // eslint-disable-next-line
   }, []);
 
   // generate page links for each page
@@ -39,7 +40,7 @@ function PageList() {
 
     // remove spinner after finished generating links
     setLoading(false);
-
+    // eslint-disable-next-line
   }, [pages]);
 
   // grabs and returns list of relevant pages

@@ -24,6 +24,7 @@ function ContentPage(props) {
   const [role, setRole] = useState(0);
   const [mode, setMode] = useState(getMode());
   const [cardState, setCardState] = useState(0);
+  const [pageState, setPageState] = useState(0);
 
   // get new page data if the page ID has changed
   useEffect(() => {
@@ -75,9 +76,134 @@ function ContentPage(props) {
     setLoaded(true);
   }
 
+  // update the structure of the current page object
+  function handleUpdate(object, type, action) {
+    const headerData = [...headers];
+
+    if (type === "page") {
+
+      if (action === "update" || action === "publish" || action === "unpublish") {
+
+        setPageInfo(object);
+
+      } else if (action === "delete") {
+
+        if (object.pageId === object.tempPageId) {
+          const newPage = pageInfo;
+          newPage.tempCreated = null;
+          newPage.tempDescription = null;
+          newPage.tempImageUrl = null;
+          newPage.tempName = null;
+          newPage.tempPageId = null;
+          newPage.tempTitle = null;
+          newPage.tempUserId = null;
+          setPageInfo(newPage);
+          setPageState(pageState + 1);
+        }
+
+      }
+
+
+    } else if (type === "header") {
+
+      if (action === "create") {
+
+        headerData.push(object);
+        setHeaders(headerData);
+
+      } else if (action === "update" || action === "publish" || action === "unpublish") {
+
+        for (let i = 0; i < headerData.length; i++) {
+          if (headerData[i].headerId === object.headerId) {
+            headerData[i] = object;
+            setHeaders(headerData);
+          }
+        }
+
+      } else if (action === "delete") {
+
+        for (let i = 0; i < headerData.length; i++) {
+          if (headerData[i].headerId === object.headerId) {
+            if (object.headerId === object.tempHeaderId) {
+              const newHeader = headerData[i];
+              newHeader.tempCreated = null;
+              newHeader.tempHeaderId = null;
+              newHeader.tempTitle = null;
+              newHeader.tempUserId = null;
+              headerData[i] = newHeader;
+              setHeaders(headerData);
+            } else {
+              headerData.splice(i, 1);
+              setHeaders(headerData);
+            }
+          }
+        }
+
+      }
+
+
+    } else if (type === "card") {
+
+      // find the header index or return
+      let headerIndex = -1;
+
+      for (let i = 0; i < headerData.length; i++) {
+        if (headerData[i].headerId === object.headerId) {
+          headerIndex = i;
+        }
+      }
+
+      if (headerIndex === -1) {
+        return;
+      }
+
+      if (action === "create") {
+
+        headerData[headerIndex].cards.push(object);
+        setHeaders(headerData);
+        setCardState(cardState + 1);
+
+      } else if (action === "update" || action === "publish" || action === "unpublish") {
+
+        for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
+          if (headerData[headerIndex].cards[i].cardId === object.cardId) {
+            headerData[headerIndex].cards[i] = object;
+            setHeaders(headerData);
+            setCardState(cardState + 1);
+          }
+        }
+
+      } else if (action === "delete") {
+
+        for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
+          if (headerData[headerIndex].cards[i].cardId === object.cardId) {
+            if (object.cardId === object.tempCardId) {
+              const newCard = headerData[headerIndex].cards[i];
+              newCard.tempCardId = null;
+              newCard.tempCardType = null;
+              newCard.tempCreated = null;
+              newCard.tempTitle = null;
+              newCard.tempUserId = null;
+              newCard.tempItems = [];
+              headerData[headerIndex].cards[i] = newCard;
+              setHeaders(headerData);
+              setCardState(cardState + 1);
+            } else {
+              headerData[headerIndex].cards.splice(i, 1);
+              setHeaders(headerData);
+              setCardState(cardState + 1);
+            }
+          }
+        }
+      }
+
+    }
+
+  }
+
   // Updates a timestamp (for an external link) that has been edited
   function handleTimestamp(message, approved, itemId, cardId, headerId) {
-    let copy = [...headers];
+    const copy = [...headers];
 
     for (let i = 0; i < copy.length; i++) {
       if (copy[i].headerId === headerId) {
@@ -300,9 +426,10 @@ function ContentPage(props) {
       <Container className="my-4">
         <PageDescription
           page={pageInfo}
-          refresh={() => fetchData()}
+          handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
           role={role}
           mode={mode}
+          pageState={pageState}
           onPageMode={e => handlePageMode(e)}
           handlePageEdit={props.handlePageEdit}
         />
@@ -311,10 +438,9 @@ function ContentPage(props) {
           pageId={parseInt(props.pageId)}
           role={role}
           userId={userId}
-          subject={pageInfo.name}
-          refresh={() => fetchData()}
           numHeaders={headers.length}
           mode={mode}
+          handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
         />
 
         {headers.map((header, i) => {
@@ -324,7 +450,6 @@ function ContentPage(props) {
                 header={header}
                 handleMoveHeader={(id, up) => handleMoveHeader(id, up)}
                 handleMoveCard={(cardId, headerId, up) => handleMoveCard(cardId, headerId, up)}
-                refresh={() => fetchData()}
                 role={role}
                 mode={mode}
                 iconSet={iconSet}
@@ -332,10 +457,11 @@ function ContentPage(props) {
                 top={i === 0 ? (true) : (false)}
                 bottom={i >= headers.length - 1 ? (true) : (false)}
                 handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
+                handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
               />
               <CreateCard
                 headerId={header.headerId}
-                refresh={() => fetchData()}
+                handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
                 mode={mode}
                 iconSet={iconSet}
               />

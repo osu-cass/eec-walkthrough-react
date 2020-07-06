@@ -2,7 +2,7 @@
   color: #E81224 !important;
 }
 
-.fa-hand-point-right, .fa-trophy, .fa-bolt {
+.fa-hand-point-right, .fa-trophy, .fa-bolt, .fa-ruler-vertical {
   color: #FFC83D !important;
 }
 
@@ -38,7 +38,19 @@
 
 .opportunity-desc {
   display: block;
-  margin-left: -0.30rem;
-  font-size: .9rem;
-  font-style: italic;
+  margin-left: 0.30rem;
+}
+
+.icon-item-text.check-square-icon {
+  font-weight: bold;
+  font-size: large;
+}
+
+.icon-item.check-square-icon {
+  margin-top: 0.33em;
+}
+
+.fa-circle {
+  margin-left: 0.4em;
+  padding-right: 0.4em; 
 }

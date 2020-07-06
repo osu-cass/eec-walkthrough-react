@@ -58,7 +58,9 @@ exports.patchUserVal = patchUserVal;
 const searchUserVal = Object.freeze({
   validation: [
     check("text").isLength({min: 0, max: 1000}),
-    check("role").isLength({min: 0, max: 4}),
+    check("role").isInt({min: 0, max: 4}),
+    check("sort").isInt({min: 0, max: 10}),
+    check("order").isInt({min: 0, max: 1}),
     check("cursorPrimary").isLength({min: 1, max: 1000}),
     check("cursorSecondary").isLength({min: 1, max: 1000})
   ]
@@ -89,7 +91,7 @@ const postPageVal = Object.freeze({
     check("pageType").isInt({min: 0, max: 1}),
     check("name").isLength({min: 1, max: 100}),
     check("title").isLength({min: 1, max: 1000}),
-    check("description").isLength({min: 1, max: 1000}),
+    check("description").isLength({min: 1, max: 5000}),
     check("imageUrl").isLength({min: 1, max: 1000}),
   ]
 });
@@ -101,7 +103,7 @@ const patchPageVal = Object.freeze({
     check("pageId").isInt({min: 1, max: 4294967295}),
     check("name").isLength({min: 1, max: 100}),
     check("title").isLength({min: 1, max: 1000}),
-    check("description").isLength({min: 1, max: 1000}),
+    check("description").isLength({min: 1, max: 5000}),
     check("imageUrl").isLength({min: 1, max: 1000})
   ]
 });
