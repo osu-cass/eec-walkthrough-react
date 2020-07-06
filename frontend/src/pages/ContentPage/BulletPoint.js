@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {useState, Fragment} from "react";
 import Image from "./Image";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
@@ -8,6 +8,8 @@ import "./BulletPoint.css";
 
 // Represents a single item inside a card
 function BulletPoint (props) {
+
+  const [checked, setChecked] = useState(false);
 
   function styleIcon(icon) {
     if (icon === "circle") { return "fa-xs"; }
@@ -43,9 +45,27 @@ function BulletPoint (props) {
         <div className="row mx-auto">
           <div className="icon-td justify-content-center">
             <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item
-              ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)} ${styleIcon(props.icon)}`}
-            />
+            {props.icon === "square" ? (
+              checked ? (
+                <i
+                  className={`far fa-fw fa-check-${props.icon} mr-2 icon-item
+                  ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)} ${styleIcon(props.icon)}`}
+                  onClick={() => setChecked(!checked)}
+                />
+              ) : (
+                <i
+                  className={`far fa-fw fa-${props.icon} mr-2 icon-item
+                  ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)} ${styleIcon(props.icon)}`}
+                  onClick={() => setChecked(!checked)}
+                />
+              )
+            ) : (
+              <i
+                className={`fas fa-fw fa-${props.icon} mr-2 icon-item
+                ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)} ${styleIcon(props.icon)}`}
+                style={{cursor: "default"}}
+              />
+            )}
           </div>
           <div className="content-td pb-2 col">
             <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
@@ -61,7 +81,10 @@ function BulletPoint (props) {
         <div className="row mx-auto">
           <div className="icon-td pb-2">
             <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} `} />
+            <i
+              className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} `}
+              style={{cursor: "default"}}
+            />
           </div>
           <div className="content-td pb-2 col">
             <div className="pb-1">
@@ -81,18 +104,30 @@ function BulletPoint (props) {
         <div className="row mx-auto">
           <div className="icon-td pb-2">
             <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)}`} />
+            <i
+              className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)}`}
+              style={{cursor: "default"}}
+            />
           </div>
           <div className="content-td pb-2 col">
             <div>
               <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}> {props.label} </a>
               {props.contentMode === 1 || props.contentMode === 3 ? (
-                <i className={`fas fa-fw fa-sm fa-link mx-1`} />
+                <i
+                  className={`fas fa-fw fa-sm fa-link mx-1`}
+                  style={{cursor: "default"}}
+                />
               ) : (
-                <i className={`fas fa-fw fa-sm fa-info mx-1`} />
+                <i
+                  className={`fas fa-fw fa-sm fa-info mx-1`}
+                  style={{cursor: "default"}}
+                />
               )}
               {props.contentMode === 2 || props.contentMode === 3 ? (
-                <i className={`fas fa-fw fa-sm fa-download mr-1`} />
+                <i
+                  className={`fas fa-fw fa-sm fa-download mr-1`}
+                  style={{cursor: "default"}}
+                />
               ) : (
                 null
               )}

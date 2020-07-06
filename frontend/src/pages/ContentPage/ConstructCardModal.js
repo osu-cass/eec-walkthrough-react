@@ -679,12 +679,21 @@ function ConstructCardModal(props) {
     } else {
       basicIcons.map((type) => {
         // filter out icons based on the content type
-        jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
-        </div>);
-        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} />;
-        values.push([type.iconType, jsxIcon]);
-        return null;
+        if (type.typeName === "square") {
+          jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
+            <i className={`far fa-fw fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+          </div>);
+          const jsxIcon = <i className={`far fa-fw fa-${type.typeName}`} />;
+          values.push([type.iconType, jsxIcon]);
+          return null;
+        } else {
+          jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
+            <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+          </div>);
+          const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} />;
+          values.push([type.iconType, jsxIcon]);
+          return null;
+        }
       });
     }
     list.push(jsx, values);
