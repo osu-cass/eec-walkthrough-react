@@ -270,6 +270,7 @@ async function getFullPage(pageId, viewAll) {
         "FROM Cards " +
         "WHERE headerId = ? " +
         "AND approved = 1 " +
+        "AND cardType < 10 " +
         "ORDER BY orderIndex ASC, cardId ASC";
       }
 
