@@ -9,11 +9,6 @@ import "./BulletPoint.css";
 // Represents a single item inside a card
 function BulletPoint (props) {
 
-  function styleIcon(icon) {
-    if (icon === "circle") { return "fa-xs"; }
-    return "";
-  }
-
   function styleText(icon) {
     if (icon === "check-square") { return "check-square-icon"; }
     if (icon === "flag") { return "font-italic"; }
@@ -44,7 +39,7 @@ function BulletPoint (props) {
           <div className="icon-td justify-content-center">
             <Indent indentLevel={props.indentation} />
             <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item
-              ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)} ${styleIcon(props.icon)}`}
+              ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
             />
           </div>
           <div className="content-td pb-2 col">
