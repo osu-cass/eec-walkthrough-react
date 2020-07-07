@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
-import "./CreateHeader.css";
+import "./EditHeader.css";
 
 // Button and modal that allows a user to edit a header
 function EditHeader(props) {
@@ -13,6 +13,7 @@ function EditHeader(props) {
   const [showModal, setShowModal] = useState(false);
   const [showLoad, setShowLoad] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [checked, setChecked] = useState(0);
 
   useEffect(() => {
     if (props.header.tempHeaderId) {
@@ -20,7 +21,8 @@ function EditHeader(props) {
     } else {
       setTitle(props.header.title);
     }
-  }, [props.header.tempHeaderId, props.header.tempTitle, props.header.title]);
+    setChecked(isInternal());
+  }, [props.header.tempHeaderId, props.header.tempTitle, props.header.title, props.header.internal]);
 
   function handleCloseModal() {
     setShowModal(false);
@@ -36,11 +38,22 @@ function EditHeader(props) {
     setShowModal(true);
   }
 
+  // Check if the header is internal
+  function isInternal() {
+    return (props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal);
+  }
+
   async function updateHeader() {
     setShowLoad(true);
 
+    let internal = 0;
+    if (document.getElementById("internal-modal-checkbox").checked) {
+      internal = 1;
+    }
+
     const data = {
-      title: title
+      title: title,
+      internal: internal
     };
 
     const results = await fetch(`/headers/${props.header.headerId}`, {
@@ -60,6 +73,8 @@ function EditHeader(props) {
           headerId: props.header.headerId,
           orderIndex: props.header.orderIndex,
           pageId: props.header.pageId,
+          internal: props.header.internal,
+          tempInternal: internal,
           tempCreated: new Date().toISOString()
             .slice(0, 19)
             .replace("T", " "),
@@ -79,6 +94,8 @@ function EditHeader(props) {
           headerId: props.header.headerId,
           orderIndex: props.header.orderIndex,
           pageId: props.header.pageId,
+          internal: internal,
+          tempInternal: props.header.tempInternal,
           tempCreated: props.header.tempCreated,
           tempHeaderId: props.header.tempHeaderId,
           tempTitle: props.header.tempTitle,
@@ -204,6 +221,25 @@ function EditHeader(props) {
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <div className="custom-control form-control-lg custom-checkbox my-2">
+                {checked ? (
+                  <input type="checkbox" className="form-check-input custom-control-input"
+                    id="internal-modal-checkbox" onClick={() => setChecked(0)} checked 
+                  />
+                ) : (
+                  <input type="checkbox" className="form-check-input custom-control-input"
+                    id="internal-modal-checkbox"
+                  />
+                )}
+                <label className="form-check-label custom-control-label font-weight-bold pl-3" htmlFor="internal-modal-checkbox">
+                  Internal (not viewable by the public)
+                </label>
+              </div>
             </Col>
           </Row>
 

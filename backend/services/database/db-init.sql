@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 06, 2020 at 04:17 PM
+-- Generation Time: Jul 06, 2020 at 04:34 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -643,6 +643,7 @@ INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempUserId
 CREATE TABLE `Temp_Headers` (
   `tempHeaderId` int(10) UNSIGNED NOT NULL,
   `tempTitle` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tempInternal` tinyint(3) UNSIGNED NOT NULL,
   `tempUserId` int(10) UNSIGNED NOT NULL,
   `tempCreated` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -659,6 +660,7 @@ CREATE TABLE `Temp_Pages` (
   `tempTitle` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tempDescription` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tempImageUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tempInternal` tinyint(3) UNSIGNED NOT NULL,
   `tempUserId` int(10) UNSIGNED NOT NULL,
   `tempCreated` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

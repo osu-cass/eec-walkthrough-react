@@ -233,6 +233,7 @@ function Header(props) {
         <div>
           <div className={`d-flex sticky-top
             ${props.header.approved && !props.header.tempHeaderId ? "header-approved" : "header-review"}
+            ${(props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal) ? "header-internal" : ""}
             header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
           style={{top: "1em", zIndex: "998"}}
           >
@@ -319,6 +320,7 @@ function Header(props) {
         <div>
           <div className={`d-flex sticky-top
             ${props.header.approved ? "header-approved" : "header-review"}
+            ${(props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal) ? "header-internal" : ""}
             header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
           style={{top: "1em", zIndex: "998"}}
           >

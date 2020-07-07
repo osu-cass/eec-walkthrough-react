@@ -81,6 +81,7 @@ app.post("/", requireAuth, postHeaderVal.validation, async (req, res) => {
 
     const pageId = req.body.pageId;
     const title = req.body.title;
+    const internal = req.body.internal;
     const userId = req.auth.userId;
 
     // make sure the user is allowed to perform this action
@@ -90,7 +91,7 @@ app.post("/", requireAuth, postHeaderVal.validation, async (req, res) => {
     }
 
     // create a header
-    const results = await createHeader(pageId, title, userId);
+    const results = await createHeader(pageId, title, userId, internal);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -167,6 +168,7 @@ app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res)
 
     const headerId = req.params.headerId;
     const title = req.body.title;
+    const internal = req.body.internal;
     const userId = req.auth.userId;
 
     // confirm that the request is valid
@@ -183,7 +185,7 @@ app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res)
     }
 
     // update a header
-    const results = await updateHeader(headerId, title, userId);
+    const results = await updateHeader(headerId, title, userId, internal);
 
     if (results.headerId >= 0) {
       res.status(200).send(results);
