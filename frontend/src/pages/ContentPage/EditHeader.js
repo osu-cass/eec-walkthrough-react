@@ -22,7 +22,7 @@ function EditHeader(props) {
       setTitle(props.header.title);
     }
     setChecked(isInternal());
-  }, [props.header.tempHeaderId, props.header.tempTitle, props.header.title, props.header.internal]);
+  }, [props.header.tempHeaderId, props.header.tempTitle, props.header.title, props.header.internal, props.header.tempInternal]);
 
   function handleCloseModal() {
     setShowModal(false);
@@ -38,9 +38,11 @@ function EditHeader(props) {
     setShowModal(true);
   }
 
-  // Check if the header is internal
+  // determines if the current object is only internal viewable
   function isInternal() {
-    return (props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal);
+    if ((props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal)) {
+      return 1
+    }
   }
 
   async function updateHeader() {

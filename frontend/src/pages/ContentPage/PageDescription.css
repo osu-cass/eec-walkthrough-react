@@ -11,3 +11,21 @@
   background: rgb(244,232,171);
   background: linear-gradient(0deg, rgba(244,232,171,1) 0%, rgba(254,247,213,1) 100%);
 }
+
+.page-internal.page-approved {
+  background-color: #d3ebf2 !important;
+}
+
+.page-internal.page-review {
+  background-color: #acd9e6 !important;
+}
+
+.page-internal.page-approved.header-bar {
+  background: rgb(214, 232, 236);
+  background: linear-gradient(0deg, rgba(191,216,223,1) 0%, rgba(255,255,255,1) 100%);
+}
+
+.page-internal.page-review.header-bar {
+  background: rgb(120,169,184);
+  background: linear-gradient(0deg, rgba(120,169,184,1) 0%, rgb(255, 255, 255) 100%);
+}

@@ -83,10 +83,10 @@ function ConstructCardModal(props) {
     setErrorMessage("");
   }, [props.show]);
 
-
   // Checks if the current card is internal only
   function isInternal() {
     let currentCardType = 0;
+
     if (props.card.tempCardId) {
       currentCardType = props.card.tempCardType;
     } else {

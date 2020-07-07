@@ -51,6 +51,7 @@ async function getPage(pageId, viewAll) {
         "WHERE M.industryId = ? " +
         "AND S.pageType = 0 " +
         "AND S.approved = 1 " +
+        "AND S.internal = 0 " +
         "ORDER BY S.name ASC;";
       }
       results = await pool.query(sql, pageId);
@@ -72,6 +73,7 @@ async function getPage(pageId, viewAll) {
         "WHERE M.subjectId = ? " +
         "AND I.pageType = 1 " +
         "AND approved = 1 " +
+        "AND internal = 0 " +
         "ORDER BY I.name ASC;";
       }
       results = await pool.query(sql, pageId);
@@ -110,6 +112,7 @@ async function getPages(viewAll) {
       "FROM Pages " +
       "WHERE pageType = 0 " +
       "AND approved = 1 " +
+      "AND internal = 0 " +
       "ORDER BY pageType ASC, name ASC;";
     }
 
@@ -138,6 +141,7 @@ async function getPages(viewAll) {
         "WHERE M.subjectId = ? " +
         "AND I.pageType = 1 " +
         "AND I.approved = 1 " +
+        "AND I.internal = 0 " +
         "ORDER BY I.name ASC;";
       }
 
@@ -158,6 +162,7 @@ async function getPages(viewAll) {
       "FROM Pages " +
       "WHERE pageType = 1 " +
       "AND approved = 1 " +
+      "AND internal = 0 " +
       "ORDER BY pageType ASC, name ASC;";
     }
 
@@ -186,6 +191,7 @@ async function getPages(viewAll) {
         "WHERE M.industryId = ? " +
         "AND S.pageType = 0 " +
         "AND S.approved = 1 " +
+        "AND S.internal = 0 " +
         "ORDER BY S.name ASC;";
       }
       results = await pool.query(sql, finalResults.pages.industries[i].pageId);
@@ -222,7 +228,8 @@ async function getFullPage(pageId, viewAll) {
       sql = "SELECT * " +
       "FROM Pages " +
       "WHERE pageId = ? " +
-      "AND approved = 1;";
+      "AND approved = 1 " +
+      "AND internal = 0;";
     }
 
     let results = await pool.query(sql, pageId);
@@ -246,6 +253,7 @@ async function getFullPage(pageId, viewAll) {
       "FROM Headers " +
       "WHERE pageId = ? " +
       "AND approved = 1 " +
+      "AND internal = 0 " +
       "ORDER BY orderIndex ASC, headerId ASC;";
     }
 
@@ -349,7 +357,7 @@ exports.getFullPage = getFullPage;
 
 
 // create a page
-async function createPage(pageType, name, title, description, imageUrl, userId) {
+async function createPage(pageType, name, title, description, imageUrl, userId, internal) {
 
   try {
 
@@ -365,9 +373,9 @@ async function createPage(pageType, name, title, description, imageUrl, userId) 
     }
 
     // create the new page
-    sql = "INSERT INTO Pages (pageType, name, title, description, imageUrl, userId, approved) " +
-    "VALUES (?, ?, ?, ?, ?, ?, 0);";
-    results = await pool.query(sql, [pageType, name, title, description, imageUrl, userId]);
+    sql = "INSERT INTO Pages (pageType, name, title, description, imageUrl, userId, internal, approved) " +
+    "VALUES (?, ?, ?, ?, ?, ?, ?, 0);";
+    results = await pool.query(sql, [pageType, name, title, description, imageUrl, userId, internal]);
 
     const finalResults = {
       insertId: results[0].insertId
@@ -446,7 +454,7 @@ exports.deletePage = deletePage;
 
 
 // update a page
-async function updatePage(pageId, name, title, description, imageUrl, userId) {
+async function updatePage(pageId, name, title, description, imageUrl, userId, internal) {
 
   try {
 
@@ -474,38 +482,41 @@ async function updatePage(pageId, name, title, description, imageUrl, userId) {
     if (results[0].length) {
 
       sql = "UPDATE Temp_Pages " +
-      "SET tempName = ?, tempTitle = ?, tempDescription = ?, tempImageUrl = ?, tempUserId = ? " +
+      "SET tempName = ?, tempTitle = ?, tempDescription = ?, tempImageUrl = ?, tempUserId = ?, tempInternal = ? " +
       "WHERE tempPageId = ?;";
       sqlArray.push(name);
       sqlArray.push(title);
       sqlArray.push(description);
       sqlArray.push(imageUrl);
       sqlArray.push(userId);
+      sqlArray.push(internal);
       sqlArray.push(pageId);
 
     } else if (approved === 0) {
 
       sql = "UPDATE Pages " +
-      "SET name = ?, title = ?, description = ?, imageUrl = ?, userId = ? " +
+      "SET name = ?, title = ?, description = ?, imageUrl = ?, userId = ?, internal = ? " +
       "WHERE pageId = ?;";
       sqlArray.push(name);
       sqlArray.push(title);
       sqlArray.push(description);
       sqlArray.push(imageUrl);
       sqlArray.push(userId);
+      sqlArray.push(internal);
       sqlArray.push(pageId);
 
     } else {
 
       sql = "INSERT INTO Temp_Pages (tempPageId, " +
-      "tempName, tempTitle, tempDescription, tempImageUrl, tempUserId) " +
-      "VALUES (?, ?, ?, ?, ?, ?);";
+      "tempName, tempTitle, tempDescription, tempImageUrl, tempUserId, tempInternal) " +
+      "VALUES (?, ?, ?, ?, ?, ?, ?);";
       sqlArray.push(pageId);
       sqlArray.push(name);
       sqlArray.push(title);
       sqlArray.push(description);
       sqlArray.push(imageUrl);
       sqlArray.push(userId);
+      sqlArray.push(internal);
 
     }
 
@@ -771,11 +782,11 @@ async function publishPage(pageId) {
       // update the published page
       sql = "UPDATE Pages " +
       "SET name = ?, title = ?, description = ?, imageUrl = ?, " +
-      "userId = ?, created = ?, approved = 1 " +
+      "userId = ?, created = ?, internal = ?, approved = 1 " +
       "WHERE pageId = ?;";
 
       const tempArray = [tempPage.tempName, tempPage.tempTitle, tempPage.tempDescription,
-        tempPage.tempImageUrl, tempPage.tempUserId, tempPage.tempCreated, pageId];
+        tempPage.tempImageUrl, tempPage.tempUserId, tempPage.tempCreated, tempPage.tempInternal, pageId];
 
       // make sure no other pages share the same name
       const checkSql = "SELECT * " +
