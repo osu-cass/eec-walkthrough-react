@@ -759,7 +759,7 @@ function ConstructCardModal(props) {
                   />
                 )}
                 <label className="form-check-label custom-control-label font-weight-bold pl-3" htmlFor="internal-modal-checkbox">
-                  Internal (not viewable by public)
+                  Internal (not viewable by the public)
                 </label>
               </div>
             </Col>
