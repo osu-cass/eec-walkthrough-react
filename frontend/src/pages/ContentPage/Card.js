@@ -44,6 +44,19 @@ function Card(props) {
     // eslint-disable-next-line
   }, [imageItems, imageTempItems, props.cardState]);
 
+  // determines if the current object is only internal viewable
+  function isInternal() {
+    if (props.mode === 1) {
+      if ((props.card.tempCardId && props.card.tempCardType >= 10) || (!props.card.tempCardId && props.card.cardType >= 10)) {
+        return 1
+      }
+    } else {
+      if (props.card.cardType >= 10) {
+        return 1
+      }
+    }
+  }
+
   // Returns information about the correct array of items to use
   function getItemInfo() {
 
@@ -87,11 +100,11 @@ function Card(props) {
 
   }
 
-  return (!props.card.approved && props.mode !== 1) || (cardType >= 10 && props.role < 2) ? (
+  return !props.card.approved && props.mode !== 1 ? (
     null
   ) : (
     <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" }
-      ${props.card.invalid ? "card-body-invalid" : ""} ${cardType >= 10 ? "card-body-internal" : ""}`}
+      ${isInternal() ? "card-body-internal" : ""}`}
     >
       <CardBS.Header
         as="h5"

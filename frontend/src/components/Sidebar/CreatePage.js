@@ -12,7 +12,8 @@ class CreatePage extends React.Component {
     description: "",
     url: "",
     show: false,
-    errorMessage: ""
+    errorMessage: "",
+    checked: 0
   }
 
   handleClose = () => {
@@ -33,13 +34,19 @@ class CreatePage extends React.Component {
       pageType = 0;
     }
 
+    let internal = 0;
+    if (document.getElementById("internal-modal-checkbox").checked) {
+      internal = 1;
+    }
+
     // Prepare data
     const data = {
       pageType: pageType,
       name: this.state.name,
       title: this.state.summary,
       description: this.state.description,
-      imageUrl: this.state.url
+      imageUrl: this.state.url,
+      internal: internal
     };
 
     // Create new page
@@ -57,6 +64,7 @@ class CreatePage extends React.Component {
       this.setState({description: ""});
       this.setState({url: ""});
       this.setState({errorMessage: ""});
+      this.setState({checked: 0});
 
       // Close modal
       this.handleClose();
@@ -170,6 +178,24 @@ class CreatePage extends React.Component {
               </Col>
             </Row>
 
+            <Row>
+              <Col>
+                <div className="custom-control form-control-lg custom-checkbox my-2">
+                  {this.checked ? (
+                    <input type="checkbox" className="form-check-input custom-control-input"
+                      id="internal-modal-checkbox" onClick={() => this.setState({checked: 0})} checked
+                    />
+                  ) : (
+                    <input type="checkbox" className="form-check-input custom-control-input"
+                      id="internal-modal-checkbox"
+                    />
+                  )}
+                  <label className="form-check-label custom-control-label font-weight-bold pl-3" htmlFor="internal-modal-checkbox">
+                    Internal (not viewable by the public)
+                  </label>
+                </div>
+              </Col>
+            </Row>
 
             <Row>
               <div className='col-3' />
@@ -183,7 +209,7 @@ class CreatePage extends React.Component {
 
           <Modal.Footer className="modal-footer">
             <Button variant="secondary" onClick={this.handleClose}>Close</Button>
-            <Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Create Card</Button>
+            <Button variant="primary" onClick={(e) => this.handleSubmit(e)}>Submit Page</Button>
           </Modal.Footer>
         </Modal>
       </div >

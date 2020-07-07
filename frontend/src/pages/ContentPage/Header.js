@@ -224,6 +224,19 @@ function Header(props) {
     setUnfilteredCards(allUnfilteredCards);
   }
 
+  // determines if the current object is only internal viewable
+  function isInternal() {
+    if (props.mode === 1) {
+      if ((props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal)) {
+        return 1
+      }
+    } else {
+      if (props.header.internal) {
+        return 1
+      }
+    }
+  }
+
   return !props.header.approved && props.mode !== 1 ? (
     null
   ) : (
@@ -233,7 +246,7 @@ function Header(props) {
         <div>
           <div className={`d-flex sticky-top
             ${props.header.approved && !props.header.tempHeaderId ? "header-approved" : "header-review"}
-            ${(props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal) ? "header-internal" : ""}
+            ${isInternal() ? "header-internal" : ""}
             header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
           style={{top: "1em", zIndex: "998"}}
           >
@@ -320,9 +333,9 @@ function Header(props) {
         <div>
           <div className={`d-flex sticky-top
             ${props.header.approved ? "header-approved" : "header-review"}
-            ${(props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal) ? "header-internal" : ""}
+            ${isInternal() ? "header-internal" : ""}
             header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
-          style={{top: "1em", zIndex: "998"}}
+            style={{top: "1em", zIndex: "998"}}
           >
             <div className="row mx-2">
               <h4 className="flex-grow-1 font-weight-bold">
