@@ -31,6 +31,7 @@ function EditPage(props) {
       setUrl(props.page.imageUrl);
     }
     setChecked(isInternal());
+    // eslint-disable-next-line
   }, [props.page, props.page.internal, props.page.tempInternal]);
 
   function handleCloseModal() {

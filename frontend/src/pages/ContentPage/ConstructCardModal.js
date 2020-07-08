@@ -102,15 +102,12 @@ function ConstructCardModal(props) {
     const images = [];
     const links = [];
     for (let i = 0; i < props.iconSet.length; i++) {
-      if (props.iconSet[i].typeName === "chart-area") {
-        images.push(props.iconSet[i]);
-      } else if (props.iconSet[i].typeName === "copy" || props.iconSet[i].typeName === "list" ||
-        props.iconSet[i].typeName === "play" || props.iconSet[i].typeName === "video-camera" ||
-        props.iconSet[i].typeName === "book" || props.iconSet[i].typeName === "truck") {
-        links.push(props.iconSet[i]);
-      } else if (props.iconSet[i].typeName !== "info" && props.iconSet[i].typeName !== "link" &&
-        props.iconSet[i].typeName !== "fire" && props.iconSet[i].typeName !== "bolt") {
+      if (props.iconSet[i].groupIndex === 1) {
         gen.push(props.iconSet[i]);
+      } else if (props.iconSet[i].groupIndex === 2) {
+        images.push(props.iconSet[i]);
+      } else if (props.iconSet[i].groupIndex === 3) {
+        links.push(props.iconSet[i]);
       }
     }
     setBasicIcons(gen);
