@@ -50,27 +50,14 @@ async function getPages(viewAll) {
 
     let sql = "";
     const finalResults = {
-      pages: {}
+      pages: {
+        industries: [],
+        technologies: [],
+        processes: [],
+        productivity: [],
+        assessments: []
+      }
     };
-
-    // get subject pages
-    if (viewAll) {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 0 " +
-      "ORDER BY pageType ASC, name ASC;";
-    } else {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 0 " +
-      "AND approved = 1 " +
-      "AND internal = 0 " +
-      "ORDER BY pageType ASC, name ASC;";
-    }
-
-    let results = await pool.query(sql, []);
-
-    finalResults.pages.subjects = results[0];
 
     // get all industry pages
     if (viewAll) {
@@ -87,7 +74,7 @@ async function getPages(viewAll) {
       "ORDER BY pageType ASC, name ASC;";
     }
 
-    results = await pool.query(sql, []);
+    let results = await pool.query(sql, []);
 
     finalResults.pages.industries = results[0];
 

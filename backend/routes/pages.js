@@ -43,12 +43,7 @@ app.get("/all", getUserID, async (req, res) => {
 
     // get a list of all pages sorted by their type
     const results = await getPages(viewAll);
-
-    if (results.pages.subjects.length === 0 && results.pages.industries.length === 0) {
-      res.status(404).send({error: "No pages found."});
-    } else {
-      res.status(200).send(results);
-    }
+    res.status(200).send(results);
 
   } catch (err) {
     console.error(err);
