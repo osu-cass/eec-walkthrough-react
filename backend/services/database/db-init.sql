@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 08, 2020 at 12:52 AM
+-- Generation Time: Jul 08, 2020 at 03:22 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -88,7 +88,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (93, 31, 0, 93, 'Best Practices', 56, '2020-07-02 20:12:06', 1),
 (94, 31, 0, 94, 'Charts, Tables, Figures', 56, '2020-07-02 20:14:45', 0),
 (95, 31, 0, 95, 'Standard Data to Collect', 51, '2020-07-03 17:57:24', 1),
-(96, 31, 0, 96, 'Data Collection Equipment', 56, '2020-07-02 20:22:45', 0),
+(96, 31, 0, 96, 'Data Collection Equipment', 51, '2020-07-02 20:22:45', 1),
 (97, 31, 0, 97, 'Data Collection Guides', 56, '2020-07-02 20:44:49', 1),
 (98, 31, 0, 98, 'Analysis Tools', 56, '2020-07-02 20:52:07', 1),
 (99, 31, 0, 99, 'In Depth Site Resources', 51, '2020-07-03 17:55:50', 1),
@@ -154,17 +154,52 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (21, 27, 21, 'General Info about Air', 0, 42, '2020-06-12 00:11:28', 1),
 (23, 26, 23, 'Types of Air Conditioners', 0, 42, '2020-06-16 09:13:15', 1),
 (27, 4, 27, 'Plywood Images', 0, 42, '2020-06-23 09:18:19', 1),
-(28, 44, 28, 'Motor Opportunities to Consider', 0, 56, '2020-06-29 23:07:40', 1),
+(28, 44, 33, 'Motor Opportunities to Consider', 0, 56, '2020-06-29 23:07:40', 1),
 (29, 45, 29, 'Pumps Overview', 0, 51, '2020-07-01 18:13:15', 0),
 (30, 45, 30, 'Pumping Opportunities to Consider', 0, 51, '2020-07-01 18:15:04', 0),
 (31, 46, 31, 'Boilers and Steam Overview', 0, 56, '2020-07-02 19:43:04', 1),
 (32, 46, 32, 'Boiler and Steam System Opportunities to Consider', 0, 56, '2020-07-02 21:40:38', 1),
-(33, 44, 33, 'Motors Overview', 0, 56, '2020-07-02 23:12:01', 1),
+(33, 44, 28, 'Motors Overview', 0, 56, '2020-07-02 23:12:01', 1),
 (34, 47, 34, 'Heat Exchange & Insulation Overview', 0, 56, '2020-07-03 03:41:29', 0),
 (35, 25, 35, 'Air Header Test', 0, 42, '2020-07-07 02:15:51', 1),
 (36, 50, 36, 'Wastewater Overview', 0, 51, '2020-07-07 20:49:35', 0),
 (37, 50, 37, 'Wastewater Technologies Consider', 0, 51, '2020-07-07 20:50:10', 0),
 (38, 50, 38, 'Wastewater Opportunities to Consider2', 0, 51, '2020-07-07 20:52:27', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Home`
+--
+
+CREATE TABLE `Home` (
+  `mainHeader` varchar(1000) NOT NULL,
+  `secondaryHeader` varchar(1000) NOT NULL,
+  `sectionsTitle` varchar(1000) NOT NULL,
+  `assessments` varchar(1000) NOT NULL,
+  `industries` varchar(1000) NOT NULL,
+  `processes` varchar(1000) NOT NULL,
+  `productivity` varchar(1000) NOT NULL,
+  `technologies` varchar(1000) NOT NULL,
+  `sectionsFooter` varchar(1000) NOT NULL,
+  `tidbitsHeader` varchar(1000) NOT NULL,
+  `tidbitsTitle` varchar(1000) NOT NULL,
+  `tidbitsFooter` varchar(1000) NOT NULL,
+  `linksHeader` varchar(1000) NOT NULL,
+  `linksTitlePrefix` varchar(1000) NOT NULL,
+  `linksTitlePostfixInternal` varchar(1000) NOT NULL,
+  `linksTitlePostfixDownload` varchar(1000) NOT NULL,
+  `linksFooter` varchar(1000) NOT NULL,
+  `disclaimerHeader` varchar(1000) NOT NULL,
+  `disclaimerText` mediumtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Home`
+--
+
+INSERT INTO `Home` (`mainHeader`, `secondaryHeader`, `sectionsTitle`, `assessments`, `industries`, `processes`, `productivity`, `technologies`, `sectionsFooter`, `tidbitsHeader`, `tidbitsTitle`, `tidbitsFooter`, `linksHeader`, `linksTitlePrefix`, `linksTitlePostfixInternal`, `linksTitlePostfixDownload`, `linksFooter`, `disclaimerHeader`, `disclaimerText`) VALUES
+('Welcome to the Industrial Walkthrough Checklist & Reference!', 'This purpose of this guide is to provide users with an easily accessible reference of common efficiency improvement opportunities to look for in an industrial facility.', 'This guide is broken down into sections:', 'An introduction to a method for evaluating or estimating.', 'An overview of the industry is followed by a list of common related subjects.', 'An introduction to a process or technique.', 'An introduction to a specific improvement opportunity to consider.', 'An introduction to an industrial technology.', '', 'Each section includes a number of useful pertinent \"tidbits\" identified by a preceding icon', 'These include', 'Note: \"tidbit\" types can be toggled between \"hidden\" and \"unhidden\" by clicking the icon in the header bars of each section.', 'Each section also references in depth learning resources that offer deeper information about the topic. These are identified by a pair of icons', 'A preceding icon identifies the type of learning resource offered', 'A trailing icon identifies the learning resource as internal or external', 'A second trailing icon will indicate when the learning resource is a download', '', 'Disclaimer', 'The primary objective of the OSU EEC is to promote energy efficiency, waste minimization, and productivity in the industrial, commercial, agricultural, and residential sectors. A key strategy has included performance of energy and efficiency site assessments. This work is intended is to provide background and tools that will be helpful in identifying and evaluating potential opportunities.\r\n\r\nWe believe Industrial Walkthrough Checklist & Reference to be a reasonably accurate representation of opportunities to reduce energy use, lower waste generation, and make production practices more efficient. However, the OSU EEC cannot guarantee the accuracy, completeness, or usefulness of the information contained on this website, nor assume any liability for damages resulting from the use of any information, equipment, method or process disclosed on this website.\r\n\r\nPollution prevention recommendations are not intended to deal with the issue of compliance with applicable environmental regulations. Questions regarding compliance should be addressed to either a reputable consulting engineering firm experienced with environmental regulations or to the appropriate regulatory agency. Clients are encouraged to develop positive working relationships with regulators so that compliance issues can be addressed and resolved.\r\n\r\nThe assumptions and equations used to arrive at energy, waste, productivity, and cost savings for the opportunities are presented on this website. We believe the assumptions to be conservative. If you would like to revise the assumptions you may follow the calculation methodologies presented using adjusted assumptions to develop your own revised estimates of energy, waste, productivity, and cost savings.\r\n\r\nPlease feel welcome to contact the OSU EEC if you would like to discuss the content of this website or if you have another question about energy use or pollution prevention.');
 
 -- --------------------------------------------------------
 
@@ -377,7 +412,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (1350, 93, 0, 0, 7, 'Regular, scheduled boiler tunes. Typically every 6 to 12 months.', '', '', 0, '2020-07-02 20:12:22', 1),
 (1351, 93, 0, 0, 7, 'Low O2 controls', '', '', 0, '2020-07-02 20:12:22', 1),
 (1361, 97, 0, 0, 17, 'An OSU EEC Data Collection Sheet in Microsoft Excel Format', 'https://drive.google.com/file/d/1mMRMAUYKDCpE5bQmX-KqajjAOwXuEzaL/view?usp=sharing', 'Boiler Data Collection Sheet', 0, '2020-07-02 20:46:30', 1),
-(1371, 98, 0, 0, 21, 'A link to the U.S.DOE\'s MEASUR Analysis Tool Package (free download)', 'https://www.energy.gov/eere/amo/measur', 'U.S.DOE Steam System Analysis Tool', 1, NULL, 1),
+(1371, 98, 0, 0, 21, 'A link to the U.S.DOE\'s MEASUR Analysis Tool Package (free download)', 'https://www.energy.gov/eere/amo/measur', 'U.S.DOE Steam System Analysis Tool', 1, '2020-07-08 20:17:15', 1),
 (1372, 98, 0, 0, 21, 'An OSU EEC Analysis Tool in Microsoft Excel Format', 'https://drive.google.com/file/d/1HEL3S8xl50-B12ooH4wocqUznwJWAjzQ/view?usp=sharing', 'Combustion Efficiency Analysis Tool (CEAT)', 0, '2020-07-02 21:18:17', 1),
 (1405, 94, 0, 0, 20, '', 'add later', 'Boiler Combustion Efficiency with Stack Temp and O2 (add later)', 0, '2020-07-02 21:55:22', 0),
 (1406, 94, 0, 0, 20, '', 'add later', 'Abbreviated Steam Table (add later)', 0, '2020-07-02 21:55:22', 0),
@@ -435,7 +470,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (1882, 112, 0, 1, 13, 'Load Factor, Use Factor (operation hours)', '', '', 0, '2020-07-03 00:29:20', 0),
 (1883, 112, 0, 1, 13, 'Drive Type', '', '', 0, '2020-07-03 00:29:20', 0),
 (1884, 112, 0, 1, 13, 'Controls', '', '', 0, '2020-07-03 00:29:20', 0),
-(1889, 96, 0, 0, 5, 'Combustion Analyzer (can\'t see the equipment icon atm)', '', '', 0, '2020-07-03 00:33:40', 0),
 (1890, 113, 0, 0, 6, 'Power Quality Analyzer (can\'t see equipment icon atm)', '', '', 0, '2020-07-03 00:35:22', 0),
 (1897, 100, 0, 0, 24, 'See steam tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-07-03 03:01:04', 1),
 (1898, 100, 0, 0, 17, 'United Nations Industrial Development Organization Document', 'https://www.unido.org/sites/default/files/2017-11/SSO-Manual-Print-FINAL-20161109-One-Page-V2.pdf', 'Manual for Industrial Steam Systems Assessment and Optimization', 1, '2020-07-03 03:01:04', 1),
@@ -587,7 +621,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2262, 119, 0, 0, 11, 'Automatically control equipment operation time', '', '', 0, '2020-07-07 23:38:14', 1),
 (2263, 119, 0, 0, 11, 'Interlock equipment with a related process', '', '', 0, '2020-07-07 23:38:14', 1),
 (2264, 119, 0, 0, 11, 'Operate equipment in batches rather than continuously ', '', '', 0, '2020-07-07 23:38:14', 1),
-(2265, 119, 0, 1, 10, 'Equipment is idle for significant periods of time', '', '', 0, '2020-07-07 23:38:14', 1);
+(2265, 119, 0, 1, 10, 'Equipment is idle for significant periods of time', '', '', 0, '2020-07-07 23:38:14', 1),
+(2267, 96, 0, 0, 27, 'Combustion Analyzer ', '', '', 0, '2020-07-08 20:15:53', 1);
 
 -- --------------------------------------------------------
 
@@ -717,7 +752,8 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (54, 'martzal', '27d9aeff2e1c3e683f042480b6990a5c$963d962575ce1108cf5785fc42778ad0483050a80c50e8d3d29632f6af73f1a9', 'Ali', 'Martz', 'martzal.eec@gmail.com', 3, '2020-06-28 20:39:15'),
 (55, 'peterj', '73a148776eaf3db8dee5b4cc5af1542d$c4d554f54a266e74299e82af3884f39d4e36686054f90837f7753b2d4b77a6f4', 'Julian', 'Peter', 'peterj.eec@gmail.com', 3, '2020-06-30 20:39:15'),
 (56, 'ryanfrench', '8fdce1d0b4394d7a6dd55dd4d1318d54$b36510750272738b7d2de631057527b3ac1547db5d9ef6da8728886d523eca99', 'Ryan', 'French', 'frenchr.eec@gmail.com', 3, '2020-07-05 20:39:15'),
-(57, 'MatthewThomas', 'a532335063fda0518a4a347b0a295166$05c83d3322dbbe787d420353fa83b3ad7b38e5b163d9d784bf752c8b7ebedb15', 'Matthew', 'Thomas', 'matthewthomas.eec@gmail.com', 3, '2020-07-02 20:39:15');
+(57, 'MatthewThomas', 'a532335063fda0518a4a347b0a295166$05c83d3322dbbe787d420353fa83b3ad7b38e5b163d9d784bf752c8b7ebedb15', 'Matthew', 'Thomas', 'matthewthomas.eec@gmail.com', 3, '2020-07-02 20:39:15'),
+(58, 'ryanfrench2', '0f035817ef3a5ebb3b7bedc75f6d5245$950542aafbfdeeceb6e32fcf2d06f5b2c076465e6fce3ef36b052d9ba6290404', 'Ryan', 'French', 'frenchr@oregonstate.com', 3, '2020-07-08 20:47:39');
 
 --
 -- Indexes for dumped tables
@@ -738,6 +774,12 @@ ALTER TABLE `Headers`
   ADD PRIMARY KEY (`headerId`),
   ADD KEY `user_header_fk` (`userId`),
   ADD KEY `page_fk` (`pageId`);
+
+--
+-- Indexes for table `Home`
+--
+ALTER TABLE `Home`
+  ADD PRIMARY KEY (`mainHeader`);
 
 --
 -- Indexes for table `Icons`
@@ -817,19 +859,19 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2266;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2268;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- Constraints for dumped tables
