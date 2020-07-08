@@ -16,13 +16,22 @@ function SidebarCollection(props) {
           {props.collectionName}
         </Accordion.Toggle>
       ) : (
-        <NavLink className="page-sidebar-nav-link" to={`/${props.collectionLink}`}>
-          <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
-            {props.collectionName}
-          </Accordion.Toggle>
-        </NavLink>
-      )
-      }
+        <Fragment>
+          {props.externalLink ? (
+            <a className="page-sidebar-nav-link" href={props.externalLink}>
+              <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
+                {props.collectionName}
+              </Accordion.Toggle>
+            </a>
+          ) : (
+            <NavLink className="page-sidebar-nav-link" to={`/${props.collectionLink}`}>
+              <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
+                {props.collectionName}
+              </Accordion.Toggle>
+            </NavLink>
+          )}
+        </Fragment>
+      )}
       {props.collection ?
         <Accordion.Collapse eventKey="0">
           <Fragment>
@@ -58,6 +67,7 @@ SidebarCollection.propTypes = {
   className: PropTypes.any,
   closedSidebar: PropTypes.any,
   refresh: PropTypes.any,
-  role: PropTypes.any
+  role: PropTypes.any,
+  externalLink: PropTypes.string
 };
 
