@@ -155,17 +155,16 @@ function Header(props) {
       const allTempItems = [];
       let itemExists = false;
       let tempItemExists = false;
-      let hideIndent = false;
+      let hideIndent = 1000;
 
       // check each normal item in the card
       for (let j = 0; j < props.header.cards[i].items.length; j++) {
-        // check if this item is indented and if it needs to be hidden
-        if (props.header.cards[i].items[j].indentation) {
-          if (hideIndent) {
-            continue;
-          }
+        // if we are in hide children mode,
+        // then remove items with a greater indentation level
+        if (props.header.cards[i].items[j].indentation > hideIndent) {
+          continue;
         } else {
-          hideIndent = false;
+          hideIndent = 1000;
         }
         // see if the item should be filtered or not
         if (filterState[props.header.cards[i].items[j].iconType]) {
@@ -173,21 +172,21 @@ function Header(props) {
           itemExists = true;
         } else {
           // if this item has children they need to be hidden
-          hideIndent = true;
+          hideIndent = props.header.cards[i].items[j].indentation;
         }
       }
 
-      hideIndent = false;
+      hideIndent = 1000;
 
       // check each temp item in the card
       for (let j = 0; j < props.header.cards[i].tempItems.length; j++) {
         // check if this item is indented and if it needs to be hidden
-        if (props.header.cards[i].tempItems[j].indentation) {
+        if (props.header.cards[i].tempItems[j].indentation > hideIndent) {
           if (hideIndent) {
             continue;
           }
         } else {
-          hideIndent = false;
+          hideIndent = 1000;
         }
         // see if the item should be filtered or not
         if (filterState[props.header.cards[i].tempItems[j].iconType]) {
@@ -195,7 +194,7 @@ function Header(props) {
           tempItemExists = true;
         } else {
           // if this item has children they need to be hidden
-          hideIndent = true;
+          hideIndent = props.header.cards[i].tempItems[j].indentation;
         }
       }
 
