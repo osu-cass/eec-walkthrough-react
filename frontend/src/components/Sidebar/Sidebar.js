@@ -122,6 +122,10 @@ function Sidebar(props) {
             ) : (
               null
             )}
+            <SidebarCollection
+              collectionName="OSU EEC"
+              externalLink="https://eec.oregonstate.edu/"
+            />
           </Card>
         </Col>
       </nav>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 07, 2020 at 11:38 PM
+-- Generation Time: Jul 08, 2020 at 12:52 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -211,7 +211,8 @@ INSERT INTO `Icons` (`iconType`, `typeKeyword`, `typeName`, `groupIndex`, `color
 (24, 'Informational Website', 'book', 3, '#E81224'),
 (25, 'Vendor Website', 'truck', 3, '#000000'),
 (26, 'Bullet Point', 'circle', 1, '#000000'),
-(27, 'Assessment Equipment', 'ruler-vertical', 1, '#FFC83D');
+(27, 'Assessment Equipment', 'ruler-vertical', 1, '#FFC83D'),
+(28, 'EEC Walkthrough Page', 'star', 3, '#FFC83D');
 
 -- --------------------------------------------------------
 
@@ -810,7 +811,7 @@ ALTER TABLE `Headers`
 -- AUTO_INCREMENT for table `Icons`
 --
 ALTER TABLE `Icons`
-  MODIFY `iconType` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `iconType` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `Items`
