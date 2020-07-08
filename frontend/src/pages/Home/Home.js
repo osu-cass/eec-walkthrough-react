@@ -7,9 +7,29 @@ import "./Home.css";
 function Home() {
 
   const [generalIcons, setGeneralIcons] = useState([]);
-  const [pageContent, setPageContent] = useState({});
   const [linkIcons, setLinkIcons] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState({
+    mainHeader: "",
+    secondaryHeader: "",
+    sectionsTitle: "",
+    assessments: "",
+    industries: "",
+    processes: "",
+    productivity: "",
+    technologies: "",
+    sectionsFooter: "",
+    tidbitsHeader: "",
+    tidbitsTitle: "",
+    tidbitsFooter: "",
+    linksHeader: "",
+    linksTitlePrefix: "",
+    linksTitlePostfixInternal: "",
+    linksTitlePostfixDownload: "",
+    linksFooter: "",
+    disclaimerHeader: "",
+    disclaimerText: ""
+  });
 
   useEffect(() => {
     fetchHome();
@@ -50,8 +70,7 @@ function Home() {
     if (results.ok) {
 
       const obj = await results.json();
-      console.log(obj);
-      setPageContent(obj);
+      setPage(obj);
 
     } else {
       console.error("Error fetching homepage content");
@@ -66,17 +85,17 @@ function Home() {
       <LoadingOverlay loading={loading} />
       <Card className="my-2 mb-5">
         <Card.Header>
-          <h2>Welcome to the Industrial Walkthrough Checklist &amp; Reference!</h2>
-          <span>This purpose of this guide is to provide users with an easily accessible reference of common efficiency improvement opportunities to look for in an industrial facility.</span>
+          <h2>{page.mainHeader}</h2>
+          <span>{page.secondaryHeader}</span>
         </Card.Header>
         <div className="p-4 my-2 text-dark-50 bg-white" >
-          <div className="font-weight-bold mb-3">This guide is broken down into sections:</div>
+          <div className="font-weight-bold mb-3">{page.sectionsTitle}</div>
 
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
               <li>
-                <NavLink to="/page-list/assessment"><b>Assessments</b></NavLink>
-                <span className="font-weight-normal">: An introduction to a method for evaluating or estimating.</span>
+                <NavLink to="/page-list/assessment"><b>Assessments: </b></NavLink>
+                <span className="font-weight-normal">{page.assessments}</span>
               </li>
             </ul>
           </div>
@@ -84,8 +103,8 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
               <li>
-                <NavLink to="/page-list/industry"><b>Industries</b></NavLink>
-                <span className="font-weight-normal">: An overview of the industry is followed by a list of common related subjects.</span>
+                <NavLink to="/page-list/industry"><b>Industries: </b></NavLink>
+                <span className="font-weight-normal">{page.industries}</span>
               </li>
             </ul>
           </div>
@@ -93,8 +112,8 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
               <li>
-                <NavLink to="/page-list/process"><b>Processes</b></NavLink>
-                <span className="font-weight-normal">: An introduction to a process or technique.</span>
+                <NavLink to="/page-list/process"><b>Processes: </b></NavLink>
+                <span className="font-weight-normal">{page.processes}</span>
               </li>
             </ul>
           </div>
@@ -102,8 +121,8 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
               <li>
-                <NavLink to="/page-list/productivity"><b>Productivity</b></NavLink>
-                <span className="font-weight-normal">: An introduction to a specific improvement opportunity to consider.</span>
+                <NavLink to="/page-list/productivity"><b>Productivity: </b></NavLink>
+                <span className="font-weight-normal">{page.productivity}</span>
               </li>
             </ul>
           </div>
@@ -111,21 +130,23 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
               <li>
-                <NavLink to="/page-list/technology"><b>Technologies</b></NavLink>
-                <span className="font-weight-normal">: An introduction to an industrial technology.</span>
+                <NavLink to="/page-list/technology"><b>Technologies: </b></NavLink>
+                <span className="font-weight-normal">{page.technologies}</span>
               </li>
             </ul>
           </div>
-
+          <div>
+            <span className="font-italic allow-newlines">{page.sectionsFooter}</span>
+          </div>
         </div>
       </Card>
 
       <Card className="my-2 mb-5">
         <Card.Header>
-          <h5>Each section includes a number of useful pertinent &quot;tidbits&quot; identified by a preceding icon</h5>
+          <h5>{page.tidbitsHeader}</h5>
         </Card.Header>
         <div className="p-4 my-2 text-dark-50 bg-white" >
-          <div className="font-weight-bold mb-3">These include</div>
+          <div className="font-weight-bold mb-3">{page.tidbitsTitle}</div>
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               {generalIcons.map((icon) =>
@@ -137,17 +158,17 @@ function Home() {
             </ul>
           </div>
           <div>
-            <span className="font-italic">Note: &quot;tidbit&quot; types can be toggled between &quot;hidden&quot; and &quot;unhidden&quot; by clicking the icon in the header bars of each section.</span>
+            <span className="font-italic allow-newlines">{page.tidbitsFooter}</span>
           </div>
         </div>
       </Card>
 
       <Card className="my-2 mb-5">
         <Card.Header>
-          <h5>Each section also references in depth learning resources that offer deeper information about the topic. These are identified by a pair of icons</h5>
+          <h5>{page.linksHeader}</h5>
         </Card.Header>
         <div className="p-4 my-2 text-dark-50 bg-white" >
-          <div className="font-weight-bold mb-3">A preceding icon identifies the type of learning resource offered</div>
+          <div className="font-weight-bold mb-3">{page.linksTitlePrefix}</div>
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               {linkIcons.map((icon) =>
@@ -158,7 +179,7 @@ function Home() {
                 )}
             </ul>
           </div>
-          <div className="font-weight-bold mb-3">A trailing icon identifies the learning resource as internal or external</div>
+          <div className="font-weight-bold mb-3">{page.linksTitlePostfixInternal}</div>
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               <li className="my-2">
@@ -171,7 +192,7 @@ function Home() {
               </li>
             </ul>
           </div>
-          <div className="font-weight-bold mb-3">A second trailing icon will indicate when the learning resource is a download</div>
+          <div className="font-weight-bold mb-3">page.linksTitlePostfixDownload</div>
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               <li className="my-2">
@@ -179,6 +200,9 @@ function Home() {
                 <span className="font-weight-normal">Download of learning resource</span>
               </li>
             </ul>
+          </div>
+          <div>
+            <span className="font-italic allow-newlines">{page.linksFooter}</span>
           </div>
         </div>
       </Card>
@@ -241,32 +265,12 @@ function Home() {
 
       <Card className="my-2 mb-5">
         <Card.Header>
-          <h5>Disclaimer</h5>
+          <h5>{page.disclaimerHeader}</h5>
         </Card.Header>
         <div className="p-4 my-2 text-dark-50 bg-white" >
           <div className="mb-3">
-            <small>
-              The primary objective of the OSU EEC is to promote energy efficiency, waste minimization, and productivity in the industrial, commercial, agricultural, and residential sectors. A key strategy has included performance of energy and efficiency site assessments. This work is intended is to provide background and tools that will be helpful in identifying and evaluating potential opportunities.
-            </small>
-          </div>
-          <div className="my-3">
-            <small>
-              We believe Industrial Walkthrough Checklist &amp; Reference to be a reasonably accurate representation of opportunities to reduce energy use, lower waste generation, and make production practices more efficient. However, the OSU EEC cannot guarantee the accuracy, completeness, or usefulness of the information contained on this website, nor assume any liability for damages resulting from the use of any information, equipment, method or process disclosed on this website.
-            </small>
-          </div>
-          <div className="my-3">
-            <small>
-              Pollution prevention recommendations are not intended to deal with the issue of compliance with applicable environmental regulations. Questions regarding compliance should be addressed to either a reputable consulting engineering firm experienced with environmental regulations or to the appropriate regulatory agency. Clients are encouraged to develop positive working relationships with regulators so that compliance issues can be addressed and resolved.
-            </small>
-          </div>
-          <div className="my-3">
-            <small>
-              The assumptions and equations used to arrive at energy, waste, productivity, and cost savings for the opportunities are presented on this website. We believe the assumptions to be conservative. If you would like to revise the assumptions you may follow the calculation methodologies presented using adjusted assumptions to develop your own revised estimates of energy, waste, productivity, and cost savings.
-            </small>
-          </div>
-          <div className="mt-3">
-            <small>
-              Please feel welcome to contact the OSU EEC if you would like to discuss the content of this website or if you have another question about energy use or pollution prevention.
+            <small className="allow-newlines">
+              {page.disclaimerText}
             </small>
           </div>
         </div>
