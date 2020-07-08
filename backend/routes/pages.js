@@ -280,6 +280,7 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
     console.log("Update a page");
 
     const pageId = req.params.pageId;
+    const pageType = req.body.pageType;
     const name = req.body.name;
     const title = req.body.title;
     const description = req.body.description;
@@ -301,7 +302,7 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
     }
 
     // update a page
-    const results = await updatePage(pageId, name, title, description, imageUrl, userId, internal);
+    const results = await updatePage(pageId, pageType, name, title, description, imageUrl, userId, internal);
 
     if (results.pageId >= 0) {
       res.status(200).send(results);

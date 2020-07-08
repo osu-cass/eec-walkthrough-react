@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 07, 2020 at 08:09 PM
+-- Generation Time: Jul 07, 2020 at 10:04 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -44,14 +44,14 @@ CREATE TABLE `Cards` (
 --
 
 INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `userId`, `created`, `approved`) VALUES
-(3, 1, 0, 29, 'Figures, Charts, and Tables', 2, '2020-06-17 17:09:17', 1),
+(3, 1, 0, 29, 'Figures, Charts, and Tables', 42, '2020-06-17 17:09:17', 1),
 (8, 2, 0, 8, 'Reduce Compressed Air Pressure\r\n', 51, '2020-07-02 17:49:40', 1),
-(9, 1, 0, 3, 'Pros', 1, '2020-06-02 20:58:31', 1),
-(13, 1, 0, 9, 'Cons', 1, '2020-05-23 22:20:20', 1),
-(16, 1, 0, 13, 'Caveats', 1, '2020-05-23 22:27:44', 1),
-(17, 1, 0, 16, 'Best Practices', 1, '2020-05-23 22:28:37', 1),
-(18, 1, 0, 17, 'Rules of Thumb', 1, '2020-05-23 22:31:49', 1),
-(19, 1, 0, 18, 'Tips', 1, '2020-05-23 22:33:25', 1),
+(9, 1, 0, 3, 'Pros', 42, '2020-06-02 20:58:31', 1),
+(13, 1, 0, 9, 'Cons', 42, '2020-05-23 22:20:20', 1),
+(16, 1, 0, 13, 'Caveats', 42, '2020-05-23 22:27:44', 1),
+(17, 1, 0, 16, 'Best Practices', 42, '2020-05-23 22:28:37', 1),
+(18, 1, 0, 17, 'Rules of Thumb', 42, '2020-05-23 22:31:49', 1),
+(19, 1, 0, 18, 'Tips', 42, '2020-05-23 22:33:25', 1),
 (27, 2, 0, 27, 'Reduce Compressed Air Required', 51, '2020-07-07 16:17:13', 1),
 (29, 1, 0, 19, 'Additional In Depth Site Resources', 51, '2020-07-01 22:33:14', 1),
 (30, 3, 0, 30, 'Test', 42, '2020-06-23 05:53:07', 1),
@@ -145,10 +145,10 @@ CREATE TABLE `Headers` (
 
 INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, `userId`, `created`, `approved`) VALUES
 (1, 2, 1, 'Compressed Air Overview', 0, 51, '2020-07-01 18:19:56', 1),
-(2, 2, 2, 'Compressed Air Opportunities to Consider', 0, 1, '2020-05-22 21:22:38', 1),
-(3, 1, 3, 'Boilers', 0, 1, '2020-05-22 21:22:38', 1),
-(4, 3, 4, 'Refrigeration', 0, 2, '2020-05-22 21:22:38', 1),
-(16, 25, 17, 'Engine Info', 0, 1, '2020-06-16 09:03:41', 1),
+(2, 2, 2, 'Compressed Air Opportunities to Consider', 0, 51, '2020-05-22 21:22:38', 1),
+(3, 1, 3, 'Boilers', 0, 51, '2020-05-22 21:22:38', 1),
+(4, 3, 4, 'Refrigeration', 0, 42, '2020-05-22 21:22:38', 1),
+(16, 25, 17, 'Engine Info', 0, 51, '2020-06-16 09:03:41', 1),
 (17, 25, 18, 'Turbulence', 0, 47, '2020-06-09 18:51:20', 1),
 (18, 25, 16, 'Economics', 0, 47, '2020-06-09 18:56:36', 1),
 (21, 27, 21, 'General Info about Air', 0, 42, '2020-06-12 00:11:28', 1),
@@ -617,7 +617,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 
 CREATE TABLE `Pages` (
   `pageId` int(10) UNSIGNED NOT NULL,
-  `pageType` tinyint(3) UNSIGNED NOT NULL,
+  `pageType` int(10) UNSIGNED NOT NULL,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(5000) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -698,6 +698,7 @@ CREATE TABLE `Temp_Headers` (
 
 CREATE TABLE `Temp_Pages` (
   `tempPageId` int(10) UNSIGNED NOT NULL,
+  `tempPageType` int(10) UNSIGNED NOT NULL,
   `tempName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tempTitle` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tempDescription` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -730,49 +731,14 @@ CREATE TABLE `Users` (
 --
 
 INSERT INTO `Users` (`userId`, `username`, `password`, `hash`, `firstName`, `lastName`, `email`, `role`, `created`) VALUES
-(1, 'John1234', 'XozpE-34__woqpZX', '', 'John', 'Doe', 'doejohn@oregonstate.edu', 4, '2020-07-02 20:39:15'),
-(2, 'Jane5678', 'iopwerZowPo!', '', 'Jane', 'Doe', 'doejane@oregonstate.edu', 3, '2020-07-02 20:39:15'),
-(9, 'Emmmm', 'dafs234@!0234', '', 'Emmie', 'Henningsen', 'hennemmi@gmail.com', 3, '2020-07-02 20:39:15'),
-(10, 'jperson222', 'iweoriewopr#4234', '', 'John', 'Todd', 'jperson222@gmail.com', 1, '2020-07-02 20:39:15'),
-(11, 'DelTruax', 'weraqio234#', '', 'Delmar', 'Truax', 'DelTruax@gmail.com', 3, '2020-07-02 20:39:15'),
-(12, 'Lori1', 'wer0-=3249C', '', 'Lori', 'Prettyman', 'Lori1@gmail.com', 4, '2020-07-02 20:39:15'),
-(13, 'Brandee', 'aposirfewior$234', '', 'Brandee', 'Rentz', 'Brandee@gmail.com', 2, '2020-07-02 20:39:15'),
-(14, 'Cathie322', 'wep[ro23@#$234', '', 'Cathie', 'Brindle', 'Cathie322@gmail.com', 2, '2020-07-02 20:39:15'),
-(15, 'Anton6', 'oasopi0-324', '', 'Antonetta', 'Owuso', 'Anton6@gmail.com', 2, '2020-07-02 20:39:15'),
-(16, 'Roy321', ']2[34o2340-kcopzf', '', 'Roy', 'Wrinkle', 'Roy321@yahoo.com', 1, '2020-07-02 20:39:15'),
-(17, 'Eddie111', 'ewoep[o23[op4', '', 'Eddie', 'Beaufort', 'Eddie111@yahoo.com', 1, '2020-07-02 20:39:15'),
-(18, 'Cindi95', 'wp[erpo[234#234', '', 'Cindi', 'Beaufort', 'Cindi95@msn.com', 1, '2020-07-02 20:39:15'),
-(19, 'Shaneka', 'ertop[3[p4533', '', 'Shaneka', 'Estevez', 'Shaneka@gmail.com', 3, '2020-07-02 20:39:15'),
-(20, 'Trinity3', 'owe-=0r2-30=4[pas', '', 'Trinity', 'Warford', 'Trinity3@yahoo.com', 2, '2020-07-02 20:39:15'),
-(21, 'Rueben777', 'op[owerp[3#324', '', 'Rueben', 'Pella', 'Rueben777@oregonstate.edu', 4, '2020-07-02 20:39:15'),
-(22, 'Swindler111', 'wwer[pwop[ep[o344234234', '', 'Mira', 'Swindler', 'Swindler111@oregonstate.edu', 1, '2020-07-02 20:39:15'),
-(23, 'Tammy', 'wadsf[owepo[rp[234', '', 'Tammara', 'Stennis', 'Tammy@oregonstate.edu', 1, '2020-07-02 20:39:15'),
-(24, 'Buster', 'poweo[r2[34-0234', '', 'Buster', 'Clemente', 'Buster@yahoo.com', 1, '2020-07-02 20:39:15'),
-(25, 'plywood111', 'owr-0=o230podap[zxwr', '', 'Rhett', 'Hepworth', 'plywood111@gmail.com', 1, '2020-07-02 20:39:15'),
-(26, 'Lperson9', 'ewrop[p[ioixci$2123', '', 'Errol', 'Mcintosh', 'Lperson9@gmail.com', 1, '2020-07-02 20:39:15'),
-(27, 'NewAccount', 'pdsfpowep[rowe#3423424', '', 'Abraham', 'Buchan', 'NewAccount@yahoo.com', 1, '2020-07-02 20:39:15'),
-(28, 'MyUserName', 'P!sdop!faer34#', '', 'Sade', 'Kauppi', 'MyUserName@yahoo.com', 1, '2020-07-02 20:39:15'),
-(29, 'DogsAreGreat', 'DOWero2342340-asidx34', '', 'Lexie', 'Chupp', 'DogsAreGreat@gmail.com', 1, '2020-07-02 20:39:15'),
-(30, 'NewEmail552', 'po[sdop[[pop[ow####234', '', 'Delilah', 'Serna', 'NewEmail552@gmail.com', 1, '2020-07-02 20:39:15'),
-(31, 'Roll333', 'sppa[wop[op[wop[er#@$@$$@', '', 'Roland', 'Billings', 'Roll333@yahoo.com', 1, '2020-07-02 20:39:15'),
-(32, 'CatsAreGreat', 'OIAWE)PR23-=423-=4as', '', 'Tori', 'Brayman', 'CatsAreGreat@yahoo.com', 1, '2020-07-02 20:39:15'),
-(33, 'J_M', 'saopf[[powe3$@#$234', '', 'Joesephine', 'Morein', 'J_M@gmail.com', 1, '2020-07-02 20:39:15'),
-(34, 'C33', 'dsfgp[wepot[ri$', '', 'Carrol', 'Becker', 'C33@gmail.com', 1, '2020-07-02 20:39:15'),
-(35, 'Gayla2', 'ap[owep[orwp[oer32333', '', 'Gayla', 'Staley', 'Gayla2@yahoo.com', 1, '2020-07-02 20:39:15'),
-(36, 'Danyelle44', 'dspo[irt324545', '', 'Danyelle', 'Elmer', 'Danyelle44@yahoo.com', 1, '2020-07-02 20:39:15'),
-(37, 'Lois99', '324324234a[]pr][werp[]we', '', 'Lois', 'Malin', 'Lois99@gmail.com', 1, '2020-07-02 20:39:15'),
-(38, 'Gemstone42', 'dsap][fp][we][prw2423=-4', '', 'Amber', 'Liakos', 'Amber@gmail.com', 1, '2020-07-02 20:39:15'),
-(39, 'Bambi22', 'ootrioytoipryirty222', '', 'Bambi', 'Heuer', 'Bambi22@gmail.com', 3, '2020-07-02 20:39:15'),
-(40, 'Merriam', ']we[]rewp[rewp[wrep[34234', '', 'Dominica', 'Merriam', 'Merriam@yahoo.com', 2, '2020-07-02 20:39:15'),
-(41, 'Seth45', 'oteroipietroitroeiporte888', '', 'Seth', 'Kratzer', 'Seth45@yahoo.com', 3, '2020-07-02 20:39:15'),
-(42, 'Silverware', 'Dwzp342=Z2!', '', 'Zachary', 'Thomas', 'thomasza@oregonstate.edu', 4, '2020-07-02 20:39:15'),
-(47, 'rogrogrog', 'test1234', '', 'rog', 'rog', 'rog@gmail.com', 4, '2020-07-02 20:39:15'),
-(51, 'JoeJunker', 'use2havefun', '', 'Joe', 'Junker', 'joseph.f.junker@gmail.com', 4, '2020-07-02 20:39:15'),
-(52, 'mattye', 'efficiency', '', 'Ethan', 'Matty', 'mattye.eec@gmail.com', 4, '2020-07-02 20:39:15'),
-(54, 'martzal', 'mtnsIdaHome12!', '', 'Ali', 'Martz', 'martzal.eec@gmail.com', 3, '2020-07-02 20:39:15'),
-(55, 'peterj', 'environmentalengineeringdad', '', 'Julian', 'Peter', 'peterj.eec@gmail.com', 3, '2020-07-02 20:39:15'),
-(56, 'ryanfrench', 'Bugo09!!!!', '', 'Ryan', 'French', 'frenchr.eec@gmail.com', 3, '2020-07-02 20:39:15'),
-(57, 'MatthewThomas', 'idonttrustyou', '', 'Matthew', 'Thomas', 'matthewthomas.eec@gmail.com', 3, '2020-07-02 20:39:15');
+(42, 'Silverware', '', 'd8e7859c74c2672a13a2388538143c99$631f9c78dbc16fbd3b013aa7903a8527cee7d46befeb496b7510b1dcb4ae95c0', 'Zachary', 'Thomas', 'thomasza@oregonstate.edu', 4, '2020-05-14 20:39:15'),
+(47, 'rogrogrog', 'test1234', '8a3c5ecabadca6102a92052e5f6160d3$59606e43e8086a5cb735dfc87244f218638a629133558c6701390129ec8bb71a', 'rog', 'rog', 'rog@gmail.com', 4, '2020-06-01 20:39:15'),
+(51, 'JoeJunker', 'use2havefun', 'b755592eabbdac736d8c5907fa64fa11$fae30b426545c803420b3f7f0bd4f1e80fd99ea09336ea525c769ef7041d1679', 'Joe', 'Junker', 'joseph.f.junker@gmail.com', 4, '2020-06-02 20:39:15'),
+(52, 'mattye', 'efficiency', '162359f020e75cd94459a944800b5af8$034d4ce4efe2e595ff579efd68a2f4e0a2b72c16efb54ac333e6be521434d38d', 'Ethan', 'Matty', 'mattye.eec@gmail.com', 4, '2020-06-10 20:39:15'),
+(54, 'martzal', 'mtnsIdaHome12!', '27d9aeff2e1c3e683f042480b6990a5c$963d962575ce1108cf5785fc42778ad0483050a80c50e8d3d29632f6af73f1a9', 'Ali', 'Martz', 'martzal.eec@gmail.com', 3, '2020-06-28 20:39:15'),
+(55, 'peterj', 'environmentalengineeringdad', '73a148776eaf3db8dee5b4cc5af1542d$c4d554f54a266e74299e82af3884f39d4e36686054f90837f7753b2d4b77a6f4', 'Julian', 'Peter', 'peterj.eec@gmail.com', 3, '2020-06-30 20:39:15'),
+(56, 'ryanfrench', 'Bugo09!!!!', '8fdce1d0b4394d7a6dd55dd4d1318d54$b36510750272738b7d2de631057527b3ac1547db5d9ef6da8728886d523eca99', 'Ryan', 'French', 'frenchr.eec@gmail.com', 3, '2020-07-05 20:39:15'),
+(57, 'MatthewThomas', 'idonttrustyou', 'a532335063fda0518a4a347b0a295166$05c83d3322dbbe787d420353fa83b3ad7b38e5b163d9d784bf752c8b7ebedb15', 'Matthew', 'Thomas', 'matthewthomas.eec@gmail.com', 3, '2020-07-02 20:39:15');
 
 --
 -- Indexes for dumped tables
