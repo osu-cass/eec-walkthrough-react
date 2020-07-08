@@ -262,46 +262,25 @@ function Header(props) {
 
             <div className="row mx-2">
               <div className="row">
-                {props.mode === 1 ? (
-                  <Fragment>
-                    <FilterBar
-                      updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                      resetIcons={() => resetIcons()}
-                      clearIcons={() => clearIcons()}
-                      filterIcons={filterIcons}
-                      tempFilterIcons={tempFilterIcons}
-                      filterShow={filterShow}
-                      iconSet={props.iconSet}
-                      mode={props.mode}
-                    />
-                    <EditHeader
-                      header={props.header}
-                      role={props.role}
-                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                    />
-                    <ReviewHeader
-                      header={props.header}
-                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                    />
-                  </Fragment>
-                ) : (
-                  <Fragment>
-                    <OrderObjectButton
-                      up={true}
-                      header={true}
-                      objectId={props.header.headerId}
-                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
-                      top={props.top}
-                    />
-                    <OrderObjectButton
-                      up={false}
-                      header={true}
-                      objectId={props.header.headerId}
-                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
-                      bottom={props.bottom}
-                    />
-                  </Fragment>
-                )}
+                <FilterBar
+                  updateIcon={(e1, e2) => updateIcon(e1, e2)}
+                  resetIcons={() => resetIcons()}
+                  clearIcons={() => clearIcons()}
+                  filterIcons={filterIcons}
+                  tempFilterIcons={tempFilterIcons}
+                  filterShow={filterShow}
+                  iconSet={props.iconSet}
+                  mode={props.mode}
+                />
+                <EditHeader
+                  header={props.header}
+                  role={props.role}
+                  handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                />
+                <ReviewHeader
+                  header={props.header}
+                  handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                />
               </div>
             </div>
           </div>
@@ -355,6 +334,26 @@ function Header(props) {
                   iconSet={props.iconSet}
                   mode={props.mode}
                 />
+                {props.mode === 2 ? (
+                  <Fragment>
+                    <OrderObjectButton
+                      up={true}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
+                      top={props.top}
+                    />
+                    <OrderObjectButton
+                      up={false}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
+                      bottom={props.bottom}
+                    />
+                  </Fragment>
+                ) : (
+                  null
+                )}
               </div>
             </div>
           </div>
