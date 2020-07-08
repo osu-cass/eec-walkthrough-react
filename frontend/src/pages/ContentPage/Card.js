@@ -38,41 +38,57 @@ function Card(props) {
 
   // Get information about the current card type and the correct set of items
   useEffect(() => {
-    const itemInfo = getItemInfo(props.card.edited);
+    const itemInfo = getItemInfo();
     setCardType(itemInfo.cardType);
     setItems(itemInfo.items);
     // eslint-disable-next-line
   }, [imageItems, imageTempItems, props.cardState]);
 
-  // Returns information about the correct array of items to use
-  function getItemInfo(edited) {
+  // determines if the current object is only internal viewable
+  function isInternal() {
+    if (props.mode === 1) {
+      if ((props.card.tempCardId && props.card.tempCardType >= 10) || (!props.card.tempCardId && props.card.cardType >= 10)) {
+        return 1
+      }
+    } else {
+      if (props.card.cardType >= 10) {
+        return 1
+      }
+    }
+  }
 
-    // Check if we are in edit or view mode.
-    //
-    // In edit mode we always show the most recent version of the card.
-    // Check if the card has temp data. Otherwise show the normal data.
-    //
-    // In view mode we only show published versions of the card.
+  // Returns information about the correct array of items to use
+  function getItemInfo() {
+
+    // Show the correct card contents based on if
+    // the card has been edited and the card type
 
     let newItems = [];
     let cardType = 0;
 
-    if (edited) {
-      if ((props.card.approved && props.card.tempCardType) || (!props.card.approved && props.card.cardType)) {
-        cardType = 1;
+    if (props.card.tempItems.length) {
+
+      if (props.card.approved) {
+        cardType = props.card.tempCardType;
+      } else {
+        cardType = props.card.cardType;
+      }
+      if (props.card.cardType === 1 || props.card.cardType === 11) {
         newItems = imageTempItems;
       } else {
-        cardType = 0;
         newItems = props.card.tempItems;
       }
+
     } else {
-      if (props.card.cardType) {
-        cardType = 1;
+
+      if (props.card.cardType === 1 || props.card.cardType === 11) {
+        cardType = props.card.cardType;
         newItems = imageItems;
       } else {
-        cardType = 0;
+        cardType = props.card.cardType;
         newItems = props.card.items;
       }
+
     }
 
     const cardData = {
@@ -87,7 +103,9 @@ function Card(props) {
   return !props.card.approved && props.mode !== 1 ? (
     null
   ) : (
-    <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" } ${props.card.invalid ? "card-body-invalid" : ""}`}>
+    <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" }
+      ${isInternal() ? "card-body-internal" : ""}`}
+    >
       <CardBS.Header
         as="h5"
         className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold"
@@ -154,7 +172,7 @@ function Card(props) {
           ) : (
             null
           )}
-          {cardType ? (
+          {cardType === 1 || cardType === 11 ? (
             <ThumbnailGallery items={items} />
           ) : (
             <BasicItems
@@ -181,5 +199,6 @@ Card.propTypes = {
   top: PropTypes.bool,
   bottom: PropTypes.bool,
   handleTimestamp: PropTypes.func,
-  cardState: PropTypes.number
+  cardState: PropTypes.number,
+  role: PropTypes.number
 };

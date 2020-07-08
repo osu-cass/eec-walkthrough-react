@@ -38,7 +38,7 @@ function Home() {
           <h5>Each section includes a number of useful pertinent &quot;tidbits&quot; identified by a preceding icon</h5>
         </Card.Header>
         <div className="p-4 my-2 text-dark-50 bg-white" >
-          <div className="font-weight-bold mb-3">This guide is broken down into sections:</div>
+          <div className="font-weight-bold mb-3">These include</div>
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               <li className="my-2">

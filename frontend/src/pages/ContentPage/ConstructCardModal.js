@@ -21,6 +21,7 @@ function ConstructCardModal(props) {
   const [basicIcons, setBasicIcons] = useState([]);
   const [imageIcons, setImageIcons] = useState([]);
   const [linkIcons, setLinkIcons] = useState([]);
+  const [checked, setChecked] = useState(0);
 
   // setup card data
   useEffect(() => {
@@ -73,6 +74,7 @@ function ConstructCardModal(props) {
       setTitle(props.card.title);
       setFormat(props.card.cardType);
     }
+    setChecked(isInternal());
     // eslint-disable-next-line
   }, [props.show]);
 
@@ -81,6 +83,18 @@ function ConstructCardModal(props) {
     setErrorMessage("");
   }, [props.show]);
 
+  // Checks if the current card is internal only
+  function isInternal() {
+    let currentCardType = 0;
+
+    if (props.card.tempCardId) {
+      currentCardType = props.card.tempCardType;
+    } else {
+      currentCardType = props.card.cardType;
+    }
+
+    return currentCardType >= 10;
+  }
 
   // Sort icons into three categories, general items, images, and links
   function sortIcons() {
@@ -246,7 +260,10 @@ function ConstructCardModal(props) {
 
     // Get the card format from the select
     const formatSelect = document.getElementById("select-new-card-format");
-    const newCardFormat = parseInt(formatSelect.options[formatSelect.selectedIndex].value, 10);
+    let newCardFormat = parseInt(formatSelect.options[formatSelect.selectedIndex].value, 10);
+    if (document.getElementById("internal-modal-checkbox").checked) {
+      newCardFormat += 10;
+    }
 
     // Update the order index of each item
     const copy = items;
@@ -344,9 +361,12 @@ function ConstructCardModal(props) {
 
     // Get the card format from the select
     const formatSelect = document.getElementById("select-new-card-format");
-    const newCardFormat = parseInt(formatSelect.options[formatSelect.selectedIndex].value, 10);
+    let newCardFormat = parseInt(formatSelect.options[formatSelect.selectedIndex].value, 10);
+    if (document.getElementById("internal-modal-checkbox").checked) {
+      newCardFormat += 10;
+    }
 
-    // Set the order index of each item and clean up assign empty strings as needed
+    // Set the order index of each item and clean up empty strings as needed
     const copy = items;
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
@@ -723,6 +743,25 @@ function ConstructCardModal(props) {
                   <option value="1">Thumbnail Gallery</option>
                 </select>
               </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <div className="custom-control form-control-lg custom-checkbox my-2">
+                {checked ? (
+                  <input type="checkbox" className="form-check-input custom-control-input"
+                    id="internal-modal-checkbox" onClick={() => setChecked(0)} checked 
+                  />
+                ) : (
+                  <input type="checkbox" className="form-check-input custom-control-input"
+                    id="internal-modal-checkbox"
+                  />
+                )}
+                <label className="form-check-label custom-control-label font-weight-bold pl-3" htmlFor="internal-modal-checkbox">
+                  Internal (not viewable by the public)
+                </label>
+              </div>
             </Col>
           </Row>
 

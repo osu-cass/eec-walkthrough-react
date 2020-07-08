@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
-import "./CreateHeader.css";
+import "./EditPage.css";
 
 // Button and modal that allows a user to edit a page
 function EditPage(props) {
@@ -16,6 +16,7 @@ function EditPage(props) {
   const [showModal, setShowModal] = useState(false);
   const [showLoad, setShowLoad] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [checked, setChecked] = useState(0);
 
   useEffect(() => {
     if (props.page.tempPageId) {
@@ -29,7 +30,8 @@ function EditPage(props) {
       setDescription(props.page.description);
       setUrl(props.page.imageUrl);
     }
-  }, [props.page]);
+    setChecked(isInternal());
+  }, [props.page, props.page.internal, props.page.tempInternal]);
 
   function handleCloseModal() {
     setShowModal(false);
@@ -47,6 +49,13 @@ function EditPage(props) {
     setErrorMessage("");
   }
 
+  // determines if the current object is only internal viewable
+  function isInternal() {
+    if ((props.page.tempPageId && props.page.tempInternal) || (!props.page.tempPageId && props.page.internal)) {
+      return 1
+    }
+  }
+
   function handleShowModal() {
     setShowModal(true);
   }
@@ -54,11 +63,17 @@ function EditPage(props) {
   async function updatePage() {
     setShowLoad(true);
 
+    let internal = 0;
+    if (document.getElementById("internal-modal-checkbox").checked) {
+      internal = 1;
+    }
+
     const data = {
       name: title,
       title: summary,
       description: description,
-      imageUrl: url
+      imageUrl: url,
+      internal: internal
     };
 
     const results = await fetch(`/pages/${props.page.pageId}`, {
@@ -84,6 +99,8 @@ function EditPage(props) {
           pageId: props.page.pageId,
           pageType: props.page.pageType,
           userId: props.page.userId,
+          internal: props.page.internal,
+          tempInternal: internal,
           tempPageId: props.page.pageId,
           tempDescription: description,
           tempImageUrl: url,
@@ -108,6 +125,8 @@ function EditPage(props) {
           pageId: props.page.pageId,
           pageType: props.page.pageType,
           userId: 0,
+          internal: internal,
+          tempInternal: props.page.tempInternal,
           tempPageId: props.page.tempPageId,
           tempDescription: props.page.tempDescription,
           tempImageUrl: props.page.tempImageUrl,
@@ -321,6 +340,25 @@ function EditPage(props) {
                   onChange={(e) => setUrl(e.target.value)}
                 />
               </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <div className="custom-control form-control-lg custom-checkbox my-2">
+                {checked ? (
+                  <input type="checkbox" className="form-check-input custom-control-input"
+                    id="internal-modal-checkbox" onClick={() => setChecked(0)} checked 
+                  />
+                ) : (
+                  <input type="checkbox" className="form-check-input custom-control-input"
+                    id="internal-modal-checkbox"
+                  />
+                )}
+                <label className="form-check-label custom-control-label font-weight-bold pl-3" htmlFor="internal-modal-checkbox">
+                  Internal (not viewable by the public)
+                </label>
+              </div>
             </Col>
           </Row>
 

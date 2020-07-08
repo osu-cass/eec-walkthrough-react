@@ -69,7 +69,7 @@ exports.getHeader = getHeader;
 
 
 // create a header
-async function createHeader(pageId, title, userId) {
+async function createHeader(pageId, title, userId, internal) {
 
   try {
 
@@ -95,9 +95,9 @@ async function createHeader(pageId, title, userId) {
     }
 
     // create the new header
-    sql = "INSERT INTO Headers (pageId, title, userId, orderIndex, approved) " +
-    "VALUES (?, ?, ?, 0, 0);";
-    results = await pool.query(sql, [pageId, title, userId]);
+    sql = "INSERT INTO Headers (pageId, title, userId, internal, orderIndex, approved) " +
+    "VALUES (?, ?, ?, ?, 0, 0);";
+    results = await pool.query(sql, [pageId, title, userId, internal]);
     const headerId = results[0].insertId;
 
     // update the order index of the new header
@@ -183,7 +183,7 @@ exports.deleteHeader = deleteHeader;
 
 
 // update a header
-async function updateHeader(headerId, title, userId) {
+async function updateHeader(headerId, title, userId, internal) {
 
   try {
 
@@ -211,29 +211,32 @@ async function updateHeader(headerId, title, userId) {
     if (results[0].length) {
 
       sql = "UPDATE Temp_Headers " +
-      "SET tempTitle = ?, tempUserId = ? " +
+      "SET tempTitle = ?, tempUserId = ?, tempInternal = ? " +
       "WHERE tempHeaderId = ?;";
       sqlArray.push(title);
       sqlArray.push(userId);
+      sqlArray.push(internal);
       sqlArray.push(headerId);
 
     } else if (approved === 0) {
 
       sql = "UPDATE Headers " +
-      "SET title = ?, userId = ? " +
+      "SET title = ?, userId = ?, internal = ? " +
       "WHERE headerId = ?;";
       sqlArray.push(title);
       sqlArray.push(userId);
+      sqlArray.push(internal);
       sqlArray.push(headerId);
 
     } else {
 
       sql = "INSERT INTO Temp_Headers (tempHeaderId, " +
-      "tempTitle, tempUserId) " +
-      "VALUES (?, ?, ?);";
+      "tempTitle, tempUserId, tempInternal) " +
+      "VALUES (?, ?, ?, ?);";
       sqlArray.push(headerId);
       sqlArray.push(title);
       sqlArray.push(userId);
+      sqlArray.push(internal);
 
     }
 
@@ -286,11 +289,11 @@ async function publishHeader(headerId) {
 
       // update the published header
       sql = "UPDATE Headers " +
-      "SET title = ?, userId = ?, created = ?, approved = 1 " +
+      "SET title = ?, userId = ?, created = ?, internal = ?, approved = 1 " +
       "WHERE headerId = ?;";
 
       const tempArray = [tempHeader.tempTitle,
-        tempHeader.tempUserId, tempHeader.tempCreated, headerId];
+        tempHeader.tempUserId, tempHeader.tempCreated, tempHeader.tempInternal, headerId];
 
       // make sure no other headers share the same title
       const checkSql = "SELECT * " +

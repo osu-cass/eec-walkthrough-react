@@ -93,6 +93,7 @@ const postPageVal = Object.freeze({
     check("title").isLength({min: 1, max: 1000}),
     check("description").isLength({min: 1, max: 5000}),
     check("imageUrl").isLength({min: 1, max: 1000}),
+    check("internal").isInt({min: 0, max: 1})
   ]
 });
 exports.postPageVal = postPageVal;
@@ -104,7 +105,8 @@ const patchPageVal = Object.freeze({
     check("name").isLength({min: 1, max: 100}),
     check("title").isLength({min: 1, max: 1000}),
     check("description").isLength({min: 1, max: 5000}),
-    check("imageUrl").isLength({min: 1, max: 1000})
+    check("imageUrl").isLength({min: 1, max: 1000}),
+    check("internal").isInt({min: 0, max: 1})
   ]
 });
 exports.patchPageVal = patchPageVal;
@@ -140,6 +142,7 @@ const postHeaderVal = Object.freeze({
   validation: [
     check("pageId").isInt({min: 1, max: 4294967295}),
     check("title").isLength({min: 1, max: 1000}),
+    check("internal").isInt({min: 0, max: 1})
   ]
 });
 exports.postHeaderVal = postHeaderVal;
@@ -148,7 +151,8 @@ exports.postHeaderVal = postHeaderVal;
 const patchHeaderVal = Object.freeze({
   validation: [
     check("headerId").isInt({min: 1, max: 4294967295}),
-    check("title").isLength({min: 1, max: 1000})
+    check("title").isLength({min: 1, max: 1000}),
+    check("internal").isInt({min: 0, max: 1})
   ]
 });
 exports.patchHeaderVal = patchHeaderVal;
