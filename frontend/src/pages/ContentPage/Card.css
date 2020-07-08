@@ -9,3 +9,11 @@
 .card-body-invalid {
   background-color: #ffa6a6 !important;
 }
+
+.card-body-internal.card-body-approved {
+  background-color: #d3ebf2 !important;
+}
+
+.card-body-internal.card-body-review {
+  background-color: #acd9e6 !important;
+}

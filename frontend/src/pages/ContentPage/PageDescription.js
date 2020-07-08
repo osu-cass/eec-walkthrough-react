@@ -28,15 +28,24 @@ function PageDescription(props) {
     }
   }, [props.page, props.mode, props.pageState]);
 
+  // determines if the current object is only internal viewable
+  function isInternal() {
+    if (props.mode === 1) {
+      if ((props.page.tempPageId && props.page.tempInternal) || (!props.page.tempPageId && props.page.internal)) {
+        return 1
+      }
+    } else {
+      if (props.page.internal) {
+        return 1
+      }
+    }
+  }
+
   return (
     <div>
       <div className={`d-flex header-bar justify-content-between
-        ${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? (
-      "page-approved"
-    ) : (
-      "page-review"
-    )}
-        my-3 p-3 text-dark-50 rounded shadow-sm border`}
+        ${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? "page-approved" : "page-review"}
+        ${isInternal() ? "page-internal" : ""} my-3 p-3 text-dark-50 rounded shadow-sm border`}
       style={{top: "1em", zIndex: "998"}}
       >
         <div className="row mx-2">
@@ -69,7 +78,7 @@ function PageDescription(props) {
       </div>
 
       <div className={`${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? "page-approved" : "page-review"}
-        my-3 p-3 card rounded shadow-sm`}
+        ${isInternal() ? "page-internal" : ""} my-3 p-3 card rounded shadow-sm`}
       >
         <div>
           <div className="row">

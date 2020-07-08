@@ -224,6 +224,19 @@ function Header(props) {
     setUnfilteredCards(allUnfilteredCards);
   }
 
+  // determines if the current object is only internal viewable
+  function isInternal() {
+    if (props.mode === 1) {
+      if ((props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal)) {
+        return 1
+      }
+    } else {
+      if (props.header.internal) {
+        return 1
+      }
+    }
+  }
+
   return !props.header.approved && props.mode !== 1 ? (
     null
   ) : (
@@ -233,6 +246,7 @@ function Header(props) {
         <div>
           <div className={`d-flex sticky-top
             ${props.header.approved && !props.header.tempHeaderId ? "header-approved" : "header-review"}
+            ${isInternal() ? "header-internal" : ""}
             header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
           style={{top: "1em", zIndex: "998"}}
           >
@@ -248,46 +262,25 @@ function Header(props) {
 
             <div className="row mx-2">
               <div className="row">
-                {props.mode === 1 ? (
-                  <Fragment>
-                    <FilterBar
-                      updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                      resetIcons={() => resetIcons()}
-                      clearIcons={() => clearIcons()}
-                      filterIcons={filterIcons}
-                      tempFilterIcons={tempFilterIcons}
-                      filterShow={filterShow}
-                      iconSet={props.iconSet}
-                      mode={props.mode}
-                    />
-                    <EditHeader
-                      header={props.header}
-                      role={props.role}
-                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                    />
-                    <ReviewHeader
-                      header={props.header}
-                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                    />
-                  </Fragment>
-                ) : (
-                  <Fragment>
-                    <OrderObjectButton
-                      up={true}
-                      header={true}
-                      objectId={props.header.headerId}
-                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
-                      top={props.top}
-                    />
-                    <OrderObjectButton
-                      up={false}
-                      header={true}
-                      objectId={props.header.headerId}
-                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
-                      bottom={props.bottom}
-                    />
-                  </Fragment>
-                )}
+                <FilterBar
+                  updateIcon={(e1, e2) => updateIcon(e1, e2)}
+                  resetIcons={() => resetIcons()}
+                  clearIcons={() => clearIcons()}
+                  filterIcons={filterIcons}
+                  tempFilterIcons={tempFilterIcons}
+                  filterShow={filterShow}
+                  iconSet={props.iconSet}
+                  mode={props.mode}
+                />
+                <EditHeader
+                  header={props.header}
+                  role={props.role}
+                  handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                />
+                <ReviewHeader
+                  header={props.header}
+                  handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                />
               </div>
             </div>
           </div>
@@ -307,6 +300,7 @@ function Header(props) {
                 bottom={i >= cards.length - 1 ? (true) : (false)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
+                role={props.role}
               />
             )}
           </div>
@@ -318,8 +312,9 @@ function Header(props) {
         <div>
           <div className={`d-flex sticky-top
             ${props.header.approved ? "header-approved" : "header-review"}
+            ${isInternal() ? "header-internal" : ""}
             header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
-          style={{top: "1em", zIndex: "998"}}
+            style={{top: "1em", zIndex: "998"}}
           >
             <div className="row mx-2">
               <h4 className="flex-grow-1 font-weight-bold">
@@ -339,6 +334,26 @@ function Header(props) {
                   iconSet={props.iconSet}
                   mode={props.mode}
                 />
+                {props.mode === 2 ? (
+                  <Fragment>
+                    <OrderObjectButton
+                      up={true}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
+                      top={props.top}
+                    />
+                    <OrderObjectButton
+                      up={false}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
+                      bottom={props.bottom}
+                    />
+                  </Fragment>
+                ) : (
+                  null
+                )}
               </div>
             </div>
           </div>
@@ -356,6 +371,7 @@ function Header(props) {
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
+                role={props.role}
               />
             )}
           </div>

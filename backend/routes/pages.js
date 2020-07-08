@@ -199,6 +199,7 @@ app.post("/", requireAuth, postPageVal.validation, async (req, res) => {
     const title = req.body.title;
     const description = req.body.description;
     const imageUrl = req.body.imageUrl;
+    const internal = req.body.internal;
     const userId = req.auth.userId;
 
     // make sure the user is allowed to perform this action
@@ -208,7 +209,7 @@ app.post("/", requireAuth, postPageVal.validation, async (req, res) => {
     }
 
     // create a page
-    const results = await createPage(pageType, name, title, description, imageUrl, userId);
+    const results = await createPage(pageType, name, title, description, imageUrl, userId, internal);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -286,6 +287,7 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
     const title = req.body.title;
     const description = req.body.description;
     const imageUrl = req.body.imageUrl;
+    const internal = req.body.internal;
     const userId = req.auth.userId;
 
     // confirm that the request is valid
@@ -302,7 +304,7 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
     }
 
     // update a page
-    const results = await updatePage(pageId, name, title, description, imageUrl, userId);
+    const results = await updatePage(pageId, name, title, description, imageUrl, userId, internal);
 
     if (results.pageId >= 0) {
       res.status(200).send(results);
