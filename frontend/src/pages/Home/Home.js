@@ -7,15 +7,16 @@ import "./Home.css";
 function Home() {
 
   const [generalIcons, setGeneralIcons] = useState([]);
+  const [pageContent, setPageContent] = useState({});
   const [linkIcons, setLinkIcons] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchIcons();
+    fetchHome();
   }, []);
 
-  // fetch icon data
-  async function fetchIcons() {
+  // fetch homepage data
+  async function fetchHome() {
     setLoading(true);
 
     // Fetch all icons
@@ -41,6 +42,19 @@ function Home() {
 
     } else {
       console.error("Error fetching icon list");
+    }
+
+    // Fetch all homepage content
+    results = await fetch(`/home`);
+
+    if (results.ok) {
+
+      const obj = await results.json();
+      console.log(obj);
+      setPageContent(obj);
+
+    } else {
+      console.error("Error fetching homepage content");
     }
 
     setLoading(false);
