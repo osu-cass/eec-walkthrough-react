@@ -84,8 +84,8 @@ function PageDescription(props) {
         <div>
           <div className="row">
             <div className="col-8">
-              <h5 className='font-weight-bold'>{title}</h5>
-              <p>{description}</p>
+              <h5 className="font-weight-bold">{title}</h5>
+              <p className="allow-newlines">{description}</p>
             </div>
             <div className="col-4 text-center">
               <Image url={imageUrl}
