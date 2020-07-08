@@ -23,7 +23,7 @@ async function getPage(pageId, viewAll) {
       "AND approved = 1;";
     }
 
-    let results = await pool.query(sql, pageId);
+    const results = await pool.query(sql, pageId);
 
     // check to see if we were able to find the page
     if (!results[0].length) {
@@ -31,54 +31,6 @@ async function getPage(pageId, viewAll) {
     }
 
     const finalResults = results[0][0];
-    const pageType = results[0][0].pageType;
-
-    // get all of the subjects/industries that are related to the page
-    if (pageType) {
-      if (viewAll) {
-        sql = "SELECT S.pageId, S.name " +
-        "FROM Pages AS S " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON S.pageId = M.subjectId " +
-        "WHERE M.industryId = ? " +
-        "AND S.pageType = 0 " +
-        "ORDER BY S.name ASC;";
-      } else {
-        sql = "SELECT S.pageId, S.name " +
-        "FROM Pages AS S " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON S.pageId = M.subjectId " +
-        "WHERE M.industryId = ? " +
-        "AND S.pageType = 0 " +
-        "AND S.approved = 1 " +
-        "AND S.internal = 0 " +
-        "ORDER BY S.name ASC;";
-      }
-      results = await pool.query(sql, pageId);
-      finalResults.relatedPages = results[0];
-    } else {
-      if (viewAll) {
-        sql = "SELECT I.pageId, I.name " +
-        "FROM Pages AS I " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON I.pageId = M.industryId " +
-        "WHERE M.subjectId = ? " +
-        "AND I.pageType = 1 " +
-        "ORDER BY I.name ASC;";
-      } else {
-        sql = "SELECT I.pageId, I.name " +
-        "FROM Pages AS I " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON I.pageId = M.industryId " +
-        "WHERE M.subjectId = ? " +
-        "AND I.pageType = 1 " +
-        "AND approved = 1 " +
-        "AND internal = 0 " +
-        "ORDER BY I.name ASC;";
-      }
-      results = await pool.query(sql, pageId);
-      finalResults.relatedPages = results[0];
-    }
 
     return finalResults;
 
@@ -119,37 +71,6 @@ async function getPages(viewAll) {
     let results = await pool.query(sql, []);
 
     finalResults.pages.subjects = results[0];
-    let pageCount = finalResults.pages.subjects.length;
-
-    // get all of the related industries
-    for (let i = 0; i < pageCount; i++) {
-
-      let sql = "";
-      if (viewAll) {
-        sql = "SELECT I.pageId, I.name " +
-        "FROM Pages AS I " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON I.pageId = M.industryId " +
-        "WHERE M.subjectId = ? " +
-        "AND I.pageType = 1 " +
-        "ORDER BY I.name ASC;";
-      } else {
-        sql = "SELECT I.pageId, I.name " +
-        "FROM Pages AS I " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON I.pageId = M.industryId " +
-        "WHERE M.subjectId = ? " +
-        "AND I.pageType = 1 " +
-        "AND I.approved = 1 " +
-        "AND I.internal = 0 " +
-        "ORDER BY I.name ASC;";
-      }
-
-
-      results = await pool.query(sql, finalResults.pages.subjects[i].pageId);
-      finalResults.pages.subjects[i].relatedPages = results[0];
-
-    }
 
     // get all industry pages
     if (viewAll) {
@@ -169,35 +90,82 @@ async function getPages(viewAll) {
     results = await pool.query(sql, []);
 
     finalResults.pages.industries = results[0];
-    pageCount = finalResults.pages.industries.length;
 
-    // get all of the related subjects
-    for (let i = 0; i < pageCount; i++) {
-
-      let sql = "";
-      if (viewAll) {
-        sql = "SELECT S.pageId, S.name " +
-        "FROM Pages AS S " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON S.pageId = M.subjectId " +
-        "WHERE M.industryId = ? " +
-        "AND S.pageType = 0 " +
-        "ORDER BY S.name ASC;";
-      } else {
-        sql = "SELECT S.pageId, S.name " +
-        "FROM Pages AS S " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON S.pageId = M.subjectId " +
-        "WHERE M.industryId = ? " +
-        "AND S.pageType = 0 " +
-        "AND S.approved = 1 " +
-        "AND S.internal = 0 " +
-        "ORDER BY S.name ASC;";
-      }
-      results = await pool.query(sql, finalResults.pages.industries[i].pageId);
-      finalResults.pages.industries[i].relatedPages = results[0];
-
+    // get all technology pages
+    if (viewAll) {
+      sql = "SELECT pageId, pageType, name " +
+      "FROM Pages " +
+      "WHERE pageType = 2 " +
+      "ORDER BY pageType ASC, name ASC;";
+    } else {
+      sql = "SELECT pageId, pageType, name " +
+      "FROM Pages " +
+      "WHERE pageType = 2 " +
+      "AND approved = 1 " +
+      "AND internal = 0 " +
+      "ORDER BY pageType ASC, name ASC;";
     }
+
+    results = await pool.query(sql, []);
+
+    finalResults.pages.technologies = results[0];
+
+    // get all process pages
+    if (viewAll) {
+      sql = "SELECT pageId, pageType, name " +
+      "FROM Pages " +
+      "WHERE pageType = 3 " +
+      "ORDER BY pageType ASC, name ASC;";
+    } else {
+      sql = "SELECT pageId, pageType, name " +
+      "FROM Pages " +
+      "WHERE pageType = 3 " +
+      "AND approved = 1 " +
+      "AND internal = 0 " +
+      "ORDER BY pageType ASC, name ASC;";
+    }
+
+    results = await pool.query(sql, []);
+
+    finalResults.pages.processes = results[0];
+
+    // get all productivity pages
+    if (viewAll) {
+      sql = "SELECT pageId, pageType, name " +
+      "FROM Pages " +
+      "WHERE pageType = 4 " +
+      "ORDER BY pageType ASC, name ASC;";
+    } else {
+      sql = "SELECT pageId, pageType, name " +
+      "FROM Pages " +
+      "WHERE pageType = 4 " +
+      "AND approved = 1 " +
+      "AND internal = 0 " +
+      "ORDER BY pageType ASC, name ASC;";
+    }
+
+    results = await pool.query(sql, []);
+
+    finalResults.pages.productivity = results[0];
+
+    // get all assessments pages
+    if (viewAll) {
+      sql = "SELECT pageId, pageType, name " +
+      "FROM Pages " +
+      "WHERE pageType = 5 " +
+      "ORDER BY pageType ASC, name ASC;";
+    } else {
+      sql = "SELECT pageId, pageType, name " +
+      "FROM Pages " +
+      "WHERE pageType = 5 " +
+      "AND approved = 1 " +
+      "AND internal = 0 " +
+      "ORDER BY pageType ASC, name ASC;";
+    }
+
+    results = await pool.query(sql, []);
+
+    finalResults.pages.assessments = results[0];
 
     return finalResults;
 
@@ -536,125 +504,6 @@ async function updatePage(pageId, name, title, description, imageUrl, userId, in
 
 }
 exports.updatePage = updatePage;
-
-
-// add a subject to an industry
-async function addSubject(subjectId, industryId) {
-
-  try {
-
-    // make sure the subject exists
-    let sql = "SELECT * " +
-    "FROM Pages " +
-    "WHERE pageId = ? " +
-    "AND pageType = 0;";
-    let results = await pool.query(sql, subjectId);
-
-    if (!results[0].length) {
-      return {error: 1};
-    }
-
-    // make sure the industry exists
-    sql = "SELECT * " +
-    "FROM Pages " +
-    "WHERE pageId = ? " +
-    "AND pageType = 1;";
-    results = await pool.query(sql, industryId);
-
-    if (!results[0].length) {
-      return {error: 2};
-    }
-
-    // make sure the connection does not already exist
-    sql = "SELECT * " +
-    "FROM Industries_Subjects " +
-    "WHERE subjectId = ? " +
-    "AND industryId = ?;";
-    results = await pool.query(sql, [subjectId, industryId]);
-
-    if (results[0].length) {
-      return {error: 3};
-    }
-
-    // create the new connection
-    sql = "INSERT INTO Industries_Subjects (subjectId, industryId) " +
-    "VALUES (?, ?);";
-    results = await pool.query(sql, [subjectId, industryId]);
-
-    const finalResults = {
-      industryId: industryId,
-      subjectId: subjectId
-    };
-
-    return finalResults;
-
-  } catch (err) {
-    console.error("Error creating connection");
-    throw Error(err);
-  }
-
-}
-exports.addSubject = addSubject;
-
-
-// remove a subject from an industry
-async function deleteSubject(subjectId, industryId) {
-
-  try {
-
-    // make sure the subject exists
-    let sql = "SELECT * " +
-    "FROM Pages " +
-    "WHERE pageId = ? " +
-    "AND pageType = 0;";
-    let results = await pool.query(sql, subjectId);
-
-    if (!results[0].length) {
-      return {error: 1};
-    }
-
-    // make sure the industry exists
-    sql = "SELECT * " +
-    "FROM Pages " +
-    "WHERE pageId = ? " +
-    "AND pageType = 1;";
-    results = await pool.query(sql, industryId);
-
-    if (!results[0].length) {
-      return {error: 2};
-    }
-
-    // make sure the connection exists
-    sql = "SELECT * " +
-    "FROM Industries_Subjects " +
-    "WHERE subjectId = ? " +
-    "AND industryId = ?;";
-    results = await pool.query(sql, [subjectId, industryId]);
-
-    if (!results[0].length) {
-      return {error: 3};
-    }
-
-    // remove the connection
-    sql = "DELETE " +
-    "FROM Industries_Subjects " +
-    "WHERE subjectId = ? " +
-    "AND industryId = ?;";
-    results = await pool.query(sql, [subjectId, industryId]);
-
-    const finalResults = {
-      affectedRows: results[0].affectedRows
-    };
-
-    return finalResults;
-
-  } catch (err) {
-    console.error("Error deleting connection");
-    throw Error(err);
-  }
-
-}
-exports.deleteSubject = deleteSubject;
 
 
 // gets pages that match the search query

@@ -88,7 +88,7 @@ exports.searchPageVal = searchPageVal;
 // validation checks for post page
 const postPageVal = Object.freeze({
   validation: [
-    check("pageType").isInt({min: 0, max: 1}),
+    check("pageType").isInt({min: 0, max: 5}),
     check("name").isLength({min: 1, max: 100}),
     check("title").isLength({min: 1, max: 1000}),
     check("description").isLength({min: 1, max: 5000}),
@@ -110,15 +110,6 @@ const patchPageVal = Object.freeze({
   ]
 });
 exports.patchPageVal = patchPageVal;
-
-// validation checks for industries/subjects
-const industrySubjectVal = Object.freeze({
-  validation: [
-    check("industryId").isInt({min: 1, max: 4294967295}),
-    check("subjectId").isInt({min: 1, max: 4294967295})
-  ]
-});
-exports.industrySubjectVal = industrySubjectVal;
 
 // validation checks for get header
 const getHeaderVal = Object.freeze({

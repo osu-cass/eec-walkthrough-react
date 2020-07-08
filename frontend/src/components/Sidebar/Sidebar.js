@@ -80,9 +80,30 @@ function Sidebar(props) {
               collectionLink=""
             />
             <SidebarCollection
-              collectionName="Subjects"
-              collectionLink="subjects"
-              collection={pages.subjects}
+              collectionName="Technologies"
+              collectionLink="technologies"
+              collection={pages.technologies}
+              refresh={() => fetchData()}
+              role={role}
+            />
+            <SidebarCollection
+              collectionName="Processes"
+              collectionLink="processes"
+              collection={pages.processes}
+              refresh={() => fetchData()}
+              role={role}
+            />
+            <SidebarCollection
+              collectionName="Productivity"
+              collectionLink="productivity"
+              collection={pages.productivity}
+              refresh={() => fetchData()}
+              role={role}
+            />
+            <SidebarCollection
+              collectionName="Assessments"
+              collectionLink="assessments"
+              collection={pages.assessments}
               refresh={() => fetchData()}
               role={role}
             />

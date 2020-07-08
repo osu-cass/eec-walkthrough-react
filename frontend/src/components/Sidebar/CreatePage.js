@@ -30,8 +30,14 @@ class CreatePage extends React.Component {
 
     // ensure that the correct page type is generated
     let pageType = 1;
-    if (this.props.collectionName === "Subjects") {
-      pageType = 0;
+    if (this.props.collectionName === "Technologies") {
+      pageType = 2;
+    } else if (this.props.collectionName === "Processes") {
+      pageType = 3;
+    } else if (this.props.collectionName === "Productivity") {
+      pageType = 4;
+    } else if (this.props.collectionName === "Assessments") {
+      pageType = 5;
     }
 
     let internal = 0;
