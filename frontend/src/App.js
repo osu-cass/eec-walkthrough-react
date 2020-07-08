@@ -56,7 +56,34 @@ class App extends React.Component {
         />
         <Switch>
           <Route
-            path='/subjects/:pageId'
+            path='/technologies/:pageId'
+            render={(props) => (
+              <ContentPage {...props}
+                pageId={props.match.params.pageId}
+                handlePageEdit={this.handlePageEdit}
+              />
+            )}
+          />
+          <Route
+            path='/processes/:pageId'
+            render={(props) => (
+              <ContentPage {...props}
+                pageId={props.match.params.pageId}
+                handlePageEdit={this.handlePageEdit}
+              />
+            )}
+          />
+          <Route
+            path='/productivity/:pageId'
+            render={(props) => (
+              <ContentPage {...props}
+                pageId={props.match.params.pageId}
+                handlePageEdit={this.handlePageEdit}
+              />
+            )}
+          />
+          <Route
+            path='/assessments/:pageId'
             render={(props) => (
               <ContentPage {...props}
                 pageId={props.match.params.pageId}
