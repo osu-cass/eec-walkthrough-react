@@ -730,7 +730,7 @@ function ConstructCardModal(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="formTitle">
+              <Form.Group controlId="formFormat">
                 <Form.Label className="font-weight-bold">Card Format</Form.Label>
                 <select className="form-control"
                   id="select-new-card-format"

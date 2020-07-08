@@ -43,7 +43,7 @@ async function getPage(pageId, viewAll) {
 exports.getPage = getPage;
 
 
-// return a list of all of the pages and their related subjects/industries
+// return a list of all of the pages sorted into groups
 async function getPages(viewAll) {
 
   try {
@@ -292,6 +292,7 @@ async function getFullPage(pageId, viewAll) {
           finalResults.headers[i].cards[j].tempItems = results[0];
 
         } else {
+
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, " +
@@ -422,7 +423,7 @@ exports.deletePage = deletePage;
 
 
 // update a page
-async function updatePage(pageId, name, title, description, imageUrl, userId, internal) {
+async function updatePage(pageId, pageType, name, title, description, imageUrl, userId, internal) {
 
   try {
 
@@ -450,8 +451,9 @@ async function updatePage(pageId, name, title, description, imageUrl, userId, in
     if (results[0].length) {
 
       sql = "UPDATE Temp_Pages " +
-      "SET tempName = ?, tempTitle = ?, tempDescription = ?, tempImageUrl = ?, tempUserId = ?, tempInternal = ? " +
+      "SET tempPageType = ?, tempName = ?, tempTitle = ?, tempDescription = ?, tempImageUrl = ?, tempUserId = ?, tempInternal = ? " +
       "WHERE tempPageId = ?;";
+      sqlArray.push(pageType);
       sqlArray.push(name);
       sqlArray.push(title);
       sqlArray.push(description);
@@ -463,8 +465,9 @@ async function updatePage(pageId, name, title, description, imageUrl, userId, in
     } else if (approved === 0) {
 
       sql = "UPDATE Pages " +
-      "SET name = ?, title = ?, description = ?, imageUrl = ?, userId = ?, internal = ? " +
+      "SET pageType = ?, name = ?, title = ?, description = ?, imageUrl = ?, userId = ?, internal = ? " +
       "WHERE pageId = ?;";
+      sqlArray.push(pageType);
       sqlArray.push(name);
       sqlArray.push(title);
       sqlArray.push(description);
@@ -476,9 +479,10 @@ async function updatePage(pageId, name, title, description, imageUrl, userId, in
     } else {
 
       sql = "INSERT INTO Temp_Pages (tempPageId, " +
-      "tempName, tempTitle, tempDescription, tempImageUrl, tempUserId, tempInternal) " +
-      "VALUES (?, ?, ?, ?, ?, ?, ?);";
+      "tempPageType, tempName, tempTitle, tempDescription, tempImageUrl, tempUserId, tempInternal) " +
+      "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
       sqlArray.push(pageId);
+      sqlArray.push(pageType);
       sqlArray.push(name);
       sqlArray.push(title);
       sqlArray.push(description);
@@ -630,11 +634,11 @@ async function publishPage(pageId) {
 
       // update the published page
       sql = "UPDATE Pages " +
-      "SET name = ?, title = ?, description = ?, imageUrl = ?, " +
+      "SET name = ?, pageType = ?, title = ?, description = ?, imageUrl = ?, " +
       "userId = ?, created = ?, internal = ?, approved = 1 " +
       "WHERE pageId = ?;";
 
-      const tempArray = [tempPage.tempName, tempPage.tempTitle, tempPage.tempDescription,
+      const tempArray = [tempPage.tempName, tempPage.tempPageType, tempPage.tempTitle, tempPage.tempDescription,
         tempPage.tempImageUrl, tempPage.tempUserId, tempPage.tempCreated, tempPage.tempInternal, pageId];
 
       // make sure no other pages share the same name

@@ -16,6 +16,7 @@ function EditPage(props) {
   const [showModal, setShowModal] = useState(false);
   const [showLoad, setShowLoad] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [pageType, setPageType] = useState(0);
   const [checked, setChecked] = useState(0);
 
   useEffect(() => {
@@ -24,11 +25,13 @@ function EditPage(props) {
       setSummary(props.page.tempTitle);
       setDescription(props.page.tempDescription);
       setUrl(props.page.tempImageUrl);
+      setPageType(props.page.tempPageType);
     } else {
       setTitle(props.page.name);
       setSummary(props.page.title);
       setDescription(props.page.description);
       setUrl(props.page.imageUrl);
+      setPageType(props.page.pageType);
     }
     setChecked(isInternal());
     // eslint-disable-next-line
@@ -74,7 +77,8 @@ function EditPage(props) {
       title: summary,
       description: description,
       imageUrl: url,
-      internal: internal
+      internal: internal,
+      pageType: pageType
     };
 
     const results = await fetch(`/pages/${props.page.pageId}`, {
@@ -101,6 +105,7 @@ function EditPage(props) {
           pageType: props.page.pageType,
           userId: props.page.userId,
           internal: props.page.internal,
+          tempPageType: pageType,
           tempInternal: internal,
           tempPageId: props.page.pageId,
           tempDescription: description,
@@ -124,9 +129,10 @@ function EditPage(props) {
           name: title,
           title: summary,
           pageId: props.page.pageId,
-          pageType: props.page.pageType,
+          pageType: pageType,
           userId: 0,
           internal: internal,
+          tempPageType: props.page.tempPageType,
           tempInternal: props.page.tempInternal,
           tempPageId: props.page.tempPageId,
           tempDescription: props.page.tempDescription,
@@ -291,6 +297,24 @@ function EditPage(props) {
                   defaultValue={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <Form.Group controlId="formTitle">
+                <Form.Label className="font-weight-bold">Page Type</Form.Label>
+                <select className="form-control"
+                  id="select-new-page-type"
+                  defaultValue={pageType}
+                >
+                  <option value="5">Assessment</option>
+                  <option value="1">Industry</option>
+                  <option value="3">Process</option>
+                  <option value="4">Productivity</option>
+                  <option value="2">Technology</option>
+                </select>
               </Form.Group>
             </Col>
           </Row>
