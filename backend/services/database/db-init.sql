@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 08, 2020 at 03:22 PM
+-- Generation Time: Jul 08, 2020 at 03:39 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -104,8 +104,8 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (109, 33, 0, 109, 'Tips', 56, '2020-07-02 23:14:41', 0),
 (110, 33, 0, 110, 'Best Practices', 56, '2020-07-02 23:15:09', 0),
 (111, 33, 0, 111, 'Charts, Tables, Figures', 56, '2020-07-02 23:15:52', 0),
-(112, 33, 0, 112, 'Standard Data to Collect', 56, '2020-07-02 23:17:15', 0),
-(113, 33, 0, 113, 'Data Collection Equipment', 56, '2020-07-02 23:21:12', 0),
+(112, 33, 0, 112, 'Standard Data to Collect', 51, '2020-07-02 23:17:15', 0),
+(113, 33, 0, 113, 'Data Collection Equipment', 51, '2020-07-02 23:21:12', 0),
 (114, 33, 0, 114, 'Data Collection Guides', 56, '2020-07-02 23:29:16', 0),
 (115, 33, 0, 115, 'Analysis Tools', 56, '2020-07-02 23:33:30', 0),
 (116, 33, 0, 116, 'In Depth Site Resources', 56, '2020-07-02 23:44:26', 0),
@@ -181,15 +181,15 @@ CREATE TABLE `Home` (
   `processes` varchar(1000) NOT NULL,
   `productivity` varchar(1000) NOT NULL,
   `technologies` varchar(1000) NOT NULL,
-  `sectionsFooter` varchar(1000) NOT NULL,
+  `sectionsFooter` mediumtext NOT NULL,
   `tidbitsHeader` varchar(1000) NOT NULL,
   `tidbitsTitle` varchar(1000) NOT NULL,
-  `tidbitsFooter` varchar(1000) NOT NULL,
+  `tidbitsFooter` mediumtext NOT NULL,
   `linksHeader` varchar(1000) NOT NULL,
   `linksTitlePrefix` varchar(1000) NOT NULL,
   `linksTitlePostfixInternal` varchar(1000) NOT NULL,
   `linksTitlePostfixDownload` varchar(1000) NOT NULL,
-  `linksFooter` varchar(1000) NOT NULL,
+  `linksFooter` mediumtext NOT NULL,
   `disclaimerHeader` varchar(1000) NOT NULL,
   `disclaimerText` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -464,13 +464,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (1840, 101, 0, 0, 11, 'Install a condensing economizer (for Matt to flesh out)', '', '', 0, '2020-07-03 00:26:01', 1),
 (1877, 120, 0, 0, 11, 'Correct Power Factor (for Ethan to flesh out)', '', '', 0, '2020-07-03 00:28:39', 1),
 (1878, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, '2020-07-03 00:28:39', 1),
-(1879, 112, 0, 0, 15, 'Motor Inventory ', '', '', 0, '2020-07-03 00:29:20', 0),
-(1880, 112, 0, 1, 13, 'Motor ID, Location, Application', '', '', 0, '2020-07-03 00:29:20', 0),
-(1881, 112, 0, 1, 13, 'Nameplate Data ', '', '', 0, '2020-07-03 00:29:20', 0),
-(1882, 112, 0, 1, 13, 'Load Factor, Use Factor (operation hours)', '', '', 0, '2020-07-03 00:29:20', 0),
-(1883, 112, 0, 1, 13, 'Drive Type', '', '', 0, '2020-07-03 00:29:20', 0),
-(1884, 112, 0, 1, 13, 'Controls', '', '', 0, '2020-07-03 00:29:20', 0),
-(1890, 113, 0, 0, 6, 'Power Quality Analyzer (can\'t see equipment icon atm)', '', '', 0, '2020-07-03 00:35:22', 0),
 (1897, 100, 0, 0, 24, 'See steam tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-07-03 03:01:04', 1),
 (1898, 100, 0, 0, 17, 'United Nations Industrial Development Organization Document', 'https://www.unido.org/sites/default/files/2017-11/SSO-Manual-Print-FINAL-20161109-One-Page-V2.pdf', 'Manual for Industrial Steam Systems Assessment and Optimization', 1, '2020-07-03 03:01:04', 1),
 (1899, 100, 0, 0, 17, 'CleaverBrooks Document', 'http://cleaverbrooks.com/reference-center/insights/Boiler%20Efficiency%20Guide.pdf', 'Boiler Efficiency Guide', 1, '2020-07-03 03:01:04', 1),
@@ -604,14 +597,14 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2225, 124, 0, 0, 17, 'See pump tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-07-07 20:31:56', 0),
 (2227, 125, 0, 0, 20, '', 'https://www.pumpsandsystems.com/understanding-pump-curves', 'Sample Pump Curve', 0, '2020-07-07 20:36:10', 0),
 (2228, 125, 0, 0, 20, '', 'https://www.pumpsandsystems.com/understanding-pump-curves', 'Sample Pump and System Curve', 0, '2020-07-07 20:36:10', 0),
-(2229, 125, 0, 0, 20, '', 'https://fluidcontrolproducts.net/catolog/pumps/centrifugal-pumps/cpvc-price-pump-open-box/', 'Sample Pump Nameplate', 0, '2020-07-07 20:36:10', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
+(2229, 125, 0, 0, 20, '', 'https://fluidcontrolproducts.net/catolog/pumps/centrifugal-pumps/cpvc-price-pump-open-box/', 'Sample Pump Nameplate', 0, '2020-07-07 20:36:10', 0),
 (2236, 60, 0, 0, 17, 'This is an internal resource. The link connects to some resource at OSU. We are not worried about this being a dead link.', 'http://placekitten.com/300/300', 'Some Link', 0, '2020-07-07 21:20:15', 0),
 (2237, 60, 0, 0, 17, 'This is an external resource. We worry that it might be a dead link, so we want to track the date.', 'http://placekitten.com/500/500', 'Another Link', 1, '2020-07-07 21:20:15', 0),
 (2238, 60, 0, 0, 26, 'Hello', '', '', 1, '2020-07-07 21:20:15', 0),
 (2239, 60, 0, 0, 27, 'hi', '', '', 0, '2020-07-07 21:20:15', 0),
 (2240, 127, 0, 0, 16, '1', '', '', 0, '2020-07-07 21:21:54', 0),
-(2241, 127, 0, 0, 4, '2', '', '', 0, '2020-07-07 21:21:54', 0),
+(2241, 127, 0, 0, 4, '2', '', '', 0, '2020-07-07 21:21:54', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
 (2242, 128, 0, 0, 11, 'w', '', '', 0, '2020-07-07 21:23:36', 1),
 (2243, 128, 0, 0, 2, 'w', '', '', 0, '2020-07-07 21:23:36', 1),
 (2244, 128, 0, 0, 11, 'w222', '', '', 0, '2020-07-07 21:33:22', 0),
@@ -622,7 +615,14 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2263, 119, 0, 0, 11, 'Interlock equipment with a related process', '', '', 0, '2020-07-07 23:38:14', 1),
 (2264, 119, 0, 0, 11, 'Operate equipment in batches rather than continuously ', '', '', 0, '2020-07-07 23:38:14', 1),
 (2265, 119, 0, 1, 10, 'Equipment is idle for significant periods of time', '', '', 0, '2020-07-07 23:38:14', 1),
-(2267, 96, 0, 0, 27, 'Combustion Analyzer ', '', '', 0, '2020-07-08 20:15:53', 1);
+(2267, 96, 0, 0, 27, 'Combustion Analyzer ', '', '', 0, '2020-07-08 20:15:53', 1),
+(2268, 112, 0, 0, 15, 'Motor Inventory ', '', '', 0, '2020-07-08 22:27:29', 0),
+(2269, 112, 0, 1, 26, 'Motor ID, Location, Application', '', '', 0, '2020-07-08 22:27:29', 0),
+(2270, 112, 0, 1, 26, 'Nameplate Data ', '', '', 0, '2020-07-08 22:27:29', 0),
+(2271, 112, 0, 1, 26, 'Load Factor, Use Factor (operation hours)', '', '', 0, '2020-07-08 22:27:29', 0),
+(2272, 112, 0, 1, 26, 'Drive Type', '', '', 0, '2020-07-08 22:27:29', 0),
+(2273, 112, 0, 1, 26, 'Controls', '', '', 0, '2020-07-08 22:27:29', 0),
+(2275, 113, 0, 0, 27, 'Power Quality Analyzer ', '', '', 0, '2020-07-08 22:29:50', 0);
 
 -- --------------------------------------------------------
 
@@ -656,7 +656,7 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (25, 2, 'z - testing: Airplanes', 'They fly', 'An airplane or aeroplane (informally plane) is a powered, fixed-wing aircraft that is propelled forward by thrust from a jet engine, propeller or rocket engine. Airplanes come in a variety of sizes, shapes, and wing configurations. The broad spectrum of uses for airplanes includes recreation, transportation of goods and people, military, and research. Worldwide, commercial aviation transports more than four billion passengers annually on airliners[1] and transports more than 200 billion tonne-kilometers[2] of cargo annually, which is less than 1% of the world\'s cargo movement.[3] Most airplanes are flown by a pilot on board the aircraft, but some are designed to be remotely or computer-controlled such as drones.\n\nhello', 'https://scx1.b-cdn.net/csz/news/800/2019/toomanyairpl.jpg', 0, 42, '2020-05-30 09:13:53', 0),
 (26, 2, 'z - testing: Air Conditioners', 'System for controlling the humidity, ventilation, and temperature in a building or vehicle', 'Pretium lectus quam id leo in vitae turpis massa. Placerat vestibulum lectus mauris ultrices eros in cursus turpis. Convallis a cras semper auctor neque vitae. Dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Non diam phasellus vestibulum lorem sed. Id diam vel quam elementum pulvinar. Ut faucibus pulvinar elementum integer enim neque volutpat. Morbi tristique senectus et netus. Suspendisse potenti nullam ac tortor vitae. Ut morbi tincidunt augue interdum velit euismod in pellentesque massa. Nibh tellus molestie nunc non blandit massa enim. Arcu cursus vitae congue mauris rhoncus. Massa placerat duis ultricies ultrices.', 'https://www.alternativeheatingandair.com/wp-content/uploads/2017/07/DN-N4A3-R-grid.png', 0, 51, '2020-05-30 09:13:53', 0),
 (27, 1, 'z - test Air', 'Atmosphere of Earth', 'The atmosphere of Earth is the layer of gases, commonly known as air, that surrounds the planet Earth and is retained by Earth\'s gravity. The atmosphere of Earth protects life on Earth by creating pressure allowing for liquid water to exist on the Earth\'s surface, absorbing ultraviolet solar radiation, warming the surface through heat retention (greenhouse effect), and reducing temperature extremes between day and night (the diurnal temperature variation).\r\n\r\nBy volume, dry air contains 78.09% nitrogen, 20.95% oxygen, 0.93% argon, 0.04% carbon dioxide, and small amounts of other gases.[8] Air also contains a variable amount of water vapor, on average around 1% at sea level, and 0.4% over the entire atmosphere. Air composition, temperature, and atmospheric pressure vary with altitude, and air suitable for use in photosynthesis by terrestrial plants and breathing of terrestrial animals is found only in Earth\'s troposphere and in artificial atmospheres.', 'https://www.thoughtco.com/thmb/u4lrTQTaL53yjnngajEkywr3MmM=/1941x1456/smart/filters:no_upscale()/GettyImages-914450516-5a831486642dca0037213a33.jpg', 0, 51, '2020-05-30 09:14:40', 0),
-(44, 2, 'Motors and Controls', 'Electrical Motors and Motor Controls (Variable Speed Drives, etc) are crucial to most mechanized industrial processes and equipment.', 'Motors are a crucial part of any mechanized process and provide a means to do the majority of the mechanical work in most facilities.  Motors convert electrical energy into mechanical work to provide power to a wide range of applications including air compressors, fans, pumps, hydraulics, mixers, conveyors, and much more.', 'https://live.staticflickr.com/65535/50069229503_243696380c_b.jpg', 1, 51, '2020-06-29 23:04:50', 1),
+(44, 2, 'Motors and Controls', 'Electrical Motors and Motor Controls (Variable Speed Drives, etc) are crucial to most mechanized industrial processes and equipment.', 'Motors are a crucial part of any mechanized process and provide a means to do the majority of the mechanical work in most facilities.  Motors convert electrical energy into mechanical work to provide power to a wide range of applications including air compressors, fans, pumps, hydraulics, mixers, conveyors, and much more.', 'https://live.staticflickr.com/65535/50069229503_243696380c_b.jpg', 0, 51, '2020-06-29 23:04:50', 0),
 (45, 2, 'Pumps', 'Pumps provide a typical utility required throughout industry.', 'Centrifugal pumps are the most common type found in industry, followed by positive displacement pumps (used in hydraulics), pneumatic diaphragm pumps, peristaltic pumps, and other specialty pumps. \n\nUnless otherwise noted this section speaks to centrifugal pumps when addressing pump performance and efficiency. Changes in hydraulic energy required (pressure and flow) will translate to any pumping system. ', 'https://live.staticflickr.com/65535/50066427331_ddae8822f2_b.jpg', 0, 51, '2020-07-01 18:11:01', 0),
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
 (47, 2, 'Heat Exchange & Insulation', 'Many industrial processes require encouraging or resisting thermal energy transfer.', 'Heat transfer technologies include heat exchangers, cooling towers, fan cooling, direct impingement and other methods.  Heat transfer is discouraged with insulation, vacuums, reduced emissivity, etc. ', 'https://live.staticflickr.com/65535/50069411093_68ab30e548_b.jpg', 0, 51, '2020-07-02 21:31:22', 0),
@@ -859,7 +859,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2268;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2276;
 
 --
 -- AUTO_INCREMENT for table `Pages`
