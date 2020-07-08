@@ -57,12 +57,21 @@ function Home() {
         </Card.Header>
         <div className="p-4 my-2 text-dark-50 bg-white" >
           <div className="font-weight-bold mb-3">This guide is broken down into sections:</div>
-          
+
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
               <li>
-                <NavLink to="/page-list/technology"><b>Technologies</b></NavLink>
-                <span className="font-weight-normal">: An introduction to an industrial technology.</span>
+                <NavLink to="/page-list/assessment"><b>Assessments</b></NavLink>
+                <span className="font-weight-normal">: An introduction to a method for evaluating or estimating.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
+              <li>
+                <NavLink to="/page-list/industry"><b>Industries</b></NavLink>
+                <span className="font-weight-normal">: An overview of the industry is followed by a list of common related subjects.</span>
               </li>
             </ul>
           </div>
@@ -88,17 +97,8 @@ function Home() {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
               <li>
-                <NavLink to="/page-list/assessment"><b>Assessments</b></NavLink>
-                <span className="font-weight-normal">: An introduction to a method for evaluating or estimating.</span>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <NavLink to="/page-list/industry"><b>Industries</b></NavLink>
-                <span className="font-weight-normal">: An overview of the industry is followed by a list of common related subjects.</span>
+                <NavLink to="/page-list/technology"><b>Technologies</b></NavLink>
+                <span className="font-weight-normal">: An introduction to an industrial technology.</span>
               </li>
             </ul>
           </div>
