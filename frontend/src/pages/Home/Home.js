@@ -1,12 +1,55 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Card, Col} from "react-bootstrap";
 import {NavLink} from "react-router-dom";
+import LoadingOverlay from "../../components/General/LoadingOverlay";
 import "./Home.css";
 
 function Home() {
+
+  const [generalIcons, setGeneralIcons] = useState([]);
+  const [linkIcons, setLinkIcons] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchIcons();
+  }, []);
+
+  // fetch icon data
+  async function fetchIcons() {
+    setLoading(true);
+
+    // Fetch all icons
+    let results = await fetch(`/icons/all`);
+
+    if (results.ok) {
+
+      const obj = await results.json();
+      const general = [];
+      const links = [];
+      
+      // Sort the icons by group
+      for (let i = 0; i < obj.icons.length; i++) {
+        if (obj.icons[i].groupIndex === 1 || obj.icons[i].groupIndex === 2) {
+          general.push(obj.icons[i]);
+        } else if (obj.icons[i].groupIndex === 3) {
+          links.push(obj.icons[i]);
+        }
+      }
+
+      setGeneralIcons(general);
+      setLinkIcons(links);
+
+    } else {
+      console.error("Error fetching icon list");
+    }
+
+    setLoading(false);
+  }
+
   return (
     <div className="container home-page-container">
 
+      <LoadingOverlay loading={loading} />
       <Card className="my-2 mb-5">
         <Card.Header>
           <h2>Welcome to the Industrial Walkthrough Checklist &amp; Reference!</h2>
@@ -41,42 +84,12 @@ function Home() {
           <div className="font-weight-bold mb-3">These include</div>
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-plus mr-2`} />
-                <span className="font-weight-normal">Pro - Advantage</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-minus mr-2`} />
-                <span className="font-weight-normal">Con - Disadvantage</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-skull mr-2`} />
-                <span className="font-weight-normal">Caveat</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-thumbs-up mr-2`} />
-                <span className="font-weight-normal">Rule of Thumb</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-pencil-alt mr-2`} />
-                <span className="font-weight-normal">Data to Collect</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-hand-point-right mr-2`} />
-                <span className="font-weight-normal">Tip</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-check-square mr-2`} />
-                <span className="font-weight-normal">Best Practice</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-ruler-vertical mr-2`} />
-                <span className="font-weight-normal">Assessment Equipment</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-chart-area mr-2`} />
-                <span className="font-weight-normal">Instructive Data Charts, Tables, Figures, and Pictures</span>
-              </li>
+              {generalIcons.map((icon) =>
+                <li className="my-2" key={icon.iconType}>
+                  <i className={`fas fa-fw fa-${icon.typeName} mr-2`} />
+                  <span className="font-weight-normal">{icon.typeKeyword}</span>
+                </li>
+              )}
             </ul>
           </div>
           <div>
@@ -93,30 +106,12 @@ function Home() {
           <div className="font-weight-bold mb-3">A preceding icon identifies the type of learning resource offered</div>
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-list mr-2`} />
-                <span className="font-weight-normal">Analysis Tool</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-copy mr-2`} />
-                <span className="font-weight-normal">Document</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-play mr-2`} />
-                <span className="font-weight-normal">Slideshow</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-video-camera mr-2`} style={{color: "blue"}} />
-                <span className="font-weight-normal">Video</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-book mr-2`} />
-                <span className="font-weight-normal">Informational Website</span>
-              </li>
-              <li className="my-2">
-                <i className={`fas fa-fw fa-truck mr-2`} />
-                <span className="font-weight-normal">Vendor Website</span>
-              </li>
+              {linkIcons.map((icon) =>
+                  <li className="my-2" key={icon.iconType}>
+                    <i className={`fas fa-fw fa-${icon.typeName} mr-2`} />
+                    <span className="font-weight-normal">{icon.typeKeyword}</span>
+                  </li>
+                )}
             </ul>
           </div>
           <div className="font-weight-bold mb-3">A trailing icon identifies the learning resource as internal or external</div>
