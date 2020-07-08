@@ -72,13 +72,16 @@ function EditPage(props) {
       internal = 1;
     }
 
+    const typeSelect = document.getElementById("select-new-page-type");
+    let newPageType = parseInt(typeSelect.options[typeSelect.selectedIndex].value, 10);
+
     const data = {
       name: title,
       title: summary,
       description: description,
       imageUrl: url,
       internal: internal,
-      pageType: pageType
+      pageType: newPageType
     };
 
     const results = await fetch(`/pages/${props.page.pageId}`, {
@@ -105,7 +108,7 @@ function EditPage(props) {
           pageType: props.page.pageType,
           userId: props.page.userId,
           internal: props.page.internal,
-          tempPageType: pageType,
+          tempPageType: newPageType,
           tempInternal: internal,
           tempPageId: props.page.pageId,
           tempDescription: description,
@@ -129,7 +132,7 @@ function EditPage(props) {
           name: title,
           title: summary,
           pageId: props.page.pageId,
-          pageType: pageType,
+          pageType: newPageType,
           userId: 0,
           internal: internal,
           tempPageType: props.page.tempPageType,
@@ -422,5 +425,5 @@ EditPage.propTypes = {
   role: PropTypes.number,
   mode: PropTypes.number,
   handleUpdate: PropTypes.func,
-  handlePageEdit: PropTypes.any
+  handlePageEdit: PropTypes.func
 };

@@ -10,6 +10,7 @@ import "./ReviewPage.css";
 // Button and modal that allows a user to review a page
 function ReviewPage(props) {
 
+  const pageTypeNames = ["Industry", "Technology", "Process", "Productivity", "Assessments"];
   const [role, setRole] = useState(0);
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -44,6 +45,8 @@ function ReviewPage(props) {
 
     if (results.ok) {
 
+      props.handlePageEdit();
+
       const newPage = {
         approved: 0,
         created: props.page.created,
@@ -55,6 +58,7 @@ function ReviewPage(props) {
         pageType: props.page.pageType,
         userId: props.page.userId,
         internal: props.page.internal,
+        tempPageType: null,
         tempInternal: null,
         tempDescription: null,
         tempImageUrl: null,
@@ -106,6 +110,8 @@ function ReviewPage(props) {
 
     if (results.ok) {
 
+      props.handlePageEdit();
+
       let newPage = {};
 
       if (props.page.approved) {
@@ -117,9 +123,10 @@ function ReviewPage(props) {
           name: props.page.tempName,
           title: props.page.tempTitle,
           pageId: props.page.pageId,
-          pageType: props.page.pageType,
+          pageType: props.page.tempPageType,
           userId: props.page.tempUserId,
           internal: props.page.tempInternal,
+          tempPageType: null,
           tempInternal: null,
           tempDescription: null,
           tempImageUrl: null,
@@ -141,6 +148,7 @@ function ReviewPage(props) {
           pageType: props.page.pageType,
           userId: props.page.userId,
           internal: props.page.internal,
+          tempPageType: null,
           tempInternal: null,
           tempDescription: null,
           tempImageUrl: null,
@@ -203,7 +211,7 @@ function ReviewPage(props) {
               <h4 className="font-weight-bold">Published Version</h4>
               <span className="created-text">Created {formatTime(props.page.created)}</span>
               <div className="m-4">
-                <h3 className="font-weight-bold">{props.page.name}</h3>
+                <h3 className="font-weight-bold">{props.page.name} ({props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null })</h3>
                 <h4>{props.page.title}</h4>
                 <span>{props.page.description}</span>
                 <Image url={props.page.imageUrl}
@@ -222,7 +230,7 @@ function ReviewPage(props) {
               <h4 className="font-weight-bold">New Version</h4>
               <span className="created-text">Created {formatTime(props.page.tempCreated)}</span>
               <div className="m-4">
-                <h3 className="font-weight-bold">{props.page.tempName}</h3>
+                <h3 className="font-weight-bold">{props.page.tempName} ({props.page.tempPageType <= pageTypeNames.length ? pageTypeNames[props.page.tempPageType - 1] : null })</h3>
                 <h4>{props.page.tempTitle}</h4>
                 <span>{props.page.tempDescription}</span>
                 <Image url={props.page.tempImageUrl}
@@ -241,7 +249,7 @@ function ReviewPage(props) {
                   <h4 className="font-weight-bold">New Version</h4>
                   <span className="created-text">Created {formatTime(props.page.created)}</span>
                   <div className="m-4">
-                    <h3 className="font-weight-bold">{props.page.name}</h3>
+                    <h3 className="font-weight-bold">{props.page.name} ({props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null })</h3>
                     <h4>{props.page.title}</h4>
                     <span>{props.page.description}</span>
                     <Image url={props.page.imageUrl}
@@ -306,5 +314,6 @@ export default ReviewPage;
 ReviewPage.propTypes = {
   mode: PropTypes.number,
   page: PropTypes.object,
-  handleUpdate: PropTypes.func
+  handleUpdate: PropTypes.func,
+  handlePageEdit: PropTypes.func
 };

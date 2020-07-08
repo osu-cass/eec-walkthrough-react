@@ -68,6 +68,7 @@ function PageDescription(props) {
               page={props.page}
               mode={props.mode}
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+              handlePageEdit={props.handlePageEdit}
             />
             <ChangeMode role={props.role}
               mode={props.mode}
