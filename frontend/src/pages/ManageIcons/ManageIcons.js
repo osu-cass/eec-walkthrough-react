@@ -13,7 +13,7 @@ function ManageIcons() {
     fetchIcons();
   }, []);
 
-  function handleIconEdit() {
+  function handleUpdate(icon) {
     fetchIcons();
   }
 
@@ -115,7 +115,7 @@ function ManageIcons() {
                 {icon.color}
               </td>
               <td className="icon-data">
-                <EditIcons icon={icon} />
+                <EditIcons icon={icon} handleUpdate={(icon) => handleUpdate(icon)} />
               </td>
             </tr>
           )}

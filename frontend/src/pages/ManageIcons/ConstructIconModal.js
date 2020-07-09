@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
@@ -93,7 +93,7 @@ function ConstructIconModal(props) {
         tempItems: copy
       };
 
-      // props.handleUpdate(newCard, "card", "create");
+      // props.handleUpdate(newIcon);
 
       // Reset state
       setCounter(0);
@@ -160,7 +160,7 @@ function ConstructIconModal(props) {
         color: color
       };
 
-      // props.handleUpdate(newCard, "card", "update");
+      props.handleUpdate(newIcon);
 
       // Reset state
       setErrorMessage("");
@@ -188,59 +188,42 @@ function ConstructIconModal(props) {
 
   // Check for empty inputs
   function checkInputs() {
-    return false;
-    /*
+
     let emptyFound = false;
     let newErrorMessage = errorMessage;
     let i = 0;
 
-    // Empty title
-    if (!title.length) {
+    // Empty name
+    if (!typeKeyword.length) {
       emptyFound = true;
-      newErrorMessage = "Error: Empty card title";
       if (emptyFound) {
-        setErrorMessage(newErrorMessage);
+        setErrorMessage("Error: Empty name");
         return true;
       }
     }
-    // Empty item text
-    for (i = 0; i < items.length; i++) {
-      const item = items[i];
-      if (item.contentType === 1) { // text
-        if (item.contentText === "") {
-          emptyFound = true;
-          newErrorMessage = "Error: Item is not filled out completely on line " + (i + 1);
-          break;
-        }
-      } else if (item.contentType === 2) { // label + url
-        if (item.contentLabel === "" || item.contentUrl === "") {
-          emptyFound = true;
-          newErrorMessage = "Error: Graphic is not filled out completely on line " + (i + 1);
-          break;
-        }
-      } else if (item.contentType === 3) { // text + label + url
-        if (item.contentLabel === "" || item.contentUrl === "") {
-          emptyFound = true;
-          newErrorMessage = "Error: Resource is not filled out completely on line " + (i + 1);
-          break;
-        }
-        if (item.contentMode < 0) {
-          emptyFound = true;
-          newErrorMessage = "Error: Resource link type is not selected on line " + (i + 1);
-          break;
-        }
-      }
-      // Check icons
-      if (item.iconType === null) {
-        emptyFound = true;
-        newErrorMessage = "Error: Empty item icon on line " + (i + 1);
-        break;
+
+    // Empty font awesome name
+    if (!typeKeyword.length) {
+      emptyFound = true;
+      if (typeName) {
+        setErrorMessage("Error: Empty font awesome name");
+        return true;
       }
     }
+
+    // Short color code
+    if (color.length < 7) {
+      emptyFound = true;
+      if (typeName) {
+        setErrorMessage("Error: Color code must be seven characters long");
+        return true;
+      }
+    }
+
     setErrorMessage(newErrorMessage);
     if (emptyFound) { return true; }
     return false;
-    */
+
   }
 
   return (
@@ -293,17 +276,31 @@ function ConstructIconModal(props) {
             <Col>
               <Form.Group controlId="formTitle">
                 <Form.Label className="font-weight-bold">Color Code</Form.Label>
-                <Form.Control type="text" maxLength="100" defaultValue={color} onChange={(e) => setColor(e.target.value)} />
+                <Form.Control type="text" maxLength="7" defaultValue={color} onChange={(e) => setColor(e.target.value)} />
               </Form.Group>
             </Col>
+          </Row>
+
+          <Row>
+            <div className='col-3' />
+            <div className='col-6 mt-4'>
+              <Error
+                message={errorMessage}
+              />
+            </div>
           </Row>
 
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-
-          <Button variant="primary" onClick={() => handleCreate()}>Submit Icon</Button>
-          <Button variant="secondary" onClick={() => props.handleClose()}>Cancel</Button>
+        {props.edit ? (
+          <Button variant="primary" onClick={() => handleEdit()}>Submit Icon Changes</Button>
+        ) : (
+          <Fragment>
+            <Button variant="primary" onClick={() => handleCreate()}>Submit Icon</Button>
+            <Button variant="secondary" onClick={() => props.handleClose()}>Cancel</Button>
+          </Fragment>
+        )}
 
         </Modal.Footer>
       </Modal>
@@ -316,6 +313,7 @@ export default ConstructIconModal;
 ConstructIconModal.propTypes = {
   edit: PropTypes.bool,
   handleClose: PropTypes.func,
+  handleUpdate: PropTypes.func,
   show: PropTypes.bool,
   icon: PropTypes.object
 };
