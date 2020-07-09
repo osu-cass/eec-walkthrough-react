@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Card, Col} from "react-bootstrap";
-import {NavLink} from "react-router-dom";
+import {Card} from "react-bootstrap";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import "./ManageIcons.css";
 
@@ -29,13 +28,30 @@ function ManageIcons() {
 
       const obj = await results.json();
 
-      setIcons(obj);
+      const sortedIcons = [];
+
+      obj.icons.sort((a, b) => a.iconType - b.iconType);
+
+      setIcons(obj.icons);
 
     } else {
       console.error("Error fetching icon list");
     }
 
     setLoading(false);
+  }
+
+  // convert icon group number to string
+  function groupName(category) {
+    if (category === 1) {
+      return "Item";;
+    } else if (category === 2) {
+      return "Graphic";
+    } else if (category === 3) {
+      return "Site Resource";
+    } else {
+      return "Inactive";
+    }
   }
 
   return (
@@ -50,11 +66,61 @@ function ManageIcons() {
       </div>
 
       <LoadingOverlay loading={loading} />
-      <Card className="my-2 mb-5">
-        <div className="p-4 my-2 text-dark-50 bg-white">
-          <div className="font-weight-bold mb-3">TEST</div>
-        </div>
-      </Card>
+
+      <table className="user-table shadow">
+        <thead>
+          <tr>
+            <th className="text-center" style={{width: "10%"}}>
+              Icon
+            </th>
+            <th style={{width: "10%"}}>
+              ID
+            </th>
+            <th style={{width: "25%"}}>
+              Name
+            </th>
+            <th style={{width: "20%"}}>
+              Font Awesome Name
+            </th>
+            <th style={{width: "15%"}}>
+              Category
+            </th>
+            <th style={{width: "15%"}}>
+              Color
+            </th>
+            <th style={{width: "15%"}}>
+              Edit
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {icons.map((icon) =>
+            <tr key={icon.iconType}>
+              <td className="icon-data text-center">
+                <i className={`fas fa-fw fa-${icon.typeName} mr-2`} />
+              </td>
+              <td className="icon-data">
+                {icon.iconType}
+              </td>
+              <td className="icon-data">
+                {icon.typeKeyword}
+              </td>
+              <td className="icon-data">
+                {icon.typeName}
+              </td>
+              <td className="icon-data">
+                {groupName(icon.groupIndex)}
+              </td>
+              <td className="icon-data">
+                {icon.color}
+              </td>
+              <td className="icon-data">
+                Edit
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
 
     </div>
   );
