@@ -24,8 +24,8 @@ function ConstructIconModal(props) {
     setTypeName(props.icon.typeName);
     setGroupIndex(props.icon.groupIndex);
     setColor(props.icon.color);
-  }, [props.show, props.edit, props.icon.typeKeyword, props.icon.typeName,
-    props.icon.groupIndex, props.icon.color]);
+    // eslint-disable-next-line
+  }, [props.show]);
 
   // Clear error messages whenever the modal is opened or closed
   useEffect(() => {
@@ -153,20 +153,13 @@ function ConstructIconModal(props) {
 
     if (results.ok) {
 
-      let newIcon = {
-        typeKeyword: typeKeyword,
-        typeName: typeName,
-        groupIndex: newCategory,
-        color: color
-      };
-
-      props.handleUpdate(newIcon);
-
       // Reset state
       setErrorMessage("");
 
       // Close modal
       props.handleClose();
+
+      props.handleUpdate();
 
     } else {
 
@@ -191,33 +184,23 @@ function ConstructIconModal(props) {
 
     let emptyFound = false;
     let newErrorMessage = errorMessage;
-    let i = 0;
 
     // Empty name
     if (!typeKeyword.length) {
-      emptyFound = true;
-      if (emptyFound) {
-        setErrorMessage("Error: Empty name");
-        return true;
-      }
+      setErrorMessage("Error: Empty name");
+      return true;
     }
 
     // Empty font awesome name
-    if (!typeKeyword.length) {
-      emptyFound = true;
-      if (typeName) {
-        setErrorMessage("Error: Empty font awesome name");
-        return true;
-      }
+    if (!typeName.length) {
+      setErrorMessage("Error: Empty font awesome name");
+      return true;
     }
 
     // Short color code
     if (color.length < 7) {
-      emptyFound = true;
-      if (typeName) {
-        setErrorMessage("Error: Color code must be seven characters long");
-        return true;
-      }
+      setErrorMessage("Error: Color code must be seven characters long");
+      return true;
     }
 
     setErrorMessage(newErrorMessage);
@@ -239,7 +222,7 @@ function ConstructIconModal(props) {
         <Modal.Body >
           <Row>
             <Col>
-              <Form.Group controlId="formTitle">
+              <Form.Group controlId="formName">
                 <Form.Label className="font-weight-bold">Name</Form.Label>
                 <Form.Control type="text" maxLength="100" defaultValue={typeKeyword} onChange={(e) => setTypeKeyword(e.target.value)} />
               </Form.Group>
@@ -248,7 +231,7 @@ function ConstructIconModal(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="formTitle">
+              <Form.Group controlId="formFont">
                 <Form.Label className="font-weight-bold">Font Awesome Name</Form.Label>
                 <Form.Control type="text" maxLength="100" defaultValue={typeName} onChange={(e) => setTypeName(e.target.value)} />
               </Form.Group>
@@ -274,7 +257,7 @@ function ConstructIconModal(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="formTitle">
+              <Form.Group controlId="formColor">
                 <Form.Label className="font-weight-bold">Color Code</Form.Label>
                 <Form.Control type="text" maxLength="7" defaultValue={color} onChange={(e) => setColor(e.target.value)} />
               </Form.Group>
