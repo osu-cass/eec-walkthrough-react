@@ -32,7 +32,7 @@ function SidebarCollection(props) {
           )}
         </Fragment>
       )}
-      {props.collection ?
+      {props.collection ? (
         <Accordion.Collapse eventKey="0">
           <Fragment>
             {props.collection.map((item, i) => {
@@ -52,7 +52,9 @@ function SidebarCollection(props) {
             />
           </Fragment>
         </Accordion.Collapse>
-        : ""}
+      ) : (
+        null
+      )}
     </Accordion >
 
   );

@@ -2,6 +2,7 @@ import React from "react";
 import ContentPage from "./pages/ContentPage/ContentPage";
 import Home from "./pages/Home/Home";
 import ManageUsers from "./pages/ManageUsers/ManageUsers";
+import ManageIcons from "./pages/ManageIcons/ManageIcons";
 import Search from "./pages/Search/Search";
 import RegisterUser from "./pages/RegisterUser/RegisterUser";
 import EditUser from "./pages/EditUser/EditUser";
@@ -108,6 +109,9 @@ class App extends React.Component {
           </Route>
           <Route path='/manage-users'>
             <ManageUsers />
+          </Route>
+          <Route path='/manage-icons'>
+            <ManageIcons />
           </Route>
           <Route path='/register-user'>
             <RegisterUser />

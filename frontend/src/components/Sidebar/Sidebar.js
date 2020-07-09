@@ -61,7 +61,7 @@ function Sidebar(props) {
   }
 
   return pages ? (
-    < div
+    <div
       className={"wrapper " + props.className}
       ref={wrapperRef}
     >
@@ -115,10 +115,16 @@ function Sidebar(props) {
               role={role}
             />
             {role === 4 ? (
-              <SidebarCollection
-                collectionName="Manage Users"
-                collectionLink="manage-users"
-              />
+              <Fragment>
+                <SidebarCollection
+                  collectionName="Manage Icons"
+                  collectionLink="manage-icons"
+                />
+                <SidebarCollection
+                  collectionName="Manage Users"
+                  collectionLink="manage-users"
+                />
+              </Fragment>
             ) : (
               null
             )}
