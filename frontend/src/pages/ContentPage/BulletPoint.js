@@ -112,9 +112,11 @@ function BulletPoint (props) {
                 null
               )}
               <br/>
-              <small>
-                {props.text === "$empty" ? (null) : (props.text)}
-              </small>
+              <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}>
+                <small>
+                  {props.text === "$empty" ? (null) : (props.text)}
+                </small>
+              </a>
             </div>
             {props.contentMode === 1 || props.contentMode === 3 ? (
               <LinkAccessButtons
