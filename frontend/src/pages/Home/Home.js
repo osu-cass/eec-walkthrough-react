@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Card, Col} from "react-bootstrap";
 import {NavLink} from "react-router-dom";
+import EditHome from "./EditHome";
+import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import "./Home.css";
 
-function Home() {
+function Home(props) {
 
   const [generalIcons, setGeneralIcons] = useState([]);
   const [linkIcons, setLinkIcons] = useState([]);
@@ -34,6 +36,10 @@ function Home() {
   useEffect(() => {
     fetchHome();
   }, []);
+
+  function handlePageEdit() {
+    fetchHome();
+  }
 
   // fetch homepage data
   async function fetchHome() {
@@ -85,7 +91,18 @@ function Home() {
       <LoadingOverlay loading={loading} />
       <Card className="my-2 mb-5">
         <Card.Header>
-          <h2>{page.mainHeader}</h2>
+          <div className="row">
+            <div className="col">
+              <h2>{page.mainHeader}</h2>
+            </div>
+            <div>
+              <EditHome
+                handlePageEdit={() => handlePageEdit()}
+                loginStatusChange={props.loginStatusChange}
+                page={page}
+              />
+            </div>
+          </div>
           <span>{page.secondaryHeader}</span>
         </Card.Header>
         <div className="p-4 my-2 text-dark-50 bg-white" >
@@ -280,3 +297,7 @@ function Home() {
   );
 }
 export default Home;
+
+Home.propTypes = {
+  loginStatusChange: PropTypes.bool
+};

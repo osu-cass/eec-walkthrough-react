@@ -170,7 +170,16 @@ class CreatePage extends React.Component {
               <Col>
                 <Form.Group controlId="formDescription">
                   <Form.Label className="font-weight-bold">Brief Description</Form.Label>
-                  <Form.Control type="text" maxLength="5000" placeholder="Enter description" onChange={(e) => this.setState({description: e.target.value})} />
+                  <Form.Control
+                    as="textarea"
+                    maxLength="5000"
+                    rows="4"
+                    placeholder="Enter description"
+                    onChange={(e) => this.setState({description: e.target.value})}
+                    style={{
+                      maxHeight: "500px"
+                    }}
+                  />
                 </Form.Group>
               </Col>
             </Row>
