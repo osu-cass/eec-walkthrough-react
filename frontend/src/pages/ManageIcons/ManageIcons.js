@@ -41,16 +41,17 @@ function ManageIcons() {
   return (
     <div className="container icon-page-container">
 
+      <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
+        <div className="row mx-2">
+          <h4 className="flex-grow-1 font-weight-bold">
+            Manage Icons
+          </h4>
+        </div>
+      </div>
+
       <LoadingOverlay loading={loading} />
       <Card className="my-2 mb-5">
-        <Card.Header>
-          <div className="row">
-            <div className="col">
-              <h2>Manage Icons</h2>
-            </div>
-          </div>
-        </Card.Header>
-        <div className="p-4 my-2 text-dark-50 bg-white" >
+        <div className="p-4 my-2 text-dark-50 bg-white">
           <div className="font-weight-bold mb-3">TEST</div>
         </div>
       </Card>

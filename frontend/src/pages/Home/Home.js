@@ -90,20 +90,25 @@ function Home(props) {
     <div className="container home-page-container">
 
       <LoadingOverlay loading={loading} />
+
+      <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
+        <div className="row mx-2">
+          <div className="col">
+            <h2>{page.mainHeader}</h2>
+
+          </div>
+        </div>
+        <div>
+          <EditHome
+            handlePageEdit={() => handlePageEdit()}
+            loginStatusChange={props.loginStatusChange}
+            page={page}
+          />
+        </div>
+      </div>
+
       <Card className="my-2 mb-5">
         <Card.Header>
-          <div className="row">
-            <div className="col">
-              <h2>{page.mainHeader}</h2>
-            </div>
-            <div>
-              <EditHome
-                handlePageEdit={() => handlePageEdit()}
-                loginStatusChange={props.loginStatusChange}
-                page={page}
-              />
-            </div>
-          </div>
           <span>{page.secondaryHeader}</span>
         </Card.Header>
         <div className="p-4 my-2 text-dark-50 bg-white" >
