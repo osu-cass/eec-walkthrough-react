@@ -237,7 +237,7 @@ const patchItemTimeVal = Object.freeze({
 });
 exports.patchItemTimeVal = patchItemTimeVal;
 
-// validation checks for post homepage
+// validation checks for patch homepage
 const patchHomeVal = Object.freeze({
   validation: [
     check("mainHeader").isLength({min: 0, max: 1000}),
@@ -262,3 +262,14 @@ const patchHomeVal = Object.freeze({
   ]
 });
 exports.patchHomeVal = patchHomeVal;
+
+// validation checks for patch icon
+const patchIconVal = Object.freeze({
+  validation: [
+    check("typeKeyword").isLength({min: 1, max: 100}),
+    check("typeName").isLength({min: 1, max: 100}),
+    check("groupIndex").isInt({min: 0, max: 3}),
+    check("color").isLength({min: 7, max: 7})
+  ]
+});
+exports.patchIconVal = patchIconVal;

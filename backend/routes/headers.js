@@ -15,7 +15,6 @@ const {
   patchHeaderVal,
   patchHeaderMove
 } = require("../services/validation/requestValidation");
-
 const {
   getHeader,
   createHeader,
@@ -131,7 +130,7 @@ app.delete("/:headerId", requireAuth, getHeaderVal.validation, async (req, res) 
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(3, req.auth.userId)) {
+    if (!await roleCheck(4, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to delete header."});
       return;
     }

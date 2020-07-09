@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 08, 2020 at 10:17 PM
+-- Generation Time: Jul 09, 2020 at 12:09 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -785,9 +785,7 @@ ALTER TABLE `Home`
 -- Indexes for table `Icons`
 --
 ALTER TABLE `Icons`
-  ADD PRIMARY KEY (`iconType`),
-  ADD UNIQUE KEY `typeKeyword` (`typeKeyword`),
-  ADD UNIQUE KEY `typeName` (`typeName`);
+  ADD PRIMARY KEY (`iconType`);
 
 --
 -- Indexes for table `Items`

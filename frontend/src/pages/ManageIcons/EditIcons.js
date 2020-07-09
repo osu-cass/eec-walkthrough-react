@@ -31,6 +31,7 @@ function EditIcon(props) {
       <ConstructIconModal
         edit={true}
         handleClose={() => handleClose()}
+        handleUpdate={(icon) => props.handleUpdate(icon)}
         show={show}
         icon={props.icon}
       />
@@ -41,5 +42,6 @@ function EditIcon(props) {
 export default EditIcon;
 
 EditIcon.propTypes = {
-  icon: PropTypes.object
+  icon: PropTypes.object,
+  handleUpdate: PropTypes.func
 };
