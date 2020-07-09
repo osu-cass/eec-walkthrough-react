@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import "./Home.css";
 
+// application homepage
 function Home(props) {
 
   const [generalIcons, setGeneralIcons] = useState([]);
