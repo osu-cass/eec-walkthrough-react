@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import EditIcons from "./EditIcons";
 import "./ManageIcons.css";
 
 // page for viewing, editing, and creating icons to be used with items
@@ -70,6 +71,7 @@ function ManageIcons() {
             <th className="text-center" style={{width: "10%"}}>
               Icon
             </th>
+            <th style={{width: "5%"}} />
             <th style={{width: "10%"}}>
               ID
             </th>
@@ -96,6 +98,7 @@ function ManageIcons() {
               <td className="icon-data text-center">
                 <i className={`fas fa-fw fa-${icon.typeName} mr-2`} style={{color: icon.color}}/>
               </td>
+              <td/>
               <td className="icon-data">
                 {icon.iconType}
               </td>
@@ -112,7 +115,7 @@ function ManageIcons() {
                 {icon.color}
               </td>
               <td className="icon-data">
-                Edit
+                <EditIcons icon={icon} />
               </td>
             </tr>
           )}
