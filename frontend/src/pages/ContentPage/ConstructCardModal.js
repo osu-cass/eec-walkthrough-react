@@ -715,12 +715,53 @@ function ConstructCardModal(props) {
 
   // Copy item
   function copyItem(item) {
+    // show the toast stating that we have copied an item
     setCopyToast(true);
+
+    // stringify the item data
+    const itemString = item.contentText + "$%$" + item.contentLabel + "$%$" +
+      item.contentUrl + "$%$" + item.iconType + "$%$" + item.contentType + "$%$" +
+      item.contentMode;
+
+    // save the item to local storage
+    window.localStorage.setItem("itemCopy", itemString);
   }
 
   // Paste item
   function pasteItem() {
+    // retrieve the item from local storage
+    const newItem = window.localStorage.getItem("itemCopy");
+    if (newItem === null) {
+      setErrorMessage("No item to paste from clipboard");
+      return;
+    }
 
+    // split the item into an array
+    const itemArray = newItem.split("$%$");
+
+    // add the item to the card
+    const newCounter = counter;
+    const pureId = pureCounter;
+    const key = (newCounter).toString();
+    let copy = [...items];
+
+    // create the new item
+    copy[key] = {};
+    copy[key].counterId = pureId + 1;
+    copy[key].contentText = itemArray[0];
+    copy[key].contentLabel = itemArray[1];
+    copy[key].contentUrl = itemArray[2];
+    copy[key].iconType = parseInt(itemArray[3], 10);
+    copy[key].contentType = parseInt(itemArray[4], 10);
+    copy[key].contentMode = parseInt(itemArray[5], 10);
+    copy[key].indentation = 0;
+
+    // Make sure the indentation is up to date
+    copy = scanIndentation(copy);
+
+    setItems(copy);
+    setCounter(newCounter + 1);
+    setPureCounter(pureCounter + newCounter + 1);
   }
 
   // Closes the specified toast
@@ -736,7 +777,6 @@ function ConstructCardModal(props) {
     <div className='text-center mx-2'>
 
       <Toast show={copyToast} text="Item copied" handleClose={() => closeToast(1)} />
-      <Toast show={pasteToast} text="Item pasted" handleClose={() => closeToast(2)} />
 
       <Modal show={props.show} onHide={() => props.handleClose()} dialogClassName="modal-width">
         <Modal.Header>
@@ -805,7 +845,7 @@ function ConstructCardModal(props) {
                     <i className='fas fa-fw fa-times' />
                   </button>
                   <button className='btn btn-info copy-paste-button btn-sm ml-2'
-                    onClick={() => copyItem(1)}
+                    onClick={() => copyItem(item)}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-copy' />
@@ -861,7 +901,7 @@ function ConstructCardModal(props) {
               <AddButton variant="success" label="Add Graphic" onClick={() => incrementCounter(2)} />
               <AddButton variant="primary" label="Add Site Resource" onClick={() => incrementCounter(3)} />
               <Button
-                onClick={() => {}}
+                onClick={() => pasteItem()}
                 className="mr-2 copy-paste-button"
                 variant="info"
               >
