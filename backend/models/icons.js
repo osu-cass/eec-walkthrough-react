@@ -30,6 +30,57 @@ async function getIcons() {
 exports.getIcons = getIcons;
 
 
+// create an icon
+async function createIcon(typeKeyword, typeName, groupIndex, color) {
+
+  try {
+
+    // check to see if the color is a valid hex color code
+    if (color[0] !== "#") {
+      return {error: 1};
+    }
+
+    for (let i = 1; i < color.length; i++) {
+      if (color[i] !== "0" && color[i] !== "1" && color[i] !== "2" && color[i] !== "3" &&
+      color[i] !== "4" && color[i] !== "5" && color[i] !== "6" && color[i] !== "7" &&
+      color[i] !== "8" && color[i] !== "9" && color[i] !== "A" && color[i] !== "B" &&
+      color[i] !== "C" && color[i] !== "D" && color[i] !== "E" && color[i] !== "F" &&
+      color[i] !== "a" && color[i] !== "b" && color[i] !== "c" && color[i] !== "d" &&
+      color[i] !== "e" && color[i] !== "f") {
+        return {error: 1};
+      }
+    }
+
+    const sqlArray = [];
+
+    // create the new icon
+    const sql = "INSERT INTO Icons (typeKeyword, typeName, groupIndex, color) " +
+    "VALUES (?, ?, ?, ?);";
+    sqlArray.push(typeKeyword);
+    sqlArray.push(typeName);
+    sqlArray.push(groupIndex);
+    sqlArray.push(color);
+
+    // perform the create query
+    const results = await pool.query(sql, sqlArray);
+
+    const iconId = results[0].insertId;
+
+    const finalResults = {
+      insertId: iconId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error creating icon");
+    throw Error(err);
+  }
+
+}
+exports.createIcon = createIcon;
+
+
 // update an icon
 async function updateIcon(iconId, typeKeyword, typeName, groupIndex, color) {
 
@@ -56,7 +107,9 @@ async function updateIcon(iconId, typeKeyword, typeName, groupIndex, color) {
       if (color[i] !== "0" && color[i] !== "1" && color[i] !== "2" && color[i] !== "3" &&
       color[i] !== "4" && color[i] !== "5" && color[i] !== "6" && color[i] !== "7" &&
       color[i] !== "8" && color[i] !== "9" && color[i] !== "A" && color[i] !== "B" &&
-      color[i] !== "C" && color[i] !== "D" && color[i] !== "E" && color[i] !== "F") {
+      color[i] !== "C" && color[i] !== "D" && color[i] !== "E" && color[i] !== "F" &&
+      color[i] !== "a" && color[i] !== "b" && color[i] !== "c" && color[i] !== "d" &&
+      color[i] !== "e" && color[i] !== "f") {
         return {error: 2};
       }
     }
