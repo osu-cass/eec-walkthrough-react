@@ -677,9 +677,9 @@ function ConstructCardModal(props) {
       linkIcons.map((type) => {
         // filter out icons based on the content type
         jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} style={{color: type.color}} /> {type.typeKeyword}
         </div>);
-        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} />;
+        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} style={{color: type.color}} />;
         values.push([type.iconType, jsxIcon]);
         return null;
       });
@@ -687,9 +687,9 @@ function ConstructCardModal(props) {
       imageIcons.map((type) => {
         // filter out icons based on the content type
         jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} style={{color: type.color}} /> {type.typeKeyword}
         </div>);
-        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} />;
+        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} style={{color: type.color}} />;
         values.push([type.iconType, jsxIcon]);
         return null;
       });
@@ -697,9 +697,9 @@ function ConstructCardModal(props) {
       basicIcons.map((type) => {
         // filter out icons based on the content type
         jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} style={{color: type.color}} /> {type.typeKeyword}
         </div>);
-        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} />;
+        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} style={{color: type.color}} />;
         values.push([type.iconType, jsxIcon]);
         return null;
       });
