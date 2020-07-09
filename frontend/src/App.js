@@ -119,7 +119,7 @@ class App extends React.Component {
             <Error500 />
           </Route>
           <Route exact path='/'>
-            <Home />
+            <Home loginStatusChange={this.state.loginStatusChange} />
           </Route>
           <Route path='*'>
             <Error404 />
