@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import EditIcons from "./EditIcons";
+import CreateIcon from "./CreateIcon";
 import "./ManageIcons.css";
 
 // page for viewing, editing, and creating icons to be used with items
@@ -13,7 +14,8 @@ function ManageIcons() {
     fetchIcons();
   }, []);
 
-  function handleUpdate(icon) {
+  // refresh icon data when an icon is created or edited
+  function handleUpdate() {
     fetchIcons();
   }
 
@@ -121,6 +123,8 @@ function ManageIcons() {
           )}
         </tbody>
       </table>
+
+      <CreateIcon handleUpdate={(icon) => handleUpdate(icon)} />
 
     </div>
   );
