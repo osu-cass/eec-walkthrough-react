@@ -10,24 +10,24 @@
   background-color: #ffa6a6 !important;
 }
 
-/* lines are 3% darker than base color */
+/* lines are 2% darker than base color */
 .card-body-internal.card-body-approved {
   background: repeating-linear-gradient(
     45deg,
     #f8f9fa,
     #f8f9fa 80px,
-    #f0f1f2 80px,
-    #f0f1f2 160px
+    #f3f4f5 80px,
+    #f3f4f5 160px
   );
 }
 
-/* lines are 3% darker than base color */
+/* lines are 2% darker than base color */
 .card-body-internal.card-body-review {
   background: repeating-linear-gradient(
     45deg,
     #fcf7db,
     #fcf7db 80px,
-    #f4efd3 80px,
-    #f4efd3 160px
+    #f7f2d6 80px,
+    #f7f2d6 160px
   );
 }
