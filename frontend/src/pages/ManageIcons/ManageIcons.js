@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {Card} from "react-bootstrap";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import "./ManageIcons.css";
 
@@ -27,8 +26,6 @@ function ManageIcons() {
     if (results.ok) {
 
       const obj = await results.json();
-
-      const sortedIcons = [];
 
       obj.icons.sort((a, b) => a.iconType - b.iconType);
 
@@ -86,7 +83,7 @@ function ManageIcons() {
               Category
             </th>
             <th style={{width: "15%"}}>
-              Color
+              Color Code
             </th>
             <th style={{width: "15%"}}>
               Edit
@@ -97,7 +94,7 @@ function ManageIcons() {
           {icons.map((icon) =>
             <tr key={icon.iconType}>
               <td className="icon-data text-center">
-                <i className={`fas fa-fw fa-${icon.typeName} mr-2`} />
+                <i className={`fas fa-fw fa-${icon.typeName} mr-2`} style={{color: icon.color}}/>
               </td>
               <td className="icon-data">
                 {icon.iconType}

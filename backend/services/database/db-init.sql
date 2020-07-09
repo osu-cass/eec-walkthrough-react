@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 08, 2020 at 03:39 PM
+-- Generation Time: Jul 08, 2020 at 10:17 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -240,7 +240,7 @@ INSERT INTO `Icons` (`iconType`, `typeKeyword`, `typeName`, `groupIndex`, `color
 (18, 'Internal Link', 'info', 0, '#000000'),
 (19, 'External Link', 'link', 0, '#000000'),
 (20, 'Figure', 'chart-area', 2, '#32C332'),
-(21, 'Analysis Tool', 'list', 1, '#000000'),
+(21, 'Analysis Tool', 'list', 3, '#000000'),
 (22, 'Slideshow', 'play', 3, '#32C332'),
 (23, 'Video', 'video-camera', 3, '#007BFF'),
 (24, 'Informational Website', 'book', 3, '#E81224'),
