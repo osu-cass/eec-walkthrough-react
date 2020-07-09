@@ -236,3 +236,29 @@ const patchItemTimeVal = Object.freeze({
   ]
 });
 exports.patchItemTimeVal = patchItemTimeVal;
+
+// validation checks for post homepage
+const patchHomeVal = Object.freeze({
+  validation: [
+    check("mainHeader").isLength({min: 0, max: 1000}),
+    check("secondaryHeader").isLength({min: 0, max: 1000}),
+    check("sectionsTitle").isLength({min: 0, max: 1000}),
+    check("assessments").isLength({min: 0, max: 1000}),
+    check("industries").isLength({min: 0, max: 1000}),
+    check("processes").isLength({min: 0, max: 1000}),
+    check("productivity").isLength({min: 0, max: 1000}),
+    check("technologies").isLength({min: 0, max: 1000}),
+    check("sectionsFooter").isLength({min: 0, max: 5000}),
+    check("tidbitsHeader").isLength({min: 0, max: 1000}),
+    check("tidbitsTitle").isLength({min: 0, max: 1000}),
+    check("tidbitsFooter").isLength({min: 0, max: 5000}),
+    check("linksHeader").isLength({min: 0, max: 1000}),
+    check("linksTitlePrefix").isLength({min: 0, max: 1000}),
+    check("linksTitlePostfixInternal").isLength({min: 0, max: 1000}),
+    check("linksTitlePostfixDownload").isLength({min: 0, max: 1000}),
+    check("linksFooter").isLength({min: 0, max: 5000}),
+    check("disclaimerHeader").isLength({min: 0, max: 1000}),
+    check("disclaimerText").isLength({min: 0, max: 25000})
+  ]
+});
+exports.patchHomeVal = patchHomeVal;

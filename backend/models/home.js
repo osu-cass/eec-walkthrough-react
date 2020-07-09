@@ -29,3 +29,42 @@ async function getHome() {
 
 }
 exports.getHome = getHome;
+
+
+// update the homepage
+async function updateHome(mainHeader, secondaryHeader, sectionsTitle,
+  assessments, industries, processes, productivity, technologies, sectionsFooter,
+  tidbitsHeader, tidbitsTitle, tidbitsFooter, linksHeader, linksTitlePrefix,
+  linksTitlePostfixInternal, linksTitlePostfixDownload, linksFooter,
+  disclaimerHeader, disclaimerText) {
+
+  try {
+
+    const sql = "UPDATE Home " +
+    "SET mainHeader = ?, secondaryHeader = ?, sectionsTitle = ?, assessments = ?, " +
+    "industries = ?, processes = ?, productivity = ?, technologies = ?, sectionsFooter = ?, " +
+    "tidbitsHeader = ?, tidbitsTitle = ?, tidbitsFooter = ?, linksHeader = ?, linksTitlePrefix = ?, " +
+    "linksTitlePostfixInternal = ?, linksTitlePostfixDownload = ?, linksFooter = ?, " +
+    "disclaimerHeader = ?, disclaimerText = ?;";
+
+    const sqlArray = [mainHeader, secondaryHeader, sectionsTitle,
+      assessments, industries, processes, productivity, technologies, sectionsFooter,
+      tidbitsHeader, tidbitsTitle, tidbitsFooter, linksHeader, linksTitlePrefix,
+      linksTitlePostfixInternal, linksTitlePostfixDownload, linksFooter,
+      disclaimerHeader, disclaimerText];
+
+    await pool.query(sql, sqlArray);
+
+    const finalResults = {
+      homePageUpdated: 1
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error updating homepage");
+    throw Error(err);
+  }
+
+}
+exports.updateHome = updateHome;

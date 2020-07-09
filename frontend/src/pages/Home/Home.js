@@ -209,7 +209,7 @@ function Home(props) {
               </li>
             </ul>
           </div>
-          <div className="font-weight-bold mb-3">page.linksTitlePostfixDownload</div>
+          <div className="font-weight-bold mb-3">{page.linksTitlePostfixDownload}</div>
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               <li className="my-2">
