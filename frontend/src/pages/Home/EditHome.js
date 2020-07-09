@@ -139,7 +139,7 @@ function EditHome(props) {
   return role >= 4 ? (
     <div className="text-center mx-2">
       <LoadingOverlay loading={showLoad} />
-      <Button size="sm" variant="info" onClick={() => handleShowModal()}>
+      <Button variant="info" onClick={() => handleShowModal()}>
         <i
           className="fas fa-edit text-white ml-auto mr-2"
           style={{transform: "scale(1.5)"}}></i>

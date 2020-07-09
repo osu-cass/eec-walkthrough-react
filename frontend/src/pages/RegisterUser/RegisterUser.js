@@ -140,9 +140,18 @@ function RegisterUser () {
 
   return (
     <div className="container">
+
       <LoadingOverlay loading={loading} />
+
+      <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
+        <div className="row mx-2">
+          <h4 className="flex-grow-1 font-weight-bold">
+            Register User
+          </h4>
+        </div>
+      </div>
+
       <Card className="my-2 mb-5" id="user-register-container">
-        <Card.Header as="h2">Register User</Card.Header>
         <div className="p-2 my-2 text-dark-50 bg-white" >
           <form id="register-form" onSubmit={(e) => submitHandler(e)}>
             <div className="form-group m-3">
