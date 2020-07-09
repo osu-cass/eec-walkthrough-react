@@ -4,6 +4,7 @@ import {logout} from "../../utilities/cookieAuth";
 import AddButton from "./AddButton";
 import ItemInput from "./ItemInput";
 import IconDropdown from "./IconDropdown";
+import Toast from "../../components/General/Toast";
 import Indent from "./Indent";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
@@ -22,6 +23,8 @@ function ConstructCardModal(props) {
   const [imageIcons, setImageIcons] = useState([]);
   const [linkIcons, setLinkIcons] = useState([]);
   const [checked, setChecked] = useState(0);
+  const [copyToast, setCopyToast] = useState(false);
+  const [pasteToast, setPasteToast] = useState(false);
 
   // setup card data
   useEffect(() => {
@@ -710,8 +713,31 @@ function ConstructCardModal(props) {
     return list;
   }
 
+  // Copy item
+  function copyItem(item) {
+    setCopyToast(true);
+  }
+
+  // Paste item
+  function pasteItem() {
+
+  }
+
+  // Closes the specified toast
+  function closeToast(toastId) {
+    if (toastId === 1) {
+      setCopyToast(false);
+    } else {
+      setPasteToast(false);
+    }
+  }
+
   return (
     <div className='text-center mx-2'>
+
+      <Toast show={copyToast} text="Item copied" handleClose={() => closeToast(1)} />
+      <Toast show={pasteToast} text="Item pasted" handleClose={() => closeToast(2)} />
+
       <Modal show={props.show} onHide={() => props.handleClose()} dialogClassName="modal-width">
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">{props.edit ? "Edit Card" : "Create Card"}</h5>
@@ -769,40 +795,41 @@ function ConstructCardModal(props) {
           {/* Item Input Fields */}
 
           {items.map((item, i) =>
-            <Row className="mb-2" key={item.counterId + "a"}>
+            <Row className="mb-2" key={item.counterId}>
               <div className="input-group">
                 <span className="ml-2 mr-3">
                   <button className='btn btn-danger btn-sm ml-2'
                     onClick={() => deleteItem(item.counterId)}
-                    key={item.counterId + "g"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-times' />
                   </button>
+                  <button className='btn btn-info copy-paste-button btn-sm ml-2'
+                    onClick={() => copyItem(1)}
+                    data-index={i}
+                  >
+                    <i className='fas fa-fw fa-copy' />
+                  </button>
                   <button className={`btn btn-primary btn-sm ml-2 ${item.indentation === 0 ? "disabled" : ""}`}
                     onClick={() => changeIndent(item.counterId, -1)}
-                    key={item.counterId + "c"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-minus' />
                   </button>
                   <button className={`btn btn-primary btn-sm ml-2 ${item.maxIndent <= item.indentation || item.indentation === 4 ? "disabled" : ""}`}
                     onClick={() => changeIndent(item.counterId, 1)}
-                    key={item.counterId + "d"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-plus' />
                   </button>
                   <button className={`btn btn-success btn-sm ml-2 ${i ? "" : "disabled"}`}
                     onClick={() => changeOrder(item.counterId, true)}
-                    key={item.counterId + "e"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-arrow-up' />
                   </button>
                   <button className={`btn btn-success btn-sm ml-2 ${i + 1 < items.length ? "" : "disabled"}`}
                     onClick={() => changeOrder(item.counterId, false)}
-                    key={item.counterId + "f"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-arrow-down' />
@@ -830,9 +857,19 @@ function ConstructCardModal(props) {
 
           <Row>
             <Col className="mt-2">
-              <AddButton variant="success" label="Add Item" onClick={() => incrementCounter(1)} />
-              <AddButton variant="primary" label="Add Graphic" onClick={() => incrementCounter(2)} />
-              <AddButton variant="info" label="Add Site Resource" onClick={() => incrementCounter(3)} />
+              <AddButton variant="info" label="Add Item" onClick={() => incrementCounter(1)} />
+              <AddButton variant="success" label="Add Graphic" onClick={() => incrementCounter(2)} />
+              <AddButton variant="primary" label="Add Site Resource" onClick={() => incrementCounter(3)} />
+              <Button
+                onClick={() => {}}
+                className="mr-2 copy-paste-button"
+                variant="info"
+              >
+                <i
+                  className='fas fa-paste text-white mr-2'
+                  style={{transform: "scale(1.5)"}}></i>
+                Paste Item
+              </Button>
             </Col>
           </Row>
 
