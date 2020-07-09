@@ -33,7 +33,7 @@ function ConstructIconModal(props) {
   }, [props.show]);
 
   async function handleCreate() {
-    /*
+
     // Check for empty inputs
     if (checkInputs()) {
       return;
@@ -45,66 +45,28 @@ function ConstructIconModal(props) {
 
     // Prepare data for new icon
     const iconData = {
-      headerId: props.headerId,
-      cardType: newCardFormat,
-      title: title,
-      items: copy
+      typeKeyword: typeKeyword,
+      typeName: typeName,
+      groupIndex: newCategory,
+      color: color
     };
 
     // Create the new icon
     const results = await fetch(`/icons`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(cardData)
+      body: JSON.stringify(iconData)
     });
 
     if (results.ok) {
 
-      const obj = await results.json();
-
-      // give ids and icon type names to each item
-      for (let i = 0; i < copy.length; i++) {
-        copy[i].itemId = i;
-        copy[i].approved = 0;
-        for (let j = 0; j < props.iconSet.length; j++) {
-          if (props.iconSet[j].iconType === copy[i].iconType) {
-            copy[i].typeName = props.iconSet[j].typeName;
-          }
-        }
-      }
-
-      const newCard = {
-        approved: 0,
-        cardId: obj.insertId,
-        headerId: props.headerId,
-        cardType: newCardFormat,
-        title: title,
-        items: [],
-        userId: 0,
-        created: new Date().toISOString()
-          .slice(0, 19)
-          .replace("T", " "),
-        orderIndex: obj.insertId,
-        tempCardId: null,
-        tempCardType: null,
-        tempCreated: null,
-        tempUserId: null,
-        tempTitle: null,
-        tempItems: copy
-      };
-
-      // props.handleUpdate(newIcon);
-
       // Reset state
-      setCounter(0);
-      setPureCounter(0);
-      setTitle("");
-      setFormat(0);
-      setItems([]);
       setErrorMessage("");
 
       // Close modal
       props.handleClose();
+
+      props.handleUpdate();
 
     } else {
 
@@ -122,7 +84,7 @@ function ConstructIconModal(props) {
         setErrorMessage(obj.error);
       }
     }
-    */
+ 
   }
 
   // Submit the current icon

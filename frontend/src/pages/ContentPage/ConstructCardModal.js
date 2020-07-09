@@ -294,6 +294,7 @@ function ConstructCardModal(props) {
         for (let j = 0; j < props.iconSet.length; j++) {
           if (props.iconSet[j].iconType === copy[i].iconType) {
             copy[i].typeName = props.iconSet[j].typeName;
+            copy[i].color = props.iconSet[j].color;
           }
         }
       }
@@ -395,6 +396,7 @@ function ConstructCardModal(props) {
         for (let j = 0; j < props.iconSet.length; j++) {
           if (props.iconSet[j].iconType === copy[i].iconType) {
             copy[i].typeName = props.iconSet[j].typeName;
+            copy[i].color = props.iconSet[j].color;
           }
         }
       }

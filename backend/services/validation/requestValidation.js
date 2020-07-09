@@ -263,6 +263,17 @@ const patchHomeVal = Object.freeze({
 });
 exports.patchHomeVal = patchHomeVal;
 
+// validation checks for post icon
+const postIconVal = Object.freeze({
+  validation: [
+    check("typeKeyword").isLength({min: 1, max: 100}),
+    check("typeName").isLength({min: 1, max: 100}),
+    check("groupIndex").isInt({min: 0, max: 3}),
+    check("color").isLength({min: 7, max: 7})
+  ]
+});
+exports.postIconVal = postIconVal;
+
 // validation checks for patch icon
 const patchIconVal = Object.freeze({
   validation: [
