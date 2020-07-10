@@ -75,7 +75,8 @@ function BulletPoint (props) {
         null
       )}
 
-      {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 || props.contentMode === 0 || props.contentMode === 2 || props.created !== null) ? (
+      {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 ||
+        props.contentMode === 0 || props.contentMode === 2 || props.created !== null || props.publicMode === 0) ? (
         <div className="row mx-auto">
           <div className="icon-td pb-2">
             <Indent indentLevel={props.indentation} />
@@ -118,7 +119,7 @@ function BulletPoint (props) {
                 </small>
               </a>
             </div>
-            {props.contentMode === 1 || props.contentMode === 3 ? (
+            {(props.contentMode === 1 || props.contentMode === 3) && (props.mode !== 0 || props.publicMode === 0) ? (
               <LinkAccessButtons
                 itemId={props.id}
                 handleTimestamp={(m) => props.handleTimestamp(m)}
@@ -148,6 +149,7 @@ BulletPoint.propTypes = {
   created: PropTypes.any,
   indentation: PropTypes.number,
   mode: PropTypes.number,
+  publicMode: PropTypes.number,
   contentMode: PropTypes.number,
   handleTimestamp: PropTypes.func,
   color: PropTypes.string

@@ -236,7 +236,7 @@ function Header(props) {
     }
   }
 
-  return !props.header.approved && props.mode !== 1 ? (
+  return (!props.header.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal()) ? (
     null
   ) : (
     <div>
@@ -366,6 +366,7 @@ function Header(props) {
                 card={card}
                 handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                 mode={props.mode}
+                publicMode={props.publicMode}
                 iconSet={props.iconSet}
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
@@ -390,6 +391,7 @@ Header.propTypes = {
   handleUpdate: PropTypes.func,
   role: PropTypes.number,
   mode: PropTypes.number,
+  publicMode: PropTypes.number,
   iconSet: PropTypes.any,
   top: PropTypes.bool,
   bottom: PropTypes.bool,

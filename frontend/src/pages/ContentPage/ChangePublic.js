@@ -22,14 +22,14 @@ function ChangePublic(props) {
           variant="info"
           onClick={() => toggleMode(0)}
         >
-          <span className="text-white">Hide Internal Content</span>
+          <span className="text-white">Show Internal Content</span>
         </Button>
       ) : (
         <Button size="sm"
           variant="info"
           onClick={() => toggleMode(1)}
         >
-          <span className="text-white">Show Internal Content</span>
+          <span className="text-white">Hide Internal Content</span>
         </Button>
       )}
     </div>
