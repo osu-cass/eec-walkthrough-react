@@ -283,7 +283,7 @@ async function getFullPage(pageId, viewAll) {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, " +
-          "created, approved " +
+          "created, approved, color " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
