@@ -3,6 +3,7 @@ import {Card as CardBS} from "react-bootstrap";
 import EditCard from "./EditCard";
 import ReviewCard from "./ReviewCard";
 import BasicItems from "./BasicItems";
+import ExpandableList from "./ExpandableList";
 import ThumbnailGallery from "./ThumbnailGallery";
 import OrderObjectButton from "./OrderObjectButton";
 import PropTypes from "prop-types";
@@ -160,7 +161,7 @@ function Card(props) {
         )}
       </CardBS.Header>
       <div id={"collapse" + props.card.cardId} className="collapse show" aria-labelledby={"heading" + props.card.cardId}>
-        <CardBS.Body>
+        <CardBS.Body className="content-card-body">
           {props.card.invalid ? (
             <Fragment>
               <h4>INVALID CARD!</h4>
@@ -175,11 +176,21 @@ function Card(props) {
           {cardType === 1 || cardType === 11 ? (
             <ThumbnailGallery items={items} />
           ) : (
-            <BasicItems
-              items={items}
-              mode={props.mode}
-              handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
-            />
+            <Fragment>
+              {cardType === 2 || cardType === 12 ? (
+                <ExpandableList
+                  items={items}
+                  mode={props.mode}
+                  handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+                />
+              ) : (
+                <BasicItems
+                  items={items}
+                  mode={props.mode}
+                  handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+                />
+              )}
+            </Fragment>
           )}
         </CardBS.Body>
       </div>

@@ -10,6 +10,7 @@ function Toast (props) {
     if (props.show) {
       setTimeout(function(){props.handleClose()}, 3000);
     }
+    // eslint-disable-next-line
   }, [props.show]);
 
   return (
