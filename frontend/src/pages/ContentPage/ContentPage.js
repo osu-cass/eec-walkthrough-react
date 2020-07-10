@@ -1,6 +1,7 @@
 import React, {Fragment, useState, useEffect} from "react";
 import {getProfile, logout} from "../../utilities/cookieAuth";
 import {getMode} from "../../utilities/pageMode";
+import {getPublic} from "../../utilities/publicMode";
 import Header from "./Header";
 import PageDescription from "./PageDescription";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
@@ -23,6 +24,7 @@ function ContentPage(props) {
   const [userId, setUserId] = useState(0);
   const [role, setRole] = useState(0);
   const [mode, setMode] = useState(getMode());
+  const [publicMode, setPublicMode] = useState(getPublic());
   const [cardState, setCardState] = useState(0);
   const [pageState, setPageState] = useState(0);
 
@@ -34,9 +36,14 @@ function ContentPage(props) {
     // eslint-disable-next-line
   }, [props.pageId]);
 
-  // sets the current page mode (view / edit)
+  // sets the current page mode (view / edit / move)
   function handlePageMode(newMode) {
     setMode(newMode);
+  }
+
+  // sets the current public mode (show / hide)
+  function handlePublicMode(newMode) {
+    setPublicMode(newMode);
   }
 
   // fetch page data
@@ -431,6 +438,7 @@ function ContentPage(props) {
           mode={mode}
           pageState={pageState}
           onPageMode={e => handlePageMode(e)}
+          onPublicMode={e => handlePublicMode(e)}
           handlePageEdit={props.handlePageEdit}
         />
 
