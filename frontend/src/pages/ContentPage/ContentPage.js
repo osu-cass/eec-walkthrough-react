@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import "./ContentPage.css";
+import NonPublicPage from "../NonPublicPage/NonPublicPage";
 
 // A page representing an industry or subject
 function ContentPage(props) {
@@ -110,7 +111,6 @@ function ContentPage(props) {
 
       }
 
-
     } else if (type === "header") {
 
       if (action === "create") {
@@ -147,7 +147,6 @@ function ContentPage(props) {
         }
 
       }
-
 
     } else if (type === "card") {
 
@@ -428,7 +427,7 @@ function ContentPage(props) {
     }
   }
 
-  if (!errorPage) {
+  if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
     return loaded ? ( // Render content when data loaded from backend
       <Container className="my-4">
         <PageDescription
@@ -460,6 +459,7 @@ function ContentPage(props) {
                 handleMoveCard={(cardId, headerId, up) => handleMoveCard(cardId, headerId, up)}
                 role={role}
                 mode={mode}
+                publicMode={publicMode}
                 iconSet={iconSet}
                 cardState={cardState}
                 top={i === 0 ? (true) : (false)}
@@ -479,6 +479,8 @@ function ContentPage(props) {
 
       </Container>
     ) : <LoadingOverlay loading={true} />;
+  } else if (publicMode === 1 && (!pageInfo.approved || pageInfo.internal) && mode === 0) {
+    return <NonPublicPage onPublicMode={e => handlePublicMode(e)} />
   } else if (errorPage === 404) {
     return <Error404 />;
   } else {

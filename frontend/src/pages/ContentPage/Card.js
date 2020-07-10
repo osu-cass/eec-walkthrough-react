@@ -101,7 +101,7 @@ function Card(props) {
 
   }
 
-  return !props.card.approved && props.mode !== 1 ? (
+  return (!props.card.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal()) ? (
     null
   ) : (
     <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" }
@@ -181,12 +181,14 @@ function Card(props) {
                 <ExpandableList
                   items={items}
                   mode={props.mode}
+                  publicMode={props.publicMode}
                   handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
                 />
               ) : (
                 <BasicItems
                   items={items}
                   mode={props.mode}
+                  publicMode={props.publicMode}
                   handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
                 />
               )}
@@ -206,6 +208,7 @@ Card.propTypes = {
   handleMoveCard: PropTypes.func,
   unfilteredCard: PropTypes.object,
   mode: PropTypes.number,
+  publicMode: PropTypes.number,
   iconSet: PropTypes.any,
   top: PropTypes.bool,
   bottom: PropTypes.bool,

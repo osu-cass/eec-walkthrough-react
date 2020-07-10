@@ -42,6 +42,7 @@ function ExpandableList(props) {
             created={item.created}
             indentation={item.indentation}
             mode={props.mode}
+            publicMode={props.publicMode}
             handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
           />
         )}
@@ -66,5 +67,6 @@ export default ExpandableList;
 ExpandableList.propTypes = {
   handleTimestamp: PropTypes.func,
   items: PropTypes.array,
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  publicMode: PropTypes.number
 };

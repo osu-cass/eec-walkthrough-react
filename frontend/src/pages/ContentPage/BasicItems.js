@@ -21,6 +21,7 @@ function BasicItems(props) {
           created={item.created}
           indentation={item.indentation}
           mode={props.mode}
+          publicMode={props.publicMode}
           handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
         />
       )}
@@ -33,5 +34,6 @@ export default BasicItems;
 BasicItems.propTypes = {
   handleTimestamp: PropTypes.func,
   items: PropTypes.array,
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  publicMode: PropTypes.number
 };
