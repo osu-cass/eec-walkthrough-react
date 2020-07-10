@@ -24,7 +24,6 @@ function ConstructCardModal(props) {
   const [linkIcons, setLinkIcons] = useState([]);
   const [checked, setChecked] = useState(0);
   const [copyToast, setCopyToast] = useState(false);
-  const [pasteToast, setPasteToast] = useState(false);
 
   // setup card data
   useEffect(() => {
@@ -765,18 +764,14 @@ function ConstructCardModal(props) {
   }
 
   // Closes the specified toast
-  function closeToast(toastId) {
-    if (toastId === 1) {
-      setCopyToast(false);
-    } else {
-      setPasteToast(false);
-    }
+  function closeToast() {
+    setCopyToast(false);
   }
 
   return (
     <div className='text-center mx-2'>
 
-      <Toast show={copyToast} text="Item copied" handleClose={() => closeToast(1)} />
+      <Toast show={copyToast} text="Item copied" handleClose={() => closeToast()} />
 
       <Modal show={props.show} onHide={() => props.handleClose()} dialogClassName="modal-width">
         <Modal.Header>
@@ -806,6 +801,7 @@ function ConstructCardModal(props) {
                 >
                   <option value="0">Default</option>
                   <option value="1">Thumbnail Gallery</option>
+                  <option value="2">Expandable List</option>
                 </select>
               </Form.Group>
             </Col>
