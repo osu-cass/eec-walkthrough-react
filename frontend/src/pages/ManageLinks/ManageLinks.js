@@ -1,20 +1,22 @@
 import React, {useEffect, useState} from "react";
+import LinkSearchForm from "./LinkSearchForm";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import "./ManageLinks.css";
 
 // page for viewing links
 function ManageLinks() {
 
+  const [filter, setFilter] = useState(0);
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchLinks();
-  }, []);
+  }, [filter]);
 
   // refresh link data when a link is edited or deleted
-  function handleUpdate() {
-    fetchLinks();
+  function handleUpdate(filterMode) {
+    setFilter(filterMode);
   }
 
   // fetch homepage data
@@ -22,7 +24,7 @@ function ManageLinks() {
     setLoading(true);
 
     // Fetch all links
-    let results = await fetch(`/links/all`);
+    let results = await fetch(`/links/all/${filter}`);
 
     if (results.ok) {
 
@@ -40,6 +42,8 @@ function ManageLinks() {
   return (
     <div className="container link-page-container">
 
+      <LoadingOverlay loading={loading} />
+
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
           <h4 className="flex-grow-1 font-weight-bold">
@@ -48,21 +52,21 @@ function ManageLinks() {
         </div>
       </div>
 
-      <LoadingOverlay loading={loading} />
+      <LinkSearchForm onFilterChange={(e) => handleUpdate(e)}/>
 
-      <table className="link-table shadow">
+      <table className="link-table shadow mb-5">
         <thead>
           <tr>
             <th style={{width: "25%"}}>
               Location
             </th>
-            <th style={{width: "25%"}}>
+            <th style={{width: "35%"}}>
               Title
             </th>
-            <th style={{width: "25%"}}>
+            <th style={{width: "35%"}}>
               URL
             </th>
-            <th style={{width: "25%"}}>
+            <th style={{width: "5%"}}>
               Status
             </th>
           </tr>
@@ -70,17 +74,21 @@ function ManageLinks() {
         <tbody>
           {links.map((link) =>
             <tr key={link.itemId}>
-              <td className="link-data">
+              <td className="link-data align-top">
                 {link.location}
               </td>
-              <td className="link-data">
+              <td className="link-data align-top">
                 {link.title}
               </td>
-              <td className="link-data">
-                {link.url}
+              <td className="link-data align-top">
+                <a href={link.url}>
+                  {link.url}
+                </a>
               </td>
-              <td className="link-data">
-                {link.status}
+              <td className="link-data align-top">
+                <span className={`${link.time === null ? "invalid-external-link" : "valid-external-link"}`}>
+                  {link.time === null ? "Invalid" : "Valid"}
+                </span>
               </td>
             </tr>
           )}

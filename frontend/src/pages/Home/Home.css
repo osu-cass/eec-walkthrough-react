@@ -22,29 +22,6 @@ body {
   padding: 2px 1px 0;
 }
 
-.home-page-container a:link {
-  color: #0000EE;
-}
-
-.home-page-container a:visited {
-  color: #0000EE;
-}
-
-.home-page-container a:focus {
-  border-bottom: 1px solid;
-  background: #d8ebff;
-}
-
-.home-page-container a:hover {
-  border-bottom: 1px solid;     
-  background: #d8ebff;
-}
-
-.home-page-container a:active {
-  background: #d8ebff;
-  color: #0000EE;
-}
-
 .home-page-container img {
   border-style: none;
 }
