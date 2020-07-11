@@ -20,7 +20,7 @@ function CreateIcons(props) {
   }
 
   return (
-    <div className="text-center mx-2 mt-2 mb-4">
+    <div className="text-center mx-2 mt-3 mb-4">
       <Button variant="info" onClick={(e) => handleShow(e)}>
         <i
           className="fas fa-fw fa-edit text-white mr-2"

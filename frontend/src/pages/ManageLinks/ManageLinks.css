@@ -15,3 +15,11 @@ body {
     max-width: 70%;
   }
 }
+
+.invalid-external-link {
+  color: #E81224;
+}
+
+.valid-external-link {
+  color: #28a428;
+}
