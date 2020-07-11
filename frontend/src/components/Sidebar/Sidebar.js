@@ -121,6 +121,10 @@ function Sidebar(props) {
                   collectionLink="manage-icons"
                 />
                 <SidebarCollection
+                  collectionName="Manage Links"
+                  collectionLink="manage-links"
+                />
+                <SidebarCollection
                   collectionName="Manage Users"
                   collectionLink="manage-users"
                 />

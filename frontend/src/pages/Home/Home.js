@@ -94,7 +94,7 @@ function Home(props) {
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
           <div className="col">
-            <h2>{page.mainHeader}</h2>
+            <h2 className="font-weight-bold">{page.mainHeader}</h2>
 
           </div>
         </div>
@@ -109,7 +109,7 @@ function Home(props) {
 
       <Card className="my-2 mb-5">
         <Card.Header>
-          <span>{page.secondaryHeader}</span>
+          <h6>{page.secondaryHeader}</h6>
         </Card.Header>
         <div className="p-4 my-2 text-dark-50 bg-white" >
           <div className="font-weight-bold mb-3">{page.sectionsTitle}</div>

@@ -67,17 +67,16 @@ function ManageIcons() {
 
       <LoadingOverlay loading={loading} />
 
-      <table className="user-table shadow">
+      <table className="icon-table shadow">
         <thead>
           <tr>
-            <th className="text-center" style={{width: "10%"}}>
+            <th className="pl-5" style={{width: "10%"}}>
               Icon
             </th>
-            <th style={{width: "5%"}} />
             <th style={{width: "10%"}}>
               ID
             </th>
-            <th style={{width: "25%"}}>
+            <th style={{width: "15%"}}>
               Name
             </th>
             <th style={{width: "20%"}}>
@@ -97,10 +96,9 @@ function ManageIcons() {
         <tbody>
           {icons.map((icon) =>
             <tr key={icon.iconType}>
-              <td className="icon-data text-center">
+              <td className="icon-data pl-5">
                 <i className={`fas fa-fw fa-${icon.typeName} mr-2`} style={{color: icon.color}}/>
               </td>
-              <td/>
               <td className="icon-data">
                 {icon.iconType}
               </td>
@@ -116,7 +114,7 @@ function ManageIcons() {
               <td className="icon-data">
                 {icon.color}
               </td>
-              <td className="icon-data">
+              <td className="icon-data text-left">
                 <EditIcons icon={icon} handleUpdate={(icon) => handleUpdate(icon)} />
               </td>
             </tr>
