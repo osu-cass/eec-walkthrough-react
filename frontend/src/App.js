@@ -3,6 +3,7 @@ import ContentPage from "./pages/ContentPage/ContentPage";
 import Home from "./pages/Home/Home";
 import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import ManageIcons from "./pages/ManageIcons/ManageIcons";
+import ManageLinks from "./pages/ManageLinks/ManageLinks";
 import Search from "./pages/Search/Search";
 import RegisterUser from "./pages/RegisterUser/RegisterUser";
 import EditUser from "./pages/EditUser/EditUser";
@@ -107,11 +108,14 @@ class App extends React.Component {
           <Route path='/page-list/:pageName'>
             <PageList />
           </Route>
-          <Route path='/manage-users'>
-            <ManageUsers />
-          </Route>
           <Route path='/manage-icons'>
             <ManageIcons />
+          </Route>
+          <Route path='/manage-links'>
+            <ManageLinks />
+          </Route>
+          <Route path='/manage-users'>
+            <ManageUsers />
           </Route>
           <Route path='/register-user'>
             <RegisterUser />

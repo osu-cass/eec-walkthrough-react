@@ -21,7 +21,7 @@ function EditIcon(props) {
   }
 
   return (
-    <div className="text-center mx-2">
+    <div className="text-left mx-2">
       <Button size="sm" variant="info" onClick={(e) => handleShow(e)}>
         <i
           className="fas fa-fw fa-edit text-white mr-2"
