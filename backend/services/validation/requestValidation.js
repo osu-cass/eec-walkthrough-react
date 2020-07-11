@@ -284,3 +284,11 @@ const patchIconVal = Object.freeze({
   ]
 });
 exports.patchIconVal = patchIconVal;
+
+// validation checks for get links
+const getLinkVal = Object.freeze({
+  validation: [
+    check("onlyDead").isInt({min: 0, max: 1})
+  ]
+});
+exports.getLinkVal = getLinkVal;
