@@ -57,9 +57,6 @@ function ManageLinks() {
       <table className="link-table shadow mb-5">
         <thead>
           <tr>
-            <th style={{width: "25%"}}>
-              Location
-            </th>
             <th style={{width: "35%"}}>
               Title
             </th>
@@ -69,14 +66,14 @@ function ManageLinks() {
             <th style={{width: "5%"}}>
               Status
             </th>
+            <th style={{width: "25%"}}>
+              Edit
+            </th>
           </tr>
         </thead>
         <tbody>
           {links.map((link) =>
             <tr key={link.itemId}>
-              <td className="link-data align-top">
-                {link.location}
-              </td>
               <td className="link-data align-top">
                 {link.title}
               </td>
@@ -89,6 +86,9 @@ function ManageLinks() {
                 <span className={`${link.time === null ? "invalid-external-link" : "valid-external-link"}`}>
                   {link.time === null ? "Invalid" : "Valid"}
                 </span>
+              </td>
+              <td className="link-data align-top">
+                Edit
               </td>
             </tr>
           )}
