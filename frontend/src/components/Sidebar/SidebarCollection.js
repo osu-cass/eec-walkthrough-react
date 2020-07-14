@@ -12,9 +12,15 @@ function SidebarCollection(props) {
     <Accordion>
       {/* If no collection passed in, make singular link */}
       {props.collection ? (
-        <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
-          {props.collectionName}
-        </Accordion.Toggle>
+        <Fragment>
+          {props.role > 3 || props.collection.length ? (
+            <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
+              {props.collectionName}
+            </Accordion.Toggle>
+          ) : (
+            null
+          )}
+        </Fragment>
       ) : (
         <Fragment>
           {props.externalLink ? (
