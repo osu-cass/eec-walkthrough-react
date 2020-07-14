@@ -105,6 +105,7 @@ function Header(props) {
 
   // Toggles the viewing state for an icon type.
 
+  // Changes the viewing state of an icon
   function updateIcon(iconId, state) {
     const allIcons = [...filterShow];
     allIcons[iconId] = !state;
@@ -295,11 +296,11 @@ function Header(props) {
                 mode={props.mode}
                 iconSet={props.iconSet}
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
-                top={i === 0 ? (true) : (false)}
-                bottom={i >= cards.length - 1 ? (true) : (false)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
                 role={props.role}
+                top={i === 0 ? (true) : (false)}
+                bottom={i >= cards.length - 1 ? (true) : (false)}
               />
             )}
           </div>
@@ -323,16 +324,6 @@ function Header(props) {
 
             <div className="row mx-2">
               <div className="row">
-                <FilterBar
-                  updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                  resetIcons={() => resetIcons()}
-                  clearIcons={() => clearIcons()}
-                  filterIcons={filterIcons}
-                  tempFilterIcons={tempFilterIcons}
-                  filterShow={filterShow}
-                  iconSet={props.iconSet}
-                  mode={props.mode}
-                />
                 {props.mode === 2 ? (
                   <Fragment>
                     <OrderObjectButton
@@ -351,7 +342,16 @@ function Header(props) {
                     />
                   </Fragment>
                 ) : (
-                  null
+                  <FilterBar
+                    updateIcon={(e1, e2) => updateIcon(e1, e2)}
+                    resetIcons={() => resetIcons()}
+                    clearIcons={() => clearIcons()}
+                    filterIcons={filterIcons}
+                    tempFilterIcons={tempFilterIcons}
+                    filterShow={filterShow}
+                    iconSet={props.iconSet}
+                    mode={props.mode}
+                  />
                 )}
               </div>
             </div>
@@ -366,12 +366,12 @@ function Header(props) {
                 card={card}
                 handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                 mode={props.mode}
-                publicMode={props.publicMode}
                 iconSet={props.iconSet}
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
                 role={props.role}
+                publicMode={props.publicMode}
               />
             )}
           </div>
