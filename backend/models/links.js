@@ -46,3 +46,40 @@ async function getLinks(onlyDead) {
 
 }
 exports.getLinks = getLinks;
+
+
+// update a link
+async function updateLink(linkId, url) {
+
+  try {
+
+    // make sure that the link exists
+    let sql = "SELECT * " +
+    "FROM Items " +
+    "WHERE itemId = ?;";
+    const results = await pool.query(sql, linkId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    sql = "UPDATE items " +
+    "SET contentUrl = ?, created = now() " +
+    "WHERE itemId = ?;";
+
+    // perform the update query
+    await pool.query(sql, [url, linkId]);
+
+    const finalResults = {
+      linkId: linkId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error updating link");
+    throw Error(err);
+  }
+
+}
+exports.updateLink = updateLink;
