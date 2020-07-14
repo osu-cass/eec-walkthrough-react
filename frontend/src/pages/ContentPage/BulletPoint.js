@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import Image from "./Image";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
@@ -10,6 +10,21 @@ import "./BulletPoint.css";
 function BulletPoint (props) {
 
   const [checked, setChecked] = useState(false);
+  const [showBulletPoint, setShowBulletPoint] = useState(true);
+
+  useEffect(() => {
+    if (props.indentation === 0) {
+      if (props.icon === "square") {
+        props.showChecklist(true);
+        setShowBulletPoint(true);
+      } else {
+        props.showChecklist(false);
+        setShowBulletPoint(false);
+      }
+    } else {
+      setShowBulletPoint(props.showChecklistItem);
+    }
+  }, []);
 
   function styleIcon(icon) {
     if (icon === "circle") { return "fa-xs"; }
@@ -37,8 +52,143 @@ function BulletPoint (props) {
     if (text !== "" && label !== "" && url !== "") { return 3; }
   }
 
-  return (
+  return props.toggled ? (
+    console.log(props),
+    showBulletPoint ? (
 
+      <Fragment>
+
+        {getContentType(props.text, props.label, props.url) === 1 ? (
+          <div className="row mx-auto">
+            <div className="icon-td justify-content-center">
+              <Indent indentLevel={props.indentation} />
+              {props.icon === "square" ? (
+                checked ? (
+                  <i
+                    className={`far fa-fw fa-${props.icon} mr-2 icon-item
+                    ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)} ${styleIcon(props.icon)}`}
+                    onClick={() => setChecked(!checked)}
+                  />
+                ) : (
+                  <i
+                    className={`far fa-fw fa-check-${props.icon} mr-2 icon-item
+                    ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)} ${styleIcon(props.icon)}`}
+                    onClick={() => setChecked(!checked)}
+                  />
+                )
+              ) : (
+                <i
+                  className={`fas fa-fw fa-${props.icon} mr-2 icon-item
+                  ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)} ${styleIcon(props.icon)}`}
+                  style={{cursor: "default"}}
+                />
+              )}
+            </div>
+            <div className="content-td pb-2 col">
+              <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
+                {props.text}
+              </span>
+            </div>
+          </div>
+        ) : (
+          null
+        )}
+
+        {getContentType(props.text, props.label, props.url) === 2 ? (
+          <div className="row mx-auto">
+            <div className="icon-td pb-2">
+              <Indent indentLevel={props.indentation} />
+              <i
+                className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} `}
+                style={{cursor: "default"}}
+              />
+            </div>
+            <div className="content-td pb-2 col">
+              <div className="pb-1">
+                <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
+                  {props.text}
+                </span>
+                {props.label}
+              </div>
+              <Image url={props.url} title={props.label} thumbnail={false} header={false} />
+            </div>
+          </div>
+        ) : (
+          null
+        )}
+
+        {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 || props.contentMode === 0 || props.contentMode === 2 || props.created !== null) ? (
+          <div className="row mx-auto">
+            <div className="icon-td pb-2">
+              <Indent indentLevel={props.indentation} />
+              <i
+                className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)}`}
+                style={{cursor: "default"}}
+              />
+            </div>
+            <div className="content-td pb-2 col">
+              <div>
+                <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}> {props.label} </a>
+                {props.contentMode === 1 || props.contentMode === 3 ? (
+                  <i
+                    className={`fas fa-fw fa-sm fa-link mx-1`}
+                    style={{cursor: "default"}}
+                  />
+                ) : (
+                  <i
+                    className={`fas fa-fw fa-sm fa-info mx-1`}
+                    style={{cursor: "default"}}
+                  />
+                )}
+                {props.contentMode === 2 || props.contentMode === 3 ? (
+                  <i
+                    className={`fas fa-fw fa-sm fa-download mr-1`}
+                    style={{cursor: "default"}}
+                  />
+                ) : (
+                  null
+                )}
+                {props.contentMode === 1 || props.contentMode === 3 ? (
+                  <Fragment>
+                    {props.created !== null ? (
+                      <small className="last-accessed-link">
+                        {`Confirmed valid ${formatTime(props.created)}`}
+                      </small>
+                    ) : (
+                      <small className="last-accessed-link-bad">
+                        {`This link is no longer valid`}
+                      </small>
+                    )}
+                  </Fragment>
+                ) : (
+                  null
+                )}
+                <br/>
+                <small>
+                  {props.text === "$empty" ? (null) : (props.text)}
+                </small>
+              </div>
+              {props.contentMode === 1 || props.contentMode === 3 ? (
+                <LinkAccessButtons
+                  itemId={props.id}
+                  handleTimestamp={(m) => props.handleTimestamp(m)}
+                />
+              ) : (
+                null
+              )}
+            </div>
+          </div>
+        ) : (
+          null
+        )}
+
+      </Fragment>
+
+    ) : (
+      null
+    )
+  ) : (
+    console.log(props),
     <Fragment>
 
       {getContentType(props.text, props.label, props.url) === 1 ? (
@@ -48,13 +198,13 @@ function BulletPoint (props) {
             {props.icon === "square" ? (
               checked ? (
                 <i
-                  className={`far fa-fw fa-check-${props.icon} mr-2 icon-item
+                  className={`far fa-fw fa-${props.icon} mr-2 icon-item
                   ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)} ${styleIcon(props.icon)}`}
                   onClick={() => setChecked(!checked)}
                 />
               ) : (
                 <i
-                  className={`far fa-fw fa-${props.icon} mr-2 icon-item
+                  className={`far fa-fw fa-check-${props.icon} mr-2 icon-item
                   ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)} ${styleIcon(props.icon)}`}
                   onClick={() => setChecked(!checked)}
                 />
@@ -166,6 +316,7 @@ function BulletPoint (props) {
       )}
 
     </Fragment>
+
   );
 
 }
@@ -182,5 +333,8 @@ BulletPoint.propTypes = {
   indentation: PropTypes.number,
   mode: PropTypes.number,
   contentMode: PropTypes.number,
-  handleTimestamp: PropTypes.func
+  handleTimestamp: PropTypes.func,
+  toggled: PropTypes.bool,
+  showChecklist: PropTypes.func,
+  showChecklistItem: PropTypes.bool
 };
