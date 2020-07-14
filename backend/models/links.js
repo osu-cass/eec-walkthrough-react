@@ -63,7 +63,7 @@ async function updateLink(linkId, url) {
       return {error: 1};
     }
 
-    sql = "UPDATE items " +
+    sql = "UPDATE Items " +
     "SET contentUrl = ?, created = now() " +
     "WHERE itemId = ?;";
 
