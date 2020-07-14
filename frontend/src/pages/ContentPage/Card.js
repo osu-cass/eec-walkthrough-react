@@ -67,7 +67,7 @@ function Card(props) {
     let newItems = [];
     let cardType = 0;
 
-    if (props.card.tempItems.length) {
+    if (props.card.tempItems.length && props.mode === 1) {
 
       if (props.card.approved) {
         cardType = props.card.tempCardType;
