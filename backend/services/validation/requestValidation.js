@@ -292,3 +292,11 @@ const getLinkVal = Object.freeze({
   ]
 });
 exports.getLinkVal = getLinkVal;
+
+// validation checks for patch link
+const patchLinkVal = Object.freeze({
+  validation: [
+    check("url").isLength({min: 1, max: 1000})
+  ]
+});
+exports.patchLinkVal = patchLinkVal;

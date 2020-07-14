@@ -239,7 +239,10 @@ function ConstructIconModal(props) {
 
         <Modal.Footer className="modal-footer">
         {props.edit ? (
-          <Button variant="primary" onClick={() => handleEdit()}>Submit Icon Changes</Button>
+          <Fragment>
+            <Button variant="primary" onClick={() => handleEdit()}>Submit Icon Changes</Button>
+            <Button variant="secondary" onClick={() => props.handleClose()}>Cancel</Button>
+          </Fragment>
         ) : (
           <Fragment>
             <Button variant="primary" onClick={() => handleCreate()}>Submit Icon</Button>
