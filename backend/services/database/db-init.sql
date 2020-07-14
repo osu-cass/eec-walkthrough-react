@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 09, 2020 at 12:09 AM
+-- Generation Time: Jul 14, 2020 at 12:22 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -120,7 +120,10 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (125, 29, 0, 125, 'Figures, Charts, and Tables', 55, '2020-07-07 20:33:57', 0),
 (126, 37, 0, 126, 'Common Technologies Used in Wastewater (covered elsewhere in this guide)', 51, '2020-07-07 20:57:07', 0),
 (127, 18, 0, 127, '3', 42, '2020-07-07 21:21:54', 0),
-(128, 18, 10, 128, 'eoowerwerwer', 42, '2020-07-07 21:23:36', 1);
+(128, 18, 10, 128, 'eoowerwerwer', 42, '2020-07-07 21:23:36', 1),
+(129, 40, 0, 129, 'Heat Exchangers', 58, '2020-07-10 18:20:49', 0),
+(130, 40, 0, 130, 'Insulation', 58, '2020-07-10 18:36:22', 0),
+(131, 40, 0, 131, 'Cooling Towers', 58, '2020-07-10 18:45:42', 0);
 
 -- --------------------------------------------------------
 
@@ -160,11 +163,12 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (31, 46, 31, 'Boilers and Steam Overview', 0, 56, '2020-07-02 19:43:04', 1),
 (32, 46, 32, 'Boiler and Steam System Opportunities to Consider', 0, 56, '2020-07-02 21:40:38', 1),
 (33, 44, 28, 'Motors Overview', 0, 56, '2020-07-02 23:12:01', 1),
-(34, 47, 34, 'Heat Exchange & Insulation Overview', 0, 56, '2020-07-03 03:41:29', 0),
+(34, 47, 34, 'Thermal Systems Overview', 0, 58, '2020-07-03 03:41:29', 0),
 (35, 25, 35, 'Air Header Test', 0, 42, '2020-07-07 02:15:51', 1),
 (36, 50, 36, 'Wastewater Overview', 0, 51, '2020-07-07 20:49:35', 0),
 (37, 50, 37, 'Wastewater Technologies Consider', 0, 51, '2020-07-07 20:50:10', 0),
-(38, 50, 38, 'Wastewater Opportunities to Consider2', 0, 51, '2020-07-07 20:52:27', 0);
+(38, 50, 38, 'Wastewater Opportunities to Consider2', 0, 51, '2020-07-07 20:52:27', 0),
+(40, 47, 40, 'Thermal Systems Opportunities to Consider', 0, 58, '2020-07-10 17:59:49', 0);
 
 -- --------------------------------------------------------
 
@@ -508,19 +512,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2000, 118, 0, 1, 10, 'Large motors that are throttle controlled', '', '', 0, '2020-07-03 03:15:14', 1),
 (2005, 115, 0, 0, 21, 'An OSU EEC analysis tool in microsoft excel format used to calculate power from measured amperage and voltage.', 'https://drive.google.com/file/d/1xJMeEKUM93lyxace7UUiIH_BdKf44Dxe/view?usp=sharing', 'Motor Analysis Tool (MAT)', 0, '2020-07-03 03:38:14', 0),
 (2006, 115, 0, 0, 21, 'An OSU EEC analysis tool in microsoft excel format used to calculate power from logged amperage data.', 'https://drive.google.com/file/d/1NMKuuxdUv9nNvFXOpR_tmd_-Yw6XUbpW/view?usp=sharing', 'Motor Analysis Tool (MAT) for Dataloggers', 0, '2020-07-03 03:38:14', 0),
-(2083, 101, 0, 0, 11, 'Tune the boiler regularly', '', '', 0, '2020-07-03 17:28:30', 0),
-(2084, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, '2020-07-03 17:28:30', 0),
-(2085, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, '2020-07-03 17:28:30', 0),
-(2086, 101, 0, 1, 15, 'Firing rate over time', '', '', 0, '2020-07-03 17:28:30', 0),
-(2087, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, '2020-07-03 17:28:30', 0),
-(2088, 101, 0, 0, 11, 'Install O2 Controls to maintain optimum combustion efficiency throughout the operating range', '', '', 0, '2020-07-03 17:28:30', 0),
-(2089, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, '2020-07-03 17:28:30', 0),
-(2090, 101, 0, 0, 11, 'Clean heat exchanger surfaces and reduce the exhaust temperature', '', '', 0, '2020-07-03 17:28:30', 0),
-(2091, 101, 0, 1, 10, 'Stack temperature exceeds steam temperature by over 150 ˚F', '', '', 0, '2020-07-03 17:28:30', 0),
-(2092, 101, 0, 1, 12, 'Clean the fire side. Soot can accumulate and inhibit heat transfer.', '', '', 0, '2020-07-03 17:28:30', 0),
-(2093, 101, 0, 1, 12, 'Clean the water side. Scale can accumulate and inhibit heat transfer is the water chemistry is off', '', '', 0, '2020-07-03 17:28:30', 0),
-(2094, 101, 0, 0, 11, 'Install an economizer  (for Matt to flesh out)', '', '', 0, '2020-07-03 17:28:30', 0),
-(2095, 101, 0, 0, 11, 'Install a condensing economizer  (for Matt to flesh out)', '', '', 0, '2020-07-03 17:28:30', 0),
 (2096, 106, 0, 0, 11, 'Insulate steam lines', '', '', 0, '2020-07-03 17:30:31', 1),
 (2097, 106, 0, 0, 11, 'Insulate valves and fittings', '', '', 0, '2020-07-03 17:30:31', 1),
 (2098, 106, 0, 0, 11, 'Insulate condensate lines', '', '', 0, '2020-07-03 17:30:31', 1),
@@ -603,8 +594,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2238, 60, 0, 0, 26, 'Hello', '', '', 1, '2020-07-07 21:20:15', 0),
 (2239, 60, 0, 0, 27, 'hi', '', '', 0, '2020-07-07 21:20:15', 0),
 (2240, 127, 0, 0, 16, '1', '', '', 0, '2020-07-07 21:21:54', 0),
-(2241, 127, 0, 0, 4, '2', '', '', 0, '2020-07-07 21:21:54', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
+(2241, 127, 0, 0, 4, '2', '', '', 0, '2020-07-07 21:21:54', 0),
 (2242, 128, 0, 0, 11, 'w', '', '', 0, '2020-07-07 21:23:36', 1),
 (2243, 128, 0, 0, 2, 'w', '', '', 0, '2020-07-07 21:23:36', 1),
 (2244, 128, 0, 0, 11, 'w222', '', '', 0, '2020-07-07 21:33:22', 0),
@@ -622,7 +612,37 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2271, 112, 0, 1, 26, 'Load Factor, Use Factor (operation hours)', '', '', 0, '2020-07-08 22:27:29', 0),
 (2272, 112, 0, 1, 26, 'Drive Type', '', '', 0, '2020-07-08 22:27:29', 0),
 (2273, 112, 0, 1, 26, 'Controls', '', '', 0, '2020-07-08 22:27:29', 0),
-(2275, 113, 0, 0, 27, 'Power Quality Analyzer ', '', '', 0, '2020-07-08 22:29:50', 0);
+(2275, 113, 0, 0, 27, 'Power Quality Analyzer ', '', '', 0, '2020-07-08 22:29:50', 0),
+(2303, 131, 0, 0, 11, 'Condenser qater temperature adjustment ', '', '', 0, '2020-07-10 18:45:42', 0),
+(2304, 131, 0, 0, 11, 'Chilled water supply temperature adjustment', '', '', 0, '2020-07-10 18:45:42', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
+(2305, 131, 0, 0, 11, 'Fan motor controls (variable speed)', '', '', 0, '2020-07-10 18:45:42', 0),
+(2309, 120, 0, 0, 11, 'Correct Power Factor (Ethan)', '', '', 0, '2020-07-10 18:53:01', 0),
+(2310, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, '2020-07-10 18:53:01', 0),
+(2311, 101, 0, 0, 11, 'Tune the boiler regularly', '', '', 0, '2020-07-10 18:53:47', 0),
+(2312, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, '2020-07-10 18:53:47', 0),
+(2313, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, '2020-07-10 18:53:47', 0),
+(2314, 101, 0, 1, 15, 'Firing rate over time', '', '', 0, '2020-07-10 18:53:47', 0),
+(2315, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, '2020-07-10 18:53:47', 0),
+(2316, 101, 0, 0, 11, 'Install O2 Controls to maintain optimum combustion efficiency throughout the operating range', '', '', 0, '2020-07-10 18:53:47', 0),
+(2317, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, '2020-07-10 18:53:47', 0),
+(2318, 101, 0, 0, 11, 'Clean heat exchanger surfaces and reduce the exhaust temperature', '', '', 0, '2020-07-10 18:53:47', 0),
+(2319, 101, 0, 1, 10, 'Stack temperature exceeds steam temperature by over 150 ˚F', '', '', 0, '2020-07-10 18:53:47', 0),
+(2320, 101, 0, 1, 12, 'Clean the fire side. Soot can accumulate and inhibit heat transfer.', '', '', 0, '2020-07-10 18:53:47', 0),
+(2321, 101, 0, 1, 12, 'Clean the water side. Scale can accumulate and inhibit heat transfer is the water chemistry is off', '', '', 0, '2020-07-10 18:53:47', 0),
+(2322, 101, 0, 0, 11, 'Install an economizer  (Matt)', '', '', 0, '2020-07-10 18:53:47', 0),
+(2323, 101, 0, 0, 11, 'Install a condensing economizer  (Matt)', '', '', 0, '2020-07-10 18:53:47', 0),
+(2324, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, '2020-07-10 18:54:00', 0),
+(2325, 105, 0, 0, 11, 'Recover Flash Steam (Chris) ', '', '', 0, '2020-07-10 18:54:00', 0),
+(2326, 129, 0, 0, 11, 'Pre-heat combustion air (Adam)', '', '', 0, '2020-07-10 18:54:39', 0),
+(2327, 129, 0, 1, 13, 'Air-to-air heat transfer (regenerators/recuperators)', '', '', 0, '2020-07-10 18:54:39', 0),
+(2328, 129, 0, 0, 11, 'Install a heat pipe to recovery process heat (Matt)', '', '', 0, '2020-07-10 18:54:39', 0),
+(2329, 129, 0, 1, 13, 'Air-to-air heat transfer (typically for 150-850 ˚F processes)', '', '', 0, '2020-07-10 18:54:39', 0),
+(2330, 129, 0, 0, 11, 'Install a shell and tube heat exchanger to recover process heat (Matt)', '', '', 0, '2020-07-10 18:54:39', 0),
+(2331, 129, 0, 1, 13, 'Liquid-to-liquid heat transfer ', '', '', 0, '2020-07-10 18:54:39', 0),
+(2332, 129, 0, 0, 11, 'Install an economizer to pre-heat boiler make-up water (Matt)', '', '', 0, '2020-07-10 18:54:39', 0),
+(2333, 129, 0, 1, 13, 'Air-to-liquid heat transfer ', '', '', 0, '2020-07-10 18:54:39', 0),
+(2334, 130, 0, 0, 11, 'Insulate hot surfaces (Julian)', '', '', 0, '2020-07-10 18:54:46', 0);
 
 -- --------------------------------------------------------
 
@@ -659,7 +679,7 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (44, 2, 'Motors and Controls', 'Electrical Motors and Motor Controls (Variable Speed Drives, etc) are crucial to most mechanized industrial processes and equipment.', 'Motors are a crucial part of any mechanized process and provide a means to do the majority of the mechanical work in most facilities.  Motors convert electrical energy into mechanical work to provide power to a wide range of applications including air compressors, fans, pumps, hydraulics, mixers, conveyors, and much more.', 'https://live.staticflickr.com/65535/50069229503_243696380c_b.jpg', 0, 51, '2020-06-29 23:04:50', 0),
 (45, 2, 'Pumps', 'Pumps provide a typical utility required throughout industry.', 'Centrifugal pumps are the most common type found in industry, followed by positive displacement pumps (used in hydraulics), pneumatic diaphragm pumps, peristaltic pumps, and other specialty pumps. \n\nUnless otherwise noted this section speaks to centrifugal pumps when addressing pump performance and efficiency. Changes in hydraulic energy required (pressure and flow) will translate to any pumping system. ', 'https://live.staticflickr.com/65535/50066427331_ddae8822f2_b.jpg', 0, 51, '2020-07-01 18:11:01', 0),
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
-(47, 2, 'Heat Exchange & Insulation', 'Many industrial processes require encouraging or resisting thermal energy transfer.', 'Heat transfer technologies include heat exchangers, cooling towers, fan cooling, direct impingement and other methods.  Heat transfer is discouraged with insulation, vacuums, reduced emissivity, etc. ', 'https://live.staticflickr.com/65535/50069411093_68ab30e548_b.jpg', 0, 51, '2020-07-02 21:31:22', 0),
+(47, 2, 'Thermal Systems', 'Many industrial processes require encouraging or resisting thermal energy transfer.', 'Heat transfer technologies include heat exchangers, cooling towers, fan cooling, direct impingement and other methods.  Heat transfer is discouraged with insulation, vacuums, reduced emissivity, etc. ', 'https://live.staticflickr.com/65535/50069411093_68ab30e548_b.jpg', 0, 58, '2020-07-02 21:31:22', 0),
 (48, 2, 'Refrigeration', 'Refrigeration technology is important in many industrial processes.', 'Vapor compression is the most common refrigeration technology. Mechanical energy input to a compressor enables absorbing heat in cooler environment and discharging it to a warmer environment. ', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 51, '2020-07-02 22:10:36', 0),
 (49, 3, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'Utility bills are based not only on the commodity. They can also be based on the rate of use (Dem...', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 0, 42, '2020-07-02 22:40:27', 0),
 (50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 51, '2020-07-07 20:46:38', 0);
@@ -687,8 +707,10 @@ INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempUserId
 (59, 1, 'Strange AC Units', 42, '2020-06-23 09:10:21'),
 (60, 0, 'Some Links', 42, '2020-07-07 21:20:01'),
 (100, 0, 'Off Site Resource Links', 51, '2020-07-03 17:55:16'),
-(101, 0, 'Improve Boiler Combustion Efficiency ', 51, '2020-07-03 17:28:05'),
+(101, 0, 'Improve Boiler Combustion Efficiency ', 58, '2020-07-03 17:28:05'),
+(105, 0, 'Improve the Condensate System', 58, '2020-07-10 18:54:00'),
 (106, 0, 'Reduce Heat Loss', 51, '2020-07-03 17:31:09'),
+(120, 0, 'Power Quality', 58, '2020-07-10 18:52:52'),
 (128, 10, 'eoowerwerwer', 42, '2020-07-07 21:33:22');
 
 -- --------------------------------------------------------
@@ -753,7 +775,9 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (55, 'peterj', '73a148776eaf3db8dee5b4cc5af1542d$c4d554f54a266e74299e82af3884f39d4e36686054f90837f7753b2d4b77a6f4', 'Julian', 'Peter', 'peterj.eec@gmail.com', 3, '2020-06-30 20:39:15'),
 (56, 'ryanfrench', '8fdce1d0b4394d7a6dd55dd4d1318d54$b36510750272738b7d2de631057527b3ac1547db5d9ef6da8728886d523eca99', 'Ryan', 'French', 'frenchr.eec@gmail.com', 3, '2020-07-05 20:39:15'),
 (57, 'MatthewThomas', 'a532335063fda0518a4a347b0a295166$05c83d3322dbbe787d420353fa83b3ad7b38e5b163d9d784bf752c8b7ebedb15', 'Matthew', 'Thomas', 'matthewthomas.eec@gmail.com', 3, '2020-07-02 20:39:15'),
-(58, 'ryanfrench2', '0f035817ef3a5ebb3b7bedc75f6d5245$950542aafbfdeeceb6e32fcf2d06f5b2c076465e6fce3ef36b052d9ba6290404', 'Ryan', 'French', 'frenchr@oregonstate.com', 3, '2020-07-08 20:47:39');
+(58, 'ryanfrench2', '0f035817ef3a5ebb3b7bedc75f6d5245$950542aafbfdeeceb6e32fcf2d06f5b2c076465e6fce3ef36b052d9ba6290404', 'Ryan', 'French', 'frenchr@oregonstate.com', 3, '2020-07-08 20:47:39'),
+(59, 'djunker', '78d288ab098c3cb5d6d2ba21034e69c1$24786ffa47a290b250ffff18f0cfd703b86c773cf5f911e75fcf6d19989e700d', 'Devlin', 'Junker', 'devlin.junker@gmail.com', 3, '2020-07-10 01:36:09'),
+(60, 'taylorad', 'b320c2b10ea1a5fd6a5df5b60b476a1a$76c9c4d174243210d40e54aa87e6b14926de7e3d7c1b229e7fcea48e98d65d85', 'Adam', 'Taylor', 'taylorad.eec@gmail.com', 1, '2020-07-13 17:38:47');
 
 --
 -- Indexes for dumped tables
@@ -839,13 +863,13 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `Icons`
@@ -857,19 +881,19 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2276;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2335;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- Constraints for dumped tables
