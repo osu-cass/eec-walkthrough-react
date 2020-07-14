@@ -5,6 +5,7 @@ import ReviewHeader from "./ReviewHeader";
 import FilterBar from "./FilterBar";
 import OrderObjectButton from "./OrderObjectButton";
 import Card from "./Card";
+import ListToggle from "./ListToggle";
 import "./Header.css";
 
 // Header that contains some number of cards
@@ -15,6 +16,8 @@ function Header(props) {
   const [filterShow, setFilterShow] = useState([]);
   const [cards, setCards] = useState(props.header.cards);
   const [unfilteredCards, setUnfilteredCards] = useState(props.header.cards);
+  const [showToggle, setShowToggle] = useState(false);
+  const [checkToggled, setCheckToggled] = useState(false);
 
   // Get all of the icons that could be used for published filtering
   useEffect(() => {
@@ -224,6 +227,14 @@ function Header(props) {
     setUnfilteredCards(allUnfilteredCards);
   }
 
+  function showToggleButton(toggle) {
+    setShowToggle(toggle);
+  }
+
+  function toggleList() {
+    setCheckToggled(!checkToggled);
+  }
+
   return !props.header.approved && props.mode !== 1 ? (
     null
   ) : (
@@ -259,6 +270,12 @@ function Header(props) {
                       filterShow={filterShow}
                       iconSet={props.iconSet}
                       mode={props.mode}
+                      showToggleButton={(e) => showToggleButton(e)}
+                    />
+                    <ListToggle
+                      showButton={showToggle}
+                      toggled={checkToggled}
+                      toggleList={() => toggleList()}
                     />
                     <EditHeader
                       header={props.header}
@@ -307,6 +324,7 @@ function Header(props) {
                 bottom={i >= cards.length - 1 ? (true) : (false)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
+                toggled={checkToggled}
               />
             )}
           </div>
@@ -338,6 +356,7 @@ function Header(props) {
                   filterShow={filterShow}
                   iconSet={props.iconSet}
                   mode={props.mode}
+                  showToggleButton={(e) => showToggleButton(e)}
                 />
               </div>
             </div>

@@ -35,11 +35,14 @@ function FilterBar(props) {
   return props.mode === 1 ? (
     <div className="m-2 icons row">
       {props.tempFilterIcons.map((obj, i) => {
+        if (tempIconNames[i] === "square") {
+          props.showToggleButton(true);
+        }
         return (
           tempIconNames[i] === "square" ? (
             <i
               key={obj}
-              className={`far fa-${tempIconNames[i]} ${
+              className={`far fa-check-${tempIconNames[i]} ${
                 props.filterShow[obj] ? "" : "fa-disabled"
               } text-dark mr-3`}
               onClick={() => props.updateIcon(obj, props.filterShow[obj])}
@@ -107,5 +110,6 @@ FilterBar.propTypes = {
   iconSet: PropTypes.array,
   filterIcons: PropTypes.array,
   tempFilterIcons: PropTypes.array,
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  showToggleButton: PropTypes.func
 };

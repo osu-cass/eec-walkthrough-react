@@ -161,6 +161,7 @@ function Card(props) {
               items={items}
               mode={props.mode}
               handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+              toggled={props.toggled}
             />
           )}
         </CardBS.Body>
@@ -181,5 +182,6 @@ Card.propTypes = {
   top: PropTypes.bool,
   bottom: PropTypes.bool,
   handleTimestamp: PropTypes.func,
-  cardState: PropTypes.number
+  cardState: PropTypes.number,
+  toggled: PropTypes.bool
 };
