@@ -101,7 +101,7 @@ function Card(props) {
 
   }
 
-  return (!props.card.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal()) ? (
+  return (!props.card.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
     <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" }

@@ -237,7 +237,7 @@ function Header(props) {
     }
   }
 
-  return (!props.header.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal()) ? (
+  return (!props.header.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
     <div>

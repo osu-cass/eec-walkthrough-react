@@ -10,7 +10,7 @@ function GeneratePassword(props) {
   function createPassword() {
     let password = "";
     const validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-      "abcdefghijklmnopqrstuvwxyz0123456789@#$";
+      "abcdefghijklmnopqrstuvwxyz0123456789";
       
     for (let i = 1; i <= 15; i++) {
       const char = Math.floor(Math.random() * validChars.length + 1); 
@@ -23,12 +23,12 @@ function GeneratePassword(props) {
   // updates a user's role
   async function setNewPassword() {
 
-    props.onLoading(true);
-
     const confirmMessage = `Are you sure you want to replace ${props.username}'s ` +
       `password with a new random password?"`;
 
     if (window.confirm(confirmMessage)) {
+
+      props.onLoading(true);
 
       // the user confirmed that they wanted to change the password
       // so we will send a request to the API server
