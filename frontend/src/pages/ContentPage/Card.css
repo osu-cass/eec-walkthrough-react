@@ -11,24 +11,34 @@
   background-color: #ffa6a6 !important;
 }
 
-/* lines are 2% darker than base color */
-.card-body-internal.card-body-approved {
-  background: repeating-linear-gradient(
-    45deg,
-    #f8f9fa,
-    #f8f9fa 80px,
-    #f3f4f5 80px,
-    #f3f4f5 160px
+.card-header-bar {
+  background-color: #f7f7f7;
+}
+
+.card-header-bar.card-body-review {
+  background-color: #efeace;
+}
+
+/* lines are 4% darker than base color */
+.card-body-internal.card-body-approved.card-header-bar {
+  background:
+  repeating-linear-gradient(
+    90deg,
+    #f7f7f7,
+    #f7f7f7 8%,
+    #ebebeb 8%,
+    #ebebeb 16%
   );
 }
 
-/* lines are 2% darker than base color */
-.card-body-internal.card-body-review {
-  background: repeating-linear-gradient(
-    45deg,
-    #fcf7db,
-    #fcf7db 80px,
-    #f7f2d6 80px,
-    #f7f2d6 160px
+/* lines are 5% darker than base color */
+.card-body-internal.card-body-review.card-header-bar {
+  background:
+  repeating-linear-gradient(
+    90deg,
+    #efeace,
+    #efeace 8%,
+    #e2ddc1 8%,
+    #e2ddc1 16%
   );
 }

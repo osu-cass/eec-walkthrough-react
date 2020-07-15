@@ -109,7 +109,9 @@ function Card(props) {
     >
       <CardBS.Header
         as="h5"
-        className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold"
+        className={`card-header-bar d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold
+          ${props.card.edited ? "card-body-review" : "card-body-approved" }
+          ${isInternal() ? "card-body-internal" : ""}`}
       >
         <div
           id={"heading" + props.card.cardId}
@@ -119,7 +121,7 @@ function Card(props) {
           aria-controls={"collapse" + props.card.cardId}
           className="col pr-0"
         >
-          {props.mode === 1 && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
+        {props.mode === 1 && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
         </div>
         {props.mode === 1 ? (
           <div className="row ml-auto">
