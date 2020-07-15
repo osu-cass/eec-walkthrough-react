@@ -74,14 +74,27 @@ function FilterBar(props) {
   ) : (
     <div className="m-2 icons row">
       {props.filterIcons.map((obj, i) => {
+        if (iconNames[i] === "square") {
+          props.showToggleButton(true);
+        }
         return (
-          <i
-            key={obj}
-            className={`fas fa-${iconNames[i]} ${
-              props.filterShow[obj] ? "" : "fa-disabled"
-            } text-dark mr-3`}
-            onClick={() => props.updateIcon(obj, props.filterShow[obj])}
-          />
+          iconNames[i] === "square" ? (
+            <i
+              key={obj}
+              className={`far fa-check-${iconNames[i]} ${
+                props.filterShow[obj] ? "" : "fa-disabled"
+              } text-dark mr-3`}
+              onClick={() => props.updateIcon(obj, props.filterShow[obj])}
+            />
+          ) : (
+            <i
+              key={obj}
+              className={`fas fa-${iconNames[i]} ${
+                props.filterShow[obj] ? "" : "fa-disabled"
+              } text-dark mr-3`}
+              onClick={() => props.updateIcon(obj, props.filterShow[obj])}
+            />
+          )
         );
       })}
       <i

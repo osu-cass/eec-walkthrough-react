@@ -358,6 +358,11 @@ function Header(props) {
                   mode={props.mode}
                   showToggleButton={(e) => showToggleButton(e)}
                 />
+                <ListToggle
+                  showButton={showToggle}
+                  toggled={checkToggled}
+                  toggleList={() => toggleList()}
+                />
               </div>
             </div>
           </div>
@@ -375,6 +380,7 @@ function Header(props) {
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
+                toggled={checkToggled}
               />
             )}
           </div>
