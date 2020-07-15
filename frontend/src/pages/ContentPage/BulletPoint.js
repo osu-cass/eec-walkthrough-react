@@ -3,7 +3,6 @@ import Image from "./Image";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import LinkAccessButtons from "./LinkAccessButtons";
-import Indent from "./Indent";
 import "./BulletPoint.css";
 
 // Represents a single item inside a card
@@ -37,8 +36,7 @@ function BulletPoint (props) {
       {getContentType(props.text, props.label, props.url) === 1 ? (
         <div className="row mx-auto">
           <div className="icon-td justify-content-center">
-            <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item
+            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}
               ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
               style={{color: props.color}}
               title={props.tooltip}
@@ -57,8 +55,7 @@ function BulletPoint (props) {
       {getContentType(props.text, props.label, props.url) === 2 ? (
         <div className="row mx-auto">
           <div className="icon-td pb-2">
-            <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} `}
+            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
               style={{color: props.color}}
               title={props.tooltip}
             />
@@ -81,8 +78,7 @@ function BulletPoint (props) {
         props.contentMode === 0 || props.contentMode === 2 || props.created !== null || props.publicMode === 0) ? (
         <div className="row mx-auto">
           <div className="icon-td pb-2">
-            <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)}`}
+            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
               style={{color: props.color}}
               title={props.tooltip}
             />
