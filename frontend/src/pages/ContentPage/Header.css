@@ -12,26 +12,26 @@ i:hover {
   background: linear-gradient(0deg, rgba(244,232,171,1) 0%, rgba(254,247,213,1) 100%);
 }
 
-.header-internal.header-approved {
-  background: rgb(214,214,214);
-  background-image: linear-gradient(0deg, rgba(50,50,50,0.2) 0%, rgba(255,255,255,0.2) 100%),
+/* lines are 4% darker than base color */
+.header-internal.header-approved.card-header-section {
+  background: linear-gradient(0deg, rgba(50,50,50,0.2) 0%, rgba(255,255,255,0.2) 100%),
   repeating-linear-gradient(
-    45deg,
-    #f8f9fa,
-    #f8f9fa 80px,
-    #f0f1f2 80px,
-    #f0f1f2 160px
+    90deg,
+    #ffffff,
+    #ffffff 8%,
+    #f5f5f5 8%,
+    #f5f5f5 16%
   );
 }
 
+/* lines are 5% darker than base color */
 .header-internal.header-review {
-  background: rgb(244,232,171);
-  background: linear-gradient(0deg, rgba(187, 178, 130, 0.2) 0%, rgba(254,247,213,0.2) 100%),
+  background: linear-gradient(0deg, rgba(50,50,50,0.2) 0%, rgba(255,255,255,0.2) 100%),
   repeating-linear-gradient(
-    45deg,
+    90deg,
     #fcf7db,
-    #fcf7db 80px,
-    #f4efd3 80px,
-    #f4efd3 160px
+    #fcf7db 8%,
+    #efeace 8%,
+    #efeace 16%
   );
 }
