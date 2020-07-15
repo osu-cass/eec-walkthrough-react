@@ -14,6 +14,7 @@ function BasicItems(props) {
           url={item.contentUrl}
           id={item.itemId}
           icon={item.typeName}
+          tooltip={item.typeKeyword}
           color={item.color}
           text={item.contentText}
           label={item.contentLabel}

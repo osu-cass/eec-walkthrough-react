@@ -43,6 +43,7 @@ function ExpandableList(props) {
             indentation={item.indentation}
             mode={props.mode}
             publicMode={props.publicMode}
+            tooltip={item.typeKeyword}
             handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
           />
         )}
