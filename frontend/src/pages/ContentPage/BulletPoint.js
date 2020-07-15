@@ -41,6 +41,7 @@ function BulletPoint (props) {
             <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item
               ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
               style={{color: props.color}}
+              title={props.tooltip}
             />
           </div>
           <div className="content-td pb-2 col">
@@ -59,6 +60,7 @@ function BulletPoint (props) {
             <Indent indentLevel={props.indentation} />
             <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} `}
               style={{color: props.color}}
+              title={props.tooltip}
             />
           </div>
           <div className="content-td pb-2 col">
@@ -82,6 +84,7 @@ function BulletPoint (props) {
             <Indent indentLevel={props.indentation} />
             <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)}`}
               style={{color: props.color}}
+              title={props.tooltip}
             />
           </div>
           <div className="content-td pb-2 col">
@@ -152,5 +155,6 @@ BulletPoint.propTypes = {
   publicMode: PropTypes.number,
   contentMode: PropTypes.number,
   handleTimestamp: PropTypes.func,
-  color: PropTypes.string
+  color: PropTypes.string,
+  tooltip: PropTypes.string
 };
