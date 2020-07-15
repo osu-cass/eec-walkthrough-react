@@ -3,6 +3,7 @@ import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
+import {SketchPicker} from "react-color";
 import "./ConstructIconModal.css";
 
 // Modal used for creating and editing icons
@@ -32,6 +33,7 @@ function ConstructIconModal(props) {
     setErrorMessage("");
   }, [props.show]);
 
+  // Submit a new icon
   async function handleCreate() {
 
     // Check for empty inputs
@@ -171,6 +173,12 @@ function ConstructIconModal(props) {
 
   }
 
+    // Gets color data from changes made to the color picker
+    function handleColorChange(color) {
+      setColor(color.hex);
+      document.getElementById("hex-color-field").value = color.hex;
+    }
+
   return (
     <div className='text-center mx-2'>
       <Modal show={props.show} onHide={() => props.handleClose()} dialogClassName="modal-width">
@@ -194,7 +202,7 @@ function ConstructIconModal(props) {
           <Row>
             <Col>
               <Form.Group controlId="formFont">
-                <Form.Label className="font-weight-bold">Font Awesome Name</Form.Label>
+                <Form.Label className="font-weight-bold">Font Awesome Name <a href={"https://www.fontawesome.com/v4.7.0/icons/"}>(All Icon Names)</a></Form.Label>
                 <Form.Control type="text" maxLength="100" defaultValue={typeName} onChange={(e) => setTypeName(e.target.value)} />
               </Form.Group>
             </Col>
@@ -221,10 +229,12 @@ function ConstructIconModal(props) {
             <Col>
               <Form.Group controlId="formColor">
                 <Form.Label className="font-weight-bold">Color Code</Form.Label>
-                <Form.Control type="text" maxLength="7" defaultValue={color} onChange={(e) => setColor(e.target.value)} />
+                <Form.Control id="hex-color-field" type="text" maxLength="7" defaultValue={color} onChange={(e) => setColor(e.target.value)} />
               </Form.Group>
             </Col>
           </Row>
+
+          <SketchPicker color={color} onChange={(color) => handleColorChange(color)} />
 
           <Row>
             <div className='col-3' />
