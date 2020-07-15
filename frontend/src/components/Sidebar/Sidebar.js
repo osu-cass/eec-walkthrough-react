@@ -60,7 +60,7 @@ function Sidebar(props) {
     }
   }
 
-  return pages ? (
+  return (
     <div
       className={"wrapper " + props.className}
       ref={wrapperRef}
@@ -74,11 +74,14 @@ function Sidebar(props) {
         </Card>
 
         <Col className="mt-3">
-          <Card className="sidebar-page-container" bg="dark" border="info" style={{cursor: "pointer"}}>
+          <Card className="sidebar-page-container my-4" bg="dark" border="info" style={{cursor: "pointer"}}>
             <SidebarCollection
               collectionName="Home"
               collectionLink=""
             />
+          </Card>
+
+          <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
             <SidebarCollection
               collectionName="Assessments"
               collectionLink="assessments"
@@ -114,8 +117,10 @@ function Sidebar(props) {
               refresh={() => fetchData()}
               role={role}
             />
+          </Card>
+
             {role === 4 ? (
-              <Fragment>
+              <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
                 <SidebarCollection
                   collectionName="Manage Icons"
                   collectionLink="manage-icons"
@@ -128,20 +133,21 @@ function Sidebar(props) {
                   collectionName="Manage Users"
                   collectionLink="manage-users"
                 />
-              </Fragment>
+              </Card>
             ) : (
               null
             )}
-            <SidebarCollection
-              collectionName="OSU EEC"
-              externalLink="https://eec.oregonstate.edu/"
-            />
-          </Card>
+
+            <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
+              <SidebarCollection
+                collectionName="OSU EEC"
+                externalLink="https://eec.oregonstate.edu/"
+              />
+            </Card>
         </Col>
       </nav>
-
     </div >
-  ) : <Fragment></Fragment>;
+  );
 
 }
 export default Sidebar;
