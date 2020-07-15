@@ -73,7 +73,7 @@ function ManageLinks() {
               <th style={{width: "30%"}}>
                 Title
               </th>
-              <th style={{width: "35%"}}>
+              <th style={{width: "30%"}}>
                 URL
               </th>
               <th style={{width: "25%"}}>
