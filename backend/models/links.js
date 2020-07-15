@@ -16,8 +16,7 @@ async function getLinks(onlyDead) {
     "WHERE groupIndex = 3 " +
     "AND approved = 1 " +
     "AND (contentMode = 1 OR contentMode = 3) " +
-    "ORDER BY contentLabel ASC;";
-
+    "ORDER BY created ASC;";
 
     // filter out all of the valid links
     if (onlyDead) {
@@ -28,7 +27,7 @@ async function getLinks(onlyDead) {
       "AND created IS NULL " +
       "AND approved = 1 " +
       "AND (contentMode = 1 OR contentMode = 3) " +
-      "ORDER BY contentLabel ASC;";
+      "ORDER BY created ASC;";
     }
 
     const results = await pool.query(sql, []);
