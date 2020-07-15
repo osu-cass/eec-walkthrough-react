@@ -812,7 +812,7 @@ function ConstructCardModal(props) {
               <div className="custom-control form-control-lg custom-checkbox my-2">
                 {checked ? (
                   <input type="checkbox" className="form-check-input custom-control-input"
-                    id="internal-modal-checkbox" onClick={() => setChecked(0)} checked 
+                    id="internal-modal-checkbox" onClick={() => setChecked(0)} defaultChecked 
                   />
                 ) : (
                   <input type="checkbox" className="form-check-input custom-control-input"
