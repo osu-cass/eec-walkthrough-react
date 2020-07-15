@@ -28,6 +28,7 @@ function UserSelectRole(props) {
       };
 
       try {
+
         props.onLoading(true);
         const results = await fetch(patchURL, {
           method: "PATCH",
