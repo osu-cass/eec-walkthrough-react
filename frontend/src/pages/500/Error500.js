@@ -2,6 +2,7 @@ import React from "react";
 import {Card} from "react-bootstrap";
 import "./Error500.css";
 
+// 500 error page
 function Error404() {
   return (
     <div className="container">

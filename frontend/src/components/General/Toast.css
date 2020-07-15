@@ -1,0 +1,6 @@
+.toast-overlay{
+  position: fixed;
+  left: 50%;
+  bottom: 50%;
+  z-index: 99999;
+}

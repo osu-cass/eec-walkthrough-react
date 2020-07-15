@@ -254,10 +254,19 @@ function EditUser(props) {
   if (activeUser) {
     return (
       <div className="container">
+
         <LoadingOverlay loading={loading} />
-        <Card className="my-2 mb-5" id="user-register-container">
-          <Card.Header as="h2">Change User Information</Card.Header>
-          <div className="p-2 my-2 text-dark-50 bg-white" >
+
+        <div className="d-flex header-bar justify-content-between mt-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
+          <div className="row mx-2">
+            <h4 className="flex-grow-1 font-weight-bold">
+              Change User Information
+            </h4>
+          </div>
+        </div>
+
+        <Card className="mb-2 mb-5" id="user-register-container">
+          <div className="p-2 mb-2 text-dark-50 bg-white" >
             <div className="form-group m-3">
 
               <label form="formGroup" className="flex-grow-1 font-weight-bold h4">

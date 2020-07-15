@@ -3,6 +3,7 @@
 
 const {pool} = require("../services/database/mysqlPool");
 
+
 // return a list of all icons
 async function getIcons() {
 
@@ -27,3 +28,115 @@ async function getIcons() {
 
 }
 exports.getIcons = getIcons;
+
+
+// create an icon
+async function createIcon(typeKeyword, typeName, groupIndex, color) {
+
+  try {
+
+    // check to see if the color is a valid hex color code
+    if (color[0] !== "#") {
+      return {error: 1};
+    }
+
+    for (let i = 1; i < color.length; i++) {
+      if (color[i] !== "0" && color[i] !== "1" && color[i] !== "2" && color[i] !== "3" &&
+      color[i] !== "4" && color[i] !== "5" && color[i] !== "6" && color[i] !== "7" &&
+      color[i] !== "8" && color[i] !== "9" && color[i] !== "A" && color[i] !== "B" &&
+      color[i] !== "C" && color[i] !== "D" && color[i] !== "E" && color[i] !== "F" &&
+      color[i] !== "a" && color[i] !== "b" && color[i] !== "c" && color[i] !== "d" &&
+      color[i] !== "e" && color[i] !== "f") {
+        return {error: 1};
+      }
+    }
+
+    const sqlArray = [];
+
+    // create the new icon
+    const sql = "INSERT INTO Icons (typeKeyword, typeName, groupIndex, color) " +
+    "VALUES (?, ?, ?, ?);";
+    sqlArray.push(typeKeyword);
+    sqlArray.push(typeName);
+    sqlArray.push(groupIndex);
+    sqlArray.push(color);
+
+    // perform the create query
+    const results = await pool.query(sql, sqlArray);
+
+    const iconId = results[0].insertId;
+
+    const finalResults = {
+      insertId: iconId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error creating icon");
+    throw Error(err);
+  }
+
+}
+exports.createIcon = createIcon;
+
+
+// update an icon
+async function updateIcon(iconId, typeKeyword, typeName, groupIndex, color) {
+
+  try {
+
+    const sqlArray = [];
+
+    // make sure that the icon exists
+    let sql = "SELECT * " +
+    "FROM Icons " +
+    "WHERE iconType = ?;";
+    let results = await pool.query(sql, iconId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // check to see if the color is a valid hex color code
+    if (color[0] !== "#") {
+      return {error: 2};
+    }
+
+    for (let i = 1; i < color.length; i++) {
+      if (color[i] !== "0" && color[i] !== "1" && color[i] !== "2" && color[i] !== "3" &&
+      color[i] !== "4" && color[i] !== "5" && color[i] !== "6" && color[i] !== "7" &&
+      color[i] !== "8" && color[i] !== "9" && color[i] !== "A" && color[i] !== "B" &&
+      color[i] !== "C" && color[i] !== "D" && color[i] !== "E" && color[i] !== "F" &&
+      color[i] !== "a" && color[i] !== "b" && color[i] !== "c" && color[i] !== "d" &&
+      color[i] !== "e" && color[i] !== "f") {
+        return {error: 2};
+      }
+    }
+
+    // update the icon
+    sql = "UPDATE Icons " +
+    "SET typeKeyword = ?, typeName = ?, groupIndex = ?, color = ? " +
+    "WHERE iconType = ?;";
+    sqlArray.push(typeKeyword);
+    sqlArray.push(typeName);
+    sqlArray.push(groupIndex);
+    sqlArray.push(color);
+    sqlArray.push(iconId);
+
+    // perform the update query
+    results = await pool.query(sql, sqlArray);
+
+    const finalResults = {
+      iconId: iconId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error updating icon");
+    throw Error(err);
+  }
+
+}
+exports.updateIcon = updateIcon;

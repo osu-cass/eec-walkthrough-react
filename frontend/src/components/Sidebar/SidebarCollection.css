@@ -1,3 +1,11 @@
+a.page-sidebar-nav-link,
+a:hover.page-sidebar-nav-link,
+a:focus.page-sidebar-nav-link {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
 #sidebarCollection.card-header {
   cursor: pointer;
   color: #FFFFFF;

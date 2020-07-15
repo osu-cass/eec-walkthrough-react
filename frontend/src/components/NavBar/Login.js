@@ -7,6 +7,7 @@ import "./Login.css";
 
 // login button, acts as the logout button when a user is already logged in
 function Login (props) {
+
   const $ = window.$;
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");

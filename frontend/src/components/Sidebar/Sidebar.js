@@ -61,7 +61,7 @@ function Sidebar(props) {
   }
 
   return pages ? (
-    < div
+    <div
       className={"wrapper " + props.className}
       ref={wrapperRef}
     >
@@ -80,9 +80,9 @@ function Sidebar(props) {
               collectionLink=""
             />
             <SidebarCollection
-              collectionName="Subjects"
-              collectionLink="subjects"
-              collection={pages.subjects}
+              collectionName="Assessments"
+              collectionLink="assessments"
+              collection={pages.assessments}
               refresh={() => fetchData()}
               role={role}
             />
@@ -93,14 +93,49 @@ function Sidebar(props) {
               refresh={() => fetchData()}
               role={role}
             />
+            <SidebarCollection
+              collectionName="Processes"
+              collectionLink="processes"
+              collection={pages.processes}
+              refresh={() => fetchData()}
+              role={role}
+            />
+            <SidebarCollection
+              collectionName="Productivity"
+              collectionLink="productivity"
+              collection={pages.productivity}
+              refresh={() => fetchData()}
+              role={role}
+            />
+            <SidebarCollection
+              collectionName="Technologies"
+              collectionLink="technologies"
+              collection={pages.technologies}
+              refresh={() => fetchData()}
+              role={role}
+            />
             {role === 4 ? (
-              <SidebarCollection
-                collectionName="Manage Users"
-                collectionLink="manage-users"
-              />
+              <Fragment>
+                <SidebarCollection
+                  collectionName="Manage Icons"
+                  collectionLink="manage-icons"
+                />
+                <SidebarCollection
+                  collectionName="Manage Links"
+                  collectionLink="manage-links"
+                />
+                <SidebarCollection
+                  collectionName="Manage Users"
+                  collectionLink="manage-users"
+                />
+              </Fragment>
             ) : (
               null
             )}
+            <SidebarCollection
+              collectionName="OSU EEC"
+              externalLink="https://eec.oregonstate.edu/"
+            />
           </Card>
         </Col>
       </nav>

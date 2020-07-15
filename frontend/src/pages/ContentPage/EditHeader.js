@@ -22,6 +22,7 @@ function EditHeader(props) {
       setTitle(props.header.title);
     }
     setChecked(isInternal());
+    // eslint-disable-next-line
   }, [props.header.tempHeaderId, props.header.tempTitle, props.header.title, props.header.internal, props.header.tempInternal]);
 
   function handleCloseModal() {

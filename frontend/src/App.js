@@ -2,6 +2,8 @@ import React from "react";
 import ContentPage from "./pages/ContentPage/ContentPage";
 import Home from "./pages/Home/Home";
 import ManageUsers from "./pages/ManageUsers/ManageUsers";
+import ManageIcons from "./pages/ManageIcons/ManageIcons";
+import ManageLinks from "./pages/ManageLinks/ManageLinks";
 import Search from "./pages/Search/Search";
 import RegisterUser from "./pages/RegisterUser/RegisterUser";
 import EditUser from "./pages/EditUser/EditUser";
@@ -56,7 +58,34 @@ class App extends React.Component {
         />
         <Switch>
           <Route
-            path='/subjects/:pageId'
+            path='/technologies/:pageId'
+            render={(props) => (
+              <ContentPage {...props}
+                pageId={props.match.params.pageId}
+                handlePageEdit={this.handlePageEdit}
+              />
+            )}
+          />
+          <Route
+            path='/processes/:pageId'
+            render={(props) => (
+              <ContentPage {...props}
+                pageId={props.match.params.pageId}
+                handlePageEdit={this.handlePageEdit}
+              />
+            )}
+          />
+          <Route
+            path='/productivity/:pageId'
+            render={(props) => (
+              <ContentPage {...props}
+                pageId={props.match.params.pageId}
+                handlePageEdit={this.handlePageEdit}
+              />
+            )}
+          />
+          <Route
+            path='/assessments/:pageId'
             render={(props) => (
               <ContentPage {...props}
                 pageId={props.match.params.pageId}
@@ -79,6 +108,12 @@ class App extends React.Component {
           <Route path='/page-list/:pageName'>
             <PageList />
           </Route>
+          <Route path='/manage-icons'>
+            <ManageIcons />
+          </Route>
+          <Route path='/manage-links'>
+            <ManageLinks />
+          </Route>
           <Route path='/manage-users'>
             <ManageUsers />
           </Route>
@@ -92,7 +127,7 @@ class App extends React.Component {
             <Error500 />
           </Route>
           <Route exact path='/'>
-            <Home />
+            <Home loginStatusChange={this.state.loginStatusChange} />
           </Route>
           <Route path='*'>
             <Error404 />

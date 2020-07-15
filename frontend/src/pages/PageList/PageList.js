@@ -26,10 +26,16 @@ function PageList() {
     for (let i = 0; i < pages.length; i++) {
 
       let url = "";
-      if (pages[i].pageType) {
+      if (pages[i].pageType === 1) {
         url = `/industries/${pages[i].pageId}`;
+      } else if (pages[i].pageType === 2) {
+        url = `/technologies/${pages[i].pageId}`;
+      } else if (pages[i].pageType === 3) {
+        url = `/processes/${pages[i].pageId}`;
+      } else if (pages[i].pageType === 4) {
+        url = `/productivity/${pages[i].pageId}`;
       } else {
-        url = `/subjects/${pages[i].pageId}`;
+        url = `/assessments/${pages[i].pageId}`;
       }
 
       linkArray.push(url);
@@ -55,10 +61,16 @@ function PageList() {
 
       obj = await results.json();
 
-      if (page === "subjects") {
-        setPages(obj.pages.subjects);
-      } else if (page === "industries") {
+      if (page === "industry") {
         setPages(obj.pages.industries);
+      } else if (page === "technology") {
+        setPages(obj.pages.technologies);
+      } else if (page === "process") {
+        setPages(obj.pages.processes);
+      } else if (page === "productivity") {
+        setPages(obj.pages.productivity);
+      } else if (page === "assessment") {
+        setPages(obj.pages.assessments);
       } else {
         setPages([]);
       }
@@ -104,7 +116,7 @@ function PageList() {
         <LoadingOverlay loading={loading} />
         <div className="content-container mb-5">
           <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
-            <h3 className="py-5 font-weight-bold">&quot;{pageName}&quot; has no pages or doesn&apos;t exist.</h3>
+            <h3 className="py-5 font-weight-bold">There are no {pageName} pages to view.</h3>
           </div>
         </div>
       </div>
