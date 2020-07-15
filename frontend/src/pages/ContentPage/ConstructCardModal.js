@@ -4,6 +4,7 @@ import {logout} from "../../utilities/cookieAuth";
 import AddButton from "./AddButton";
 import ItemInput from "./ItemInput";
 import IconDropdown from "./IconDropdown";
+import Toast from "../../components/General/Toast";
 import Indent from "./Indent";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
@@ -22,6 +23,7 @@ function ConstructCardModal(props) {
   const [imageIcons, setImageIcons] = useState([]);
   const [linkIcons, setLinkIcons] = useState([]);
   const [checked, setChecked] = useState(0);
+  const [copyToast, setCopyToast] = useState(false);
 
   // setup card data
   useEffect(() => {
@@ -102,15 +104,12 @@ function ConstructCardModal(props) {
     const images = [];
     const links = [];
     for (let i = 0; i < props.iconSet.length; i++) {
-      if (props.iconSet[i].typeName === "chart-area") {
-        images.push(props.iconSet[i]);
-      } else if (props.iconSet[i].typeName === "copy" || props.iconSet[i].typeName === "list" ||
-        props.iconSet[i].typeName === "play" || props.iconSet[i].typeName === "video-camera" ||
-        props.iconSet[i].typeName === "book" || props.iconSet[i].typeName === "truck") {
-        links.push(props.iconSet[i]);
-      } else if (props.iconSet[i].typeName !== "info" && props.iconSet[i].typeName !== "link" &&
-        props.iconSet[i].typeName !== "fire" && props.iconSet[i].typeName !== "bolt") {
+      if (props.iconSet[i].groupIndex === 1) {
         gen.push(props.iconSet[i]);
+      } else if (props.iconSet[i].groupIndex === 2) {
+        images.push(props.iconSet[i]);
+      } else if (props.iconSet[i].groupIndex === 3) {
+        links.push(props.iconSet[i]);
       }
     }
     setBasicIcons(gen);
@@ -297,6 +296,7 @@ function ConstructCardModal(props) {
         for (let j = 0; j < props.iconSet.length; j++) {
           if (props.iconSet[j].iconType === copy[i].iconType) {
             copy[i].typeName = props.iconSet[j].typeName;
+            copy[i].color = props.iconSet[j].color;
           }
         }
       }
@@ -398,6 +398,7 @@ function ConstructCardModal(props) {
         for (let j = 0; j < props.iconSet.length; j++) {
           if (props.iconSet[j].iconType === copy[i].iconType) {
             copy[i].typeName = props.iconSet[j].typeName;
+            copy[i].color = props.iconSet[j].color;
           }
         }
       }
@@ -680,9 +681,9 @@ function ConstructCardModal(props) {
       linkIcons.map((type) => {
         // filter out icons based on the content type
         jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} style={{color: type.color}} /> {type.typeKeyword}
         </div>);
-        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} />;
+        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} style={{color: type.color}} />;
         values.push([type.iconType, jsxIcon]);
         return null;
       });
@@ -690,9 +691,9 @@ function ConstructCardModal(props) {
       imageIcons.map((type) => {
         // filter out icons based on the content type
         jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} style={{color: type.color}} /> {type.typeKeyword}
         </div>);
-        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} />;
+        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} style={{color: type.color}} />;
         values.push([type.iconType, jsxIcon]);
         return null;
       });
@@ -700,9 +701,9 @@ function ConstructCardModal(props) {
       basicIcons.map((type) => {
         // filter out icons based on the content type
         jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} /> {type.typeKeyword}
+          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} style={{color: type.color}} /> {type.typeKeyword}
         </div>);
-        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} />;
+        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} style={{color: type.color}} />;
         values.push([type.iconType, jsxIcon]);
         return null;
       });
@@ -711,8 +712,67 @@ function ConstructCardModal(props) {
     return list;
   }
 
+  // Copy item
+  function copyItem(item) {
+    // show the toast stating that we have copied an item
+    setCopyToast(true);
+
+    // stringify the item data
+    const itemString = item.contentText + "$%$" + item.contentLabel + "$%$" +
+      item.contentUrl + "$%$" + item.iconType + "$%$" + item.contentType + "$%$" +
+      item.contentMode;
+
+    // save the item to local storage
+    window.localStorage.setItem("itemCopy", itemString);
+  }
+
+  // Paste item
+  function pasteItem() {
+    // retrieve the item from local storage
+    const newItem = window.localStorage.getItem("itemCopy");
+    if (newItem === null) {
+      setErrorMessage("No item to paste from clipboard");
+      return;
+    }
+
+    // split the item into an array
+    const itemArray = newItem.split("$%$");
+
+    // add the item to the card
+    const newCounter = counter;
+    const pureId = pureCounter;
+    const key = (newCounter).toString();
+    let copy = [...items];
+
+    // create the new item
+    copy[key] = {};
+    copy[key].counterId = pureId + 1;
+    copy[key].contentText = itemArray[0];
+    copy[key].contentLabel = itemArray[1];
+    copy[key].contentUrl = itemArray[2];
+    copy[key].iconType = parseInt(itemArray[3], 10);
+    copy[key].contentType = parseInt(itemArray[4], 10);
+    copy[key].contentMode = parseInt(itemArray[5], 10);
+    copy[key].indentation = 0;
+
+    // Make sure the indentation is up to date
+    copy = scanIndentation(copy);
+
+    setItems(copy);
+    setCounter(newCounter + 1);
+    setPureCounter(pureCounter + newCounter + 1);
+  }
+
+  // Closes the specified toast
+  function closeToast() {
+    setCopyToast(false);
+  }
+
   return (
     <div className='text-center mx-2'>
+
+      <Toast show={copyToast} text="Item copied" handleClose={() => closeToast()} />
+
       <Modal show={props.show} onHide={() => props.handleClose()} dialogClassName="modal-width">
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">{props.edit ? "Edit Card" : "Create Card"}</h5>
@@ -733,7 +793,7 @@ function ConstructCardModal(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="formTitle">
+              <Form.Group controlId="formFormat">
                 <Form.Label className="font-weight-bold">Card Format</Form.Label>
                 <select className="form-control"
                   id="select-new-card-format"
@@ -741,6 +801,7 @@ function ConstructCardModal(props) {
                 >
                   <option value="0">Default</option>
                   <option value="1">Thumbnail Gallery</option>
+                  <option value="2">Expandable List</option>
                 </select>
               </Form.Group>
             </Col>
@@ -770,40 +831,41 @@ function ConstructCardModal(props) {
           {/* Item Input Fields */}
 
           {items.map((item, i) =>
-            <Row className="mb-2" key={item.counterId + "a"}>
+            <Row className="mb-2" key={item.counterId}>
               <div className="input-group">
                 <span className="ml-2 mr-3">
                   <button className='btn btn-danger btn-sm ml-2'
                     onClick={() => deleteItem(item.counterId)}
-                    key={item.counterId + "g"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-times' />
                   </button>
+                  <button className='btn btn-info copy-paste-button btn-sm ml-2'
+                    onClick={() => copyItem(item)}
+                    data-index={i}
+                  >
+                    <i className='fas fa-fw fa-copy' />
+                  </button>
                   <button className={`btn btn-primary btn-sm ml-2 ${item.indentation === 0 ? "disabled" : ""}`}
                     onClick={() => changeIndent(item.counterId, -1)}
-                    key={item.counterId + "c"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-minus' />
                   </button>
                   <button className={`btn btn-primary btn-sm ml-2 ${item.maxIndent <= item.indentation || item.indentation === 4 ? "disabled" : ""}`}
                     onClick={() => changeIndent(item.counterId, 1)}
-                    key={item.counterId + "d"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-plus' />
                   </button>
                   <button className={`btn btn-success btn-sm ml-2 ${i ? "" : "disabled"}`}
                     onClick={() => changeOrder(item.counterId, true)}
-                    key={item.counterId + "e"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-arrow-up' />
                   </button>
                   <button className={`btn btn-success btn-sm ml-2 ${i + 1 < items.length ? "" : "disabled"}`}
                     onClick={() => changeOrder(item.counterId, false)}
-                    key={item.counterId + "f"}
                     data-index={i}
                   >
                     <i className='fas fa-fw fa-arrow-down' />
@@ -831,9 +893,19 @@ function ConstructCardModal(props) {
 
           <Row>
             <Col className="mt-2">
-              <AddButton variant="success" label="Add Item" onClick={() => incrementCounter(1)} />
-              <AddButton variant="primary" label="Add Graphic" onClick={() => incrementCounter(2)} />
-              <AddButton variant="info" label="Add Site Resource" onClick={() => incrementCounter(3)} />
+              <AddButton variant="info" label="Add Item" onClick={() => incrementCounter(1)} />
+              <AddButton variant="success" label="Add Graphic" onClick={() => incrementCounter(2)} />
+              <AddButton variant="primary" label="Add Site Resource" onClick={() => incrementCounter(3)} />
+              <Button
+                onClick={() => pasteItem()}
+                className="mr-2 copy-paste-button"
+                variant="info"
+              >
+                <i
+                  className='fas fa-paste text-white mr-2'
+                  style={{transform: "scale(1.5)"}}></i>
+                Paste Item
+              </Button>
             </Col>
           </Row>
 

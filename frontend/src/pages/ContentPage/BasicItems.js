@@ -14,12 +14,14 @@ function BasicItems(props) {
           url={item.contentUrl}
           id={item.itemId}
           icon={item.typeName}
+          color={item.color}
           text={item.contentText}
           label={item.contentLabel}
           contentMode={item.contentMode}
           created={item.created}
           indentation={item.indentation}
           mode={props.mode}
+          publicMode={props.publicMode}
           handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
         />
       )}
@@ -32,5 +34,6 @@ export default BasicItems;
 BasicItems.propTypes = {
   handleTimestamp: PropTypes.func,
   items: PropTypes.array,
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  publicMode: PropTypes.number
 };

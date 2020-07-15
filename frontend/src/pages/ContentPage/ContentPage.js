@@ -1,6 +1,7 @@
 import React, {Fragment, useState, useEffect} from "react";
 import {getProfile, logout} from "../../utilities/cookieAuth";
 import {getMode} from "../../utilities/pageMode";
+import {getPublic} from "../../utilities/publicMode";
 import Header from "./Header";
 import PageDescription from "./PageDescription";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
@@ -11,6 +12,7 @@ import PropTypes from "prop-types";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import "./ContentPage.css";
+import NonPublicPage from "../NonPublicPage/NonPublicPage";
 
 // A page representing an industry or subject
 function ContentPage(props) {
@@ -23,6 +25,7 @@ function ContentPage(props) {
   const [userId, setUserId] = useState(0);
   const [role, setRole] = useState(0);
   const [mode, setMode] = useState(getMode());
+  const [publicMode, setPublicMode] = useState(getPublic());
   const [cardState, setCardState] = useState(0);
   const [pageState, setPageState] = useState(0);
 
@@ -34,9 +37,14 @@ function ContentPage(props) {
     // eslint-disable-next-line
   }, [props.pageId]);
 
-  // sets the current page mode (view / edit)
+  // sets the current page mode (view / edit / move)
   function handlePageMode(newMode) {
     setMode(newMode);
+  }
+
+  // sets the current public mode (show / hide)
+  function handlePublicMode(newMode) {
+    setPublicMode(newMode);
   }
 
   // fetch page data
@@ -103,7 +111,6 @@ function ContentPage(props) {
 
       }
 
-
     } else if (type === "header") {
 
       if (action === "create") {
@@ -140,7 +147,6 @@ function ContentPage(props) {
         }
 
       }
-
 
     } else if (type === "card") {
 
@@ -421,7 +427,7 @@ function ContentPage(props) {
     }
   }
 
-  if (!errorPage) {
+  if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
     return loaded ? ( // Render content when data loaded from backend
       <Container className="my-4">
         <PageDescription
@@ -431,6 +437,7 @@ function ContentPage(props) {
           mode={mode}
           pageState={pageState}
           onPageMode={e => handlePageMode(e)}
+          onPublicMode={e => handlePublicMode(e)}
           handlePageEdit={props.handlePageEdit}
         />
 
@@ -452,6 +459,7 @@ function ContentPage(props) {
                 handleMoveCard={(cardId, headerId, up) => handleMoveCard(cardId, headerId, up)}
                 role={role}
                 mode={mode}
+                publicMode={publicMode}
                 iconSet={iconSet}
                 cardState={cardState}
                 top={i === 0 ? (true) : (false)}
@@ -471,6 +479,8 @@ function ContentPage(props) {
 
       </Container>
     ) : <LoadingOverlay loading={true} />;
+  } else if (publicMode === 1 && (!pageInfo.approved || pageInfo.internal) && mode === 0) {
+    return <NonPublicPage onPublicMode={e => handlePublicMode(e)} />
   } else if (errorPage === 404) {
     return <Error404 />;
   } else {

@@ -105,6 +105,7 @@ function Header(props) {
 
   // Toggles the viewing state for an icon type.
 
+  // Changes the viewing state of an icon
   function updateIcon(iconId, state) {
     const allIcons = [...filterShow];
     allIcons[iconId] = !state;
@@ -155,17 +156,16 @@ function Header(props) {
       const allTempItems = [];
       let itemExists = false;
       let tempItemExists = false;
-      let hideIndent = false;
+      let hideIndent = 1000;
 
       // check each normal item in the card
       for (let j = 0; j < props.header.cards[i].items.length; j++) {
-        // check if this item is indented and if it needs to be hidden
-        if (props.header.cards[i].items[j].indentation) {
-          if (hideIndent) {
-            continue;
-          }
+        // if we are in hide children mode,
+        // then remove items with a greater indentation level
+        if (props.header.cards[i].items[j].indentation > hideIndent) {
+          continue;
         } else {
-          hideIndent = false;
+          hideIndent = 1000;
         }
         // see if the item should be filtered or not
         if (filterState[props.header.cards[i].items[j].iconType]) {
@@ -173,21 +173,21 @@ function Header(props) {
           itemExists = true;
         } else {
           // if this item has children they need to be hidden
-          hideIndent = true;
+          hideIndent = props.header.cards[i].items[j].indentation;
         }
       }
 
-      hideIndent = false;
+      hideIndent = 1000;
 
       // check each temp item in the card
       for (let j = 0; j < props.header.cards[i].tempItems.length; j++) {
         // check if this item is indented and if it needs to be hidden
-        if (props.header.cards[i].tempItems[j].indentation) {
+        if (props.header.cards[i].tempItems[j].indentation > hideIndent) {
           if (hideIndent) {
             continue;
           }
         } else {
-          hideIndent = false;
+          hideIndent = 1000;
         }
         // see if the item should be filtered or not
         if (filterState[props.header.cards[i].tempItems[j].iconType]) {
@@ -195,7 +195,7 @@ function Header(props) {
           tempItemExists = true;
         } else {
           // if this item has children they need to be hidden
-          hideIndent = true;
+          hideIndent = props.header.cards[i].tempItems[j].indentation;
         }
       }
 
@@ -237,7 +237,7 @@ function Header(props) {
     }
   }
 
-  return !props.header.approved && props.mode !== 1 ? (
+  return (!props.header.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal()) ? (
     null
   ) : (
     <div>
@@ -296,11 +296,11 @@ function Header(props) {
                 mode={props.mode}
                 iconSet={props.iconSet}
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
-                top={i === 0 ? (true) : (false)}
-                bottom={i >= cards.length - 1 ? (true) : (false)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
                 role={props.role}
+                top={i === 0 ? (true) : (false)}
+                bottom={i >= cards.length - 1 ? (true) : (false)}
               />
             )}
           </div>
@@ -324,16 +324,6 @@ function Header(props) {
 
             <div className="row mx-2">
               <div className="row">
-                <FilterBar
-                  updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                  resetIcons={() => resetIcons()}
-                  clearIcons={() => clearIcons()}
-                  filterIcons={filterIcons}
-                  tempFilterIcons={tempFilterIcons}
-                  filterShow={filterShow}
-                  iconSet={props.iconSet}
-                  mode={props.mode}
-                />
                 {props.mode === 2 ? (
                   <Fragment>
                     <OrderObjectButton
@@ -352,7 +342,16 @@ function Header(props) {
                     />
                   </Fragment>
                 ) : (
-                  null
+                  <FilterBar
+                    updateIcon={(e1, e2) => updateIcon(e1, e2)}
+                    resetIcons={() => resetIcons()}
+                    clearIcons={() => clearIcons()}
+                    filterIcons={filterIcons}
+                    tempFilterIcons={tempFilterIcons}
+                    filterShow={filterShow}
+                    iconSet={props.iconSet}
+                    mode={props.mode}
+                  />
                 )}
               </div>
             </div>
@@ -372,6 +371,7 @@ function Header(props) {
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
                 role={props.role}
+                publicMode={props.publicMode}
               />
             )}
           </div>
@@ -391,6 +391,7 @@ Header.propTypes = {
   handleUpdate: PropTypes.func,
   role: PropTypes.number,
   mode: PropTypes.number,
+  publicMode: PropTypes.number,
   iconSet: PropTypes.any,
   top: PropTypes.bool,
   bottom: PropTypes.bool,

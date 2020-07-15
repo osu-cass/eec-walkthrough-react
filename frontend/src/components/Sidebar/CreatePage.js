@@ -30,8 +30,14 @@ class CreatePage extends React.Component {
 
     // ensure that the correct page type is generated
     let pageType = 1;
-    if (this.props.collectionName === "Subjects") {
-      pageType = 0;
+    if (this.props.collectionName === "Technologies") {
+      pageType = 2;
+    } else if (this.props.collectionName === "Processes") {
+      pageType = 3;
+    } else if (this.props.collectionName === "Productivity") {
+      pageType = 4;
+    } else if (this.props.collectionName === "Assessments") {
+      pageType = 5;
     }
 
     let internal = 0;
@@ -164,7 +170,16 @@ class CreatePage extends React.Component {
               <Col>
                 <Form.Group controlId="formDescription">
                   <Form.Label className="font-weight-bold">Brief Description</Form.Label>
-                  <Form.Control type="text" maxLength="5000" placeholder="Enter description" onChange={(e) => this.setState({description: e.target.value})} />
+                  <Form.Control
+                    as="textarea"
+                    maxLength="5000"
+                    rows="4"
+                    placeholder="Enter description"
+                    onChange={(e) => this.setState({description: e.target.value})}
+                    style={{
+                      maxHeight: "500px"
+                    }}
+                  />
                 </Form.Group>
               </Col>
             </Row>

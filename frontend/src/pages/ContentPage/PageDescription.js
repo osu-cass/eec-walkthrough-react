@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Image from "./Image";
 import ReviewPage from "./ReviewPage";
 import ChangeMode from "./ChangeMode";
+import ChangePublic from "./ChangePublic";
 import EditPage from "./EditPage";
 import "./PageDescription.css";
 
@@ -57,6 +58,11 @@ function PageDescription(props) {
 
         <div className="row mx-2">
           <div className="row">
+            <ChangePublic
+              role={props.role}
+              mode={props.mode}
+              onPublicMode={e => props.onPublicMode(e)}
+            />
             <EditPage
               page={props.page}
               role={props.role}
@@ -68,8 +74,10 @@ function PageDescription(props) {
               page={props.page}
               mode={props.mode}
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+              handlePageEdit={props.handlePageEdit}
             />
-            <ChangeMode role={props.role}
+            <ChangeMode
+              role={props.role}
               mode={props.mode}
               onPageMode={e => props.onPageMode(e)}
             />
@@ -83,8 +91,8 @@ function PageDescription(props) {
         <div>
           <div className="row">
             <div className="col-8">
-              <h5 className='font-weight-bold'>{title}</h5>
-              <p>{description}</p>
+              <h5 className="font-weight-bold">{title}</h5>
+              <p className="allow-newlines">{description}</p>
             </div>
             <div className="col-4 text-center">
               <Image url={imageUrl}
@@ -109,6 +117,7 @@ PageDescription.propTypes = {
   mode: PropTypes.number,
   pageState: PropTypes.number,
   onPageMode: PropTypes.func,
+  onPublicMode: PropTypes.func,
   handlePageEdit: PropTypes.func,
   handleUpdate: PropTypes.func
 };

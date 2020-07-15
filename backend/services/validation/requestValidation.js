@@ -88,7 +88,7 @@ exports.searchPageVal = searchPageVal;
 // validation checks for post page
 const postPageVal = Object.freeze({
   validation: [
-    check("pageType").isInt({min: 0, max: 1}),
+    check("pageType").isInt({min: 1, max: 5}),
     check("name").isLength({min: 1, max: 100}),
     check("title").isLength({min: 1, max: 1000}),
     check("description").isLength({min: 1, max: 5000}),
@@ -102,6 +102,7 @@ exports.postPageVal = postPageVal;
 const patchPageVal = Object.freeze({
   validation: [
     check("pageId").isInt({min: 1, max: 4294967295}),
+    check("pageType").isInt({min: 1, max: 5}),
     check("name").isLength({min: 1, max: 100}),
     check("title").isLength({min: 1, max: 1000}),
     check("description").isLength({min: 1, max: 5000}),
@@ -110,15 +111,6 @@ const patchPageVal = Object.freeze({
   ]
 });
 exports.patchPageVal = patchPageVal;
-
-// validation checks for industries/subjects
-const industrySubjectVal = Object.freeze({
-  validation: [
-    check("industryId").isInt({min: 1, max: 4294967295}),
-    check("subjectId").isInt({min: 1, max: 4294967295})
-  ]
-});
-exports.industrySubjectVal = industrySubjectVal;
 
 // validation checks for get header
 const getHeaderVal = Object.freeze({
@@ -244,3 +236,67 @@ const patchItemTimeVal = Object.freeze({
   ]
 });
 exports.patchItemTimeVal = patchItemTimeVal;
+
+// validation checks for patch homepage
+const patchHomeVal = Object.freeze({
+  validation: [
+    check("mainHeader").isLength({min: 0, max: 1000}),
+    check("secondaryHeader").isLength({min: 0, max: 1000}),
+    check("sectionsTitle").isLength({min: 0, max: 1000}),
+    check("assessments").isLength({min: 0, max: 1000}),
+    check("industries").isLength({min: 0, max: 1000}),
+    check("processes").isLength({min: 0, max: 1000}),
+    check("productivity").isLength({min: 0, max: 1000}),
+    check("technologies").isLength({min: 0, max: 1000}),
+    check("sectionsFooter").isLength({min: 0, max: 5000}),
+    check("tidbitsHeader").isLength({min: 0, max: 1000}),
+    check("tidbitsTitle").isLength({min: 0, max: 1000}),
+    check("tidbitsFooter").isLength({min: 0, max: 5000}),
+    check("linksHeader").isLength({min: 0, max: 1000}),
+    check("linksTitlePrefix").isLength({min: 0, max: 1000}),
+    check("linksTitlePostfixInternal").isLength({min: 0, max: 1000}),
+    check("linksTitlePostfixDownload").isLength({min: 0, max: 1000}),
+    check("linksFooter").isLength({min: 0, max: 5000}),
+    check("disclaimerHeader").isLength({min: 0, max: 1000}),
+    check("disclaimerText").isLength({min: 0, max: 25000})
+  ]
+});
+exports.patchHomeVal = patchHomeVal;
+
+// validation checks for post icon
+const postIconVal = Object.freeze({
+  validation: [
+    check("typeKeyword").isLength({min: 1, max: 100}),
+    check("typeName").isLength({min: 1, max: 100}),
+    check("groupIndex").isInt({min: 0, max: 3}),
+    check("color").isLength({min: 7, max: 7})
+  ]
+});
+exports.postIconVal = postIconVal;
+
+// validation checks for patch icon
+const patchIconVal = Object.freeze({
+  validation: [
+    check("typeKeyword").isLength({min: 1, max: 100}),
+    check("typeName").isLength({min: 1, max: 100}),
+    check("groupIndex").isInt({min: 0, max: 3}),
+    check("color").isLength({min: 7, max: 7})
+  ]
+});
+exports.patchIconVal = patchIconVal;
+
+// validation checks for get links
+const getLinkVal = Object.freeze({
+  validation: [
+    check("onlyDead").isInt({min: 0, max: 1})
+  ]
+});
+exports.getLinkVal = getLinkVal;
+
+// validation checks for patch link
+const patchLinkVal = Object.freeze({
+  validation: [
+    check("url").isLength({min: 1, max: 1000})
+  ]
+});
+exports.patchLinkVal = patchLinkVal;

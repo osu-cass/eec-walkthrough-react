@@ -12,18 +12,33 @@ function SidebarCollection(props) {
     <Accordion>
       {/* If no collection passed in, make singular link */}
       {props.collection ? (
-        <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
-          {props.collectionName}
-        </Accordion.Toggle>
+        <Fragment>
+          {props.role > 3 || props.collection.length ? (
+            <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
+              {props.collectionName}
+            </Accordion.Toggle>
+          ) : (
+            null
+          )}
+        </Fragment>
       ) : (
-        <NavLink className="page-sidebar-nav-link" to={`/${props.collectionLink}`}>
-          <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
-            {props.collectionName}
-          </Accordion.Toggle>
-        </NavLink>
-      )
-      }
-      {props.collection ?
+        <Fragment>
+          {props.externalLink ? (
+            <a className="page-sidebar-nav-link" href={props.externalLink}>
+              <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
+                {props.collectionName}
+              </Accordion.Toggle>
+            </a>
+          ) : (
+            <NavLink className="page-sidebar-nav-link" to={`/${props.collectionLink}`}>
+              <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
+                {props.collectionName}
+              </Accordion.Toggle>
+            </NavLink>
+          )}
+        </Fragment>
+      )}
+      {props.collection ? (
         <Accordion.Collapse eventKey="0">
           <Fragment>
             {props.collection.map((item, i) => {
@@ -43,7 +58,9 @@ function SidebarCollection(props) {
             />
           </Fragment>
         </Accordion.Collapse>
-        : ""}
+      ) : (
+        null
+      )}
     </Accordion >
 
   );
@@ -58,6 +75,7 @@ SidebarCollection.propTypes = {
   className: PropTypes.any,
   closedSidebar: PropTypes.any,
   refresh: PropTypes.any,
-  role: PropTypes.any
+  role: PropTypes.any,
+  externalLink: PropTypes.string
 };
 
