@@ -200,7 +200,8 @@ async function deleteHeaderChanges(headerId) {
     // delete the header
     sql = "DELETE " +
       "FROM Headers " +
-      "WHERE headerId = ?;";
+      "WHERE headerId = ? " +
+      "AND approved = 0;";
 
     results = await pool.query(sql, headerId);
 

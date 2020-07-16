@@ -185,6 +185,73 @@ function ReviewPage(props) {
 
   }
 
+  // delete changes
+  async function handleClear() {
+
+    // Check that the user really wants to delete the changes for this version
+    if (!window.confirm("Are you sure you want to delete the proposed changes?")) {
+      return;
+    }
+
+    // delete proposed changes
+    const results = await fetch(`/pages/${props.page.pageId}/changes`, {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      if (props.page.approved) {
+        const newPage = {
+          approved: props.page.approved,
+          created: props.page.created,
+          description: props.page.description,
+          imageUrl: props.page.imageUrl,
+          name: props.page.name,
+          title: props.page.title,
+          pageId: props.page.pageId,
+          pageType: props.page.pageType,
+          userId: props.page.userId,
+          internal: props.page.internal,
+          tempPageType: null,
+          tempInternal: null,
+          tempDescription: null,
+          tempImageUrl: null,
+          tempName: null,
+          tempTitle: null,
+          tempCreated: null,
+          tempUserId: null,
+          headers: []
+        };
+
+        // reset error messages
+        setErrorMessage("");
+
+        // Close modal
+        handleClose();
+
+        props.handleUpdate(newPage, "page", "clear");
+      } else {
+        window.location.href = "/";
+      }
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+  }
+
   return role >= 3 && props.mode === 1 ? (
     <div className='text-center mx-2'>
 
@@ -276,10 +343,23 @@ function ReviewPage(props) {
         <Modal.Footer className="modal-footer">
           {role >= 4 ? (
             <Fragment>
+              <Fragment>
+                {props.page.tempPageId || !props.page.approved ? (
+                  <Button
+                    className="mr-auto"
+                    variant="danger"
+                    onClick={() => handleClear()}
+                  >
+                    Delete Changes
+                  </Button>
+                ) : (
+                  null
+                )}
+              </Fragment>
               {props.page.approved && props.page.tempPageId ? (
                 <Fragment>
                   <Button
-                    className="mr-auto"
+                    className="ml-auto"
                     variant="danger"
                     onClick={() => handleRemove()}
                   >
@@ -298,7 +378,19 @@ function ReviewPage(props) {
               )}
             </Fragment>
           ) : (
-            null
+            <Fragment>
+              {props.page.tempPageId || !props.page.approved ? (
+                <Button
+                  className="mr-auto"
+                  variant="danger"
+                  onClick={() => handleClear()}
+                >
+                  Delete Changes
+                </Button>
+              ) : (
+                null
+              )}
+            </Fragment>
           )}
           <Button variant="secondary" onClick={() => handleClose()}>Cancel</Button>
         </Modal.Footer>

@@ -353,35 +353,12 @@ async function deletePage(pageId) {
 
   try {
 
-    // checks to see if there is an edited version of the page to delete
-    let sql = "SELECT * " +
-    "FROM Temp_Pages " +
-    "WHERE tempPageId = ?;";
-
-    let results = await pool.query(sql, pageId);
-
-    // prioritize deleting the edited version
-    // a second delete will remove the real one
-    if (results[0].length) {
-      sql = "DELETE " +
-        "FROM Temp_Pages " +
-        "WHERE tempPageId = ?;";
-
-      results = await pool.query(sql, pageId);
-
-      const finalResults = {
-        affectedRows: results[0].affectedRows
-      };
-
-      return finalResults;
-    }
-
     // check to see if the page exists
-    sql = "SELECT * " +
+    let sql = "SELECT * " +
       "FROM Pages " +
       "WHERE pageId = ?;";
 
-    results = await pool.query(sql, pageId);
+    let results = await pool.query(sql, pageId);
 
     if (!results[0].length) {
       return {error: 1};
@@ -407,6 +384,67 @@ async function deletePage(pageId) {
 
 }
 exports.deletePage = deletePage;
+
+
+// delete page changes
+async function deletePageChanges(pageId) {
+
+  try {
+
+    // checks to see if there is an edited version of the page to delete
+    let sql = "SELECT * " +
+    "FROM Temp_Pages " +
+    "WHERE tempPageId = ?;";
+
+    let results = await pool.query(sql, pageId);
+
+    if (results[0].length) {
+      sql = "DELETE " +
+        "FROM Temp_Pages " +
+        "WHERE tempPageId = ?;";
+
+      results = await pool.query(sql, pageId);
+
+      const finalResults = {
+        affectedRows: results[0].affectedRows
+      };
+
+      return finalResults;
+    }
+
+    // check to see if the page is in the pages table but not yet published
+    sql = "SELECT * " +
+      "FROM Pages " +
+      "WHERE pageId = ? " +
+      "AND approved = 0;";
+
+    results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // delete the page
+    sql = "DELETE " +
+      "FROM Pages " +
+      "WHERE pageId = ? " +
+      "AND approved = 0;";
+
+    results = await pool.query(sql, pageId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting page changes");
+    throw Error(err);
+  }
+
+}
+exports.deletePageChanges = deletePageChanges;
 
 
 // update a page

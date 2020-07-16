@@ -187,28 +187,7 @@ function EditPage(props) {
 
     if (results.ok) {
 
-      if (props.page.pageId === props.page.tempPageId) {
-
-        const newPage = {
-          pageId: props.page.pageId,
-          tempPageId: props.page.tempPageId
-        };
-
-        // Reset state
-        setTitle("");
-        setSummary("");
-        setDescription("");
-        setUrl("");
-        setErrorMessage("");
-
-        // Close modal
-        handleCloseModal();
-
-        props.handleUpdate(newPage, "page", "delete");
-
-      } else {
-        window.location.href = "/";
-      }
+      window.location.href = "/";
 
     } else {
 
@@ -401,13 +380,17 @@ function EditPage(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          <Button
-            className="mr-auto"
-            variant="danger"
-            onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { deletePage(); } }}
-          >
-            Delete Page
-          </Button>
+          {props.role >= 4 ? (
+            <Button
+              className="mr-auto"
+              variant="danger"
+              onClick={() => { if (window.confirm("Are you sure you want to delete this page?")) { deletePage(); } }}
+            >
+              Delete Page
+            </Button>
+          ) : (
+            null
+          )}
           <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Page Edit</Button>
           <Button variant="secondary" onClick={() => handleCloseModal()}>Cancel</Button>
         </Modal.Footer>
