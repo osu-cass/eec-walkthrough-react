@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Card, Col} from "react-bootstrap";
 import {NavLink} from "react-router-dom";
 import EditHome from "./EditHome";
+import ManageSponsors from "./ManageSponsors";
 import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import "./Home.css";
@@ -109,11 +110,16 @@ function Home(props) {
             <h2 className="font-weight-bold">{page.mainHeader}</h2>
           </div>
         </div>
-        <div>
+        <div className="row">
           <EditHome
             handlePageEdit={() => handlePageEdit()}
             loginStatusChange={props.loginStatusChange}
             page={page}
+          />
+          <ManageSponsors
+            handlePageEdit={() => handlePageEdit()}
+            loginStatusChange={props.loginStatusChange}
+            sponsors={sponsors}
           />
         </div>
       </div>
@@ -263,6 +269,7 @@ function Home(props) {
           <Col className="my-4">
             {sponsors.map((sponsor) =>
               <img
+                key={sponsor.name}
                 src={sponsor.imageUrl}
                 alt={sponsor.name}
                 title={sponsor.name}
@@ -274,7 +281,7 @@ function Home(props) {
           <div className="p-4 my-2 text-dark-50 bg-white" >
             <div className="font-weight-bold mb-3">This guide has been developed with support from</div>
               {sponsors.map((sponsor) =>
-                <div>
+                <div key={sponsor.name}>
                   <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
                     <li>
                       <a href={sponsor.websiteUrl}>{sponsor.title}</a>
