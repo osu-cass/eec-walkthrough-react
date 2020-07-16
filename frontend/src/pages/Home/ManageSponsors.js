@@ -34,6 +34,12 @@ function ManageSponsors(props) {
 
   // save the changes to the sponsors
   async function updatePage() {
+
+    // Check for empty inputs
+    if (checkInputs()) {
+      return;
+    }
+
     setShowLoad(true);
 
     // save the order of the sponsors
@@ -206,6 +212,39 @@ function ManageSponsors(props) {
 
     editedSponsors.push(newSponsor);
     setSponsors(editedSponsors);
+  }
+
+  // Check for empty inputs (name, description, urls)
+  function checkInputs() {
+    let emptyFound = false;
+    let newErrorMessage = errorMessage;
+    let i = 0;
+
+    // Empty sponsor text
+    for (i = 0; i < sponsors.length; i++) {
+      const sponsor = sponsors[i];
+
+      if (sponsor.name === "") {
+        emptyFound = true;
+        newErrorMessage = "Error: Sponsor is missing a name on line " + (i + 1);
+        break;
+      } else if (sponsor.title === "") {
+        emptyFound = true;
+        newErrorMessage = "Error: Sponsor is missing a description on line " + (i + 1);
+        break;
+      } else if (sponsor.websiteUrl === "") {
+        emptyFound = true;
+        newErrorMessage = "Error: Sponsor is missing a website URL on line " + (i + 1);
+        break;
+      } else if (sponsor.imageUrl === "") {
+        emptyFound = true;
+        newErrorMessage = "Error: Sponsor is missing an image URL on line " + (i + 1);
+        break;
+      }
+    }
+    setErrorMessage(newErrorMessage);
+    if (emptyFound) { return true; }
+    return false;
   }
 
   return role >= 4 ? (
