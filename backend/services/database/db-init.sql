@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 16, 2020 at 01:11 PM
+-- Generation Time: Jul 16, 2020 at 01:45 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -727,17 +727,19 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 --
 
 CREATE TABLE `Sponsors` (
+  `name` varchar(1000) NOT NULL,
   `title` varchar(1000) NOT NULL,
   `websiteUrl` varchar(1000) NOT NULL,
-  `imageUrl` varchar(1000) NOT NULL
+  `imageUrl` varchar(1000) NOT NULL,
+  `orderIndex` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `Sponsors`
 --
 
-INSERT INTO `Sponsors` (`title`, `websiteUrl`, `imageUrl`) VALUES
-('U.S. Department of Energy, Office of Energy Efficiency & Renewable Energy, Advanced Manufacturing Office, Industrial Assessment Centers', 'https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs', '/images/IAC.png');
+INSERT INTO `Sponsors` (`name`, `title`, `websiteUrl`, `imageUrl`, `orderIndex`) VALUES
+('Industrial Assessment Center', 'U.S. Department of Energy, Office of Energy Efficiency & Renewable Energy, Advanced Manufacturing Office, Industrial Assessment Centers', 'https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs', '/images/IAC.png', 0);
 
 -- --------------------------------------------------------
 
@@ -895,7 +897,7 @@ ALTER TABLE `Pages`
 -- Indexes for table `Sponsors`
 --
 ALTER TABLE `Sponsors`
-  ADD PRIMARY KEY (`title`);
+  ADD PRIMARY KEY (`name`);
 
 --
 -- Indexes for table `Temp_Cards`

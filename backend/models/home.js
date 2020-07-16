@@ -31,6 +31,33 @@ async function getHome() {
 exports.getHome = getHome;
 
 
+// return information about the sponsors on the homepage
+async function getSponsors() {
+
+  try {
+
+    const sql = "SELECT * FROM Sponsors;";
+    const results = await pool.query(sql, []);
+
+    // check to see if we were able to find the content
+    if (!results[0].length) {
+      return {sponsorId: 0};
+    }
+
+    const finalResults = results[0];
+    finalResults.sponsorId = 1;
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error searching for sponsor data");
+    throw Error(err);
+  }
+
+}
+exports.getSponsors = getSponsors;
+
+
 // update the homepage
 async function updateHome(mainHeader, secondaryHeader, sectionsTitle,
   assessments, industries, processes, productivity, technologies, sectionsFooter,
