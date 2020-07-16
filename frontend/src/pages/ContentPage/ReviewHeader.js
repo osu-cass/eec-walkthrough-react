@@ -164,6 +164,64 @@ function ReviewHeader(props) {
 
   }
 
+  // delete changes
+  async function handleClear() {
+
+    // Check that the user really wants to delete the changes for this version
+    if (!window.confirm("Are you sure you want to delete the proposed changes?")) {
+      return;
+    }
+
+    // delete proposed changes
+    const results = await fetch(`/headers/${props.header.headerId}/changes`, {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      const newHeader = {
+        approved: props.header.approved,
+        created: props.header.created,
+        headerId: props.header.headerId,
+        orderIndex: props.header.orderIndex,
+        pageId: props.header.pageId,
+        internal: props.header.internal,
+        tempInternal: null,
+        tempCreated: null,
+        tempHeaderId: null,
+        tempTitle: null,
+        tempUserId: null,
+        title: props.header.title,
+        userId: props.header.userId,
+        cards: props.header.cards
+      };
+
+      // reset error messages
+      setErrorMessage("");
+
+      // Close modal
+      handleClose();
+
+      props.handleUpdate(newHeader, "header", "clear");
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+  }
+
   return role >= 3 ? (
     <div className='text-center mx-2'>
 
@@ -235,29 +293,56 @@ function ReviewHeader(props) {
         <Modal.Footer className="modal-footer">
           {role >= 4 ? (
             <Fragment>
-              {props.header.approved && props.header.tempHeaderId ? (
-                <Fragment>
+              <Fragment>
+                {props.header.tempHeaderId || !props.header.approved ? (
                   <Button
                     className="mr-auto"
                     variant="danger"
-                    onClick={() => handleRemove()}
+                    onClick={() => handleClear()}
                   >
-                    Unpublish Header
+                    Delete Changes
                   </Button>
-                  <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
-                </Fragment>
-              ) : (
-                <Fragment>
-                  {props.header.approved ? (
-                    <Button variant="danger" onClick={() => handleRemove()}>Unpublish Header</Button>
-                  ) : (
+                ) : (
+                  null
+                )}
+              </Fragment>
+              <Fragment>
+                {props.header.approved && props.header.tempHeaderId ? (
+                  <Fragment>
+                    <Button
+                      className="ml-auto"
+                      variant="danger"
+                      onClick={() => handleRemove()}
+                    >
+                      Unpublish Header
+                    </Button>
                     <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
-                  )}
-                </Fragment>
-              )}
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    {props.header.approved ? (
+                      <Button variant="danger" onClick={() => handleRemove()}>Unpublish Header</Button>
+                    ) : (
+                      <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
+                    )}
+                  </Fragment>
+                )}
+              </Fragment>
             </Fragment>
           ) : (
-            null
+            <Fragment>
+              {props.header.tempHeaderId || !props.header.approved ? (
+                <Button
+                  className="mr-auto"
+                  variant="danger"
+                  onClick={() => handleClear()}
+                >
+                  Delete Changes
+                </Button>
+              ) : (
+                null
+              )}
+            </Fragment>
           )}
           <Button variant="secondary" onClick={() => handleClose()}>Cancel</Button>
         </Modal.Footer>
