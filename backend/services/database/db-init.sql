@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 16, 2020 at 04:10 PM
+-- Generation Time: Jul 16, 2020 at 04:56 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -124,6 +124,30 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (130, 40, 0, 130, 'Insulation', 55, '2020-07-10 18:36:22', 0),
 (131, 40, 0, 131, 'Cooling Towers', 58, '2020-07-10 18:45:42', 0),
 (132, 21, 2, 132, 'New Card', 42, '2020-07-14 21:20:02', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Categories`
+--
+
+CREATE TABLE `Categories` (
+  `categoryId` int(10) UNSIGNED NOT NULL,
+  `singleName` varchar(1000) NOT NULL,
+  `pluralName` varchar(1000) NOT NULL,
+  `description` varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Categories`
+--
+
+INSERT INTO `Categories` (`categoryId`, `singleName`, `pluralName`, `description`) VALUES
+(1, 'Assessment', 'Assessments', 'An introduction to a method for evaluating or estimating.'),
+(2, 'Industry', 'Industries', 'An overview of the industry is followed by a list of common related subjects.'),
+(3, 'Process', 'Processes', 'An introduction to a process or technique.'),
+(4, 'Productivity', 'Productivity', 'An introduction to a specific improvement opportunity to consider.'),
+(5, 'Technology', 'Technologies', 'An introduction to an industrial technology.');
 
 -- --------------------------------------------------------
 
@@ -860,6 +884,14 @@ ALTER TABLE `Cards`
   ADD KEY `header_fk` (`headerId`);
 
 --
+-- Indexes for table `Categories`
+--
+ALTER TABLE `Categories`
+  ADD PRIMARY KEY (`categoryId`),
+  ADD UNIQUE KEY `singleName` (`singleName`),
+  ADD UNIQUE KEY `pluralName` (`pluralName`);
+
+--
 -- Indexes for table `Headers`
 --
 ALTER TABLE `Headers`
@@ -938,6 +970,12 @@ ALTER TABLE `Users`
 --
 ALTER TABLE `Cards`
   MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+
+--
+-- AUTO_INCREMENT for table `Categories`
+--
+ALTER TABLE `Categories`
+  MODIFY `categoryId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `Headers`
