@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 14, 2020 at 12:22 AM
+-- Generation Time: Jul 16, 2020 at 01:11 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -58,13 +58,12 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (47, 16, 0, 80, 'Engines', 42, '2020-06-30 06:58:38', 1),
 (49, 18, 0, 60, 'Environment', 42, '2020-06-30 06:11:14', 1),
 (59, 23, 0, 59, 'Cheap Brands', 42, '2020-06-23 05:51:09', 1),
-(60, 18, 0, 49, 'Some Links', 42, '2020-06-18 17:38:20', 1),
 (64, 21, 0, 64, 'Lorem ipsum dolor', 42, '2020-06-23 05:50:47', 0),
 (65, 17, 0, 65, 'Signs of Turbulence', 42, '2020-06-23 05:55:59', 0),
 (66, 4, 10, 66, 'Facilisis volutpat est velit egestas.', 42, '2020-06-23 09:22:49', 1),
 (67, 16, 1, 67, 'More Airplanes', 42, '2020-06-23 09:14:09', 1),
-(68, 27, 1, 69, 'Plywood Images', 42, '2020-06-23 22:18:31', 1),
-(69, 27, 0, 68, 'Plywood Info', 42, '2020-06-23 09:20:59', 1),
+(68, 27, 1, 68, 'Plywood Images', 42, '2020-06-23 22:18:31', 1),
+(69, 27, 0, 69, 'Plywood Info', 42, '2020-06-23 09:20:59', 1),
 (70, 3, 0, 70, 'Boiler Facts', 42, '2020-06-23 09:26:47', 0),
 (72, 1, 1, 72, 'Gallery: Industrial Air Compressors, Dryers, Receiver Tanks and Compressed Air Applications', 51, '2020-07-01 20:56:20', 1),
 (73, 3, 1, 73, 'Image Gallery Test', 51, '2020-06-27 20:12:51', 0),
@@ -122,8 +121,9 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (127, 18, 0, 127, '3', 42, '2020-07-07 21:21:54', 0),
 (128, 18, 10, 128, 'eoowerwerwer', 42, '2020-07-07 21:23:36', 1),
 (129, 40, 0, 129, 'Heat Exchangers', 58, '2020-07-10 18:20:49', 0),
-(130, 40, 0, 130, 'Insulation', 58, '2020-07-10 18:36:22', 0),
-(131, 40, 0, 131, 'Cooling Towers', 58, '2020-07-10 18:45:42', 0);
+(130, 40, 0, 130, 'Insulation', 55, '2020-07-10 18:36:22', 0),
+(131, 40, 0, 131, 'Cooling Towers', 58, '2020-07-10 18:45:42', 0),
+(132, 21, 2, 132, 'New Card', 42, '2020-07-14 21:20:02', 0);
 
 -- --------------------------------------------------------
 
@@ -203,7 +203,7 @@ CREATE TABLE `Home` (
 --
 
 INSERT INTO `Home` (`mainHeader`, `secondaryHeader`, `sectionsTitle`, `assessments`, `industries`, `processes`, `productivity`, `technologies`, `sectionsFooter`, `tidbitsHeader`, `tidbitsTitle`, `tidbitsFooter`, `linksHeader`, `linksTitlePrefix`, `linksTitlePostfixInternal`, `linksTitlePostfixDownload`, `linksFooter`, `disclaimerHeader`, `disclaimerText`) VALUES
-('Welcome to the Industrial Walkthrough Checklist & Reference!', 'This purpose of this guide is to provide users with an easily accessible reference of common efficiency improvement opportunities to look for in an industrial facility.', 'This guide is broken down into sections:', 'An introduction to a method for evaluating or estimating.', 'An overview of the industry is followed by a list of common related subjects.', 'An introduction to a process or technique.', 'An introduction to a specific improvement opportunity to consider.', 'An introduction to an industrial technology.', '', 'Each section includes a number of useful pertinent \"tidbits\" identified by a preceding icon', 'These include', 'Note: \"tidbit\" types can be toggled between \"hidden\" and \"unhidden\" by clicking the icon in the header bars of each section.', 'Each section also references in depth learning resources that offer deeper information about the topic. These are identified by a pair of icons', 'A preceding icon identifies the type of learning resource offered', 'A trailing icon identifies the learning resource as internal or external', 'A second trailing icon will indicate when the learning resource is a download', '', 'Disclaimer', 'The primary objective of the OSU EEC is to promote energy efficiency, waste minimization, and productivity in the industrial, commercial, agricultural, and residential sectors. A key strategy has included performance of energy and efficiency site assessments. This work is intended is to provide background and tools that will be helpful in identifying and evaluating potential opportunities.\r\n\r\nWe believe Industrial Walkthrough Checklist & Reference to be a reasonably accurate representation of opportunities to reduce energy use, lower waste generation, and make production practices more efficient. However, the OSU EEC cannot guarantee the accuracy, completeness, or usefulness of the information contained on this website, nor assume any liability for damages resulting from the use of any information, equipment, method or process disclosed on this website.\r\n\r\nPollution prevention recommendations are not intended to deal with the issue of compliance with applicable environmental regulations. Questions regarding compliance should be addressed to either a reputable consulting engineering firm experienced with environmental regulations or to the appropriate regulatory agency. Clients are encouraged to develop positive working relationships with regulators so that compliance issues can be addressed and resolved.\r\n\r\nThe assumptions and equations used to arrive at energy, waste, productivity, and cost savings for the opportunities are presented on this website. We believe the assumptions to be conservative. If you would like to revise the assumptions you may follow the calculation methodologies presented using adjusted assumptions to develop your own revised estimates of energy, waste, productivity, and cost savings.\r\n\r\nPlease feel welcome to contact the OSU EEC if you would like to discuss the content of this website or if you have another question about energy use or pollution prevention.');
+('Welcome to the Industrial Walkthrough Checklist & Reference!', 'The purpose of this guide is to provide users with an easily accessible reference of common efficiency improvement opportunities to look for in an industrial facility.', 'This guide is broken down into sections:', 'An introduction to a method for evaluating or estimating.', 'An overview of the industry is followed by a list of common related subjects.', 'An introduction to a process or technique.', 'An introduction to a specific improvement opportunity to consider.', 'An introduction to an industrial technology.', '', 'Each section includes a number of useful pertinent \"tidbits\" identified by a preceding icon', 'These include', 'Note: \"tidbit\" types can be toggled between \"hidden\" and \"unhidden\" by clicking the icon in the header bars of each section.', 'Each section also references in depth learning resources that offer deeper information about the topic. These are identified by a pair of icons', 'A preceding icon identifies the type of learning resource offered', 'A trailing icon identifies the learning resource as internal or external', 'A second trailing icon will indicate when the learning resource is a download', '', 'Disclaimer', 'The primary objective of the OSU EEC is to promote energy efficiency, waste minimization, and productivity in the industrial, commercial, agricultural, and residential sectors. A key strategy has included performance of energy and efficiency site assessments. This work is intended is to provide background and tools that will be helpful in identifying and evaluating potential opportunities.\r\n\r\nWe believe Industrial Walkthrough Checklist & Reference to be a reasonably accurate representation of opportunities to reduce energy use, lower waste generation, and make production practices more efficient. However, the OSU EEC cannot guarantee the accuracy, completeness, or usefulness of the information contained on this website, nor assume any liability for damages resulting from the use of any information, equipment, method or process disclosed on this website.\r\n\r\nPollution prevention recommendations are not intended to deal with the issue of compliance with applicable environmental regulations. Questions regarding compliance should be addressed to either a reputable consulting engineering firm experienced with environmental regulations or to the appropriate regulatory agency. Clients are encouraged to develop positive working relationships with regulators so that compliance issues can be addressed and resolved.\r\n\r\nThe assumptions and equations used to arrive at energy, waste, productivity, and cost savings for the opportunities are presented on this website. We believe the assumptions to be conservative. If you would like to revise the assumptions you may follow the calculation methodologies presented using adjusted assumptions to develop your own revised estimates of energy, waste, productivity, and cost savings.\r\n\r\nPlease feel welcome to contact the OSU EEC if you would like to discuss the content of this website or if you have another question about energy use or pollution prevention.');
 
 -- --------------------------------------------------------
 
@@ -291,8 +291,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (36, 18, 1, 0, 3, '80 to 90% of energy for compressed air is lost as heat', '', '', 0, '2020-06-10 03:40:49', 1),
 (37, 19, 1, 0, 8, 'Use a pressure gage with standard quick connects typically used in compressed air lines to diagnose line pressure drops', '', '', 0, '2020-05-23 22:33:25', 1),
 (43, 13, 1, 0, 2, 'Function provided can often be replace with significantly lower power approach.', '', '', 0, '2020-06-09 19:50:02', 1),
-(160, 60, 1, 0, 17, 'This is an internal resource. The link connects to some resource at OSU. We are not worried about this being a dead link.', 'http://placekitten.com/300/300', 'Some Link', 0, '2020-06-18 17:37:19', 1),
-(161, 60, 2, 0, 17, 'This is an external resource. We worry that it might be a dead link, so we want to track the date.', 'http://placekitten.com/500/500', 'Another Link', 1, NULL, 1),
 (162, 9, 1, 0, 1, 'Can be used as an easy quick fix for many issues', '', '', 0, '2020-06-22 19:18:35', 1),
 (163, 9, 1, 0, 1, 'Familiar utility for industrial personnel', '', '', 0, '2020-06-22 19:18:36', 1),
 (164, 9, 1, 0, 1, 'A single mechanical energy input at the compressor can be distributed throughout a facility. ', '', '', 0, '2020-06-22 19:18:36', 1),
@@ -314,18 +312,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (259, 69, 1, 0, 15, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '', '', 0, '2020-06-23 09:20:59', 1),
 (263, 69, 1, 0, 11, 'Pretium lectus quam id leo in vitae turpis massa. Placerat vestibulum lectus mauris ultrices eros in cursus turpis.', '', '', 0, '2020-06-23 09:21:00', 1),
 (271, 70, 1, 0, 15, 'Pretium lectus quam id leo in vitae turpis massa.', '', '', 0, '2020-06-23 09:26:47', 0),
-(294, 59, 1, 0, 20, '', 'http://placekitten.com/200/300', 'AC Cat 1', 0, '2020-06-23 21:08:22', 0),
-(295, 59, 1, 0, 20, '', 'http://placekitten.com/300/200', 'AC Cat 2', 0, '2020-06-23 21:08:22', 0),
-(296, 59, 1, 0, 20, '', 'http://placekitten.com/1200/500', 'AC Cat 3', 0, '2020-06-23 21:08:22', 0),
-(297, 59, 1, 0, 20, '', 'http://placekitten.com/200/300', 'AC Cat 4', 0, '2020-06-23 21:08:22', 0),
-(298, 59, 1, 0, 20, '', 'http://placekitten.com/700/800', 'AC Cat 5', 0, '2020-06-23 21:08:22', 0),
-(299, 59, 1, 0, 20, '', 'http://placekitten.com/400/400', 'AC Cat 6', 0, '2020-06-23 21:08:22', 0),
-(300, 59, 1, 0, 20, '', 'http://placekitten.com/800/800', 'AC Cat 7', 0, '2020-06-23 21:08:22', 0),
-(301, 59, 1, 0, 20, '', 'http://placekitten.com/2000/1500', 'AC Cat 8', 0, '2020-06-23 21:08:22', 0),
-(302, 59, 1, 0, 20, '', 'http://placekitten.com/5000/5000', 'AC Cat 9', 0, '2020-06-23 21:08:22', 0),
-(303, 59, 1, 0, 20, '', 'http://placekitten.com/1500/2000', 'AC Cat 10', 0, '2020-06-23 21:08:22', 0),
-(304, 59, 1, 0, 20, '', 'http://placekitten.com/200/200', 'AC Cat 11', 0, '2020-06-23 21:08:22', 0),
-(305, 59, 1, 0, 20, '', 'http://placekitten.com/500/1200', 'AC Cat 12', 0, '2020-06-23 21:08:22', 0),
 (313, 68, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-boards-on-furniture-industry-600w-439702138.jpg', 'Plywood A', 0, '2020-06-23 22:18:31', 1),
 (314, 68, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/high-resolution-plywood-board-wall-600w-1054866629.jpg', 'Plywood B', 0, '2020-06-23 22:18:31', 1),
 (315, 68, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/closeup-plywood-sheets-600w-737467363.jpg', 'Plywood C', 0, '2020-06-23 22:18:31', 1),
@@ -589,17 +575,12 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2227, 125, 0, 0, 20, '', 'https://www.pumpsandsystems.com/understanding-pump-curves', 'Sample Pump Curve', 0, '2020-07-07 20:36:10', 0),
 (2228, 125, 0, 0, 20, '', 'https://www.pumpsandsystems.com/understanding-pump-curves', 'Sample Pump and System Curve', 0, '2020-07-07 20:36:10', 0),
 (2229, 125, 0, 0, 20, '', 'https://fluidcontrolproducts.net/catolog/pumps/centrifugal-pumps/cpvc-price-pump-open-box/', 'Sample Pump Nameplate', 0, '2020-07-07 20:36:10', 0),
-(2236, 60, 0, 0, 17, 'This is an internal resource. The link connects to some resource at OSU. We are not worried about this being a dead link.', 'http://placekitten.com/300/300', 'Some Link', 0, '2020-07-07 21:20:15', 0),
-(2237, 60, 0, 0, 17, 'This is an external resource. We worry that it might be a dead link, so we want to track the date.', 'http://placekitten.com/500/500', 'Another Link', 1, '2020-07-07 21:20:15', 0),
-(2238, 60, 0, 0, 26, 'Hello', '', '', 1, '2020-07-07 21:20:15', 0),
-(2239, 60, 0, 0, 27, 'hi', '', '', 0, '2020-07-07 21:20:15', 0),
 (2240, 127, 0, 0, 16, '1', '', '', 0, '2020-07-07 21:21:54', 0),
 (2241, 127, 0, 0, 4, '2', '', '', 0, '2020-07-07 21:21:54', 0),
 (2242, 128, 0, 0, 11, 'w', '', '', 0, '2020-07-07 21:23:36', 1),
 (2243, 128, 0, 0, 2, 'w', '', '', 0, '2020-07-07 21:23:36', 1),
 (2244, 128, 0, 0, 11, 'w222', '', '', 0, '2020-07-07 21:33:22', 0),
 (2245, 128, 0, 0, 2, 'w', '', '', 0, '2020-07-07 21:33:22', 0),
-(2260, 126, 0, 0, 17, '$empty', '/subjects/45', 'Pumps', 0, '2020-07-07 23:32:33', 0),
 (2261, 119, 0, 0, 11, 'Manually reduce equipment operation time', '', '', 0, '2020-07-07 23:38:14', 1),
 (2262, 119, 0, 0, 11, 'Automatically control equipment operation time', '', '', 0, '2020-07-07 23:38:14', 1),
 (2263, 119, 0, 0, 11, 'Interlock equipment with a related process', '', '', 0, '2020-07-07 23:38:14', 1),
@@ -614,8 +595,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2273, 112, 0, 1, 26, 'Controls', '', '', 0, '2020-07-08 22:27:29', 0),
 (2275, 113, 0, 0, 27, 'Power Quality Analyzer ', '', '', 0, '2020-07-08 22:29:50', 0),
 (2303, 131, 0, 0, 11, 'Condenser qater temperature adjustment ', '', '', 0, '2020-07-10 18:45:42', 0),
-(2304, 131, 0, 0, 11, 'Chilled water supply temperature adjustment', '', '', 0, '2020-07-10 18:45:42', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
+(2304, 131, 0, 0, 11, 'Chilled water supply temperature adjustment', '', '', 0, '2020-07-10 18:45:42', 0),
 (2305, 131, 0, 0, 11, 'Fan motor controls (variable speed)', '', '', 0, '2020-07-10 18:45:42', 0),
 (2309, 120, 0, 0, 11, 'Correct Power Factor (Ethan)', '', '', 0, '2020-07-10 18:53:01', 0),
 (2310, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, '2020-07-10 18:53:01', 0),
@@ -634,7 +614,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2323, 101, 0, 0, 11, 'Install a condensing economizer  (Matt)', '', '', 0, '2020-07-10 18:53:47', 0),
 (2324, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, '2020-07-10 18:54:00', 0),
 (2325, 105, 0, 0, 11, 'Recover Flash Steam (Chris) ', '', '', 0, '2020-07-10 18:54:00', 0),
-(2326, 129, 0, 0, 11, 'Pre-heat combustion air (Adam)', '', '', 0, '2020-07-10 18:54:39', 0),
+(2326, 129, 0, 0, 11, 'Pre-heat combustion air (Adam)', '', '', 0, '2020-07-10 18:54:39', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
 (2327, 129, 0, 1, 13, 'Air-to-air heat transfer (regenerators/recuperators)', '', '', 0, '2020-07-10 18:54:39', 0),
 (2328, 129, 0, 0, 11, 'Install a heat pipe to recovery process heat (Matt)', '', '', 0, '2020-07-10 18:54:39', 0),
 (2329, 129, 0, 1, 13, 'Air-to-air heat transfer (typically for 150-850 ˚F processes)', '', '', 0, '2020-07-10 18:54:39', 0),
@@ -642,7 +623,62 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2331, 129, 0, 1, 13, 'Liquid-to-liquid heat transfer ', '', '', 0, '2020-07-10 18:54:39', 0),
 (2332, 129, 0, 0, 11, 'Install an economizer to pre-heat boiler make-up water (Matt)', '', '', 0, '2020-07-10 18:54:39', 0),
 (2333, 129, 0, 1, 13, 'Air-to-liquid heat transfer ', '', '', 0, '2020-07-10 18:54:39', 0),
-(2334, 130, 0, 0, 11, 'Insulate hot surfaces (Julian)', '', '', 0, '2020-07-10 18:54:46', 0);
+(2342, 80, 0, 0, 15, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.!!!!!', '', '', 0, '2020-07-14 07:42:37', 0),
+(2343, 80, 0, 1, 13, 'Nulla suscipit enim aliquet turpis iaculis accumsan.', '', '', 0, '2020-07-14 07:42:37', 0),
+(2344, 80, 0, 1, 13, 'Aliquam scelerisque tellus nec lectus blandit condimentum.', '', '', 0, '2020-07-14 07:42:37', 0),
+(2345, 80, 0, 1, 13, 'Sed laoreet ligula eget accumsan auctor.', '', '', 0, '2020-07-14 07:42:37', 0),
+(2346, 66, 0, 0, 15, 'Pharetra massa massa ultricies mi quis hendrerit dolor.', '', '', 0, '2020-07-14 11:04:54', 0),
+(2347, 66, 0, 0, 26, 'Vitae semper quis lectus nulla.', '', '', 0, '2020-07-14 11:04:54', 0),
+(2348, 66, 0, 0, 26, 'Lectus mauris ultrices eros in cursus.', '', '', 0, '2020-07-14 11:04:54', 0),
+(2349, 126, 0, 0, 17, '$empty', '/technologies/45', 'Pumps', 0, '2020-07-14 17:32:19', 0),
+(2350, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, '2020-07-14 18:58:25', 0),
+(2351, 77, 0, 1, 13, 'Reducing the inlet air temperature of oil-injected screw compressors increases mass flow rate while maintaining power input. To efficiently maintain current mass flow rate a variable frequency drive is required to reduce the motor speed and associated power.', '', '', 0, '2020-07-14 18:58:25', 0),
+(2352, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, '2020-07-14 18:58:25', 0),
+(2353, 77, 0, 1, 10, 'Difficulty meeting a compressor\'s rated air capacity', '', '', 0, '2020-07-14 18:58:25', 0),
+(2354, 77, 0, 1, 10, 'A compressor running hotter than its specifications', '', '', 0, '2020-07-14 18:58:25', 0),
+(2355, 77, 0, 2, 8, 'Other factors may be at play such as significant air leaks increasing the load on the compressor', '', '', 0, '2020-07-14 18:58:25', 0),
+(2356, 77, 0, 1, 3, '1.9% efficiency (scfm/kW) improvement per 10 °F reduction at inlet', '', '', 0, '2020-07-14 18:58:25', 0),
+(2357, 77, 0, 1, 15, 'Compressor make, model, and nameplate data', '', '', 0, '2020-07-14 18:58:25', 0),
+(2358, 77, 0, 1, 15, 'Motor nameplate data, live power reading, and one week of amperage data', '', '', 0, '2020-07-14 18:58:25', 0),
+(2359, 77, 0, 1, 15, 'Complete picture of compressed air system and control strategy', '', '', 0, '2020-07-14 18:58:25', 0),
+(2360, 77, 0, 1, 15, 'Average ambient temperature at current and proposed inlet locations', '', '', 0, '2020-07-14 18:58:25', 0),
+(2361, 77, 0, 1, 12, 'Move air inlet to coolest location to reduce power and energy consumption', '', '', 0, '2020-07-14 18:58:25', 0),
+(2362, 77, 0, 1, 8, 'If implementation requires much more than re-ducting, the chances of this opportunitity being worthwhile are low. ', '', '', 0, '2020-07-14 18:58:25', 0),
+(2363, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/zk1aol8rf88aul9klflbxkikz6l2ku47', 'Analysis Template: Reduce Inlet Air Temperature', 2, '2020-07-14 18:58:25', 0),
+(2364, 77, 0, 1, 17, 'An article from Compressed Air Best Practices by  Tim Dugan, P.E., President, Compression Engineering Corporation', 'https://www.airbestpractices.com/system-assessments/compressor-controls/inlet-air-temperature-impacts-air-compressor-performance', 'Inlet Air Temperature Impacts on Air Compressor Performance', 1, '2020-07-14 18:58:25', 0),
+(2365, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, '2020-07-14 18:58:25', 0),
+(2366, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, '2020-07-14 18:58:25', 0),
+(2376, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2377, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2378, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2379, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2380, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2381, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2382, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2383, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2384, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2385, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2386, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2387, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2388, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2389, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2390, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2391, 132, 0, 0, 4, 'This is an item', '', '', 0, '2020-07-14 21:20:02', 0),
+(2392, 130, 0, 0, 13, 'Un-insulated or poorly insulated surfaces are a significant source of lost energy. Temperature differentials between the surfaces and surroundings act as a driving force for the heat transfer between these bodies. The rate of this heat transfer is directly proportional to the magnitude of the temperature differential. Insulating these surfaces will decrease this rate of heat transfer, saving energy and improving system efficiency.', '', '', 0, '2020-07-14 23:31:30', 0),
+(2393, 130, 0, 0, 11, 'Insulate hot surfaces (Julian)', '', '', 0, '2020-07-14 23:31:30', 0),
+(2394, 59, 0, 0, 20, '', 'http://placekitten.com/200/300', 'AC Cat 1', 0, '2020-07-15 01:38:06', 0),
+(2395, 59, 0, 0, 20, '', 'http://placekitten.com/300/200', 'AC Cat 2', 0, '2020-07-15 01:38:06', 0),
+(2396, 59, 0, 0, 20, '', 'http://placekitten.com/1200/500', 'AC Cat 3', 0, '2020-07-15 01:38:06', 0),
+(2397, 59, 0, 0, 20, '', 'http://placekitten.com/200/300', 'AC Cat 4', 0, '2020-07-15 01:38:06', 0),
+(2398, 59, 0, 0, 20, '', 'http://placekitten.com/700/800', 'AC Cat 5', 0, '2020-07-15 01:38:06', 0),
+(2399, 59, 0, 0, 20, '', 'http://placekitten.com/400/400', 'AC Cat 6', 0, '2020-07-15 01:38:06', 0),
+(2400, 59, 0, 0, 20, '', 'http://placekitten.com/800/800', 'AC Cat 7', 0, '2020-07-15 01:38:06', 0),
+(2401, 59, 0, 0, 20, '', 'http://placekitten.com/2000/1500', 'AC Cat 8', 0, '2020-07-15 01:38:06', 0),
+(2402, 59, 0, 0, 20, '', 'http://placekitten.com/5000/5000', 'AC Cat 9', 0, '2020-07-15 01:38:06', 0),
+(2403, 59, 0, 0, 20, '', 'http://placekitten.com/1500/2000', 'AC Cat 10', 0, '2020-07-15 01:38:06', 0),
+(2404, 59, 0, 0, 20, '', 'http://placekitten.com/200/200', 'AC Cat 11', 0, '2020-07-15 01:38:06', 0),
+(2405, 59, 0, 0, 20, '', 'http://placekitten.com/500/1200', 'AC Cat 12', 0, '2020-07-15 01:38:06', 0),
+(2406, 59, 0, 0, 20, '', 'https://lh3.googleusercontent.com/5txwxOa3FQYd0ohKkBE0C2xxVeAb2HBzJSjvGqSZ3JzfWOzgiqAEJFYe90bQQDzU0ZIS_3XSY3SHVUxI_CBDjcPpqNyECMkI0RnVNti1xLvN745Zci9m2QzfaHbdjhVKSkBmiAj_1g', 'TEST', 0, '2020-07-15 01:38:06', 0);
 
 -- --------------------------------------------------------
 
@@ -670,12 +706,12 @@ CREATE TABLE `Pages` (
 INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imageUrl`, `internal`, `userId`, `created`, `approved`) VALUES
 (1, 2, 'z - testing: stuff', 'A boiler is a closed vessel in which fluid (generally water) is heated.', 'In a <b> fossil fuel power plant</b> using a steam cycle for power generation, the primary heat source will be combustion of coal, oil, or natural gas. In some cases byproduct fuel such as the carbon-monoxide rich offgasses of a coke battery can be burned to heat a boiler; biofuels such as bagasse, where economically available, can also be used. In a nuclear power plant, boilers called steam generators are heated by the heat produced by nuclear fission. Where a large volume of hot gas is available from some process, a heat recovery steam generator or recovery boiler can use the heat to produce steam, with little or no extra fuel consumed; such a configuration is common in a combined cycle power plant where a gas turbine and a steam boiler are used. In all cases the combustion product waste gases are separate from the working fluid of the steam cycle, making these systems examples of External combustion engines.', '../images/boiler.png', 0, 51, '2020-05-18 01:37:54', 0),
 (2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '../images/aircompressor.png', 0, 56, '2020-06-29 19:15:43', 1),
-(3, 2, 'z - testing: more sutff', 'Refrigeration is the process of cooling a space, substance, or system to lower and/or maintain its temperature below the ambient one (while the removed heat is rejected at a higher temperature). ', 'Refrigeration has had a large impact on industry, lifestyle, agriculture, and settlement patterns. The idea of preserving food dates back to at least the ancient Roman and Chinese empires. However, mechanical refrigeration technology has rapidly evolved in the last century, from ice harvesting to temperature-controlled rail cars. The introduction of refrigerated rail cars contributed to the westward expansion of the United States, allowing settlement in areas that were not on main transport channels such as rivers, harbors, or valley trails. Settlements were also developing in infertile parts of the country, filled with newly discovered natural resources.  These new settlement patterns sparked the building of large cities which are able to thrive in areas that were otherwise thought to be inhospitable, such as Houston, Texas, and Las Vegas, Nevada.', '../images/refrigeration.png', 0, 51, '2020-06-23 20:58:07', 0),
+(3, 2, 'z - testing: more stuff', 'Refrigeration is the process of cooling a space, substance, or system to lower and/or maintain its temperature below the ambient one (while the removed heat is rejected at a higher temperature). ', 'Refrigeration has had a large impact on industry, lifestyle, agriculture, and settlement patterns. The idea of preserving food dates back to at least the ancient Roman and Chinese empires. However, mechanical refrigeration technology has rapidly evolved in the last century, from ice harvesting to temperature-controlled rail cars. The introduction of refrigerated rail cars contributed to the westward expansion of the United States, allowing settlement in areas that were not on main transport channels such as rivers, harbors, or valley trails. Settlements were also developing in infertile parts of the country, filled with newly discovered natural resources.  These new settlement patterns sparked the building of large cities which are able to thrive in areas that were otherwise thought to be inhospitable, such as Houston, Texas, and Las Vegas, Nevada.', '../images/refrigeration.png', 1, 42, '2020-06-23 20:58:07', 1),
 (4, 1, 'z - test Plywood', 'Plywood is a material manufactured from thin layers or \"plies\" of wood veneer that are glued together with adjacent layers having their wood grain rotated up to 90 degrees to one another.', 'All plywoods bind resin and wood fibre sheets (cellulose cells are long, strong and thin) to form a composite material. This alternation of the grain is called cross-graining and has several important benefits: it reduces the tendency of wood to split when nailed at the edges; it reduces expansion and shrinkage, providing improved dimensional stability; and it makes the strength of the panel consistent across all directions. There is usually an odd number of plies, so that the sheet is balanced—this reduces warping. Because plywood is bonded with grains running against one another and with an odd number of composite parts, it has high stiffness perpendicular to the grain direction of the surface ply.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Spruce_plywood.JPG/300px-Spruce_plywood.JPG', 0, 51, '2020-05-18 01:37:54', 0),
 (5, 1, 'z - test Electricity', 'Electricity is the set of physical phenomena associated with the presence and motion of matter that has a property of electric charge.', 'When a charge is placed in a location with a non-zero electric field, a force will act on it. The magnitude of this force is given by Coulomb\'s law. Thus, if that charge were to move, the electric field would be doing work on the electric charge. Thus we can speak of electric potential at a certain point in space, which is equal to the work done by an external agent in carrying a unit of positive charge from an arbitrarily chosen reference point to that point without any acceleration and is typically measured in volts.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Lightning3.jpg/220px-Lightning3.jpg', 0, 51, '2020-05-18 01:37:54', 0),
 (25, 2, 'z - testing: Airplanes', 'They fly', 'An airplane or aeroplane (informally plane) is a powered, fixed-wing aircraft that is propelled forward by thrust from a jet engine, propeller or rocket engine. Airplanes come in a variety of sizes, shapes, and wing configurations. The broad spectrum of uses for airplanes includes recreation, transportation of goods and people, military, and research. Worldwide, commercial aviation transports more than four billion passengers annually on airliners[1] and transports more than 200 billion tonne-kilometers[2] of cargo annually, which is less than 1% of the world\'s cargo movement.[3] Most airplanes are flown by a pilot on board the aircraft, but some are designed to be remotely or computer-controlled such as drones.\n\nhello', 'https://scx1.b-cdn.net/csz/news/800/2019/toomanyairpl.jpg', 0, 42, '2020-05-30 09:13:53', 0),
 (26, 2, 'z - testing: Air Conditioners', 'System for controlling the humidity, ventilation, and temperature in a building or vehicle', 'Pretium lectus quam id leo in vitae turpis massa. Placerat vestibulum lectus mauris ultrices eros in cursus turpis. Convallis a cras semper auctor neque vitae. Dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Non diam phasellus vestibulum lorem sed. Id diam vel quam elementum pulvinar. Ut faucibus pulvinar elementum integer enim neque volutpat. Morbi tristique senectus et netus. Suspendisse potenti nullam ac tortor vitae. Ut morbi tincidunt augue interdum velit euismod in pellentesque massa. Nibh tellus molestie nunc non blandit massa enim. Arcu cursus vitae congue mauris rhoncus. Massa placerat duis ultricies ultrices.', 'https://www.alternativeheatingandair.com/wp-content/uploads/2017/07/DN-N4A3-R-grid.png', 0, 51, '2020-05-30 09:13:53', 0),
-(27, 1, 'z - test Air', 'Atmosphere of Earth', 'The atmosphere of Earth is the layer of gases, commonly known as air, that surrounds the planet Earth and is retained by Earth\'s gravity. The atmosphere of Earth protects life on Earth by creating pressure allowing for liquid water to exist on the Earth\'s surface, absorbing ultraviolet solar radiation, warming the surface through heat retention (greenhouse effect), and reducing temperature extremes between day and night (the diurnal temperature variation).\r\n\r\nBy volume, dry air contains 78.09% nitrogen, 20.95% oxygen, 0.93% argon, 0.04% carbon dioxide, and small amounts of other gases.[8] Air also contains a variable amount of water vapor, on average around 1% at sea level, and 0.4% over the entire atmosphere. Air composition, temperature, and atmospheric pressure vary with altitude, and air suitable for use in photosynthesis by terrestrial plants and breathing of terrestrial animals is found only in Earth\'s troposphere and in artificial atmospheres.', 'https://www.thoughtco.com/thmb/u4lrTQTaL53yjnngajEkywr3MmM=/1941x1456/smart/filters:no_upscale()/GettyImages-914450516-5a831486642dca0037213a33.jpg', 0, 51, '2020-05-30 09:14:40', 0),
+(27, 1, 'z - test Air', 'Atmosphere of Earth', 'The atmosphere of Earth is the layer of gases, commonly known as air, that surrounds the planet Earth and is retained by Earth\'s gravity. The atmosphere of Earth protects life on Earth by creating pressure allowing for liquid water to exist on the Earth\'s surface, absorbing ultraviolet solar radiation, warming the surface through heat retention (greenhouse effect), and reducing temperature extremes between day and night (the diurnal temperature variation).\n\nBy volume, dry air contains 78.09% nitrogen, 20.95% oxygen, 0.93% argon, 0.04% carbon dioxide, and small amounts of other gases.[8] Air also contains a variable amount of water vapor, on average around 1% at sea level, and 0.4% over the entire atmosphere. \n\nAir composition, temperature, and atmospheric pressure vary with altitude, and air suitable for use in photosynthesis by terrestrial plants and breathing of terrestrial animals is found only in Earth\'s troposphere and in artificial atmospheres.', 'https://www.thoughtco.com/thmb/u4lrTQTaL53yjnngajEkywr3MmM=/1941x1456/smart/filters:no_upscale()/GettyImages-914450516-5a831486642dca0037213a33.jpg', 0, 42, '2020-05-30 09:14:40', 0),
 (44, 2, 'Motors and Controls', 'Electrical Motors and Motor Controls (Variable Speed Drives, etc) are crucial to most mechanized industrial processes and equipment.', 'Motors are a crucial part of any mechanized process and provide a means to do the majority of the mechanical work in most facilities.  Motors convert electrical energy into mechanical work to provide power to a wide range of applications including air compressors, fans, pumps, hydraulics, mixers, conveyors, and much more.', 'https://live.staticflickr.com/65535/50069229503_243696380c_b.jpg', 0, 51, '2020-06-29 23:04:50', 0),
 (45, 2, 'Pumps', 'Pumps provide a typical utility required throughout industry.', 'Centrifugal pumps are the most common type found in industry, followed by positive displacement pumps (used in hydraulics), pneumatic diaphragm pumps, peristaltic pumps, and other specialty pumps. \n\nUnless otherwise noted this section speaks to centrifugal pumps when addressing pump performance and efficiency. Changes in hydraulic energy required (pressure and flow) will translate to any pumping system. ', 'https://live.staticflickr.com/65535/50066427331_ddae8822f2_b.jpg', 0, 51, '2020-07-01 18:11:01', 0),
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
@@ -683,6 +719,25 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (48, 2, 'Refrigeration', 'Refrigeration technology is important in many industrial processes.', 'Vapor compression is the most common refrigeration technology. Mechanical energy input to a compressor enables absorbing heat in cooler environment and discharging it to a warmer environment. ', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 51, '2020-07-02 22:10:36', 0),
 (49, 3, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'Utility bills are based not only on the commodity. They can also be based on the rate of use (Dem...', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 0, 42, '2020-07-02 22:40:27', 0),
 (50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 51, '2020-07-07 20:46:38', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Sponsors`
+--
+
+CREATE TABLE `Sponsors` (
+  `title` varchar(1000) NOT NULL,
+  `websiteUrl` varchar(1000) NOT NULL,
+  `imageUrl` varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Sponsors`
+--
+
+INSERT INTO `Sponsors` (`title`, `websiteUrl`, `imageUrl`) VALUES
+('U.S. Department of Energy, Office of Energy Efficiency & Renewable Energy, Advanced Manufacturing Office, Industrial Assessment Centers', 'https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs', '/images/IAC.png');
 
 -- --------------------------------------------------------
 
@@ -704,8 +759,10 @@ CREATE TABLE `Temp_Cards` (
 
 INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempUserId`, `tempCreated`) VALUES
 (47, 0, 'Engines', 42, '2020-06-30 21:10:53'),
-(59, 1, 'Strange AC Units', 42, '2020-06-23 09:10:21'),
-(60, 0, 'Some Links', 42, '2020-07-07 21:20:01'),
+(59, 1, 'Strange AC Units', 51, '2020-06-23 09:10:21'),
+(66, 10, 'Facilisis volutpat est velit egestas.', 42, '2020-07-14 11:04:54'),
+(77, 0, 'Improve Compressor Efficiency', 58, '2020-07-14 18:58:25'),
+(80, 0, 'New Card', 42, '2020-07-14 07:42:37'),
 (100, 0, 'Off Site Resource Links', 51, '2020-07-03 17:55:16'),
 (101, 0, 'Improve Boiler Combustion Efficiency ', 58, '2020-07-03 17:28:05'),
 (105, 0, 'Improve the Condensate System', 58, '2020-07-10 18:54:00'),
@@ -726,6 +783,13 @@ CREATE TABLE `Temp_Headers` (
   `tempUserId` int(10) UNSIGNED NOT NULL,
   `tempCreated` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Temp_Headers`
+--
+
+INSERT INTO `Temp_Headers` (`tempHeaderId`, `tempTitle`, `tempInternal`, `tempUserId`, `tempCreated`) VALUES
+(32, 'Boilers and Steam Opportunities to Consider', 0, 58, '2020-07-14 18:53:33');
 
 -- --------------------------------------------------------
 
@@ -770,14 +834,15 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (42, 'Silverware', 'd8e7859c74c2672a13a2388538143c99$631f9c78dbc16fbd3b013aa7903a8527cee7d46befeb496b7510b1dcb4ae95c0', 'Zachary', 'Thomas', 'thomasza@oregonstate.edu', 4, '2020-05-14 20:39:15'),
 (47, 'rogrogrog', '8a3c5ecabadca6102a92052e5f6160d3$59606e43e8086a5cb735dfc87244f218638a629133558c6701390129ec8bb71a', 'rog', 'rog', 'rog@gmail.com', 4, '2020-06-01 20:39:15'),
 (51, 'JoeJunker', 'b755592eabbdac736d8c5907fa64fa11$fae30b426545c803420b3f7f0bd4f1e80fd99ea09336ea525c769ef7041d1679', 'Joe', 'Junker', 'joseph.f.junker@gmail.com', 4, '2020-06-02 20:39:15'),
-(52, 'mattye', '162359f020e75cd94459a944800b5af8$034d4ce4efe2e595ff579efd68a2f4e0a2b72c16efb54ac333e6be521434d38d', 'Ethan', 'Matty', 'mattye.eec@gmail.com', 4, '2020-06-10 20:39:15'),
+(52, 'mattye', 'bc8f2478b1eb8785d085b8c1512933f2$47ff478fcee9b0f829ed70012cd2c406ed67b7bae6708c855b9072ef8adb662b', 'Ethan', 'Matty', 'mattye.eec@gmail.com', 4, '2020-06-10 20:39:15'),
 (54, 'martzal', '27d9aeff2e1c3e683f042480b6990a5c$963d962575ce1108cf5785fc42778ad0483050a80c50e8d3d29632f6af73f1a9', 'Ali', 'Martz', 'martzal.eec@gmail.com', 3, '2020-06-28 20:39:15'),
 (55, 'peterj', '73a148776eaf3db8dee5b4cc5af1542d$c4d554f54a266e74299e82af3884f39d4e36686054f90837f7753b2d4b77a6f4', 'Julian', 'Peter', 'peterj.eec@gmail.com', 3, '2020-06-30 20:39:15'),
 (56, 'ryanfrench', '8fdce1d0b4394d7a6dd55dd4d1318d54$b36510750272738b7d2de631057527b3ac1547db5d9ef6da8728886d523eca99', 'Ryan', 'French', 'frenchr.eec@gmail.com', 3, '2020-07-05 20:39:15'),
 (57, 'MatthewThomas', 'a532335063fda0518a4a347b0a295166$05c83d3322dbbe787d420353fa83b3ad7b38e5b163d9d784bf752c8b7ebedb15', 'Matthew', 'Thomas', 'matthewthomas.eec@gmail.com', 3, '2020-07-02 20:39:15'),
 (58, 'ryanfrench2', '0f035817ef3a5ebb3b7bedc75f6d5245$950542aafbfdeeceb6e32fcf2d06f5b2c076465e6fce3ef36b052d9ba6290404', 'Ryan', 'French', 'frenchr@oregonstate.com', 3, '2020-07-08 20:47:39'),
 (59, 'djunker', '78d288ab098c3cb5d6d2ba21034e69c1$24786ffa47a290b250ffff18f0cfd703b86c773cf5f911e75fcf6d19989e700d', 'Devlin', 'Junker', 'devlin.junker@gmail.com', 3, '2020-07-10 01:36:09'),
-(60, 'taylorad', 'b320c2b10ea1a5fd6a5df5b60b476a1a$76c9c4d174243210d40e54aa87e6b14926de7e3d7c1b229e7fcea48e98d65d85', 'Adam', 'Taylor', 'taylorad.eec@gmail.com', 1, '2020-07-13 17:38:47');
+(60, 'taylorad', 'b320c2b10ea1a5fd6a5df5b60b476a1a$76c9c4d174243210d40e54aa87e6b14926de7e3d7c1b229e7fcea48e98d65d85', 'Adam', 'Taylor', 'taylorad.eec@gmail.com', 3, '2020-07-13 17:38:47'),
+(61, 'Chris_Houck', 'd4bb5e0bfd9c00be21e9e9d844ad7f57$367a89d5eeaf2274ff80b316f9aeda9f79acd192fc1f3717ff852b3cb29c6416', 'Chris', 'Houck', 'houckch.eec@gmail.com', 3, '2020-07-14 20:59:54');
 
 --
 -- Indexes for dumped tables
@@ -827,6 +892,12 @@ ALTER TABLE `Pages`
   ADD KEY `user_page_fk` (`userId`);
 
 --
+-- Indexes for table `Sponsors`
+--
+ALTER TABLE `Sponsors`
+  ADD PRIMARY KEY (`title`);
+
+--
 -- Indexes for table `Temp_Cards`
 --
 ALTER TABLE `Temp_Cards`
@@ -863,7 +934,7 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT for table `Headers`
@@ -875,13 +946,13 @@ ALTER TABLE `Headers`
 -- AUTO_INCREMENT for table `Icons`
 --
 ALTER TABLE `Icons`
-  MODIFY `iconType` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `iconType` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2335;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2407;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -893,7 +964,7 @@ ALTER TABLE `Pages`
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- Constraints for dumped tables
