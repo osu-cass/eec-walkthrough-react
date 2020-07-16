@@ -22,7 +22,8 @@ const {
   loginUser,
   createUser,
   updateUser,
-  searchUsers
+  searchUsers,
+  randomPassword
 } = require("../models/users");
 
 
@@ -271,6 +272,49 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
 
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// generate a random new password for a user
+app.post("/:userId/newPassword", requireAuth, getUserVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Reset a user's password");
+
+    const userId = req.params.userId;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // confirm that the current user is an admin
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to reset user's password."});
+      return;
+    }
+
+    // create a new random password for the user
+    const results = await randomPassword(userId);
+
+    if (results.password.length > 10) {
+      res.status(200).send(results);
+    } else {
+      if (results.error === 1) {
+        res.status(404).send({error: "User not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
     }
 
   } catch (err) {
