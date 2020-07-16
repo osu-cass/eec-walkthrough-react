@@ -44,7 +44,7 @@ function ItemInput(props) {
           className="mx-3"
           placeholder="Item text"
           value={props.value.contentText}
-          aria-label="Insert Username"
+          aria-label="Insert Description"
           aria-describedby="basic-addon1"
           onChange={(e) => props.handleInput(e, props.index, 1)}
           required
@@ -56,7 +56,7 @@ function ItemInput(props) {
             className="ml-3"
             placeholder="Graphic description"
             value={props.value.contentLabel}
-            aria-label="Insert Username"
+            aria-label="Insert Description"
             aria-describedby="basic-addon1"
             onChange={(e) => props.handleInput(e, props.index, 2)}
             required
@@ -65,7 +65,7 @@ function ItemInput(props) {
             className="mr-3"
             placeholder="Graphic URL"
             value={props.value.contentUrl}
-            aria-label="Insert Username"
+            aria-label="Insert Image URL"
             aria-describedby="basic-addon1"
             onChange={(e) => props.handleInput(e, props.index, 3)}
             required
@@ -97,7 +97,7 @@ function ItemInput(props) {
             className="ml-3"
             placeholder="Resource text/description"
             value={props.value.contentText}
-            aria-label="Insert Username"
+            aria-label="Insert Description"
             aria-describedby="basic-addon1"
             onChange={(e) => props.handleInput(e, props.index, 1)}
             required
@@ -105,7 +105,7 @@ function ItemInput(props) {
           <FormControl
             placeholder="Resource URL label"
             value={props.value.contentLabel}
-            aria-label="Insert Username"
+            aria-label="Insert URL Label"
             aria-describedby="basic-addon1"
             onChange={(e) => props.handleInput(e, props.index, 2)}
             required
@@ -114,7 +114,7 @@ function ItemInput(props) {
             className="mr-3"
             placeholder="Resource URL"
             value={props.value.contentUrl}
-            aria-label="Insert Username"
+            aria-label="Insert Resource URL"
             aria-describedby="basic-addon1"
             onChange={(e) => props.handleInput(e, props.index, 3)}
             required

@@ -497,7 +497,7 @@ function ConstructCardModal(props) {
 
     // If we can not find the index, then exit
     if (arrayIndex === -1) {
-      console.error("Unable to find the item to indent");
+      console.error("Unable to find the item to delete");
       return;
     }
 
