@@ -13,7 +13,7 @@ i:hover {
 }
 
 /* lines are 4% darker than base color */
-.header-internal.header-approved.card-header-section {
+.header-internal.header-approved {
   background: linear-gradient(0deg, rgba(50,50,50,0.2) 0%, rgba(255,255,255,0.2) 100%),
   repeating-linear-gradient(
     90deg,
