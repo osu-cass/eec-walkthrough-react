@@ -12,6 +12,7 @@ function Home(props) {
   const [generalIcons, setGeneralIcons] = useState([]);
   const [linkIcons, setLinkIcons] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [sponsors, setSponsors] = useState([]);
   const [page, setPage] = useState({
     mainHeader: "",
     secondaryHeader: "",
@@ -83,6 +84,17 @@ function Home(props) {
       console.error("Error fetching homepage content");
     }
 
+     // Fetch all sponsors
+     results = await fetch(`/home/sponsors`);
+     if (results.ok) {
+
+      const obj = await results.json();
+      setSponsors(obj);
+
+    } else {
+      console.error("Error fetching sponsors");
+    }
+
     setLoading(false);
   }
 
@@ -95,7 +107,6 @@ function Home(props) {
         <div className="row mx-2">
           <div className="col">
             <h2 className="font-weight-bold">{page.mainHeader}</h2>
-
           </div>
         </div>
         <div>
@@ -244,47 +255,38 @@ function Home(props) {
         </div>
       </Card>
 
-      <Card className="my-2 mb-5">
-        <Card.Header>
-          <h5>Sponsors</h5>
-        </Card.Header>
-        <Col className="my-4">
-          {/*
-          <img
-            src={"/images/BPA.png"}
-            alt={"Industrial Assessment Center"}
-            title={"Industrial Assessment Center"}
-            className="expandable-image img-fluid img-thumbnail mr-5"
-          />
-          */}
-          <img
-            src={"/images/IAC.png"}
-            alt={"Industrial Assessment Center"}
-            title={"Industrial Assessment Center"}
-            className="expandable-image img-fluid img-thumbnail ml-5"
-          />
-        </Col>
+      {sponsors.length ? (
+        <Card className="my-2 mb-5">
+          <Card.Header>
+            <h5>Sponsors</h5>
+          </Card.Header>
+          <Col className="my-4">
+            {sponsors.map((sponsor) =>
+              <img
+                src={sponsor.imageUrl}
+                alt={sponsor.name}
+                title={sponsor.name}
+                className="expandable-image img-fluid img-thumbnail ml-5"
+              />
+            )}
+          </Col>
 
-        <div className="p-4 my-2 text-dark-50 bg-white" >
-          <div className="font-weight-bold mb-3">This guide has been developed with support from</div>
-          {/*
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <a href="https://www.bpa.gov/pages/home.aspx">The Bonneville Power Administration</a>
-              </li>
-            </ul>
+          <div className="p-4 my-2 text-dark-50 bg-white" >
+            <div className="font-weight-bold mb-3">This guide has been developed with support from</div>
+              {sponsors.map((sponsor) =>
+                <div>
+                  <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
+                    <li>
+                      <a href={sponsor.websiteUrl}>{sponsor.title}</a>
+                    </li>
+                  </ul>
+                </div>
+              )}
           </div>
-          */}
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <a href="https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs">U.S. Department of Energy, Office of Energy Efficiency &amp; Renewable Energy, Advanced Manufacturing Office, Industrial Assessment Centers</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </Card>
+        </Card>
+      ) : (
+        null
+      )}
 
       <Card className="my-2 mb-5">
         <Card.Header>

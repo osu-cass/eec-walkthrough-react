@@ -13,7 +13,8 @@ const {
 } = require("../services/validation/requestValidation");
 const {
   getHome,
-  updateHome
+  updateHome,
+  getSponsors
 } = require("../models/home");
 
 
@@ -90,6 +91,28 @@ app.patch("/", requireAuth, patchHomeVal.validation, async (req, res) => {
       res.status(200).send(results);
     } else {
       res.status(500).send({error: "An internal server error occurred. Please try again later."});
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get the list of sponsors for the homepage
+app.get("/sponsors", async (req, res) => {
+
+  try {
+
+    console.log("Get homepage sponsors");
+
+    const results = await getSponsors();
+    if (results.sponsorId) {
+      res.status(200).send(results);
+    } else {
+      res.status(404).send({error: "No sponsors found."});
     }
 
   } catch (err) {
