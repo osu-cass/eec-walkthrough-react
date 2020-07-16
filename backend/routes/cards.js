@@ -102,6 +102,8 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
         res.status(403).send({error: "Card already exists."});
       } else if (results.error === 2) {
         res.status(403).send({error: "Parent header does not exist."});
+      } else if (results.error === 3) {
+        res.status(404).send({error: "Invalid item type in card."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -239,6 +241,8 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
 
       if (results.error === 1) {
         res.status(404).send({error: "Card not found."});
+      } else if (results.error === 2) {
+        res.status(404).send({error: "Invalid item type in card."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

@@ -69,6 +69,21 @@ async function createCard(headerId, cardType, title, items, userId) {
       return {error: 2};
     }
 
+    // make sure all of the icons being used on this card are valid
+    sql = "SELECT iconType " +
+    "FROM Icons " +
+    "WHERE groupIndex = 0;";
+    results = await pool.query(sql, []);
+
+    const icons = results[0];
+    for (let i = 0; i < items.length; i++) {
+      for (let j = 0; j < icons.length; j++) {
+        if (items[i].iconType === icons[j].iconType) {
+          return {error: 3}
+        }
+      }
+    }
+
     // create the new card
     sql = "INSERT INTO Cards (headerId, cardType, title, userId, orderIndex, approved) " +
     "VALUES (?, ?, ?, ?, 0, 0);";
@@ -245,6 +260,21 @@ async function updateCard(cardId, cardType, title, items, userId) {
     }
 
     const approved = results[0][0].approved;
+
+    // make sure all of the icons being used on this card are valid
+    sql = "SELECT iconType " +
+    "FROM Icons " +
+    "WHERE groupIndex = 0;";
+    results = await pool.query(sql, []);
+
+    const icons = results[0];
+    for (let i = 0; i < items.length; i++) {
+      for (let j = 0; j < icons.length; j++) {
+        if (items[i].iconType === icons[j].iconType) {
+          return {error: 2}
+        }
+      }
+    }
 
     // See if we already have an unpublished card.
     // Either create a new one or update the existing one.
