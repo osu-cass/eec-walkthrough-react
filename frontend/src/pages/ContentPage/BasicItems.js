@@ -24,6 +24,7 @@ function BasicItems(props) {
           mode={props.mode}
           publicMode={props.publicMode}
           handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
+          reviewing={props.reviewing}
         />
       )}
     </div>
@@ -36,5 +37,6 @@ BasicItems.propTypes = {
   handleTimestamp: PropTypes.func,
   items: PropTypes.array,
   mode: PropTypes.number,
-  publicMode: PropTypes.number
+  publicMode: PropTypes.number,
+  reviewing: PropTypes.bool
 };

@@ -37,6 +37,7 @@ function EditCard(props) {
         handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
         iconSet={props.iconSet}
         card={props.card}
+        role={props.role}
       />
     </div>
   ) : (
@@ -49,5 +50,6 @@ export default EditCard;
 EditCard.propTypes = {
   card: PropTypes.object,
   handleUpdate: PropTypes.func,
-  iconSet: PropTypes.array
+  iconSet: PropTypes.array,
+  role: PropTypes.number
 };

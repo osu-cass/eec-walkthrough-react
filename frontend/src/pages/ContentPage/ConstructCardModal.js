@@ -924,14 +924,20 @@ function ConstructCardModal(props) {
 
           {props.edit ? (
             <Fragment>
-              <Button
-                className="mr-auto"
-                variant="danger"
-                onClick={() => { if (window.confirm("Are you sure you wish to delete this card?")) { deleteCard(); } }}
-              >
-                Delete Card
-              </Button>
-              <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
+              {props.role >= 4 ? (
+              <Fragment>
+                <Button
+                  className="mr-auto"
+                  variant="danger"
+                  onClick={() => { if (window.confirm("Are you sure you wish to delete this card?")) { deleteCard(); } }}
+                >
+                  Delete Card
+                </Button>
+                <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
+              </Fragment>
+              ) : (
+                <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
+              )}
             </Fragment>
           ) : (
             <Button variant="primary" onClick={() => handleCreate()}>Submit Card</Button>
@@ -953,5 +959,6 @@ ConstructCardModal.propTypes = {
   card: PropTypes.object,
   handleUpdate: PropTypes.func,
   iconSet: PropTypes.array,
-  headerId: PropTypes.number
+  headerId: PropTypes.number,
+  role: PropTypes.number
 };
