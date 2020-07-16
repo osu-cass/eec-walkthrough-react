@@ -19,6 +19,7 @@ const {
   getCard,
   createCard,
   deleteCard,
+  deleteCardChanges,
   updateCard,
   publishCard,
   unpublishCard,
@@ -138,6 +139,50 @@ app.delete("/:cardId", requireAuth, getCardVal.validation, async (req, res) => {
 
     // delete the card data
     const results = await deleteCard(cardId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Card not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete a card edit
+app.delete("/:cardId/changes", requireAuth, getCardVal.validation, async (req, res) => {
+
+  try {
+
+    const cardId = req.params.cardId;
+    console.log("Delete card changes", cardId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to delete a cards changes."});
+      return;
+    }
+
+    // delete the card data
+    const results = await deleteCardChanges(cardId);
 
     if (results.affectedRows >= 0) {
       res.status(200).send(results);

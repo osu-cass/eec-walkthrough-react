@@ -94,7 +94,7 @@ function ContentPage(props) {
 
         setPageInfo(object);
 
-      } else if (action === "delete") {
+      } else if (action === "clear") {
 
         if (object.pageId === object.tempPageId) {
           const newPage = pageInfo;
@@ -131,18 +131,8 @@ function ContentPage(props) {
 
         for (let i = 0; i < headerData.length; i++) {
           if (headerData[i].headerId === object.headerId) {
-            if (object.headerId === object.tempHeaderId) {
-              const newHeader = headerData[i];
-              newHeader.tempCreated = null;
-              newHeader.tempHeaderId = null;
-              newHeader.tempTitle = null;
-              newHeader.tempUserId = null;
-              headerData[i] = newHeader;
-              setHeaders(headerData);
-            } else {
-              headerData.splice(i, 1);
-              setHeaders(headerData);
-            }
+            headerData.splice(i, 1);
+            setHeaders(headerData);
           }
         }
 
@@ -183,15 +173,18 @@ function ContentPage(props) {
 
         for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
           if (headerData[headerIndex].cards[i].cardId === object.cardId) {
-            if (object.cardId === object.tempCardId) {
-              const newCard = headerData[headerIndex].cards[i];
-              newCard.tempCardId = null;
-              newCard.tempCardType = null;
-              newCard.tempCreated = null;
-              newCard.tempTitle = null;
-              newCard.tempUserId = null;
-              newCard.tempItems = [];
-              headerData[headerIndex].cards[i] = newCard;
+              headerData[headerIndex].cards.splice(i, 1);
+              setHeaders(headerData);
+              setCardState(cardState + 1);
+          }
+        }
+
+      } else if (action === "clear") {
+
+        for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
+          if (headerData[headerIndex].cards[i].cardId === object.cardId) {
+            if (headerData[headerIndex].cards[i].approved) {
+              headerData[headerIndex].cards[i] = object;
               setHeaders(headerData);
               setCardState(cardState + 1);
             } else {
@@ -202,9 +195,7 @@ function ContentPage(props) {
           }
         }
       }
-
     }
-
   }
 
   // Updates a timestamp (for an external link) that has been edited

@@ -129,6 +129,7 @@ function Card(props) {
               card={props.card}
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
               iconSet={props.iconSet}
+              role={props.role}
             />
             <ReviewCard
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
@@ -192,6 +193,7 @@ function Card(props) {
                   mode={props.mode}
                   publicMode={props.publicMode}
                   handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+                  reviewing={false}
                 />
               )}
             </Fragment>

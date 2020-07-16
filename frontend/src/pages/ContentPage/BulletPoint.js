@@ -119,7 +119,7 @@ function BulletPoint (props) {
                   </small>
                 </a>
               </div>
-              {(props.contentMode === 1 || props.contentMode === 3) && (props.mode !== 0 || props.publicMode === 0) ? (
+              {(props.contentMode === 1 || props.contentMode === 3) && (props.mode !== 0 || props.publicMode === 0) && !props.reviewing ? (
                 <LinkAccessButtons
                   itemId={props.id}
                   handleTimestamp={(m) => props.handleTimestamp(m)}
@@ -153,5 +153,6 @@ BulletPoint.propTypes = {
   contentMode: PropTypes.number,
   handleTimestamp: PropTypes.func,
   color: PropTypes.string,
-  tooltip: PropTypes.string
+  tooltip: PropTypes.string,
+  reviewing: PropTypes.bool
 };
