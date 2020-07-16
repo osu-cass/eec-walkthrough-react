@@ -261,7 +261,7 @@ function EditHeader(props) {
             <Button
               className="mr-auto"
               variant="danger"
-              onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { deleteHeader(); } }}
+              onClick={() => { if (window.confirm("Are you sure you want to delete this header?")) { deleteHeader(); } }}
             >
               Delete Header
             </Button>

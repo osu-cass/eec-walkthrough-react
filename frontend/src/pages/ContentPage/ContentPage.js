@@ -96,18 +96,9 @@ function ContentPage(props) {
 
       } else if (action === "clear") {
 
-        if (object.pageId === object.tempPageId) {
-          const newPage = pageInfo;
-          newPage.tempCreated = null;
-          newPage.tempDescription = null;
-          newPage.tempImageUrl = null;
-          newPage.tempName = null;
-          newPage.tempPageId = null;
-          newPage.tempTitle = null;
-          newPage.tempUserId = null;
-          setPageInfo(newPage);
-          setPageState(pageState + 1);
-        }
+        const newPage = object;
+        setPageInfo(newPage);
+        setPageState(pageState + 1);
 
       }
 

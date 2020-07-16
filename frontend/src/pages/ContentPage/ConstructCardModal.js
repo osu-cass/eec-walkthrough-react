@@ -483,7 +483,7 @@ function ConstructCardModal(props) {
     let arrayIndex = -1;
     let copy = [...items];
 
-    if (!window.confirm("Are you sure you wish to delete this item?")) {
+    if (!window.confirm("Are you sure you want to delete this item?")) {
       return;
     }
 
@@ -929,7 +929,7 @@ function ConstructCardModal(props) {
                 <Button
                   className="mr-auto"
                   variant="danger"
-                  onClick={() => { if (window.confirm("Are you sure you wish to delete this card?")) { deleteCard(); } }}
+                  onClick={() => { if (window.confirm("Are you sure you want to delete this card?")) { deleteCard(); } }}
                 >
                   Delete Card
                 </Button>

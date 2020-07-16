@@ -22,6 +22,7 @@ const {
   searchPages,
   createPage,
   deletePage,
+  deletePageChanges,
   updatePage,
   publishPage,
   unpublishPage
@@ -246,6 +247,50 @@ app.delete("/:pageId", requireAuth, getPageVal.validation, async (req, res) => {
 
     // delete the page data
     const results = await deletePage(pageId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Page not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete page changes
+app.delete("/:pageId/changes", requireAuth, getPageVal.validation, async (req, res) => {
+
+  try {
+
+    const pageId = req.params.pageId;
+    console.log("Delete page changes", pageId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to delete page changes."});
+      return;
+    }
+
+    // delete the page changes
+    const results = await deletePageChanges(pageId);
 
     if (results.affectedRows >= 0) {
       res.status(200).send(results);
