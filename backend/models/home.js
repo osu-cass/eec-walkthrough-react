@@ -95,3 +95,39 @@ async function updateHome(mainHeader, secondaryHeader, sectionsTitle,
 
 }
 exports.updateHome = updateHome;
+
+
+// update sponsors on the homepage
+async function updateSponsors(sponsors) {
+
+  try {
+
+    // delete the old sponsors
+    let sql = "DELETE FROM Sponsors;";
+    await pool.query(sql, []);
+
+    // insert the new sponsors
+    for (let i = 0; i < sponsors.length; i++) {
+      sql = "INSERT INTO Sponsors " +
+        "(name, title, websiteUrl, imageUrl, orderIndex) " +
+        "VALUES (?, ?, ?, ?, ?);";
+
+      const sqlArray = [sponsors[i].name, sponsors[i].title,
+        sponsors[i].websiteUrl, sponsors[i].imageUrl, sponsors[i].orderIndex]
+      
+      await pool.query(sql, sqlArray);
+    }
+
+    const finalResults = {
+      sponsorsUpdated: sponsors.length
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error updating sponsors");
+    throw Error(err);
+  }
+
+}
+exports.updateSponsors = updateSponsors;

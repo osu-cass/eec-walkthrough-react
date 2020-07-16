@@ -9,12 +9,14 @@ const {
   requireAuth
 } = require("../services/authentication/cookieAuth");
 const {
-  patchHomeVal
+  patchHomeVal,
+  patchSponsorsVal
 } = require("../services/validation/requestValidation");
 const {
   getHome,
   updateHome,
-  getSponsors
+  getSponsors,
+  updateSponsors
 } = require("../models/home");
 
 
@@ -114,6 +116,40 @@ app.get("/sponsors", async (req, res) => {
     } else {
       res.status(404).send({error: "No sponsors found."});
     }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// update the list of sponsors that are shown on the homepage
+app.patch("/sponsors", requireAuth, patchSponsorsVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update homepage sponsors");
+
+    const sponsors = req.body.sponsors;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to update sponsors."});
+      return;
+    }
+
+    // update sponsors
+    const results = await updateSponsors(sponsors);
+    res.status(200).send(results);
 
   } catch (err) {
     console.error(err);
