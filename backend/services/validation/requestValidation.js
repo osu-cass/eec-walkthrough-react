@@ -300,3 +300,11 @@ const patchLinkVal = Object.freeze({
   ]
 });
 exports.patchLinkVal = patchLinkVal;
+
+// validation checks for patch sponsors
+const patchSponsorsVal = Object.freeze({
+  validation: [
+    check("sponsors").isArray()
+  ]
+});
+exports.patchSponsorsVal = patchSponsorsVal;

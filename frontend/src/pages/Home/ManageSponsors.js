@@ -36,8 +36,14 @@ function ManageSponsors(props) {
   async function updatePage() {
     setShowLoad(true);
 
+    // save the order of the sponsors
+    const newSponsors = sponsors;
+    for (let i = 0; i < newSponsors.length; i++) {
+      newSponsors[i].orderIndex = i;
+    }
+
     const data = {
-      sponsors: sponsors
+      sponsors: newSponsors
     };
 
     const results = await fetch(`/home/sponsors`, {
