@@ -85,33 +85,34 @@ function BulletPoint (props) {
           </div>
           <div className="content-td pb-2 col">
             <div>
-              <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}> {props.label} </a>
-              {props.contentMode === 1 || props.contentMode === 3 ? (
-                <i className={`fas fa-fw fa-sm fa-link mx-1`} />
-              ) : (
-                <i className={`fas fa-fw fa-sm fa-info mx-1`} />
-              )}
-              {props.contentMode === 2 || props.contentMode === 3 ? (
-                <i className={`fas fa-fw fa-sm fa-download mr-1`} />
-              ) : (
-                null
-              )}
-              {props.contentMode === 1 || props.contentMode === 3 ? (
-                <Fragment>
-                  {props.created !== null ? (
-                    <small className="last-accessed-link">
-                      {`Confirmed valid ${formatTime(props.created)}`}
-                    </small>
-                  ) : (
-                    <small className="last-accessed-link-bad">
-                      {`This link is no longer valid`}
-                    </small>
-                  )}
-                </Fragment>
-              ) : (
-                null
-              )}
-              <br/>
+              <div className="row">
+                <a href={props.url} className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}> {props.label} </a>
+                {props.contentMode === 1 || props.contentMode === 3 ? (
+                  <i className={`fas fa-fw fa-sm fa-link mx-1`} title="External Resource" />
+                ) : (
+                  <i className={`fas fa-fw fa-sm fa-info mx-1`} title="Internal Resource" />
+                )}
+                {props.contentMode === 2 || props.contentMode === 3 ? (
+                  <i className={`fas fa-fw fa-sm fa-download mr-1`} title="Download" />
+                ) : (
+                  null
+                )}
+                {props.contentMode === 1 || props.contentMode === 3 ? (
+                  <Fragment>
+                    {props.created !== null ? (
+                      <small className="last-accessed-link">
+                        {`Confirmed valid ${formatTime(props.created)}`}
+                      </small>
+                    ) : (
+                      <small className="last-accessed-link-bad">
+                        {`This link is no longer valid`}
+                      </small>
+                    )}
+                  </Fragment>
+                ) : (
+                  null
+                )}
+              </div>
               <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}>
                 <small>
                   {props.text === "$empty" ? (null) : (props.text)}
