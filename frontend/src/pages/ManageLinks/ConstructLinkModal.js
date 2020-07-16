@@ -76,8 +76,8 @@ function ConstructLinkModal(props) {
   // Check for empty inputs
   function checkInputs() {
 
-    let emptyFound = false;
-    let newErrorMessage = errorMessage;
+    const emptyFound = false;
+    const newErrorMessage = errorMessage;
 
     // Empty url
     if (!url.length) {

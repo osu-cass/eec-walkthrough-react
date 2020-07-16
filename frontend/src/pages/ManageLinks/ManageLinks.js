@@ -32,7 +32,7 @@ function ManageLinks() {
     setLoading(true);
 
     // Fetch all links
-    let results = await fetch(`/links/all/${filter}`);
+    const results = await fetch(`/links/all/${filter}`);
 
     if (results.ok) {
 

@@ -56,7 +56,7 @@ function EditPage(props) {
   // determines if the current object is only internal viewable
   function isInternal() {
     if ((props.page.tempPageId && props.page.tempInternal) || (!props.page.tempPageId && props.page.internal)) {
-      return 1
+      return 1;
     }
   }
 
@@ -73,7 +73,7 @@ function EditPage(props) {
     }
 
     const typeSelect = document.getElementById("select-new-page-type");
-    let newPageType = parseInt(typeSelect.options[typeSelect.selectedIndex].value, 10);
+    const newPageType = parseInt(typeSelect.options[typeSelect.selectedIndex].value, 10);
 
     const data = {
       name: title,
@@ -376,7 +376,7 @@ function EditPage(props) {
               <div className="custom-control form-control-lg custom-checkbox my-2">
                 {checked ? (
                   <input type="checkbox" className="form-check-input custom-control-input"
-                    id="internal-modal-checkbox" onClick={() => setChecked(0)} checked 
+                    id="internal-modal-checkbox" onClick={() => setChecked(0)} checked
                   />
                 ) : (
                   <input type="checkbox" className="form-check-input custom-control-input"

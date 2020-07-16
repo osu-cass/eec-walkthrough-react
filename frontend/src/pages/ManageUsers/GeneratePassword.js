@@ -8,7 +8,7 @@ function GeneratePassword(props) {
 
   // updates a user's role
   async function setNewPassword() {
-    
+
     const confirmMessage = `Are you sure you want to replace ${props.username}'s ` +
       `password with a new random password?"`;
 
@@ -69,6 +69,6 @@ export default GeneratePassword;
 GeneratePassword.propTypes = {
   role: PropTypes.number,
   userId: PropTypes.number,
-  userName: PropTypes.string,
-  onLoading: PropTypes.func
+  username: PropTypes.string,
+  onLoading: PropTypes.func,
 };

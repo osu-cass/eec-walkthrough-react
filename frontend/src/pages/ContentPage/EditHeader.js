@@ -42,7 +42,7 @@ function EditHeader(props) {
   // determines if the current object is only internal viewable
   function isInternal() {
     if ((props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal)) {
-      return 1
+      return 1;
     }
   }
 
@@ -232,7 +232,7 @@ function EditHeader(props) {
               <div className="custom-control form-control-lg custom-checkbox my-2">
                 {checked ? (
                   <input type="checkbox" className="form-check-input custom-control-input"
-                    id="internal-modal-checkbox" onClick={() => setChecked(0)} checked 
+                    id="internal-modal-checkbox" onClick={() => setChecked(0)} checked
                   />
                 ) : (
                   <input type="checkbox" className="form-check-input custom-control-input"
