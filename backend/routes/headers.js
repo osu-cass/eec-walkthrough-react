@@ -19,6 +19,7 @@ const {
   getHeader,
   createHeader,
   deleteHeader,
+  deleteHeaderChanges,
   updateHeader,
   publishHeader,
   unpublishHeader,
@@ -137,6 +138,50 @@ app.delete("/:headerId", requireAuth, getHeaderVal.validation, async (req, res) 
 
     // delete the header data
     const results = await deleteHeader(headerId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Header not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete a header edit
+app.delete("/:headerId/changes", requireAuth, getHeaderVal.validation, async (req, res) => {
+
+  try {
+
+    const headerId = req.params.headerId;
+    console.log("Delete header changes", headerId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to delete header changes."});
+      return;
+    }
+
+    // delete the header changes
+    const results = await deleteHeaderChanges(headerId);
 
     if (results.affectedRows >= 0) {
       res.status(200).send(results);

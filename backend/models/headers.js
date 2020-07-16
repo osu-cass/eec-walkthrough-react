@@ -126,35 +126,12 @@ async function deleteHeader(headerId) {
 
   try {
 
-    // checks to see if there is an edited version of the header to delete
-    let sql = "SELECT * " +
-    "FROM Temp_Headers " +
-    "WHERE tempHeaderId = ?;";
-
-    let results = await pool.query(sql, headerId);
-
-    // prioritize deleting the edited version
-    // a second delete will remove the real one
-    if (results[0].length) {
-      sql = "DELETE " +
-        "FROM Temp_Headers " +
-        "WHERE tempHeaderId = ?;";
-
-      results = await pool.query(sql, headerId);
-
-      const finalResults = {
-        affectedRows: results[0].affectedRows
-      };
-
-      return finalResults;
-    }
-
     // check to see if the header exists
-    sql = "SELECT * " +
+    let sql = "SELECT * " +
     "FROM Headers " +
     "WHERE headerId = ?;";
 
-    results = await pool.query(sql, headerId);
+    let results = await pool.query(sql, headerId);
 
     if (!results[0].length) {
       return {error: 1};
@@ -180,6 +157,66 @@ async function deleteHeader(headerId) {
 
 }
 exports.deleteHeader = deleteHeader;
+
+
+// delete a header's changes
+async function deleteHeaderChanges(headerId) {
+
+  try {
+
+    // checks to see if there is an edited version of the header to delete
+    let sql = "SELECT * " +
+    "FROM Temp_Headers " +
+    "WHERE tempHeaderId = ?;";
+
+    let results = await pool.query(sql, headerId);
+
+    if (results[0].length) {
+      sql = "DELETE " +
+        "FROM Temp_Headers " +
+        "WHERE tempHeaderId = ?;";
+
+      results = await pool.query(sql, headerId);
+
+      const finalResults = {
+        affectedRows: results[0].affectedRows
+      };
+
+      return finalResults;
+    }
+
+    // check to see if the header is in the headers table but not yet published
+    sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ? " +
+    "AND approved = 0;";
+
+    results = await pool.query(sql, headerId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // delete the header
+    sql = "DELETE " +
+      "FROM Headers " +
+      "WHERE headerId = ?;";
+
+    results = await pool.query(sql, headerId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting header changes");
+    throw Error(err);
+  }
+
+}
+exports.deleteHeaderChanges = deleteHeaderChanges;
 
 
 // update a header

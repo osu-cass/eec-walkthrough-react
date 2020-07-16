@@ -257,13 +257,17 @@ function EditHeader(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          <Button
-            className="mr-auto"
-            variant="danger"
-            onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { deleteHeader(); } }}
-          >
-            Delete Header
-          </Button>
+          {props.role >= 4 ? (
+            <Button
+              className="mr-auto"
+              variant="danger"
+              onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { deleteHeader(); } }}
+            >
+              Delete Header
+            </Button>
+          ) : (
+            null
+          )}
           <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Header Edit</Button>
           <Button variant="secondary" onClick={() => handleCloseModal()}>Cancel</Button>
         </Modal.Footer>

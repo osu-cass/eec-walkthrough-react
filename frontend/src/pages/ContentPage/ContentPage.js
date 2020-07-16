@@ -136,6 +136,19 @@ function ContentPage(props) {
           }
         }
 
+      } else if (action === "clear") {
+
+        for (let i = 0; i < headerData.length; i++) {
+          if (headerData[i].headerId === object.headerId) {
+            if (headerData[i].approved) {
+              headerData[i] = object;
+              setHeaders(headerData);
+            } else {
+              headerData.splice(i, 1);
+              setHeaders(headerData);
+            }
+          }
+        }
       }
 
     } else if (type === "card") {
