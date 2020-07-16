@@ -24,7 +24,7 @@ function ManageIcons() {
     setLoading(true);
 
     // Fetch all icons
-    let results = await fetch(`/icons/all`);
+    const results = await fetch(`/icons/all`);
 
     if (results.ok) {
 
@@ -44,7 +44,7 @@ function ManageIcons() {
   // convert icon group number to string
   function groupName(category) {
     if (category === 1) {
-      return "Item";;
+      return "Item";
     } else if (category === 2) {
       return "Graphic";
     } else if (category === 3) {

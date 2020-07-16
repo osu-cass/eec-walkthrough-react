@@ -43,7 +43,7 @@ function ConstructIconModal(props) {
 
     // Gets the icon group from the select
     const formatSelect = document.getElementById("select-new-category");
-    let newCategory = parseInt(formatSelect.options[formatSelect.selectedIndex].value, 10);
+    const newCategory = parseInt(formatSelect.options[formatSelect.selectedIndex].value, 10);
 
     // Prepare data for new icon
     const iconData = {
@@ -86,7 +86,7 @@ function ConstructIconModal(props) {
         setErrorMessage(obj.error);
       }
     }
- 
+
   }
 
   // Submit the current icon
@@ -98,7 +98,7 @@ function ConstructIconModal(props) {
 
     // Get the icon format from the select
     const formatSelect = document.getElementById("select-new-category");
-    let newCategory = parseInt(formatSelect.options[formatSelect.selectedIndex].value, 10);
+    const newCategory = parseInt(formatSelect.options[formatSelect.selectedIndex].value, 10);
 
     // Prepare data for new icon
     const iconData = {
@@ -146,8 +146,8 @@ function ConstructIconModal(props) {
   // Check for empty inputs
   function checkInputs() {
 
-    let emptyFound = false;
-    let newErrorMessage = errorMessage;
+    const emptyFound = false;
+    const newErrorMessage = errorMessage;
 
     // Empty name
     if (!typeKeyword.length) {
@@ -173,11 +173,11 @@ function ConstructIconModal(props) {
 
   }
 
-    // Gets color data from changes made to the color picker
-    function handleColorChange(color) {
-      setColor(color.hex);
-      document.getElementById("hex-color-field").value = color.hex;
-    }
+  // Gets color data from changes made to the color picker
+  function handleColorChange(color) {
+    setColor(color.hex);
+    document.getElementById("hex-color-field").value = color.hex;
+  }
 
   return (
     <div className='text-center mx-2'>
@@ -248,17 +248,17 @@ function ConstructIconModal(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-        {props.edit ? (
-          <Fragment>
-            <Button variant="primary" onClick={() => handleEdit()}>Submit Icon Changes</Button>
-            <Button variant="secondary" onClick={() => props.handleClose()}>Cancel</Button>
-          </Fragment>
-        ) : (
-          <Fragment>
-            <Button variant="primary" onClick={() => handleCreate()}>Submit Icon</Button>
-            <Button variant="secondary" onClick={() => props.handleClose()}>Cancel</Button>
-          </Fragment>
-        )}
+          {props.edit ? (
+            <Fragment>
+              <Button variant="primary" onClick={() => handleEdit()}>Submit Icon Changes</Button>
+              <Button variant="secondary" onClick={() => props.handleClose()}>Cancel</Button>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <Button variant="primary" onClick={() => handleCreate()}>Submit Icon</Button>
+              <Button variant="secondary" onClick={() => props.handleClose()}>Cancel</Button>
+            </Fragment>
+          )}
 
         </Modal.Footer>
       </Modal>

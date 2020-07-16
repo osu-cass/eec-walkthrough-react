@@ -480,7 +480,7 @@ function ContentPage(props) {
       </Container>
     ) : <LoadingOverlay loading={true} />;
   } else if (publicMode === 1 && (!pageInfo.approved || pageInfo.internal) && mode === 0) {
-    return <NonPublicPage onPublicMode={e => handlePublicMode(e)} />
+    return <NonPublicPage onPublicMode={e => handlePublicMode(e)} />;
   } else if (errorPage === 404) {
     return <Error404 />;
   } else {

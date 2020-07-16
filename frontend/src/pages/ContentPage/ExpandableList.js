@@ -14,7 +14,7 @@ function ExpandableList(props) {
   useEffect(() => {
     const itemArray = [];
 
-    for(let i = 0; i < props.items.length && i < showCount; i++) {
+    for (let i = 0; i < props.items.length && i < showCount; i++) {
       itemArray.push(props.items[i]);
     }
 

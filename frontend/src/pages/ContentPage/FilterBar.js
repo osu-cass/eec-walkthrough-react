@@ -16,10 +16,10 @@ function FilterBar(props) {
   useEffect(() => {
     const names = [];
     const colors = [];
-    const tooltips = []
+    const tooltips = [];
     const tempNames = [];
     const tempColors = [];
-    const tempTooltips = []
+    const tempTooltips = [];
     for (let i = 0; i < props.filterIcons.length; i++) {
       for (let j = 0; j < props.iconSet.length; j++) {
         if (props.filterIcons[i] === props.iconSet[j].iconType) {
@@ -44,7 +44,7 @@ function FilterBar(props) {
     setTempIconNames(tempNames);
     setIconColors(colors);
     setTempIconColors(tempColors);
-    setIconTooltips(tooltips)
+    setIconTooltips(tooltips);
     setTempIconTooltips(tempTooltips);
   }, [props.filterIcons, props.tempFilterIcons, props.iconSet]);
 

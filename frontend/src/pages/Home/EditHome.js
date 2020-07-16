@@ -290,8 +290,8 @@ function EditHome(props) {
             </Col>
           </Row>
 
-          </Modal.Body>
-          <Modal.Body>
+        </Modal.Body>
+        <Modal.Body>
 
           <Row>
             <Col>
@@ -338,8 +338,8 @@ function EditHome(props) {
             </Col>
           </Row>
 
-          </Modal.Body>
-          <Modal.Body>
+        </Modal.Body>
+        <Modal.Body>
 
           <Row>
             <Col>
@@ -416,8 +416,8 @@ function EditHome(props) {
             </Col>
           </Row>
 
-          </Modal.Body>
-          <Modal.Body>
+        </Modal.Body>
+        <Modal.Body>
 
           <Row>
             <Col>

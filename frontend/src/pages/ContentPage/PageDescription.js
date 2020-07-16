@@ -33,11 +33,11 @@ function PageDescription(props) {
   function isInternal() {
     if (props.mode === 1) {
       if ((props.page.tempPageId && props.page.tempInternal) || (!props.page.tempPageId && props.page.internal)) {
-        return 1
+        return 1;
       }
     } else {
       if (props.page.internal) {
-        return 1
+        return 1;
       }
     }
   }

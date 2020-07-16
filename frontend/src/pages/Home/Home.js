@@ -54,7 +54,7 @@ function Home(props) {
       const obj = await results.json();
       const general = [];
       const links = [];
-      
+
       // Sort the icons by group
       for (let i = 0; i < obj.icons.length; i++) {
         if (obj.icons[i].groupIndex === 1 || obj.icons[i].groupIndex === 2) {
@@ -195,11 +195,11 @@ function Home(props) {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               {linkIcons.map((icon) =>
-                  <li className="my-2" key={icon.iconType}>
-                    <i className={`fas fa-fw fa-${icon.typeName} mr-2`} style={{color: icon.color}} />
-                    <span className="font-weight-normal">{icon.typeKeyword}</span>
-                  </li>
-                )}
+                <li className="my-2" key={icon.iconType}>
+                  <i className={`fas fa-fw fa-${icon.typeName} mr-2`} style={{color: icon.color}} />
+                  <span className="font-weight-normal">{icon.typeKeyword}</span>
+                </li>
+              )}
             </ul>
           </div>
           <div className="font-weight-bold mb-3">{page.linksTitlePostfixInternal}</div>

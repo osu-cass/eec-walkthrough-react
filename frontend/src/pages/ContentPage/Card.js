@@ -49,11 +49,11 @@ function Card(props) {
   function isInternal() {
     if (props.mode === 1) {
       if ((props.card.tempCardId && props.card.tempCardType >= 10) || (!props.card.tempCardId && props.card.cardType >= 10)) {
-        return 1
+        return 1;
       }
     } else {
       if (props.card.cardType >= 10) {
-        return 1
+        return 1;
       }
     }
   }
@@ -121,7 +121,7 @@ function Card(props) {
           aria-controls={"collapse" + props.card.cardId}
           className="col pr-0"
         >
-        {props.mode === 1 && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
+          {props.mode === 1 && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
         </div>
         {props.mode === 1 ? (
           <div className="row ml-auto">

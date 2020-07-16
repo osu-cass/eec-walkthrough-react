@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, Fragment} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import SidebarCollection from "./SidebarCollection";
 import {getProfile} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
@@ -119,31 +119,31 @@ function Sidebar(props) {
             />
           </Card>
 
-            {role === 4 ? (
-              <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
-                <SidebarCollection
-                  collectionName="Manage Icons"
-                  collectionLink="manage-icons"
-                />
-                <SidebarCollection
-                  collectionName="Manage Links"
-                  collectionLink="manage-links"
-                />
-                <SidebarCollection
-                  collectionName="Manage Users"
-                  collectionLink="manage-users"
-                />
-              </Card>
-            ) : (
-              null
-            )}
-
+          {role === 4 ? (
             <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
               <SidebarCollection
-                collectionName="OSU EEC"
-                externalLink="https://eec.oregonstate.edu/"
+                collectionName="Manage Icons"
+                collectionLink="manage-icons"
+              />
+              <SidebarCollection
+                collectionName="Manage Links"
+                collectionLink="manage-links"
+              />
+              <SidebarCollection
+                collectionName="Manage Users"
+                collectionLink="manage-users"
               />
             </Card>
+          ) : (
+            null
+          )}
+
+          <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
+            <SidebarCollection
+              collectionName="OSU EEC"
+              externalLink="https://eec.oregonstate.edu/"
+            />
+          </Card>
         </Col>
       </nav>
     </div >
