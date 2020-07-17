@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 16, 2020 at 04:56 PM
+-- Generation Time: Jul 17, 2020 at 10:50 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -143,11 +143,11 @@ CREATE TABLE `Categories` (
 --
 
 INSERT INTO `Categories` (`categoryId`, `singleName`, `pluralName`, `description`) VALUES
-(1, 'Assessment', 'Assessments', 'An introduction to a method for evaluating or estimating.'),
-(2, 'Industry', 'Industries', 'An overview of the industry is followed by a list of common related subjects.'),
+(1, 'Industry', 'Industries', 'An overview of the industry is followed by a list of common related subjects.'),
+(2, 'Technology', 'Technologies', 'An introduction to an industrial technology.'),
 (3, 'Process', 'Processes', 'An introduction to a process or technique.'),
 (4, 'Productivity', 'Productivity', 'An introduction to a specific improvement opportunity to consider.'),
-(5, 'Technology', 'Technologies', 'An introduction to an industrial technology.');
+(5, 'Assessment', 'Assessments', 'An introduction to a method for evaluating or estimating.');
 
 -- --------------------------------------------------------
 
@@ -924,7 +924,8 @@ ALTER TABLE `Items`
 --
 ALTER TABLE `Pages`
   ADD PRIMARY KEY (`pageId`),
-  ADD KEY `user_page_fk` (`userId`);
+  ADD KEY `user_page_fk` (`userId`),
+  ADD KEY `category_fk` (`pageType`);
 
 --
 -- Indexes for table `Sponsors`
@@ -975,7 +976,7 @@ ALTER TABLE `Cards`
 -- AUTO_INCREMENT for table `Categories`
 --
 ALTER TABLE `Categories`
-  MODIFY `categoryId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `categoryId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `Headers`
@@ -1042,6 +1043,7 @@ ALTER TABLE `Items`
 -- Constraints for table `Pages`
 --
 ALTER TABLE `Pages`
+  ADD CONSTRAINT `category_fk` FOREIGN KEY (`pageType`) REFERENCES `Categories` (`categoryId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_page_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
 
 --

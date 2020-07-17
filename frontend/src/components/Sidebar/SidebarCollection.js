@@ -7,6 +7,7 @@ import {Card} from "react-bootstrap";
 import CreatePage from "./CreatePage";
 import "./SidebarCollection.css";
 
+// a group of links that can be expanded or hidden on the sidebar
 function SidebarCollection(props) {
   return (
     <Accordion>

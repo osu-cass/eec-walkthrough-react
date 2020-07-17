@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import Error from "../General/Error";
-import "./CreatePage.css";
+import "./CreateCategory.css";
 
-// button and modal for creating a new page
-function CreatePage(props) {
- 
+// button and modal for creating a new category
+function CreateCategory(props) {
+
   const [name, setName] = useState("");
   const [summary, setSummary] = useState("");
   const [description, setDescription] = useState("");
@@ -234,9 +234,9 @@ function CreatePage(props) {
   );
 
 }
-export default CreatePage;
+export default CreateCategory;
 
-CreatePage.propTypes = {
+CreateCategory.propTypes = {
   title: PropTypes.string,
   icons: PropTypes.array,
   collectionName: PropTypes.any,

@@ -1,0 +1,27 @@
+.createPage {
+  max-width: 100%;
+  border-color: #faa945 !important;
+  color: #faa945;
+}
+
+.create-page-icon {
+  color: #faa945 !important;
+}
+
+ .createPage:hover.btn {
+  background-color: #faa945 !important;
+}
+
+.hidden {
+  position: fixed;
+  left: -250px;
+  transition: all 0.3s;
+  z-index: 999;
+}
+
+.visible {
+  position: fixed;
+  left: 0;
+  z-index: 999;
+  transition: all 0.3s;
+}
