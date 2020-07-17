@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import "./Sidebar.css";
 
+// sidebar that can be expanded and hidden
 function Sidebar(props) {
 
   const [pages, setPages] = useState([]);
