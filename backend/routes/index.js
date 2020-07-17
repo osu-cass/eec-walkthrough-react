@@ -30,15 +30,14 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
 // handle requests
-app.use("/cards", require("./cards"));
-app.use("/headers", require("./headers"));
-app.use("/home", require("./home"));
-app.use("/icons", require("./icons"));
-app.use("/items", require("./items"));
-app.use("/links", require("./links"));
-app.use("/pages", require("./pages"));
-app.use("/users", require("./users"));
-app.use("/categories", require("./categories"));
+app.use("/api/cards", require("./cards"));
+app.use("/api/headers", require("./headers"));
+app.use("/api/home", require("./home"));
+app.use("/api/icons", require("./icons"));
+app.use("/api/links", require("./links"));
+app.use("/api/pages", require("./pages"));
+app.use("/api/users", require("./users"));
+app.use("/api/categories", require("./categories"));
 
 // unhandled requests get a 404 error
 app.all("/*", (req, res) => {
