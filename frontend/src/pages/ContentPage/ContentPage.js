@@ -13,6 +13,7 @@ import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import "./ContentPage.css";
 import NonPublicPage from "../NonPublicPage/NonPublicPage";
+import {useParams} from "react-router-dom";
 
 // A page representing an industry or subject
 function ContentPage(props) {
@@ -28,6 +29,7 @@ function ContentPage(props) {
   const [publicMode, setPublicMode] = useState(getPublic());
   const [cardState, setCardState] = useState(0);
   const [pageState, setPageState] = useState(0);
+  const {pageId} = useParams();
 
   // get new page data if the page ID has changed
   useEffect(() => {
@@ -35,7 +37,7 @@ function ContentPage(props) {
     setRole(getProfile().role);
     fetchData();
     // eslint-disable-next-line
-  }, [props.pageId]);
+  }, [pageId]);
 
   // sets the current page mode (view / edit / move)
   function handlePageMode(newMode) {
@@ -64,7 +66,7 @@ function ContentPage(props) {
     }
 
     // Fetch page info
-    results = await fetch(`/pages/${props.pageId}/all`);
+    results = await fetch(`/pages/${pageId}/all`);
 
     if (results.ok) {
       obj = await results.json();
@@ -437,7 +439,7 @@ function ContentPage(props) {
         />
 
         <CreateHeader
-          pageId={parseInt(props.pageId)}
+          pageId={parseInt(pageId)}
           role={role}
           userId={userId}
           numHeaders={headers.length}
