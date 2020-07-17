@@ -31,18 +31,6 @@ function CreatePage(props) {
       return;
     }
 
-    // ensure that the correct page type is generated
-    let pageType = 1;
-    if (props.collectionName === "Technologies") {
-      pageType = 2;
-    } else if (props.collectionName === "Processes") {
-      pageType = 3;
-    } else if (props.collectionName === "Productivity") {
-      pageType = 4;
-    } else if (props.collectionName === "Assessments") {
-      pageType = 5;
-    }
-
     let internal = 0;
     if (document.getElementById("internal-modal-checkbox").checked) {
       internal = 1;
@@ -50,7 +38,7 @@ function CreatePage(props) {
 
     // Prepare data
     const data = {
-      pageType: pageType,
+      pageType: props.categoryId,
       name: name,
       title: summary,
       description: description,
@@ -237,7 +225,8 @@ export default CreatePage;
 
 CreatePage.propTypes = {
   title: PropTypes.string,
-  collectionName: PropTypes.any,
-  role: PropTypes.any,
-  refresh: PropTypes.any
+  collectionName: PropTypes.string,
+  role: PropTypes.number,
+  refresh: PropTypes.func,
+  categoryId: PropTypes.number
 };
