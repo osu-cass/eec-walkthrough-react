@@ -48,7 +48,7 @@ function Sidebar(props) {
 
   // fetch all category data
   async function fetchData() {
-    const results = await fetch("/categories/all");
+    const results = await fetch("/api/categories/all");
     if (results.ok) {
       const obj = await results.json();
       setCategories(obj.categories);
@@ -86,6 +86,7 @@ function Sidebar(props) {
                 collectionLink={`wiki/${category.pluralName.toLowerCase()}`}
                 collection={category.pages}
                 categoryId={category.categoryId}
+                internal={category.internal}
                 refresh={() => fetchData()}
                 role={role}
               />
