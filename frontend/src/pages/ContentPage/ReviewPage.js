@@ -38,7 +38,7 @@ function ReviewPage(props) {
     }
 
     // Unpublish the page
-    const results = await fetch(`/pages/${props.page.pageId}/unpublish`, {
+    const results = await fetch(`/api/pages/${props.page.pageId}/unpublish`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });
@@ -103,7 +103,7 @@ function ReviewPage(props) {
     }
 
     // Approve the page
-    const results = await fetch(`/pages/${props.page.pageId}/publish`, {
+    const results = await fetch(`/api/pages/${props.page.pageId}/publish`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });
@@ -194,7 +194,7 @@ function ReviewPage(props) {
     }
 
     // delete proposed changes
-    const results = await fetch(`/pages/${props.page.pageId}/changes`, {
+    const results = await fetch(`/api/pages/${props.page.pageId}/changes`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });

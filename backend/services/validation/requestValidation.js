@@ -189,14 +189,13 @@ const patchCardVal = Object.freeze({
 });
 exports.patchCardVal = patchCardVal;
 
-// validation checks for patch item timestamp
-const patchItemTimeVal = Object.freeze({
+// validation checks for patching a link timestamp
+const patchLinkTimeVal = Object.freeze({
   validation: [
-    check("itemId").isInt({min: 1, max: 4294967295}),
     check("deadLink").isInt({min: 0, max: 1})
   ]
 });
-exports.patchItemTimeVal = patchItemTimeVal;
+exports.patchLinkTimeVal = patchLinkTimeVal;
 
 // validation checks for patch homepage
 const patchHomeVal = Object.freeze({

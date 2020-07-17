@@ -52,7 +52,7 @@ function PageList() {
   // grabs and returns list of relevant pages
   async function getPage() {
     const page = pageName;
-    const getUrl = "/pages/all";
+    const getUrl = "/api/pages/all";
     let obj = [];
 
     const results = await fetch(getUrl);

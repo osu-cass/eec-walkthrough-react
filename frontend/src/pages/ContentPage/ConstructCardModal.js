@@ -279,7 +279,7 @@ function ConstructCardModal(props) {
     };
 
     // Create the new card
-    const results = await fetch(`/cards`, {
+    const results = await fetch(`/api/cards`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(cardData)
@@ -383,7 +383,7 @@ function ConstructCardModal(props) {
     };
 
     // Edit card
-    const results = await fetch(`/cards/${props.card.cardId}`, {
+    const results = await fetch(`/api/cards/${props.card.cardId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(cardData)
@@ -533,7 +533,7 @@ function ConstructCardModal(props) {
   // Delete the current card
   async function deleteCard() {
     // Send call to backend to delete card
-    const results = await fetch(`/cards/${props.card.cardId}`, {
+    const results = await fetch(`/api/cards/${props.card.cardId}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });

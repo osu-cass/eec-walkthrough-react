@@ -24,7 +24,7 @@ function ManageIcons() {
     setLoading(true);
 
     // Fetch all icons
-    const results = await fetch(`/icons/all`);
+    const results = await fetch(`/api/icons/all`);
 
     if (results.ok) {
 

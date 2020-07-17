@@ -21,7 +21,7 @@ function GeneratePassword(props) {
         // the user confirmed that they wanted to change the password
         // so we will send a request to the API server
 
-        const results = await fetch(`/users/${props.userId}/newPassword`, {
+        const results = await fetch(`/api/users/${props.userId}/newPassword`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"

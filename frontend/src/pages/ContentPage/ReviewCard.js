@@ -60,7 +60,7 @@ function ReviewCard(props) {
     }
 
     // delete proposed changes
-    const results = await fetch(`/cards/${props.card.cardId}/changes`, {
+    const results = await fetch(`/api/cards/${props.card.cardId}/changes`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });
@@ -119,7 +119,7 @@ function ReviewCard(props) {
     }
 
     // Unpublish the card
-    const results = await fetch(`/cards/${props.card.cardId}/unpublish`, {
+    const results = await fetch(`/api/cards/${props.card.cardId}/unpublish`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });
@@ -178,7 +178,7 @@ function ReviewCard(props) {
     }
 
     // Approve the card
-    const results = await fetch(`/cards/${props.card.cardId}/publish`, {
+    const results = await fetch(`/api/cards/${props.card.cardId}/publish`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });

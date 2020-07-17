@@ -55,7 +55,7 @@ function ContentPage(props) {
     setLoaded(false);
 
     // Fetch all icons
-    let results = await fetch(`/icons/all`);
+    let results = await fetch(`/api/icons/all`);
 
     if (results.ok) {
       obj = await results.json();
@@ -66,7 +66,7 @@ function ContentPage(props) {
     }
 
     // Fetch page info
-    results = await fetch(`/pages/${pageId}/all`);
+    results = await fetch(`/api/pages/${pageId}/all`);
 
     if (results.ok) {
       obj = await results.json();
@@ -297,7 +297,7 @@ function ContentPage(props) {
 
     // send our move to the API
     if (moved) {
-      const results = await fetch(`/headers/${headerId}/move/${direction}`, {
+      const results = await fetch(`/api/headers/${headerId}/move/${direction}`, {
         method: "PATCH",
         headers: {"Content-Type": "application/json"}
       });
@@ -399,7 +399,7 @@ function ContentPage(props) {
 
     // send our move to the API
     if (moved) {
-      const results = await fetch(`/cards/${cardId}/move/${direction}`, {
+      const results = await fetch(`/api/cards/${cardId}/move/${direction}`, {
         method: "PATCH",
         headers: {"Content-Type": "application/json"}
       });
