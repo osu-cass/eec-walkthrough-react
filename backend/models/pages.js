@@ -43,7 +43,7 @@ async function getPage(pageId, viewAll) {
 exports.getPage = getPage;
 
 
-// return a list of all of the pages sorted into groups
+// return a list of all of the pages sorted by category
 async function getPages(viewAll) {
 
   try {

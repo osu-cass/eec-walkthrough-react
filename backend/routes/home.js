@@ -6,7 +6,8 @@ const app = express();
 const {validationResult} = require("express-validator");
 const {
   roleCheck,
-  requireAuth
+  requireAuth,
+  getUserID
 } = require("../services/authentication/cookieAuth");
 const {
   patchHomeVal,
@@ -21,13 +22,19 @@ const {
 
 
 // get homepage content
-app.get("/", async (req, res) => {
+app.get("/", getUserID, async (req, res) => {
 
   try {
 
     console.log("Get homepage content");
 
-    const results = await getHome();
+    // check if the current user should be able to view this content
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
+    const results = await getHome(viewAll);
     if (results.homeId) {
       res.status(200).send(results);
     } else {
