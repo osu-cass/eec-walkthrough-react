@@ -59,8 +59,7 @@ exports.getSponsors = getSponsors;
 
 
 // update the homepage
-async function updateHome(mainHeader, secondaryHeader, sectionsTitle,
-  assessments, industries, processes, productivity, technologies, sectionsFooter,
+async function updateHome(mainHeader, secondaryHeader, sectionsTitle, sectionsFooter,
   tidbitsHeader, tidbitsTitle, tidbitsFooter, linksHeader, linksTitlePrefix,
   linksTitlePostfixInternal, linksTitlePostfixDownload, linksFooter,
   disclaimerHeader, disclaimerText) {
@@ -68,14 +67,12 @@ async function updateHome(mainHeader, secondaryHeader, sectionsTitle,
   try {
 
     const sql = "UPDATE Home " +
-    "SET mainHeader = ?, secondaryHeader = ?, sectionsTitle = ?, assessments = ?, " +
-    "industries = ?, processes = ?, productivity = ?, technologies = ?, sectionsFooter = ?, " +
+    "SET mainHeader = ?, secondaryHeader = ?, sectionsTitle = ?, sectionsFooter = ?, " +
     "tidbitsHeader = ?, tidbitsTitle = ?, tidbitsFooter = ?, linksHeader = ?, linksTitlePrefix = ?, " +
     "linksTitlePostfixInternal = ?, linksTitlePostfixDownload = ?, linksFooter = ?, " +
     "disclaimerHeader = ?, disclaimerText = ?;";
 
-    const sqlArray = [mainHeader, secondaryHeader, sectionsTitle,
-      assessments, industries, processes, productivity, technologies, sectionsFooter,
+    const sqlArray = [mainHeader, secondaryHeader, sectionsTitle, sectionsFooter,
       tidbitsHeader, tidbitsTitle, tidbitsFooter, linksHeader, linksTitlePrefix,
       linksTitlePostfixInternal, linksTitlePostfixDownload, linksFooter,
       disclaimerHeader, disclaimerText];
