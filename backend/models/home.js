@@ -5,12 +5,12 @@ const {pool} = require("../services/database/mysqlPool");
 
 
 // return information about the homepage content
-async function getHome() {
+async function getHome(viewAll) {
 
   try {
 
-    const sql = "SELECT * FROM Home;";
-    const results = await pool.query(sql, []);
+    let sql = "SELECT * FROM Home;";
+    let results = await pool.query(sql, []);
 
     // check to see if we were able to find the content
     if (!results[0].length) {
@@ -19,6 +19,16 @@ async function getHome() {
 
     const finalResults = results[0][0];
     finalResults.homeId = 1;
+
+    // get all of the different page categories based on the users role
+    if (viewAll) {
+      sql = "SELECT * FROM Categories ORDER BY pluralName ASC;";
+    } else {
+      sql = "SELECT * FROM Categories WHERE internal = 0 ORDER BY pluralName ASC;";
+    }
+    results = await pool.query(sql, []);
+
+    finalResults.categories = results[0];
 
     return finalResults;
 

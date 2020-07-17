@@ -33,12 +33,15 @@ function Home(props) {
     linksTitlePostfixDownload: "",
     linksFooter: "",
     disclaimerHeader: "",
-    disclaimerText: ""
+    disclaimerText: "",
+    categories: []
   });
 
   useEffect(() => {
-    fetchHome();
-  }, []);
+    if (typeof props.loginStatusChange === "boolean") {
+      fetchHome();
+    }
+  }, [props.loginStatusChange]);
 
   function handlePageEdit() {
     fetchHome();
@@ -80,6 +83,7 @@ function Home(props) {
 
       const obj = await results.json();
       setPage(obj);
+      console.log("HOME", obj);
 
     } else {
       console.error("Error fetching homepage content");
@@ -131,50 +135,17 @@ function Home(props) {
         <div className="p-4 my-2 text-dark-50 bg-white" >
           <div className="font-weight-bold mb-3">{page.sectionsTitle}</div>
 
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <NavLink to="/page-list/assessment"><b>Assessments: </b></NavLink>
-                <span className="font-weight-normal">{page.assessments}</span>
-              </li>
-            </ul>
-          </div>
+          {page.categories.map((category) =>
+            <div key={category.categoryId}>
+              <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
+                <li>
+                  <NavLink to={`/page-list/${category.categoryId}`}><b>{category.pluralName}: </b></NavLink>
+                  <span className="font-weight-normal">{category.description}</span>
+                </li>
+              </ul>
+            </div>
+          )}
 
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <NavLink to="/page-list/industry"><b>Industries: </b></NavLink>
-                <span className="font-weight-normal">{page.industries}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <NavLink to="/page-list/process"><b>Processes: </b></NavLink>
-                <span className="font-weight-normal">{page.processes}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <NavLink to="/page-list/productivity"><b>Productivity: </b></NavLink>
-                <span className="font-weight-normal">{page.productivity}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <NavLink to="/page-list/technology"><b>Technologies: </b></NavLink>
-                <span className="font-weight-normal">{page.technologies}</span>
-              </li>
-            </ul>
-          </div>
           <div>
             <span className="font-italic allow-newlines">{page.sectionsFooter}</span>
           </div>
