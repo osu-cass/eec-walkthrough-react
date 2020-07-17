@@ -44,7 +44,7 @@ function CreateCategory(props) {
     };
 
     // Create new page
-    const results = await fetch("/categories/", {
+    const results = await fetch("/api/categories/", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)

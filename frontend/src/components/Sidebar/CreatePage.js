@@ -47,7 +47,7 @@ function CreatePage(props) {
     };
 
     // Create new page
-    const results = await fetch("/pages/", {
+    const results = await fetch("/api/pages/", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)

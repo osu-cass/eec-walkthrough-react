@@ -16,7 +16,16 @@ function SidebarCollection(props) {
         <Fragment>
           {props.role > 3 || props.collection.length ? (
             <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
-              {props.collectionName}
+              <Fragment>
+                {props.collectionName}
+              </Fragment>
+              <Fragment>
+                {props.internal ? (
+                  <i className="fas fa-fw fa-unlock-alt fa-sm ml-2" />
+                ) : (
+                  null
+                )}
+              </Fragment>
             </Accordion.Toggle>
           ) : (
             null
@@ -26,13 +35,23 @@ function SidebarCollection(props) {
         <Fragment>
           {props.externalLink ? (
             <a className="page-sidebar-nav-link" href={props.externalLink}>
-              <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
+              <Accordion.Toggle 
+                as={Card.Header}
+                id="sidebarCollection"
+                style={{fontSize: "1.2rem"}}
+                eventKey="0"
+              >
                 {props.collectionName}
               </Accordion.Toggle>
             </a>
           ) : (
             <NavLink className="page-sidebar-nav-link" to={`/${props.collectionLink}`}>
-              <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
+              <Accordion.Toggle 
+                as={Card.Header}
+                id="sidebarCollection"
+                style={{fontSize: "1.2rem"}}
+                eventKey="0"
+              >
                 {props.collectionName}
               </Accordion.Toggle>
             </NavLink>
@@ -63,7 +82,7 @@ function SidebarCollection(props) {
       ) : (
         null
       )}
-    </Accordion >
+    </Accordion>
 
   );
 }
@@ -79,6 +98,7 @@ SidebarCollection.propTypes = {
   refresh: PropTypes.any,
   role: PropTypes.any,
   externalLink: PropTypes.string,
-  categoryId: PropTypes.number
+  categoryId: PropTypes.number,
+  internal: PropTypes.number
 };
 
