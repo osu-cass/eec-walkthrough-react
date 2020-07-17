@@ -88,7 +88,7 @@ exports.searchPageVal = searchPageVal;
 // validation checks for post page
 const postPageVal = Object.freeze({
   validation: [
-    check("pageType").isInt({min: 1, max: 5}),
+    check("pageType").isInt({min: 1, max: 4294967295}),
     check("name").isLength({min: 1, max: 100}),
     check("title").isLength({min: 1, max: 1000}),
     check("description").isLength({min: 1, max: 5000}),
@@ -189,45 +189,6 @@ const patchCardVal = Object.freeze({
 });
 exports.patchCardVal = patchCardVal;
 
-// validation checks for get item
-const getItemVal = Object.freeze({
-  validation: [
-    check("itemId").isInt({min: 1, max: 4294967295}),
-  ]
-});
-exports.getItemVal = getItemVal;
-
-// validation checks for post item
-const postItemVal = Object.freeze({
-  validation: [
-    check("cardId").isInt({min: 1, max: 4294967295}),
-    check("indentation").isInt({min: 0, max: 4}),
-    check("iconType").isInt({min: 1, max: 65535}),
-    check("contentText").isLength({min: 0, max: 1000}),
-    check("contentUrl").isLength({min: 0, max: 1000}),
-    check("contentLabel").isLength({min: 0, max: 1000}),
-  ]
-});
-exports.postItemVal = postItemVal;
-
-// validation checks for patch item
-const patchItemVal = Object.freeze({
-  validation: [
-    check("itemId").isInt({min: 1, max: 4294967295}),
-    check("indentation").optional()
-      .isInt({min: 0, max: 4}),
-    check("iconType").optional()
-      .isInt({min: 1, max: 65535}),
-    check("contentText").optional()
-      .isLength({min: 0, max: 1000}),
-    check("contentUrl").optional()
-      .isLength({min: 0, max: 1000}),
-    check("contentLabel").optional()
-      .isLength({min: 0, max: 1000})
-  ]
-});
-exports.patchItemVal = patchItemVal;
-
 // validation checks for patch item timestamp
 const patchItemTimeVal = Object.freeze({
   validation: [
@@ -303,3 +264,11 @@ const patchSponsorsVal = Object.freeze({
   ]
 });
 exports.patchSponsorsVal = patchSponsorsVal;
+
+// validation checks for get category
+const getCategoryVal = Object.freeze({
+  validation: [
+    check("categoryId").isInt({min: 1, max: 4294967295}),
+  ]
+});
+exports.getCategoryVal = getCategoryVal;

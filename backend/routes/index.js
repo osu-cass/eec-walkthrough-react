@@ -38,6 +38,7 @@ app.use("/items", require("./items"));
 app.use("/links", require("./links"));
 app.use("/pages", require("./pages"));
 app.use("/users", require("./users"));
+app.use("/categories", require("./categories"));
 
 // unhandled requests get a 404 error
 app.all("/*", (req, res) => {

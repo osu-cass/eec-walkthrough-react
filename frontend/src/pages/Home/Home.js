@@ -83,7 +83,6 @@ function Home(props) {
 
       const obj = await results.json();
       setPage(obj);
-      console.log("HOME", obj);
 
     } else {
       console.error("Error fetching homepage content");
