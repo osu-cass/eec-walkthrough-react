@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import SidebarCollection from "./SidebarCollection";
 import {getProfile} from "../../utilities/cookieAuth";
+import CreateCategory from "./CreateCategory";
 import PropTypes from "prop-types";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -119,6 +120,10 @@ function Sidebar(props) {
               role={role}
             />
           </Card>
+          <CreateCategory
+            refresh={() => fetchData()}
+            role={role}
+          />
 
           {role === 4 ? (
             <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>

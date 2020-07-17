@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 17, 2020 at 10:50 AM
+-- Generation Time: Jul 17, 2020 at 11:29 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -135,19 +135,20 @@ CREATE TABLE `Categories` (
   `categoryId` int(10) UNSIGNED NOT NULL,
   `singleName` varchar(1000) NOT NULL,
   `pluralName` varchar(1000) NOT NULL,
-  `description` varchar(1000) NOT NULL
+  `description` varchar(1000) NOT NULL,
+  `internal` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `Categories`
 --
 
-INSERT INTO `Categories` (`categoryId`, `singleName`, `pluralName`, `description`) VALUES
-(1, 'Industry', 'Industries', 'An overview of the industry is followed by a list of common related subjects.'),
-(2, 'Technology', 'Technologies', 'An introduction to an industrial technology.'),
-(3, 'Process', 'Processes', 'An introduction to a process or technique.'),
-(4, 'Productivity', 'Productivity', 'An introduction to a specific improvement opportunity to consider.'),
-(5, 'Assessment', 'Assessments', 'An introduction to a method for evaluating or estimating.');
+INSERT INTO `Categories` (`categoryId`, `singleName`, `pluralName`, `description`, `internal`) VALUES
+(1, 'Industry', 'Industries', 'An overview of the industry is followed by a list of common related subjects.', 0),
+(2, 'Technology', 'Technologies', 'An introduction to an industrial technology.', 0),
+(3, 'Process', 'Processes', 'An introduction to a process or technique.', 0),
+(4, 'Productivity', 'Productivity', 'An introduction to a specific improvement opportunity to consider.', 0),
+(5, 'Assessment', 'Assessments', 'An introduction to a method for evaluating or estimating.', 0);
 
 -- --------------------------------------------------------
 
