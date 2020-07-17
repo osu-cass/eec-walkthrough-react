@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
@@ -8,10 +8,9 @@ import "./CreateCategory.css";
 // button and modal for creating a new category
 function CreateCategory(props) {
 
-  const [name, setName] = useState("");
-  const [summary, setSummary] = useState("");
+  const [singleName, setSingleName] = useState("");
+  const [pluralName, setPluralName] = useState("");
   const [description, setDescription] = useState("");
-  const [url, setUrl] = useState("");
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [checked, setChecked] = useState(0);
@@ -25,22 +24,10 @@ function CreateCategory(props) {
     setShow(true);
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     // Check for empty inputs
     if (checkInputs()) {
       return;
-    }
-
-    // ensure that the correct page type is generated
-    let pageType = 1;
-    if (props.collectionName === "Technologies") {
-      pageType = 2;
-    } else if (props.collectionName === "Processes") {
-      pageType = 3;
-    } else if (props.collectionName === "Productivity") {
-      pageType = 4;
-    } else if (props.collectionName === "Assessments") {
-      pageType = 5;
     }
 
     let internal = 0;
@@ -50,16 +37,14 @@ function CreateCategory(props) {
 
     // Prepare data
     const data = {
-      pageType: pageType,
-      name: name,
-      title: summary,
+      singleName: singleName,
+      pluralName: pluralName,
       description: description,
-      imageUrl: url,
       internal: internal
     };
 
     // Create new page
-    const results = await fetch("/pages/", {
+    const results = await fetch("/categories/", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
@@ -68,10 +53,9 @@ function CreateCategory(props) {
     if (results.ok) {
 
       // Reset state
-      setName("");
-      setSummary("");
+      setSingleName("");
+      setPluralName("");
       setDescription("");
-      setUrl("");
       setErrorMessage("");
       setChecked(0);
 
@@ -100,48 +84,42 @@ function CreateCategory(props) {
 
   }
 
-
   // Check for empty inputs in state before submission
   // True if empty inputs found, false if all inputs filled
   function checkInputs() {
     let emptyFound = false;
     let newErrorMessage = errorMessage;
-    // Empty url
-    if (!url.length) {
-      emptyFound = true;
-      newErrorMessage = "Error: Empty image url";
-    }
     // Empty description
     if (!description.length) {
       emptyFound = true;
-      newErrorMessage = "Error: Empty page description";
+      newErrorMessage = "Error: Empty description";
     }
     // Empty summary
-    if (!summary.length) {
+    if (!pluralName.length) {
       emptyFound = true;
-      newErrorMessage = "Error: Empty page summary";
+      newErrorMessage = "Error: Empty plural name";
     }
     // Empty name
-    if (!name.length) {
+    if (!singleName.length) {
       emptyFound = true;
-      newErrorMessage = "Error: Empty page name";
+      newErrorMessage = "Error: Empty singular name";
     }
     setErrorMessage(newErrorMessage);
     if (emptyFound) { return true; }
     return false;
   }
 
-  return props.role >= 3 ? (
-    <div className='text-center mt-2 mb-2 createPage'>
-      <Button variant="outline-info" className="createPage" onClick={() => handleShow()}>
+  return props.role >= 4 ? (
+    <div className='text-center mb-4 createPage'>
+      <Button variant="outline-info" className="createCategory" onClick={() => handleShow()}>
         <i
-          className='create-page-icon fas fa-plus-circle text-info mr-2'
+          className='create-category-icon fas fa-plus-circle text-info mr-2'
           style={{transform: "scale(1.5)"}}></i>
-            Create {props.collectionName}
+            Create Category
       </Button>
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
-          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">{props.title}</h5>
+          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Create Category</h5>
           <Button variant="none" onClick={() => handleClose()}>
             <span aria-hidden="true">&times;</span>
           </Button>
@@ -149,20 +127,21 @@ function CreateCategory(props) {
         </Modal.Header>
 
         <Modal.Body >
+
           <Row>
             <Col>
               <Form.Group controlId="formName">
-                <Form.Label className="font-weight-bold">Page Name</Form.Label>
-                <Form.Control type="text" maxLength="100" placeholder="Enter name" onChange={(e) => setName(e.target.value)} />
+                <Form.Label className="font-weight-bold">Singular Name</Form.Label>
+                <Form.Control type="text" maxLength="100" placeholder="Enter singular name" onChange={(e) => setSingleName(e.target.value)} />
               </Form.Group>
             </Col>
           </Row>
 
           <Row>
             <Col>
-              <Form.Group controlId="formSummary">
-                <Form.Label className="font-weight-bold">Summary</Form.Label>
-                <Form.Control type="text"  maxLength="1000" placeholder="Enter summary" onChange={(e) => setSummary(e.target.value)} />
+              <Form.Group controlId="formName">
+                <Form.Label className="font-weight-bold">Plural Name</Form.Label>
+                <Form.Control type="text" maxLength="100" placeholder="Enter plural name" onChange={(e) => setPluralName(e.target.value)} />
               </Form.Group>
             </Col>
           </Row>
@@ -170,10 +149,10 @@ function CreateCategory(props) {
           <Row>
             <Col>
               <Form.Group controlId="formDescription">
-                <Form.Label className="font-weight-bold">Brief Description</Form.Label>
+                <Form.Label className="font-weight-bold">Description</Form.Label>
                 <Form.Control
                   as="textarea"
-                  maxLength="5000"
+                  maxLength="1000"
                   rows="4"
                   placeholder="Enter description"
                   onChange={(e) => setDescription(e.target.value)}
@@ -181,15 +160,6 @@ function CreateCategory(props) {
                     maxHeight: "500px"
                   }}
                 />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <Form.Group controlId="formURL">
-                <Form.Label className="font-weight-bold">Image URL</Form.Label>
-                <Form.Control type="text" maxLength="1000" placeholder="Enter URL" onChange={(e) => setUrl(e.target.value)} />
               </Form.Group>
             </Col>
           </Row>
@@ -225,7 +195,7 @@ function CreateCategory(props) {
 
         <Modal.Footer className="modal-footer">
           <Button variant="secondary" onClick={() => handleClose()}>Close</Button>
-          <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Page</Button>
+          <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Category</Button>
         </Modal.Footer>
       </Modal>
     </div >
@@ -237,9 +207,6 @@ function CreateCategory(props) {
 export default CreateCategory;
 
 CreateCategory.propTypes = {
-  title: PropTypes.string,
-  icons: PropTypes.array,
-  collectionName: PropTypes.any,
   role: PropTypes.any,
   refresh: PropTypes.any
 };

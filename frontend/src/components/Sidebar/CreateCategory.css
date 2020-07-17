@@ -1,14 +1,14 @@
-.createPage {
+.createCategory {
   max-width: 100%;
   border-color: #faa945 !important;
   color: #faa945;
 }
 
-.create-page-icon {
+.create-category-icon {
   color: #faa945 !important;
 }
 
- .createPage:hover.btn {
+ .createCategory:hover.btn {
   background-color: #faa945 !important;
 }
 

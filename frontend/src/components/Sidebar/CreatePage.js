@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
@@ -25,7 +25,7 @@ function CreatePage(props) {
     setShow(true);
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     // Check for empty inputs
     if (checkInputs()) {
       return;
@@ -99,7 +99,6 @@ function CreatePage(props) {
     }
 
   }
-
 
   // Check for empty inputs in state before submission
   // True if empty inputs found, false if all inputs filled
@@ -238,7 +237,6 @@ export default CreatePage;
 
 CreatePage.propTypes = {
   title: PropTypes.string,
-  icons: PropTypes.array,
   collectionName: PropTypes.any,
   role: PropTypes.any,
   refresh: PropTypes.any
