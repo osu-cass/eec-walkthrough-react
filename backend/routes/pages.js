@@ -16,8 +16,6 @@ const {
   searchPageVal
 } = require("../services/validation/requestValidation");
 const {
-  getPage,
-  getPages,
   getFullPage,
   searchPages,
   createPage,
@@ -27,69 +25,6 @@ const {
   publishPage,
   unpublishPage
 } = require("../models/pages");
-
-
-// get information about all pages
-app.get("/all", getUserID, async (req, res) => {
-
-  try {
-
-    console.log("Get a list of all pages");
-
-    // check if the current user should see all or only some of the pages
-    let viewAll = false;
-    if (await roleCheck(2, req.auth.userId)) {
-      viewAll = true;
-    }
-
-    // get a list of all pages sorted by their type
-    const results = await getPages(viewAll);
-    res.status(200).send(results);
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({error: "An internal server error occurred. Please try again later."});
-  }
-
-});
-
-
-// get information about a single page
-app.get("/:pageId", getUserID, getPageVal.validation, async (req, res) => {
-
-  try {
-
-    const pageId = req.params.pageId;
-    console.log("Get page", pageId);
-
-    // confirm that the request is valid
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      console.error(errors.array());
-      return res.status(422).json({errors: errors.array()});
-    }
-
-    // check if the current user should be able to view this content
-    let viewAll = false;
-    if (await roleCheck(2, req.auth.userId)) {
-      viewAll = true;
-    }
-
-    // get page data
-    const results = await getPage(pageId, viewAll);
-
-    if (results.pageId === 0) {
-      res.status(404).send({error: "Page not found."});
-    } else {
-      res.status(200).send(results);
-    }
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({error: "An internal server error occurred. Please try again later."});
-  }
-
-});
 
 
 // get all of the page info, headers, cards, and items for a single page

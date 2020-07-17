@@ -58,73 +58,49 @@ function App() {
       />
       <Switch>
 
-        <Route path='/technologies/:pageId'>
+        <Route path="/wiki/:category/:pageId">
           <ContentPage
             handlePageEdit={() => handlePageEdit()}
           />
         </Route>
 
-        <Route path='/processes/:pageId'>
-          <ContentPage
-            handlePageEdit={() => handlePageEdit()}
-          />
-        </Route>
-
-        <Route path='/productivity/:pageId'>
-          <ContentPage
-            handlePageEdit={() => handlePageEdit()}
-          />
-        </Route>
-
-        <Route path='/assessments/:pageId'>
-          <ContentPage
-            handlePageEdit={() => handlePageEdit()}
-          />
-        </Route>
-
-        <Route path='/industries/:pageId'>
-          <ContentPage
-            handlePageEdit={() => handlePageEdit()}
-          />
-        </Route>
-
-        <Route path='/search/:searchId'>
+        <Route path="/search/:searchId">
           <Search />
         </Route>
 
-        <Route path='/page-list/:pageName'>
+        <Route path="/page-list/:pageName">
           <PageList />
         </Route>
 
-        <Route path='/manage-icons'>
+        <Route path="/manage-icons">
           <ManageIcons />
         </Route>
 
-        <Route path='/manage-links'>
+        <Route path="/manage-links">
           <ManageLinks />
         </Route>
 
-        <Route path='/manage-users'>
+        <Route path="/manage-users">
           <ManageUsers />
         </Route>
 
-        <Route path='/register-user'>
+        <Route path="/register-user">
           <RegisterUser />
         </Route>
 
-        <Route path='/edit-user'>
+        <Route path="/edit-user">
           <EditUser handleNameChange={() => handleNameChange()} />
         </Route>
 
-        <Route path='/500'>
+        <Route path="/500">
           <Error500 />
         </Route>
 
-        <Route exact path='/'>
+        <Route exact path="/">
           <Home loginStatusChange={loginStatusChange} />
         </Route>
 
-        <Route path='*'>
+        <Route path="*">
           <Error404 />
         </Route>
 

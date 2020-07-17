@@ -22,9 +22,20 @@ async function getHome(viewAll) {
 
     // get all of the different page categories based on the users role
     if (viewAll) {
-      sql = "SELECT * FROM Categories ORDER BY pluralName ASC;";
+      sql = "SELECT DISTINCT categoryId, pluralName, singleName, C.description, C.internal " +
+      "FROM Categories AS C " +
+      "INNER JOIN Pages " +
+      "ON categoryId = pageType " +
+      "ORDER BY pluralName ASC;";
     } else {
-      sql = "SELECT * FROM Categories WHERE internal = 0 ORDER BY pluralName ASC;";
+      sql = "SELECT DISTINCT categoryId, pluralName, singleName, C.description, C.internal " +
+      "FROM Categories AS C " +
+      "INNER JOIN Pages AS P " +
+      "ON categoryId = pageType " +
+      "WHERE C.internal = 0 " +
+      "AND P.internal = 0 " +
+      "AND P.approved = 1 " +
+      "ORDER BY pluralName ASC;";
     }
     results = await pool.query(sql, []);
 

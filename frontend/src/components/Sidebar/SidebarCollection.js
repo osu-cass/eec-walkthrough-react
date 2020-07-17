@@ -56,6 +56,7 @@ function SidebarCollection(props) {
               collectionName={props.collectionName}
               refresh={props.refresh}
               role={props.role}
+              categoryId={props.categoryId}
             />
           </Fragment>
         </Accordion.Collapse>
@@ -77,6 +78,7 @@ SidebarCollection.propTypes = {
   closedSidebar: PropTypes.any,
   refresh: PropTypes.any,
   role: PropTypes.any,
-  externalLink: PropTypes.string
+  externalLink: PropTypes.string,
+  categoryId: PropTypes.number
 };
 
