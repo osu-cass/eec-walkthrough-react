@@ -68,7 +68,7 @@ function App() {
           <Search />
         </Route>
 
-        <Route path="/page-list/:pageName">
+        <Route path="/page-list/:categoryId">
           <PageList />
         </Route>
 
