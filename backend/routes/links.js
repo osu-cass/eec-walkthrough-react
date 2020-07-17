@@ -6,11 +6,13 @@ const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
   getLinks,
-  updateLink
+  updateLink,
+  updateLinkTime
 } = require("../models/links");
 const {
   getLinkVal,
-  patchLinkVal
+  patchLinkVal,
+  patchLinkTimeVal
 } = require("../services/validation/requestValidation");
 const {
   requireAuth,
@@ -82,6 +84,52 @@ app.patch("/:linkId", requireAuth, patchLinkVal.validation, async (req, res) => 
       res.status(200).send(results);
     } else {
       res.status(404).send({error: "No links found."});
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// update a links timestamp for last confirmed valid
+app.patch("/:linkId/timestamp", requireAuth, patchLinkTimeVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update a link's timestamp");
+
+    const linkId = req.params.linkId;
+    const deadLink = req.body.deadLink;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to update link timestamp."});
+      return;
+    }
+
+    // update a links timestamp
+    const results = await updateLinkTime(linkId, deadLink);
+
+    if (typeof results.timestamp !== "undefined") {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Link not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
     }
 
   } catch (err) {
