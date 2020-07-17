@@ -46,7 +46,8 @@ function App() {
     <main>
       <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
       <NavBar
-        openSidebar={() => openSidebar()} nameChange={nameChange}
+        nameChange={nameChange}
+        openSidebar={() => openSidebar()}
         handleLoginStatusChange={() => handleLoginStatusChange()}
       />
       <Sidebar
