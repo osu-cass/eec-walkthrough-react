@@ -59,7 +59,7 @@ function EditHeader(props) {
       internal: internal
     };
 
-    const results = await fetch(`/headers/${props.header.headerId}`, {
+    const results = await fetch(`/api/headers/${props.header.headerId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
@@ -138,7 +138,7 @@ function EditHeader(props) {
   async function deleteHeader() {
     setShowLoad(true);
 
-    const results = await fetch(`/headers/${props.header.headerId}`, {
+    const results = await fetch(`/api/headers/${props.header.headerId}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });

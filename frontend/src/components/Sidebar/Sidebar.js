@@ -83,7 +83,7 @@ function Sidebar(props) {
               <SidebarCollection
                 key={category.categoryId}
                 collectionName={category.pluralName}
-                collectionLink={`wiki/${category.pluralName.toLowerCase()}`}
+                collectionLink={`wiki/${category.pluralName.replace(/\s+/g, '-').toLowerCase()}`}
                 collection={category.pages}
                 categoryId={category.categoryId}
                 internal={category.internal}

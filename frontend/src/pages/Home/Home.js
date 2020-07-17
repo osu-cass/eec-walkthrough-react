@@ -52,7 +52,7 @@ function Home(props) {
     setLoading(true);
 
     // Fetch all icons
-    let results = await fetch(`/icons/all`);
+    let results = await fetch(`/api/icons/all`);
 
     if (results.ok) {
 
@@ -77,7 +77,7 @@ function Home(props) {
     }
 
     // Fetch all homepage content
-    results = await fetch(`/home`);
+    results = await fetch(`/api/home`);
 
     if (results.ok) {
 
@@ -89,7 +89,7 @@ function Home(props) {
     }
 
      // Fetch all sponsors
-     results = await fetch(`/home/sponsors`);
+     results = await fetch(`/api/home/sponsors`);
      if (results.ok) {
 
       const obj = await results.json();

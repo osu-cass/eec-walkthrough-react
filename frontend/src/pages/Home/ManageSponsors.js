@@ -52,7 +52,7 @@ function ManageSponsors(props) {
       sponsors: newSponsors
     };
 
-    const results = await fetch(`/home/sponsors`, {
+    const results = await fetch(`/api/home/sponsors`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)

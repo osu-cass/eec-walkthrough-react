@@ -61,7 +61,7 @@ function Search(props) {
       }
 
       // construct the request url
-      const getUrl = `/pages/search/${textValue}` +
+      const getUrl = `/api/pages/search/${textValue}` +
         `/${cursor.primary}/${cursor.secondary}`;
       let obj = [];
 

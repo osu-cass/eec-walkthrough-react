@@ -84,7 +84,7 @@ function EditPage(props) {
       pageType: newPageType
     };
 
-    const results = await fetch(`/pages/${props.page.pageId}`, {
+    const results = await fetch(`/api/pages/${props.page.pageId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
@@ -180,7 +180,7 @@ function EditPage(props) {
   async function deletePage() {
     setShowLoad(true);
 
-    const results = await fetch(`/pages/${props.page.pageId}`, {
+    const results = await fetch(`/api/pages/${props.page.pageId}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });

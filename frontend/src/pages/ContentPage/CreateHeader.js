@@ -39,7 +39,7 @@ class CreateHeader extends React.Component {
     };
 
     // Create new header
-    const results = await fetch("/headers/", {
+    const results = await fetch("/api/headers/", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)

@@ -36,7 +36,7 @@ function ReviewHeader(props) {
     }
 
     // Unpublish the header
-    const results = await fetch(`/headers/${props.header.headerId}/unpublish`, {
+    const results = await fetch(`/api/headers/${props.header.headerId}/unpublish`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });
@@ -94,7 +94,7 @@ function ReviewHeader(props) {
     }
 
     // Approve the header
-    const results = await fetch(`/headers/${props.header.headerId}/publish`, {
+    const results = await fetch(`/api/headers/${props.header.headerId}/publish`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });
@@ -173,7 +173,7 @@ function ReviewHeader(props) {
     }
 
     // delete proposed changes
-    const results = await fetch(`/headers/${props.header.headerId}/changes`, {
+    const results = await fetch(`/api/headers/${props.header.headerId}/changes`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });

@@ -81,7 +81,7 @@ function EditHome(props) {
       disclaimerText: disclaimerText
     };
 
-    const results = await fetch(`/home`, {
+    const results = await fetch(`/api/home`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
