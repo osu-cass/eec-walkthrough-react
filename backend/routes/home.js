@@ -52,11 +52,6 @@ app.patch("/", requireAuth, patchHomeVal.validation, async (req, res) => {
     const mainHeader = req.body.mainHeader;
     const secondaryHeader = req.body.secondaryHeader;
     const sectionsTitle = req.body.sectionsTitle;
-    const assessments = req.body.assessments;
-    const industries = req.body.industries;
-    const processes = req.body.processes;
-    const productivity = req.body.productivity;
-    const technologies = req.body.technologies;
     const sectionsFooter = req.body.sectionsFooter;
     const tidbitsHeader = req.body.tidbitsHeader;
     const tidbitsTitle = req.body.tidbitsTitle;
@@ -84,10 +79,9 @@ app.patch("/", requireAuth, patchHomeVal.validation, async (req, res) => {
 
     // update a page
     const results = await updateHome(mainHeader, secondaryHeader, sectionsTitle,
-      assessments, industries, processes, productivity, technologies, sectionsFooter,
-      tidbitsHeader, tidbitsTitle, tidbitsFooter, linksHeader, linksTitlePrefix,
-      linksTitlePostfixInternal, linksTitlePostfixDownload, linksFooter,
-      disclaimerHeader, disclaimerText);
+      sectionsFooter, tidbitsHeader, tidbitsTitle, tidbitsFooter, linksHeader,
+      linksTitlePrefix, linksTitlePostfixInternal, linksTitlePostfixDownload,
+      linksFooter, disclaimerHeader, disclaimerText);
 
     if (results.homePageUpdated) {
       res.status(200).send(results);
