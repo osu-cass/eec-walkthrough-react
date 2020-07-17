@@ -23,12 +23,7 @@ function Sidebar(props) {
     setRole(user.role);
     fetchData();
 
-  }, [props.loginStatusChange]);
-
-  // fetch page data on page edit
-  useEffect(() => {
-    fetchData();
-  }, [props.pageEdit]);
+  }, [props.loginStatusChange, props.pageEdit]);
 
   // check for a click outside of the sidebar
   // if a click is detected, then close the sidebar
