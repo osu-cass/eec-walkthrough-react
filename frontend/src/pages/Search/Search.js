@@ -73,6 +73,11 @@ function Search(props) {
         // if the cursor is new then we will want to relist pages
         obj = await results.json();
 
+        // add a search link to each new page
+        for (let i = 0; i < obj.pages.length; i++) {
+          obj.pages[i].url = `/wiki/search-results/${obj.pages[i].pageId}`;
+        }
+
         if (cursor.primary === "null") {
           setPages([...obj.pages]);
         } else {
@@ -82,11 +87,7 @@ function Search(props) {
 
         // if there is only one result, then go to the page
         if (obj.pages.length === 1) {
-          if (obj.pages[0].pageType) {
-            props.history.push(`/subjects/${obj.pages[0].pageId}`);
-          } else {
-            props.history.push(`/industries/${obj.pages[0].pageId}`);
-          }
+          props.history.push(`/wiki/search-results/${obj.pages[0].pageId}`);
         }
 
       } else {
