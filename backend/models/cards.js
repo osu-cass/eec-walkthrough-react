@@ -4,43 +4,6 @@
 const {pool} = require("../services/database/mysqlPool");
 
 
-// return information about the specific card
-async function getCard(cardId, viewAll) {
-
-  try {
-
-    let sql = "";
-
-    // get the specified card
-    if (viewAll) {
-      sql = "SELECT * " +
-      "FROM Cards " +
-      "WHERE cardId = ?;";
-    } else {
-      sql = "SELECT * " +
-      "FROM Cards " +
-      "WHERE cardId = ? " +
-      "AND approved = 1;";
-    }
-
-    const results = await pool.query(sql, cardId);
-
-    // check to see if we were able to find the card
-    if (!results[0].length) {
-      return {cardId: 0};
-    }
-
-    return results[0][0];
-
-  } catch (err) {
-    console.error("Error searching for card");
-    throw Error(err);
-  }
-
-}
-exports.getCard = getCard;
-
-
 // create a card
 async function createCard(headerId, cardType, title, items, userId) {
 
