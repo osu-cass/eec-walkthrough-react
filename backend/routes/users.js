@@ -162,11 +162,11 @@ app.post("/", postUserVal.validation, async (req, res) => {
     }
 
     // don't allow spaces in the input
-    const username = req.body.username.replace(/\s/g, "");
+    const username = req.body.username.replace(/\s/g, "").trim();
     const password = req.body.password;
-    const firstName = req.body.firstName.replace(/\s/g, "");
-    const lastName = req.body.lastName.replace(/\s/g, "");
-    const email = req.body.email.replace(/\s/g, "");
+    const firstName = req.body.firstName.replace(/\s/g, "").trim();
+    const lastName = req.body.lastName.replace(/\s/g, "").trim();
+    const email = req.body.email.replace(/\s/g, "").trim();
 
     // create a user
     const results = await createUser(username, password, firstName, lastName, email);
@@ -226,16 +226,16 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
 
     // don't allow spaces in the input
     if (typeof username === "string") {
-      username = username.replace(/\s/g, "");
+      username = username.replace(/\s/g, "").trim();
     }
     if (typeof firstName === "string") {
-      firstName = firstName.replace(/\s/g, "");
+      firstName = firstName.replace(/\s/g, "").trim();
     }
     if (typeof lastName === "string") {
-      lastName = lastName.replace(/\s/g, "");
+      lastName = lastName.replace(/\s/g, "").trim();
     }
     if (typeof email === "string") {
-      email = email.replace(/\s/g, "");
+      email = email.replace(/\s/g, "").trim();
     }
 
     // confirm that if the role is being changed, the current user is an admin

@@ -123,10 +123,10 @@ app.post("/", requireAuth, postPageVal.validation, async (req, res) => {
     }
 
     const pageType = req.body.pageType;
-    const name = req.body.name;
-    const title = req.body.title;
-    const description = req.body.description;
-    const imageUrl = req.body.imageUrl;
+    const name = req.body.name.trim();
+    const title = req.body.title.trim();
+    const description = req.body.description.trim();
+    const imageUrl = req.body.imageUrl.trim();
     const internal = req.body.internal;
     const userId = req.auth.userId;
 
@@ -256,10 +256,10 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
 
     const pageId = req.params.pageId;
     const pageType = req.body.pageType;
-    const name = req.body.name;
-    const title = req.body.title;
-    const description = req.body.description;
-    const imageUrl = req.body.imageUrl;
+    const name = req.body.name.trim();
+    const title = req.body.title.trim();
+    const description = req.body.description.trim();
+    const imageUrl = req.body.imageUrl.trim();
     const internal = req.body.internal;
     const userId = req.auth.userId;
 

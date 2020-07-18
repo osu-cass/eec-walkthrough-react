@@ -56,20 +56,20 @@ app.patch("/", requireAuth, patchHomeVal.validation, async (req, res) => {
 
     console.log("Update the homepage");
 
-    const mainHeader = req.body.mainHeader;
-    const secondaryHeader = req.body.secondaryHeader;
-    const sectionsTitle = req.body.sectionsTitle;
-    const sectionsFooter = req.body.sectionsFooter;
-    const tidbitsHeader = req.body.tidbitsHeader;
-    const tidbitsTitle = req.body.tidbitsTitle;
-    const tidbitsFooter = req.body.tidbitsFooter;
-    const linksHeader = req.body.linksHeader;
-    const linksTitlePrefix = req.body.linksTitlePrefix;
-    const linksTitlePostfixInternal = req.body.linksTitlePostfixInternal;
-    const linksTitlePostfixDownload = req.body.linksTitlePostfixDownload;
-    const linksFooter = req.body.linksFooter;
-    const disclaimerHeader = req.body.disclaimerHeader;
-    const disclaimerText = req.body.disclaimerText;
+    const mainHeader = req.body.mainHeader.trim();
+    const secondaryHeader = req.body.secondaryHeader.trim();
+    const sectionsTitle = req.body.sectionsTitle.trim();
+    const sectionsFooter = req.body.sectionsFooter.trim();
+    const tidbitsHeader = req.body.tidbitsHeader.trim();
+    const tidbitsTitle = req.body.tidbitsTitle.trim();
+    const tidbitsFooter = req.body.tidbitsFooter.trim();
+    const linksHeader = req.body.linksHeader.trim();
+    const linksTitlePrefix = req.body.linksTitlePrefix.trim();
+    const linksTitlePostfixInternal = req.body.linksTitlePostfixInternal.trim();
+    const linksTitlePostfixDownload = req.body.linksTitlePostfixDownload.trim();
+    const linksFooter = req.body.linksFooter.trim();
+    const disclaimerHeader = req.body.disclaimerHeader.trim();
+    const disclaimerText = req.body.disclaimerText.trim();
 
     // confirm that the request is valid
     const errors = validationResult(req);
