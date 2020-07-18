@@ -100,7 +100,7 @@ function EditPage(props) {
         newPage = {
           approved: props.page.approved,
           created: props.page.created,
-          description: props.page.description,
+          description: props.page.description.trim(),
           imageUrl: props.page.imageUrl,
           name: props.page.name,
           title: props.page.title,
@@ -111,7 +111,7 @@ function EditPage(props) {
           tempPageType: newPageType,
           tempInternal: internal,
           tempPageId: props.page.pageId,
-          tempDescription: description,
+          tempDescription: description.trim(),
           tempImageUrl: url,
           tempName: title,
           tempTitle: summary,
@@ -127,7 +127,7 @@ function EditPage(props) {
           created: new Date().toISOString()
             .slice(0, 19)
             .replace("T", " "),
-          description: description,
+          description: description.trim(),
           imageUrl: url,
           name: title,
           title: summary,
@@ -138,7 +138,7 @@ function EditPage(props) {
           tempPageType: props.page.tempPageType,
           tempInternal: props.page.tempInternal,
           tempPageId: props.page.tempPageId,
-          tempDescription: props.page.tempDescription,
+          tempDescription: props.page.tempDescription.trim(),
           tempImageUrl: props.page.tempImageUrl,
           tempName: props.page.tempName,
           tempTitle: props.page.tempTitle,

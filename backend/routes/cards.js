@@ -81,7 +81,7 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
 
     const headerId = req.body.headerId;
     const cardType = req.body.cardType;
-    const title = req.body.title;
+    const title = req.body.title.trim();
     const items = req.body.items;
     const userId = req.auth.userId;
 
@@ -215,7 +215,7 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
 
     const cardId = req.params.cardId;
     const cardType = req.body.cardType;
-    const title = req.body.title;
+    const title = req.body.title.trim();
     const items = req.body.items;
     const userId = req.auth.userId;
 

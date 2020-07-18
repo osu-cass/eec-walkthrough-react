@@ -80,7 +80,7 @@ app.post("/", requireAuth, postHeaderVal.validation, async (req, res) => {
     }
 
     const pageId = req.body.pageId;
-    const title = req.body.title;
+    const title = req.body.title.trim();
     const internal = req.body.internal;
     const userId = req.auth.userId;
 
@@ -211,7 +211,7 @@ app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res)
     console.log("Update a header");
 
     const headerId = req.params.headerId;
-    const title = req.body.title;
+    const title = req.body.title.trim();
     const internal = req.body.internal;
     const userId = req.auth.userId;
 

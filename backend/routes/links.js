@@ -62,7 +62,7 @@ app.patch("/:linkId", requireAuth, patchLinkVal.validation, async (req, res) => 
     console.log("Update a link");
 
     const linkId = req.params.linkId;
-    const url = req.body.url;
+    const url = req.body.url.trim();
 
     // confirm that the request is valid
     const errors = validationResult(req);
