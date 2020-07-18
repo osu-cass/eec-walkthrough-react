@@ -4,16 +4,20 @@
 const express = require("express");
 const app = express();
 const {validationResult} = require("express-validator");
+const {formatAlphanumeric} = require("../services/format/formatAlphanumeric");
 const {
   roleCheck,
-  getUserID
+  getUserID,
+  requireAuth
 } = require("../services/authentication/cookieAuth");
 const {
-  getCategoryVal
+  getCategoryVal,
+  postCategoryVal
 } = require("../services/validation/requestValidation");
 const {
   getCategory,
   getCategories,
+  createCategory
 } = require("../models/categories");
 
 
@@ -70,6 +74,55 @@ app.get("/:categoryId", getUserID, getCategoryVal.validation, async (req, res) =
       res.status(404).send({error: "Category not found."});
     } else {
       res.status(200).send(results);
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// create a category
+app.post("/", requireAuth, postCategoryVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Create a new category");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const singleName = formatAlphanumeric(req.body.singleName).trim();
+    const pluralName = formatAlphanumeric(req.body.pluralName).trim();
+    const description = req.body.description.trim();
+    const internal = req.body.internal;
+    const userId = req.auth.userId;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to create page."});
+      return;
+    }
+
+    // create a category
+    const results = await createCategory(singleName, pluralName, description, userId, internal);
+
+    if (results.insertId) {
+      res.status(201).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(403).send({error: "Category already exists."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
     }
 
   } catch (err) {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 17, 2020 at 11:29 AM
+-- Generation Time: Jul 17, 2020 at 08:12 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -120,7 +120,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (126, 37, 0, 126, 'Common Technologies Used in Wastewater (covered elsewhere in this guide)', 51, '2020-07-07 20:57:07', 0),
 (127, 18, 0, 127, '3', 42, '2020-07-07 21:21:54', 0),
 (128, 18, 10, 128, 'eoowerwerwer', 42, '2020-07-07 21:23:36', 1),
-(129, 40, 0, 129, 'Heat Exchangers', 58, '2020-07-10 18:20:49', 0),
+(129, 40, 0, 129, 'Heat Exchangers', 57, '2020-07-10 18:20:49', 0),
 (130, 40, 0, 130, 'Insulation', 55, '2020-07-10 18:36:22', 0),
 (131, 40, 0, 131, 'Cooling Towers', 58, '2020-07-10 18:45:42', 0),
 (132, 21, 2, 132, 'New Card', 42, '2020-07-14 21:20:02', 0);
@@ -136,19 +136,21 @@ CREATE TABLE `Categories` (
   `singleName` varchar(1000) NOT NULL,
   `pluralName` varchar(1000) NOT NULL,
   `description` varchar(1000) NOT NULL,
-  `internal` int(10) UNSIGNED NOT NULL
+  `internal` int(10) UNSIGNED NOT NULL,
+  `userId` int(10) UNSIGNED NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `Categories`
 --
 
-INSERT INTO `Categories` (`categoryId`, `singleName`, `pluralName`, `description`, `internal`) VALUES
-(1, 'Industry', 'Industries', 'An overview of the industry is followed by a list of common related subjects.', 0),
-(2, 'Technology', 'Technologies', 'An introduction to an industrial technology.', 0),
-(3, 'Process', 'Processes', 'An introduction to a process or technique.', 0),
-(4, 'Productivity', 'Productivity', 'An introduction to a specific improvement opportunity to consider.', 0),
-(5, 'Assessment', 'Assessments', 'An introduction to a method for evaluating or estimating.', 0);
+INSERT INTO `Categories` (`categoryId`, `singleName`, `pluralName`, `description`, `internal`, `userId`, `created`) VALUES
+(1, 'Industry', 'Industries', 'An overview of the industry is followed by a list of common related subjects.', 0, 42, '2020-07-18 03:11:32'),
+(2, 'Technology', 'Technologies', 'An introduction to an industrial technology.', 0, 42, '2020-07-18 03:11:32'),
+(3, 'Process', 'Processes', 'An introduction to a process or technique.', 0, 42, '2020-07-18 03:11:32'),
+(4, 'Productivity', 'Productivity', 'An introduction to a specific improvement opportunity to consider.', 0, 42, '2020-07-18 03:11:32'),
+(5, 'Assessment', 'Assessments', 'An introduction to a method for evaluating or estimating.', 0, 42, '2020-07-18 03:11:32');
 
 -- --------------------------------------------------------
 
@@ -311,10 +313,10 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (30, 17, 2, 0, 7, 'Well sized compressed air lines reduce pressure loss', '', '', 0, '2020-05-23 22:30:58', 1),
 (31, 17, 3, 0, 7, 'A well designed compressed air system should typically have a maximum 10 PSI pressure drop in delivering air to at any end-use in the system', '', '', 0, '2020-05-23 22:31:00', 1),
 (32, 13, 1, 0, 2, 'Extremely energy intensive. ', '', '', 0, '2020-05-23 22:52:18', 1),
-(33, 18, 1, 0, 3, 'Expect a 1% drop in compressor energy and cost per 2 PSI in compressor outlet pressure drop', '', '', 0, '2020-06-10 03:40:49', 1),
-(34, 18, 1, 0, 3, '85 PSI is the standard required minimum inlet pressure for most common industrial pneumatic equipment', '', '', 0, '2020-06-10 03:40:49', 1),
-(36, 18, 1, 0, 3, '80 to 90% of energy for compressed air is lost as heat', '', '', 0, '2020-06-10 03:40:49', 1),
-(37, 19, 1, 0, 8, 'Use a pressure gage with standard quick connects typically used in compressed air lines to diagnose line pressure drops', '', '', 0, '2020-05-23 22:33:25', 1),
+(33, 18, 1, 0, 3, 'Expect a 1% drop in compressor energy and cost per 2 PSI in compressor outlet pressure drop', '', '', 0, '2020-07-18 00:08:08', 1),
+(34, 18, 1, 0, 3, '85 PSI is the standard required minimum inlet pressure for most common industrial pneumatic equipment', '', '', 0, '2020-07-18 00:08:07', 1),
+(36, 18, 1, 0, 3, '80 to 90% of energy for compressed air is lost as heat', '', '', 0, '2020-07-18 00:08:04', 1),
+(37, 19, 1, 0, 8, 'Use a pressure gage with standard quick connects typically used in compressed air lines to diagnose line pressure drops', '', '', 0, '2020-07-18 00:08:04', 1),
 (43, 13, 1, 0, 2, 'Function provided can often be replace with significantly lower power approach.', '', '', 0, '2020-06-09 19:50:02', 1),
 (162, 9, 1, 0, 1, 'Can be used as an easy quick fix for many issues', '', '', 0, '2020-06-22 19:18:35', 1),
 (163, 9, 1, 0, 1, 'Familiar utility for industrial personnel', '', '', 0, '2020-06-22 19:18:36', 1),
@@ -638,16 +640,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2322, 101, 0, 0, 11, 'Install an economizer  (Matt)', '', '', 0, '2020-07-10 18:53:47', 0),
 (2323, 101, 0, 0, 11, 'Install a condensing economizer  (Matt)', '', '', 0, '2020-07-10 18:53:47', 0),
 (2324, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, '2020-07-10 18:54:00', 0),
-(2325, 105, 0, 0, 11, 'Recover Flash Steam (Chris) ', '', '', 0, '2020-07-10 18:54:00', 0),
-(2326, 129, 0, 0, 11, 'Pre-heat combustion air (Adam)', '', '', 0, '2020-07-10 18:54:39', 0);
+(2325, 105, 0, 0, 11, 'Recover Flash Steam (Chris) ', '', '', 0, '2020-07-10 18:54:00', 0);
 INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
-(2327, 129, 0, 1, 13, 'Air-to-air heat transfer (regenerators/recuperators)', '', '', 0, '2020-07-10 18:54:39', 0),
-(2328, 129, 0, 0, 11, 'Install a heat pipe to recovery process heat (Matt)', '', '', 0, '2020-07-10 18:54:39', 0),
-(2329, 129, 0, 1, 13, 'Air-to-air heat transfer (typically for 150-850 ˚F processes)', '', '', 0, '2020-07-10 18:54:39', 0),
-(2330, 129, 0, 0, 11, 'Install a shell and tube heat exchanger to recover process heat (Matt)', '', '', 0, '2020-07-10 18:54:39', 0),
-(2331, 129, 0, 1, 13, 'Liquid-to-liquid heat transfer ', '', '', 0, '2020-07-10 18:54:39', 0),
-(2332, 129, 0, 0, 11, 'Install an economizer to pre-heat boiler make-up water (Matt)', '', '', 0, '2020-07-10 18:54:39', 0),
-(2333, 129, 0, 1, 13, 'Air-to-liquid heat transfer ', '', '', 0, '2020-07-10 18:54:39', 0),
 (2342, 80, 0, 0, 15, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.!!!!!', '', '', 0, '2020-07-14 07:42:37', 0),
 (2343, 80, 0, 1, 13, 'Nulla suscipit enim aliquet turpis iaculis accumsan.', '', '', 0, '2020-07-14 07:42:37', 0),
 (2344, 80, 0, 1, 13, 'Aliquam scelerisque tellus nec lectus blandit condimentum.', '', '', 0, '2020-07-14 07:42:37', 0),
@@ -703,7 +697,45 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2403, 59, 0, 0, 20, '', 'http://placekitten.com/1500/2000', 'AC Cat 10', 0, '2020-07-15 01:38:06', 0),
 (2404, 59, 0, 0, 20, '', 'http://placekitten.com/200/200', 'AC Cat 11', 0, '2020-07-15 01:38:06', 0),
 (2405, 59, 0, 0, 20, '', 'http://placekitten.com/500/1200', 'AC Cat 12', 0, '2020-07-15 01:38:06', 0),
-(2406, 59, 0, 0, 20, '', 'https://lh3.googleusercontent.com/5txwxOa3FQYd0ohKkBE0C2xxVeAb2HBzJSjvGqSZ3JzfWOzgiqAEJFYe90bQQDzU0ZIS_3XSY3SHVUxI_CBDjcPpqNyECMkI0RnVNti1xLvN745Zci9m2QzfaHbdjhVKSkBmiAj_1g', 'TEST', 0, '2020-07-15 01:38:06', 0);
+(2406, 59, 0, 0, 20, '', 'https://lh3.googleusercontent.com/5txwxOa3FQYd0ohKkBE0C2xxVeAb2HBzJSjvGqSZ3JzfWOzgiqAEJFYe90bQQDzU0ZIS_3XSY3SHVUxI_CBDjcPpqNyECMkI0RnVNti1xLvN745Zci9m2QzfaHbdjhVKSkBmiAj_1g', 'TEST', 0, '2020-07-15 01:38:06', 0),
+(2639, 129, 0, 0, 11, 'Pre-heat combustion air (Adam)', '', '', 0, '2020-07-18 00:09:29', 0),
+(2640, 129, 0, 1, 13, 'Air-to-air heat transfer (regenerators/recuperators)', '', '', 0, '2020-07-18 00:09:29', 0),
+(2641, 129, 0, 0, 11, 'Install a heat pipe to recovery process heat (Matt)', '', '', 0, '2020-07-18 00:09:29', 0),
+(2642, 129, 0, 1, 13, 'Air-to-air heat transfer (typically for 150-850 ˚F processes)', '', '', 0, '2020-07-18 00:09:29', 0),
+(2643, 129, 0, 0, 11, 'Install a shell and tube heat exchanger to recover process heat (Matt)', '', '', 0, '2020-07-18 00:09:29', 0),
+(2644, 129, 0, 1, 13, 'Liquid-to-liquid heat transfer ', '', '', 0, '2020-07-18 00:09:29', 0),
+(2645, 129, 0, 0, 11, 'Install an economizer to pre-heat boiler make-up water (Matt)', '', '', 0, '2020-07-18 00:09:29', 0),
+(2646, 129, 0, 1, 13, 'Air-to-liquid heat transfer ', '', '', 0, '2020-07-18 00:09:29', 0),
+(2647, 129, 0, 0, 11, 'Install a Heat Exchanger Between Two Liquid Flows', '', '', 0, '2020-07-18 00:09:29', 0),
+(2648, 129, 0, 1, 10, 'Two fluid flows with a large temperature difference where at least one stream requires heat treatment.', '', '', 0, '2020-07-18 00:09:29', 0),
+(2649, 129, 0, 1, 13, 'Heat exchange between two fluids can be beneficial for both streams, such as hot milk coming out of pasteurization for cooling being used to preheat incoming milk. Less energy is required now to cool the pasteurized milk and the raw milk requires less heat to be added for pasteurization.', '', '', 0, '2020-07-18 00:09:29', 0),
+(2650, 129, 0, 1, 7, 'Heat exchangers are most effective when configured for counter-flow heat transfer', '', '', 0, '2020-07-18 00:09:29', 0),
+(2651, 129, 0, 1, 8, 'The higher the temperature difference between the fluid streams, the more heat can be exchanged', '', '', 0, '2020-07-18 00:09:29', 0),
+(2652, 129, 0, 1, 14, 'How much can the temperature of the two fluid streams change without negatively affecting the process the fluids are required for?', '', '', 0, '2020-07-18 00:09:29', 0),
+(2653, 129, 0, 1, 14, 'Can these streams be reasonably close together physically to fit into a heat exchanger?', '', '', 0, '2020-07-18 00:09:29', 0),
+(2654, 129, 0, 1, 14, 'Is there space in the room to accomodate a heat exchanger?', '', '', 0, '2020-07-18 00:09:29', 0),
+(2655, 129, 0, 1, 14, 'What kind of heat exchanger best fits the fluid stream? There are several different types.', '', '', 0, '2020-07-18 00:09:29', 0),
+(2656, 129, 0, 1, 14, 'Is the fluid stream clean or dirty?', '', '', 0, '2020-07-18 00:09:29', 0),
+(2657, 129, 0, 1, 15, 'System operation hours', '', '', 0, '2020-07-18 00:09:29', 0),
+(2658, 129, 0, 1, 15, 'Fluid properties', '', '', 0, '2020-07-18 00:09:29', 0),
+(2659, 129, 0, 2, 15, 'Density', '', '', 0, '2020-07-18 00:09:29', 0),
+(2660, 129, 0, 2, 15, 'Mass flowrate (volumetric is fine if the density is known)', '', '', 0, '2020-07-18 00:09:29', 0),
+(2661, 129, 0, 2, 15, 'Specific heat', '', '', 0, '2020-07-18 00:09:29', 0),
+(2662, 129, 0, 1, 15, 'Heating process efficiency', '', '', 0, '2020-07-18 00:09:29', 0),
+(2663, 129, 0, 1, 15, 'Available floor space', '', '', 0, '2020-07-18 00:09:29', 0),
+(2664, 129, 0, 1, 27, 'Contact thermometer (if safe)', '', '', 0, '2020-07-18 00:09:29', 0),
+(2665, 129, 0, 1, 27, 'IR thermometer', '', '', 0, '2020-07-18 00:09:29', 0),
+(2666, 129, 0, 1, 27, 'Ultrasonic flow meter if fluid flowrate is unknown and the temperatures are safe for the equipment', '', '', 0, '2020-07-18 00:09:29', 0),
+(2667, 129, 0, 1, 4, 'Pressure drop across the heat exchanger could cause a loss of performance in downstream processes', '', '', 0, '2020-07-18 00:09:29', 0),
+(2668, 129, 0, 1, 4, 'Heat exchangers can foul over time without proper maintenance and cleaning, reducing their effectiveness', '', '', 0, '2020-07-18 00:09:29', 0),
+(2669, 129, 0, 1, 4, 'Heat exchangers can become hot and should not be placed where someone may come into contact with it inadvertently', '', '', 0, '2020-07-18 00:09:29', 0),
+(2670, 129, 0, 1, 20, '', 'https://drive.google.com/file/d/1CdPMeAFZMbadgXb9opm3qJR72S7zPYwG/view?usp=sharing', 'A spiral heat exchanger is installed for heat transfer between hot sludge coming from anaerobic digestion and cool sludge coming from aerobic digestion. At this facility sludge was being heated going into the anaerobic digestor and then cooled when leaving to enter the aerobic digestor.', 0, '2020-07-18 00:09:29', 0),
+(2671, 129, 0, 1, 20, '', 'https://drive.google.com/file/d/1twM-Rb5cEp3NGoQwPh8Hlh9LvlMvP1Id/view?usp=sharing', 'Raw milk and pasteurized milk in this process pass through a plate heat exchanger. In the pasteurization process, raw milk is heated to kill bacteria, but must be cooled afterwards. To reduce both the heating and cooling loads, the pasteurized milk preheats the raw milk while also cooling itself.', 0, '2020-07-18 00:09:29', 0),
+(2672, 129, 0, 1, 17, 'Thermodynamic properties of water/steam from the Heat Exchanger Design Handbook by C. F. Beaton, published in 1986. This is useful for finding the enthalpy of water/steam for calculating heat transfer.', 'http://thermopedia.com/content/1150/', 'Water/Steam Property Tables', 1, '2020-07-18 00:09:29', 0),
+(2673, 129, 0, 1, 24, 'Lists the specific heats of common fluids. This is used for calculating the amount of heat that can be exchanged between the two fluid streams.', 'https://www.engineeringtoolbox.com/specific-heat-fluids-d_151.html', 'Common Fluid Specific Heats', 1, '2020-07-18 00:09:29', 0),
+(2674, 129, 0, 1, 24, 'List of densities for common fluids. This is useful if the fluid\'s volumetric flowrate is known, but not the mass flowrate.', 'https://www.engineeringtoolbox.com/liquids-densities-d_743.html', 'Common Fluid Densities', 1, '2020-07-18 00:09:29', 0),
+(2675, 129, 0, 1, 24, 'Estimated heat exchanger heat transfer coefficients for use in calculating the amount of heat transferred between the two fluid streams.', 'https://www.engineeringtoolbox.com/heat-transfer-coefficients-exchangers-d_450.html', 'Heat Exchanger Heat Transfer Coefficients', 1, '2020-07-18 00:09:29', 0),
+(2676, 129, 0, 1, 17, 'Describes heat exchanger design for sludge in wastewater treatment facilities. This paper also contains the relevant thermodynamic properties of sludge. Understand that the characteristics of wastewater sludge is not consistent between facilities.', 'https://www.witpress.com/elibrary/wit-transactions-on-modelling-and-simulation/46/18010', 'Importance of experimental measurements and simulations for ‘sludge-to-energy’ systems', 1, '2020-07-18 00:09:29', 0);
 
 -- --------------------------------------------------------
 
@@ -890,7 +922,8 @@ ALTER TABLE `Cards`
 ALTER TABLE `Categories`
   ADD PRIMARY KEY (`categoryId`),
   ADD UNIQUE KEY `singleName` (`singleName`),
-  ADD UNIQUE KEY `pluralName` (`pluralName`);
+  ADD UNIQUE KEY `pluralName` (`pluralName`),
+  ADD KEY `user_category_fk` (`userId`);
 
 --
 -- Indexes for table `Headers`
@@ -995,7 +1028,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2407;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2677;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -1025,6 +1058,12 @@ ALTER TABLE `Users`
 ALTER TABLE `Cards`
   ADD CONSTRAINT `header_fk` FOREIGN KEY (`headerId`) REFERENCES `Headers` (`headerId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_card_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
+
+--
+-- Constraints for table `Categories`
+--
+ALTER TABLE `Categories`
+  ADD CONSTRAINT `user_category_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
 
 --
 -- Constraints for table `Headers`
