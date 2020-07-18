@@ -78,6 +78,8 @@ function EditPage(props) {
   function isInternal() {
     if ((props.page.tempPageId && props.page.tempInternal) || (!props.page.tempPageId && props.page.internal)) {
       return 1;
+    } else {
+      return 0;
     }
   }
 
