@@ -53,7 +53,6 @@ function PageDescription(props) {
           <h4 className="flex-grow-1 font-weight-bold">
             {name}
           </h4>
-          <h4 className="ml-4">{props.page.approved ? null : "<This page is unpublished>"}</h4>
         </div>
 
         <div className="row mx-2">

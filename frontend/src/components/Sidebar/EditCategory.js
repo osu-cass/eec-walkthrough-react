@@ -3,10 +3,10 @@ import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import Error from "../General/Error";
-import "./CreateCategory.css";
+import "./EditCategory.css";
 
-// button and modal for creating a new category
-function CreateCategory(props) {
+// button and modal for editing a category
+function EditCategory(props) {
 
   const [singleName, setSingleName] = useState("");
   const [pluralName, setPluralName] = useState("");
@@ -43,7 +43,7 @@ function CreateCategory(props) {
       internal: internal
     };
 
-    // Create new category
+    // update a category
     const results = await fetch("/api/categories/", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -205,9 +205,9 @@ function CreateCategory(props) {
   );
 
 }
-export default CreateCategory;
+export default EditCategory;
 
-CreateCategory.propTypes = {
+EditCategory.propTypes = {
   role: PropTypes.any,
   refresh: PropTypes.any
 };

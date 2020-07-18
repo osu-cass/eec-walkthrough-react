@@ -124,7 +124,7 @@ function CreatePage(props) {
         <i
           className='create-page-icon fas fa-plus-circle text-info mr-2'
           style={{transform: "scale(1.5)"}}></i>
-            Create {props.collectionName}
+            Create Page
       </Button>
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
@@ -225,7 +225,6 @@ export default CreatePage;
 
 CreatePage.propTypes = {
   title: PropTypes.string,
-  collectionName: PropTypes.string,
   role: PropTypes.number,
   refresh: PropTypes.func,
   categoryId: PropTypes.number

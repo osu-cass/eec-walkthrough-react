@@ -125,6 +125,37 @@ async function getCategories(viewAll) {
 exports.getCategories = getCategories;
 
 
+// return a list of all of the category names
+async function getCategoryNames() {
+
+  try {
+
+    let sql = "";
+    const finalResults = {
+      categories: []
+    }
+
+    // get all of the categories names
+
+    sql = "SELECT categoryId, singleName " +
+    "FROM Categories " +
+    "ORDER BY singleName ASC;";
+
+    let results = await pool.query(sql, []);
+
+    finalResults.categories = results[0];
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error getting all category names");
+    throw Error(err);
+  }
+
+}
+exports.getCategoryNames = getCategoryNames;
+
+
 // create a category
 async function createCategory(singleName, pluralName, description, userId, internal) {
 

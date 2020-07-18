@@ -17,6 +17,7 @@ const {
 const {
   getCategory,
   getCategories,
+  getCategoryNames,
   createCategory
 } = require("../models/categories");
 
@@ -36,6 +37,31 @@ app.get("/all", getUserID, async (req, res) => {
 
     // get a list of all categories with their pages
     const results = await getCategories(viewAll);
+    res.status(200).send(results);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get all of the categories names
+app.get("/names", requireAuth, async (req, res) => {
+
+  try {
+
+    console.log("Get a list of all category names");
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to get a list of all category names."});
+      return;
+    }
+
+    // get a list of all category names
+    const results = await getCategoryNames();
     res.status(200).send(results);
 
   } catch (err) {
