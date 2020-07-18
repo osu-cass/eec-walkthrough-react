@@ -12,13 +12,15 @@ const {
 } = require("../services/authentication/cookieAuth");
 const {
   getCategoryVal,
-  postCategoryVal
+  postCategoryVal,
+  patchCategoryVal
 } = require("../services/validation/requestValidation");
 const {
   getCategory,
   getCategories,
   getCategoryNames,
-  createCategory
+  createCategory,
+  updateCategory
 } = require("../models/categories");
 
 
@@ -145,6 +147,56 @@ app.post("/", requireAuth, postCategoryVal.validation, async (req, res) => {
 
       if (results.error === 1) {
         res.status(403).send({error: "Category already exists."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// update a category
+app.patch("/:categoryId", requireAuth, patchCategoryVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update a category");
+
+    const categoryId = req.params.categoryId;
+    const singleName = formatAlphanumeric(req.body.singleName).trim();
+    const pluralName = formatAlphanumeric(req.body.pluralName).trim();
+    const description = req.body.description.trim();
+    const internal = req.body.internal;
+    const userId = req.auth.userId;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to update category."});
+      return;
+    }
+
+    // update a category
+    const results = await updateCategory(categoryId, singleName, pluralName, description, userId, internal);
+
+    if (results.categoryId >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Category not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

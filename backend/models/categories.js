@@ -190,3 +190,38 @@ async function createCategory(singleName, pluralName, description, userId, inter
 
 }
 exports.createCategory = createCategory;
+
+
+async function updateCategory(categoryId, singleName, pluralName, description, userId, internal) {
+
+  try {
+
+    // make sure that the category exists
+    let sql = "SELECT * " +
+    "FROM Categories " +
+    "WHERE categoryId = ?;";
+    let results = await pool.query(sql, categoryId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // update the category
+    sql = "UPDATE Categories " +
+    "SET singleName = ?, pluralName = ?, description = ?, userId = ?, internal = ? " +
+    "WHERE categoryId = ?;";
+    results = await pool.query(sql, [singleName, pluralName, description, userId, internal, categoryId]);
+
+    const finalResults = {
+      categoryId: categoryId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error updating category");
+    throw Error(err);
+  }
+
+}
+exports.updateCategory = updateCategory;

@@ -282,3 +282,15 @@ const postCategoryVal = Object.freeze({
   ]
 });
 exports.postCategoryVal = postCategoryVal;
+
+// validation checks for patch category
+const patchCategoryVal = Object.freeze({
+  validation: [
+    check("categoryId").isInt({min: 1, max: 4294967295}),
+    check("singleName").isLength({min: 1, max: 1000}),
+    check("pluralName").isLength({min: 1, max: 1000}),
+    check("description").isLength({min: 1, max: 1000}),
+    check("internal").isInt({min: 0, max: 1})
+  ]
+});
+exports.patchCategoryVal = patchCategoryVal;
