@@ -1,14 +1,14 @@
-.createCategory {
+.editCategory {
   max-width: 100%;
   border-color: #faa945 !important;
   color: #faa945;
 }
 
-.create-category-icon {
+.edit-category-icon {
   color: #faa945 !important;
 }
 
- .createCategory:hover.btn {
+ .editCategory:hover.btn {
   background-color: #faa945 !important;
 }
 

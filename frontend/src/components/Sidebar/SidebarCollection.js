@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import Accordion from "react-bootstrap/Accordion";
 import {Card} from "react-bootstrap";
 import CreatePage from "./CreatePage";
+import EditCategory from "./EditCategory";
 import "./SidebarCollection.css";
 
 // a group of links that can be expanded or hidden on the sidebar
@@ -14,7 +15,7 @@ function SidebarCollection(props) {
       {/* If no collection passed in, make singular link */}
       {props.collection ? (
         <Fragment>
-          {props.role > 3 || props.collection.length ? (
+          {props.role >= 3 || props.collection.length ? (
             <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
               <Fragment>
                 {props.collectionName}
@@ -74,7 +75,12 @@ function SidebarCollection(props) {
               title={`Create ${props.collectionName} Page`}
               refresh={props.refresh}
               role={props.role}
-              categoryId={props.categoryId}
+              categoryId={props.category.categoryId}
+            />
+            <EditCategory
+              refresh={props.refresh}
+              role={props.role}
+              category={props.category}
             />
           </Fragment>
         </Accordion.Collapse>
@@ -97,7 +103,7 @@ SidebarCollection.propTypes = {
   refresh: PropTypes.any,
   role: PropTypes.any,
   externalLink: PropTypes.string,
-  categoryId: PropTypes.number,
+  category: PropTypes.object,
   internal: PropTypes.number
 };
 

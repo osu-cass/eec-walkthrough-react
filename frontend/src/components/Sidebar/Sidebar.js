@@ -85,7 +85,7 @@ function Sidebar(props) {
                 collectionName={category.pluralName}
                 collectionLink={`wiki/${category.pluralName.replace(/\s+/g, '-').toLowerCase()}`}
                 collection={category.pages}
-                categoryId={category.categoryId}
+                category={category}
                 internal={category.internal}
                 refresh={() => fetchData()}
                 role={role}

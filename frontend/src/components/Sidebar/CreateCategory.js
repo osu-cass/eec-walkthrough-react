@@ -208,6 +208,6 @@ function CreateCategory(props) {
 export default CreateCategory;
 
 CreateCategory.propTypes = {
-  role: PropTypes.any,
-  refresh: PropTypes.any
+  role: PropTypes.number,
+  refresh: PropTypes.func
 };

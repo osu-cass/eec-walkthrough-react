@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
@@ -14,6 +14,15 @@ function EditCategory(props) {
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [checked, setChecked] = useState(0);
+
+  // If the category is edited, make sure we keep the modal up to date
+  useEffect(() => {
+    setSingleName(props.category.singleName);
+    setPluralName(props.category.pluralName);
+    setDescription(props.category.description);
+    setChecked(props.category.internal);
+    // eslint-disable-next-line
+  }, [props.category, props.category.internal]);
 
   function handleClose() {
     setShow(false);
@@ -45,7 +54,7 @@ function EditCategory(props) {
 
     // update a category
     const results = await fetch("/api/categories/", {
-      method: "POST",
+      method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
     });
@@ -110,17 +119,17 @@ function EditCategory(props) {
   }
 
   return props.role >= 4 ? (
-    <div className="text-center mb-4 createCategory">
-      <Button variant="outline-info" className="createCategory" onClick={() => handleShow()}>
+    <div className="text-center my-2 mx-1 editCategory">
+      <Button variant="outline-info" className="editCategory" onClick={() => handleShow()}>
         <i
-          className="create-category-icon fas fa-plus-circle text-info mr-2"
+          className="edit-category-icon fas fa-plus-circle text-info mr-2"
           style={{transform: "scale(1.5)"}}
         />
-            Create Category
+            Edit Category
       </Button>
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
-          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Create Category</h5>
+          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Edit Category</h5>
           <Button variant="none" onClick={() => handleClose()}>
             <span aria-hidden="true">&times;</span>
           </Button>
@@ -133,7 +142,13 @@ function EditCategory(props) {
             <Col>
               <Form.Group controlId="formName">
                 <Form.Label className="font-weight-bold">Singular Name</Form.Label>
-                <Form.Control type="text" maxLength="100" placeholder="Enter singular name" onChange={(e) => setSingleName(e.target.value)} />
+                <Form.Control 
+                  type="text"
+                  maxLength="100"
+                  placeholder="Enter singular name"
+                  onChange={(e) => setSingleName(e.target.value)}
+                  defaultValue={singleName}
+                />
               </Form.Group>
             </Col>
           </Row>
@@ -142,7 +157,13 @@ function EditCategory(props) {
             <Col>
               <Form.Group controlId="formName">
                 <Form.Label className="font-weight-bold">Plural Name</Form.Label>
-                <Form.Control type="text" maxLength="100" placeholder="Enter plural name" onChange={(e) => setPluralName(e.target.value)} />
+                <Form.Control
+                  type="text"
+                  maxLength="100"
+                  placeholder="Enter plural name"
+                  onChange={(e) => setPluralName(e.target.value)}
+                  defaultValue={pluralName}
+                />
               </Form.Group>
             </Col>
           </Row>
@@ -157,6 +178,7 @@ function EditCategory(props) {
                   rows="4"
                   placeholder="Enter description"
                   onChange={(e) => setDescription(e.target.value)}
+                  defaultValue={description}
                   style={{
                     maxHeight: "500px"
                   }}
@@ -208,6 +230,7 @@ function EditCategory(props) {
 export default EditCategory;
 
 EditCategory.propTypes = {
-  role: PropTypes.any,
-  refresh: PropTypes.any
+  category: PropTypes.object,
+  role: PropTypes.number,
+  refresh: PropTypes.func
 };
