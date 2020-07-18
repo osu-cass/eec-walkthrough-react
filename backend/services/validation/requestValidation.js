@@ -102,7 +102,7 @@ exports.postPageVal = postPageVal;
 const patchPageVal = Object.freeze({
   validation: [
     check("pageId").isInt({min: 1, max: 4294967295}),
-    check("pageType").isInt({min: 1, max: 5}),
+    check("pageType").isInt({min: 1, max: 4294967295}),
     check("name").isLength({min: 1, max: 100}),
     check("title").isLength({min: 1, max: 1000}),
     check("description").isLength({min: 1, max: 5000}),

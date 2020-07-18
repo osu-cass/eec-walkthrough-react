@@ -72,7 +72,6 @@ function SidebarCollection(props) {
             })}
             <CreatePage
               title={`Create ${props.collectionName} Page`}
-              collectionName={props.collectionName}
               refresh={props.refresh}
               role={props.role}
               categoryId={props.categoryId}

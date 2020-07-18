@@ -18,7 +18,28 @@ function EditPage(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [pageType, setPageType] = useState(0);
   const [checked, setChecked] = useState(0);
+  const [categories, setCategories] = useState([]);
 
+  // When the page is first loaded, go ahead and fetch all of the category types
+  useEffect(() => {
+    async function fetchNames() {
+      const results = await fetch(`/api/categories/names`);
+
+      if (results.ok) {
+  
+        const obj = await results.json();
+  
+        setCategories(obj.categories);
+  
+      } else {
+        console.error("Error fetching category names");
+      }
+    }
+
+    fetchNames();
+  }, []);
+
+  // If the page is edited, make sure we keep the modal up to date
   useEffect(() => {
     if (props.page.tempPageId) {
       setTitle(props.page.tempName);
@@ -96,11 +117,21 @@ function EditPage(props) {
 
       let newPage = {};
 
+      // see if we can trim the white space in the descriptions
+      let propsDescription = props.page.description;
+      let stateDescription = description;
+      if (typeof propsDescription === "string") {
+        propsDescription = props.page.description.trim();
+      }
+      if (typeof stateDescription === "string") {
+        stateDescription = description.trim();
+      }
+
       if (props.page.approved) {
         newPage = {
           approved: props.page.approved,
           created: props.page.created,
-          description: props.page.description.trim(),
+          description: propsDescription,
           imageUrl: props.page.imageUrl,
           name: props.page.name,
           title: props.page.title,
@@ -111,7 +142,7 @@ function EditPage(props) {
           tempPageType: newPageType,
           tempInternal: internal,
           tempPageId: props.page.pageId,
-          tempDescription: description.trim(),
+          tempDescription: stateDescription,
           tempImageUrl: url,
           tempName: title,
           tempTitle: summary,
@@ -127,7 +158,7 @@ function EditPage(props) {
           created: new Date().toISOString()
             .slice(0, 19)
             .replace("T", " "),
-          description: description.trim(),
+          description: stateDescription,
           imageUrl: url,
           name: title,
           title: summary,
@@ -138,7 +169,7 @@ function EditPage(props) {
           tempPageType: props.page.tempPageType,
           tempInternal: props.page.tempInternal,
           tempPageId: props.page.tempPageId,
-          tempDescription: props.page.tempDescription.trim(),
+          tempDescription: propsDescription,
           tempImageUrl: props.page.tempImageUrl,
           tempName: props.page.tempName,
           tempTitle: props.page.tempTitle,
@@ -291,11 +322,12 @@ function EditPage(props) {
                   id="select-new-page-type"
                   defaultValue={pageType}
                 >
-                  <option value="5">Assessment</option>
-                  <option value="1">Industry</option>
-                  <option value="3">Process</option>
-                  <option value="4">Productivity</option>
-                  <option value="2">Technology</option>
+                  {categories.map((category) =>
+                    <option value={category.categoryId} key={category.categoryId}>
+                      {category.singleName}
+                    </option>
+                  )}
+
                 </select>
               </Form.Group>
             </Col>
