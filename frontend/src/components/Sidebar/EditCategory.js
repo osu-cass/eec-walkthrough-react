@@ -53,7 +53,7 @@ function EditCategory(props) {
     };
 
     // update a category
-    const results = await fetch("/api/categories/", {
+    const results = await fetch(`/api/categories/${props.category.categoryId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
