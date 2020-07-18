@@ -16,7 +16,6 @@ const {
   patchHeaderMove
 } = require("../services/validation/requestValidation");
 const {
-  getHeader,
   createHeader,
   deleteHeader,
   deleteHeaderChanges,
@@ -25,44 +24,6 @@ const {
   unpublishHeader,
   moveHeader
 } = require("../models/headers");
-
-
-// get information about a single header
-app.get("/:headerId", getUserID, getHeaderVal.validation, async (req, res) => {
-
-  try {
-
-    const headerId = req.params.headerId;
-    console.log("Get header", headerId);
-
-    // confirm that the request is valid
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      console.error(errors.array());
-      return res.status(422).json({errors: errors.array()});
-    }
-
-    // check if the current user should be able to view this content
-    let viewAll = false;
-    if (await roleCheck(2, req.auth.userId)) {
-      viewAll = true;
-    }
-
-    // get header data
-    const results = await getHeader(headerId, viewAll);
-
-    if (results.headerId === 0) {
-      res.status(404).send({error: "Header not found."});
-    } else {
-      res.status(200).send(results);
-    }
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({error: "An internal server error occurred. Please try again later."});
-  }
-
-});
 
 
 // create a header

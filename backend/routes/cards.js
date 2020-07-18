@@ -16,7 +16,6 @@ const {
   patchCardMove
 } = require("../services/validation/requestValidation");
 const {
-  getCard,
   createCard,
   deleteCard,
   deleteCardChanges,
@@ -25,44 +24,6 @@ const {
   unpublishCard,
   moveCard
 } = require("../models/cards");
-
-
-// get information about a single card
-app.get("/:cardId", getUserID, getCardVal.validation, async (req, res) => {
-
-  try {
-
-    const cardId = req.params.cardId;
-    console.log("Get card", cardId);
-
-    // confirm that the request is valid
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      console.error(errors.array());
-      return res.status(422).json({errors: errors.array()});
-    }
-
-    // check if the current user should be able to view this content
-    let viewAll = false;
-    if (await roleCheck(2, req.auth.userId)) {
-      viewAll = true;
-    }
-
-    // get card data
-    const results = await getCard(cardId, viewAll);
-
-    if (results.cardId === 0) {
-      res.status(404).send({error: "Card not found."});
-    } else {
-      res.status(200).send(results);
-    }
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({error: "An internal server error occurred. Please try again later."});
-  }
-
-});
 
 
 // create a card
