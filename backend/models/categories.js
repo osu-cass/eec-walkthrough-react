@@ -123,3 +123,39 @@ async function getCategories(viewAll) {
 
 }
 exports.getCategories = getCategories;
+
+
+// create a category
+async function createCategory(singleName, pluralName, description, userId, internal) {
+
+  try {
+
+    // make sure the category does not already exist
+    let sql = "SELECT * " +
+    "FROM Categories " +
+    "WHERE singleName = ? " +
+    "OR pluralName = ?;";
+    let results = await pool.query(sql, [singleName, pluralName]);
+
+    if (results[0].length) {
+      return {error: 1};
+    }
+
+    // create the new category
+    sql = "INSERT INTO Categories (singleName, pluralName, description, userId, internal) " +
+    "VALUES (?, ?, ?, ?, ?);";
+    results = await pool.query(sql, [singleName, pluralName, description, userId, internal]);
+
+    const finalResults = {
+      insertId: results[0].insertId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error creating category");
+    throw Error(err);
+  }
+
+}
+exports.createCategory = createCategory;

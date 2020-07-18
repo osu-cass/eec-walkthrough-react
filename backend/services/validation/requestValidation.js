@@ -271,3 +271,14 @@ const getCategoryVal = Object.freeze({
   ]
 });
 exports.getCategoryVal = getCategoryVal;
+
+// validation checks for post category
+const postCategoryVal = Object.freeze({
+  validation: [
+    check("singleName").isLength({min: 1, max: 1000}),
+    check("pluralName").isLength({min: 1, max: 1000}),
+    check("description").isLength({min: 1, max: 1000}),
+    check("internal").isInt({min: 0, max: 1})
+  ]
+});
+exports.postCategoryVal = postCategoryVal;
