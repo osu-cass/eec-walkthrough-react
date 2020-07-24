@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
-import "./CreateHeader.css";
+import "./EditPage.css";
 
 // Button and modal that allows a user to edit a page
 function EditPage(props) {
@@ -16,20 +16,47 @@ function EditPage(props) {
   const [showModal, setShowModal] = useState(false);
   const [showLoad, setShowLoad] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [pageType, setPageType] = useState(0);
+  const [checked, setChecked] = useState(0);
+  const [categories, setCategories] = useState([]);
 
+  // When the page is first loaded, go ahead and fetch all of the category types
+  useEffect(() => {
+    async function fetchNames() {
+      const results = await fetch(`/api/categories/names`);
+
+      if (results.ok) {
+  
+        const obj = await results.json();
+  
+        setCategories(obj.categories);
+  
+      } else {
+        console.error("Error fetching category names");
+      }
+    }
+
+    fetchNames();
+  }, []);
+
+  // If the page is edited, make sure we keep the modal up to date
   useEffect(() => {
     if (props.page.tempPageId) {
       setTitle(props.page.tempName);
       setSummary(props.page.tempTitle);
       setDescription(props.page.tempDescription);
       setUrl(props.page.tempImageUrl);
+      setPageType(props.page.tempPageType);
     } else {
       setTitle(props.page.name);
       setSummary(props.page.title);
       setDescription(props.page.description);
       setUrl(props.page.imageUrl);
+      setPageType(props.page.pageType);
     }
-  }, [props.page]);
+    setChecked(isInternal());
+    // eslint-disable-next-line
+  }, [props.page, props.page.internal, props.page.tempInternal]);
 
   function handleCloseModal() {
     setShowModal(false);
@@ -47,6 +74,15 @@ function EditPage(props) {
     setErrorMessage("");
   }
 
+  // determines if the current object is only internal viewable
+  function isInternal() {
+    if ((props.page.tempPageId && props.page.tempInternal) || (!props.page.tempPageId && props.page.internal)) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   function handleShowModal() {
     setShowModal(true);
   }
@@ -54,14 +90,24 @@ function EditPage(props) {
   async function updatePage() {
     setShowLoad(true);
 
+    let internal = 0;
+    if (document.getElementById("internal-modal-checkbox").checked) {
+      internal = 1;
+    }
+
+    const typeSelect = document.getElementById("select-new-page-type");
+    const newPageType = parseInt(typeSelect.options[typeSelect.selectedIndex].value, 10);
+
     const data = {
       name: title,
       title: summary,
       description: description,
-      imageUrl: url
+      imageUrl: url,
+      internal: internal,
+      pageType: newPageType
     };
 
-    const results = await fetch(`/pages/${props.page.pageId}`, {
+    const results = await fetch(`/api/pages/${props.page.pageId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
@@ -73,19 +119,32 @@ function EditPage(props) {
 
       let newPage = {};
 
+      // see if we can trim the white space in the descriptions
+      let propsDescription = props.page.description;
+      let stateDescription = description;
+      if (typeof propsDescription === "string") {
+        propsDescription = props.page.description.trim();
+      }
+      if (typeof stateDescription === "string") {
+        stateDescription = description.trim();
+      }
+
       if (props.page.approved) {
         newPage = {
           approved: props.page.approved,
           created: props.page.created,
-          description: props.page.description,
+          description: propsDescription,
           imageUrl: props.page.imageUrl,
           name: props.page.name,
           title: props.page.title,
           pageId: props.page.pageId,
           pageType: props.page.pageType,
           userId: props.page.userId,
+          internal: props.page.internal,
+          tempPageType: newPageType,
+          tempInternal: internal,
           tempPageId: props.page.pageId,
-          tempDescription: description,
+          tempDescription: stateDescription,
           tempImageUrl: url,
           tempName: title,
           tempTitle: summary,
@@ -101,15 +160,18 @@ function EditPage(props) {
           created: new Date().toISOString()
             .slice(0, 19)
             .replace("T", " "),
-          description: description,
+          description: stateDescription,
           imageUrl: url,
           name: title,
           title: summary,
           pageId: props.page.pageId,
-          pageType: props.page.pageType,
+          pageType: newPageType,
           userId: 0,
+          internal: internal,
+          tempPageType: props.page.tempPageType,
+          tempInternal: props.page.tempInternal,
           tempPageId: props.page.tempPageId,
-          tempDescription: props.page.tempDescription,
+          tempDescription: propsDescription,
           tempImageUrl: props.page.tempImageUrl,
           tempName: props.page.tempName,
           tempTitle: props.page.tempTitle,
@@ -151,35 +213,14 @@ function EditPage(props) {
   async function deletePage() {
     setShowLoad(true);
 
-    const results = await fetch(`/pages/${props.page.pageId}`, {
+    const results = await fetch(`/api/pages/${props.page.pageId}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });
 
     if (results.ok) {
 
-      if (props.page.pageId === props.page.tempPageId) {
-
-        const newPage = {
-          pageId: props.page.pageId,
-          tempPageId: props.page.tempPageId
-        };
-
-        // Reset state
-        setTitle("");
-        setSummary("");
-        setDescription("");
-        setUrl("");
-        setErrorMessage("");
-
-        // Close modal
-        handleCloseModal();
-
-        props.handleUpdate(newPage, "page", "delete");
-
-      } else {
-        window.location.href = "/";
-      }
+      window.location.href = "/";
 
     } else {
 
@@ -277,6 +318,25 @@ function EditPage(props) {
 
           <Row>
             <Col>
+              <Form.Group controlId="formTitle">
+                <Form.Label className="font-weight-bold">Page Type</Form.Label>
+                <select className="form-control"
+                  id="select-new-page-type"
+                  defaultValue={pageType}
+                >
+                  {categories.map((category) =>
+                    <option value={category.categoryId} key={category.categoryId}>
+                      {category.singleName}
+                    </option>
+                  )}
+
+                </select>
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
               <Form.Group controlId="formSummary">
                 <Form.Label className="font-weight-bold">Summary</Form.Label>
                 <Form.Control
@@ -325,6 +385,25 @@ function EditPage(props) {
           </Row>
 
           <Row>
+            <Col>
+              <div className="custom-control form-control-lg custom-checkbox my-2">
+                {checked ? (
+                  <input type="checkbox" className="form-check-input custom-control-input"
+                    id="internal-modal-checkbox" onClick={() => setChecked(0)} checked
+                  />
+                ) : (
+                  <input type="checkbox" className="form-check-input custom-control-input"
+                    id="internal-modal-checkbox"
+                  />
+                )}
+                <label className="form-check-label custom-control-label font-weight-bold pl-3" htmlFor="internal-modal-checkbox">
+                  Internal (not viewable by the public)
+                </label>
+              </div>
+            </Col>
+          </Row>
+
+          <Row>
             <div className='col-3' />
             <div className='col-6 mt-2'>
               <Error
@@ -335,13 +414,17 @@ function EditPage(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          <Button
-            className="mr-auto"
-            variant="danger"
-            onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { deletePage(); } }}
-          >
-            Delete Page
-          </Button>
+          {props.role >= 4 ? (
+            <Button
+              className="mr-auto"
+              variant="danger"
+              onClick={() => { if (window.confirm("Are you sure you want to delete this page?")) { deletePage(); } }}
+            >
+              Delete Page
+            </Button>
+          ) : (
+            null
+          )}
           <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Page Edit</Button>
           <Button variant="secondary" onClick={() => handleCloseModal()}>Cancel</Button>
         </Modal.Footer>
@@ -359,5 +442,5 @@ EditPage.propTypes = {
   role: PropTypes.number,
   mode: PropTypes.number,
   handleUpdate: PropTypes.func,
-  handlePageEdit: PropTypes.any
+  handlePageEdit: PropTypes.func
 };

@@ -2,25 +2,26 @@ import React from "react";
 import {Button} from "react-bootstrap";
 import PropTypes from "prop-types";
 
+// button for filtering out non-opportunities at the top level
 function ListToggle(props) {
   return props.showButton ? (
     <div className='text-center mx-2'>
       <Button size="sm" variant="dark" onClick={() => props.toggleList()}>
         {props.toggled ? (
           <>
-            <span className="text-white">Toggle Opportunities:</span>
             <i
-              className={`far fa-fw fa-check-square text-white ml-2`}
+              className={`far fa-fw fa-check-square text-white mr-2`}
               style={{transform: "scale(1.5)"}}
             />
+            <span className="text-white">Toggle Opportunities</span>
           </>
         ) : (
           <>
-            <span className="text-white">Toggle Opportunities:</span>
             <i
-              className={`far fa-fw fa-square text-white ml-2`}
+              className={`far fa-fw fa-square text-white mr-2`}
               style={{transform: "scale(1.5)"}}
             />
+            <span className="text-white">Toggle Opportunities</span>
           </>
         )
         }

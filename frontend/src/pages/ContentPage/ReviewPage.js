@@ -10,6 +10,7 @@ import "./ReviewPage.css";
 // Button and modal that allows a user to review a page
 function ReviewPage(props) {
 
+  const pageTypeNames = ["Industry", "Technology", "Process", "Productivity", "Assessments"];
   const [role, setRole] = useState(0);
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -37,12 +38,14 @@ function ReviewPage(props) {
     }
 
     // Unpublish the page
-    const results = await fetch(`/pages/${props.page.pageId}/unpublish`, {
+    const results = await fetch(`/api/pages/${props.page.pageId}/unpublish`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });
 
     if (results.ok) {
+
+      props.handlePageEdit();
 
       const newPage = {
         approved: 0,
@@ -54,6 +57,9 @@ function ReviewPage(props) {
         pageId: props.page.pageId,
         pageType: props.page.pageType,
         userId: props.page.userId,
+        internal: props.page.internal,
+        tempPageType: null,
+        tempInternal: null,
         tempDescription: null,
         tempImageUrl: null,
         tempName: null,
@@ -97,12 +103,14 @@ function ReviewPage(props) {
     }
 
     // Approve the page
-    const results = await fetch(`/pages/${props.page.pageId}/publish`, {
+    const results = await fetch(`/api/pages/${props.page.pageId}/publish`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });
 
     if (results.ok) {
+
+      props.handlePageEdit();
 
       let newPage = {};
 
@@ -115,8 +123,11 @@ function ReviewPage(props) {
           name: props.page.tempName,
           title: props.page.tempTitle,
           pageId: props.page.pageId,
-          pageType: props.page.pageType,
+          pageType: props.page.tempPageType,
           userId: props.page.tempUserId,
+          internal: props.page.tempInternal,
+          tempPageType: null,
+          tempInternal: null,
           tempDescription: null,
           tempImageUrl: null,
           tempName: null,
@@ -136,6 +147,9 @@ function ReviewPage(props) {
           pageId: props.page.pageId,
           pageType: props.page.pageType,
           userId: props.page.userId,
+          internal: props.page.internal,
+          tempPageType: null,
+          tempInternal: null,
           tempDescription: null,
           tempImageUrl: null,
           tempName: null,
@@ -153,6 +167,73 @@ function ReviewPage(props) {
       handleClose();
 
       props.handleUpdate(newPage, "page", "publish");
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+  }
+
+  // delete changes
+  async function handleClear() {
+
+    // Check that the user really wants to delete the changes for this version
+    if (!window.confirm("Are you sure you want to delete the proposed changes?")) {
+      return;
+    }
+
+    // delete proposed changes
+    const results = await fetch(`/api/pages/${props.page.pageId}/changes`, {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      if (props.page.approved) {
+        const newPage = {
+          approved: props.page.approved,
+          created: props.page.created,
+          description: props.page.description,
+          imageUrl: props.page.imageUrl,
+          name: props.page.name,
+          title: props.page.title,
+          pageId: props.page.pageId,
+          pageType: props.page.pageType,
+          userId: props.page.userId,
+          internal: props.page.internal,
+          tempPageType: null,
+          tempInternal: null,
+          tempDescription: null,
+          tempImageUrl: null,
+          tempName: null,
+          tempTitle: null,
+          tempCreated: null,
+          tempUserId: null,
+          headers: []
+        };
+
+        // reset error messages
+        setErrorMessage("");
+
+        // Close modal
+        handleClose();
+
+        props.handleUpdate(newPage, "page", "clear");
+      } else {
+        window.location.href = "/";
+      }
 
     } else {
 
@@ -197,7 +278,7 @@ function ReviewPage(props) {
               <h4 className="font-weight-bold">Published Version</h4>
               <span className="created-text">Created {formatTime(props.page.created)}</span>
               <div className="m-4">
-                <h3 className="font-weight-bold">{props.page.name}</h3>
+                <h3 className="font-weight-bold">{props.page.name} ({props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null })</h3>
                 <h4>{props.page.title}</h4>
                 <span>{props.page.description}</span>
                 <Image url={props.page.imageUrl}
@@ -216,7 +297,7 @@ function ReviewPage(props) {
               <h4 className="font-weight-bold">New Version</h4>
               <span className="created-text">Created {formatTime(props.page.tempCreated)}</span>
               <div className="m-4">
-                <h3 className="font-weight-bold">{props.page.tempName}</h3>
+                <h3 className="font-weight-bold">{props.page.tempName} ({props.page.tempPageType <= pageTypeNames.length ? pageTypeNames[props.page.tempPageType - 1] : null })</h3>
                 <h4>{props.page.tempTitle}</h4>
                 <span>{props.page.tempDescription}</span>
                 <Image url={props.page.tempImageUrl}
@@ -235,7 +316,7 @@ function ReviewPage(props) {
                   <h4 className="font-weight-bold">New Version</h4>
                   <span className="created-text">Created {formatTime(props.page.created)}</span>
                   <div className="m-4">
-                    <h3 className="font-weight-bold">{props.page.name}</h3>
+                    <h3 className="font-weight-bold">{props.page.name} ({props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null })</h3>
                     <h4>{props.page.title}</h4>
                     <span>{props.page.description}</span>
                     <Image url={props.page.imageUrl}
@@ -262,10 +343,23 @@ function ReviewPage(props) {
         <Modal.Footer className="modal-footer">
           {role >= 4 ? (
             <Fragment>
+              <Fragment>
+                {props.page.tempPageId || !props.page.approved ? (
+                  <Button
+                    className="mr-auto"
+                    variant="danger"
+                    onClick={() => handleClear()}
+                  >
+                    Delete Changes
+                  </Button>
+                ) : (
+                  null
+                )}
+              </Fragment>
               {props.page.approved && props.page.tempPageId ? (
                 <Fragment>
                   <Button
-                    className="mr-auto"
+                    className="ml-auto"
                     variant="danger"
                     onClick={() => handleRemove()}
                   >
@@ -284,7 +378,19 @@ function ReviewPage(props) {
               )}
             </Fragment>
           ) : (
-            null
+            <Fragment>
+              {props.page.tempPageId || !props.page.approved ? (
+                <Button
+                  className="mr-auto"
+                  variant="danger"
+                  onClick={() => handleClear()}
+                >
+                  Delete Changes
+                </Button>
+              ) : (
+                null
+              )}
+            </Fragment>
           )}
           <Button variant="secondary" onClick={() => handleClose()}>Cancel</Button>
         </Modal.Footer>
@@ -300,5 +406,6 @@ export default ReviewPage;
 ReviewPage.propTypes = {
   mode: PropTypes.number,
   page: PropTypes.object,
-  handleUpdate: PropTypes.func
+  handleUpdate: PropTypes.func,
+  handlePageEdit: PropTypes.func
 };

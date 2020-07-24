@@ -4,206 +4,6 @@
 const {pool} = require("../services/database/mysqlPool");
 
 
-// return information about the specific page
-async function getPage(pageId, viewAll) {
-
-  try {
-
-    let sql = "";
-
-    // get the specified page
-    if (viewAll) {
-      sql = "SELECT * " +
-      "FROM Pages " +
-      "WHERE pageId = ?;";
-    } else {
-      sql = "SELECT * " +
-      "FROM Pages " +
-      "WHERE pageId = ? " +
-      "AND approved = 1;";
-    }
-
-    let results = await pool.query(sql, pageId);
-
-    // check to see if we were able to find the page
-    if (!results[0].length) {
-      return {pageId: 0};
-    }
-
-    const finalResults = results[0][0];
-    const pageType = results[0][0].pageType;
-
-    // get all of the subjects/industries that are related to the page
-    if (pageType) {
-      if (viewAll) {
-        sql = "SELECT S.pageId, S.name " +
-        "FROM Pages AS S " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON S.pageId = M.subjectId " +
-        "WHERE M.industryId = ? " +
-        "AND S.pageType = 0 " +
-        "ORDER BY S.name ASC;";
-      } else {
-        sql = "SELECT S.pageId, S.name " +
-        "FROM Pages AS S " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON S.pageId = M.subjectId " +
-        "WHERE M.industryId = ? " +
-        "AND S.pageType = 0 " +
-        "AND S.approved = 1 " +
-        "ORDER BY S.name ASC;";
-      }
-      results = await pool.query(sql, pageId);
-      finalResults.relatedPages = results[0];
-    } else {
-      if (viewAll) {
-        sql = "SELECT I.pageId, I.name " +
-        "FROM Pages AS I " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON I.pageId = M.industryId " +
-        "WHERE M.subjectId = ? " +
-        "AND I.pageType = 1 " +
-        "ORDER BY I.name ASC;";
-      } else {
-        sql = "SELECT I.pageId, I.name " +
-        "FROM Pages AS I " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON I.pageId = M.industryId " +
-        "WHERE M.subjectId = ? " +
-        "AND I.pageType = 1 " +
-        "AND approved = 1 " +
-        "ORDER BY I.name ASC;";
-      }
-      results = await pool.query(sql, pageId);
-      finalResults.relatedPages = results[0];
-    }
-
-    return finalResults;
-
-  } catch (err) {
-    console.error("Error searching for page");
-    throw Error(err);
-  }
-
-}
-exports.getPage = getPage;
-
-
-// return a list of all of the pages and their related subjects/industries
-async function getPages(viewAll) {
-
-  try {
-
-    let sql = "";
-    const finalResults = {
-      pages: {}
-    };
-
-    // get subject pages
-    if (viewAll) {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 0 " +
-      "ORDER BY pageType ASC, name ASC;";
-    } else {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 0 " +
-      "AND approved = 1 " +
-      "ORDER BY pageType ASC, name ASC;";
-    }
-
-    let results = await pool.query(sql, []);
-
-    finalResults.pages.subjects = results[0];
-    let pageCount = finalResults.pages.subjects.length;
-
-    // get all of the related industries
-    for (let i = 0; i < pageCount; i++) {
-
-      let sql = "";
-      if (viewAll) {
-        sql = "SELECT I.pageId, I.name " +
-        "FROM Pages AS I " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON I.pageId = M.industryId " +
-        "WHERE M.subjectId = ? " +
-        "AND I.pageType = 1 " +
-        "ORDER BY I.name ASC;";
-      } else {
-        sql = "SELECT I.pageId, I.name " +
-        "FROM Pages AS I " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON I.pageId = M.industryId " +
-        "WHERE M.subjectId = ? " +
-        "AND I.pageType = 1 " +
-        "AND I.approved = 1 " +
-        "ORDER BY I.name ASC;";
-      }
-
-
-      results = await pool.query(sql, finalResults.pages.subjects[i].pageId);
-      finalResults.pages.subjects[i].relatedPages = results[0];
-
-    }
-
-    // get all industry pages
-    if (viewAll) {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 1 " +
-      "ORDER BY pageType ASC, name ASC;";
-    } else {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 1 " +
-      "AND approved = 1 " +
-      "ORDER BY pageType ASC, name ASC;";
-    }
-
-    results = await pool.query(sql, []);
-
-    finalResults.pages.industries = results[0];
-    pageCount = finalResults.pages.industries.length;
-
-    // get all of the related subjects
-    for (let i = 0; i < pageCount; i++) {
-
-      let sql = "";
-      if (viewAll) {
-        sql = "SELECT S.pageId, S.name " +
-        "FROM Pages AS S " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON S.pageId = M.subjectId " +
-        "WHERE M.industryId = ? " +
-        "AND S.pageType = 0 " +
-        "ORDER BY S.name ASC;";
-      } else {
-        sql = "SELECT S.pageId, S.name " +
-        "FROM Pages AS S " +
-        "LEFT JOIN Industries_Subjects AS M " +
-        "ON S.pageId = M.subjectId " +
-        "WHERE M.industryId = ? " +
-        "AND S.pageType = 0 " +
-        "AND S.approved = 1 " +
-        "ORDER BY S.name ASC;";
-      }
-      results = await pool.query(sql, finalResults.pages.industries[i].pageId);
-      finalResults.pages.industries[i].relatedPages = results[0];
-
-    }
-
-    return finalResults;
-
-  } catch (err) {
-    console.error("Error searching for pages");
-    throw Error(err);
-  }
-
-}
-exports.getPages = getPages;
-
-
 // return all of the page info, headers, cards, and items for a single page
 async function getFullPage(pageId, viewAll) {
 
@@ -222,7 +22,8 @@ async function getFullPage(pageId, viewAll) {
       sql = "SELECT * " +
       "FROM Pages " +
       "WHERE pageId = ? " +
-      "AND approved = 1;";
+      "AND approved = 1 " +
+      "AND internal = 0;";
     }
 
     let results = await pool.query(sql, pageId);
@@ -246,6 +47,7 @@ async function getFullPage(pageId, viewAll) {
       "FROM Headers " +
       "WHERE pageId = ? " +
       "AND approved = 1 " +
+      "AND internal = 0 " +
       "ORDER BY orderIndex ASC, headerId ASC;";
     }
 
@@ -270,6 +72,7 @@ async function getFullPage(pageId, viewAll) {
         "FROM Cards " +
         "WHERE headerId = ? " +
         "AND approved = 1 " +
+        "AND cardType < 10 " +
         "ORDER BY orderIndex ASC, cardId ASC";
       }
 
@@ -288,7 +91,7 @@ async function getFullPage(pageId, viewAll) {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, " +
-          "created, approved " +
+          "created, approved, color " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -303,7 +106,7 @@ async function getFullPage(pageId, viewAll) {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, " +
-          "created, approved " +
+          "created, approved, color " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -315,10 +118,11 @@ async function getFullPage(pageId, viewAll) {
           finalResults.headers[i].cards[j].tempItems = results[0];
 
         } else {
+
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, " +
-          "created, approved " +
+          "created, approved, color " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -348,7 +152,7 @@ exports.getFullPage = getFullPage;
 
 
 // create a page
-async function createPage(pageType, name, title, description, imageUrl, userId) {
+async function createPage(pageType, name, title, description, imageUrl, userId, internal) {
 
   try {
 
@@ -364,9 +168,9 @@ async function createPage(pageType, name, title, description, imageUrl, userId) 
     }
 
     // create the new page
-    sql = "INSERT INTO Pages (pageType, name, title, description, imageUrl, userId, approved) " +
-    "VALUES (?, ?, ?, ?, ?, ?, 0);";
-    results = await pool.query(sql, [pageType, name, title, description, imageUrl, userId]);
+    sql = "INSERT INTO Pages (pageType, name, title, description, imageUrl, userId, internal, approved) " +
+    "VALUES (?, ?, ?, ?, ?, ?, ?, 0);";
+    results = await pool.query(sql, [pageType, name, title, description, imageUrl, userId, internal]);
 
     const finalResults = {
       insertId: results[0].insertId
@@ -388,35 +192,12 @@ async function deletePage(pageId) {
 
   try {
 
-    // checks to see if there is an edited version of the page to delete
-    let sql = "SELECT * " +
-    "FROM Temp_Pages " +
-    "WHERE tempPageId = ?;";
-
-    let results = await pool.query(sql, pageId);
-
-    // prioritize deleting the edited version
-    // a second delete will remove the real one
-    if (results[0].length) {
-      sql = "DELETE " +
-        "FROM Temp_Pages " +
-        "WHERE tempPageId = ?;";
-
-      results = await pool.query(sql, pageId);
-
-      const finalResults = {
-        affectedRows: results[0].affectedRows
-      };
-
-      return finalResults;
-    }
-
     // check to see if the page exists
-    sql = "SELECT * " +
+    let sql = "SELECT * " +
       "FROM Pages " +
       "WHERE pageId = ?;";
 
-    results = await pool.query(sql, pageId);
+    let results = await pool.query(sql, pageId);
 
     if (!results[0].length) {
       return {error: 1};
@@ -444,8 +225,69 @@ async function deletePage(pageId) {
 exports.deletePage = deletePage;
 
 
+// delete page changes
+async function deletePageChanges(pageId) {
+
+  try {
+
+    // checks to see if there is an edited version of the page to delete
+    let sql = "SELECT * " +
+    "FROM Temp_Pages " +
+    "WHERE tempPageId = ?;";
+
+    let results = await pool.query(sql, pageId);
+
+    if (results[0].length) {
+      sql = "DELETE " +
+        "FROM Temp_Pages " +
+        "WHERE tempPageId = ?;";
+
+      results = await pool.query(sql, pageId);
+
+      const finalResults = {
+        affectedRows: results[0].affectedRows
+      };
+
+      return finalResults;
+    }
+
+    // check to see if the page is in the pages table but not yet published
+    sql = "SELECT * " +
+      "FROM Pages " +
+      "WHERE pageId = ? " +
+      "AND approved = 0;";
+
+    results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // delete the page
+    sql = "DELETE " +
+      "FROM Pages " +
+      "WHERE pageId = ? " +
+      "AND approved = 0;";
+
+    results = await pool.query(sql, pageId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting page changes");
+    throw Error(err);
+  }
+
+}
+exports.deletePageChanges = deletePageChanges;
+
+
 // update a page
-async function updatePage(pageId, name, title, description, imageUrl, userId) {
+async function updatePage(pageId, pageType, name, title, description, imageUrl, userId, internal) {
 
   try {
 
@@ -473,38 +315,44 @@ async function updatePage(pageId, name, title, description, imageUrl, userId) {
     if (results[0].length) {
 
       sql = "UPDATE Temp_Pages " +
-      "SET tempName = ?, tempTitle = ?, tempDescription = ?, tempImageUrl = ?, tempUserId = ? " +
+      "SET tempPageType = ?, tempName = ?, tempTitle = ?, tempDescription = ?, tempImageUrl = ?, tempUserId = ?, tempInternal = ? " +
       "WHERE tempPageId = ?;";
+      sqlArray.push(pageType);
       sqlArray.push(name);
       sqlArray.push(title);
       sqlArray.push(description);
       sqlArray.push(imageUrl);
       sqlArray.push(userId);
+      sqlArray.push(internal);
       sqlArray.push(pageId);
 
     } else if (approved === 0) {
 
       sql = "UPDATE Pages " +
-      "SET name = ?, title = ?, description = ?, imageUrl = ?, userId = ? " +
+      "SET pageType = ?, name = ?, title = ?, description = ?, imageUrl = ?, userId = ?, internal = ? " +
       "WHERE pageId = ?;";
+      sqlArray.push(pageType);
       sqlArray.push(name);
       sqlArray.push(title);
       sqlArray.push(description);
       sqlArray.push(imageUrl);
       sqlArray.push(userId);
+      sqlArray.push(internal);
       sqlArray.push(pageId);
 
     } else {
 
       sql = "INSERT INTO Temp_Pages (tempPageId, " +
-      "tempName, tempTitle, tempDescription, tempImageUrl, tempUserId) " +
-      "VALUES (?, ?, ?, ?, ?, ?);";
+      "tempPageType, tempName, tempTitle, tempDescription, tempImageUrl, tempUserId, tempInternal) " +
+      "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
       sqlArray.push(pageId);
+      sqlArray.push(pageType);
       sqlArray.push(name);
       sqlArray.push(title);
       sqlArray.push(description);
       sqlArray.push(imageUrl);
       sqlArray.push(userId);
+      sqlArray.push(internal);
 
     }
 
@@ -524,125 +372,6 @@ async function updatePage(pageId, name, title, description, imageUrl, userId) {
 
 }
 exports.updatePage = updatePage;
-
-
-// add a subject to an industry
-async function addSubject(subjectId, industryId) {
-
-  try {
-
-    // make sure the subject exists
-    let sql = "SELECT * " +
-    "FROM Pages " +
-    "WHERE pageId = ? " +
-    "AND pageType = 0;";
-    let results = await pool.query(sql, subjectId);
-
-    if (!results[0].length) {
-      return {error: 1};
-    }
-
-    // make sure the industry exists
-    sql = "SELECT * " +
-    "FROM Pages " +
-    "WHERE pageId = ? " +
-    "AND pageType = 1;";
-    results = await pool.query(sql, industryId);
-
-    if (!results[0].length) {
-      return {error: 2};
-    }
-
-    // make sure the connection does not already exist
-    sql = "SELECT * " +
-    "FROM Industries_Subjects " +
-    "WHERE subjectId = ? " +
-    "AND industryId = ?;";
-    results = await pool.query(sql, [subjectId, industryId]);
-
-    if (results[0].length) {
-      return {error: 3};
-    }
-
-    // create the new connection
-    sql = "INSERT INTO Industries_Subjects (subjectId, industryId) " +
-    "VALUES (?, ?);";
-    results = await pool.query(sql, [subjectId, industryId]);
-
-    const finalResults = {
-      industryId: industryId,
-      subjectId: subjectId
-    };
-
-    return finalResults;
-
-  } catch (err) {
-    console.error("Error creating connection");
-    throw Error(err);
-  }
-
-}
-exports.addSubject = addSubject;
-
-
-// remove a subject from an industry
-async function deleteSubject(subjectId, industryId) {
-
-  try {
-
-    // make sure the subject exists
-    let sql = "SELECT * " +
-    "FROM Pages " +
-    "WHERE pageId = ? " +
-    "AND pageType = 0;";
-    let results = await pool.query(sql, subjectId);
-
-    if (!results[0].length) {
-      return {error: 1};
-    }
-
-    // make sure the industry exists
-    sql = "SELECT * " +
-    "FROM Pages " +
-    "WHERE pageId = ? " +
-    "AND pageType = 1;";
-    results = await pool.query(sql, industryId);
-
-    if (!results[0].length) {
-      return {error: 2};
-    }
-
-    // make sure the connection exists
-    sql = "SELECT * " +
-    "FROM Industries_Subjects " +
-    "WHERE subjectId = ? " +
-    "AND industryId = ?;";
-    results = await pool.query(sql, [subjectId, industryId]);
-
-    if (!results[0].length) {
-      return {error: 3};
-    }
-
-    // remove the connection
-    sql = "DELETE " +
-    "FROM Industries_Subjects " +
-    "WHERE subjectId = ? " +
-    "AND industryId = ?;";
-    results = await pool.query(sql, [subjectId, industryId]);
-
-    const finalResults = {
-      affectedRows: results[0].affectedRows
-    };
-
-    return finalResults;
-
-  } catch (err) {
-    console.error("Error deleting connection");
-    throw Error(err);
-  }
-
-}
-exports.deleteSubject = deleteSubject;
 
 
 // gets pages that match the search query
@@ -769,12 +498,12 @@ async function publishPage(pageId) {
 
       // update the published page
       sql = "UPDATE Pages " +
-      "SET name = ?, title = ?, description = ?, imageUrl = ?, " +
-      "userId = ?, created = ?, approved = 1 " +
+      "SET name = ?, pageType = ?, title = ?, description = ?, imageUrl = ?, " +
+      "userId = ?, created = ?, internal = ?, approved = 1 " +
       "WHERE pageId = ?;";
 
-      const tempArray = [tempPage.tempName, tempPage.tempTitle, tempPage.tempDescription,
-        tempPage.tempImageUrl, tempPage.tempUserId, tempPage.tempCreated, pageId];
+      const tempArray = [tempPage.tempName, tempPage.tempPageType, tempPage.tempTitle, tempPage.tempDescription,
+        tempPage.tempImageUrl, tempPage.tempUserId, tempPage.tempCreated, tempPage.tempInternal, pageId];
 
       // make sure no other pages share the same name
       const checkSql = "SELECT * " +

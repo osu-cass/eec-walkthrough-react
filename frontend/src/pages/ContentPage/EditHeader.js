@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
-import "./CreateHeader.css";
+import "./EditHeader.css";
 
 // Button and modal that allows a user to edit a header
 function EditHeader(props) {
@@ -13,6 +13,7 @@ function EditHeader(props) {
   const [showModal, setShowModal] = useState(false);
   const [showLoad, setShowLoad] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [checked, setChecked] = useState(0);
 
   useEffect(() => {
     if (props.header.tempHeaderId) {
@@ -20,7 +21,9 @@ function EditHeader(props) {
     } else {
       setTitle(props.header.title);
     }
-  }, [props.header.tempHeaderId, props.header.tempTitle, props.header.title]);
+    setChecked(isInternal());
+    // eslint-disable-next-line
+  }, [props.header.tempHeaderId, props.header.tempTitle, props.header.title, props.header.internal, props.header.tempInternal]);
 
   function handleCloseModal() {
     setShowModal(false);
@@ -36,14 +39,27 @@ function EditHeader(props) {
     setShowModal(true);
   }
 
+  // determines if the current object is only internal viewable
+  function isInternal() {
+    if ((props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal)) {
+      return 1;
+    }
+  }
+
   async function updateHeader() {
     setShowLoad(true);
 
+    let internal = 0;
+    if (document.getElementById("internal-modal-checkbox").checked) {
+      internal = 1;
+    }
+
     const data = {
-      title: title
+      title: title,
+      internal: internal
     };
 
-    const results = await fetch(`/headers/${props.header.headerId}`, {
+    const results = await fetch(`/api/headers/${props.header.headerId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
@@ -60,6 +76,8 @@ function EditHeader(props) {
           headerId: props.header.headerId,
           orderIndex: props.header.orderIndex,
           pageId: props.header.pageId,
+          internal: props.header.internal,
+          tempInternal: internal,
           tempCreated: new Date().toISOString()
             .slice(0, 19)
             .replace("T", " "),
@@ -79,6 +97,8 @@ function EditHeader(props) {
           headerId: props.header.headerId,
           orderIndex: props.header.orderIndex,
           pageId: props.header.pageId,
+          internal: internal,
+          tempInternal: props.header.tempInternal,
           tempCreated: props.header.tempCreated,
           tempHeaderId: props.header.tempHeaderId,
           tempTitle: props.header.tempTitle,
@@ -118,7 +138,7 @@ function EditHeader(props) {
   async function deleteHeader() {
     setShowLoad(true);
 
-    const results = await fetch(`/headers/${props.header.headerId}`, {
+    const results = await fetch(`/api/headers/${props.header.headerId}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });
@@ -208,6 +228,25 @@ function EditHeader(props) {
           </Row>
 
           <Row>
+            <Col>
+              <div className="custom-control form-control-lg custom-checkbox my-2">
+                {checked ? (
+                  <input type="checkbox" className="form-check-input custom-control-input"
+                    id="internal-modal-checkbox" onClick={() => setChecked(0)} checked
+                  />
+                ) : (
+                  <input type="checkbox" className="form-check-input custom-control-input"
+                    id="internal-modal-checkbox"
+                  />
+                )}
+                <label className="form-check-label custom-control-label font-weight-bold pl-3" htmlFor="internal-modal-checkbox">
+                  Internal (not viewable by the public)
+                </label>
+              </div>
+            </Col>
+          </Row>
+
+          <Row>
             <div className='col-3' />
             <div className='col-6 mt-2'>
               <Error
@@ -218,13 +257,17 @@ function EditHeader(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          <Button
-            className="mr-auto"
-            variant="danger"
-            onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { deleteHeader(); } }}
-          >
-            Delete Header
-          </Button>
+          {props.role >= 4 ? (
+            <Button
+              className="mr-auto"
+              variant="danger"
+              onClick={() => { if (window.confirm("Are you sure you want to delete this header?")) { deleteHeader(); } }}
+            >
+              Delete Header
+            </Button>
+          ) : (
+            null
+          )}
           <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Header Edit</Button>
           <Button variant="secondary" onClick={() => handleCloseModal()}>Cancel</Button>
         </Modal.Footer>

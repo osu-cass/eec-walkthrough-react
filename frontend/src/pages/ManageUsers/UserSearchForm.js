@@ -27,7 +27,7 @@ function UsersSearchForm(props) {
       <form id="search-form" onSubmit={(e) => submitHandler(e)}>
         <div className="form-group">
 
-          <label form="formGroup" className="flex-grow-1 font-weight-bold h4">Search Users</label>
+          <label form="formGroup" className="flex-grow-1 font-weight-bold h5">Search Users</label>
 
           <div className="input-group">
             <input type="text" className="form-control" id="input-search-user" placeholder="Search by name, email, or id" />

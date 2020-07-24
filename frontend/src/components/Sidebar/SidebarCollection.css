@@ -1,8 +1,15 @@
+a.page-sidebar-nav-link,
+a:hover.page-sidebar-nav-link,
+a:focus.page-sidebar-nav-link {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
 #sidebarCollection.card-header {
   cursor: pointer;
   color: #FFFFFF;
-  /* background: var(--info); */
-  background: #d73f09;
+  background: #faa945 !important;
   text-decoration: none;
 }
 
@@ -22,8 +29,8 @@ div.nav_link {
 #sidebarCollection.card-header:hover {
   cursor: pointer;
   color: #FFFFFF;
-  /* background: var(--info); */
-  background: #d73f09;
+  border-color: #E3922E !important;
+  background: #E3922E !important;
   text-decoration: none;
 }
 

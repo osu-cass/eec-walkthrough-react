@@ -1,16 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import BulletPoint from "./BulletPoint";
 import PropTypes from "prop-types";
 import "./BasicItems.css";
 
 // The contents of a standard card
 function BasicItems(props) {
-
-  const [showChecklistItem, setShowChecklistItem] = useState(true);
-
-  function showChecklist(show) {
-    setShowChecklistItem(show);
-  }
 
   return (
     <div className="item-separator-div">
@@ -20,16 +14,17 @@ function BasicItems(props) {
           url={item.contentUrl}
           id={item.itemId}
           icon={item.typeName}
+          tooltip={item.typeKeyword}
+          color={item.color}
           text={item.contentText}
           label={item.contentLabel}
           contentMode={item.contentMode}
           created={item.created}
           indentation={item.indentation}
           mode={props.mode}
+          publicMode={props.publicMode}
           handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
-          toggled={props.toggled}
-          showChecklist={(e) => showChecklist(e)}
-          showChecklistItem={showChecklistItem}
+          reviewing={props.reviewing}
         />
       )}
     </div>
@@ -42,5 +37,6 @@ BasicItems.propTypes = {
   handleTimestamp: PropTypes.func,
   items: PropTypes.array,
   mode: PropTypes.number,
-  toggled: PropTypes.bool
+  publicMode: PropTypes.number,
+  reviewing: PropTypes.bool
 };

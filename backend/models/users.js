@@ -2,6 +2,7 @@
 // Description: Provides functions for working with user data.
 
 const {pool} = require("../services/database/mysqlPool");
+const {hashPassword, verifyHash} = require("../services/authentication/saltHash");
 
 
 // return information about the specific user
@@ -10,7 +11,7 @@ async function getUser(userId) {
   try {
 
     // get the specified user
-    const sql = "SELECT userId, username, firstName, lastName, email, role " +
+    const sql = "SELECT userId, username, firstName, lastName, email, role, created " +
       "FROM Users " +
       "WHERE userId = ?;";
 
@@ -38,19 +39,34 @@ async function loginUser(username, password) {
   try {
 
     // get the specified user
-    const sql = "SELECT userId, username, firstName, lastName, email, role " +
+    const sql = "SELECT userId, username, firstName, lastName, email, role, hash " +
       "FROM Users " +
-      "WHERE username = ? " +
-      "AND password = ?;";
+      "WHERE username = ?;";
 
-    const results = await pool.query(sql, [username, password]);
+    const results = await pool.query(sql, [username]);
 
     // check to see if we were able to find the user
     if (!results[0].length) {
       return {userId: 0};
     }
 
-    return results[0][0];
+    // verify that the password is correct
+    if (verifyHash(password, results[0][0].hash)) {
+
+      const finalResults = {
+        userId: results[0][0].userId,
+        username: results[0][0].username,
+        firstName: results[0][0].firstName,
+        lastName: results[0][0].lastName,
+        email: results[0][0].email,
+        role: results[0][0].role
+      };
+
+      return finalResults;
+
+    } else {
+      return {userId: 0};
+    }
 
   } catch (err) {
     console.error("Error searching for user");
@@ -65,6 +81,9 @@ exports.loginUser = loginUser;
 async function createUser(username, password, firstName, lastName, email) {
 
   try {
+
+    // convert the password to a hash
+    password = hashPassword(password);
 
     // make sure that the user name doesn't already exist
     let sql = "SELECT * " +
@@ -87,7 +106,7 @@ async function createUser(username, password, firstName, lastName, email) {
     }
 
     // create the new user
-    sql = "INSERT INTO Users (username, password, firstName, lastName, email, role) " +
+    sql = "INSERT INTO Users (username, hash, firstName, lastName, email, role) " +
     "VALUES (?, ?, ?, ?, ?, 1);";
     results = await pool.query(sql, [username, password, firstName, lastName, email]);
 
@@ -125,12 +144,16 @@ async function updateUser(userId, username, oldPassword, newPassword, firstName,
     // if the password is being changed,
     // make sure that the old password is correct
     if (typeof newPassword !== "undefined") {
-      sql = "SELECT password " +
+
+      // convert the new password to a hash
+      newPassword = hashPassword(newPassword);
+
+      sql = "SELECT hash " +
       "FROM Users " +
       "WHERE userId = ?;";
       results = await pool.query(sql, userId);
 
-      if (oldPassword !== results[0][0].password) {
+      if (!verifyHash(oldPassword, results[0][0].hash)) {
         return {error: 2};
       }
     }
@@ -144,7 +167,7 @@ async function updateUser(userId, username, oldPassword, newPassword, firstName,
     }
 
     if (typeof newPassword !== "undefined") {
-      sql += "password = ?,";
+      sql += "hash = ?,";
       sqlArray.push(newPassword);
     }
 
@@ -377,3 +400,51 @@ async function searchUsers(text, role, sort, order, cursor) {
 }
 exports.searchUsers = searchUsers;
 
+
+// generate a random new password for a user
+async function randomPassword(userId) {
+
+  try {
+
+    // make sure that the user exists
+    let sql = "SELECT * " +
+    "FROM Users " +
+    "WHERE userId = ?;";
+    const results = await pool.query(sql, userId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // generate a new random password
+    let password = "";
+    const validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+      "abcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (let i = 1; i <= 15; i++) {
+      const char = Math.floor(Math.random() * validChars.length + 1);
+      password += validChars.charAt(char);
+    }
+
+    // salt and hash the new password
+    const hash = hashPassword(password);
+
+    // update the users password hash
+    sql = "UPDATE Users " +
+    "SET hash = ? " +
+    "WHERE userId = ?;";
+    await pool.query(sql, [hash, userId]);
+
+    const finalResults = {
+      password: password
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error creating new password");
+    throw Error(err);
+  }
+
+}
+exports.randomPassword = randomPassword;

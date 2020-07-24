@@ -4,43 +4,6 @@
 const {pool} = require("../services/database/mysqlPool");
 
 
-// return information about the specific card
-async function getCard(cardId, viewAll) {
-
-  try {
-
-    let sql = "";
-
-    // get the specified card
-    if (viewAll) {
-      sql = "SELECT * " +
-      "FROM Cards " +
-      "WHERE cardId = ?;";
-    } else {
-      sql = "SELECT * " +
-      "FROM Cards " +
-      "WHERE cardId = ? " +
-      "AND approved = 1;";
-    }
-
-    const results = await pool.query(sql, cardId);
-
-    // check to see if we were able to find the card
-    if (!results[0].length) {
-      return {cardId: 0};
-    }
-
-    return results[0][0];
-
-  } catch (err) {
-    console.error("Error searching for card");
-    throw Error(err);
-  }
-
-}
-exports.getCard = getCard;
-
-
 // create a card
 async function createCard(headerId, cardType, title, items, userId) {
 
@@ -67,6 +30,21 @@ async function createCard(headerId, cardType, title, items, userId) {
 
     if (!results[0].length) {
       return {error: 2};
+    }
+
+    // make sure all of the icons being used on this card are valid
+    sql = "SELECT iconType " +
+    "FROM Icons " +
+    "WHERE groupIndex = 0;";
+    results = await pool.query(sql, []);
+
+    const icons = results[0];
+    for (let i = 0; i < items.length; i++) {
+      for (let j = 0; j < icons.length; j++) {
+        if (items[i].iconType === icons[j].iconType) {
+          return {error: 3}
+        }
+      }
     }
 
     // create the new card
@@ -121,50 +99,12 @@ async function deleteCard(cardId) {
 
   try {
 
-    // checks to see if there is an edited version of the card to delete
-    let sql = "SELECT * " +
-    "FROM Items " +
-    "WHERE cardId = ? " +
-    "AND approved = 0;";
-
-    let results = await pool.query(sql, cardId);
-
-    sql = "SELECT * " +
-    "FROM Cards " +
-    "WHERE cardId = ? " +
-    "AND approved = 1;";
-
-    const checkApproved = await pool.query(sql, cardId);
-
-    // prioritize deleting the edited version
-    // a second delete will remove the real one
-    if (results[0].length && checkApproved[0].length) {
-      sql = "DELETE " +
-        "FROM Temp_Cards " +
-        "WHERE tempCardId = ?;";
-
-      results = await pool.query(sql, cardId);
-
-      sql = "DELETE " +
-      "FROM Items " +
-      "WHERE cardId = ? " +
-      "AND approved = 0;";
-
-      results = await pool.query(sql, cardId);
-
-      const finalResults = {
-        affectedRows: results[0].affectedRows
-      };
-
-      return finalResults;
-    }
-
     // check to see if the card exists
-    sql = "SELECT * " +
+    let sql = "SELECT * " +
       "FROM Cards " +
       "WHERE cardId = ?;";
 
-    results = await pool.query(sql, cardId);
+    let results = await pool.query(sql, cardId);
 
     if (!results[0].length) {
       return {error: 1};
@@ -192,6 +132,81 @@ async function deleteCard(cardId) {
 exports.deleteCard = deleteCard;
 
 
+// delete a cards changes
+async function deleteCardChanges(cardId) {
+
+  try {
+
+    // checks to see if there is an edited version of the card to delete
+    let sql = "SELECT * " +
+    "FROM Items " +
+    "WHERE cardId = ? " +
+    "AND approved = 0;";
+
+    let results = await pool.query(sql, cardId);
+
+    sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE cardId = ?;";
+
+    const checkApproved = await pool.query(sql, cardId);
+
+    // delete the edited version of the card if it exists
+    if (results[0].length && checkApproved[0].length && checkApproved[0][0].approved) {
+
+      sql = "DELETE " +
+        "FROM Temp_Cards " +
+        "WHERE tempCardId = ?;";
+
+      results = await pool.query(sql, cardId);
+
+      sql = "DELETE " +
+      "FROM Items " +
+      "WHERE cardId = ? " +
+      "AND approved = 0;";
+
+      results = await pool.query(sql, cardId);
+
+      const finalResults = {
+        affectedRows: results[0].affectedRows
+      };
+
+      return finalResults;
+
+    } else {
+
+      // there was no temp card to delete, there may still be the real card
+      // to delete, as long as it has never been published
+
+      if (checkApproved[0].length && !checkApproved[0][0].approved) {
+
+        sql = "DELETE " +
+        "FROM Cards " +
+        "WHERE cardId = ? " +
+        "AND approved = 0;";
+
+        results = await pool.query(sql, cardId);
+
+        const finalResults = {
+          affectedRows: results[0].affectedRows
+        };
+
+        return finalResults;
+
+      } else {
+        return {error: 1};
+      }
+    }
+
+  } catch (err) {
+    console.error("Error deleting card changes");
+    throw Error(err);
+  }
+
+}
+exports.deleteCardChanges = deleteCardChanges;
+
+
 // update a card
 async function updateCard(cardId, cardType, title, items, userId) {
 
@@ -208,6 +223,21 @@ async function updateCard(cardId, cardType, title, items, userId) {
     }
 
     const approved = results[0][0].approved;
+
+    // make sure all of the icons being used on this card are valid
+    sql = "SELECT iconType " +
+    "FROM Icons " +
+    "WHERE groupIndex = 0;";
+    results = await pool.query(sql, []);
+
+    const icons = results[0];
+    for (let i = 0; i < items.length; i++) {
+      for (let j = 0; j < icons.length; j++) {
+        if (items[i].iconType === icons[j].iconType) {
+          return {error: 2}
+        }
+      }
+    }
 
     // See if we already have an unpublished card.
     // Either create a new one or update the existing one.

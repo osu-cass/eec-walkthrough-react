@@ -19,7 +19,7 @@ function LinkAccessButtons(props) {
     };
 
     // construct the request url
-    const patchUrl = `/items/${props.itemId}/timestamp`;
+    const patchUrl = `/api/links/${props.itemId}/timestamp`;
 
     const results = await fetch(patchUrl, {
       method: "PATCH",
