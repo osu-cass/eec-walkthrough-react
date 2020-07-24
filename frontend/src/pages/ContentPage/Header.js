@@ -411,6 +411,7 @@ function Header(props) {
                 role={props.role}
                 top={i === 0 ? (true) : (false)}
                 bottom={i >= cards.length - 1 ? (true) : (false)}
+                setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
               />
             )}
           </div>
