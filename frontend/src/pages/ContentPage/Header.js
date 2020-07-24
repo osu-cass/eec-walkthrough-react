@@ -185,9 +185,19 @@ function Header(props) {
         }
         // see if the item should be filtered or not
         if (filterState[props.header.cards[i].items[j].iconType] &&
-            !filterItem(props.header.cards[i].items[j], props.mode)) {
+            !filterItem(props.header.cards[i].items[j], props.mode, false)) {
           allItems.push(props.header.cards[i].items[j]);
           itemExists = true;
+          // opportunities may have setting to hide their children
+          // opportunities may have setting to hide their children
+          if (filterItem(props.header.cards[i].items[j], props.mode, true)) {
+            props.header.cards[i].items[j].hideChildren = true;
+          } else {
+            props.header.cards[i].items[j].hideChildren = false;
+          }
+          if (props.header.cards[i].items[j].hideChildren) {
+            hideIndent = props.header.cards[i].items[j].indentation;
+          }
         } else {
           // if this item has children they need to be hidden
           hideIndent = props.header.cards[i].items[j].indentation;
@@ -208,9 +218,18 @@ function Header(props) {
         }
         // see if the item should be filtered or not
         if (filterState[props.header.cards[i].tempItems[j].iconType] &&
-            !filterItem(props.header.cards[i].tempItems[j], props.mode)) {
+            !filterItem(props.header.cards[i].tempItems[j], props.mode, false)) {
           allTempItems.push(props.header.cards[i].tempItems[j]);
           tempItemExists = true;
+          // opportunities may have setting to hide their children
+          if (filterItem(props.header.cards[i].tempItems[j], props.mode, true)) {
+            props.header.cards[i].tempItems[j].hideChildren = true;
+          } else {
+            props.header.cards[i].tempItems[j].hideChildren = false;
+          }
+          if (props.header.cards[i].tempItems[j].hideChildren) {
+            hideIndent = props.header.cards[i].tempItems[j].indentation;
+          }
         } else {
           // if this item has children they need to be hidden
           hideIndent = props.header.cards[i].tempItems[j].indentation;
@@ -243,14 +262,25 @@ function Header(props) {
   }
 
   // returns true if the item is being filtered by the opportunity filter mode
-  function filterItem(item, mode) {
-    if (mode !== 1) {
-      if (opportunityFilterMode && opportunitiesExist && item.indentation === 0 && item.iconType !== 11) {
+  function filterItem(item, mode, ignoreType) {
+    if (ignoreType) {
+      if (mode !== 1) {
+        if (opportunityFilterMode && opportunitiesExist && item.indentation === 0) {
+          return true;
+        }
+      } else if (opportunityFilterMode && (opportunitiesExist || tempOpportunitiesExist) 
+                && item.indentation === 0) {
         return true;
       }
-    } else if (opportunityFilterMode && (opportunitiesExist || tempOpportunitiesExist) 
-               && item.indentation === 0 && item.iconType !== 11) {
-      return true;
+    } else {
+      if (mode !== 1) {
+        if (opportunityFilterMode && opportunitiesExist && item.indentation === 0 && item.iconType !== 11) {
+          return true;
+        }
+      } else if (opportunityFilterMode && (opportunitiesExist || tempOpportunitiesExist) 
+                && item.indentation === 0 && item.iconType !== 11) {
+        return true;
+      }
     }
     return false
   }
