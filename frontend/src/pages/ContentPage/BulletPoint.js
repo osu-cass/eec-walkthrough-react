@@ -34,20 +34,45 @@ function BulletPoint (props) {
     <Fragment>
 
       {getContentType(props.text, props.label, props.url) === 1 ? (
-        <div className="row mx-auto">
-          <div className="icon-td justify-content-center">
-            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}
-              ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
-            style={{color: props.color}}
-            title={props.tooltip}
-            />
-          </div>
-          <div className="content-td pb-2 col">
-            <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
-              {props.text}
-            </span>
-          </div>
-        </div>
+        <Fragment>
+          {props.icon === "check-square" ? (
+            <div className="row mx-auto">
+              <div className="icon-td justify-content-center">
+                {props.checked ? (
+                  <i className={`fas fa-fw fa-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
+                    title={props.tooltip}
+                    onClick={() => props.setCheck(false, props.id)}
+                  />
+                ) : (
+                  <i className={`fas fa-fw fa-check-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
+                    title={props.tooltip}
+                    onClick={() => props.setCheck(true, props.id)}
+                  />
+                )}
+              </div>
+              <div className="content-td pb-2 col">
+                <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
+                  {props.text}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div className="row mx-auto">
+              <div className="icon-td justify-content-center">
+                <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}
+                  ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
+                style={{color: props.color}}
+                title={props.tooltip}
+                />
+              </div>
+              <div className="content-td pb-2 col">
+                <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
+                  {props.text}
+                </span>
+              </div>
+            </div>
+          )}
+        </Fragment>
       ) : (
         null
       )}
@@ -154,5 +179,7 @@ BulletPoint.propTypes = {
   handleTimestamp: PropTypes.func,
   color: PropTypes.string,
   tooltip: PropTypes.string,
-  reviewing: PropTypes.bool
+  reviewing: PropTypes.bool,
+  setCheck: PropTypes.func,
+  checked: PropTypes.bool
 };

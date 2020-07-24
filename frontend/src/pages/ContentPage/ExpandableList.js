@@ -45,6 +45,8 @@ function ExpandableList(props) {
             publicMode={props.publicMode}
             tooltip={item.typeKeyword}
             handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
+            checked={item.hideChildren}
+            setCheck={(check, itemId) => props.setCheck(check, itemId)}
           />
         )}
       </div>
@@ -69,5 +71,6 @@ ExpandableList.propTypes = {
   handleTimestamp: PropTypes.func,
   items: PropTypes.array,
   mode: PropTypes.number,
-  publicMode: PropTypes.number
+  publicMode: PropTypes.number,
+  setCheck: PropTypes.func
 };

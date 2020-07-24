@@ -25,6 +25,8 @@ function BasicItems(props) {
           publicMode={props.publicMode}
           handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
           reviewing={props.reviewing}
+          checked={item.hideChildren}
+          setCheck={(check, itemId) => props.setCheck(check, itemId)}
         />
       )}
     </div>
@@ -38,5 +40,6 @@ BasicItems.propTypes = {
   items: PropTypes.array,
   mode: PropTypes.number,
   publicMode: PropTypes.number,
-  reviewing: PropTypes.bool
+  reviewing: PropTypes.bool,
+  setCheck: PropTypes.func
 };
