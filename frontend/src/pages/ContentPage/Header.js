@@ -14,12 +14,12 @@ function Header(props) {
   const [filterIcons, setFilterIcons] = useState([]);
   const [tempFilterIcons, setTempFilterIcons] = useState([]);
   const [filterShow, setFilterShow] = useState([]);
+  const [checkedCards, setCheckedCards] = useState(props.header.cards);
   const [cards, setCards] = useState(props.header.cards);
   const [unfilteredCards, setUnfilteredCards] = useState(props.header.cards);
   const [opportunitiesExist, setOpportunitiesExist] = useState(false);
   const [tempOpportunitiesExist, setTempOpportunitiesExist] = useState(false);
   const [opportunityFilterMode, setOpportunityFilterMode] = useState(false);
-  const [reloadFilter, setReloadFilter] = useState(false);
 
   // Get all of the icons that could be used for published filtering
   useEffect(() => {
@@ -118,7 +118,7 @@ function Header(props) {
   useEffect(() => {
     updateCardState(filterShow);
     // eslint-disable-next-line
-  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode, reloadFilter]);
+  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode, checkedCards]);
 
   // Changes the viewing state of an icon
   function updateIcon(iconId, state) {
@@ -156,17 +156,17 @@ function Header(props) {
     const allUnfilteredCards = [];
 
     // Check each card
-    for (let i = 0; i < props.header.cards.length; i++) {
+    for (let i = 0; i < checkedCards.length; i++) {
 
       // Check if the card should be shown as edited or published
       let cardView = 0;
-      if (props.header.cards[i].tempItems.length) {
+      if (checkedCards[i].tempItems.length) {
         cardView = 1;
       }
 
       // Filter items out of the current card
-      const card = JSON.parse(JSON.stringify(props.header.cards[i]));
-      const fullCard = JSON.parse(JSON.stringify(props.header.cards[i]));
+      const card = JSON.parse(JSON.stringify(checkedCards[i]));
+      const fullCard = JSON.parse(JSON.stringify(checkedCards[i]));
       const allItems = [];
       const allTempItems = [];
       let itemExists = false;
@@ -174,53 +174,51 @@ function Header(props) {
       let hideIndent = 1000;
 
       // check each normal item in the card
-      for (let j = 0; j < props.header.cards[i].items.length; j++) {
+      for (let j = 0; j < checkedCards[i].items.length; j++) {
         // if we are in hide children mode,
         // then remove items with a greater indentation level
-        if (props.header.cards[i].items[j].indentation > hideIndent) {
+        if (checkedCards[i].items[j].indentation > hideIndent) {
           continue;
         } else {
           hideIndent = 1000;
         }
         // see if the item should be filtered or not
-        if (filterState[props.header.cards[i].items[j].iconType] &&
-            !filterItem(props.header.cards[i].items[j], props.mode, false)) {
-          allItems.push(props.header.cards[i].items[j]);
+        if (filterState[checkedCards[i].items[j].iconType] &&
+            !filterItem(checkedCards[i].items[j], props.mode, false)) {
+          allItems.push(checkedCards[i].items[j]);
           itemExists = true;
           // opportunities may have setting to hide their children
-          if (props.header.cards[i].items[j].hideChildren) {
-            hideIndent = props.header.cards[i].items[j].indentation;
+          if (checkedCards[i].items[j].hideChildren) {
+            hideIndent = checkedCards[i].items[j].indentation;
           }
         } else {
           // if this item has children they need to be hidden
-          hideIndent = props.header.cards[i].items[j].indentation;
+          hideIndent = checkedCards[i].items[j].indentation;
         }
       }
 
       hideIndent = 1000;
 
       // check each temp item in the card
-      for (let j = 0; j < props.header.cards[i].tempItems.length; j++) {
+      for (let j = 0; j < checkedCards[i].tempItems.length; j++) {
         // check if this item is indented and if it needs to be hidden
-        if (props.header.cards[i].tempItems[j].indentation > hideIndent) {
-          if (hideIndent) {
-            continue;
-          }
+        if (checkedCards[i].tempItems[j].indentation > hideIndent) {
+          continue;
         } else {
           hideIndent = 1000;
         }
         // see if the item should be filtered or not
-        if (filterState[props.header.cards[i].tempItems[j].iconType] &&
-            !filterItem(props.header.cards[i].tempItems[j], props.mode, false)) {
-          allTempItems.push(props.header.cards[i].tempItems[j]);
+        if (filterState[checkedCards[i].tempItems[j].iconType] &&
+            !filterItem(checkedCards[i].tempItems[j], props.mode, false)) {
+          allTempItems.push(checkedCards[i].tempItems[j]);
           tempItemExists = true;
           // opportunities may have setting to hide their children
-          if (props.header.cards[i].tempItems[j].hideChildren) {
-            hideIndent = props.header.cards[i].tempItems[j].indentation;
+          if (checkedCards[i].tempItems[j].hideChildren) {
+            hideIndent = checkedCards[i].tempItems[j].indentation;
           }
         } else {
           // if this item has children they need to be hidden
-          hideIndent = props.header.cards[i].tempItems[j].indentation;
+          hideIndent = checkedCards[i].tempItems[j].indentation;
         }
       }
 
@@ -239,7 +237,7 @@ function Header(props) {
         card.edited = true;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
-      } else if (props.mode === 1 && !props.header.cards[i].tempItems.length && !props.header.cards[i].items.length) {
+      } else if (props.mode === 1 && !checkedCards[i].tempItems.length && !checkedCards[i].items.length) {
         card.invalid = true;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
@@ -290,52 +288,59 @@ function Header(props) {
   // reset the checked status of all the opportunity items
   function resetChecks() {
 
+    const newCards = [...props.header.cards];
+
     if (!opportunityFilterMode) {
-      for (let i = 0; i < props.header.cards.length; i++) {
-        for (let j = 0; j < props.header.cards[i].items.length; j++) {
-          if (props.header.cards[i].items[j].iconType === 11) {
-            props.header.cards[i].items[j].hideChildren = true;
+      for (let i = 0; i < newCards.length; i++) {
+        for (let j = 0; j < newCards[i].items.length; j++) {
+          if (newCards[i].items[j].iconType === 11) {
+            newCards[i].items[j].hideChildren = true;
           }
         }
-        for (let j = 0; j < props.header.cards[i].tempItems.length; j++) {
-          if (props.header.cards[i].tempItems[j].iconType === 11) {
-            props.header.cards[i].tempItems[j].hideChildren = true;
+        for (let j = 0; j < newCards[i].tempItems.length; j++) {
+          if (newCards[i].tempItems[j].iconType === 11) {
+            newCards[i].tempItems[j].hideChildren = true;
           }
         }
       }
     } else {
-      for (let i = 0; i < props.header.cards.length; i++) {
-        for (let j = 0; j < props.header.cards[i].items.length; j++) {
-          props.header.cards[i].items[j].hideChildren = false;
+      for (let i = 0; i < newCards.length; i++) {
+        for (let j = 0; j < newCards[i].items.length; j++) {
+          newCards[i].items[j].hideChildren = false;
         }
-        for (let j = 0; j < props.header.cards[i].tempItems.length; j++) {
-          props.header.cards[i].tempItems[j].hideChildren = false;
+        for (let j = 0; j < newCards[i].tempItems.length; j++) {
+          newCards[i].tempItems[j].hideChildren = false;
         }
       }
     }
 
+    setCheckedCards(newCards);
     setOpportunityFilterMode(!opportunityFilterMode)
   }
 
   // changes the checked status of an item
   function handleCheck(check, itemId, cardId) {
-    console.log(check, itemId, cardId)
-    for (let i = 0; i < props.header.cards.length; i++) {
-      if (props.header.cards[i].cardId = cardId) {
-        for (let j = 0; j < props.header.cards[i].items.length; j++) {
-          if (props.header.cards[i].items[j].itemId === itemId) {
-            props.header.cards[i].items[j].hideChildren = check;
+
+    const newCards =[...props.header.cards];
+
+    for (let i = 0; i < newCards.length; i++) {
+      if (newCards[i].cardId === cardId) {
+        for (let j = 0; j < newCards[i].items.length; j++) {
+          if (newCards[i].items[j].itemId === itemId) {
+            newCards[i].items[j].hideChildren = check;
+            setCheckedCards(newCards);
+            return;
           }
         }
-        for (let j = 0; j < props.header.cards[i].tempItems.length; j++) {
-          if (props.header.cards[i].tempItems[j].itemId === itemId) {
-            props.header.cards[i].tempItems[j].hideChildren = check;
+        for (let j = 0; j < newCards[i].tempItems.length; j++) {
+          if (newCards[i].tempItems[j].itemId === itemId) {
+            newCards[i].tempItems[j].hideChildren = check;
+            setCheckedCards(newCards);
             return;
           }
         }
       }
     }
-    setReloadFilter(!reloadFilter);
   }
 
   return (!props.header.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
