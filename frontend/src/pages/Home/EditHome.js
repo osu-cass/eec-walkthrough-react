@@ -12,11 +12,6 @@ function EditHome(props) {
   const [mainHeader, setMainHeader] = useState(props.page.mainHeader);
   const [secondaryHeader, setSecondaryHeader] = useState(props.page.secondaryHeader);
   const [sectionsTitle, setSectionsTitle] = useState(props.page.sectionsTitle);
-  const [assessments, setAssessments] = useState(props.page.assessments);
-  const [industries, setIndustries] = useState(props.page.industries);
-  const [processes, setProcesses] = useState(props.page.processes);
-  const [productivity, setProductivity] = useState(props.page.productivity);
-  const [technologies, setTechnologies] = useState(props.page.technologies);
   const [sectionsFooter, setSectionsFooter] = useState(props.page.sectionsFooter);
   const [tidbitsHeader, setTidbitsHeader] = useState(props.page.tidbitsHeader);
   const [tidbitsTitle, setTidbitsTitle] = useState(props.page.tidbitsTitle);
@@ -38,11 +33,6 @@ function EditHome(props) {
     setMainHeader(props.page.mainHeader);
     setSecondaryHeader(props.page.secondaryHeader);
     setSectionsTitle(props.page.sectionsTitle);
-    setAssessments(props.page.assessments);
-    setIndustries(props.page.industries);
-    setProcesses(props.page.processes);
-    setProductivity(props.page.productivity);
-    setTechnologies(props.page.technologies);
     setSectionsFooter(props.page.sectionsFooter);
     setTidbitsHeader(props.page.tidbitsHeader);
     setTidbitsTitle(props.page.tidbitsTitle);
@@ -56,12 +46,11 @@ function EditHome(props) {
     setDisclaimerText(props.page.disclaimerText);
     setRole(getProfile().role);
   }, [props.loginStatusChange, props.page.mainHeader, props.page.secondaryHeader,
-    props.page.sectionsTitle, props.page.assessments, props.page.industries,
-    props.page.processes, props.page.productivity, props.page.technologies,
-    props.page.sectionsFooter, props.page.tidbitsHeader, props.page.tidbitsTitle,
-    props.page.tidbitsFooter, props.page.linksHeader, props.page.linksTitlePrefix,
-    props.page.linksTitlePostfixInternal, props.page.linksTitlePostfixDownload,
-    props.page.linksFooter, props.page.disclaimerHeader, props.page.disclaimerText]);
+    props.page.sectionsTitle, props.page.sectionsFooter, props.page.tidbitsHeader,
+    props.page.tidbitsTitle, props.page.tidbitsFooter, props.page.linksHeader,
+    props.page.linksTitlePrefix, props.page.linksTitlePostfixInternal,
+    props.page.linksTitlePostfixDownload, props.page.linksFooter,
+    props.page.disclaimerHeader, props.page.disclaimerText]);
 
   function handleCloseModal() {
     setShowModal(false);
@@ -79,11 +68,6 @@ function EditHome(props) {
       mainHeader: mainHeader,
       secondaryHeader: secondaryHeader,
       sectionsTitle: sectionsTitle,
-      assessments: assessments,
-      industries: industries,
-      processes: processes,
-      productivity: productivity,
-      technologies: technologies,
       sectionsFooter: sectionsFooter,
       tidbitsHeader: tidbitsHeader,
       tidbitsTitle: tidbitsTitle,
@@ -97,7 +81,7 @@ function EditHome(props) {
       disclaimerText: disclaimerText
     };
 
-    const results = await fetch(`/home`, {
+    const results = await fetch(`/api/home`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
@@ -202,81 +186,6 @@ function EditHome(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="form4">
-                <Form.Label className="font-weight-bold">Assessment Description</Form.Label>
-                <Form.Control
-                  type="text"
-                  maxLength="1000"
-                  placeholder="Enter assessment description"
-                  defaultValue={assessments}
-                  onChange={(e) => setAssessments(e.target.value)}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <Form.Group controlId="form5">
-                <Form.Label className="font-weight-bold">Industry Description</Form.Label>
-                <Form.Control
-                  type="text"
-                  maxLength="1000"
-                  placeholder="Enter industry description"
-                  defaultValue={industries}
-                  onChange={(e) => setIndustries(e.target.value)}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <Form.Group controlId="form6">
-                <Form.Label className="font-weight-bold">Process Description</Form.Label>
-                <Form.Control
-                  type="text"
-                  maxLength="1000"
-                  placeholder="Enter process description"
-                  defaultValue={processes}
-                  onChange={(e) => setProcesses(e.target.value)}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <Form.Group controlId="form7">
-                <Form.Label className="font-weight-bold">Productivity Description</Form.Label>
-                <Form.Control
-                  type="text"
-                  maxLength="1000"
-                  placeholder="Enter productivity description"
-                  defaultValue={productivity}
-                  onChange={(e) => setProductivity(e.target.value)}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <Form.Group controlId="form8">
-                <Form.Label className="font-weight-bold">Technology Description</Form.Label>
-                <Form.Control
-                  type="text"
-                  maxLength="1000"
-                  placeholder="Enter technology description"
-                  defaultValue={technologies}
-                  onChange={(e) => setTechnologies(e.target.value)}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
               <Form.Group controlId="form9">
                 <Form.Label className="font-weight-bold">Sections Footer</Form.Label>
                 <Form.Control
@@ -290,8 +199,8 @@ function EditHome(props) {
             </Col>
           </Row>
 
-          </Modal.Body>
-          <Modal.Body>
+        </Modal.Body>
+        <Modal.Body>
 
           <Row>
             <Col>
@@ -338,8 +247,8 @@ function EditHome(props) {
             </Col>
           </Row>
 
-          </Modal.Body>
-          <Modal.Body>
+        </Modal.Body>
+        <Modal.Body>
 
           <Row>
             <Col>
@@ -416,8 +325,8 @@ function EditHome(props) {
             </Col>
           </Row>
 
-          </Modal.Body>
-          <Modal.Body>
+        </Modal.Body>
+        <Modal.Body>
 
           <Row>
             <Col>

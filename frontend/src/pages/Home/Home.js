@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Card, Col} from "react-bootstrap";
 import {NavLink} from "react-router-dom";
 import EditHome from "./EditHome";
+import ManageSponsors from "./ManageSponsors";
 import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import "./Home.css";
@@ -12,6 +13,7 @@ function Home(props) {
   const [generalIcons, setGeneralIcons] = useState([]);
   const [linkIcons, setLinkIcons] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [sponsors, setSponsors] = useState([]);
   const [page, setPage] = useState({
     mainHeader: "",
     secondaryHeader: "",
@@ -31,12 +33,15 @@ function Home(props) {
     linksTitlePostfixDownload: "",
     linksFooter: "",
     disclaimerHeader: "",
-    disclaimerText: ""
+    disclaimerText: "",
+    categories: []
   });
 
   useEffect(() => {
-    fetchHome();
-  }, []);
+    if (typeof props.loginStatusChange === "boolean") {
+      fetchHome();
+    }
+  }, [props.loginStatusChange]);
 
   function handlePageEdit() {
     fetchHome();
@@ -47,14 +52,14 @@ function Home(props) {
     setLoading(true);
 
     // Fetch all icons
-    let results = await fetch(`/icons/all`);
+    let results = await fetch(`/api/icons/all`);
 
     if (results.ok) {
 
       const obj = await results.json();
       const general = [];
       const links = [];
-      
+
       // Sort the icons by group
       for (let i = 0; i < obj.icons.length; i++) {
         if (obj.icons[i].groupIndex === 1 || obj.icons[i].groupIndex === 2) {
@@ -72,7 +77,7 @@ function Home(props) {
     }
 
     // Fetch all homepage content
-    results = await fetch(`/home`);
+    results = await fetch(`/api/home`);
 
     if (results.ok) {
 
@@ -81,6 +86,17 @@ function Home(props) {
 
     } else {
       console.error("Error fetching homepage content");
+    }
+
+     // Fetch all sponsors
+     results = await fetch(`/api/home/sponsors`);
+     if (results.ok) {
+
+      const obj = await results.json();
+      setSponsors(obj);
+
+    } else {
+      console.error("Error fetching sponsors");
     }
 
     setLoading(false);
@@ -95,14 +111,18 @@ function Home(props) {
         <div className="row mx-2">
           <div className="col">
             <h2 className="font-weight-bold">{page.mainHeader}</h2>
-
           </div>
         </div>
-        <div>
+        <div className="row">
           <EditHome
             handlePageEdit={() => handlePageEdit()}
             loginStatusChange={props.loginStatusChange}
             page={page}
+          />
+          <ManageSponsors
+            handlePageEdit={() => handlePageEdit()}
+            loginStatusChange={props.loginStatusChange}
+            sponsors={sponsors}
           />
         </div>
       </div>
@@ -114,50 +134,17 @@ function Home(props) {
         <div className="p-4 my-2 text-dark-50 bg-white" >
           <div className="font-weight-bold mb-3">{page.sectionsTitle}</div>
 
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <NavLink to="/page-list/assessment"><b>Assessments: </b></NavLink>
-                <span className="font-weight-normal">{page.assessments}</span>
-              </li>
-            </ul>
-          </div>
+          {page.categories.map((category) =>
+            <div key={category.categoryId}>
+              <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
+                <li>
+                  <NavLink to={`/page-list/${category.categoryId}`}><b>{category.pluralName}: </b></NavLink>
+                  <span className="font-weight-normal">{category.description}</span>
+                </li>
+              </ul>
+            </div>
+          )}
 
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <NavLink to="/page-list/industry"><b>Industries: </b></NavLink>
-                <span className="font-weight-normal">{page.industries}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <NavLink to="/page-list/process"><b>Processes: </b></NavLink>
-                <span className="font-weight-normal">{page.processes}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <NavLink to="/page-list/productivity"><b>Productivity: </b></NavLink>
-                <span className="font-weight-normal">{page.productivity}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <NavLink to="/page-list/technology"><b>Technologies: </b></NavLink>
-                <span className="font-weight-normal">{page.technologies}</span>
-              </li>
-            </ul>
-          </div>
           <div>
             <span className="font-italic allow-newlines">{page.sectionsFooter}</span>
           </div>
@@ -195,11 +182,11 @@ function Home(props) {
           <div>
             <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle", listStyleType: "none"}}>
               {linkIcons.map((icon) =>
-                  <li className="my-2" key={icon.iconType}>
-                    <i className={`fas fa-fw fa-${icon.typeName} mr-2`} style={{color: icon.color}} />
-                    <span className="font-weight-normal">{icon.typeKeyword}</span>
-                  </li>
-                )}
+                <li className="my-2" key={icon.iconType}>
+                  <i className={`fas fa-fw fa-${icon.typeName} mr-2`} style={{color: icon.color}} />
+                  <span className="font-weight-normal">{icon.typeKeyword}</span>
+                </li>
+              )}
             </ul>
           </div>
           <div className="font-weight-bold mb-3">{page.linksTitlePostfixInternal}</div>
@@ -244,47 +231,39 @@ function Home(props) {
         </div>
       </Card>
 
-      <Card className="my-2 mb-5">
-        <Card.Header>
-          <h5>Sponsors</h5>
-        </Card.Header>
-        <Col className="my-4">
-          {/*
-          <img
-            src={"/images/BPA.png"}
-            alt={"Industrial Assessment Center"}
-            title={"Industrial Assessment Center"}
-            className="expandable-image img-fluid img-thumbnail mr-5"
-          />
-          */}
-          <img
-            src={"/images/IAC.png"}
-            alt={"Industrial Assessment Center"}
-            title={"Industrial Assessment Center"}
-            className="expandable-image img-fluid img-thumbnail ml-5"
-          />
-        </Col>
+      {sponsors.length ? (
+        <Card className="my-2 mb-5">
+          <Card.Header>
+            <h5>Sponsors</h5>
+          </Card.Header>
+          <Col className="my-4">
+            {sponsors.map((sponsor) =>
+              <img
+                key={sponsor.name}
+                src={sponsor.imageUrl}
+                alt={sponsor.name}
+                title={sponsor.name}
+                className="expandable-image img-fluid img-thumbnail ml-5"
+              />
+            )}
+          </Col>
 
-        <div className="p-4 my-2 text-dark-50 bg-white" >
-          <div className="font-weight-bold mb-3">This guide has been developed with support from</div>
-          {/*
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <a href="https://www.bpa.gov/pages/home.aspx">The Bonneville Power Administration</a>
-              </li>
-            </ul>
+          <div className="p-4 my-2 text-dark-50 bg-white" >
+            <div className="font-weight-bold mb-3">This guide has been developed with support from</div>
+              {sponsors.map((sponsor) =>
+                <div key={sponsor.name}>
+                  <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
+                    <li>
+                      <a href={sponsor.websiteUrl}>{sponsor.title}</a>
+                    </li>
+                  </ul>
+                </div>
+              )}
           </div>
-          */}
-          <div>
-            <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-              <li>
-                <a href="https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs">U.S. Department of Energy, Office of Energy Efficiency &amp; Renewable Energy, Advanced Manufacturing Office, Industrial Assessment Centers</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </Card>
+        </Card>
+      ) : (
+        null
+      )}
 
       <Card className="my-2 mb-5">
         <Card.Header>

@@ -9,18 +9,23 @@ function FilterBar(props) {
   const [tempIconNames, setTempIconNames] = useState([]);
   const [iconColors, setIconColors] = useState([]);
   const [tempIconColors, setTempIconColors] = useState([]);
+  const [iconTooltips, setIconTooltips] = useState([]);
+  const [tempIconTooltips, setTempIconTooltips] = useState([]);
 
   // get an array of the icon names that match the filter icon IDs
   useEffect(() => {
     const names = [];
     const colors = [];
+    const tooltips = [];
     const tempNames = [];
     const tempColors = [];
+    const tempTooltips = [];
     for (let i = 0; i < props.filterIcons.length; i++) {
       for (let j = 0; j < props.iconSet.length; j++) {
         if (props.filterIcons[i] === props.iconSet[j].iconType) {
           names.push(props.iconSet[j].typeName);
           colors.push(props.iconSet[j].color);
+          tooltips.push(props.iconSet[j].typeKeyword);
           break;
         }
       }
@@ -30,6 +35,7 @@ function FilterBar(props) {
         if (props.tempFilterIcons[i] === props.iconSet[j].iconType) {
           tempNames.push(props.iconSet[j].typeName);
           tempColors.push(props.iconSet[j].color);
+          tempTooltips.push(props.iconSet[j].typeKeyword);
           break;
         }
       }
@@ -38,6 +44,8 @@ function FilterBar(props) {
     setTempIconNames(tempNames);
     setIconColors(colors);
     setTempIconColors(tempColors);
+    setIconTooltips(tooltips);
+    setTempIconTooltips(tempTooltips);
   }, [props.filterIcons, props.tempFilterIcons, props.iconSet]);
 
   return props.mode === 1 ? (
@@ -51,18 +59,21 @@ function FilterBar(props) {
             } mr-3`}
             onClick={() => props.updateIcon(obj, props.filterShow[obj])}
             style={{color: tempIconColors[i]}}
+            title={tempIconTooltips[i]}
           />
         );
       })}
       <i
         id="reset-filter-icons"
         className={`fas fa-undo text-dark mr-3`}
+        title="Show All"
         value="reset"
         onClick={() => props.resetIcons()}
       />
       <i
         id="clear-filter-icons"
         className={`fas fa-times text-dark mr-3`}
+        title="Hide All"
         value="clear"
         onClick={() => props.clearIcons()}
       />
@@ -78,18 +89,21 @@ function FilterBar(props) {
             } mr-3`}
             onClick={() => props.updateIcon(obj, props.filterShow[obj])}
             style={{color: iconColors[i]}}
+            title={iconTooltips[i]}
           />
         );
       })}
       <i
         id="reset-filter-icons"
         className={`fas fa-undo text-dark mr-3`}
+        title="Show All"
         value="reset"
         onClick={() => props.resetIcons()}
       />
       <i
         id="clear-filter-icons"
         className={`fas fa-times text-dark mr-3`}
+        title="Hide All"
         value="clear"
         onClick={() => props.clearIcons()}
       />

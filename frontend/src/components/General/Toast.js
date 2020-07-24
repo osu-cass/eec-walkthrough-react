@@ -8,7 +8,7 @@ function Toast (props) {
   // close the toast automatically after a specified amount of time
   useEffect(() => {
     if (props.show) {
-      setTimeout(function(){props.handleClose()}, 3000);
+      setTimeout(() => { props.handleClose(); }, 3000);
     }
     // eslint-disable-next-line
   }, [props.show]);

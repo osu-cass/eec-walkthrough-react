@@ -49,11 +49,11 @@ function Card(props) {
   function isInternal() {
     if (props.mode === 1) {
       if ((props.card.tempCardId && props.card.tempCardType >= 10) || (!props.card.tempCardId && props.card.cardType >= 10)) {
-        return 1
+        return 1;
       }
     } else {
       if (props.card.cardType >= 10) {
-        return 1
+        return 1;
       }
     }
   }
@@ -101,7 +101,7 @@ function Card(props) {
 
   }
 
-  return (!props.card.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal()) ? (
+  return (!props.card.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
     <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" }
@@ -109,7 +109,9 @@ function Card(props) {
     >
       <CardBS.Header
         as="h5"
-        className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold"
+        className={`card-header-bar d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold
+          ${props.card.edited ? "card-body-review" : "card-body-approved" }
+          ${isInternal() ? "card-body-internal" : ""}`}
       >
         <div
           id={"heading" + props.card.cardId}
@@ -127,6 +129,7 @@ function Card(props) {
               card={props.card}
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
               iconSet={props.iconSet}
+              role={props.role}
             />
             <ReviewCard
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
@@ -190,6 +193,7 @@ function Card(props) {
                   mode={props.mode}
                   publicMode={props.publicMode}
                   handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+                  reviewing={false}
                 />
               )}
             </Fragment>

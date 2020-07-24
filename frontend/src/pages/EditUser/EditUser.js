@@ -50,7 +50,7 @@ function EditUser(props) {
       const currentUser = getProfile();
 
       // construct the request url
-      const postUrl = `/users/${currentUser.userId}`;
+      const postUrl = `/api/users/${currentUser.userId}`;
       let obj = [];
 
       // make the request
@@ -117,7 +117,7 @@ function EditUser(props) {
       }
 
       // construct the request url
-      const getUrl = `/users/${currentUser.userId}`;
+      const getUrl = `/api/users/${currentUser.userId}`;
       let obj = [];
 
       // make the request

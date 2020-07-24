@@ -37,7 +37,7 @@ function Login (props) {
       };
 
       // construct the request url
-      const postUrl = "/users/login";
+      const postUrl = "/api/users/login";
       let obj = [];
 
       // make the request

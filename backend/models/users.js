@@ -400,3 +400,51 @@ async function searchUsers(text, role, sort, order, cursor) {
 }
 exports.searchUsers = searchUsers;
 
+
+// generate a random new password for a user
+async function randomPassword(userId) {
+
+  try {
+
+    // make sure that the user exists
+    let sql = "SELECT * " +
+    "FROM Users " +
+    "WHERE userId = ?;";
+    const results = await pool.query(sql, userId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // generate a new random password
+    let password = "";
+    const validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+      "abcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (let i = 1; i <= 15; i++) {
+      const char = Math.floor(Math.random() * validChars.length + 1);
+      password += validChars.charAt(char);
+    }
+
+    // salt and hash the new password
+    const hash = hashPassword(password);
+
+    // update the users password hash
+    sql = "UPDATE Users " +
+    "SET hash = ? " +
+    "WHERE userId = ?;";
+    await pool.query(sql, [hash, userId]);
+
+    const finalResults = {
+      password: password
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error creating new password");
+    throw Error(err);
+  }
+
+}
+exports.randomPassword = randomPassword;

@@ -3,7 +3,6 @@ import Image from "./Image";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import LinkAccessButtons from "./LinkAccessButtons";
-import Indent from "./Indent";
 import "./BulletPoint.css";
 
 // Represents a single item inside a card
@@ -37,10 +36,10 @@ function BulletPoint (props) {
       {getContentType(props.text, props.label, props.url) === 1 ? (
         <div className="row mx-auto">
           <div className="icon-td justify-content-center">
-            <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item
+            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}
               ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
-              style={{color: props.color}}
+            style={{color: props.color}}
+            title={props.tooltip}
             />
           </div>
           <div className="content-td pb-2 col">
@@ -56,9 +55,9 @@ function BulletPoint (props) {
       {getContentType(props.text, props.label, props.url) === 2 ? (
         <div className="row mx-auto">
           <div className="icon-td pb-2">
-            <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} `}
+            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
               style={{color: props.color}}
+              title={props.tooltip}
             />
           </div>
           <div className="content-td pb-2 col">
@@ -77,61 +76,62 @@ function BulletPoint (props) {
 
       {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 ||
         props.contentMode === 0 || props.contentMode === 2 || props.created !== null || props.publicMode === 0) ? (
-        <div className="row mx-auto">
-          <div className="icon-td pb-2">
-            <Indent indentLevel={props.indentation} />
-            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)}`}
-              style={{color: props.color}}
-            />
-          </div>
-          <div className="content-td pb-2 col">
-            <div>
-              <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}> {props.label} </a>
-              {props.contentMode === 1 || props.contentMode === 3 ? (
-                <i className={`fas fa-fw fa-sm fa-link mx-1`} />
-              ) : (
-                <i className={`fas fa-fw fa-sm fa-info mx-1`} />
-              )}
-              {props.contentMode === 2 || props.contentMode === 3 ? (
-                <i className={`fas fa-fw fa-sm fa-download mr-1`} />
-              ) : (
-                null
-              )}
-              {props.contentMode === 1 || props.contentMode === 3 ? (
-                <Fragment>
-                  {props.created !== null ? (
-                    <small className="last-accessed-link">
-                      {`Confirmed valid ${formatTime(props.created)}`}
-                    </small>
-                  ) : (
-                    <small className="last-accessed-link-bad">
-                      {`This link is no longer valid`}
-                    </small>
-                  )}
-                </Fragment>
-              ) : (
-                null
-              )}
-              <br/>
-              <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}>
-                <small>
-                  {props.text === "$empty" ? (null) : (props.text)}
-                </small>
-              </a>
-            </div>
-            {(props.contentMode === 1 || props.contentMode === 3) && (props.mode !== 0 || props.publicMode === 0) ? (
-              <LinkAccessButtons
-                itemId={props.id}
-                handleTimestamp={(m) => props.handleTimestamp(m)}
+          <div className="row mx-auto">
+            <div className="icon-td pb-2">
+              <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
+                style={{color: props.color}}
+                title={props.tooltip}
               />
-            ) : (
-              null
-            )}
+            </div>
+            <div className="content-td pb-2 col">
+              <div>
+                <div className="row">
+                  <a href={props.url} className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}> {props.label} </a>
+                  {props.contentMode === 1 || props.contentMode === 3 ? (
+                    <i className={`fas fa-fw fa-sm fa-link mx-1`} title="External Resource" />
+                  ) : (
+                    <i className={`fas fa-fw fa-sm fa-info mx-1`} title="Internal Resource" />
+                  )}
+                  {props.contentMode === 2 || props.contentMode === 3 ? (
+                    <i className={`fas fa-fw fa-sm fa-download mr-1`} title="Download" />
+                  ) : (
+                    null
+                  )}
+                  {props.contentMode === 1 || props.contentMode === 3 ? (
+                    <Fragment>
+                      {props.created !== null ? (
+                        <small className="last-accessed-link">
+                          {`Confirmed valid ${formatTime(props.created)}`}
+                        </small>
+                      ) : (
+                        <small className="last-accessed-link-bad">
+                          {`This link is no longer valid`}
+                        </small>
+                      )}
+                    </Fragment>
+                  ) : (
+                    null
+                  )}
+                </div>
+                <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}>
+                  <small>
+                    {props.text === "$empty" ? (null) : (props.text)}
+                  </small>
+                </a>
+              </div>
+              {(props.contentMode === 1 || props.contentMode === 3) && (props.mode !== 0 || props.publicMode === 0) && !props.reviewing ? (
+                <LinkAccessButtons
+                  itemId={props.id}
+                  handleTimestamp={(m) => props.handleTimestamp(m)}
+                />
+              ) : (
+                null
+              )}
+            </div>
           </div>
-        </div>
-      ) : (
-        null
-      )}
+        ) : (
+          null
+        )}
 
     </Fragment>
   );
@@ -152,5 +152,7 @@ BulletPoint.propTypes = {
   publicMode: PropTypes.number,
   contentMode: PropTypes.number,
   handleTimestamp: PropTypes.func,
-  color: PropTypes.string
+  color: PropTypes.string,
+  tooltip: PropTypes.string,
+  reviewing: PropTypes.bool
 };

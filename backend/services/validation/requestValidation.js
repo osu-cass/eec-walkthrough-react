@@ -88,7 +88,7 @@ exports.searchPageVal = searchPageVal;
 // validation checks for post page
 const postPageVal = Object.freeze({
   validation: [
-    check("pageType").isInt({min: 1, max: 5}),
+    check("pageType").isInt({min: 1, max: 4294967295}),
     check("name").isLength({min: 1, max: 100}),
     check("title").isLength({min: 1, max: 1000}),
     check("description").isLength({min: 1, max: 5000}),
@@ -102,7 +102,7 @@ exports.postPageVal = postPageVal;
 const patchPageVal = Object.freeze({
   validation: [
     check("pageId").isInt({min: 1, max: 4294967295}),
-    check("pageType").isInt({min: 1, max: 5}),
+    check("pageType").isInt({min: 1, max: 4294967295}),
     check("name").isLength({min: 1, max: 100}),
     check("title").isLength({min: 1, max: 1000}),
     check("description").isLength({min: 1, max: 5000}),
@@ -189,53 +189,13 @@ const patchCardVal = Object.freeze({
 });
 exports.patchCardVal = patchCardVal;
 
-// validation checks for get item
-const getItemVal = Object.freeze({
+// validation checks for patching a link timestamp
+const patchLinkTimeVal = Object.freeze({
   validation: [
-    check("itemId").isInt({min: 1, max: 4294967295}),
-  ]
-});
-exports.getItemVal = getItemVal;
-
-// validation checks for post item
-const postItemVal = Object.freeze({
-  validation: [
-    check("cardId").isInt({min: 1, max: 4294967295}),
-    check("indentation").isInt({min: 0, max: 4}),
-    check("iconType").isInt({min: 1, max: 65535}),
-    check("contentText").isLength({min: 0, max: 1000}),
-    check("contentUrl").isLength({min: 0, max: 1000}),
-    check("contentLabel").isLength({min: 0, max: 1000}),
-  ]
-});
-exports.postItemVal = postItemVal;
-
-// validation checks for patch item
-const patchItemVal = Object.freeze({
-  validation: [
-    check("itemId").isInt({min: 1, max: 4294967295}),
-    check("indentation").optional()
-      .isInt({min: 0, max: 4}),
-    check("iconType").optional()
-      .isInt({min: 1, max: 65535}),
-    check("contentText").optional()
-      .isLength({min: 0, max: 1000}),
-    check("contentUrl").optional()
-      .isLength({min: 0, max: 1000}),
-    check("contentLabel").optional()
-      .isLength({min: 0, max: 1000})
-  ]
-});
-exports.patchItemVal = patchItemVal;
-
-// validation checks for patch item timestamp
-const patchItemTimeVal = Object.freeze({
-  validation: [
-    check("itemId").isInt({min: 1, max: 4294967295}),
     check("deadLink").isInt({min: 0, max: 1})
   ]
 });
-exports.patchItemTimeVal = patchItemTimeVal;
+exports.patchLinkTimeVal = patchLinkTimeVal;
 
 // validation checks for patch homepage
 const patchHomeVal = Object.freeze({
@@ -243,11 +203,6 @@ const patchHomeVal = Object.freeze({
     check("mainHeader").isLength({min: 0, max: 1000}),
     check("secondaryHeader").isLength({min: 0, max: 1000}),
     check("sectionsTitle").isLength({min: 0, max: 1000}),
-    check("assessments").isLength({min: 0, max: 1000}),
-    check("industries").isLength({min: 0, max: 1000}),
-    check("processes").isLength({min: 0, max: 1000}),
-    check("productivity").isLength({min: 0, max: 1000}),
-    check("technologies").isLength({min: 0, max: 1000}),
     check("sectionsFooter").isLength({min: 0, max: 5000}),
     check("tidbitsHeader").isLength({min: 0, max: 1000}),
     check("tidbitsTitle").isLength({min: 0, max: 1000}),
@@ -300,3 +255,42 @@ const patchLinkVal = Object.freeze({
   ]
 });
 exports.patchLinkVal = patchLinkVal;
+
+// validation checks for patch sponsors
+const patchSponsorsVal = Object.freeze({
+  validation: [
+    check("sponsors").isArray()
+  ]
+});
+exports.patchSponsorsVal = patchSponsorsVal;
+
+// validation checks for get category
+const getCategoryVal = Object.freeze({
+  validation: [
+    check("categoryId").isInt({min: 1, max: 4294967295}),
+  ]
+});
+exports.getCategoryVal = getCategoryVal;
+
+// validation checks for post category
+const postCategoryVal = Object.freeze({
+  validation: [
+    check("singleName").isLength({min: 1, max: 1000}),
+    check("pluralName").isLength({min: 1, max: 1000}),
+    check("description").isLength({min: 1, max: 1000}),
+    check("internal").isInt({min: 0, max: 1})
+  ]
+});
+exports.postCategoryVal = postCategoryVal;
+
+// validation checks for patch category
+const patchCategoryVal = Object.freeze({
+  validation: [
+    check("categoryId").isInt({min: 1, max: 4294967295}),
+    check("singleName").isLength({min: 1, max: 1000}),
+    check("pluralName").isLength({min: 1, max: 1000}),
+    check("description").isLength({min: 1, max: 1000}),
+    check("internal").isInt({min: 0, max: 1})
+  ]
+});
+exports.patchCategoryVal = patchCategoryVal;

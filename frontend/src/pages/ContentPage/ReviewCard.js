@@ -51,6 +51,65 @@ function ReviewCard(props) {
     setShow(true);
   }
 
+  // delete changes
+  async function handleClear() {
+
+    // Check that the user really wants to delete the changes this version
+    if (!window.confirm("Are you sure you want to delete the proposed changes?")) {
+      return;
+    }
+
+    // delete proposed changes
+    const results = await fetch(`/api/cards/${props.card.cardId}/changes`, {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      const newCard = {
+        approved: props.card.approved,
+        cardId: props.card.cardId,
+        headerId: props.card.headerId,
+        cardType: props.card.cardType,
+        title: props.card.title,
+        items: props.card.items,
+        userId: props.card.userId,
+        created: props.card.created,
+        orderIndex: props.card.orderIndex,
+        tempCardId: null,
+        tempCardType: null,
+        tempCreated: null,
+        tempUserId: null,
+        tempItems: [],
+        tempTitle: null
+      };
+
+      // reset error messages
+      setErrorMessage("");
+
+      // Close modal
+      handleClose();
+
+      props.handleUpdate(newCard, "card", "clear");
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+  }
+
   // unpublish
   async function handleRemove() {
 
@@ -60,7 +119,7 @@ function ReviewCard(props) {
     }
 
     // Unpublish the card
-    const results = await fetch(`/cards/${props.card.cardId}/unpublish`, {
+    const results = await fetch(`/api/cards/${props.card.cardId}/unpublish`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });
@@ -119,7 +178,7 @@ function ReviewCard(props) {
     }
 
     // Approve the card
-    const results = await fetch(`/cards/${props.card.cardId}/publish`, {
+    const results = await fetch(`/api/cards/${props.card.cardId}/publish`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });
@@ -221,7 +280,7 @@ function ReviewCard(props) {
                 {props.card.cardType === 1 || props.card.cardType === 11 ? (
                   <ThumbnailGallery items={imageItems} />
                 ) : (
-                  <BasicItems items={props.card.items} mode={props.mode} />
+                  <BasicItems items={props.card.items} mode={props.mode} reviewing={true} />
                 )}
               </div>
             </div>
@@ -240,7 +299,7 @@ function ReviewCard(props) {
                     {props.card.tempCardType === 1 || props.card.tempCardType === 11 ? (
                       <ThumbnailGallery items={imageTempItems} />
                     ) : (
-                      <BasicItems items={props.card.tempItems} mode={props.mode} />
+                      <BasicItems items={props.card.tempItems} mode={props.mode} reviewing={true} />
                     )}
                   </div>
                 </div>
@@ -253,7 +312,7 @@ function ReviewCard(props) {
                     {props.card.cardType === 1 || props.card.cardType === 11 ? (
                       <ThumbnailGallery items={imageTempItems} />
                     ) : (
-                      <BasicItems items={props.card.tempItems} />
+                      <BasicItems items={props.card.tempItems} reviewing={true} />
                     )}
                   </div>
                 </div>
@@ -276,29 +335,56 @@ function ReviewCard(props) {
         <Modal.Footer className="modal-footer">
           {role >= 4 ? (
             <Fragment>
-              {props.card.approved && props.edited ? (
-                <Fragment>
+              <Fragment>
+                {props.edited ? (
                   <Button
                     className="mr-auto"
                     variant="danger"
-                    onClick={() => handleRemove()}
+                    onClick={() => handleClear()}
                   >
-                    Unpublish Card
+                    Delete Changes
                   </Button>
-                  <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
-                </Fragment>
-              ) : (
-                <Fragment>
-                  {props.card.approved ? (
-                    <Button variant="danger" onClick={() => handleRemove()}>Unpublish Card</Button>
-                  ) : (
+                ) : (
+                  null
+                )}
+              </Fragment>
+              <Fragment>
+                {props.card.approved && props.edited ? (
+                  <Fragment>
+                    <Button
+                      className="ml-auto"
+                      variant="danger"
+                      onClick={() => handleRemove()}
+                    >
+                      Unpublish Card
+                    </Button>
                     <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
-                  )}
-                </Fragment>
-              )}
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    {props.card.approved ? (
+                      <Button variant="danger" onClick={() => handleRemove()}>Unpublish Card</Button>
+                    ) : (
+                      <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
+                    )}
+                  </Fragment>
+                )}
+              </Fragment>
             </Fragment>
           ) : (
-            null
+            <Fragment>
+              {props.edited ? (
+                <Button
+                  className="mr-auto"
+                  variant="danger"
+                  onClick={() => handleClear()}
+                >
+                  Delete Changes
+                </Button>
+              ) : (
+                null
+              )}
+            </Fragment>
           )}
           <Button variant="secondary" onClick={() => handleClose()}>Cancel</Button>
         </Modal.Footer>

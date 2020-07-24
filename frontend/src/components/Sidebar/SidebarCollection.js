@@ -5,17 +5,28 @@ import PropTypes from "prop-types";
 import Accordion from "react-bootstrap/Accordion";
 import {Card} from "react-bootstrap";
 import CreatePage from "./CreatePage";
+import EditCategory from "./EditCategory";
 import "./SidebarCollection.css";
 
+// a group of links that can be expanded or hidden on the sidebar
 function SidebarCollection(props) {
   return (
     <Accordion>
       {/* If no collection passed in, make singular link */}
       {props.collection ? (
         <Fragment>
-          {props.role > 3 || props.collection.length ? (
+          {props.role >= 3 || props.collection.length ? (
             <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
-              {props.collectionName}
+              <Fragment>
+                {props.collectionName}
+              </Fragment>
+              <Fragment>
+                {props.internal ? (
+                  <i className="fas fa-fw fa-unlock-alt fa-sm ml-2" />
+                ) : (
+                  null
+                )}
+              </Fragment>
             </Accordion.Toggle>
           ) : (
             null
@@ -25,13 +36,23 @@ function SidebarCollection(props) {
         <Fragment>
           {props.externalLink ? (
             <a className="page-sidebar-nav-link" href={props.externalLink}>
-              <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
+              <Accordion.Toggle 
+                as={Card.Header}
+                id="sidebarCollection"
+                style={{fontSize: "1.2rem"}}
+                eventKey="0"
+              >
                 {props.collectionName}
               </Accordion.Toggle>
             </a>
           ) : (
             <NavLink className="page-sidebar-nav-link" to={`/${props.collectionLink}`}>
-              <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
+              <Accordion.Toggle 
+                as={Card.Header}
+                id="sidebarCollection"
+                style={{fontSize: "1.2rem"}}
+                eventKey="0"
+              >
                 {props.collectionName}
               </Accordion.Toggle>
             </NavLink>
@@ -52,16 +73,21 @@ function SidebarCollection(props) {
             })}
             <CreatePage
               title={`Create ${props.collectionName} Page`}
-              collectionName={props.collectionName}
               refresh={props.refresh}
               role={props.role}
+              categoryId={props.category.categoryId}
+            />
+            <EditCategory
+              refresh={props.refresh}
+              role={props.role}
+              category={props.category}
             />
           </Fragment>
         </Accordion.Collapse>
       ) : (
         null
       )}
-    </Accordion >
+    </Accordion>
 
   );
 }
@@ -76,6 +102,8 @@ SidebarCollection.propTypes = {
   closedSidebar: PropTypes.any,
   refresh: PropTypes.any,
   role: PropTypes.any,
-  externalLink: PropTypes.string
+  externalLink: PropTypes.string,
+  category: PropTypes.object,
+  internal: PropTypes.number
 };
 

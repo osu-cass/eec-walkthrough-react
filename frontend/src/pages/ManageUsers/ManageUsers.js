@@ -79,7 +79,7 @@ function ManageUsers() {
         }
 
         // construct the request url
-        const getUrl = `/users/search/${textValue}/${roleValue}/` +
+        const getUrl = `/api/users/search/${textValue}/${roleValue}/` +
           `${sortValue}/${orderValue}/${cursor.primary}/${cursor.secondary}`;
         let obj = {};
 

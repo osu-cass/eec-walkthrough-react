@@ -6,25 +6,35 @@ const app = express();
 const {validationResult} = require("express-validator");
 const {
   roleCheck,
-  requireAuth
+  requireAuth,
+  getUserID
 } = require("../services/authentication/cookieAuth");
 const {
-  patchHomeVal
+  patchHomeVal,
+  patchSponsorsVal
 } = require("../services/validation/requestValidation");
 const {
   getHome,
-  updateHome
+  updateHome,
+  getSponsors,
+  updateSponsors
 } = require("../models/home");
 
 
 // get homepage content
-app.get("/", async (req, res) => {
+app.get("/", getUserID, async (req, res) => {
 
   try {
 
     console.log("Get homepage content");
 
-    const results = await getHome();
+    // check if the current user should be able to view this content
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
+    const results = await getHome(viewAll);
     if (results.homeId) {
       res.status(200).send(results);
     } else {
@@ -46,25 +56,20 @@ app.patch("/", requireAuth, patchHomeVal.validation, async (req, res) => {
 
     console.log("Update the homepage");
 
-    const mainHeader = req.body.mainHeader;
-    const secondaryHeader = req.body.secondaryHeader;
-    const sectionsTitle = req.body.sectionsTitle;
-    const assessments = req.body.assessments;
-    const industries = req.body.industries;
-    const processes = req.body.processes;
-    const productivity = req.body.productivity;
-    const technologies = req.body.technologies;
-    const sectionsFooter = req.body.sectionsFooter;
-    const tidbitsHeader = req.body.tidbitsHeader;
-    const tidbitsTitle = req.body.tidbitsTitle;
-    const tidbitsFooter = req.body.tidbitsFooter;
-    const linksHeader = req.body.linksHeader;
-    const linksTitlePrefix = req.body.linksTitlePrefix;
-    const linksTitlePostfixInternal = req.body.linksTitlePostfixInternal;
-    const linksTitlePostfixDownload = req.body.linksTitlePostfixDownload;
-    const linksFooter = req.body.linksFooter;
-    const disclaimerHeader = req.body.disclaimerHeader;
-    const disclaimerText = req.body.disclaimerText;
+    const mainHeader = req.body.mainHeader.trim();
+    const secondaryHeader = req.body.secondaryHeader.trim();
+    const sectionsTitle = req.body.sectionsTitle.trim();
+    const sectionsFooter = req.body.sectionsFooter.trim();
+    const tidbitsHeader = req.body.tidbitsHeader.trim();
+    const tidbitsTitle = req.body.tidbitsTitle.trim();
+    const tidbitsFooter = req.body.tidbitsFooter.trim();
+    const linksHeader = req.body.linksHeader.trim();
+    const linksTitlePrefix = req.body.linksTitlePrefix.trim();
+    const linksTitlePostfixInternal = req.body.linksTitlePostfixInternal.trim();
+    const linksTitlePostfixDownload = req.body.linksTitlePostfixDownload.trim();
+    const linksFooter = req.body.linksFooter.trim();
+    const disclaimerHeader = req.body.disclaimerHeader.trim();
+    const disclaimerText = req.body.disclaimerText.trim();
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -81,16 +86,71 @@ app.patch("/", requireAuth, patchHomeVal.validation, async (req, res) => {
 
     // update a page
     const results = await updateHome(mainHeader, secondaryHeader, sectionsTitle,
-      assessments, industries, processes, productivity, technologies, sectionsFooter,
-      tidbitsHeader, tidbitsTitle, tidbitsFooter, linksHeader, linksTitlePrefix,
-      linksTitlePostfixInternal, linksTitlePostfixDownload, linksFooter,
-      disclaimerHeader, disclaimerText);
+      sectionsFooter, tidbitsHeader, tidbitsTitle, tidbitsFooter, linksHeader,
+      linksTitlePrefix, linksTitlePostfixInternal, linksTitlePostfixDownload,
+      linksFooter, disclaimerHeader, disclaimerText);
 
     if (results.homePageUpdated) {
       res.status(200).send(results);
     } else {
       res.status(500).send({error: "An internal server error occurred. Please try again later."});
     }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get the list of sponsors for the homepage
+app.get("/sponsors", async (req, res) => {
+
+  try {
+
+    console.log("Get homepage sponsors");
+
+    const results = await getSponsors();
+    if (results.sponsorId) {
+      res.status(200).send(results);
+    } else {
+      res.status(404).send({error: "No sponsors found."});
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// update the list of sponsors that are shown on the homepage
+app.patch("/sponsors", requireAuth, patchSponsorsVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update homepage sponsors");
+
+    const sponsors = req.body.sponsors;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to update sponsors."});
+      return;
+    }
+
+    // update sponsors
+    const results = await updateSponsors(sponsors);
+    res.status(200).send(results);
 
   } catch (err) {
     console.error(err);

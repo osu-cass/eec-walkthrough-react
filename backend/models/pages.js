@@ -4,167 +4,6 @@
 const {pool} = require("../services/database/mysqlPool");
 
 
-// return information about the specific page
-async function getPage(pageId, viewAll) {
-
-  try {
-
-    let sql = "";
-
-    // get the specified page
-    if (viewAll) {
-      sql = "SELECT * " +
-      "FROM Pages " +
-      "WHERE pageId = ?;";
-    } else {
-      sql = "SELECT * " +
-      "FROM Pages " +
-      "WHERE pageId = ? " +
-      "AND approved = 1;";
-    }
-
-    const results = await pool.query(sql, pageId);
-
-    // check to see if we were able to find the page
-    if (!results[0].length) {
-      return {pageId: 0};
-    }
-
-    const finalResults = results[0][0];
-
-    return finalResults;
-
-  } catch (err) {
-    console.error("Error searching for page");
-    throw Error(err);
-  }
-
-}
-exports.getPage = getPage;
-
-
-// return a list of all of the pages sorted into groups
-async function getPages(viewAll) {
-
-  try {
-
-    let sql = "";
-    const finalResults = {
-      pages: {
-        industries: [],
-        technologies: [],
-        processes: [],
-        productivity: [],
-        assessments: []
-      }
-    };
-
-    // get all industry pages
-    if (viewAll) {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 1 " +
-      "ORDER BY pageType ASC, name ASC;";
-    } else {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 1 " +
-      "AND approved = 1 " +
-      "AND internal = 0 " +
-      "ORDER BY pageType ASC, name ASC;";
-    }
-
-    let results = await pool.query(sql, []);
-
-    finalResults.pages.industries = results[0];
-
-    // get all technology pages
-    if (viewAll) {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 2 " +
-      "ORDER BY pageType ASC, name ASC;";
-    } else {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 2 " +
-      "AND approved = 1 " +
-      "AND internal = 0 " +
-      "ORDER BY pageType ASC, name ASC;";
-    }
-
-    results = await pool.query(sql, []);
-
-    finalResults.pages.technologies = results[0];
-
-    // get all process pages
-    if (viewAll) {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 3 " +
-      "ORDER BY pageType ASC, name ASC;";
-    } else {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 3 " +
-      "AND approved = 1 " +
-      "AND internal = 0 " +
-      "ORDER BY pageType ASC, name ASC;";
-    }
-
-    results = await pool.query(sql, []);
-
-    finalResults.pages.processes = results[0];
-
-    // get all productivity pages
-    if (viewAll) {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 4 " +
-      "ORDER BY pageType ASC, name ASC;";
-    } else {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 4 " +
-      "AND approved = 1 " +
-      "AND internal = 0 " +
-      "ORDER BY pageType ASC, name ASC;";
-    }
-
-    results = await pool.query(sql, []);
-
-    finalResults.pages.productivity = results[0];
-
-    // get all assessments pages
-    if (viewAll) {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 5 " +
-      "ORDER BY pageType ASC, name ASC;";
-    } else {
-      sql = "SELECT pageId, pageType, name " +
-      "FROM Pages " +
-      "WHERE pageType = 5 " +
-      "AND approved = 1 " +
-      "AND internal = 0 " +
-      "ORDER BY pageType ASC, name ASC;";
-    }
-
-    results = await pool.query(sql, []);
-
-    finalResults.pages.assessments = results[0];
-
-    return finalResults;
-
-  } catch (err) {
-    console.error("Error searching for pages");
-    throw Error(err);
-  }
-
-}
-exports.getPages = getPages;
-
-
 // return all of the page info, headers, cards, and items for a single page
 async function getFullPage(pageId, viewAll) {
 
@@ -353,35 +192,12 @@ async function deletePage(pageId) {
 
   try {
 
-    // checks to see if there is an edited version of the page to delete
-    let sql = "SELECT * " +
-    "FROM Temp_Pages " +
-    "WHERE tempPageId = ?;";
-
-    let results = await pool.query(sql, pageId);
-
-    // prioritize deleting the edited version
-    // a second delete will remove the real one
-    if (results[0].length) {
-      sql = "DELETE " +
-        "FROM Temp_Pages " +
-        "WHERE tempPageId = ?;";
-
-      results = await pool.query(sql, pageId);
-
-      const finalResults = {
-        affectedRows: results[0].affectedRows
-      };
-
-      return finalResults;
-    }
-
     // check to see if the page exists
-    sql = "SELECT * " +
+    let sql = "SELECT * " +
       "FROM Pages " +
       "WHERE pageId = ?;";
 
-    results = await pool.query(sql, pageId);
+    let results = await pool.query(sql, pageId);
 
     if (!results[0].length) {
       return {error: 1};
@@ -407,6 +223,67 @@ async function deletePage(pageId) {
 
 }
 exports.deletePage = deletePage;
+
+
+// delete page changes
+async function deletePageChanges(pageId) {
+
+  try {
+
+    // checks to see if there is an edited version of the page to delete
+    let sql = "SELECT * " +
+    "FROM Temp_Pages " +
+    "WHERE tempPageId = ?;";
+
+    let results = await pool.query(sql, pageId);
+
+    if (results[0].length) {
+      sql = "DELETE " +
+        "FROM Temp_Pages " +
+        "WHERE tempPageId = ?;";
+
+      results = await pool.query(sql, pageId);
+
+      const finalResults = {
+        affectedRows: results[0].affectedRows
+      };
+
+      return finalResults;
+    }
+
+    // check to see if the page is in the pages table but not yet published
+    sql = "SELECT * " +
+      "FROM Pages " +
+      "WHERE pageId = ? " +
+      "AND approved = 0;";
+
+    results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // delete the page
+    sql = "DELETE " +
+      "FROM Pages " +
+      "WHERE pageId = ? " +
+      "AND approved = 0;";
+
+    results = await pool.query(sql, pageId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting page changes");
+    throw Error(err);
+  }
+
+}
+exports.deletePageChanges = deletePageChanges;
 
 
 // update a page

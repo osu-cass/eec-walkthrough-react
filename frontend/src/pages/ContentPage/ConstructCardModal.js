@@ -279,7 +279,7 @@ function ConstructCardModal(props) {
     };
 
     // Create the new card
-    const results = await fetch(`/cards`, {
+    const results = await fetch(`/api/cards`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(cardData)
@@ -383,7 +383,7 @@ function ConstructCardModal(props) {
     };
 
     // Edit card
-    const results = await fetch(`/cards/${props.card.cardId}`, {
+    const results = await fetch(`/api/cards/${props.card.cardId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(cardData)
@@ -483,7 +483,7 @@ function ConstructCardModal(props) {
     let arrayIndex = -1;
     let copy = [...items];
 
-    if (!window.confirm("Are you sure you wish to delete this item?")) {
+    if (!window.confirm("Are you sure you want to delete this item?")) {
       return;
     }
 
@@ -497,7 +497,7 @@ function ConstructCardModal(props) {
 
     // If we can not find the index, then exit
     if (arrayIndex === -1) {
-      console.error("Unable to find the item to indent");
+      console.error("Unable to find the item to delete");
       return;
     }
 
@@ -533,7 +533,7 @@ function ConstructCardModal(props) {
   // Delete the current card
   async function deleteCard() {
     // Send call to backend to delete card
-    const results = await fetch(`/cards/${props.card.cardId}`, {
+    const results = await fetch(`/api/cards/${props.card.cardId}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });
@@ -812,7 +812,7 @@ function ConstructCardModal(props) {
               <div className="custom-control form-control-lg custom-checkbox my-2">
                 {checked ? (
                   <input type="checkbox" className="form-check-input custom-control-input"
-                    id="internal-modal-checkbox" onClick={() => setChecked(0)} checked 
+                    id="internal-modal-checkbox" onClick={() => setChecked(0)} defaultChecked
                   />
                 ) : (
                   <input type="checkbox" className="form-check-input custom-control-input"
@@ -924,14 +924,20 @@ function ConstructCardModal(props) {
 
           {props.edit ? (
             <Fragment>
-              <Button
-                className="mr-auto"
-                variant="danger"
-                onClick={() => { if (window.confirm("Are you sure you wish to delete this card?")) { deleteCard(); } }}
-              >
-                Delete Card
-              </Button>
-              <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
+              {props.role >= 4 ? (
+              <Fragment>
+                <Button
+                  className="mr-auto"
+                  variant="danger"
+                  onClick={() => { if (window.confirm("Are you sure you want to delete this card?")) { deleteCard(); } }}
+                >
+                  Delete Card
+                </Button>
+                <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
+              </Fragment>
+              ) : (
+                <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
+              )}
             </Fragment>
           ) : (
             <Button variant="primary" onClick={() => handleCreate()}>Submit Card</Button>
@@ -953,5 +959,6 @@ ConstructCardModal.propTypes = {
   card: PropTypes.object,
   handleUpdate: PropTypes.func,
   iconSet: PropTypes.array,
-  headerId: PropTypes.number
+  headerId: PropTypes.number,
+  role: PropTypes.number
 };

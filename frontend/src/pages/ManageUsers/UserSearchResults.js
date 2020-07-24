@@ -2,6 +2,7 @@ import React from "react";
 import {withRouter} from "react-router-dom";
 import {formatTime} from "../../utilities/formatTime";
 import UserSelectRole from "./UserSelectRole";
+import GeneratePassword from "./GeneratePassword";
 import PropTypes from "prop-types";
 import LoadMoreButton from "../../components/General/LoadMoreButton";
 import "./UserSearchResults.css";
@@ -47,7 +48,7 @@ function UserSearchResults(props) {
                   User ID <small>{props.searchFields.orderValue ? "▲" : "▼" }</small>
                 </th>
               ) : (
-                <th className="student-plans-data" onClick={() => changeSort(2, false)} style={{width: "10%"}}>
+                <th className="student-plans-data" onClick={() => changeSort(2, false)} style={{width: "8%"}}>
                   User ID <small>▼</small>
                 </th>
               )}
@@ -70,37 +71,45 @@ function UserSearchResults(props) {
                 </th>
               )}
               {props.searchFields.sortValue === 5 ? (
-                <th className="student-plans-data active-sort" onClick={() => changeSort(5, true)} style={{width: "18%"}}>
+                <th className="student-plans-data active-sort" onClick={() => changeSort(5, true)} style={{width: "15%"}}>
                   Role <small>{props.searchFields.orderValue ? "▲" : "▼" }</small>
                 </th>
               ) : (
-                <th className="student-plans-data" onClick={() => changeSort(5, false)} style={{width: "18%"}}>
+                <th className="student-plans-data" onClick={() => changeSort(5, false)} style={{width: "14%"}}>
                   Role <small>▼</small>
                 </th>
               )}
+              <th className="student-plans-data"style={{width: "9%"}}>
+                  Password
+              </th>
             </tr>
           </thead>
           <tbody>
             {props.users.map((user, index) =>
-              <tr key={user.userId + "a"}>
-                <td className="user-data" key={user.userId + "b"}>
+              <tr key={user.userId}>
+                <td className="user-data">
                   {user.username}
                 </td>
-                <td className="user-data" key={user.userId + "c"}>
+                <td className="user-data">
                   {user.firstName + " " + user.lastName}
                 </td>
-                <td className="user-data" key={user.userId + "d"}>
+                <td className="user-data">
                   {user.userId}
                 </td>
-                <td className="user-data" key={user.userId + "e"}>
+                <td className="user-data">
                   {user.email}
                 </td>
-                <td className="user-data" key={user.userId + "f"}>
+                <td className="user-data">
                   {formatTime(user.created)}
                 </td>
-                <td className="user-data" key={user.userId + "g"}>
+                <td className="user-data">
                   <UserSelectRole role={user.role} userId={user.userId} index={index}
-                    username={user.firstName + " " + user.lastName} onLoading={load => props.onLoading(load)}
+                    username={user.username} onLoading={load => props.onLoading(load)}
+                  />
+                </td>
+                <td className="user-data">
+                  <GeneratePassword role={user.role} userId={user.userId}
+                    username={user.username} onLoading={load => props.onLoading(load)}
                   />
                 </td>
               </tr>
