@@ -125,7 +125,7 @@ function EditCategory(props) {
           className="edit-category-icon fas fa-plus-circle text-info mr-2"
           style={{transform: "scale(1.5)"}}
         />
-            Edit Category
+          Edit Category
       </Button>
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
