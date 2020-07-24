@@ -10,7 +10,8 @@ class CreateHeader extends React.Component {
   state = {
     title: "",
     show: false,
-    errorMessage: ""
+    errorMessage: "",
+    checked: 0
   }
 
   handleClose = () => {
@@ -25,14 +26,20 @@ class CreateHeader extends React.Component {
       return;
     }
 
+    let internal = 0;
+    if (document.getElementById("internal-modal-checkbox").checked) {
+      internal = 1;
+    }
+
     // Prepare data
     const data = {
       pageId: this.props.pageId,
       title: this.state.title,
+      internal: internal
     };
 
     // Create new header
-    const results = await fetch("/headers/", {
+    const results = await fetch("/api/headers/", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
@@ -56,6 +63,8 @@ class CreateHeader extends React.Component {
         tempTitle: null,
         tempUserId: null,
         title: this.state.title,
+        internal: internal,
+        tempInternal: null,
         userId: 0
       };
 
@@ -64,6 +73,7 @@ class CreateHeader extends React.Component {
       // Reset state
       this.setState({title: ""});
       this.setState({errorMessage: ""});
+      this.setState({checked: 0});
 
       // Close modal
       this.handleClose();
@@ -129,6 +139,25 @@ class CreateHeader extends React.Component {
                   <Form.Label className="font-weight-bold">Header Title</Form.Label>
                   <Form.Control type="text" maxLength="100" placeholder="Enter title" onChange={(e) => this.setState({title: e.target.value})} />
                 </Form.Group>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col>
+                <div className="custom-control form-control-lg custom-checkbox my-2">
+                  {this.checked ? (
+                    <input type="checkbox" className="form-check-input custom-control-input"
+                      id="internal-modal-checkbox" onClick={() => this.setState({checked: 0})} checked
+                    />
+                  ) : (
+                    <input type="checkbox" className="form-check-input custom-control-input"
+                      id="internal-modal-checkbox"
+                    />
+                  )}
+                  <label className="form-check-label custom-control-label font-weight-bold pl-3" htmlFor="internal-modal-checkbox">
+                    Internal (not viewable by the public)
+                  </label>
+                </div>
               </Col>
             </Row>
 

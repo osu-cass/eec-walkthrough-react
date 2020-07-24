@@ -4,72 +4,8 @@
 const {pool} = require("../services/database/mysqlPool");
 
 
-// return information about the specific header
-async function getHeader(headerId, viewAll) {
-
-  try {
-
-    let sql = "";
-
-    // get the specified header
-    if (viewAll) {
-      sql = "SELECT * " +
-      "FROM Headers " +
-      "WHERE headerId = ?;";
-    } else {
-      sql = "SELECT * " +
-      "FROM Headers " +
-      "WHERE headerId = ? " +
-      "AND approved = 1;";
-    }
-
-    const finalResults = await pool.query(sql, headerId);
-
-    // check to see if we were able to find the header
-    if (!finalResults[0].length) {
-      return {headerId: 0};
-    }
-
-    // get all of the icons used by the header
-    if (viewAll) {
-      sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
-      "FROM `Headers` " +
-      "LEFT JOIN Cards on Cards.headerId = Headers.headerId " +
-      "LEFT JOIN Items on Cards.cardId = Items.cardId " +
-      "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
-      "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
-      "ORDER BY iconType ASC;";
-    } else {
-      sql = "SELECT DISTINCT Icons.iconType, Icons.typeName " +
-      "FROM `Headers` " +
-      "LEFT JOIN " +
-      "(SELECT * FROM Cards WHERE approved = 1) C " +
-      "on C.headerId = Headers.headerId " +
-      "LEFT JOIN " +
-      "(SELECT * FROM Items WHERE approved = 1) I " +
-      "on C.cardId = I.cardId " +
-      "LEFT JOIN Icons on I.iconType = Icons.iconType " +
-      "WHERE Headers.headerId = ? AND Icons.iconType IS NOT NULL " +
-      "ORDER BY iconType ASC;";
-    }
-
-    const results = await pool.query(sql, headerId);
-
-    finalResults[0][0].icons = results[0];
-
-    return finalResults[0][0];
-
-  } catch (err) {
-    console.error("Error searching for header");
-    throw Error(err);
-  }
-
-}
-exports.getHeader = getHeader;
-
-
 // create a header
-async function createHeader(pageId, title, userId) {
+async function createHeader(pageId, title, userId, internal) {
 
   try {
 
@@ -95,9 +31,9 @@ async function createHeader(pageId, title, userId) {
     }
 
     // create the new header
-    sql = "INSERT INTO Headers (pageId, title, userId, orderIndex, approved) " +
-    "VALUES (?, ?, ?, 0, 0);";
-    results = await pool.query(sql, [pageId, title, userId]);
+    sql = "INSERT INTO Headers (pageId, title, userId, internal, orderIndex, approved) " +
+    "VALUES (?, ?, ?, ?, 0, 0);";
+    results = await pool.query(sql, [pageId, title, userId, internal]);
     const headerId = results[0].insertId;
 
     // update the order index of the new header
@@ -126,35 +62,12 @@ async function deleteHeader(headerId) {
 
   try {
 
-    // checks to see if there is an edited version of the header to delete
-    let sql = "SELECT * " +
-    "FROM Temp_Headers " +
-    "WHERE tempHeaderId = ?;";
-
-    let results = await pool.query(sql, headerId);
-
-    // prioritize deleting the edited version
-    // a second delete will remove the real one
-    if (results[0].length) {
-      sql = "DELETE " +
-        "FROM Temp_Headers " +
-        "WHERE tempHeaderId = ?;";
-
-      results = await pool.query(sql, headerId);
-
-      const finalResults = {
-        affectedRows: results[0].affectedRows
-      };
-
-      return finalResults;
-    }
-
     // check to see if the header exists
-    sql = "SELECT * " +
+    let sql = "SELECT * " +
     "FROM Headers " +
     "WHERE headerId = ?;";
 
-    results = await pool.query(sql, headerId);
+    let results = await pool.query(sql, headerId);
 
     if (!results[0].length) {
       return {error: 1};
@@ -182,8 +95,69 @@ async function deleteHeader(headerId) {
 exports.deleteHeader = deleteHeader;
 
 
+// delete a header's changes
+async function deleteHeaderChanges(headerId) {
+
+  try {
+
+    // checks to see if there is an edited version of the header to delete
+    let sql = "SELECT * " +
+    "FROM Temp_Headers " +
+    "WHERE tempHeaderId = ?;";
+
+    let results = await pool.query(sql, headerId);
+
+    if (results[0].length) {
+      sql = "DELETE " +
+        "FROM Temp_Headers " +
+        "WHERE tempHeaderId = ?;";
+
+      results = await pool.query(sql, headerId);
+
+      const finalResults = {
+        affectedRows: results[0].affectedRows
+      };
+
+      return finalResults;
+    }
+
+    // check to see if the header is in the headers table but not yet published
+    sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ? " +
+    "AND approved = 0;";
+
+    results = await pool.query(sql, headerId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // delete the header
+    sql = "DELETE " +
+      "FROM Headers " +
+      "WHERE headerId = ? " +
+      "AND approved = 0;";
+
+    results = await pool.query(sql, headerId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting header changes");
+    throw Error(err);
+  }
+
+}
+exports.deleteHeaderChanges = deleteHeaderChanges;
+
+
 // update a header
-async function updateHeader(headerId, title, userId) {
+async function updateHeader(headerId, title, userId, internal) {
 
   try {
 
@@ -211,29 +185,32 @@ async function updateHeader(headerId, title, userId) {
     if (results[0].length) {
 
       sql = "UPDATE Temp_Headers " +
-      "SET tempTitle = ?, tempUserId = ? " +
+      "SET tempTitle = ?, tempUserId = ?, tempInternal = ? " +
       "WHERE tempHeaderId = ?;";
       sqlArray.push(title);
       sqlArray.push(userId);
+      sqlArray.push(internal);
       sqlArray.push(headerId);
 
     } else if (approved === 0) {
 
       sql = "UPDATE Headers " +
-      "SET title = ?, userId = ? " +
+      "SET title = ?, userId = ?, internal = ? " +
       "WHERE headerId = ?;";
       sqlArray.push(title);
       sqlArray.push(userId);
+      sqlArray.push(internal);
       sqlArray.push(headerId);
 
     } else {
 
       sql = "INSERT INTO Temp_Headers (tempHeaderId, " +
-      "tempTitle, tempUserId) " +
-      "VALUES (?, ?, ?);";
+      "tempTitle, tempUserId, tempInternal) " +
+      "VALUES (?, ?, ?, ?);";
       sqlArray.push(headerId);
       sqlArray.push(title);
       sqlArray.push(userId);
+      sqlArray.push(internal);
 
     }
 
@@ -286,11 +263,11 @@ async function publishHeader(headerId) {
 
       // update the published header
       sql = "UPDATE Headers " +
-      "SET title = ?, userId = ?, created = ?, approved = 1 " +
+      "SET title = ?, userId = ?, created = ?, internal = ?, approved = 1 " +
       "WHERE headerId = ?;";
 
       const tempArray = [tempHeader.tempTitle,
-        tempHeader.tempUserId, tempHeader.tempCreated, headerId];
+        tempHeader.tempUserId, tempHeader.tempCreated, tempHeader.tempInternal, headerId];
 
       // make sure no other headers share the same title
       const checkSql = "SELECT * " +

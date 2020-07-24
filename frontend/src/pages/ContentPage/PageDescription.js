@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Image from "./Image";
 import ReviewPage from "./ReviewPage";
 import ChangeMode from "./ChangeMode";
+import ChangePublic from "./ChangePublic";
 import EditPage from "./EditPage";
 import "./PageDescription.css";
 
@@ -28,26 +29,39 @@ function PageDescription(props) {
     }
   }, [props.page, props.mode, props.pageState]);
 
+  // determines if the current object is only internal viewable
+  function isInternal() {
+    if (props.mode === 1) {
+      if ((props.page.tempPageId && props.page.tempInternal) || (!props.page.tempPageId && props.page.internal)) {
+        return 1;
+      }
+    } else {
+      if (props.page.internal) {
+        return 1;
+      }
+    }
+  }
+
   return (
     <div>
       <div className={`d-flex header-bar justify-content-between
-        ${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? (
-      "page-approved"
-    ) : (
-      "page-review"
-    )}
-        my-3 p-3 text-dark-50 rounded shadow-sm border`}
+        ${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? "page-approved" : "page-review"}
+        ${isInternal() ? "page-internal" : ""} my-3 p-3 text-dark-50 rounded shadow-sm border`}
       style={{top: "1em", zIndex: "998"}}
       >
         <div className="row mx-2">
           <h4 className="flex-grow-1 font-weight-bold">
             {name}
           </h4>
-          <h4 className="ml-4">{props.page.approved ? null : "<This page is unpublished>"}</h4>
         </div>
 
         <div className="row mx-2">
           <div className="row">
+            <ChangePublic
+              role={props.role}
+              mode={props.mode}
+              onPublicMode={e => props.onPublicMode(e)}
+            />
             <EditPage
               page={props.page}
               role={props.role}
@@ -59,8 +73,10 @@ function PageDescription(props) {
               page={props.page}
               mode={props.mode}
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+              handlePageEdit={props.handlePageEdit}
             />
-            <ChangeMode role={props.role}
+            <ChangeMode
+              role={props.role}
               mode={props.mode}
               onPageMode={e => props.onPageMode(e)}
             />
@@ -69,13 +85,13 @@ function PageDescription(props) {
       </div>
 
       <div className={`${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? "page-approved" : "page-review"}
-        my-3 p-3 card rounded shadow-sm`}
+        ${isInternal() ? "page-internal" : ""} my-3 p-3 card rounded shadow-sm`}
       >
         <div>
           <div className="row">
             <div className="col-8">
-              <h5 className='font-weight-bold'>{title}</h5>
-              <p>{description}</p>
+              <h5 className="font-weight-bold">{title}</h5>
+              <p className="allow-newlines">{description}</p>
             </div>
             <div className="col-4 text-center">
               <Image url={imageUrl}
@@ -100,6 +116,7 @@ PageDescription.propTypes = {
   mode: PropTypes.number,
   pageState: PropTypes.number,
   onPageMode: PropTypes.func,
+  onPublicMode: PropTypes.func,
   handlePageEdit: PropTypes.func,
   handleUpdate: PropTypes.func
 };

@@ -2,6 +2,7 @@ import React from "react";
 import {Card} from "react-bootstrap";
 import "./Error404.css";
 
+// 404 error page
 function Error404() {
   return (
     <div className="container">

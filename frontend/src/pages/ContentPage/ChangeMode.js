@@ -3,7 +3,7 @@ import {Button} from "react-bootstrap";
 import PropTypes from "prop-types";
 import {setMode} from "../../utilities/pageMode";
 
-// Button that toggles between edit page mode and view page mode
+// Button that toggles between edit, move, and view page modes
 function ChangeMode(props) {
 
   const [pageMode, setPageMode] = useState(props.mode);
@@ -15,7 +15,7 @@ function ChangeMode(props) {
     props.onPageMode(modeValue);
   }
 
-  if (props.role > 2 && props.role < 4) {
+  if (props.role === 3) {
     return (
       <div className='text-center mx-2'>
         {pageMode ? (
@@ -24,10 +24,10 @@ function ChangeMode(props) {
             onClick={() => toggleMode(0)}
           >
             <i
-              className='fas fa-eye text-white mr-2'
+              className='fas fa-wrench text-white mr-2'
               style={{transform: "scale(1.5)"}}
             />
-            <span className="text-white">View Mode</span>
+            <span className="text-white">Edit Mode</span>
           </Button>
         ) : (
           <Button size="sm"
@@ -35,10 +35,10 @@ function ChangeMode(props) {
             onClick={() => toggleMode(1)}
           >
             <i
-              className='fas fa-wrench text-white mr-2'
+              className='fas fa-eye text-white mr-2'
               style={{transform: "scale(1.5)"}}
             />
-            <span className="text-white">Edit Mode</span>
+            <span className="text-white">View Mode</span>
           </Button>
         )}
       </div>
@@ -51,10 +51,10 @@ function ChangeMode(props) {
           onClick={() => toggleMode(1)}
         >
           <i
-            className='fas fa-wrench text-white mr-2'
+            className='fas fa-eye text-white mr-2'
             style={{transform: "scale(1.5)"}}
           />
-          <span className="text-white">Edit Mode</span>
+          <span className="text-white">View Mode</span>
         </Button>
       </div>
     );
@@ -66,10 +66,10 @@ function ChangeMode(props) {
           onClick={() => toggleMode(2)}
         >
           <i
-            className='fas fa-arrow-down text-white mr-2'
+            className='fas fa-wrench text-white mr-2'
             style={{transform: "scale(1.5)"}}
           />
-          <span className="text-white">Move Mode</span>
+          <span className="text-white">Edit Mode</span>
         </Button>
       </div>
     );
@@ -81,10 +81,10 @@ function ChangeMode(props) {
           onClick={() => toggleMode(0)}
         >
           <i
-            className='fas fa-eye text-white mr-2'
+            className='fas fa-arrow-down text-white mr-2'
             style={{transform: "scale(1.5)"}}
           />
-          <span className="text-white">View Mode</span>
+          <span className="text-white">Move Mode</span>
         </Button>
       </div>
     );

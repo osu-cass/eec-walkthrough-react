@@ -3,6 +3,7 @@ import {Card as CardBS} from "react-bootstrap";
 import EditCard from "./EditCard";
 import ReviewCard from "./ReviewCard";
 import BasicItems from "./BasicItems";
+import ExpandableList from "./ExpandableList";
 import ThumbnailGallery from "./ThumbnailGallery";
 import OrderObjectButton from "./OrderObjectButton";
 import PropTypes from "prop-types";
@@ -38,41 +39,57 @@ function Card(props) {
 
   // Get information about the current card type and the correct set of items
   useEffect(() => {
-    const itemInfo = getItemInfo(props.card.edited);
+    const itemInfo = getItemInfo();
     setCardType(itemInfo.cardType);
     setItems(itemInfo.items);
     // eslint-disable-next-line
   }, [imageItems, imageTempItems, props.cardState]);
 
-  // Returns information about the correct array of items to use
-  function getItemInfo(edited) {
+  // determines if the current object is only internal viewable
+  function isInternal() {
+    if (props.mode === 1) {
+      if ((props.card.tempCardId && props.card.tempCardType >= 10) || (!props.card.tempCardId && props.card.cardType >= 10)) {
+        return 1;
+      }
+    } else {
+      if (props.card.cardType >= 10) {
+        return 1;
+      }
+    }
+  }
 
-    // Check if we are in edit or view mode.
-    //
-    // In edit mode we always show the most recent version of the card.
-    // Check if the card has temp data. Otherwise show the normal data.
-    //
-    // In view mode we only show published versions of the card.
+  // Returns information about the correct array of items to use
+  function getItemInfo() {
+
+    // Show the correct card contents based on if
+    // the card has been edited and the card type
 
     let newItems = [];
     let cardType = 0;
 
-    if (edited) {
-      if ((props.card.approved && props.card.tempCardType) || (!props.card.approved && props.card.cardType)) {
-        cardType = 1;
+    if (props.card.tempItems.length && props.mode === 1) {
+
+      if (props.card.approved) {
+        cardType = props.card.tempCardType;
+      } else {
+        cardType = props.card.cardType;
+      }
+      if (props.card.cardType === 1 || props.card.cardType === 11) {
         newItems = imageTempItems;
       } else {
-        cardType = 0;
         newItems = props.card.tempItems;
       }
+
     } else {
-      if (props.card.cardType) {
-        cardType = 1;
+
+      if (props.card.cardType === 1 || props.card.cardType === 11) {
+        cardType = props.card.cardType;
         newItems = imageItems;
       } else {
-        cardType = 0;
+        cardType = props.card.cardType;
         newItems = props.card.items;
       }
+
     }
 
     const cardData = {
@@ -84,13 +101,17 @@ function Card(props) {
 
   }
 
-  return !props.card.approved && props.mode !== 1 ? (
+  return (!props.card.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
-    <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" } ${props.card.invalid ? "card-body-invalid" : ""}`}>
+    <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" }
+      ${isInternal() ? "card-body-internal" : ""}`}
+    >
       <CardBS.Header
         as="h5"
-        className="d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold"
+        className={`card-header-bar d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold
+          ${props.card.edited ? "card-body-review" : "card-body-approved" }
+          ${isInternal() ? "card-body-internal" : ""}`}
       >
         <div
           id={"heading" + props.card.cardId}
@@ -108,6 +129,7 @@ function Card(props) {
               card={props.card}
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
               iconSet={props.iconSet}
+              role={props.role}
             />
             <ReviewCard
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
@@ -142,7 +164,7 @@ function Card(props) {
         )}
       </CardBS.Header>
       <div id={"collapse" + props.card.cardId} className="collapse show" aria-labelledby={"heading" + props.card.cardId}>
-        <CardBS.Body>
+        <CardBS.Body className="content-card-body">
           {props.card.invalid ? (
             <Fragment>
               <h4>INVALID CARD!</h4>
@@ -154,15 +176,27 @@ function Card(props) {
           ) : (
             null
           )}
-          {cardType ? (
+          {cardType === 1 || cardType === 11 ? (
             <ThumbnailGallery items={items} />
           ) : (
-            <BasicItems
-              items={items}
-              mode={props.mode}
-              handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
-              toggled={props.toggled}
-            />
+            <Fragment>
+              {cardType === 2 || cardType === 12 ? (
+                <ExpandableList
+                  items={items}
+                  mode={props.mode}
+                  publicMode={props.publicMode}
+                  handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+                />
+              ) : (
+                <BasicItems
+                  items={items}
+                  mode={props.mode}
+                  publicMode={props.publicMode}
+                  handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+                  reviewing={false}
+                />
+              )}
+            </Fragment>
           )}
         </CardBS.Body>
       </div>
@@ -178,10 +212,11 @@ Card.propTypes = {
   handleMoveCard: PropTypes.func,
   unfilteredCard: PropTypes.object,
   mode: PropTypes.number,
+  publicMode: PropTypes.number,
   iconSet: PropTypes.any,
   top: PropTypes.bool,
   bottom: PropTypes.bool,
   handleTimestamp: PropTypes.func,
   cardState: PropTypes.number,
-  toggled: PropTypes.bool
+  role: PropTypes.number
 };

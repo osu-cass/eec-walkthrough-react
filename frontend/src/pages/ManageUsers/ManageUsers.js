@@ -79,7 +79,7 @@ function ManageUsers() {
         }
 
         // construct the request url
-        const getUrl = `/users/search/${textValue}/${roleValue}/` +
+        const getUrl = `/api/users/search/${textValue}/${roleValue}/` +
           `${sortValue}/${orderValue}/${cursor.primary}/${cursor.secondary}`;
         let obj = {};
 
@@ -180,6 +180,14 @@ function ManageUsers() {
   return (
     <Container>
       <LoadingOverlay loading={loading} />
+
+      <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
+        <div className="row mx-2">
+          <h4 className="flex-grow-1 font-weight-bold">
+            Manage Users
+          </h4>
+        </div>
+      </div>
 
       <div id="user-manage-container">
         <div id="user-manage-contents-container">

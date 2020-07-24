@@ -16,8 +16,9 @@ function Header(props) {
   const [filterShow, setFilterShow] = useState([]);
   const [cards, setCards] = useState(props.header.cards);
   const [unfilteredCards, setUnfilteredCards] = useState(props.header.cards);
-  const [showToggle, setShowToggle] = useState(false);
-  const [checkToggled, setCheckToggled] = useState(false);
+  const [opportunities, setOpportunities] = useState(false);
+  const [tempOpportunities, setTempOpportunities] = useState(false);
+  const [opportunityFilter, setOpportunityFilter] = useState(false);
 
   // Get all of the icons that could be used for published filtering
   useEffect(() => {
@@ -35,6 +36,10 @@ function Header(props) {
         // if the item wasn't already in the array then add it
         if (!duplicate) {
           allIcons.push(props.header.cards[i].items[j].iconType);
+          // make a note of seeing the checkbox icon
+          if (props.header.cards[i].items[j].iconType === 11) {
+            setOpportunities(true);
+          }
         }
         duplicate = false;
       }
@@ -64,6 +69,10 @@ function Header(props) {
           // if the item wasn't already in the array then add it
           if (!duplicate) {
             allIcons.push(props.header.cards[i].items[j].iconType);
+            // make a note of seeing the checkbox icon
+            if (props.header.cards[i].items[j].iconType === 11) {
+              setTempOpportunities(true);
+            }
           }
           duplicate = false;
         }
@@ -81,6 +90,10 @@ function Header(props) {
           // if the item wasn't already in the array then add it
           if (!duplicate) {
             allIcons.push(props.header.cards[i].tempItems[j].iconType);
+            // make a note of seeing the checkbox icon
+            if (props.header.cards[i].tempItems[j].iconType === 11) {
+              setTempOpportunities(true);
+            }
           }
           duplicate = false;
         }
@@ -97,6 +110,7 @@ function Header(props) {
       allIcons.push(true);
     }
     setFilterShow(allIcons);
+    console.log("allIcons", allIcons)
   }, [props.iconSet, props.cardState]);
 
   // If the viewing mode changes or the selected filters,
@@ -108,6 +122,7 @@ function Header(props) {
 
   // Toggles the viewing state for an icon type.
 
+  // Changes the viewing state of an icon
   function updateIcon(iconId, state) {
     const allIcons = [...filterShow];
     allIcons[iconId] = !state;
@@ -158,17 +173,16 @@ function Header(props) {
       const allTempItems = [];
       let itemExists = false;
       let tempItemExists = false;
-      let hideIndent = false;
+      let hideIndent = 1000;
 
       // check each normal item in the card
       for (let j = 0; j < props.header.cards[i].items.length; j++) {
-        // check if this item is indented and if it needs to be hidden
-        if (props.header.cards[i].items[j].indentation) {
-          if (hideIndent) {
-            continue;
-          }
+        // if we are in hide children mode,
+        // then remove items with a greater indentation level
+        if (props.header.cards[i].items[j].indentation > hideIndent) {
+          continue;
         } else {
-          hideIndent = false;
+          hideIndent = 1000;
         }
         // see if the item should be filtered or not
         if (filterState[props.header.cards[i].items[j].iconType]) {
@@ -176,21 +190,21 @@ function Header(props) {
           itemExists = true;
         } else {
           // if this item has children they need to be hidden
-          hideIndent = true;
+          hideIndent = props.header.cards[i].items[j].indentation;
         }
       }
 
-      hideIndent = false;
+      hideIndent = 1000;
 
       // check each temp item in the card
       for (let j = 0; j < props.header.cards[i].tempItems.length; j++) {
         // check if this item is indented and if it needs to be hidden
-        if (props.header.cards[i].tempItems[j].indentation) {
+        if (props.header.cards[i].tempItems[j].indentation > hideIndent) {
           if (hideIndent) {
             continue;
           }
         } else {
-          hideIndent = false;
+          hideIndent = 1000;
         }
         // see if the item should be filtered or not
         if (filterState[props.header.cards[i].tempItems[j].iconType]) {
@@ -198,7 +212,7 @@ function Header(props) {
           tempItemExists = true;
         } else {
           // if this item has children they need to be hidden
-          hideIndent = true;
+          hideIndent = props.header.cards[i].tempItems[j].indentation;
         }
       }
 
@@ -227,15 +241,20 @@ function Header(props) {
     setUnfilteredCards(allUnfilteredCards);
   }
 
-  function showToggleButton(toggle) {
-    setShowToggle(toggle);
+  // determines if the current object is only internal viewable
+  function isInternal() {
+    if (props.mode === 1) {
+      if ((props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal)) {
+        return 1;
+      }
+    } else {
+      if (props.header.internal) {
+        return 1;
+      }
+    }
   }
 
-  function toggleList() {
-    setCheckToggled(!checkToggled);
-  }
-
-  return !props.header.approved && props.mode !== 1 ? (
+  return (!props.header.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
     <div>
@@ -244,6 +263,7 @@ function Header(props) {
         <div>
           <div className={`d-flex sticky-top
             ${props.header.approved && !props.header.tempHeaderId ? "header-approved" : "header-review"}
+            ${isInternal() ? "header-internal" : ""}
             header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
           style={{top: "1em", zIndex: "998"}}
           >
@@ -259,35 +279,78 @@ function Header(props) {
 
             <div className="row mx-2">
               <div className="row">
-                {props.mode === 1 ? (
-                  <Fragment>
-                    <FilterBar
-                      updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                      resetIcons={() => resetIcons()}
-                      clearIcons={() => clearIcons()}
-                      filterIcons={filterIcons}
-                      tempFilterIcons={tempFilterIcons}
-                      filterShow={filterShow}
-                      iconSet={props.iconSet}
-                      mode={props.mode}
-                      showToggleButton={(e) => showToggleButton(e)}
-                    />
-                    <ListToggle
-                      showButton={showToggle}
-                      toggled={checkToggled}
-                      toggleList={() => toggleList()}
-                    />
-                    <EditHeader
-                      header={props.header}
-                      role={props.role}
-                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                    />
-                    <ReviewHeader
-                      header={props.header}
-                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                    />
-                  </Fragment>
-                ) : (
+                <FilterBar
+                  updateIcon={(e1, e2) => updateIcon(e1, e2)}
+                  resetIcons={() => resetIcons()}
+                  clearIcons={() => clearIcons()}
+                  filterIcons={filterIcons}
+                  tempFilterIcons={tempFilterIcons}
+                  filterShow={filterShow}
+                  iconSet={props.iconSet}
+                  mode={props.mode}
+                />
+                <div className="col">
+                  <div className="row">
+                  <ListToggle
+                    showButton={tempOpportunities}
+                    toggled={opportunityFilter}
+                    toggleList={() => setOpportunityFilter(!opportunityFilter)}
+                  />
+                  <EditHeader
+                    header={props.header}
+                    role={props.role}
+                    handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                  />
+                  <ReviewHeader
+                    header={props.header}
+                    handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                  />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="accordion" role="tablist" aria-multiselectable="true">
+            {cards.map((card, i) =>
+              <Card
+                key={card.cardId}
+                headerId={props.header.headerId}
+                unfilteredCard={unfilteredCards[i]}
+                card={card}
+                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                mode={props.mode}
+                iconSet={props.iconSet}
+                handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
+                handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
+                cardState={props.cardState}
+                role={props.role}
+                top={i === 0 ? (true) : (false)}
+                bottom={i >= cards.length - 1 ? (true) : (false)}
+              />
+            )}
+          </div>
+
+        </div>
+
+      ) : (
+
+        <div>
+          <div className={`d-flex sticky-top
+            ${props.header.approved ? "header-approved" : "header-review"}
+            ${isInternal() ? "header-internal" : ""}
+            header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
+          style={{top: "1em", zIndex: "998"}}
+          >
+            <div className="row mx-2">
+              <h4 className="flex-grow-1 font-weight-bold">
+                {props.header.title}
+              </h4>
+            </div>
+
+            <div className="row mx-2">
+              <div className="row">
+                {props.mode === 2 ? (
                   <Fragment>
                     <OrderObjectButton
                       up={true}
@@ -304,65 +367,27 @@ function Header(props) {
                       bottom={props.bottom}
                     />
                   </Fragment>
+                ) : (
+                  <Fragment>
+                    <FilterBar
+                      updateIcon={(e1, e2) => updateIcon(e1, e2)}
+                      resetIcons={() => resetIcons()}
+                      clearIcons={() => clearIcons()}
+                      filterIcons={filterIcons}
+                      tempFilterIcons={tempFilterIcons}
+                      filterShow={filterShow}
+                      iconSet={props.iconSet}
+                      mode={props.mode}
+                    />
+                    <div className="col">
+                    <ListToggle
+                      showButton={opportunities}
+                      toggled={opportunityFilter}
+                      toggleList={() => setOpportunityFilter(!opportunityFilter)}
+                    />
+                    </div>
+                  </Fragment>
                 )}
-              </div>
-            </div>
-          </div>
-
-          <div id="accordion" role="tablist" aria-multiselectable="true">
-            {cards.map((card, i) =>
-              <Card
-                key={card.cardId}
-                headerId={props.header.headerId}
-                unfilteredCard={unfilteredCards[i]}
-                card={card}
-                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                mode={props.mode}
-                iconSet={props.iconSet}
-                handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
-                top={i === 0 ? (true) : (false)}
-                bottom={i >= cards.length - 1 ? (true) : (false)}
-                handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
-                cardState={props.cardState}
-                toggled={checkToggled}
-              />
-            )}
-          </div>
-
-        </div>
-
-      ) : (
-
-        <div>
-          <div className={`d-flex sticky-top
-            ${props.header.approved ? "header-approved" : "header-review"}
-            header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
-          style={{top: "1em", zIndex: "998"}}
-          >
-            <div className="row mx-2">
-              <h4 className="flex-grow-1 font-weight-bold">
-                {props.header.title}
-              </h4>
-            </div>
-
-            <div className="row mx-2">
-              <div className="row">
-                <FilterBar
-                  updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                  resetIcons={() => resetIcons()}
-                  clearIcons={() => clearIcons()}
-                  filterIcons={filterIcons}
-                  tempFilterIcons={tempFilterIcons}
-                  filterShow={filterShow}
-                  iconSet={props.iconSet}
-                  mode={props.mode}
-                  showToggleButton={(e) => showToggleButton(e)}
-                />
-                <ListToggle
-                  showButton={showToggle}
-                  toggled={checkToggled}
-                  toggleList={() => toggleList()}
-                />
               </div>
             </div>
           </div>
@@ -380,7 +405,8 @@ function Header(props) {
                 handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
-                toggled={checkToggled}
+                role={props.role}
+                publicMode={props.publicMode}
               />
             )}
           </div>
@@ -400,6 +426,7 @@ Header.propTypes = {
   handleUpdate: PropTypes.func,
   role: PropTypes.number,
   mode: PropTypes.number,
+  publicMode: PropTypes.number,
   iconSet: PropTypes.any,
   top: PropTypes.bool,
   bottom: PropTypes.bool,

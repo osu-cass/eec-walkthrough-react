@@ -6,15 +6,21 @@ import "./PageList.css";
 // lists pages for each section
 function PageList() {
 
-  const {pageName} = useParams();
-  const [pages, setPages] = useState([]);
+  const [category, setCategory] = useState({
+    pluralName: "",
+    singleName: "",
+    description: "",
+    internal: 0,
+    pages: []
+  });
   const [pageLinks, setPageLinks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const {categoryId} = useParams();
 
   // display loading spinner and gets pages
   useEffect(() => {
     setLoading(true);
-    getPage();
+    getCategory();
     // eslint-disable-next-line
   }, []);
 
@@ -23,14 +29,9 @@ function PageList() {
 
     const linkArray = [];
 
-    for (let i = 0; i < pages.length; i++) {
+    for (let i = 0; i < category.pages.length; i++) {
 
-      let url = "";
-      if (pages[i].pageType) {
-        url = `/industries/${pages[i].pageId}`;
-      } else {
-        url = `/subjects/${pages[i].pageId}`;
-      }
+      let url = `/wiki/${category.pluralName.replace(/\s+/g, '-').toLowerCase()}/${category.pages[i].pageId}`;
 
       linkArray.push(url);
 
@@ -41,12 +42,11 @@ function PageList() {
     // remove spinner after finished generating links
     setLoading(false);
     // eslint-disable-next-line
-  }, [pages]);
+  }, [category]);
 
   // grabs and returns list of relevant pages
-  async function getPage() {
-    const page = pageName;
-    const getUrl = "/pages/all";
+  async function getCategory() {
+    const getUrl = `/api/categories/${categoryId}`;
     let obj = [];
 
     const results = await fetch(getUrl);
@@ -55,20 +55,14 @@ function PageList() {
 
       obj = await results.json();
 
-      if (page === "subjects") {
-        setPages(obj.pages.subjects);
-      } else if (page === "industries") {
-        setPages(obj.pages.industries);
-      } else {
-        setPages([]);
-      }
+      setCategory(obj);
 
     } else {
 
       if (results.status === 404) {
-        setPages([]);
+        setCategory({});
       } else {
-        console.error("An internal server error occurred while trying to search for a page. Please try again later.");
+        console.error("An internal server error occurred while trying to search for pages. Please try again later.");
       }
 
     }
@@ -81,12 +75,12 @@ function PageList() {
         <div className="content-container mb-5">
           <div className="prompt-container bg-white card rounded shadow-sm">
             <div className="page-search-inner-container m-5">
-              <h3 id="title" className="py-4 font-weight-bold">{pageName} Pages</h3>
-              {pages.map((page, index) =>
+              <h3 id="title" className="py-4 font-weight-bold">{category.singleName} Pages</h3>
+              {category.pages.map((page, index) =>
 
-                <div className="page-info-container card m-5" key={page.pageId + "a"}>
+                <div className="page-info-container card m-5" key={page.pageId}>
                   <Link to={pageLinks[index]}>
-                    <h5 className="page-link-header font-weight-bold text-left" key={page.pageId + "b"}>
+                    <h5 className="page-link-header font-weight-bold text-left">
                       {page.name}
                     </h5>
                   </Link>
@@ -104,7 +98,7 @@ function PageList() {
         <LoadingOverlay loading={loading} />
         <div className="content-container mb-5">
           <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
-            <h3 className="py-5 font-weight-bold">&quot;{pageName}&quot; has no pages or doesn&apos;t exist.</h3>
+            <h3 className="py-5 font-weight-bold">There are no {category.singleName} pages to view.</h3>
           </div>
         </div>
       </div>
