@@ -42,7 +42,7 @@ function EditHeader(props) {
   // determines if the current object is only internal viewable
   function isInternal() {
     if ((props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal)) {
-      return 1
+      return 1;
     }
   }
 
@@ -59,7 +59,7 @@ function EditHeader(props) {
       internal: internal
     };
 
-    const results = await fetch(`/headers/${props.header.headerId}`, {
+    const results = await fetch(`/api/headers/${props.header.headerId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
@@ -138,7 +138,7 @@ function EditHeader(props) {
   async function deleteHeader() {
     setShowLoad(true);
 
-    const results = await fetch(`/headers/${props.header.headerId}`, {
+    const results = await fetch(`/api/headers/${props.header.headerId}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });
@@ -232,7 +232,7 @@ function EditHeader(props) {
               <div className="custom-control form-control-lg custom-checkbox my-2">
                 {checked ? (
                   <input type="checkbox" className="form-check-input custom-control-input"
-                    id="internal-modal-checkbox" onClick={() => setChecked(0)} checked 
+                    id="internal-modal-checkbox" onClick={() => setChecked(0)} checked
                   />
                 ) : (
                   <input type="checkbox" className="form-check-input custom-control-input"
@@ -257,13 +257,17 @@ function EditHeader(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          <Button
-            className="mr-auto"
-            variant="danger"
-            onClick={() => { if (window.confirm("Are you sure you wish to delete this item?")) { deleteHeader(); } }}
-          >
-            Delete Header
-          </Button>
+          {props.role >= 4 ? (
+            <Button
+              className="mr-auto"
+              variant="danger"
+              onClick={() => { if (window.confirm("Are you sure you want to delete this header?")) { deleteHeader(); } }}
+            >
+              Delete Header
+            </Button>
+          ) : (
+            null
+          )}
           <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Header Edit</Button>
           <Button variant="secondary" onClick={() => handleCloseModal()}>Cancel</Button>
         </Modal.Footer>

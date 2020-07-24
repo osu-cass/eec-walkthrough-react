@@ -17,14 +17,18 @@ info:
 tags:
   - name: Users
     description: API endpoints related to application users
+  - name: Categories
+    description: API endpoints related to categores
   - name: Pages
     description: API endpoints related to subjects and industry pages
   - name: Headers
     description: API endpoints related to headers
   - name: Cards
     description: API endpoints related to cards
-  - name: Items
-    description: API endpoints related to items
+  - name: Links
+    description: API endpoints related to links
+  - name: Icons
+    description: API endpoints related to icons
 
 
 paths:
@@ -191,11 +195,80 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  '/users/{userId}/newPassword':
+      post:
+        summary: Generate a new random password
+        description: >
+          Generates a new random password for the specified user and returns it
+        operationId: newPasswordUser
+        tags:
+          - Users
+        parameters:
+          - $ref: '#/components/parameters/User_userId'
+        responses:
+          '200':
+            $ref: '#/components/responses/User_GEN_PASS_200'
+          '500':
+            $ref: '#/components/responses/500'
+
+  /categories:
+    post:
+      summary: Gets a page by ID
+      description: >
+        Gets a subject or industry page by ID
+      operationId: postCategory
+      tags:
+        - Categories
+      parameters:
+        - $ref: '#/components/parameters/Page_pageId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Page_GET_200'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/categories/{pageId}':
+    get:
+      summary: Gets a page by ID
+      description: >
+        Gets a subject or industry page by ID
+      operationId: getPage
+      tags:
+        - Categories
+      parameters:
+        - $ref: '#/components/parameters/Page_pageId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Page_GET_200'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/categories/all':
+      get:
+        summary: Get a list of all pages and their related subjects/industries
+        description: >
+          Get the id and name of every page as well as an array of
+          the related subjects/industries.
+        operationId: getPagesAll
+        tags:
+          - Categories
+        responses:
+          '200':
+            $ref: '#/components/responses/Page_GET_LIST_ALL_200'
+          '404':
+            $ref: '#/components/responses/404'
+          '500':
+            $ref: '#/components/responses/500'
+
   /pages:
     post:
       summary: Creates a new page
       description: >
-        Creates a new subject or industry page
+        Creates a new page
       operationId: createPage
       tags:
         - Pages
@@ -212,31 +285,21 @@ paths:
           $ref: '#/components/responses/422'
         '500':
           $ref: '#/components/responses/500'
-
-  '/pages/industries/{industryId}/subjects/{subjectId}':
-    post:
-      summary: Add a subject to an industry
+  '/pages/{pageId}':
+    patch:
+      summary: Update a page by ID
       description: >
-        Add a subject to an industry
-      operationId: createIndustrySubject
+        Update a page by ID
+      operationId: updatePage
       tags:
         - Pages
+      requestBody:
+        $ref: '#/components/requestBodies/Page_PATCH'
       parameters:
-        - in: path
-          name: industryId
-          schema:
-            type: integer
-          required: true
-          description: The ID of the industry page
-        - in: path
-          name: subjectId
-          schema:
-            type: integer
-          required: true
-          description: The ID of the subject page
+        - $ref: '#/components/parameters/Page_pageId'
       responses:
-        '201':
-          $ref: '#/components/responses/Page_POST_MANY_201'
+        '200':
+          $ref: '#/components/responses/PATCH_200_PAGE'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -249,34 +312,77 @@ paths:
           $ref: '#/components/responses/500'
 
     delete:
-      summary: Remove a subject from an industry
+      summary: Delete a page by ID
       description: >
-        Remove a subject from an industry
-      operationId: deleteIndustrySubject
+        Delete a page by ID
+      operationId: deletePage
       tags:
         - Pages
       parameters:
-        - in: path
-          name: industryId
-          schema:
-            type: integer
-          required: true
-          description: The ID of the industry page
-        - in: path
-          name: subjectId
-          schema:
-            type: integer
-          required: true
-          description: The ID of the subject page
+        - $ref: '#/components/parameters/Page_pageId'
       responses:
         '200':
           $ref: '#/components/responses/DELETE_200'
         '401':
           $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/pages/{pageId}/publish':
+    post:
+      summary: Publishes a page
+      description: >
+        Publishes a page so it is viewable on the website
+      operationId: publishPage
+      tags:
+        - Pages
+      parameters:
+        - $ref: '#/components/parameters/Page_pageId'
+      responses:
+        '201':
+          $ref: '#/components/responses/Page_PageId_201'
         '403':
           $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/pages/{pageId}/unpublish':
+    post:
+      summary: Unpublishes a page
+      description: >
+        Unpublishes a page so that it is not viewable on the website
+      operationId: unpublishPage
+      tags:
+        - Pages
+      parameters:
+        - $ref: '#/components/parameters/Page_pageId'
+      responses:
+        '201':
+          $ref: '#/components/responses/Page_PageId_201'
+        '403':
+          $ref: '#/components/responses/403'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/pages/{pageId}/changes': 
+    delete:
+      summary: Delete any unpublished page edits by ID
+      description: >
+        Delete any unpublished page edits by ID
+      operationId: deletePageChanges
+      tags:
+        - Pages
+      parameters:
+        - $ref: '#/components/parameters/Page_pageId'
+      responses:
+        '200':
+          $ref: '#/components/responses/DELETE_200'
+        '401':
+          $ref: '#/components/responses/401'
         '500':
           $ref: '#/components/responses/500'
 
@@ -323,84 +429,6 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/pages/all':
-    get:
-      summary: Get a list of all pages and their related subjects/industries
-      description: >
-        Get the id and name of every page as well as an array of
-        the related subjects/industries.
-      operationId: getPagesAll
-      tags:
-        - Pages
-      responses:
-        '200':
-          $ref: '#/components/responses/Page_GET_LIST_ALL_200'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-
-
-  '/pages/{pageId}':
-    get:
-      summary: Gets a page by ID
-      description: >
-        Gets a subject or industry page by ID
-      operationId: getPage
-      tags:
-        - Pages
-      parameters:
-        - $ref: '#/components/parameters/Page_pageId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Page_GET_200'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-
-    patch:
-      summary: Update a page by ID
-      description: >
-        Update a subject or industry page by ID
-      operationId: updatePage
-      tags:
-        - Pages
-      requestBody:
-        $ref: '#/components/requestBodies/Page_PATCH'
-      parameters:
-        - $ref: '#/components/parameters/Page_pageId'
-      responses:
-        '200':
-          $ref: '#/components/responses/PATCH_200_PAGE'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '422':
-          $ref: '#/components/responses/422'
-        '500':
-          $ref: '#/components/responses/500'
-
-    delete:
-      summary: Delete a page by ID
-      description: >
-        Delete a subject or industry page by ID
-      operationId: deletePage
-      tags:
-        - Pages
-      parameters:
-        - $ref: '#/components/parameters/Page_pageId'
-      responses:
-        '200':
-          $ref: '#/components/responses/DELETE_200'
-        '401':
-          $ref: '#/components/responses/401'
-        '500':
-          $ref: '#/components/responses/500'
-
   /Headers:
     post:
       summary: Creates a new header
@@ -424,23 +452,6 @@ paths:
           $ref: '#/components/responses/500'
 
   '/Headers/{headerId}':
-    get:
-      summary: Gets a header by ID
-      description: >
-        Gets a header using the header ID
-      operationId: getHeader
-      tags:
-        - Headers
-      parameters:
-        - $ref: '#/components/parameters/Header_headerId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Header_GET_200'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-
     patch:
       summary: Update a header by ID
       description: >
@@ -483,6 +494,64 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
+  '/Headers/{headerId}/changes':
+    delete:
+      summary: Delete any unpublished header edits by ID
+      description: >
+        Delete any unpublished header edits by ID
+      operationId: deleteHeaderChanges
+      tags:
+        - Headers
+      parameters:
+        - $ref: '#/components/parameters/Header_headerId'
+      responses:
+        '200':
+          $ref: '#/components/responses/DELETE_200'
+        '401':
+          $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/Headers/{headerId}/publish':
+    post:
+      summary: Publishes a header
+      description: >
+        Publishes a header so it is viewable on the website
+      operationId: publishHeader
+      tags:
+        - Headers
+      parameters:
+        - $ref: '#/components/parameters/Header_headerId'
+      responses:
+        '201':
+          $ref: '#/components/responses/Header_HeaderId_201'
+        '403':
+          $ref: '#/components/responses/403'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+          
+  '/Headers/{headerId}/unpublish':
+    post:
+      summary: Unpublishes a header
+      description: >
+        Unpublishes a header so it is not viewable on the website
+      operationId: unpublishHeader
+      tags:
+        - Headers
+      parameters:
+        - $ref: '#/components/parameters/Header_headerId'
+      responses:
+        '201':
+          $ref: '#/components/responses/Header_HeaderId_201'
+        '403':
+          $ref: '#/components/responses/403'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+
   /Cards:
     post:
       summary: Creates a new card
@@ -506,22 +575,6 @@ paths:
           $ref: '#/components/responses/500'
 
   '/Cards/{cardId}':
-    get:
-      summary: Gets a card by ID
-      description: >
-        Gets a card using the card ID
-      operationId: getCard
-      tags:
-        - Cards
-      parameters:
-        - $ref: '#/components/parameters/Card_cardId'
-      responses:
-        '200':
-          $ref: '#/components/responses/Card_GET_200'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
 
     patch:
       summary: Update a card by ID
@@ -565,21 +618,57 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  /Items:
-    post:
-      summary: Creates a new item
+  '/Cards/{cardId}/changes':
+    delete:
+      summary: Delete any unpublished card edits by ID
       description: >
-        Creates a new item
-      operationId: createItem
+        Delete any unpublished card edits by ID
+      operationId: deleteCardChanges
       tags:
-        - Items
-      requestBody:
-        $ref: '#/components/requestBodies/Item_POST'
+        - Cards
+      parameters:
+        - $ref: '#/components/parameters/Card_cardId'
       responses:
-        '201':
-          $ref: '#/components/responses/Item_POST_201'
+        '200':
+          $ref: '#/components/responses/DELETE_200'
         '401':
           $ref: '#/components/responses/401'
+        '500':
+          $ref: '#/components/responses/500'
+
+  '/Cards/{cardId}/publish':
+    post:
+      summary: Publishes a card
+      description: >
+        Publishes a card so it is viewable on the website
+      operationId: publishCard
+      tags:
+        - Cards
+      parameters:
+        - $ref: '#/components/parameters/Card_cardId'
+      responses:
+        '201':
+          $ref: '#/components/responses/Card_CardId_201'
+        '403':
+          $ref: '#/components/responses/403'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+          
+  '/Cards/{cardId}/unpublish':
+    post:
+      summary: Unpublishes a card
+      description: >
+        Unpublishes a card so it is not viewable on the website
+      operationId: unpublishCard
+      tags:
+        - Cards
+      parameters:
+        - $ref: '#/components/parameters/Card_cardId'
+      responses:
+        '201':
+          $ref: '#/components/responses/Card_CardId_201'
         '403':
           $ref: '#/components/responses/403'
         '422':
@@ -587,82 +676,72 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  #'/Items/{itemId}':
-  #  get:
-  #    summary: Gets an item by ID
-  #    description: >
-  #      Gets an item using the item ID
-  #    operationId: getItem
-  #    tags:
-  #      - Items
-  #    parameters:
-  #      - $ref: '#/components/parameters/Item_itemId'
-  #    responses:
-  #      '200':
-  #        $ref: '#/components/responses/Item_GET_200'
-  #      '404':
-  #        $ref: '#/components/responses/404'
-  #      '500':
-  #        $ref: '#/components/responses/500'
-
-  #  patch:
-  #    summary: Update an item by ID
-  #    description: >
-  #      Updates one or more item fields
-  #    operationId: updateItem
-  #    tags:
-  #      - Items
-  #    requestBody:
-  #      $ref: '#/components/requestBodies/Item_PATCH'
-  #    parameters:
-  #      - $ref: '#/components/parameters/Item_itemId'
-  #    responses:
-  #      '200':
-  #        $ref: '#/components/responses/PATCH_200'
-  #      '401':
-  #        $ref: '#/components/responses/401'
-  #      '403':
-  #        $ref: '#/components/responses/403'
-  #      '404':
-  #        $ref: '#/components/responses/404'
-  #      '422':
-  #        $ref: '#/components/responses/422'
-  #      '500':
-  #        $ref: '#/components/responses/500'
-
-  #  delete:
-  #    summary: Delete an item by ID
-  #    description: >
-  #      Delete an item using the item ID
-  #    operationId: deleteItem
-  #    tags:
-  #      - Items
-  #    parameters:
-  #      - $ref: '#/components/parameters/Item_itemId'
-  #    responses:
-  #      '200':
-  #        $ref: '#/components/responses/DELETE_200'
-  #      '401':
-  #        $ref: '#/components/responses/401'
-  #      '500':
-  #        $ref: '#/components/responses/500'
-          
-  '/Items/{itemId}/timestamp':
+  /Links/{linkId}:
     patch:
-      summary: Updates the item's timestamp to the current time or NULL
+      summary: Updates the link's URL
+      description: >
+        Updates a link's URL
+      operationId: updateLink
+      tags:
+        - Links
+      requestBody:
+        $ref: '#/components/requestBodies/Item_PATCH_URL'
+      parameters:
+        - $ref: '#/components/parameters/Link_linkId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Link_LinkId_201'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /Links/{linkId}/timestamp:
+    patch:
+      summary: Updates the link's timestamp to the current time or NULL
       description: >
         Updates a timestamp used to track external links last accessed date.
         If the link is dead then the time is set to NULL.
       operationId: updateItemTimestamp
       tags:
-        - Items
+        - Links
       requestBody:
         $ref: '#/components/requestBodies/Item_PATCH_TIMESTAMP'
       parameters:
-        - $ref: '#/components/parameters/Item_itemId'
+        - $ref: '#/components/parameters/Link_linkId'
       responses:
         '200':
           $ref: '#/components/responses/PATCH_200_Timestamp'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '422':
+          $ref: '#/components/responses/422'
+        '500':
+          $ref: '#/components/responses/500'
+
+  /Links/all/{onlyDead}:
+    get:
+      summary: Gets all published links
+      description: >
+        Gets all published links or all published links that are marked as invalid
+      operationId: getLinks
+      tags:
+        - Links
+      parameters:
+        - $ref: '#/components/parameters/Item_get_links'
+      responses:
+        '200':
+          $ref: '#/components/responses/GET_200_links'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -768,6 +847,7 @@ components:
         - created
         - approved
         - subjects/industries
+        - internal
       properties:
         pageId:
           allOf:
@@ -817,15 +897,12 @@ components:
           minimum: 0
           maximum: 1
           example: 0
-        relatedPages:
-          description: An array of the associated subject/industry pages. Industries will have an array of related subject pages, subjects will have an array of related industry pages. 
-          type: array
-          items:
-            type: object
-            example: {
-              pageId: 5,
-              name: Electricity
-            }
+        internal:
+          description: Value indicating if the page should only be shown to internal users
+          type: boolean
+          minimum: 0
+          maximum: 1
+          example: 0
       
     Header:
       description: An object representing a specific page header
@@ -872,15 +949,12 @@ components:
           minimum: 0
           maximum: 1
           example: 0
-        icons:
-          description: An array of the types of icons that exist within the cards beneath the header
-          type: array
-          items:
-            type: object
-            example: {
-              iconType: 5,
-              typeName: fire
-            }
+        internal:
+          description: Value indicating if the header should only be shown to internal users
+          type: boolean
+          minimum: 0
+          maximum: 1
+          example: 0
       
     Card:
       description: An object representing a specific card that belongs to a header
@@ -904,7 +978,7 @@ components:
             - $ref: '#/components/schemas/Id'
         cardType:
           allOf:
-            - description: Determines the format of the card content. A 0 represents the default card format. A 1 represents an image grid format.
+            - description: Determines the format of the card content. A 0 represents the default card format. A 1 represents an thumbnail gallery format. A 2 represents an expandable card, etc...
               type: integer
               format: int16
               minimum: 0
@@ -932,6 +1006,12 @@ components:
             - $ref: '#/components/schemas/UtcTime'
         approved:
           description: Value indicating if the card has been approved to be shown on the website
+          type: boolean
+          minimum: 0
+          maximum: 1
+          example: 0
+        internal:
+          description: Value indicating if the card should only be shown to internal users
           type: boolean
           minimum: 0
           maximum: 1
@@ -1009,7 +1089,7 @@ components:
           example: Assessing Industrial Air Compressor
         created:
           allOf:
-            - description: The time that the item was created
+            - description: The time that the item was created, or if it is an external link, the last time that the link was confirmed to be valid
             - $ref: '#/components/schemas/UtcTime'
         approved:
           description: Value indicating if the item has been approved to be shown on the website
@@ -1052,6 +1132,12 @@ components:
       minimum: 1
       maximum: 4294967295
       example: 15
+      
+    boolval:
+      type: integer
+      minimum: 0
+      maximum: 1
+      example: 0
       
     Password:
       type: string
@@ -1104,6 +1190,8 @@ components:
                       example: Compressed air has been a key industrial utility since the...
                     imageUrl:
                       example: http://flip2.engr.oregonstate.edu:1111/images/aircompressor.png
+                    internal:
+                      example: 0
                         
     Page_PATCH:
       required: true
@@ -1119,6 +1207,8 @@ components:
                       example: Compressed air has been a key industrial utility since the...
                     imageUrl:
                       example: http://flip2.engr.oregonstate.edu:1111/images/aircompressor.png
+                    internal:
+                      example: 1
 
     Header_POST:
       required: true
@@ -1131,6 +1221,8 @@ components:
                   - $ref: '#/components/schemas/Id'
               title:
                 example: Compressed Air Opportunities to Consider
+              internal:
+                example: 0
 
     Header_PATCH:
       required: true
@@ -1144,6 +1236,8 @@ components:
                 minLength: 1
                 maxLength: 100
                 example: Compressed Air Opportunities to Consider
+              internal:
+                example: 0
 
     Card_POST:
       required: true
@@ -1157,6 +1251,21 @@ components:
                 example: 0
               title:
                 example: Rules of Thumb
+              internal:
+                example: 0
+              items:
+                example: [{
+                  "itemId": 15,
+                  "cardId": 10,
+                  "indentation": 0,
+                  "iconType": 5,
+                  "typeName": "bolt",
+                  "typeKeyword": "Electricity",
+                  "contentText": "This guide focuses mainly on screw and reciprocating compressors. These are the most common...",
+                  "contentUrl": "https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf",
+                  "contentLabel": "Assessing Industrial Air Compressor",
+                  "created": "2020-12-31 23:59:59",
+                }]
                 
     Card_PATCH:
       required: true
@@ -1182,7 +1291,6 @@ components:
               "contentText": "This guide focuses mainly on screw and reciprocating compressors. These are the most common...",
               "contentUrl": "https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf",
               "contentLabel": "Assessing Industrial Air Compressor",
-              "userId": 15,
               "created": "2020-12-31 23:59:59",
             }]
     
@@ -1239,7 +1347,24 @@ components:
               deadLink:
                 example: 0
 
+    Item_PATCH_URL:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              url:
+                example: "/industries/5"
+
   parameters:
+
+    Item_get_links:
+      name: onlyDead
+      in: path
+      description: Specifies if we should only show dead links
+      required: true
+      schema:
+        $ref: '#/components/schemas/User/properties/role'
 
     User_userId:
       name: userId
@@ -1301,6 +1426,14 @@ components:
       name: itemId
       in: path
       description: The unique identifier of the item
+      required: true
+      schema:
+        $ref: '#/components/schemas/Item/properties/itemId'
+
+    Link_linkId:
+      name: linkId
+      in: path
+      description: The unique identifier of a link
       required: true
       schema:
         $ref: '#/components/schemas/Item/properties/itemId'
@@ -1433,6 +1566,15 @@ components:
               role:
                 example: 1
                 
+    User_GEN_PASS_200:
+      description: An object containing information about the new password
+      content:
+        application/json:
+          schema:
+            properties:
+              password:
+                example: 'x0Ep3Eort45eWoxS'
+                
     User_Search_GET_200:
       description: An object containing information about users
       content:
@@ -1548,6 +1690,22 @@ components:
               timestamp:
                 example: "2020-06-18 20:09:39"
 
+    GET_200_links:
+      description: An object containing information about all pages seperated into subjects and industries
+      content:
+        application/json:
+          schema:
+            properties:
+              links:
+                example: [
+                {
+                   "itemId": 5,
+                   "title": "Boiler Info",
+                   "url:": "http://boilers.com",
+                   "created": "null"
+                }
+              ]
+
     User_Login_GET_200:
       description: An object containing information about the user
       content:
@@ -1573,6 +1731,58 @@ components:
               - Id
             properties:
               insertId:
+                $ref: '#/components/schemas/Id'
+
+    Page_PageId_201:
+      description: Page ID
+      content:
+        application/json:
+          schema:
+            description: An object containing information about the page
+            type: object
+            required:
+              - Id
+            properties:
+              pageId:
+                $ref: '#/components/schemas/Id'
+                
+    Header_HeaderId_201:
+      description: Header ID
+      content:
+        application/json:
+          schema:
+            description: An object containing information about the header
+            type: object
+            required:
+              - Id
+            properties:
+              headerId:
+                $ref: '#/components/schemas/Id'
+                
+    Card_CardId_201:
+      description: Card ID
+      content:
+        application/json:
+          schema:
+            description: An object containing information about the card
+            type: object
+            required:
+              - Id
+            properties:
+              cardId:
+                $ref: '#/components/schemas/Id'
+
+    Link_LinkId_201:
+      description: Link ID
+      content:
+        application/json:
+          schema:
+            description: An object containing information about the link
+            type: object
+            required:
+              - Id
+            properties:
+              linkId:
                 $ref: '#/components/schemas/Id'
 
     Page_POST_MANY_201:
@@ -1682,6 +1892,50 @@ components:
                 allOf:
                   - description: The time that the page was created
                   - $ref: '#/components/schemas/UtcTime'
+                  
+              tempPageId:
+                allOf:
+                  - description: Same as the normal pageId if there is a pending page edit. Otherwise null
+                  - $ref: '#/components/schemas/Id'
+              tempPageType:
+                description: Pending edited version. Otherwise null
+                type: boolean
+                minLength: 0
+                maxLength: 1
+                example: 1
+              tempName:
+                description:  Pending edited version. Otherwise null.
+                type: string
+                minLength: 1
+                maxLength: 100
+                example: Compressed Air
+              tempTitle:
+                description:  Pending edited version. Otherwise null.
+                type: string
+                minLength: 1
+                maximum: 100
+                example: Compressed air is a common utility found in most industrial facilities
+              tempDescription:
+                description:  Pending edited version. Otherwise null.
+                type: string
+                minLength: 1
+                maxLength: 1000
+                example: Compressed air has been a key industrial utility since the...
+              tempImageUrl:
+                description: Pending edited version. Otherwise null.
+                type: string
+                minLength: 1
+                maxLength: 500
+                example: http://flip2.engr.oregonstate.edu:1111/images/aircompressor.png
+              tempUserId:
+                allOf:
+                  - description: User who submited the edited version. Otherwise null
+                  - $ref: '#/components/schemas/Id'
+              tempCreated:
+                allOf:
+                  - description: Timestamp of when the edited version was submited. Otherwise null
+                  - $ref: '#/components/schemas/UtcTime'
+                  
               approved:
                 description: Value indicating if the page has been approved to be shown on the website
                 type: boolean
@@ -1696,7 +1950,12 @@ components:
                    "title": "Compressed Air Opportunities to Consider",
                    "userId": 15,
                    "created": "2020-12-31 23:59:59",
+                   "tempheaderId": "null",
+                   "tempTitle": "null",
+                   "tempUserId": "null",
+                   "tempCreated": "null",
                    "approved": 0,
+                   
                    cards: [{
                            cardId: 15,
                            headerId: 15,
@@ -1704,7 +1963,12 @@ components:
                            title: Best Practices,
                            userId: 15,
                            created: '2020-12-31 23:59:59',
-                           approved: 0,
+                           tempCardId: 15,
+                           tempCardType: 1,
+                           tempTitle: New Best Practices,
+                           tempUserId: 25,
+                           tempCreated: '2021-01-15 22:34:32',
+                           approved: 1,
                            items: [{
                                     itemId: 15,
                                     cardId: 15,
@@ -1715,7 +1979,6 @@ components:
                                     contentText: This guide focuses mainly...,
                                     contentUrl: 'https://www.Improving_Compressed_Air.com',
                                     contentLabel: Assessing Industrial Air Compressor,
-                                    userId: 15,
                                     created: '2020-12-31 23:59:59',
                                     approved: 1
                                   }],
@@ -1729,7 +1992,6 @@ components:
                                     contentText: This is an item,
                                     contentUrl: www.Someurl.com,
                                     contentLabel: Assessing Items,
-                                    userId: 13,
                                     created: '2020-12-31 23:59:59',
                                     approved: 0
                            }]

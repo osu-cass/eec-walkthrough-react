@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import LinkSearchForm from "./LinkSearchForm";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import {formatTime} from "../../utilities/formatTime";
 import EditLinks from "./EditLinks";
 import "./ManageLinks.css";
 
@@ -31,7 +32,7 @@ function ManageLinks() {
     setLoading(true);
 
     // Fetch all links
-    let results = await fetch(`/links/all/${filter}`);
+    const results = await fetch(`/api/links/all/${filter}`);
 
     if (results.ok) {
 
@@ -66,14 +67,14 @@ function ManageLinks() {
         <table className="link-table shadow mb-5">
           <thead>
             <tr>
-              <th style={{width: "35%"}}>
+              <th className="pl-4" style={{width: "10%"}}>
+                Confirmed Valid
+              </th>
+              <th style={{width: "30%"}}>
                 Title
               </th>
-              <th style={{width: "35%"}}>
+              <th style={{width: "30%"}}>
                 URL
-              </th>
-              <th style={{width: "5%"}}>
-                Status
               </th>
               <th style={{width: "25%"}}>
                 Edit
@@ -83,6 +84,11 @@ function ManageLinks() {
           <tbody>
             {links.map((link) =>
               <tr key={link.itemId}>
+                <td className="pl-4 link-data align-top">
+                  <span className={`${link.time === null ? "invalid-external-link" : "valid-external-link"}`}>
+                    {link.time === null ? "Invalid" : formatTime(link.time)}
+                  </span>
+                </td>
                 <td className="link-data align-top">
                   {link.title}
                 </td>
@@ -90,11 +96,6 @@ function ManageLinks() {
                   <a href={link.url}>
                     {link.url}
                   </a>
-                </td>
-                <td className="link-data align-top">
-                  <span className={`${link.time === null ? "invalid-external-link" : "valid-external-link"}`}>
-                    {link.time === null ? "Invalid" : "Valid"}
-                  </span>
                 </td>
                 <td className="link-data align-top">
                   <EditLinks link={link} handleUpdate={(link) => handleUpdate(link)} />

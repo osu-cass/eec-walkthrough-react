@@ -13,6 +13,7 @@ import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import "./ContentPage.css";
 import NonPublicPage from "../NonPublicPage/NonPublicPage";
+import {useParams} from "react-router-dom";
 
 // A page representing an industry or subject
 function ContentPage(props) {
@@ -28,6 +29,7 @@ function ContentPage(props) {
   const [publicMode, setPublicMode] = useState(getPublic());
   const [cardState, setCardState] = useState(0);
   const [pageState, setPageState] = useState(0);
+  const {pageId} = useParams();
 
   // get new page data if the page ID has changed
   useEffect(() => {
@@ -35,7 +37,7 @@ function ContentPage(props) {
     setRole(getProfile().role);
     fetchData();
     // eslint-disable-next-line
-  }, [props.pageId]);
+  }, [pageId]);
 
   // sets the current page mode (view / edit / move)
   function handlePageMode(newMode) {
@@ -53,7 +55,7 @@ function ContentPage(props) {
     setLoaded(false);
 
     // Fetch all icons
-    let results = await fetch(`/icons/all`);
+    let results = await fetch(`/api/icons/all`);
 
     if (results.ok) {
       obj = await results.json();
@@ -64,7 +66,7 @@ function ContentPage(props) {
     }
 
     // Fetch page info
-    results = await fetch(`/pages/${props.pageId}/all`);
+    results = await fetch(`/api/pages/${pageId}/all`);
 
     if (results.ok) {
       obj = await results.json();
@@ -94,20 +96,11 @@ function ContentPage(props) {
 
         setPageInfo(object);
 
-      } else if (action === "delete") {
+      } else if (action === "clear") {
 
-        if (object.pageId === object.tempPageId) {
-          const newPage = pageInfo;
-          newPage.tempCreated = null;
-          newPage.tempDescription = null;
-          newPage.tempImageUrl = null;
-          newPage.tempName = null;
-          newPage.tempPageId = null;
-          newPage.tempTitle = null;
-          newPage.tempUserId = null;
-          setPageInfo(newPage);
-          setPageState(pageState + 1);
-        }
+        const newPage = object;
+        setPageInfo(newPage);
+        setPageState(pageState + 1);
 
       }
 
@@ -131,13 +124,17 @@ function ContentPage(props) {
 
         for (let i = 0; i < headerData.length; i++) {
           if (headerData[i].headerId === object.headerId) {
-            if (object.headerId === object.tempHeaderId) {
-              const newHeader = headerData[i];
-              newHeader.tempCreated = null;
-              newHeader.tempHeaderId = null;
-              newHeader.tempTitle = null;
-              newHeader.tempUserId = null;
-              headerData[i] = newHeader;
+            headerData.splice(i, 1);
+            setHeaders(headerData);
+          }
+        }
+
+      } else if (action === "clear") {
+
+        for (let i = 0; i < headerData.length; i++) {
+          if (headerData[i].headerId === object.headerId) {
+            if (headerData[i].approved) {
+              headerData[i] = object;
               setHeaders(headerData);
             } else {
               headerData.splice(i, 1);
@@ -145,7 +142,6 @@ function ContentPage(props) {
             }
           }
         }
-
       }
 
     } else if (type === "card") {
@@ -183,15 +179,18 @@ function ContentPage(props) {
 
         for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
           if (headerData[headerIndex].cards[i].cardId === object.cardId) {
-            if (object.cardId === object.tempCardId) {
-              const newCard = headerData[headerIndex].cards[i];
-              newCard.tempCardId = null;
-              newCard.tempCardType = null;
-              newCard.tempCreated = null;
-              newCard.tempTitle = null;
-              newCard.tempUserId = null;
-              newCard.tempItems = [];
-              headerData[headerIndex].cards[i] = newCard;
+              headerData[headerIndex].cards.splice(i, 1);
+              setHeaders(headerData);
+              setCardState(cardState + 1);
+          }
+        }
+
+      } else if (action === "clear") {
+
+        for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
+          if (headerData[headerIndex].cards[i].cardId === object.cardId) {
+            if (headerData[headerIndex].cards[i].approved) {
+              headerData[headerIndex].cards[i] = object;
               setHeaders(headerData);
               setCardState(cardState + 1);
             } else {
@@ -202,9 +201,7 @@ function ContentPage(props) {
           }
         }
       }
-
     }
-
   }
 
   // Updates a timestamp (for an external link) that has been edited
@@ -300,7 +297,7 @@ function ContentPage(props) {
 
     // send our move to the API
     if (moved) {
-      const results = await fetch(`/headers/${headerId}/move/${direction}`, {
+      const results = await fetch(`/api/headers/${headerId}/move/${direction}`, {
         method: "PATCH",
         headers: {"Content-Type": "application/json"}
       });
@@ -402,7 +399,7 @@ function ContentPage(props) {
 
     // send our move to the API
     if (moved) {
-      const results = await fetch(`/cards/${cardId}/move/${direction}`, {
+      const results = await fetch(`/api/cards/${cardId}/move/${direction}`, {
         method: "PATCH",
         headers: {"Content-Type": "application/json"}
       });
@@ -442,7 +439,7 @@ function ContentPage(props) {
         />
 
         <CreateHeader
-          pageId={parseInt(props.pageId)}
+          pageId={parseInt(pageId)}
           role={role}
           userId={userId}
           numHeaders={headers.length}
@@ -480,7 +477,7 @@ function ContentPage(props) {
       </Container>
     ) : <LoadingOverlay loading={true} />;
   } else if (publicMode === 1 && (!pageInfo.approved || pageInfo.internal) && mode === 0) {
-    return <NonPublicPage onPublicMode={e => handlePublicMode(e)} />
+    return <NonPublicPage onPublicMode={e => handlePublicMode(e)} />;
   } else if (errorPage === 404) {
     return <Error404 />;
   } else {

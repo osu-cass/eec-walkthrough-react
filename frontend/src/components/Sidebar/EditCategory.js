@@ -1,20 +1,28 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import Error from "../General/Error";
-import "./CreatePage.css";
+import "./EditCategory.css";
 
-// button and modal for creating a new page
-function CreatePage(props) {
- 
-  const [name, setName] = useState("");
-  const [summary, setSummary] = useState("");
+// button and modal for editing a category
+function EditCategory(props) {
+
+  const [singleName, setSingleName] = useState("");
+  const [pluralName, setPluralName] = useState("");
   const [description, setDescription] = useState("");
-  const [url, setUrl] = useState("");
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [checked, setChecked] = useState(0);
+
+  // If the category is edited, make sure we keep the modal up to date
+  useEffect(() => {
+    setSingleName(props.category.singleName);
+    setPluralName(props.category.pluralName);
+    setDescription(props.category.description);
+    setChecked(props.category.internal);
+    // eslint-disable-next-line
+  }, [props.category, props.category.internal]);
 
   function handleClose() {
     setShow(false);
@@ -38,17 +46,15 @@ function CreatePage(props) {
 
     // Prepare data
     const data = {
-      pageType: props.categoryId,
-      name: name,
-      title: summary,
+      singleName: singleName,
+      pluralName: pluralName,
       description: description,
-      imageUrl: url,
       internal: internal
     };
 
-    // Create new page
-    const results = await fetch("/api/pages/", {
-      method: "POST",
+    // update a category
+    const results = await fetch(`/api/categories/${props.category.categoryId}`, {
+      method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
     });
@@ -56,10 +62,9 @@ function CreatePage(props) {
     if (results.ok) {
 
       // Reset state
-      setName("");
-      setSummary("");
+      setSingleName("");
+      setPluralName("");
       setDescription("");
-      setUrl("");
       setErrorMessage("");
       setChecked(0);
 
@@ -93,42 +98,38 @@ function CreatePage(props) {
   function checkInputs() {
     let emptyFound = false;
     let newErrorMessage = errorMessage;
-    // Empty url
-    if (!url.length) {
-      emptyFound = true;
-      newErrorMessage = "Error: Empty image url";
-    }
     // Empty description
     if (!description.length) {
       emptyFound = true;
-      newErrorMessage = "Error: Empty page description";
+      newErrorMessage = "Error: Empty description";
     }
     // Empty summary
-    if (!summary.length) {
+    if (!pluralName.length) {
       emptyFound = true;
-      newErrorMessage = "Error: Empty page summary";
+      newErrorMessage = "Error: Empty plural name";
     }
     // Empty name
-    if (!name.length) {
+    if (!singleName.length) {
       emptyFound = true;
-      newErrorMessage = "Error: Empty page name";
+      newErrorMessage = "Error: Empty singular name";
     }
     setErrorMessage(newErrorMessage);
     if (emptyFound) { return true; }
     return false;
   }
 
-  return props.role >= 3 ? (
-    <div className='text-center my-2 mx-1 createPage'>
-      <Button variant="outline-info" className="createPage" onClick={() => handleShow()}>
+  return props.role >= 4 ? (
+    <div className="text-center my-2 mx-1 editCategory">
+      <Button variant="outline-info" className="editCategory" onClick={() => handleShow()}>
         <i
-          className='create-page-icon fas fa-plus-circle text-info mr-2'
-          style={{transform: "scale(1.5)"}}></i>
-            Create Page
+          className="edit-category-icon fas fa-plus-circle text-info mr-2"
+          style={{transform: "scale(1.5)"}}
+        />
+            Edit Category
       </Button>
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
-          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">{props.title}</h5>
+          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Edit Category</h5>
           <Button variant="none" onClick={() => handleClose()}>
             <span aria-hidden="true">&times;</span>
           </Button>
@@ -136,37 +137,17 @@ function CreatePage(props) {
         </Modal.Header>
 
         <Modal.Body >
+
           <Row>
             <Col>
               <Form.Group controlId="formName">
-                <Form.Label className="font-weight-bold">Page Name</Form.Label>
-                <Form.Control type="text" maxLength="100" placeholder="Enter name" onChange={(e) => setName(e.target.value)} />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <Form.Group controlId="formSummary">
-                <Form.Label className="font-weight-bold">Summary</Form.Label>
-                <Form.Control type="text"  maxLength="1000" placeholder="Enter summary" onChange={(e) => setSummary(e.target.value)} />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <Form.Group controlId="formDescription">
-                <Form.Label className="font-weight-bold">Brief Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  maxLength="5000"
-                  rows="4"
-                  placeholder="Enter description"
-                  onChange={(e) => setDescription(e.target.value)}
-                  style={{
-                    maxHeight: "500px"
-                  }}
+                <Form.Label className="font-weight-bold">Singular Name</Form.Label>
+                <Form.Control 
+                  type="text"
+                  maxLength="100"
+                  placeholder="Enter singular name"
+                  onChange={(e) => setSingleName(e.target.value)}
+                  defaultValue={singleName}
                 />
               </Form.Group>
             </Col>
@@ -174,9 +155,34 @@ function CreatePage(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="formURL">
-                <Form.Label className="font-weight-bold">Image URL</Form.Label>
-                <Form.Control type="text" maxLength="1000" placeholder="Enter URL" onChange={(e) => setUrl(e.target.value)} />
+              <Form.Group controlId="formName">
+                <Form.Label className="font-weight-bold">Plural Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  maxLength="100"
+                  placeholder="Enter plural name"
+                  onChange={(e) => setPluralName(e.target.value)}
+                  defaultValue={pluralName}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <Form.Group controlId="formDescription">
+                <Form.Label className="font-weight-bold">Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  maxLength="1000"
+                  rows="4"
+                  placeholder="Enter description"
+                  onChange={(e) => setDescription(e.target.value)}
+                  defaultValue={description}
+                  style={{
+                    maxHeight: "500px"
+                  }}
+                />
               </Form.Group>
             </Col>
           </Row>
@@ -212,7 +218,7 @@ function CreatePage(props) {
 
         <Modal.Footer className="modal-footer">
           <Button variant="secondary" onClick={() => handleClose()}>Close</Button>
-          <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Page</Button>
+          <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Category</Button>
         </Modal.Footer>
       </Modal>
     </div >
@@ -221,11 +227,10 @@ function CreatePage(props) {
   );
 
 }
-export default CreatePage;
+export default EditCategory;
 
-CreatePage.propTypes = {
-  title: PropTypes.string,
+EditCategory.propTypes = {
+  category: PropTypes.object,
   role: PropTypes.number,
-  refresh: PropTypes.func,
-  categoryId: PropTypes.number
+  refresh: PropTypes.func
 };

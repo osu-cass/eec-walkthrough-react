@@ -26,7 +26,7 @@ function RegisterUser () {
       };
 
       // construct the request url
-      const postUrl = "/users";
+      const postUrl = "/api/users";
       let obj = [];
 
       // make the request

@@ -22,7 +22,7 @@
 
 .opportunity-desc {
   display: block;
-  margin-left: 0.30rem;
+  margin-left: 0.30em;
 }
 
 .icon-item-text.check-square-icon {
@@ -40,4 +40,20 @@
   padding-right: 0.4em;
   margin-right: 1.45em !important;
   vertical-align: 0.4em;
+}
+
+.indent-level-1 {
+  margin-left: 1.5em;
+}
+
+.indent-level-2 {
+  margin-left: 3em;
+}
+
+.indent-level-3 {
+  margin-left: 4.5em;
+}
+
+.indent-level-4 {
+  margin-left: 6em;
 }

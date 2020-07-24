@@ -13,16 +13,18 @@ function NavBar (props) {
 
   // check the username and role when the navbar first loads
   useEffect(() => {
-    updateUser();
+    updateUser(false);
     // eslint-disable-next-line
   }, [props.nameChange]);
 
   // updates username and role using cookies
-  function updateUser() {
+  function updateUser(updateStatus) {
     const user = getProfile();
     setUsername(user.username);
     setRole(user.role);
-    props.handleLoginStatusChange();
+    if (updateStatus) {
+      props.handleLoginStatusChange();
+    }
   }
 
   return (
@@ -56,8 +58,8 @@ function NavBar (props) {
 
         <div className="d-flex nav-item align-items-center mt-3">
           <PageSearch />
-          <UserIcon onLogin={() => updateUser()} username={username} role={role} />
-          <Login onLogin={() => updateUser()} role={role} />
+          <UserIcon onLogin={() => updateUser(true)} username={username} role={role} />
+          <Login onLogin={() => updateUser(true)} role={role} />
         </div>
       </nav>
     </div>

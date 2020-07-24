@@ -22,12 +22,13 @@ function UserSelectRole(props) {
 
       // the user confirmed that they wanted to change the role
       // so we will send a request to the API server
-      const patchURL = `/users/${props.userId}`;
+      const patchURL = `/api/users/${props.userId}`;
       const patchObj = {
         role: select.value
       };
 
       try {
+
         props.onLoading(true);
         const results = await fetch(patchURL, {
           method: "PATCH",

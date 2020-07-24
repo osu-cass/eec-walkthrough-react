@@ -5,17 +5,6 @@
   z-index: 998;
 }
 
-body {
-  background-color: #f8f9fa;
-  font-family: 'Roboto', sans-serif;
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: 70%;
-  }
-}
-
 .invalid-external-link {
   color: #E81224;
 }

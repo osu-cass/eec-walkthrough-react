@@ -14,7 +14,7 @@ function ExpandableList(props) {
   useEffect(() => {
     const itemArray = [];
 
-    for(let i = 0; i < props.items.length && i < showCount; i++) {
+    for (let i = 0; i < props.items.length && i < showCount; i++) {
       itemArray.push(props.items[i]);
     }
 
@@ -43,6 +43,7 @@ function ExpandableList(props) {
             indentation={item.indentation}
             mode={props.mode}
             publicMode={props.publicMode}
+            tooltip={item.typeKeyword}
             handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
           />
         )}

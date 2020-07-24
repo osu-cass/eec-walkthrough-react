@@ -50,10 +50,10 @@ app.post("/", requireAuth, postIconVal.validation, async (req, res) => {
 
     console.log("Create an icon");
 
-    const typeKeyword = req.body.typeKeyword;
-    const typeName = req.body.typeName;
+    const typeKeyword = req.body.typeKeyword.trim();
+    const typeName = req.body.typeName.trim();
     const groupIndex = req.body.groupIndex;
-    const color = req.body.color;
+    const color = req.body.color.trim();
 
     // confirm that the request is valid
     const errors = validationResult(req);

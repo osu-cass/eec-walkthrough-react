@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import {withRouter, Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import LoadMoreButton from "../../components/General/LoadMoreButton";
@@ -8,30 +8,6 @@ import "./PageSearchResults.css";
 // search results for a page search
 function PageSearchResults(props) {
 
-  const [pageLinks, setPageLinks] = useState([]);
-
-  // generate page links for each page
-  useEffect(() => {
-
-    const linkArray = [];
-
-    for (let i = 0; i < props.pages.length; i++) {
-
-      let url = "";
-      if (props.pages[i].pageType) {
-        url = `/industries/${props.pages[i].pageId}`;
-      } else {
-        url = `/subjects/${props.pages[i].pageId}`;
-      }
-
-      linkArray.push(url);
-
-    }
-
-    setPageLinks(linkArray);
-
-  }, [props.pages]);
-
   if (props.pages.length) {
     return (
       <div className="content-container mb-5">
@@ -39,16 +15,16 @@ function PageSearchResults(props) {
           <div className="page-search-inner-container m-5">
             {props.pages.map((page, index) =>
 
-              <div className="page-info-container card m-5" key={page.pageId + "a"}>
-                <Link to={pageLinks[index]}>
-                  <h5 className="page-link-header font-weight-bold text-left" key={page.pageId + "b"}>
+              <div className="page-info-container card m-5" key={page.pageId}>
+                <Link to={page.url}>
+                  <h5 className="page-link-header font-weight-bold text-left">
                     {page.name}
                   </h5>
                 </Link>
-                <span className="text-left float-left" key={page.pageId + "c"}>
+                <span className="text-left float-left">
                   {page.description}
                 </span>
-                <span className="page-link-created text-left float-left" key={page.pageId + "d"}>
+                <span className="page-link-created text-left float-left">
                     Created {formatTime(page.created)}
                 </span>
               </div>

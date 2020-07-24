@@ -228,16 +228,16 @@ function Header(props) {
   function isInternal() {
     if (props.mode === 1) {
       if ((props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal)) {
-        return 1
+        return 1;
       }
     } else {
       if (props.header.internal) {
-        return 1
+        return 1;
       }
     }
   }
 
-  return (!props.header.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal()) ? (
+  return (!props.header.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
     <div>
@@ -314,7 +314,7 @@ function Header(props) {
             ${props.header.approved ? "header-approved" : "header-review"}
             ${isInternal() ? "header-internal" : ""}
             header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
-            style={{top: "1em", zIndex: "998"}}
+          style={{top: "1em", zIndex: "998"}}
           >
             <div className="row mx-2">
               <h4 className="flex-grow-1 font-weight-bold">

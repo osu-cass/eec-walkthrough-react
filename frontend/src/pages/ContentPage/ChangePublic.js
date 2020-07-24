@@ -35,7 +35,7 @@ function ChangePublic(props) {
     </div>
   ) : (
     null
-  )
+  );
 
 }
 export default ChangePublic;

@@ -39,7 +39,7 @@ function ConstructLinkModal(props) {
     };
 
     // Edit link
-    const results = await fetch(`/links/${props.link.itemId}`, {
+    const results = await fetch(`/api/links/${props.link.itemId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(linkData)
@@ -76,8 +76,8 @@ function ConstructLinkModal(props) {
   // Check for empty inputs
   function checkInputs() {
 
-    let emptyFound = false;
-    let newErrorMessage = errorMessage;
+    const emptyFound = false;
+    const newErrorMessage = errorMessage;
 
     // Empty url
     if (!url.length) {

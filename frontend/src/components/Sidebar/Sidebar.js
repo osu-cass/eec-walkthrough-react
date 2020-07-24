@@ -1,19 +1,21 @@
-import React, {useState, useEffect, useRef, Fragment} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import SidebarCollection from "./SidebarCollection";
 import {getProfile} from "../../utilities/cookieAuth";
+import CreateCategory from "./CreateCategory";
 import PropTypes from "prop-types";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import "./Sidebar.css";
 
+// sidebar that can be expanded and hidden
 function Sidebar(props) {
 
-  const [pages, setPages] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [role, setRole] = useState(0);
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
-  // check user info and which pages to display when login status changes
+  // check user info and which categories to display when login status changes
   useEffect(() => {
 
     // check user role to see what we should render
@@ -21,12 +23,7 @@ function Sidebar(props) {
     setRole(user.role);
     fetchData();
 
-  }, [props.loginStatusChange]);
-
-  // fetch page data on page edit
-  useEffect(() => {
-    fetchData();
-  }, [props.pageEdit]);
+  }, [props.loginStatusChange, props.pageEdit]);
 
   // check for a click outside of the sidebar
   // if a click is detected, then close the sidebar
@@ -49,18 +46,18 @@ function Sidebar(props) {
     }, [ref]);
   }
 
-  // fetch all page data
+  // fetch all category data
   async function fetchData() {
-    const results = await fetch("/pages/all");
+    const results = await fetch("/api/categories/all");
     if (results.ok) {
       const obj = await results.json();
-      setPages(obj.pages);
+      setCategories(obj.categories);
     } else {
-      console.error("Unable to fetch pages for sidebar.");
+      console.error("Unable to fetch categories for sidebar.");
     }
   }
 
-  return pages ? (
+  return (
     <div
       className={"wrapper " + props.className}
       ref={wrapperRef}
@@ -74,64 +71,52 @@ function Sidebar(props) {
         </Card>
 
         <Col className="mt-3">
-          <Card className="sidebar-page-container" bg="dark" border="info" style={{cursor: "pointer"}}>
+          <Card className="sidebar-page-container my-4" bg="dark" border="info" style={{cursor: "pointer"}}>
             <SidebarCollection
               collectionName="Home"
               collectionLink=""
             />
-            <SidebarCollection
-              collectionName="Assessments"
-              collectionLink="assessments"
-              collection={pages.assessments}
-              refresh={() => fetchData()}
-              role={role}
-            />
-            <SidebarCollection
-              collectionName="Industries"
-              collectionLink="industries"
-              collection={pages.industries}
-              refresh={() => fetchData()}
-              role={role}
-            />
-            <SidebarCollection
-              collectionName="Processes"
-              collectionLink="processes"
-              collection={pages.processes}
-              refresh={() => fetchData()}
-              role={role}
-            />
-            <SidebarCollection
-              collectionName="Productivity"
-              collectionLink="productivity"
-              collection={pages.productivity}
-              refresh={() => fetchData()}
-              role={role}
-            />
-            <SidebarCollection
-              collectionName="Technologies"
-              collectionLink="technologies"
-              collection={pages.technologies}
-              refresh={() => fetchData()}
-              role={role}
-            />
-            {role === 4 ? (
-              <Fragment>
-                <SidebarCollection
-                  collectionName="Manage Icons"
-                  collectionLink="manage-icons"
-                />
-                <SidebarCollection
-                  collectionName="Manage Links"
-                  collectionLink="manage-links"
-                />
-                <SidebarCollection
-                  collectionName="Manage Users"
-                  collectionLink="manage-users"
-                />
-              </Fragment>
-            ) : (
-              null
+          </Card>
+
+          <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
+            {categories.map((category) =>
+              <SidebarCollection
+                key={category.categoryId}
+                collectionName={category.pluralName}
+                collectionLink={`wiki/${category.pluralName.replace(/\s+/g, '-').toLowerCase()}`}
+                collection={category.pages}
+                category={category}
+                internal={category.internal}
+                refresh={() => fetchData()}
+                role={role}
+              />
             )}
+          </Card>
+          <CreateCategory
+            refresh={() => fetchData()}
+            role={role}
+          />
+
+          {role === 4 ? (
+            <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
+              <SidebarCollection
+                collectionName="Manage Icons"
+                collectionLink="manage-icons"
+              />
+              <SidebarCollection
+                collectionName="Manage Links"
+                collectionLink="manage-links"
+              />
+              <SidebarCollection
+                collectionName="Manage Users"
+                collectionLink="manage-users"
+              />
+            </Card>
+          ) : (
+            null
+          )}
+
+          <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
             <SidebarCollection
               collectionName="OSU EEC"
               externalLink="https://eec.oregonstate.edu/"
@@ -139,9 +124,8 @@ function Sidebar(props) {
           </Card>
         </Col>
       </nav>
-
     </div >
-  ) : <Fragment></Fragment>;
+  );
 
 }
 export default Sidebar;
