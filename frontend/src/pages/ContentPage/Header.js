@@ -16,9 +16,9 @@ function Header(props) {
   const [filterShow, setFilterShow] = useState([]);
   const [cards, setCards] = useState(props.header.cards);
   const [unfilteredCards, setUnfilteredCards] = useState(props.header.cards);
-  const [opportunities, setOpportunities] = useState(false);
-  const [tempOpportunities, setTempOpportunities] = useState(false);
-  const [opportunityFilter, setOpportunityFilter] = useState(false);
+  const [opportunitiesExist, setOpportunitiesExist] = useState(false);
+  const [tempOpportunitiesExist, setTempOpportunitiesExist] = useState(false);
+  const [opportunityFilterMode, setOpportunityFilterMode] = useState(false);
 
   // Get all of the icons that could be used for published filtering
   useEffect(() => {
@@ -38,7 +38,7 @@ function Header(props) {
           allIcons.push(props.header.cards[i].items[j].iconType);
           // make a note of seeing the checkbox icon
           if (props.header.cards[i].items[j].iconType === 11) {
-            setOpportunities(true);
+            setOpportunitiesExist(true);
           }
         }
         duplicate = false;
@@ -71,7 +71,7 @@ function Header(props) {
             allIcons.push(props.header.cards[i].items[j].iconType);
             // make a note of seeing the checkbox icon
             if (props.header.cards[i].items[j].iconType === 11) {
-              setTempOpportunities(true);
+              setTempOpportunitiesExist(true);
             }
           }
           duplicate = false;
@@ -92,7 +92,7 @@ function Header(props) {
             allIcons.push(props.header.cards[i].tempItems[j].iconType);
             // make a note of seeing the checkbox icon
             if (props.header.cards[i].tempItems[j].iconType === 11) {
-              setTempOpportunities(true);
+              setTempOpportunitiesExist(true);
             }
           }
           duplicate = false;
@@ -110,7 +110,6 @@ function Header(props) {
       allIcons.push(true);
     }
     setFilterShow(allIcons);
-    console.log("allIcons", allIcons)
   }, [props.iconSet, props.cardState]);
 
   // If the viewing mode changes or the selected filters,
@@ -118,7 +117,7 @@ function Header(props) {
   useEffect(() => {
     updateCardState(filterShow);
     // eslint-disable-next-line
-  }, [props.mode, filterShow, props.header, props.cardState]);
+  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode]);
 
   // Toggles the viewing state for an icon type.
 
@@ -185,7 +184,8 @@ function Header(props) {
           hideIndent = 1000;
         }
         // see if the item should be filtered or not
-        if (filterState[props.header.cards[i].items[j].iconType]) {
+        if (filterState[props.header.cards[i].items[j].iconType] &&
+            !filterItem(props.header.cards[i].items[j], props.mode)) {
           allItems.push(props.header.cards[i].items[j]);
           itemExists = true;
         } else {
@@ -207,7 +207,8 @@ function Header(props) {
           hideIndent = 1000;
         }
         // see if the item should be filtered or not
-        if (filterState[props.header.cards[i].tempItems[j].iconType]) {
+        if (filterState[props.header.cards[i].tempItems[j].iconType] &&
+            !filterItem(props.header.cards[i].tempItems[j], props.mode)) {
           allTempItems.push(props.header.cards[i].tempItems[j]);
           tempItemExists = true;
         } else {
@@ -239,6 +240,19 @@ function Header(props) {
     }
     setCards(allCards);
     setUnfilteredCards(allUnfilteredCards);
+  }
+
+  // returns true if the item is being filtered by the opportunity filter mode
+  function filterItem(item, mode) {
+    if (mode !== 1) {
+      if (opportunityFilterMode && opportunitiesExist && item.indentation === 0 && item.iconType !== 11) {
+        return true;
+      }
+    } else if (opportunityFilterMode && (opportunitiesExist || tempOpportunitiesExist) 
+               && item.indentation === 0 && item.iconType !== 11) {
+      return true;
+    }
+    return false
   }
 
   // determines if the current object is only internal viewable
@@ -292,9 +306,9 @@ function Header(props) {
                 <div className="col">
                   <div className="row">
                   <ListToggle
-                    showButton={tempOpportunities}
-                    toggled={opportunityFilter}
-                    toggleList={() => setOpportunityFilter(!opportunityFilter)}
+                    showButton={tempOpportunitiesExist}
+                    toggled={opportunityFilterMode}
+                    toggleList={() => setOpportunityFilterMode(!opportunityFilterMode)}
                   />
                   <EditHeader
                     header={props.header}
@@ -381,9 +395,9 @@ function Header(props) {
                     />
                     <div className="col">
                     <ListToggle
-                      showButton={opportunities}
-                      toggled={opportunityFilter}
-                      toggleList={() => setOpportunityFilter(!opportunityFilter)}
+                      showButton={opportunitiesExist}
+                      toggled={opportunityFilterMode}
+                      toggleList={() => setOpportunityFilterMode(!opportunityFilterMode)}
                     />
                     </div>
                   </Fragment>
