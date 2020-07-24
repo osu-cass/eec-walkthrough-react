@@ -19,6 +19,7 @@ function Header(props) {
   const [opportunitiesExist, setOpportunitiesExist] = useState(false);
   const [tempOpportunitiesExist, setTempOpportunitiesExist] = useState(false);
   const [opportunityFilterMode, setOpportunityFilterMode] = useState(false);
+  const [reloadFilter, setReloadFilter] = useState(false);
 
   // Get all of the icons that could be used for published filtering
   useEffect(() => {
@@ -117,9 +118,7 @@ function Header(props) {
   useEffect(() => {
     updateCardState(filterShow);
     // eslint-disable-next-line
-  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode]);
-
-  // Toggles the viewing state for an icon type.
+  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode, reloadFilter]);
 
   // Changes the viewing state of an icon
   function updateIcon(iconId, state) {
@@ -189,12 +188,6 @@ function Header(props) {
           allItems.push(props.header.cards[i].items[j]);
           itemExists = true;
           // opportunities may have setting to hide their children
-          // opportunities may have setting to hide their children
-          if (filterItem(props.header.cards[i].items[j], props.mode, true)) {
-            props.header.cards[i].items[j].hideChildren = true;
-          } else {
-            props.header.cards[i].items[j].hideChildren = false;
-          }
           if (props.header.cards[i].items[j].hideChildren) {
             hideIndent = props.header.cards[i].items[j].indentation;
           }
@@ -222,11 +215,6 @@ function Header(props) {
           allTempItems.push(props.header.cards[i].tempItems[j]);
           tempItemExists = true;
           // opportunities may have setting to hide their children
-          if (filterItem(props.header.cards[i].tempItems[j], props.mode, true)) {
-            props.header.cards[i].tempItems[j].hideChildren = true;
-          } else {
-            props.header.cards[i].tempItems[j].hideChildren = false;
-          }
           if (props.header.cards[i].tempItems[j].hideChildren) {
             hideIndent = props.header.cards[i].tempItems[j].indentation;
           }
@@ -262,14 +250,14 @@ function Header(props) {
   }
 
   // returns true if the item is being filtered by the opportunity filter mode
-  function filterItem(item, mode, ignoreType) {
-    if (ignoreType) {
+  function filterItem(item, mode, ignoreChecked) {
+    if (ignoreChecked) {
       if (mode !== 1) {
-        if (opportunityFilterMode && opportunitiesExist && item.indentation === 0) {
+        if (opportunityFilterMode && opportunitiesExist && item.indentation === 0 && item.iconType === 11) {
           return true;
         }
-      } else if (opportunityFilterMode && (opportunitiesExist || tempOpportunitiesExist) 
-                && item.indentation === 0) {
+      } else if (opportunityFilterMode && (opportunitiesExist || tempOpportunitiesExist)
+                && item.indentation === 0 && item.iconType === 11) {
         return true;
       }
     } else {
@@ -296,6 +284,58 @@ function Header(props) {
         return 1;
       }
     }
+  }
+
+  // the opportunities filter button was pressed
+  // reset the checked status of all the opportunity items
+  function resetChecks() {
+
+    if (!opportunityFilterMode) {
+      for (let i = 0; i < props.header.cards.length; i++) {
+        for (let j = 0; j < props.header.cards[i].items.length; j++) {
+          if (props.header.cards[i].items[j].iconType === 11) {
+            props.header.cards[i].items[j].hideChildren = true;
+          }
+        }
+        for (let j = 0; j < props.header.cards[i].tempItems.length; j++) {
+          if (props.header.cards[i].tempItems[j].iconType === 11) {
+            props.header.cards[i].tempItems[j].hideChildren = true;
+          }
+        }
+      }
+    } else {
+      for (let i = 0; i < props.header.cards.length; i++) {
+        for (let j = 0; j < props.header.cards[i].items.length; j++) {
+          props.header.cards[i].items[j].hideChildren = false;
+        }
+        for (let j = 0; j < props.header.cards[i].tempItems.length; j++) {
+          props.header.cards[i].tempItems[j].hideChildren = false;
+        }
+      }
+    }
+
+    setOpportunityFilterMode(!opportunityFilterMode)
+  }
+
+  // changes the checked status of an item
+  function handleCheck(check, itemId, cardId) {
+    console.log(check, itemId, cardId)
+    for (let i = 0; i < props.header.cards.length; i++) {
+      if (props.header.cards[i].cardId = cardId) {
+        for (let j = 0; j < props.header.cards[i].items.length; j++) {
+          if (props.header.cards[i].items[j].itemId === itemId) {
+            props.header.cards[i].items[j].hideChildren = check;
+          }
+        }
+        for (let j = 0; j < props.header.cards[i].tempItems.length; j++) {
+          if (props.header.cards[i].tempItems[j].itemId === itemId) {
+            props.header.cards[i].tempItems[j].hideChildren = check;
+            return;
+          }
+        }
+      }
+    }
+    setReloadFilter(!reloadFilter);
   }
 
   return (!props.header.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
@@ -338,7 +378,7 @@ function Header(props) {
                   <ListToggle
                     showButton={tempOpportunitiesExist}
                     toggled={opportunityFilterMode}
-                    toggleList={() => setOpportunityFilterMode(!opportunityFilterMode)}
+                    toggleList={() => resetChecks()}
                   />
                   <EditHeader
                     header={props.header}
@@ -427,7 +467,7 @@ function Header(props) {
                     <ListToggle
                       showButton={opportunitiesExist}
                       toggled={opportunityFilterMode}
-                      toggleList={() => setOpportunityFilterMode(!opportunityFilterMode)}
+                      toggleList={() => resetChecks()}
                     />
                     </div>
                   </Fragment>
@@ -451,6 +491,7 @@ function Header(props) {
                 cardState={props.cardState}
                 role={props.role}
                 publicMode={props.publicMode}
+                setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
               />
             )}
           </div>

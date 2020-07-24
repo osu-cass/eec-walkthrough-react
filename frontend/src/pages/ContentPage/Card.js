@@ -186,6 +186,7 @@ function Card(props) {
                   mode={props.mode}
                   publicMode={props.publicMode}
                   handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+                  setCheck={(check, itemId) => props.setCheck(check, itemId, props.card.cardId)}
                 />
               ) : (
                 <BasicItems
@@ -194,6 +195,7 @@ function Card(props) {
                   publicMode={props.publicMode}
                   handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
                   reviewing={false}
+                  setCheck={(check, itemId) => props.setCheck(check, itemId, props.card.cardId)}
                 />
               )}
             </Fragment>
@@ -218,5 +220,6 @@ Card.propTypes = {
   bottom: PropTypes.bool,
   handleTimestamp: PropTypes.func,
   cardState: PropTypes.number,
-  role: PropTypes.number
+  role: PropTypes.number,
+  setCheck: PropTypes.func
 };

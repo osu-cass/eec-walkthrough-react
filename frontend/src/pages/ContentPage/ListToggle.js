@@ -10,7 +10,7 @@ function ListToggle(props) {
         {props.toggled ? (
           <>
             <i
-              className={`far fa-fw fa-check-square text-white mr-2`}
+              className={`far fa-fw fa-square text-white mr-2`}
               style={{transform: "scale(1.5)"}}
             />
             <span className="text-white">Toggle Opportunities</span>
@@ -18,7 +18,7 @@ function ListToggle(props) {
         ) : (
           <>
             <i
-              className={`far fa-fw fa-square text-white mr-2`}
+              className={`far fa-fw fa-check-square text-white mr-2`}
               style={{transform: "scale(1.5)"}}
             />
             <span className="text-white">Toggle Opportunities</span>
