@@ -15,7 +15,7 @@
 }
 
 .icon-td, .content-td {
-  vertical-align: top !important;
+  vertical-align: middle !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
@@ -25,13 +25,17 @@
   margin-left: 0.30em;
 }
 
+.icon-item {
+  margin-top: 0.1em !important;
+}
+
 .icon-item-text.check-square-icon {
   font-weight: bold;
   font-size: large;
 }
 
 .icon-item.check-square-icon {
-  margin-top: 0.33em;
+  margin-top: 0.3em !important;
 }
 
 .icon-item.fa-circle {
@@ -39,7 +43,7 @@
   margin-left: 0.9em;
   padding-right: 0.4em;
   margin-right: 1.45em !important;
-  vertical-align: 0.4em;
+  margin-top: 0.7em !important;
 }
 
 .indent-level-1 {
