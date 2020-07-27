@@ -193,7 +193,7 @@ function EditHeader(props) {
     updateHeader();
   }
 
-  return props.role >= 3 ? (
+  return props.role >= 3 && props.mode === 1 ? (
     <div className='text-center mx-2'>
       <LoadingOverlay loading={showLoad} />
       <Button size="sm" variant="info" onClick={() => handleShowModal()}>
@@ -281,6 +281,7 @@ function EditHeader(props) {
 export default EditHeader;
 
 EditHeader.propTypes = {
+  mode: PropTypes.number,
   header: PropTypes.object,
   role: PropTypes.number,
   handleUpdate: PropTypes.func

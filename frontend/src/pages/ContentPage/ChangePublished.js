@@ -29,7 +29,7 @@ function ChangePublished(props) {
           variant="info"
           onClick={() => toggleMode(1)}
         >
-          <span className="text-white">Show published Content</span>
+          <span className="text-white">Hide unpublished Content</span>
         </Button>
       )}
     </div>

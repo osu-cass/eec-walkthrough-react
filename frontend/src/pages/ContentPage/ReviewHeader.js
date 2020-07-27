@@ -222,7 +222,7 @@ function ReviewHeader(props) {
 
   }
 
-  return role >= 3 ? (
+  return role >= 3 && props.mode === 1 ? (
     <div className='text-center mx-2'>
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
@@ -356,6 +356,7 @@ function ReviewHeader(props) {
 export default ReviewHeader;
 
 ReviewHeader.propTypes = {
+  mode: PropTypes.number,
   header: PropTypes.object,
   handleUpdate: PropTypes.func
 };
