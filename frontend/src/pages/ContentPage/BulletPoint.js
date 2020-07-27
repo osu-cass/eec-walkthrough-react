@@ -113,12 +113,12 @@ function BulletPoint (props) {
                 <div className="row">
                   <a href={props.url} className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}> {props.label} </a>
                   {props.contentMode === 1 || props.contentMode === 3 ? (
-                    <i className={`fas fa-fw fa-sm fa-link mx-1`} title="External Resource" />
+                    <i className={`fas fa-fw fa-sm fa-link mx-1 icon-item`} title="External Resource" />
                   ) : (
-                    <i className={`fas fa-fw fa-sm fa-info mx-1`} title="Internal Resource" />
+                    <i className={`fas fa-fw fa-sm fa-info mx-1 icon-item`} title="Internal Resource" />
                   )}
                   {props.contentMode === 2 || props.contentMode === 3 ? (
-                    <i className={`fas fa-fw fa-sm fa-download mr-1`} title="Download" />
+                    <i className={`fas fa-fw fa-sm fa-download mr-1 icon-item`} title="Download" />
                   ) : (
                     null
                   )}

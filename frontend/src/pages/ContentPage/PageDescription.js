@@ -4,6 +4,7 @@ import Image from "./Image";
 import ReviewPage from "./ReviewPage";
 import ChangeMode from "./ChangeMode";
 import ChangePublic from "./ChangePublic";
+import ChangePublished from "./ChangePublished";
 import EditPage from "./EditPage";
 import "./PageDescription.css";
 
@@ -40,6 +41,7 @@ function PageDescription(props) {
         return 1;
       }
     }
+    return 0;
   }
 
   return (
@@ -60,7 +62,14 @@ function PageDescription(props) {
             <ChangePublic
               role={props.role}
               mode={props.mode}
+              publicMode={props.publicMode}
               onPublicMode={e => props.onPublicMode(e)}
+            />
+            <ChangePublished
+              role={props.role}
+              mode={props.mode}
+              publishedMode={props.publishedMode}
+              onPublishedMode={e => props.onPublishedMode(e)}
             />
             <EditPage
               page={props.page}
@@ -111,12 +120,15 @@ function PageDescription(props) {
 export default PageDescription;
 
 PageDescription.propTypes = {
+  publicMode: PropTypes.number,
+  publishedMode: PropTypes.number,
   page: PropTypes.object,
   role: PropTypes.number,
   mode: PropTypes.number,
   pageState: PropTypes.number,
   onPageMode: PropTypes.func,
   onPublicMode: PropTypes.func,
+  onPublishedMode: PropTypes.func,
   handlePageEdit: PropTypes.func,
   handleUpdate: PropTypes.func
 };

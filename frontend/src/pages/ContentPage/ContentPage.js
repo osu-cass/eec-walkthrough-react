@@ -2,6 +2,7 @@ import React, {Fragment, useState, useEffect} from "react";
 import {getProfile, logout} from "../../utilities/cookieAuth";
 import {getMode} from "../../utilities/pageMode";
 import {getPublic} from "../../utilities/publicMode";
+import {getPublished} from "../../utilities/publishedMode";
 import Header from "./Header";
 import PageDescription from "./PageDescription";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
@@ -27,6 +28,7 @@ function ContentPage(props) {
   const [role, setRole] = useState(0);
   const [mode, setMode] = useState(getMode());
   const [publicMode, setPublicMode] = useState(getPublic());
+  const [publishedMode, setPublishedMode] = useState(getPublished());
   const [cardState, setCardState] = useState(0);
   const [pageState, setPageState] = useState(0);
   const {pageId} = useParams();
@@ -47,6 +49,11 @@ function ContentPage(props) {
   // sets the current public mode (show / hide)
   function handlePublicMode(newMode) {
     setPublicMode(newMode);
+  }
+
+  // sets the current published mode (published / unpublished)
+  function handlePublishedMode(newMode) {
+    setPublishedMode(newMode);
   }
 
   // fetch page data
@@ -432,9 +439,12 @@ function ContentPage(props) {
           handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
           role={role}
           mode={mode}
+          publicMode={publicMode}
+          publishedMode={publishedMode}
           pageState={pageState}
           onPageMode={e => handlePageMode(e)}
           onPublicMode={e => handlePublicMode(e)}
+          onPublishedMode={e => handlePublishedMode(e)}
           handlePageEdit={props.handlePageEdit}
         />
 
