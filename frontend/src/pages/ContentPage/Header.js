@@ -118,7 +118,7 @@ function Header(props) {
   useEffect(() => {
     updateCardState(filterShow);
     // eslint-disable-next-line
-  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode, checkedCards]);
+  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode, checkedCards, props.publishedMode]);
 
   // Changes the viewing state of an icon
   function updateIcon(iconId, state) {
@@ -147,8 +147,13 @@ function Header(props) {
 
     // Don't bother filtering if in move mode
     if (props.mode === 2) {
-      setCards(props.header.cards);
-      setUnfilteredCards(props.header.cards);
+      // Check if we want to view edited cards or not
+      if (props.publishedMode === 0) {
+        markEdited();
+      } else {
+        setCards(props.header.cards);
+        setUnfilteredCards(props.header.cards);
+      }
       return;
     }
 
@@ -247,6 +252,65 @@ function Header(props) {
     setUnfilteredCards(allUnfilteredCards);
   }
 
+  // marks cards as edited when appropriate
+  function markEdited() {
+    const allCards = [];
+    const allUnfilteredCards = [];
+
+    // Check each card
+    for (let i = 0; i < checkedCards.length; i++) {
+
+      // Check if the card should be shown as edited or published
+      let cardView = 0;
+      if (checkedCards[i].tempItems.length) {
+        cardView = 1;
+      }
+
+      // Filter items out of the current card
+      const card = JSON.parse(JSON.stringify(checkedCards[i]));
+      const fullCard = JSON.parse(JSON.stringify(checkedCards[i]));
+      const allItems = [];
+      const allTempItems = [];
+      let itemExists = false;
+      let tempItemExists = false;
+
+
+      // check each normal item in the card
+      for (let j = 0; j < checkedCards[i].items.length; j++) {
+        allItems.push(checkedCards[i].items[j]);
+        itemExists = true;
+      }
+
+      // check each temp item in the card
+      for (let j = 0; j < checkedCards[i].tempItems.length; j++) {
+        allTempItems.push(checkedCards[i].tempItems[j]);
+        tempItemExists = true;
+      }
+
+      // Set the current cards items
+      card.items = allItems;
+      card.tempItems = allTempItems;
+
+      // Mark the card as edited or published.
+      // If the card in current view mode is empty, hide it.
+      if (!cardView && itemExists) {
+        card.edited = false;
+        allCards.push(card);
+        allUnfilteredCards.push(fullCard);
+      } else if (tempItemExists) {
+        card.edited = true;
+        allCards.push(card);
+        allUnfilteredCards.push(fullCard);
+      } else if (!checkedCards[i].tempItems.length && !checkedCards[i].items.length) {
+        card.invalid = true;
+        allCards.push(card);
+        allUnfilteredCards.push(fullCard);
+      }
+    }
+    setCards(allCards);
+    setUnfilteredCards(allUnfilteredCards);
+  }
+
   // returns true if the item is being filtered by the opportunity filter mode
   function filterItem(item, mode, ignoreChecked) {
     if (ignoreChecked) {
@@ -273,7 +337,7 @@ function Header(props) {
 
   // determines if the current object is only internal viewable
   function isInternal() {
-    if (props.mode === 1) {
+    if (props.mode === 1 || (props.mode === 2 && props.publishedMode === 0)) {
       if ((props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal)) {
         return 1;
       }
@@ -343,11 +407,11 @@ function Header(props) {
     }
   }
 
-  return (!props.header.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
+  return (!props.header.approved && props.mode !== 1 && (props.mode !== 2 || props.publishedMode !== 0)) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
     <div>
-      {props.mode === 1 ? (
+      {props.mode === 1 || (props.mode === 2 && props.publishedMode === 0) ? (
 
         <div>
           <div className={`d-flex sticky-top
@@ -368,34 +432,65 @@ function Header(props) {
 
             <div className="row mx-2">
               <div className="row">
-                <FilterBar
-                  updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                  resetIcons={() => resetIcons()}
-                  clearIcons={() => clearIcons()}
-                  filterIcons={filterIcons}
-                  tempFilterIcons={tempFilterIcons}
-                  filterShow={filterShow}
-                  iconSet={props.iconSet}
-                  mode={props.mode}
-                />
-                <div className="col">
-                  <div className="row">
-                  <ListToggle
-                    showButton={tempOpportunitiesExist}
-                    toggled={opportunityFilterMode}
-                    toggleList={() => resetChecks()}
+                {props.mode !== 2 ? (
+                  <FilterBar
+                    updateIcon={(e1, e2) => updateIcon(e1, e2)}
+                    resetIcons={() => resetIcons()}
+                    clearIcons={() => clearIcons()}
+                    filterIcons={filterIcons}
+                    tempFilterIcons={tempFilterIcons}
+                    filterShow={filterShow}
+                    iconSet={props.iconSet}
+                    mode={props.mode}
                   />
-                  <EditHeader
-                    header={props.header}
-                    role={props.role}
-                    handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                  />
-                  <ReviewHeader
-                    header={props.header}
-                    handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                  />
+                ) : (
+                  <Fragment>
+                    <OrderObjectButton
+                      up={true}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                      top={props.top}
+                      edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                      approved={props.header.approved}
+                      publishedMode={props.publishedMode}
+                    />
+                    <OrderObjectButton
+                      up={false}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                      bottom={props.bottom}
+                      edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                      approved={props.header.approved}
+                      publishedMode={props.publishedMode}
+                    />
+                  </Fragment>
+                )}
+                {props.mode !== 2 ? (
+                  <div className="col">
+                    <div className="row">
+                      <ListToggle
+                        showButton={tempOpportunitiesExist}
+                        toggled={opportunityFilterMode}
+                        toggleList={() => resetChecks()}
+                      />
+                      <EditHeader
+                        mode={props.mode}
+                        header={props.header}
+                        role={props.role}
+                        handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                      />
+                      <ReviewHeader
+                        mode={props.mode}
+                        header={props.header}
+                        handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                      />
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  null
+                )}
               </div>
             </div>
           </div>
@@ -410,13 +505,14 @@ function Header(props) {
                 handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                 mode={props.mode}
                 iconSet={props.iconSet}
-                handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
+                handleMoveCard={(cardId, headerId, up, mode) => props.handleMoveCard(cardId, headerId, up, mode)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
                 role={props.role}
                 top={i === 0 ? (true) : (false)}
                 bottom={i >= cards.length - 1 ? (true) : (false)}
                 setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
+                publishedMode={props.publishedMode}
               />
             )}
           </div>
@@ -446,15 +542,21 @@ function Header(props) {
                       up={true}
                       header={true}
                       objectId={props.header.headerId}
-                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
+                      handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
                       top={props.top}
+                      edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                      approved={props.header.approved}
+                      publishedMode={props.publishedMode}
                     />
                     <OrderObjectButton
                       up={false}
                       header={true}
                       objectId={props.header.headerId}
-                      handleMove={(id, up) => props.handleMoveHeader(id, up)}
+                      handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
                       bottom={props.bottom}
+                      edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                      approved={props.header.approved}
+                      publishedMode={props.publishedMode}
                     />
                   </Fragment>
                 ) : (
@@ -492,12 +594,13 @@ function Header(props) {
                 handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                 mode={props.mode}
                 iconSet={props.iconSet}
-                handleMoveCard={(cardId, headerId, up) => props.handleMoveCard(cardId, headerId, up)}
+                handleMoveCard={(cardId, headerId, up, mode) => props.handleMoveCard(cardId, headerId, up, mode)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
                 role={props.role}
                 publicMode={props.publicMode}
                 setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
+                publishedMode={props.publishedMode}
               />
             )}
           </div>
@@ -518,6 +621,7 @@ Header.propTypes = {
   role: PropTypes.number,
   mode: PropTypes.number,
   publicMode: PropTypes.number,
+  publishedMode: PropTypes.number,
   iconSet: PropTypes.any,
   top: PropTypes.bool,
   bottom: PropTypes.bool,

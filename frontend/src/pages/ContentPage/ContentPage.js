@@ -244,7 +244,7 @@ function ContentPage(props) {
   }
 
   // Moves the specified header up or down one in relation to other headers
-  async function handleMoveHeader(headerId, up) {
+  async function handleMoveHeader(headerId, up, mode) {
     const copy = [...headers];
     let headerIndex = -1;
     let moved = false;
@@ -300,6 +300,7 @@ function ContentPage(props) {
     let direction = 0;
     if (up) {
       direction = 1;
+      mode = mode;
     }
 
     // send our move to the API
@@ -330,7 +331,7 @@ function ContentPage(props) {
   }
 
   // Moves the specified card up or down one in relation to other cards
-  async function handleMoveCard(cardId, headerId, up) {
+  async function handleMoveCard(cardId, headerId, up, mode) {
     const copy = [...headers];
     let headerIndex = -1;
     let cardIndex = -1;
@@ -402,6 +403,7 @@ function ContentPage(props) {
     let direction = 0;
     if (up) {
       direction = 1;
+      mode = mode;
     }
 
     // send our move to the API
@@ -462,11 +464,12 @@ function ContentPage(props) {
             <Fragment key={i}>
               <Header
                 header={header}
-                handleMoveHeader={(id, up) => handleMoveHeader(id, up)}
-                handleMoveCard={(cardId, headerId, up) => handleMoveCard(cardId, headerId, up)}
+                handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
+                handleMoveCard={(cardId, headerId, up, mode) => handleMoveCard(cardId, headerId, up, mode)}
                 role={role}
                 mode={mode}
                 publicMode={publicMode}
+                publishedMode={publishedMode}
                 iconSet={iconSet}
                 cardState={cardState}
                 top={i === 0 ? (true) : (false)}
