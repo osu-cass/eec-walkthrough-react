@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 17, 2020 at 08:12 PM
+-- Generation Time: Jul 26, 2020 at 08:48 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -62,7 +62,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (65, 17, 0, 65, 'Signs of Turbulence', 42, '2020-06-23 05:55:59', 0),
 (66, 4, 10, 66, 'Facilisis volutpat est velit egestas.', 42, '2020-06-23 09:22:49', 1),
 (67, 16, 1, 67, 'More Airplanes', 42, '2020-06-23 09:14:09', 1),
-(68, 27, 1, 68, 'Plywood Images', 42, '2020-06-23 22:18:31', 1),
+(68, 27, 11, 68, 'Plywood Images', 42, '2020-07-23 09:53:26', 1),
 (69, 27, 0, 69, 'Plywood Info', 42, '2020-06-23 09:20:59', 1),
 (70, 3, 0, 70, 'Boiler Facts', 42, '2020-06-23 09:26:47', 0),
 (72, 1, 1, 72, 'Gallery: Industrial Air Compressors, Dryers, Receiver Tanks and Compressed Air Applications', 51, '2020-07-01 20:56:20', 1),
@@ -123,7 +123,19 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (129, 40, 0, 129, 'Heat Exchangers', 57, '2020-07-10 18:20:49', 0),
 (130, 40, 0, 130, 'Insulation', 55, '2020-07-10 18:36:22', 0),
 (131, 40, 0, 131, 'Cooling Towers', 58, '2020-07-10 18:45:42', 0),
-(132, 21, 2, 132, 'New Card', 42, '2020-07-14 21:20:02', 0);
+(132, 21, 2, 132, 'New Card', 42, '2020-07-14 21:20:02', 0),
+(133, 41, 0, 133, 'Pros', 58, '2020-07-20 21:20:19', 0),
+(134, 41, 0, 134, 'Cons', 58, '2020-07-20 21:20:35', 0),
+(135, 41, 0, 135, 'Caveats', 58, '2020-07-20 21:21:07', 0),
+(136, 41, 0, 136, 'Rules of Thumb', 58, '2020-07-20 21:21:25', 0),
+(137, 41, 0, 137, 'Tips', 58, '2020-07-20 21:21:56', 0),
+(138, 41, 0, 138, 'Best Practices', 58, '2020-07-20 21:22:23', 0),
+(139, 41, 0, 139, 'Charts, Tables, Figures', 58, '2020-07-20 22:09:40', 0),
+(140, 41, 0, 140, 'Standard Data to Collect', 58, '2020-07-20 22:10:28', 0),
+(141, 41, 0, 141, 'Data Collection Equipment', 58, '2020-07-20 22:11:29', 0),
+(142, 41, 0, 142, 'Analysis Tools', 58, '2020-07-20 22:12:33', 0),
+(143, 41, 0, 143, 'In Depth Site Resources', 58, '2020-07-20 22:13:43', 0),
+(144, 41, 0, 144, 'Off Site Resource Links', 58, '2020-07-20 22:14:24', 0);
 
 -- --------------------------------------------------------
 
@@ -195,7 +207,8 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (36, 50, 36, 'Wastewater Overview', 0, 51, '2020-07-07 20:49:35', 0),
 (37, 50, 37, 'Wastewater Technologies Consider', 0, 51, '2020-07-07 20:50:10', 0),
 (38, 50, 38, 'Wastewater Opportunities to Consider2', 0, 51, '2020-07-07 20:52:27', 0),
-(40, 47, 40, 'Thermal Systems Opportunities to Consider', 0, 58, '2020-07-10 17:59:49', 0);
+(40, 47, 40, 'Thermal Systems Opportunities to Consider', 0, 58, '2020-07-10 17:59:49', 0),
+(41, 48, 41, 'Refrigeration Overview', 0, 58, '2020-07-20 21:19:45', 0);
 
 -- --------------------------------------------------------
 
@@ -262,7 +275,7 @@ INSERT INTO `Icons` (`iconType`, `typeKeyword`, `typeName`, `groupIndex`, `color
 (9, 'Blueprint', 'map', 1, '#000000'),
 (10, 'Opportunity Flag', 'flag', 1, '#E81224'),
 (11, 'Opportunity', 'check-square', 1, '#000000'),
-(12, 'Suggested Action', 'square-full', 1, '#000000'),
+(12, 'Suggested Action', 'bullseye', 1, '#000000'),
 (13, 'Opportunity Description', 'angle-right', 1, '#000000'),
 (14, 'Question', 'question', 1, '#000000'),
 (15, 'Data to Collect', 'pencil-alt', 1, '#000000'),
@@ -339,12 +352,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (259, 69, 1, 0, 15, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '', '', 0, '2020-06-23 09:20:59', 1),
 (263, 69, 1, 0, 11, 'Pretium lectus quam id leo in vitae turpis massa. Placerat vestibulum lectus mauris ultrices eros in cursus turpis.', '', '', 0, '2020-06-23 09:21:00', 1),
 (271, 70, 1, 0, 15, 'Pretium lectus quam id leo in vitae turpis massa.', '', '', 0, '2020-06-23 09:26:47', 0),
-(313, 68, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-boards-on-furniture-industry-600w-439702138.jpg', 'Plywood A', 0, '2020-06-23 22:18:31', 1),
-(314, 68, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/high-resolution-plywood-board-wall-600w-1054866629.jpg', 'Plywood B', 0, '2020-06-23 22:18:31', 1),
-(315, 68, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/closeup-plywood-sheets-600w-737467363.jpg', 'Plywood C', 0, '2020-06-23 22:18:31', 1),
-(316, 68, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-industry-construction-parts-cuttings-600w-1236143197.jpg', 'Plywood D', 0, '2020-06-23 22:18:31', 1),
-(317, 68, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/warehouse-fiberboard-chipboard-construction-materials-600w-1035511318.jpg', 'Plywood E', 0, '2020-06-23 22:18:31', 1),
-(318, 68, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-residential-building-materials-600w-1005863455.jpg', 'Plywood F', 0, '2020-06-23 22:18:31', 1),
 (327, 73, 1, 0, 20, '', 'https://live.staticflickr.com/3821/13183445925_e4cab33b53_h.jpg', 'Wood fired boiler', 0, '2020-06-27 20:42:02', 0),
 (337, 74, 1, 0, 17, 'See steam system sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-06-27 20:57:47', 1),
 (338, 74, 1, 0, 17, '.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam15_benchmark.pdf', 'Benchmark the Fuel Cost of Steam Generation', 1, '2020-06-27 20:57:47', 1),
@@ -640,8 +647,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2322, 101, 0, 0, 11, 'Install an economizer  (Matt)', '', '', 0, '2020-07-10 18:53:47', 0),
 (2323, 101, 0, 0, 11, 'Install a condensing economizer  (Matt)', '', '', 0, '2020-07-10 18:53:47', 0),
 (2324, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, '2020-07-10 18:54:00', 0),
-(2325, 105, 0, 0, 11, 'Recover Flash Steam (Chris) ', '', '', 0, '2020-07-10 18:54:00', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
+(2325, 105, 0, 0, 11, 'Recover Flash Steam (Chris) ', '', '', 0, '2020-07-10 18:54:00', 0),
 (2342, 80, 0, 0, 15, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.!!!!!', '', '', 0, '2020-07-14 07:42:37', 0),
 (2343, 80, 0, 1, 13, 'Nulla suscipit enim aliquet turpis iaculis accumsan.', '', '', 0, '2020-07-14 07:42:37', 0),
 (2344, 80, 0, 1, 13, 'Aliquam scelerisque tellus nec lectus blandit condimentum.', '', '', 0, '2020-07-14 07:42:37', 0),
@@ -650,7 +656,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2347, 66, 0, 0, 26, 'Vitae semper quis lectus nulla.', '', '', 0, '2020-07-14 11:04:54', 0),
 (2348, 66, 0, 0, 26, 'Lectus mauris ultrices eros in cursus.', '', '', 0, '2020-07-14 11:04:54', 0),
 (2349, 126, 0, 0, 17, '$empty', '/technologies/45', 'Pumps', 0, '2020-07-14 17:32:19', 0),
-(2350, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, '2020-07-14 18:58:25', 0),
+(2350, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, '2020-07-14 18:58:25', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
 (2351, 77, 0, 1, 13, 'Reducing the inlet air temperature of oil-injected screw compressors increases mass flow rate while maintaining power input. To efficiently maintain current mass flow rate a variable frequency drive is required to reduce the motor speed and associated power.', '', '', 0, '2020-07-14 18:58:25', 0),
 (2352, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, '2020-07-14 18:58:25', 0),
 (2353, 77, 0, 1, 10, 'Difficulty meeting a compressor\'s rated air capacity', '', '', 0, '2020-07-14 18:58:25', 0),
@@ -735,7 +742,25 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2673, 129, 0, 1, 24, 'Lists the specific heats of common fluids. This is used for calculating the amount of heat that can be exchanged between the two fluid streams.', 'https://www.engineeringtoolbox.com/specific-heat-fluids-d_151.html', 'Common Fluid Specific Heats', 1, '2020-07-18 00:09:29', 0),
 (2674, 129, 0, 1, 24, 'List of densities for common fluids. This is useful if the fluid\'s volumetric flowrate is known, but not the mass flowrate.', 'https://www.engineeringtoolbox.com/liquids-densities-d_743.html', 'Common Fluid Densities', 1, '2020-07-18 00:09:29', 0),
 (2675, 129, 0, 1, 24, 'Estimated heat exchanger heat transfer coefficients for use in calculating the amount of heat transferred between the two fluid streams.', 'https://www.engineeringtoolbox.com/heat-transfer-coefficients-exchangers-d_450.html', 'Heat Exchanger Heat Transfer Coefficients', 1, '2020-07-18 00:09:29', 0),
-(2676, 129, 0, 1, 17, 'Describes heat exchanger design for sludge in wastewater treatment facilities. This paper also contains the relevant thermodynamic properties of sludge. Understand that the characteristics of wastewater sludge is not consistent between facilities.', 'https://www.witpress.com/elibrary/wit-transactions-on-modelling-and-simulation/46/18010', 'Importance of experimental measurements and simulations for ‘sludge-to-energy’ systems', 1, '2020-07-18 00:09:29', 0);
+(2676, 129, 0, 1, 17, 'Describes heat exchanger design for sludge in wastewater treatment facilities. This paper also contains the relevant thermodynamic properties of sludge. Understand that the characteristics of wastewater sludge is not consistent between facilities.', 'https://www.witpress.com/elibrary/wit-transactions-on-modelling-and-simulation/46/18010', 'Importance of experimental measurements and simulations for ‘sludge-to-energy’ systems', 1, '2020-07-18 00:09:29', 0),
+(2677, 133, 0, 0, 1, 'Pro1', '', '', 0, '2020-07-20 21:20:19', 0),
+(2678, 134, 0, 0, 2, 'Con1', '', '', 0, '2020-07-20 21:20:35', 0),
+(2679, 135, 0, 0, 4, 'Caveat', '', '', 0, '2020-07-20 21:21:07', 0),
+(2680, 136, 0, 0, 3, 'RoT', '', '', 0, '2020-07-20 21:21:25', 0),
+(2681, 137, 0, 0, 8, 'Tip', '', '', 0, '2020-07-20 21:21:56', 0),
+(2682, 138, 0, 0, 7, 'BP', '', '', 0, '2020-07-20 21:22:23', 0),
+(2684, 139, 0, 0, 20, '', 'Fig', 'Fig', 0, '2020-07-20 22:10:06', 0),
+(2685, 140, 0, 0, 15, 'data', '', '', 0, '2020-07-20 22:10:28', 0),
+(2686, 141, 0, 0, 27, 'Sling Psychrometer ', '', '', 0, '2020-07-20 22:11:29', 0),
+(2687, 142, 0, 0, 21, 'tool', 'tool', 'tool', 0, '2020-07-20 22:12:33', 0),
+(2688, 143, 0, 0, 17, 'Resource', 'Resource', 'Resource', 0, '2020-07-20 22:13:43', 0),
+(2689, 144, 0, 0, 24, 'Link', 'Link', 'Link', 1, '2020-07-20 22:14:24', 0),
+(2690, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-boards-on-furniture-industry-600w-439702138.jpg', 'Plywood A', 0, '2020-07-23 09:53:26', 1),
+(2691, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/high-resolution-plywood-board-wall-600w-1054866629.jpg', 'Plywood B', 0, '2020-07-23 09:53:26', 1),
+(2692, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/closeup-plywood-sheets-600w-737467363.jpg', 'Plywood C', 0, '2020-07-23 09:53:26', 1),
+(2693, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-industry-construction-parts-cuttings-600w-1236143197.jpg', 'Plywood D', 0, '2020-07-23 09:53:26', 1),
+(2694, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/warehouse-fiberboard-chipboard-construction-materials-600w-1035511318.jpg', 'Plywood E', 0, '2020-07-23 09:53:26', 1),
+(2695, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-residential-building-materials-600w-1005863455.jpg', 'Plywood F', 0, '2020-07-23 09:53:26', 1);
 
 -- --------------------------------------------------------
 
@@ -761,10 +786,10 @@ CREATE TABLE `Pages` (
 --
 
 INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imageUrl`, `internal`, `userId`, `created`, `approved`) VALUES
-(1, 2, 'z - testing: stuff', 'A boiler is a closed vessel in which fluid (generally water) is heated.', 'In a <b> fossil fuel power plant</b> using a steam cycle for power generation, the primary heat source will be combustion of coal, oil, or natural gas. In some cases byproduct fuel such as the carbon-monoxide rich offgasses of a coke battery can be burned to heat a boiler; biofuels such as bagasse, where economically available, can also be used. In a nuclear power plant, boilers called steam generators are heated by the heat produced by nuclear fission. Where a large volume of hot gas is available from some process, a heat recovery steam generator or recovery boiler can use the heat to produce steam, with little or no extra fuel consumed; such a configuration is common in a combined cycle power plant where a gas turbine and a steam boiler are used. In all cases the combustion product waste gases are separate from the working fluid of the steam cycle, making these systems examples of External combustion engines.', '../images/boiler.png', 0, 51, '2020-05-18 01:37:54', 0),
-(2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '../images/aircompressor.png', 0, 56, '2020-06-29 19:15:43', 1),
-(3, 2, 'z - testing: more stuff', 'Refrigeration is the process of cooling a space, substance, or system to lower and/or maintain its temperature below the ambient one (while the removed heat is rejected at a higher temperature). ', 'Refrigeration has had a large impact on industry, lifestyle, agriculture, and settlement patterns. The idea of preserving food dates back to at least the ancient Roman and Chinese empires. However, mechanical refrigeration technology has rapidly evolved in the last century, from ice harvesting to temperature-controlled rail cars. The introduction of refrigerated rail cars contributed to the westward expansion of the United States, allowing settlement in areas that were not on main transport channels such as rivers, harbors, or valley trails. Settlements were also developing in infertile parts of the country, filled with newly discovered natural resources.  These new settlement patterns sparked the building of large cities which are able to thrive in areas that were otherwise thought to be inhospitable, such as Houston, Texas, and Las Vegas, Nevada.', '../images/refrigeration.png', 1, 42, '2020-06-23 20:58:07', 1),
-(4, 1, 'z - test Plywood', 'Plywood is a material manufactured from thin layers or \"plies\" of wood veneer that are glued together with adjacent layers having their wood grain rotated up to 90 degrees to one another.', 'All plywoods bind resin and wood fibre sheets (cellulose cells are long, strong and thin) to form a composite material. This alternation of the grain is called cross-graining and has several important benefits: it reduces the tendency of wood to split when nailed at the edges; it reduces expansion and shrinkage, providing improved dimensional stability; and it makes the strength of the panel consistent across all directions. There is usually an odd number of plies, so that the sheet is balanced—this reduces warping. Because plywood is bonded with grains running against one another and with an odd number of composite parts, it has high stiffness perpendicular to the grain direction of the surface ply.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Spruce_plywood.JPG/300px-Spruce_plywood.JPG', 0, 51, '2020-05-18 01:37:54', 0),
+(1, 2, 'z - testing: stuff', 'A boiler is a closed vessel in which fluid (generally water) is heated.', 'In a <b> fossil fuel power plant</b> using a steam cycle for power generation, the primary heat source will be combustion of coal, oil, or natural gas. In some cases byproduct fuel such as the carbon-monoxide rich offgasses of a coke battery can be burned to heat a boiler; biofuels such as bagasse, where economically available, can also be used. In a nuclear power plant, boilers called steam generators are heated by the heat produced by nuclear fission. Where a large volume of hot gas is available from some process, a heat recovery steam generator or recovery boiler can use the heat to produce steam, with little or no extra fuel consumed; such a configuration is common in a combined cycle power plant where a gas turbine and a steam boiler are used. In all cases the combustion product waste gases are separate from the working fluid of the steam cycle, making these systems examples of External combustion engines.', '/images/boiler.png', 0, 42, '2020-05-18 01:37:54', 0),
+(2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/images/air.png', 0, 42, '2020-07-23 10:01:49', 1),
+(3, 2, 'z - testing: more stuff', 'Refrigeration is the process of cooling a space, substance, or system to lower and/or maintain its temperature below the ambient one (while the removed heat is rejected at a higher temperature).', 'Refrigeration has had a large impact on industry, lifestyle, agriculture, and settlement patterns. The idea of preserving food dates back to at least the ancient Roman and Chinese empires. However, mechanical refrigeration technology has rapidly evolved in the last century, from ice harvesting to temperature-controlled rail cars. The introduction of refrigerated rail cars contributed to the westward expansion of the United States, allowing settlement in areas that were not on main transport channels such as rivers, harbors, or valley trails. Settlements were also developing in infertile parts of the country, filled with newly discovered natural resources.  These new settlement patterns sparked the building of large cities which are able to thrive in areas that were otherwise thought to be inhospitable, such as Houston, Texas, and Las Vegas, Nevada.', '/images/refrigeration.png', 1, 42, '2020-07-23 10:02:38', 1),
+(4, 1, 'z - test Plywood', 'Plywood is a material manufactured from thin layers or \"plies\" of wood veneer that are glued together with adjacent layers having their wood grain rotated up to 90 degrees to one another.', 'All plywoods bind resin and wood fibre sheets (cellulose cells are long, strong and thin) to form a composite material. This alternation of the grain is called cross-graining and has several important benefits: it reduces the tendency of wood to split when nailed at the edges; it reduces expansion and shrinkage, providing improved dimensional stability; and it makes the strength of the panel consistent across all directions. There is usually an odd number of plies, so that the sheet is balanced—this reduces warping. Because plywood is bonded with grains running against one another and with an odd number of composite parts, it has high stiffness perpendicular to the grain direction of the surface ply.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Spruce_plywood.JPG/300px-Spruce_plywood.JPG', 1, 42, '2020-05-18 01:37:54', 0),
 (5, 1, 'z - test Electricity', 'Electricity is the set of physical phenomena associated with the presence and motion of matter that has a property of electric charge.', 'When a charge is placed in a location with a non-zero electric field, a force will act on it. The magnitude of this force is given by Coulomb\'s law. Thus, if that charge were to move, the electric field would be doing work on the electric charge. Thus we can speak of electric potential at a certain point in space, which is equal to the work done by an external agent in carrying a unit of positive charge from an arbitrarily chosen reference point to that point without any acceleration and is typically measured in volts.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Lightning3.jpg/220px-Lightning3.jpg', 0, 51, '2020-05-18 01:37:54', 0),
 (25, 2, 'z - testing: Airplanes', 'They fly', 'An airplane or aeroplane (informally plane) is a powered, fixed-wing aircraft that is propelled forward by thrust from a jet engine, propeller or rocket engine. Airplanes come in a variety of sizes, shapes, and wing configurations. The broad spectrum of uses for airplanes includes recreation, transportation of goods and people, military, and research. Worldwide, commercial aviation transports more than four billion passengers annually on airliners[1] and transports more than 200 billion tonne-kilometers[2] of cargo annually, which is less than 1% of the world\'s cargo movement.[3] Most airplanes are flown by a pilot on board the aircraft, but some are designed to be remotely or computer-controlled such as drones.\n\nhello', 'https://scx1.b-cdn.net/csz/news/800/2019/toomanyairpl.jpg', 0, 42, '2020-05-30 09:13:53', 0),
 (26, 2, 'z - testing: Air Conditioners', 'System for controlling the humidity, ventilation, and temperature in a building or vehicle', 'Pretium lectus quam id leo in vitae turpis massa. Placerat vestibulum lectus mauris ultrices eros in cursus turpis. Convallis a cras semper auctor neque vitae. Dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Non diam phasellus vestibulum lorem sed. Id diam vel quam elementum pulvinar. Ut faucibus pulvinar elementum integer enim neque volutpat. Morbi tristique senectus et netus. Suspendisse potenti nullam ac tortor vitae. Ut morbi tincidunt augue interdum velit euismod in pellentesque massa. Nibh tellus molestie nunc non blandit massa enim. Arcu cursus vitae congue mauris rhoncus. Massa placerat duis ultricies ultrices.', 'https://www.alternativeheatingandair.com/wp-content/uploads/2017/07/DN-N4A3-R-grid.png', 0, 51, '2020-05-30 09:13:53', 0),
@@ -809,6 +834,7 @@ CREATE TABLE `Temp_Cards` (
   `tempCardId` int(10) UNSIGNED NOT NULL,
   `tempCardType` tinyint(3) UNSIGNED NOT NULL,
   `tempTitle` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tempOrderIndex` int(10) UNSIGNED NOT NULL,
   `tempUserId` int(10) UNSIGNED NOT NULL,
   `tempCreated` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -817,18 +843,18 @@ CREATE TABLE `Temp_Cards` (
 -- Dumping data for table `Temp_Cards`
 --
 
-INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempUserId`, `tempCreated`) VALUES
-(47, 0, 'Engines', 42, '2020-06-30 21:10:53'),
-(59, 1, 'Strange AC Units', 51, '2020-06-23 09:10:21'),
-(66, 10, 'Facilisis volutpat est velit egestas.', 42, '2020-07-14 11:04:54'),
-(77, 0, 'Improve Compressor Efficiency', 58, '2020-07-14 18:58:25'),
-(80, 0, 'New Card', 42, '2020-07-14 07:42:37'),
-(100, 0, 'Off Site Resource Links', 51, '2020-07-03 17:55:16'),
-(101, 0, 'Improve Boiler Combustion Efficiency ', 58, '2020-07-03 17:28:05'),
-(105, 0, 'Improve the Condensate System', 58, '2020-07-10 18:54:00'),
-(106, 0, 'Reduce Heat Loss', 51, '2020-07-03 17:31:09'),
-(120, 0, 'Power Quality', 58, '2020-07-10 18:52:52'),
-(128, 10, 'eoowerwerwer', 42, '2020-07-07 21:33:22');
+INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
+(47, 0, 'Engines', 0, 42, '2020-06-30 21:10:53'),
+(59, 1, 'Strange AC Units', 0, 51, '2020-06-23 09:10:21'),
+(66, 10, 'Facilisis volutpat est velit egestas.', 0, 42, '2020-07-14 11:04:54'),
+(77, 0, 'Improve Compressor Efficiency', 0, 58, '2020-07-14 18:58:25'),
+(80, 0, 'New Card', 0, 42, '2020-07-14 07:42:37'),
+(100, 0, 'Off Site Resource Links', 0, 51, '2020-07-03 17:55:16'),
+(101, 0, 'Improve Boiler Combustion Efficiency ', 0, 58, '2020-07-03 17:28:05'),
+(105, 0, 'Improve the Condensate System', 0, 58, '2020-07-10 18:54:00'),
+(106, 0, 'Reduce Heat Loss', 0, 51, '2020-07-03 17:31:09'),
+(120, 0, 'Power Quality', 0, 58, '2020-07-10 18:52:52'),
+(128, 10, 'eoowerwerwer', 0, 42, '2020-07-07 21:33:22');
 
 -- --------------------------------------------------------
 
@@ -840,6 +866,7 @@ CREATE TABLE `Temp_Headers` (
   `tempHeaderId` int(10) UNSIGNED NOT NULL,
   `tempTitle` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tempInternal` tinyint(3) UNSIGNED NOT NULL,
+  `tempOrderIndex` int(10) UNSIGNED NOT NULL,
   `tempUserId` int(10) UNSIGNED NOT NULL,
   `tempCreated` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -848,8 +875,8 @@ CREATE TABLE `Temp_Headers` (
 -- Dumping data for table `Temp_Headers`
 --
 
-INSERT INTO `Temp_Headers` (`tempHeaderId`, `tempTitle`, `tempInternal`, `tempUserId`, `tempCreated`) VALUES
-(32, 'Boilers and Steam Opportunities to Consider', 0, 58, '2020-07-14 18:53:33');
+INSERT INTO `Temp_Headers` (`tempHeaderId`, `tempTitle`, `tempInternal`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
+(32, 'Boilers and Steam Opportunities to Consider', 0, 0, 58, '2020-07-14 18:53:33');
 
 -- --------------------------------------------------------
 
@@ -892,7 +919,7 @@ CREATE TABLE `Users` (
 
 INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `email`, `role`, `created`) VALUES
 (42, 'Silverware', 'd8e7859c74c2672a13a2388538143c99$631f9c78dbc16fbd3b013aa7903a8527cee7d46befeb496b7510b1dcb4ae95c0', 'Zachary', 'Thomas', 'thomasza@oregonstate.edu', 4, '2020-05-14 20:39:15'),
-(47, 'rogrogrog', '8a3c5ecabadca6102a92052e5f6160d3$59606e43e8086a5cb735dfc87244f218638a629133558c6701390129ec8bb71a', 'rog', 'rog', 'rog@gmail.com', 4, '2020-06-01 20:39:15'),
+(47, 'rogrogrog', '8a3c5ecabadca6102a92052e5f6160d3$59606e43e8086a5cb735dfc87244f218638a629133558c6701390129ec8bb71a', 'rog', 'rog', 'rog@gmail.com', 3, '2020-06-01 20:39:15'),
 (51, 'JoeJunker', 'b755592eabbdac736d8c5907fa64fa11$fae30b426545c803420b3f7f0bd4f1e80fd99ea09336ea525c769ef7041d1679', 'Joe', 'Junker', 'joseph.f.junker@gmail.com', 4, '2020-06-02 20:39:15'),
 (52, 'mattye', 'bc8f2478b1eb8785d085b8c1512933f2$47ff478fcee9b0f829ed70012cd2c406ed67b7bae6708c855b9072ef8adb662b', 'Ethan', 'Matty', 'mattye.eec@gmail.com', 4, '2020-06-10 20:39:15'),
 (54, 'martzal', '27d9aeff2e1c3e683f042480b6990a5c$963d962575ce1108cf5785fc42778ad0483050a80c50e8d3d29632f6af73f1a9', 'Ali', 'Martz', 'martzal.eec@gmail.com', 3, '2020-06-28 20:39:15'),
@@ -902,7 +929,8 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (58, 'ryanfrench2', '0f035817ef3a5ebb3b7bedc75f6d5245$950542aafbfdeeceb6e32fcf2d06f5b2c076465e6fce3ef36b052d9ba6290404', 'Ryan', 'French', 'frenchr@oregonstate.com', 3, '2020-07-08 20:47:39'),
 (59, 'djunker', '78d288ab098c3cb5d6d2ba21034e69c1$24786ffa47a290b250ffff18f0cfd703b86c773cf5f911e75fcf6d19989e700d', 'Devlin', 'Junker', 'devlin.junker@gmail.com', 3, '2020-07-10 01:36:09'),
 (60, 'taylorad', 'b320c2b10ea1a5fd6a5df5b60b476a1a$76c9c4d174243210d40e54aa87e6b14926de7e3d7c1b229e7fcea48e98d65d85', 'Adam', 'Taylor', 'taylorad.eec@gmail.com', 3, '2020-07-13 17:38:47'),
-(61, 'Chris_Houck', 'd4bb5e0bfd9c00be21e9e9d844ad7f57$367a89d5eeaf2274ff80b316f9aeda9f79acd192fc1f3717ff852b3cb29c6416', 'Chris', 'Houck', 'houckch.eec@gmail.com', 3, '2020-07-14 20:59:54');
+(61, 'Chris_Houck', 'd4bb5e0bfd9c00be21e9e9d844ad7f57$367a89d5eeaf2274ff80b316f9aeda9f79acd192fc1f3717ff852b3cb29c6416', 'Chris', 'Houck', 'houckch.eec@gmail.com', 3, '2020-07-14 20:59:54'),
+(62, 'psukamto', 'bbd4de95486df84c2553cb4cabc1472a$d8d1b75623a7d7eb3b717020dc28b70ba1c9152992db10316e280aedb0f35d6c', 'Peter', 'Sukamto', 'sukamtop.eec@gmail.com', 3, '2020-07-20 22:20:37');
 
 --
 -- Indexes for dumped tables
@@ -1004,7 +1032,7 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -1016,7 +1044,7 @@ ALTER TABLE `Categories`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `Icons`
@@ -1028,7 +1056,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2677;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2700;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -1046,7 +1074,7 @@ ALTER TABLE `Sponsors`
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- Constraints for dumped tables
