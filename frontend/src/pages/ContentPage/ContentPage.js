@@ -300,12 +300,11 @@ function ContentPage(props) {
     let direction = 0;
     if (up) {
       direction = 1;
-      mode = mode;
     }
 
     // send our move to the API
     if (moved) {
-      const results = await fetch(`/api/headers/${headerId}/move/${direction}`, {
+      const results = await fetch(`/api/headers/${headerId}/move/${direction}/${mode}`, {
         method: "PATCH",
         headers: {"Content-Type": "application/json"}
       });
@@ -403,12 +402,11 @@ function ContentPage(props) {
     let direction = 0;
     if (up) {
       direction = 1;
-      mode = mode;
     }
 
     // send our move to the API
     if (moved) {
-      const results = await fetch(`/api/cards/${cardId}/move/${direction}`, {
+      const results = await fetch(`/api/cards/${cardId}/move/${direction}/${mode}`, {
         method: "PATCH",
         headers: {"Content-Type": "application/json"}
       });

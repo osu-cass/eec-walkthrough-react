@@ -125,6 +125,7 @@ const patchHeaderMove = Object.freeze({
   validation: [
     check("headerId").isInt({min: 1, max: 4294967295}),
     check("direction").isInt({min: 0, max: 1}),
+    check("mode").isInt({min: 0, max: 1})
   ]
 });
 exports.patchHeaderMove = patchHeaderMove;
@@ -162,6 +163,7 @@ const patchCardMove = Object.freeze({
   validation: [
     check("cardId").isInt({min: 1, max: 4294967295}),
     check("direction").isInt({min: 0, max: 1}),
+    check("mode").isInt({min: 0, max: 1})
   ]
 });
 exports.patchCardMove = patchCardMove;

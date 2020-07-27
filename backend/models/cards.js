@@ -480,7 +480,7 @@ async function unpublishCard(cardId) {
 exports.unpublishCard = unpublishCard;
 
 
-// move a card
+// move a published card
 async function moveCard(cardId, direction) {
 
   try {
@@ -565,3 +565,111 @@ async function moveCard(cardId, direction) {
 
 }
 exports.moveCard = moveCard;
+
+
+// move an unpublished card
+async function moveTempCard(cardId, direction) {
+
+  try {
+
+    if(direction < 20000000000) {
+      return {error: 1};
+    }
+
+    // make sure that the card exists
+    let sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE cardId = ? ";
+    let results = await pool.query(sql, cardId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const headerId = results[0][0].headerId;
+
+    let temp = false;
+
+    // see if this card is already approved
+    if (results[0][0].approved) {
+
+      // since it is approved, get the temp card version of the card
+      let sql = "SELECT * " +
+      "FROM Temp_Cards " +
+      "WHERE tempCardId = ? ";
+      results = await pool.query(sql, cardId);
+      temp = true;
+
+      if (!results[0].length) {
+        return {error: 1};
+      }
+
+    }
+
+    // get all of the cards and temp cards under the current header
+    sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE headerId = ? " +
+    "AND approved = true " +
+    "ORDER BY orderIndex ASC, cardId ASC";
+    results = await pool.query(sql, headerId);
+
+    const cards = results[0];
+    let cardIndex = -1;
+    let otherCardIndex = -1;
+
+    // find the index of this card
+    for (let i = 0; i < cards.length; i++) {
+      if (cards[i].cardId === parseInt(cardId, 10)) {
+        cardIndex = i;
+        break;
+      }
+    }
+
+    // if we cannot find the index, then we can't find the card
+    if (cardIndex === -1) {
+      return {error: 1};
+    }
+
+    // check if we are trying to move up or down and make sure card exists
+    // in the specific direction
+    if (direction) {
+      if (cardIndex !== 0) {
+        otherCardIndex = cardIndex - 1;
+      }
+    } else {
+      if (cardIndex + 1 < cards.length) {
+        otherCardIndex = cardIndex + 1;
+      }
+    }
+
+    // if we cannot find the other index, then we can't find the other card
+    if (otherCardIndex === -1) {
+      return {error: 2};
+    }
+
+    // swap the cards order indexes
+    sql = "UPDATE Cards " +
+    "SET orderIndex = IF(cardId=?, ?, ?) " +
+    "WHERE cardId IN (?, ?);";
+    const sqlArray = [];
+    sqlArray.push(cardId);
+    sqlArray.push(cards[otherCardIndex].orderIndex);
+    sqlArray.push(cards[cardIndex].orderIndex);
+    sqlArray.push(cardId);
+    sqlArray.push(cards[otherCardIndex].cardId);
+    results = await pool.query(sql, sqlArray);
+
+    const finalResults = {
+      cardId: cardId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error moving card");
+    throw Error(err);
+  }
+
+}
+exports.moveTempCard = moveTempCard;
