@@ -305,12 +305,13 @@ app.post("/:headerId/unpublish", getUserID, getHeaderVal.validation, async (req,
 
 
 // move a header relative to other headers
-app.patch("/:headerId/move/:direction", requireAuth, patchHeaderMove.validation, async (req, res) => {
+app.patch("/:headerId/move/:direction/:mode", requireAuth, patchHeaderMove.validation, async (req, res) => {
 
   try {
 
     const headerId = req.params.headerId;
     const direction = req.params.direction;
+    const mode = req.params.mode;
 
     if (parseInt(direction, 10)) {
       console.log("Move header", headerId, "up");
@@ -326,9 +327,16 @@ app.patch("/:headerId/move/:direction", requireAuth, patchHeaderMove.validation,
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
-      res.status(401).send({error: "Unauthorized user attempting to move header."});
-      return;
+    if (mode) {
+      if (!await roleCheck(4, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to move header."});
+        return;
+      }
+    } else {
+      if (!await roleCheck(3, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to move header."});
+        return;
+      }
     }
 
     // update a header
