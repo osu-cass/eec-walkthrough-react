@@ -585,32 +585,57 @@ function Header(props) {
     }
   }
 
+  // returns true if we should be able to view unpublished content
+  function viewUnpublished() {
+    return props.mode === 1 || (props.mode === 2 && props.publishedMode === 0);
+  }
+
   return (!props.header.approved && props.mode !== 1 && (props.mode !== 2 || props.publishedMode !== 0)) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
     <div>
-      {props.mode === 1 || (props.mode === 2 && props.publishedMode === 0) ? (
+      <div>
+        <div className={`d-flex sticky-top
+          ${props.header.approved && (!props.header.tempHeaderId || !viewUnpublished()) ? "header-approved" : "header-review"}
+          ${isInternal() ? "header-internal" : ""}
+          header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
+        style={{top: "1em", zIndex: "998"}}
+        >
+          <div className="row mx-2">
+            <h4 className="flex-grow-1 font-weight-bold">
+              {props.header.approved && props.header.tempHeaderId && viewUnpublished() ? (
+                props.header.tempTitle
+              ) : (
+                props.header.title
+              )}
+            </h4>
+          </div>
 
-        <div>
-          <div className={`d-flex sticky-top
-            ${props.header.approved && !props.header.tempHeaderId ? "header-approved" : "header-review"}
-            ${isInternal() ? "header-internal" : ""}
-            header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
-          style={{top: "1em", zIndex: "998"}}
-          >
-            <div className="row mx-2">
-              <h4 className="flex-grow-1 font-weight-bold">
-                {props.header.approved && props.header.tempHeaderId ? (
-                  props.header.tempTitle
-                ) : (
-                  props.header.title
-                )}
-              </h4>
-            </div>
-
-            <div className="row mx-2">
-              <div className="row">
-                {props.mode !== 2 ? (
+          <div className="row mx-2">
+            <div className="row">
+              {props.mode === 2 ? (
+                <Fragment>
+                  <OrderObjectButton
+                    up={true}
+                    header={true}
+                    objectId={props.header.headerId}
+                    handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                    edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                    approved={props.header.approved}
+                    publishedMode={props.publishedMode}
+                  />
+                  <OrderObjectButton
+                    up={false}
+                    header={true}
+                    objectId={props.header.headerId}
+                    handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                    edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                    approved={props.header.approved}
+                    publishedMode={props.publishedMode}
+                  />
+                </Fragment>
+              ) : (
+                <Fragment>
                   <FilterBar
                     updateIcon={(e1, e2) => updateIcon(e1, e2)}
                     resetIcons={() => resetIcons()}
@@ -621,42 +646,19 @@ function Header(props) {
                     iconSet={props.iconSet}
                     mode={props.mode}
                   />
-                ) : (
-                  <Fragment>
-                    <OrderObjectButton
-                      up={true}
-                      header={true}
-                      objectId={props.header.headerId}
-                      handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                      edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                      approved={props.header.approved}
-                      publishedMode={props.publishedMode}
-                    />
-                    <OrderObjectButton
-                      up={false}
-                      header={true}
-                      objectId={props.header.headerId}
-                      handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                      edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                      approved={props.header.approved}
-                      publishedMode={props.publishedMode}
-                    />
-                  </Fragment>
-                )}
-                {props.mode !== 2 ? (
                   <div className="col">
                     <div className="row">
                       <ListToggle
-                        showButton={tempOpportunitiesExist}
+                        showButton={opportunitiesExist}
                         toggled={opportunityFilterMode}
                         toggleList={() => resetChecks()}
-                      />
+                        />
                       <EditHeader
-                        mode={props.mode}
-                        header={props.header}
-                        role={props.role}
-                        handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                      />
+                          mode={props.mode}
+                          header={props.header}
+                          role={props.role}
+                          handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                        />
                       <ReviewHeader
                         mode={props.mode}
                         header={props.header}
@@ -664,123 +666,34 @@ function Header(props) {
                       />
                     </div>
                   </div>
-                ) : (
-                  null
-                )}
-              </div>
+                </Fragment>
+              )}
             </div>
           </div>
-
-          <div id="accordion" role="tablist" aria-multiselectable="true">
-          <span>#1</span>
-            {cards.map((card, i) =>
-              <Card
-                key={card.cardId}
-                headerId={props.header.headerId}
-                unfilteredCard={getUnfilteredCard(card.cardId)}
-                card={card}
-                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                mode={props.mode}
-                iconSet={props.iconSet}
-                handleMoveCard={(cardId, up, mode) => handleMoveCard(cardId, up, mode)}
-                handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
-                cardState={props.cardState}
-                role={props.role}
-                setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
-                publishedMode={props.publishedMode}
-              />
-            )}
-          </div>
-
         </div>
 
-      ) : (
-
-        <div>
-          <div className={`d-flex sticky-top
-            ${props.header.approved ? "header-approved" : "header-review"}
-            ${isInternal() ? "header-internal" : ""}
-            header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
-          style={{top: "1em", zIndex: "998"}}
-          >
-            <div className="row mx-2">
-              <h4 className="flex-grow-1 font-weight-bold">
-                {props.header.title}
-              </h4>
-            </div>
-
-            <div className="row mx-2">
-              <div className="row">
-                {props.mode === 2 ? (
-                  <Fragment>
-                    <OrderObjectButton
-                      up={true}
-                      header={true}
-                      objectId={props.header.headerId}
-                      handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                      edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                      approved={props.header.approved}
-                      publishedMode={props.publishedMode}
-                    />
-                    <OrderObjectButton
-                      up={false}
-                      header={true}
-                      objectId={props.header.headerId}
-                      handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                      edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                      approved={props.header.approved}
-                      publishedMode={props.publishedMode}
-                    />
-                  </Fragment>
-                ) : (
-                  <Fragment>
-                    <FilterBar
-                      updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                      resetIcons={() => resetIcons()}
-                      clearIcons={() => clearIcons()}
-                      filterIcons={filterIcons}
-                      tempFilterIcons={tempFilterIcons}
-                      filterShow={filterShow}
-                      iconSet={props.iconSet}
-                      mode={props.mode}
-                    />
-                    <div className="col">
-                    <ListToggle
-                      showButton={opportunitiesExist}
-                      toggled={opportunityFilterMode}
-                      toggleList={() => resetChecks()}
-                    />
-                    </div>
-                  </Fragment>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div id="accordion" role="tablist" aria-multiselectable="true">
-            <span>#2</span>
-            {cards.map((card, i) =>
-              <Card
-                key={card.cardId}
-                headerId={props.header.headerId}
-                unfilteredCard={getUnfilteredCard(card.cardId)}
-                card={card}
-                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                mode={props.mode}
-                iconSet={props.iconSet}
-                handleMoveCard={(cardId, up, mode) => handleMoveCard(cardId, up, mode)}
-                handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
-                cardState={props.cardState}
-                role={props.role}
-                publicMode={props.publicMode}
-                setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
-                publishedMode={props.publishedMode}
-              />
-            )}
-          </div>
-
+        <div id="accordion" role="tablist" aria-multiselectable="true">
+          {cards.map((card, i) =>
+            <Card
+              key={card.cardId}
+              headerId={props.header.headerId}
+              unfilteredCard={getUnfilteredCard(card.cardId)}
+              card={card}
+              handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+              mode={props.mode}
+              iconSet={props.iconSet}
+              handleMoveCard={(cardId, up, mode) => handleMoveCard(cardId, up, mode)}
+              handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
+              cardState={props.cardState}
+              role={props.role}
+              publicMode={props.publicMode}
+              setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
+              publishedMode={props.publishedMode}
+            />
+          )}
         </div>
-      )}
+
+      </div>
     </div>
   );
 
