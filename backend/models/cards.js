@@ -351,11 +351,11 @@ async function publishCard(cardId) {
 
       // update the published card
       sql = "UPDATE Cards " +
-      "SET cardType = ?, title = ?, userId = ?, created = ?, approved = 1 " +
+      "SET cardType = ?, title = ?, userId = ?, created = ?, orderIndex = ?, approved = 1 " +
       "WHERE cardId = ?;";
 
       const tempArray = [tempCard.tempCardType, tempCard.tempTitle,
-        tempCard.tempUserId, tempCard.tempCreated, cardId];
+        tempCard.tempUserId, tempCard.tempCreated, tempCard.tempOrderIndex, cardId];
 
       // make sure no other cards share the same name
       const checkSql = "SELECT * " +
@@ -626,16 +626,6 @@ async function moveCard(cardId, direction) {
       results = await pool.query(sql, tempArray);
     }
 
-    // Get all of the modified cards for testing
-    // sql = "SELECT * " +
-    // "FROM Cards " +
-    // "LEFT JOIN Temp_Cards " +
-    // "ON cardId = tempCardId " +
-    // "WHERE headerId = ? " +
-    // "ORDER BY orderIndex ASC, cardId ASC";
-    // results = await pool.query(sql, headerId);
-    // console.log("results[0]", results[0]);
-
     const finalResults = {
       cardId: cardId
     };
@@ -797,7 +787,6 @@ async function moveTempCard(cardId, direction) {
       sql = sql.replace(/.$/, ");");
       results = await pool.query(sql, normArray);
     }
-
 
     // update the unpublished cards
     if (tempArray.length) {

@@ -265,11 +265,11 @@ async function publishHeader(headerId) {
 
       // update the published header
       sql = "UPDATE Headers " +
-      "SET title = ?, userId = ?, created = ?, internal = ?, approved = 1 " +
+      "SET title = ?, userId = ?, created = ?, internal = ?, orderIndex = ?, approved = 1 " +
       "WHERE headerId = ?;";
 
       const tempArray = [tempHeader.tempTitle,
-        tempHeader.tempUserId, tempHeader.tempCreated, tempHeader.tempInternal, headerId];
+        tempHeader.tempUserId, tempHeader.tempCreated, tempHeader.tempInternal, tempHeader.tempOrderIndex, headerId];
 
       // make sure no other headers share the same title
       const checkSql = "SELECT * " +
