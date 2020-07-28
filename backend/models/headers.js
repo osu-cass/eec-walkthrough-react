@@ -371,7 +371,7 @@ async function unpublishHeader(headerId) {
 exports.unpublishHeader = unpublishHeader;
 
 
-// move a header
+// move a published header
 async function moveHeader(headerId, direction) {
 
   try {
@@ -389,59 +389,132 @@ async function moveHeader(headerId, direction) {
 
     const pageId = results[0][0].pageId;
 
-    // get all of the header under the current page
+    // get all of the headers and temp headers under the current header
     sql = "SELECT * " +
     "FROM Headers " +
+    "LEFT JOIN Temp_Headers " +
+    "ON headerId = tempHeaderId " +
     "WHERE pageId = ? " +
-    "AND approved = true " +
     "ORDER BY orderIndex ASC, headerId ASC";
     results = await pool.query(sql, pageId);
 
-    const headers = results[0];
-    let headerIndex = -1;
-    let otherHeaderIndex = -1;
+    // create an array with all of the headers
+    // each header has an id, type (normal / temp), and an order index
+    const headerOrderArray = [];
+    for (let i = 0; i < results[0].length; i++) {
+      if (results[0][i].tempHeaderId > 0) {
 
-    // find the index of this header
-    for (let i = 0; i < headers.length; i++) {
-      if (headers[i].headerId === parseInt(headerId, 10)) {
-        headerIndex = i;
-        break;
+        const headerObj = {
+          id: results[0][i].headerId,
+          type: "norm",
+          order: results[0][i].orderIndex,
+          show: "show"
+        };
+
+        const tempHeaderObj = {
+          id: results[0][i].tempHeaderId,
+          type: "temp",
+          order: results[0][i].tempOrderIndex,
+          show: "hidden"
+        };
+
+        headerOrderArray.push(headerObj);
+        headerOrderArray.push(tempHeaderObj);
+
+      } else {
+        const headerObj = {
+          id: results[0][i].headerId,
+          type: "norm",
+          order: results[0][i].orderIndex,
+          show: "show"
+        };
+        headerOrderArray.push(headerObj);
       }
     }
 
-    // if we cannot find the index, then we can't find the header
-    if (headerIndex === -1) {
-      return {error: 1};
-    }
+    // sort the array of headers by order index
+    headerOrderArray.sort((a, b) => a.order - b.order)
 
-    // check if we are trying to move up or down and make sure header exists
-    // in the specific direction
-    if (direction) {
-      if (headerIndex !== 0) {
-        otherHeaderIndex = headerIndex - 1;
+    // find and move the specified header
+    for (let i = 0; i < headerOrderArray.length; i++) {
+      if (parseInt(headerOrderArray[i].id, 10) === parseInt(headerId, 10) && headerOrderArray[i].type === "norm") {
+        if (direction) {
+          // try to move up and skip hidden headers
+          for (let j = i; j > 0; j--) {
+            let tempObj = headerOrderArray[j - 1];
+            headerOrderArray[j - 1] = headerOrderArray[j];
+            headerOrderArray[j] = tempObj;
+            if (headerOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        } else {
+          // try to move down and skip hidden headers
+          for (let j = i; j < headerOrderArray.length - 1; j++) {
+            let tempObj = headerOrderArray[j + 1];
+            headerOrderArray[j + 1] = headerOrderArray[j];
+            headerOrderArray[j] = tempObj;
+            if (headerOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        }
       }
-    } else {
-      if (headerIndex + 1 < headers.length) {
-        otherHeaderIndex = headerIndex + 1;
+    }
+
+    // apply new order values to the headers and split it into normal and temp headers
+    const normArray = [];
+    const tempArray = [];
+    for (let i = 0; i < headerOrderArray.length; i++) {
+      if (headerOrderArray[i].type === "temp") {
+        tempArray.push(parseInt(headerOrderArray[i].id, 10));
+        tempArray.push(i + 1);
+      } else {
+        normArray.push(parseInt(headerOrderArray[i].id, 10));
+        normArray.push(i + 1);
       }
     }
 
-    // if we cannot find the other index, then we can't find the other header
-    if (otherHeaderIndex === -1) {
-      return {error: 2};
+    // push the ids to the end once more to match with the future query
+    for (let i = 0; i < headerOrderArray.length; i++) {
+      if (headerOrderArray[i].type === "temp") {
+        tempArray.push(headerOrderArray[i].id);
+      } else {
+        normArray.push(headerOrderArray[i].id);
+      }
     }
 
-    // swap the headers order indexes
-    sql = "UPDATE Headers " +
-    "SET orderIndex = IF(headerId=?, ?, ?) " +
-    "WHERE headerId IN (?, ?);";
-    const sqlArray = [];
-    sqlArray.push(headerId);
-    sqlArray.push(headers[otherHeaderIndex].orderIndex);
-    sqlArray.push(headers[headerIndex].orderIndex);
-    sqlArray.push(headerId);
-    sqlArray.push(headers[otherHeaderIndex].headerId);
-    results = await pool.query(sql, sqlArray);
+    // update the published headers
+    if (normArray.length) {
+      sql = "UPDATE Headers " +
+      "SET orderIndex = CASE ";
+      for (let i = 0; i < normArray.length/3; i++) {
+        sql += "WHEN headerId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE headerId IN (";
+      for (let i = 0; i < normArray.length/3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, normArray);
+    }
+
+    // update the unpublished headers
+    if (tempArray.length) {
+      sql = "UPDATE Temp_Headers " +
+      "SET tempOrderIndex = CASE ";
+      for (let i = 0; i < tempArray.length/3; i++) {
+        sql += "WHEN tempHeaderId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE tempHeaderId IN (";
+      for (let i = 0; i < tempArray.length/3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, tempArray);
+    }
 
     const finalResults = {
       headerId: headerId
@@ -456,3 +529,180 @@ async function moveHeader(headerId, direction) {
 
 }
 exports.moveHeader = moveHeader;
+
+
+// move an unpublished header
+async function moveTempHeader(headerId, direction) {
+
+  try {
+
+    // make sure that the header exists
+    let sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ? ";
+    let results = await pool.query(sql, headerId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const pageId = results[0][0].pageId;
+
+    let headerType = "norm";
+
+    // see if this header is already approved
+    if (results[0][0].approved) {
+
+      // since it is approved, get the temp header version of the header
+      let sql = "SELECT * " +
+      "FROM Temp_Headers " +
+      "WHERE tempHeaderId = ? ";
+      results = await pool.query(sql, headerId);
+      headerType = "temp";
+
+      if (!results[0].length) {
+        return {error: 1};
+      }
+
+    }
+
+    // get all of the headers and temp headers under the current header
+    sql = "SELECT * " +
+    "FROM Headers " +
+    "LEFT JOIN Temp_Headers " +
+    "ON headerId = tempHeaderId " +
+    "WHERE pageId = ? " +
+    "ORDER BY orderIndex ASC, headerId ASC";
+    results = await pool.query(sql, pageId);
+
+    // create an array with all of the headers
+    // each header has an id, type (normal / temp), and an order index
+    const headerOrderArray = [];
+    for (let i = 0; i < results[0].length; i++) {
+      if (results[0][i].tempHeaderId > 0) {
+
+        const headerObj = {
+          id: results[0][i].headerId,
+          type: "norm",
+          order: results[0][i].orderIndex,
+          show: "hidden"
+        };
+
+        const tempHeaderObj = {
+          id: results[0][i].tempHeaderId,
+          type: "temp",
+          order: results[0][i].tempOrderIndex,
+          show: "show"
+        };
+
+        headerOrderArray.push(headerObj);
+        headerOrderArray.push(tempHeaderObj);
+
+      } else {
+        const headerObj = {
+          id: results[0][i].headerId,
+          type: "norm",
+          order: results[0][i].orderIndex,
+          show: "show"
+        };
+        headerOrderArray.push(headerObj);
+      }
+    }
+
+    // sort the array of headers by order index
+    headerOrderArray.sort((a, b) => a.order - b.order);
+
+    // find and move the specified header
+    for (let i = 0; i < headerOrderArray.length; i++) {
+      if (parseInt(headerOrderArray[i].id, 10) === parseInt(headerId, 10) && headerOrderArray[i].type === headerType) {
+        if (direction) {
+          // try to move up and skip hidden headers
+          for (let j = i; j > 0; j--) {
+            let tempObj = headerOrderArray[j - 1];
+            headerOrderArray[j - 1] = headerOrderArray[j];
+            headerOrderArray[j] = tempObj;
+            if (headerOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        } else {
+          // try to move down and skip hidden headers
+          for (let j = i; j < headerOrderArray.length - 1; j++) {
+            let tempObj = headerOrderArray[j + 1];
+            headerOrderArray[j + 1] = headerOrderArray[j];
+            headerOrderArray[j] = tempObj;
+            if (headerOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        }
+      }
+    }
+
+    // apply new order values to the headers and split it into normal and temp headers
+    const normArray = [];
+    const tempArray = [];
+    for (let i = 0; i < headerOrderArray.length; i++) {
+      if (headerOrderArray[i].type === "temp") {
+        tempArray.push(parseInt(headerOrderArray[i].id, 10));
+        tempArray.push(i + 1);
+      } else {
+        normArray.push(parseInt(headerOrderArray[i].id, 10));
+        normArray.push(i + 1);
+      }
+    }
+
+    // push the ids to the end once more to match with the future query
+    for (let i = 0; i < headerOrderArray.length; i++) {
+      if (headerOrderArray[i].type === "temp") {
+        tempArray.push(headerOrderArray[i].id);
+      } else {
+        normArray.push(headerOrderArray[i].id);
+      }
+    }
+
+    // update the published headers
+    if (normArray.length) {
+      sql = "UPDATE Headers " +
+      "SET orderIndex = CASE ";
+      for (let i = 0; i < normArray.length/3; i++) {
+        sql += "WHEN headerId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE headerId IN (";
+      for (let i = 0; i < normArray.length/3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, normArray);
+    }
+
+    // update the unpublished headers
+    if (tempArray.length) {
+      sql = "UPDATE Temp_Headers " +
+      "SET tempOrderIndex = CASE ";
+      for (let i = 0; i < tempArray.length/3; i++) {
+        sql += "WHEN tempHeaderId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE tempHeaderId IN (";
+      for (let i = 0; i < tempArray.length/3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, tempArray);
+    }
+
+    const finalResults = {
+      headerId: headerId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error moving header");
+    throw Error(err);
+  }
+
+}
+exports.moveTempHeader = moveTempHeader;
