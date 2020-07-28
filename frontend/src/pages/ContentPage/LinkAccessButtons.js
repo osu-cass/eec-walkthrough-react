@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, Fragment} from "react";
 import Button from "react-bootstrap/Button";
 import {getProfile} from "../../utilities/cookieAuth";
 
@@ -38,14 +38,14 @@ function LinkAccessButtons(props) {
   }
 
   return role >= 3 ? (
-    <div className="row">
+    <Fragment>
       <Button className="ml-3" size="sm" variant="info" onClick={() => updateAccess(0)}>
         Confirm Valid
       </Button>
       <Button className="mx-1" size="sm" variant="danger" onClick={() => updateAccess(1)}>
         Report Dead Link
       </Button>
-    </div>
+    </Fragment>
   ) : (
     null
   );
