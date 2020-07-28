@@ -50,7 +50,10 @@ function ChangeMode(props) {
       <div className='text-center mx-2'>
         <Button size="sm"
           variant="secondary"
-          onClick={() => toggleMode(0)}
+          onClick={() => {
+            toggleMode(0);
+            window.location.reload();
+          }}
         >
           <i
             className='fas fa-arrow-down text-white mr-2'
