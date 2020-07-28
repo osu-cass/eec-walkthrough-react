@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 26, 2020 at 08:48 PM
+-- Generation Time: Jul 28, 2020 at 12:09 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -436,7 +436,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (1350, 93, 0, 0, 7, 'Regular, scheduled boiler tunes. Typically every 6 to 12 months.', '', '', 0, '2020-07-02 20:12:22', 1),
 (1351, 93, 0, 0, 7, 'Low O2 controls', '', '', 0, '2020-07-02 20:12:22', 1),
 (1361, 97, 0, 0, 17, 'An OSU EEC Data Collection Sheet in Microsoft Excel Format', 'https://drive.google.com/file/d/1mMRMAUYKDCpE5bQmX-KqajjAOwXuEzaL/view?usp=sharing', 'Boiler Data Collection Sheet', 0, '2020-07-02 20:46:30', 1),
-(1371, 98, 0, 0, 21, 'A link to the U.S.DOE\'s MEASUR Analysis Tool Package (free download)', 'https://www.energy.gov/eere/amo/measur', 'U.S.DOE Steam System Analysis Tool', 1, '2020-07-08 20:17:15', 1),
+(1371, 98, 0, 0, 21, 'A link to the U.S.DOE\'s MEASUR Analysis Tool Package (free download)', 'https://www.energy.gov/eere/amo/measur', 'U.S.DOE Steam System Analysis Tool', 1, '2020-07-28 05:03:10', 1),
 (1372, 98, 0, 0, 21, 'An OSU EEC Analysis Tool in Microsoft Excel Format', 'https://drive.google.com/file/d/1HEL3S8xl50-B12ooH4wocqUznwJWAjzQ/view?usp=sharing', 'Combustion Efficiency Analysis Tool (CEAT)', 0, '2020-07-02 21:18:17', 1),
 (1405, 94, 0, 0, 20, '', 'add later', 'Boiler Combustion Efficiency with Stack Temp and O2 (add later)', 0, '2020-07-02 21:55:22', 0),
 (1406, 94, 0, 0, 20, '', 'add later', 'Abbreviated Steam Table (add later)', 0, '2020-07-02 21:55:22', 0),
@@ -490,7 +490,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (1878, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, '2020-07-03 00:28:39', 1),
 (1897, 100, 0, 0, 24, 'See steam tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-07-03 03:01:04', 1),
 (1898, 100, 0, 0, 17, 'United Nations Industrial Development Organization Document', 'https://www.unido.org/sites/default/files/2017-11/SSO-Manual-Print-FINAL-20161109-One-Page-V2.pdf', 'Manual for Industrial Steam Systems Assessment and Optimization', 1, '2020-07-03 03:01:04', 1),
-(1899, 100, 0, 0, 17, 'CleaverBrooks Document', 'http://cleaverbrooks.com/reference-center/insights/Boiler%20Efficiency%20Guide.pdf', 'Boiler Efficiency Guide', 1, '2020-07-03 03:01:04', 1),
+(1899, 100, 0, 0, 17, 'CleaverBrooks Document', 'http://cleaverbrooks.com/reference-center/insights/Boiler%20Efficiency%20Guide.pdf', 'Boiler Efficiency Guide', 1, '2020-07-28 05:08:05', 1),
 (1900, 100, 0, 0, 25, 'Pacific NW Boiler Vendor', 'https://coleindust.com/', 'Cole Industrial', 1, '2020-07-03 03:01:04', 1),
 (1901, 100, 0, 0, 25, 'Pacific NW Boiler Vendor', 'https://www.nationwideboiler.com/pacific-combustion-engineering.html', 'Pacific Combustion Engineering', 1, '2020-07-03 03:01:04', 1),
 (1902, 100, 0, 0, 25, 'Boiler Manufacturer', 'http://cleaverbrooks.com/', 'CleaverBrooks', 1, '2020-07-03 03:01:04', 1),
@@ -844,17 +844,17 @@ CREATE TABLE `Temp_Cards` (
 --
 
 INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
-(47, 0, 'Engines', 0, 42, '2020-06-30 21:10:53'),
-(59, 1, 'Strange AC Units', 0, 51, '2020-06-23 09:10:21'),
-(66, 10, 'Facilisis volutpat est velit egestas.', 0, 42, '2020-07-14 11:04:54'),
-(77, 0, 'Improve Compressor Efficiency', 0, 58, '2020-07-14 18:58:25'),
-(80, 0, 'New Card', 0, 42, '2020-07-14 07:42:37'),
-(100, 0, 'Off Site Resource Links', 0, 51, '2020-07-03 17:55:16'),
-(101, 0, 'Improve Boiler Combustion Efficiency ', 0, 58, '2020-07-03 17:28:05'),
-(105, 0, 'Improve the Condensate System', 0, 58, '2020-07-10 18:54:00'),
-(106, 0, 'Reduce Heat Loss', 0, 51, '2020-07-03 17:31:09'),
-(120, 0, 'Power Quality', 0, 58, '2020-07-10 18:52:52'),
-(128, 10, 'eoowerwerwer', 0, 42, '2020-07-07 21:33:22');
+(47, 0, 'Engines', 80, 42, '2020-06-30 21:10:53'),
+(59, 1, 'Strange AC Units', 59, 51, '2020-06-23 09:10:21'),
+(66, 10, 'Facilisis volutpat est velit egestas.', 66, 42, '2020-07-14 11:04:54'),
+(77, 0, 'Improve Compressor Efficiency', 77, 58, '2020-07-14 18:58:25'),
+(80, 0, 'New Card', 47, 42, '2020-07-14 07:42:37'),
+(100, 0, 'Off Site Resource Links', 100, 51, '2020-07-03 17:55:16'),
+(101, 0, 'Improve Boiler Combustion Efficiency ', 101, 58, '2020-07-03 17:28:05'),
+(105, 0, 'Improve the Condensate System', 105, 58, '2020-07-10 18:54:00'),
+(106, 0, 'Reduce Heat Loss', 106, 51, '2020-07-03 17:31:09'),
+(120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52'),
+(128, 10, 'eoowerwerwer', 128, 42, '2020-07-07 21:33:22');
 
 -- --------------------------------------------------------
 
@@ -876,7 +876,7 @@ CREATE TABLE `Temp_Headers` (
 --
 
 INSERT INTO `Temp_Headers` (`tempHeaderId`, `tempTitle`, `tempInternal`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
-(32, 'Boilers and Steam Opportunities to Consider', 0, 0, 58, '2020-07-14 18:53:33');
+(32, 'Boilers and Steam Opportunities to Consider', 0, 32, 58, '2020-07-14 18:53:33');
 
 -- --------------------------------------------------------
 
