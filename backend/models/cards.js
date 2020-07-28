@@ -223,6 +223,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
     }
 
     const approved = results[0][0].approved;
+    const orderIndex = results[0][0].orderIndex;
 
     // make sure all of the icons being used on this card are valid
     sql = "SELECT iconType " +
@@ -263,9 +264,9 @@ async function updateCard(cardId, cardType, title, items, userId) {
     } else {
 
       sql = "INSERT INTO Temp_Cards (tempCardId, tempCardType, " +
-      "tempTitle, tempUserId) " +
-      "VALUES (?, ?, ?, ?);";
-      results = await pool.query(sql, [cardId, cardType, title, userId]);
+      "tempTitle, tempUserId, tempOrderIndex) " +
+      "VALUES (?, ?, ?, ?, ?);";
+      results = await pool.query(sql, [cardId, cardType, title, userId, orderIndex]);
 
     }
 

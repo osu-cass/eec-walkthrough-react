@@ -313,6 +313,7 @@ function ConstructCardModal(props) {
           .slice(0, 19)
           .replace("T", " "),
         orderIndex: obj.insertId,
+        tempOrderIndex: null,
         tempCardId: null,
         tempCardType: null,
         tempCreated: null,
@@ -416,6 +417,7 @@ function ConstructCardModal(props) {
           userId: props.card.userId,
           created: props.card.created,
           orderIndex: props.card.orderIndex,
+          tempOrderIndex: props.card.orderIndex,
           tempCardId: props.card.cardId,
           tempCardType: newCardFormat,
           tempCreated: new Date().toISOString()
@@ -438,6 +440,7 @@ function ConstructCardModal(props) {
             .slice(0, 19)
             .replace("T", " "),
           orderIndex: props.card.orderIndex,
+          tempOrderIndex: props.card.tempOrderIndex,
           tempCardId: props.card.tempCardId,
           tempCardType: props.card.tempCardType,
           tempCreated: props.card.tempCreated,
