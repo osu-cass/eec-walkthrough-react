@@ -498,59 +498,142 @@ async function moveCard(cardId, direction) {
 
     const headerId = results[0][0].headerId;
 
-    // get all of the cards under the current header
+    // get all of the cards and temp cards under the current header
     sql = "SELECT * " +
     "FROM Cards " +
+    "LEFT JOIN Temp_Cards " +
+    "ON cardId = tempCardId " +
     "WHERE headerId = ? " +
-    "AND approved = true " +
     "ORDER BY orderIndex ASC, cardId ASC";
     results = await pool.query(sql, headerId);
 
-    const cards = results[0];
-    let cardIndex = -1;
-    let otherCardIndex = -1;
+    // create an array with all of the cards
+    // each card has an id, type (normal / temp), and an order index
+    const cardOrderArray = [];
+    for (let i = 0; i < results[0].length; i++) {
+      if (results[0][i].tempCardId > 0) {
 
-    // find the index of this card
-    for (let i = 0; i < cards.length; i++) {
-      if (cards[i].cardId === parseInt(cardId, 10)) {
-        cardIndex = i;
-        break;
+        const cardObj = {
+          id: results[0][i].cardId,
+          type: "norm",
+          order: results[0][i].orderIndex,
+          show: "show"
+        };
+
+        const tempCardObj = {
+          id: results[0][i].tempCardId,
+          type: "temp",
+          order: results[0][i].tempOrderIndex,
+          show: "hidden"
+        };
+
+        cardOrderArray.push(cardObj);
+        cardOrderArray.push(tempCardObj);
+
+      } else {
+        const cardObj = {
+          id: results[0][i].cardId,
+          type: "norm",
+          order: results[0][i].orderIndex,
+          show: "show"
+        };
+        cardOrderArray.push(cardObj);
       }
     }
 
-    // if we cannot find the index, then we can't find the card
-    if (cardIndex === -1) {
-      return {error: 1};
-    }
+    // sort the array of cards by order index
+    cardOrderArray.sort((a, b) => a.order - b.order)
 
-    // check if we are trying to move up or down and make sure card exists
-    // in the specific direction
-    if (direction) {
-      if (cardIndex !== 0) {
-        otherCardIndex = cardIndex - 1;
+    // find and move the specified card
+    for (let i = 0; i < cardOrderArray.length; i++) {
+      if (parseInt(cardOrderArray[i].id, 10) === parseInt(cardId, 10) && cardOrderArray[i].type === "norm") {
+        if (direction) {
+          // try to move up and skip hidden cards
+          for (let j = i; j > 0; j--) {
+            let tempObj = cardOrderArray[j - 1];
+            cardOrderArray[j - 1] = cardOrderArray[j];
+            cardOrderArray[j] = tempObj;
+            if (cardOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        } else {
+          // try to move down and skip hidden cards
+          for (let j = i; j < cardOrderArray.length - 1; j++) {
+            let tempObj = cardOrderArray[j + 1];
+            cardOrderArray[j + 1] = cardOrderArray[j];
+            cardOrderArray[j] = tempObj;
+            if (cardOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        }
       }
-    } else {
-      if (cardIndex + 1 < cards.length) {
-        otherCardIndex = cardIndex + 1;
+    }
+
+    // apply new order values to the cards and split it into normal and temp cards
+    const normArray = [];
+    const tempArray = [];
+    for (let i = 0; i < cardOrderArray.length; i++) {
+      if (cardOrderArray[i].type === "temp") {
+        tempArray.push(parseInt(cardOrderArray[i].id, 10));
+        tempArray.push(i + 1);
+      } else {
+        normArray.push(parseInt(cardOrderArray[i].id, 10));
+        normArray.push(i + 1);
       }
     }
 
-    // if we cannot find the other index, then we can't find the other card
-    if (otherCardIndex === -1) {
-      return {error: 2};
+    // push the ids to the end once more to match with the future query
+    for (let i = 0; i < cardOrderArray.length; i++) {
+      if (cardOrderArray[i].type === "temp") {
+        tempArray.push(cardOrderArray[i].id);
+      } else {
+        normArray.push(cardOrderArray[i].id);
+      }
     }
 
-    // swap the cards order indexes
-    sql = "UPDATE Cards " +
-    "SET orderIndex = IF(cardId=?, ?, ?) " +
-    "WHERE cardId IN (?, ?);";
-    const sqlArray = [];
-    sqlArray.push(cardId);
-    sqlArray.push(cards[otherCardIndex].orderIndex);
-    sqlArray.push(cards[cardIndex].orderIndex);
-    sqlArray.push(cardId);
-    sqlArray.push(cards[otherCardIndex].cardId);
-    results = await pool.query(sql, sqlArray);
+    // update the published cards
+    if (normArray.length) {
+      sql = "UPDATE Cards " +
+      "SET orderIndex = CASE ";
+      for (let i = 0; i < normArray.length/3; i++) {
+        sql += "WHEN cardId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE cardId IN (";
+      for (let i = 0; i < normArray.length/3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, normArray);
+    }
+
+    // update the unpublished cards
+    if (tempArray.length) {
+      sql = "UPDATE Temp_Cards " +
+      "SET tempOrderIndex = CASE ";
+      for (let i = 0; i < tempArray.length/3; i++) {
+        sql += "WHEN tempCardId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE tempCardId IN (";
+      for (let i = 0; i < tempArray.length/3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, tempArray);
+    }
+
+    // Get all of the modified cards for testing
+    // sql = "SELECT * " +
+    // "FROM Cards " +
+    // "LEFT JOIN Temp_Cards " +
+    // "ON cardId = tempCardId " +
+    // "WHERE headerId = ? " +
+    // "ORDER BY orderIndex ASC, cardId ASC";
+    // results = await pool.query(sql, headerId);
+    // console.log("results[0]", results[0]);
 
     const finalResults = {
       cardId: cardId
@@ -584,7 +667,7 @@ async function moveTempCard(cardId, direction) {
 
     const headerId = results[0][0].headerId;
 
-    let temp = false;
+    let cardType = "norm";
 
     // see if this card is already approved
     if (results[0][0].approved) {
@@ -594,7 +677,7 @@ async function moveTempCard(cardId, direction) {
       "FROM Temp_Cards " +
       "WHERE tempCardId = ? ";
       results = await pool.query(sql, cardId);
-      temp = true;
+      cardType = "temp";
 
       if (!results[0].length) {
         return {error: 1};
@@ -646,14 +729,14 @@ async function moveTempCard(cardId, direction) {
     }
 
     // sort the array of cards by order index
-    cardOrderArray.sort((a, b) => a.order - b.order)
+    cardOrderArray.sort((a, b) => a.order - b.order);
 
-    // find and move the specified temp card
+    // find and move the specified card
     for (let i = 0; i < cardOrderArray.length; i++) {
-      if (parseInt(cardOrderArray[i].id, 10) === parseInt(cardId, 10) && cardOrderArray[i].type === "temp") {
+      if (parseInt(cardOrderArray[i].id, 10) === parseInt(cardId, 10) && cardOrderArray[i].type === cardType) {
         if (direction) {
           // try to move up and skip hidden cards
-          for (let j = i; j > 0; j++) {
+          for (let j = i; j > 0; j--) {
             let tempObj = cardOrderArray[j - 1];
             cardOrderArray[j - 1] = cardOrderArray[j];
             cardOrderArray[j] = tempObj;
@@ -700,41 +783,35 @@ async function moveTempCard(cardId, direction) {
     }
 
     // update the published cards
-    sql = "UPDATE Cards " +
-    "SET orderIndex = CASE ";
-    for (let i = 0; i < normArray.length/3; i++) {
-      sql += "WHEN cardId = ? THEN ? ";
+    if (normArray.length) {
+      sql = "UPDATE Cards " +
+      "SET orderIndex = CASE ";
+      for (let i = 0; i < normArray.length/3; i++) {
+        sql += "WHEN cardId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE cardId IN (";
+      for (let i = 0; i < normArray.length/3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, normArray);
     }
-    sql += "ELSE 0 END WHERE cardId IN (";
-    for (let i = 0; i < normArray.length/3; i++) {
-      sql += "?,";
-    }
-    sql = sql.replace(/.$/, ");");
-    results = await pool.query(sql, normArray);
 
 
     // update the unpublished cards
-    sql = "UPDATE Temp_Cards " +
-    "SET tempOrderIndex = CASE ";
-    for (let i = 0; i < tempArray.length/3; i++) {
-      sql += "WHEN tempCardId = ? THEN ? ";
+    if (tempArray.length) {
+      sql = "UPDATE Temp_Cards " +
+      "SET tempOrderIndex = CASE ";
+      for (let i = 0; i < tempArray.length/3; i++) {
+        sql += "WHEN tempCardId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE tempCardId IN (";
+      for (let i = 0; i < tempArray.length/3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, tempArray);
     }
-    sql += "ELSE 0 END WHERE tempCardId IN (";
-    for (let i = 0; i < tempArray.length/3; i++) {
-      sql += "?,";
-    }
-    sql = sql.replace(/.$/, ");");
-    results = await pool.query(sql, tempArray);
-
-    // Get all of the modified cards for testing
-    sql = "SELECT * " +
-    "FROM Cards " +
-    "LEFT JOIN Temp_Cards " +
-    "ON cardId = tempCardId " +
-    "WHERE headerId = ? " +
-    "ORDER BY orderIndex ASC, cardId ASC";
-    results = await pool.query(sql, headerId);
-    console.log("results[0]", results[0]);
 
     const finalResults = {
       cardId: cardId
