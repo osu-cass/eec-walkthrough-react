@@ -145,10 +145,12 @@ function BulletPoint (props) {
                 </a>
               </div>
               {(props.contentMode === 1 || props.contentMode === 3) && (props.mode !== 0 || props.publicMode === 0) && !props.reviewing ? (
-                <LinkAccessButtons
-                  itemId={props.id}
-                  handleTimestamp={(m) => props.handleTimestamp(m)}
-                />
+                <div className="row">
+                  <LinkAccessButtons
+                    itemId={props.id}
+                    handleTimestamp={(m) => props.handleTimestamp(m)}
+                  />
+                </div>
               ) : (
                 null
               )}

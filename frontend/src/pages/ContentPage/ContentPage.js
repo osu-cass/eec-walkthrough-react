@@ -38,6 +38,7 @@ function ContentPage(props) {
     if (mode === 0) {
       fetchData();
     }
+    // eslint-disable-next-line
   }, [mode]);
 
   // get new page data if the page ID has changed

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import LinkSearchForm from "./LinkSearchForm";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {formatTime} from "../../utilities/formatTime";
+import LinkAccessButtons from "../ContentPage/LinkAccessButtons";
 import EditLinks from "./EditLinks";
 import "./ManageLinks.css";
 
@@ -16,6 +17,18 @@ function ManageLinks() {
     fetchLinks();
     // eslint-disable-next-line
   }, [filter]);
+
+  // update the timestamp if we change it
+  function handleTimestamp(timestamp, itemId) {
+    const copy = [...links];
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].itemId === itemId) {
+        copy[i].time = timestamp;
+        break;
+      }
+    }
+    setLinks(copy);
+  }
 
   // refresh link data when a link is edited
   function handleUpdate() {
@@ -70,13 +83,13 @@ function ManageLinks() {
               <th className="pl-4" style={{width: "10%"}}>
                 Confirmed Valid
               </th>
-              <th style={{width: "30%"}}>
+              <th style={{width: "25%"}}>
                 Title
               </th>
-              <th style={{width: "30%"}}>
+              <th style={{width: "35%"}}>
                 URL
               </th>
-              <th style={{width: "25%"}}>
+              <th style={{width: "30%"}}>
                 Edit
               </th>
             </tr>
@@ -98,7 +111,13 @@ function ManageLinks() {
                   </a>
                 </td>
                 <td className="link-data align-top">
-                  <EditLinks link={link} handleUpdate={(link) => handleUpdate(link)} />
+                  <div className = "row">
+                    <LinkAccessButtons
+                      itemId={link.itemId}
+                      handleTimestamp={(m) => handleTimestamp(m, link.itemId)}
+                    />
+                    <EditLinks link={link} handleUpdate={(timestamp) => handleUpdate(timestamp)} />
+                  </div>
                 </td>
               </tr>
             )}

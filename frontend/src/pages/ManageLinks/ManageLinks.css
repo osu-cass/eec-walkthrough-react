@@ -12,3 +12,8 @@
 .valid-external-link {
   color: #28a428;
 }
+
+.link-table {
+  table-layout: fixed;
+  word-wrap: break-word;
+}
