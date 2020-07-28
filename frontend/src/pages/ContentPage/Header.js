@@ -571,6 +571,15 @@ function Header(props) {
     }
   }
 
+  // gets an unfiltered card by its ID
+  function getUnfilteredCard(cardId) {
+    for (let i = 0; i < unfilteredCards.length; i++) {
+      if (unfilteredCards[i].cardId === cardId) {
+        return unfilteredCards[i];
+      }
+    }
+  }
+
   return (!props.header.approved && props.mode !== 1 && (props.mode !== 2 || props.publishedMode !== 0)) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
@@ -664,7 +673,7 @@ function Header(props) {
               <Card
                 key={card.cardId}
                 headerId={props.header.headerId}
-                unfilteredCard={unfilteredCards[i]}
+                unfilteredCard={getUnfilteredCard(card.cardId)}
                 card={card}
                 handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                 mode={props.mode}
@@ -753,7 +762,7 @@ function Header(props) {
               <Card
                 key={card.cardId}
                 headerId={props.header.headerId}
-                unfilteredCard={unfilteredCards[i]}
+                unfilteredCard={getUnfilteredCard(card.cardId)}
                 card={card}
                 handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                 mode={props.mode}
