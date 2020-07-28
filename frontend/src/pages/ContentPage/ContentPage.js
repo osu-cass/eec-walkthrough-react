@@ -78,7 +78,7 @@ function ContentPage(props) {
     if (results.ok) {
       obj = await results.json();
       setPageInfo(obj);
-      setHeaders(obj.headers);
+      setHeaders(headerSortOrder(obj.headers));
       console.log("Page Data:", obj);
     } else {
       if (results.status === 404) {
@@ -116,14 +116,14 @@ function ContentPage(props) {
       if (action === "create") {
 
         headerData.push(object);
-        setHeaders(headerData);
+        setHeaders(headerSortOrder(headerData));
 
       } else if (action === "update" || action === "publish" || action === "unpublish") {
 
         for (let i = 0; i < headerData.length; i++) {
           if (headerData[i].headerId === object.headerId) {
             headerData[i] = object;
-            setHeaders(headerData);
+            setHeaders(headerSortOrder(headerData));
           }
         }
 
@@ -132,7 +132,7 @@ function ContentPage(props) {
         for (let i = 0; i < headerData.length; i++) {
           if (headerData[i].headerId === object.headerId) {
             headerData.splice(i, 1);
-            setHeaders(headerData);
+            setHeaders(headerSortOrder(headerData));
           }
         }
 
@@ -142,10 +142,10 @@ function ContentPage(props) {
           if (headerData[i].headerId === object.headerId) {
             if (headerData[i].approved) {
               headerData[i] = object;
-              setHeaders(headerData);
+              setHeaders(headerSortOrder(headerData));
             } else {
               headerData.splice(i, 1);
-              setHeaders(headerData);
+              setHeaders(headerSortOrder(headerData));
             }
           }
         }
@@ -169,7 +169,7 @@ function ContentPage(props) {
       if (action === "create") {
 
         headerData[headerIndex].cards.push(object);
-        setHeaders(headerData);
+        setHeaders(headerSortOrder(headerData));
         setCardState(cardState + 1);
 
       } else if (action === "update" || action === "publish" || action === "unpublish") {
@@ -177,7 +177,7 @@ function ContentPage(props) {
         for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
           if (headerData[headerIndex].cards[i].cardId === object.cardId) {
             headerData[headerIndex].cards[i] = object;
-            setHeaders(headerData);
+            setHeaders(headerSortOrder(headerData));
             setCardState(cardState + 1);
           }
         }
@@ -187,7 +187,7 @@ function ContentPage(props) {
         for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
           if (headerData[headerIndex].cards[i].cardId === object.cardId) {
               headerData[headerIndex].cards.splice(i, 1);
-              setHeaders(headerData);
+              setHeaders(headerSortOrder(headerData));
               setCardState(cardState + 1);
           }
         }
@@ -198,11 +198,11 @@ function ContentPage(props) {
           if (headerData[headerIndex].cards[i].cardId === object.cardId) {
             if (headerData[headerIndex].cards[i].approved) {
               headerData[headerIndex].cards[i] = object;
-              setHeaders(headerData);
+              setHeaders(headerSortOrder(headerData));
               setCardState(cardState + 1);
             } else {
               headerData[headerIndex].cards.splice(i, 1);
-              setHeaders(headerData);
+              setHeaders(headerSortOrder(headerData));
               setCardState(cardState + 1);
             }
           }
@@ -223,7 +223,7 @@ function ContentPage(props) {
               for (let k = 0; k < copy[i].cards[j].items.length; k++) {
                 if (copy[i].cards[j].items[k].itemId === itemId) {
                   copy[i].cards[j].items[k].created = message;
-                  setHeaders(copy);
+                  setHeaders(headerSortOrder(copy));
                   return;
                 }
               }
@@ -231,7 +231,7 @@ function ContentPage(props) {
               for (let k = 0; k < copy[i].cards[j].tempItems.length; k++) {
                 if (copy[i].cards[j].tempItems[k].itemId === itemId) {
                   copy[i].cards[j].tempItems[k].created = message;
-                  setHeaders(copy);
+                  setHeaders(headerSortOrder(copy));
                   return;
                 }
               }
@@ -247,7 +247,7 @@ function ContentPage(props) {
   function headerSortOrder(headers) {
     const copy = [...headers];
     for(let i = 0; i < copy.length; i++) {
-      if ((props.mode === 1 && copy[i].edited && copy[i].tempHeaderId) || (props.mode === 2 && props.publishedMode === 0 && copy[i].edited && copy[i].tempHeaderId)) {
+      if ((mode === 1 && copy[i].tempHeaderId) || (mode === 2 && publishedMode === 0 && copy[i].tempHeaderId)) {
         copy[i].realOrder = copy[i].tempOrderIndex;
       } else {
         copy[i].realOrder = copy[i].orderIndex;

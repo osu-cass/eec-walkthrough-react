@@ -121,6 +121,11 @@ function Header(props) {
     // eslint-disable-next-line
   }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode, checkedCards, props.publishedMode]);
 
+  useEffect(() => {
+    console.log("BOOP");
+  }, [props.orderIndex, props.tempOrderIndex]);
+
+
   // Changes the viewing state of an icon
   function updateIcon(iconId, state) {
     const allIcons = [...filterShow];
@@ -623,7 +628,6 @@ function Header(props) {
                       header={true}
                       objectId={props.header.headerId}
                       handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                      top={props.top}
                       edited={!props.header.approved || props.header.tempHeaderId ? true : false}
                       approved={props.header.approved}
                       publishedMode={props.publishedMode}
@@ -633,7 +637,6 @@ function Header(props) {
                       header={true}
                       objectId={props.header.headerId}
                       handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                      bottom={props.bottom}
                       edited={!props.header.approved || props.header.tempHeaderId ? true : false}
                       approved={props.header.approved}
                       publishedMode={props.publishedMode}
@@ -669,6 +672,7 @@ function Header(props) {
           </div>
 
           <div id="accordion" role="tablist" aria-multiselectable="true">
+          <span>#1</span>
             {cards.map((card, i) =>
               <Card
                 key={card.cardId}
@@ -682,8 +686,6 @@ function Header(props) {
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
                 role={props.role}
-                top={i === 0 ? (true) : (false)}
-                bottom={i >= cards.length - 1 ? (true) : (false)}
                 setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
                 publishedMode={props.publishedMode}
               />
@@ -716,7 +718,6 @@ function Header(props) {
                       header={true}
                       objectId={props.header.headerId}
                       handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                      top={props.top}
                       edited={!props.header.approved || props.header.tempHeaderId ? true : false}
                       approved={props.header.approved}
                       publishedMode={props.publishedMode}
@@ -726,7 +727,6 @@ function Header(props) {
                       header={true}
                       objectId={props.header.headerId}
                       handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                      bottom={props.bottom}
                       edited={!props.header.approved || props.header.tempHeaderId ? true : false}
                       approved={props.header.approved}
                       publishedMode={props.publishedMode}
@@ -758,6 +758,7 @@ function Header(props) {
           </div>
 
           <div id="accordion" role="tablist" aria-multiselectable="true">
+            <span>#2</span>
             {cards.map((card, i) =>
               <Card
                 key={card.cardId}
