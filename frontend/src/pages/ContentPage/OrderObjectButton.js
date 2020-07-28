@@ -32,8 +32,6 @@ OrderObjectButton.propTypes = {
   header: PropTypes.bool,
   objectId: PropTypes.number,
   handleMove: PropTypes.func,
-  top: PropTypes.bool,
-  bottom: PropTypes.bool,
   edited: PropTypes.bool,
   approved: PropTypes.number,
   publishedMode: PropTypes.number

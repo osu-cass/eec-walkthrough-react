@@ -147,7 +147,6 @@ function Card(props) {
                   header={false}
                   objectId={props.card.cardId}
                   handleMove={(id, up, mode) => props.handleMoveCard(id, up, mode)}
-                  top={props.top}
                   edited={props.card.edited ? true : false}
                   approved={props.card.approved}
                   publishedMode={props.publishedMode}
@@ -157,7 +156,6 @@ function Card(props) {
                   header={false}
                   objectId={props.card.cardId}
                   handleMove={(id, up, mode) => props.handleMoveCard(id, up, mode)}
-                  bottom={props.bottom}
                   edited={props.card.edited ? true : false}
                   approved={props.card.approved}
                   publishedMode={props.publishedMode}
@@ -223,8 +221,6 @@ Card.propTypes = {
   publicMode: PropTypes.number,
   publishedMode: PropTypes.number,
   iconSet: PropTypes.any,
-  top: PropTypes.bool,
-  bottom: PropTypes.bool,
   handleTimestamp: PropTypes.func,
   cardState: PropTypes.number,
   role: PropTypes.number,
