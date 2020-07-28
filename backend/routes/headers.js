@@ -22,7 +22,8 @@ const {
   updateHeader,
   publishHeader,
   unpublishHeader,
-  moveHeader
+  moveHeader,
+  moveTempHeader
 } = require("../models/headers");
 
 
@@ -327,7 +328,7 @@ app.patch("/:headerId/move/:direction/:mode", requireAuth, patchHeaderMove.valid
     }
 
     // make sure the user is allowed to perform this action
-    if (mode) {
+    if (parseInt(mode, 10)) {
       if (!await roleCheck(4, req.auth.userId)) {
         res.status(401).send({error: "Unauthorized user attempting to move header."});
         return;
