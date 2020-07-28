@@ -174,6 +174,7 @@ async function updateHeader(headerId, title, userId, internal) {
     }
 
     const approved = results[0][0].approved;
+    const orderIndex = results[0][0].orderIndex;
 
     // See if we already have an unpublished header.
     // Either create a new one or update the existing one.
@@ -205,12 +206,13 @@ async function updateHeader(headerId, title, userId, internal) {
     } else {
 
       sql = "INSERT INTO Temp_Headers (tempHeaderId, " +
-      "tempTitle, tempUserId, tempInternal) " +
-      "VALUES (?, ?, ?, ?);";
+      "tempTitle, tempUserId, tempInternal, tempOrderIndex) " +
+      "VALUES (?, ?, ?, ?, ?);";
       sqlArray.push(headerId);
       sqlArray.push(title);
       sqlArray.push(userId);
       sqlArray.push(internal);
+      sqlArray.push(orderIndex);
 
     }
 
