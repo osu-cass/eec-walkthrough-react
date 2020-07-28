@@ -121,11 +121,6 @@ function Header(props) {
     // eslint-disable-next-line
   }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode, checkedCards, props.publishedMode]);
 
-  useEffect(() => {
-    console.log("BOOP");
-  }, [props.orderIndex, props.tempOrderIndex]);
-
-
   // Changes the viewing state of an icon
   function updateIcon(iconId, state) {
     const allIcons = [...filterShow];
@@ -712,5 +707,6 @@ Header.propTypes = {
   top: PropTypes.bool,
   bottom: PropTypes.bool,
   cardState: PropTypes.number,
-  handleTimestamp: PropTypes.func
+  handleTimestamp: PropTypes.func,
+  updateCards: PropTypes.bool
 };
