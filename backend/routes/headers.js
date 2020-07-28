@@ -340,7 +340,12 @@ app.patch("/:headerId/move/:direction/:mode", requireAuth, patchHeaderMove.valid
     }
 
     // update a header
-    const results = await moveHeader(headerId, parseInt(direction, 10));
+    let results;
+    if (parseInt(mode, 10)) {
+      results = await moveHeader(headerId, parseInt(direction, 10));
+    } else {
+      results = await moveTempHeader(headerId, parseInt(direction, 10));
+    }
 
     if (results.headerId >= 0) {
       res.status(200).send(results);
