@@ -243,59 +243,136 @@ function ContentPage(props) {
 
   }
 
+  // sort headers based on their edited status and their order index
+  function headerSortOrder(headers) {
+    const copy = [...headers];
+    for(let i = 0; i < copy.length; i++) {
+      if ((props.mode === 1 && copy[i].edited && copy[i].tempHeaderId) || (props.mode === 2 && props.publishedMode === 0 && copy[i].edited && copy[i].tempHeaderId)) {
+        copy[i].realOrder = copy[i].tempOrderIndex;
+      } else {
+        copy[i].realOrder = copy[i].orderIndex;
+      }
+      copy.sort((a, b) => a.realOrder - b.realOrder);
+    }
+    return copy;
+  }
+
   // Moves the specified header up or down one in relation to other headers
   async function handleMoveHeader(headerId, up, mode) {
     const copy = [...headers];
-    let headerIndex = -1;
-    let moved = false;
 
-    // Create a list of only approved headers
-    const approvedHeaders = [];
+    let headerType = "temp";
+    if (mode === 1) {
+      headerType = "norm";
+    }
+
+    // divide the normal and edited header in the same array
+    const headerOrderArray = [];
     for (let i = 0; i < copy.length; i++) {
-      if (copy[i].approved) {
-        const newHeader = copy[i];
-        newHeader.trueIndex = i;
-        approvedHeaders.push(newHeader);
+      if (copy[i].tempHeaderId && copy[i].approved) {
+
+        const headerObj = {
+          id: copy[i].headerId,
+          type: "norm",
+          order: copy[i].orderIndex,
+          solo: false
+        };
+
+        const tempHeaderObj = {
+          id: copy[i].tempHeaderId,
+          type: "temp",
+          order: copy[i].tempOrderIndex,
+          solo: false
+        };
+
+        if (mode) {
+          headerObj.show = "show";
+          tempHeaderObj.show = "hidden";
+        } else {
+          headerObj.show = "hidden";
+          tempHeaderObj.show = "show";  
+        }
+
+        headerOrderArray.push(headerObj);
+        headerOrderArray.push(tempHeaderObj);
+
+      } else if (copy[i].approved) {
+        const headerObj = {
+          id: copy[i].headerId,
+          type: "norm",
+          order: copy[i].orderIndex,
+          show: "show",
+          solo: false
+        };
+        headerOrderArray.push(headerObj);
+      } else {
+        const tempHeaderObj = {
+          id: copy[i].headerId,
+          type: "temp",
+          order: copy[i].orderIndex,
+          solo: true
+        };
+        if (mode) {
+          tempHeaderObj.show = "hidden";
+        } else {
+          tempHeaderObj.show = "show";
+        }
+        headerOrderArray.push(tempHeaderObj);
       }
     }
 
-    // Find the index of this header
-    for (let i = 0; i < approvedHeaders.length; i++) {
-      if (approvedHeaders[i].headerId === headerId) {
-        headerIndex = i;
-        break;
+    // sort the array of headers by order index
+    headerOrderArray.sort((a, b) => a.order - b.order);
+
+    // find and move the specified header
+    let moved = false;
+    for (let i = 0; i < headerOrderArray.length; i++) {
+      if (parseInt(headerOrderArray[i].id, 10) === parseInt(headerId, 10) && headerOrderArray[i].type === headerType) {
+        if (up) {
+          // try to move up and skip hidden headers
+          for (let j = i; j > 0; j--) {
+            moved = true;
+            let tempObj = headerOrderArray[j - 1];
+            headerOrderArray[j - 1] = headerOrderArray[j];
+            headerOrderArray[j] = tempObj;
+            if (headerOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        } else {
+          // try to move down and skip hidden headers
+          for (let j = i; j < headerOrderArray.length - 1; j++) {
+            moved = true;
+            let tempObj = headerOrderArray[j + 1];
+            headerOrderArray[j + 1] = headerOrderArray[j];
+            headerOrderArray[j] = tempObj;
+            if (headerOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        }
       }
     }
 
-    // If we cannot find the index, then return
-    if (headerIndex === -1) {
-      return;
+    // update the real headers to reflect the new order.
+    for (let i = 0; i < copy.length; i++) {
+      for (let j = 0; j < headerOrderArray.length; j++) {
+        if (copy[i].headerId === headerOrderArray[j].id && headerOrderArray[j].type === "norm") {
+          copy[i].orderIndex = j + 1;
+        }
+        if (copy[i].tempHeaderId === headerOrderArray[j].id && headerOrderArray[j].type === "temp") {
+          copy[i].tempOrderIndex = j + 1;
+        }
+        if (copy[i].headerId === headerOrderArray[j].id && headerOrderArray[j].solo && headerOrderArray[j].type === "temp") {
+          copy[i].orderIndex = j + 1;
+        }
+      }
     }
 
-    // Check if we are trying to move up or down
-    if (up) {
-      // if this is not the top header of this page, swap it with the header above it
-      if (headerIndex > 0) {
-        const trueIndex = approvedHeaders[headerIndex].trueIndex;
-        const otherTrueIndex = approvedHeaders[headerIndex - 1].trueIndex;
-        const tempHeader = copy[trueIndex];
-        copy[trueIndex] = copy[otherTrueIndex];
-        copy[otherTrueIndex] = tempHeader;
-        setHeaders(copy);
-        moved = true;
-      }
-    } else {
-      // if this is not the bottom header of this page, swap it with the header below it
-      if (headerIndex + 1 < approvedHeaders.length) {
-        const trueIndex = approvedHeaders[headerIndex].trueIndex;
-        const otherTrueIndex = approvedHeaders[headerIndex + 1].trueIndex;
-        const tempHeader = copy[trueIndex];
-        copy[trueIndex] = copy[otherTrueIndex];
-        copy[otherTrueIndex] = tempHeader;
-        setHeaders(copy);
-        moved = true;
-      }
-    }
+    // update the header array
+    setHeaders(headerSortOrder(copy));
 
     let direction = 0;
     if (up) {

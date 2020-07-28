@@ -15,35 +15,7 @@ function ChangeMode(props) {
     props.onPageMode(modeValue);
   }
 
-  if (props.role === 3) {
-    return (
-      <div className='text-center mx-2'>
-        {pageMode ? (
-          <Button size="sm"
-            variant="secondary"
-            onClick={() => toggleMode(0)}
-          >
-            <i
-              className='fas fa-wrench text-white mr-2'
-              style={{transform: "scale(1.5)"}}
-            />
-            <span className="text-white">Edit Mode</span>
-          </Button>
-        ) : (
-          <Button size="sm"
-            variant="secondary"
-            onClick={() => toggleMode(1)}
-          >
-            <i
-              className='fas fa-eye text-white mr-2'
-              style={{transform: "scale(1.5)"}}
-            />
-            <span className="text-white">View Mode</span>
-          </Button>
-        )}
-      </div>
-    );
-  } else if (props.role === 4 && pageMode === 0) {
+  if (props.role >= 3 && pageMode === 0) {
     return (
       <div className='text-center mx-2'>
         <Button size="sm"
@@ -58,7 +30,7 @@ function ChangeMode(props) {
         </Button>
       </div>
     );
-  } else if (props.role === 4 && pageMode === 1) {
+  } else if (props.role >= 3 && pageMode === 1) {
     return (
       <div className='text-center mx-2'>
         <Button size="sm"
@@ -73,7 +45,7 @@ function ChangeMode(props) {
         </Button>
       </div>
     );
-  } else if (props.role === 4 && pageMode === 2) {
+  } else if (props.role >= 3 && pageMode === 2) {
     return (
       <div className='text-center mx-2'>
         <Button size="sm"
