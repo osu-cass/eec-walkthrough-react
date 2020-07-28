@@ -33,6 +33,13 @@ function ContentPage(props) {
   const [pageState, setPageState] = useState(0);
   const {pageId} = useParams();
 
+  // if we switch off of move mode, refresh the page (temp bug fix)
+  useEffect(() => {
+    if (mode === 0) {
+      fetchData();
+    }
+  }, [mode]);
+
   // get new page data if the page ID has changed
   useEffect(() => {
     setUserId(getProfile().userId);
@@ -361,18 +368,23 @@ function ContentPage(props) {
       for (let j = 0; j < headerOrderArray.length; j++) {
         if (copy[i].headerId === headerOrderArray[j].id && headerOrderArray[j].type === "norm") {
           copy[i].orderIndex = j + 1;
-        }
-        if (copy[i].tempHeaderId === headerOrderArray[j].id && headerOrderArray[j].type === "temp") {
+          copy[i].updateCards = true;
+        } else if (copy[i].tempHeaderId === headerOrderArray[j].id && headerOrderArray[j].type === "temp") {
           copy[i].tempOrderIndex = j + 1;
-        }
-        if (copy[i].headerId === headerOrderArray[j].id && headerOrderArray[j].solo && headerOrderArray[j].type === "temp") {
+          copy[i].updateCards = true;
+        } else if (copy[i].headerId === headerOrderArray[j].id && headerOrderArray[j].solo && headerOrderArray[j].type === "temp") {
           copy[i].orderIndex = j + 1;
+          copy[i].updateCards = true;
         }
       }
     }
 
     // update the header array
-    setHeaders(headerSortOrder(copy));
+    if (mode === 1) {
+      setHeaders(headerSortOrder(copy));
+    } else {
+      fetchData();
+    }
 
     let direction = 0;
     if (up) {
