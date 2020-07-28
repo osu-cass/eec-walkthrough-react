@@ -37,7 +37,7 @@ function LinkAccessButtons(props) {
     }
   }
 
-  return role >= 3 ? (
+  return role >= 3 && props.mode !== 2 ? (
     <Fragment>
       <Button className="ml-3" size="sm" variant="info" onClick={() => updateAccess(0)}>
         Confirm Valid
@@ -55,5 +55,6 @@ export default LinkAccessButtons;
 
 LinkAccessButtons.propTypes = {
   itemId: PropTypes.number,
-  handleTimestamp: PropTypes.func
+  handleTimestamp: PropTypes.func,
+  mode: PropTypes.number
 };
