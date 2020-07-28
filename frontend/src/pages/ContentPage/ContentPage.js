@@ -33,14 +33,6 @@ function ContentPage(props) {
   const [pageState, setPageState] = useState(0);
   const {pageId} = useParams();
 
-  // if we switch off of move mode, refresh the page (temp bug fix)
-  useEffect(() => {
-    if (mode === 0) {
-      fetchData();
-    }
-    // eslint-disable-next-line
-  }, [mode]);
-
   // get new page data if the page ID has changed
   useEffect(() => {
     setUserId(getProfile().userId);
