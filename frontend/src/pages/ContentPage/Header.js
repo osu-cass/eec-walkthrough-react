@@ -1,5 +1,6 @@
 import React, {useEffect, useState, Fragment} from "react";
 import PropTypes from "prop-types";
+import {logout} from "../../utilities/cookieAuth";
 import EditHeader from "./EditHeader";
 import ReviewHeader from "./ReviewHeader";
 import FilterBar from "./FilterBar";
@@ -151,8 +152,8 @@ function Header(props) {
       if (props.publishedMode === 0) {
         markEdited();
       } else {
-        setCards(props.header.cards);
-        setUnfilteredCards(props.header.cards);
+        setCards(cardSortOrder(props.header.cards));
+        setUnfilteredCards(cardSortOrder(props.header.cards));
       }
       return;
     }
@@ -248,8 +249,22 @@ function Header(props) {
         allUnfilteredCards.push(fullCard);
       }
     }
-    setCards(allCards);
-    setUnfilteredCards(allUnfilteredCards);
+    setCards(cardSortOrder(allCards));
+    setUnfilteredCards(cardSortOrder(allUnfilteredCards));
+  }
+
+  // sort cards based on their edited status and their order index
+  function cardSortOrder(cards) {
+    const copy = [...cards];
+    for(let i = 0; i < copy.length; i++) {
+      if ((props.mode === 1 && copy[i].edited && copy[i].tempCardId) || (props.mode === 2 && props.publishedMode === 0 && copy[i].edited && copy[i].tempCardId)) {
+        copy[i].realOrder = copy[i].tempOrderIndex;
+      } else {
+        copy[i].realOrder = copy[i].orderIndex;
+      }
+      copy.sort((a, b) => a.realOrder - b.realOrder);
+    }
+    return copy;
   }
 
   // marks cards as edited when appropriate
@@ -307,8 +322,8 @@ function Header(props) {
         allUnfilteredCards.push(fullCard);
       }
     }
-    setCards(allCards);
-    setUnfilteredCards(allUnfilteredCards);
+    setCards(cardSortOrder(allCards));
+    setUnfilteredCards(cardSortOrder(allUnfilteredCards));
   }
 
   // returns true if the item is being filtered by the opportunity filter mode
@@ -402,6 +417,155 @@ function Header(props) {
             setCheckedCards(newCards);
             return;
           }
+        }
+      }
+    }
+  }
+
+  // Moves the specified card up or down one in relation to other cards
+  async function handleMoveCard(cardId, up, mode) {
+    const copy = [...cards];
+
+    let cardType = "temp";
+    if (mode === 1) {
+      cardType = "norm";
+    }
+
+    // divide the normal and edited cards in the same array
+    const cardOrderArray = [];
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].tempCardId && copy[i].approved) {
+
+        const cardObj = {
+          id: copy[i].cardId,
+          type: "norm",
+          order: copy[i].orderIndex,
+          solo: false
+        };
+
+        const tempCardObj = {
+          id: copy[i].tempCardId,
+          type: "temp",
+          order: copy[i].tempOrderIndex,
+          solo: false
+        };
+
+        if (mode) {
+          cardObj.show = "show";
+          tempCardObj.show = "hidden";
+        } else {
+          cardObj.show = "hidden";
+          tempCardObj.show = "show";  
+        }
+
+        cardOrderArray.push(cardObj);
+        cardOrderArray.push(tempCardObj);
+
+      } else if (copy[i].approved) {
+        const cardObj = {
+          id: copy[i].cardId,
+          type: "norm",
+          order: copy[i].orderIndex,
+          show: "show",
+          solo: false
+        };
+        cardOrderArray.push(cardObj);
+      } else {
+        const tempCardObj = {
+          id: copy[i].cardId,
+          type: "temp",
+          order: copy[i].orderIndex,
+          solo: true
+        };
+        if (mode) {
+          tempCardObj.show = "hidden";
+        } else {
+          tempCardObj.show = "show";
+        }
+        cardOrderArray.push(tempCardObj);
+      }
+    }
+
+    // sort the array of cards by order index
+    cardOrderArray.sort((a, b) => a.order - b.order);
+
+    // find and move the specified card
+    let moved = false;
+    for (let i = 0; i < cardOrderArray.length; i++) {
+      if (parseInt(cardOrderArray[i].id, 10) === parseInt(cardId, 10) && cardOrderArray[i].type === cardType) {
+        if (up) {
+          // try to move up and skip hidden cards
+          for (let j = i; j > 0; j--) {
+            moved = true;
+            let tempObj = cardOrderArray[j - 1];
+            cardOrderArray[j - 1] = cardOrderArray[j];
+            cardOrderArray[j] = tempObj;
+            if (cardOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        } else {
+          // try to move down and skip hidden cards
+          for (let j = i; j < cardOrderArray.length - 1; j++) {
+            moved = true;
+            let tempObj = cardOrderArray[j + 1];
+            cardOrderArray[j + 1] = cardOrderArray[j];
+            cardOrderArray[j] = tempObj;
+            if (cardOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        }
+      }
+    }
+
+    // update the real cards to reflect the new order.
+    for (let i = 0; i < copy.length; i++) {
+      for (let j = 0; j < cardOrderArray.length; j++) {
+        if (copy[i].cardId === cardOrderArray[j].id && cardOrderArray[j].type === "norm") {
+          copy[i].orderIndex = j + 1;
+        }
+        if (copy[i].tempCardId === cardOrderArray[j].id && cardOrderArray[j].type === "temp") {
+          copy[i].tempOrderIndex = j + 1;
+        }
+        if (copy[i].cardId === cardOrderArray[j].id && cardOrderArray[j].solo && cardOrderArray[j].type === "temp") {
+          copy[i].orderIndex = j + 1;
+        }
+      }
+    }
+
+    // update the card array
+    setCards(cardSortOrder(copy));
+
+    let direction = 0;
+    if (up) {
+      direction = 1;
+    }
+
+    // send our move to the API
+    if (moved) {
+      const results = await fetch(`/api/cards/${cardId}/move/${direction}/${mode}`, {
+        method: "PATCH",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (!results.ok) {
+
+        const obj = await results.json();
+
+        if (results.status === 404) {
+          console.error("Couldn't find card to move");
+        } else if (results.status === 500 || typeof obj.error === "undefined") {
+          console.error("An internal server error occurred while trying to move the card.");
+        } else {
+          console.error(obj.error);
+        }
+
+        if (results.status === 401) {
+          logout();
+          window.location.href = "/";
         }
       }
     }
@@ -505,7 +669,7 @@ function Header(props) {
                 handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                 mode={props.mode}
                 iconSet={props.iconSet}
-                handleMoveCard={(cardId, headerId, up, mode) => props.handleMoveCard(cardId, headerId, up, mode)}
+                handleMoveCard={(cardId, up, mode) => handleMoveCard(cardId, up, mode)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
                 role={props.role}
@@ -584,7 +748,7 @@ function Header(props) {
             </div>
           </div>
 
-          <div id="accordion">
+          <div id="accordion" role="tablist" aria-multiselectable="true">
             {cards.map((card, i) =>
               <Card
                 key={card.cardId}
@@ -594,7 +758,7 @@ function Header(props) {
                 handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                 mode={props.mode}
                 iconSet={props.iconSet}
-                handleMoveCard={(cardId, headerId, up, mode) => props.handleMoveCard(cardId, headerId, up, mode)}
+                handleMoveCard={(cardId, up, mode) => handleMoveCard(cardId, up, mode)}
                 handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
                 cardState={props.cardState}
                 role={props.role}
@@ -616,7 +780,6 @@ export default Header;
 Header.propTypes = {
   header: PropTypes.object,
   handleMoveHeader: PropTypes.func,
-  handleMoveCard: PropTypes.func,
   handleUpdate: PropTypes.func,
   role: PropTypes.number,
   mode: PropTypes.number,

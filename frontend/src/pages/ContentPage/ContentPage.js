@@ -39,7 +39,7 @@ function ContentPage(props) {
     setRole(getProfile().role);
     fetchData();
     // eslint-disable-next-line
-  }, [pageId]);
+  }, [pageId, publishedMode]);
 
   // sets the current page mode (view / edit / move)
   function handlePageMode(newMode) {
@@ -329,108 +329,6 @@ function ContentPage(props) {
     }
   }
 
-  // Moves the specified card up or down one in relation to other cards
-  async function handleMoveCard(cardId, headerId, up, mode) {
-    const copy = [...headers];
-    let headerIndex = -1;
-    let cardIndex = -1;
-    let moved = false;
-
-    // Find the index of this header
-    for (let i = 0; i < copy.length; i++) {
-      if (copy[i].headerId === headerId) {
-        headerIndex = i;
-        break;
-      }
-    }
-
-    // If we cannot find the index, then return
-    if (headerIndex === -1) {
-      return;
-    }
-
-    // Create a list of only approved cards
-    const approvedCards = [];
-    for (let i = 0; i < copy[headerIndex].cards.length; i++) {
-      if (copy[headerIndex].cards[i].approved) {
-        const newCard = copy[headerIndex].cards[i];
-        newCard.trueIndex = i;
-        approvedCards.push(newCard);
-      }
-    }
-
-    // Find the index of this card
-    for (let i = 0; i < approvedCards.length; i++) {
-      if (approvedCards[i].cardId === cardId) {
-        cardIndex = i;
-        break;
-      }
-    }
-
-    // If we cannot find the index, then return
-    if (cardIndex === -1) {
-      return;
-    }
-
-    // Check if we are trying to move up or down
-    if (up) {
-      // if this is not the top card of this header, swap it with the card above it
-      if (cardIndex > 0) {
-        const trueIndex = approvedCards[cardIndex].trueIndex;
-        const otherTrueIndex = approvedCards[cardIndex - 1].trueIndex;
-        const tempCard = copy[headerIndex].cards[trueIndex];
-        copy[headerIndex].cards[trueIndex] = copy[headerIndex].cards[otherTrueIndex];
-        copy[headerIndex].cards[otherTrueIndex] = tempCard;
-        setHeaders(copy);
-        setCardState(cardState + 1);
-        moved = true;
-      }
-    } else {
-      // if this is not the bottom card of this header, swap it with the card below it
-      if (cardIndex + 1 < approvedCards.length) {
-        const trueIndex = approvedCards[cardIndex].trueIndex;
-        const otherTrueIndex = approvedCards[cardIndex + 1].trueIndex;
-        const tempCard = copy[headerIndex].cards[trueIndex];
-        copy[headerIndex].cards[trueIndex] = copy[headerIndex].cards[otherTrueIndex];
-        copy[headerIndex].cards[otherTrueIndex] = tempCard;
-        setHeaders(copy);
-        setCardState(cardState + 1);
-        moved = true;
-      }
-    }
-
-    let direction = 0;
-    if (up) {
-      direction = 1;
-    }
-
-    // send our move to the API
-    if (moved) {
-      const results = await fetch(`/api/cards/${cardId}/move/${direction}/${mode}`, {
-        method: "PATCH",
-        headers: {"Content-Type": "application/json"}
-      });
-
-      if (!results.ok) {
-
-        const obj = await results.json();
-
-        if (results.status === 404) {
-          console.error("Couldn't find card to move");
-        } else if (results.status === 500 || typeof obj.error === "undefined") {
-          console.error("An internal server error occurred while trying to move the card.");
-        } else {
-          console.error(obj.error);
-        }
-
-        if (results.status === 401) {
-          logout();
-          window.location.href = "/";
-        }
-      }
-    }
-  }
-
   if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
     return loaded ? ( // Render content when data loaded from backend
       <Container className="my-4">
@@ -463,7 +361,6 @@ function ContentPage(props) {
               <Header
                 header={header}
                 handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
-                handleMoveCard={(cardId, headerId, up, mode) => handleMoveCard(cardId, headerId, up, mode)}
                 role={role}
                 mode={mode}
                 publicMode={publicMode}

@@ -146,7 +146,7 @@ function Card(props) {
                   up={true}
                   header={false}
                   objectId={props.card.cardId}
-                  handleMove={(id, up, mode) => props.handleMoveCard(id, props.card.headerId, up, mode)}
+                  handleMove={(id, up, mode) => props.handleMoveCard(id, up, mode)}
                   top={props.top}
                   edited={props.card.edited ? true : false}
                   approved={props.card.approved}
@@ -156,7 +156,7 @@ function Card(props) {
                   up={false}
                   header={false}
                   objectId={props.card.cardId}
-                  handleMove={(id, up, mode) => props.handleMoveCard(id, props.card.headerId, up, mode)}
+                  handleMove={(id, up, mode) => props.handleMoveCard(id, up, mode)}
                   bottom={props.bottom}
                   edited={props.card.edited ? true : false}
                   approved={props.card.approved}
