@@ -305,6 +305,7 @@ function ReviewPage(props) {
                       oldText={props.page.description}
                       elementType={0}
                     />
+                    <br />
                     {props.page.imageUrl !== props.page.tempImageUrl ? (
                       <div className="p-4 d-inline-block old-review-image-container">
                         <Image url={props.page.imageUrl}
@@ -328,6 +329,7 @@ function ReviewPage(props) {
                     <h3 className="font-weight-bold">{props.page.name} ({props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null})</h3>
                     <h4>{props.page.title}</h4>
                     <span>{props.page.description}</span>
+                    <br />
                     <div className="p-4 d-inline-block">
                       <Image url={props.page.imageUrl}
                         title={props.page.name}
@@ -370,6 +372,7 @@ function ReviewPage(props) {
                   oldText={props.page.description}
                   elementType={0}
                 />
+                <br />
                 {props.page.imageUrl !== props.page.tempImageUrl ? (
                   <div className="p-4 d-inline-block new-review-image-container">
                     <Image url={props.page.tempImageUrl}
@@ -401,6 +404,7 @@ function ReviewPage(props) {
                     <h3 className="font-weight-bold">{props.page.name} ({props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null })</h3>
                     <h4>{props.page.title}</h4>
                     <span>{props.page.description}</span>
+                    <br />
                     <div className="p-4 d-inline-block">
                       <Image url={props.page.imageUrl}
                         title={props.page.name}
