@@ -4,6 +4,7 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import BasicItems from "./BasicItems";
 import ThumbnailGallery from "./ThumbnailGallery";
+import HighlightText from "./HighlightText";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
 import "./ReviewCard.css";
@@ -280,7 +281,16 @@ function ReviewCard(props) {
               <h4 className="font-weight-bold">Published Version</h4>
               <span className="created-text">Created {formatTime(props.card.created)}</span>
               <div className="m-3">
-                <h3 className="font-weight-bold">{props.card.title}</h3>
+                {props.card.tempCardId ? (
+                  <HighlightText
+                    newMode={false}
+                    newText={props.card.tempTitle}
+                    oldText={props.card.title}
+                    elementType={1}
+                  />
+                ) : (
+                  <h3 className="font-weight-bold">{props.card.title}</h3>
+                )}
                 {props.card.cardType === 1 || props.card.cardType === 11 ? (
                   <ThumbnailGallery items={imageItems} />
                 ) : (
@@ -299,7 +309,12 @@ function ReviewCard(props) {
                   <h4 className="font-weight-bold">New Version</h4>
                   <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
                   <div className="m-3">
-                    <h3 className="font-weight-bold">{props.card.tempTitle}</h3>
+                    <HighlightText
+                      newMode={true}
+                      newText={props.card.tempTitle}
+                      oldText={props.card.title}
+                      elementType={1}
+                    />
                     {props.card.tempCardType === 1 || props.card.tempCardType === 11 ? (
                       <ThumbnailGallery items={imageTempItems} />
                     ) : (
