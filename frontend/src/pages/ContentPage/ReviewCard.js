@@ -311,18 +311,18 @@ function ReviewCard(props) {
 
           {props.card.approved ? (
             <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
-              <h4 className="font-weight-bold">Published Version</h4>
+              <h4 className="font-weight-bold">Published Version ({cardTypeName})</h4>
               <span className="created-text">Created {formatTime(props.card.created)}</span>
               <div className="m-3">
                 {props.card.tempCardId ? (
                   <HighlightText
                     newMode={false}
-                    newText={`${props.card.tempTitle} (${tempCardTypeName})`}
-                    oldText={`${props.card.title} (${cardTypeName})`}
+                    newText={props.card.tempTitle}
+                    oldText={props.card.title}
                     elementType={1}
                   />
                 ) : (
-                  <h3 className="font-weight-bold">{props.card.title} ({cardTypeName})</h3>
+                  <h3 className="font-weight-bold">{props.card.title}</h3>
                 )}
                 {props.card.cardType === 1 || props.card.cardType === 11 ? (
                   <Fragment>
@@ -351,13 +351,13 @@ function ReviewCard(props) {
             <Fragment>
               {props.card.approved && props.card.tempCardId ? (
                 <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
-                  <h4 className="font-weight-bold">New Version</h4>
+                  <h4 className="font-weight-bold">New Version ({tempCardTypeName})</h4>
                   <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
                   <div className="m-3">
                     <HighlightText
                       newMode={true}
-                      newText={`${props.card.tempTitle} (${tempCardTypeName})`}
-                      oldText={`${props.card.title} (${cardTypeName})`}
+                      newText={props.card.tempTitle}
+                      oldText={props.card.title}
                       elementType={1}
                     />
                     {props.card.tempCardType === 1 || props.card.tempCardType === 11 ? (
@@ -369,10 +369,10 @@ function ReviewCard(props) {
                 </div>
               ) : (
                 <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
-                  <h4 className="font-weight-bold">New Version</h4>
+                  <h4 className="font-weight-bold">New Version ({cardTypeName})</h4>
                   <span className="created-text">Created {formatTime(props.card.created)}</span>
                   <div className="m-3">
-                    <h3 className="font-weight-bold">{props.card.title} ({cardTypeName})</h3>
+                    <h3 className="font-weight-bold">{props.card.title}</h3>
                     {props.card.cardType === 1 || props.card.cardType === 11 ? (
                       <ThumbnailGallery items={imageTempItems} />
                     ) : (
