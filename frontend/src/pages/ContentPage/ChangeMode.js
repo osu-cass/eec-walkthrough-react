@@ -52,7 +52,9 @@ function ChangeMode(props) {
           variant="secondary"
           onClick={() => {
             toggleMode(0);
-            window.location.reload();
+            if (props.moved) {
+              window.location.reload();
+            }
           }}
         >
           <i
@@ -73,5 +75,6 @@ export default ChangeMode;
 ChangeMode.propTypes = {
   role: PropTypes.number,
   mode: PropTypes.number,
-  onPageMode: PropTypes.func
+  onPageMode: PropTypes.func,
+  moved: PropTypes.bool
 };

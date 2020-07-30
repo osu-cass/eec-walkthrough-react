@@ -94,7 +94,7 @@ function ThumbnailGallery(props) {
         <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
           key={item.itemId}
         >
-          <div className={`d-block my-2 h-100 ${compareArray[i] === 1 ? "new-review-item" : ""}
+          <div className={`d-block py-2 my-1 h-100 ${compareArray[i] === 1 ? "new-review-item" : ""}
             ${compareArray[i] === 2 ? "move-review-item" : ""} ${compareArray[i] === 3 ? "old-review-item" : ""}`}
           >
             <Image

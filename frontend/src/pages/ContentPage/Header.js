@@ -424,6 +424,9 @@ function Header(props) {
 
   // Moves the specified card up or down one in relation to other cards
   async function handleMoveCard(cardId, up, mode) {
+
+    props.handleMoveCard();
+
     const copy = [...cards];
 
     let cardType = "temp";
@@ -698,6 +701,7 @@ export default Header;
 Header.propTypes = {
   header: PropTypes.object,
   handleMoveHeader: PropTypes.func,
+  handleMoveCard: PropTypes.func,
   handleUpdate: PropTypes.func,
   role: PropTypes.number,
   mode: PropTypes.number,

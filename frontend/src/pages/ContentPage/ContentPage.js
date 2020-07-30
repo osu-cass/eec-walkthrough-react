@@ -31,6 +31,7 @@ function ContentPage(props) {
   const [publishedMode, setPublishedMode] = useState(getPublished());
   const [cardState, setCardState] = useState(0);
   const [pageState, setPageState] = useState(0);
+  const [moved, setMoved] = useState(false);
   const {pageId} = useParams();
 
   // get new page data if the page ID has changed
@@ -59,6 +60,7 @@ function ContentPage(props) {
   // fetch page data
   async function fetchData() {
     let obj = [];
+    setMoved(false);
     setLoaded(false);
 
     // Fetch all icons
@@ -259,6 +261,9 @@ function ContentPage(props) {
 
   // Moves the specified header up or down one in relation to other headers
   async function handleMoveHeader(headerId, up, mode) {
+
+    setMoved(true);
+
     const copy = [...headers];
 
     let headerType = "temp";
@@ -426,6 +431,7 @@ function ContentPage(props) {
           onPublicMode={e => handlePublicMode(e)}
           onPublishedMode={e => handlePublishedMode(e)}
           handlePageEdit={props.handlePageEdit}
+          moved={moved}
         />
 
         <CreateHeader
@@ -443,6 +449,7 @@ function ContentPage(props) {
               <Header
                 header={header}
                 handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
+                handleMoveCard={() => setMoved(true)}
                 role={role}
                 mode={mode}
                 publicMode={publicMode}

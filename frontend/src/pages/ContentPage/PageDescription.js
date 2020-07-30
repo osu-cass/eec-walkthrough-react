@@ -88,6 +88,7 @@ function PageDescription(props) {
               role={props.role}
               mode={props.mode}
               onPageMode={e => props.onPageMode(e)}
+              moved={props.moved}
             />
           </div>
         </div>
@@ -130,5 +131,6 @@ PageDescription.propTypes = {
   onPublicMode: PropTypes.func,
   onPublishedMode: PropTypes.func,
   handlePageEdit: PropTypes.func,
-  handleUpdate: PropTypes.func
+  handleUpdate: PropTypes.func,
+  moved: PropTypes.bool
 };
