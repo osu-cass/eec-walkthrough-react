@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
 import Image from "./Image";
+import HighlightText from "./HighlightText";
 import "./ReviewPage.css";
 
 // Button and modal that allows a user to review a page
@@ -21,10 +22,13 @@ function ReviewPage(props) {
     setRole(user.role);
   }, []);
 
+  // close the modal
   function handleClose() {
     setShow(false);
     setErrorMessage("");
   }
+
+  // open the modal
   function handleShow() {
     setShow(true);
   }
@@ -254,7 +258,6 @@ function ReviewPage(props) {
 
   return role >= 3 && props.mode === 1 ? (
     <div className='text-center mx-2'>
-
       <Button size="sm" variant="success" onClick={() => handleShow()}>
         <i
           className='fas fa-stamp text-white mr-2'
@@ -280,7 +283,15 @@ function ReviewPage(props) {
               <div className="m-4">
                 <h3 className="font-weight-bold">{props.page.name} ({props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null })</h3>
                 <h4>{props.page.title}</h4>
-                <span>{props.page.description}</span>
+                {props.page.tempPageId ? (
+                  <HighlightText
+                    newMode={false}
+                    newText={props.page.tempDescription}
+                    oldText={props.page.description}
+                  />
+                ) : (
+                  <span>{props.page.description}</span>
+                )}
                 <Image url={props.page.imageUrl}
                   title={props.page.name}
                   thumbnail={false}
@@ -299,7 +310,11 @@ function ReviewPage(props) {
               <div className="m-4">
                 <h3 className="font-weight-bold">{props.page.tempName} ({props.page.tempPageType <= pageTypeNames.length ? pageTypeNames[props.page.tempPageType - 1] : null })</h3>
                 <h4>{props.page.tempTitle}</h4>
-                <span>{props.page.tempDescription}</span>
+                <HighlightText
+                  newMode={true}
+                  newText={props.page.tempDescription}
+                  oldText={props.page.description}
+                />
                 <Image url={props.page.tempImageUrl}
                   title={props.page.tempName}
                   thumbnail={false}
