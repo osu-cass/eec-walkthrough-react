@@ -33,7 +33,6 @@ function HighlightText(props) {
   function getDifference(newMode) {
     const dmp = new DiffMatchPatch();
     const diff = dmp.diff_main(props.newText, props.oldText);
-    console.log("diff", diff)
     const diffArray = [];
     if (newMode) {
       for (let i = 0; i < diff.length; i++) {
@@ -56,7 +55,6 @@ function HighlightText(props) {
         }
       }
     }
-    console.log("diffArray", diffArray)
     return diffArray;
   }
 

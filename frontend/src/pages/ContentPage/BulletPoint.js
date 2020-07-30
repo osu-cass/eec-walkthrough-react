@@ -36,7 +36,9 @@ function BulletPoint (props) {
       {getContentType(props.text, props.label, props.url) === 1 ? (
         <Fragment>
           {props.icon === "check-square" ? (
-            <div className="row mx-auto">
+            <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""}
+              ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
+            >
               <div className="icon-td justify-content-center">
                 {props.checked ? (
                   <i className={`fas fa-fw fa-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
@@ -57,7 +59,9 @@ function BulletPoint (props) {
               </div>
             </div>
           ) : (
-            <div className="row mx-auto">
+            <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""}
+              ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
+            >
               <div className="icon-td justify-content-center">
                 <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}
                   ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
@@ -78,12 +82,14 @@ function BulletPoint (props) {
       )}
 
       {getContentType(props.text, props.label, props.url) === 2 ? (
-        <div className="row mx-auto">
-          <div className="icon-td pb-2">
-            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
-              style={{color: props.color}}
-              title={props.tooltip}
-            />
+        <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""}
+          ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
+        >
+        <div className="icon-td pb-2">
+          <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
+            style={{color: props.color}}
+            title={props.tooltip}
+          />
           </div>
           <div className="content-td pb-2 col">
             <div className="pb-1">
@@ -101,7 +107,9 @@ function BulletPoint (props) {
 
       {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 ||
         props.contentMode === 0 || props.contentMode === 2 || props.created !== null || props.publicMode === 0) ? (
-          <div className="row mx-auto">
+          <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""}
+            ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
+          >
             <div className="icon-td pb-2">
               <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
                 style={{color: props.color}}
@@ -184,5 +192,6 @@ BulletPoint.propTypes = {
   tooltip: PropTypes.string,
   reviewing: PropTypes.bool,
   setCheck: PropTypes.func,
-  checked: PropTypes.bool
+  checked: PropTypes.bool,
+  highlightStyle: PropTypes.number
 };
