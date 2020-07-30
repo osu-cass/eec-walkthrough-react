@@ -134,7 +134,7 @@ function HighlightText(props) {
       </Fragment>
     )
 
-}
+  }
 
 }
 export default HighlightText;

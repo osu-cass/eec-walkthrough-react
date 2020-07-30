@@ -4,6 +4,7 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
+import HighlightText from "./HighlightText";
 import "./ReviewHeader.css";
 
 // Button and modal that allows a user to review a header
@@ -252,7 +253,16 @@ function ReviewHeader(props) {
               <h4 className="font-weight-bold">Published Version</h4>
               <span className="created-text">Created {formatTime(props.header.created)}</span>
               <div className="m-4">
-                <h3 className="font-weight-bold">{props.header.title}</h3>
+                {props.header.tempHeaderId ? (
+                  <HighlightText
+                    newMode={false}
+                    newText={props.header.tempTitle}
+                    oldText={props.header.title}
+                    elementType={1}
+                  />
+                ) : (
+                  <h3 className="font-weight-bold">{props.header.title}</h3>
+                )}
               </div>
             </div>
           ) : (
@@ -264,7 +274,12 @@ function ReviewHeader(props) {
               <h4 className="font-weight-bold">New Version</h4>
               <span className="created-text">Created {formatTime(props.header.tempCreated)}</span>
               <div className="m-4">
-                <h3 className="font-weight-bold">{props.header.tempTitle}</h3>
+                <HighlightText
+                  newMode={true}
+                  newText={props.header.tempTitle}
+                  oldText={props.header.title}
+                  elementType={1}
+                />
               </div>
             </div>
           ) : (
