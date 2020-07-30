@@ -281,22 +281,62 @@ function ReviewPage(props) {
               <h4 className="font-weight-bold">Published Version</h4>
               <span className="created-text">Created {formatTime(props.page.created)}</span>
               <div className="m-4">
-                <h3 className="font-weight-bold">{props.page.name} ({props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null })</h3>
-                <h4>{props.page.title}</h4>
                 {props.page.tempPageId ? (
-                  <HighlightText
-                    newMode={false}
-                    newText={props.page.tempDescription}
-                    oldText={props.page.description}
-                  />
+                  <Fragment>
+                    <div>
+                      <HighlightText
+                        newMode={false}
+                        newText={`${props.page.tempName} (${props.page.tempPageType <= pageTypeNames.length ? pageTypeNames[props.page.tempPageType - 1] : null})`}
+                        oldText={`${props.page.name} (${props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null})`}
+                        elementType={1}
+                      />
+                    </div>
+                    <div>
+                      <HighlightText
+                        newMode={false}
+                        newText={props.page.tempTitle}
+                        oldText={props.page.title}
+                        elementType={2}
+                      />
+                    </div>
+                    <HighlightText
+                      newMode={false}
+                      newText={props.page.tempDescription}
+                      oldText={props.page.description}
+                      elementType={0}
+                    />
+                    {props.page.imageUrl !== props.page.tempImageUrl ? (
+                      <div className="p-4 d-inline-block old-review-image-container">
+                        <Image url={props.page.imageUrl}
+                          title={props.page.name}
+                          thumbnail={false}
+                          header={true}
+                        />
+                      </div>
+                    ) : (
+                      <div className="p-4 d-inline-block">
+                        <Image url={props.page.imageUrl}
+                          title={props.page.name}
+                          thumbnail={false}
+                          header={true}
+                        />
+                      </div>
+                    )}
+                  </Fragment>
                 ) : (
-                  <span>{props.page.description}</span>
+                  <Fragment>
+                    <h3 className="font-weight-bold">{props.page.name} ({props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null})</h3>
+                    <h4>{props.page.title}</h4>
+                    <span>{props.page.description}</span>
+                    <div className="p-4 d-inline-block">
+                      <Image url={props.page.imageUrl}
+                        title={props.page.name}
+                        thumbnail={false}
+                        header={true}
+                      />
+                    </div>
+                  </Fragment>
                 )}
-                <Image url={props.page.imageUrl}
-                  title={props.page.name}
-                  thumbnail={false}
-                  header={true}
-                />
               </div>
             </div>
           ) : (
@@ -308,18 +348,45 @@ function ReviewPage(props) {
               <h4 className="font-weight-bold">New Version</h4>
               <span className="created-text">Created {formatTime(props.page.tempCreated)}</span>
               <div className="m-4">
-                <h3 className="font-weight-bold">{props.page.tempName} ({props.page.tempPageType <= pageTypeNames.length ? pageTypeNames[props.page.tempPageType - 1] : null })</h3>
-                <h4>{props.page.tempTitle}</h4>
+                <div>
+                  <HighlightText
+                    newMode={true}
+                    newText={`${props.page.tempName} (${props.page.tempPageType <= pageTypeNames.length ? pageTypeNames[props.page.tempPageType - 1] : null})`}
+                    oldText={`${props.page.name} (${props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null})`}
+                    elementType={1}
+                  />
+                </div>
+                <div>
+                  <HighlightText
+                    newMode={true}
+                    newText={props.page.tempTitle}
+                    oldText={props.page.title}
+                    elementType={2}
+                  />
+                </div>
                 <HighlightText
                   newMode={true}
                   newText={props.page.tempDescription}
                   oldText={props.page.description}
+                  elementType={0}
                 />
-                <Image url={props.page.tempImageUrl}
-                  title={props.page.tempName}
-                  thumbnail={false}
-                  header={true}
-                />
+                {props.page.imageUrl !== props.page.tempImageUrl ? (
+                  <div className="p-4 d-inline-block new-review-image-container">
+                    <Image url={props.page.tempImageUrl}
+                      title={props.page.tempName}
+                      thumbnail={false}
+                      header={true}
+                    />
+                  </div>
+                ) : (
+                  <div className="p-4 d-inline-block">
+                    <Image url={props.page.tempImageUrl}
+                      title={props.page.tempName}
+                      thumbnail={false}
+                      header={true}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           ) : (
@@ -334,11 +401,13 @@ function ReviewPage(props) {
                     <h3 className="font-weight-bold">{props.page.name} ({props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null })</h3>
                     <h4>{props.page.title}</h4>
                     <span>{props.page.description}</span>
-                    <Image url={props.page.imageUrl}
-                      title={props.page.name}
-                      thumbnail={false}
-                      header={true}
-                    />
+                    <div className="p-4 d-inline-block">
+                      <Image url={props.page.imageUrl}
+                        title={props.page.name}
+                        thumbnail={false}
+                        header={true}
+                      />
+                    </div>
                   </div>
                 </div>
               )}
