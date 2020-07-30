@@ -1,7 +1,11 @@
-.highlight-new-content, .new-review-image-container {
+.highlight-new-content, .new-review-image-container, .new-review-item {
   background-color: #b3ffc8;
 }
 
-.highlight-old-content, .old-review-image-container {
+.highlight-old-content, .old-review-image-container, .old-review-item {
   background-color: #ffa2ad;
+}
+
+.move-review-item {
+  background-color: #ffffba;
 }
