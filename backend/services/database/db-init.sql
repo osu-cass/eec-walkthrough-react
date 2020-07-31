@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 30, 2020 at 02:09 AM
+-- Generation Time: Jul 31, 2020 at 03:01 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -167,6 +167,28 @@ INSERT INTO `Categories` (`categoryId`, `singleName`, `pluralName`, `description
 (3, 'Process', 'Processes', 'An introduction to a process or technique.', 0, 42, '2020-07-18 03:11:32'),
 (4, 'Productivity', 'Productivity', 'An introduction to a specific improvement opportunity to consider.', 0, 42, '2020-07-18 03:11:32'),
 (5, 'Assessment', 'Assessments', 'An introduction to a method for evaluating or estimating.', 0, 42, '2020-07-18 03:11:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Filters`
+--
+
+CREATE TABLE `Filters` (
+  `filterId` int(10) UNSIGNED NOT NULL,
+  `viewId` int(10) UNSIGNED NOT NULL,
+  `headerId` int(10) UNSIGNED NOT NULL,
+  `iconId` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Filters`
+--
+
+INSERT INTO `Filters` (`filterId`, `viewId`, `headerId`, `iconId`) VALUES
+(1, 1, 1, 1),
+(2, 1, 1, 2),
+(3, 1, 2, 10);
 
 -- --------------------------------------------------------
 
@@ -952,6 +974,27 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (62, 'psukamto', 'bbd4de95486df84c2553cb4cabc1472a$d8d1b75623a7d7eb3b717020dc28b70ba1c9152992db10316e280aedb0f35d6c', 'Peter', 'Sukamto', 'sukamtop.eec@gmail.com', 3, '2020-07-20 22:20:37'),
 (63, 'testUser', '1f9d6b0176ddee97a3a69102b00679fd$f95c8cef6dacedc921486f893f34cdcd497d0e70b36955f84a3f45caa86c6c5f', 'test', 'user', 'testuser@gmail.com', 3, '2020-07-28 20:21:12');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Views`
+--
+
+CREATE TABLE `Views` (
+  `viewId` int(10) UNSIGNED NOT NULL,
+  `pageId` int(10) UNSIGNED NOT NULL,
+  `userId` int(10) UNSIGNED NOT NULL,
+  `viewName` varchar(500) NOT NULL,
+  `public` tinyint(3) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Views`
+--
+
+INSERT INTO `Views` (`viewId`, `pageId`, `userId`, `viewName`, `public`) VALUES
+(1, 2, 42, 'No Pros and Cons + No flags', 1);
+
 --
 -- Indexes for dumped tables
 --
@@ -972,6 +1015,14 @@ ALTER TABLE `Categories`
   ADD UNIQUE KEY `singleName` (`singleName`),
   ADD UNIQUE KEY `pluralName` (`pluralName`),
   ADD KEY `user_category_fk` (`userId`);
+
+--
+-- Indexes for table `Filters`
+--
+ALTER TABLE `Filters`
+  ADD PRIMARY KEY (`filterId`),
+  ADD KEY `viewId_filter_fk` (`viewId`),
+  ADD KEY `headerId_filter_fk` (`headerId`);
 
 --
 -- Indexes for table `Headers`
@@ -1045,6 +1096,14 @@ ALTER TABLE `Users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indexes for table `Views`
+--
+ALTER TABLE `Views`
+  ADD PRIMARY KEY (`viewId`),
+  ADD KEY `pageId_view_fk` (`pageId`),
+  ADD KEY `userId_view_fk` (`userId`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1059,6 +1118,12 @@ ALTER TABLE `Cards`
 --
 ALTER TABLE `Categories`
   MODIFY `categoryId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `Filters`
+--
+ALTER TABLE `Filters`
+  MODIFY `filterId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Headers`
@@ -1097,6 +1162,12 @@ ALTER TABLE `Users`
   MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
+-- AUTO_INCREMENT for table `Views`
+--
+ALTER TABLE `Views`
+  MODIFY `viewId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -1112,6 +1183,13 @@ ALTER TABLE `Cards`
 --
 ALTER TABLE `Categories`
   ADD CONSTRAINT `user_category_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
+
+--
+-- Constraints for table `Filters`
+--
+ALTER TABLE `Filters`
+  ADD CONSTRAINT `headerId_filter_fk` FOREIGN KEY (`headerId`) REFERENCES `Headers` (`headerId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `viewId_filter_fk` FOREIGN KEY (`viewId`) REFERENCES `Views` (`viewId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Headers`
@@ -1154,6 +1232,13 @@ ALTER TABLE `Temp_Headers`
 ALTER TABLE `Temp_Pages`
   ADD CONSTRAINT `fk_tempPage` FOREIGN KEY (`tempPageId`) REFERENCES `Pages` (`pageId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_user_tempPage` FOREIGN KEY (`tempUserId`) REFERENCES `Users` (`userId`);
+
+--
+-- Constraints for table `Views`
+--
+ALTER TABLE `Views`
+  ADD CONSTRAINT `pageId_view_fk` FOREIGN KEY (`pageId`) REFERENCES `Pages` (`pageId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `userId_view_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
