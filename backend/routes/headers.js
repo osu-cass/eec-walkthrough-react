@@ -214,7 +214,7 @@ app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res)
 
 
 // publish a header
-app.post("/:headerId/publish", getUserID, getHeaderVal.validation, async (req, res) => {
+app.post("/:headerId/publish", requireAuth, getHeaderVal.validation, async (req, res) => {
 
   try {
 
@@ -261,7 +261,7 @@ app.post("/:headerId/publish", getUserID, getHeaderVal.validation, async (req, r
 
 
 // unpublish a header
-app.post("/:headerId/unpublish", getUserID, getHeaderVal.validation, async (req, res) => {
+app.post("/:headerId/unpublish", requireAuth, getHeaderVal.validation, async (req, res) => {
 
   try {
 

@@ -220,7 +220,7 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
 
 
 // publish a card
-app.post("/:cardId/publish", getUserID, getCardVal.validation, async (req, res) => {
+app.post("/:cardId/publish", requireAuth, getCardVal.validation, async (req, res) => {
 
   try {
 
@@ -267,7 +267,7 @@ app.post("/:cardId/publish", getUserID, getCardVal.validation, async (req, res) 
 
 
 // unpublish a card
-app.post("/:cardId/unpublish", getUserID, getCardVal.validation, async (req, res) => {
+app.post("/:cardId/unpublish", requireAuth, getCardVal.validation, async (req, res) => {
 
   try {
 
