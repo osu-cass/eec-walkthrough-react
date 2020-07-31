@@ -335,9 +335,9 @@ function ReviewCard(props) {
                 ) : (
                   <Fragment>
                     {props.card.tempCardId ? (
-                      <BasicItems items={props.card.items} mode={props.mode} reviewing={true} compareMode={2} otherItems={props.card.tempItems} />
+                      <BasicItems items={props.card.items} mode={props.mode} reviewing={true} compareMode={2} otherItems={props.card.tempItems} setCheck={() => {}} />
                     ) : (
-                      <BasicItems items={props.card.items} mode={props.mode} reviewing={true} />
+                      <BasicItems items={props.card.items} mode={props.mode} reviewing={true} setCheck={() => {}} />
                     )}
                   </Fragment>
                 )}
@@ -363,7 +363,7 @@ function ReviewCard(props) {
                     {props.card.tempCardType === 1 || props.card.tempCardType === 11 ? (
                       <ThumbnailGallery items={imageTempItems} reviewing={true} compareMode={1} otherItems={imageItems} />
                     ) : (
-                      <BasicItems items={props.card.tempItems} mode={props.mode} reviewing={true} compareMode={1} otherItems={props.card.items} />
+                      <BasicItems items={props.card.tempItems} mode={props.mode} reviewing={true} compareMode={1} otherItems={props.card.items} setCheck={() => {}} />
                     )}
                   </div>
                 </div>
@@ -376,7 +376,7 @@ function ReviewCard(props) {
                     {props.card.cardType === 1 || props.card.cardType === 11 ? (
                       <ThumbnailGallery items={imageTempItems} />
                     ) : (
-                      <BasicItems items={props.card.tempItems} reviewing={true} />
+                      <BasicItems items={props.card.tempItems} reviewing={true} setCheck={() => {}} />
                     )}
                   </div>
                 </div>

@@ -34,7 +34,8 @@ function BasicItems(props) {
           }
 
           // check if we found an item match
-          if (newItem.contentText === oldItem.contentText && newItem.contentLabel === oldItem.contentLabel && newItem.contentUrl === oldItem.contentUrl) {
+          if (newItem.iconType === oldItem.iconType && newItem.contentText === oldItem.contentText
+            && newItem.contentLabel === oldItem.contentLabel && newItem.contentUrl === oldItem.contentUrl) {
             if (i === j && newItem.indentation === oldItem.indentation) {
               status = 0;
               foundItems.push(oldItem.itemId);
@@ -70,7 +71,8 @@ function BasicItems(props) {
           }
 
           // check if we found an item match
-          if (newItem.contentText === oldItem.contentText && newItem.contentLabel === oldItem.contentLabel && newItem.contentUrl === oldItem.contentUrl) {
+          if (newItem.iconType === oldItem.iconType && newItem.contentText === oldItem.contentText
+            && newItem.contentLabel === oldItem.contentLabel && newItem.contentUrl === oldItem.contentUrl) {
             if (i === j && newItem.indentation === oldItem.indentation) {
               status = 0;
               foundItems.push(newItem.itemId);

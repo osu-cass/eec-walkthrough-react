@@ -31,8 +31,6 @@ function ReviewPage(props) {
       if (results.ok) {
         const obj = await results.json();
 
-        console.log("obj", obj)
-
         let typeString = "";
         let tempTypeString = "";
     
