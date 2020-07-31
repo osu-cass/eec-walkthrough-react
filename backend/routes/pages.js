@@ -300,7 +300,7 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
 
 
 // publish a page
-app.post("/:pageId/publish", getUserID, getPageVal.validation, async (req, res) => {
+app.post("/:pageId/publish", requireAuth, getPageVal.validation, async (req, res) => {
 
   try {
 
@@ -347,7 +347,7 @@ app.post("/:pageId/publish", getUserID, getPageVal.validation, async (req, res) 
 
 
 // unpublish a page
-app.post("/:pageId/unpublish", getUserID, getPageVal.validation, async (req, res) => {
+app.post("/:pageId/unpublish", requireAuth, getPageVal.validation, async (req, res) => {
 
   try {
 

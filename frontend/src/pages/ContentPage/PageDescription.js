@@ -79,6 +79,7 @@ function PageDescription(props) {
             />
             <LoadView
               mode={props.mode}
+              pageId={props.page.pageId}
             />
             <EditPage
               page={props.page}

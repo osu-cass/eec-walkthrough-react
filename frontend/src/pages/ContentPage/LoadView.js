@@ -22,7 +22,17 @@ function LoadView(props) {
   }
 
   // load the new view
-  function handleLoad() {
+  async function handleLoad() {
+
+    // Fetch the views for this page
+    let results = await fetch(`/api/views/page/${props.pageId}`);
+
+    if (results.ok) {
+      const obj = await results.json();
+      console.log(obj);
+    } else {
+      setErrorMessage("An internal server error occurred. Please try again later.");
+    }
 
   }
 
@@ -91,5 +101,6 @@ function LoadView(props) {
 export default LoadView;
 
 LoadView.propTypes = {
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  pageId: PropTypes.number
 };
