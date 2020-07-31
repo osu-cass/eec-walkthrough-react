@@ -6,6 +6,8 @@ import ChangeMode from "./ChangeMode";
 import ChangePublic from "./ChangePublic";
 import ChangePublished from "./ChangePublished";
 import EditPage from "./EditPage";
+import SaveView from "./SaveView";
+import LoadView from "./LoadView";
 import "./PageDescription.css";
 
 // Header and card that describes the page
@@ -70,6 +72,13 @@ function PageDescription(props) {
               mode={props.mode}
               publishedMode={props.publishedMode}
               onPublishedMode={e => props.onPublishedMode(e)}
+            />
+            <SaveView 
+              role={props.role}
+              mode={props.mode}
+            />
+            <LoadView
+              mode={props.mode}
             />
             <EditPage
               page={props.page}

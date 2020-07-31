@@ -33,7 +33,8 @@ function ThumbnailGallery(props) {
           }
 
           // check if we found an item match
-          if (newItem.contentLabel === oldItem.contentLabel && newItem.contentUrl === oldItem.contentUrl) {
+          if (newItem.iconType === oldItem.iconType && newItem.contentLabel === oldItem.contentLabel
+            && newItem.contentUrl === oldItem.contentUrl) {
             if (i === j) {
               status = 0;
               foundItems.push(oldItem.itemId);
@@ -69,7 +70,8 @@ function ThumbnailGallery(props) {
           }
 
           // check if we found an item match
-          if (newItem.contentLabel === oldItem.contentLabel && newItem.contentUrl === oldItem.contentUrl) {
+          if (newItem.iconType === oldItem.iconType && newItem.contentLabel === oldItem.contentLabel
+            && newItem.contentUrl === oldItem.contentUrl) {
             if (i === j) {
               status = 0;
               foundItems.push(newItem.itemId);
