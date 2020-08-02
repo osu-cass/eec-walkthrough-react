@@ -435,7 +435,7 @@ function ContentPage(props) {
 
   if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
     return loaded ? ( // Render content when data loaded from backend
-      <Container className="my-4">
+      <Container className="content-page my-4">
         <PageDescription
           page={pageInfo}
           handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
