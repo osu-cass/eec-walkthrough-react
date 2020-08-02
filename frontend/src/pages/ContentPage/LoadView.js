@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import Error from "../../components/General/Error";
 import PropTypes from "prop-types";
@@ -10,6 +10,11 @@ function LoadView(props) {
   const [views, setViews] = useState([]);
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  // if we save any new views, then we should reload the view data
+  useEffect(() => {
+    setNewModal(true);
+  }, [props.newViews]);
 
   // open the modal
   async function handleOpen() {
@@ -135,5 +140,6 @@ export default LoadView;
 LoadView.propTypes = {
   mode: PropTypes.number,
   pageId: PropTypes.number,
-  onNewView: PropTypes.func
+  onNewView: PropTypes.func,
+  newViews: PropTypes.number
 };
