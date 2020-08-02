@@ -15,3 +15,7 @@
   transform: scale(1);
   transition: transform 0.4s;
 }
+
+.content-page::-webkit-scrollbar {
+  width: 12px;
+}

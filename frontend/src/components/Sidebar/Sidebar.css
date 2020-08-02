@@ -3,6 +3,10 @@
 */
 @import 'https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700';
 
+#sidebar::-webkit-scrollbar {
+  width: 12px;
+}
+
 #sidebar .card-header, #sidebar h2 {
   /* background: var(--info); */
   background: #faa945 !important;
