@@ -34,7 +34,8 @@ function Header(props) {
       allIcons[props.header.forceFilter[i]] = false;
     }
     setFilterShow(allIcons);
-  }, [props.header.forceFilter, props.iconSet.length]);
+    // eslint-disable-next-line
+  }, [JSON.stringify(props.header.forceFilter), props.iconSet.length]);
 
   // Get all of the icons that could be used for published filtering
   useEffect(() => {
@@ -134,28 +135,6 @@ function Header(props) {
     updateCardState(filterShow);
     // eslint-disable-next-line
   }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode, checkedCards, props.publishedMode]);
-
-  // Changes the viewing state of an icon
-  function updateIcon(iconId, state) {
-    const allIcons = [...filterShow];
-    allIcons[iconId] = !state;
-    setFilterShow(allIcons);
-  }
-
-  // Resets the viewing state for all icon types.
-  function resetIcons() {
-    const allIcons = [];
-    for (let i = 0; i <= props.iconSet.length; i++) {
-      allIcons.push(true);
-    }
-    setFilterShow(allIcons);
-  }
-
-  // Clears the viewing state for all icon types.
-  function clearIcons() {
-    const allIcons = [];
-    setFilterShow(allIcons);
-  }
 
   // Updates the cards / items that are shown.
   function updateCardState(filterState) {
@@ -649,9 +628,9 @@ function Header(props) {
               ) : (
                 <Fragment>
                   <FilterBar
-                    updateIcon={(e1, e2) => updateIcon(e1, e2)}
-                    resetIcons={() => resetIcons()}
-                    clearIcons={() => clearIcons()}
+                    updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
+                    resetIcons={() => props.resetIcons(props.header.headerId)}
+                    clearIcons={() => props.clearIcons(props.header.headerId)}
                     filterIcons={filterIcons}
                     tempFilterIcons={tempFilterIcons}
                     filterShow={filterShow}
@@ -727,5 +706,8 @@ Header.propTypes = {
   cardState: PropTypes.number,
   handleTimestamp: PropTypes.func,
   updateCards: PropTypes.bool,
-  forceFilter: PropTypes.array
+  forceFilter: PropTypes.array,
+  updateIcon: PropTypes.func,
+  resetIcons: PropTypes.func,
+  clearIcons: PropTypes.func
 };

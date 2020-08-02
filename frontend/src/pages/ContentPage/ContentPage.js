@@ -433,9 +433,55 @@ function ContentPage(props) {
     setHeaders(copy);
   }
 
+  // Changes the viewing state of an icon for a specific header
+  function updateIcon(iconId, state, headerId) {
+    const copy = [...headers];
+    for (let i = 0; i < copy.length; i++) {
+      if (headerId === copy[i].headerId) {
+        if (state) {
+          copy[i].forceFilter.push(iconId);
+          break;
+        } else {
+          for (let j = 0; j < copy[i].forceFilter.length; j++) {
+            if (copy[i].forceFilter[j] === iconId) {
+              copy[i].forceFilter.splice(j, 1);
+            }
+          }
+        }
+      }
+    }
+    setHeaders(copy);
+  }
+
+  // Resets the viewing state for all icon types for a specific header
+  function resetIcons(headerId) {
+    const copy = [...headers];
+    for (let i = 0; i < copy.length; i++) {
+      if (headerId === copy[i].headerId) {
+        copy[i].forceFilter = [];
+        break;
+      }
+    }
+    setHeaders(copy);
+  }
+
+  // Clears the viewing state for all icon types for a specific header
+  function clearIcons(headerId) {
+    const copy = [...headers];
+    for (let i = 0; i < copy.length; i++) {
+      if (headerId === copy[i].headerId) {
+        for (let j = 0; j < iconSet.length; j++) {
+          copy[i].forceFilter.push(iconSet[j].iconType);
+        }
+        break;
+      }
+    }
+    setHeaders(copy);
+  }
+
   if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
     return loaded ? ( // Render content when data loaded from backend
-      <Container className="content-page my-4">
+      <Container className="my-4" id="content-page">
         <PageDescription
           page={pageInfo}
           handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
@@ -478,6 +524,9 @@ function ContentPage(props) {
                 bottom={i >= headers.length - 1 ? (true) : (false)}
                 handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
                 handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+                updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
+                resetIcons={e => resetIcons(e)}
+                clearIcons={e => clearIcons(e)}
               />
               <CreateCard
                 headerId={header.headerId}
