@@ -66,7 +66,7 @@ function ReviewPage(props) {
 
     fetchPageTypes();
 
-  }, [props.page.pageType, props.page.tempPageType]);
+  }, [props.page.pageType, props.page.tempPageType, props.page.internal, props.page.tempInternal]);
 
   // close the modal
   function handleClose() {

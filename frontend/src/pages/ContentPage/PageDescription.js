@@ -80,6 +80,7 @@ function PageDescription(props) {
             <LoadView
               mode={props.mode}
               pageId={props.page.pageId}
+              onNewView={e => props.onNewView(e)}
             />
             <EditPage
               page={props.page}
@@ -142,5 +143,6 @@ PageDescription.propTypes = {
   onPublishedMode: PropTypes.func,
   handlePageEdit: PropTypes.func,
   handleUpdate: PropTypes.func,
-  moved: PropTypes.bool
+  moved: PropTypes.bool,
+  onNewView: PropTypes.func
 };

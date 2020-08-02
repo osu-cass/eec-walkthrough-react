@@ -80,6 +80,10 @@ function ContentPage(props) {
     if (results.ok) {
       obj = await results.json();
       setPageInfo(obj);
+      // add empty array of applied filters to each header
+      for (let i = 0; i < obj.headers.length; i++) {
+        obj.headers[i].forceFilter = [];
+      }
       setHeaders(headerSortOrder(obj.headers));
       console.log("Page Data:", obj);
     } else {
@@ -416,6 +420,19 @@ function ContentPage(props) {
     }
   }
 
+  // handle a new view being loaded
+  function handleNewView(headerFilters) {
+    const copy = [...headers];
+    for (let i = 0; i < copy.length; i++) {
+      if (i < headerFilters.length) {
+        copy[i].forceFilter = headerFilters[i].filters;
+      } else {
+        copy[i].forceFilter = [];
+      }
+    }
+    setHeaders(copy);
+  }
+
   if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
     return loaded ? ( // Render content when data loaded from backend
       <Container className="my-4">
@@ -432,6 +449,7 @@ function ContentPage(props) {
           onPublishedMode={e => handlePublishedMode(e)}
           handlePageEdit={props.handlePageEdit}
           moved={moved}
+          onNewView={e => handleNewView(e)}
         />
 
         <CreateHeader
