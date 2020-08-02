@@ -496,6 +496,7 @@ function ContentPage(props) {
           handlePageEdit={props.handlePageEdit}
           moved={moved}
           onNewView={e => handleNewView(e)}
+          headers={headers}
         />
 
         <CreateHeader

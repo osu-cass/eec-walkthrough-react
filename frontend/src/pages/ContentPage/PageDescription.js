@@ -17,6 +17,7 @@ function PageDescription(props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [newViews, setNewViews] = useState(0);
 
   useEffect(() => {
     if (props.page.approved && props.page.tempPageId && props.mode === 1) {
@@ -76,10 +77,14 @@ function PageDescription(props) {
             <SaveView 
               role={props.role}
               mode={props.mode}
+              pageId={props.page.pageId}
+              headers={props.headers}
+              onNewView={() => setNewViews(newViews + 1)}
             />
             <LoadView
               mode={props.mode}
               pageId={props.page.pageId}
+              newViews={newViews}
               onNewView={e => props.onNewView(e)}
             />
             <EditPage
@@ -144,5 +149,6 @@ PageDescription.propTypes = {
   handlePageEdit: PropTypes.func,
   handleUpdate: PropTypes.func,
   moved: PropTypes.bool,
-  onNewView: PropTypes.func
+  onNewView: PropTypes.func,
+  headers: PropTypes.array
 };

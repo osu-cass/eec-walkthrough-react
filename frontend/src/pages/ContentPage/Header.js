@@ -29,9 +29,18 @@ function Header(props) {
     for (let i = 0; i <= props.iconSet.length; i++) {
       allIcons.push(true);
     }
+    let checkMode = false;
     // then apply filters
     for (let i = 0; i < props.header.forceFilter.length; i++) {
       allIcons[props.header.forceFilter[i]] = false;
+      // if there is a filter for 0 ID, then we change the opportunity checks
+      if (props.header.forceFilter[i] === 0) {
+        resetChecks(0);
+        checkMode = true;
+      }
+    }
+    if (!checkMode) {
+      resetChecks(1);
     }
     setFilterShow(allIcons);
     // eslint-disable-next-line
@@ -358,11 +367,11 @@ function Header(props) {
 
   // the opportunities filter button was pressed
   // reset the checked status of all the opportunity items
-  function resetChecks() {
+  function resetChecks(currentFilterMode) {
 
     const newCards = [...props.header.cards];
 
-    if (!opportunityFilterMode) {
+    if (!currentFilterMode) {
       for (let i = 0; i < newCards.length; i++) {
         for (let j = 0; j < newCards[i].items.length; j++) {
           if (newCards[i].items[j].iconType === 11) {
@@ -387,7 +396,7 @@ function Header(props) {
     }
 
     setCheckedCards(newCards);
-    setOpportunityFilterMode(!opportunityFilterMode)
+    setOpportunityFilterMode(!currentFilterMode)
   }
 
   // changes the checked status of an item
@@ -642,7 +651,7 @@ function Header(props) {
                       <ListToggle
                         showButton={opportunitiesExist}
                         toggled={opportunityFilterMode}
-                        toggleList={() => resetChecks()}
+                        toggleList={() => resetChecks(opportunityFilterMode)}
                         />
                       <EditHeader
                           mode={props.mode}
