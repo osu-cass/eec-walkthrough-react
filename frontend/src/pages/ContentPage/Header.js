@@ -22,6 +22,20 @@ function Header(props) {
   const [tempOpportunitiesExist, setTempOpportunitiesExist] = useState(false);
   const [opportunityFilterMode, setOpportunityFilterMode] = useState(false);
 
+  // If the filter changes, then update the icons that are being filtered
+  useEffect(() => {
+    const allIcons = [];
+    // first reset all icons
+    for (let i = 0; i <= props.iconSet.length; i++) {
+      allIcons.push(true);
+    }
+    // then apply filters
+    for (let i = 0; i < props.header.forceFilter.length; i++) {
+      allIcons[props.header.forceFilter[i]] = false;
+    }
+    setFilterShow(allIcons);
+  }, [props.header.forceFilter, props.iconSet.length]);
+
   // Get all of the icons that could be used for published filtering
   useEffect(() => {
     const allIcons = [];
@@ -712,5 +726,6 @@ Header.propTypes = {
   bottom: PropTypes.bool,
   cardState: PropTypes.number,
   handleTimestamp: PropTypes.func,
-  updateCards: PropTypes.bool
+  updateCards: PropTypes.bool,
+  forceFilter: PropTypes.array
 };

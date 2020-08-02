@@ -6,13 +6,34 @@ import PropTypes from "prop-types";
 // Button and modal that allows loading view settings
 function LoadView(props) {
 
+  const [newModal, setNewModal] = useState(true);
+  const [views, setViews] = useState([]);
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   // open the modal
-  function handleOpen() {
+  async function handleOpen() {
     setShow(true);
     setErrorMessage("");
+
+    // if this is the first time opening the modal, load all of the
+    // possible view selections
+    if (newModal) {
+
+      // Fetch the views for this page
+      let results = await fetch(`/api/views/page/${props.pageId}`);
+
+      if (results.ok) {
+
+        const obj = await results.json();
+        setViews(obj.views);
+        setNewModal(false);
+
+      } else {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      }
+
+    }
   }
 
   // close the modal
@@ -23,27 +44,32 @@ function LoadView(props) {
 
   // load the new view
   async function handleLoad() {
+    // get the selected view from the select
+    const viewSelect = document.getElementById("select-new-view-type");
+    const newView = parseInt(viewSelect.options[viewSelect.selectedIndex].value, 10);
 
-    // Fetch the views for this page
-    let results = await fetch(`/api/views/page/${props.pageId}`);
-
-    if (results.ok) {
-      const obj = await results.json();
-      console.log(obj);
+    // send the new view to the content page
+    if (newView) {
+      if (typeof views[newView - 1] !== "undefined") {
+        props.onNewView(views[newView - 1].headers);
+        handleClose();
+      } else {
+        setErrorMessage("Error loading view");
+      }
     } else {
-      setErrorMessage("An internal server error occurred. Please try again later.");
+      props.onNewView([]);
+      handleClose();
     }
-
   }
 
   return props.mode === 0 ? (
-    <div className='text-center mx-2'>
+    <div className="text-center mx-2">
         <Button size="sm"
           variant="success"
           onClick={() => handleOpen()}
         >
           <i
-            className='fas fa-folder-open text-white mr-2'
+            className="fas fa-folder-open text-white mr-2"
             style={{transform: "scale(1.5)"}}
           />
           <span className="text-white">Load View</span>
@@ -57,18 +83,24 @@ function LoadView(props) {
           </Button>
         </Modal.Header>
 
-        <Modal.Body >
+        <Modal.Body>
+
           <Row>
             <Col>
-              <Form.Group controlId="formFormat">
+              <Form.Group controlId="formTitle">
                 <Form.Label className="font-weight-bold">Select View</Form.Label>
                 <select className="form-control"
-                  id="select-new-card-format"
+                  id="select-new-view-type"
                   defaultValue={"0"}
                 >
-                  <option value="0">Default</option>
-                  <option value="1">Thumbnail Gallery</option>
-                  <option value="2">Expandable List</option>
+                  <option value={"0"}>
+                    Default
+                  </option>
+                  {views.map((view, i) =>
+                    <option value={i + 1} key={view.viewId}>
+                      {view.viewName}
+                    </option>
+                  )}
                 </select>
               </Form.Group>
             </Col>
@@ -102,5 +134,6 @@ export default LoadView;
 
 LoadView.propTypes = {
   mode: PropTypes.number,
-  pageId: PropTypes.number
+  pageId: PropTypes.number,
+  onNewView: PropTypes.func
 };
