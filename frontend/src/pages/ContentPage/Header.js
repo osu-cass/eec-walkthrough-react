@@ -20,7 +20,7 @@ function Header(props) {
   const [unfilteredCards, setUnfilteredCards] = useState(props.header.cards);
   const [opportunitiesExist, setOpportunitiesExist] = useState(false);
   const [tempOpportunitiesExist, setTempOpportunitiesExist] = useState(false);
-  const [opportunityFilterMode, setOpportunityFilterMode] = useState(false);
+  const [opportunityFilterMode, setOpportunityFilterMode] = useState(0);
 
   // If the filter changes, then update the icons that are being filtered
   useEffect(() => {
@@ -35,12 +35,14 @@ function Header(props) {
       allIcons[props.header.forceFilter[i]] = false;
       // if there is a filter for 0 ID, then we change the opportunity checks
       if (props.header.forceFilter[i] === 0) {
-        resetChecks(0);
+        setOpportunityFilterMode(1);
+        resetChecks(1);
         checkMode = true;
       }
     }
     if (!checkMode) {
-      resetChecks(1);
+      setOpportunityFilterMode(0);
+      resetChecks(0);
     }
     setFilterShow(allIcons);
     // eslint-disable-next-line
@@ -365,13 +367,13 @@ function Header(props) {
     }
   }
 
-  // the opportunities filter button was pressed
-  // reset the checked status of all the opportunity items
+  // if the opportunity filter mode changes,
+  // then make sure the correct items are checked
   function resetChecks(currentFilterMode) {
 
     const newCards = [...props.header.cards];
 
-    if (!currentFilterMode) {
+    if (currentFilterMode) {
       for (let i = 0; i < newCards.length; i++) {
         for (let j = 0; j < newCards[i].items.length; j++) {
           if (newCards[i].items[j].iconType === 11) {
@@ -396,7 +398,6 @@ function Header(props) {
     }
 
     setCheckedCards(newCards);
-    setOpportunityFilterMode(!currentFilterMode)
   }
 
   // changes the checked status of an item
@@ -651,7 +652,7 @@ function Header(props) {
                       <ListToggle
                         showButton={opportunitiesExist}
                         toggled={opportunityFilterMode}
-                        toggleList={() => resetChecks(opportunityFilterMode)}
+                        toggleList={() => props.updateIcon(0, !opportunityFilterMode, props.header.headerId)}
                         />
                       <EditHeader
                           mode={props.mode}
