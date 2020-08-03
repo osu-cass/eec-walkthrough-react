@@ -70,3 +70,66 @@ async function getViews(pageId, userId) {
 
 }
 exports.getViews = getViews;
+
+
+async function createView(pageId, headers, publicView, viewName, userId) {
+
+  try {
+
+    // make sure the page exists
+    let sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ?;";
+    let results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // create the view
+    sql = "INSERT INTO Views (pageId, userId, viewName, public) " +
+    "VALUES (?, ?, ?, ?);";
+    results = await pool.query(sql, [pageId, userId, viewName, publicView]);
+    const viewId = results[0].insertId;
+
+    // add the filters to the view
+    for (let i = 0; i < headers.length; i++) {
+
+      // make sure the current header exists
+      let sql = "SELECT * " +
+      "FROM Headers " +
+      "WHERE headerId = ?;";
+      let results = await pool.query(sql, headers[i].headerId);
+
+      if (!results[0].length) {
+        return {error: 2};
+      }
+
+      // save each filter
+      for (let j = 0; j < headers[i].filters.length; j++) {
+
+        // confirm that the filter is storing icon IDs
+        if (!Number.isInteger(headers[i].filters[j])) {
+          return {error: 2};
+        }
+
+        sql = "INSERT INTO Filters (viewId, headerId, iconId) " +
+        "VALUES (?, ?, ?);";
+        results = await pool.query(sql, [viewId, headers[i].headerId, headers[i].filters[j]]);
+      }
+
+    }
+
+    const finalResults = {
+      insertId: viewId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error creating view");
+    throw Error(err);
+  }
+
+}
+exports.createView = createView;
