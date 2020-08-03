@@ -35,6 +35,6 @@ export default ListToggle;
 
 ListToggle.propTypes = {
   showButton: PropTypes.bool,
-  toggled: PropTypes.bool,
+  toggled: PropTypes.number,
   toggleList: PropTypes.func
 };
