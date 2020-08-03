@@ -11,6 +11,7 @@ function SaveView(props) {
   const [views, setViews] = useState([]);
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [publicView, setPublicView] = useState(0);
 
   // open the modal
   async function handleOpen() {
@@ -58,11 +59,13 @@ function SaveView(props) {
     for (let i = 0; i < copy.length; i++) {
       newHeaders[i] = {
         headerId: copy[i].headerId,
-        filters: copy[i].forceFilter
+        filters: copy[i].forceFilter,
       }
     }
     const views = {
-      headers: newHeaders
+      headers: newHeaders,
+      viewName: viewName,
+      publicView: publicView
     };
 
     // Create the new view

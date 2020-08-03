@@ -296,3 +296,13 @@ const patchCategoryVal = Object.freeze({
   ]
 });
 exports.patchCategoryVal = patchCategoryVal;
+
+// validation checks for post view
+const postViewVal = Object.freeze({
+  validation: [
+    check("headers").isArray(),
+    check("publicView").isInt({min: 0, max: 1}),
+    check("viewName").isLength({min: 1, max: 500})
+  ]
+});
+exports.postViewVal = postViewVal;
