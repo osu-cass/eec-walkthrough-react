@@ -78,6 +78,7 @@ async function getViews(pageId, userId) {
 exports.getViews = getViews;
 
 
+// create a view for a specific page
 async function createView(pageId, headers, publicView, viewName, userId) {
 
   try {
@@ -139,3 +140,63 @@ async function createView(pageId, headers, publicView, viewName, userId) {
 
 }
 exports.createView = createView;
+
+
+// delete a view
+async function deleteView(viewId, userId) {
+
+  try {
+
+    // check to see if the view exists
+    let sql = "SELECT * " +
+      "FROM Views " +
+      "WHERE viewId = ?;";
+
+    let results = await pool.query(sql, viewId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const viewOwner = results[0][0].userId;
+
+    // check the users current role
+    sql = "SELECT * " +
+    "FROM Users " +
+    "WHERE userId = ?;";
+
+    results = await pool.query(sql, userId);
+
+    if (!results[0].length) {
+      return {error: 2};
+    }
+
+    const userRole = results[0][0].role;
+
+    console.log("userId", userId, "viewOwner", viewOwner, "userRole", userRole)
+
+    // confirm that the user is allowed to delete the view
+    if (userId !== viewOwner && userRole !== 4) {
+      return {error: 2};
+    }
+
+    // delete the view
+    sql = "DELETE " +
+    "FROM Views " +
+    "WHERE viewId = ?;";
+
+    results = await pool.query(sql, viewId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting view");
+    throw Error(err);
+  }
+
+}
+exports.deleteView = deleteView;
