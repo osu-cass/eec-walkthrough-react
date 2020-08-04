@@ -42,6 +42,7 @@ function SaveView(props) {
   function handleClose() {
     setShow(false);
     setErrorMessage("");
+    setPublicView(0);
   }
 
   // save the new view
@@ -114,6 +115,23 @@ function SaveView(props) {
               </Form.Group>
             </Col>
           </Row>
+          
+          {props.role >= 4 ? (
+            <Row>
+              <Col>
+                <div className="custom-control form-control-lg custom-checkbox my-2">
+                  <input type="checkbox" className="form-check-input custom-control-input"
+                    id="internal-modal-checkbox" onClick={() => setPublicView(publicView ? 0 : 1)}
+                  />
+                  <label className="form-check-label custom-control-label font-weight-bold pl-3" htmlFor="internal-modal-checkbox">
+                    Share view with all users
+                  </label>
+                </div>
+              </Col>
+            </Row>
+          ) : (
+            null
+          )}
 
           <Row>
             <div className='col-3' />
