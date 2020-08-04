@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 04, 2020 at 04:07 AM
+-- Generation Time: Aug 04, 2020 at 04:47 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -974,7 +974,7 @@ CREATE TABLE `Temp_Pages` (
   `tempPageType` int(10) UNSIGNED NOT NULL,
   `tempName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tempTitle` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tempDescription` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tempDescription` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tempImageUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tempInternal` tinyint(3) UNSIGNED NOT NULL,
   `tempUserId` int(10) UNSIGNED NOT NULL,
@@ -986,7 +986,7 @@ CREATE TABLE `Temp_Pages` (
 --
 
 INSERT INTO `Temp_Pages` (`tempPageId`, `tempPageType`, `tempName`, `tempTitle`, `tempDescription`, `tempImageUrl`, `tempInternal`, `tempUserId`, `tempCreated`) VALUES
-(53, 4, 'z - test Diff Demo', 'Basic Page Meant for Testing New Features', 'Lorem ipsummmel dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tincidunt tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lecttus a lobortis pharetra, felis nibh posuere libero, vel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus s', 'http://placekitten.com/500/500', 1, 42, '2020-08-04 11:05:59');
+(53, 4, 'z - test Diff Demo', 'Basic Page Meant for Testing New Features', 'Lorem ipsumum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tincidunt tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ', 'http://placekitten.com/400/500', 1, 42, '2020-08-04 11:05:59');
 
 -- --------------------------------------------------------
 
