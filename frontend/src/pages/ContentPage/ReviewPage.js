@@ -350,6 +350,7 @@ function ReviewPage(props) {
                       newText={props.page.tempDescription}
                       oldText={props.page.description}
                       elementType={0}
+                      allowWrap={true}
                     />
                     <br />
                     {props.page.imageUrl !== props.page.tempImageUrl ? (
@@ -374,7 +375,7 @@ function ReviewPage(props) {
                   <Fragment>
                     <h3 className="font-weight-bold">{props.page.name}</h3>
                     <h4>{props.page.title}</h4>
-                    <span>{props.page.description}</span>
+                    <span className="description-review-page">{props.page.description}</span>
                     <br />
                     <div className="p-4 d-inline-block">
                       <Image url={props.page.imageUrl}
@@ -417,6 +418,7 @@ function ReviewPage(props) {
                   newText={props.page.tempDescription}
                   oldText={props.page.description}
                   elementType={0}
+                  allowWrap={true}
                 />
                 <br />
                 {props.page.imageUrl !== props.page.tempImageUrl ? (
@@ -449,7 +451,7 @@ function ReviewPage(props) {
                   <div className="m-4">
                     <h3 className="font-weight-bold">{props.page.name}</h3>
                     <h4>{props.page.title}</h4>
-                    <span>{props.page.description}</span>
+                    <span className="description-review-page">{props.page.description}</span>
                     <br />
                     <div className="p-4 d-inline-block">
                       <Image url={props.page.imageUrl}
