@@ -63,24 +63,54 @@ function SaveView(props) {
         filters: copy[i].forceFilter,
       }
     }
-    const views = {
+    const newViews = {
       headers: newHeaders,
       viewName: viewName,
       publicView: publicView
     };
 
-    // Create the new view
+    // if the view name already exists, confirm that the user wishes to overwrite it
+    for (let i = 0; i < views.length; i ++) {
+      if (views[i].viewName === viewName && views[i].public === publicView) {
+        if (!window.confirm(`The view "${viewName}" already exists. Are you sure you want to replace it?`)) {
+          return;
+        } else {
+          break;
+        }
+      }
+    }
+
+    // create the new view
     const results = await fetch(`/api/views/page/${props.pageId}`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(views)
+      body: JSON.stringify(newViews)
     });
 
     if (results.ok) {
       props.onNewView();
       handleClose();
+
+      // reload the view list
+      let results = await fetch(`/api/views/page/${props.pageId}`);
+
+      if (results.ok) {
+
+        const obj = await results.json();
+        setViews(obj.views);
+        setNewModal(false);
+
+      }
+
     } else {
-      setErrorMessage("Error saving view");
+      const obj = await results.json();
+
+      if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
     }
   }
 

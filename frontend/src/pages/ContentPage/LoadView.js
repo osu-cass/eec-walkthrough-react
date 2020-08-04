@@ -91,6 +91,8 @@ function LoadView(props) {
 
       if (results.ok) {
 
+        setErrorMessage("");
+
         // reload the view list
         let results = await fetch(`/api/views/page/${props.pageId}`);
 
@@ -105,7 +107,6 @@ function LoadView(props) {
       } else {
 
         const obj = await results.json();
-        console.log(obj);
 
         if (results.status === 500 || typeof obj.error === "undefined") {
           setErrorMessage("An internal server error occurred. Please try again later.");

@@ -40,7 +40,7 @@ app.get("/page/:pageId", getUserID, async (req, res) => {
 });
 
 
-// create a new view
+// create a new view or replace an old one
 app.post("/page/:pageId", requireAuth, postViewVal.validation, async (req, res) => {
 
   try {
@@ -83,6 +83,8 @@ app.post("/page/:pageId", requireAuth, postViewVal.validation, async (req, res) 
       if (results.error === 1) {
         res.status(403).send({error: "Page does not exist."});
       } else if (results.error === 2) {
+        res.status(403).send({error: "You do not have permission to change this view."});
+      } else if (results.error === 3) {
           res.status(403).send({error: "Invalid header data."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
