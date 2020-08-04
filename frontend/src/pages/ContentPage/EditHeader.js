@@ -87,7 +87,8 @@ function EditHeader(props) {
           tempUserId: 0,
           title: props.header.title,
           userId: props.header.userId,
-          cards: props.header.cards
+          cards: props.header.cards,
+          forceFilter: []
         };
       } else {
         newHeader = {
@@ -107,7 +108,8 @@ function EditHeader(props) {
           tempUserId: props.header.tempUserId,
           title: title,
           userId: 0,
-          cards: props.header.cards
+          cards: props.header.cards,
+          forceFilter: []
         };
       }
 
