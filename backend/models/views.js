@@ -32,6 +32,12 @@ async function getViews(pageId, userId) {
 
       results = await pool.query(sql, [finalResults.views[i].viewId, userId]);
 
+      // see if we have any filters set
+      if (!results[0].length) {
+        finalResults.views[i].headers = [];
+        continue;
+      }
+
       // sort the results into groups of headers
       const headers = [];
       let headerId = results[0][0].headerId;

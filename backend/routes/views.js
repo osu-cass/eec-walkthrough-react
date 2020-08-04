@@ -6,7 +6,8 @@ const app = express();
 const {validationResult} = require("express-validator");
 const {
   getUserID,
-  requireAuth
+  requireAuth,
+  roleCheck
 } = require("../services/authentication/cookieAuth");
 const {
   postViewVal
