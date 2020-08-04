@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jul 31, 2020 at 03:01 PM
+-- Generation Time: Aug 04, 2020 at 04:07 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -75,7 +75,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (82, 30, 0, 82, 'Use More Efficient Pump Control', 55, '2020-07-01 18:19:29', 0),
 (83, 30, 0, 83, 'Reduce Flow Required', 51, '2020-07-01 21:21:37', 0),
 (84, 30, 0, 84, 'Reduce Head Required', 51, '2020-07-01 21:28:45', 0),
-(85, 30, 0, 85, 'Improve Pump Efficiency', 51, '2020-07-01 21:42:32', 0),
+(85, 30, 0, 85, 'Improve Pump Efficiency', 57, '2020-07-01 21:42:32', 0),
 (86, 2, 0, 86, 'Reduce Air Compressor Run Time', 51, '2020-07-01 22:24:57', 1),
 (87, 2, 0, 87, 'Other Opportunities', 51, '2020-07-01 22:28:10', 1),
 (88, 31, 0, 88, 'Pros', 56, '2020-07-02 19:58:20', 1),
@@ -112,7 +112,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (119, 28, 0, 119, 'Turn of Motors (Consider Load Shedding)', 51, '2020-07-07 23:38:14', 1),
 (120, 28, 0, 120, 'Power Quality', 56, '2020-07-03 00:19:36', 1),
 (121, 18, 10, 121, 'A new internal card', 42, '2020-07-07 02:04:39', 1),
-(122, 29, 0, 122, 'Cons', 55, '2020-07-07 17:54:57', 0),
+(122, 29, 0, 122, 'Cons', 57, '2020-07-07 17:54:57', 0),
 (123, 29, 0, 123, 'General Off Site Resource Links', 55, '2020-07-07 18:00:00', 0),
 (124, 29, 0, 124, 'U.S. Department of Energy Tip Sheets', 55, '2020-07-07 20:31:56', 0),
 (125, 29, 0, 125, 'Figures, Charts, and Tables', 55, '2020-07-07 20:33:57', 0),
@@ -139,7 +139,9 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (147, 42, 0, 3, '3', 42, '2020-07-28 08:34:31', 1),
 (148, 45, 0, 1, '1', 42, '2020-07-28 08:35:42', 1),
 (149, 45, 0, 2, '2', 42, '2020-07-28 08:35:55', 0),
-(150, 45, 0, 3, '3', 42, '2020-07-28 08:36:10', 0);
+(150, 45, 0, 3, '3', 42, '2020-07-28 08:36:10', 0),
+(151, 46, 10, 151, 'Cras facilisis hendrerit dui', 42, '2020-08-04 10:56:28', 1),
+(152, 46, 0, 152, 'A bunch of images', 42, '2020-08-04 11:00:16', 1);
 
 -- --------------------------------------------------------
 
@@ -237,7 +239,8 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (42, 27, 2, 'A', 0, 42, '2020-07-28 08:31:16', 1),
 (43, 27, 3, 'B', 0, 42, '2020-07-28 08:31:20', 1),
 (44, 27, 5, 'C (published & edited)', 0, 42, '2020-07-28 08:31:46', 1),
-(45, 27, 4, 'D (edited)', 0, 42, '2020-07-28 08:31:29', 0);
+(45, 27, 4, 'D (edited)', 0, 42, '2020-07-28 08:31:29', 0),
+(46, 53, 46, 'Simple Header', 0, 42, '2020-08-04 10:53:41', 1);
 
 -- --------------------------------------------------------
 
@@ -418,9 +421,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (789, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50065907438_e7f7d53ba4_b.jpg', 'Refrigerated compressed air dryer', 0, '2020-07-01 21:19:36', 1),
 (827, 83, 0, 0, 11, 'Eliminate Overflow \"Control\" on Tanks', '', '', 0, '2020-07-01 21:45:09', 0),
 (828, 83, 0, 0, 11, 'Look for Opportunity to Reduced Defined Flow Requirements', '', '', 0, '2020-07-01 21:45:09', 0),
-(834, 85, 0, 0, 11, 'Trim Pump Impeller for Better Efficiency at Typical Operating Points', '', '', 0, '2020-07-01 21:47:56', 0),
-(835, 85, 0, 0, 11, 'Replace Pump with One Selected for Optimum Efficiency at Typical Operating Points', '', '', 0, '2020-07-01 21:47:56', 0),
-(836, 85, 0, 0, 11, 'Replace or Overhaul Worn or Damaged Pumps', '', '', 0, '2020-07-01 21:47:56', 0),
 (842, 84, 0, 0, 11, 'Reduce Line Losses (Larger Diameter Pipes, etc)', '', '', 0, '2020-07-01 21:53:17', 0),
 (843, 84, 0, 0, 11, 'Use \"Least Closed Valve\" Strategy on Pumping Networks Serving Multiple End Points.', '', '', 0, '2020-07-01 21:53:17', 0),
 (844, 84, 0, 0, 11, 'Eliminate or Reduce Fluid \"Free Fall\" at Discharge Point.', '', '', 0, '2020-07-01 21:53:17', 0),
@@ -615,7 +615,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2151, 27, 0, 0, 11, 'Replace desiccant based air dryer with a refrigerated air dryer if air drying needs permit.', '', '', 0, '2020-07-07 16:17:13', 1),
 (2152, 27, 0, 0, 11, 'Use desiccant based air dryer with more efficient desiccant bed regeneration', '', '', 0, '2020-07-07 16:17:13', 1),
 (2153, 27, 0, 0, 11, 'Replace pneumatic hand tools with battery powered hand tools', '', '', 0, '2020-07-07 16:17:13', 1),
-(2172, 122, 0, 0, 2, 'test', '', '', 0, '2020-07-07 17:54:57', 0),
 (2179, 123, 0, 0, 17, 'MEASUR is open source software that consists of the following DOE legacy energy system assessment tools (updated): Pumping System Assessment Tool (PSAT), Process Heating Assessment and Survey Tool (PHAST), Fan System Assessment Tool (FSAT), Steam System Assessment Tool (SSAT)/ Steam System Modeler (SSMT), AIRMaster+ (Last accessed 12/2/2019)   ', 'https://www.energy.gov/eere/amo/measur', 'U.S. Department of Energy MEASUR analysis tool', 1, '2020-07-07 18:00:00', 0),
 (2210, 82, 0, 0, 11, 'Replace Valve Control with Variable Speed Drive Control', '', '', 0, '2020-07-07 20:28:47', 0),
 (2211, 82, 0, 1, 13, 'Pumps are often designed to operate at specific conditions, installing a Variable Speed Drive can allow the pump to supply a wider range of flows while remaining near it\'s best efficiency point', '', '', 0, '2020-07-07 20:28:47', 0),
@@ -682,12 +681,12 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2346, 66, 0, 0, 15, 'Pharetra massa massa ultricies mi quis hendrerit dolor.', '', '', 0, '2020-07-14 11:04:54', 0),
 (2347, 66, 0, 0, 26, 'Vitae semper quis lectus nulla.', '', '', 0, '2020-07-14 11:04:54', 0),
 (2348, 66, 0, 0, 26, 'Lectus mauris ultrices eros in cursus.', '', '', 0, '2020-07-14 11:04:54', 0),
-(2349, 126, 0, 0, 17, '$empty', '/technologies/45', 'Pumps', 0, '2020-07-14 17:32:19', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
+(2349, 126, 0, 0, 17, '$empty', '/technologies/45', 'Pumps', 0, '2020-07-14 17:32:19', 0),
 (2392, 130, 0, 0, 13, 'Un-insulated or poorly insulated surfaces are a significant source of lost energy. Temperature differentials between the surfaces and surroundings act as a driving force for the heat transfer between these bodies. The rate of this heat transfer is directly proportional to the magnitude of the temperature differential. Insulating these surfaces will decrease this rate of heat transfer, saving energy and improving system efficiency.', '', '', 0, '2020-07-14 23:31:30', 0),
 (2393, 130, 0, 0, 11, 'Insulate hot surfaces (Julian)', '', '', 0, '2020-07-14 23:31:30', 0),
 (2394, 59, 0, 0, 20, '', 'http://placekitten.com/200/300', 'AC Cat 1', 0, '2020-07-15 01:38:06', 0),
-(2395, 59, 0, 0, 20, '', 'http://placekitten.com/300/200', 'AC Cat 2', 0, '2020-07-15 01:38:06', 0),
+(2395, 59, 0, 0, 20, '', 'http://placekitten.com/300/200', 'AC Cat 2', 0, '2020-07-15 01:38:06', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
 (2396, 59, 0, 0, 20, '', 'http://placekitten.com/1200/500', 'AC Cat 3', 0, '2020-07-15 01:38:06', 0),
 (2397, 59, 0, 0, 20, '', 'http://placekitten.com/200/300', 'AC Cat 4', 0, '2020-07-15 01:38:06', 0),
 (2398, 59, 0, 0, 20, '', 'http://placekitten.com/700/800', 'AC Cat 5', 0, '2020-07-15 01:38:06', 0),
@@ -800,7 +799,48 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2981, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/fksaccw3fhif7h70nkynzwlbbu26g608', 'Analysis Template: Increase Air Receiver Capacity', 2, '2020-07-30 02:31:10', 0),
 (2982, 77, 0, 1, 20, '', 'https://drive.google.com/file/d/1OV8lp9LoQl2dsUxOvEc8l8ppHLB5JWbY/view?usp=sharing', 'Effect of Receiver Capacity on Lubricant-Injected Rotary Compressor with Load-Unload Capacity Control', 0, '2020-07-30 02:31:10', 0),
 (2983, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, '2020-07-30 02:31:10', 0),
-(2984, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, '2020-07-30 02:31:10', 0);
+(2984, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, '2020-07-30 02:31:10', 0),
+(3005, 122, 0, 0, 2, 'test', '', '', 0, '2020-08-03 20:29:48', 0),
+(3006, 122, 0, 0, 2, 'Actual efficiency can easily vary from 50 percent to 80 percent for optimum operation of a particular pump', '', '', 0, '2020-08-03 20:29:48', 0),
+(3007, 85, 0, 0, 11, 'Trim Pump Impeller for Better Efficiency at Typical Operating Points', '', '', 0, '2020-08-03 20:31:41', 0),
+(3008, 85, 0, 1, 10, 'Older pumps that have not been adjusted or calibrated to fit existing demand.', '', '', 0, '2020-08-03 20:31:41', 0),
+(3009, 85, 0, 1, 15, 'Pressure across the pump', '', '', 0, '2020-08-03 20:31:41', 0),
+(3010, 85, 0, 1, 15, 'Fluid flow rate', '', '', 0, '2020-08-03 20:31:41', 0),
+(3011, 85, 0, 1, 15, 'Operating hours', '', '', 0, '2020-08-03 20:31:41', 0),
+(3012, 85, 0, 1, 15, 'Pump curve and nameplate', '', '', 0, '2020-08-03 20:31:41', 0),
+(3013, 85, 0, 1, 15, 'Elevation change', '', '', 0, '2020-08-03 20:31:41', 0),
+(3014, 85, 0, 1, 15, 'Type of fluid', '', '', 0, '2020-08-03 20:31:41', 0),
+(3015, 85, 0, 1, 27, 'Power Quality Analyzer (PQA)', '', '', 0, '2020-08-03 20:31:41', 0),
+(3016, 85, 0, 1, 27, 'Ultrasonic flow meter', '', '', 0, '2020-08-03 20:31:41', 0),
+(3017, 85, 0, 1, 8, 'Try to find nearby pressure gauges to estimate pressure change across the pump.', '', '', 0, '2020-08-03 20:31:41', 0),
+(3018, 85, 0, 1, 8, 'Pick a pump based on its best efficiency point matching current operating conditions.', '', '', 0, '2020-08-03 20:31:41', 0),
+(3019, 85, 0, 1, 14, 'Would installing a variable frequency drive (VFD), trimming the impeller, replacing the motor, or using a belt sheave be a better option?', '', '', 0, '2020-08-03 20:31:41', 0),
+(3020, 85, 0, 1, 4, 'When modifying or replacing pumps and fans, or adjusting their rpm, be sure that they can operate under all conditions anticipated for the given system. System pressure or head should not exceed the maximum pressure or head the fan or pump can sustain. Surge points should be avoided.', '', '', 0, '2020-08-03 20:31:41', 0),
+(3021, 85, 0, 0, 11, 'Replace Pump with One Selected for Optimum Efficiency at Typical Operating Points', '', '', 0, '2020-08-03 20:31:41', 0),
+(3022, 85, 0, 0, 11, 'Replace or Overhaul Worn or Damaged Pumps', '', '', 0, '2020-08-03 20:31:41', 0),
+(3033, 151, 0, 0, 1, 'Cras posuere lacus id pharetra finibus.', '', '', 0, '2020-08-04 10:57:12', 1),
+(3034, 151, 0, 0, 1, 'Cras in turpis maximus, porttitor urna id, luctus turpis.', '', '', 0, '2020-08-04 10:57:12', 1),
+(3035, 151, 0, 1, 14, 'Maecenas varius justo vel felis luctus, non consequat erat sollicitudin.', '', '', 0, '2020-08-04 10:57:12', 1),
+(3036, 151, 0, 1, 14, 'Phasellus sagittis lectus at nulla pretium efficitur.', '', '', 0, '2020-08-04 10:57:12', 1),
+(3037, 151, 0, 0, 17, 'Aliquam commodo tellus vitae lacus', 'https://www.lipsum.com/feed/html', 'Lorem Ipsum', 1, '2020-08-04 10:57:12', 1),
+(3038, 151, 0, 0, 3, 'Praesent rhoncus auctor elementum.', '', '', 1, '2020-08-04 10:57:12', 1),
+(3039, 151, 0, 0, 8, 'Proin ac finibus dui.', '', '', 0, '2020-08-04 10:57:12', 1),
+(3060, 152, 0, 0, 20, '', 'http://placekitten.com/100/300', 'Cat 1', 0, '2020-08-04 11:00:16', 1),
+(3061, 152, 0, 0, 20, '', 'http://placekitten.com/200/200', 'Cat 2', 0, '2020-08-04 11:00:16', 1),
+(3062, 152, 0, 0, 20, '', 'http://placekitten.com/150/250', 'Cat 3', 0, '2020-08-04 11:00:16', 1),
+(3063, 152, 0, 0, 20, '', 'http://placekitten.com/250/150', 'Cat 4', 0, '2020-08-04 11:00:16', 1),
+(3064, 151, 0, 0, 14, 'Phasellus sagittis lectus at nulla pretium efficitur.', '', '', 0, '2020-08-04 11:02:01', 0),
+(3065, 151, 0, 0, 1, 'Cras posuere lacus id pharetra finibus.', '', '', 0, '2020-08-04 11:02:01', 0),
+(3066, 151, 0, 0, 1, 'Cras in turpis maximus, porttitor urna id, luctus turpis.', '', '', 0, '2020-08-04 11:02:01', 0),
+(3067, 151, 0, 1, 14, 'Maecenas varius justo vel felis luctus, non consequat erat sollicitudin.', '', '', 0, '2020-08-04 11:02:01', 0),
+(3068, 151, 0, 0, 17, 'Aliquam commodo tellus vitae lacus', 'https://www.lipsum.com/feed/html', 'Lorem Ipsum', 1, '2020-08-04 11:02:01', 0),
+(3069, 151, 0, 0, 3, 'Praesent rhoncus auctor.', '', '', 1, '2020-08-04 11:02:01', 0),
+(3070, 151, 0, 0, 8, 'Proin ac finibus dui.', '', '', 0, '2020-08-04 11:02:01', 0),
+(3071, 151, 0, 0, 1, 'Suspendisse sed sapien.', '', '', 0, '2020-08-04 11:02:01', 0),
+(3072, 152, 0, 0, 20, '', 'http://placekitten.com/100/300', 'Cat 1', 0, '2020-08-04 11:03:02', 0),
+(3073, 152, 0, 0, 20, '', 'http://placekitten.com/250/150', 'Cat 4', 0, '2020-08-04 11:03:02', 0),
+(3074, 152, 0, 0, 20, '', 'http://placekitten.com/150/250', 'Cat 3', 0, '2020-08-04 11:03:02', 0),
+(3075, 152, 0, 0, 20, '', 'http://placekitten.com/620/620', 'Cat 5', 0, '2020-08-04 11:03:02', 0);
 
 -- --------------------------------------------------------
 
@@ -840,7 +880,8 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (47, 2, 'Thermal Systems', 'Many industrial processes require encouraging or resisting thermal energy transfer.', 'Heat transfer technologies include heat exchangers, cooling towers, fan cooling, direct impingement and other methods.  Heat transfer is discouraged with insulation, vacuums, reduced emissivity, etc. ', 'https://live.staticflickr.com/65535/50069411093_68ab30e548_b.jpg', 0, 58, '2020-07-02 21:31:22', 0),
 (48, 2, 'Refrigeration', 'Refrigeration technology is important in many industrial processes.', 'Vapor compression is the most common refrigeration technology. Mechanical energy input to a compressor enables absorbing heat in cooler environment and discharging it to a warmer environment. ', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 51, '2020-07-02 22:10:36', 0),
 (49, 3, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'Utility bills are based not only on the commodity. They can also be based on the rate of use (Dem...', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 0, 42, '2020-07-02 22:40:27', 0),
-(50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 51, '2020-07-07 20:46:38', 0);
+(50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 51, '2020-07-07 20:46:38', 0),
+(53, 4, 'z - test Demo', 'Basic Testing Page', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tincidunt tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, vel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nCurabitur cursus arcu elit, ut scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est accumsan blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Phasellus at dolor condimentum odio lobortis facilisis. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/500/500', 1, 42, '2020-08-04 10:53:03', 1);
 
 -- --------------------------------------------------------
 
@@ -894,7 +935,9 @@ INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderI
 (105, 0, 'Improve the Condensate System', 105, 58, '2020-07-10 18:54:00'),
 (106, 0, 'Reduce Heat Loss', 106, 51, '2020-07-03 17:31:09'),
 (120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52'),
-(128, 10, 'eoowerwerwer', 128, 42, '2020-07-07 21:33:22');
+(128, 10, 'eoowerwerwer', 128, 42, '2020-07-07 21:33:22'),
+(151, 10, 'Cras facilisis hendrerit dui', 151, 42, '2020-08-04 11:02:01'),
+(152, 1, 'A bunch of images', 152, 42, '2020-08-04 11:03:02');
 
 -- --------------------------------------------------------
 
@@ -917,7 +960,8 @@ CREATE TABLE `Temp_Headers` (
 
 INSERT INTO `Temp_Headers` (`tempHeaderId`, `tempTitle`, `tempInternal`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
 (32, 'Boilers and Steam Opportunities to Consider', 0, 32, 58, '2020-07-14 18:53:33'),
-(44, 'C (published & edited)', 0, 1, 42, '2020-07-28 08:32:25');
+(44, 'C (published & edited)', 0, 1, 42, '2020-07-28 08:32:25'),
+(46, 'Simply a new Header', 0, 46, 42, '2020-08-04 11:03:44');
 
 -- --------------------------------------------------------
 
@@ -936,6 +980,13 @@ CREATE TABLE `Temp_Pages` (
   `tempUserId` int(10) UNSIGNED NOT NULL,
   `tempCreated` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Temp_Pages`
+--
+
+INSERT INTO `Temp_Pages` (`tempPageId`, `tempPageType`, `tempName`, `tempTitle`, `tempDescription`, `tempImageUrl`, `tempInternal`, `tempUserId`, `tempCreated`) VALUES
+(53, 4, 'z - test Diff Demo', 'Basic Page Meant for Testing New Features', 'Lorem ipsummmel dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tincidunt tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lecttus a lobortis pharetra, felis nibh posuere libero, vel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus s', 'http://placekitten.com/500/500', 1, 42, '2020-08-04 11:05:59');
 
 -- --------------------------------------------------------
 
@@ -1111,7 +1162,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -1129,7 +1180,7 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `Icons`
@@ -1141,13 +1192,13 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2985;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3076;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`
