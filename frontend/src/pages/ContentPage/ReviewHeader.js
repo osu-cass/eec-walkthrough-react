@@ -79,7 +79,8 @@ function ReviewHeader(props) {
         tempUserId: null,
         title: props.header.title,
         userId: props.header.userId,
-        cards: props.header.cards
+        cards: props.header.cards,
+        forceFilter: []
       };
 
       // reset error messages
@@ -141,7 +142,8 @@ function ReviewHeader(props) {
           tempUserId: null,
           title: props.header.tempTitle,
           userId: props.header.tempUserId,
-          cards: props.header.cards
+          cards: props.header.cards,
+          forceFilter: []
         };
       } else {
         newHeader = {
@@ -159,7 +161,8 @@ function ReviewHeader(props) {
           tempUserId: null,
           title: props.header.title,
           userId: props.header.userId,
-          cards: props.header.cards
+          cards: props.header.cards,
+          forceFilter: []
         };
       }
 
@@ -219,7 +222,8 @@ function ReviewHeader(props) {
         tempUserId: null,
         title: props.header.title,
         userId: props.header.userId,
-        cards: props.header.cards
+        cards: props.header.cards,
+        forceFilter: []
       };
 
       // reset error messages

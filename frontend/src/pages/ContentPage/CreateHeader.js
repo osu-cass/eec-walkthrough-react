@@ -66,7 +66,8 @@ class CreateHeader extends React.Component {
         title: this.state.title,
         internal: internal,
         tempInternal: null,
-        userId: 0
+        userId: 0,
+        forceFilter: []
       };
 
       this.props.handleUpdate(newHeader, "header", "create");
