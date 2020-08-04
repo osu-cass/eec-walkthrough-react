@@ -67,6 +67,56 @@ function LoadView(props) {
     }
   }
 
+  // delete the selected view
+  async function handleDelete() {
+    // get the selected view from the select
+    const viewSelect = document.getElementById("select-new-view-type");
+    const newView = parseInt(viewSelect.options[viewSelect.selectedIndex].value, 10);
+
+    // don't allow deleting of the default view
+    if (!newView) {
+      setErrorMessage("The default view cannot be deleted.");
+      return;
+    }
+
+    const viewId = views[newView - 1].viewId;
+    const viewName = views[newView - 1].viewName;
+
+    // delete the view
+    if (window.confirm(`Are you sure you want to delete the "${viewName}" view?`)) {
+      let results = await fetch(`/api/views/${viewId}`, {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (results.ok) {
+
+        // reload the view list
+        let results = await fetch(`/api/views/page/${props.pageId}`);
+
+        if (results.ok) {
+
+          const obj = await results.json();
+          setViews(obj.views);
+          setNewModal(false);
+
+        }
+
+      } else {
+
+        const obj = await results.json();
+        console.log(obj);
+
+        if (results.status === 500 || typeof obj.error === "undefined") {
+          setErrorMessage("An internal server error occurred. Please try again later.");
+        } else {
+          setErrorMessage(obj.error);
+        }
+
+      }
+    }
+  }
+
   return props.mode === 0 ? (
     <div className="text-center mx-2">
         <Button size="sm"
@@ -123,7 +173,13 @@ function LoadView(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-
+          <Button
+            className="mr-auto"
+            variant="danger"
+            onClick={() => handleDelete()}
+          >
+              Delete View
+          </Button>
           <Button variant="primary" onClick={() => handleLoad()}>Load View</Button>
           <Button variant="secondary" onClick={() => handleClose()}>Cancel</Button>
 

@@ -14,7 +14,8 @@ const {
 } = require("../services/validation/requestValidation");
 const {
   getViews,
-  createView
+  createView,
+  deleteView
 } = require("../models/views");
 
 
@@ -66,6 +67,12 @@ app.post("/page/:pageId", requireAuth, postViewVal.validation, async (req, res) 
       }
     }
 
+    // default is a reserved view name
+    if (viewName.toLowerCase() === "default") {
+      res.status(403).send({error: "View can not be named 'default'. "});
+      return;
+    }
+
     // create view data
     const results = await createView(pageId, headers, publicView, viewName, userId);
 
@@ -77,6 +84,40 @@ app.post("/page/:pageId", requireAuth, postViewVal.validation, async (req, res) 
         res.status(403).send({error: "Page does not exist."});
       } else if (results.error === 2) {
           res.status(403).send({error: "Invalid header data."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete a view
+app.delete("/:viewId", requireAuth, async (req, res) => {
+
+  try {
+
+    const viewId = req.params.viewId;
+    const userId = req.auth.userId;
+    console.log("Delete view ", viewId);
+
+    // delete view data
+    const results = await deleteView(viewId, parseInt(userId, 10));
+
+    if (results.affectedRows >= 0) {
+      res.status(201).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(403).send({error: "View does not exist."});
+      } else if (results.error === 2) {
+        res.status(401).send({error: "Unauthorized user attempting to delete view."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
