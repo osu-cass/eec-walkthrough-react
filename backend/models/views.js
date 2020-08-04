@@ -93,7 +93,45 @@ async function createView(pageId, headers, publicView, viewName, userId) {
       return {error: 1};
     }
 
-    // create the view
+    // see if the view already exists
+    sql = "SELECT * " +
+    "FROM Views " +
+    "WHERE pageId = ? " +
+    "AND public = ? " +
+    "AND viewName = ?;";
+    results = await pool.query(sql, [pageId, publicView, viewName]);
+
+    if (results[0].length) {
+
+      const viewOwner = results[0][0].userId;
+      const viewId = results[0][0].viewId;
+
+      // check the users current role
+      sql = "SELECT * " +
+      "FROM Users " +
+      "WHERE userId = ?;";
+      results = await pool.query(sql, userId);
+
+      if (!results[0].length) {
+        return {error: 2};
+      }
+
+      const userRole = results[0][0].role;
+
+      // confirm that the user is allowed to replace the view
+      if (userId !== viewOwner && userRole !== 4) {
+        return {error: 2};
+      }
+
+      // delete the old view
+      sql = "DELETE " +
+      "FROM Views " +
+      "WHERE viewId = ?;";
+      results = await pool.query(sql, viewId);
+
+    }
+
+    // create the new view
     sql = "INSERT INTO Views (pageId, userId, viewName, public) " +
     "VALUES (?, ?, ?, ?);";
     results = await pool.query(sql, [pageId, userId, viewName, publicView]);
@@ -109,7 +147,7 @@ async function createView(pageId, headers, publicView, viewName, userId) {
       let results = await pool.query(sql, headers[i].headerId);
 
       if (!results[0].length) {
-        return {error: 2};
+        return {error: 3};
       }
 
       // save each filter
@@ -117,7 +155,7 @@ async function createView(pageId, headers, publicView, viewName, userId) {
 
         // confirm that the filter is storing icon IDs
         if (!Number.isInteger(headers[i].filters[j])) {
-          return {error: 2};
+          return {error: 3};
         }
 
         sql = "INSERT INTO Filters (viewId, headerId, iconId) " +
@@ -172,8 +210,6 @@ async function deleteView(viewId, userId) {
     }
 
     const userRole = results[0][0].role;
-
-    console.log("userId", userId, "viewOwner", viewOwner, "userRole", userRole)
 
     // confirm that the user is allowed to delete the view
     if (userId !== viewOwner && userRole !== 4) {
