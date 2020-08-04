@@ -9,3 +9,7 @@
 .move-review-item {
   background-color: #ffffba;
 }
+
+.highlight-text-wrap {
+  white-space: pre-wrap;
+}

@@ -9,3 +9,7 @@ select {
 .created-text {
   color: #28a428;
 }
+
+.description-review-page {
+  white-space: pre-wrap;
+}

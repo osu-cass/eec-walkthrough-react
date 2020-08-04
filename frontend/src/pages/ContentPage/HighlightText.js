@@ -121,13 +121,13 @@ function HighlightText(props) {
     return props.newMode ? (
       <Fragment>
         {newHighText.map((character, i) =>
-          <span key={`new-highlight-${i}`} id={`new-highlight-${i}-${props.elementType}`}>{character}</span>
+          <span className={props.allowWrap ? "highlight-text-wrap" : ""} key={`new-highlight-${i}`} id={`new-highlight-${i}-${props.elementType}`}>{character}</span>
         )}
       </Fragment>
     ) : (
       <Fragment>
         {oldHighText.map((character, i) =>
-          <span key={`old-highlight-${i}`} id={`old-highlight-${i}-${props.elementType}`}>{character}</span>
+          <span className={props.allowWrap ? "highlight-text-wrap" : ""} key={`old-highlight-${i}`} id={`old-highlight-${i}-${props.elementType}`}>{character}</span>
         )}
       </Fragment>
     )
@@ -141,5 +141,6 @@ HighlightText.propTypes = {
   newText: PropTypes.string,
   oldText: PropTypes.string,
   newMode: PropTypes.bool,
-  elementType: PropTypes.number
+  elementType: PropTypes.number,
+  allowWrap: PropTypes.bool
 };
