@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef, Fragment} from "react";
 import SidebarCollection from "./SidebarCollection";
 import {getProfile} from "../../utilities/cookieAuth";
 import CreateCategory from "./CreateCategory";
@@ -97,19 +97,29 @@ function Sidebar(props) {
             role={role}
           />
 
-          {role === 4 ? (
+          {role >= 2 ? (
             <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
+              {role >= 4 ? (
+                <Fragment>
+                  <SidebarCollection
+                    collectionName="Manage Icons"
+                    collectionLink="manage-icons"
+                  />
+                  <SidebarCollection
+                    collectionName="Manage Links"
+                    collectionLink="manage-links"
+                  />
+                  <SidebarCollection
+                    collectionName="Manage Users"
+                    collectionLink="manage-users"
+                  />
+                </Fragment>
+              ) : (
+                null
+              )}
               <SidebarCollection
-                collectionName="Manage Icons"
-                collectionLink="manage-icons"
-              />
-              <SidebarCollection
-                collectionName="Manage Links"
-                collectionLink="manage-links"
-              />
-              <SidebarCollection
-                collectionName="Manage Users"
-                collectionLink="manage-users"
+                collectionName="View Change History"
+                collectionLink="change-history"
               />
             </Card>
           ) : (

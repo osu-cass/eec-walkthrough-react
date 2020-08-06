@@ -25,7 +25,7 @@ function PageSearchResults(props) {
                   {page.description}
                 </span>
                 <span className="page-link-created text-left float-left">
-                    Created {formatTime(page.created)}
+                    Last updated {formatTime(page.created)}
                 </span>
               </div>
 
