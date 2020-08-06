@@ -4,6 +4,7 @@ import Home from "./pages/Home/Home";
 import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import ManageIcons from "./pages/ManageIcons/ManageIcons";
 import ManageLinks from "./pages/ManageLinks/ManageLinks";
+import ViewHistory from "./pages/ViewHistory/ViewHistory";
 import Search from "./pages/Search/Search";
 import RegisterUser from "./pages/RegisterUser/RegisterUser";
 import EditUser from "./pages/EditUser/EditUser";
@@ -82,6 +83,10 @@ function App() {
 
         <Route path="/manage-users">
           <ManageUsers />
+        </Route>
+
+        <Route path="/change-history">
+          <ViewHistory />
         </Route>
 
         <Route path="/register-user">
