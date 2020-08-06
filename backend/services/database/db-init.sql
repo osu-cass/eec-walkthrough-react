@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 04, 2020 at 04:47 AM
+-- Generation Time: Aug 06, 2020 at 03:00 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -140,8 +140,14 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (148, 45, 0, 1, '1', 42, '2020-07-28 08:35:42', 1),
 (149, 45, 0, 2, '2', 42, '2020-07-28 08:35:55', 0),
 (150, 45, 0, 3, '3', 42, '2020-07-28 08:36:10', 0),
-(151, 46, 10, 151, 'Cras facilisis hendrerit dui', 42, '2020-08-04 10:56:28', 1),
-(152, 46, 0, 152, 'A bunch of images', 42, '2020-08-04 11:00:16', 1);
+(151, 46, 10, 2, 'Cras facilisis hendrerit dui', 42, '2020-08-04 10:56:28', 1),
+(152, 46, 0, 3, 'A bunch of images', 42, '2020-08-04 11:00:16', 1),
+(153, 46, 0, 5, 'New Checkboxes', 42, '2020-08-04 20:59:08', 1),
+(154, 47, 10, 2, 'Review Pre Assessment Form Information', 51, '2020-08-05 20:05:07', 0),
+(155, 47, 10, 1, 'Identify Potential Sites to Work With', 51, '2020-08-05 20:16:16', 1),
+(156, 47, 10, 156, 'Hold an Initial Remote Assessment Meeting with Client', 51, '2020-08-05 22:08:33', 0),
+(157, 47, 10, 157, 'Develop a Preliminary Energy Balance', 51, '2020-08-05 22:40:35', 0),
+(158, 47, 10, 158, 'Develop a List of Potential Opportunities to Study', 51, '2020-08-05 22:55:08', 0);
 
 -- --------------------------------------------------------
 
@@ -164,11 +170,12 @@ CREATE TABLE `Categories` (
 --
 
 INSERT INTO `Categories` (`categoryId`, `singleName`, `pluralName`, `description`, `internal`, `userId`, `created`) VALUES
-(1, 'Industry', 'Industries', 'An overview of the industry is followed by a list of common related subjects.', 0, 42, '2020-07-18 03:11:32'),
-(2, 'Technology', 'Technologies', 'An introduction to an industrial technology.', 0, 42, '2020-07-18 03:11:32'),
-(3, 'Process', 'Processes', 'An introduction to a process or technique.', 0, 42, '2020-07-18 03:11:32'),
-(4, 'Productivity', 'Productivity', 'An introduction to a specific improvement opportunity to consider.', 0, 42, '2020-07-18 03:11:32'),
-(5, 'Assessment', 'Assessments', 'An introduction to a method for evaluating or estimating.', 0, 42, '2020-07-18 03:11:32');
+(1, 'Industry', 'Industries', 'An overview of common industries followed by typical related subjects and opportunities.', 0, 51, '2020-07-18 03:11:32'),
+(2, 'Technology', 'Technologies', 'An introduction to standard technologies used throughout industry', 0, 51, '2020-07-18 03:11:32'),
+(3, 'Process', 'Processes', 'An introduction to common industrial processes that use a combination of standard technologies', 0, 51, '2020-07-18 03:11:32'),
+(4, 'Productivity', 'Productivity', 'An introduction to common approaches to improving industrial site productivity', 0, 51, '2020-07-18 03:11:32'),
+(5, 'Assessment', 'Assessments', 'An introduction to standard recommended approaches for performing industrial assessments.', 0, 51, '2020-07-18 03:11:32'),
+(7, 'Utilities', 'Utilities', 'An introduction to utility billing structures, resource use analysis, and opportunities to reduce costs.', 0, 51, '2020-08-05 23:59:34');
 
 -- --------------------------------------------------------
 
@@ -188,9 +195,19 @@ CREATE TABLE `Filters` (
 --
 
 INSERT INTO `Filters` (`filterId`, `viewId`, `headerId`, `iconId`) VALUES
-(1, 1, 1, 1),
-(2, 1, 1, 2),
-(3, 1, 2, 10);
+(33, 3, 46, 20),
+(34, 3, 46, 14),
+(35, 3, 46, 17),
+(36, 4, 46, 0),
+(37, 5, 46, 14),
+(38, 5, 46, 17),
+(39, 5, 46, 20),
+(40, 6, 46, 3),
+(41, 6, 46, 8),
+(42, 6, 46, 17),
+(43, 6, 46, 14),
+(44, 6, 46, 20),
+(45, 6, 46, 11);
 
 -- --------------------------------------------------------
 
@@ -240,7 +257,8 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (43, 27, 3, 'B', 0, 42, '2020-07-28 08:31:20', 1),
 (44, 27, 5, 'C (published & edited)', 0, 42, '2020-07-28 08:31:46', 1),
 (45, 27, 4, 'D (edited)', 0, 42, '2020-07-28 08:31:29', 0),
-(46, 53, 46, 'Simple Header', 0, 42, '2020-08-04 10:53:41', 1);
+(46, 53, 46, 'Simple Header', 0, 42, '2020-08-04 10:53:41', 1),
+(47, 54, 47, 'Assessment Steps', 1, 51, '2020-08-05 19:56:29', 1);
 
 -- --------------------------------------------------------
 
@@ -275,7 +293,7 @@ CREATE TABLE `Home` (
 --
 
 INSERT INTO `Home` (`mainHeader`, `secondaryHeader`, `sectionsTitle`, `assessments`, `industries`, `processes`, `productivity`, `technologies`, `sectionsFooter`, `tidbitsHeader`, `tidbitsTitle`, `tidbitsFooter`, `linksHeader`, `linksTitlePrefix`, `linksTitlePostfixInternal`, `linksTitlePostfixDownload`, `linksFooter`, `disclaimerHeader`, `disclaimerText`) VALUES
-('Welcome to the Industrial Walkthrough Checklist & Reference!', 'The purpose of this guide is to provide users with an easily accessible reference of common efficiency improvement opportunities to look for in an industrial facility.', 'This guide is broken down into sections:', 'An introduction to a method for evaluating or estimating.', 'An overview of the industry is followed by a list of common related subjects.', 'An introduction to a process or technique.', 'An introduction to a specific improvement opportunity to consider.', 'An introduction to an industrial technology.', '', 'Each section includes a number of useful pertinent \"tidbits\" identified by a preceding icon', 'These include', 'Note: \"tidbit\" types can be toggled between \"hidden\" and \"unhidden\" by clicking the icon in the header bars of each section.', 'Each section also references in depth learning resources that offer deeper information about the topic. These are identified by a pair of icons', 'A preceding icon identifies the type of learning resource offered', 'A trailing icon identifies the learning resource as internal or external', 'A second trailing icon will indicate when the learning resource is a download', '', 'Disclaimer', 'The primary objective of the OSU EEC is to promote energy efficiency, waste minimization, and productivity in the industrial, commercial, agricultural, and residential sectors. A key strategy has included performance of energy and efficiency site assessments. This work is intended is to provide background and tools that will be helpful in identifying and evaluating potential opportunities.\r\n\r\nWe believe Industrial Walkthrough Checklist & Reference to be a reasonably accurate representation of opportunities to reduce energy use, lower waste generation, and make production practices more efficient. However, the OSU EEC cannot guarantee the accuracy, completeness, or usefulness of the information contained on this website, nor assume any liability for damages resulting from the use of any information, equipment, method or process disclosed on this website.\r\n\r\nPollution prevention recommendations are not intended to deal with the issue of compliance with applicable environmental regulations. Questions regarding compliance should be addressed to either a reputable consulting engineering firm experienced with environmental regulations or to the appropriate regulatory agency. Clients are encouraged to develop positive working relationships with regulators so that compliance issues can be addressed and resolved.\r\n\r\nThe assumptions and equations used to arrive at energy, waste, productivity, and cost savings for the opportunities are presented on this website. We believe the assumptions to be conservative. If you would like to revise the assumptions you may follow the calculation methodologies presented using adjusted assumptions to develop your own revised estimates of energy, waste, productivity, and cost savings.\r\n\r\nPlease feel welcome to contact the OSU EEC if you would like to discuss the content of this website or if you have another question about energy use or pollution prevention.');
+('Welcome to the Industrial Walkthrough Checklist & Reference!', 'The purpose of this guide is to provide users with an easily accessible reference of common efficiency improvement opportunities to look for in an industrial facility.', 'This guide is broken down into sections:', 'An introduction to a method for evaluating or estimating.', 'An overview of the industry is followed by a list of common related subjects.', 'An introduction to a process or technique.', 'An introduction to a specific improvement opportunity to consider.', 'An introduction to an industrial technology.', '', 'Each section includes a number of useful pertinent \"tidbits\" identified by a preceding icon', 'These include', 'Note: \"tidbit\" types can be toggled between \"hidden\" and \"unhidden\" by clicking the icon in the header bars of each section. A list of opportunities only can be toggled to, with the ability to expand information on any particular opportunity. Registered users can save preferred view configurations.', 'Each section also references in depth learning resources that offer deeper information about the topic. These are identified by a pair of icons', 'A preceding icon identifies the type of learning resource offered', 'A trailing icon identifies the learning resource as internal or external', 'A second trailing icon will indicate when the learning resource is a download', '', 'Disclaimer', 'The primary objective of the OSU EEC is to promote energy efficiency, waste minimization, and productivity in the industrial, commercial, agricultural, and residential sectors. A key strategy has included performance of energy and efficiency site assessments. This work is intended is to provide background and tools that will be helpful in identifying and evaluating potential opportunities.\r\n\r\nWe believe Industrial Walkthrough Checklist & Reference to be a reasonably accurate representation of opportunities to reduce energy use, lower waste generation, and make production practices more efficient. However, the OSU EEC cannot guarantee the accuracy, completeness, or usefulness of the information contained on this website, nor assume any liability for damages resulting from the use of any information, equipment, method or process disclosed on this website.\r\n\r\nPollution prevention recommendations are not intended to deal with the issue of compliance with applicable environmental regulations. Questions regarding compliance should be addressed to either a reputable consulting engineering firm experienced with environmental regulations or to the appropriate regulatory agency. Clients are encouraged to develop positive working relationships with regulators so that compliance issues can be addressed and resolved.\r\n\r\nThe assumptions and equations used to arrive at energy, waste, productivity, and cost savings for the opportunities are presented on this website. We believe the assumptions to be conservative. If you would like to revise the assumptions you may follow the calculation methodologies presented using adjusted assumptions to develop your own revised estimates of energy, waste, productivity, and cost savings.\r\n\r\nPlease feel welcome to contact the OSU EEC if you would like to discuss the content of this website or if you have another question about energy use or pollution prevention.');
 
 -- --------------------------------------------------------
 
@@ -802,22 +820,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2984, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, '2020-07-30 02:31:10', 0),
 (3005, 122, 0, 0, 2, 'test', '', '', 0, '2020-08-03 20:29:48', 0),
 (3006, 122, 0, 0, 2, 'Actual efficiency can easily vary from 50 percent to 80 percent for optimum operation of a particular pump', '', '', 0, '2020-08-03 20:29:48', 0),
-(3007, 85, 0, 0, 11, 'Trim Pump Impeller for Better Efficiency at Typical Operating Points', '', '', 0, '2020-08-03 20:31:41', 0),
-(3008, 85, 0, 1, 10, 'Older pumps that have not been adjusted or calibrated to fit existing demand.', '', '', 0, '2020-08-03 20:31:41', 0),
-(3009, 85, 0, 1, 15, 'Pressure across the pump', '', '', 0, '2020-08-03 20:31:41', 0),
-(3010, 85, 0, 1, 15, 'Fluid flow rate', '', '', 0, '2020-08-03 20:31:41', 0),
-(3011, 85, 0, 1, 15, 'Operating hours', '', '', 0, '2020-08-03 20:31:41', 0),
-(3012, 85, 0, 1, 15, 'Pump curve and nameplate', '', '', 0, '2020-08-03 20:31:41', 0),
-(3013, 85, 0, 1, 15, 'Elevation change', '', '', 0, '2020-08-03 20:31:41', 0),
-(3014, 85, 0, 1, 15, 'Type of fluid', '', '', 0, '2020-08-03 20:31:41', 0),
-(3015, 85, 0, 1, 27, 'Power Quality Analyzer (PQA)', '', '', 0, '2020-08-03 20:31:41', 0),
-(3016, 85, 0, 1, 27, 'Ultrasonic flow meter', '', '', 0, '2020-08-03 20:31:41', 0),
-(3017, 85, 0, 1, 8, 'Try to find nearby pressure gauges to estimate pressure change across the pump.', '', '', 0, '2020-08-03 20:31:41', 0),
-(3018, 85, 0, 1, 8, 'Pick a pump based on its best efficiency point matching current operating conditions.', '', '', 0, '2020-08-03 20:31:41', 0),
-(3019, 85, 0, 1, 14, 'Would installing a variable frequency drive (VFD), trimming the impeller, replacing the motor, or using a belt sheave be a better option?', '', '', 0, '2020-08-03 20:31:41', 0),
-(3020, 85, 0, 1, 4, 'When modifying or replacing pumps and fans, or adjusting their rpm, be sure that they can operate under all conditions anticipated for the given system. System pressure or head should not exceed the maximum pressure or head the fan or pump can sustain. Surge points should be avoided.', '', '', 0, '2020-08-03 20:31:41', 0),
-(3021, 85, 0, 0, 11, 'Replace Pump with One Selected for Optimum Efficiency at Typical Operating Points', '', '', 0, '2020-08-03 20:31:41', 0),
-(3022, 85, 0, 0, 11, 'Replace or Overhaul Worn or Damaged Pumps', '', '', 0, '2020-08-03 20:31:41', 0),
 (3033, 151, 0, 0, 1, 'Cras posuere lacus id pharetra finibus.', '', '', 0, '2020-08-04 10:57:12', 1),
 (3034, 151, 0, 0, 1, 'Cras in turpis maximus, porttitor urna id, luctus turpis.', '', '', 0, '2020-08-04 10:57:12', 1),
 (3035, 151, 0, 1, 14, 'Maecenas varius justo vel felis luctus, non consequat erat sollicitudin.', '', '', 0, '2020-08-04 10:57:12', 1),
@@ -829,18 +831,79 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3061, 152, 0, 0, 20, '', 'http://placekitten.com/200/200', 'Cat 2', 0, '2020-08-04 11:00:16', 1),
 (3062, 152, 0, 0, 20, '', 'http://placekitten.com/150/250', 'Cat 3', 0, '2020-08-04 11:00:16', 1),
 (3063, 152, 0, 0, 20, '', 'http://placekitten.com/250/150', 'Cat 4', 0, '2020-08-04 11:00:16', 1),
-(3064, 151, 0, 0, 14, 'Phasellus sagittis lectus at nulla pretium efficitur.', '', '', 0, '2020-08-04 11:02:01', 0),
-(3065, 151, 0, 0, 1, 'Cras posuere lacus id pharetra finibus.', '', '', 0, '2020-08-04 11:02:01', 0),
-(3066, 151, 0, 0, 1, 'Cras in turpis maximus, porttitor urna id, luctus turpis.', '', '', 0, '2020-08-04 11:02:01', 0),
-(3067, 151, 0, 1, 14, 'Maecenas varius justo vel felis luctus, non consequat erat sollicitudin.', '', '', 0, '2020-08-04 11:02:01', 0),
-(3068, 151, 0, 0, 17, 'Aliquam commodo tellus vitae lacus', 'https://www.lipsum.com/feed/html', 'Lorem Ipsum', 1, '2020-08-04 11:02:01', 0),
-(3069, 151, 0, 0, 3, 'Praesent rhoncus auctor.', '', '', 1, '2020-08-04 11:02:01', 0),
-(3070, 151, 0, 0, 8, 'Proin ac finibus dui.', '', '', 0, '2020-08-04 11:02:01', 0),
-(3071, 151, 0, 0, 1, 'Suspendisse sed sapien.', '', '', 0, '2020-08-04 11:02:01', 0),
 (3072, 152, 0, 0, 20, '', 'http://placekitten.com/100/300', 'Cat 1', 0, '2020-08-04 11:03:02', 0),
 (3073, 152, 0, 0, 20, '', 'http://placekitten.com/250/150', 'Cat 4', 0, '2020-08-04 11:03:02', 0),
 (3074, 152, 0, 0, 20, '', 'http://placekitten.com/150/250', 'Cat 3', 0, '2020-08-04 11:03:02', 0),
-(3075, 152, 0, 0, 20, '', 'http://placekitten.com/620/620', 'Cat 5', 0, '2020-08-04 11:03:02', 0);
+(3075, 152, 0, 0, 20, '', 'http://placekitten.com/620/620', 'Cat 5', 0, '2020-08-04 11:03:02', 0),
+(3084, 151, 0, 0, 14, 'Phasellus sagittis lectus at nulla pretium efficitur.', '', '', 0, '2020-08-04 11:52:34', 0),
+(3085, 151, 0, 0, 1, 'Cras posuere lacus id pharetra finibus.', '', '', 0, '2020-08-04 11:52:34', 0),
+(3086, 151, 0, 0, 1, 'Cras in turpis maximus, porttitor urna id, luctus turpis.', '', '', 0, '2020-08-04 11:52:34', 0),
+(3087, 151, 0, 1, 14, 'Maecenas varius justo vel felis luctus, non consequat erat sollicitudin.', '', '', 0, '2020-08-04 11:52:34', 0),
+(3088, 151, 0, 0, 17, 'Aliquam commodo tellus vitae lacus', 'https://www.lipsum.com/feed/html', 'Lorem Ipsum', 1, '2020-08-04 11:52:34', 0),
+(3089, 151, 0, 0, 3, 'Praesent rhoncus auctor.', '', '', 1, '2020-08-04 11:52:34', 0),
+(3090, 151, 0, 0, 8, 'Proin ac finibus dui.', '', '', 0, '2020-08-04 11:52:34', 0),
+(3091, 151, 0, 0, 1, 'Suspendisse sed sapien.', '', '', 0, '2020-08-04 11:52:34', 0),
+(3092, 153, 0, 0, 12, 'Not a checkbox', '', '', 0, '2020-08-04 20:59:08', 1),
+(3093, 153, 0, 0, 11, 'Checkbox', '', '', 0, '2020-08-04 20:59:08', 1),
+(3094, 153, 0, 1, 7, 'item 1', '', '', 0, '2020-08-04 20:59:08', 1),
+(3095, 153, 0, 1, 4, 'item 2', '', '', 0, '2020-08-04 20:59:08', 1),
+(3096, 153, 0, 1, 16, 'item 3', '', '', 0, '2020-08-04 20:59:08', 1),
+(3324, 154, 0, 0, 26, 'Check the Estimated Annual Energy Cost for Each Utility', '', '', 0, '2020-08-05 22:31:48', 0),
+(3325, 154, 0, 1, 14, 'Is the total annual energy cost suitable for an IAC Assessment? ', '', '', 0, '2020-08-05 22:31:48', 0),
+(3326, 154, 0, 2, 3, '$100,000 a year is the minimum but ideally costs will exceed $200,000  - $300,000 a year. ', '', '', 0, '2020-08-05 22:31:48', 0),
+(3327, 154, 0, 2, 3, 'If annual cost exceeds $2.5 Million, Field Manager / U.S.DOE permission must be obtained to visit. ', '', '', 0, '2020-08-05 22:31:48', 0),
+(3328, 154, 0, 0, 26, 'Accumulate / Analyze Annual Month by Month Utility Bills. ', '', '', 0, '2020-08-05 22:31:48', 0),
+(3329, 154, 0, 1, 12, 'Identify any seasonality to bills.', '', '', 0, '2020-08-05 22:31:48', 0),
+(3330, 154, 0, 1, 12, 'Determine Incremental Costs (Potential savings with each unit of resource saved )', '', '', 0, '2020-08-05 22:31:48', 0),
+(3331, 154, 0, 1, 12, 'Understand special costs: Electrical Demand and Power Factor cost, meter costs, ...', '', '', 0, '2020-08-05 22:31:48', 0),
+(3332, 154, 0, 1, 12, 'Confirm Annual Costs', '', '', 0, '2020-08-05 22:31:48', 0),
+(3333, 154, 0, 0, 26, 'Ensure all personnel information provided is entered into the OSU IAC Project Management DB', '', '', 0, '2020-08-05 22:31:48', 0),
+(3334, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, '2020-08-05 22:31:48', 0),
+(3335, 154, 0, 0, 14, '(If the client has given permission, consider how to engage utility representatives (and regional incentive and assistance programs such as  ETO or ESI  in the remote assessment process)?', '', '', 0, '2020-08-05 22:31:48', 0),
+(3429, 157, 0, 0, 26, 'Develop a table of significant energy using equipment including collected rated capacity, estimated % of full capacity, and hours of operation', '', '', 0, '2020-08-05 23:14:02', 0),
+(3430, 157, 0, 1, 12, 'Calculate an initial estimate of annual energy used by each piece of equipment', '', '', 0, '2020-08-05 23:14:02', 0),
+(3431, 157, 0, 1, 12, 'Develop a pie chart showing % of total site energy each modeled equipment item uses, and remaining unidentified energy use.', '', '', 0, '2020-08-05 23:14:02', 0),
+(3432, 157, 0, 2, 14, 'Does the total modeled energy exceed the actual energy in the bills?. (If so revise the model.) ', '', '', 0, '2020-08-05 23:14:02', 0),
+(3433, 157, 0, 1, 12, 'Plan to continually revise and improve this balance over the process of the remote assessment.', '', '', 0, '2020-08-05 23:14:02', 0),
+(3434, 157, 0, 2, 14, 'Does more equipment come up that can be added?', '', '', 0, '2020-08-05 23:14:02', 0),
+(3435, 157, 0, 2, 14, 'Does better data become available on any modeled equipment to improve its annual energy use estimate??', '', '', 0, '2020-08-05 23:14:02', 0),
+(3481, 155, 0, 0, 26, 'Initiate conversation with potential clients in follow up to industry requests, partner references, or direct contact.', '', '', 0, '2020-08-05 23:43:16', 1),
+(3482, 155, 0, 0, 26, 'Confirm suitability of the site and client for a remote IAC assessment', '', '', 0, '2020-08-05 23:43:16', 1),
+(3483, 155, 0, 1, 12, 'Let clients know of key IAC eligibility criteria (Annual Energy Cost between $100K and $2.5 Mil, less than 500 employees,...) ', '', '', 0, '2020-08-05 23:43:16', 1),
+(3484, 155, 0, 1, 14, 'Make sure clients are prepared for the effort required for a remote assessment (we are still learning what this is)', '', '', 0, '2020-08-05 23:43:16', 1),
+(3485, 155, 0, 1, 14, 'Ensure someone at the site can \"walk us through\" or at least go to targeted locations while with us on the phone to ask questions, perhaps get pictures or videos, and really dig into details. (This step is important for our contract with U.S.DOE)', '', '', 0, '2020-08-05 23:43:16', 1),
+(3486, 155, 0, 0, 26, 'Send the standard OSU Pre-Assessment Form to appropriate clients ', '', '', 0, '2020-08-05 23:43:16', 1),
+(3496, 158, 0, 0, 26, 'Review any areas of concern or interest voiced by the client', '', '', 0, '2020-08-05 23:46:20', 0),
+(3497, 158, 0, 0, 26, 'Review typical opportunities found in the energy intensive systems identified at the facility ', '', '', 0, '2020-08-05 23:46:20', 0),
+(3498, 158, 0, 1, 8, 'This Industrial Walkthrough Checklist & Reference will offer more and more ideas for potential opportunities as it is developed over time', '', '', 0, '2020-08-05 23:46:20', 0),
+(3499, 158, 0, 0, 26, 'Review typical opportunities found in the site\'s industrial sector', '', '', 0, '2020-08-05 23:46:20', 0),
+(3500, 158, 0, 1, 8, 'The Rutgers DB allows you to search for common recommendations made by SIC or NAICS code', '', '', 0, '2020-08-05 23:46:20', 0),
+(3501, 158, 0, 1, 8, 'Explore the OSU IAC Project Management Database to see what we have recommended in the past at similar sites,', '', '', 0, '2020-08-05 23:46:20', 0),
+(3502, 158, 0, 0, 26, 'Pick the brain of anyone with experience in the subject', '', '', 0, '2020-08-05 23:46:20', 0),
+(3503, 158, 0, 0, 26, 'Brainstorm on opportunities as a team and compile a list', '', '', 0, '2020-08-05 23:46:20', 0),
+(3504, 158, 0, 0, 26, 'Develop a table of potential recommendations, and if possible: total energy used by the system related to each opportunity, a high/low estimate of potential % savings,  and the range of potential cost and energy savings potential.', '', '', 0, '2020-08-05 23:46:20', 0),
+(3505, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, '2020-08-06 00:01:22', 0),
+(3506, 156, 0, 0, 26, 'Have the client verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, '2020-08-06 00:01:22', 0),
+(3507, 156, 0, 1, 14, 'Ask client for rated capacity, estimated % of full capacity, and hours of operation for significant equipment', '', '', 0, '2020-08-06 00:01:22', 0),
+(3508, 156, 0, 1, 14, 'Ask client to let us know of any areas of concern or interest', '', '', 0, '2020-08-06 00:01:22', 0),
+(3509, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, '2020-08-06 00:01:22', 0),
+(3510, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, '2020-08-06 00:01:22', 0),
+(3511, 85, 0, 0, 11, 'Trim Pump Impeller for Better Efficiency at Typical Operating Points', '', '', 0, '2020-08-06 03:46:30', 0),
+(3512, 85, 0, 0, 11, 'Replace Pump with One Selected for Optimum Efficiency at Typical Operating Points', '', '', 0, '2020-08-06 03:46:30', 0),
+(3513, 85, 0, 1, 10, 'Older pumps that have not been adjusted or calibrated to fit existing demand.', '', '', 0, '2020-08-06 03:46:30', 0),
+(3514, 85, 0, 1, 15, 'Pressure across the pump', '', '', 0, '2020-08-06 03:46:30', 0),
+(3515, 85, 0, 1, 15, 'Fluid flow rate', '', '', 0, '2020-08-06 03:46:30', 0),
+(3516, 85, 0, 1, 15, 'Operating hours', '', '', 0, '2020-08-06 03:46:30', 0),
+(3517, 85, 0, 1, 15, 'Pump curve and nameplate', '', '', 0, '2020-08-06 03:46:30', 0),
+(3518, 85, 0, 1, 15, 'Elevation change', '', '', 0, '2020-08-06 03:46:30', 0),
+(3519, 85, 0, 1, 15, 'Type of fluid', '', '', 0, '2020-08-06 03:46:30', 0),
+(3520, 85, 0, 1, 27, 'Power Quality Analyzer (PQA)', '', '', 0, '2020-08-06 03:46:30', 0),
+(3521, 85, 0, 1, 27, 'Ultrasonic flow meter', '', '', 0, '2020-08-06 03:46:30', 0),
+(3522, 85, 0, 1, 8, 'Try to find nearby pressure gauges to estimate pressure change across the pump.', '', '', 0, '2020-08-06 03:46:30', 0),
+(3523, 85, 0, 1, 8, 'Pick a pump based on its best efficiency point matching current operating conditions.', '', '', 0, '2020-08-06 03:46:30', 0),
+(3524, 85, 0, 1, 14, 'Would installing a variable frequency drive (VFD), trimming the impeller, replacing the motor, or using a belt sheave be a better option?', '', '', 0, '2020-08-06 03:46:30', 0),
+(3525, 85, 0, 1, 4, 'When modifying or replacing pumps and fans, or adjusting their rpm, be sure that they can operate under all conditions anticipated for the given system. System pressure or head should not exceed the maximum pressure or head the fan or pump can sustain. Surge points should be avoided.', '', '', 0, '2020-08-06 03:46:30', 0),
+(3526, 85, 0, 0, 11, 'Replace or Overhaul Worn or Damaged Pumps', '', '', 0, '2020-08-06 03:46:30', 0);
 
 -- --------------------------------------------------------
 
@@ -879,9 +942,10 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
 (47, 2, 'Thermal Systems', 'Many industrial processes require encouraging or resisting thermal energy transfer.', 'Heat transfer technologies include heat exchangers, cooling towers, fan cooling, direct impingement and other methods.  Heat transfer is discouraged with insulation, vacuums, reduced emissivity, etc. ', 'https://live.staticflickr.com/65535/50069411093_68ab30e548_b.jpg', 0, 58, '2020-07-02 21:31:22', 0),
 (48, 2, 'Refrigeration', 'Refrigeration technology is important in many industrial processes.', 'Vapor compression is the most common refrigeration technology. Mechanical energy input to a compressor enables absorbing heat in cooler environment and discharging it to a warmer environment. ', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 51, '2020-07-02 22:10:36', 0),
-(49, 3, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'Utility bills are based not only on the commodity. They can also be based on the rate of use (Dem...', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 0, 42, '2020-07-02 22:40:27', 0),
+(49, 3, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'Utility bills are based not only on the commodity. They can also be based on the rate of use (Dem...', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 0, 51, '2020-07-02 22:40:27', 0),
 (50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 51, '2020-07-07 20:46:38', 0),
-(53, 4, 'z - test Demo', 'Basic Testing Page', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tincidunt tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, vel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nCurabitur cursus arcu elit, ut scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est accumsan blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Phasellus at dolor condimentum odio lobortis facilisis. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/500/500', 1, 42, '2020-08-04 10:53:03', 1);
+(53, 4, 'z - test Demo', 'Basic Testing Page', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tincidunt tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, vel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nCurabitur cursus arcu elit, ut scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est accumsan blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Phasellus at dolor condimentum odio lobortis facilisis. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/500/500', 1, 42, '2020-08-04 10:53:03', 1),
+(54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, 51, '2020-08-05 19:54:53', 0);
 
 -- --------------------------------------------------------
 
@@ -936,8 +1000,8 @@ INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderI
 (106, 0, 'Reduce Heat Loss', 106, 51, '2020-07-03 17:31:09'),
 (120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52'),
 (128, 10, 'eoowerwerwer', 128, 42, '2020-07-07 21:33:22'),
-(151, 10, 'Cras facilisis hendrerit dui', 151, 42, '2020-08-04 11:02:01'),
-(152, 1, 'A bunch of images', 152, 42, '2020-08-04 11:03:02');
+(151, 10, 'Cras facilisis duiui', 1, 42, '2020-08-04 11:02:01'),
+(152, 1, 'A bunch of images', 4, 42, '2020-08-04 11:03:02');
 
 -- --------------------------------------------------------
 
@@ -961,7 +1025,7 @@ CREATE TABLE `Temp_Headers` (
 INSERT INTO `Temp_Headers` (`tempHeaderId`, `tempTitle`, `tempInternal`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
 (32, 'Boilers and Steam Opportunities to Consider', 0, 32, 58, '2020-07-14 18:53:33'),
 (44, 'C (published & edited)', 0, 1, 42, '2020-07-28 08:32:25'),
-(46, 'Simply a new Header', 0, 46, 42, '2020-08-04 11:03:44');
+(46, 'Simply a new Title', 0, 46, 42, '2020-08-04 11:03:44');
 
 -- --------------------------------------------------------
 
@@ -986,7 +1050,7 @@ CREATE TABLE `Temp_Pages` (
 --
 
 INSERT INTO `Temp_Pages` (`tempPageId`, `tempPageType`, `tempName`, `tempTitle`, `tempDescription`, `tempImageUrl`, `tempInternal`, `tempUserId`, `tempCreated`) VALUES
-(53, 4, 'z - test Diff Demo', 'Basic Page Meant for Testing New Features', 'Lorem ipsumum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tincidunt tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ', 'http://placekitten.com/400/500', 1, 42, '2020-08-04 11:05:59');
+(53, 4, 'z - test Diff Demo', 'Basic Page Meant for Testing New Features', 'Loremem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, velel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nFusce quam eros, tincidunt vitae libero eget, tincidunt aliquam lectus. Curabitur non mi et orci semper sollicitudin. Cras dapibus malesuada accumsan. Maecenas efficitur euismod elit eu lacinia. Aliquam id sollicitudin augue. Quisque pharetra scelerisque ultrices. Curabitur dictum felis metus, vitae pulvinar quam efficitur et. Mauris accumsan cursus ante rutrum interdum. Duis scelerisque pharetra fermentum. Phasellus viverra tellus in rutrum dignissim. Sed ex augue, elementum a aliquam non, rutrum sed metus. Nulla sapien lorem, ullamcorper ut molestie ac, hendrerit ultrices odio. Nullam sit amet eleifend erat. Aenean laoreet fermentum ipsum, ut tempus magna rhoncus at. Cras vitae dolor leo.\n\nCurabitur cursus arcu elit, u scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/400/500', 1, 42, '2020-08-04 11:05:59');
 
 -- --------------------------------------------------------
 
@@ -1023,7 +1087,8 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (60, 'taylorad', 'b320c2b10ea1a5fd6a5df5b60b476a1a$76c9c4d174243210d40e54aa87e6b14926de7e3d7c1b229e7fcea48e98d65d85', 'Adam', 'Taylor', 'taylorad.eec@gmail.com', 3, '2020-07-13 17:38:47'),
 (61, 'Chris_Houck', 'd4bb5e0bfd9c00be21e9e9d844ad7f57$367a89d5eeaf2274ff80b316f9aeda9f79acd192fc1f3717ff852b3cb29c6416', 'Chris', 'Houck', 'houckch.eec@gmail.com', 3, '2020-07-14 20:59:54'),
 (62, 'psukamto', 'bbd4de95486df84c2553cb4cabc1472a$d8d1b75623a7d7eb3b717020dc28b70ba1c9152992db10316e280aedb0f35d6c', 'Peter', 'Sukamto', 'sukamtop.eec@gmail.com', 3, '2020-07-20 22:20:37'),
-(63, 'testUser', '1f9d6b0176ddee97a3a69102b00679fd$f95c8cef6dacedc921486f893f34cdcd497d0e70b36955f84a3f45caa86c6c5f', 'test', 'user', 'testuser@gmail.com', 3, '2020-07-28 20:21:12');
+(63, 'testUser', '1f9d6b0176ddee97a3a69102b00679fd$f95c8cef6dacedc921486f893f34cdcd497d0e70b36955f84a3f45caa86c6c5f', 'test', 'user', 'testuser@gmail.com', 3, '2020-07-28 20:21:12'),
+(64, 'NewUser', '0f98b126f8c5f97567986f7344a65d35$b56cdfeeb26a024487d97ea457a4691c8059a5a41f6102362319a7010488ecf7', 'Zachary', 'Thomas', 'newUser@gmail.com', 1, '2020-08-04 20:49:52');
 
 -- --------------------------------------------------------
 
@@ -1044,7 +1109,10 @@ CREATE TABLE `Views` (
 --
 
 INSERT INTO `Views` (`viewId`, `pageId`, `userId`, `viewName`, `public`) VALUES
-(1, 2, 42, 'No Pros and Cons + No flags', 1);
+(3, 53, 42, 'MyView', 0),
+(4, 53, 42, 'OnlyCheck', 0),
+(5, 53, 42, 'New View', 0),
+(6, 53, 42, 'Shared View', 1);
 
 --
 -- Indexes for dumped tables
@@ -1162,25 +1230,25 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
 
 --
 -- AUTO_INCREMENT for table `Categories`
 --
 ALTER TABLE `Categories`
-  MODIFY `categoryId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `categoryId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `Filters`
 --
 ALTER TABLE `Filters`
-  MODIFY `filterId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `filterId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `Icons`
@@ -1192,13 +1260,13 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3076;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3527;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`
@@ -1210,13 +1278,13 @@ ALTER TABLE `Sponsors`
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `Views`
 --
 ALTER TABLE `Views`
-  MODIFY `viewId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `viewId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
