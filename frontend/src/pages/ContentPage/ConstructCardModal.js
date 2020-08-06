@@ -582,6 +582,12 @@ function ConstructCardModal(props) {
         return true;
       }
     }
+    // Empty item array
+    if (items.length === 0) {
+      setErrorMessage("Error: A card must contain at least one item");
+      return true;
+    }
+
     // Empty item text
     for (i = 0; i < items.length; i++) {
       const item = items[i];
