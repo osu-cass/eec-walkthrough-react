@@ -85,7 +85,7 @@ function App() {
           <ManageUsers />
         </Route>
 
-        <Route path="/change-history">
+        <Route path="/history-report">
           <ViewHistory />
         </Route>
 
