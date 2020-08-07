@@ -11,29 +11,23 @@ function ViewHistory() {
   const [startDate, setStartDate] = useState(0);
   const [endDate, setEndDate] = useState(0);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (startDate !== 0) {
-      fetchPublished(startDate, endDate);
-    }
-    // eslint-disable-next-line
-  }, [startDate, endDate]);
+  const [errorMessage, setErrorMessage] = useState("Select a date range for the report.");
 
   // fetch published data within a range
-  async function fetchPublished(start, end) {
+  async function handleGenerateReport(start, end) {
     setLoading(true);
 
-    // Fetch all links
-    const results = await fetch(`/api/links/all/1`);
-
+    // Fetch report data
+    const results = await fetch(`/api/pages/report/${start}/${end}`);
+    console.log(`/api/pages/report/${start}/${end}`)
     if (results.ok) {
 
       const obj = await results.json();
-
+      console.log("Report", obj);
       setPublishedContent(obj);
 
     } else {
-      console.error("Error fetching link list");
+      setErrorMessage("Internal error while attempting to generate report.");
     }
 
     setLoading(false);
@@ -52,11 +46,14 @@ function ViewHistory() {
         </div>
       </div>
 
-      <HistorySearchForm onDatesChange={() => {}}/>
+      <HistorySearchForm 
+        onGenerateReport={(start, end) => handleGenerateReport(start, end)}
+        onErrorMessage={(message) => setErrorMessage(message)}
+      />
 
       <div className="table-container">
         <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
-          <h3 className="py-5 font-weight-bold">No changes found.</h3>
+          <h3 className="py-5 font-weight-bold">{errorMessage}</h3>
         </div>
       </div>
     </div>
