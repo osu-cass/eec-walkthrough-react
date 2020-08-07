@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import "./ReportHeader.css";
 
-// Button and modal that allows a user to review a header
+// Header history for a single header
 function ReportHeader(props) {
 
   return (
