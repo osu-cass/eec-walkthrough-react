@@ -1,6 +1,7 @@
 // File: pages.js
 // Description: Provides functions for working with page data.
 
+const moment = require("moment");
 const {pool} = require("../services/database/mysqlPool");
 
 
@@ -481,8 +482,22 @@ async function publishPage(pageId) {
       return {error: 1};
     }
 
+    const approved = results[0][0].approved;
     const name = results[0][0].name;
     const pageType = results[0][0].pageType;
+    const pageTitle = results[0][0].title;
+    const pageDescription = results[0][0].description;
+    const pageImage = results[0][0].imageUrl;
+    const pageInternal = results[0][0].internal;
+    const created = results[0][0].created;
+
+    // if the page was published previously, save the published data to history
+    if (approved) {
+      sql = "INSERT INTO History_Pages (pageId, " +
+      "pageType, name, title, description, imageUrl, internal, created) " +
+      "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+      await pool.query(sql, [pageId, pageType, name, pageTitle, pageDescription, pageImage, pageInternal, created]);
+    }
 
     // check if there is new page data
     sql = "SELECT * " +
@@ -620,9 +635,35 @@ async function getReport(start, end) {
     "AND Pages.created BETWEEN ? AND ? " +
     "ORDER BY Pages.created ASC, Pages.pageId ASC;";
     let results = await pool.query(sql, [startTimestamp, endTimestamp]);
+    const pageArray = results[0];
+
+    sql = "SELECT HP.*, Categories.pluralName AS categoryName " +
+    "FROM History_Pages AS HP " +
+    "LEFT JOIN Categories on HP.pageType = Categories.categoryId " +
+    "AND HP.created BETWEEN ? AND ? " +
+    "ORDER BY HP.created ASC;";
+    results = await pool.query(sql, [startTimestamp, endTimestamp]);
+    const allPageArray = pageArray.concat(results[0]);
+
+    // get the previous version of each page to use for diffs
+    for (let i = 0; i < allPageArray.length; i++) {
+      const newTimestamp = moment(allPageArray[i].created).format("YYYY-MM-DD HH:mm:ss");
+
+      sql = "SELECT * " +
+      "FROM History_Pages " +
+      "WHERE created BETWEEN ? AND ? " +
+      "ORDER BY created DESC;";
+      results = await pool.query(sql, [startTimestamp, newTimestamp]);
+
+      if (allPageArray[i].historyId && results[0].length >= 2) {
+        allPageArray[i].oldVersion = results[0][1];
+      } else if (!allPageArray[i].historyId && results[0].length >= 1) {
+        allPageArray[i].oldVersion = results[0][0];
+      }
+    }
 
     const finalResults = {
-      pages: results[0]
+      pages: allPageArray
     };
 
     // get all headers within the date range

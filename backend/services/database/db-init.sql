@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 07, 2020 at 11:27 AM
+-- Generation Time: Aug 07, 2020 at 11:56 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -271,10 +271,10 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 
 CREATE TABLE `History_Cards` (
   `historyId` int(10) UNSIGNED NOT NULL,
-  `histCardId` int(10) UNSIGNED NOT NULL,
-  `histCardType` tinyint(3) UNSIGNED NOT NULL,
-  `histTitle` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `histCreated` timestamp NOT NULL DEFAULT current_timestamp()
+  `cardId` int(10) UNSIGNED NOT NULL,
+  `cardType` tinyint(3) UNSIGNED NOT NULL,
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -285,10 +285,10 @@ CREATE TABLE `History_Cards` (
 
 CREATE TABLE `History_Headers` (
   `historyId` int(10) UNSIGNED NOT NULL,
-  `histHeaderId` int(10) UNSIGNED NOT NULL,
-  `histTitle` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `histInternal` tinyint(3) UNSIGNED NOT NULL,
-  `histCreated` timestamp NOT NULL DEFAULT current_timestamp()
+  `headerId` int(10) UNSIGNED NOT NULL,
+  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `internal` tinyint(3) UNSIGNED NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -299,16 +299,16 @@ CREATE TABLE `History_Headers` (
 
 CREATE TABLE `History_Items` (
   `historyId` int(10) UNSIGNED NOT NULL,
-  `histItemId` int(10) UNSIGNED NOT NULL,
-  `histCardId` int(10) UNSIGNED NOT NULL,
-  `histOrderIndex` int(10) UNSIGNED NOT NULL,
-  `histIndentation` int(10) UNSIGNED NOT NULL,
-  `histIconType` int(10) UNSIGNED NOT NULL,
-  `histContentText` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `histContentUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `histContentLabel` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `histContentMode` int(10) UNSIGNED NOT NULL,
-  `histCreated` timestamp NOT NULL DEFAULT current_timestamp()
+  `itemId` int(10) UNSIGNED NOT NULL,
+  `cardId` int(10) UNSIGNED NOT NULL,
+  `orderIndex` int(10) UNSIGNED NOT NULL,
+  `indentation` int(10) UNSIGNED NOT NULL,
+  `iconType` int(10) UNSIGNED NOT NULL,
+  `contentText` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contentUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contentLabel` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contentMode` int(10) UNSIGNED NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -319,14 +319,14 @@ CREATE TABLE `History_Items` (
 
 CREATE TABLE `History_Pages` (
   `historyId` int(10) UNSIGNED NOT NULL,
-  `histPageId` int(11) UNSIGNED NOT NULL,
-  `histPageType` int(11) UNSIGNED NOT NULL,
-  `histName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `histTitle` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `histDescription` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `histImageUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `histInternal` tinyint(3) UNSIGNED NOT NULL,
-  `histCreated` timestamp NOT NULL DEFAULT current_timestamp()
+  `pageId` int(11) UNSIGNED NOT NULL,
+  `pageType` int(11) UNSIGNED NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `imageUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `internal` tinyint(3) UNSIGNED NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
