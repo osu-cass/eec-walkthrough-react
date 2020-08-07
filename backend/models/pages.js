@@ -640,7 +640,7 @@ async function getReport(start, end) {
     sql = "SELECT HP.*, Categories.pluralName AS categoryName " +
     "FROM History_Pages AS HP " +
     "LEFT JOIN Categories on HP.pageType = Categories.categoryId " +
-    "AND HP.created BETWEEN ? AND ? " +
+    "WHERE HP.created BETWEEN ? AND ? " +
     "ORDER BY HP.created ASC;";
     results = await pool.query(sql, [startTimestamp, endTimestamp]);
     const allPageArray = pageArray.concat(results[0]);
@@ -681,7 +681,7 @@ async function getReport(start, end) {
     "FROM History_Headers AS HH " +
     "LEFT JOIN Pages on Pages.pageId = HH.pageId " +
     "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
-    "AND HH.created BETWEEN ? AND ? " +
+    "WHERE HH.created BETWEEN ? AND ? " +
     "ORDER BY HH.created ASC;";
     results = await pool.query(sql, [startTimestamp, endTimestamp]);
     const allHeaderArray = headerArray.concat(results[0]);
@@ -715,8 +715,36 @@ async function getReport(start, end) {
     "AND Cards.created BETWEEN ? AND ? " +
     "ORDER BY Cards.created ASC, Cards.cardId ASC;";
     results = await pool.query(sql, [startTimestamp, endTimestamp]);
+    cardArray = results[0];
 
-    finalResults.cards = results[0];
+    sql = "SELECT HC.*, Headers.title AS headerName, Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
+    "FROM History_Cards AS HC " +
+    "LEFT JOIN Headers on Headers.headerId = HC.headerId " +
+    "LEFT JOIN Pages on Pages.pageId = Headers.pageId " +
+    "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+    "WHERE HC.created BETWEEN ? AND ? " +
+    "ORDER BY HC.created ASC;";
+    results = await pool.query(sql, [startTimestamp, endTimestamp]);
+    const allCardArray = cardArray.concat(results[0]);
+
+    // get the previous version of each card to use for diffs
+    for (let i = 0; i < allCardArray.length; i++) {
+      const newTimestamp = moment(allCardArray[i].created).format("YYYY-MM-DD HH:mm:ss");
+
+      sql = "SELECT * " +
+      "FROM History_Cards " +
+      "WHERE created BETWEEN ? AND ? " +
+      "ORDER BY created DESC;";
+      results = await pool.query(sql, [startTimestamp, newTimestamp]);
+
+      if (allCardArray[i].historyId && results[0].length >= 2) {
+        allCardArray[i].oldVersion = results[0][1];
+      } else if (!allCardArray[i].historyId && results[0].length >= 1) {
+        allCardArray[i].oldVersion = results[0][0];
+      }
+    }
+
+    finalResults.cards = allCardArray;
 
     const cardCount = finalResults.cards.length;
 
@@ -724,20 +752,32 @@ async function getReport(start, end) {
     for (let i = 0; i < cardCount; i++) {
 
       const cardId = finalResults.cards[i].cardId;
+      const historyId = finalResults.cards[i].historyId;
 
-      sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
-      "Items.iconType, typeName, typeKeyword, contentText, " +
-      "contentUrl, contentLabel, contentMode, " +
-      "created, approved, color " +
-      "FROM Items " +
-      "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
-      "WHERE cardId = ? " +
-      "AND approved = 1 " +
-      "ORDER BY orderIndex ASC, itemId ASC";
-      results = await pool.query(sql, [cardId, startTimestamp, endTimestamp]);
+      if (historyId) {
+        sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
+        "HI.iconType, typeName, typeKeyword, contentText, " +
+        "contentUrl, contentLabel, contentMode, " +
+        "created, color " +
+        "FROM History_Items AS HI " +
+        "LEFT JOIN Icons on HI.iconType = Icons.iconType " +
+        "WHERE parentId = ? " +
+        "ORDER BY orderIndex ASC, itemId ASC";
+        results = await pool.query(sql, [historyId, startTimestamp, endTimestamp]);
+      } else {
+        sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
+        "Items.iconType, typeName, typeKeyword, contentText, " +
+        "contentUrl, contentLabel, contentMode, " +
+        "created, approved, color " +
+        "FROM Items " +
+        "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+        "WHERE cardId = ? " +
+        "AND approved = 1 " +
+        "ORDER BY orderIndex ASC, itemId ASC";
+        results = await pool.query(sql, [cardId, startTimestamp, endTimestamp]);
+      }
 
       finalResults.cards[i].items = results[0];
-
     }
 
     return finalResults;
