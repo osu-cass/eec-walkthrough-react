@@ -1,15 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useState, Fragment} from "react";
 import HistorySearchForm from "./HistorySearchForm";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
-import {formatTime} from "../../utilities/formatTime";
+import ReportPage from "./ReportPage";
 import "./ViewHistory.css";
 
 // page for viewing page, header, and card history
 function ViewHistory() {
 
-  const [publishedContent, setPublishedContent] = useState({})
-  const [startDate, setStartDate] = useState(0);
-  const [endDate, setEndDate] = useState(0);
+  const [publishedContent, setPublishedContent] = useState({
+    pages: [],
+    headers: [],
+    cards: []
+  })
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("Select a date range for the report.");
 
@@ -25,9 +27,12 @@ function ViewHistory() {
       const obj = await results.json();
       console.log("Report", obj);
       setPublishedContent(obj);
+      if (!obj.pages.length && !obj.headers.length && !obj.cards.length) {
+        setErrorMessage("No changes were made in this date range.");
+      }
 
     } else {
-      setErrorMessage("Internal error while attempting to generate report.");
+      setErrorMessage("Internal server error while attempting to generate report. Please try again later.");
     }
 
     setLoading(false);
@@ -52,9 +57,19 @@ function ViewHistory() {
       />
 
       <div className="table-container">
+      {publishedContent.pages.length || publishedContent.headers.length || publishedContent.cards.length ? (
+        <Fragment>
+          {publishedContent.pages.map((page) =>
+            <ReportPage
+              page={page}
+            />
+          )}
+        </Fragment>
+      ) : (
         <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
           <h3 className="py-5 font-weight-bold">{errorMessage}</h3>
         </div>
+      )}
       </div>
     </div>
   );

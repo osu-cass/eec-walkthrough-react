@@ -32,7 +32,7 @@ function HistorySearchForm(props) {
     <div id="report-generate-container" className="justify-content-between p-3 mt-3 mb-5 text-dark-50 bg-white rounded shadow">
 
       <form id="search-form" >
-        <div className="form-group my-2">
+        <div className="form-group mb-0">
 
           <div className="row justify-content-center">
 
@@ -56,10 +56,12 @@ function HistorySearchForm(props) {
           </div>
 
           <div className="row justify-content-end">
-            <div className="col-sm-2">
-              <Button variant="info" onClick={(e) => newReport(e)}>
-                <span className="text-white">Generate Report</span>
-              </Button>
+            <div className="col">
+              <div className="float-right">
+                <Button variant="info" onClick={(e) => newReport(e)}>
+                  <span className="text-white">Generate Report</span>
+                </Button>
+              </div>
             </div>
           </div>
 

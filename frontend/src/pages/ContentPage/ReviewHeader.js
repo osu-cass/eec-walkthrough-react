@@ -275,7 +275,7 @@ function ReviewHeader(props) {
           {props.header.approved ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
               <h4 className="font-weight-bold">Published Version {internal}</h4>
-              <span className="created-text">Created {formatTime(props.header.created)}</span>
+              <span className="created-text">Last updated {formatTime(props.header.created)}</span>
               <div className="m-4">
                 {props.header.tempHeaderId ? (
                   <HighlightText
@@ -296,7 +296,7 @@ function ReviewHeader(props) {
           {props.header.approved && props.header.tempHeaderId ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
               <h4 className="font-weight-bold">New Version {tempInternal}</h4>
-              <span className="created-text">Created {formatTime(props.header.tempCreated)}</span>
+              <span className="created-text">Last updated {formatTime(props.header.tempCreated)}</span>
               <div className="m-4">
                 <HighlightText
                   newMode={true}
@@ -313,7 +313,7 @@ function ReviewHeader(props) {
               ) : (
                 <div className="version-container p-2 m-3 border border-dark rounded">
                   <h4 className="font-weight-bold">New Version {internal}</h4>
-                  <span className="created-text">Created {formatTime(props.header.created)}</span>
+                  <span className="created-text">Last updated {formatTime(props.header.created)}</span>
                   <div className="m-4">
                     <h3 className="font-weight-bold">{props.header.title}</h3>
                   </div>

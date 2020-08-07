@@ -325,7 +325,7 @@ function ReviewPage(props) {
           {props.page.approved ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
               <h4 className="font-weight-bold">Published Version ({pageTypeName})</h4>
-              <span className="created-text">Created {formatTime(props.page.created)}</span>
+              <span className="created-text">Last updated {formatTime(props.page.created)}</span>
               <div className="m-4">
                 {props.page.tempPageId ? (
                   <Fragment>
@@ -395,7 +395,7 @@ function ReviewPage(props) {
           {props.page.approved && props.page.tempPageId ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
               <h4 className="font-weight-bold">New Version ({tempPageTypeName})</h4>
-              <span className="created-text">Created {formatTime(props.page.tempCreated)}</span>
+              <span className="created-text">Last updated {formatTime(props.page.tempCreated)}</span>
               <div className="m-4">
                 <div>
                   <HighlightText
@@ -447,7 +447,7 @@ function ReviewPage(props) {
               ) : (
                 <div className="version-container p-2 m-3 border border-dark rounded">
                   <h4 className="font-weight-bold">New Version ({pageTypeName})</h4>
-                  <span className="created-text">Created {formatTime(props.page.created)}</span>
+                  <span className="created-text">Last updated {formatTime(props.page.created)}</span>
                   <div className="m-4">
                     <h3 className="font-weight-bold">{props.page.name}</h3>
                     <h4>{props.page.title}</h4>

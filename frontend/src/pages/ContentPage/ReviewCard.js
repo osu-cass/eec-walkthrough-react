@@ -312,7 +312,7 @@ function ReviewCard(props) {
           {props.card.approved ? (
             <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
               <h4 className="font-weight-bold">Published Version ({cardTypeName})</h4>
-              <span className="created-text">Created {formatTime(props.card.created)}</span>
+              <span className="created-text">Last updated {formatTime(props.card.created)}</span>
               <div className="m-3">
                 {props.card.tempCardId ? (
                   <HighlightText
@@ -352,7 +352,7 @@ function ReviewCard(props) {
               {props.card.approved && props.card.tempCardId ? (
                 <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
                   <h4 className="font-weight-bold">New Version ({tempCardTypeName})</h4>
-                  <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
+                  <span className="created-text">Last updated {formatTime(props.card.tempCreated)}</span>
                   <div className="m-3">
                     <HighlightText
                       newMode={true}
@@ -370,7 +370,7 @@ function ReviewCard(props) {
               ) : (
                 <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
                   <h4 className="font-weight-bold">New Version ({cardTypeName})</h4>
-                  <span className="created-text">Created {formatTime(props.card.created)}</span>
+                  <span className="created-text">Last updated {formatTime(props.card.created)}</span>
                   <div className="m-3">
                     <h3 className="font-weight-bold">{props.card.title}</h3>
                     {props.card.cardType === 1 || props.card.cardType === 11 ? (
