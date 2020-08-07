@@ -250,6 +250,16 @@ async function publishHeader(headerId) {
 
     const title = results[0][0].title;
     const pageId = results[0][0].pageId;
+    const internal = results[0][0].internal;
+    const created = results[0][0].created;
+    const approved = results[0][0].approved;
+
+    // if the header was published previously, save the published data to history
+    if (approved) {
+      sql = "INSERT INTO History_Headers (headerId, title, internal, created) " +
+      "VALUES (?, ?, ?, ?);";
+      await pool.query(sql, [headerId, title, internal, created]);
+    }
 
     // check if there is new header data
     sql = "SELECT * " +
