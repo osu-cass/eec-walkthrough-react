@@ -26,8 +26,9 @@ function ReportCard(props) {
   return (
     <div className="text-left mx-2">
       <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
-        <h5 className="report-card-special-text pl-3 pt-4">{props.card.categoryName} &rarr; {props.card.pageName} &rarr; {props.card.headerName} &rarr; {props.card.title}</h5>
-        <span className="report-card-special-text pl-3 pt-4">Last updated {formatTime(props.card.created)}</span>
+        <h4 className="report-card-special-text pl-3 pt-4">Card</h4>
+        <h5 className="report-card-special-text pl-3">{props.card.categoryName} &rarr; {props.card.pageName} &rarr; {props.card.headerName} &rarr; {props.card.title}</h5>
+        <span className="report-card-special-text pl-3">Last updated {formatTime(props.card.created)}</span>
         <div className="m-3">
           <h3 className="font-weight-bold">{props.card.title}</h3>
           {props.card.cardType === 1 || props.card.cardType === 11 ? (
