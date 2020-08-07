@@ -603,3 +603,76 @@ async function unpublishPage(pageId) {
 
 }
 exports.unpublishPage = unpublishPage;
+
+
+async function getReport(start, end) {
+
+  try {
+
+    const startTimestamp = start + " 00:00:00";
+    const endTimestamp = end + " 23:59:59";
+
+
+    // get all pages within the date range
+    let sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE approved = 1 " +
+    "AND created BETWEEN ? AND ? " +
+    "ORDER BY created ASC, pageId ASC;";
+    let results = await pool.query(sql, [startTimestamp, endTimestamp]);
+
+    const finalResults = {
+      pages: results[0]
+    };
+
+    // get all headers within the date range
+    sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE approved = 1 " +
+    "AND created BETWEEN ? AND ? " +
+    "ORDER BY created ASC, headerId ASC;";
+    results = await pool.query(sql, [startTimestamp, endTimestamp]);
+
+    finalResults.headers = results[0];
+
+    // get all cards within the date range
+    sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE approved = 1 " +
+    "AND created BETWEEN ? AND ? " +
+    "ORDER BY created ASC, cardId ASC;";
+    results = await pool.query(sql, [startTimestamp, endTimestamp]);
+
+    finalResults.cards = results[0];
+
+    const cardCount = finalResults.cards.length;
+
+    // get all of the items for each card
+    for (let i = 0; i < cardCount; i++) {
+
+      const cardId = finalResults.cards[i].cardId;
+
+      sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
+      "Items.iconType, typeName, typeKeyword, contentText, " +
+      "contentUrl, contentLabel, contentMode, " +
+      "created, approved, color " +
+      "FROM Items " +
+      "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+      "WHERE cardId = ? " +
+      "AND approved = 1 " +
+      "ORDER BY orderIndex ASC, itemId ASC";
+      results = await pool.query(sql, [cardId, startTimestamp, endTimestamp]);
+
+      finalResults.cards[i].items = results[0];
+
+    }
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error generating report");
+    throw Error(err);
+  }
+
+}
+exports.getReport = getReport;

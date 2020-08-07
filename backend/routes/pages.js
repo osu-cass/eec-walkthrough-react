@@ -23,7 +23,8 @@ const {
   deletePageChanges,
   updatePage,
   publishPage,
-  unpublishPage
+  unpublishPage,
+  getReport
 } = require("../models/pages");
 
 
@@ -382,6 +383,50 @@ app.post("/:pageId/unpublish", requireAuth, getPageVal.validation, async (req, r
       }
 
     }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get a report with all of the published page changes from the start date to the end date
+app.get("/report/:start/:end", requireAuth, async (req, res) => {
+
+  try {
+
+    const start = req.params.start;
+    const end = req.params.end;
+    console.log("Get a report from", start, "to", end);
+
+    // confirm that the request is valid
+    const startArray = start.split("-");
+    const endArray = end.split("-");
+    if (startArray.length !== 3 || endArray.length !== 3) {
+      return res.status(422).json({error: "Invalid date range"});
+    }
+    if (startArray[0].length !== 4 || endArray[0].length !== 4 || 
+        startArray[1].length !== 2 || endArray[1].length !== 2 ||
+        startArray[2].length !== 2 || endArray[2].length !== 2) {
+      return res.status(422).json({error: "Invalid date range"});
+    }
+    const numbers = /^[0-9]+$/;
+    if (!startArray[0].match(numbers) || !startArray[1].match(numbers) || !startArray[2].match(numbers) || 
+        !endArray[0].match(numbers) || !endArray[1].match(numbers) || !endArray[2].match(numbers)) {
+      return res.status(422).json({error: "Invalid date range"});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(2, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to generate report."});
+      return;
+    }
+
+    // get complete page data
+    const results = await getReport(start, end);
+    res.status(200).send(results);
 
   } catch (err) {
     console.error(err);

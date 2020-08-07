@@ -6,23 +6,33 @@ import "./HistorySearchForm.css";
 // search form for finding change history
 function HistorySearchForm(props) {
 
-  // perform a new link search when form is submitted
-  function submitHandler(e) {
+  // generate a new report
+  function newReport(e) {
 
     // prevent the default behavior of the form button
     e.preventDefault();
 
-    const select = document.getElementById("select-link-types").value;
+    const start = document.getElementById("date-report-start").value;
+    const end = document.getElementById("date-report-end").value;
 
-    props.onDatesChange(select);
+    if (Date.parse(end) < Date.parse(start)) {
+      props.onErrorMessage("The end date cannot be earlier than the start date.");
+      return;
+    }
 
+    if (start === "" || end === "") {
+      props.onErrorMessage("Please select a date range before attempting to generate a report.");
+      return;
+    }
+
+    props.onGenerateReport(start, end);
   }
 
   return (
-    <div id="link-search-container" className="justify-content-between p-3 mt-3 mb-5 text-dark-50 bg-white rounded shadow">
+    <div id="report-generate-container" className="justify-content-between p-3 mt-3 mb-5 text-dark-50 bg-white rounded shadow">
 
       <form id="search-form" >
-        <div className="form-group">
+        <div className="form-group my-2">
 
           <div className="row justify-content-center">
 
@@ -47,7 +57,7 @@ function HistorySearchForm(props) {
 
           <div className="row justify-content-end">
             <div className="col-sm-2">
-              <Button variant="info" onClick={() => {}}>
+              <Button variant="info" onClick={(e) => newReport(e)}>
                 <span className="text-white">Generate Report</span>
               </Button>
             </div>
@@ -62,5 +72,6 @@ function HistorySearchForm(props) {
 export default HistorySearchForm;
 
 HistorySearchForm.propTypes = {
-  onDatesChange: PropTypes.func
+  onGenerateReport: PropTypes.func,
+  onErrorMessage: PropTypes.func
 };
