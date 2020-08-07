@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 07, 2020 at 01:06 AM
+-- Generation Time: Aug 07, 2020 at 11:27 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -262,6 +262,72 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (45, 27, 4, 'D (edited)', 0, 42, '2020-07-28 08:31:29', 0),
 (46, 53, 46, 'Simple Header', 0, 42, '2020-08-04 10:53:41', 1),
 (47, 54, 47, 'Assessment Steps', 1, 51, '2020-08-05 19:56:29', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `History_Cards`
+--
+
+CREATE TABLE `History_Cards` (
+  `historyId` int(10) UNSIGNED NOT NULL,
+  `histCardId` int(10) UNSIGNED NOT NULL,
+  `histCardType` tinyint(3) UNSIGNED NOT NULL,
+  `histTitle` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `histCreated` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `History_Headers`
+--
+
+CREATE TABLE `History_Headers` (
+  `historyId` int(10) UNSIGNED NOT NULL,
+  `histHeaderId` int(10) UNSIGNED NOT NULL,
+  `histTitle` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `histInternal` tinyint(3) UNSIGNED NOT NULL,
+  `histCreated` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `History_Items`
+--
+
+CREATE TABLE `History_Items` (
+  `historyId` int(10) UNSIGNED NOT NULL,
+  `histItemId` int(10) UNSIGNED NOT NULL,
+  `histCardId` int(10) UNSIGNED NOT NULL,
+  `histOrderIndex` int(10) UNSIGNED NOT NULL,
+  `histIndentation` int(10) UNSIGNED NOT NULL,
+  `histIconType` int(10) UNSIGNED NOT NULL,
+  `histContentText` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `histContentUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `histContentLabel` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `histContentMode` int(10) UNSIGNED NOT NULL,
+  `histCreated` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `History_Pages`
+--
+
+CREATE TABLE `History_Pages` (
+  `historyId` int(10) UNSIGNED NOT NULL,
+  `histPageId` int(11) UNSIGNED NOT NULL,
+  `histPageType` int(11) UNSIGNED NOT NULL,
+  `histName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `histTitle` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `histDescription` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `histImageUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `histInternal` tinyint(3) UNSIGNED NOT NULL,
+  `histCreated` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1179,6 +1245,30 @@ ALTER TABLE `Headers`
   ADD KEY `page_fk` (`pageId`);
 
 --
+-- Indexes for table `History_Cards`
+--
+ALTER TABLE `History_Cards`
+  ADD PRIMARY KEY (`historyId`);
+
+--
+-- Indexes for table `History_Headers`
+--
+ALTER TABLE `History_Headers`
+  ADD PRIMARY KEY (`historyId`);
+
+--
+-- Indexes for table `History_Items`
+--
+ALTER TABLE `History_Items`
+  ADD PRIMARY KEY (`historyId`);
+
+--
+-- Indexes for table `History_Pages`
+--
+ALTER TABLE `History_Pages`
+  ADD PRIMARY KEY (`historyId`);
+
+--
 -- Indexes for table `Home`
 --
 ALTER TABLE `Home`
@@ -1276,6 +1366,30 @@ ALTER TABLE `Filters`
 --
 ALTER TABLE `Headers`
   MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+
+--
+-- AUTO_INCREMENT for table `History_Cards`
+--
+ALTER TABLE `History_Cards`
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `History_Headers`
+--
+ALTER TABLE `History_Headers`
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `History_Items`
+--
+ALTER TABLE `History_Items`
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `History_Pages`
+--
+ALTER TABLE `History_Pages`
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Icons`
