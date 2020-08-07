@@ -9,11 +9,7 @@ import "./ViewHistory.css";
 // page for viewing page, header, and card history
 function ViewHistory() {
 
-  const [publishedContent, setPublishedContent] = useState({
-    pages: [],
-    headers: [],
-    cards: []
-  });
+  const [publishedContent, setPublishedContent] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("Select a date range for the report.");
 
@@ -26,8 +22,30 @@ function ViewHistory() {
     if (results.ok) {
 
       const obj = await results.json();
-      setPublishedContent(obj);
-      if (!obj.pages.length && !obj.headers.length && !obj.cards.length) {
+
+      // combine all of the content into one array
+      let all = [];
+      for (let i = 0; i < obj.pages.length; i++) {
+        const page = obj.pages[i];
+        page.sortType = 0;
+        all.push(page);
+      }
+      for (let i = 0; i < obj.headers.length; i++) {
+        const header = obj.headers[i];
+        header.sortType = 1;
+        all.push(header);
+      }
+      for (let i = 0; i < obj.cards.length; i++) {
+        const card = obj.cards[i];
+        card.sortType = 2;
+        all.push(card);
+      }
+
+      // sort all of the content by date
+      all.sort((a, b) => Date.parse(a.created) - Date.parse(b.created));
+
+      setPublishedContent(all);
+      if (!all.length) {
         setErrorMessage("No changes were made in this date range.");
       }
 
@@ -57,30 +75,36 @@ function ViewHistory() {
       />
 
       <div className="table-container">
-      {publishedContent.pages.length || publishedContent.headers.length || publishedContent.cards.length ? (
+      {publishedContent.length ? (
         <div className="prompt-container my-3 py-2 bg-white card rounded shadow-sm">
           <Fragment>
-            {publishedContent.pages.map((object) =>
-              <ReportPage
-                key={object.pageId + "p"}
-                page={object}
-              />
-            )}
-          </Fragment>
-          <Fragment>
-            {publishedContent.headers.map((object) =>
-              <ReportHeader
-                key={object.headerId + "h"}
-                header={object}
-              />
-            )}
-          </Fragment>
-          <Fragment>
-            {publishedContent.cards.map((object) =>
-              <ReportCard
-                key={object.cardId + "c"}
-                card={object}
-              />
+            {publishedContent.map((object, i) =>
+              <Fragment key={i}>
+                {object.sortType === 0 ? (
+                  <ReportPage
+                    key={object.pageId + "p"}
+                    page={object}
+                  />
+                ) : (
+                  null
+                )}
+                {object.sortType === 1 ? (
+                  <ReportHeader
+                    key={object.headerId + "h"}
+                    header={object}
+                  />
+                ) : (
+                  null
+                )}
+                {object.sortType === 2 ? (
+                  <ReportCard
+                    key={object.cardId + "c"}
+                    card={object}
+                  />
+                ) : (
+                  null
+                )}
+              </Fragment>
             )}
           </Fragment>
         </div>
