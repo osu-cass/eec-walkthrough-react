@@ -423,11 +423,16 @@ function ContentPage(props) {
   // handle a new view being loaded
   function handleNewView(headerFilters) {
     const copy = [...headers];
+    // set default force filters
     for (let i = 0; i < copy.length; i++) {
-      if (i < headerFilters.length) {
-        copy[i].forceFilter = headerFilters[i].filters;
-      } else {
-        copy[i].forceFilter = [];
+      copy[i].forceFilter = [];
+    }
+    // apply the specific force filters to the specific headers
+    for (let i = 0; i < copy.length; i++) {
+      for (let j = 0; j < headerFilters.length; j++) {
+        if (copy[i].headerId === headerFilters[j].headerId) {
+          copy[i].forceFilter = headerFilters[j].filters;
+        }
       }
     }
     setHeaders(copy);

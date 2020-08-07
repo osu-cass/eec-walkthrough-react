@@ -433,7 +433,7 @@ async function moveHeader(headerId, direction) {
     }
 
     // sort the array of headers by order index
-    headerOrderArray.sort((a, b) => a.order - b.order)
+    headerOrderArray.sort((a, b) => a.order - b.order);
 
     // find and move the specified header
     for (let i = 0; i < headerOrderArray.length; i++) {
@@ -441,7 +441,7 @@ async function moveHeader(headerId, direction) {
         if (direction) {
           // try to move up and skip hidden headers
           for (let j = i; j > 0; j--) {
-            let tempObj = headerOrderArray[j - 1];
+            const tempObj = headerOrderArray[j - 1];
             headerOrderArray[j - 1] = headerOrderArray[j];
             headerOrderArray[j] = tempObj;
             if (headerOrderArray[j].show !== "hidden") {
@@ -452,7 +452,7 @@ async function moveHeader(headerId, direction) {
         } else {
           // try to move down and skip hidden headers
           for (let j = i; j < headerOrderArray.length - 1; j++) {
-            let tempObj = headerOrderArray[j + 1];
+            const tempObj = headerOrderArray[j + 1];
             headerOrderArray[j + 1] = headerOrderArray[j];
             headerOrderArray[j] = tempObj;
             if (headerOrderArray[j].show !== "hidden") {
@@ -490,11 +490,11 @@ async function moveHeader(headerId, direction) {
     if (normArray.length) {
       sql = "UPDATE Headers " +
       "SET orderIndex = CASE ";
-      for (let i = 0; i < normArray.length/3; i++) {
+      for (let i = 0; i < normArray.length / 3; i++) {
         sql += "WHEN headerId = ? THEN ? ";
       }
       sql += "ELSE 0 END WHERE headerId IN (";
-      for (let i = 0; i < normArray.length/3; i++) {
+      for (let i = 0; i < normArray.length / 3; i++) {
         sql += "?,";
       }
       sql = sql.replace(/.$/, ");");
@@ -505,11 +505,11 @@ async function moveHeader(headerId, direction) {
     if (tempArray.length) {
       sql = "UPDATE Temp_Headers " +
       "SET tempOrderIndex = CASE ";
-      for (let i = 0; i < tempArray.length/3; i++) {
+      for (let i = 0; i < tempArray.length / 3; i++) {
         sql += "WHEN tempHeaderId = ? THEN ? ";
       }
       sql += "ELSE 0 END WHERE tempHeaderId IN (";
-      for (let i = 0; i < tempArray.length/3; i++) {
+      for (let i = 0; i < tempArray.length / 3; i++) {
         sql += "?,";
       }
       sql = sql.replace(/.$/, ");");
@@ -554,7 +554,7 @@ async function moveTempHeader(headerId, direction) {
     if (results[0][0].approved) {
 
       // since it is approved, get the temp header version of the header
-      let sql = "SELECT * " +
+      const sql = "SELECT * " +
       "FROM Temp_Headers " +
       "WHERE tempHeaderId = ? ";
       results = await pool.query(sql, headerId);
@@ -618,7 +618,7 @@ async function moveTempHeader(headerId, direction) {
         if (direction) {
           // try to move up and skip hidden headers
           for (let j = i; j > 0; j--) {
-            let tempObj = headerOrderArray[j - 1];
+            const tempObj = headerOrderArray[j - 1];
             headerOrderArray[j - 1] = headerOrderArray[j];
             headerOrderArray[j] = tempObj;
             if (headerOrderArray[j].show !== "hidden") {
@@ -629,7 +629,7 @@ async function moveTempHeader(headerId, direction) {
         } else {
           // try to move down and skip hidden headers
           for (let j = i; j < headerOrderArray.length - 1; j++) {
-            let tempObj = headerOrderArray[j + 1];
+            const tempObj = headerOrderArray[j + 1];
             headerOrderArray[j + 1] = headerOrderArray[j];
             headerOrderArray[j] = tempObj;
             if (headerOrderArray[j].show !== "hidden") {
@@ -667,11 +667,11 @@ async function moveTempHeader(headerId, direction) {
     if (normArray.length) {
       sql = "UPDATE Headers " +
       "SET orderIndex = CASE ";
-      for (let i = 0; i < normArray.length/3; i++) {
+      for (let i = 0; i < normArray.length / 3; i++) {
         sql += "WHEN headerId = ? THEN ? ";
       }
       sql += "ELSE 0 END WHERE headerId IN (";
-      for (let i = 0; i < normArray.length/3; i++) {
+      for (let i = 0; i < normArray.length / 3; i++) {
         sql += "?,";
       }
       sql = sql.replace(/.$/, ");");
@@ -682,11 +682,11 @@ async function moveTempHeader(headerId, direction) {
     if (tempArray.length) {
       sql = "UPDATE Temp_Headers " +
       "SET tempOrderIndex = CASE ";
-      for (let i = 0; i < tempArray.length/3; i++) {
+      for (let i = 0; i < tempArray.length / 3; i++) {
         sql += "WHEN tempHeaderId = ? THEN ? ";
       }
       sql += "ELSE 0 END WHERE tempHeaderId IN (";
-      for (let i = 0; i < tempArray.length/3; i++) {
+      for (let i = 0; i < tempArray.length / 3; i++) {
         sql += "?,";
       }
       sql = sql.replace(/.$/, ");");
