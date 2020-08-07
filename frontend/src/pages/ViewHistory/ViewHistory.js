@@ -24,7 +24,7 @@ function ViewHistory() {
       const obj = await results.json();
 
       // combine all of the content into one array
-      let all = [];
+      const all = [];
       for (let i = 0; i < obj.pages.length; i++) {
         const page = obj.pages[i];
         page.sortType = 0;
@@ -69,50 +69,50 @@ function ViewHistory() {
         </div>
       </div>
 
-      <HistorySearchForm 
+      <HistorySearchForm
         onGenerateReport={(start, end) => handleGenerateReport(start, end)}
         onErrorMessage={(message) => setErrorMessage(message)}
       />
 
       <div className="table-container">
-      {publishedContent.length ? (
-        <div className="prompt-container my-3 py-2 bg-white card rounded shadow-sm">
-          <Fragment>
-            {publishedContent.map((object, i) =>
-              <Fragment key={i}>
-                {object.sortType === 0 ? (
-                  <ReportPage
-                    key={object.pageId + "p"}
-                    page={object}
-                  />
-                ) : (
-                  null
-                )}
-                {object.sortType === 1 ? (
-                  <ReportHeader
-                    key={object.headerId + "h"}
-                    header={object}
-                  />
-                ) : (
-                  null
-                )}
-                {object.sortType === 2 ? (
-                  <ReportCard
-                    key={object.cardId + "c"}
-                    card={object}
-                  />
-                ) : (
-                  null
-                )}
-              </Fragment>
-            )}
-          </Fragment>
-        </div>
-      ) : (
-        <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
-          <h3 className="py-5 font-weight-bold">{errorMessage}</h3>
-        </div>
-      )}
+        {publishedContent.length ? (
+          <div className="prompt-container my-3 py-2 bg-white card rounded shadow-sm">
+            <Fragment>
+              {publishedContent.map((object, i) =>
+                <Fragment key={i}>
+                  {object.sortType === 0 ? (
+                    <ReportPage
+                      key={object.pageId + "p"}
+                      page={object}
+                    />
+                  ) : (
+                    null
+                  )}
+                  {object.sortType === 1 ? (
+                    <ReportHeader
+                      key={object.headerId + "h"}
+                      header={object}
+                    />
+                  ) : (
+                    null
+                  )}
+                  {object.sortType === 2 ? (
+                    <ReportCard
+                      key={object.cardId + "c"}
+                      card={object}
+                    />
+                  ) : (
+                    null
+                  )}
+                </Fragment>
+              )}
+            </Fragment>
+          </div>
+        ) : (
+          <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
+            <h3 className="py-5 font-weight-bold">{errorMessage}</h3>
+          </div>
+        )}
       </div>
     </div>
   );

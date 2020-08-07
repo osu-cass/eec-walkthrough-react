@@ -10,7 +10,7 @@ function ReportCard(props) {
 
   const [imageItems, setImageItems] = useState([]);
 
-   // If the current card is an Image Gallery card then
+  // If the current card is an Image Gallery card then
   // whenever we get new items, filter out all of the non-image ones
   useEffect(() => {
     const imageArray = [];
@@ -37,7 +37,7 @@ function ReportCard(props) {
             </Fragment>
           ) : (
             <Fragment>
-              <BasicItems items={props.card.items} mode={props.mode} reviewing={true} setCheck={() => {}} />
+              <BasicItems items={props.card.items} mode={0} reviewing={true} setCheck={() => {}} />
             </Fragment>
           )}
         </div>

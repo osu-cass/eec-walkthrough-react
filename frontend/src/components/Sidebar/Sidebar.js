@@ -83,7 +83,7 @@ function Sidebar(props) {
               <SidebarCollection
                 key={category.categoryId}
                 collectionName={category.pluralName}
-                collectionLink={`wiki/${category.pluralName.replace(/\s+/g, '-').toLowerCase()}`}
+                collectionLink={`wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}`}
                 collection={category.pages}
                 category={category}
                 internal={category.internal}
@@ -118,7 +118,7 @@ function Sidebar(props) {
                 null
               )}
               <SidebarCollection
-                collectionName="View Change History"
+                collectionName="History Report"
                 collectionLink="change-history"
               />
             </Card>

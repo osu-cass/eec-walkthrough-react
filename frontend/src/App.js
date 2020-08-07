@@ -25,16 +25,16 @@ function App() {
 
   function openSidebar() {
     setSidebarOpen(true);
-  };
+  }
 
   function closeSidebar() {
     setSidebarOpen(false);
-  };
+  }
 
   function handleLoginStatusChange() {
     setLoginStatusChange(!loginStatusChange);
   }
-  
+
   function handlePageEdit() {
     setPageEdit(!pageEdit);
   }

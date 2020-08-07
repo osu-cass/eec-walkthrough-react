@@ -19,9 +19,9 @@ function BasicItems(props) {
       for (let i = 0; i < props.items.length; i++) {
         let status = 1;
         for (let j = 0; j < props.otherItems.length; j++) {
-          let newItem = props.items[i];
-          let oldItem = props.otherItems[j];
-          
+          const newItem = props.items[i];
+          const oldItem = props.otherItems[j];
+
           // don't find the same item multiple times
           let skip = false;
           for (let k = 0; k < foundItems.length; k++) {
@@ -56,8 +56,8 @@ function BasicItems(props) {
       for (let i = 0; i < props.items.length; i++) {
         let status = 3;
         for (let j = 0; j < props.otherItems.length; j++) {
-          let newItem = props.otherItems[j];
-          let oldItem = props.items[i];
+          const newItem = props.otherItems[j];
+          const oldItem = props.items[i];
 
           // don't find the same item multiple times
           let skip = false;

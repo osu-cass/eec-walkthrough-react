@@ -13,7 +13,7 @@ function PageSearchResults(props) {
       <div className="content-container mb-5">
         <div className="prompt-container bg-white card rounded shadow-sm">
           <div className="page-search-inner-container m-5">
-            {props.pages.map((page, index) =>
+            {props.pages.map((page) =>
 
               <div className="page-info-container card m-5" key={page.pageId}>
                 <Link to={page.url}>

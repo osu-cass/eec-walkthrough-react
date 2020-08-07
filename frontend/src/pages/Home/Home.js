@@ -88,9 +88,9 @@ function Home(props) {
       console.error("Error fetching homepage content");
     }
 
-     // Fetch all sponsors
-     results = await fetch(`/api/home/sponsors`);
-     if (results.ok) {
+    // Fetch all sponsors
+    results = await fetch(`/api/home/sponsors`);
+    if (results.ok) {
 
       const obj = await results.json();
       setSponsors(obj);
@@ -250,15 +250,15 @@ function Home(props) {
 
           <div className="p-4 my-2 text-dark-50 bg-white" >
             <div className="font-weight-bold mb-3">This guide has been developed with support from</div>
-              {sponsors.map((sponsor) =>
-                <div key={sponsor.name}>
-                  <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
-                    <li>
-                      <a href={sponsor.websiteUrl}>{sponsor.title}</a>
-                    </li>
-                  </ul>
-                </div>
-              )}
+            {sponsors.map((sponsor) =>
+              <div key={sponsor.name}>
+                <ul className="text-left" style={{display: "inline-block", verticalAlign: "middle"}}>
+                  <li>
+                    <a href={sponsor.websiteUrl}>{sponsor.title}</a>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </Card>
       ) : (

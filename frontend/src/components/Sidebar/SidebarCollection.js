@@ -36,7 +36,7 @@ function SidebarCollection(props) {
         <Fragment>
           {props.externalLink ? (
             <a className="page-sidebar-nav-link" href={props.externalLink}>
-              <Accordion.Toggle 
+              <Accordion.Toggle
                 as={Card.Header}
                 id="sidebarCollection"
                 style={{fontSize: "1.2rem"}}
@@ -47,7 +47,7 @@ function SidebarCollection(props) {
             </a>
           ) : (
             <NavLink className="page-sidebar-nav-link" to={`/${props.collectionLink}`}>
-              <Accordion.Toggle 
+              <Accordion.Toggle
                 as={Card.Header}
                 id="sidebarCollection"
                 style={{fontSize: "1.2rem"}}

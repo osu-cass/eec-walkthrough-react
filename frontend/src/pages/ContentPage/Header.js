@@ -260,7 +260,7 @@ function Header(props) {
   // sort cards based on their edited status and their order index
   function cardSortOrder(cards) {
     const copy = [...cards];
-    for(let i = 0; i < copy.length; i++) {
+    for (let i = 0; i < copy.length; i++) {
       if ((props.mode === 1 && copy[i].edited && copy[i].tempCardId) || (props.mode === 2 && props.publishedMode === 0 && copy[i].edited && copy[i].tempCardId)) {
         copy[i].realOrder = copy[i].tempOrderIndex;
       } else {
@@ -346,12 +346,12 @@ function Header(props) {
         if (opportunityFilterMode && opportunitiesExist && item.indentation === 0 && item.iconType !== 11) {
           return true;
         }
-      } else if (opportunityFilterMode && (opportunitiesExist || tempOpportunitiesExist) 
+      } else if (opportunityFilterMode && (opportunitiesExist || tempOpportunitiesExist)
                 && item.indentation === 0 && item.iconType !== 11) {
         return true;
       }
     }
-    return false
+    return false;
   }
 
   // determines if the current object is only internal viewable
@@ -403,7 +403,7 @@ function Header(props) {
   // changes the checked status of an item
   function handleCheck(check, itemId, cardId) {
 
-    const newCards =[...props.header.cards];
+    const newCards = [...props.header.cards];
 
     for (let i = 0; i < newCards.length; i++) {
       if (newCards[i].cardId === cardId) {
@@ -461,7 +461,7 @@ function Header(props) {
           tempCardObj.show = "hidden";
         } else {
           cardObj.show = "hidden";
-          tempCardObj.show = "show";  
+          tempCardObj.show = "show";
         }
 
         cardOrderArray.push(cardObj);
@@ -503,7 +503,7 @@ function Header(props) {
           // try to move up and skip hidden cards
           for (let j = i; j > 0; j--) {
             moved = true;
-            let tempObj = cardOrderArray[j - 1];
+            const tempObj = cardOrderArray[j - 1];
             cardOrderArray[j - 1] = cardOrderArray[j];
             cardOrderArray[j] = tempObj;
             if (cardOrderArray[j].show !== "hidden") {
@@ -515,7 +515,7 @@ function Header(props) {
           // try to move down and skip hidden cards
           for (let j = i; j < cardOrderArray.length - 1; j++) {
             moved = true;
-            let tempObj = cardOrderArray[j + 1];
+            const tempObj = cardOrderArray[j + 1];
             cardOrderArray[j + 1] = cardOrderArray[j];
             cardOrderArray[j] = tempObj;
             if (cardOrderArray[j].show !== "hidden") {
@@ -653,13 +653,13 @@ function Header(props) {
                         showButton={opportunitiesExist}
                         toggled={opportunityFilterMode}
                         toggleList={() => props.updateIcon(0, !opportunityFilterMode, props.header.headerId)}
-                        />
+                      />
                       <EditHeader
-                          mode={props.mode}
-                          header={props.header}
-                          role={props.role}
-                          handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                        />
+                        mode={props.mode}
+                        header={props.header}
+                        role={props.role}
+                        handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                      />
                       <ReviewHeader
                         mode={props.mode}
                         header={props.header}
@@ -674,7 +674,7 @@ function Header(props) {
         </div>
 
         <div id="accordion" role="tablist" aria-multiselectable="true">
-          {cards.map((card, i) =>
+          {cards.map((card) =>
             <Card
               key={card.cardId}
               headerId={props.header.headerId}

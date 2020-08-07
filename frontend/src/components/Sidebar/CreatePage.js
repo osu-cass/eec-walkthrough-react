@@ -7,7 +7,7 @@ import "./CreatePage.css";
 
 // button and modal for creating a new page
 function CreatePage(props) {
- 
+
   const [name, setName] = useState("");
   const [summary, setSummary] = useState("");
   const [description, setDescription] = useState("");
@@ -20,7 +20,7 @@ function CreatePage(props) {
     setShow(false);
     setErrorMessage("");
   }
-  
+
   function handleShow() {
     setShow(true);
   }
