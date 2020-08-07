@@ -612,13 +612,13 @@ async function getReport(start, end) {
     const startTimestamp = start + " 00:00:00";
     const endTimestamp = end + " 23:59:59";
 
-
     // get all pages within the date range
-    let sql = "SELECT * " +
+    let sql = "SELECT Pages.*, Categories.pluralName AS categoryName " +
     "FROM Pages " +
-    "WHERE approved = 1 " +
-    "AND created BETWEEN ? AND ? " +
-    "ORDER BY created ASC, pageId ASC;";
+    "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+    "WHERE Pages.approved = 1 " +
+    "AND Pages.created BETWEEN ? AND ? " +
+    "ORDER BY Pages.created ASC, Pages.pageId ASC;";
     let results = await pool.query(sql, [startTimestamp, endTimestamp]);
 
     const finalResults = {
@@ -626,21 +626,26 @@ async function getReport(start, end) {
     };
 
     // get all headers within the date range
-    sql = "SELECT * " +
+    sql = "SELECT Headers.*, Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
     "FROM Headers " +
-    "WHERE approved = 1 " +
-    "AND created BETWEEN ? AND ? " +
-    "ORDER BY created ASC, headerId ASC;";
+    "LEFT JOIN Pages on Pages.pageId = Headers.pageId " +
+    "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+    "WHERE Headers.approved = 1 " +
+    "AND Headers.created BETWEEN ? AND ? " +
+    "ORDER BY Headers.created ASC, Headers.headerId ASC;";
     results = await pool.query(sql, [startTimestamp, endTimestamp]);
 
     finalResults.headers = results[0];
 
     // get all cards within the date range
-    sql = "SELECT * " +
+    sql = "SELECT Cards.*, Headers.title AS headerName, Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
     "FROM Cards " +
-    "WHERE approved = 1 " +
-    "AND created BETWEEN ? AND ? " +
-    "ORDER BY created ASC, cardId ASC;";
+    "LEFT JOIN Headers on Headers.headerId = Cards.headerId " +
+    "LEFT JOIN Pages on Pages.pageId = Headers.pageId " +
+    "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+    "WHERE Cards.approved = 1 " +
+    "AND Cards.created BETWEEN ? AND ? " +
+    "ORDER BY Cards.created ASC, Cards.cardId ASC;";
     results = await pool.query(sql, [startTimestamp, endTimestamp]);
 
     finalResults.cards = results[0];
