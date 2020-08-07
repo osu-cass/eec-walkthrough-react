@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 07, 2020 at 01:44 PM
+-- Generation Time: Aug 07, 2020 at 02:12 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -301,6 +301,7 @@ CREATE TABLE `History_Headers` (
 
 CREATE TABLE `History_Items` (
   `historyId` int(10) UNSIGNED NOT NULL,
+  `parentId` int(10) UNSIGNED NOT NULL,
   `itemId` int(10) UNSIGNED NOT NULL,
   `cardId` int(10) UNSIGNED NOT NULL,
   `orderIndex` int(10) UNSIGNED NOT NULL,
@@ -1263,7 +1264,8 @@ ALTER TABLE `History_Headers`
 -- Indexes for table `History_Items`
 --
 ALTER TABLE `History_Items`
-  ADD PRIMARY KEY (`historyId`);
+  ADD PRIMARY KEY (`historyId`),
+  ADD KEY `history_card_item_fk` (`parentId`);
 
 --
 -- Indexes for table `History_Pages`
@@ -1460,6 +1462,12 @@ ALTER TABLE `Filters`
 ALTER TABLE `Headers`
   ADD CONSTRAINT `page_fk` FOREIGN KEY (`pageId`) REFERENCES `Pages` (`pageId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_header_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
+
+--
+-- Constraints for table `History_Items`
+--
+ALTER TABLE `History_Items`
+  ADD CONSTRAINT `history_card_item_fk` FOREIGN KEY (`parentId`) REFERENCES `History_Cards` (`historyId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Items`

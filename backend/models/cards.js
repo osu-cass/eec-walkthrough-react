@@ -336,6 +336,38 @@ async function publishCard(cardId) {
 
     const title = results[0][0].title;
     const headerId = results[0][0].headerId;
+    const approved = results[0][0].approved;
+    const cardType = results[0][0].cardType;
+    const created = results[0][0].created;
+
+    // if the card was published previously, save the published data to history
+    if (approved) {
+      sql = "INSERT INTO History_Cards (cardId, headerId, cardType, title, created) " +
+      "VALUES (?, ?, ?, ?, ?);";
+      results = await pool.query(sql, [cardId, headerId, cardType, title, created]);
+      const newHistoryId = results[0].insertId;
+
+      // save item history as well
+      sql = "SELECT * " +
+      "FROM Items " +
+      "WHERE cardId = ? " +
+      "AND approved = 1;";
+      results = await pool.query(sql, [cardId]);
+
+      for (let i = 0; i < results[0].length; i++) {
+        const sqlArray = [newHistoryId, results[0][i].itemId, results[0][i].cardId,
+          results[0][i].orderIndex, results[0][i].indentation, results[0][i].iconType,
+          results[0][i].contentText, results[0][i].contentUrl, results[0][i].contentLabel,
+          results[0][i].contentMode, results[0][i].created];
+
+        sql = "INSERT INTO History_Items " +
+        "(parentId, itemId, cardId, orderIndex, indentation, iconType, contentText, " +
+        "contentUrl, contentLabel, contentMode, created) " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+        await pool.query(sql, sqlArray);
+      }
+    }
 
     // check if there is new card data
     sql = "SELECT * " +
@@ -657,11 +689,12 @@ async function moveTempCard(cardId, direction) {
     }
 
     const headerId = results[0][0].headerId;
+    const approved = results[0][0].approved;
 
     let cardType = "norm";
 
     // see if this card is already approved
-    if (results[0][0].approved) {
+    if (approved) {
 
       // since it is approved, get the temp card version of the card
       const sql = "SELECT * " +

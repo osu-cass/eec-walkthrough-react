@@ -119,7 +119,7 @@ function Sidebar(props) {
               )}
               <SidebarCollection
                 collectionName="History Report"
-                collectionLink="change-history"
+                collectionLink="history-report"
               />
             </Card>
           ) : (
