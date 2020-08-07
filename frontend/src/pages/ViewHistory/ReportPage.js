@@ -4,7 +4,7 @@ import {formatTime} from "../../utilities/formatTime";
 import Image from "../ContentPage/Image";
 import "./ReportPage.css";
 
-// Button and modal that allows a user to review a page
+// Page history for a single page
 function ReportPage(props) {
 
   return (

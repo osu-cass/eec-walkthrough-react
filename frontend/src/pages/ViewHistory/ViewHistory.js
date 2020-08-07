@@ -3,6 +3,7 @@ import HistorySearchForm from "./HistorySearchForm";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import ReportPage from "./ReportPage";
 import ReportHeader from "./ReportHeader";
+import ReportCard from "./ReportCard";
 import "./ViewHistory.css";
 
 // page for viewing page, header, and card history
@@ -12,7 +13,7 @@ function ViewHistory() {
     pages: [],
     headers: [],
     cards: []
-  })
+  });
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("Select a date range for the report.");
 
@@ -22,11 +23,9 @@ function ViewHistory() {
 
     // Fetch report data
     const results = await fetch(`/api/pages/report/${start}/${end}`);
-    console.log(`/api/pages/report/${start}/${end}`)
     if (results.ok) {
 
       const obj = await results.json();
-      console.log("Report", obj);
       setPublishedContent(obj);
       if (!obj.pages.length && !obj.headers.length && !obj.cards.length) {
         setErrorMessage("No changes were made in this date range.");
@@ -63,6 +62,7 @@ function ViewHistory() {
           <Fragment>
             {publishedContent.pages.map((object) =>
               <ReportPage
+                key={object.pageId + "p"}
                 page={object}
               />
             )}
@@ -70,7 +70,16 @@ function ViewHistory() {
           <Fragment>
             {publishedContent.headers.map((object) =>
               <ReportHeader
+                key={object.headerId + "h"}
                 header={object}
+              />
+            )}
+          </Fragment>
+          <Fragment>
+            {publishedContent.cards.map((object) =>
+              <ReportCard
+                key={object.cardId + "c"}
+                card={object}
               />
             )}
           </Fragment>
