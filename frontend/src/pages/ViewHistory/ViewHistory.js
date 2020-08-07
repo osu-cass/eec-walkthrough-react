@@ -43,7 +43,7 @@ function ViewHistory() {
 
       // sort all of the content by date
       all.sort((a, b) => Date.parse(a.created) - Date.parse(b.created));
-
+      console.log("all", all)
       setPublishedContent(all);
       if (!all.length) {
         setErrorMessage("No changes were made in this date range.");

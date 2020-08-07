@@ -675,8 +675,35 @@ async function getReport(start, end) {
     "AND Headers.created BETWEEN ? AND ? " +
     "ORDER BY Headers.created ASC, Headers.headerId ASC;";
     results = await pool.query(sql, [startTimestamp, endTimestamp]);
+    headerArray = results[0];
 
-    finalResults.headers = results[0];
+    sql = "SELECT HH.*, Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
+    "FROM History_Headers AS HH " +
+    "LEFT JOIN Pages on Pages.pageId = HH.pageId " +
+    "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+    "AND HH.created BETWEEN ? AND ? " +
+    "ORDER BY HH.created ASC;";
+    results = await pool.query(sql, [startTimestamp, endTimestamp]);
+    const allHeaderArray = headerArray.concat(results[0]);
+
+    // get the previous version of each header to use for diffs
+    for (let i = 0; i < allHeaderArray.length; i++) {
+      const newTimestamp = moment(allHeaderArray[i].created).format("YYYY-MM-DD HH:mm:ss");
+
+      sql = "SELECT * " +
+      "FROM History_Headers " +
+      "WHERE created BETWEEN ? AND ? " +
+      "ORDER BY created DESC;";
+      results = await pool.query(sql, [startTimestamp, newTimestamp]);
+
+      if (allHeaderArray[i].historyId && results[0].length >= 2) {
+        allHeaderArray[i].oldVersion = results[0][1];
+      } else if (!allHeaderArray[i].historyId && results[0].length >= 1) {
+        allHeaderArray[i].oldVersion = results[0][0];
+      }
+    }
+
+    finalResults.headers = allHeaderArray;
 
     // get all cards within the date range
     sql = "SELECT Cards.*, Headers.title AS headerName, Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
