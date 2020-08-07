@@ -1,15 +1,7 @@
-select {
-    font-family: 'Font Awesome\ 5 Brands' , 'arial'
-  }
-
-.modal-width {
-  max-width: 65%;
-}
-
-.report-special-text {
+.report-page-special-text {
   color: #28a428;
 }
 
-.description-review-page {
+.description-report-page {
   white-space: pre-wrap;
 }

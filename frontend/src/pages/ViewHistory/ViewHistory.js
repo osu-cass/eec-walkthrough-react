@@ -2,6 +2,7 @@ import React, {useState, Fragment} from "react";
 import HistorySearchForm from "./HistorySearchForm";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import ReportPage from "./ReportPage";
+import ReportHeader from "./ReportHeader";
 import "./ViewHistory.css";
 
 // page for viewing page, header, and card history
@@ -58,13 +59,22 @@ function ViewHistory() {
 
       <div className="table-container">
       {publishedContent.pages.length || publishedContent.headers.length || publishedContent.cards.length ? (
-        <Fragment>
-          {publishedContent.pages.map((page) =>
-            <ReportPage
-              page={page}
-            />
-          )}
-        </Fragment>
+        <div className="prompt-container my-3 py-2 bg-white card rounded shadow-sm">
+          <Fragment>
+            {publishedContent.pages.map((object) =>
+              <ReportPage
+                page={object}
+              />
+            )}
+          </Fragment>
+          <Fragment>
+            {publishedContent.headers.map((object) =>
+              <ReportHeader
+                header={object}
+              />
+            )}
+          </Fragment>
+        </div>
       ) : (
         <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
           <h3 className="py-5 font-weight-bold">{errorMessage}</h3>
