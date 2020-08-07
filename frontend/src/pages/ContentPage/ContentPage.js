@@ -192,9 +192,9 @@ function ContentPage(props) {
 
         for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
           if (headerData[headerIndex].cards[i].cardId === object.cardId) {
-              headerData[headerIndex].cards.splice(i, 1);
-              setHeaders(headerSortOrder(headerData));
-              setCardState(cardState + 1);
+            headerData[headerIndex].cards.splice(i, 1);
+            setHeaders(headerSortOrder(headerData));
+            setCardState(cardState + 1);
           }
         }
 
@@ -252,7 +252,7 @@ function ContentPage(props) {
   // sort headers based on their edited status and their order index
   function headerSortOrder(headers) {
     const copy = [...headers];
-    for(let i = 0; i < copy.length; i++) {
+    for (let i = 0; i < copy.length; i++) {
       if ((mode === 1 && copy[i].tempHeaderId) || (mode === 2 && publishedMode === 0 && copy[i].tempHeaderId)) {
         copy[i].realOrder = copy[i].tempOrderIndex;
       } else {
@@ -299,7 +299,7 @@ function ContentPage(props) {
           tempHeaderObj.show = "hidden";
         } else {
           headerObj.show = "hidden";
-          tempHeaderObj.show = "show";  
+          tempHeaderObj.show = "show";
         }
 
         headerOrderArray.push(headerObj);
@@ -341,7 +341,7 @@ function ContentPage(props) {
           // try to move up and skip hidden headers
           for (let j = i; j > 0; j--) {
             moved = true;
-            let tempObj = headerOrderArray[j - 1];
+            const tempObj = headerOrderArray[j - 1];
             headerOrderArray[j - 1] = headerOrderArray[j];
             headerOrderArray[j] = tempObj;
             if (headerOrderArray[j].show !== "hidden") {
@@ -353,7 +353,7 @@ function ContentPage(props) {
           // try to move down and skip hidden headers
           for (let j = i; j < headerOrderArray.length - 1; j++) {
             moved = true;
-            let tempObj = headerOrderArray[j + 1];
+            const tempObj = headerOrderArray[j + 1];
             headerOrderArray[j + 1] = headerOrderArray[j];
             headerOrderArray[j] = tempObj;
             if (headerOrderArray[j].show !== "hidden") {

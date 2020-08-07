@@ -31,7 +31,7 @@ function PageList() {
 
     for (let i = 0; i < category.pages.length; i++) {
 
-      let url = `/wiki/${category.pluralName.replace(/\s+/g, '-').toLowerCase()}/${category.pages[i].pageId}`;
+      const url = `/wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}/${category.pages[i].pageId}`;
 
       linkArray.push(url);
 

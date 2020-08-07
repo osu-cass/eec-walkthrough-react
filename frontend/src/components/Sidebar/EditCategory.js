@@ -28,7 +28,7 @@ function EditCategory(props) {
     setShow(false);
     setErrorMessage("");
   }
-  
+
   function handleShow() {
     setShow(true);
   }
@@ -142,7 +142,7 @@ function EditCategory(props) {
             <Col>
               <Form.Group controlId="formName">
                 <Form.Label className="font-weight-bold">Singular Name</Form.Label>
-                <Form.Control 
+                <Form.Control
                   type="text"
                   maxLength="100"
                   placeholder="Enter singular name"

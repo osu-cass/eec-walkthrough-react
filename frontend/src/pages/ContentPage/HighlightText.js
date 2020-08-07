@@ -98,7 +98,7 @@ function HighlightText(props) {
           <span key={`old-highlight-${i}`} id={`old-highlight-${i}-${props.elementType}`} style={{fontWeight: "bold", fontSize: "xx-large"}}>{character}</span>
         )}
       </Fragment>
-    )
+    );
 
   } else if (props.elementType === 2) {
 
@@ -114,7 +114,7 @@ function HighlightText(props) {
           <span key={`old-highlight-${i}`} id={`old-highlight-${i}-${props.elementType}`} style={{fontSize: "x-large"}}>{character}</span>
         )}
       </Fragment>
-    )
+    );
 
   } else {
 
@@ -130,7 +130,7 @@ function HighlightText(props) {
           <span className={props.allowWrap ? "highlight-text-wrap" : ""} key={`old-highlight-${i}`} id={`old-highlight-${i}-${props.elementType}`}>{character}</span>
         )}
       </Fragment>
-    )
+    );
 
   }
 

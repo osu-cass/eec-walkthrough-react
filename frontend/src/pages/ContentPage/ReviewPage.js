@@ -33,29 +33,29 @@ function ReviewPage(props) {
 
         let typeString = "";
         let tempTypeString = "";
-    
+
         for (let i = 0; i < obj.categories.length; i++) {
           if (props.page.pageType === obj.categories[i].categoryId) {
             typeString = obj.categories[i].singleName;
             break;
           }
         }
-    
+
         for (let i = 0; i < obj.categories.length; i++) {
           if (props.page.tempPageType === obj.categories[i].categoryId) {
             tempTypeString = obj.categories[i].singleName;
             break;
           }
         }
-    
+
         if (props.page.internal) {
           typeString += " / Internal";
         }
-    
+
         if (props.page.tempInternal) {
           tempTypeString += " / Internal";
         }
-    
+
         setPageTypeName(typeString);
         setTempPageTypeName(tempTypeString);
 

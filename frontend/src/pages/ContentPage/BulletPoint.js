@@ -85,11 +85,11 @@ function BulletPoint (props) {
         <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""}
           ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
         >
-        <div className="icon-td pb-2">
-          <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
-            style={{color: props.color}}
-            title={props.tooltip}
-          />
+          <div className="icon-td pb-2">
+            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
+              style={{color: props.color}}
+              title={props.tooltip}
+            />
           </div>
           <div className="content-td pb-2 col">
             <div className="pb-1">

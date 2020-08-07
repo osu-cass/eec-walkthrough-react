@@ -326,11 +326,11 @@ function ReviewCard(props) {
                 )}
                 {props.card.cardType === 1 || props.card.cardType === 11 ? (
                   <Fragment>
-                  {props.card.tempCardId ? (
-                    <ThumbnailGallery items={imageItems} compareMode={2} otherItems={imageTempItems} />
-                  ) : (
-                    <ThumbnailGallery items={imageItems} />
-                  )}
+                    {props.card.tempCardId ? (
+                      <ThumbnailGallery items={imageItems} compareMode={2} otherItems={imageTempItems} />
+                    ) : (
+                      <ThumbnailGallery items={imageItems} />
+                    )}
                   </Fragment>
                 ) : (
                   <Fragment>

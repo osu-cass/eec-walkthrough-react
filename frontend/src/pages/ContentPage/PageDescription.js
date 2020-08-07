@@ -74,7 +74,7 @@ function PageDescription(props) {
               publishedMode={props.publishedMode}
               onPublishedMode={e => props.onPublishedMode(e)}
             />
-            <SaveView 
+            <SaveView
               role={props.role}
               mode={props.mode}
               pageId={props.page.pageId}

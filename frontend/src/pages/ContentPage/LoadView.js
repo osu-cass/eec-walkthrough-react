@@ -26,7 +26,7 @@ function LoadView(props) {
     if (newModal) {
 
       // Fetch the views for this page
-      let results = await fetch(`/api/views/page/${props.pageId}`);
+      const results = await fetch(`/api/views/page/${props.pageId}`);
 
       if (results.ok) {
 
@@ -84,7 +84,7 @@ function LoadView(props) {
 
     // delete the view
     if (window.confirm(`Are you sure you want to delete the "${viewName}" view?`)) {
-      let results = await fetch(`/api/views/${viewId}`, {
+      const results = await fetch(`/api/views/${viewId}`, {
         method: "DELETE",
         headers: {"Content-Type": "application/json"}
       });
@@ -94,7 +94,7 @@ function LoadView(props) {
         setErrorMessage("");
 
         // reload the view list
-        let results = await fetch(`/api/views/page/${props.pageId}`);
+        const results = await fetch(`/api/views/page/${props.pageId}`);
 
         if (results.ok) {
 
@@ -120,18 +120,18 @@ function LoadView(props) {
 
   return props.mode === 0 ? (
     <div className="text-center mx-2">
-        <Button size="sm"
-          variant="success"
-          onClick={() => handleOpen()}
-        >
-          <i
-            className="fas fa-folder-open text-white mr-2"
-            style={{transform: "scale(1.5)"}}
-          />
-          <span className="text-white">Load View</span>
-        </Button>
+      <Button size="sm"
+        variant="success"
+        onClick={() => handleOpen()}
+      >
+        <i
+          className="fas fa-folder-open text-white mr-2"
+          style={{transform: "scale(1.5)"}}
+        />
+        <span className="text-white">Load View</span>
+      </Button>
 
-        <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
+      <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Load View</h5>
           <Button variant="none" onClick={() => handleClose()}>

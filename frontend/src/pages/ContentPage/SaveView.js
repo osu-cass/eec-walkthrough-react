@@ -23,7 +23,7 @@ function SaveView(props) {
     if (newModal) {
 
       // Fetch the views for this page
-      let results = await fetch(`/api/views/page/${props.pageId}`);
+      const results = await fetch(`/api/views/page/${props.pageId}`);
 
       if (results.ok) {
 
@@ -61,7 +61,7 @@ function SaveView(props) {
       newHeaders[i] = {
         headerId: copy[i].headerId,
         filters: copy[i].forceFilter,
-      }
+      };
     }
     const newViews = {
       headers: newHeaders,
@@ -70,7 +70,7 @@ function SaveView(props) {
     };
 
     // if the view name already exists, confirm that the user wishes to overwrite it
-    for (let i = 0; i < views.length; i ++) {
+    for (let i = 0; i < views.length; i++) {
       if (views[i].viewName === viewName && views[i].public === publicView) {
         if (!window.confirm(`The view "${viewName}" already exists. Are you sure you want to replace it?`)) {
           return;
@@ -92,7 +92,7 @@ function SaveView(props) {
       handleClose();
 
       // reload the view list
-      let results = await fetch(`/api/views/page/${props.pageId}`);
+      const results = await fetch(`/api/views/page/${props.pageId}`);
 
       if (results.ok) {
 
@@ -116,18 +116,18 @@ function SaveView(props) {
 
   return props.role >= 1 && props.mode === 0 ? (
     <div className='text-center mx-2'>
-        <Button size="sm"
-          variant="success"
-          onClick={() => handleOpen()}
-        >
-          <i
-            className='fas fa-save text-white mr-2'
-            style={{transform: "scale(1.5)"}}
-          />
-          <span className="text-white">Save View</span>
-        </Button>
+      <Button size="sm"
+        variant="success"
+        onClick={() => handleOpen()}
+      >
+        <i
+          className='fas fa-save text-white mr-2'
+          style={{transform: "scale(1.5)"}}
+        />
+        <span className="text-white">Save View</span>
+      </Button>
 
-        <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
+      <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Save View</h5>
           <Button variant="none" onClick={() => handleClose()}>
@@ -145,7 +145,7 @@ function SaveView(props) {
               </Form.Group>
             </Col>
           </Row>
-          
+
           {props.role >= 4 ? (
             <Row>
               <Col>

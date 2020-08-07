@@ -30,7 +30,7 @@ function EditPage(props) {
         const obj = await results.json();
 
         setCategories(obj.categories);
-  
+
       } else {
         console.error("Error fetching category names");
       }

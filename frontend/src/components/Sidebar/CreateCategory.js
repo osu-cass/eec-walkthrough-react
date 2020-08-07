@@ -19,7 +19,7 @@ function CreateCategory(props) {
     setShow(false);
     setErrorMessage("");
   }
-  
+
   function handleShow() {
     setShow(true);
   }

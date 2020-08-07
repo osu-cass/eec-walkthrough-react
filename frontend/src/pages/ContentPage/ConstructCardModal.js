@@ -934,16 +934,16 @@ function ConstructCardModal(props) {
           {props.edit ? (
             <Fragment>
               {props.role >= 4 ? (
-              <Fragment>
-                <Button
-                  className="mr-auto"
-                  variant="danger"
-                  onClick={() => { if (window.confirm("Are you sure you want to delete this card?")) { deleteCard(); } }}
-                >
+                <Fragment>
+                  <Button
+                    className="mr-auto"
+                    variant="danger"
+                    onClick={() => { if (window.confirm("Are you sure you want to delete this card?")) { deleteCard(); } }}
+                  >
                   Delete Card
-                </Button>
-                <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
-              </Fragment>
+                  </Button>
+                  <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
+                </Fragment>
               ) : (
                 <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
               )}
