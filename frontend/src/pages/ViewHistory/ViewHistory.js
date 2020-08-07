@@ -64,7 +64,7 @@ function ViewHistory() {
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
           <h4 className="flex-grow-1 font-weight-bold">
-            Change History Report
+            History Report
           </h4>
         </div>
       </div>
