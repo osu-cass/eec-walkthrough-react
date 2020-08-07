@@ -407,13 +407,13 @@ app.get("/report/:start/:end", requireAuth, async (req, res) => {
     if (startArray.length !== 3 || endArray.length !== 3) {
       return res.status(422).json({error: "Invalid date range"});
     }
-    if (startArray[0].length !== 4 || endArray[0].length !== 4 || 
+    if (startArray[0].length !== 4 || endArray[0].length !== 4 ||
         startArray[1].length !== 2 || endArray[1].length !== 2 ||
         startArray[2].length !== 2 || endArray[2].length !== 2) {
       return res.status(422).json({error: "Invalid date range"});
     }
     const numbers = /^[0-9]+$/;
-    if (!startArray[0].match(numbers) || !startArray[1].match(numbers) || !startArray[2].match(numbers) || 
+    if (!startArray[0].match(numbers) || !startArray[1].match(numbers) || !startArray[2].match(numbers) ||
         !endArray[0].match(numbers) || !endArray[1].match(numbers) || !endArray[2].match(numbers)) {
       return res.status(422).json({error: "Invalid date range"});
     }

@@ -40,20 +40,22 @@ async function getViews(pageId, userId) {
 
       // sort the results into groups of headers
       const headers = [];
-      let headerId = results[0][0].headerId;
+      const headerId = results[0][0].headerId;
       let currentHeader = {
+        headerId: 0,
         filters: []
       };
 
       for (let j = 0; j < results[0].length; j++) {
         if (results[0][j].headerId === headerId) {
+          currentHeader.headerId = headerId;
           currentHeader.filters.push(results[0][j].iconId);
         } else {
           headers.push(currentHeader);
           currentHeader = {
+            headerId: results[0][j].headerId,
             filters: []
           };
-          header = results[0][j].headerId;
           currentHeader.filters.push(results[0][j].iconId);
         }
       }

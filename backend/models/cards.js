@@ -42,7 +42,7 @@ async function createCard(headerId, cardType, title, items, userId) {
     for (let i = 0; i < items.length; i++) {
       for (let j = 0; j < icons.length; j++) {
         if (items[i].iconType === icons[j].iconType) {
-          return {error: 3}
+          return {error: 3};
         }
       }
     }
@@ -235,7 +235,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
     for (let i = 0; i < items.length; i++) {
       for (let j = 0; j < icons.length; j++) {
         if (items[i].iconType === icons[j].iconType) {
-          return {error: 2}
+          return {error: 2};
         }
       }
     }
@@ -543,7 +543,7 @@ async function moveCard(cardId, direction) {
     }
 
     // sort the array of cards by order index
-    cardOrderArray.sort((a, b) => a.order - b.order)
+    cardOrderArray.sort((a, b) => a.order - b.order);
 
     // find and move the specified card
     for (let i = 0; i < cardOrderArray.length; i++) {
@@ -551,7 +551,7 @@ async function moveCard(cardId, direction) {
         if (direction) {
           // try to move up and skip hidden cards
           for (let j = i; j > 0; j--) {
-            let tempObj = cardOrderArray[j - 1];
+            const tempObj = cardOrderArray[j - 1];
             cardOrderArray[j - 1] = cardOrderArray[j];
             cardOrderArray[j] = tempObj;
             if (cardOrderArray[j].show !== "hidden") {
@@ -562,7 +562,7 @@ async function moveCard(cardId, direction) {
         } else {
           // try to move down and skip hidden cards
           for (let j = i; j < cardOrderArray.length - 1; j++) {
-            let tempObj = cardOrderArray[j + 1];
+            const tempObj = cardOrderArray[j + 1];
             cardOrderArray[j + 1] = cardOrderArray[j];
             cardOrderArray[j] = tempObj;
             if (cardOrderArray[j].show !== "hidden") {
@@ -600,11 +600,11 @@ async function moveCard(cardId, direction) {
     if (normArray.length) {
       sql = "UPDATE Cards " +
       "SET orderIndex = CASE ";
-      for (let i = 0; i < normArray.length/3; i++) {
+      for (let i = 0; i < normArray.length / 3; i++) {
         sql += "WHEN cardId = ? THEN ? ";
       }
       sql += "ELSE 0 END WHERE cardId IN (";
-      for (let i = 0; i < normArray.length/3; i++) {
+      for (let i = 0; i < normArray.length / 3; i++) {
         sql += "?,";
       }
       sql = sql.replace(/.$/, ");");
@@ -615,11 +615,11 @@ async function moveCard(cardId, direction) {
     if (tempArray.length) {
       sql = "UPDATE Temp_Cards " +
       "SET tempOrderIndex = CASE ";
-      for (let i = 0; i < tempArray.length/3; i++) {
+      for (let i = 0; i < tempArray.length / 3; i++) {
         sql += "WHEN tempCardId = ? THEN ? ";
       }
       sql += "ELSE 0 END WHERE tempCardId IN (";
-      for (let i = 0; i < tempArray.length/3; i++) {
+      for (let i = 0; i < tempArray.length / 3; i++) {
         sql += "?,";
       }
       sql = sql.replace(/.$/, ");");
@@ -664,7 +664,7 @@ async function moveTempCard(cardId, direction) {
     if (results[0][0].approved) {
 
       // since it is approved, get the temp card version of the card
-      let sql = "SELECT * " +
+      const sql = "SELECT * " +
       "FROM Temp_Cards " +
       "WHERE tempCardId = ? ";
       results = await pool.query(sql, cardId);
@@ -728,7 +728,7 @@ async function moveTempCard(cardId, direction) {
         if (direction) {
           // try to move up and skip hidden cards
           for (let j = i; j > 0; j--) {
-            let tempObj = cardOrderArray[j - 1];
+            const tempObj = cardOrderArray[j - 1];
             cardOrderArray[j - 1] = cardOrderArray[j];
             cardOrderArray[j] = tempObj;
             if (cardOrderArray[j].show !== "hidden") {
@@ -739,7 +739,7 @@ async function moveTempCard(cardId, direction) {
         } else {
           // try to move down and skip hidden cards
           for (let j = i; j < cardOrderArray.length - 1; j++) {
-            let tempObj = cardOrderArray[j + 1];
+            const tempObj = cardOrderArray[j + 1];
             cardOrderArray[j + 1] = cardOrderArray[j];
             cardOrderArray[j] = tempObj;
             if (cardOrderArray[j].show !== "hidden") {
@@ -777,11 +777,11 @@ async function moveTempCard(cardId, direction) {
     if (normArray.length) {
       sql = "UPDATE Cards " +
       "SET orderIndex = CASE ";
-      for (let i = 0; i < normArray.length/3; i++) {
+      for (let i = 0; i < normArray.length / 3; i++) {
         sql += "WHEN cardId = ? THEN ? ";
       }
       sql += "ELSE 0 END WHERE cardId IN (";
-      for (let i = 0; i < normArray.length/3; i++) {
+      for (let i = 0; i < normArray.length / 3; i++) {
         sql += "?,";
       }
       sql = sql.replace(/.$/, ");");
@@ -792,11 +792,11 @@ async function moveTempCard(cardId, direction) {
     if (tempArray.length) {
       sql = "UPDATE Temp_Cards " +
       "SET tempOrderIndex = CASE ";
-      for (let i = 0; i < tempArray.length/3; i++) {
+      for (let i = 0; i < tempArray.length / 3; i++) {
         sql += "WHEN tempCardId = ? THEN ? ";
       }
       sql += "ELSE 0 END WHERE tempCardId IN (";
-      for (let i = 0; i < tempArray.length/3; i++) {
+      for (let i = 0; i < tempArray.length / 3; i++) {
         sql += "?,";
       }
       sql = sql.replace(/.$/, ");");

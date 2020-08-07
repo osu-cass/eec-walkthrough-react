@@ -85,7 +85,7 @@ app.post("/page/:pageId", requireAuth, postViewVal.validation, async (req, res) 
       } else if (results.error === 2) {
         res.status(403).send({error: "You do not have permission to change this view."});
       } else if (results.error === 3) {
-          res.status(403).send({error: "Invalid header data."});
+        res.status(403).send({error: "Invalid header data."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
