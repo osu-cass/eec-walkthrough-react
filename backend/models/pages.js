@@ -620,10 +620,10 @@ async function unpublishPage(pageId) {
 exports.unpublishPage = unpublishPage;
 
 
-async function getReport(start, end) {
+async function getReport(start, end, condense) {
 
   try {
-
+    console.log(condense)
     const oldestTimestamp = "2019-01-01 00:00:00";
     const startTimestamp = start + " 00:00:00";
     const endTimestamp = end + " 23:59:59";
@@ -644,23 +644,48 @@ async function getReport(start, end) {
     "WHERE HP.created BETWEEN ? AND ? " +
     "ORDER BY HP.created ASC;";
     results = await pool.query(sql, [startTimestamp, endTimestamp]);
-    const allPageArray = pageArray.concat(results[0]);
+    let allPageArray = pageArray.concat(results[0]);
+
+    // if in condense mode, clean up duplicate pages
+    if (condense) {
+      allPageArray.sort((a, b) => b.created - a.created);
+      idArray = [];
+      for (let i = 0; i < allPageArray.length; i++) {
+        idArray.push(allPageArray[i].pageId);
+      }
+      allPageArray = allPageArray.filter((value, index) => idArray.indexOf(value.pageId) === index);
+    }
 
     // get the previous version of each page to use for diffs
     for (let i = 0; i < allPageArray.length; i++) {
       const newTimestamp = moment(allPageArray[i].created).format("YYYY-MM-DD HH:mm:ss");
 
-      sql = "SELECT * " +
-      "FROM History_Pages " +
-      "WHERE created BETWEEN ? AND ? " +
-      "ORDER BY created DESC;";
-      results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
+      if (condense) {
+        sql = "SELECT * " +
+        "FROM History_Pages " +
+        "WHERE created BETWEEN ? AND ? " +
+        "ORDER BY created ASC;";
+        results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
 
-      if (allPageArray[i].historyId && results[0].length >= 2) {
-        allPageArray[i].oldVersion = results[0][1];
-      } else if (!allPageArray[i].historyId && results[0].length >= 1) {
-        allPageArray[i].oldVersion = results[0][0];
+        if (results[0].length > 1) {
+          if (moment(results[0][0].created) < moment(startTimestamp)) {
+            allPageArray[i].oldVersion = results[0][0];
+          }
+        }
+      } else {
+        sql = "SELECT * " +
+        "FROM History_Pages " +
+        "WHERE created BETWEEN ? AND ? " +
+        "ORDER BY created DESC;";
+        results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
+
+        if (allPageArray[i].historyId && results[0].length >= 2) {
+          allPageArray[i].oldVersion = results[0][1];
+        } else if (!allPageArray[i].historyId && results[0].length >= 1) {
+          allPageArray[i].oldVersion = results[0][0];
+        }
       }
+
     }
 
     const finalResults = {
@@ -685,23 +710,48 @@ async function getReport(start, end) {
     "WHERE HH.created BETWEEN ? AND ? " +
     "ORDER BY HH.created ASC;";
     results = await pool.query(sql, [startTimestamp, endTimestamp]);
-    const allHeaderArray = headerArray.concat(results[0]);
+    let allHeaderArray = headerArray.concat(results[0]);
+
+    // if in condense mode, clean up duplicate headers
+    if (condense) {
+      allHeaderArray.sort((a, b) => b.created - a.created);
+      idArray = [];
+      for (let i = 0; i < allHeaderArray.length; i++) {
+        idArray.push(allHeaderArray[i].headerId);
+      }
+      allHeaderArray = allHeaderArray.filter((value, index) => idArray.indexOf(value.headerId) === index);
+    }
 
     // get the previous version of each header to use for diffs
     for (let i = 0; i < allHeaderArray.length; i++) {
       const newTimestamp = moment(allHeaderArray[i].created).format("YYYY-MM-DD HH:mm:ss");
 
-      sql = "SELECT * " +
-      "FROM History_Headers " +
-      "WHERE created BETWEEN ? AND ? " +
-      "ORDER BY created DESC;";
-      results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
+      if (condense) {
+        sql = "SELECT * " +
+        "FROM History_Headers " +
+        "WHERE created BETWEEN ? AND ? " +
+        "ORDER BY created ASC;";
+        results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
 
-      if (allHeaderArray[i].historyId && results[0].length >= 2) {
-        allHeaderArray[i].oldVersion = results[0][1];
-      } else if (!allHeaderArray[i].historyId && results[0].length >= 1) {
-        allHeaderArray[i].oldVersion = results[0][0];
+        if (results[0].length > 1) {
+          if (moment(results[0][0].created) < moment(startTimestamp)) {
+            allHeaderArray[i].oldVersion = results[0][0];
+          }
+        }
+      } else {
+        sql = "SELECT * " +
+        "FROM History_Headers " +
+        "WHERE created BETWEEN ? AND ? " +
+        "ORDER BY created DESC;";
+        results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
+
+        if (allHeaderArray[i].historyId && results[0].length >= 2) {
+          allHeaderArray[i].oldVersion = results[0][1];
+        } else if (!allHeaderArray[i].historyId && results[0].length >= 1) {
+          allHeaderArray[i].oldVersion = results[0][0];
+        }
       }
+
     }
 
     finalResults.headers = allHeaderArray;
@@ -726,22 +776,46 @@ async function getReport(start, end) {
     "WHERE HC.created BETWEEN ? AND ? " +
     "ORDER BY HC.created ASC;";
     results = await pool.query(sql, [startTimestamp, endTimestamp]);
-    const allCardArray = cardArray.concat(results[0]);
+    let allCardArray = cardArray.concat(results[0]);
+
+    // if in condense mode, clean up duplicate cards
+    if (condense) {
+      allCardArray.sort((a, b) => b.created - a.created);
+      idArray = [];
+      for (let i = 0; i < allCardArray.length; i++) {
+        idArray.push(allCardArray[i].cardId);
+      }
+      allCardArray = allCardArray.filter((value, index) => idArray.indexOf(value.cardId) === index);
+    }
 
     // get the previous version of each card to use for diffs
     for (let i = 0; i < allCardArray.length; i++) {
       const newTimestamp = moment(allCardArray[i].created).format("YYYY-MM-DD HH:mm:ss");
 
-      sql = "SELECT * " +
-      "FROM History_Cards " +
-      "WHERE created BETWEEN ? AND ? " +
-      "ORDER BY created DESC;";
-      results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
+      if (condense) {
+        sql = "SELECT * " +
+        "FROM History_Cards " +
+        "WHERE created BETWEEN ? AND ? " +
+        "ORDER BY created ASC;";
+        results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
 
-      if (allCardArray[i].historyId && results[0].length >= 2) {
-        allCardArray[i].oldVersion = results[0][1];
-      } else if (!allCardArray[i].historyId && results[0].length >= 1) {
-        allCardArray[i].oldVersion = results[0][0];
+        if (results[0].length > 1) {
+          if (moment(results[0][0].created) < moment(startTimestamp)) {
+            allCardArray[i].oldVersion = results[0][0];
+          }
+        }
+      } else {
+        sql = "SELECT * " +
+        "FROM History_Cards " +
+        "WHERE created BETWEEN ? AND ? " +
+        "ORDER BY created DESC;";
+        results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
+
+        if (allCardArray[i].historyId && results[0].length >= 2) {
+          allCardArray[i].oldVersion = results[0][1];
+        } else if (!allCardArray[i].historyId && results[0].length >= 1) {
+          allCardArray[i].oldVersion = results[0][0];
+        }
       }
 
       // if we found an old version, find the items for that version

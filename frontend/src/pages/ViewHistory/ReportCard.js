@@ -15,7 +15,6 @@ function ReportCard(props) {
   // If the current card is an Image Gallery card then
   // whenever we get new items, filter out all of the non-image ones
   useEffect(() => {
-    console.log(props.card)
     const imageArray = [];
     const oldImageArray = [];
     for (let i = 0; i < props.card.items.length; i++) {

@@ -15,11 +15,16 @@ function ViewHistory() {
   const [errorMessage, setErrorMessage] = useState("Select a date range for the report.");
 
   // fetch published data within a range
-  async function handleGenerateReport(start, end) {
+  async function handleGenerateReport(start, end, duplicate) {
     setLoading(true);
 
+    let mode = 0;
+    if (duplicate) {
+      mode = 1;
+    }
+
     // Fetch report data
-    const results = await fetch(`/api/pages/report/${start}/${end}`);
+    const results = await fetch(`/api/pages/report/${start}/${end}/${mode}`);
     if (results.ok) {
 
       const obj = await results.json();
@@ -76,7 +81,7 @@ function ViewHistory() {
       </div>
 
       <HistorySearchForm
-        onGenerateReport={(start, end) => handleGenerateReport(start, end)}
+        onGenerateReport={(start, end, duplicate) => handleGenerateReport(start, end, duplicate)}
         onErrorMessage={(message) => setErrorMessage(message)}
       />
 
