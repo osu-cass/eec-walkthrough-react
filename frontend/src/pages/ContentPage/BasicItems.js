@@ -87,6 +87,11 @@ function BasicItems(props) {
       }
       setCompareArray(statusArray);
 
+    } else if (props.compareMode === 3) {
+      for (let i = 0; i < props.items.length; i++) {
+        statusArray.push(1);
+      }
+      setCompareArray(statusArray);
     }
 
   }, [props.compareMode, props.items, props.otherItems]);
