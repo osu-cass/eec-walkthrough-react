@@ -743,6 +743,21 @@ async function getReport(start, end) {
       } else if (!allCardArray[i].historyId && results[0].length >= 1) {
         allCardArray[i].oldVersion = results[0][0];
       }
+
+      // if we found an old version, find the items for that version
+      if (allCardArray[i].oldVersion) {
+        sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
+        "HI.iconType, typeName, typeKeyword, contentText, " +
+        "contentUrl, contentLabel, contentMode, " +
+        "created, color " +
+        "FROM History_Items AS HI " +
+        "LEFT JOIN Icons on HI.iconType = Icons.iconType " +
+        "WHERE parentId = ? " +
+        "ORDER BY orderIndex ASC, itemId ASC";
+        results = await pool.query(sql, allCardArray[i].oldVersion.historyId);
+        allCardArray[i].oldVersion.items = results[0];
+      }
+
     }
 
     finalResults.cards = allCardArray;

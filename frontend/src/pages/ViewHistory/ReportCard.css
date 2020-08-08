@@ -1,7 +1,8 @@
 .report-card-special-text {
-  color: #000;
+  color: #239023;
 }
 
-.highlight-report-card {
-  background-color: #cdffda;
+.report-card-span {
+  font-weight: bold;
+  font-size: xx-large;
 }

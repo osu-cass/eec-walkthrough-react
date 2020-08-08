@@ -10,7 +10,7 @@ function ReportPage(props) {
 
   return (
     <div className="text-left mx-2">
-      <div className={`version-container p-2 m-3 border border-dark rounded ${props.page.oldVersion ? "" : "highlight-report-page"}`}>
+      <div className={`version-container p-2 m-3 border border-dark rounded`}>
         <h4 className="report-page-special-text pl-4 pt-4">Page</h4>
         <h5 className="report-page-special-text pl-4">{props.page.categoryName} &rarr; {props.page.name} </h5>
         <span className="report-page-special-text pl-4">Updated {formatTime(props.page.created)}</span>
@@ -64,11 +64,13 @@ function ReportPage(props) {
           </Fragment>
         ) : (
           <Fragment>
-            <h3 className="font-weight-bold">{props.page.name}</h3>
-            <h4>{props.page.title}</h4>
-            <span className="description-report-page">{props.page.description}</span>
+            <span className="report-lrg-page-span highlight-new-content">{props.page.name}</span>
             <br />
-            <div className="p-4 d-inline-block">
+            <span className="report-med-page-span highlight-new-content">{props.page.title}</span>
+            <br />
+            <span className="description-report-page highlight-new-content">{props.page.description}</span>
+            <br />
+            <div className="p-4 d-inline-block new-review-image-container">
               <Image url={props.page.imageUrl}
                 title={props.page.name}
                 thumbnail={false}
