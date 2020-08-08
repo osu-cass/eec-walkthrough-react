@@ -1,6 +1,7 @@
 import React, {useState, Fragment} from "react";
 import HistorySearchForm from "./HistorySearchForm";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import {logout} from "../../utilities/cookieAuth";
 import ReportPage from "./ReportPage";
 import ReportHeader from "./ReportHeader";
 import ReportCard from "./ReportCard";
@@ -43,14 +44,19 @@ function ViewHistory() {
 
       // sort all of the content by date
       all.sort((a, b) => Date.parse(a.created) - Date.parse(b.created));
-      console.log("all", all)
       setPublishedContent(all);
+
       if (!all.length) {
         setErrorMessage("No changes were made in this date range.");
       }
 
     } else {
-      setErrorMessage("Internal server error while attempting to generate report. Please try again later.");
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else {
+        setErrorMessage("Internal server error while attempting to generate report. Please try again later.");
+      }
     }
 
     setLoading(false);
@@ -84,6 +90,7 @@ function ViewHistory() {
                     <ReportPage
                       key={object.pageId + "p"}
                       page={object}
+                      newId={i}
                     />
                   ) : (
                     null
@@ -92,6 +99,7 @@ function ViewHistory() {
                     <ReportHeader
                       key={object.headerId + "h"}
                       header={object}
+                      newId={i}
                     />
                   ) : (
                     null
@@ -100,6 +108,7 @@ function ViewHistory() {
                     <ReportCard
                       key={object.cardId + "c"}
                       card={object}
+                      newId={i}
                     />
                   ) : (
                     null

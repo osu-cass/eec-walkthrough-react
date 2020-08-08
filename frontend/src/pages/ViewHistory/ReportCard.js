@@ -49,5 +49,6 @@ function ReportCard(props) {
 export default ReportCard;
 
 ReportCard.propTypes = {
-  card: PropTypes.object
+  card: PropTypes.object,
+  newId: PropTypes.number
 };
