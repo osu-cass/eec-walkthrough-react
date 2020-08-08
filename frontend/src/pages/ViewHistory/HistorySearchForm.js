@@ -14,6 +14,7 @@ function HistorySearchForm(props) {
 
     const start = document.getElementById("date-report-start").value;
     const end = document.getElementById("date-report-end").value;
+    const duplicate = !document.getElementById("duplicate-report-checkbox").checked;
 
     if (Date.parse(end) < Date.parse(start)) {
       props.onErrorMessage("The end date cannot be earlier than the start date.");
@@ -25,7 +26,7 @@ function HistorySearchForm(props) {
       return;
     }
 
-    props.onGenerateReport(start, end);
+    props.onGenerateReport(start, end, duplicate);
   }
 
   return (
@@ -37,7 +38,7 @@ function HistorySearchForm(props) {
           <div className="row justify-content-center">
 
             <div className="col-sm-4">
-              <label form="formGroup" className="flex-grow-1 font-weight-bold h5">Start Date</label>
+              <label form="formGroup" className="flex-grow-1 font-weight-bold pb-2 h5">Start Date</label>
               <div className="form-group row">
                 <div className="col-10">
                   <input className="form-control" type="date" id="date-report-start" />
@@ -46,13 +47,26 @@ function HistorySearchForm(props) {
             </div>
 
             <div className="col-sm-4">
-              <label form="formGroup" className="flex-grow-1 font-weight-bold h5">End Date</label>
+              <label form="formGroup" className="flex-grow-1 font-weight-bold pb-2 h5">End Date</label>
               <div className="form-group row">
                 <div className="col-10">
                   <input className="form-control" type="date" id="date-report-end" />
                 </div>
               </div>
             </div>
+
+            <div className="col-sm-3 duplicate-checkbox-container">
+              <label form="formGroup" className="flex-grow-1 font-weight-bold h5">Show Duplicates</label>
+              <div className="row custom-control form-control-lg custom-checkbox">
+                <input 
+                  type="checkbox"
+                  className="form-check-input custom-control-input"
+                  id="duplicate-report-checkbox"
+                />
+                <label className="form-check-label custom-control-label custom-report-label font-weight-bold ml-4" htmlFor="duplicate-report-checkbox" />
+              </div>
+            </div>
+
           </div>
 
           <div className="row justify-content-end">

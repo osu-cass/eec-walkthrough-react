@@ -393,24 +393,28 @@ app.post("/:pageId/unpublish", requireAuth, getPageVal.validation, async (req, r
 
 
 // get a report with all of the published page changes from the start date to the end date
-app.get("/report/:start/:end", requireAuth, async (req, res) => {
+app.get("/report/:start/:end/:condense", requireAuth, async (req, res) => {
 
   try {
 
     const start = req.params.start;
     const end = req.params.end;
+    const condense = req.params.condense;
     console.log("Get a report from", start, "to", end);
 
     // confirm that the request is valid
+    if (condense !== "0" && condense !== "1") {
+      return res.status(422).json({error: "Invalid condense value."});
+    }
     const startArray = start.split("-");
     const endArray = end.split("-");
     if (startArray.length !== 3 || endArray.length !== 3) {
-      return res.status(422).json({error: "Invalid date range"});
+      return res.status(422).json({error: "Invalid date range."});
     }
     if (startArray[0].length !== 4 || endArray[0].length !== 4 ||
         startArray[1].length !== 2 || endArray[1].length !== 2 ||
         startArray[2].length !== 2 || endArray[2].length !== 2) {
-      return res.status(422).json({error: "Invalid date range"});
+      return res.status(422).json({error: "Invalid date range."});
     }
     const numbers = /^[0-9]+$/;
     if (!startArray[0].match(numbers) || !startArray[1].match(numbers) || !startArray[2].match(numbers) ||
@@ -425,7 +429,7 @@ app.get("/report/:start/:end", requireAuth, async (req, res) => {
     }
 
     // get complete page data
-    const results = await getReport(start, end);
+    const results = await getReport(start, end, parseInt(condense, 10));
     res.status(200).send(results);
 
   } catch (err) {
