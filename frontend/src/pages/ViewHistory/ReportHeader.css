@@ -1,3 +1,7 @@
 .report-header-special-text {
-  color: #28a428;
+  color: #000;
+}
+
+.highlight-report-header {
+  background-color: #cdffda;
 }

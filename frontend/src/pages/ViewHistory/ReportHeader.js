@@ -23,5 +23,6 @@ function ReportHeader(props) {
 export default ReportHeader;
 
 ReportHeader.propTypes = {
-  header: PropTypes.object
+  header: PropTypes.object,
+  newId: PropTypes.number
 };

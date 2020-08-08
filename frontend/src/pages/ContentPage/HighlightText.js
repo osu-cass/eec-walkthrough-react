@@ -66,7 +66,7 @@ function HighlightText(props) {
       newText.forEach((character, i) => {
         // see if we should highlight the current character
         if (i < diffArray.length && diffArray[i] === 1) {
-          const charElement = document.getElementById(`new-highlight-${i}-${props.elementType}`);
+          const charElement = document.getElementById(`new-highlight-${i}-${props.elementType}-${props.newId}`);
           if (charElement !== null) {
             charElement.classList.add("highlight-new-content");
           }
@@ -75,7 +75,7 @@ function HighlightText(props) {
     } else {
       oldText.forEach((character, i) => {
         if (i < diffArray.length && diffArray[i] === 1) {
-          const charElement = document.getElementById(`old-highlight-${i}-${props.elementType}`);
+          const charElement = document.getElementById(`old-highlight-${i}-${props.elementType}-${props.newId}`);
           if (charElement !== null) {
             charElement.classList.add("highlight-old-content");
           }
@@ -89,13 +89,13 @@ function HighlightText(props) {
     return props.newMode ? (
       <Fragment>
         {newHighText.map((character, i) =>
-          <span key={`new-highlight-${i}`} id={`new-highlight-${i}-${props.elementType}`} style={{fontWeight: "bold", fontSize: "xx-large"}}>{character}</span>
+          <span key={`new-highlight-${i}`} id={`new-highlight-${i}-${props.elementType}-${props.newId}`} style={{fontWeight: "bold", fontSize: "xx-large"}}>{character}</span>
         )}
       </Fragment>
     ) : (
       <Fragment>
         {oldHighText.map((character, i) =>
-          <span key={`old-highlight-${i}`} id={`old-highlight-${i}-${props.elementType}`} style={{fontWeight: "bold", fontSize: "xx-large"}}>{character}</span>
+          <span key={`old-highlight-${i}`} id={`old-highlight-${i}-${props.elementType}-${props.newId}`} style={{fontWeight: "bold", fontSize: "xx-large"}}>{character}</span>
         )}
       </Fragment>
     );
@@ -105,13 +105,13 @@ function HighlightText(props) {
     return props.newMode ? (
       <Fragment>
         {newHighText.map((character, i) =>
-          <span key={`new-highlight-${i}`} id={`new-highlight-${i}-${props.elementType}`} style={{fontSize: "x-large"}}>{character}</span>
+          <span key={`new-highlight-${i}`} id={`new-highlight-${i}-${props.elementType}-${props.newId}`} style={{fontSize: "x-large"}}>{character}</span>
         )}
       </Fragment>
     ) : (
       <Fragment>
         {oldHighText.map((character, i) =>
-          <span key={`old-highlight-${i}`} id={`old-highlight-${i}-${props.elementType}`} style={{fontSize: "x-large"}}>{character}</span>
+          <span key={`old-highlight-${i}`} id={`old-highlight-${i}-${props.elementType}-${props.newId}`} style={{fontSize: "x-large"}}>{character}</span>
         )}
       </Fragment>
     );
@@ -121,13 +121,13 @@ function HighlightText(props) {
     return props.newMode ? (
       <Fragment>
         {newHighText.map((character, i) =>
-          <span className={props.allowWrap ? "highlight-text-wrap" : ""} key={`new-highlight-${i}`} id={`new-highlight-${i}-${props.elementType}`}>{character}</span>
+          <span className={props.allowWrap ? "highlight-text-wrap" : ""} key={`new-highlight-${i}`} id={`new-highlight-${i}-${props.elementType}-${props.newId}`}>{character}</span>
         )}
       </Fragment>
     ) : (
       <Fragment>
         {oldHighText.map((character, i) =>
-          <span className={props.allowWrap ? "highlight-text-wrap" : ""} key={`old-highlight-${i}`} id={`old-highlight-${i}-${props.elementType}`}>{character}</span>
+          <span className={props.allowWrap ? "highlight-text-wrap" : ""} key={`old-highlight-${i}`} id={`old-highlight-${i}-${props.elementType}-${props.newId}`}>{character}</span>
         )}
       </Fragment>
     );
@@ -142,5 +142,6 @@ HighlightText.propTypes = {
   oldText: PropTypes.string,
   newMode: PropTypes.bool,
   elementType: PropTypes.number,
-  allowWrap: PropTypes.bool
+  allowWrap: PropTypes.bool,
+  newId: PropTypes.number
 };

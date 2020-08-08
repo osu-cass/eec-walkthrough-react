@@ -624,6 +624,7 @@ async function getReport(start, end) {
 
   try {
 
+    const oldestTimestamp = "2019-01-01 00:00:00";
     const startTimestamp = start + " 00:00:00";
     const endTimestamp = end + " 23:59:59";
 
@@ -653,7 +654,7 @@ async function getReport(start, end) {
       "FROM History_Pages " +
       "WHERE created BETWEEN ? AND ? " +
       "ORDER BY created DESC;";
-      results = await pool.query(sql, [startTimestamp, newTimestamp]);
+      results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
 
       if (allPageArray[i].historyId && results[0].length >= 2) {
         allPageArray[i].oldVersion = results[0][1];
@@ -694,7 +695,7 @@ async function getReport(start, end) {
       "FROM History_Headers " +
       "WHERE created BETWEEN ? AND ? " +
       "ORDER BY created DESC;";
-      results = await pool.query(sql, [startTimestamp, newTimestamp]);
+      results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
 
       if (allHeaderArray[i].historyId && results[0].length >= 2) {
         allHeaderArray[i].oldVersion = results[0][1];
@@ -735,7 +736,7 @@ async function getReport(start, end) {
       "FROM History_Cards " +
       "WHERE created BETWEEN ? AND ? " +
       "ORDER BY created DESC;";
-      results = await pool.query(sql, [startTimestamp, newTimestamp]);
+      results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
 
       if (allCardArray[i].historyId && results[0].length >= 2) {
         allCardArray[i].oldVersion = results[0][1];
@@ -763,7 +764,7 @@ async function getReport(start, end) {
         "LEFT JOIN Icons on HI.iconType = Icons.iconType " +
         "WHERE parentId = ? " +
         "ORDER BY orderIndex ASC, itemId ASC";
-        results = await pool.query(sql, [historyId, startTimestamp, endTimestamp]);
+        results = await pool.query(sql, historyId);
       } else {
         sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
         "Items.iconType, typeName, typeKeyword, contentText, " +
@@ -774,7 +775,7 @@ async function getReport(start, end) {
         "WHERE cardId = ? " +
         "AND approved = 1 " +
         "ORDER BY orderIndex ASC, itemId ASC";
-        results = await pool.query(sql, [cardId, startTimestamp, endTimestamp]);
+        results = await pool.query(sql, cardId);
       }
 
       finalResults.cards[i].items = results[0];

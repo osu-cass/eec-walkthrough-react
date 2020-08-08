@@ -1,5 +1,9 @@
 .report-page-special-text {
-  color: #28a428;
+  color: #000;
+}
+
+.highlight-report-page {
+  background-color: #e7ffed;
 }
 
 .description-report-page {
