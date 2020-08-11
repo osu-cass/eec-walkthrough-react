@@ -32,6 +32,7 @@ function ReportCard(props) {
     setImageItems(imageArray);
     setOldImageItems(oldImageArray);
     // eslint-disable-next-line
+    console.log(props.card);
   }, [props.card]);
 
   return props.removeMode ? (
@@ -41,7 +42,7 @@ function ReportCard(props) {
         <div className="col">
           <div className={`version-container p-2 m-3 border border-dark rounded text-wrap`}>
             <h4 className="report-card-special-text pl-3 pt-4">Card</h4>
-            <h5 className="report-card-special-text pl-3">{props.card.oldVersion.categoryName} &rarr; {props.card.oldVersion.pageName} &rarr; {props.card.oldVersion.headerName} &rarr; {props.card.oldVersion.title}</h5>
+            <h5 className="report-card-special-text pl-3">{props.card.categoryName} &rarr; {props.card.pageName} &rarr; {props.card.headerName} &rarr; {props.card.oldVersion.title}</h5>
             <span className="report-card-special-text pl-3">Updated {formatTime(props.card.oldVersion.created)}</span>
             <div className="m-3">
               <HighlightText

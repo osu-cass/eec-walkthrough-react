@@ -250,12 +250,6 @@ async function publishHeader(headerId) {
 
     const title = results[0][0].title;
     const pageId = results[0][0].pageId;
-    const internal = results[0][0].internal;
-
-    // save the published data to history
-    sql = "INSERT INTO History_Headers (headerId, title, internal) " +
-    "VALUES (?, ?, ?);";
-    await pool.query(sql, [headerId, title, internal]);
 
     // check if there is new header data
     sql = "SELECT * " +
@@ -292,6 +286,12 @@ async function publishHeader(headerId) {
 
       // publish
       results = await pool.query(sql, tempArray);
+
+      // save the published data to history
+      sql = "INSERT INTO History_Headers (pageId, headerId, title, internal) " +
+      "SELECT pageId, headerId, title, internal FROM Headers " +
+      "WHERE Headers.approved = 1 AND Headers.headerId = ?;";
+      await pool.query(sql, [headerId]);
 
       // delete the old temp header
       sql = "DELETE FROM Temp_Headers " +

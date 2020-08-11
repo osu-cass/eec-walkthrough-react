@@ -15,7 +15,7 @@ function ReportPage(props) {
         <div className="col">
           <div className={`version-container p-2 m-3 border border-dark rounded`}>
             <h4 className="report-page-special-text pl-4 pt-4">Page</h4>
-            <h5 className="report-page-special-text pl-4">{props.page.oldVersion.categoryName} &rarr; {props.page.oldVersion.name} </h5>
+            <h5 className="report-page-special-text pl-4">{props.page.categoryName} &rarr; {props.page.oldVersion.name} </h5>
             <span className="report-page-special-text pl-4">Updated {formatTime(props.page.oldVersion.created)}</span>
             <div className="m-4">
               <div>
@@ -47,7 +47,7 @@ function ReportPage(props) {
               <br />
               {props.page.imageUrl !== props.page.oldVersion.imageUrl ? (
                 <div className="p-4 d-inline-block old-review-image-container">
-                  <Image url={props.page.imageUrl}
+                  <Image url={props.page.oldVersion.imageUrl}
                     title={props.page.name}
                     thumbnail={false}
                     header={true}
@@ -55,7 +55,7 @@ function ReportPage(props) {
                 </div>
               ) : (
                 <div className="p-4 d-inline-block">
-                  <Image url={props.page.imageUrl}
+                  <Image url={props.page.oldVersion.imageUrl}
                     title={props.page.name}
                     thumbnail={false}
                     header={true}

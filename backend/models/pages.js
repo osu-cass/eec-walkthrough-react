@@ -240,16 +240,6 @@ async function deletePageChanges(pageId) {
 
     if (results[0].length) {
 
-      if (results[0].approved) {
-        // if the page is published, first save its history
-        sql = "INSERT INTO History_Pages (pageId, " +
-        "pageType, name, title, description, imageUrl, internal, created) " +
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-        await pool.query(sql, [pageId, results[0].pageType, results[0].name,
-          results[0].title, results[0].description, results[0].imageUrl,
-          results[0].internal, results[0].created]);
-      }
-
       sql = "DELETE " +
         "FROM Temp_Pages " +
         "WHERE tempPageId = ?;";
@@ -495,16 +485,6 @@ async function publishPage(pageId) {
 
     const name = results[0][0].name;
     const pageType = results[0][0].pageType;
-    const pageTitle = results[0][0].title;
-    const pageDescription = results[0][0].description;
-    const pageImage = results[0][0].imageUrl;
-    const pageInternal = results[0][0].internal;
-
-    // save the published data to history
-    sql = "INSERT INTO History_Pages (pageId, " +
-    "pageType, name, title, description, imageUrl, internal) " +
-    "VALUES (?, ?, ?, ?, ?, ?, ?);";
-    await pool.query(sql, [pageId, pageType, name, pageTitle, pageDescription, pageImage, pageInternal]);
 
     // check if there is new page data
     sql = "SELECT * " +
@@ -542,6 +522,12 @@ async function publishPage(pageId) {
 
       // publish
       results = await pool.query(sql, tempArray);
+
+      // save the published data to history
+      sql = "INSERT INTO History_Pages (pageId, pageType, name, title, description, imageUrl, internal) " +
+      "SELECT pageId, pageType, name, title, description, imageUrl, internal FROM Pages " +
+      "WHERE Pages.approved = 1 AND Pages.pageId = ?;";
+      await pool.query(sql, [pageId]);
 
       // delete the old temp page
       sql = "DELETE FROM Temp_Pages " +
@@ -630,7 +616,7 @@ exports.unpublishPage = unpublishPage;
 async function getReport(start, end, condense) {
 
   try {
-    console.log(condense)
+
     const oldestTimestamp = "2019-01-01 00:00:00";
     const startTimestamp = start + " 00:00:00";
     const endTimestamp = end + " 23:59:59";
@@ -679,7 +665,7 @@ async function getReport(start, end, condense) {
         "ORDER BY created DESC;";
         results = await pool.query(sql, [oldestTimestamp, newTimestamp, allPageArray[i].pageId]);
 
-        if (results[0].length >= 2) {
+        if (results[0].length > 1) {
           allPageArray[i].oldVersion = results[0][1];
         }
       }
@@ -735,7 +721,7 @@ async function getReport(start, end, condense) {
         "ORDER BY created DESC;";
         results = await pool.query(sql, [oldestTimestamp, newTimestamp, allHeaderArray[i].headerId]);
 
-        if (results[0].length >= 2) {
+        if (results[0].length > 1) {
           allHeaderArray[i].oldVersion = results[0][1];
         }
       }
@@ -773,7 +759,7 @@ async function getReport(start, end, condense) {
         sql = "SELECT * " +
         "FROM History_Cards " +
         "WHERE created BETWEEN ? AND ? " +
-        "AND cardId = ? "
+        "AND cardId = ? " +
         "ORDER BY created ASC;";
         results = await pool.query(sql, [oldestTimestamp, newTimestamp, allCardArray[i].cardId]);
 
@@ -786,11 +772,11 @@ async function getReport(start, end, condense) {
         sql = "SELECT * " +
         "FROM History_Cards " +
         "WHERE created BETWEEN ? AND ? " +
-        "AND cardId = ? "
+        "AND cardId = ? " +
         "ORDER BY created DESC;";
         results = await pool.query(sql, [oldestTimestamp, newTimestamp, allCardArray[i].cardId]);
 
-        if (results[0].length >= 2) {
+        if (results[0].length > 1) {
           allCardArray[i].oldVersion = results[0][1];
         }
       }
