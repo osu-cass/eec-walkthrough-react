@@ -4,3 +4,7 @@
   top: 1em;
   z-index: 998;
 }
+
+.hidden-report {
+  visibility: hidden;
+}

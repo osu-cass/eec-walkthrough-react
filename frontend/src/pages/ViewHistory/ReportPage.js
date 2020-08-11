@@ -89,5 +89,6 @@ export default ReportPage;
 
 ReportPage.propTypes = {
   page: PropTypes.object,
-  newId: PropTypes.number
+  newId: PropTypes.number,
+  removeMode: PropTypes.bool
 };
