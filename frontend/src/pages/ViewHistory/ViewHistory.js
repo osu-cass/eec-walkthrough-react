@@ -13,14 +13,21 @@ function ViewHistory() {
   const [publishedContent, setPublishedContent] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("Select a date range for the report.");
+  const [removeMode, setRemoveMode] = useState(false);
 
   // fetch published data within a range
-  async function handleGenerateReport(start, end, duplicate) {
+  async function handleGenerateReport(start, end, duplicate, remove) {
     setLoading(true);
 
     let mode = 0;
     if (duplicate) {
       mode = 1;
+    }
+
+    if (remove) {
+      setRemoveMode(true);
+    } else {
+      setRemoveMode(false);
     }
 
     // Fetch report data
@@ -81,7 +88,8 @@ function ViewHistory() {
       </div>
 
       <HistorySearchForm
-        onGenerateReport={(start, end, duplicate) => handleGenerateReport(start, end, duplicate)}
+        onGenerateReport={(start, end, duplicate, remove) => handleGenerateReport(start, end, duplicate, remove)}
+        onClear={() => setPublishedContent([])}
         onErrorMessage={(message) => setErrorMessage(message)}
       />
 
@@ -96,6 +104,7 @@ function ViewHistory() {
                       key={object.pageId + "p"}
                       page={object}
                       newId={i}
+                      removeMode={removeMode}
                     />
                   ) : (
                     null
@@ -105,6 +114,7 @@ function ViewHistory() {
                       key={object.headerId + "h"}
                       header={object}
                       newId={i}
+                      removeMode={removeMode}
                     />
                   ) : (
                     null
@@ -114,6 +124,7 @@ function ViewHistory() {
                       key={object.cardId + "c"}
                       card={object}
                       newId={i}
+                      removeMode={removeMode}
                     />
                   ) : (
                     null
