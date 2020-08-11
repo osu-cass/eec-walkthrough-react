@@ -251,15 +251,11 @@ async function publishHeader(headerId) {
     const title = results[0][0].title;
     const pageId = results[0][0].pageId;
     const internal = results[0][0].internal;
-    const created = results[0][0].created;
-    const approved = results[0][0].approved;
 
-    // if the header was published previously, save the published data to history
-    if (approved) {
-      sql = "INSERT INTO History_Headers (headerId, title, internal, created) " +
-      "VALUES (?, ?, ?, ?);";
-      await pool.query(sql, [headerId, title, internal, created]);
-    }
+    // save the published data to history
+    sql = "INSERT INTO History_Headers (headerId, title, internal) " +
+    "VALUES (?, ?, ?, ?);";
+    await pool.query(sql, [headerId, title, internal]);
 
     // check if there is new header data
     sql = "SELECT * " +
@@ -275,11 +271,11 @@ async function publishHeader(headerId) {
 
       // update the published header
       sql = "UPDATE Headers " +
-      "SET title = ?, userId = ?, created = ?, internal = ?, orderIndex = ?, approved = 1 " +
+      "SET title = ?, userId = ?, created = CURRENT_TIMESTAMP, internal = ?, orderIndex = ?, approved = 1 " +
       "WHERE headerId = ?;";
 
       const tempArray = [tempHeader.tempTitle,
-        tempHeader.tempUserId, tempHeader.tempCreated, tempHeader.tempInternal, tempHeader.tempOrderIndex, headerId];
+        tempHeader.tempUserId, tempHeader.tempInternal, tempHeader.tempOrderIndex, headerId];
 
       // make sure no other headers share the same title
       const checkSql = "SELECT * " +
@@ -305,7 +301,7 @@ async function publishHeader(headerId) {
     } else {
 
       sql = "UPDATE Headers " +
-      "SET approved = 1 " +
+      "SET approved = 1, created = CURRENT_TIMESTAMP " +
       "WHERE headerId = ?;";
 
       // make sure no other headers share the same title

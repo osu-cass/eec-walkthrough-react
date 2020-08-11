@@ -239,6 +239,17 @@ async function deletePageChanges(pageId) {
     let results = await pool.query(sql, pageId);
 
     if (results[0].length) {
+
+      if (results[0].approved) {
+        // if the page is published, first save its history
+        sql = "INSERT INTO History_Pages (pageId, " +
+        "pageType, name, title, description, imageUrl, internal, created) " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+        await pool.query(sql, [pageId, results[0].pageType, results[0].name,
+          results[0].title, results[0].description, results[0].imageUrl,
+          results[0].internal, results[0].created]);
+      }
+
       sql = "DELETE " +
         "FROM Temp_Pages " +
         "WHERE tempPageId = ?;";
@@ -482,22 +493,18 @@ async function publishPage(pageId) {
       return {error: 1};
     }
 
-    const approved = results[0][0].approved;
     const name = results[0][0].name;
     const pageType = results[0][0].pageType;
     const pageTitle = results[0][0].title;
     const pageDescription = results[0][0].description;
     const pageImage = results[0][0].imageUrl;
     const pageInternal = results[0][0].internal;
-    const created = results[0][0].created;
 
-    // if the page was published previously, save the published data to history
-    if (approved) {
-      sql = "INSERT INTO History_Pages (pageId, " +
-      "pageType, name, title, description, imageUrl, internal, created) " +
-      "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-      await pool.query(sql, [pageId, pageType, name, pageTitle, pageDescription, pageImage, pageInternal, created]);
-    }
+    // save the published data to history
+    sql = "INSERT INTO History_Pages (pageId, " +
+    "pageType, name, title, description, imageUrl, internal) " +
+    "VALUES (?, ?, ?, ?, ?, ?, ?);";
+    await pool.query(sql, [pageId, pageType, name, pageTitle, pageDescription, pageImage, pageInternal]);
 
     // check if there is new page data
     sql = "SELECT * " +
@@ -514,11 +521,11 @@ async function publishPage(pageId) {
       // update the published page
       sql = "UPDATE Pages " +
       "SET name = ?, pageType = ?, title = ?, description = ?, imageUrl = ?, " +
-      "userId = ?, created = ?, internal = ?, approved = 1 " +
+      "userId = ?, created = CURRENT_TIMESTAMP, internal = ?, approved = 1 " +
       "WHERE pageId = ?;";
 
       const tempArray = [tempPage.tempName, tempPage.tempPageType, tempPage.tempTitle, tempPage.tempDescription,
-        tempPage.tempImageUrl, tempPage.tempUserId, tempPage.tempCreated, tempPage.tempInternal, pageId];
+        tempPage.tempImageUrl, tempPage.tempUserId, tempPage.tempInternal, pageId];
 
       // make sure no other pages share the same name
       const checkSql = "SELECT * " +
@@ -629,22 +636,13 @@ async function getReport(start, end, condense) {
     const endTimestamp = end + " 23:59:59";
 
     // get all pages within the date range
-    let sql = "SELECT Pages.*, Categories.pluralName AS categoryName " +
-    "FROM Pages " +
-    "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
-    "WHERE Pages.approved = 1 " +
-    "AND Pages.created BETWEEN ? AND ? " +
-    "ORDER BY Pages.created ASC, Pages.pageId ASC;";
-    let results = await pool.query(sql, [startTimestamp, endTimestamp]);
-    const pageArray = results[0];
-
     sql = "SELECT HP.*, Categories.pluralName AS categoryName " +
     "FROM History_Pages AS HP " +
     "LEFT JOIN Categories on HP.pageType = Categories.categoryId " +
     "WHERE HP.created BETWEEN ? AND ? " +
     "ORDER BY HP.created ASC;";
     results = await pool.query(sql, [startTimestamp, endTimestamp]);
-    let allPageArray = pageArray.concat(results[0]);
+    let allPageArray = results[0];
 
     // if in condense mode, clean up duplicate pages
     if (condense) {
@@ -664,8 +662,9 @@ async function getReport(start, end, condense) {
         sql = "SELECT * " +
         "FROM History_Pages " +
         "WHERE created BETWEEN ? AND ? " +
+        "AND pageId = ? " +
         "ORDER BY created ASC;";
-        results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
+        results = await pool.query(sql, [oldestTimestamp, newTimestamp, allPageArray[i].pageId]);
 
         if (results[0].length > 1) {
           if (moment(results[0][0].created) < moment(startTimestamp)) {
@@ -676,13 +675,12 @@ async function getReport(start, end, condense) {
         sql = "SELECT * " +
         "FROM History_Pages " +
         "WHERE created BETWEEN ? AND ? " +
+        "AND pageId = ? " +
         "ORDER BY created DESC;";
-        results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
+        results = await pool.query(sql, [oldestTimestamp, newTimestamp, allPageArray[i].pageId]);
 
-        if (allPageArray[i].historyId && results[0].length >= 2) {
+        if (results[0].length >= 2) {
           allPageArray[i].oldVersion = results[0][1];
-        } else if (!allPageArray[i].historyId && results[0].length >= 1) {
-          allPageArray[i].oldVersion = results[0][0];
         }
       }
 
@@ -693,16 +691,6 @@ async function getReport(start, end, condense) {
     };
 
     // get all headers within the date range
-    sql = "SELECT Headers.*, Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
-    "FROM Headers " +
-    "LEFT JOIN Pages on Pages.pageId = Headers.pageId " +
-    "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
-    "WHERE Headers.approved = 1 " +
-    "AND Headers.created BETWEEN ? AND ? " +
-    "ORDER BY Headers.created ASC, Headers.headerId ASC;";
-    results = await pool.query(sql, [startTimestamp, endTimestamp]);
-    headerArray = results[0];
-
     sql = "SELECT HH.*, Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
     "FROM History_Headers AS HH " +
     "LEFT JOIN Pages on Pages.pageId = HH.pageId " +
@@ -710,7 +698,7 @@ async function getReport(start, end, condense) {
     "WHERE HH.created BETWEEN ? AND ? " +
     "ORDER BY HH.created ASC;";
     results = await pool.query(sql, [startTimestamp, endTimestamp]);
-    let allHeaderArray = headerArray.concat(results[0]);
+    let allHeaderArray = results[0];
 
     // if in condense mode, clean up duplicate headers
     if (condense) {
@@ -730,8 +718,9 @@ async function getReport(start, end, condense) {
         sql = "SELECT * " +
         "FROM History_Headers " +
         "WHERE created BETWEEN ? AND ? " +
+        "AND headerId = ? " +
         "ORDER BY created ASC;";
-        results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
+        results = await pool.query(sql, [oldestTimestamp, newTimestamp, allHeaderArray[i].headerId]);
 
         if (results[0].length > 1) {
           if (moment(results[0][0].created) < moment(startTimestamp)) {
@@ -742,13 +731,12 @@ async function getReport(start, end, condense) {
         sql = "SELECT * " +
         "FROM History_Headers " +
         "WHERE created BETWEEN ? AND ? " +
+        "AND headerId = ? " +
         "ORDER BY created DESC;";
-        results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
+        results = await pool.query(sql, [oldestTimestamp, newTimestamp, allHeaderArray[i].headerId]);
 
-        if (allHeaderArray[i].historyId && results[0].length >= 2) {
+        if (results[0].length >= 2) {
           allHeaderArray[i].oldVersion = results[0][1];
-        } else if (!allHeaderArray[i].historyId && results[0].length >= 1) {
-          allHeaderArray[i].oldVersion = results[0][0];
         }
       }
 
@@ -757,17 +745,6 @@ async function getReport(start, end, condense) {
     finalResults.headers = allHeaderArray;
 
     // get all cards within the date range
-    sql = "SELECT Cards.*, Headers.title AS headerName, Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
-    "FROM Cards " +
-    "LEFT JOIN Headers on Headers.headerId = Cards.headerId " +
-    "LEFT JOIN Pages on Pages.pageId = Headers.pageId " +
-    "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
-    "WHERE Cards.approved = 1 " +
-    "AND Cards.created BETWEEN ? AND ? " +
-    "ORDER BY Cards.created ASC, Cards.cardId ASC;";
-    results = await pool.query(sql, [startTimestamp, endTimestamp]);
-    cardArray = results[0];
-
     sql = "SELECT HC.*, Headers.title AS headerName, Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
     "FROM History_Cards AS HC " +
     "LEFT JOIN Headers on Headers.headerId = HC.headerId " +
@@ -776,7 +753,7 @@ async function getReport(start, end, condense) {
     "WHERE HC.created BETWEEN ? AND ? " +
     "ORDER BY HC.created ASC;";
     results = await pool.query(sql, [startTimestamp, endTimestamp]);
-    let allCardArray = cardArray.concat(results[0]);
+    let allCardArray = results[0];
 
     // if in condense mode, clean up duplicate cards
     if (condense) {
@@ -796,8 +773,9 @@ async function getReport(start, end, condense) {
         sql = "SELECT * " +
         "FROM History_Cards " +
         "WHERE created BETWEEN ? AND ? " +
+        "AND cardId = ? "
         "ORDER BY created ASC;";
-        results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
+        results = await pool.query(sql, [oldestTimestamp, newTimestamp, allCardArray[i].cardId]);
 
         if (results[0].length > 1) {
           if (moment(results[0][0].created) < moment(startTimestamp)) {
@@ -808,13 +786,12 @@ async function getReport(start, end, condense) {
         sql = "SELECT * " +
         "FROM History_Cards " +
         "WHERE created BETWEEN ? AND ? " +
+        "AND cardId = ? "
         "ORDER BY created DESC;";
-        results = await pool.query(sql, [oldestTimestamp, newTimestamp]);
+        results = await pool.query(sql, [oldestTimestamp, newTimestamp, allCardArray[i].cardId]);
 
-        if (allCardArray[i].historyId && results[0].length >= 2) {
+        if (results[0].length >= 2) {
           allCardArray[i].oldVersion = results[0][1];
-        } else if (!allCardArray[i].historyId && results[0].length >= 1) {
-          allCardArray[i].oldVersion = results[0][0];
         }
       }
 
@@ -841,31 +818,17 @@ async function getReport(start, end, condense) {
     // get all of the items for each card
     for (let i = 0; i < cardCount; i++) {
 
-      const cardId = finalResults.cards[i].cardId;
-      const historyId = finalResults.cards[i].historyId;
+      historyId = allCardArray[i].historyId;
 
-      if (historyId) {
-        sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
-        "HI.iconType, typeName, typeKeyword, contentText, " +
-        "contentUrl, contentLabel, contentMode, " +
-        "created, color " +
-        "FROM History_Items AS HI " +
-        "LEFT JOIN Icons on HI.iconType = Icons.iconType " +
-        "WHERE parentId = ? " +
-        "ORDER BY orderIndex ASC, itemId ASC";
-        results = await pool.query(sql, historyId);
-      } else {
-        sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
-        "Items.iconType, typeName, typeKeyword, contentText, " +
-        "contentUrl, contentLabel, contentMode, " +
-        "created, approved, color " +
-        "FROM Items " +
-        "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
-        "WHERE cardId = ? " +
-        "AND approved = 1 " +
-        "ORDER BY orderIndex ASC, itemId ASC";
-        results = await pool.query(sql, cardId);
-      }
+      sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
+      "HI.iconType, typeName, typeKeyword, contentText, " +
+      "contentUrl, contentLabel, contentMode, " +
+      "created, color " +
+      "FROM History_Items AS HI " +
+      "LEFT JOIN Icons on HI.iconType = Icons.iconType " +
+      "WHERE parentId = ? " +
+      "ORDER BY orderIndex ASC, itemId ASC";
+      results = await pool.query(sql, historyId);
 
       finalResults.cards[i].items = results[0];
     }
