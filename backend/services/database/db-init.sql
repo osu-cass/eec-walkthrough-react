@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 07, 2020 at 02:12 PM
+-- Generation Time: Aug 11, 2020 at 01:58 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -151,7 +151,8 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (162, 47, 10, 162, 'Arrange a Client Guided Remote Tour by Phone.', 51, '2020-08-06 22:36:25', 1),
 (163, 38, 0, 163, 'Efficient Aeration', 51, '2020-08-06 22:27:59', 0),
 (164, 36, 0, 164, 'Additional in Depth Site Resources', 51, '2020-08-06 22:32:54', 0),
-(165, 47, 0, 165, 'Next Step?......', 51, '2020-08-06 22:36:00', 0);
+(165, 47, 0, 165, 'Next Step?......', 51, '2020-08-06 22:36:00', 0),
+(166, 48, 0, 166, 'Reduce Bottleneck', 62, '2020-08-10 21:04:25', 0);
 
 -- --------------------------------------------------------
 
@@ -261,7 +262,8 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (44, 27, 5, 'C (published & edited)', 0, 42, '2020-07-28 08:31:46', 1),
 (45, 27, 4, 'D (edited)', 0, 42, '2020-07-28 08:31:29', 0),
 (46, 53, 46, 'Simple Header', 0, 42, '2020-08-04 10:53:41', 1),
-(47, 54, 47, 'Assessment Steps', 1, 51, '2020-08-05 19:56:29', 1);
+(47, 54, 47, 'Assessment Steps', 1, 51, '2020-08-05 19:56:29', 1),
+(48, 58, 48, 'Reduce Bottleneck', 0, 62, '2020-08-10 20:58:11', 0);
 
 -- --------------------------------------------------------
 
@@ -278,6 +280,75 @@ CREATE TABLE `History_Cards` (
   `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `History_Cards`
+--
+
+INSERT INTO `History_Cards` (`historyId`, `cardId`, `headerId`, `cardType`, `title`, `created`) VALUES
+(1, 3, 1, 0, 'Figures, Charts, and Tables', '2020-06-17 17:09:17'),
+(2, 8, 2, 0, 'Reduce Compressed Air Pressure\r\n', '2020-07-02 17:49:40'),
+(3, 9, 1, 0, 'Pros', '2020-06-02 20:58:31'),
+(4, 13, 1, 0, 'Cons', '2020-05-23 22:20:20'),
+(5, 16, 1, 0, 'Caveats', '2020-05-23 22:27:44'),
+(6, 17, 1, 0, 'Best Practices', '2020-05-23 22:28:37'),
+(7, 18, 1, 0, 'Rules of Thumb', '2020-05-23 22:31:49'),
+(8, 19, 1, 0, 'Tips', '2020-05-23 22:33:25'),
+(9, 27, 2, 0, 'Reduce Compressed Air Required', '2020-07-07 16:17:13'),
+(10, 29, 1, 0, 'Additional In Depth Site Resources', '2020-07-01 22:33:14'),
+(11, 30, 3, 0, 'Test', '2020-06-23 05:53:07'),
+(12, 47, 16, 0, 'Engines', '2020-06-30 06:58:38'),
+(13, 49, 18, 0, 'Environment', '2020-06-30 06:11:14'),
+(14, 66, 4, 10, 'Facilisis volutpat est velit egestas.', '2020-06-23 09:22:49'),
+(15, 67, 16, 1, 'More Airplanes', '2020-06-23 09:14:09'),
+(16, 68, 27, 11, 'Plywood Images', '2020-07-23 09:53:26'),
+(17, 69, 27, 0, 'Plywood Info', '2020-06-23 09:20:59'),
+(18, 72, 1, 1, 'Gallery: Industrial Air Compressors, Dryers, Receiver Tanks and Compressed Air Applications', '2020-07-01 20:56:20'),
+(19, 74, 3, 0, 'U.S.DOE Energy Tip Sheets', '2020-06-27 20:45:48'),
+(20, 75, 1, 0, 'U.S. Department of Energy Tip Sheets', '2020-06-30 06:38:25'),
+(21, 76, 1, 0, 'General Off Site Resource Links', '2020-06-29 20:51:39'),
+(22, 77, 2, 0, 'Improve Compressor Efficiency', '2020-07-03 00:20:51'),
+(23, 80, 16, 0, 'New Card', '2020-06-30 20:59:15'),
+(24, 86, 2, 0, 'Reduce Air Compressor Run Time', '2020-07-01 22:24:57'),
+(25, 87, 2, 0, 'Other Opportunities', '2020-07-01 22:28:10'),
+(26, 88, 31, 0, 'Pros', '2020-07-02 19:58:20'),
+(27, 89, 31, 0, 'Cons', '2020-07-02 20:01:03'),
+(28, 90, 31, 0, 'Caveats', '2020-07-02 20:01:49'),
+(29, 91, 31, 0, 'Rules of Thumb', '2020-07-02 20:08:42'),
+(30, 92, 31, 0, 'Tips', '2020-07-02 20:10:02'),
+(31, 93, 31, 0, 'Best Practices', '2020-07-02 20:12:06'),
+(32, 95, 31, 0, 'Standard Data to Collect', '2020-07-03 17:57:24'),
+(33, 96, 31, 0, 'Data Collection Equipment', '2020-07-02 20:22:45'),
+(34, 97, 31, 0, 'Data Collection Guides', '2020-07-02 20:44:49'),
+(35, 98, 31, 0, 'Analysis Tools', '2020-07-02 20:52:07'),
+(36, 99, 31, 0, 'In Depth Site Resources', '2020-07-03 17:55:50'),
+(37, 100, 31, 0, 'Off Site Resource Links', '2020-07-02 21:38:17'),
+(38, 101, 32, 0, 'Improve Boiler Combustion Efficiency ', '2020-07-02 21:53:03'),
+(39, 102, 32, 0, 'Reduce Run Time', '2020-07-02 21:56:36'),
+(40, 103, 32, 0, 'Optimize Blowdown', '2020-07-02 21:58:49'),
+(41, 104, 32, 0, 'Minimize Draft Fan Energy ', '2020-07-02 22:01:14'),
+(42, 105, 32, 0, 'Improve the Condensate System', '2020-07-02 22:03:34'),
+(43, 106, 32, 0, 'Reduce Heat Loss', '2020-07-02 22:11:55'),
+(44, 107, 28, 0, 'Motor and Transmission Efficiency', '2020-07-02 22:52:49'),
+(45, 108, 33, 0, 'Rules of Thumb', '2020-07-02 23:14:11'),
+(46, 118, 28, 0, 'Motor Controls', '2020-07-03 00:08:01'),
+(47, 119, 28, 0, 'Turn of Motors (Consider Load Shedding)', '2020-07-07 23:38:14'),
+(48, 120, 28, 0, 'Power Quality', '2020-07-03 00:19:36'),
+(49, 121, 18, 10, 'A new internal card', '2020-07-07 02:04:39'),
+(50, 128, 18, 10, 'eoowerwerwer', '2020-07-07 21:23:36'),
+(51, 145, 42, 0, '1', '2020-07-28 20:16:13'),
+(52, 147, 42, 0, '3', '2020-07-28 08:34:31'),
+(53, 148, 45, 0, '1', '2020-07-28 08:35:42'),
+(54, 151, 46, 10, 'Cras facilisis hendrerit dui', '2020-08-04 10:56:28'),
+(55, 152, 46, 0, 'A bunch of images', '2020-08-04 11:00:16'),
+(56, 153, 46, 0, 'New Checkboxes!', '2020-08-06 10:42:16'),
+(57, 154, 47, 10, 'Review/Analyze Pre Assessment Package Information', '2020-08-06 23:30:30'),
+(58, 155, 47, 10, 'Identify Potential Sites to Work With', '2020-08-06 23:50:17'),
+(59, 156, 47, 10, 'Hold an Initial Remote Assessment Meeting with the Client', '2020-08-06 23:34:20'),
+(60, 157, 47, 10, 'Develop a Preliminary Energy Balance', '2020-08-05 22:40:35'),
+(61, 158, 47, 10, 'Develop a List of Potential Opportunities to Study', '2020-08-06 23:09:57'),
+(62, 161, 47, 10, 'Preliminary Research', '2020-08-06 23:47:20'),
+(63, 162, 47, 10, 'Arrange a Client Guided Remote Tour by Phone.', '2020-08-06 22:36:25');
+
 -- --------------------------------------------------------
 
 --
@@ -292,6 +363,30 @@ CREATE TABLE `History_Headers` (
   `internal` tinyint(3) UNSIGNED NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `History_Headers`
+--
+
+INSERT INTO `History_Headers` (`historyId`, `headerId`, `pageId`, `title`, `internal`, `created`) VALUES
+(1, 1, 2, 'Compressed Air Overview', 0, '2020-07-01 18:19:56'),
+(2, 2, 2, 'Compressed Air Opportunities to Consider', 0, '2020-05-22 21:22:38'),
+(3, 3, 1, 'Boilers', 0, '2020-05-22 21:22:38'),
+(4, 4, 3, 'Refrigeration', 0, '2020-05-22 21:22:38'),
+(5, 16, 25, 'Engine Info', 0, '2020-06-16 09:03:41'),
+(6, 17, 25, 'Turbulence', 0, '2020-06-09 18:51:20'),
+(7, 18, 25, 'Economics', 0, '2020-06-09 18:56:36'),
+(8, 27, 4, 'Plywood Images', 0, '2020-06-23 09:18:19'),
+(9, 28, 44, 'Motor Opportunities to Consider', 0, '2020-06-29 23:07:40'),
+(10, 31, 46, 'Boilers and Steam Overview', 0, '2020-07-02 19:43:04'),
+(11, 32, 46, 'Boiler and Steam System Opportunities to Consider', 0, '2020-07-02 21:40:38'),
+(12, 33, 44, 'Motors Overview', 0, '2020-07-02 23:12:01'),
+(13, 35, 25, 'Air Header Test', 0, '2020-07-07 02:15:51'),
+(14, 42, 27, 'A', 0, '2020-07-28 08:31:16'),
+(15, 43, 27, 'B', 0, '2020-07-28 08:31:20'),
+(16, 44, 27, 'C (published & edited)', 0, '2020-07-28 08:31:46'),
+(17, 46, 53, 'Simple Header', 0, '2020-08-04 10:53:41'),
+(18, 47, 54, 'Assessment Steps', 1, '2020-08-05 19:56:29');
 
 -- --------------------------------------------------------
 
@@ -314,6 +409,323 @@ CREATE TABLE `History_Items` (
   `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `History_Items`
+--
+
+INSERT INTO `History_Items` (`historyId`, `parentId`, `itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`) VALUES
+(1, 1, 7, 3, 1, 0, 20, '', 'https://i.imgur.com/V0dkW5l.png', 'Screw compressor power vs output for various control strategies', 0, '2020-06-17 17:09:09'),
+(2, 3, 25, 9, 1, 0, 1, 'Versatile. Offers compact energy density. ', '', '', 0, '2020-06-02 22:38:04'),
+(3, 3, 26, 9, 1, 0, 1, 'Spark free for potentially explosive environments', '', '', 0, '2020-06-10 03:40:29'),
+(4, 5, 28, 16, 1, 0, 4, 'Take care to avoid potential dangerous air injection associated with directing compressed air flow directly onto skin', '', '', 0, '2020-05-23 22:30:55'),
+(5, 6, 29, 17, 1, 0, 7, 'Looped distribution systems can help maintain uniform pressure throughout a compressed air system.', '', '', 0, '2020-05-23 22:30:57'),
+(6, 6, 30, 17, 2, 0, 7, 'Well sized compressed air lines reduce pressure loss', '', '', 0, '2020-05-23 22:30:58'),
+(7, 6, 31, 17, 3, 0, 7, 'A well designed compressed air system should typically have a maximum 10 PSI pressure drop in delivering air to at any end-use in the system', '', '', 0, '2020-05-23 22:31:00'),
+(8, 4, 32, 13, 1, 0, 2, 'Extremely energy intensive. ', '', '', 0, '2020-05-23 22:52:18'),
+(9, 7, 33, 18, 1, 0, 3, 'Expect a 1% drop in compressor energy and cost per 2 PSI in compressor outlet pressure drop', '', '', 0, '2020-07-18 00:08:08'),
+(10, 7, 34, 18, 1, 0, 3, '85 PSI is the standard required minimum inlet pressure for most common industrial pneumatic equipment', '', '', 0, '2020-07-18 00:08:07'),
+(11, 7, 36, 18, 1, 0, 3, '80 to 90% of energy for compressed air is lost as heat', '', '', 0, '2020-07-18 00:08:04'),
+(12, 8, 37, 19, 1, 0, 8, 'Use a pressure gage with standard quick connects typically used in compressed air lines to diagnose line pressure drops', '', '', 0, '2020-07-18 00:08:04'),
+(13, 4, 43, 13, 1, 0, 2, 'Function provided can often be replace with significantly lower power approach.', '', '', 0, '2020-06-09 19:50:02'),
+(14, 3, 162, 9, 1, 0, 1, 'Can be used as an easy quick fix for many issues', '', '', 0, '2020-06-22 19:18:35'),
+(15, 3, 163, 9, 1, 0, 1, 'Familiar utility for industrial personnel', '', '', 0, '2020-06-22 19:18:36'),
+(16, 3, 164, 9, 1, 0, 1, 'A single mechanical energy input at the compressor can be distributed throughout a facility. ', '', '', 0, '2020-06-22 19:18:36'),
+(17, 7, 165, 18, 4, 0, 3, 'Over 5 HP of electrical power is required for each 1 HP of compressed air power', '', '', 0, '2020-06-22 19:21:00'),
+(18, 8, 166, 19, 1, 0, 8, 'Determine the leak load by checking compressor output when there is no productive air use', '', '', 0, '2020-06-22 19:29:30'),
+(19, 11, 197, 30, 1, 0, 20, '', 'https://www.hurstboiler.com/images2/series-300_shrink.png', 'Boiler Picture', 0, '2020-06-23 05:53:07'),
+(20, 11, 198, 30, 1, 0, 2, 'Lectus mauris ultrices eros in cursus.', '', '', 0, '2020-06-23 05:53:07'),
+(21, 11, 199, 30, 1, 0, 17, 'Hurst Series 300', 'https://www.hurstboiler.com/boilers/scotch_marine/series_300', 'Big boiler link', 1, '2020-07-28 08:29:55'),
+(22, 15, 245, 67, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/commercial-airplane-flying-above-clouds-600w-553131187.jpg', 'Sunset', 0, '2020-06-23 09:14:37'),
+(23, 15, 246, 67, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/white-passenger-plane-climbs-through-600w-523950889.jpg', 'Up', 0, '2020-06-23 09:14:37'),
+(24, 15, 247, 67, 1, 0, 20, '', 'https://image.shutterstock.com/image-vector/flat-airplane-illustration-view-flying-600w-443359132.jpg', 'Cartoon', 0, '2020-06-23 09:14:37'),
+(25, 15, 248, 67, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/beautiful-scenic-city-view-sunset-600w-766500919.jpg', 'Window Seat', 0, '2020-06-23 09:14:37'),
+(26, 17, 259, 69, 1, 0, 15, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '', '', 0, '2020-06-23 09:20:59'),
+(27, 17, 263, 69, 1, 0, 11, 'Pretium lectus quam id leo in vitae turpis massa. Placerat vestibulum lectus mauris ultrices eros in cursus turpis.', '', '', 0, '2020-06-23 09:21:00'),
+(28, 19, 337, 74, 1, 0, 17, 'See steam system sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-07-28 21:07:52'),
+(29, 19, 338, 74, 1, 0, 17, '.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam15_benchmark.pdf', 'Benchmark the Fuel Cost of Steam Generation', 1, '2020-07-28 20:35:02'),
+(30, 19, 339, 74, 1, 0, 17, '.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam7_surfaces.pdf', 'Clean Firetube Boiler Waterside Heat Transfer Surfaces', 1, '2020-06-27 20:57:48'),
+(31, 21, 383, 76, 1, 0, 17, 'This sourcebook is designed to provide compressed air system users with a reference that outlines opportunities for system performance improvements.', 'https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf', 'Improving Compressed Air System Performance. A Sourcebook for Industry.  Third Edition. U.S.DOE', 1, '2020-06-29 21:22:31'),
+(32, 21, 384, 76, 1, 0, 17, 'MEASUR is open source software that consists of the following DOE legacy energy system assessment tools (updated): Pumping System Assessment Tool (PSAT), Process Heating Assessment and Survey Tool (PHAST), Fan System Assessment Tool (FSAT), Steam System Assessment Tool (SSAT)/ Steam System Modeler (SSMT), AIRMaster+ (Last accessed 12/2/2019)   ', 'https://www.energy.gov/eere/amo/measur', 'U.S. Department of Energy MEASUR analysis tool', 1, '2020-06-29 20:55:45'),
+(33, 21, 385, 76, 1, 0, 17, 'An informational page with analysis tools, case studies, tip sheets, and checklists', 'https://www.bpa.gov/EE/Sectors/Industrial/Pages/Compressed-Air.aspx', 'Bonneville Power Administration Compressed Air Page', 1, '2020-06-29 20:55:45'),
+(34, 13, 621, 49, 0, 0, 2, 'Uses a lot of fossil fuels', '', '', 0, '2020-06-30 06:11:15'),
+(35, 13, 622, 49, 0, 1, 4, 'Hurts birds', '', '', 0, '2020-06-30 06:11:15'),
+(36, 13, 623, 49, 0, 2, 5, 'Uses a lot of steel', '', '', 0, '2020-06-30 06:11:15'),
+(37, 20, 637, 75, 0, 0, 17, 'See compressed air tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-07-01 00:33:10'),
+(38, 20, 638, 75, 0, 0, 17, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air11.pdf', 'Alternative Strategies for Low-Pressure End Uses', 1, '2020-06-30 06:38:26'),
+(39, 20, 639, 75, 0, 0, 17, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air4.pdf', 'Analyzing Your Compressed Air System', 1, '2020-06-30 06:38:26'),
+(40, 12, 667, 47, 0, 0, 5, 'Jet fuel is flammable', '', '', 0, '2020-06-30 09:33:41'),
+(41, 12, 668, 47, 0, 1, 4, 'Be careful', '', '', 0, '2020-06-30 09:33:41'),
+(42, 12, 669, 47, 0, 2, 20, '', 'https://blog.klm.com/assets/uploads/2018/12/Jet-engine-KLM-768x510.jpg', 'KLM Jet Engine', 0, '2020-06-30 09:33:41'),
+(43, 12, 670, 47, 0, 0, 24, 'Learn more about Jet Engines', 'https://en.wikipedia.org/wiki/Jet_engine', 'Wikipedia - Jet Engines', 1, '2020-06-30 09:33:41'),
+(44, 23, 687, 80, 0, 0, 15, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '', '', 0, '2020-06-30 20:59:15'),
+(45, 23, 688, 80, 0, 1, 13, 'Nulla suscipit enim aliquet turpis iaculis accumsan.', '', '', 0, '2020-06-30 20:59:15'),
+(46, 23, 689, 80, 0, 1, 13, 'Aliquam scelerisque tellus nec lectus blandit condimentum.', '', '', 0, '2020-06-30 20:59:15'),
+(47, 23, 690, 80, 0, 1, 13, 'Sed laoreet ligula eget accumsan auctor.', '', '', 0, '2020-06-30 20:59:15'),
+(48, 18, 779, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50066459491_bb3c3291c5_b.jpg', 'Dry sprinkler systems need compressed air', 0, '2020-07-01 21:19:36'),
+(49, 18, 780, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50065906203_65746ac38f_b.jpg', 'Blow off wand and hose', 0, '2020-07-01 21:19:36'),
+(50, 18, 781, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50065907458_f8a2a9a7e0_b.jpg', 'Air Motors used to mix paint can be replaced with explosion proof electric motors', 0, '2020-07-01 21:19:36'),
+(51, 18, 782, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50066721727_a6607851c0_b.jpg', 'Compressed Air Receiver Tank', 0, '2020-07-01 21:19:36'),
+(52, 18, 783, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50065907313_a2869ef070_b.jpg', 'Industrial Screw Compressor', 0, '2020-07-01 21:19:36'),
+(53, 18, 784, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50065907073_1a989d028d_b.jpg', 'Compressed Air Receiver Tamk', 0, '2020-07-01 21:19:36'),
+(54, 18, 785, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50065907213_978efa0976_b.jpg', 'Blow off wands with and without engineered nozzles', 0, '2020-07-01 21:19:36'),
+(55, 18, 786, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50066720932_da2c3b0b6c_b.jpg', 'Small reciprocating industrial air compressor', 0, '2020-07-01 21:19:36'),
+(56, 18, 787, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50065907503_d75eb615cf_b.jpg', 'Desiccant compressed air dryer ', 0, '2020-07-01 21:19:36'),
+(57, 18, 788, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50066722032_f62637039d_b.jpg', 'Compressed Air Receiver Tank', 0, '2020-07-01 21:19:36'),
+(58, 18, 789, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50065907438_e7f7d53ba4_b.jpg', 'Refrigerated compressed air dryer', 0, '2020-07-01 21:19:36'),
+(59, 24, 1101, 86, 0, 0, 11, 'Turn compressor(s) off when not needed - nights weekends etc	', '', '', 0, '2020-07-01 22:24:57'),
+(60, 24, 1102, 86, 0, 0, 11, 'Serve low volume around the clock  requirement with separate smaller system', '', '', 0, '2020-07-01 22:24:57'),
+(61, 25, 1103, 87, 0, 0, 11, 'Replace refrigerated compressed air dryer with more efficient refrigerated compressed air dryer', '', '', 0, '2020-07-01 22:28:10'),
+(62, 25, 1104, 87, 0, 0, 11, 'Capture heat rejected by air compressors', '', '', 0, '2020-07-01 22:28:10'),
+(63, 10, 1151, 29, 0, 0, 17, 'This guide focuses mainly on screw and reciprocating compressors. These are the most common types of compressors used in the northwest. Other types of compressors such as rotary vane, centrifugal, lobe and radial compressors are much less common and are only introduced in this guide.', 'https://drive.google.com/file/d/12Co0C6JBK5CqoYhZQBcD0VX6JVBXy86o/view', 'Assessing Industrial Air Compressors', 0, '2020-07-01 22:33:14'),
+(64, 10, 1152, 29, 0, 0, 17, 'A short slideshow of common industrial compressed air equipment and applicatons', 'https://docs.google.com/presentation/d/1khB1tPIND-ooBy1yCCL-rDf09Gf4Q8nr/edit#slide=id.p7', 'Industrial Compressed Air (a slideshow)', 0, '2020-07-01 22:33:14'),
+(65, 2, 1312, 8, 0, 0, 8, 'Reduced air pressure not only reduces air compressor energy required for a set volume of air, it will also result in less air volume consumed by leaks and unregulated air uses (although it can be hard to estimate the volume reduction).\r\n', '', '', 0, '2020-07-02 17:49:40'),
+(66, 2, 1313, 8, 0, 0, 3, 'Expect a 1% drop in compressor energy and cost per 2 PSI in compressor outlet pressure drop (for standard nominal ~100 PSI range systems)', '', '', 0, '2020-07-02 17:49:40'),
+(67, 2, 1314, 8, 0, 0, 11, 'Reduce compressed air system pressure to the 95-100 PSI range.', '', '', 0, '2020-07-02 17:49:40'),
+(68, 2, 1315, 8, 0, 1, 10, 'System pressure is set over 100 PSI for a compressed air system serving standard industrial utilities and controls.\r\n', '', '', 0, '2020-07-02 17:49:40'),
+(69, 2, 1316, 8, 0, 1, 8, 'Check end use requirements. Most equipment requires ~ 85 PSI. Allowing for a 10 PSI system distribution pressure drop should allow the minimum pressure to be set for 95 PSI	', '', '', 0, '2020-07-02 17:49:40'),
+(70, 2, 1317, 8, 0, 1, 8, 'Try incrementally dropping pressure while checking to ensure no production issues occur', '', '', 0, '2020-07-02 17:49:40'),
+(71, 2, 1318, 8, 0, 1, 15, 'Set up data loggers to collect compressor power over time ', '', '', 0, '2020-07-02 17:49:40'),
+(72, 2, 1319, 8, 0, 1, 15, 'Collect pressure settings: current and proposed', '', '', 0, '2020-07-02 17:49:40'),
+(73, 2, 1320, 8, 0, 1, 17, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://drive.google.com/open?id=1ZrFL3Cc2rmiRL-lkODnqn4smkZo7BiRX', 'Analysis Template: Reduce Compressed Air Pressure ', 2, '2020-07-02 17:49:40'),
+(74, 2, 1321, 8, 0, 1, 12, 'Reduce line pressure losses in compressed air distribution system:', '', '', 0, '2020-07-02 17:49:40'),
+(75, 2, 1322, 8, 0, 2, 10, 'Pressure drops more than 10 PSI from the compressor to any location at any time (particularly remote locations or near shorter duration high volume uses)?', '', '', 0, '2020-07-02 17:49:40'),
+(76, 2, 1323, 8, 0, 2, 8, 'Pay close attention to oil filters, complex fittings, poor takeoffs, and bottlenecked and overly small pipe diameters', '', '', 0, '2020-07-02 17:49:40'),
+(77, 2, 1324, 8, 0, 2, 8, 'Critically evaluate regulator placement (and settings)	', '', '', 0, '2020-07-02 17:49:40'),
+(78, 2, 1325, 8, 0, 1, 12, 'Add receivers close to equipment with periodic high volume air uses (that might be creating local pressure drops).', '', '', 0, '2020-07-02 17:49:40'),
+(79, 2, 1326, 8, 0, 2, 10, 'Local pressure drops periodically appear in parts of the system .', '', '', 0, '2020-07-02 17:49:40'),
+(80, 2, 1327, 8, 0, 0, 11, 'Serve high pressure compressed air end use with separate system or a booster	', '', '', 0, '2020-07-02 17:49:40'),
+(81, 2, 1328, 8, 0, 1, 10, 'An entire plant air system is set at a high pressure because a few pieces of equipment require higher pressure air.		', '', '', 0, '2020-07-02 17:49:40'),
+(82, 2, 1329, 8, 0, 1, 15, 'Inventory equipment needing higher than average pressures, noting minimum pressure and estimating air volume required.', '', '', 0, '2020-07-02 17:49:40'),
+(83, 26, 1336, 88, 0, 0, 1, 'Versatile.', '', '', 0, '2020-07-02 19:58:43'),
+(84, 26, 1337, 88, 0, 0, 1, 'Familiar utility for many industrial personnel.', '', '', 0, '2020-07-02 19:58:43'),
+(85, 26, 1338, 88, 0, 0, 1, 'A single thermal energy input at the boiler can be distributed throughout a facility.', '', '', 0, '2020-07-02 19:58:43'),
+(86, 26, 1339, 88, 0, 0, 1, 'Limiting the number of combustion sources by serving applications with steam can reduce administrative cost of managing and reporting multiple emissions sources to governing agencies.', '', '', 0, '2020-07-02 19:58:43'),
+(87, 26, 1340, 88, 0, 0, 1, 'Use of a dual fuel boiler (for example: one that can use natural gas or fuel oil) can also reduce vulnerability to natural gas interruptions when thermal needs are served with steam instead of a local combustion system.', '', '', 0, '2020-07-02 19:58:43'),
+(88, 26, 1341, 88, 0, 0, 1, 'Steam engines can be useful for applications that might result in an initial locked rotor and potential electric motor damage, such as pumping cold semi-solidified bunker fuel.', '', '', 0, '2020-07-02 19:58:43'),
+(89, 27, 1342, 89, 0, 0, 2, 'System distribution energy and mass losses can result in significant overall system efficiency reductions.', '', '', 0, '2020-07-02 20:01:03'),
+(90, 28, 1343, 90, 0, 0, 4, 'Boilers can be bombs if not properly set up and maintained.', '', '', 0, '2020-07-02 20:01:49'),
+(91, 29, 1344, 91, 0, 0, 3, '1 boiler horsepower (BoHP) = 33,479 Btu/hr', '', '', 0, '2020-07-02 20:08:42'),
+(92, 29, 1345, 91, 0, 0, 3, 'Exhaust gases are typically best kept above 300 °F to avoid corrosive condensation.', '', '', 0, '2020-07-02 20:08:42'),
+(93, 29, 1346, 91, 0, 0, 3, 'Ideal exhaust temperatures should not be more than 100 - 150 °F greater than the steam temperature. If a boiler is well designed and heat exchanger surfaces are in good condition, ideal exhaust temperatures should be achievable.', '', '', 0, '2020-07-02 20:08:42'),
+(94, 30, 1347, 92, 0, 0, 8, 'Keep a steam table handy (phone app or pocket reference) to convert steam temperature to pressure for typical saturated conditions.', '', '', 0, '2020-07-02 20:10:02'),
+(95, 31, 1350, 93, 0, 0, 7, 'Regular, scheduled boiler tunes. Typically every 6 to 12 months.', '', '', 0, '2020-07-02 20:12:22'),
+(96, 31, 1351, 93, 0, 0, 7, 'Low O2 controls', '', '', 0, '2020-07-02 20:12:22'),
+(97, 34, 1361, 97, 0, 0, 17, 'An OSU EEC Data Collection Sheet in Microsoft Excel Format', 'https://drive.google.com/file/d/1mMRMAUYKDCpE5bQmX-KqajjAOwXuEzaL/view?usp=sharing', 'Boiler Data Collection Sheet', 0, '2020-07-02 20:46:30'),
+(98, 35, 1371, 98, 0, 0, 21, 'A link to the U.S.DOE\'s MEASUR Analysis Tool Package (free download)', 'https://www.energy.gov/eere/amo/measur', 'U.S.DOE Steam System Analysis Tool', 1, '2020-08-10 17:43:19'),
+(99, 35, 1372, 98, 0, 0, 21, 'An OSU EEC Analysis Tool in Microsoft Excel Format', 'https://drive.google.com/file/d/1HEL3S8xl50-B12ooH4wocqUznwJWAjzQ/view?usp=sharing', 'Combustion Efficiency Analysis Tool (CEAT)', 0, '2020-07-02 21:18:17'),
+(100, 39, 1407, 102, 0, 0, 11, 'Shut down equipment when not needed - nights, weekends, etc.', '', '', 0, '2020-07-02 21:56:36'),
+(101, 40, 1408, 103, 0, 0, 11, 'Minimize the continuous blowdown rate with a conductivity sensor', '', '', 0, '2020-07-02 21:58:49'),
+(102, 40, 1409, 103, 0, 0, 11, 'Install blowdown heat recovery', '', '', 0, '2020-07-02 21:58:49'),
+(103, 41, 1410, 104, 0, 0, 11, 'Replace damper controls on draft fans with variable speed control', '', '', 0, '2020-07-02 22:01:14'),
+(104, 42, 1411, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, '2020-07-02 22:03:34'),
+(105, 42, 1412, 105, 0, 0, 11, 'Recover Flash Steam (for Chris to flesh out) ', '', '', 0, '2020-07-02 22:03:34'),
+(106, 45, 1575, 108, 0, 0, 3, '1 HP = 0.746 kW', '', '', 0, '2020-07-02 23:14:11'),
+(107, 22, 1798, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, '2020-07-03 00:24:40'),
+(108, 22, 1799, 77, 0, 1, 13, 'Reducing the inlet air temperature of oil-injected screw compressors increases mass flow rate while maintaining power input. To efficiently maintain current mass flow rate a variable frequency drive is required to reduce the motor speed and associated power.', '', '', 0, '2020-07-03 00:24:40'),
+(109, 22, 1800, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, '2020-07-03 00:24:40'),
+(110, 22, 1801, 77, 0, 1, 10, 'Difficulty meeting a compressor\'s rated air capacity', '', '', 0, '2020-07-03 00:24:40'),
+(111, 22, 1802, 77, 0, 1, 10, 'A compressor running hotter than its specifications', '', '', 0, '2020-07-03 00:24:40'),
+(112, 22, 1803, 77, 0, 2, 4, 'Other factors may be at play such as significant air leaks increasing the load on the compressor', '', '', 0, '2020-07-03 00:24:40'),
+(113, 22, 1804, 77, 0, 1, 3, '1.9% efficiency (scfm/kW) improvement per 10 °F reduction at inlet', '', '', 0, '2020-07-03 00:24:40'),
+(114, 22, 1805, 77, 0, 1, 15, 'Compressor make, model, and nameplate data', '', '', 0, '2020-07-03 00:24:40'),
+(115, 22, 1806, 77, 0, 1, 15, 'Motor nameplate data, live power reading, and one week of amperage data', '', '', 0, '2020-07-03 00:24:40'),
+(116, 22, 1807, 77, 0, 1, 15, 'Complete picture of compressed air system and control strategy', '', '', 0, '2020-07-03 00:24:40'),
+(117, 22, 1808, 77, 0, 1, 15, 'Average ambient temperature at current and proposed inlet locations', '', '', 0, '2020-07-03 00:24:40'),
+(118, 22, 1809, 77, 0, 1, 12, 'Move air inlet to coolest location to reduce power and energy consumption', '', '', 0, '2020-07-03 00:24:40'),
+(119, 22, 1810, 77, 0, 1, 8, 'If implementation requires much more than re-ducting, the chances of this opportunitity being worthwhile are low. ', '', '', 0, '2020-07-03 00:24:40'),
+(120, 22, 1811, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/zk1aol8rf88aul9klflbxkikz6l2ku47', 'Analysis Template: Reduce Inlet Air Temperature', 2, '2020-07-03 00:24:40'),
+(121, 22, 1812, 77, 0, 1, 17, 'An article from Compressed Air Best Practices by  Tim Dugan, P.E., President, Compression Engineering Corporation', 'https://www.airbestpractices.com/system-assessments/compressor-controls/inlet-air-temperature-impacts-air-compressor-performance', 'Inlet Air Temperature Impacts on Air Compressor Performance', 1, '2020-07-03 00:24:40'),
+(122, 22, 1813, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, '2020-07-03 00:24:40'),
+(123, 22, 1814, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, '2020-07-03 00:24:40'),
+(124, 38, 1828, 101, 0, 0, 11, 'Tune the boiler regularly', '', '', 0, '2020-07-03 00:26:01'),
+(125, 38, 1829, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, '2020-07-03 00:26:01'),
+(126, 38, 1830, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, '2020-07-03 00:26:01'),
+(127, 38, 1831, 101, 0, 1, 15, 'Firing rate over time', '', '', 0, '2020-07-03 00:26:01'),
+(128, 38, 1832, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, '2020-07-03 00:26:01'),
+(129, 38, 1833, 101, 0, 0, 11, 'Install O2 Controls to maintain optimum combustion efficiency throughout the operating range', '', '', 0, '2020-07-03 00:26:01'),
+(130, 38, 1834, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, '2020-07-03 00:26:01'),
+(131, 38, 1835, 101, 0, 0, 11, 'Clean heat exchanger surfaces and reduce the exhaust temperature', '', '', 0, '2020-07-03 00:26:01'),
+(132, 38, 1836, 101, 0, 1, 10, 'Stack temperature exceeds steam temperature by over 150 ˚F', '', '', 0, '2020-07-03 00:26:01'),
+(133, 38, 1837, 101, 0, 1, 12, 'Clean the fire side. Soot can accumulate and inhibit heat transfer.', '', '', 0, '2020-07-03 00:26:01'),
+(134, 38, 1838, 101, 0, 1, 12, 'Clean the water side. Scale can accumulate and inhibit heat transfer is the water chemistry is off', '', '', 0, '2020-07-03 00:26:01'),
+(135, 38, 1839, 101, 0, 0, 11, 'Install an economizer (for Matt to flesh out)', '', '', 0, '2020-07-03 00:26:01'),
+(136, 38, 1840, 101, 0, 0, 11, 'Install a condensing economizer (for Matt to flesh out)', '', '', 0, '2020-07-03 00:26:01'),
+(137, 48, 1877, 120, 0, 0, 11, 'Correct Power Factor (for Ethan to flesh out)', '', '', 0, '2020-07-03 00:28:39'),
+(138, 48, 1878, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, '2020-07-03 00:28:39'),
+(139, 37, 1897, 100, 0, 0, 24, 'See steam tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-08-10 17:50:55'),
+(140, 37, 1898, 100, 0, 0, 17, 'United Nations Industrial Development Organization Document', 'https://www.unido.org/sites/default/files/2017-11/SSO-Manual-Print-FINAL-20161109-One-Page-V2.pdf', 'Manual for Industrial Steam Systems Assessment and Optimization', 1, '2020-07-03 03:01:04'),
+(141, 37, 1899, 100, 0, 0, 17, 'CleaverBrooks Document', 'http://cleaverbrooks.com/reference-center/insights/Boiler%20Efficiency%20Guide.pdf', 'Boiler Efficiency Guide', 1, '2020-07-28 05:08:05'),
+(142, 37, 1900, 100, 0, 0, 25, 'Pacific NW Boiler Vendor', 'https://coleindust.com/', 'Cole Industrial', 1, '2020-07-03 03:01:04'),
+(143, 37, 1901, 100, 0, 0, 25, 'Pacific NW Boiler Vendor', 'https://www.nationwideboiler.com/pacific-combustion-engineering.html', 'Pacific Combustion Engineering', 1, '2020-07-03 03:01:04'),
+(144, 37, 1902, 100, 0, 0, 25, 'Boiler Manufacturer', 'http://cleaverbrooks.com/', 'CleaverBrooks', 1, '2020-07-03 03:01:04'),
+(145, 44, 1968, 107, 0, 0, 11, 'Replace standard efficiency motors with NEMA premium efficiency motors', '', '', 0, '2020-07-03 03:12:11'),
+(146, 44, 1969, 107, 0, 1, 10, 'Standard efficiency motors used in high energy consumer applications ', '', '', 0, '2020-07-03 03:12:11'),
+(147, 44, 1970, 107, 0, 0, 11, 'Replace oversized motors', '', '', 0, '2020-07-03 03:12:11'),
+(148, 44, 1971, 107, 0, 1, 10, 'Motor consistently operating at less than half of full load', '', '', 0, '2020-07-03 03:12:11'),
+(149, 44, 1972, 107, 0, 0, 11, 'Replace Standard V-Belts with Notched V-Belts', '', '', 0, '2020-07-03 03:12:11'),
+(150, 44, 1973, 107, 0, 1, 13, 'Notched V-belts have grooves perpendicular to the length of the belt to reduce bending resistance. ', '', '', 0, '2020-07-03 03:12:11'),
+(151, 44, 1974, 107, 0, 1, 10, 'Numerous belt-driven motors are used throughout a facility ', '', '', 0, '2020-07-03 03:12:11'),
+(152, 44, 1975, 107, 0, 1, 3, 'Notched V-belts are approximately 2% more efficient than standard belts. The OSU EEC uses 1.5% as a conservative estimate.', '', '', 0, '2020-07-03 03:12:11'),
+(153, 44, 1976, 107, 0, 1, 14, 'Are V-belts or synchronous belts more suited to the application?', '', '', 0, '2020-07-03 03:12:11'),
+(154, 44, 1977, 107, 0, 1, 1, 'Run cooler, last longer, and are more efficient than standard V-belts', '', '', 0, '2020-07-03 03:12:11'),
+(155, 44, 1978, 107, 0, 1, 1, 'Don\'t require retrofits if standard V-belts are already used', '', '', 0, '2020-07-03 03:12:11'),
+(156, 44, 1979, 107, 0, 1, 1, 'More suitable than synchronous drives if vibrational damping is needed or the application causes sudden torque changes', '', '', 0, '2020-07-03 03:12:11'),
+(157, 44, 1980, 107, 0, 1, 2, 'Sharp efficiency reduction at high torque due to increased slippage', '', '', 0, '2020-07-03 03:12:11'),
+(158, 44, 1981, 107, 0, 1, 2, 'Like standard V-belts, notched belts degrade in efficiency over time if not properly maintained', '', '', 0, '2020-07-03 03:12:11'),
+(159, 44, 1982, 107, 0, 1, 2, 'V-belts may perform worse in dirty environments than synchronous belts', '', '', 0, '2020-07-03 03:12:11'),
+(160, 44, 1983, 107, 0, 1, 12, 'Incrementally install notched V-belts as old belts are replaced.', '', '', 0, '2020-07-03 03:12:11'),
+(161, 44, 1984, 107, 0, 1, 7, 'Regular scheduled maintenance and re-tensioning ', '', '', 0, '2020-07-03 03:12:11'),
+(162, 44, 1985, 107, 0, 1, 20, '', 'https://drive.google.com/file/d/1uk3x2VpKQ9FrRUOvU4nQ9U2zHfQsBXGC/view?usp=sharing', 'Thermal Image of Notched vs Standard V-belt', 0, '2020-07-03 03:12:11'),
+(163, 44, 1986, 107, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://drive.google.com/file/d/19tm7mcwn9jYIj_xDkJ7Ki9buPw0gc2Kl/view?usp=sharing', 'Install Notched V-Belts Template', 0, '2020-07-03 03:12:11'),
+(164, 44, 1987, 107, 0, 0, 11, 'Replace V-Belt Drives with Synchronous Belt Drives ', '', '', 0, '2020-07-03 03:12:11'),
+(165, 44, 1988, 107, 0, 1, 13, 'Synchronous drives use toothed belts and mated grooved sprockets to transfer power rather than friction. Synchronous belt drives operate more efficient and require less maintenance than V-belt drives.', '', '', 0, '2020-07-03 03:12:11'),
+(166, 44, 1989, 107, 0, 1, 10, 'Numerous belt-driven motors are used throughout a facility ', '', '', 0, '2020-07-03 03:12:11'),
+(167, 44, 1990, 107, 0, 1, 3, 'Synchronous drives consistently operate with 98% efficiency', '', '', 0, '2020-07-03 03:12:11'),
+(168, 44, 1991, 107, 0, 1, 14, 'Are V-belts or synchronous belts more suited to the application?', '', '', 0, '2020-07-03 03:12:11'),
+(169, 44, 1992, 107, 0, 1, 1, 'Maintain efficiency over a wide load range', '', '', 0, '2020-07-03 03:12:11'),
+(170, 44, 1993, 107, 0, 1, 1, 'Work well in oily and wet environments', '', '', 0, '2020-07-03 03:12:11'),
+(171, 44, 1994, 107, 0, 1, 1, 'Require minimal maintenance and re-tensioning ', '', '', 0, '2020-07-03 03:12:11'),
+(172, 44, 1995, 107, 0, 1, 2, 'Require installation of mating grooved sprockets', '', '', 0, '2020-07-03 03:12:11'),
+(173, 44, 1996, 107, 0, 1, 2, 'Noisier and transfer more vibration than V-belts', '', '', 0, '2020-07-03 03:12:11'),
+(174, 44, 1997, 107, 0, 1, 2, 'Vulnerable to sudden torque changes that can shear the belt\'s teeth', '', '', 0, '2020-07-03 03:12:11'),
+(175, 44, 1998, 107, 0, 1, 12, 'Consider consulting a power transmission specialist to determine viability and savings potential from retrofitting V-belt drives with synchronous belts. Install notched belts where synchronous are not cost effective.', '', '', 0, '2020-07-03 03:12:11'),
+(176, 46, 1999, 118, 0, 0, 11, 'Use variable frequency drives where appropriate', '', '', 0, '2020-07-03 03:15:14'),
+(177, 46, 2000, 118, 0, 1, 10, 'Large motors that are throttle controlled', '', '', 0, '2020-07-03 03:15:14'),
+(178, 43, 2096, 106, 0, 0, 11, 'Insulate steam lines', '', '', 0, '2020-07-03 17:30:31'),
+(179, 43, 2097, 106, 0, 0, 11, 'Insulate valves and fittings', '', '', 0, '2020-07-03 17:30:31'),
+(180, 43, 2098, 106, 0, 0, 11, 'Insulate condensate lines', '', '', 0, '2020-07-03 17:30:31'),
+(181, 43, 2099, 106, 0, 0, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://drive.google.com/file/d/1Et50Qc77pWtPkZcorKcPG_RSuK-Vc_lx/view?usp=sharing', 'Insulation Template', 0, '2020-07-03 17:30:31'),
+(182, 43, 2100, 106, 0, 0, 21, 'North American Insulation Manufacturers Association Software Download', 'https://insulationinstitute.org/tools-resources/free-3e-plus/?cn-reloaded=1', 'NAIMA 3E Plus Insulation Tool', 1, '2020-07-03 17:30:31'),
+(183, 36, 2115, 99, 0, 0, 22, 'An OSU EEC Google Slideshow', 'https://docs.google.com/presentation/d/1A-bLNUv7hCuBV2zMsS0A4JEKPNVxaKnIwUMoVZCFr2w/edit?usp=sharing', 'Steam Systems', 0, '2020-07-03 17:55:50'),
+(184, 36, 2116, 99, 0, 0, 17, 'An OSU EEC Appendix in Microsoft Word Format', 'https://drive.google.com/file/d/1Jh6CaIDd6ugCo6FYqviyVK-O49ic_275/view?usp=sharing', 'Combustion Appendix', 0, '2020-07-03 17:55:50'),
+(185, 32, 2117, 95, 0, 0, 15, 'Boiler Nameplate Data: Rated Capacity', '', '', 0, '2020-07-03 17:57:24'),
+(186, 32, 2118, 95, 0, 0, 15, 'Combustion Analysis: Excess O2, Stack Temperature, Inlet / Ambient Temperature ', '', '', 0, '2020-07-03 17:57:24'),
+(187, 32, 2119, 95, 0, 0, 15, 'Capacity over time', '', '', 0, '2020-07-03 17:57:24'),
+(188, 14, 2120, 66, 0, 0, 15, 'Pharetra massa massa ultricies mi quis hendrerit dolor.', '', '', 0, '2020-07-07 01:57:28'),
+(189, 14, 2121, 66, 0, 0, 11, 'Vitae semper quis lectus nulla.', '', '', 0, '2020-07-07 01:57:28'),
+(190, 14, 2122, 66, 0, 0, 11, 'Lectus mauris ultrices eros in cursus.', '', '', 0, '2020-07-07 01:57:28'),
+(191, 49, 2123, 121, 0, 0, 11, 'Check', '', '', 0, '2020-07-07 02:04:39'),
+(192, 49, 2124, 121, 0, 0, 13, 'text text text', '', '', 0, '2020-07-07 02:04:39'),
+(193, 9, 2125, 27, 0, 0, 13, 'Energy savings associated with reductions in compressed air use are very dependent on the compressor control strategy. In the worst case, a compressor with blow off control might not yield any energy savings with compressed air use reductions, and one with inlet modulation might yield only a small part of potential savings.', '', '', 0, '2020-07-07 16:17:13'),
+(194, 9, 2126, 27, 0, 0, 11, 'Reduce compressed air leaks', '', '', 0, '2020-07-07 16:17:13'),
+(195, 9, 2127, 27, 0, 1, 13, 'Compressed air is an expensive utility, but leaks can go uncorrected as they do not make a mess.', '', '', 0, '2020-07-07 16:17:13'),
+(196, 9, 2128, 27, 0, 1, 10, 'The compressed air leak rate exceeds 20 to 30% of air used in the process.', '', '', 0, '2020-07-07 16:17:13'),
+(197, 9, 2129, 27, 0, 1, 8, 'Determine the leak load by checking compressor output when there is no productive use (typically during breaks or after hours.)', '', '', 0, '2020-07-07 16:17:13'),
+(198, 9, 2130, 27, 0, 1, 8, 'Sonic equipment can be used to identify leak locations and estimate associated losses.', '', '', 0, '2020-07-07 16:17:13'),
+(199, 9, 2131, 27, 0, 1, 15, 'Air use during idle period (often inferred from datalog of power or amps over time)', '', '', 0, '2020-07-07 16:17:13'),
+(200, 9, 2132, 27, 0, 1, 15, 'Air use during production (often inferred from datalog of power or amps over time)', '', '', 0, '2020-07-07 16:17:13'),
+(201, 9, 2133, 27, 0, 1, 15, 'Compressor power over time', '', '', 0, '2020-07-07 16:17:13'),
+(202, 9, 2134, 27, 0, 1, 17, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'vhttps://drive.google.com/drive/u/0/folders/1pJoEFwdmULog_SRARRlqzFfzX5cpV6cI', 'Analysis Template: Repair Compressed Air Leaks ', 2, '2020-07-07 16:17:13'),
+(203, 9, 2135, 27, 0, 0, 11, 'Eliminate the use of compressed air “quick fixes” by correcting base issues', '', '', 0, '2020-07-07 16:17:13'),
+(204, 9, 2136, 27, 0, 1, 13, 'Compressed air is a handy utility that can be used for a temporary resolution of miscellaneous production issues, at the cost of expensive air use. Often these fixes persist without correction of the underlying issue.', '', '', 0, '2020-07-07 16:17:13'),
+(205, 9, 2137, 27, 0, 1, 10, 'Compressed air used as a temporary quick fix for applications such as cooling bearings, or moving lightweight items that are getting stuck on conveyor.', '', '', 0, '2020-07-07 16:17:13'),
+(206, 9, 2138, 27, 0, 0, 11, 'Use alternative to vortex coolers', '', '', 0, '2020-07-07 16:17:13'),
+(207, 9, 2139, 27, 0, 1, 13, 'Vortex coolers are an interesting technology that can take a compressed air inlet stream and yield two streams, one that is cold and one that is warm. They are sometimes used to cool electrical cabinets, but in many cases can be replaced with lower energy solutions such as air conditioning or simple fans.', '', '', 0, '2020-07-07 16:17:13'),
+(208, 9, 2140, 27, 0, 1, 10, 'Vortex cabinet cooler in use at a facility   ', '', '', 0, '2020-07-07 16:17:13'),
+(209, 9, 2141, 27, 0, 0, 11, 'Use engineered nozzles for compressed air blow-off applications', '', '', 0, '2020-07-07 16:17:13'),
+(210, 9, 2142, 27, 0, 1, 13, 'Engineered air nozzles can develop effective air flow with a smaller volume of compressed air by entraining atmospheric air in the air stream.', '', '', 0, '2020-07-07 16:17:13'),
+(211, 9, 2143, 27, 0, 1, 10, 'Compressed air blowing applications using simple open lines or apertures  ', '', '', 0, '2020-07-07 16:17:13'),
+(212, 9, 2144, 27, 0, 0, 11, 'Interlock compressed air delivery with equipment or application served.', '', '', 0, '2020-07-07 16:17:13'),
+(213, 9, 2145, 27, 0, 1, 13, 'Interlocking a compressed air valve to close when supported equipment is idle can eliminate significant unneeded air use. This can range from an entire packaging line to and isolated ink sprayer that blows air constantly while introducing ink to mark product periodically.', '', '', 0, '2020-07-07 16:17:13'),
+(214, 9, 2146, 27, 0, 1, 10, 'Idle equipment with active compressed air blowing applications or leaks ', '', '', 0, '2020-07-07 16:17:13'),
+(215, 9, 2147, 27, 0, 0, 11, 'Serve lower pressure end use with blower or fan', '', '', 0, '2020-07-07 16:17:13'),
+(216, 9, 2148, 27, 0, 1, 13, 'Compressed air is an energy intensive utility with significant heat of compression losses.  These losses can be avoided if the air is not pressurized significantly above that needed for the application. Fans and blowers can develop a like airflow with significantly less energy. ', '', '', 0, '2020-07-07 16:17:13'),
+(217, 9, 2149, 27, 0, 1, 10, 'Compressed air used for clearing material, blowing off water, agitating tanks of fluid, or any applications with compressed air regulated to a low pressure', '', '', 0, '2020-07-07 16:17:13'),
+(218, 9, 2150, 27, 0, 0, 11, 'Reduce the frequency or duration of intermittent air uses', '', '', 0, '2020-07-07 16:17:13'),
+(219, 9, 2151, 27, 0, 0, 11, 'Replace desiccant based air dryer with a refrigerated air dryer if air drying needs permit.', '', '', 0, '2020-07-07 16:17:13'),
+(220, 9, 2152, 27, 0, 0, 11, 'Use desiccant based air dryer with more efficient desiccant bed regeneration', '', '', 0, '2020-07-07 16:17:13'),
+(221, 9, 2153, 27, 0, 0, 11, 'Replace pneumatic hand tools with battery powered hand tools', '', '', 0, '2020-07-07 16:17:13'),
+(222, 50, 2242, 128, 0, 0, 11, 'w', '', '', 0, '2020-07-07 21:23:36'),
+(223, 50, 2243, 128, 0, 0, 2, 'w', '', '', 0, '2020-07-07 21:23:36'),
+(224, 47, 2261, 119, 0, 0, 11, 'Manually reduce equipment operation time', '', '', 0, '2020-07-07 23:38:14'),
+(225, 47, 2262, 119, 0, 0, 11, 'Automatically control equipment operation time', '', '', 0, '2020-07-07 23:38:14'),
+(226, 47, 2263, 119, 0, 0, 11, 'Interlock equipment with a related process', '', '', 0, '2020-07-07 23:38:14'),
+(227, 47, 2264, 119, 0, 0, 11, 'Operate equipment in batches rather than continuously ', '', '', 0, '2020-07-07 23:38:14'),
+(228, 47, 2265, 119, 0, 1, 10, 'Equipment is idle for significant periods of time', '', '', 0, '2020-07-07 23:38:14'),
+(229, 33, 2267, 96, 0, 0, 27, 'Combustion Analyzer ', '', '', 0, '2020-07-08 20:15:53'),
+(230, 16, 2690, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-boards-on-furniture-industry-600w-439702138.jpg', 'Plywood A', 0, '2020-07-23 09:53:26'),
+(231, 16, 2691, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/high-resolution-plywood-board-wall-600w-1054866629.jpg', 'Plywood B', 0, '2020-07-23 09:53:26'),
+(232, 16, 2692, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/closeup-plywood-sheets-600w-737467363.jpg', 'Plywood C', 0, '2020-07-23 09:53:26'),
+(233, 16, 2693, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-industry-construction-parts-cuttings-600w-1236143197.jpg', 'Plywood D', 0, '2020-07-23 09:53:26'),
+(234, 16, 2694, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/warehouse-fiberboard-chipboard-construction-materials-600w-1035511318.jpg', 'Plywood E', 0, '2020-07-23 09:53:26'),
+(235, 16, 2695, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-residential-building-materials-600w-1005863455.jpg', 'Plywood F', 0, '2020-07-23 09:53:26'),
+(236, 52, 2704, 147, 0, 0, 4, '33', '', '', 0, '2020-07-28 08:34:31'),
+(237, 52, 2705, 147, 0, 0, 4, '33', '', '', 0, '2020-07-28 08:34:31'),
+(238, 53, 2706, 148, 0, 0, 16, '1', '', '', 0, '2020-07-28 08:35:42'),
+(239, 53, 2707, 148, 0, 0, 16, '1', '', '', 0, '2020-07-28 08:35:42'),
+(240, 53, 2708, 148, 0, 0, 16, '1', '', '', 0, '2020-07-28 08:35:42'),
+(241, 51, 2715, 145, 0, 0, 7, '11', '', '', 0, '2020-07-28 20:16:13'),
+(242, 51, 2716, 145, 0, 0, 27, '111', '', '', 0, '2020-07-28 20:16:13'),
+(243, 51, 2717, 145, 0, 0, 25, 'NEW', 'http://placekitten.com/200/200', 'NEW', 1, '2020-08-11 08:57:51'),
+(244, 54, 3033, 151, 0, 0, 1, 'Cras posuere lacus id pharetra finibus.', '', '', 0, '2020-08-04 10:57:12'),
+(245, 54, 3034, 151, 0, 0, 1, 'Cras in turpis maximus, porttitor urna id, luctus turpis.', '', '', 0, '2020-08-04 10:57:12'),
+(246, 54, 3035, 151, 0, 1, 14, 'Maecenas varius justo vel felis luctus, non consequat erat sollicitudin.', '', '', 0, '2020-08-04 10:57:12'),
+(247, 54, 3036, 151, 0, 1, 14, 'Phasellus sagittis lectus at nulla pretium efficitur.', '', '', 0, '2020-08-04 10:57:12'),
+(248, 54, 3037, 151, 0, 0, 17, 'Aliquam commodo tellus vitae lacus', 'https://www.lipsum.com/feed/html', 'Lorem Ipsum', 1, '2020-08-04 10:57:12'),
+(249, 54, 3038, 151, 0, 0, 3, 'Praesent rhoncus auctor elementum.', '', '', 1, '2020-08-04 10:57:12'),
+(250, 54, 3039, 151, 0, 0, 8, 'Proin ac finibus dui.', '', '', 0, '2020-08-04 10:57:12'),
+(251, 55, 3060, 152, 0, 0, 20, '', 'http://placekitten.com/100/300', 'Cat 1', 0, '2020-08-04 11:00:16'),
+(252, 55, 3061, 152, 0, 0, 20, '', 'http://placekitten.com/200/200', 'Cat 2', 0, '2020-08-04 11:00:16'),
+(253, 55, 3062, 152, 0, 0, 20, '', 'http://placekitten.com/150/250', 'Cat 3', 0, '2020-08-04 11:00:16'),
+(254, 55, 3063, 152, 0, 0, 20, '', 'http://placekitten.com/250/150', 'Cat 4', 0, '2020-08-04 11:00:16'),
+(255, 60, 3429, 157, 0, 0, 26, 'Develop a table of significant energy using equipment including collected rated capacity, estimated % of full capacity, and hours of operation', '', '', 0, '2020-08-05 23:14:02'),
+(256, 60, 3430, 157, 0, 1, 12, 'Calculate an initial estimate of annual energy used by each piece of equipment', '', '', 0, '2020-08-05 23:14:02'),
+(257, 60, 3431, 157, 0, 1, 12, 'Develop a pie chart showing % of total site energy each modeled equipment item uses, and remaining unidentified energy use.', '', '', 0, '2020-08-05 23:14:02'),
+(258, 60, 3432, 157, 0, 2, 14, 'Does the total modeled energy exceed the actual energy in the bills?. (If so revise the model.) ', '', '', 0, '2020-08-05 23:14:02'),
+(259, 60, 3433, 157, 0, 1, 12, 'Plan to continually revise and improve this balance over the process of the remote assessment.', '', '', 0, '2020-08-05 23:14:02'),
+(260, 60, 3434, 157, 0, 2, 14, 'Does more equipment come up that can be added?', '', '', 0, '2020-08-05 23:14:02'),
+(261, 60, 3435, 157, 0, 2, 14, 'Does better data become available on any modeled equipment to improve its annual energy use estimate??', '', '', 0, '2020-08-05 23:14:02'),
+(262, 56, 3527, 153, 0, 0, 12, 'Not a checkbox', '', '', 0, '2020-08-06 10:42:16'),
+(263, 56, 3528, 153, 0, 0, 11, 'Checkbox', '', '', 0, '2020-08-06 10:42:16'),
+(264, 56, 3529, 153, 0, 1, 7, 'item 1', '', '', 0, '2020-08-06 10:42:16'),
+(265, 56, 3530, 153, 0, 1, 4, 'item 2', '', '', 0, '2020-08-06 10:42:16'),
+(266, 56, 3531, 153, 0, 0, 16, 'item 3', '', '', 0, '2020-08-06 10:42:16'),
+(267, 63, 3894, 162, 0, 0, 13, 'This is a requirement for U.S.DOE to accept our remote assessment as a deliverable on our contract. It might be done in one session or iteratively in multiple sessions.', '', '', 0, '2020-08-06 22:36:25'),
+(268, 63, 3895, 162, 0, 0, 26, 'Begin with a review of preparatory work including the intitial energy balance, and list of possible opportunities.', '', '', 0, '2020-08-06 22:36:25'),
+(269, 63, 3896, 162, 0, 0, 26, 'Discuss the best strategy to use for a Guided Remote Tour. This might be a standard tour of the process from start to finish, or a series of targeted tours of areas of specific interest. ', '', '', 0, '2020-08-06 22:36:25'),
+(270, 61, 4030, 158, 0, 0, 26, 'Review any areas of concern or interest voiced by the client', '', '', 0, '2020-08-06 23:09:57'),
+(271, 61, 4031, 158, 0, 0, 26, 'Review typical opportunities found in the energy intensive systems identified at the facility ', '', '', 0, '2020-08-06 23:09:57'),
+(272, 61, 4032, 158, 0, 1, 8, 'This Industrial Walkthrough Checklist & Reference will offer more and more ideas for potential opportunities as it is developed over time', '', '', 0, '2020-08-06 23:09:57'),
+(273, 61, 4033, 158, 0, 0, 26, 'Review the list of typical opportunities found in the site\'s industrial sector developed in Preliminary Research', '', '', 0, '2020-08-06 23:09:57'),
+(274, 61, 4034, 158, 0, 0, 26, 'Pick the brain of anyone with experience in the subject', '', '', 0, '2020-08-06 23:09:57'),
+(275, 61, 4035, 158, 0, 0, 26, 'Brainstorm on opportunities as a team and compile a list', '', '', 0, '2020-08-06 23:09:57'),
+(276, 61, 4036, 158, 0, 0, 26, 'Develop a table of potential recommendations, and if possible: total energy used by the system related to each opportunity, a high/low estimate of potential % savings,  and the range of potential cost and energy savings potential.', '', '', 0, '2020-08-06 23:09:57'),
+(277, 57, 4092, 154, 0, 0, 26, 'Check the estimated annual energy cost for each utility', '', '', 0, '2020-08-06 23:31:26'),
+(278, 57, 4093, 154, 0, 1, 14, 'Is the total annual energy cost suitable for an IAC Assessment? ', '', '', 0, '2020-08-06 23:31:26'),
+(279, 57, 4094, 154, 0, 2, 3, '$100,000 a year is the minimum but ideally costs will exceed $200,000  - $300,000 a year. ', '', '', 0, '2020-08-06 23:31:26'),
+(280, 57, 4095, 154, 0, 2, 3, 'If annual cost exceeds $2.5 Million, Field Manager / U.S.DOE permission must be obtained to visit. ', '', '', 0, '2020-08-06 23:31:26'),
+(281, 57, 4096, 154, 0, 0, 26, 'Accumulate / analyze annual month by month utility bills. ', '', '', 0, '2020-08-06 23:31:26'),
+(282, 57, 4097, 154, 0, 1, 12, 'Identify any seasonality to bills.', '', '', 0, '2020-08-06 23:31:26'),
+(283, 57, 4098, 154, 0, 1, 12, 'Determine incremental costs (Potential savings with each unit of resource saved )', '', '', 0, '2020-08-06 23:31:26'),
+(284, 57, 4099, 154, 0, 1, 12, 'Understand special costs: Electrical Demand and Power Factor cost, meter costs, ...', '', '', 0, '2020-08-06 23:31:26'),
+(285, 57, 4100, 154, 0, 1, 12, 'Confirm estimated annual costs ', '', '', 0, '2020-08-06 23:31:26'),
+(286, 57, 4101, 154, 0, 0, 26, 'Ensure all personnel information provided is entered into the OSU IAC Project Management DB', '', '', 0, '2020-08-06 23:31:26'),
+(287, 57, 4102, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, '2020-08-06 23:31:26'),
+(288, 57, 4103, 154, 0, 0, 14, '(If the client has given permission, consider how to engage utility representatives (and regional incentive and assistance programs such as  ETO or ESI  in the remote assessment process)?', '', '', 0, '2020-08-06 23:31:26'),
+(289, 59, 4111, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, '2020-08-06 23:34:20'),
+(290, 59, 4112, 156, 0, 0, 26, 'Have the client verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, '2020-08-06 23:34:20'),
+(291, 59, 4113, 156, 0, 1, 14, 'Ask client to let us know of any areas of concern or interest', '', '', 0, '2020-08-06 23:34:20'),
+(292, 59, 4114, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, '2020-08-06 23:34:20'),
+(293, 59, 4115, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, '2020-08-06 23:34:20'),
+(294, 59, 4116, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, '2020-08-06 23:34:20'),
+(295, 59, 4117, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, '2020-08-06 23:34:20'),
+(296, 62, 4137, 161, 0, 0, 26, 'Review the client\'s web site', '', '', 0, '2020-08-06 23:47:48'),
+(297, 62, 4138, 161, 0, 0, 26, 'Develop a list of typical opportunities found in the site\'s industrial sector. BE SURE to add any newly identified opportunities to this site!', '', '', 0, '2020-08-06 23:47:48'),
+(298, 62, 4139, 161, 0, 1, 8, ' The IAC University Database allows you to search for common recommendations made by SIC or NAICS code ', '', '', 0, '2020-08-06 23:47:48'),
+(299, 62, 4140, 161, 0, 2, 24, '$empty', 'https://iac.university/searchRecommendations', 'IAC University: Search IAC Recommendations', 1, '2020-08-06 23:47:48'),
+(300, 62, 4141, 161, 0, 2, 1, 'The IAC University Database also allows you to search for the top 10 recommendations, the number of assessments and results by industry grouping. Note: one useful search field under assessments: \"Product Type\" can help find similar assessments.', '', '', 0, '2020-08-06 23:47:48'),
+(301, 62, 4142, 161, 0, 1, 8, 'Search the OSU IAC Project Management Database to see what we have recommended in the past at similar sites. Note: the search box in the upper right corner is a useful tool for this.', '', '', 0, '2020-08-06 23:47:48'),
+(302, 62, 4143, 161, 0, 2, 24, '$empty', 'https://eec.oregonstate.edu/tracking2/modules/login/login.php', 'EEC Project Management', 0, '2020-08-06 23:47:48'),
+(303, 62, 4144, 161, 0, 1, 8, 'General internet and literature research can surface new opportunities to consider.  BE SURE to add any newly identified resources to this site!', '', '', 0, '2020-08-06 23:47:48'),
+(304, 62, 4145, 161, 0, 2, 1, 'U.S.DOE, Vendor, Other IAC, State Energy Office, and Industrial Association web sites are all among good places to search for resources.', '', '', 0, '2020-08-06 23:47:48'),
+(305, 58, 4146, 155, 0, 0, 26, 'Initiate a conversation with potential clients in follow up to industry requests, partner references, or direct contact.', '', '', 0, '2020-08-06 23:50:17'),
+(306, 58, 4147, 155, 0, 0, 26, 'Confirm suitability of the site and client for a remote IAC assessment', '', '', 0, '2020-08-06 23:50:17'),
+(307, 58, 4148, 155, 0, 1, 12, 'Let clients know of key IAC eligibility criteria (Annual Energy Cost between $100K and $2.5 Mil, less than 500 employees,...) ', '', '', 0, '2020-08-06 23:50:17'),
+(308, 58, 4149, 155, 0, 1, 14, 'Make sure clients are prepared for the effort required for a remote assessment (we are still learning what this is)', '', '', 0, '2020-08-06 23:50:17'),
+(309, 58, 4150, 155, 0, 1, 14, 'Ensure someone at the site can \"walk us through\" or at least go to targeted locations while with us on the phone to ask questions, perhaps get pictures or videos, and really dig into details. (This step is important for our contract with U.S.DOE)', '', '', 0, '2020-08-06 23:50:17'),
+(310, 58, 4151, 155, 0, 0, 26, 'Send the standard OSU Pre-Assessment Package to appropriate clients ', '', '', 0, '2020-08-06 23:50:17'),
+(311, 58, 4152, 155, 0, 1, 17, '$empty', 'https://docs.google.com/document/d/1miAvxrMxVcEeQe1REf-4EH2OiDF32zTjGluq4hoZnMU/edit', 'Pre_Assessment Package Template', 0, '2020-08-06 23:50:17');
+
 -- --------------------------------------------------------
 
 --
@@ -331,6 +743,17 @@ CREATE TABLE `History_Pages` (
   `internal` tinyint(3) UNSIGNED NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `History_Pages`
+--
+
+INSERT INTO `History_Pages` (`historyId`, `pageId`, `pageType`, `name`, `title`, `description`, `imageUrl`, `internal`, `created`) VALUES
+(1, 2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/images/air.png', 0, '2020-07-23 10:01:49'),
+(2, 3, 2, 'z - testing: more stuff', 'Refrigeration is the process of cooling a space, substance, or system to lower and/or maintain its temperature below the ambient one (while the removed heat is rejected at a higher temperature).', 'Refrigeration has had a large impact on industry, lifestyle, agriculture, and settlement patterns. The idea of preserving food dates back to at least the ancient Roman and Chinese empires. However, mechanical refrigeration technology has rapidly evolved in the last century, from ice harvesting to temperature-controlled rail cars. The introduction of refrigerated rail cars contributed to the westward expansion of the United States, allowing settlement in areas that were not on main transport channels such as rivers, harbors, or valley trails. Settlements were also developing in infertile parts of the country, filled with newly discovered natural resources.  These new settlement patterns sparked the building of large cities which are able to thrive in areas that were otherwise thought to be inhospitable, such as Houston, Texas, and Las Vegas, Nevada.', '/images/refrigeration.png', 1, '2020-07-23 10:02:38'),
+(3, 46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, '2020-07-02 19:39:56'),
+(4, 53, 4, 'z - test Demo', 'Basic Testing Page', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tincidunt tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, vel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nCurabitur cursus arcu elit, ut scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est accumsan blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Phasellus at dolor condimentum odio lobortis facilisis. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/500/500', 1, '2020-08-04 10:53:03'),
+(5, 54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, '2020-08-05 19:54:53');
 
 -- --------------------------------------------------------
 
@@ -550,7 +973,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (1350, 93, 0, 0, 7, 'Regular, scheduled boiler tunes. Typically every 6 to 12 months.', '', '', 0, '2020-07-02 20:12:22', 1),
 (1351, 93, 0, 0, 7, 'Low O2 controls', '', '', 0, '2020-07-02 20:12:22', 1),
 (1361, 97, 0, 0, 17, 'An OSU EEC Data Collection Sheet in Microsoft Excel Format', 'https://drive.google.com/file/d/1mMRMAUYKDCpE5bQmX-KqajjAOwXuEzaL/view?usp=sharing', 'Boiler Data Collection Sheet', 0, '2020-07-02 20:46:30', 1),
-(1371, 98, 0, 0, 21, 'A link to the U.S.DOE\'s MEASUR Analysis Tool Package (free download)', 'https://www.energy.gov/eere/amo/measur', 'U.S.DOE Steam System Analysis Tool', 1, '2020-07-28 05:03:10', 1),
+(1371, 98, 0, 0, 21, 'A link to the U.S.DOE\'s MEASUR Analysis Tool Package (free download)', 'https://www.energy.gov/eere/amo/measur', 'U.S.DOE Steam System Analysis Tool', 1, '2020-08-10 17:43:19', 1),
 (1372, 98, 0, 0, 21, 'An OSU EEC Analysis Tool in Microsoft Excel Format', 'https://drive.google.com/file/d/1HEL3S8xl50-B12ooH4wocqUznwJWAjzQ/view?usp=sharing', 'Combustion Efficiency Analysis Tool (CEAT)', 0, '2020-07-02 21:18:17', 1),
 (1405, 94, 0, 0, 20, '', 'add later', 'Boiler Combustion Efficiency with Stack Temp and O2 (add later)', 0, '2020-07-02 21:55:22', 0),
 (1406, 94, 0, 0, 20, '', 'add later', 'Abbreviated Steam Table (add later)', 0, '2020-07-02 21:55:22', 0),
@@ -602,7 +1025,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (1840, 101, 0, 0, 11, 'Install a condensing economizer (for Matt to flesh out)', '', '', 0, '2020-07-03 00:26:01', 1),
 (1877, 120, 0, 0, 11, 'Correct Power Factor (for Ethan to flesh out)', '', '', 0, '2020-07-03 00:28:39', 1),
 (1878, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, '2020-07-03 00:28:39', 1),
-(1897, 100, 0, 0, 24, 'See steam tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-07-03 03:01:04', 1),
+(1897, 100, 0, 0, 24, 'See steam tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-08-10 17:50:55', 1),
 (1898, 100, 0, 0, 17, 'United Nations Industrial Development Organization Document', 'https://www.unido.org/sites/default/files/2017-11/SSO-Manual-Print-FINAL-20161109-One-Page-V2.pdf', 'Manual for Industrial Steam Systems Assessment and Optimization', 1, '2020-07-03 03:01:04', 1),
 (1899, 100, 0, 0, 17, 'CleaverBrooks Document', 'http://cleaverbrooks.com/reference-center/insights/Boiler%20Efficiency%20Guide.pdf', 'Boiler Efficiency Guide', 1, '2020-07-28 05:08:05', 1),
 (1900, 100, 0, 0, 25, 'Pacific NW Boiler Vendor', 'https://coleindust.com/', 'Cole Industrial', 1, '2020-07-03 03:01:04', 1),
@@ -743,19 +1166,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2275, 113, 0, 0, 27, 'Power Quality Analyzer ', '', '', 0, '2020-07-08 22:29:50', 0),
 (2309, 120, 0, 0, 11, 'Correct Power Factor (Ethan)', '', '', 0, '2020-07-10 18:53:01', 0),
 (2310, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, '2020-07-10 18:53:01', 0),
-(2311, 101, 0, 0, 11, 'Tune the boiler regularly', '', '', 0, '2020-07-10 18:53:47', 0),
-(2312, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, '2020-07-10 18:53:47', 0),
-(2313, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, '2020-07-10 18:53:47', 0),
-(2314, 101, 0, 1, 15, 'Firing rate over time', '', '', 0, '2020-07-10 18:53:47', 0),
-(2315, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, '2020-07-10 18:53:47', 0),
-(2316, 101, 0, 0, 11, 'Install O2 Controls to maintain optimum combustion efficiency throughout the operating range', '', '', 0, '2020-07-10 18:53:47', 0),
-(2317, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, '2020-07-10 18:53:47', 0),
-(2318, 101, 0, 0, 11, 'Clean heat exchanger surfaces and reduce the exhaust temperature', '', '', 0, '2020-07-10 18:53:47', 0),
-(2319, 101, 0, 1, 10, 'Stack temperature exceeds steam temperature by over 150 ˚F', '', '', 0, '2020-07-10 18:53:47', 0),
-(2320, 101, 0, 1, 12, 'Clean the fire side. Soot can accumulate and inhibit heat transfer.', '', '', 0, '2020-07-10 18:53:47', 0),
-(2321, 101, 0, 1, 12, 'Clean the water side. Scale can accumulate and inhibit heat transfer is the water chemistry is off', '', '', 0, '2020-07-10 18:53:47', 0),
-(2322, 101, 0, 0, 11, 'Install an economizer  (Matt)', '', '', 0, '2020-07-10 18:53:47', 0),
-(2323, 101, 0, 0, 11, 'Install a condensing economizer  (Matt)', '', '', 0, '2020-07-10 18:53:47', 0),
 (2324, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, '2020-07-10 18:54:00', 0),
 (2325, 105, 0, 0, 11, 'Recover Flash Steam (Chris) ', '', '', 0, '2020-07-10 18:54:00', 0),
 (2342, 80, 0, 0, 15, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.!!!!!', '', '', 0, '2020-07-14 07:42:37', 0),
@@ -782,8 +1192,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2691, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/high-resolution-plywood-board-wall-600w-1054866629.jpg', 'Plywood B', 0, '2020-07-23 09:53:26', 1),
 (2692, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/closeup-plywood-sheets-600w-737467363.jpg', 'Plywood C', 0, '2020-07-23 09:53:26', 1),
 (2693, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-industry-construction-parts-cuttings-600w-1236143197.jpg', 'Plywood D', 0, '2020-07-23 09:53:26', 1),
-(2694, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/warehouse-fiberboard-chipboard-construction-materials-600w-1035511318.jpg', 'Plywood E', 0, '2020-07-23 09:53:26', 1);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
+(2694, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/warehouse-fiberboard-chipboard-construction-materials-600w-1035511318.jpg', 'Plywood E', 0, '2020-07-23 09:53:26', 1),
 (2695, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-residential-building-materials-600w-1005863455.jpg', 'Plywood F', 0, '2020-07-23 09:53:26', 1),
 (2702, 146, 0, 0, 15, '22', '', '', 0, '2020-07-28 08:34:18', 0),
 (2703, 146, 0, 0, 15, '2222', '', '', 0, '2020-07-28 08:34:18', 0),
@@ -803,7 +1212,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2717, 145, 0, 0, 25, 'NEW', 'http://placekitten.com/200/200', 'NEW', 1, NULL, 1),
 (2955, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, '2020-07-30 02:31:10', 0),
 (2956, 77, 0, 1, 13, 'Reducing the inlet air temperature of oil-injected screw compressors increases mass flow rate while maintaining power input. To efficiently maintain current mass flow rate a variable frequency drive is required to reduce the motor speed and associated power.', '', '', 0, '2020-07-30 02:31:10', 0),
-(2957, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, '2020-07-30 02:31:10', 0),
+(2957, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, '2020-07-30 02:31:10', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
 (2958, 77, 0, 1, 10, 'Difficulty meeting a compressor\'s rated air capacity', '', '', 0, '2020-07-30 02:31:10', 0),
 (2959, 77, 0, 1, 10, 'A compressor running hotter than its specifications', '', '', 0, '2020-07-30 02:31:10', 0),
 (2960, 77, 0, 2, 8, 'Other factors may be at play such as significant air leaks increasing the load on the compressor', '', '', 0, '2020-07-30 02:31:10', 0),
@@ -999,7 +1409,66 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4149, 155, 0, 1, 14, 'Make sure clients are prepared for the effort required for a remote assessment (we are still learning what this is)', '', '', 0, '2020-08-06 23:50:17', 1),
 (4150, 155, 0, 1, 14, 'Ensure someone at the site can \"walk us through\" or at least go to targeted locations while with us on the phone to ask questions, perhaps get pictures or videos, and really dig into details. (This step is important for our contract with U.S.DOE)', '', '', 0, '2020-08-06 23:50:17', 1),
 (4151, 155, 0, 0, 26, 'Send the standard OSU Pre-Assessment Package to appropriate clients ', '', '', 0, '2020-08-06 23:50:17', 1),
-(4152, 155, 0, 1, 17, '$empty', 'https://docs.google.com/document/d/1miAvxrMxVcEeQe1REf-4EH2OiDF32zTjGluq4hoZnMU/edit', 'Pre_Assessment Package Template', 0, '2020-08-06 23:50:17', 1);
+(4152, 155, 0, 1, 17, '$empty', 'https://docs.google.com/document/d/1miAvxrMxVcEeQe1REf-4EH2OiDF32zTjGluq4hoZnMU/edit', 'Pre_Assessment Package Template', 0, '2020-08-06 23:50:17', 1),
+(4255, 101, 0, 0, 11, 'Tune the boiler regularly', '', '', 0, '2020-08-07 21:56:39', 0),
+(4256, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, '2020-08-07 21:56:39', 0),
+(4257, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, '2020-08-07 21:56:39', 0),
+(4258, 101, 0, 1, 15, 'Firing rate over time', '', '', 0, '2020-08-07 21:56:39', 0),
+(4259, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, '2020-08-07 21:56:39', 0),
+(4260, 101, 0, 0, 11, 'Install O2 Controls to maintain optimum combustion efficiency throughout the operating range', '', '', 0, '2020-08-07 21:56:39', 0),
+(4261, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, '2020-08-07 21:56:39', 0),
+(4262, 101, 0, 0, 11, 'Clean heat exchanger surfaces and reduce the exhaust temperature', '', '', 0, '2020-08-07 21:56:39', 0),
+(4263, 101, 0, 1, 10, 'Stack temperature exceeds steam temperature by over 150 ˚F', '', '', 0, '2020-08-07 21:56:39', 0),
+(4264, 101, 0, 1, 12, 'Clean the fire side. Soot can accumulate and inhibit heat transfer.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4265, 101, 0, 1, 12, 'Clean the water side. Scale can accumulate and inhibit heat transfer is the water chemistry is off', '', '', 0, '2020-08-07 21:56:39', 0),
+(4266, 101, 0, 0, 11, 'Install an economizer', '', '', 0, '2020-08-07 21:56:39', 0),
+(4267, 101, 0, 1, 10, 'Boilers rated at 100 BoHP or higher operating at greater than 75 psig.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4268, 101, 0, 1, 13, 'Economizers can be used to preheat incoming feedwater, reducing the energy required for boiling.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4269, 101, 0, 1, 3, 'Typically increases efficiency by around 2-4%.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4270, 101, 0, 1, 3, 'For every 40°F decrease in flue gas temperature there is a 1% increase in efficiency', '', '', 0, '2020-08-07 21:56:39', 0),
+(4271, 101, 0, 1, 3, 'Can often reduce fuel requirements by 10%', '', '', 0, '2020-08-07 21:56:39', 0),
+(4272, 101, 0, 1, 8, 'Best suited for boilers with flue gasses containing sulfur or other potentially acidic elements/compounds.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4273, 101, 0, 1, 4, 'Flue gasses containing sulphur must remain above dew point. Condensation of sulphuric acid can cause corrosion and damage the system.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4274, 101, 0, 1, 2, 'Cannot recover as much energy from the boiler stack as a condensing economizer.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4275, 101, 0, 1, 14, 'Does the boiler contain potentially acidic elements/compounds such as sulfur?', '', '', 0, '2020-08-07 21:56:39', 0),
+(4276, 101, 0, 1, 14, 'Would a condensing economizer be a better alternative?', '', '', 0, '2020-08-07 21:56:39', 0),
+(4277, 101, 0, 1, 14, 'Is there adequate space for an economizer?', '', '', 0, '2020-08-07 21:56:39', 0),
+(4278, 101, 0, 1, 14, 'What is the greatest temperature that the flue gasses can be reduced by without causing condensation?', '', '', 0, '2020-08-07 21:56:39', 0),
+(4279, 101, 0, 1, 27, 'Combustion analyzer', '', '', 0, '2020-08-07 21:56:39', 0),
+(4280, 101, 0, 1, 15, 'Flue gas temperature', '', '', 0, '2020-08-07 21:56:39', 0),
+(4281, 101, 0, 1, 15, 'Fuel used', '', '', 0, '2020-08-07 21:56:39', 0),
+(4282, 101, 0, 1, 15, 'Operating hours', '', '', 0, '2020-08-07 21:56:39', 0),
+(4283, 101, 0, 1, 15, 'Water mass flowrate', '', '', 0, '2020-08-07 21:56:39', 0),
+(4284, 101, 0, 1, 15, 'Water temperatures', '', '', 0, '2020-08-07 21:56:39', 0),
+(4285, 101, 0, 1, 15, 'Steam temperature and pressure', '', '', 0, '2020-08-07 21:56:39', 0),
+(4286, 101, 0, 1, 15, 'Boiler efficiency', '', '', 0, '2020-08-07 21:56:39', 0),
+(4287, 101, 0, 1, 17, 'Department of Energy tip sheet that provides an example case study of a boiler feedwater economizer being installed, as well as general considerations.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam3_recovery.pdf', 'Use Feedwater Economizers for Waste Heat Recovery', 1, '2020-08-07 21:56:39', 0),
+(4288, 101, 0, 0, 11, 'Install a condensing economizer', '', '', 0, '2020-08-07 21:56:39', 0),
+(4289, 101, 0, 1, 10, 'Boilers rate at 100 BoHP or higher operating at greater that 75 psig that do not user fuels with sulphurous products.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4290, 101, 0, 1, 3, 'Can increase efficiency by up to 10%', '', '', 0, '2020-08-07 21:56:39', 0),
+(4291, 101, 0, 1, 3, 'Can increase boiler efficiency to over 90%', '', '', 0, '2020-08-07 21:56:39', 0),
+(4292, 101, 0, 1, 1, 'Can recover more energy from the boiler stack by reducing flue gas temperature below dew point.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4293, 101, 0, 1, 2, 'Not recommended for use with fuels containing sulphur.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4294, 101, 0, 1, 2, 'The condensed water may be acidic, requiring treatment before being disharged to sewer systems.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4295, 101, 0, 1, 4, 'Fuels with sulphurous combustions can damage the boiler stack when condensing, creating sulphuric acid.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4296, 101, 0, 1, 4, 'Boiler stacks are prone to corrosion due to water condensation.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4297, 101, 0, 1, 14, 'Does the boiler\'s fuel contain potentially acidic elements/compounds such as sulfur?', '', '', 0, '2020-08-07 21:56:39', 0),
+(4298, 101, 0, 1, 14, 'What is the greatest temperature the flue gasses can be reduced by?', '', '', 0, '2020-08-07 21:56:39', 0),
+(4299, 101, 0, 1, 27, 'Combustion analyzer', '', '', 0, '2020-08-07 21:56:39', 0),
+(4300, 101, 0, 1, 15, 'Flue gas temperature', '', '', 0, '2020-08-07 21:56:39', 0),
+(4301, 101, 0, 1, 15, 'Flue gas composition', '', '', 0, '2020-08-07 21:56:39', 0),
+(4302, 101, 0, 1, 15, 'Fuel used', '', '', 0, '2020-08-07 21:56:39', 0),
+(4303, 101, 0, 1, 15, 'Operating hours', '', '', 0, '2020-08-07 21:56:39', 0),
+(4304, 101, 0, 1, 15, 'Water mass flowrate', '', '', 0, '2020-08-07 21:56:39', 0),
+(4305, 101, 0, 1, 15, 'Water temperatures', '', '', 0, '2020-08-07 21:56:39', 0),
+(4306, 101, 0, 1, 15, 'Steam temperature/pressure', '', '', 0, '2020-08-07 21:56:39', 0),
+(4307, 101, 0, 1, 15, 'Boiler efficiency', '', '', 0, '2020-08-07 21:56:39', 0),
+(4308, 101, 0, 1, 12, 'Complete a more in-depth study evaluating the benefits of a condensing economizer and how it may impact the water and how the boiler operates.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4309, 101, 0, 1, 12, 'Contact a vendor for more implementation details. Condensing economizers are custom made for each boiler.', '', '', 0, '2020-08-07 21:56:39', 0),
+(4310, 101, 0, 1, 24, 'This webpage lists the epcific heats and gas constants for different gasses. This is uesd for calculating the properties of the flue gasses.', 'https://www.engineeringtoolbox.com/specific-heat-capacity-gases-d_159.html', 'Specific Heat and Individual Gas Constant of Gases', 1, '2020-08-07 21:56:39', 0),
+(4311, 101, 0, 1, 17, 'Department of Energy tip sheet that explains how a condensing economizer works and how it saves energy, along with example scenarios', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26a_condensing.pdf', 'Consider Installing a Condensing Economizer', 1, '2020-08-07 21:56:39', 0),
+(4312, 101, 0, 1, 17, 'Department of Energy tip sheet that explains special considerations that need to be taken into account when choosing to do projects with condensing economizers.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26b_condensing.pdf', 'Considerations When Selecting a Condensing Economizer', 1, '2020-08-07 21:56:39', 0),
+(4313, 166, 0, 0, 10, 'Significant levels of work in progress (WIP) inventory immediately upstream of a workstation.', '', '', 0, '2020-08-10 21:04:25', 0);
 
 -- --------------------------------------------------------
 
@@ -1043,7 +1512,8 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, 51, '2020-08-05 19:54:53', 1),
 (55, 3, 'z-Test', 'nuthin', 'More nuthin', 'no url', 1, 51, '2020-08-06 18:54:54', 0),
 (56, 3, 'Combined Heat and Power', 'Combined Heat and Power allows sites to use the waste heat of electrical generation.', 'CHP', 'no image yet', 0, 51, '2020-08-07 00:33:29', 0),
-(57, 4, 'Optimize Facility Layout', 'Improve productivity through the location of departments and workstations and the workflow of personnel and materials.', 'Facility layout has a significant and often underestimated effect on the productivity of a facility. Movement of any form of work represents a non-value-added (NVA) process. Re-arranging the location of workstations and inventory to eliminate movement creates value in several forms. Most typically, fewer labor hours are spent moving materials, and sometimes energy is saved if operating hours of vehicles (e.g. forklifts or conveyors) are reduced. The most lucrative savings for the facility is increased productivity if delivery lead times between workstations are reduced, increasing utilization of the downstream workstation.', 'https://www.manexconsulting.com/wp-content/uploads/Layout-Optimization-Blog.jpg', 0, 62, '2020-08-07 19:21:05', 0);
+(57, 4, 'Optimize Facility Layout', 'Improve productivity through the location of departments and workstations and the workflow of personnel and materials.', 'Facility layout has a significant and often underestimated effect on the productivity of a facility. Movement of any form of work represents a non-value-added (NVA) process. Re-arranging the location of workstations and inventory to eliminate movement creates value in several forms. Most typically, fewer labor hours are spent moving materials, and sometimes energy is saved if operating hours of vehicles (e.g. forklifts or conveyors) are reduced. The most lucrative savings for the facility is increased productivity if delivery lead times between workstations are reduced, increasing utilization of the downstream workstation.', 'https://www.manexconsulting.com/wp-content/uploads/Layout-Optimization-Blog.jpg', 0, 62, '2020-08-07 19:21:05', 0),
+(58, 4, 'Queuing Line Optimization', 'The operation of queues and their respective workstations determine the overall production efficiency of a facility.', 'Optimizing the queuing system of a workstation has significant effects on product output. Little\'s law and queuing theory helps simplify any production system into a set of easy to estimate variables. While extensive research, data collection, and possibly simulation should be employed before making any change to a part of the production system, basic analysis can reveal opportunities for cost savings through increased productivity.', 'https://www.umav.org/wp-content/uploads/2019/04/Car-Assembly-Line.jpg', 0, 62, '2020-08-10 19:57:05', 0);
 
 -- --------------------------------------------------------
 
@@ -1092,7 +1562,7 @@ INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderI
 (77, 0, 'Improve Compressor Efficiency', 77, 58, '2020-07-14 18:58:25'),
 (80, 0, 'New Card', 47, 42, '2020-07-14 07:42:37'),
 (100, 0, 'Off Site Resource Links', 100, 51, '2020-07-03 17:55:16'),
-(101, 0, 'Improve Boiler Combustion Efficiency ', 101, 58, '2020-07-03 17:28:05'),
+(101, 0, 'Improve Boiler Combustion Efficiency', 101, 57, '2020-07-03 17:28:05'),
 (105, 0, 'Improve the Condensate System', 105, 58, '2020-07-10 18:54:00'),
 (106, 0, 'Reduce Heat Loss', 106, 51, '2020-07-03 17:31:09'),
 (120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52'),
@@ -1185,7 +1655,8 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (61, 'Chris_Houck', 'd4bb5e0bfd9c00be21e9e9d844ad7f57$367a89d5eeaf2274ff80b316f9aeda9f79acd192fc1f3717ff852b3cb29c6416', 'Chris', 'Houck', 'houckch.eec@gmail.com', 3, '2020-07-14 20:59:54'),
 (62, 'psukamto', 'bbd4de95486df84c2553cb4cabc1472a$d8d1b75623a7d7eb3b717020dc28b70ba1c9152992db10316e280aedb0f35d6c', 'Peter', 'Sukamto', 'sukamtop.eec@gmail.com', 3, '2020-07-20 22:20:37'),
 (63, 'testUser', '1f9d6b0176ddee97a3a69102b00679fd$f95c8cef6dacedc921486f893f34cdcd497d0e70b36955f84a3f45caa86c6c5f', 'test', 'user', 'testuser@gmail.com', 3, '2020-07-28 20:21:12'),
-(64, 'NewUser', '0f98b126f8c5f97567986f7344a65d35$b56cdfeeb26a024487d97ea457a4691c8059a5a41f6102362319a7010488ecf7', 'Zachary', 'Thomas', 'newUser@gmail.com', 1, '2020-08-04 20:49:52');
+(64, 'NewUser', '0f98b126f8c5f97567986f7344a65d35$b56cdfeeb26a024487d97ea457a4691c8059a5a41f6102362319a7010488ecf7', 'Zachary', 'Thomas', 'newUser@gmail.com', 1, '2020-08-04 20:49:52'),
+(65, 'KarlHaapala', '92951dc4618cccff1e72485b068db0d8$d5f663c944ddc67acc65512b6544483f2c37c34149de3a4379e846268020c050', 'Karl', 'Happala', 'Karl.Haapala@oregonstate.edu', 3, '2020-08-10 16:43:08');
 
 -- --------------------------------------------------------
 
@@ -1352,7 +1823,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -1370,31 +1841,31 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
 --
 ALTER TABLE `History_Cards`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `History_Headers`
 --
 ALTER TABLE `History_Headers`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `History_Items`
 --
 ALTER TABLE `History_Items`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=512;
 
 --
 -- AUTO_INCREMENT for table `History_Pages`
 --
 ALTER TABLE `History_Pages`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `Icons`
@@ -1406,13 +1877,13 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4153;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4314;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`
@@ -1424,7 +1895,7 @@ ALTER TABLE `Sponsors`
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `Views`
