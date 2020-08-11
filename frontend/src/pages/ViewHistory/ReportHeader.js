@@ -14,7 +14,7 @@ function ReportHeader(props) {
         <div className="col">
           <div className={`version-container p-2 m-3 border border-dark rounded`}>
             <h4 className="report-header-special-text pl-4 pt-4">Header</h4>
-            <h5 className="report-header-special-text pl-4">{props.header.oldVersion.categoryName} &rarr; {props.header.oldVersion.pageName} &rarr; {props.header.oldVersion.title}</h5>
+            <h5 className="report-header-special-text pl-4">{props.header.categoryName} &rarr; {props.header.pageName} &rarr; {props.header.oldVersion.title}</h5>
             <span className="report-header-special-text pl-4">Updated {formatTime(props.header.oldVersion.created)}</span>
             <div className="m-4">
               <HighlightText
