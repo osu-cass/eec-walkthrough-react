@@ -649,12 +649,15 @@ async function getReport(start, end, condense) {
         "FROM History_Pages " +
         "WHERE created BETWEEN ? AND ? " +
         "AND pageId = ? " +
-        "ORDER BY created ASC;";
+        "ORDER BY created DESC;";
         results = await pool.query(sql, [oldestTimestamp, newTimestamp, allPageArray[i].pageId]);
 
         if (results[0].length > 1) {
-          if (moment(results[0][0].created) < moment(startTimestamp)) {
-            allPageArray[i].oldVersion = results[0][0];
+          for (let j = 0; j < results[0].length; j++) {
+            if (moment(results[0][j].created) < moment(startTimestamp)) {
+              allPageArray[i].oldVersion = results[0][j];
+              break;
+            }
           }
         }
       } else {
@@ -705,12 +708,15 @@ async function getReport(start, end, condense) {
         "FROM History_Headers " +
         "WHERE created BETWEEN ? AND ? " +
         "AND headerId = ? " +
-        "ORDER BY created ASC;";
+        "ORDER BY created DESC;";
         results = await pool.query(sql, [oldestTimestamp, newTimestamp, allHeaderArray[i].headerId]);
 
         if (results[0].length > 1) {
-          if (moment(results[0][0].created) < moment(startTimestamp)) {
-            allHeaderArray[i].oldVersion = results[0][0];
+          for (let j = 0; j < results[0].length; j++) {
+            if (moment(results[0][j].created) < moment(startTimestamp)) {
+              allHeaderArray[i].oldVersion = results[0][j];
+              break;
+            }
           }
         }
       } else {
@@ -760,12 +766,15 @@ async function getReport(start, end, condense) {
         "FROM History_Cards " +
         "WHERE created BETWEEN ? AND ? " +
         "AND cardId = ? " +
-        "ORDER BY created ASC;";
+        "ORDER BY created DESC;";
         results = await pool.query(sql, [oldestTimestamp, newTimestamp, allCardArray[i].cardId]);
 
         if (results[0].length > 1) {
-          if (moment(results[0][0].created) < moment(startTimestamp)) {
-            allCardArray[i].oldVersion = results[0][0];
+          for (let j = 0; j < results[0].length; j++) {
+            if (moment(results[0][j].created) < moment(startTimestamp)) {
+              allCardArray[i].oldVersion = results[0][j];
+              break;
+            }
           }
         }
       } else {
