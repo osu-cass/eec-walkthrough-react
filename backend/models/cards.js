@@ -373,34 +373,6 @@ async function publishCard(cardId) {
       // publish
       results = await pool.query(sql, tempArray);
 
-      // save the published data to history
-      sql = "INSERT INTO History_Cards (cardId, headerId, cardType, title) " +
-      "SELECT cardId, headerId, cardType, title FROM Cards " +
-      "WHERE Cards.approved = 1 AND Cards.cardId = ?;";
-      results = await pool.query(sql, [cardId]);
-      const newHistoryId = results[0].insertId;
-
-      // save item history as well
-      sql = "SELECT * " +
-      "FROM Items " +
-      "WHERE cardId = ? " +
-      "AND approved = 1;";
-      results = await pool.query(sql, [cardId]);
-
-      for (let i = 0; i < results[0].length; i++) {
-        const sqlArray = [newHistoryId, results[0][i].itemId, results[0][i].cardId,
-          results[0][i].orderIndex, results[0][i].indentation, results[0][i].iconType,
-          results[0][i].contentText, results[0][i].contentUrl, results[0][i].contentLabel,
-          results[0][i].contentMode, results[0][i].created];
-
-        sql = "INSERT INTO History_Items " +
-        "(parentId, itemId, cardId, orderIndex, indentation, iconType, contentText, " +
-        "contentUrl, contentLabel, contentMode, created) " +
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-
-        await pool.query(sql, sqlArray);
-      }
-
       // delete the old temp card
       sql = "DELETE FROM Temp_Cards " +
       "WHERE tempCardId = ?;";
@@ -445,6 +417,34 @@ async function publishCard(cardId) {
     const finalResults = {
       cardId: cardId
     };
+
+    // save the published data to history
+    sql = "INSERT INTO History_Cards (cardId, headerId, cardType, title) " +
+    "SELECT cardId, headerId, cardType, title FROM Cards " +
+    "WHERE Cards.approved = 1 AND Cards.cardId = ?;";
+    results = await pool.query(sql, [cardId]);
+    const newHistoryId = results[0].insertId;
+
+    // save item history as well
+    sql = "SELECT * " +
+    "FROM Items " +
+    "WHERE cardId = ? " +
+    "AND approved = 1;";
+    results = await pool.query(sql, [cardId]);
+
+    for (let i = 0; i < results[0].length; i++) {
+      const sqlArray = [newHistoryId, results[0][i].itemId, results[0][i].cardId,
+        results[0][i].orderIndex, results[0][i].indentation, results[0][i].iconType,
+        results[0][i].contentText, results[0][i].contentUrl, results[0][i].contentLabel,
+        results[0][i].contentMode, results[0][i].created];
+
+      sql = "INSERT INTO History_Items " +
+      "(parentId, itemId, cardId, orderIndex, indentation, iconType, contentText, " +
+      "contentUrl, contentLabel, contentMode, created) " +
+      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+      await pool.query(sql, sqlArray);
+    }
 
     return finalResults;
 

@@ -523,12 +523,6 @@ async function publishPage(pageId) {
       // publish
       results = await pool.query(sql, tempArray);
 
-      // save the published data to history
-      sql = "INSERT INTO History_Pages (pageId, pageType, name, title, description, imageUrl, internal) " +
-      "SELECT pageId, pageType, name, title, description, imageUrl, internal FROM Pages " +
-      "WHERE Pages.approved = 1 AND Pages.pageId = ?;";
-      await pool.query(sql, [pageId]);
-
       // delete the old temp page
       sql = "DELETE FROM Temp_Pages " +
       "WHERE tempPageId = ?;";
@@ -557,6 +551,12 @@ async function publishPage(pageId) {
       results = await pool.query(sql, pageId);
 
     }
+
+    // save the published data to history
+    sql = "INSERT INTO History_Pages (pageId, pageType, name, title, description, imageUrl, internal) " +
+    "SELECT pageId, pageType, name, title, description, imageUrl, internal FROM Pages " +
+    "WHERE Pages.approved = 1 AND Pages.pageId = ?;";
+    await pool.query(sql, [pageId]);
 
     const finalResults = {
       pageId: pageId
