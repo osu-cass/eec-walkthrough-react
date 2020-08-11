@@ -254,7 +254,7 @@ async function publishHeader(headerId) {
 
     // save the published data to history
     sql = "INSERT INTO History_Headers (headerId, title, internal) " +
-    "VALUES (?, ?, ?, ?);";
+    "VALUES (?, ?, ?);";
     await pool.query(sql, [headerId, title, internal]);
 
     // check if there is new header data
