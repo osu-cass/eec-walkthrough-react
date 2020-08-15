@@ -102,7 +102,7 @@ async function getCategories(viewAll) {
         "WHERE pageType = ? " +
         "ORDER BY pageType ASC, name ASC;";
       } else {
-        sql = "SELECT pageId, pageType, name, description, approved, internal " +
+        sql = "SELECT pageId, pageType, name, description " +
         "FROM Pages " +
         "WHERE pageType = ? " +
         "AND approved = 1 " +
