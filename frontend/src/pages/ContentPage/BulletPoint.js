@@ -152,7 +152,7 @@ function BulletPoint (props) {
                   </small>
                 </a>
               </div>
-              {(props.contentMode === 1 || props.contentMode === 3) && (props.mode !== 0 || props.publicMode === 0) && !props.reviewing ? (
+              {(props.contentMode === 1 || props.contentMode === 3) && props.mode !== 0 && !props.reviewing ? (
                 <div className="row">
                   <LinkAccessButtons
                     mode={props.mode}
