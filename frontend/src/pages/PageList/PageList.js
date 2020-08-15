@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {useParams, withRouter, Link} from "react-router-dom";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import {formatTime} from "../../utilities/formatTime";
 import "./PageList.css";
 
 // lists pages for each section
@@ -79,11 +80,17 @@ function PageList() {
               {category.pages.map((page, index) =>
 
                 <div className="page-info-container card m-5" key={page.pageId}>
-                  <Link to={pageLinks[index]}>
-                    <h5 className="page-link-header font-weight-bold text-left">
-                      {page.name}
-                    </h5>
-                  </Link>
+                <Link to={pageLinks[index]}>
+                  <h5 className="page-link-header font-weight-bold text-left">
+                    {page.name}
+                  </h5>
+                </Link>
+                <span className="text-left float-left">
+                  {page.description}
+                </span>
+                <span className="page-link-created text-left float-left">
+                    Last updated {formatTime(page.created)}
+                </span>
                 </div>
 
               )}

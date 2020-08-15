@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 11, 2020 at 03:34 AM
+-- Generation Time: Aug 15, 2020 at 04:36 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -54,22 +54,10 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (19, 1, 0, 18, 'Tips', 42, '2020-05-23 22:33:25', 1),
 (27, 2, 0, 27, 'Reduce Compressed Air Required', 51, '2020-07-07 16:17:13', 1),
 (29, 1, 0, 19, 'Additional In Depth Site Resources', 51, '2020-07-01 22:33:14', 1),
-(30, 3, 0, 30, 'Test', 42, '2020-06-23 05:53:07', 1),
-(47, 16, 0, 80, 'Engines', 42, '2020-06-30 06:58:38', 1),
-(49, 18, 0, 60, 'Environment', 42, '2020-06-30 06:11:14', 1),
-(65, 17, 0, 65, 'Signs of Turbulence', 42, '2020-06-23 05:55:59', 0),
-(66, 4, 10, 66, 'Facilisis volutpat est velit egestas.', 42, '2020-06-23 09:22:49', 1),
-(67, 16, 1, 67, 'More Airplanes', 42, '2020-06-23 09:14:09', 1),
-(68, 27, 11, 2, 'Plywood Images', 42, '2020-07-23 09:53:26', 1),
-(69, 27, 0, 1, 'Plywood Info', 42, '2020-06-23 09:20:59', 1),
-(70, 3, 0, 70, 'Boiler Facts', 42, '2020-06-23 09:26:47', 0),
 (72, 1, 1, 72, 'Gallery: Industrial Air Compressors, Dryers, Receiver Tanks and Compressed Air Applications', 51, '2020-07-01 20:56:20', 1),
-(73, 3, 1, 73, 'Image Gallery Test', 51, '2020-06-27 20:12:51', 0),
-(74, 3, 0, 74, 'U.S.DOE Energy Tip Sheets', 51, '2020-06-27 20:45:48', 1),
 (75, 1, 0, 75, 'U.S. Department of Energy Tip Sheets', 42, '2020-06-30 06:38:25', 1),
 (76, 1, 0, 76, 'General Off Site Resource Links', 51, '2020-06-29 20:51:39', 1),
 (77, 2, 0, 77, 'Improve Compressor Efficiency', 56, '2020-07-03 00:20:51', 1),
-(80, 16, 0, 47, 'New Card', 42, '2020-06-30 20:59:15', 1),
 (81, 29, 0, 81, 'Pros', 51, '2020-07-01 18:14:32', 0),
 (82, 30, 0, 82, 'Use More Efficient Pump Control', 55, '2020-07-01 18:19:29', 0),
 (83, 30, 0, 83, 'Reduce Flow Required', 51, '2020-07-01 21:21:37', 0),
@@ -110,14 +98,11 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (118, 28, 0, 118, 'Motor Controls', 56, '2020-07-03 00:08:01', 1),
 (119, 28, 0, 119, 'Turn of Motors (Consider Load Shedding)', 51, '2020-07-07 23:38:14', 1),
 (120, 28, 0, 120, 'Power Quality', 56, '2020-07-03 00:19:36', 1),
-(121, 18, 10, 121, 'A new internal card', 42, '2020-07-07 02:04:39', 1),
 (122, 29, 0, 122, 'Cons', 57, '2020-07-07 17:54:57', 0),
 (123, 29, 0, 123, 'General Off Site Resource Links', 55, '2020-07-07 18:00:00', 0),
 (124, 29, 0, 124, 'U.S. Department of Energy Tip Sheets', 55, '2020-07-07 20:31:56', 0),
 (125, 29, 0, 125, 'Figures, Charts, and Tables', 55, '2020-07-07 20:33:57', 0),
 (126, 37, 0, 126, 'Common Technologies Used in Wastewater (covered elsewhere in this guide)', 51, '2020-07-07 20:57:07', 0),
-(127, 18, 0, 127, '3', 42, '2020-07-07 21:21:54', 0),
-(128, 18, 10, 128, 'eoowerwerwer', 42, '2020-07-07 21:23:36', 1),
 (129, 40, 0, 129, 'Heat Exchangers', 58, '2020-07-10 18:20:49', 0),
 (130, 40, 0, 130, 'Insulation', 55, '2020-07-10 18:36:22', 0),
 (131, 40, 0, 131, 'Cooling Towers', 55, '2020-07-10 18:45:42', 0),
@@ -133,19 +118,10 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (142, 41, 0, 142, 'Analysis Tools', 58, '2020-07-20 22:12:33', 0),
 (143, 41, 0, 143, 'In Depth Site Resources', 58, '2020-07-20 22:13:43', 0),
 (144, 41, 0, 144, 'Off Site Resource Links', 58, '2020-07-20 22:14:24', 0),
-(145, 42, 0, 1, '1', 42, '2020-07-28 20:16:13', 1),
-(146, 42, 0, 2, '2', 42, '2020-07-28 08:34:18', 0),
-(147, 42, 0, 3, '3', 42, '2020-07-28 08:34:31', 1),
-(148, 45, 0, 1, '1', 42, '2020-07-28 08:35:42', 1),
-(149, 45, 0, 2, '2', 42, '2020-07-28 08:35:55', 0),
-(150, 45, 0, 3, '3', 42, '2020-07-28 08:36:10', 0),
-(151, 46, 10, 1, 'Cras facilisis duiui @ 1', 42, '2020-08-11 10:31:27', 1),
-(152, 46, 1, 4, 'A bunch of images @ 1', 42, '2020-08-11 10:31:46', 1),
-(153, 46, 0, 5, 'New Checkboxes!', 42, '2020-08-06 10:42:16', 1),
-(154, 47, 10, 2, 'Review/Analyze Pre Assessment Package Information', 51, '2020-08-06 23:30:30', 1),
+(154, 47, 10, 2, 'Review/Analyze Pre-Assessment Package Information', 52, '2020-08-13 19:49:33', 1),
 (155, 47, 10, 1, 'Identify Potential Sites to Work With', 51, '2020-08-06 23:50:17', 1),
 (156, 47, 10, 4, 'Hold an Initial Remote Assessment Meeting with the Client', 51, '2020-08-06 23:34:20', 1),
-(157, 47, 10, 5, 'Develop a Preliminary Energy Balance', 51, '2020-08-05 22:40:35', 1),
+(157, 47, 10, 5, 'Develop a Preliminary Energy Balance', 52, '2020-08-13 19:54:45', 1),
 (158, 47, 10, 6, 'Develop a List of Potential Opportunities to Study', 51, '2020-08-06 23:09:57', 1),
 (161, 47, 10, 3, 'Preliminary Research', 51, '2020-08-06 23:47:20', 1),
 (162, 47, 10, 162, 'Arrange a Client Guided Remote Tour by Phone.', 51, '2020-08-06 22:36:25', 1),
@@ -153,7 +129,13 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (164, 36, 0, 164, 'Additional in Depth Site Resources', 51, '2020-08-06 22:32:54', 0),
 (165, 47, 0, 165, 'Next Step?......', 51, '2020-08-06 22:36:00', 0),
 (166, 48, 0, 166, 'Reduce Bottleneck', 62, '2020-08-10 21:04:25', 0),
-(167, 49, 0, 167, 'Card Version #3', 42, '2020-08-11 10:12:48', 1);
+(168, 50, 0, 168, 'Pros', 62, '2020-08-12 21:45:00', 0),
+(169, 50, 0, 169, 'Caveats', 62, '2020-08-12 21:56:54', 0),
+(170, 50, 0, 170, 'Opportunity Flag', 62, '2020-08-12 22:02:27', 0),
+(171, 50, 0, 171, 'Data to Collect', 62, '2020-08-12 23:11:45', 0),
+(172, 50, 0, 172, 'How to estimate facility efficiency (D-score)', 62, '2020-08-12 23:14:40', 0),
+(173, 50, 0, 173, 'Methodologies for creating new layouts', 62, '2020-08-14 21:00:05', 0),
+(174, 50, 0, 174, 'Systematic Layout Planning (SLP)', 62, '2020-08-14 21:43:28', 0);
 
 -- --------------------------------------------------------
 
@@ -196,25 +178,6 @@ CREATE TABLE `Filters` (
   `iconId` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `Filters`
---
-
-INSERT INTO `Filters` (`filterId`, `viewId`, `headerId`, `iconId`) VALUES
-(33, 3, 46, 20),
-(34, 3, 46, 14),
-(35, 3, 46, 17),
-(36, 4, 46, 0),
-(37, 5, 46, 14),
-(38, 5, 46, 17),
-(39, 5, 46, 20),
-(40, 6, 46, 3),
-(41, 6, 46, 8),
-(42, 6, 46, 17),
-(43, 6, 46, 14),
-(44, 6, 46, 20),
-(45, 6, 46, 11);
-
 -- --------------------------------------------------------
 
 --
@@ -239,12 +202,6 @@ CREATE TABLE `Headers` (
 INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, `userId`, `created`, `approved`) VALUES
 (1, 2, 1, 'Compressed Air Overview', 0, 51, '2020-07-01 18:19:56', 1),
 (2, 2, 2, 'Compressed Air Opportunities to Consider', 0, 51, '2020-05-22 21:22:38', 1),
-(3, 1, 3, 'Boilers', 0, 51, '2020-05-22 21:22:38', 1),
-(4, 3, 4, 'Refrigeration', 0, 42, '2020-05-22 21:22:38', 1),
-(16, 25, 17, 'Engine Info', 0, 51, '2020-06-16 09:03:41', 1),
-(17, 25, 18, 'Turbulence', 0, 47, '2020-06-09 18:51:20', 1),
-(18, 25, 16, 'Economics', 0, 47, '2020-06-09 18:56:36', 1),
-(27, 4, 27, 'Plywood Images', 0, 42, '2020-06-23 09:18:19', 1),
 (28, 44, 33, 'Motor Opportunities to Consider', 0, 56, '2020-06-29 23:07:40', 1),
 (29, 45, 29, 'Pumps Overview', 0, 51, '2020-07-01 18:13:15', 0),
 (30, 45, 30, 'Pumping Opportunities to Consider', 0, 51, '2020-07-01 18:15:04', 0),
@@ -252,20 +209,14 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (32, 46, 32, 'Boiler and Steam System Opportunities to Consider', 0, 56, '2020-07-02 21:40:38', 1),
 (33, 44, 28, 'Motors Overview', 0, 56, '2020-07-02 23:12:01', 1),
 (34, 47, 1, 'Thermal Systems Overview', 0, 58, '2020-07-03 03:41:29', 0),
-(35, 25, 35, 'Air Header Test', 0, 42, '2020-07-07 02:15:51', 1),
 (36, 50, 1, 'Wastewater Overview', 0, 51, '2020-07-07 20:49:35', 0),
 (37, 50, 3, 'Wastewater Technologies to Consider', 0, 51, '2020-07-07 20:50:10', 0),
 (38, 50, 2, 'Wastewater Opportunities to Consider', 0, 51, '2020-07-07 20:52:27', 0),
 (40, 47, 2, 'Thermal Systems Opportunities to Consider', 0, 58, '2020-07-10 17:59:49', 0),
 (41, 48, 41, 'Refrigeration Overview', 0, 58, '2020-07-20 21:19:45', 0),
-(42, 27, 2, 'A', 0, 42, '2020-07-28 08:31:16', 1),
-(43, 27, 3, 'B', 0, 42, '2020-07-28 08:31:20', 1),
-(44, 27, 5, 'C (published & edited)', 0, 42, '2020-07-28 08:31:46', 1),
-(45, 27, 4, 'D (edited)', 0, 42, '2020-07-28 08:31:29', 0),
-(46, 53, 46, 'Simply a new Title @ 1', 0, 42, '2020-08-11 10:31:56', 1),
 (47, 54, 47, 'Assessment Steps', 1, 51, '2020-08-05 19:56:29', 1),
 (48, 58, 48, 'Reduce Bottleneck', 0, 62, '2020-08-10 20:58:11', 0),
-(49, 59, 49, 'Header Version #3', 0, 42, '2020-08-11 10:12:50', 1);
+(50, 57, 50, 'Change Department Layout', 0, 62, '2020-08-12 21:43:08', 0);
 
 -- --------------------------------------------------------
 
@@ -354,7 +305,11 @@ INSERT INTO `History_Cards` (`historyId`, `cardId`, `headerId`, `cardType`, `tit
 (66, 167, 49, 0, 'Card Version #2', '2020-09-02 09:20:06'),
 (67, 167, 49, 0, 'Card Version #3', '2020-09-03 10:12:48'),
 (68, 151, 46, 10, 'Cras facilisis duiui @ 1', '2020-08-11 10:31:27'),
-(69, 152, 46, 1, 'A bunch of images @ 1', '2020-08-11 10:31:46');
+(69, 152, 46, 1, 'A bunch of images @ 1', '2020-08-11 10:31:46'),
+(70, 154, 47, 10, 'Review/Analyze Pre-Assessment Package Information', '2020-08-13 19:46:49'),
+(71, 154, 47, 10, 'Review/Analyze Pre-Assessment Package Information', '2020-08-13 19:49:33'),
+(72, 157, 47, 10, 'Develop a Preliminary Energy Balance', '2020-08-13 19:54:17'),
+(73, 157, 47, 10, 'Develop a Preliminary Energy Balance', '2020-08-13 19:54:45');
 
 -- --------------------------------------------------------
 
@@ -756,7 +711,45 @@ INSERT INTO `History_Items` (`historyId`, `parentId`, `itemId`, `cardId`, `order
 (528, 69, 3060, 152, 0, 0, 20, '', 'http://placekitten.com/100/300', 'Cat 1', 0, '2020-08-04 11:00:16'),
 (529, 69, 3061, 152, 0, 0, 20, '', 'http://placekitten.com/200/200', 'Cat 2', 0, '2020-08-04 11:00:16'),
 (530, 69, 3062, 152, 0, 0, 20, '', 'http://placekitten.com/150/250', 'Cat 3', 0, '2020-08-04 11:00:16'),
-(531, 69, 3063, 152, 0, 0, 20, '', 'http://placekitten.com/250/150', 'Cat 4', 0, '2020-08-04 11:00:16');
+(531, 69, 3063, 152, 0, 0, 20, '', 'http://placekitten.com/250/150', 'Cat 4', 0, '2020-08-04 11:00:16'),
+(532, 70, 4364, 154, 0, 0, 26, 'Check the estimated annual energy cost for each utility', '', '', 0, '2020-08-13 19:46:04'),
+(533, 70, 4365, 154, 0, 1, 14, 'Is the total annual energy cost suitable for an IAC Assessment? ', '', '', 0, '2020-08-13 19:46:04'),
+(534, 70, 4366, 154, 0, 2, 3, '$100,000 a year is the minimum but ideally costs will exceed $200,000  - $300,000 a year. ', '', '', 0, '2020-08-13 19:46:04'),
+(535, 70, 4367, 154, 0, 2, 3, 'If annual cost exceeds $2.5 Million, Field Manager / U.S.DOE permission must be obtained to visit. ', '', '', 0, '2020-08-13 19:46:04'),
+(536, 70, 4368, 154, 0, 0, 26, 'Accumulate / analyze annual month by month utility bills. ', '', '', 0, '2020-08-13 19:46:04'),
+(537, 70, 4369, 154, 0, 1, 12, 'Identify any seasonality to bills.', '', '', 0, '2020-08-13 19:46:04'),
+(538, 70, 4370, 154, 0, 1, 12, 'Determine incremental costs (Potential savings with each unit of resource saved )', '', '', 0, '2020-08-13 19:46:04'),
+(539, 70, 4371, 154, 0, 1, 12, 'Understand special costs: Electrical Demand and Power Factor cost, meter costs, ...', '', '', 0, '2020-08-13 19:46:04'),
+(540, 70, 4372, 154, 0, 1, 12, 'Confirm estimated annual costs ', '', '', 0, '2020-08-13 19:46:04'),
+(541, 70, 4373, 154, 0, 0, 26, 'Ensure all personnel information provided is entered into the OSU IAC Project Management DB', '', '', 0, '2020-08-13 19:46:04'),
+(542, 70, 4374, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, '2020-08-13 19:46:04'),
+(543, 70, 4375, 154, 0, 0, 14, '(If the client has given permission, consider how to engage utility representatives (and regional incentive and assistance programs such as  ETO or ESI  in the remote assessment process)?', '', '', 0, '2020-08-13 19:46:04'),
+(544, 71, 4376, 154, 0, 0, 26, 'Check the estimated annual energy cost for each utility', '', '', 0, '2020-08-13 19:49:23'),
+(545, 71, 4377, 154, 0, 1, 14, 'Is the total annual energy cost suitable for an IAC Assessment? ', '', '', 0, '2020-08-13 19:49:23'),
+(546, 71, 4378, 154, 0, 2, 3, '$100,000 a year is the minimum but ideally costs will exceed $200,000  - $300,000 a year. ', '', '', 0, '2020-08-13 19:49:23'),
+(547, 71, 4379, 154, 0, 2, 3, 'If annual cost exceeds $2.5 Million, Field Manager / U.S.DOE permission must be obtained to visit. ', '', '', 0, '2020-08-13 19:49:23'),
+(548, 71, 4380, 154, 0, 0, 26, 'Accumulate / analyze annual month by month utility bills. ', '', '', 0, '2020-08-13 19:49:23'),
+(549, 71, 4381, 154, 0, 1, 12, 'Identify any seasonality to bills.', '', '', 0, '2020-08-13 19:49:23'),
+(550, 71, 4382, 154, 0, 1, 12, 'Determine incremental costs (Potential savings with each unit of resource saved )', '', '', 0, '2020-08-13 19:49:23'),
+(551, 71, 4383, 154, 0, 1, 12, 'Understand special costs: Electrical Demand and Power Factor cost, meter costs, ...', '', '', 0, '2020-08-13 19:49:23'),
+(552, 71, 4384, 154, 0, 1, 12, 'Confirm estimated annual costs ', '', '', 0, '2020-08-13 19:49:23'),
+(553, 71, 4385, 154, 0, 0, 26, 'Ensure all personnel information provided is entered into the OSU IAC Project Management DB', '', '', 0, '2020-08-13 19:49:23'),
+(554, 71, 4386, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, '2020-08-13 19:49:23'),
+(555, 71, 4387, 154, 0, 0, 14, 'If the client has given permission, consider how to engage utility representatives (and regional incentive and assistance programs such as  ETO or ESI  in the remote assessment process)?', '', '', 0, '2020-08-13 19:49:23'),
+(556, 72, 4388, 157, 0, 0, 26, 'Develop a table of significant energy using equipment including collected rated capacity, estimated % of full capacity, and hours of operation', '', '', 0, '2020-08-13 19:54:12'),
+(557, 72, 4389, 157, 0, 1, 12, 'Calculate an initial estimate of annual energy used by each piece of equipment', '', '', 0, '2020-08-13 19:54:12'),
+(558, 72, 4390, 157, 0, 1, 12, 'Develop a pie chart showing % of total site energy each modeled equipment item uses, and remaining unidentified energy use.', '', '', 0, '2020-08-13 19:54:12'),
+(559, 72, 4391, 157, 0, 2, 14, 'Does the total modeled energy exceed the actual energy in the bills? (If so, revise the model.) ', '', '', 0, '2020-08-13 19:54:12'),
+(560, 72, 4392, 157, 0, 1, 12, 'Plan to continually revise and improve this balance over the process of the remote assessment.', '', '', 0, '2020-08-13 19:54:12'),
+(561, 72, 4393, 157, 0, 2, 14, 'Does more equipment come up that can be added?', '', '', 0, '2020-08-13 19:54:12'),
+(562, 72, 4394, 157, 0, 2, 14, 'Does better data become available on any modeled equipment to improve its annual energy use estimate??', '', '', 0, '2020-08-13 19:54:12'),
+(563, 73, 4395, 157, 0, 0, 26, 'Develop a table of significant energy using equipment including collected rated capacity, estimated % of full capacity, and hours of operation', '', '', 0, '2020-08-13 19:54:40'),
+(564, 73, 4396, 157, 0, 1, 12, 'Calculate an initial estimate of annual energy used by each piece of equipment', '', '', 0, '2020-08-13 19:54:40'),
+(565, 73, 4397, 157, 0, 1, 12, 'Develop a pie chart showing % of total site energy each modeled equipment item uses, and remaining unidentified energy use.', '', '', 0, '2020-08-13 19:54:40'),
+(566, 73, 4398, 157, 0, 2, 14, 'Does the total modeled energy exceed the actual energy in the bills? (If so, revise the model.) ', '', '', 0, '2020-08-13 19:54:40'),
+(567, 73, 4399, 157, 0, 1, 12, 'Plan to continually revise and improve this balance over the process of the remote assessment.', '', '', 0, '2020-08-13 19:54:40'),
+(568, 73, 4400, 157, 0, 2, 14, 'Does more equipment come up that can be added?', '', '', 0, '2020-08-13 19:54:40'),
+(569, 73, 4401, 157, 0, 2, 14, 'Does better data become available on any modeled equipment to improve its annual energy use estimate?', '', '', 0, '2020-08-13 19:54:40');
 
 -- --------------------------------------------------------
 
@@ -917,42 +910,12 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (164, 9, 1, 0, 1, 'A single mechanical energy input at the compressor can be distributed throughout a facility. ', '', '', 0, '2020-06-22 19:18:36', 1),
 (165, 18, 4, 0, 3, 'Over 5 HP of electrical power is required for each 1 HP of compressed air power', '', '', 0, '2020-06-22 19:21:00', 1),
 (166, 19, 1, 0, 8, 'Determine the leak load by checking compressor output when there is no productive air use', '', '', 0, '2020-06-22 19:29:30', 1),
-(197, 30, 1, 0, 20, '', 'https://www.hurstboiler.com/images2/series-300_shrink.png', 'Boiler Picture', 0, '2020-06-23 05:53:07', 1),
-(198, 30, 1, 0, 2, 'Lectus mauris ultrices eros in cursus.', '', '', 0, '2020-06-23 05:53:07', 1),
-(199, 30, 1, 0, 17, 'Hurst Series 300', 'https://www.hurstboiler.com/boilers/scotch_marine/series_300', 'Big boiler link', 1, '2020-07-28 08:29:55', 1),
-(208, 65, 1, 0, 4, 'Eu consequat ac felis donec et odio.', '', '', 0, '2020-06-23 05:55:59', 0),
-(245, 67, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/commercial-airplane-flying-above-clouds-600w-553131187.jpg', 'Sunset', 0, '2020-06-23 09:14:37', 1),
-(246, 67, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/white-passenger-plane-climbs-through-600w-523950889.jpg', 'Up', 0, '2020-06-23 09:14:37', 1),
-(247, 67, 1, 0, 20, '', 'https://image.shutterstock.com/image-vector/flat-airplane-illustration-view-flying-600w-443359132.jpg', 'Cartoon', 0, '2020-06-23 09:14:37', 1),
-(248, 67, 1, 0, 20, '', 'https://image.shutterstock.com/image-photo/beautiful-scenic-city-view-sunset-600w-766500919.jpg', 'Window Seat', 0, '2020-06-23 09:14:37', 1),
-(259, 69, 1, 0, 15, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', '', '', 0, '2020-06-23 09:20:59', 1),
-(263, 69, 1, 0, 11, 'Pretium lectus quam id leo in vitae turpis massa. Placerat vestibulum lectus mauris ultrices eros in cursus turpis.', '', '', 0, '2020-06-23 09:21:00', 1),
-(271, 70, 1, 0, 15, 'Pretium lectus quam id leo in vitae turpis massa.', '', '', 0, '2020-06-23 09:26:47', 0),
-(327, 73, 1, 0, 20, '', 'https://live.staticflickr.com/3821/13183445925_e4cab33b53_h.jpg', 'Wood fired boiler', 0, '2020-06-27 20:42:02', 0),
-(337, 74, 1, 0, 17, 'See steam system sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-07-28 21:07:52', 1),
-(338, 74, 1, 0, 17, '.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam15_benchmark.pdf', 'Benchmark the Fuel Cost of Steam Generation', 1, '2020-07-28 20:35:02', 1),
-(339, 74, 1, 0, 17, '.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam7_surfaces.pdf', 'Clean Firetube Boiler Waterside Heat Transfer Surfaces', 1, '2020-06-27 20:57:48', 1),
 (383, 76, 1, 0, 17, 'This sourcebook is designed to provide compressed air system users with a reference that outlines opportunities for system performance improvements.', 'https://www.compressedairchallenge.org/data/sites/1/media/library/sourcebook/Improving_Compressed_Air-Sourcebook.pdf', 'Improving Compressed Air System Performance. A Sourcebook for Industry.  Third Edition. U.S.DOE', 1, '2020-06-29 21:22:31', 1),
 (384, 76, 1, 0, 17, 'MEASUR is open source software that consists of the following DOE legacy energy system assessment tools (updated): Pumping System Assessment Tool (PSAT), Process Heating Assessment and Survey Tool (PHAST), Fan System Assessment Tool (FSAT), Steam System Assessment Tool (SSAT)/ Steam System Modeler (SSMT), AIRMaster+ (Last accessed 12/2/2019)   ', 'https://www.energy.gov/eere/amo/measur', 'U.S. Department of Energy MEASUR analysis tool', 1, '2020-06-29 20:55:45', 1),
 (385, 76, 1, 0, 17, 'An informational page with analysis tools, case studies, tip sheets, and checklists', 'https://www.bpa.gov/EE/Sectors/Industrial/Pages/Compressed-Air.aspx', 'Bonneville Power Administration Compressed Air Page', 1, '2020-06-29 20:55:45', 1),
-(621, 49, 0, 0, 2, 'Uses a lot of fossil fuels', '', '', 0, '2020-06-30 06:11:15', 1),
-(622, 49, 0, 1, 4, 'Hurts birds', '', '', 0, '2020-06-30 06:11:15', 1),
-(623, 49, 0, 2, 5, 'Uses a lot of steel', '', '', 0, '2020-06-30 06:11:15', 1),
 (637, 75, 0, 0, 17, 'See compressed air tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, '2020-07-01 00:33:10', 1),
 (638, 75, 0, 0, 17, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air11.pdf', 'Alternative Strategies for Low-Pressure End Uses', 1, '2020-06-30 06:38:26', 1),
 (639, 75, 0, 0, 17, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air4.pdf', 'Analyzing Your Compressed Air System', 1, '2020-06-30 06:38:26', 1),
-(667, 47, 0, 0, 5, 'Jet fuel is flammable', '', '', 0, '2020-06-30 09:33:41', 1),
-(668, 47, 0, 1, 4, 'Be careful', '', '', 0, '2020-06-30 09:33:41', 1),
-(669, 47, 0, 2, 20, '', 'https://blog.klm.com/assets/uploads/2018/12/Jet-engine-KLM-768x510.jpg', 'KLM Jet Engine', 0, '2020-06-30 09:33:41', 1),
-(670, 47, 0, 0, 24, 'Learn more about Jet Engines', 'https://en.wikipedia.org/wiki/Jet_engine', 'Wikipedia - Jet Engines', 1, '2020-06-30 09:33:41', 1),
-(687, 80, 0, 0, 15, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '', '', 0, '2020-06-30 20:59:15', 1),
-(688, 80, 0, 1, 13, 'Nulla suscipit enim aliquet turpis iaculis accumsan.', '', '', 0, '2020-06-30 20:59:15', 1),
-(689, 80, 0, 1, 13, 'Aliquam scelerisque tellus nec lectus blandit condimentum.', '', '', 0, '2020-06-30 20:59:15', 1),
-(690, 80, 0, 1, 13, 'Sed laoreet ligula eget accumsan auctor.', '', '', 0, '2020-06-30 20:59:15', 1),
-(695, 47, 0, 0, 5, 'Jet fuel is flammable', '', '', 0, '2020-07-01 00:34:18', 0),
-(696, 47, 0, 1, 4, 'Be careful', '', '', 0, '2020-07-01 00:34:18', 0),
-(697, 47, 0, 2, 20, '', 'https://blog.klm.com/assets/uploads/2018/12/Jet-engine-KLM-768x510.jpg', 'KLM Jet Engine', 0, '2020-07-01 00:34:18', 0),
-(698, 47, 0, 0, 24, 'Learn more about Jet Engines', 'https://en.wikipedia.org/wiki/Jet_engine', 'Wikipedia - Jet Engines', 2, '2020-07-01 00:34:18', 0),
 (733, 81, 0, 0, 1, 'Centrifugal pumps are capable of developing a wide range of flow and pressures', '', '', 0, '2020-07-01 18:14:32', 0),
 (779, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50066459491_bb3c3291c5_b.jpg', 'Dry sprinkler systems need compressed air', 0, '2020-07-01 21:19:36', 1),
 (780, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50065906203_65746ac38f_b.jpg', 'Blow off wand and hose', 0, '2020-07-01 21:19:36', 1),
@@ -1127,11 +1090,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2117, 95, 0, 0, 15, 'Boiler Nameplate Data: Rated Capacity', '', '', 0, '2020-07-03 17:57:24', 1),
 (2118, 95, 0, 0, 15, 'Combustion Analysis: Excess O2, Stack Temperature, Inlet / Ambient Temperature ', '', '', 0, '2020-07-03 17:57:24', 1),
 (2119, 95, 0, 0, 15, 'Capacity over time', '', '', 0, '2020-07-03 17:57:24', 1),
-(2120, 66, 0, 0, 15, 'Pharetra massa massa ultricies mi quis hendrerit dolor.', '', '', 0, '2020-07-07 01:57:28', 1),
-(2121, 66, 0, 0, 11, 'Vitae semper quis lectus nulla.', '', '', 0, '2020-07-07 01:57:28', 1),
-(2122, 66, 0, 0, 11, 'Lectus mauris ultrices eros in cursus.', '', '', 0, '2020-07-07 01:57:28', 1),
-(2123, 121, 0, 0, 11, 'Check', '', '', 0, '2020-07-07 02:04:39', 1),
-(2124, 121, 0, 0, 13, 'text text text', '', '', 0, '2020-07-07 02:04:39', 1),
 (2125, 27, 0, 0, 13, 'Energy savings associated with reductions in compressed air use are very dependent on the compressor control strategy. In the worst case, a compressor with blow off control might not yield any energy savings with compressed air use reductions, and one with inlet modulation might yield only a small part of potential savings.', '', '', 0, '2020-07-07 16:17:13', 1),
 (2126, 27, 0, 0, 11, 'Reduce compressed air leaks', '', '', 0, '2020-07-07 16:17:13', 1),
 (2127, 27, 0, 1, 13, 'Compressed air is an expensive utility, but leaks can go uncorrected as they do not make a mess.', '', '', 0, '2020-07-07 16:17:13', 1),
@@ -1181,12 +1139,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2227, 125, 0, 0, 20, '', 'https://www.pumpsandsystems.com/understanding-pump-curves', 'Sample Pump Curve', 0, '2020-07-07 20:36:10', 0),
 (2228, 125, 0, 0, 20, '', 'https://www.pumpsandsystems.com/understanding-pump-curves', 'Sample Pump and System Curve', 0, '2020-07-07 20:36:10', 0),
 (2229, 125, 0, 0, 20, '', 'https://fluidcontrolproducts.net/catolog/pumps/centrifugal-pumps/cpvc-price-pump-open-box/', 'Sample Pump Nameplate', 0, '2020-07-07 20:36:10', 0),
-(2240, 127, 0, 0, 16, '1', '', '', 0, '2020-07-07 21:21:54', 0),
-(2241, 127, 0, 0, 4, '2', '', '', 0, '2020-07-07 21:21:54', 0),
-(2242, 128, 0, 0, 11, 'w', '', '', 0, '2020-07-07 21:23:36', 1),
-(2243, 128, 0, 0, 2, 'w', '', '', 0, '2020-07-07 21:23:36', 1),
-(2244, 128, 0, 0, 11, 'w222', '', '', 0, '2020-07-07 21:33:22', 0),
-(2245, 128, 0, 0, 2, 'w', '', '', 0, '2020-07-07 21:33:22', 0),
 (2261, 119, 0, 0, 11, 'Manually reduce equipment operation time', '', '', 0, '2020-07-07 23:38:14', 1),
 (2262, 119, 0, 0, 11, 'Automatically control equipment operation time', '', '', 0, '2020-07-07 23:38:14', 1),
 (2263, 119, 0, 0, 11, 'Interlock equipment with a related process', '', '', 0, '2020-07-07 23:38:14', 1),
@@ -1204,13 +1156,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2310, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, '2020-07-10 18:53:01', 0),
 (2324, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, '2020-07-10 18:54:00', 0),
 (2325, 105, 0, 0, 11, 'Recover Flash Steam (Chris) ', '', '', 0, '2020-07-10 18:54:00', 0),
-(2342, 80, 0, 0, 15, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.!!!!!', '', '', 0, '2020-07-14 07:42:37', 0),
-(2343, 80, 0, 1, 13, 'Nulla suscipit enim aliquet turpis iaculis accumsan.', '', '', 0, '2020-07-14 07:42:37', 0),
-(2344, 80, 0, 1, 13, 'Aliquam scelerisque tellus nec lectus blandit condimentum.', '', '', 0, '2020-07-14 07:42:37', 0),
-(2345, 80, 0, 1, 13, 'Sed laoreet ligula eget accumsan auctor.', '', '', 0, '2020-07-14 07:42:37', 0),
-(2346, 66, 0, 0, 15, 'Pharetra massa massa ultricies mi quis hendrerit dolor.', '', '', 0, '2020-07-14 11:04:54', 0),
-(2347, 66, 0, 0, 26, 'Vitae semper quis lectus nulla.', '', '', 0, '2020-07-14 11:04:54', 0),
-(2348, 66, 0, 0, 26, 'Lectus mauris ultrices eros in cursus.', '', '', 0, '2020-07-14 11:04:54', 0),
 (2349, 126, 0, 0, 17, '$empty', '/technologies/45', 'Pumps', 0, '2020-07-14 17:32:19', 0),
 (2677, 133, 0, 0, 1, 'Pro1', '', '', 0, '2020-07-20 21:20:19', 0),
 (2678, 134, 0, 0, 2, 'Con1', '', '', 0, '2020-07-20 21:20:35', 0),
@@ -1224,32 +1169,9 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2687, 142, 0, 0, 21, 'tool', 'tool', 'tool', 0, '2020-07-20 22:12:33', 0),
 (2688, 143, 0, 0, 17, 'Resource', 'Resource', 'Resource', 0, '2020-07-20 22:13:43', 0),
 (2689, 144, 0, 0, 24, 'Link', 'Link', 'Link', 1, '2020-07-20 22:14:24', 0),
-(2690, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-boards-on-furniture-industry-600w-439702138.jpg', 'Plywood A', 0, '2020-07-23 09:53:26', 1),
-(2691, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/high-resolution-plywood-board-wall-600w-1054866629.jpg', 'Plywood B', 0, '2020-07-23 09:53:26', 1),
-(2692, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/closeup-plywood-sheets-600w-737467363.jpg', 'Plywood C', 0, '2020-07-23 09:53:26', 1),
-(2693, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-industry-construction-parts-cuttings-600w-1236143197.jpg', 'Plywood D', 0, '2020-07-23 09:53:26', 1),
-(2694, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/warehouse-fiberboard-chipboard-construction-materials-600w-1035511318.jpg', 'Plywood E', 0, '2020-07-23 09:53:26', 1),
-(2695, 68, 0, 0, 20, '', 'https://image.shutterstock.com/image-photo/plywood-residential-building-materials-600w-1005863455.jpg', 'Plywood F', 0, '2020-07-23 09:53:26', 1),
-(2702, 146, 0, 0, 15, '22', '', '', 0, '2020-07-28 08:34:18', 0),
-(2703, 146, 0, 0, 15, '2222', '', '', 0, '2020-07-28 08:34:18', 0),
-(2704, 147, 0, 0, 4, '33', '', '', 0, '2020-07-28 08:34:31', 1),
-(2705, 147, 0, 0, 4, '33', '', '', 0, '2020-07-28 08:34:31', 1),
-(2706, 148, 0, 0, 16, '1', '', '', 0, '2020-07-28 08:35:42', 1),
-(2707, 148, 0, 0, 16, '1', '', '', 0, '2020-07-28 08:35:42', 1),
-(2708, 148, 0, 0, 16, '1', '', '', 0, '2020-07-28 08:35:42', 1),
-(2709, 149, 0, 0, 10, '2', '', '', 0, '2020-07-28 08:35:55', 0),
-(2710, 149, 0, 0, 10, '2', '', '', 0, '2020-07-28 08:35:55', 0),
-(2711, 149, 0, 0, 10, '2', '', '', 0, '2020-07-28 08:35:55', 0),
-(2712, 150, 0, 0, 12, '3', '', '', 0, '2020-07-28 08:36:10', 0),
-(2713, 150, 0, 0, 12, '3', '', '', 0, '2020-07-28 08:36:10', 0),
-(2714, 150, 0, 0, 12, '3', '', '', 0, '2020-07-28 08:36:10', 0),
-(2715, 145, 0, 0, 7, '11', '', '', 0, '2020-07-28 20:16:13', 1),
-(2716, 145, 0, 0, 27, '111', '', '', 0, '2020-07-28 20:16:13', 1),
-(2717, 145, 0, 0, 25, 'NEW', 'http://placekitten.com/200/200', 'NEW', 1, NULL, 1),
 (2955, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, '2020-07-30 02:31:10', 0),
 (2956, 77, 0, 1, 13, 'Reducing the inlet air temperature of oil-injected screw compressors increases mass flow rate while maintaining power input. To efficiently maintain current mass flow rate a variable frequency drive is required to reduce the motor speed and associated power.', '', '', 0, '2020-07-30 02:31:10', 0),
-(2957, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, '2020-07-30 02:31:10', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
+(2957, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, '2020-07-30 02:31:10', 0),
 (2958, 77, 0, 1, 10, 'Difficulty meeting a compressor\'s rated air capacity', '', '', 0, '2020-07-30 02:31:10', 0),
 (2959, 77, 0, 1, 10, 'A compressor running hotter than its specifications', '', '', 0, '2020-07-30 02:31:10', 0),
 (2960, 77, 0, 2, 8, 'Other factors may be at play such as significant air leaks increasing the load on the compressor', '', '', 0, '2020-07-30 02:31:10', 0),
@@ -1279,13 +1201,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2984, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, '2020-07-30 02:31:10', 0),
 (3005, 122, 0, 0, 2, 'test', '', '', 0, '2020-08-03 20:29:48', 0),
 (3006, 122, 0, 0, 2, 'Actual efficiency can easily vary from 50 percent to 80 percent for optimum operation of a particular pump', '', '', 0, '2020-08-03 20:29:48', 0),
-(3429, 157, 0, 0, 26, 'Develop a table of significant energy using equipment including collected rated capacity, estimated % of full capacity, and hours of operation', '', '', 0, '2020-08-05 23:14:02', 1),
-(3430, 157, 0, 1, 12, 'Calculate an initial estimate of annual energy used by each piece of equipment', '', '', 0, '2020-08-05 23:14:02', 1),
-(3431, 157, 0, 1, 12, 'Develop a pie chart showing % of total site energy each modeled equipment item uses, and remaining unidentified energy use.', '', '', 0, '2020-08-05 23:14:02', 1),
-(3432, 157, 0, 2, 14, 'Does the total modeled energy exceed the actual energy in the bills?. (If so revise the model.) ', '', '', 0, '2020-08-05 23:14:02', 1),
-(3433, 157, 0, 1, 12, 'Plan to continually revise and improve this balance over the process of the remote assessment.', '', '', 0, '2020-08-05 23:14:02', 1),
-(3434, 157, 0, 2, 14, 'Does more equipment come up that can be added?', '', '', 0, '2020-08-05 23:14:02', 1),
-(3435, 157, 0, 2, 14, 'Does better data become available on any modeled equipment to improve its annual energy use estimate??', '', '', 0, '2020-08-05 23:14:02', 1),
 (3511, 85, 0, 0, 11, 'Trim Pump Impeller for Better Efficiency at Typical Operating Points', '', '', 0, '2020-08-06 03:46:30', 0),
 (3512, 85, 0, 0, 11, 'Replace Pump with One Selected for Optimum Efficiency at Typical Operating Points', '', '', 0, '2020-08-06 03:46:30', 0),
 (3513, 85, 0, 1, 10, 'Older pumps that have not been adjusted or calibrated to fit existing demand.', '', '', 0, '2020-08-06 03:46:30', 0),
@@ -1302,11 +1217,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3524, 85, 0, 1, 14, 'Would installing a variable frequency drive (VFD), trimming the impeller, replacing the motor, or using a belt sheave be a better option?', '', '', 0, '2020-08-06 03:46:30', 0),
 (3525, 85, 0, 1, 4, 'When modifying or replacing pumps and fans, or adjusting their rpm, be sure that they can operate under all conditions anticipated for the given system. System pressure or head should not exceed the maximum pressure or head the fan or pump can sustain. Surge points should be avoided.', '', '', 0, '2020-08-06 03:46:30', 0),
 (3526, 85, 0, 0, 11, 'Replace or Overhaul Worn or Damaged Pumps', '', '', 0, '2020-08-06 03:46:30', 0),
-(3527, 153, 0, 0, 12, 'Not a checkbox', '', '', 0, '2020-08-06 10:42:16', 1),
-(3528, 153, 0, 0, 11, 'Checkbox', '', '', 0, '2020-08-06 10:42:16', 1),
-(3529, 153, 0, 1, 7, 'item 1', '', '', 0, '2020-08-06 10:42:16', 1),
-(3530, 153, 0, 1, 4, 'item 2', '', '', 0, '2020-08-06 10:42:16', 1),
-(3531, 153, 0, 0, 16, 'item 3', '', '', 0, '2020-08-06 10:42:16', 1),
 (3606, 131, 0, 0, 11, 'Condenser qater temperature adjustment ', '', '', 0, '2020-08-06 19:13:00', 0),
 (3607, 131, 0, 0, 11, 'Chilled water supply temperature adjustment', '', '', 0, '2020-08-06 19:13:00', 0),
 (3608, 131, 0, 0, 11, 'Fan motor controls (variable speed)', '', '', 0, '2020-08-06 19:13:00', 0),
@@ -1314,7 +1224,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3824, 129, 0, 1, 13, 'Air-to-air heat transfer (regenerators/recuperators)', '', '', 0, '2020-08-06 20:53:08', 0),
 (3825, 129, 0, 0, 11, 'Install a heat pipe to recovery process heat', '', '', 0, '2020-08-06 20:53:08', 0),
 (3826, 129, 0, 1, 13, 'Air-to-air heat transfer (typically for 150-850 ˚F processes)', '', '', 0, '2020-08-06 20:53:08', 0),
-(3827, 129, 0, 0, 11, 'Install a shell and tube heat exchanger to recover process heat (Matt)', '', '', 0, '2020-08-06 20:53:08', 0),
+(3827, 129, 0, 0, 11, 'Install a shell and tube heat exchanger to recover process heat (Matt)', '', '', 0, '2020-08-06 20:53:08', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `created`, `approved`) VALUES
 (3828, 129, 0, 1, 13, 'Liquid-to-liquid heat transfer ', '', '', 0, '2020-08-06 20:53:08', 0),
 (3829, 129, 0, 0, 11, 'Install an economizer to pre-heat boiler make-up water (Matt)', '', '', 0, '2020-08-06 20:53:08', 0),
 (3830, 129, 0, 1, 13, 'Air-to-liquid heat transfer ', '', '', 0, '2020-08-06 20:53:08', 0),
@@ -1385,18 +1296,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4034, 158, 0, 0, 26, 'Pick the brain of anyone with experience in the subject', '', '', 0, '2020-08-06 23:09:57', 1),
 (4035, 158, 0, 0, 26, 'Brainstorm on opportunities as a team and compile a list', '', '', 0, '2020-08-06 23:09:57', 1),
 (4036, 158, 0, 0, 26, 'Develop a table of potential recommendations, and if possible: total energy used by the system related to each opportunity, a high/low estimate of potential % savings,  and the range of potential cost and energy savings potential.', '', '', 0, '2020-08-06 23:09:57', 1),
-(4092, 154, 0, 0, 26, 'Check the estimated annual energy cost for each utility', '', '', 0, '2020-08-06 23:31:26', 1),
-(4093, 154, 0, 1, 14, 'Is the total annual energy cost suitable for an IAC Assessment? ', '', '', 0, '2020-08-06 23:31:26', 1),
-(4094, 154, 0, 2, 3, '$100,000 a year is the minimum but ideally costs will exceed $200,000  - $300,000 a year. ', '', '', 0, '2020-08-06 23:31:26', 1),
-(4095, 154, 0, 2, 3, 'If annual cost exceeds $2.5 Million, Field Manager / U.S.DOE permission must be obtained to visit. ', '', '', 0, '2020-08-06 23:31:26', 1),
-(4096, 154, 0, 0, 26, 'Accumulate / analyze annual month by month utility bills. ', '', '', 0, '2020-08-06 23:31:26', 1),
-(4097, 154, 0, 1, 12, 'Identify any seasonality to bills.', '', '', 0, '2020-08-06 23:31:26', 1),
-(4098, 154, 0, 1, 12, 'Determine incremental costs (Potential savings with each unit of resource saved )', '', '', 0, '2020-08-06 23:31:26', 1),
-(4099, 154, 0, 1, 12, 'Understand special costs: Electrical Demand and Power Factor cost, meter costs, ...', '', '', 0, '2020-08-06 23:31:26', 1),
-(4100, 154, 0, 1, 12, 'Confirm estimated annual costs ', '', '', 0, '2020-08-06 23:31:26', 1),
-(4101, 154, 0, 0, 26, 'Ensure all personnel information provided is entered into the OSU IAC Project Management DB', '', '', 0, '2020-08-06 23:31:26', 1),
-(4102, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, '2020-08-06 23:31:26', 1),
-(4103, 154, 0, 0, 14, '(If the client has given permission, consider how to engage utility representatives (and regional incentive and assistance programs such as  ETO or ESI  in the remote assessment process)?', '', '', 0, '2020-08-06 23:31:26', 1),
 (4111, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, '2020-08-06 23:34:20', 1),
 (4112, 156, 0, 0, 26, 'Have the client verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, '2020-08-06 23:34:20', 1),
 (4113, 156, 0, 1, 14, 'Ask client to let us know of any areas of concern or interest', '', '', 0, '2020-08-06 23:34:20', 1),
@@ -1482,21 +1381,45 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4311, 101, 0, 1, 17, 'Department of Energy tip sheet that explains how a condensing economizer works and how it saves energy, along with example scenarios', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26a_condensing.pdf', 'Consider Installing a Condensing Economizer', 1, '2020-08-07 21:56:39', 0),
 (4312, 101, 0, 1, 17, 'Department of Energy tip sheet that explains special considerations that need to be taken into account when choosing to do projects with condensing economizers.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26b_condensing.pdf', 'Considerations When Selecting a Condensing Economizer', 1, '2020-08-07 21:56:39', 0),
 (4313, 166, 0, 0, 10, 'Significant levels of work in progress (WIP) inventory immediately upstream of a workstation.', '', '', 0, '2020-08-10 21:04:25', 0),
-(4323, 167, 0, 0, 26, 'I like bullet points.', '', '', 0, '2020-08-11 10:11:08', 1),
-(4324, 167, 0, 1, 26, 'More bullets.', '', '', 0, '2020-08-11 10:11:08', 1),
-(4325, 167, 0, 2, 10, 'Flag.', '', '', 0, '2020-08-11 10:11:08', 1),
-(4326, 151, 0, 0, 14, 'Phasellus sagittis lectus at nulla pretium efficitur.', '', '', 0, '2020-08-11 10:31:22', 1),
-(4327, 151, 0, 0, 1, 'Cras posuere lacus id pharetra finibus.', '', '', 0, '2020-08-11 10:31:22', 1),
-(4328, 151, 0, 0, 1, 'Cras in turpis maximus, porttitor urna id, luctus turpis.', '', '', 0, '2020-08-11 10:31:22', 1),
-(4329, 151, 0, 1, 14, 'Maecenas varius justo vel felis luctus, non consequat erat sollicitudin.', '', '', 0, '2020-08-11 10:31:22', 1),
-(4330, 151, 0, 0, 17, 'Aliquam commodo tellus vitae lacus', 'https://www.lipsum.com/feed/html', 'Lorem Ipsum', 1, '2020-08-11 10:31:22', 1),
-(4331, 151, 0, 0, 3, 'Praesent rhoncus auctor.', '', '', 1, '2020-08-11 10:31:22', 1),
-(4332, 151, 0, 0, 8, 'Proin ac finibus dui.', '', '', 0, '2020-08-11 10:31:22', 1),
-(4333, 151, 0, 0, 1, 'Suspendisse sed sapien.', '', '', 0, '2020-08-11 10:31:22', 1),
-(4338, 152, 0, 0, 20, '', 'http://placekitten.com/100/300', 'Cat 1', 0, '2020-08-11 10:31:42', 1),
-(4339, 152, 0, 0, 20, '', 'http://placekitten.com/250/150', 'Cat 4', 0, '2020-08-11 10:31:42', 1),
-(4340, 152, 0, 0, 20, '', 'http://placekitten.com/150/250', 'Cat 3', 0, '2020-08-11 10:31:42', 1),
-(4341, 152, 0, 0, 20, '', 'http://placekitten.com/620/620', 'Cat 5', 0, '2020-08-11 10:31:42', 1);
+(4346, 168, 0, 0, 1, 'Can result in significant savings and increased productivity', '', '', 0, '2020-08-12 21:57:22', 0),
+(4347, 168, 0, 0, 1, 'Easy to estimate cost savings/benefits given sufficient, accurate data..', '', '', 0, '2020-08-12 21:57:22', 0),
+(4376, 154, 0, 0, 26, 'Check the estimated annual energy cost for each utility', '', '', 0, '2020-08-13 19:49:23', 1),
+(4377, 154, 0, 1, 14, 'Is the total annual energy cost suitable for an IAC Assessment? ', '', '', 0, '2020-08-13 19:49:23', 1),
+(4378, 154, 0, 2, 3, '$100,000 a year is the minimum but ideally costs will exceed $200,000  - $300,000 a year. ', '', '', 0, '2020-08-13 19:49:23', 1),
+(4379, 154, 0, 2, 3, 'If annual cost exceeds $2.5 Million, Field Manager / U.S.DOE permission must be obtained to visit. ', '', '', 0, '2020-08-13 19:49:23', 1),
+(4380, 154, 0, 0, 26, 'Accumulate / analyze annual month by month utility bills. ', '', '', 0, '2020-08-13 19:49:23', 1),
+(4381, 154, 0, 1, 12, 'Identify any seasonality to bills.', '', '', 0, '2020-08-13 19:49:23', 1),
+(4382, 154, 0, 1, 12, 'Determine incremental costs (Potential savings with each unit of resource saved )', '', '', 0, '2020-08-13 19:49:23', 1),
+(4383, 154, 0, 1, 12, 'Understand special costs: Electrical Demand and Power Factor cost, meter costs, ...', '', '', 0, '2020-08-13 19:49:23', 1),
+(4384, 154, 0, 1, 12, 'Confirm estimated annual costs ', '', '', 0, '2020-08-13 19:49:23', 1),
+(4385, 154, 0, 0, 26, 'Ensure all personnel information provided is entered into the OSU IAC Project Management DB', '', '', 0, '2020-08-13 19:49:23', 1),
+(4386, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, '2020-08-13 19:49:23', 1),
+(4387, 154, 0, 0, 14, 'If the client has given permission, consider how to engage utility representatives (and regional incentive and assistance programs such as  ETO or ESI  in the remote assessment process)?', '', '', 0, '2020-08-13 19:49:23', 1),
+(4395, 157, 0, 0, 26, 'Develop a table of significant energy using equipment including collected rated capacity, estimated % of full capacity, and hours of operation', '', '', 0, '2020-08-13 19:54:40', 1),
+(4396, 157, 0, 1, 12, 'Calculate an initial estimate of annual energy used by each piece of equipment', '', '', 0, '2020-08-13 19:54:40', 1),
+(4397, 157, 0, 1, 12, 'Develop a pie chart showing % of total site energy each modeled equipment item uses, and remaining unidentified energy use.', '', '', 0, '2020-08-13 19:54:40', 1),
+(4398, 157, 0, 2, 14, 'Does the total modeled energy exceed the actual energy in the bills? (If so, revise the model.) ', '', '', 0, '2020-08-13 19:54:40', 1),
+(4399, 157, 0, 1, 12, 'Plan to continually revise and improve this balance over the process of the remote assessment.', '', '', 0, '2020-08-13 19:54:40', 1),
+(4400, 157, 0, 2, 14, 'Does more equipment come up that can be added?', '', '', 0, '2020-08-13 19:54:40', 1),
+(4401, 157, 0, 2, 14, 'Does better data become available on any modeled equipment to improve its annual energy use estimate?', '', '', 0, '2020-08-13 19:54:40', 1),
+(4402, 169, 0, 0, 4, 'Implementation is typically costly and time consuming. Relocation of departments and workstations typically requires plant downtime.', '', '', 0, '2020-08-14 20:44:57', 0),
+(4403, 169, 0, 0, 4, 'Data for sufficient analysis is difficult to obtain without longer term studies. Variance in workflows greatly influences calculations if non-annual data is used.', '', '', 0, '2020-08-14 20:44:57', 0),
+(4409, 170, 0, 0, 10, 'The flow of work in progress product, personnel, or inventory/materials appears non-linear or requires excessive movement.', '', '', 0, '2020-08-14 21:06:31', 0),
+(4410, 170, 0, 0, 10, 'Inefficient layouts are most common in facilities that produce low volumes of diverse products. Layouts of high volume manufacturing facilities are typically already optimized. ', '', '', 0, '2020-08-14 21:06:31', 0),
+(4411, 171, 0, 0, 15, 'Facility layout with location and dimensions of departments.', '', '', 0, '2020-08-14 21:08:00', 0),
+(4412, 171, 0, 0, 15, 'Directional flow of materials and personal during processing from start to end..', '', '', 0, '2020-08-14 21:08:00', 0),
+(4413, 171, 0, 0, 15, 'How materials are transported (e.g. manual labor, forklift, conveyors).', '', '', 0, '2020-08-14 21:08:00', 0),
+(4414, 171, 0, 0, 15, 'Relative cost of moving materials during production.', '', '', 0, '2020-08-14 21:08:00', 0),
+(4415, 171, 0, 0, 15, 'How many units of each material are processed on an average production day.', '', '', 0, '2020-08-14 21:08:00', 0),
+(4416, 171, 0, 0, 15, 'Means for cost savings (e.g. labor and energy costs).', '', '', 0, '2020-08-14 21:08:00', 0),
+(4434, 172, 0, 0, 26, 'Layout efficiency (D) is the summation of the products of distance traveled (d), number of units (x), and relative moving cost (f) of all materials/personnel during an average production day. In other words, D = Sum (fi *xi*di) for all i.', '', '', 0, '2020-08-14 21:20:02', 0),
+(4435, 172, 0, 0, 26, 'Distance traveled between departments (d) is typically calculated rectilinearly, or the sum of the horizontal and vertical differences between the centroids of two departments .   ', '', '', 0, '2020-08-14 21:20:02', 0),
+(4436, 172, 0, 0, 26, 'Relative moving cost (f) is a subjective measurement. If the movement cost is average, it should assume a value of 1. Therefore, if a material requires twice the effort to move compared to the average material it should assume a value of 2.', '', '', 0, '2020-08-14 21:20:02', 0),
+(4437, 172, 0, 0, 26, 'Calculating D-scores should be done tabularly.  ', '', '', 0, '2020-08-14 21:20:02', 0),
+(4440, 174, 0, 0, 26, 'A qualitative, visual strategy for designing a layout.', '', '', 0, '2020-08-14 21:46:21', 0),
+(4441, 174, 0, 0, 26, 'Begin with creating a matrix with every department listed as a header for columns and rows (see figure 1).', '', '', 0, '2020-08-14 21:46:21', 0),
+(4442, 173, 0, 0, 26, 'Most inefficient layouts are the result of future space, workstation, and product expansions that were not considered in the original design of the facility layout..', '', '', 0, '2020-08-14 23:18:36', 0),
+(4443, 173, 0, 0, 26, 'For layouts with obvious flow inefficiencies, using intuition to organize departments is sufficient to achieve savings. However, there are heuristic models that can be used for a more scientific approach.', '', '', 0, '2020-08-14 23:18:36', 0);
 
 -- --------------------------------------------------------
 
@@ -1522,13 +1445,7 @@ CREATE TABLE `Pages` (
 --
 
 INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imageUrl`, `internal`, `userId`, `created`, `approved`) VALUES
-(1, 2, 'z - testing: stuff', 'A boiler is a closed vessel in which fluid (generally water) is heated.', 'In a <b> fossil fuel power plant</b> using a steam cycle for power generation, the primary heat source will be combustion of coal, oil, or natural gas. In some cases byproduct fuel such as the carbon-monoxide rich offgasses of a coke battery can be burned to heat a boiler; biofuels such as bagasse, where economically available, can also be used. In a nuclear power plant, boilers called steam generators are heated by the heat produced by nuclear fission. Where a large volume of hot gas is available from some process, a heat recovery steam generator or recovery boiler can use the heat to produce steam, with little or no extra fuel consumed; such a configuration is common in a combined cycle power plant where a gas turbine and a steam boiler are used. In all cases the combustion product waste gases are separate from the working fluid of the steam cycle, making these systems examples of External combustion engines.', '/images/boiler.png', 0, 42, '2020-05-18 01:37:54', 0),
 (2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/images/air.png', 0, 42, '2020-07-23 10:01:49', 1),
-(3, 2, 'z - testing: more stuff', 'Refrigeration is the process of cooling a space, substance, or system to lower and/or maintain its temperature below the ambient one (while the removed heat is rejected at a higher temperature).', 'Refrigeration has had a large impact on industry, lifestyle, agriculture, and settlement patterns. The idea of preserving food dates back to at least the ancient Roman and Chinese empires. However, mechanical refrigeration technology has rapidly evolved in the last century, from ice harvesting to temperature-controlled rail cars. The introduction of refrigerated rail cars contributed to the westward expansion of the United States, allowing settlement in areas that were not on main transport channels such as rivers, harbors, or valley trails. Settlements were also developing in infertile parts of the country, filled with newly discovered natural resources.  These new settlement patterns sparked the building of large cities which are able to thrive in areas that were otherwise thought to be inhospitable, such as Houston, Texas, and Las Vegas, Nevada.', '/images/refrigeration.png', 1, 42, '2020-07-23 10:02:38', 1),
-(4, 1, 'z - test Plywood', 'Plywood is a material manufactured from thin layers or \"plies\" of wood veneer that are glued together with adjacent layers having their wood grain rotated up to 90 degrees to one another.', 'All plywoods bind resin and wood fibre sheets (cellulose cells are long, strong and thin) to form a composite material. This alternation of the grain is called cross-graining and has several important benefits: it reduces the tendency of wood to split when nailed at the edges; it reduces expansion and shrinkage, providing improved dimensional stability; and it makes the strength of the panel consistent across all directions. There is usually an odd number of plies, so that the sheet is balanced—this reduces warping. Because plywood is bonded with grains running against one another and with an odd number of composite parts, it has high stiffness perpendicular to the grain direction of the surface ply.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Spruce_plywood.JPG/300px-Spruce_plywood.JPG', 1, 42, '2020-05-18 01:37:54', 0),
-(5, 1, 'z - test Electricity', 'Electricity is the set of physical phenomena associated with the presence and motion of matter that has a property of electric charge.', 'When a charge is placed in a location with a non-zero electric field, a force will act on it. The magnitude of this force is given by Coulomb\'s law. Thus, if that charge were to move, the electric field would be doing work on the electric charge. Thus we can speak of electric potential at a certain point in space, which is equal to the work done by an external agent in carrying a unit of positive charge from an arbitrarily chosen reference point to that point without any acceleration and is typically measured in volts.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Lightning3.jpg/220px-Lightning3.jpg', 0, 51, '2020-05-18 01:37:54', 0),
-(25, 2, 'z - testing: Airplanes', 'They fly', 'An airplane or aeroplane (informally plane) is a powered, fixed-wing aircraft that is propelled forward by thrust from a jet engine, propeller or rocket engine. Airplanes come in a variety of sizes, shapes, and wing configurations. The broad spectrum of uses for airplanes includes recreation, transportation of goods and people, military, and research. Worldwide, commercial aviation transports more than four billion passengers annually on airliners[1] and transports more than 200 billion tonne-kilometers[2] of cargo annually, which is less than 1% of the world\'s cargo movement.[3] Most airplanes are flown by a pilot on board the aircraft, but some are designed to be remotely or computer-controlled such as drones.\n\nhello', 'https://scx1.b-cdn.net/csz/news/800/2019/toomanyairpl.jpg', 0, 42, '2020-05-30 09:13:53', 0),
-(27, 1, 'z - test Air', 'Atmosphere of Earth', 'The atmosphere of Earth is the layer of gases, commonly known as air, that surrounds the planet Earth and is retained by Earth\'s gravity. The atmosphere of Earth protects life on Earth by creating pressure allowing for liquid water to exist on the Earth\'s surface, absorbing ultraviolet solar radiation, warming the surface through heat retention (greenhouse effect), and reducing temperature extremes between day and night (the diurnal temperature variation).\n\nBy volume, dry air contains 78.09% nitrogen, 20.95% oxygen, 0.93% argon, 0.04% carbon dioxide, and small amounts of other gases.[8] Air also contains a variable amount of water vapor, on average around 1% at sea level, and 0.4% over the entire atmosphere. \n\nAir composition, temperature, and atmospheric pressure vary with altitude, and air suitable for use in photosynthesis by terrestrial plants and breathing of terrestrial animals is found only in Earth\'s troposphere and in artificial atmospheres.', 'https://www.thoughtco.com/thmb/u4lrTQTaL53yjnngajEkywr3MmM=/1941x1456/smart/filters:no_upscale()/GettyImages-914450516-5a831486642dca0037213a33.jpg', 0, 42, '2020-05-30 09:14:40', 0),
 (44, 2, 'Motors and Controls', 'Electrical Motors and Motor Controls (Variable Speed Drives, etc) are crucial to most mechanized industrial processes and equipment.', 'Motors are a crucial part of any mechanized process and provide a means to do the majority of the mechanical work in most facilities.  Motors convert electrical energy into mechanical work to provide power to a wide range of applications including air compressors, fans, pumps, hydraulics, mixers, conveyors, and much more.', 'https://live.staticflickr.com/65535/50069229503_243696380c_b.jpg', 0, 51, '2020-06-29 23:04:50', 0),
 (45, 2, 'Pumps', 'Pumps provide a typical utility required throughout industry.', 'Centrifugal pumps are the most common type found in industry, followed by positive displacement pumps (used in hydraulics), pneumatic diaphragm pumps, peristaltic pumps, and other specialty pumps. \n\nUnless otherwise noted this section speaks to centrifugal pumps when addressing pump performance and efficiency. Changes in hydraulic energy required (pressure and flow) will translate to any pumping system. ', 'https://live.staticflickr.com/65535/50066427331_ddae8822f2_b.jpg', 0, 51, '2020-07-01 18:11:01', 0),
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
@@ -1536,13 +1453,10 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (48, 2, 'Refrigeration', 'Refrigeration technology is important in many industrial processes.', 'Vapor compression is the most common refrigeration technology. Mechanical energy input to a compressor enables absorbing heat in cooler environment and discharging it to a warmer environment. ', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 51, '2020-07-02 22:10:36', 0),
 (49, 7, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'Utility bills are based not only on the commodity. They can also be based on the rate of use (Dem...', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 0, 51, '2020-07-02 22:40:27', 0),
 (50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 51, '2020-07-07 20:46:38', 0),
-(53, 4, 'z - test Diff Demo', 'Basic Page Meant for Testing New Features @ 1', 'Loremem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, velel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nFusce quam eros, tincidunt vitae libero eget, tincidunt aliquam lectus. Curabitur non mi et orci semper sollicitudin. Cras dapibus malesuada accumsan. Maecenas efficitur euismod elit eu lacinia. Aliquam id sollicitudin augue. Quisque pharetra scelerisque ultrices. Curabitur dictum felis metus, vitae pulvinar quam efficitur et. Mauris accumsan cursus ante rutrum interdum. Duis scelerisque pharetra fermentum. Phasellus viverra tellus in rutrum dignissim. Sed ex augue, elementum a aliquam non, rutrum sed metus. Nulla sapien lorem, ullamcorper ut molestie ac, hendrerit ultrices odio. Nullam sit amet eleifend erat. Aenean laoreet fermentum ipsum, ut tempus magna rhoncus at. Cras vitae dolor leo.\n\nCurabitur cursus arcu elit, u scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/200/500', 1, 42, '2020-08-11 10:32:11', 1),
 (54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, 51, '2020-08-05 19:54:53', 1),
-(55, 3, 'z-Test', 'nuthin', 'More nuthin', 'no url', 1, 51, '2020-08-06 18:54:54', 0),
 (56, 3, 'Combined Heat and Power', 'Combined Heat and Power allows sites to use the waste heat of electrical generation.', 'CHP', 'no image yet', 0, 51, '2020-08-07 00:33:29', 0),
 (57, 4, 'Optimize Facility Layout', 'Improve productivity through the location of departments and workstations and the workflow of personnel and materials.', 'Facility layout has a significant and often underestimated effect on the productivity of a facility. Movement of any form of work represents a non-value-added (NVA) process. Re-arranging the location of workstations and inventory to eliminate movement creates value in several forms. Most typically, fewer labor hours are spent moving materials, and sometimes energy is saved if operating hours of vehicles (e.g. forklifts or conveyors) are reduced. The most lucrative savings for the facility is increased productivity if delivery lead times between workstations are reduced, increasing utilization of the downstream workstation.', 'https://www.manexconsulting.com/wp-content/uploads/Layout-Optimization-Blog.jpg', 0, 62, '2020-08-07 19:21:05', 0),
-(58, 4, 'Queuing Line Optimization', 'The operation of queues and their respective workstations determine the overall production efficiency of a facility.', 'Optimizing the queuing system of a workstation has significant effects on product output. Little\'s law and queuing theory helps simplify any production system into a set of easy to estimate variables. While extensive research, data collection, and possibly simulation should be employed before making any change to a part of the production system, basic analysis can reveal opportunities for cost savings through increased productivity.', 'https://www.umav.org/wp-content/uploads/2019/04/Car-Assembly-Line.jpg', 0, 62, '2020-08-10 19:57:05', 0),
-(59, 2, 'zz - history', 'A page for testing history .... this is a change ... one last change', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac aliquet ipsum, et pharetra massa. Mauris fringilla, dui eget tristique posuere, neque urna viverra nisl, ac scelerisque tortor est elementum enim. a rhoncus orci maximus ac. Praesent fringilla faucibus lectus, at mollis nunc viverra vitae. Pellentesque id ante nec tortor feugiat vehicula.\n\nUt et nunc imperdiet nulla varius pellentesque. Maecenas congue non enim ac bibendum. Praesent eu arcu massa. Etiam eu vehicula dolor. Sed venenatis massa vitae arcu malesuada tincidunt. Cras eu elit in sapien efficitur mollis. Sed a elit ac ante hendrerit iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam interdum nibh vitae turpis euismod, ac congue diam bibendum. Donec pharetra interdum suscipit. In tempor tempor dui, non aliquet justo pretium eget. Praesent molestie magna tellus, eget auctor lectus pellentesque quis.\n\nInteger ut fringilla arcu, posuere luctus erat. Integer maximus, ex at venenatis tristique, nisl enim suscipit augue, eu consequat magna lectus eget augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed viverra felis ligula, non volutpat nibh gravida ut. Sed sed dapibus lacus. Morbi quam tortor, blandit vel consequat vestibulum, semper quis lacus. Ut bibendum laoreet lacus, ut iaculis enim eleifend vitae. Morbi malesuada odio est, non interdum risus volutpat quis.\n\nPellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec varius non magna a commodo. Praesent dapibus eu ante ac luctus. Aliquam consequat quis dui vitae elementum. Integer vitae rhoncus massa. Suspendisse potenti. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer egestas ligula ut tellus tincidunt fringilla. Vivamus non elementum mi. Nulla arcu orci, dapibus at molestie sit amet, vehicula ut lectus.', 'http://placekitten.com/600/500', 1, 42, '2020-08-11 10:12:55', 1);
+(58, 4, 'Queuing Line Optimization', 'The operation of queues and their respective workstations determine the overall production efficiency of a facility.', 'Optimizing the queuing system of a workstation has significant effects on product output. Little\'s law and queuing theory helps simplify any production system into a set of easy to estimate variables. While extensive research, data collection, and possibly simulation should be employed before making any change to a part of the production system, basic analysis can reveal opportunities for cost savings through increased productivity.', 'https://www.umav.org/wp-content/uploads/2019/04/Car-Assembly-Line.jpg', 0, 62, '2020-08-10 19:57:05', 0);
 
 -- --------------------------------------------------------
 
@@ -1586,16 +1500,12 @@ CREATE TABLE `Temp_Cards` (
 --
 
 INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
-(47, 0, 'Engines', 80, 42, '2020-06-30 21:10:53'),
-(66, 10, 'Facilisis volutpat est velit egestas.', 66, 42, '2020-07-14 11:04:54'),
 (77, 0, 'Improve Compressor Efficiency', 77, 58, '2020-07-14 18:58:25'),
-(80, 0, 'New Card', 47, 42, '2020-07-14 07:42:37'),
 (100, 0, 'Off Site Resource Links', 100, 51, '2020-07-03 17:55:16'),
 (101, 0, 'Improve Boiler Combustion Efficiency', 101, 57, '2020-07-03 17:28:05'),
 (105, 0, 'Improve the Condensate System', 105, 58, '2020-07-10 18:54:00'),
 (106, 0, 'Reduce Heat Loss', 106, 51, '2020-07-03 17:31:09'),
-(120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52'),
-(128, 10, 'eoowerwerwer', 128, 42, '2020-07-07 21:33:22');
+(120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52');
 
 -- --------------------------------------------------------
 
@@ -1617,8 +1527,7 @@ CREATE TABLE `Temp_Headers` (
 --
 
 INSERT INTO `Temp_Headers` (`tempHeaderId`, `tempTitle`, `tempInternal`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
-(32, 'Boilers and Steam Opportunities to Consider', 0, 32, 58, '2020-07-14 18:53:33'),
-(44, 'C (published & edited)', 0, 1, 42, '2020-07-28 08:32:25');
+(32, 'Boilers and Steam Opportunities to Consider', 0, 32, 58, '2020-07-14 18:53:33');
 
 -- --------------------------------------------------------
 
@@ -1675,7 +1584,7 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (62, 'psukamto', 'bbd4de95486df84c2553cb4cabc1472a$d8d1b75623a7d7eb3b717020dc28b70ba1c9152992db10316e280aedb0f35d6c', 'Peter', 'Sukamto', 'sukamtop.eec@gmail.com', 3, '2020-07-20 22:20:37'),
 (63, 'testUser', '1f9d6b0176ddee97a3a69102b00679fd$f95c8cef6dacedc921486f893f34cdcd497d0e70b36955f84a3f45caa86c6c5f', 'test', 'user', 'testuser@gmail.com', 3, '2020-07-28 20:21:12'),
 (64, 'NewUser', '0f98b126f8c5f97567986f7344a65d35$b56cdfeeb26a024487d97ea457a4691c8059a5a41f6102362319a7010488ecf7', 'Zachary', 'Thomas', 'newUser@gmail.com', 1, '2020-08-04 20:49:52'),
-(65, 'KarlHaapala', '92951dc4618cccff1e72485b068db0d8$d5f663c944ddc67acc65512b6544483f2c37c34149de3a4379e846268020c050', 'Karl', 'Happala', 'Karl.Haapala@oregonstate.edu', 3, '2020-08-10 16:43:08');
+(65, 'KarlHaapala', 'b57616ebf0b31e2b470945548ebb37c3$ce2a1a37a4eeb500f9ff3d7ae5a436bd96f996cc7035089b06c66296ef664a0e', 'Karl', 'Haapala', 'Karl.Haapala@oregonstate.edu', 3, '2020-08-10 16:43:08');
 
 -- --------------------------------------------------------
 
@@ -1690,16 +1599,6 @@ CREATE TABLE `Views` (
   `viewName` varchar(500) NOT NULL,
   `public` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `Views`
---
-
-INSERT INTO `Views` (`viewId`, `pageId`, `userId`, `viewName`, `public`) VALUES
-(3, 53, 42, 'MyView', 0),
-(4, 53, 42, 'OnlyCheck', 0),
-(5, 53, 42, 'New View', 0),
-(6, 53, 42, 'Shared View', 1);
 
 --
 -- Indexes for dumped tables
@@ -1842,7 +1741,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -1860,13 +1759,13 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
 --
 ALTER TABLE `History_Cards`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `History_Headers`
@@ -1878,7 +1777,7 @@ ALTER TABLE `History_Headers`
 -- AUTO_INCREMENT for table `History_Items`
 --
 ALTER TABLE `History_Items`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=532;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=570;
 
 --
 -- AUTO_INCREMENT for table `History_Pages`
@@ -1896,7 +1795,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4342;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4444;
 
 --
 -- AUTO_INCREMENT for table `Pages`
