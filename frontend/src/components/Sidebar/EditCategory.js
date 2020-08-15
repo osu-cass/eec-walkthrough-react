@@ -155,7 +155,7 @@ function EditCategory(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="formName">
+              <Form.Group controlId="formPlural">
                 <Form.Label className="font-weight-bold">Plural Name</Form.Label>
                 <Form.Control
                   type="text"
