@@ -97,12 +97,12 @@ async function getCategories(viewAll) {
       const categoryId = finalResults.categories[i].categoryId;
 
       if (viewAll) {
-        sql = "SELECT pageId, pageType, name, description " +
+        sql = "SELECT pageId, pageType, name, description, approved, internal " +
         "FROM Pages " +
         "WHERE pageType = ? " +
         "ORDER BY pageType ASC, name ASC;";
       } else {
-        sql = "SELECT pageId, pageType, name, description " +
+        sql = "SELECT pageId, pageType, name, description, approved, internal " +
         "FROM Pages " +
         "WHERE pageType = ? " +
         "AND approved = 1 " +

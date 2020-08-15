@@ -6,6 +6,11 @@ a:focus.page-sidebar-nav-link {
   transition: all 0.3s;
 }
 
+.sidebar-icons {
+  display: inline;
+  white-space: nowrap;
+}
+
 #sidebarCollection.card-header {
   cursor: pointer;
   color: #FFFFFF;
