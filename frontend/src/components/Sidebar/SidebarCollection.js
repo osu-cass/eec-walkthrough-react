@@ -66,10 +66,10 @@ function SidebarCollection(props) {
                   <Card.Body key={item.pageId} style={{fontSize: "1rem"}} className="nav_link">
                     <span>
                       {item.name}
-                      {item.approved ? (
-                        null
-                      ) : (
+                      {item.approved === 0 ? (
                         <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-wrench fa-sm ml-1" /></span>
+                      ) : (
+                        null
                       )}
                       {item.internal ? (
                         <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
