@@ -17,16 +17,14 @@ function SidebarCollection(props) {
         <Fragment>
           {props.role >= 3 || props.collection.length ? (
             <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
-              <Fragment>
+              <span>
                 {props.collectionName}
-              </Fragment>
-              <Fragment>
                 {props.internal ? (
-                  <i className="fas fa-fw fa-unlock-alt fa-sm ml-2" />
+                  <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
                 ) : (
                   null
                 )}
-              </Fragment>
+              </span>
             </Accordion.Toggle>
           ) : (
             null
@@ -66,7 +64,19 @@ function SidebarCollection(props) {
               return (
                 <NavLink key={i} to={`/${props.collectionLink}/${item.pageId}`} className="ml-3 nav_link">
                   <Card.Body key={item.pageId} style={{fontSize: "1rem"}} className="nav_link">
-                    {item.name}
+                    <span>
+                      {item.name}
+                      {item.approved ? (
+                        null
+                      ) : (
+                        <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-wrench fa-sm ml-1" /></span>
+                      )}
+                      {item.internal ? (
+                        <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
+                      ) : (
+                        null
+                      )}
+                    </span>
                   </Card.Body>
                 </NavLink>
               );
