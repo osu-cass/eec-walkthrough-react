@@ -81,17 +81,23 @@ function SidebarCollection(props) {
                 </NavLink>
               );
             })}
-            <CreatePage
-              title={`Create ${props.collectionName} Page`}
-              refresh={props.refresh}
-              role={props.role}
-              categoryId={props.category.categoryId}
-            />
-            <EditCategory
-              refresh={props.refresh}
-              role={props.role}
-              category={props.category}
-            />
+            {props.show ? (
+              <Fragment>
+                <CreatePage
+                  title={`Create ${props.collectionName} Page`}
+                  refresh={props.refresh}
+                  role={props.role}
+                  categoryId={props.category.categoryId}
+                />
+                <EditCategory
+                  refresh={props.refresh}
+                  role={props.role}
+                  category={props.category}
+                />
+              </Fragment>
+            ) : (
+              null
+            )}
           </Fragment>
         </Accordion.Collapse>
       ) : (
@@ -114,6 +120,7 @@ SidebarCollection.propTypes = {
   role: PropTypes.any,
   externalLink: PropTypes.string,
   category: PropTypes.object,
-  internal: PropTypes.number
+  internal: PropTypes.number,
+  show: PropTypes.bool
 };
 

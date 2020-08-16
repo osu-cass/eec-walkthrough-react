@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef, Fragment} from "react";
 import SidebarCollection from "./SidebarCollection";
+import SidebarToggleView from "./SidebarToggleView";
 import {getProfile} from "../../utilities/cookieAuth";
 import CreateCategory from "./CreateCategory";
 import PropTypes from "prop-types";
@@ -12,18 +13,27 @@ function Sidebar(props) {
 
   const [categories, setCategories] = useState([]);
   const [role, setRole] = useState(0);
+  const [showEdit, setShowEdit] = useState(true);
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
   // check user info and which categories to display when login status changes
   useEffect(() => {
-
     // check user role to see what we should render
     const user = getProfile();
     setRole(user.role);
     fetchData();
-
   }, [props.loginStatusChange, props.pageEdit]);
+
+  // load local storage data to see if we should show editor buttons
+  useEffect(() => {
+    const editMode = window.localStorage.getItem("showEditButtons");
+    if (editMode === "false") {
+      setShowEdit(false);
+    } else {
+      setShowEdit(true);
+    }
+  }, []);
 
   // check for a click outside of the sidebar
   // if a click is detected, then close the sidebar
@@ -57,6 +67,12 @@ function Sidebar(props) {
     }
   }
 
+  function handleToggleEditorButtons() {
+    const editString = (!showEdit).toString(10);
+    window.localStorage.setItem("showEditButtons", editString);
+    setShowEdit(!showEdit);
+  }
+
   return (
     <div
       className={"wrapper " + props.className}
@@ -88,14 +104,20 @@ function Sidebar(props) {
                 category={category}
                 internal={category.internal}
                 refresh={() => fetchData()}
+                show={showEdit}
                 role={role}
               />
             )}
           </Card>
-          <CreateCategory
-            refresh={() => fetchData()}
-            role={role}
-          />
+
+          {showEdit ? (
+            <CreateCategory
+              refresh={() => fetchData()}
+              role={role}
+            />
+          ) : (
+            null
+          )}
 
           {role >= 2 ? (
             <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
@@ -121,6 +143,14 @@ function Sidebar(props) {
                 collectionName="History Report"
                 collectionLink="history-report"
               />
+              {role >= 3 ? (
+                <SidebarToggleView
+                  show={showEdit}
+                  onToggleEditorButtons={() => handleToggleEditorButtons()}
+                />
+              ) : (
+                null
+              )}
             </Card>
           ) : (
             null
