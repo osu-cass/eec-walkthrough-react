@@ -42,7 +42,7 @@ function ItemInput(props) {
       {props.contentType === 1 ?
         <FormControl
           className="mx-3"
-          placeholder="Item text"
+          placeholder="Item Text"
           value={props.value.contentText}
           aria-label="Insert Description"
           aria-describedby="basic-addon1"
@@ -54,7 +54,7 @@ function ItemInput(props) {
         <Fragment>
           <FormControl
             className="ml-3"
-            placeholder="Graphic description"
+            placeholder="Graphic Label"
             value={props.value.contentLabel}
             aria-label="Insert Description"
             aria-describedby="basic-addon1"
@@ -95,7 +95,7 @@ function ItemInput(props) {
           </Dropdown>
           <FormControl
             className="ml-3"
-            placeholder="Resource URL label"
+            placeholder="Resource Label"
             value={props.value.contentLabel}
             aria-label="Insert URL Label"
             aria-describedby="basic-addon1"
@@ -112,7 +112,7 @@ function ItemInput(props) {
           />
           <FormControl
             className="mr-3"
-            placeholder="Resource text/description"
+            placeholder="Description (optional)"
             value={props.value.contentText}
             aria-label="Insert Description"
             aria-describedby="basic-addon1"
