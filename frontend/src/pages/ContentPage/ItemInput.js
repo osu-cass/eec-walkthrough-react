@@ -95,14 +95,6 @@ function ItemInput(props) {
           </Dropdown>
           <FormControl
             className="ml-3"
-            placeholder="Resource text/description"
-            value={props.value.contentText}
-            aria-label="Insert Description"
-            aria-describedby="basic-addon1"
-            onChange={(e) => props.handleInput(e, props.index, 1)}
-            required
-          />
-          <FormControl
             placeholder="Resource URL label"
             value={props.value.contentLabel}
             aria-label="Insert URL Label"
@@ -111,12 +103,20 @@ function ItemInput(props) {
             required
           />
           <FormControl
-            className="mr-3"
             placeholder="Resource URL"
             value={props.value.contentUrl}
             aria-label="Insert Resource URL"
             aria-describedby="basic-addon1"
             onChange={(e) => props.handleInput(e, props.index, 3)}
+            required
+          />
+          <FormControl
+            className="mr-3"
+            placeholder="Resource text/description"
+            value={props.value.contentText}
+            aria-label="Insert Description"
+            aria-describedby="basic-addon1"
+            onChange={(e) => props.handleInput(e, props.index, 1)}
             required
           />
         </Fragment>
