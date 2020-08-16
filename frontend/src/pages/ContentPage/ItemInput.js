@@ -37,20 +37,13 @@ function ItemInput(props) {
     }
   }
 
-  function expandTextarea(id) {
-      document.getElementById(id).addEventListener('keyup', function() {
-          this.style.overflow = 'hidden';
-          this.style.height = 0;
-          this.style.height = this.scrollHeight + 'px';
-      }, false);
-  }
-
   return (
     <Fragment>
       {props.contentType === 1 ?
         <FormControl
           as="textarea"
-          className="mx-3"
+          rows="1"
+          className="ml-3"
           placeholder="Item Text"
           value={props.value.contentText}
           aria-label="Insert Description"
@@ -63,6 +56,7 @@ function ItemInput(props) {
         <Fragment>
           <FormControl
             as="textarea"
+            rows="1"
             className="ml-3"
             placeholder="Graphic Label"
             value={props.value.contentLabel}
@@ -73,7 +67,7 @@ function ItemInput(props) {
           />
           <FormControl
             as="textarea"
-            className="mr-3"
+            rows="1"
             placeholder="Graphic URL"
             value={props.value.contentUrl}
             aria-label="Insert Image URL"
@@ -106,6 +100,7 @@ function ItemInput(props) {
           </Dropdown>
           <FormControl
             as="textarea"
+            rows="1"
             className="ml-3"
             placeholder="Resource Label"
             value={props.value.contentLabel}
@@ -116,6 +111,7 @@ function ItemInput(props) {
           />
           <FormControl
             as="textarea"
+            rows="1"
             placeholder="Resource URL"
             value={props.value.contentUrl}
             aria-label="Insert Resource URL"
@@ -125,7 +121,7 @@ function ItemInput(props) {
           />
           <FormControl
             as="textarea"
-            className="mr-3"
+            rows="1"
             placeholder="Description (optional)"
             value={props.value.contentText}
             aria-label="Insert Description"
