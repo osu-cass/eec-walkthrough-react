@@ -91,7 +91,7 @@ async function getFullPage(pageId, viewAll) {
           // get all approved items
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, contentMode, " +
+          "contentUrl, contentLabel, contentMode, internal, " +
           "created, approved, color " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
@@ -106,7 +106,7 @@ async function getFullPage(pageId, viewAll) {
           // get all unapproved items
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, contentMode, " +
+          "contentUrl, contentLabel, contentMode, internal, " +
           "created, approved, color " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
@@ -127,6 +127,7 @@ async function getFullPage(pageId, viewAll) {
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
+          "AND internal = 0 " +
           "AND approved = 1 " +
           "ORDER BY orderIndex ASC, itemId ASC";
 

@@ -599,7 +599,7 @@ function Header(props) {
         <div className={`d-flex sticky-top
           ${props.header.approved && (!props.header.tempHeaderId || !viewUnpublished()) ? "header-approved" : "header-review"}
           ${isInternal() ? "header-internal" : ""}
-          header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
+          header-bar header-bar-content justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
         style={{top: "1em", zIndex: "998"}}
         >
           <div className="row mx-2">
