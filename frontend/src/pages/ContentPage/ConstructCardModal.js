@@ -24,6 +24,8 @@ function ConstructCardModal(props) {
   const [linkIcons, setLinkIcons] = useState([]);
   const [checked, setChecked] = useState(0);
   const [copyToast, setCopyToast] = useState(false);
+  const [cardTitleMode, setCardTitleMode] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(0);
 
   // setup card data
   useEffect(() => {
@@ -175,7 +177,8 @@ function ConstructCardModal(props) {
   }
 
   // Increase the indentation level of the item
-  function changeIndent(counterId, amount) {
+  function changeIndent(amount) {
+    const counterId = selectedItem;
     let arrayIndex = -1;
     let copy = [...items];
 
@@ -187,22 +190,32 @@ function ConstructCardModal(props) {
       }
     }
 
-    // If the current index is the first item on the card or we can not find the index
-    if (!arrayIndex || (amount === -1 && copy[arrayIndex].indentation === 0)) {
+    // If we can not find the index then return
+    if (arrayIndex === -1) {
+      console.error("Unable to find item to indent");
+      return;
+    }
+
+    // If the current index is the first item on the card return
+    if (arrayIndex === 0) {
+      console.error("This item can not be indented");
       return;
     }
 
     // If we are removing indentation do that and return
-    if (amount === -1 && copy[arrayIndex].indentation >= 0) {
+    if (amount === -1) {
 
       // Lower our indentation level
-      copy[arrayIndex].indentation += -1;
+      if (copy[arrayIndex].indentation > 0) {
+        copy[arrayIndex].indentation += -1;
 
-      // Update the indentation level across the card
-      copy = scanIndentation(copy);
+        // Update the indentation level across the card
+        copy = scanIndentation(copy);
 
-      // We are done. Save the changes and return
-      setItems(copy);
+        // We are done. Save the changes and return
+        setItems(copy);
+      }
+
     } else {
 
       // Check if we should be able to update our indentation and by how much
@@ -220,7 +233,8 @@ function ConstructCardModal(props) {
   }
 
   // Change the placement order of the selected item
-  function changeOrder(counterId, up) {
+  function changeOrder(up) {
+    const counterId = selectedItem;
     let arrayIndex = -1;
     let copy = [...items];
 
@@ -234,6 +248,7 @@ function ConstructCardModal(props) {
 
     // If we cannot find the index, then return
     if (arrayIndex === -1) {
+      console.error("Unable to find item to move");
       return;
     }
 
@@ -274,11 +289,60 @@ function ConstructCardModal(props) {
       copy[i].orderIndex = i;
     }
 
+    // If we are using a preset title apply it now
+    let submitTitle = title;
+    switch (cardTitleMode) {
+      case 1:
+        submitTitle = "Pros";
+        break;
+      case 2:
+        submitTitle = "Cons";
+        break;
+      case 3:
+        submitTitle = "Caveats";
+        break;
+      case 4:
+        submitTitle = "Best Practices";
+        break;
+      case 5:
+        submitTitle = "Rules of Thumb";
+        break;
+      case 6:
+        submitTitle = "Tips";
+        break;
+      case 7:
+        submitTitle = "Additional in Depth Site Resources";
+        break;
+      case 8:
+        submitTitle = "Charts, Tables, Figures";
+        break;
+      case 9:
+        submitTitle = "Standard Data to Collect";
+        break;
+      case 10:
+        submitTitle = "Data Collection Guides";
+        break;
+      case 11:
+        submitTitle = "Analysis Tools";
+        break;
+      case 12:
+        submitTitle = "Gallery";
+        break;
+      case 13:
+        submitTitle = "U.S. Department of Energy Tip Sheets";
+        break;
+      case 14:
+        submitTitle = "General Off Site Resource Links";
+        break;
+      default:
+        submitTitle = title;
+    }
+
     // Prepare data for new card
     const cardData = {
       headerId: props.headerId,
       cardType: newCardFormat,
-      title: title,
+      title: submitTitle,
       items: copy
     };
 
@@ -310,7 +374,7 @@ function ConstructCardModal(props) {
         cardId: obj.insertId,
         headerId: props.headerId,
         cardType: newCardFormat,
-        title: title,
+        title: submitTitle,
         items: [],
         userId: 0,
         created: new Date().toISOString()
@@ -380,10 +444,59 @@ function ConstructCardModal(props) {
       }
     }
 
+    // If we are using a preset title apply it now
+    let submitTitle = title;
+    switch (cardTitleMode) {
+      case 1:
+        submitTitle = "Pros";
+        break;
+      case 2:
+        submitTitle = "Cons";
+        break;
+      case 3:
+        submitTitle = "Caveats";
+        break;
+      case 4:
+        submitTitle = "Best Practices";
+        break;
+      case 5:
+        submitTitle = "Rules of Thumb";
+        break;
+      case 6:
+        submitTitle = "Tips";
+        break;
+      case 7:
+        submitTitle = "Additional in Depth Site Resources";
+        break;
+      case 8:
+        submitTitle = "Charts, Tables, Figures";
+        break;
+      case 9:
+        submitTitle = "Standard Data to Collect";
+        break;
+      case 10:
+        submitTitle = "Data Collection Guides";
+        break;
+      case 11:
+        submitTitle = "Analysis Tools";
+        break;
+      case 12:
+        submitTitle = "Gallery";
+        break;
+      case 13:
+        submitTitle = "U.S. Department of Energy Tip Sheets";
+        break;
+      case 14:
+        submitTitle = "General Off Site Resource Links";
+        break;
+      default:
+        submitTitle = title;
+    }
+
     // Prepare data for new card
     const cardData = {
       cardType: newCardFormat,
-      title: title,
+      title: submitTitle,
       items: copy
     };
 
@@ -429,7 +542,7 @@ function ConstructCardModal(props) {
             .replace("T", " "),
           tempUserId: 0,
           tempItems: copy,
-          tempTitle: title
+          tempTitle: submitTitle
         };
       } else {
         newCard = {
@@ -437,7 +550,7 @@ function ConstructCardModal(props) {
           cardId: props.card.cardId,
           headerId: props.card.headerId,
           cardType: newCardFormat,
-          title: title,
+          title: submitTitle,
           items: props.card.items,
           userId: 0,
           created: new Date().toISOString()
@@ -486,13 +599,10 @@ function ConstructCardModal(props) {
   }
 
   // Deletes the selected item
-  function deleteItem(counterId) {
+  function deleteItem() {
+    const counterId = selectedItem;
     let arrayIndex = -1;
     let copy = [...items];
-
-    if (!window.confirm("Are you sure you want to delete this item?")) {
-      return;
-    }
 
     // Find the index of this item
     for (let i = 0; i < copy.length; i++) {
@@ -505,6 +615,10 @@ function ConstructCardModal(props) {
     // If we can not find the index, then exit
     if (arrayIndex === -1) {
       console.error("Unable to find the item to delete");
+      return;
+    }
+
+    if (!window.confirm("Are you sure you want to delete this item?")) {
       return;
     }
 
@@ -578,7 +692,7 @@ function ConstructCardModal(props) {
     let i = 0;
 
     // Empty title
-    if (!title.length) {
+    if (!title.length && !cardTitleMode) {
       emptyFound = true;
       newErrorMessage = "Error: Empty card title";
       if (emptyFound) {
@@ -726,7 +840,27 @@ function ConstructCardModal(props) {
   }
 
   // Copy item
-  function copyItem(item) {
+  function copyItem() {
+    const counterId = selectedItem;
+    let arrayIndex = -1;
+    let copy = [...items];
+    let item = {};
+
+    // Find the index of this item
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].counterId === counterId) {
+        item = copy[i];
+        arrayIndex = i;
+        break;
+      }
+    }
+
+    // If we can not find the index, then exit
+    if (arrayIndex === -1) {
+      console.error("Unable to find item to copy");
+      return;
+    }
+
     // show the toast stating that we have copied an item
     setCopyToast(true);
 
@@ -781,6 +915,13 @@ function ConstructCardModal(props) {
     setCopyToast(false);
   }
 
+  // Updates the current card title when the dropdown is changed
+  function updateCardTitle() {
+    const titleSelect = document.getElementById("card-title-dropdown");
+    let newCardValue = parseInt(titleSelect.options[titleSelect.selectedIndex].value, 10);
+    setCardTitleMode(newCardValue);
+  }
+
   return (
     <div className='text-center mx-2'>
 
@@ -795,14 +936,48 @@ function ConstructCardModal(props) {
         </Modal.Header>
 
         <Modal.Body>
+
           <Row>
             <Col>
-              <Form.Group controlId="formTitle">
+              <Form.Group controlId="cardTitleDropdown">
                 <Form.Label className="font-weight-bold">Card Title</Form.Label>
-                <Form.Control type="text" maxLength="100" defaultValue={title} onChange={(e) => setTitle(e.target.value)} />
+                <select className="form-control"
+                  id="card-title-dropdown"
+                  defaultValue="0"
+                  onChange={() => updateCardTitle()}
+                >
+                  <option value="0">Custom</option>
+                  <option value="1">Pros</option>
+                  <option value="2">Cons</option>
+                  <option value="3">Caveats</option>
+                  <option value="4">Best Practices</option>
+                  <option value="5">Rules of Thumb</option>
+                  <option value="6">Tips</option>
+                  <option value="7">Additional in Depth Site Resources</option>
+                  <option value="8">Charts, Tables, Figures</option>
+                  <option value="9">Standard Data to Collect</option>
+                  <option value="10">Data Collection Guides</option>
+                  <option value="11">Analysis Tools</option>
+                  <option value="12">Gallery</option>
+                  <option value="13">U.S. Department of Energy Tip Sheets</option>
+                  <option value="14">General Off Site Resource Links</option>
+                </select>
               </Form.Group>
             </Col>
           </Row>
+
+          {cardTitleMode ? (
+            null
+          ) : (
+            <Row>
+              <Col>
+                <Form.Group controlId="formTitle">
+                  <Form.Label className="font-weight-bold">Custom Card Title</Form.Label>
+                  <Form.Control type="text" maxLength="100" defaultValue={title} onChange={(e) => setTitle(e.target.value)} />
+                </Form.Group>
+              </Col>
+            </Row>
+          )}
 
           <Row>
             <Col>
@@ -841,51 +1016,53 @@ function ConstructCardModal(props) {
 
           <div className="font-weight-bold mb-2">Items</div>
 
+          <div className="mr-3 mb-3">
+            <button className="btn btn-danger btn-sm ml-2"
+              onClick={() => deleteItem()}
+            >
+              <i className="fas fa-fw fa-times mr-2" />
+              Delete Item
+            </button>
+            <button className="btn btn-info copy-paste-button btn-sm ml-2"
+              onClick={() => copyItem()}
+            >
+              <i className="fas fa-fw fa-copy mr-2" />
+              Copy Item
+            </button>
+            <button className="btn btn-primary btn-sm ml-2"
+              onClick={() => changeIndent(-1)}
+            >
+              <i className="fas fa-fw fa-minus mr-2" />
+              Dedent
+            </button>
+            <button className="btn btn-primary btn-sm ml-2"
+              onClick={() => changeIndent(1)}
+            >
+              <i className="fas fa-fw fa-plus mr-2" />
+              Indent
+            </button>
+            <button className="btn btn-success btn-sm ml-2"
+              onClick={() => changeOrder(true)}
+            >
+              <i className="fas fa-fw fa-arrow-up mr-2" />
+              Move Up
+            </button>
+            <button className="btn btn-success btn-sm ml-2"
+              onClick={() => changeOrder(false)}
+            >
+              <i className="fas fa-fw fa-arrow-down mr-2" />
+              Move Down
+            </button>
+          </div>
+
           {/* Item Input Fields */}
 
           {items.map((item, i) =>
-            <Row className="mb-2" key={item.counterId}>
+            <Row className={`mb-2 mx-2 ${item.counterId === selectedItem ? "modal-selected-item" : ""}`} key={item.counterId} onClick={() => setSelectedItem(item.counterId)} >
               <div className="input-group">
-                <span className="ml-2 mr-3">
-                  <button className='btn btn-danger btn-sm ml-2'
-                    onClick={() => deleteItem(item.counterId)}
-                    data-index={i}
-                  >
-                    <i className='fas fa-fw fa-times' />
-                  </button>
-                  <button className='btn btn-info copy-paste-button btn-sm ml-2'
-                    onClick={() => copyItem(item)}
-                    data-index={i}
-                  >
-                    <i className='fas fa-fw fa-copy' />
-                  </button>
-                  <button className={`btn btn-primary btn-sm ml-2 ${item.indentation === 0 ? "disabled" : ""}`}
-                    onClick={() => changeIndent(item.counterId, -1)}
-                    data-index={i}
-                  >
-                    <i className='fas fa-fw fa-minus' />
-                  </button>
-                  <button className={`btn btn-primary btn-sm ml-2 ${item.maxIndent <= item.indentation || item.indentation === 4 ? "disabled" : ""}`}
-                    onClick={() => changeIndent(item.counterId, 1)}
-                    data-index={i}
-                  >
-                    <i className='fas fa-fw fa-plus' />
-                  </button>
-                  <button className={`btn btn-success btn-sm ml-2 ${i ? "" : "disabled"}`}
-                    onClick={() => changeOrder(item.counterId, true)}
-                    data-index={i}
-                  >
-                    <i className='fas fa-fw fa-arrow-up' />
-                  </button>
-                  <button className={`btn btn-success btn-sm ml-2 ${i + 1 < items.length ? "" : "disabled"}`}
-                    onClick={() => changeOrder(item.counterId, false)}
-                    data-index={i}
-                  >
-                    <i className='fas fa-fw fa-arrow-down' />
-                  </button>
-                </span>
                 <Indent indentLevel={item.indentation} />
-                <IconDropdown key={item.counterId + "b"} idx={i}
+                <IconDropdown
+                  idx={i}
                   list={generateIcons(i, item.contentType)}
                   selectedIndex={getIconName(item.iconType, item.contentType)}
                   handleClick={(id, idx) => updateIcon(id, idx)}
@@ -916,7 +1093,8 @@ function ConstructCardModal(props) {
               >
                 <i
                   className='fas fa-paste text-white mr-2'
-                  style={{transform: "scale(1.5)"}}></i>
+                  style={{transform: "scale(1.5)"}}
+                />
                 Paste Item
               </Button>
             </Col>

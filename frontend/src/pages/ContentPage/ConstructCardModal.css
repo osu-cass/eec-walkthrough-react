@@ -6,6 +6,11 @@ select {
   max-width: 65%;
 }
 
+.modal-selected-item {
+  box-shadow: 0 0 5px #0275d8;
+  border: 1px solid #0275d8;
+}
+
 .custom-control-label::before,
 .custom-control-label::after {
   top: .15em !important;
