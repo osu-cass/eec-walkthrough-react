@@ -1017,37 +1017,37 @@ function ConstructCardModal(props) {
           <div className="font-weight-bold mb-2">Items</div>
 
           <div className="mr-3 mb-3">
-            <button className="btn btn-danger btn-sm ml-2"
+            <button className="btn btn-danger btn ml-2"
               onClick={() => deleteItem()}
             >
               <i className="fas fa-fw fa-times mr-2" />
               Delete Item
             </button>
-            <button className="btn btn-info copy-paste-button btn-sm ml-2"
+            <button className="btn btn-info copy-paste-button btn ml-2"
               onClick={() => copyItem()}
             >
               <i className="fas fa-fw fa-copy mr-2" />
               Copy Item
             </button>
-            <button className="btn btn-primary btn-sm ml-2"
-              onClick={() => changeIndent(-1)}
-            >
-              <i className="fas fa-fw fa-minus mr-2" />
-              Dedent
-            </button>
-            <button className="btn btn-primary btn-sm ml-2"
+            <button className="btn btn-primary btn ml-2"
               onClick={() => changeIndent(1)}
             >
               <i className="fas fa-fw fa-plus mr-2" />
               Indent
             </button>
-            <button className="btn btn-success btn-sm ml-2"
+            <button className="btn btn-primary btn ml-2"
+              onClick={() => changeIndent(-1)}
+            >
+              <i className="fas fa-fw fa-minus mr-2" />
+              Unindent
+            </button>
+            <button className="btn btn-success btn ml-2"
               onClick={() => changeOrder(true)}
             >
               <i className="fas fa-fw fa-arrow-up mr-2" />
               Move Up
             </button>
-            <button className="btn btn-success btn-sm ml-2"
+            <button className="btn btn-success btn ml-2"
               onClick={() => changeOrder(false)}
             >
               <i className="fas fa-fw fa-arrow-down mr-2" />
