@@ -59,6 +59,7 @@ function ConstructCardModal(props) {
       itemData.iconType = item.iconType;
       itemData.contentMode = item.contentMode;
       itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
+      itemData.internal = item.internal;
       itemData.current = 1;
       if (item.contentText === "$empty") {
         itemData.contentText = "";
@@ -922,6 +923,34 @@ function ConstructCardModal(props) {
     setCardTitleMode(newCardValue);
   }
 
+  // Toggle the internal status of an item
+  function toggleInternal() {
+    const counterId = selectedItem;
+    let arrayIndex = -1;
+    let copy = [...items];
+
+    // Find the item
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].counterId === counterId) {
+        if (copy[i].internal === 1) {
+          copy[i].internal = 0;
+        } else {
+          copy[i].internal = 1;
+        }
+        arrayIndex = i;
+        break;
+      }
+    }
+
+    // If we can not find the index, then exit
+    if (arrayIndex === -1) {
+      console.error("Unable to find item change internal status");
+    } else {
+      setItems(copy);
+    }
+
+  }
+
   return (
     <div className='text-center mx-2'>
 
@@ -1023,30 +1052,42 @@ function ConstructCardModal(props) {
               <i className="fas fa-fw fa-times mr-2" />
               Delete Item
             </button>
+
+            <button className="btn btn-info internal-item-button btn ml-2"
+              onClick={() => toggleInternal()}
+            >
+              <i className="fas fa-fw fa-unlock mr-2" />
+              Toggle Internal
+            </button>
+
             <button className="btn btn-info copy-paste-button btn ml-2"
               onClick={() => copyItem()}
             >
               <i className="fas fa-fw fa-copy mr-2" />
               Copy Item
             </button>
-            <button className="btn btn-primary btn ml-2"
-              onClick={() => changeIndent(1)}
-            >
-              <i className="fas fa-fw fa-plus mr-2" />
-              Indent
-            </button>
+
             <button className="btn btn-primary btn ml-2"
               onClick={() => changeIndent(-1)}
             >
               <i className="fas fa-fw fa-minus mr-2" />
               Unindent
             </button>
+
+            <button className="btn btn-primary btn ml-2"
+              onClick={() => changeIndent(1)}
+            >
+              <i className="fas fa-fw fa-plus mr-2" />
+              Indent
+            </button>
+
             <button className="btn btn-success btn ml-2"
               onClick={() => changeOrder(true)}
             >
               <i className="fas fa-fw fa-arrow-up mr-2" />
               Move Up
             </button>
+
             <button className="btn btn-success btn ml-2"
               onClick={() => changeOrder(false)}
             >
@@ -1058,7 +1099,11 @@ function ConstructCardModal(props) {
           {/* Item Input Fields */}
 
           {items.map((item, i) =>
-            <Row className={`mb-2 mx-2 ${item.counterId === selectedItem ? "modal-selected-item" : ""}`} key={item.counterId} onClick={() => setSelectedItem(item.counterId)} >
+            <Row 
+              className={`mb-2 mx-2 ${item.counterId === selectedItem ? "modal-selected-item" : ""} ${item.internal ? "internal-modal-item" : ""}`} 
+              key={item.counterId}
+              onClick={() => setSelectedItem(item.counterId)} 
+            >
               <div className="input-group">
                 <Indent indentLevel={item.indentation} />
                 <IconDropdown
@@ -1076,6 +1121,7 @@ function ConstructCardModal(props) {
                   index={i}
                   value={item}
                   contentType={item.contentType}
+                  internal={item.internal}
                 />
               </div>
             </Row>

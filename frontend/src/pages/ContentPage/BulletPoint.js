@@ -29,14 +29,12 @@ function BulletPoint (props) {
     if (text !== "" && label !== "" && url !== "") { return 3; }
   }
 
-  return (
-
+  return !props.internal || !props.publicMode ? (
     <Fragment>
-
       {getContentType(props.text, props.label, props.url) === 1 ? (
         <Fragment>
           {props.icon === "check-square" ? (
-            <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""}
+            <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
               ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
             >
               <div className="icon-td justify-content-center">
@@ -59,7 +57,7 @@ function BulletPoint (props) {
               </div>
             </div>
           ) : (
-            <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""}
+            <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
               ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
             >
               <div className="icon-td justify-content-center">
@@ -82,7 +80,7 @@ function BulletPoint (props) {
       )}
 
       {getContentType(props.text, props.label, props.url) === 2 ? (
-        <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""}
+        <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
           ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
         >
           <div className="icon-td pb-2">
@@ -107,7 +105,7 @@ function BulletPoint (props) {
 
       {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 ||
         props.contentMode === 0 || props.contentMode === 2 || props.created !== null || props.publicMode === 0) ? (
-          <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""}
+          <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
             ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
           >
             <div className="icon-td pb-2">
@@ -170,6 +168,8 @@ function BulletPoint (props) {
         )}
 
     </Fragment>
+  ) : (
+    null
   );
 
 }
@@ -193,5 +193,6 @@ BulletPoint.propTypes = {
   reviewing: PropTypes.bool,
   setCheck: PropTypes.func,
   checked: PropTypes.bool,
-  highlightStyle: PropTypes.number
+  highlightStyle: PropTypes.number,
+  internal: PropTypes.number
 };

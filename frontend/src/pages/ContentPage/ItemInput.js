@@ -43,7 +43,7 @@ function ItemInput(props) {
         <FormControl
           as="textarea"
           rows="1"
-          className="ml-3"
+          className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
           placeholder="Item Text"
           value={props.value.contentText}
           aria-label="Insert Description"
@@ -57,7 +57,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
-            className="ml-3"
+            className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
             placeholder="Graphic Label"
             value={props.value.contentLabel}
             aria-label="Insert Description"
@@ -68,6 +68,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
+            className={props.internal ? "internal-modal-item" : ""}
             placeholder="Graphic URL"
             value={props.value.contentUrl}
             aria-label="Insert Image URL"
@@ -101,7 +102,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
-            className="ml-3"
+            className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
             placeholder="Resource Label"
             value={props.value.contentLabel}
             aria-label="Insert URL Label"
@@ -112,6 +113,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
+            className={props.internal ? "internal-modal-item" : ""}
             placeholder="Resource URL"
             value={props.value.contentUrl}
             aria-label="Insert Resource URL"
@@ -122,6 +124,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
+            className={props.internal ? "internal-modal-item" : ""}
             placeholder="Description (optional)"
             value={props.value.contentText}
             aria-label="Insert Description"
@@ -144,5 +147,6 @@ ItemInput.propTypes = {
   value: PropTypes.any,
   handleInput: PropTypes.any,
   index: PropTypes.any,
-  handleLinkValue: PropTypes.func
+  handleLinkValue: PropTypes.func,
+  internal: PropTypes.number
 };
