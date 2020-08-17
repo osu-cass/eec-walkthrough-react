@@ -168,6 +168,7 @@ function ConstructCardModal(props) {
     copy[key].contentType = contentType;
     copy[key].contentMode = newContentMode;
     copy[key].indentation = newIndent;
+    copy[key].internal = 0;
 
     // Make sure the indentation is up to date
     copy = scanIndentation(copy);

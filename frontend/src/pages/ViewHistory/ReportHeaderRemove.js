@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
-import HighlightText from "../ContentPage/HighlightText";
 import "./ReportHeader.css";
 
 // Header history for a single removed header
