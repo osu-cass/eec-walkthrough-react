@@ -438,12 +438,12 @@ async function publishCard(cardId) {
       const sqlArray = [newHistoryId, results[0][i].itemId, results[0][i].cardId,
         results[0][i].orderIndex, results[0][i].indentation, results[0][i].iconType,
         results[0][i].contentText, results[0][i].contentUrl, results[0][i].contentLabel,
-        results[0][i].contentMode, results[0][i].created];
+        results[0][i].contentMode, results[0][i].internal, results[0][i].created];
 
       sql = "INSERT INTO History_Items " +
       "(parentId, itemId, cardId, orderIndex, indentation, iconType, contentText, " +
-      "contentUrl, contentLabel, contentMode, created) " +
-      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+      "contentUrl, contentLabel, contentMode, internal, created) " +
+      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
       await pool.query(sql, sqlArray);
     }
