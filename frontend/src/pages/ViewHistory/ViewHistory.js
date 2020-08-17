@@ -7,6 +7,7 @@ import ReportPageRemove from "./ReportPageRemove";
 import ReportHeader from "./ReportHeader";
 import ReportHeaderRemove from "./ReportHeaderRemove";
 import ReportCard from "./ReportCard";
+import ReportCardRemove from "./ReportCardRemove";
 import "./ViewHistory.css";
 
 // page for viewing page, header, and card history
@@ -144,12 +145,23 @@ function ViewHistory() {
                     null
                   )}
                   {object.sortType === 2 ? (
-                    <ReportCard
-                      key={object.cardId + "c"}
-                      card={object}
-                      newId={i}
-                      removeMode={removeMode}
-                    />
+                    <Fragment>
+                      {object.removed ? (
+                        <ReportCardRemove
+                          key={object.cardId + "c"}
+                          card={object}
+                          newId={i}
+                          removeMode={removeMode}
+                        />
+                      ) : (
+                        <ReportCard
+                          key={object.cardId + "c"}
+                          card={object}
+                          newId={i}
+                          removeMode={removeMode}
+                        />
+                      )}
+                    </Fragment>
                   ) : (
                     null
                   )}
