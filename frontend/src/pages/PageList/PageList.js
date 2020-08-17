@@ -80,17 +80,17 @@ function PageList() {
               {category.pages.map((page, index) =>
 
                 <div className="page-info-container card m-5" key={page.pageId}>
-                <Link to={pageLinks[index]}>
-                  <h5 className="page-link-header font-weight-bold text-left">
-                    {page.name}
-                  </h5>
-                </Link>
-                <span className="text-left float-left">
-                  {page.description}
-                </span>
-                <span className="page-link-created text-left float-left">
+                  <Link to={pageLinks[index]}>
+                    <h5 className="page-link-header font-weight-bold text-left">
+                      {page.name}
+                    </h5>
+                  </Link>
+                  <span className="text-left float-left">
+                    {page.description}
+                  </span>
+                  <span className="page-link-created text-left float-left">
                     Last updated {formatTime(page.created)}
-                </span>
+                  </span>
                 </div>
 
               )}

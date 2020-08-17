@@ -205,6 +205,14 @@ async function deletePage(pageId) {
       return {error: 1};
     }
 
+    // if the page was previously approved, save this deletion in history
+    if (results[0][0].approved) {
+      sql = "INSERT INTO History_Pages (pageId, pageType, name, title, description, imageUrl, internal, removed) " +
+      "SELECT pageId, pageType, name, title, description, imageUrl, internal, 1 AS removed FROM Pages " +
+      "WHERE Pages.approved = 1 AND Pages.pageId = ?;";
+      await pool.query(sql, [pageId]);
+    }
+
     // delete the page
     sql = "DELETE " +
       "FROM Pages " +
