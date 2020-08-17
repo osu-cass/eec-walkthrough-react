@@ -5,6 +5,7 @@ import {logout} from "../../utilities/cookieAuth";
 import ReportPage from "./ReportPage";
 import ReportPageRemove from "./ReportPageRemove";
 import ReportHeader from "./ReportHeader";
+import ReportHeaderRemove from "./ReportHeaderRemove";
 import ReportCard from "./ReportCard";
 import "./ViewHistory.css";
 
@@ -122,12 +123,23 @@ function ViewHistory() {
                     null
                   )}
                   {object.sortType === 1 ? (
-                    <ReportHeader
-                      key={object.headerId + "h"}
-                      header={object}
-                      newId={i}
-                      removeMode={removeMode}
-                    />
+                    <Fragment>
+                      {object.removed ? (
+                        <ReportHeaderRemove
+                          key={object.headerId + "xh"}
+                          header={object}
+                          newId={i}
+                          removeMode={removeMode}
+                        />
+                      ) : (
+                        <ReportHeader
+                          key={object.headerId + "h"}
+                          header={object}
+                          newId={i}
+                          removeMode={removeMode}
+                        />
+                      )}
+                    </Fragment>
                   ) : (
                     null
                   )}

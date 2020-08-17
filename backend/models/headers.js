@@ -73,6 +73,14 @@ async function deleteHeader(headerId) {
       return {error: 1};
     }
 
+    // if the header was previously approved, save this deletion in history
+    if (results[0][0].approved) {
+      sql = "INSERT INTO History_Headers (pageId, headerId, title, internal, removed) " +
+      "SELECT pageId, headerId, title, internal, 1 AS removed FROM Headers " +
+      "WHERE Headers.approved = 1 AND Headers.headerId = ?;";
+      await pool.query(sql, [headerId]);
+    }
+
     // delete the header
     sql = "DELETE " +
       "FROM Headers " +
