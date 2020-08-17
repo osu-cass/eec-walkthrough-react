@@ -91,6 +91,11 @@ function ThumbnailGallery(props) {
         statusArray.push(1);
       }
       setCompareArray(statusArray);
+    } else if (props.compareMode === 4) {
+      for (let i = 0; i < props.items.length; i++) {
+        statusArray.push(3);
+      }
+      setCompareArray(statusArray);
     }
 
   }, [props.compareMode, props.items, props.otherItems]);
