@@ -33,6 +33,7 @@ function LoadView(props) {
         const obj = await results.json();
         setViews(obj.views);
         setNewModal(false);
+        console.log(obj.views)
 
       } else {
         setErrorMessage("An internal server error occurred. Please try again later.");
@@ -150,17 +151,19 @@ function LoadView(props) {
                   defaultValue={"0"}
                 >
                   <option value={"0"}>
-                    Default
+                    Default *
                   </option>
                   {views.map((view, i) =>
                     <option value={i + 1} key={view.viewId}>
-                      {view.viewName}
+                      {view.viewName} {view.public ? "*" : ""}
                     </option>
                   )}
                 </select>
               </Form.Group>
             </Col>
           </Row>
+
+          <span>The * symbol represents views that all users have access to.</span>
 
           <Row>
             <div className='col-3' />
