@@ -10,6 +10,34 @@
   background-color: #ffffba;
 }
 
+.highlight-new-content.internal-item,
+.new-review-image-container.internal-item,
+.new-review-item.internal-item {
+  background-image:
+  repeating-linear-gradient(0deg, transparent, rgba(179, 255, 200, 0.3) 0),
+  repeating-linear-gradient(
+    90deg,
+    #f7f7f7,
+    #f7f7f7 4%,
+    #ebebeb 4%,
+    #ebebeb 8%
+  );
+}
+
+.highlight-old-content.internal-item,
+.old-review-image-container.internal-item,
+.old-review-item.internal-item {
+  background-image:
+  repeating-linear-gradient(0deg, transparent, rgba(255, 162, 173, 0.3) 0),
+  repeating-linear-gradient(
+    90deg,
+    #f7f7f7,
+    #f7f7f7 4%,
+    #ebebeb 4%,
+    #ebebeb 8%
+  );
+}
+
 .highlight-text-wrap {
   white-space: pre-wrap;
 }
