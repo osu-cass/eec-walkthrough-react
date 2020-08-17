@@ -32,7 +32,6 @@ function ReportCard(props) {
     setImageItems(imageArray);
     setOldImageItems(oldImageArray);
     // eslint-disable-next-line
-    console.log(props.card);
   }, [props.card]);
 
   return props.removeMode ? (
