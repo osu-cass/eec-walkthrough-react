@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 16, 2020 at 03:33 PM
+-- Generation Time: Aug 16, 2020 at 10:24 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -230,6 +230,7 @@ CREATE TABLE `History_Cards` (
   `headerId` int(10) UNSIGNED NOT NULL,
   `cardType` tinyint(3) UNSIGNED NOT NULL,
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `removed` tinyint(3) UNSIGNED NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -237,79 +238,79 @@ CREATE TABLE `History_Cards` (
 -- Dumping data for table `History_Cards`
 --
 
-INSERT INTO `History_Cards` (`historyId`, `cardId`, `headerId`, `cardType`, `title`, `created`) VALUES
-(1, 3, 1, 0, 'Figures, Charts, and Tables', '2020-06-17 17:09:17'),
-(2, 8, 2, 0, 'Reduce Compressed Air Pressure\r\n', '2020-07-02 17:49:40'),
-(3, 9, 1, 0, 'Pros', '2020-06-02 20:58:31'),
-(4, 13, 1, 0, 'Cons', '2020-05-23 22:20:20'),
-(5, 16, 1, 0, 'Caveats', '2020-05-23 22:27:44'),
-(6, 17, 1, 0, 'Best Practices', '2020-05-23 22:28:37'),
-(7, 18, 1, 0, 'Rules of Thumb', '2020-05-23 22:31:49'),
-(8, 19, 1, 0, 'Tips', '2020-05-23 22:33:25'),
-(9, 27, 2, 0, 'Reduce Compressed Air Required', '2020-07-07 16:17:13'),
-(10, 29, 1, 0, 'Additional In Depth Site Resources', '2020-07-01 22:33:14'),
-(11, 30, 3, 0, 'Test', '2020-06-23 05:53:07'),
-(12, 47, 16, 0, 'Engines', '2020-06-30 06:58:38'),
-(13, 49, 18, 0, 'Environment', '2020-06-30 06:11:14'),
-(14, 66, 4, 10, 'Facilisis volutpat est velit egestas.', '2020-06-23 09:22:49'),
-(15, 67, 16, 1, 'More Airplanes', '2020-06-23 09:14:09'),
-(16, 68, 27, 11, 'Plywood Images', '2020-07-23 09:53:26'),
-(17, 69, 27, 0, 'Plywood Info', '2020-06-23 09:20:59'),
-(18, 72, 1, 1, 'Gallery: Industrial Air Compressors, Dryers, Receiver Tanks and Compressed Air Applications', '2020-07-01 20:56:20'),
-(19, 74, 3, 0, 'U.S.DOE Energy Tip Sheets', '2020-06-27 20:45:48'),
-(20, 75, 1, 0, 'U.S. Department of Energy Tip Sheets', '2020-06-30 06:38:25'),
-(21, 76, 1, 0, 'General Off Site Resource Links', '2020-06-29 20:51:39'),
-(22, 77, 2, 0, 'Improve Compressor Efficiency', '2020-07-03 00:20:51'),
-(23, 80, 16, 0, 'New Card', '2020-06-30 20:59:15'),
-(24, 86, 2, 0, 'Reduce Air Compressor Run Time', '2020-07-01 22:24:57'),
-(25, 87, 2, 0, 'Other Opportunities', '2020-07-01 22:28:10'),
-(26, 88, 31, 0, 'Pros', '2020-07-02 19:58:20'),
-(27, 89, 31, 0, 'Cons', '2020-07-02 20:01:03'),
-(28, 90, 31, 0, 'Caveats', '2020-07-02 20:01:49'),
-(29, 91, 31, 0, 'Rules of Thumb', '2020-07-02 20:08:42'),
-(30, 92, 31, 0, 'Tips', '2020-07-02 20:10:02'),
-(31, 93, 31, 0, 'Best Practices', '2020-07-02 20:12:06'),
-(32, 95, 31, 0, 'Standard Data to Collect', '2020-07-03 17:57:24'),
-(33, 96, 31, 0, 'Data Collection Equipment', '2020-07-02 20:22:45'),
-(34, 97, 31, 0, 'Data Collection Guides', '2020-07-02 20:44:49'),
-(35, 98, 31, 0, 'Analysis Tools', '2020-07-02 20:52:07'),
-(36, 99, 31, 0, 'In Depth Site Resources', '2020-07-03 17:55:50'),
-(37, 100, 31, 0, 'Off Site Resource Links', '2020-07-02 21:38:17'),
-(38, 101, 32, 0, 'Improve Boiler Combustion Efficiency ', '2020-07-02 21:53:03'),
-(39, 102, 32, 0, 'Reduce Run Time', '2020-07-02 21:56:36'),
-(40, 103, 32, 0, 'Optimize Blowdown', '2020-07-02 21:58:49'),
-(41, 104, 32, 0, 'Minimize Draft Fan Energy ', '2020-07-02 22:01:14'),
-(42, 105, 32, 0, 'Improve the Condensate System', '2020-07-02 22:03:34'),
-(43, 106, 32, 0, 'Reduce Heat Loss', '2020-07-02 22:11:55'),
-(44, 107, 28, 0, 'Motor and Transmission Efficiency', '2020-07-02 22:52:49'),
-(45, 108, 33, 0, 'Rules of Thumb', '2020-07-02 23:14:11'),
-(46, 118, 28, 0, 'Motor Controls', '2020-07-03 00:08:01'),
-(47, 119, 28, 0, 'Turn of Motors (Consider Load Shedding)', '2020-07-07 23:38:14'),
-(48, 120, 28, 0, 'Power Quality', '2020-07-03 00:19:36'),
-(49, 121, 18, 10, 'A new internal card', '2020-07-07 02:04:39'),
-(50, 128, 18, 10, 'eoowerwerwer', '2020-07-07 21:23:36'),
-(51, 145, 42, 0, '1', '2020-07-28 20:16:13'),
-(52, 147, 42, 0, '3', '2020-07-28 08:34:31'),
-(53, 148, 45, 0, '1', '2020-07-28 08:35:42'),
-(54, 151, 46, 10, 'Cras facilisis hendrerit dui', '2020-08-04 10:56:28'),
-(55, 152, 46, 0, 'A bunch of images', '2020-08-04 11:00:16'),
-(56, 153, 46, 0, 'New Checkboxes!', '2020-08-06 10:42:16'),
-(57, 154, 47, 10, 'Review/Analyze Pre Assessment Package Information', '2020-08-06 23:30:30'),
-(58, 155, 47, 10, 'Identify Potential Sites to Work With', '2020-08-06 23:50:17'),
-(59, 156, 47, 10, 'Hold an Initial Remote Assessment Meeting with the Client', '2020-08-06 23:34:20'),
-(60, 157, 47, 10, 'Develop a Preliminary Energy Balance', '2020-08-05 22:40:35'),
-(61, 158, 47, 10, 'Develop a List of Potential Opportunities to Study', '2020-08-06 23:09:57'),
-(62, 161, 47, 10, 'Preliminary Research', '2020-08-06 23:47:20'),
-(63, 162, 47, 10, 'Arrange a Client Guided Remote Tour by Phone.', '2020-08-06 22:36:25'),
-(65, 167, 49, 0, 'Card Version #1', '2020-09-01 09:17:01'),
-(66, 167, 49, 0, 'Card Version #2', '2020-09-02 09:20:06'),
-(67, 167, 49, 0, 'Card Version #3', '2020-09-03 10:12:48'),
-(68, 151, 46, 10, 'Cras facilisis duiui @ 1', '2020-08-11 10:31:27'),
-(69, 152, 46, 1, 'A bunch of images @ 1', '2020-08-11 10:31:46'),
-(70, 154, 47, 10, 'Review/Analyze Pre-Assessment Package Information', '2020-08-13 19:46:49'),
-(71, 154, 47, 10, 'Review/Analyze Pre-Assessment Package Information', '2020-08-13 19:49:33'),
-(72, 157, 47, 10, 'Develop a Preliminary Energy Balance', '2020-08-13 19:54:17'),
-(73, 157, 47, 10, 'Develop a Preliminary Energy Balance', '2020-08-13 19:54:45');
+INSERT INTO `History_Cards` (`historyId`, `cardId`, `headerId`, `cardType`, `title`, `removed`, `created`) VALUES
+(1, 3, 1, 0, 'Figures, Charts, and Tables', 0, '2020-06-17 17:09:17'),
+(2, 8, 2, 0, 'Reduce Compressed Air Pressure\r\n', 0, '2020-07-02 17:49:40'),
+(3, 9, 1, 0, 'Pros', 0, '2020-06-02 20:58:31'),
+(4, 13, 1, 0, 'Cons', 0, '2020-05-23 22:20:20'),
+(5, 16, 1, 0, 'Caveats', 0, '2020-05-23 22:27:44'),
+(6, 17, 1, 0, 'Best Practices', 0, '2020-05-23 22:28:37'),
+(7, 18, 1, 0, 'Rules of Thumb', 0, '2020-05-23 22:31:49'),
+(8, 19, 1, 0, 'Tips', 0, '2020-05-23 22:33:25'),
+(9, 27, 2, 0, 'Reduce Compressed Air Required', 0, '2020-07-07 16:17:13'),
+(10, 29, 1, 0, 'Additional In Depth Site Resources', 0, '2020-07-01 22:33:14'),
+(11, 30, 3, 0, 'Test', 0, '2020-06-23 05:53:07'),
+(12, 47, 16, 0, 'Engines', 0, '2020-06-30 06:58:38'),
+(13, 49, 18, 0, 'Environment', 0, '2020-06-30 06:11:14'),
+(14, 66, 4, 10, 'Facilisis volutpat est velit egestas.', 0, '2020-06-23 09:22:49'),
+(15, 67, 16, 1, 'More Airplanes', 0, '2020-06-23 09:14:09'),
+(16, 68, 27, 11, 'Plywood Images', 0, '2020-07-23 09:53:26'),
+(17, 69, 27, 0, 'Plywood Info', 0, '2020-06-23 09:20:59'),
+(18, 72, 1, 1, 'Gallery: Industrial Air Compressors, Dryers, Receiver Tanks and Compressed Air Applications', 0, '2020-07-01 20:56:20'),
+(19, 74, 3, 0, 'U.S.DOE Energy Tip Sheets', 0, '2020-06-27 20:45:48'),
+(20, 75, 1, 0, 'U.S. Department of Energy Tip Sheets', 0, '2020-06-30 06:38:25'),
+(21, 76, 1, 0, 'General Off Site Resource Links', 0, '2020-06-29 20:51:39'),
+(22, 77, 2, 0, 'Improve Compressor Efficiency', 0, '2020-07-03 00:20:51'),
+(23, 80, 16, 0, 'New Card', 0, '2020-06-30 20:59:15'),
+(24, 86, 2, 0, 'Reduce Air Compressor Run Time', 0, '2020-07-01 22:24:57'),
+(25, 87, 2, 0, 'Other Opportunities', 0, '2020-07-01 22:28:10'),
+(26, 88, 31, 0, 'Pros', 0, '2020-07-02 19:58:20'),
+(27, 89, 31, 0, 'Cons', 0, '2020-07-02 20:01:03'),
+(28, 90, 31, 0, 'Caveats', 0, '2020-07-02 20:01:49'),
+(29, 91, 31, 0, 'Rules of Thumb', 0, '2020-07-02 20:08:42'),
+(30, 92, 31, 0, 'Tips', 0, '2020-07-02 20:10:02'),
+(31, 93, 31, 0, 'Best Practices', 0, '2020-07-02 20:12:06'),
+(32, 95, 31, 0, 'Standard Data to Collect', 0, '2020-07-03 17:57:24'),
+(33, 96, 31, 0, 'Data Collection Equipment', 0, '2020-07-02 20:22:45'),
+(34, 97, 31, 0, 'Data Collection Guides', 0, '2020-07-02 20:44:49'),
+(35, 98, 31, 0, 'Analysis Tools', 0, '2020-07-02 20:52:07'),
+(36, 99, 31, 0, 'In Depth Site Resources', 0, '2020-07-03 17:55:50'),
+(37, 100, 31, 0, 'Off Site Resource Links', 0, '2020-07-02 21:38:17'),
+(38, 101, 32, 0, 'Improve Boiler Combustion Efficiency ', 0, '2020-07-02 21:53:03'),
+(39, 102, 32, 0, 'Reduce Run Time', 0, '2020-07-02 21:56:36'),
+(40, 103, 32, 0, 'Optimize Blowdown', 0, '2020-07-02 21:58:49'),
+(41, 104, 32, 0, 'Minimize Draft Fan Energy ', 0, '2020-07-02 22:01:14'),
+(42, 105, 32, 0, 'Improve the Condensate System', 0, '2020-07-02 22:03:34'),
+(43, 106, 32, 0, 'Reduce Heat Loss', 0, '2020-07-02 22:11:55'),
+(44, 107, 28, 0, 'Motor and Transmission Efficiency', 0, '2020-07-02 22:52:49'),
+(45, 108, 33, 0, 'Rules of Thumb', 0, '2020-07-02 23:14:11'),
+(46, 118, 28, 0, 'Motor Controls', 0, '2020-07-03 00:08:01'),
+(47, 119, 28, 0, 'Turn of Motors (Consider Load Shedding)', 0, '2020-07-07 23:38:14'),
+(48, 120, 28, 0, 'Power Quality', 0, '2020-07-03 00:19:36'),
+(49, 121, 18, 10, 'A new internal card', 0, '2020-07-07 02:04:39'),
+(50, 128, 18, 10, 'eoowerwerwer', 0, '2020-07-07 21:23:36'),
+(51, 145, 42, 0, '1', 0, '2020-07-28 20:16:13'),
+(52, 147, 42, 0, '3', 0, '2020-07-28 08:34:31'),
+(53, 148, 45, 0, '1', 0, '2020-07-28 08:35:42'),
+(54, 151, 46, 10, 'Cras facilisis hendrerit dui', 0, '2020-08-04 10:56:28'),
+(55, 152, 46, 0, 'A bunch of images', 0, '2020-08-04 11:00:16'),
+(56, 153, 46, 0, 'New Checkboxes!', 0, '2020-08-06 10:42:16'),
+(57, 154, 47, 10, 'Review/Analyze Pre Assessment Package Information', 0, '2020-08-06 23:30:30'),
+(58, 155, 47, 10, 'Identify Potential Sites to Work With', 0, '2020-08-06 23:50:17'),
+(59, 156, 47, 10, 'Hold an Initial Remote Assessment Meeting with the Client', 0, '2020-08-06 23:34:20'),
+(60, 157, 47, 10, 'Develop a Preliminary Energy Balance', 0, '2020-08-05 22:40:35'),
+(61, 158, 47, 10, 'Develop a List of Potential Opportunities to Study', 0, '2020-08-06 23:09:57'),
+(62, 161, 47, 10, 'Preliminary Research', 0, '2020-08-06 23:47:20'),
+(63, 162, 47, 10, 'Arrange a Client Guided Remote Tour by Phone.', 0, '2020-08-06 22:36:25'),
+(65, 167, 49, 0, 'Card Version #1', 0, '2020-09-01 09:17:01'),
+(66, 167, 49, 0, 'Card Version #2', 0, '2020-09-02 09:20:06'),
+(67, 167, 49, 0, 'Card Version #3', 0, '2020-09-03 10:12:48'),
+(68, 151, 46, 10, 'Cras facilisis duiui @ 1', 0, '2020-08-11 10:31:27'),
+(69, 152, 46, 1, 'A bunch of images @ 1', 0, '2020-08-11 10:31:46'),
+(70, 154, 47, 10, 'Review/Analyze Pre-Assessment Package Information', 0, '2020-08-13 19:46:49'),
+(71, 154, 47, 10, 'Review/Analyze Pre-Assessment Package Information', 0, '2020-08-13 19:49:33'),
+(72, 157, 47, 10, 'Develop a Preliminary Energy Balance', 0, '2020-08-13 19:54:17'),
+(73, 157, 47, 10, 'Develop a Preliminary Energy Balance', 0, '2020-08-13 19:54:45');
 
 -- --------------------------------------------------------
 
@@ -323,6 +324,7 @@ CREATE TABLE `History_Headers` (
   `pageId` int(10) UNSIGNED NOT NULL,
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `internal` tinyint(3) UNSIGNED NOT NULL,
+  `removed` tinyint(3) UNSIGNED NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -330,29 +332,29 @@ CREATE TABLE `History_Headers` (
 -- Dumping data for table `History_Headers`
 --
 
-INSERT INTO `History_Headers` (`historyId`, `headerId`, `pageId`, `title`, `internal`, `created`) VALUES
-(1, 1, 2, 'Compressed Air Overview', 0, '2020-07-01 18:19:56'),
-(2, 2, 2, 'Compressed Air Opportunities to Consider', 0, '2020-05-22 21:22:38'),
-(3, 3, 1, 'Boilers', 0, '2020-05-22 21:22:38'),
-(4, 4, 3, 'Refrigeration', 0, '2020-05-22 21:22:38'),
-(5, 16, 25, 'Engine Info', 0, '2020-06-16 09:03:41'),
-(6, 17, 25, 'Turbulence', 0, '2020-06-09 18:51:20'),
-(7, 18, 25, 'Economics', 0, '2020-06-09 18:56:36'),
-(8, 27, 4, 'Plywood Images', 0, '2020-06-23 09:18:19'),
-(9, 28, 44, 'Motor Opportunities to Consider', 0, '2020-06-29 23:07:40'),
-(10, 31, 46, 'Boilers and Steam Overview', 0, '2020-07-02 19:43:04'),
-(11, 32, 46, 'Boiler and Steam System Opportunities to Consider', 0, '2020-07-02 21:40:38'),
-(12, 33, 44, 'Motors Overview', 0, '2020-07-02 23:12:01'),
-(13, 35, 25, 'Air Header Test', 0, '2020-07-07 02:15:51'),
-(14, 42, 27, 'A', 0, '2020-07-28 08:31:16'),
-(15, 43, 27, 'B', 0, '2020-07-28 08:31:20'),
-(16, 44, 27, 'C (published & edited)', 0, '2020-07-28 08:31:46'),
-(17, 46, 53, 'Simple Header', 0, '2020-08-04 10:53:41'),
-(18, 47, 54, 'Assessment Steps', 1, '2020-08-05 19:56:29'),
-(33, 49, 59, 'Header Version #1', 0, '2020-09-01 09:16:55'),
-(34, 49, 0, 'Header Version #2', 59, '2020-09-02 09:20:03'),
-(35, 49, 59, 'Header Version #3', 0, '2020-09-03 10:12:50'),
-(36, 46, 53, 'Simply a new Title @ 1', 0, '2020-08-11 10:31:56');
+INSERT INTO `History_Headers` (`historyId`, `headerId`, `pageId`, `title`, `internal`, `removed`, `created`) VALUES
+(1, 1, 2, 'Compressed Air Overview', 0, 0, '2020-07-01 18:19:56'),
+(2, 2, 2, 'Compressed Air Opportunities to Consider', 0, 0, '2020-05-22 21:22:38'),
+(3, 3, 1, 'Boilers', 0, 0, '2020-05-22 21:22:38'),
+(4, 4, 3, 'Refrigeration', 0, 0, '2020-05-22 21:22:38'),
+(5, 16, 25, 'Engine Info', 0, 0, '2020-06-16 09:03:41'),
+(6, 17, 25, 'Turbulence', 0, 0, '2020-06-09 18:51:20'),
+(7, 18, 25, 'Economics', 0, 0, '2020-06-09 18:56:36'),
+(8, 27, 4, 'Plywood Images', 0, 0, '2020-06-23 09:18:19'),
+(9, 28, 44, 'Motor Opportunities to Consider', 0, 0, '2020-06-29 23:07:40'),
+(10, 31, 46, 'Boilers and Steam Overview', 0, 0, '2020-07-02 19:43:04'),
+(11, 32, 46, 'Boiler and Steam System Opportunities to Consider', 0, 0, '2020-07-02 21:40:38'),
+(12, 33, 44, 'Motors Overview', 0, 0, '2020-07-02 23:12:01'),
+(13, 35, 25, 'Air Header Test', 0, 0, '2020-07-07 02:15:51'),
+(14, 42, 27, 'A', 0, 0, '2020-07-28 08:31:16'),
+(15, 43, 27, 'B', 0, 0, '2020-07-28 08:31:20'),
+(16, 44, 27, 'C (published & edited)', 0, 0, '2020-07-28 08:31:46'),
+(17, 46, 53, 'Simple Header', 0, 0, '2020-08-04 10:53:41'),
+(18, 47, 54, 'Assessment Steps', 1, 0, '2020-08-05 19:56:29'),
+(33, 49, 59, 'Header Version #1', 0, 0, '2020-09-01 09:16:55'),
+(34, 49, 0, 'Header Version #2', 59, 0, '2020-09-02 09:20:03'),
+(35, 49, 59, 'Header Version #3', 0, 0, '2020-09-03 10:12:50'),
+(36, 46, 53, 'Simply a new Title @ 1', 0, 0, '2020-08-11 10:31:56');
 
 -- --------------------------------------------------------
 
@@ -767,6 +769,7 @@ CREATE TABLE `History_Pages` (
   `description` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `imageUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `internal` tinyint(3) UNSIGNED NOT NULL,
+  `removed` tinyint(3) UNSIGNED NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -774,16 +777,16 @@ CREATE TABLE `History_Pages` (
 -- Dumping data for table `History_Pages`
 --
 
-INSERT INTO `History_Pages` (`historyId`, `pageId`, `pageType`, `name`, `title`, `description`, `imageUrl`, `internal`, `created`) VALUES
-(1, 2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/images/air.png', 0, '2020-07-23 10:01:49'),
-(2, 3, 2, 'z - testing: more stuff', 'Refrigeration is the process of cooling a space, substance, or system to lower and/or maintain its temperature below the ambient one (while the removed heat is rejected at a higher temperature).', 'Refrigeration has had a large impact on industry, lifestyle, agriculture, and settlement patterns. The idea of preserving food dates back to at least the ancient Roman and Chinese empires. However, mechanical refrigeration technology has rapidly evolved in the last century, from ice harvesting to temperature-controlled rail cars. The introduction of refrigerated rail cars contributed to the westward expansion of the United States, allowing settlement in areas that were not on main transport channels such as rivers, harbors, or valley trails. Settlements were also developing in infertile parts of the country, filled with newly discovered natural resources.  These new settlement patterns sparked the building of large cities which are able to thrive in areas that were otherwise thought to be inhospitable, such as Houston, Texas, and Las Vegas, Nevada.', '/images/refrigeration.png', 1, '2020-07-23 10:02:38'),
-(3, 46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, '2020-07-02 19:39:56'),
-(4, 53, 4, 'z - test Demo', 'Basic Testing Page', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tincidunt tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, vel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nCurabitur cursus arcu elit, ut scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est accumsan blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Phasellus at dolor condimentum odio lobortis facilisis. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/500/500', 1, '2020-08-04 10:53:03'),
-(5, 54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, '2020-08-05 19:54:53'),
-(9, 59, 2, 'zz - history', 'A page for testing history', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac aliquet ipsum, et pharetra massa. Mauris fringilla, dui eget tristique posuere, neque urna viverra nisl, ac scelerisque tortor est elementum enim. Maecenas gravida nunc a dui mattis, vestibulum mollis velit maximus. Praesent at eros leo. Sed eget accumsan magna. Nulla nec lacus sit amet velit ultricies gravida a id lectus. Cras euismod porttitor tellus rutrum ullamcorper. Ut facilisis venenatis nibh, a rhoncus orci maximus ac. Praesent fringilla faucibus lectus, at mollis nunc viverra vitae. Pellentesque id ante nec tortor feugiat vehicula.\n\nUt et nunc imperdiet nulla varius pellentesque. Maecenas congue non enim ac bibendum. Praesent eu arcu massa. Etiam eu vehicula dolor. Sed venenatis massa vitae arcu malesuada tincidunt. Cras eu elit in sapien efficitur mollis. Sed a elit ac ante hendrerit iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam interdum nibh vitae turpis euismod, ac congue diam bibendum. Donec pharetra interdum suscipit. In tempor tempor dui, non aliquet justo pretium eget. Praesent molestie magna tellus, eget auctor lectus pellentesque quis.\n\nNam lobortis massa vel tellus facilisis rhoncus. Nullam nec ante vehicula, dignissim nibh eu, euismod diam. Curabitur sem magna, elementum ac metus vitae, bibendum ultricies enim. Donec leo quam, pharetra vitae congue et, pulvinar tincidunt nulla. Nulla aliquet malesuada sem, vel fermentum purus viverra ac. Duis in lorem ac mi scelerisque ultricies eget sed libero. Donec eu tincidunt lorem, vitae volutpat eros. Proin nulla mauris, sollicitudin suscipit libero id, condimentum finibus neque. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.', 'http://placekitten.com/200/500', 1, '2020-09-01 09:14:34'),
-(11, 59, 2, 'zz - history', 'A page for testing history .... this is a change', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac aliquet ipsum, et pharetra massa. Mauris fringilla, dui eget tristique posuere, neque urna viverra nisl, ac scelerisque tortor est elementum enim. a rhoncus orci maximus ac. Praesent fringilla faucibus lectus, at mollis nunc viverra vitae. Pellentesque id ante nec tortor feugiat vehicula.\n\nUt et nunc imperdiet nulla varius pellentesque. Maecenas congue non enim ac bibendum. Praesent eu arcu massa. Etiam eu vehicula dolor. Sed venenatis massa vitae arcu malesuada tincidunt. Cras eu elit in sapien efficitur mollis. Sed a elit ac ante hendrerit iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam interdum nibh vitae turpis euismod, ac congue diam bibendum. Donec pharetra interdum suscipit. In tempor tempor dui, non aliquet justo pretium eget. Praesent molestie magna tellus, eget auctor lectus pellentesque quis.\n\nNam lobortis massa vel tellus facilisis rhoncus. Nullam nec ante vehicula, dignissim nibh eu, euismod diam. Curabitur sem magna, elementum ac metus vitae, bibendum ultricies enim. Donec leo quam, pharetra vitae congue et, pulvinar tincidunt nulla. Nulla aliquet malesuada sem, vel fermentum purus viverra ac. Duis in lorem ac mi scelerisque ultricies eget sed libero. Donec eu tincidunt lorem, vitae volutpat eros. Proin nulla mauris, sollicitudin suscipit libero id, condimentum finibus neque. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.', 'http://placekitten.com/400/500', 1, '2020-09-02 09:19:58'),
-(12, 59, 2, 'zz - history', 'A page for testing history .... this is a change ... one last change', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac aliquet ipsum, et pharetra massa. Mauris fringilla, dui eget tristique posuere, neque urna viverra nisl, ac scelerisque tortor est elementum enim. a rhoncus orci maximus ac. Praesent fringilla faucibus lectus, at mollis nunc viverra vitae. Pellentesque id ante nec tortor feugiat vehicula.\n\nUt et nunc imperdiet nulla varius pellentesque. Maecenas congue non enim ac bibendum. Praesent eu arcu massa. Etiam eu vehicula dolor. Sed venenatis massa vitae arcu malesuada tincidunt. Cras eu elit in sapien efficitur mollis. Sed a elit ac ante hendrerit iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam interdum nibh vitae turpis euismod, ac congue diam bibendum. Donec pharetra interdum suscipit. In tempor tempor dui, non aliquet justo pretium eget. Praesent molestie magna tellus, eget auctor lectus pellentesque quis.\n\nInteger ut fringilla arcu, posuere luctus erat. Integer maximus, ex at venenatis tristique, nisl enim suscipit augue, eu consequat magna lectus eget augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed viverra felis ligula, non volutpat nibh gravida ut. Sed sed dapibus lacus. Morbi quam tortor, blandit vel consequat vestibulum, semper quis lacus. Ut bibendum laoreet lacus, ut iaculis enim eleifend vitae. Morbi malesuada odio est, non interdum risus volutpat quis.\n\nPellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec varius non magna a commodo. Praesent dapibus eu ante ac luctus. Aliquam consequat quis dui vitae elementum. Integer vitae rhoncus massa. Suspendisse potenti. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer egestas ligula ut tellus tincidunt fringilla. Vivamus non elementum mi. Nulla arcu orci, dapibus at molestie sit amet, vehicula ut lectus.', 'http://placekitten.com/600/500', 1, '2020-09-03 10:12:55'),
-(13, 53, 4, 'z - test Diff Demo', 'Basic Page Meant for Testing New Features @ 1', 'Loremem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, velel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nFusce quam eros, tincidunt vitae libero eget, tincidunt aliquam lectus. Curabitur non mi et orci semper sollicitudin. Cras dapibus malesuada accumsan. Maecenas efficitur euismod elit eu lacinia. Aliquam id sollicitudin augue. Quisque pharetra scelerisque ultrices. Curabitur dictum felis metus, vitae pulvinar quam efficitur et. Mauris accumsan cursus ante rutrum interdum. Duis scelerisque pharetra fermentum. Phasellus viverra tellus in rutrum dignissim. Sed ex augue, elementum a aliquam non, rutrum sed metus. Nulla sapien lorem, ullamcorper ut molestie ac, hendrerit ultrices odio. Nullam sit amet eleifend erat. Aenean laoreet fermentum ipsum, ut tempus magna rhoncus at. Cras vitae dolor leo.\n\nCurabitur cursus arcu elit, u scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/200/500', 1, '2020-08-11 10:32:11');
+INSERT INTO `History_Pages` (`historyId`, `pageId`, `pageType`, `name`, `title`, `description`, `imageUrl`, `internal`, `removed`, `created`) VALUES
+(1, 2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/images/air.png', 0, 0, '2020-07-23 10:01:49'),
+(2, 3, 2, 'z - testing: more stuff', 'Refrigeration is the process of cooling a space, substance, or system to lower and/or maintain its temperature below the ambient one (while the removed heat is rejected at a higher temperature).', 'Refrigeration has had a large impact on industry, lifestyle, agriculture, and settlement patterns. The idea of preserving food dates back to at least the ancient Roman and Chinese empires. However, mechanical refrigeration technology has rapidly evolved in the last century, from ice harvesting to temperature-controlled rail cars. The introduction of refrigerated rail cars contributed to the westward expansion of the United States, allowing settlement in areas that were not on main transport channels such as rivers, harbors, or valley trails. Settlements were also developing in infertile parts of the country, filled with newly discovered natural resources.  These new settlement patterns sparked the building of large cities which are able to thrive in areas that were otherwise thought to be inhospitable, such as Houston, Texas, and Las Vegas, Nevada.', '/images/refrigeration.png', 1, 0, '2020-07-23 10:02:38'),
+(3, 46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 0, '2020-07-02 19:39:56'),
+(4, 53, 4, 'z - test Demo', 'Basic Testing Page', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tincidunt tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, vel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nCurabitur cursus arcu elit, ut scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est accumsan blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Phasellus at dolor condimentum odio lobortis facilisis. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/500/500', 1, 0, '2020-08-04 10:53:03'),
+(5, 54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, 0, '2020-08-05 19:54:53'),
+(9, 59, 2, 'zz - history', 'A page for testing history', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac aliquet ipsum, et pharetra massa. Mauris fringilla, dui eget tristique posuere, neque urna viverra nisl, ac scelerisque tortor est elementum enim. Maecenas gravida nunc a dui mattis, vestibulum mollis velit maximus. Praesent at eros leo. Sed eget accumsan magna. Nulla nec lacus sit amet velit ultricies gravida a id lectus. Cras euismod porttitor tellus rutrum ullamcorper. Ut facilisis venenatis nibh, a rhoncus orci maximus ac. Praesent fringilla faucibus lectus, at mollis nunc viverra vitae. Pellentesque id ante nec tortor feugiat vehicula.\n\nUt et nunc imperdiet nulla varius pellentesque. Maecenas congue non enim ac bibendum. Praesent eu arcu massa. Etiam eu vehicula dolor. Sed venenatis massa vitae arcu malesuada tincidunt. Cras eu elit in sapien efficitur mollis. Sed a elit ac ante hendrerit iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam interdum nibh vitae turpis euismod, ac congue diam bibendum. Donec pharetra interdum suscipit. In tempor tempor dui, non aliquet justo pretium eget. Praesent molestie magna tellus, eget auctor lectus pellentesque quis.\n\nNam lobortis massa vel tellus facilisis rhoncus. Nullam nec ante vehicula, dignissim nibh eu, euismod diam. Curabitur sem magna, elementum ac metus vitae, bibendum ultricies enim. Donec leo quam, pharetra vitae congue et, pulvinar tincidunt nulla. Nulla aliquet malesuada sem, vel fermentum purus viverra ac. Duis in lorem ac mi scelerisque ultricies eget sed libero. Donec eu tincidunt lorem, vitae volutpat eros. Proin nulla mauris, sollicitudin suscipit libero id, condimentum finibus neque. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.', 'http://placekitten.com/200/500', 1, 0, '2020-09-01 09:14:34'),
+(11, 59, 2, 'zz - history', 'A page for testing history .... this is a change', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac aliquet ipsum, et pharetra massa. Mauris fringilla, dui eget tristique posuere, neque urna viverra nisl, ac scelerisque tortor est elementum enim. a rhoncus orci maximus ac. Praesent fringilla faucibus lectus, at mollis nunc viverra vitae. Pellentesque id ante nec tortor feugiat vehicula.\n\nUt et nunc imperdiet nulla varius pellentesque. Maecenas congue non enim ac bibendum. Praesent eu arcu massa. Etiam eu vehicula dolor. Sed venenatis massa vitae arcu malesuada tincidunt. Cras eu elit in sapien efficitur mollis. Sed a elit ac ante hendrerit iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam interdum nibh vitae turpis euismod, ac congue diam bibendum. Donec pharetra interdum suscipit. In tempor tempor dui, non aliquet justo pretium eget. Praesent molestie magna tellus, eget auctor lectus pellentesque quis.\n\nNam lobortis massa vel tellus facilisis rhoncus. Nullam nec ante vehicula, dignissim nibh eu, euismod diam. Curabitur sem magna, elementum ac metus vitae, bibendum ultricies enim. Donec leo quam, pharetra vitae congue et, pulvinar tincidunt nulla. Nulla aliquet malesuada sem, vel fermentum purus viverra ac. Duis in lorem ac mi scelerisque ultricies eget sed libero. Donec eu tincidunt lorem, vitae volutpat eros. Proin nulla mauris, sollicitudin suscipit libero id, condimentum finibus neque. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.', 'http://placekitten.com/400/500', 1, 0, '2020-09-02 09:19:58'),
+(12, 59, 2, 'zz - history', 'A page for testing history .... this is a change ... one last change', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac aliquet ipsum, et pharetra massa. Mauris fringilla, dui eget tristique posuere, neque urna viverra nisl, ac scelerisque tortor est elementum enim. a rhoncus orci maximus ac. Praesent fringilla faucibus lectus, at mollis nunc viverra vitae. Pellentesque id ante nec tortor feugiat vehicula.\n\nUt et nunc imperdiet nulla varius pellentesque. Maecenas congue non enim ac bibendum. Praesent eu arcu massa. Etiam eu vehicula dolor. Sed venenatis massa vitae arcu malesuada tincidunt. Cras eu elit in sapien efficitur mollis. Sed a elit ac ante hendrerit iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam interdum nibh vitae turpis euismod, ac congue diam bibendum. Donec pharetra interdum suscipit. In tempor tempor dui, non aliquet justo pretium eget. Praesent molestie magna tellus, eget auctor lectus pellentesque quis.\n\nInteger ut fringilla arcu, posuere luctus erat. Integer maximus, ex at venenatis tristique, nisl enim suscipit augue, eu consequat magna lectus eget augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed viverra felis ligula, non volutpat nibh gravida ut. Sed sed dapibus lacus. Morbi quam tortor, blandit vel consequat vestibulum, semper quis lacus. Ut bibendum laoreet lacus, ut iaculis enim eleifend vitae. Morbi malesuada odio est, non interdum risus volutpat quis.\n\nPellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec varius non magna a commodo. Praesent dapibus eu ante ac luctus. Aliquam consequat quis dui vitae elementum. Integer vitae rhoncus massa. Suspendisse potenti. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer egestas ligula ut tellus tincidunt fringilla. Vivamus non elementum mi. Nulla arcu orci, dapibus at molestie sit amet, vehicula ut lectus.', 'http://placekitten.com/600/500', 1, 0, '2020-09-03 10:12:55'),
+(13, 53, 4, 'z - test Diff Demo', 'Basic Page Meant for Testing New Features @ 1', 'Loremem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, velel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nFusce quam eros, tincidunt vitae libero eget, tincidunt aliquam lectus. Curabitur non mi et orci semper sollicitudin. Cras dapibus malesuada accumsan. Maecenas efficitur euismod elit eu lacinia. Aliquam id sollicitudin augue. Quisque pharetra scelerisque ultrices. Curabitur dictum felis metus, vitae pulvinar quam efficitur et. Mauris accumsan cursus ante rutrum interdum. Duis scelerisque pharetra fermentum. Phasellus viverra tellus in rutrum dignissim. Sed ex augue, elementum a aliquam non, rutrum sed metus. Nulla sapien lorem, ullamcorper ut molestie ac, hendrerit ultrices odio. Nullam sit amet eleifend erat. Aenean laoreet fermentum ipsum, ut tempus magna rhoncus at. Cras vitae dolor leo.\n\nCurabitur cursus arcu elit, u scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/200/500', 1, 0, '2020-08-11 10:32:11');
 
 -- --------------------------------------------------------
 
