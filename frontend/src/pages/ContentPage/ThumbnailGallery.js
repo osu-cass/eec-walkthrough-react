@@ -34,7 +34,7 @@ function ThumbnailGallery(props) {
 
           // check if we found an item match
           if (newItem.iconType === oldItem.iconType && newItem.contentLabel === oldItem.contentLabel
-            && newItem.contentUrl === oldItem.contentUrl) {
+            && newItem.contentUrl === oldItem.contentUrl && newItem.internal === oldItem.internal) {
             if (i === j) {
               status = 0;
               foundItems.push(oldItem.itemId);
@@ -71,7 +71,7 @@ function ThumbnailGallery(props) {
 
           // check if we found an item match
           if (newItem.iconType === oldItem.iconType && newItem.contentLabel === oldItem.contentLabel
-            && newItem.contentUrl === oldItem.contentUrl) {
+            && newItem.contentUrl === oldItem.contentUrl && newItem.internal === oldItem.internal) {
             if (i === j) {
               status = 0;
               foundItems.push(newItem.itemId);

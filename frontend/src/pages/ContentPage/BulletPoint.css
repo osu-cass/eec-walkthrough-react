@@ -79,5 +79,24 @@
 }
 
 .internal-item {
-  background-color: #dedede;
+  background-image:
+  repeating-linear-gradient(
+    90deg,
+    #f7f7f7,
+    #f7f7f7 4%,
+    #ebebeb 4%,
+    #ebebeb 8%
+  );
+}
+
+.card-body-review .internal-item {
+  background-image:
+  repeating-linear-gradient(0deg, transparent, rgba(239, 234, 206, 0.5) 0),
+  repeating-linear-gradient(
+    90deg,
+    #f7f7f7,
+    #f7f7f7 4%,
+    #ebebeb 4%,
+    #ebebeb 8%
+  );
 }
