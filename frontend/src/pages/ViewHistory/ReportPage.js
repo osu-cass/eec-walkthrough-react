@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import HighlightText from "../ContentPage/HighlightText";
@@ -96,6 +96,82 @@ function ReportPage(props) {
           <h5 className="report-page-special-text pl-4">{props.page.categoryName} &rarr; {props.page.name} </h5>
           <span className="report-page-special-text pl-4">Updated {formatTime(props.page.created)}</span>
           <div className="m-4">
+            {props.page.oldVersion ? (
+              <Fragment>
+                <div>
+                  <HighlightText
+                    newMode={true}
+                    newText={props.page.name}
+                    oldText={props.page.oldVersion.name}
+                    elementType={1}
+                    newId={props.newId}
+                  />
+                </div>
+                <div>
+                  <HighlightText
+                    newMode={true}
+                    newText={props.page.title}
+                    oldText={props.page.oldVersion.title}
+                    elementType={2}
+                    newId={props.newId}
+                  />
+                </div>
+                <HighlightText
+                  newMode={true}
+                  newText={props.page.description}
+                  oldText={props.page.oldVersion.description}
+                  elementType={0}
+                  allowWrap={true}
+                  newId={props.newId}
+                />
+                <br />
+                {props.page.imageUrl !== props.page.oldVersion.imageUrl ? (
+                  <div className="p-4 d-inline-block new-review-image-container">
+                    <Image url={props.page.imageUrl}
+                      title={props.page.name}
+                      thumbnail={false}
+                      header={true}
+                    />
+                  </div>
+                ) : (
+                  <div className="p-4 d-inline-block">
+                    <Image url={props.page.imageUrl}
+                      title={props.page.name}
+                      thumbnail={false}
+                      header={true}
+                    />
+                  </div>
+                )}
+              </Fragment>
+            ) : (
+              <Fragment>
+                <span className="report-lrg-page-span highlight-new-content">{props.page.name}</span>
+                <br />
+                <span className="report-med-page-span highlight-new-content">{props.page.title}</span>
+                <br />
+                <span className="description-report-page highlight-new-content">{props.page.description}</span>
+                <br />
+                <div className="p-4 d-inline-block new-review-image-container">
+                  <Image url={props.page.imageUrl}
+                    title={props.page.name}
+                    thumbnail={false}
+                    header={true}
+                  />
+                </div>
+              </Fragment>
+            )}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  ) : (
+    <div className="text-left mx-2">
+      <div className={`version-container p-2 m-3 border border-dark rounded`}>
+        <h4 className="report-page-special-text pl-4 pt-4">Page</h4>
+        <h5 className="report-page-special-text pl-4">{props.page.categoryName} &rarr; {props.page.name} </h5>
+        <span className="report-page-special-text pl-4">Updated {formatTime(props.page.created)}</span>
+        <div className="m-4">
           {props.page.oldVersion ? (
             <Fragment>
               <div>
@@ -160,86 +236,10 @@ function ReportPage(props) {
               </div>
             </Fragment>
           )}
-          </div>
-        </div>
-      </div>
-
-    </div>
-  ) : (
-    <div className="text-left mx-2">
-      <div className={`version-container p-2 m-3 border border-dark rounded`}>
-        <h4 className="report-page-special-text pl-4 pt-4">Page</h4>
-        <h5 className="report-page-special-text pl-4">{props.page.categoryName} &rarr; {props.page.name} </h5>
-        <span className="report-page-special-text pl-4">Updated {formatTime(props.page.created)}</span>
-        <div className="m-4">
-        {props.page.oldVersion ? (
-          <Fragment>
-            <div>
-              <HighlightText
-                newMode={true}
-                newText={props.page.name}
-                oldText={props.page.oldVersion.name}
-                elementType={1}
-                newId={props.newId}
-              />
-            </div>
-            <div>
-              <HighlightText
-                newMode={true}
-                newText={props.page.title}
-                oldText={props.page.oldVersion.title}
-                elementType={2}
-                newId={props.newId}
-              />
-            </div>
-            <HighlightText
-              newMode={true}
-              newText={props.page.description}
-              oldText={props.page.oldVersion.description}
-              elementType={0}
-              allowWrap={true}
-              newId={props.newId}
-            />
-            <br />
-            {props.page.imageUrl !== props.page.oldVersion.imageUrl ? (
-              <div className="p-4 d-inline-block new-review-image-container">
-                <Image url={props.page.imageUrl}
-                  title={props.page.name}
-                  thumbnail={false}
-                  header={true}
-                />
-              </div>
-            ) : (
-              <div className="p-4 d-inline-block">
-                <Image url={props.page.imageUrl}
-                  title={props.page.name}
-                  thumbnail={false}
-                  header={true}
-                />
-              </div>
-            )}
-          </Fragment>
-        ) : (
-          <Fragment>
-            <span className="report-lrg-page-span highlight-new-content">{props.page.name}</span>
-            <br />
-            <span className="report-med-page-span highlight-new-content">{props.page.title}</span>
-            <br />
-            <span className="description-report-page highlight-new-content">{props.page.description}</span>
-            <br />
-            <div className="p-4 d-inline-block new-review-image-container">
-              <Image url={props.page.imageUrl}
-                title={props.page.name}
-                thumbnail={false}
-                header={true}
-              />
-            </div>
-          </Fragment>
-        )}
         </div>
       </div>
     </div>
-  )
+  );
 
 }
 export default ReportPage;

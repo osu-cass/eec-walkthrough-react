@@ -3,6 +3,7 @@ import HistorySearchForm from "./HistorySearchForm";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
 import ReportPage from "./ReportPage";
+import ReportPageRemove from "./ReportPageRemove";
 import ReportHeader from "./ReportHeader";
 import ReportCard from "./ReportCard";
 import "./ViewHistory.css";
@@ -100,12 +101,23 @@ function ViewHistory() {
               {publishedContent.map((object, i) =>
                 <Fragment key={i}>
                   {object.sortType === 0 ? (
-                    <ReportPage
-                      key={object.pageId + "p"}
-                      page={object}
-                      newId={i}
-                      removeMode={removeMode}
-                    />
+                    <Fragment>
+                      {object.removed ? (
+                        <ReportPageRemove
+                          key={object.pageId + "xp"}
+                          page={object}
+                          newId={i}
+                          removeMode={removeMode}
+                        />
+                      ) : (
+                        <ReportPage
+                          key={object.pageId + "p"}
+                          page={object}
+                          newId={i}
+                          removeMode={removeMode}
+                        />
+                      )}
+                    </Fragment>
                   ) : (
                     null
                   )}

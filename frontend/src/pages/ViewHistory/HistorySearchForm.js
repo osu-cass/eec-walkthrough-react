@@ -61,7 +61,7 @@ function HistorySearchForm(props) {
             <div className="col-sm-2 duplicate-checkbox-container">
               <label form="formGroup" className="flex-grow-1 font-weight-bold h5">Show Duplicates</label>
               <div className="row custom-control form-control-lg custom-checkbox">
-                <input 
+                <input
                   type="checkbox"
                   className="form-check-input custom-control-input"
                   id="duplicate-report-checkbox"
@@ -73,7 +73,7 @@ function HistorySearchForm(props) {
             <div className="col-sm-2 duplicate-checkbox-container">
               <label form="formGroup" className="flex-grow-1 font-weight-bold h5">Show Removals</label>
               <div className="row custom-control form-control-lg custom-checkbox">
-                <input 
+                <input
                   type="checkbox"
                   className="form-check-input custom-control-input"
                   id="remove-report-checkbox"

@@ -147,7 +147,7 @@ function ConstructCardModal(props) {
     let newIconType = null;
     let newIndent = 0;
     if (items.length) {
-      newIndent = items[items.length - 1].indentation
+      newIndent = items[items.length - 1].indentation;
       if (items[items.length - 1].contentType === contentType) {
         newIconType = items[items.length - 1].iconType;
       }
@@ -844,7 +844,7 @@ function ConstructCardModal(props) {
   function copyItem() {
     const counterId = selectedItem;
     let arrayIndex = -1;
-    let copy = [...items];
+    const copy = [...items];
     let item = {};
 
     // Find the index of this item
@@ -919,7 +919,7 @@ function ConstructCardModal(props) {
   // Updates the current card title when the dropdown is changed
   function updateCardTitle() {
     const titleSelect = document.getElementById("card-title-dropdown");
-    let newCardValue = parseInt(titleSelect.options[titleSelect.selectedIndex].value, 10);
+    const newCardValue = parseInt(titleSelect.options[titleSelect.selectedIndex].value, 10);
     setCardTitleMode(newCardValue);
   }
 
@@ -927,7 +927,7 @@ function ConstructCardModal(props) {
   function toggleInternal() {
     const counterId = selectedItem;
     let arrayIndex = -1;
-    let copy = [...items];
+    const copy = [...items];
 
     // Find the item
     for (let i = 0; i < copy.length; i++) {
@@ -1099,10 +1099,10 @@ function ConstructCardModal(props) {
           {/* Item Input Fields */}
 
           {items.map((item, i) =>
-            <Row 
-              className={`mb-2 mx-2 ${item.counterId === selectedItem ? "modal-selected-item" : ""} ${item.internal ? "internal-modal-item" : ""}`} 
+            <Row
+              className={`mb-2 mx-2 ${item.counterId === selectedItem ? "modal-selected-item" : ""} ${item.internal ? "internal-modal-item" : ""}`}
               key={item.counterId}
-              onClick={() => setSelectedItem(item.counterId)} 
+              onClick={() => setSelectedItem(item.counterId)}
             >
               <div className="input-group">
                 <Indent indentLevel={item.indentation} />
