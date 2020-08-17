@@ -381,9 +381,16 @@ function ContentPage(props) {
       }
     }
 
+    // sort headers
+    let sortedHeader = headerSortOrder(copy);
+    sortedHeader.forEach(header => {
+      header.orderIndex = header.realOrder;
+      header.tempOrderIndex = header.realOrder;
+    });
+
     // update the header array
-    if (mode === 1) {
-      setHeaders(headerSortOrder(copy));
+    if (mode) {
+      setHeaders(sortedHeader);
     } else {
       fetchData();
     }

@@ -1,9 +1,8 @@
-import React, {Fragment, useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import BasicItems from "../ContentPage/BasicItems";
 import ThumbnailGallery from "../ContentPage/ThumbnailGallery";
 import {formatTime} from "../../utilities/formatTime";
-import HighlightText from "../ContentPage/HighlightText";
 import "./ReportCard.css";
 
 // Card history for a single removed card
