@@ -398,8 +398,7 @@ async function searchPages(text, cursor, viewAll) {
     };
 
     // initial sql query
-    let sql =
-      "SELECT * FROM Pages ";
+    let sql = "SELECT * FROM Pages ";
 
     // only use the cursor if it isn't the initial search request
     if (cursor.primary === "null") {
@@ -631,18 +630,18 @@ async function getReport(start, end, condense) {
     const endTimestamp = end + " 23:59:59";
 
     // get all pages within the date range
-    sql = "SELECT HP.*, Categories.pluralName AS categoryName " +
+    let sql = "SELECT HP.*, Categories.pluralName AS categoryName " +
     "FROM History_Pages AS HP " +
     "LEFT JOIN Categories on HP.pageType = Categories.categoryId " +
     "WHERE HP.created BETWEEN ? AND ? " +
     "ORDER BY HP.created ASC;";
-    results = await pool.query(sql, [startTimestamp, endTimestamp]);
+    let results = await pool.query(sql, [startTimestamp, endTimestamp]);
     let allPageArray = results[0];
 
     // if in condense mode, clean up duplicate pages
     if (condense) {
       allPageArray.sort((a, b) => b.created - a.created);
-      idArray = [];
+      const idArray = [];
       for (let i = 0; i < allPageArray.length; i++) {
         idArray.push(allPageArray[i].pageId);
       }
@@ -701,7 +700,7 @@ async function getReport(start, end, condense) {
     // if in condense mode, clean up duplicate headers
     if (condense) {
       allHeaderArray.sort((a, b) => b.created - a.created);
-      idArray = [];
+      const idArray = [];
       for (let i = 0; i < allHeaderArray.length; i++) {
         idArray.push(allHeaderArray[i].headerId);
       }
@@ -759,7 +758,7 @@ async function getReport(start, end, condense) {
     // if in condense mode, clean up duplicate cards
     if (condense) {
       allCardArray.sort((a, b) => b.created - a.created);
-      idArray = [];
+      const idArray = [];
       for (let i = 0; i < allCardArray.length; i++) {
         idArray.push(allCardArray[i].cardId);
       }
@@ -822,7 +821,7 @@ async function getReport(start, end, condense) {
     // get all of the items for each card
     for (let i = 0; i < cardCount; i++) {
 
-      historyId = allCardArray[i].historyId;
+      const historyId = allCardArray[i].historyId;
 
       sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
       "HI.iconType, typeName, typeKeyword, contentText, " +
