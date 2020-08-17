@@ -382,7 +382,7 @@ function ContentPage(props) {
     }
 
     // sort headers
-    let sortedHeader = headerSortOrder(copy);
+    const sortedHeader = headerSortOrder(copy);
     sortedHeader.forEach(header => {
       header.orderIndex = header.realOrder;
       header.tempOrderIndex = header.realOrder;
