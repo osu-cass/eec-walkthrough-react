@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 17, 2020 at 05:00 PM
+-- Generation Time: Aug 17, 2020 at 06:06 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -1519,6 +1519,8 @@ CREATE TABLE `Requests` (
   `requestId` int(10) UNSIGNED NOT NULL,
   `title` varchar(1000) NOT NULL,
   `description` varchar(5000) NOT NULL,
+  `status` tinyint(3) UNSIGNED NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `userId` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

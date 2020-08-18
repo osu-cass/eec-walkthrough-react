@@ -115,7 +115,7 @@ exports.patchPageVal = patchPageVal;
 // validation checks for get header
 const getHeaderVal = Object.freeze({
   validation: [
-    check("headerId").isInt({min: 1, max: 4294967295}),
+    check("headerId").isInt({min: 1, max: 4294967295})
   ]
 });
 exports.getHeaderVal = getHeaderVal;
@@ -306,3 +306,11 @@ const postViewVal = Object.freeze({
   ]
 });
 exports.postViewVal = postViewVal;
+
+// validation checks for get request
+const getRequestVal = Object.freeze({
+  validation: [
+    check("requestId").isInt({min: 1, max: 4294967295}),
+  ]
+});
+exports.getRequestVal = getRequestVal;

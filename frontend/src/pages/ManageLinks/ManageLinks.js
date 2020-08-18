@@ -40,7 +40,7 @@ function ManageLinks() {
     setFilter(filterMode);
   }
 
-  // fetch homepage data
+  // fetch link data
   async function fetchLinks() {
     setLoading(true);
 
@@ -74,7 +74,6 @@ function ManageLinks() {
       </div>
 
       <LinkSearchForm onFilterChange={(e) => handleFilterChange(e)}/>
-
 
       {links.length ? (
         <table className="link-table shadow mb-5">
