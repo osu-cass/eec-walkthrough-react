@@ -35,6 +35,7 @@ app.use("/api/headers", require("./headers"));
 app.use("/api/home", require("./home"));
 app.use("/api/icons", require("./icons"));
 app.use("/api/links", require("./links"));
+app.use("/api/requests", require("./requests"));
 app.use("/api/pages", require("./pages"));
 app.use("/api/users", require("./users"));
 app.use("/api/categories", require("./categories"));

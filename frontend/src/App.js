@@ -7,6 +7,8 @@ import ManageLinks from "./pages/ManageLinks/ManageLinks";
 import ViewHistory from "./pages/ViewHistory/ViewHistory";
 import Search from "./pages/Search/Search";
 import RegisterUser from "./pages/RegisterUser/RegisterUser";
+import PublishRequests from "./pages/PublishRequests/PublishRequests";
+import RequestPage from "./pages/RequestPage/RequestPage";
 import EditUser from "./pages/EditUser/EditUser";
 import PageList from "./pages/PageList/PageList";
 import Error404 from "./pages/404/Error404";
@@ -87,6 +89,14 @@ function App() {
 
         <Route path="/history-report">
           <ViewHistory />
+        </Route>
+
+        <Route path="/publish-requests/:requestId">
+          <RequestPage />
+        </Route>
+
+        <Route path="/publish-requests">
+          <PublishRequests />
         </Route>
 
         <Route path="/register-user">

@@ -146,8 +146,8 @@ function Sidebar(props) {
               {role >= 3 ? (
                 <Fragment>
                   <SidebarCollection
-                    collectionName="Publish Request"
-                    collectionLink="publish-request"
+                    collectionName="Publish Requests"
+                    collectionLink="publish-requests"
                   />
                   <SidebarToggleView
                     show={showEdit}
