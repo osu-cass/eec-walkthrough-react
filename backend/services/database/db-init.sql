@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 16, 2020 at 10:24 PM
+-- Generation Time: Aug 17, 2020 at 05:00 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -57,7 +57,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (72, 1, 1, 72, 'Gallery: Industrial Air Compressors, Dryers, Receiver Tanks and Compressed Air Applications', 51, '2020-07-01 20:56:20', 1),
 (75, 1, 0, 75, 'U.S. Department of Energy Tip Sheets', 42, '2020-06-30 06:38:25', 1),
 (76, 1, 0, 76, 'General Off Site Resource Links', 51, '2020-06-29 20:51:39', 1),
-(77, 2, 0, 77, 'Improve Compressor Efficiency', 56, '2020-07-03 00:20:51', 1),
+(77, 2, 0, 77, 'Improve Compressor Efficiency', 58, '2020-08-17 18:00:21', 1),
 (81, 29, 0, 81, 'Pros', 51, '2020-07-01 18:14:32', 0),
 (82, 30, 0, 82, 'Use More Efficient Pump Control', 55, '2020-07-01 18:19:29', 0),
 (83, 30, 0, 83, 'Reduce Flow Required', 51, '2020-07-01 21:21:37', 0),
@@ -120,7 +120,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (144, 41, 0, 144, 'Off Site Resource Links', 58, '2020-07-20 22:14:24', 0),
 (154, 47, 10, 2, 'Review/Analyze Pre-Assessment Package Information', 52, '2020-08-13 19:49:33', 1),
 (155, 47, 10, 1, 'Identify Potential Sites to Work With', 51, '2020-08-06 23:50:17', 1),
-(156, 47, 10, 4, 'Hold an Initial Remote Assessment Meeting with the Client', 51, '2020-08-06 23:34:20', 1),
+(156, 47, 10, 4, 'Hold an Initial Remote Assessment Meeting with the Client', 51, '2020-08-17 21:30:23', 1),
 (157, 47, 10, 5, 'Develop a Preliminary Energy Balance', 52, '2020-08-13 19:54:45', 1),
 (158, 47, 10, 6, 'Develop a List of Potential Opportunities to Study', 51, '2020-08-06 23:09:57', 1),
 (161, 47, 10, 3, 'Preliminary Research', 51, '2020-08-06 23:47:20', 1),
@@ -135,7 +135,9 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (171, 50, 0, 171, 'Data to Collect', 62, '2020-08-12 23:11:45', 0),
 (172, 50, 0, 172, 'How to estimate facility efficiency (D-score)', 62, '2020-08-12 23:14:40', 0),
 (173, 50, 0, 173, 'Methodologies for creating new layouts', 62, '2020-08-14 21:00:05', 0),
-(174, 50, 0, 174, 'Systematic Layout Planning (SLP)', 62, '2020-08-14 21:43:28', 0);
+(174, 50, 0, 174, 'Systematic Layout Planning (SLP)', 62, '2020-08-14 21:43:28', 0),
+(175, 38, 0, 175, 'Anaerobic Digestion', 51, '2020-08-17 18:11:37', 0),
+(176, 38, 0, 176, 'Other Opportunities', 51, '2020-08-17 18:16:44', 0);
 
 -- --------------------------------------------------------
 
@@ -310,7 +312,10 @@ INSERT INTO `History_Cards` (`historyId`, `cardId`, `headerId`, `cardType`, `tit
 (70, 154, 47, 10, 'Review/Analyze Pre-Assessment Package Information', 0, '2020-08-13 19:46:49'),
 (71, 154, 47, 10, 'Review/Analyze Pre-Assessment Package Information', 0, '2020-08-13 19:49:33'),
 (72, 157, 47, 10, 'Develop a Preliminary Energy Balance', 0, '2020-08-13 19:54:17'),
-(73, 157, 47, 10, 'Develop a Preliminary Energy Balance', 0, '2020-08-13 19:54:45');
+(73, 157, 47, 10, 'Develop a Preliminary Energy Balance', 0, '2020-08-13 19:54:45'),
+(74, 77, 2, 0, 'Improve Compressor Efficiency', 0, '2020-08-17 18:00:21'),
+(75, 156, 47, 10, 'Hold an Initial Remote Assessment Meeting with the Client', 0, '2020-08-17 21:29:23'),
+(76, 156, 47, 10, 'Hold an Initial Remote Assessment Meeting with the Client', 0, '2020-08-17 21:30:23');
 
 -- --------------------------------------------------------
 
@@ -752,7 +757,53 @@ INSERT INTO `History_Items` (`historyId`, `parentId`, `itemId`, `cardId`, `order
 (566, 73, 4398, 157, 0, 2, 14, 'Does the total modeled energy exceed the actual energy in the bills? (If so, revise the model.) ', '', '', 0, 0, '2020-08-13 19:54:40'),
 (567, 73, 4399, 157, 0, 1, 12, 'Plan to continually revise and improve this balance over the process of the remote assessment.', '', '', 0, 0, '2020-08-13 19:54:40'),
 (568, 73, 4400, 157, 0, 2, 14, 'Does more equipment come up that can be added?', '', '', 0, 0, '2020-08-13 19:54:40'),
-(569, 73, 4401, 157, 0, 2, 14, 'Does better data become available on any modeled equipment to improve its annual energy use estimate?', '', '', 0, 0, '2020-08-13 19:54:40');
+(569, 73, 4401, 157, 0, 2, 14, 'Does better data become available on any modeled equipment to improve its annual energy use estimate?', '', '', 0, 0, '2020-08-13 19:54:40'),
+(570, 74, 2955, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, 0, '2020-07-30 02:31:10'),
+(571, 74, 2956, 77, 0, 1, 13, 'Reducing the inlet air temperature of oil-injected screw compressors increases mass flow rate while maintaining power input. To efficiently maintain current mass flow rate a variable frequency drive is required to reduce the motor speed and associated power.', '', '', 0, 0, '2020-07-30 02:31:10'),
+(572, 74, 2957, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, 0, '2020-07-30 02:31:10'),
+(573, 74, 2958, 77, 0, 1, 10, 'Difficulty meeting a compressor\'s rated air capacity', '', '', 0, 0, '2020-07-30 02:31:10'),
+(574, 74, 2959, 77, 0, 1, 10, 'A compressor running hotter than its specifications', '', '', 0, 0, '2020-07-30 02:31:10'),
+(575, 74, 2960, 77, 0, 2, 8, 'Other factors may be at play such as significant air leaks increasing the load on the compressor', '', '', 0, 0, '2020-07-30 02:31:10'),
+(576, 74, 2961, 77, 0, 1, 3, '1.9% efficiency (scfm/kW) improvement per 10 °F reduction at inlet', '', '', 0, 0, '2020-07-30 02:31:10'),
+(577, 74, 2962, 77, 0, 1, 15, 'Compressor make, model, and nameplate data', '', '', 0, 0, '2020-07-30 02:31:10'),
+(578, 74, 2963, 77, 0, 1, 15, 'Motor nameplate data, live power reading, and one week of amperage data', '', '', 0, 0, '2020-07-30 02:31:10'),
+(579, 74, 2964, 77, 0, 1, 15, 'Complete picture of compressed air system and control strategy', '', '', 0, 0, '2020-07-30 02:31:10'),
+(580, 74, 2965, 77, 0, 1, 15, 'Average ambient temperature at current and proposed inlet locations', '', '', 0, 0, '2020-07-30 02:31:10'),
+(581, 74, 2966, 77, 0, 1, 12, 'Move air inlet to coolest location to reduce power and energy consumption', '', '', 0, 0, '2020-07-30 02:31:10'),
+(582, 74, 2967, 77, 0, 1, 8, 'If implementation requires much more than re-ducting, the chances of this opportunitity being worthwhile are low. ', '', '', 0, 0, '2020-07-30 02:31:10'),
+(583, 74, 2968, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/zk1aol8rf88aul9klflbxkikz6l2ku47', 'Analysis Template: Reduce Inlet Air Temperature', 2, 0, '2020-07-30 02:31:10'),
+(584, 74, 2969, 77, 0, 1, 17, 'An article from Compressed Air Best Practices by  Tim Dugan, P.E., President, Compression Engineering Corporation', 'https://www.airbestpractices.com/system-assessments/compressor-controls/inlet-air-temperature-impacts-air-compressor-performance', 'Inlet Air Temperature Impacts on Air Compressor Performance', 1, 0, '2020-07-30 02:31:10'),
+(585, 74, 2970, 77, 0, 0, 11, 'Increase Primary Receiver Capacity', '', '', 0, 0, '2020-07-30 02:31:10'),
+(586, 74, 2971, 77, 0, 1, 13, 'Insufficient receiver capacity can result in short cycling in oil-injected rotary screw compressors that use load-unload controls. Short cycling occurs when system demand forces a compressor to re-load before unload power has been fully realized, causing the compressor to cycle too frequently. Adding receiver capacity increases system efficiency by reducing cycling losses and time spent at partial loads. ', '', '', 0, 0, '2020-07-30 02:31:10'),
+(587, 74, 2972, 77, 0, 1, 10, 'Current receiver capacity for an oil-injected rotary screw compressor is less than 3 gal/cfm', '', '', 0, 0, '2020-07-30 02:31:10'),
+(588, 74, 2973, 77, 0, 1, 10, 'An oil-injected rotary screw compressor consistently unloads for less than 45 seconds', '', '', 0, 0, '2020-07-30 02:31:10'),
+(589, 74, 2974, 77, 0, 1, 3, 'A minimum of 3 gal/cfm receiver capacity is recommended for oil-injected rotary screw compressors ', '', '', 0, 0, '2020-07-30 02:31:10'),
+(590, 74, 2975, 77, 0, 1, 1, 'Improved system efficiency due to reduced cycling frequency ', '', '', 0, 0, '2020-07-30 02:31:10'),
+(591, 74, 2976, 77, 0, 1, 1, 'Critical pressure applications are shielded from pressure fluctuations', '', '', 0, 0, '2020-07-30 02:31:10'),
+(592, 74, 2977, 77, 0, 1, 1, 'Prevents overloading the compressor\'s motor by allowing for a lower pressure set point ', '', '', 0, 0, '2020-07-30 02:31:10'),
+(593, 74, 2978, 77, 0, 1, 15, 'Compressor and motor nameplate data and specifications including unload capacity and power', '', '', 0, 0, '2020-07-30 02:31:10'),
+(594, 74, 2979, 77, 0, 1, 15, 'Week-long amperage data log that represents typical operation to identify when and if short cycling occurs ', '', '', 0, 0, '2020-07-30 02:31:10'),
+(595, 74, 2980, 77, 0, 1, 15, 'Current receiver capacity and operating pressure', '', '', 0, 0, '2020-07-30 02:31:10'),
+(596, 74, 2981, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/fksaccw3fhif7h70nkynzwlbbu26g608', 'Analysis Template: Increase Air Receiver Capacity', 2, 0, '2020-07-30 02:31:10'),
+(597, 74, 2982, 77, 0, 1, 20, '', 'https://drive.google.com/file/d/1OV8lp9LoQl2dsUxOvEc8l8ppHLB5JWbY/view?usp=sharing', 'Effect of Receiver Capacity on Lubricant-Injected Rotary Compressor with Load-Unload Capacity Control', 0, 0, '2020-07-30 02:31:10'),
+(598, 74, 2983, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, 0, '2020-07-30 02:31:10'),
+(599, 74, 2984, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, 0, '2020-07-30 02:31:10'),
+(600, 75, 4488, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, '2020-08-17 21:28:40'),
+(601, 75, 4489, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, '2020-08-17 21:28:40'),
+(602, 75, 4490, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, '2020-08-17 21:28:40'),
+(603, 75, 4491, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, '2020-08-17 21:28:40'),
+(604, 75, 4492, 156, 0, 1, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, '2020-08-17 21:28:40'),
+(605, 75, 4493, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, 0, '2020-08-17 21:28:40'),
+(606, 75, 4494, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, 0, '2020-08-17 21:28:40'),
+(607, 75, 4495, 156, 0, 0, 8, 'Try to get more than one key contact at the site involved in the project. (Plant manager, Fiscal Decision Maker, Maintenance Manager, Floor Personnel, Energy Lead, etc)', '', '', 0, 0, '2020-08-17 21:28:40'),
+(608, 76, 4496, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, '2020-08-17 21:29:45'),
+(609, 76, 4497, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, '2020-08-17 21:29:45'),
+(610, 76, 4498, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, '2020-08-17 21:29:45'),
+(611, 76, 4499, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, '2020-08-17 21:29:45'),
+(612, 76, 4500, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, '2020-08-17 21:29:45'),
+(613, 76, 4501, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, 0, '2020-08-17 21:29:45'),
+(614, 76, 4502, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, 0, '2020-08-17 21:29:45'),
+(615, 76, 4503, 156, 0, 0, 8, 'Try to get more than one key contact at the site involved in the project. (Plant manager, Fiscal Decision Maker, Maintenance Manager, Floor Personnel, Energy Lead, etc)', '', '', 0, 0, '2020-08-17 21:29:45');
 
 -- --------------------------------------------------------
 
@@ -997,23 +1048,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (1667, 116, 0, 0, 22, 'An OSU EEC Google Slideshow', 'https://docs.google.com/presentation/d/1eG8ygZ-gpYPzbjnpJKLcm_bmoIUImD7CcBU0ZExhfH4/edit?usp=sharing', 'Motor Assessment Fundamentals', 0, 0, '2020-07-02 23:53:23', 0),
 (1668, 116, 0, 0, 22, 'An IAC Training Slideshow', 'https://docs.google.com/presentation/d/153S2O7Ns9vJzLqHQnifW03rE52y4d-KGAPgC3e3D8zc/edit?usp=sharing', 'Motors Training', 0, 0, '2020-07-02 23:53:23', 0),
 (1669, 116, 0, 0, 22, 'An OSU EEC Google Slideshow', 'https://docs.google.com/presentation/d/1lbgHebPEVJEB17Yqp--r6gARKWkA4YB45nHJx3OEwXg/edit?usp=sharing', 'Power Factor', 0, 0, '2020-07-02 23:53:23', 0),
-(1798, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, 0, '2020-07-03 00:24:40', 1),
-(1799, 77, 0, 1, 13, 'Reducing the inlet air temperature of oil-injected screw compressors increases mass flow rate while maintaining power input. To efficiently maintain current mass flow rate a variable frequency drive is required to reduce the motor speed and associated power.', '', '', 0, 0, '2020-07-03 00:24:40', 1),
-(1800, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, 0, '2020-07-03 00:24:40', 1),
-(1801, 77, 0, 1, 10, 'Difficulty meeting a compressor\'s rated air capacity', '', '', 0, 0, '2020-07-03 00:24:40', 1),
-(1802, 77, 0, 1, 10, 'A compressor running hotter than its specifications', '', '', 0, 0, '2020-07-03 00:24:40', 1),
-(1803, 77, 0, 2, 4, 'Other factors may be at play such as significant air leaks increasing the load on the compressor', '', '', 0, 0, '2020-07-03 00:24:40', 1),
-(1804, 77, 0, 1, 3, '1.9% efficiency (scfm/kW) improvement per 10 °F reduction at inlet', '', '', 0, 0, '2020-07-03 00:24:40', 1),
-(1805, 77, 0, 1, 15, 'Compressor make, model, and nameplate data', '', '', 0, 0, '2020-07-03 00:24:40', 1),
-(1806, 77, 0, 1, 15, 'Motor nameplate data, live power reading, and one week of amperage data', '', '', 0, 0, '2020-07-03 00:24:40', 1),
-(1807, 77, 0, 1, 15, 'Complete picture of compressed air system and control strategy', '', '', 0, 0, '2020-07-03 00:24:40', 1),
-(1808, 77, 0, 1, 15, 'Average ambient temperature at current and proposed inlet locations', '', '', 0, 0, '2020-07-03 00:24:40', 1),
-(1809, 77, 0, 1, 12, 'Move air inlet to coolest location to reduce power and energy consumption', '', '', 0, 0, '2020-07-03 00:24:40', 1),
-(1810, 77, 0, 1, 8, 'If implementation requires much more than re-ducting, the chances of this opportunitity being worthwhile are low. ', '', '', 0, 0, '2020-07-03 00:24:40', 1),
-(1811, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/zk1aol8rf88aul9klflbxkikz6l2ku47', 'Analysis Template: Reduce Inlet Air Temperature', 2, 0, '2020-07-03 00:24:40', 1),
-(1812, 77, 0, 1, 17, 'An article from Compressed Air Best Practices by  Tim Dugan, P.E., President, Compression Engineering Corporation', 'https://www.airbestpractices.com/system-assessments/compressor-controls/inlet-air-temperature-impacts-air-compressor-performance', 'Inlet Air Temperature Impacts on Air Compressor Performance', 1, 0, '2020-07-03 00:24:40', 1),
-(1813, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, 0, '2020-07-03 00:24:40', 1),
-(1814, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, 0, '2020-07-03 00:24:40', 1),
 (1828, 101, 0, 0, 11, 'Tune the boiler regularly', '', '', 0, 0, '2020-07-03 00:26:01', 1),
 (1829, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, 0, '2020-07-03 00:26:01', 1),
 (1830, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, 0, '2020-07-03 00:26:01', 1),
@@ -1161,7 +1195,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2310, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, 0, '2020-07-10 18:53:01', 0),
 (2324, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, 0, '2020-07-10 18:54:00', 0),
 (2325, 105, 0, 0, 11, 'Recover Flash Steam (Chris) ', '', '', 0, 0, '2020-07-10 18:54:00', 0),
-(2349, 126, 0, 0, 17, '$empty', '/technologies/45', 'Pumps', 0, 0, '2020-07-14 17:32:19', 0),
 (2677, 133, 0, 0, 1, 'Pro1', '', '', 0, 0, '2020-07-20 21:20:19', 0),
 (2678, 134, 0, 0, 2, 'Con1', '', '', 0, 0, '2020-07-20 21:20:35', 0),
 (2679, 135, 0, 0, 4, 'Caveat', '', '', 0, 0, '2020-07-20 21:21:07', 0),
@@ -1174,36 +1207,36 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2687, 142, 0, 0, 21, 'tool', 'tool', 'tool', 0, 0, '2020-07-20 22:12:33', 0),
 (2688, 143, 0, 0, 17, 'Resource', 'Resource', 'Resource', 0, 0, '2020-07-20 22:13:43', 0),
 (2689, 144, 0, 0, 24, 'Link', 'Link', 'Link', 1, 0, '2020-07-20 22:14:24', 0),
-(2955, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, 0, '2020-07-30 02:31:10', 0),
-(2956, 77, 0, 1, 13, 'Reducing the inlet air temperature of oil-injected screw compressors increases mass flow rate while maintaining power input. To efficiently maintain current mass flow rate a variable frequency drive is required to reduce the motor speed and associated power.', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2957, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2958, 77, 0, 1, 10, 'Difficulty meeting a compressor\'s rated air capacity', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2959, 77, 0, 1, 10, 'A compressor running hotter than its specifications', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2960, 77, 0, 2, 8, 'Other factors may be at play such as significant air leaks increasing the load on the compressor', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2961, 77, 0, 1, 3, '1.9% efficiency (scfm/kW) improvement per 10 °F reduction at inlet', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2962, 77, 0, 1, 15, 'Compressor make, model, and nameplate data', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2963, 77, 0, 1, 15, 'Motor nameplate data, live power reading, and one week of amperage data', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2964, 77, 0, 1, 15, 'Complete picture of compressed air system and control strategy', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2965, 77, 0, 1, 15, 'Average ambient temperature at current and proposed inlet locations', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2966, 77, 0, 1, 12, 'Move air inlet to coolest location to reduce power and energy consumption', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2967, 77, 0, 1, 8, 'If implementation requires much more than re-ducting, the chances of this opportunitity being worthwhile are low. ', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2968, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/zk1aol8rf88aul9klflbxkikz6l2ku47', 'Analysis Template: Reduce Inlet Air Temperature', 2, 0, '2020-07-30 02:31:10', 0),
-(2969, 77, 0, 1, 17, 'An article from Compressed Air Best Practices by  Tim Dugan, P.E., President, Compression Engineering Corporation', 'https://www.airbestpractices.com/system-assessments/compressor-controls/inlet-air-temperature-impacts-air-compressor-performance', 'Inlet Air Temperature Impacts on Air Compressor Performance', 1, 0, '2020-07-30 02:31:10', 0),
-(2970, 77, 0, 0, 11, 'Increase Primary Receiver Capacity', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2971, 77, 0, 1, 13, 'Insufficient receiver capacity can result in short cycling in oil-injected rotary screw compressors that use load-unload controls. Short cycling occurs when system demand forces a compressor to re-load before unload power has been fully realized, causing the compressor to cycle too frequently. Adding receiver capacity increases system efficiency by reducing cycling losses and time spent at partial loads. ', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2972, 77, 0, 1, 10, 'Current receiver capacity for an oil-injected rotary screw compressor is less than 3 gal/cfm', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2973, 77, 0, 1, 10, 'An oil-injected rotary screw compressor consistently unloads for less than 45 seconds', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2974, 77, 0, 1, 3, 'A minimum of 3 gal/cfm receiver capacity is recommended for oil-injected rotary screw compressors ', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2975, 77, 0, 1, 1, 'Improved system efficiency due to reduced cycling frequency ', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2976, 77, 0, 1, 1, 'Critical pressure applications are shielded from pressure fluctuations', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2977, 77, 0, 1, 1, 'Prevents overloading the compressor\'s motor by allowing for a lower pressure set point ', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2978, 77, 0, 1, 15, 'Compressor and motor nameplate data and specifications including unload capacity and power', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2979, 77, 0, 1, 15, 'Week-long amperage data log that represents typical operation to identify when and if short cycling occurs ', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2980, 77, 0, 1, 15, 'Current receiver capacity and operating pressure', '', '', 0, 0, '2020-07-30 02:31:10', 0),
-(2981, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/fksaccw3fhif7h70nkynzwlbbu26g608', 'Analysis Template: Increase Air Receiver Capacity', 2, 0, '2020-07-30 02:31:10', 0),
-(2982, 77, 0, 1, 20, '', 'https://drive.google.com/file/d/1OV8lp9LoQl2dsUxOvEc8l8ppHLB5JWbY/view?usp=sharing', 'Effect of Receiver Capacity on Lubricant-Injected Rotary Compressor with Load-Unload Capacity Control', 0, 0, '2020-07-30 02:31:10', 0),
-(2983, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, 0, '2020-07-30 02:31:10', 0),
-(2984, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, 0, '2020-07-30 02:31:10', 0),
+(2955, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, 0, '2020-07-30 02:31:10', 1),
+(2956, 77, 0, 1, 13, 'Reducing the inlet air temperature of oil-injected screw compressors increases mass flow rate while maintaining power input. To efficiently maintain current mass flow rate a variable frequency drive is required to reduce the motor speed and associated power.', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2957, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2958, 77, 0, 1, 10, 'Difficulty meeting a compressor\'s rated air capacity', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2959, 77, 0, 1, 10, 'A compressor running hotter than its specifications', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2960, 77, 0, 2, 8, 'Other factors may be at play such as significant air leaks increasing the load on the compressor', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2961, 77, 0, 1, 3, '1.9% efficiency (scfm/kW) improvement per 10 °F reduction at inlet', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2962, 77, 0, 1, 15, 'Compressor make, model, and nameplate data', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2963, 77, 0, 1, 15, 'Motor nameplate data, live power reading, and one week of amperage data', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2964, 77, 0, 1, 15, 'Complete picture of compressed air system and control strategy', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2965, 77, 0, 1, 15, 'Average ambient temperature at current and proposed inlet locations', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2966, 77, 0, 1, 12, 'Move air inlet to coolest location to reduce power and energy consumption', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2967, 77, 0, 1, 8, 'If implementation requires much more than re-ducting, the chances of this opportunitity being worthwhile are low. ', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2968, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/zk1aol8rf88aul9klflbxkikz6l2ku47', 'Analysis Template: Reduce Inlet Air Temperature', 2, 0, '2020-07-30 02:31:10', 1),
+(2969, 77, 0, 1, 17, 'An article from Compressed Air Best Practices by  Tim Dugan, P.E., President, Compression Engineering Corporation', 'https://www.airbestpractices.com/system-assessments/compressor-controls/inlet-air-temperature-impacts-air-compressor-performance', 'Inlet Air Temperature Impacts on Air Compressor Performance', 1, 0, '2020-07-30 02:31:10', 1),
+(2970, 77, 0, 0, 11, 'Increase Primary Receiver Capacity', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2971, 77, 0, 1, 13, 'Insufficient receiver capacity can result in short cycling in oil-injected rotary screw compressors that use load-unload controls. Short cycling occurs when system demand forces a compressor to re-load before unload power has been fully realized, causing the compressor to cycle too frequently. Adding receiver capacity increases system efficiency by reducing cycling losses and time spent at partial loads. ', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2972, 77, 0, 1, 10, 'Current receiver capacity for an oil-injected rotary screw compressor is less than 3 gal/cfm', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2973, 77, 0, 1, 10, 'An oil-injected rotary screw compressor consistently unloads for less than 45 seconds', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2974, 77, 0, 1, 3, 'A minimum of 3 gal/cfm receiver capacity is recommended for oil-injected rotary screw compressors ', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2975, 77, 0, 1, 1, 'Improved system efficiency due to reduced cycling frequency ', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2976, 77, 0, 1, 1, 'Critical pressure applications are shielded from pressure fluctuations', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2977, 77, 0, 1, 1, 'Prevents overloading the compressor\'s motor by allowing for a lower pressure set point ', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2978, 77, 0, 1, 15, 'Compressor and motor nameplate data and specifications including unload capacity and power', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2979, 77, 0, 1, 15, 'Week-long amperage data log that represents typical operation to identify when and if short cycling occurs ', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2980, 77, 0, 1, 15, 'Current receiver capacity and operating pressure', '', '', 0, 0, '2020-07-30 02:31:10', 1),
+(2981, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/fksaccw3fhif7h70nkynzwlbbu26g608', 'Analysis Template: Increase Air Receiver Capacity', 2, 0, '2020-07-30 02:31:10', 1),
+(2982, 77, 0, 1, 20, '', 'https://drive.google.com/file/d/1OV8lp9LoQl2dsUxOvEc8l8ppHLB5JWbY/view?usp=sharing', 'Effect of Receiver Capacity on Lubricant-Injected Rotary Compressor with Load-Unload Capacity Control', 0, 0, '2020-07-30 02:31:10', 1),
+(2983, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, 0, '2020-07-30 02:31:10', 1),
+(2984, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, 0, '2020-07-30 02:31:10', 1),
 (3005, 122, 0, 0, 2, 'test', '', '', 0, 0, '2020-08-03 20:29:48', 0),
 (3006, 122, 0, 0, 2, 'Actual efficiency can easily vary from 50 percent to 80 percent for optimum operation of a particular pump', '', '', 0, 0, '2020-08-03 20:29:48', 0),
 (3511, 85, 0, 0, 11, 'Trim Pump Impeller for Better Efficiency at Typical Operating Points', '', '', 0, 0, '2020-08-06 03:46:30', 0),
@@ -1220,8 +1253,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3522, 85, 0, 1, 8, 'Try to find nearby pressure gauges to estimate pressure change across the pump.', '', '', 0, 0, '2020-08-06 03:46:30', 0),
 (3523, 85, 0, 1, 8, 'Pick a pump based on its best efficiency point matching current operating conditions.', '', '', 0, 0, '2020-08-06 03:46:30', 0),
 (3524, 85, 0, 1, 14, 'Would installing a variable frequency drive (VFD), trimming the impeller, replacing the motor, or using a belt sheave be a better option?', '', '', 0, 0, '2020-08-06 03:46:30', 0),
-(3525, 85, 0, 1, 4, 'When modifying or replacing pumps and fans, or adjusting their rpm, be sure that they can operate under all conditions anticipated for the given system. System pressure or head should not exceed the maximum pressure or head the fan or pump can sustain. Surge points should be avoided.', '', '', 0, 0, '2020-08-06 03:46:30', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `created`, `approved`) VALUES
+(3525, 85, 0, 1, 4, 'When modifying or replacing pumps and fans, or adjusting their rpm, be sure that they can operate under all conditions anticipated for the given system. System pressure or head should not exceed the maximum pressure or head the fan or pump can sustain. Surge points should be avoided.', '', '', 0, 0, '2020-08-06 03:46:30', 0),
 (3526, 85, 0, 0, 11, 'Replace or Overhaul Worn or Damaged Pumps', '', '', 0, 0, '2020-08-06 03:46:30', 0),
 (3606, 131, 0, 0, 11, 'Condenser qater temperature adjustment ', '', '', 0, 0, '2020-08-06 19:13:00', 0),
 (3607, 131, 0, 0, 11, 'Chilled water supply temperature adjustment', '', '', 0, 0, '2020-08-06 19:13:00', 0),
@@ -1241,7 +1273,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3835, 129, 0, 1, 8, 'The higher the temperature difference between the fluid streams, the more heat can be exchanged', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3836, 129, 0, 1, 14, 'How much can the temperature of the two fluid streams change without negatively affecting the process the fluids are required for?', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3837, 129, 0, 1, 14, 'Can these streams be reasonably close together physically to fit into a heat exchanger?', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3838, 129, 0, 1, 14, 'Is there space in the room to accomodate a heat exchanger?', '', '', 0, 0, '2020-08-06 20:53:08', 0),
+(3838, 129, 0, 1, 14, 'Is there space in the room to accomodate a heat exchanger?', '', '', 0, 0, '2020-08-06 20:53:08', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `created`, `approved`) VALUES
 (3839, 129, 0, 1, 14, 'What kind of heat exchanger best fits the fluid stream? There are several different types.', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3840, 129, 0, 1, 14, 'Is the fluid stream clean or dirty?', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3841, 129, 0, 1, 15, 'System operation hours', '', '', 0, 0, '2020-08-06 20:53:08', 0),
@@ -1290,7 +1323,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3884, 130, 0, 1, 17, 'Example recommendation invovling the installation of insulation on injection barrels in a plastics and injection molding facility', 'https://oregonstate.app.box.com/file/606287338448', 'Insulate Injection Barrels', 0, 0, '2020-08-06 20:55:52', 0),
 (3885, 130, 0, 1, 21, 'Template used to develop and present an analysis of the energy savings associated with insulating a facility\'s equipment or other hot surfaces', 'https://oregonstate.app.box.com/folder/51071018894', 'Analysis Template: Install Insulation', 0, 0, '2020-08-06 20:55:52', 0),
 (3892, 164, 0, 0, 24, '$empty', 'https://eec.oregonstate.edu/wastewater-treatment-training-module', 'Wastewater Treatment Training', 0, 0, '2020-08-06 22:33:54', 0),
-(3893, 165, 0, 0, 26, 'What will we do next?', '', '', 0, 0, '2020-08-06 22:36:00', 0),
 (3894, 162, 0, 0, 13, 'This is a requirement for U.S.DOE to accept our remote assessment as a deliverable on our contract. It might be done in one session or iteratively in multiple sessions.', '', '', 0, 0, '2020-08-06 22:36:25', 1),
 (3895, 162, 0, 0, 26, 'Begin with a review of preparatory work including the intitial energy balance, and list of possible opportunities.', '', '', 0, 0, '2020-08-06 22:36:25', 1),
 (3896, 162, 0, 0, 26, 'Discuss the best strategy to use for a Guided Remote Tour. This might be a standard tour of the process from start to finish, or a series of targeted tours of areas of specific interest. ', '', '', 0, 0, '2020-08-06 22:36:25', 1),
@@ -1301,13 +1333,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4034, 158, 0, 0, 26, 'Pick the brain of anyone with experience in the subject', '', '', 0, 0, '2020-08-06 23:09:57', 1),
 (4035, 158, 0, 0, 26, 'Brainstorm on opportunities as a team and compile a list', '', '', 0, 0, '2020-08-06 23:09:57', 1),
 (4036, 158, 0, 0, 26, 'Develop a table of potential recommendations, and if possible: total energy used by the system related to each opportunity, a high/low estimate of potential % savings,  and the range of potential cost and energy savings potential.', '', '', 0, 0, '2020-08-06 23:09:57', 1),
-(4111, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, '2020-08-06 23:34:20', 1),
-(4112, 156, 0, 0, 26, 'Have the client verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, '2020-08-06 23:34:20', 1),
-(4113, 156, 0, 1, 14, 'Ask client to let us know of any areas of concern or interest', '', '', 0, 0, '2020-08-06 23:34:20', 1),
-(4114, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, '2020-08-06 23:34:20', 1),
-(4115, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, '2020-08-06 23:34:20', 1),
-(4116, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, 0, '2020-08-06 23:34:20', 1),
-(4117, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, 0, '2020-08-06 23:34:20', 1),
 (4118, 163, 0, 0, 11, 'Control Aeration to Hold a Minimum Dissolved Oxygen Level', '', '', 0, 0, '2020-08-06 23:36:56', 0),
 (4119, 163, 0, 0, 11, 'Replace Standard Aeration Fans with High Efficiency Turbo Blowers', '', '', 0, 0, '2020-08-06 23:36:56', 0),
 (4120, 163, 0, 0, 11, 'Improve Efficiency of Fine Bubble Diffusers', '', '', 0, 0, '2020-08-06 23:36:56', 0),
@@ -1424,7 +1449,28 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4440, 174, 0, 0, 26, 'A qualitative, visual strategy for designing a layout.', '', '', 0, 0, '2020-08-14 21:46:21', 0),
 (4441, 174, 0, 0, 26, 'Begin with creating a matrix with every department listed as a header for columns and rows (see figure 1).', '', '', 0, 0, '2020-08-14 21:46:21', 0),
 (4442, 173, 0, 0, 26, 'Most inefficient layouts are the result of future space, workstation, and product expansions that were not considered in the original design of the facility layout..', '', '', 0, 0, '2020-08-14 23:18:36', 0),
-(4443, 173, 0, 0, 26, 'For layouts with obvious flow inefficiencies, using intuition to organize departments is sufficient to achieve savings. However, there are heuristic models that can be used for a more scientific approach.', '', '', 0, 0, '2020-08-14 23:18:36', 0);
+(4443, 173, 0, 0, 26, 'For layouts with obvious flow inefficiencies, using intuition to organize departments is sufficient to achieve savings. However, there are heuristic models that can be used for a more scientific approach.', '', '', 0, 0, '2020-08-14 23:18:36', 0),
+(4444, 175, 0, 0, 11, 'Use digester gas in a dual fuel boiler', '', '', 0, 0, '2020-08-17 18:11:37', 0),
+(4445, 175, 0, 0, 11, 'Clean and concentrate digester gas for sale to natural gas utility', '', '', 0, 0, '2020-08-17 18:11:37', 0),
+(4446, 176, 0, 0, 11, 'Control UV Disinfection to minimum required', '', '', 0, 0, '2020-08-17 18:16:44', 0),
+(4447, 126, 0, 0, 17, '$empty', '/wiki/technologies/45', 'Pumps', 0, 0, '2020-08-17 20:33:44', 0),
+(4496, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, '2020-08-17 21:29:45', 1),
+(4497, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, '2020-08-17 21:29:45', 1),
+(4498, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, '2020-08-17 21:29:45', 1),
+(4499, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, '2020-08-17 21:29:45', 1),
+(4500, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, '2020-08-17 21:29:45', 1),
+(4501, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, 0, '2020-08-17 21:29:45', 1),
+(4502, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, 0, '2020-08-17 21:29:45', 1),
+(4503, 156, 0, 0, 8, 'Try to get more than one key contact at the site involved in the project. (Plant manager, Fiscal Decision Maker, Maintenance Manager, Floor Personnel, Energy Lead, etc)', '', '', 0, 0, '2020-08-17 21:29:45', 1),
+(4506, 165, 0, 0, 26, 'What will we do next?', '', '', 0, 0, '2020-08-17 21:32:04', 0),
+(4507, 165, 0, 0, 26, 'How can we get incentive program personnel involved (ETO, ESU, utility reps)?', '', '', 0, 0, '2020-08-17 21:32:04', 0),
+(4520, 162, 0, 0, 13, 'This is a requirement for U.S.DOE to accept our remote assessment as a deliverable on our contract. It might be done in one session or iteratively in multiple sessions.', '', '', 0, 0, '2020-08-17 21:38:35', 0),
+(4521, 162, 0, 0, 26, 'Begin with a review of preparatory work including the intitial energy balance, and list of possible opportunities.', '', '', 0, 0, '2020-08-17 21:38:35', 0),
+(4522, 162, 0, 0, 26, 'Discuss the best strategy to use for a Guided Remote Tour. This might be: ', '', '', 0, 0, '2020-08-17 21:38:35', 0),
+(4523, 162, 0, 1, 12, 'A standard tour of the process from start to finish, but this could be an overly long time for a Zoom meeting. ', '', '', 0, 0, '2020-08-17 21:38:35', 0),
+(4524, 162, 0, 1, 12, 'A series of shorter remote targeted tours of areas of specific interest. ', '', '', 0, 0, '2020-08-17 21:38:35', 0),
+(4525, 162, 0, 2, 8, 'This strategy is being used by a number of assessment teams', '', '', 0, 0, '2020-08-17 21:38:35', 0),
+(4526, 162, 0, 2, 1, 'Can simplify scheduling if only key team members must join tours of particular areas.  Others can participate based on availability.', '', '', 0, 0, '2020-08-17 21:38:35', 0);
 
 -- --------------------------------------------------------
 
@@ -1462,6 +1508,46 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (56, 3, 'Combined Heat and Power', 'Combined Heat and Power allows sites to use the waste heat of electrical generation.', 'CHP', 'no image yet', 0, 51, '2020-08-07 00:33:29', 0),
 (57, 4, 'Optimize Facility Layout', 'Improve productivity through the location of departments and workstations and the workflow of personnel and materials.', 'Facility layout has a significant and often underestimated effect on the productivity of a facility. Movement of any form of work represents a non-value-added (NVA) process. Re-arranging the location of workstations and inventory to eliminate movement creates value in several forms. Most typically, fewer labor hours are spent moving materials, and sometimes energy is saved if operating hours of vehicles (e.g. forklifts or conveyors) are reduced. The most lucrative savings for the facility is increased productivity if delivery lead times between workstations are reduced, increasing utilization of the downstream workstation.', 'https://www.manexconsulting.com/wp-content/uploads/Layout-Optimization-Blog.jpg', 0, 62, '2020-08-07 19:21:05', 0),
 (58, 4, 'Queuing Line Optimization', 'The operation of queues and their respective workstations determine the overall production efficiency of a facility.', 'Optimizing the queuing system of a workstation has significant effects on product output. Little\'s law and queuing theory helps simplify any production system into a set of easy to estimate variables. While extensive research, data collection, and possibly simulation should be employed before making any change to a part of the production system, basic analysis can reveal opportunities for cost savings through increased productivity.', 'https://www.umav.org/wp-content/uploads/2019/04/Car-Assembly-Line.jpg', 0, 62, '2020-08-10 19:57:05', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Requests`
+--
+
+CREATE TABLE `Requests` (
+  `requestId` int(10) UNSIGNED NOT NULL,
+  `title` varchar(1000) NOT NULL,
+  `description` varchar(5000) NOT NULL,
+  `userId` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Request_Comments`
+--
+
+CREATE TABLE `Request_Comments` (
+  `commentId` int(10) UNSIGNED NOT NULL,
+  `requestId` int(10) UNSIGNED NOT NULL,
+  `comment` varchar(5000) NOT NULL,
+  `review` int(10) UNSIGNED NOT NULL,
+  `userId` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Request_Objects`
+--
+
+CREATE TABLE `Request_Objects` (
+  `requestObjectId` int(10) UNSIGNED NOT NULL,
+  `requestId` int(10) UNSIGNED NOT NULL,
+  `objectId` int(10) UNSIGNED NOT NULL,
+  `objectType` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1505,12 +1591,12 @@ CREATE TABLE `Temp_Cards` (
 --
 
 INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
-(77, 0, 'Improve Compressor Efficiency', 77, 58, '2020-07-14 18:58:25'),
 (100, 0, 'Off Site Resource Links', 100, 51, '2020-07-03 17:55:16'),
 (101, 0, 'Improve Boiler Combustion Efficiency', 101, 57, '2020-07-03 17:28:05'),
 (105, 0, 'Improve the Condensate System', 105, 58, '2020-07-10 18:54:00'),
 (106, 0, 'Reduce Heat Loss', 106, 51, '2020-07-03 17:31:09'),
-(120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52');
+(120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52'),
+(162, 10, 'Arrange a Client Guided Remote Tour by Phone.', 162, 51, '2020-08-17 21:09:36');
 
 -- --------------------------------------------------------
 
@@ -1589,7 +1675,8 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (62, 'psukamto', 'bbd4de95486df84c2553cb4cabc1472a$d8d1b75623a7d7eb3b717020dc28b70ba1c9152992db10316e280aedb0f35d6c', 'Peter', 'Sukamto', 'sukamtop.eec@gmail.com', 3, '2020-07-20 22:20:37'),
 (63, 'testUser', '1f9d6b0176ddee97a3a69102b00679fd$f95c8cef6dacedc921486f893f34cdcd497d0e70b36955f84a3f45caa86c6c5f', 'test', 'user', 'testuser@gmail.com', 3, '2020-07-28 20:21:12'),
 (64, 'NewUser', '0f98b126f8c5f97567986f7344a65d35$b56cdfeeb26a024487d97ea457a4691c8059a5a41f6102362319a7010488ecf7', 'Zachary', 'Thomas', 'newUser@gmail.com', 1, '2020-08-04 20:49:52'),
-(65, 'KarlHaapala', 'b57616ebf0b31e2b470945548ebb37c3$ce2a1a37a4eeb500f9ff3d7ae5a436bd96f996cc7035089b06c66296ef664a0e', 'Karl', 'Haapala', 'Karl.Haapala@oregonstate.edu', 3, '2020-08-10 16:43:08');
+(65, 'KarlHaapala', 'b57616ebf0b31e2b470945548ebb37c3$ce2a1a37a4eeb500f9ff3d7ae5a436bd96f996cc7035089b06c66296ef664a0e', 'Karl', 'Haapala', 'Karl.Haapala@oregonstate.edu', 3, '2020-08-10 16:43:08'),
+(66, 'BrianFronk', 'e19515b3011f1b9ae350416702e366ae$bc12ddf1a36485efdc2f3076306c0f3fbf8e0ebc161228b3d96df617b3003a54', 'Brian', 'Fronk', 'Brian.Fronk@oregonstate.edu', 1, '2020-08-17 17:50:49');
 
 -- --------------------------------------------------------
 
@@ -1696,6 +1783,25 @@ ALTER TABLE `Pages`
   ADD KEY `category_fk` (`pageType`);
 
 --
+-- Indexes for table `Requests`
+--
+ALTER TABLE `Requests`
+  ADD PRIMARY KEY (`requestId`);
+
+--
+-- Indexes for table `Request_Comments`
+--
+ALTER TABLE `Request_Comments`
+  ADD PRIMARY KEY (`commentId`);
+
+--
+-- Indexes for table `Request_Objects`
+--
+ALTER TABLE `Request_Objects`
+  ADD PRIMARY KEY (`requestObjectId`),
+  ADD KEY `request_object_fk` (`requestId`);
+
+--
 -- Indexes for table `Sponsors`
 --
 ALTER TABLE `Sponsors`
@@ -1746,7 +1852,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -1770,7 +1876,7 @@ ALTER TABLE `Headers`
 -- AUTO_INCREMENT for table `History_Cards`
 --
 ALTER TABLE `History_Cards`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `History_Headers`
@@ -1782,7 +1888,7 @@ ALTER TABLE `History_Headers`
 -- AUTO_INCREMENT for table `History_Items`
 --
 ALTER TABLE `History_Items`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=570;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=616;
 
 --
 -- AUTO_INCREMENT for table `History_Pages`
@@ -1800,13 +1906,31 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4444;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4527;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
   MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+
+--
+-- AUTO_INCREMENT for table `Requests`
+--
+ALTER TABLE `Requests`
+  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Request_Comments`
+--
+ALTER TABLE `Request_Comments`
+  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Request_Objects`
+--
+ALTER TABLE `Request_Objects`
+  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`
@@ -1818,7 +1942,7 @@ ALTER TABLE `Sponsors`
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `Views`
@@ -1876,6 +2000,12 @@ ALTER TABLE `Items`
 ALTER TABLE `Pages`
   ADD CONSTRAINT `category_fk` FOREIGN KEY (`pageType`) REFERENCES `Categories` (`categoryId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_page_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
+
+--
+-- Constraints for table `Request_Objects`
+--
+ALTER TABLE `Request_Objects`
+  ADD CONSTRAINT `request_object_fk` FOREIGN KEY (`requestId`) REFERENCES `Requests` (`requestId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Temp_Cards`
