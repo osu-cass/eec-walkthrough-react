@@ -144,10 +144,16 @@ function Sidebar(props) {
                 collectionLink="history-report"
               />
               {role >= 3 ? (
-                <SidebarToggleView
-                  show={showEdit}
-                  onToggleEditorButtons={() => handleToggleEditorButtons()}
-                />
+                <Fragment>
+                  <SidebarCollection
+                    collectionName="Publish Request"
+                    collectionLink="publish-request"
+                  />
+                  <SidebarToggleView
+                    show={showEdit}
+                    onToggleEditorButtons={() => handleToggleEditorButtons()}
+                  />
+                </Fragment>
               ) : (
                 null
               )}
