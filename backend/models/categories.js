@@ -74,7 +74,7 @@ async function getCategories(viewAll) {
     let sql = "";
     const finalResults = {
       categories: []
-    }
+    };
 
     // get all of the categories
     if (viewAll) {
@@ -97,7 +97,7 @@ async function getCategories(viewAll) {
       const categoryId = finalResults.categories[i].categoryId;
 
       if (viewAll) {
-        sql = "SELECT pageId, pageType, name, description " +
+        sql = "SELECT pageId, pageType, name, description, approved, internal " +
         "FROM Pages " +
         "WHERE pageType = ? " +
         "ORDER BY pageType ASC, name ASC;";
@@ -133,7 +133,7 @@ async function getCategoryNames() {
     let sql = "";
     const finalResults = {
       categories: []
-    }
+    };
 
     // get all of the categories names
 
@@ -141,7 +141,7 @@ async function getCategoryNames() {
     "FROM Categories " +
     "ORDER BY singleName ASC;";
 
-    let results = await pool.query(sql, []);
+    const results = await pool.query(sql, []);
 
     finalResults.categories = results[0];
 

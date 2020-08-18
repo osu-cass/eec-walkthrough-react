@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {useParams, withRouter, Link} from "react-router-dom";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import {formatTime} from "../../utilities/formatTime";
 import "./PageList.css";
 
 // lists pages for each section
@@ -31,7 +32,7 @@ function PageList() {
 
     for (let i = 0; i < category.pages.length; i++) {
 
-      let url = `/wiki/${category.pluralName.replace(/\s+/g, '-').toLowerCase()}/${category.pages[i].pageId}`;
+      const url = `/wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}/${category.pages[i].pageId}`;
 
       linkArray.push(url);
 
@@ -84,6 +85,12 @@ function PageList() {
                       {page.name}
                     </h5>
                   </Link>
+                  <span className="text-left float-left">
+                    {page.description}
+                  </span>
+                  <span className="page-link-created text-left float-left">
+                    Last updated {formatTime(page.created)}
+                  </span>
                 </div>
 
               )}

@@ -9,7 +9,7 @@ export function getPublic() {
 
   const role = getProfile().role;
   if (role < 2) {
-    return 0;
+    return 1;
   }
   const mode = window.localStorage.getItem("publicMode");
   if (mode) {

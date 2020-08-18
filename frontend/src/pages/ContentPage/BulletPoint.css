@@ -1,5 +1,5 @@
 .last-accessed-link {
-  color: #28a428 !important;
+  color: #239023 !important;
 }
 
 .last-accessed-link-bad {
@@ -15,7 +15,7 @@
 }
 
 .icon-td, .content-td {
-  vertical-align: top !important;
+  vertical-align: middle !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
@@ -25,13 +25,17 @@
   margin-left: 0.30em;
 }
 
+.icon-item {
+  margin-top: 0.1em !important;
+}
+
 .icon-item-text.check-square-icon {
   font-weight: bold;
   font-size: large;
 }
 
 .icon-item.check-square-icon {
-  margin-top: 0.33em;
+  margin-top: 0.3em !important;
 }
 
 .icon-item.fa-circle {
@@ -39,7 +43,7 @@
   margin-left: 0.9em;
   padding-right: 0.4em;
   margin-right: 1.45em !important;
-  vertical-align: 0.4em;
+  margin-top: 0.9em !important;
 }
 
 .indent-level-1 {
@@ -56,4 +60,43 @@
 
 .indent-level-4 {
   margin-left: 6em;
+}
+
+.indent-level-1.icon-item.fa-circle {
+  margin-left: 3.7em;
+}
+
+.indent-level-2.icon-item.fa-circle {
+  margin-left: 6.8em;
+}
+
+.indent-level-3.icon-item.fa-circle {
+  margin-left: 9.8em;
+}
+
+.indent-level-4.icon-item.fa-circle {
+  margin-left: 12.7em;
+}
+
+.internal-item {
+  background-image:
+  repeating-linear-gradient(
+    90deg,
+    #f7f7f7,
+    #f7f7f7 4%,
+    #ebebeb 4%,
+    #ebebeb 8%
+  );
+}
+
+.card-body-review .internal-item {
+  background-image:
+  repeating-linear-gradient(0deg, transparent, rgba(239, 234, 206, 0.5) 0),
+  repeating-linear-gradient(
+    90deg,
+    #f7f7f7,
+    #f7f7f7 4%,
+    #ebebeb 4%,
+    #ebebeb 8%
+  );
 }

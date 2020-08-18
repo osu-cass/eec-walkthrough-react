@@ -6,7 +6,7 @@ import {setPublic} from "../../utilities/publicMode";
 // Button that toggles viewing internal content and viewing public content
 function ChangePublic(props) {
 
-  const [publicMode, setPublicMode] = useState(props.mode);
+  const [publicMode, setPublicMode] = useState(props.publicMode);
 
   // update the public value
   function toggleMode(publicValue) {

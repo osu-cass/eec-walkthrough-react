@@ -2,6 +2,7 @@ import React, {Fragment, useState, useEffect} from "react";
 import {getProfile, logout} from "../../utilities/cookieAuth";
 import {getMode} from "../../utilities/pageMode";
 import {getPublic} from "../../utilities/publicMode";
+import {getPublished} from "../../utilities/publishedMode";
 import Header from "./Header";
 import PageDescription from "./PageDescription";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
@@ -27,8 +28,10 @@ function ContentPage(props) {
   const [role, setRole] = useState(0);
   const [mode, setMode] = useState(getMode());
   const [publicMode, setPublicMode] = useState(getPublic());
+  const [publishedMode, setPublishedMode] = useState(getPublished());
   const [cardState, setCardState] = useState(0);
   const [pageState, setPageState] = useState(0);
+  const [moved, setMoved] = useState(false);
   const {pageId} = useParams();
 
   // get new page data if the page ID has changed
@@ -37,7 +40,7 @@ function ContentPage(props) {
     setRole(getProfile().role);
     fetchData();
     // eslint-disable-next-line
-  }, [pageId]);
+  }, [pageId, publishedMode]);
 
   // sets the current page mode (view / edit / move)
   function handlePageMode(newMode) {
@@ -49,9 +52,15 @@ function ContentPage(props) {
     setPublicMode(newMode);
   }
 
+  // sets the current published mode (published / unpublished)
+  function handlePublishedMode(newMode) {
+    setPublishedMode(newMode);
+  }
+
   // fetch page data
   async function fetchData() {
     let obj = [];
+    setMoved(false);
     setLoaded(false);
 
     // Fetch all icons
@@ -71,7 +80,11 @@ function ContentPage(props) {
     if (results.ok) {
       obj = await results.json();
       setPageInfo(obj);
-      setHeaders(obj.headers);
+      // add empty array of applied filters to each header
+      for (let i = 0; i < obj.headers.length; i++) {
+        obj.headers[i].forceFilter = [];
+      }
+      setHeaders(headerSortOrder(obj.headers));
       console.log("Page Data:", obj);
     } else {
       if (results.status === 404) {
@@ -109,14 +122,14 @@ function ContentPage(props) {
       if (action === "create") {
 
         headerData.push(object);
-        setHeaders(headerData);
+        setHeaders(headerSortOrder(headerData));
 
       } else if (action === "update" || action === "publish" || action === "unpublish") {
 
         for (let i = 0; i < headerData.length; i++) {
           if (headerData[i].headerId === object.headerId) {
             headerData[i] = object;
-            setHeaders(headerData);
+            setHeaders(headerSortOrder(headerData));
           }
         }
 
@@ -125,7 +138,7 @@ function ContentPage(props) {
         for (let i = 0; i < headerData.length; i++) {
           if (headerData[i].headerId === object.headerId) {
             headerData.splice(i, 1);
-            setHeaders(headerData);
+            setHeaders(headerSortOrder(headerData));
           }
         }
 
@@ -135,10 +148,10 @@ function ContentPage(props) {
           if (headerData[i].headerId === object.headerId) {
             if (headerData[i].approved) {
               headerData[i] = object;
-              setHeaders(headerData);
+              setHeaders(headerSortOrder(headerData));
             } else {
               headerData.splice(i, 1);
-              setHeaders(headerData);
+              setHeaders(headerSortOrder(headerData));
             }
           }
         }
@@ -162,7 +175,7 @@ function ContentPage(props) {
       if (action === "create") {
 
         headerData[headerIndex].cards.push(object);
-        setHeaders(headerData);
+        setHeaders(headerSortOrder(headerData));
         setCardState(cardState + 1);
 
       } else if (action === "update" || action === "publish" || action === "unpublish") {
@@ -170,7 +183,7 @@ function ContentPage(props) {
         for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
           if (headerData[headerIndex].cards[i].cardId === object.cardId) {
             headerData[headerIndex].cards[i] = object;
-            setHeaders(headerData);
+            setHeaders(headerSortOrder(headerData));
             setCardState(cardState + 1);
           }
         }
@@ -179,9 +192,9 @@ function ContentPage(props) {
 
         for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
           if (headerData[headerIndex].cards[i].cardId === object.cardId) {
-              headerData[headerIndex].cards.splice(i, 1);
-              setHeaders(headerData);
-              setCardState(cardState + 1);
+            headerData[headerIndex].cards.splice(i, 1);
+            setHeaders(headerSortOrder(headerData));
+            setCardState(cardState + 1);
           }
         }
 
@@ -191,11 +204,11 @@ function ContentPage(props) {
           if (headerData[headerIndex].cards[i].cardId === object.cardId) {
             if (headerData[headerIndex].cards[i].approved) {
               headerData[headerIndex].cards[i] = object;
-              setHeaders(headerData);
+              setHeaders(headerSortOrder(headerData));
               setCardState(cardState + 1);
             } else {
               headerData[headerIndex].cards.splice(i, 1);
-              setHeaders(headerData);
+              setHeaders(headerSortOrder(headerData));
               setCardState(cardState + 1);
             }
           }
@@ -216,7 +229,7 @@ function ContentPage(props) {
               for (let k = 0; k < copy[i].cards[j].items.length; k++) {
                 if (copy[i].cards[j].items[k].itemId === itemId) {
                   copy[i].cards[j].items[k].created = message;
-                  setHeaders(copy);
+                  setHeaders(headerSortOrder(copy));
                   return;
                 }
               }
@@ -224,7 +237,7 @@ function ContentPage(props) {
               for (let k = 0; k < copy[i].cards[j].tempItems.length; k++) {
                 if (copy[i].cards[j].tempItems[k].itemId === itemId) {
                   copy[i].cards[j].tempItems[k].created = message;
-                  setHeaders(copy);
+                  setHeaders(headerSortOrder(copy));
                   return;
                 }
               }
@@ -236,58 +249,150 @@ function ContentPage(props) {
 
   }
 
-  // Moves the specified header up or down one in relation to other headers
-  async function handleMoveHeader(headerId, up) {
+  // sort headers based on their edited status and their order index
+  function headerSortOrder(headers) {
     const copy = [...headers];
-    let headerIndex = -1;
-    let moved = false;
-
-    // Create a list of only approved headers
-    const approvedHeaders = [];
     for (let i = 0; i < copy.length; i++) {
-      if (copy[i].approved) {
-        const newHeader = copy[i];
-        newHeader.trueIndex = i;
-        approvedHeaders.push(newHeader);
+      if ((mode === 1 && copy[i].tempHeaderId) || (mode === 2 && publishedMode === 0 && copy[i].tempHeaderId)) {
+        copy[i].realOrder = copy[i].tempOrderIndex;
+      } else {
+        copy[i].realOrder = copy[i].orderIndex;
+      }
+      copy.sort((a, b) => a.realOrder - b.realOrder);
+    }
+    return copy;
+  }
+
+  // Moves the specified header up or down one in relation to other headers
+  async function handleMoveHeader(headerId, up, mode) {
+
+    setMoved(true);
+
+    const copy = [...headers];
+
+    let headerType = "temp";
+    if (mode === 1) {
+      headerType = "norm";
+    }
+
+    // divide the normal and edited header in the same array
+    const headerOrderArray = [];
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].tempHeaderId && copy[i].approved) {
+
+        const headerObj = {
+          id: copy[i].headerId,
+          type: "norm",
+          order: copy[i].orderIndex,
+          solo: false
+        };
+
+        const tempHeaderObj = {
+          id: copy[i].tempHeaderId,
+          type: "temp",
+          order: copy[i].tempOrderIndex,
+          solo: false
+        };
+
+        if (mode) {
+          headerObj.show = "show";
+          tempHeaderObj.show = "hidden";
+        } else {
+          headerObj.show = "hidden";
+          tempHeaderObj.show = "show";
+        }
+
+        headerOrderArray.push(headerObj);
+        headerOrderArray.push(tempHeaderObj);
+
+      } else if (copy[i].approved) {
+        const headerObj = {
+          id: copy[i].headerId,
+          type: "norm",
+          order: copy[i].orderIndex,
+          show: "show",
+          solo: false
+        };
+        headerOrderArray.push(headerObj);
+      } else {
+        const tempHeaderObj = {
+          id: copy[i].headerId,
+          type: "temp",
+          order: copy[i].orderIndex,
+          solo: true
+        };
+        if (mode) {
+          tempHeaderObj.show = "hidden";
+        } else {
+          tempHeaderObj.show = "show";
+        }
+        headerOrderArray.push(tempHeaderObj);
       }
     }
 
-    // Find the index of this header
-    for (let i = 0; i < approvedHeaders.length; i++) {
-      if (approvedHeaders[i].headerId === headerId) {
-        headerIndex = i;
-        break;
+    // sort the array of headers by order index
+    headerOrderArray.sort((a, b) => a.order - b.order);
+
+    // find and move the specified header
+    let moved = false;
+    for (let i = 0; i < headerOrderArray.length; i++) {
+      if (parseInt(headerOrderArray[i].id, 10) === parseInt(headerId, 10) && headerOrderArray[i].type === headerType) {
+        if (up) {
+          // try to move up and skip hidden headers
+          for (let j = i; j > 0; j--) {
+            moved = true;
+            const tempObj = headerOrderArray[j - 1];
+            headerOrderArray[j - 1] = headerOrderArray[j];
+            headerOrderArray[j] = tempObj;
+            if (headerOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        } else {
+          // try to move down and skip hidden headers
+          for (let j = i; j < headerOrderArray.length - 1; j++) {
+            moved = true;
+            const tempObj = headerOrderArray[j + 1];
+            headerOrderArray[j + 1] = headerOrderArray[j];
+            headerOrderArray[j] = tempObj;
+            if (headerOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        }
       }
     }
 
-    // If we cannot find the index, then return
-    if (headerIndex === -1) {
-      return;
+    // update the real headers to reflect the new order.
+    for (let i = 0; i < copy.length; i++) {
+      for (let j = 0; j < headerOrderArray.length; j++) {
+        if (copy[i].headerId === headerOrderArray[j].id && headerOrderArray[j].type === "norm") {
+          copy[i].orderIndex = j + 1;
+          copy[i].updateCards = true;
+        } else if (copy[i].tempHeaderId === headerOrderArray[j].id && headerOrderArray[j].type === "temp") {
+          copy[i].tempOrderIndex = j + 1;
+          copy[i].updateCards = true;
+        } else if (copy[i].headerId === headerOrderArray[j].id && headerOrderArray[j].solo && headerOrderArray[j].type === "temp") {
+          copy[i].orderIndex = j + 1;
+          copy[i].updateCards = true;
+        }
+      }
     }
 
-    // Check if we are trying to move up or down
-    if (up) {
-      // if this is not the top header of this page, swap it with the header above it
-      if (headerIndex > 0) {
-        const trueIndex = approvedHeaders[headerIndex].trueIndex;
-        const otherTrueIndex = approvedHeaders[headerIndex - 1].trueIndex;
-        const tempHeader = copy[trueIndex];
-        copy[trueIndex] = copy[otherTrueIndex];
-        copy[otherTrueIndex] = tempHeader;
-        setHeaders(copy);
-        moved = true;
-      }
+    // sort headers
+    let sortedHeader = headerSortOrder(copy);
+    sortedHeader.forEach(header => {
+      header.orderIndex = header.realOrder;
+      header.tempOrderIndex = header.realOrder;
+    });
+
+    // update the header array
+    if (mode) {
+      setHeaders(sortedHeader);
     } else {
-      // if this is not the bottom header of this page, swap it with the header below it
-      if (headerIndex + 1 < approvedHeaders.length) {
-        const trueIndex = approvedHeaders[headerIndex].trueIndex;
-        const otherTrueIndex = approvedHeaders[headerIndex + 1].trueIndex;
-        const tempHeader = copy[trueIndex];
-        copy[trueIndex] = copy[otherTrueIndex];
-        copy[otherTrueIndex] = tempHeader;
-        setHeaders(copy);
-        moved = true;
-      }
+      fetchData();
     }
 
     let direction = 0;
@@ -297,7 +402,7 @@ function ContentPage(props) {
 
     // send our move to the API
     if (moved) {
-      const results = await fetch(`/api/headers/${headerId}/move/${direction}`, {
+      const results = await fetch(`/api/headers/${headerId}/move/${direction}/${mode}`, {
         method: "PATCH",
         headers: {"Content-Type": "application/json"}
       });
@@ -322,120 +427,88 @@ function ContentPage(props) {
     }
   }
 
-  // Moves the specified card up or down one in relation to other cards
-  async function handleMoveCard(cardId, headerId, up) {
+  // handle a new view being loaded
+  function handleNewView(headerFilters) {
     const copy = [...headers];
-    let headerIndex = -1;
-    let cardIndex = -1;
-    let moved = false;
-
-    // Find the index of this header
+    // set default force filters
     for (let i = 0; i < copy.length; i++) {
-      if (copy[i].headerId === headerId) {
-        headerIndex = i;
-        break;
+      copy[i].forceFilter = [];
+    }
+    // apply the specific force filters to the specific headers
+    for (let i = 0; i < copy.length; i++) {
+      for (let j = 0; j < headerFilters.length; j++) {
+        if (copy[i].headerId === headerFilters[j].headerId) {
+          copy[i].forceFilter = headerFilters[j].filters;
+        }
       }
     }
+    setHeaders(copy);
+  }
 
-    // If we cannot find the index, then return
-    if (headerIndex === -1) {
-      return;
-    }
-
-    // Create a list of only approved cards
-    const approvedCards = [];
-    for (let i = 0; i < copy[headerIndex].cards.length; i++) {
-      if (copy[headerIndex].cards[i].approved) {
-        const newCard = copy[headerIndex].cards[i];
-        newCard.trueIndex = i;
-        approvedCards.push(newCard);
-      }
-    }
-
-    // Find the index of this card
-    for (let i = 0; i < approvedCards.length; i++) {
-      if (approvedCards[i].cardId === cardId) {
-        cardIndex = i;
-        break;
-      }
-    }
-
-    // If we cannot find the index, then return
-    if (cardIndex === -1) {
-      return;
-    }
-
-    // Check if we are trying to move up or down
-    if (up) {
-      // if this is not the top card of this header, swap it with the card above it
-      if (cardIndex > 0) {
-        const trueIndex = approvedCards[cardIndex].trueIndex;
-        const otherTrueIndex = approvedCards[cardIndex - 1].trueIndex;
-        const tempCard = copy[headerIndex].cards[trueIndex];
-        copy[headerIndex].cards[trueIndex] = copy[headerIndex].cards[otherTrueIndex];
-        copy[headerIndex].cards[otherTrueIndex] = tempCard;
-        setHeaders(copy);
-        setCardState(cardState + 1);
-        moved = true;
-      }
-    } else {
-      // if this is not the bottom card of this header, swap it with the card below it
-      if (cardIndex + 1 < approvedCards.length) {
-        const trueIndex = approvedCards[cardIndex].trueIndex;
-        const otherTrueIndex = approvedCards[cardIndex + 1].trueIndex;
-        const tempCard = copy[headerIndex].cards[trueIndex];
-        copy[headerIndex].cards[trueIndex] = copy[headerIndex].cards[otherTrueIndex];
-        copy[headerIndex].cards[otherTrueIndex] = tempCard;
-        setHeaders(copy);
-        setCardState(cardState + 1);
-        moved = true;
-      }
-    }
-
-    let direction = 0;
-    if (up) {
-      direction = 1;
-    }
-
-    // send our move to the API
-    if (moved) {
-      const results = await fetch(`/api/cards/${cardId}/move/${direction}`, {
-        method: "PATCH",
-        headers: {"Content-Type": "application/json"}
-      });
-
-      if (!results.ok) {
-
-        const obj = await results.json();
-
-        if (results.status === 404) {
-          console.error("Couldn't find card to move");
-        } else if (results.status === 500 || typeof obj.error === "undefined") {
-          console.error("An internal server error occurred while trying to move the card.");
+  // Changes the viewing state of an icon for a specific header
+  function updateIcon(iconId, state, headerId) {
+    const copy = [...headers];
+    for (let i = 0; i < copy.length; i++) {
+      if (headerId === copy[i].headerId) {
+        if (state) {
+          copy[i].forceFilter.push(iconId);
+          break;
         } else {
-          console.error(obj.error);
-        }
-
-        if (results.status === 401) {
-          logout();
-          window.location.href = "/";
+          for (let j = 0; j < copy[i].forceFilter.length; j++) {
+            if (copy[i].forceFilter[j] === iconId) {
+              copy[i].forceFilter.splice(j, 1);
+            }
+          }
         }
       }
     }
+    setHeaders(copy);
+  }
+
+  // Resets the viewing state for all icon types for a specific header
+  function resetIcons(headerId) {
+    const copy = [...headers];
+    for (let i = 0; i < copy.length; i++) {
+      if (headerId === copy[i].headerId) {
+        copy[i].forceFilter = [];
+        break;
+      }
+    }
+    setHeaders(copy);
+  }
+
+  // Clears the viewing state for all icon types for a specific header
+  function clearIcons(headerId) {
+    const copy = [...headers];
+    for (let i = 0; i < copy.length; i++) {
+      if (headerId === copy[i].headerId) {
+        for (let j = 0; j < iconSet.length; j++) {
+          copy[i].forceFilter.push(iconSet[j].iconType);
+        }
+        break;
+      }
+    }
+    setHeaders(copy);
   }
 
   if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
     return loaded ? ( // Render content when data loaded from backend
-      <Container className="my-4">
+      <Container className="my-4" id="content-page">
         <PageDescription
           page={pageInfo}
           handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
           role={role}
           mode={mode}
+          publicMode={publicMode}
+          publishedMode={publishedMode}
           pageState={pageState}
           onPageMode={e => handlePageMode(e)}
           onPublicMode={e => handlePublicMode(e)}
+          onPublishedMode={e => handlePublishedMode(e)}
           handlePageEdit={props.handlePageEdit}
+          moved={moved}
+          onNewView={e => handleNewView(e)}
+          headers={headers}
         />
 
         <CreateHeader
@@ -452,17 +525,21 @@ function ContentPage(props) {
             <Fragment key={i}>
               <Header
                 header={header}
-                handleMoveHeader={(id, up) => handleMoveHeader(id, up)}
-                handleMoveCard={(cardId, headerId, up) => handleMoveCard(cardId, headerId, up)}
+                handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
+                handleMoveCard={() => setMoved(true)}
                 role={role}
                 mode={mode}
                 publicMode={publicMode}
+                publishedMode={publishedMode}
                 iconSet={iconSet}
                 cardState={cardState}
                 top={i === 0 ? (true) : (false)}
                 bottom={i >= headers.length - 1 ? (true) : (false)}
                 handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
                 handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+                updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
+                resetIcons={e => resetIcons(e)}
+                clearIcons={e => clearIcons(e)}
               />
               <CreateCard
                 headerId={header.headerId}

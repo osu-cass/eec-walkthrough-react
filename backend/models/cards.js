@@ -42,7 +42,7 @@ async function createCard(headerId, cardType, title, items, userId) {
     for (let i = 0; i < items.length; i++) {
       for (let j = 0; j < icons.length; j++) {
         if (items[i].iconType === icons[j].iconType) {
-          return {error: 3}
+          return {error: 3};
         }
       }
     }
@@ -62,10 +62,10 @@ async function createCard(headerId, cardType, title, items, userId) {
 
     // create the new items
     sql = "INSERT INTO Items (cardId, indentation, iconType, " +
-    "contentText, contentUrl, contentLabel, contentMode, approved) VALUES ";
+    "contentText, contentUrl, contentLabel, contentMode, internal, approved) VALUES ";
     // expand the sql string and array based on the number of items
     items.forEach((currentValue) => {
-      sql += "(?, ?, ?, ?, ?, ?, ?, 0),";
+      sql += "(?, ?, ?, ?, ?, ?, ?, ?, 0),";
       sqlArray.push(cardId);
       sqlArray.push(currentValue.indentation);
       sqlArray.push(currentValue.iconType);
@@ -73,6 +73,7 @@ async function createCard(headerId, cardType, title, items, userId) {
       sqlArray.push(currentValue.contentUrl);
       sqlArray.push(currentValue.contentLabel);
       sqlArray.push(currentValue.contentMode);
+      sqlArray.push(currentValue.internal);
     });
 
     // replace the final comma with a semicolon
@@ -108,6 +109,36 @@ async function deleteCard(cardId) {
 
     if (!results[0].length) {
       return {error: 1};
+    }
+
+    // if the card was previously approved, save this deletion in history
+    if (results[0][0].approved) {
+      sql = "INSERT INTO History_Cards (cardId, headerId, cardType, title, removed) " +
+      "SELECT cardId, headerId, cardType, title, 1 AS removed FROM Cards " +
+      "WHERE Cards.approved = 1 AND Cards.cardId = ?;";
+      results = await pool.query(sql, [cardId]);
+      const newHistoryId = results[0].insertId;
+
+      // save item history as well
+      sql = "SELECT * " +
+      "FROM Items " +
+      "WHERE cardId = ? " +
+      "AND approved = 1;";
+      results = await pool.query(sql, [cardId]);
+
+      for (let i = 0; i < results[0].length; i++) {
+        const sqlArray = [newHistoryId, results[0][i].itemId, results[0][i].cardId,
+          results[0][i].orderIndex, results[0][i].indentation, results[0][i].iconType,
+          results[0][i].contentText, results[0][i].contentUrl, results[0][i].contentLabel,
+          results[0][i].contentMode, results[0][i].internal, results[0][i].created];
+
+        sql = "INSERT INTO History_Items " +
+        "(parentId, itemId, cardId, orderIndex, indentation, iconType, contentText, " +
+        "contentUrl, contentLabel, contentMode, internal, created) " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+        await pool.query(sql, sqlArray);
+      }
     }
 
     // delete the card
@@ -223,6 +254,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
     }
 
     const approved = results[0][0].approved;
+    const orderIndex = results[0][0].orderIndex;
 
     // make sure all of the icons being used on this card are valid
     sql = "SELECT iconType " +
@@ -234,7 +266,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
     for (let i = 0; i < items.length; i++) {
       for (let j = 0; j < icons.length; j++) {
         if (items[i].iconType === icons[j].iconType) {
-          return {error: 2}
+          return {error: 2};
         }
       }
     }
@@ -263,9 +295,9 @@ async function updateCard(cardId, cardType, title, items, userId) {
     } else {
 
       sql = "INSERT INTO Temp_Cards (tempCardId, tempCardType, " +
-      "tempTitle, tempUserId) " +
-      "VALUES (?, ?, ?, ?);";
-      results = await pool.query(sql, [cardId, cardType, title, userId]);
+      "tempTitle, tempUserId, tempOrderIndex) " +
+      "VALUES (?, ?, ?, ?, ?);";
+      results = await pool.query(sql, [cardId, cardType, title, userId, orderIndex]);
 
     }
 
@@ -282,11 +314,11 @@ async function updateCard(cardId, cardType, title, items, userId) {
 
         // create all of the new items
         sql = "INSERT INTO Items (cardId, indentation, iconType, " +
-        "contentText, contentUrl, contentLabel, contentMode, approved) VALUES ";
+        "contentText, contentUrl, contentLabel, contentMode, internal, approved) VALUES ";
 
         // expand the sql string and array based on the number of items
         items.forEach((currentValue) => {
-          sql += "(?, ?, ?, ?, ?, ?, ?, 0),";
+          sql += "(?, ?, ?, ?, ?, ?, ?, ?, 0),";
           sqlArray.push(cardId);
           sqlArray.push(currentValue.indentation);
           sqlArray.push(currentValue.iconType);
@@ -294,6 +326,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
           sqlArray.push(currentValue.contentUrl);
           sqlArray.push(currentValue.contentLabel);
           sqlArray.push(currentValue.contentMode);
+          sqlArray.push(currentValue.internal);
         });
 
         // replace the final comma with a semicolon
@@ -350,11 +383,11 @@ async function publishCard(cardId) {
 
       // update the published card
       sql = "UPDATE Cards " +
-      "SET cardType = ?, title = ?, userId = ?, created = ?, approved = 1 " +
+      "SET cardType = ?, title = ?, userId = ?, created = CURRENT_TIMESTAMP, orderIndex = ?, approved = 1 " +
       "WHERE cardId = ?;";
 
       const tempArray = [tempCard.tempCardType, tempCard.tempTitle,
-        tempCard.tempUserId, tempCard.tempCreated, cardId];
+        tempCard.tempUserId, tempCard.tempOrderIndex, cardId];
 
       // make sure no other cards share the same name
       const checkSql = "SELECT * " +
@@ -416,6 +449,34 @@ async function publishCard(cardId) {
     const finalResults = {
       cardId: cardId
     };
+
+    // save the published data to history
+    sql = "INSERT INTO History_Cards (cardId, headerId, cardType, title) " +
+    "SELECT cardId, headerId, cardType, title FROM Cards " +
+    "WHERE Cards.approved = 1 AND Cards.cardId = ?;";
+    results = await pool.query(sql, [cardId]);
+    const newHistoryId = results[0].insertId;
+
+    // save item history as well
+    sql = "SELECT * " +
+    "FROM Items " +
+    "WHERE cardId = ? " +
+    "AND approved = 1;";
+    results = await pool.query(sql, [cardId]);
+
+    for (let i = 0; i < results[0].length; i++) {
+      const sqlArray = [newHistoryId, results[0][i].itemId, results[0][i].cardId,
+        results[0][i].orderIndex, results[0][i].indentation, results[0][i].iconType,
+        results[0][i].contentText, results[0][i].contentUrl, results[0][i].contentLabel,
+        results[0][i].contentMode, results[0][i].internal, results[0][i].created];
+
+      sql = "INSERT INTO History_Items " +
+      "(parentId, itemId, cardId, orderIndex, indentation, iconType, contentText, " +
+      "contentUrl, contentLabel, contentMode, internal, created) " +
+      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+      await pool.query(sql, sqlArray);
+    }
 
     return finalResults;
 
@@ -480,7 +541,7 @@ async function unpublishCard(cardId) {
 exports.unpublishCard = unpublishCard;
 
 
-// move a card
+// move a published card
 async function moveCard(cardId, direction) {
 
   try {
@@ -498,59 +559,132 @@ async function moveCard(cardId, direction) {
 
     const headerId = results[0][0].headerId;
 
-    // get all of the cards under the current header
+    // get all of the cards and temp cards under the current header
     sql = "SELECT * " +
     "FROM Cards " +
+    "LEFT JOIN Temp_Cards " +
+    "ON cardId = tempCardId " +
     "WHERE headerId = ? " +
-    "AND approved = true " +
     "ORDER BY orderIndex ASC, cardId ASC";
     results = await pool.query(sql, headerId);
 
-    const cards = results[0];
-    let cardIndex = -1;
-    let otherCardIndex = -1;
+    // create an array with all of the cards
+    // each card has an id, type (normal / temp), and an order index
+    const cardOrderArray = [];
+    for (let i = 0; i < results[0].length; i++) {
+      if (results[0][i].tempCardId > 0) {
 
-    // find the index of this card
-    for (let i = 0; i < cards.length; i++) {
-      if (cards[i].cardId === parseInt(cardId, 10)) {
-        cardIndex = i;
-        break;
+        const cardObj = {
+          id: results[0][i].cardId,
+          type: "norm",
+          order: results[0][i].orderIndex,
+          show: "show"
+        };
+
+        const tempCardObj = {
+          id: results[0][i].tempCardId,
+          type: "temp",
+          order: results[0][i].tempOrderIndex,
+          show: "hidden"
+        };
+
+        cardOrderArray.push(cardObj);
+        cardOrderArray.push(tempCardObj);
+
+      } else {
+        const cardObj = {
+          id: results[0][i].cardId,
+          type: "norm",
+          order: results[0][i].orderIndex,
+          show: "show"
+        };
+        cardOrderArray.push(cardObj);
       }
     }
 
-    // if we cannot find the index, then we can't find the card
-    if (cardIndex === -1) {
-      return {error: 1};
-    }
+    // sort the array of cards by order index
+    cardOrderArray.sort((a, b) => a.order - b.order);
 
-    // check if we are trying to move up or down and make sure card exists
-    // in the specific direction
-    if (direction) {
-      if (cardIndex !== 0) {
-        otherCardIndex = cardIndex - 1;
+    // find and move the specified card
+    for (let i = 0; i < cardOrderArray.length; i++) {
+      if (parseInt(cardOrderArray[i].id, 10) === parseInt(cardId, 10) && cardOrderArray[i].type === "norm") {
+        if (direction) {
+          // try to move up and skip hidden cards
+          for (let j = i; j > 0; j--) {
+            const tempObj = cardOrderArray[j - 1];
+            cardOrderArray[j - 1] = cardOrderArray[j];
+            cardOrderArray[j] = tempObj;
+            if (cardOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        } else {
+          // try to move down and skip hidden cards
+          for (let j = i; j < cardOrderArray.length - 1; j++) {
+            const tempObj = cardOrderArray[j + 1];
+            cardOrderArray[j + 1] = cardOrderArray[j];
+            cardOrderArray[j] = tempObj;
+            if (cardOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        }
       }
-    } else {
-      if (cardIndex + 1 < cards.length) {
-        otherCardIndex = cardIndex + 1;
+    }
+
+    // apply new order values to the cards and split it into normal and temp cards
+    const normArray = [];
+    const tempArray = [];
+    for (let i = 0; i < cardOrderArray.length; i++) {
+      if (cardOrderArray[i].type === "temp") {
+        tempArray.push(parseInt(cardOrderArray[i].id, 10));
+        tempArray.push(i + 1);
+      } else {
+        normArray.push(parseInt(cardOrderArray[i].id, 10));
+        normArray.push(i + 1);
       }
     }
 
-    // if we cannot find the other index, then we can't find the other card
-    if (otherCardIndex === -1) {
-      return {error: 2};
+    // push the ids to the end once more to match with the future query
+    for (let i = 0; i < cardOrderArray.length; i++) {
+      if (cardOrderArray[i].type === "temp") {
+        tempArray.push(cardOrderArray[i].id);
+      } else {
+        normArray.push(cardOrderArray[i].id);
+      }
     }
 
-    // swap the cards order indexes
-    sql = "UPDATE Cards " +
-    "SET orderIndex = IF(cardId=?, ?, ?) " +
-    "WHERE cardId IN (?, ?);";
-    const sqlArray = [];
-    sqlArray.push(cardId);
-    sqlArray.push(cards[otherCardIndex].orderIndex);
-    sqlArray.push(cards[cardIndex].orderIndex);
-    sqlArray.push(cardId);
-    sqlArray.push(cards[otherCardIndex].cardId);
-    results = await pool.query(sql, sqlArray);
+    // update the published cards
+    if (normArray.length) {
+      sql = "UPDATE Cards " +
+      "SET orderIndex = CASE ";
+      for (let i = 0; i < normArray.length / 3; i++) {
+        sql += "WHEN cardId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE cardId IN (";
+      for (let i = 0; i < normArray.length / 3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, normArray);
+    }
+
+    // update the unpublished cards
+    if (tempArray.length) {
+      sql = "UPDATE Temp_Cards " +
+      "SET tempOrderIndex = CASE ";
+      for (let i = 0; i < tempArray.length / 3; i++) {
+        sql += "WHEN tempCardId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE tempCardId IN (";
+      for (let i = 0; i < tempArray.length / 3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, tempArray);
+    }
 
     const finalResults = {
       cardId: cardId
@@ -565,3 +699,181 @@ async function moveCard(cardId, direction) {
 
 }
 exports.moveCard = moveCard;
+
+
+// move an unpublished card
+async function moveTempCard(cardId, direction) {
+
+  try {
+
+    // make sure that the card exists
+    let sql = "SELECT * " +
+    "FROM Cards " +
+    "WHERE cardId = ? ";
+    let results = await pool.query(sql, cardId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const headerId = results[0][0].headerId;
+    const approved = results[0][0].approved;
+
+    let cardType = "norm";
+
+    // see if this card is already approved
+    if (approved) {
+
+      // since it is approved, get the temp card version of the card
+      const sql = "SELECT * " +
+      "FROM Temp_Cards " +
+      "WHERE tempCardId = ? ";
+      results = await pool.query(sql, cardId);
+      cardType = "temp";
+
+      if (!results[0].length) {
+        return {error: 1};
+      }
+
+    }
+
+    // get all of the cards and temp cards under the current header
+    sql = "SELECT * " +
+    "FROM Cards " +
+    "LEFT JOIN Temp_Cards " +
+    "ON cardId = tempCardId " +
+    "WHERE headerId = ? " +
+    "ORDER BY orderIndex ASC, cardId ASC";
+    results = await pool.query(sql, headerId);
+
+    // create an array with all of the cards
+    // each card has an id, type (normal / temp), and an order index
+    const cardOrderArray = [];
+    for (let i = 0; i < results[0].length; i++) {
+      if (results[0][i].tempCardId > 0) {
+
+        const cardObj = {
+          id: results[0][i].cardId,
+          type: "norm",
+          order: results[0][i].orderIndex,
+          show: "hidden"
+        };
+
+        const tempCardObj = {
+          id: results[0][i].tempCardId,
+          type: "temp",
+          order: results[0][i].tempOrderIndex,
+          show: "show"
+        };
+
+        cardOrderArray.push(cardObj);
+        cardOrderArray.push(tempCardObj);
+
+      } else {
+        const cardObj = {
+          id: results[0][i].cardId,
+          type: "norm",
+          order: results[0][i].orderIndex,
+          show: "show"
+        };
+        cardOrderArray.push(cardObj);
+      }
+    }
+
+    // sort the array of cards by order index
+    cardOrderArray.sort((a, b) => a.order - b.order);
+
+    // find and move the specified card
+    for (let i = 0; i < cardOrderArray.length; i++) {
+      if (parseInt(cardOrderArray[i].id, 10) === parseInt(cardId, 10) && cardOrderArray[i].type === cardType) {
+        if (direction) {
+          // try to move up and skip hidden cards
+          for (let j = i; j > 0; j--) {
+            const tempObj = cardOrderArray[j - 1];
+            cardOrderArray[j - 1] = cardOrderArray[j];
+            cardOrderArray[j] = tempObj;
+            if (cardOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        } else {
+          // try to move down and skip hidden cards
+          for (let j = i; j < cardOrderArray.length - 1; j++) {
+            const tempObj = cardOrderArray[j + 1];
+            cardOrderArray[j + 1] = cardOrderArray[j];
+            cardOrderArray[j] = tempObj;
+            if (cardOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        }
+      }
+    }
+
+    // apply new order values to the cards and split it into normal and temp cards
+    const normArray = [];
+    const tempArray = [];
+    for (let i = 0; i < cardOrderArray.length; i++) {
+      if (cardOrderArray[i].type === "temp") {
+        tempArray.push(parseInt(cardOrderArray[i].id, 10));
+        tempArray.push(i + 1);
+      } else {
+        normArray.push(parseInt(cardOrderArray[i].id, 10));
+        normArray.push(i + 1);
+      }
+    }
+
+    // push the ids to the end once more to match with the future query
+    for (let i = 0; i < cardOrderArray.length; i++) {
+      if (cardOrderArray[i].type === "temp") {
+        tempArray.push(cardOrderArray[i].id);
+      } else {
+        normArray.push(cardOrderArray[i].id);
+      }
+    }
+
+    // update the published cards
+    if (normArray.length) {
+      sql = "UPDATE Cards " +
+      "SET orderIndex = CASE ";
+      for (let i = 0; i < normArray.length / 3; i++) {
+        sql += "WHEN cardId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE cardId IN (";
+      for (let i = 0; i < normArray.length / 3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, normArray);
+    }
+
+    // update the unpublished cards
+    if (tempArray.length) {
+      sql = "UPDATE Temp_Cards " +
+      "SET tempOrderIndex = CASE ";
+      for (let i = 0; i < tempArray.length / 3; i++) {
+        sql += "WHEN tempCardId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE tempCardId IN (";
+      for (let i = 0; i < tempArray.length / 3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, tempArray);
+    }
+
+    const finalResults = {
+      cardId: cardId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error moving card");
+    throw Error(err);
+  }
+
+}
+exports.moveTempCard = moveTempCard;

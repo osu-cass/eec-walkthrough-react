@@ -29,31 +29,60 @@ function BulletPoint (props) {
     if (text !== "" && label !== "" && url !== "") { return 3; }
   }
 
-  return (
-
+  return !props.internal || !props.publicMode ? (
     <Fragment>
-
       {getContentType(props.text, props.label, props.url) === 1 ? (
-        <div className="row mx-auto">
-          <div className="icon-td justify-content-center">
-            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}
-              ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
-            style={{color: props.color}}
-            title={props.tooltip}
-            />
-          </div>
-          <div className="content-td pb-2 col">
-            <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
-              {props.text}
-            </span>
-          </div>
-        </div>
+        <Fragment>
+          {props.icon === "check-square" ? (
+            <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
+              ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
+            >
+              <div className="icon-td justify-content-center">
+                {props.checked ? (
+                  <i className={`fas fa-fw fa-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
+                    title={props.tooltip}
+                    onClick={() => props.setCheck(false, props.id)}
+                  />
+                ) : (
+                  <i className={`fas fa-fw fa-check-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
+                    title={props.tooltip}
+                    onClick={() => props.setCheck(true, props.id)}
+                  />
+                )}
+              </div>
+              <div className="content-td pb-2 col">
+                <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
+                  {props.text}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
+              ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
+            >
+              <div className="icon-td justify-content-center">
+                <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}
+                  ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
+                style={{color: props.color}}
+                title={props.tooltip}
+                />
+              </div>
+              <div className="content-td pb-2 col">
+                <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
+                  {props.text}
+                </span>
+              </div>
+            </div>
+          )}
+        </Fragment>
       ) : (
         null
       )}
 
       {getContentType(props.text, props.label, props.url) === 2 ? (
-        <div className="row mx-auto">
+        <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
+          ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
+        >
           <div className="icon-td pb-2">
             <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
               style={{color: props.color}}
@@ -76,7 +105,9 @@ function BulletPoint (props) {
 
       {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 ||
         props.contentMode === 0 || props.contentMode === 2 || props.created !== null || props.publicMode === 0) ? (
-          <div className="row mx-auto">
+          <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
+            ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
+          >
             <div className="icon-td pb-2">
               <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
                 style={{color: props.color}}
@@ -88,12 +119,12 @@ function BulletPoint (props) {
                 <div className="row">
                   <a href={props.url} className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}> {props.label} </a>
                   {props.contentMode === 1 || props.contentMode === 3 ? (
-                    <i className={`fas fa-fw fa-sm fa-link mx-1`} title="External Resource" />
+                    <i className={`fas fa-fw fa-sm fa-link mx-1 icon-item`} title="External Resource" />
                   ) : (
-                    <i className={`fas fa-fw fa-sm fa-info mx-1`} title="Internal Resource" />
+                    <i className={`fas fa-fw fa-sm fa-info mx-1 icon-item`} title="Internal Resource" />
                   )}
                   {props.contentMode === 2 || props.contentMode === 3 ? (
-                    <i className={`fas fa-fw fa-sm fa-download mr-1`} title="Download" />
+                    <i className={`fas fa-fw fa-sm fa-download mr-1 icon-item`} title="Download" />
                   ) : (
                     null
                   )}
@@ -119,11 +150,14 @@ function BulletPoint (props) {
                   </small>
                 </a>
               </div>
-              {(props.contentMode === 1 || props.contentMode === 3) && (props.mode !== 0 || props.publicMode === 0) && !props.reviewing ? (
-                <LinkAccessButtons
-                  itemId={props.id}
-                  handleTimestamp={(m) => props.handleTimestamp(m)}
-                />
+              {(props.contentMode === 1 || props.contentMode === 3) && props.mode !== 0 && !props.reviewing ? (
+                <div className="row">
+                  <LinkAccessButtons
+                    mode={props.mode}
+                    itemId={props.id}
+                    handleTimestamp={(m) => props.handleTimestamp(m)}
+                  />
+                </div>
               ) : (
                 null
               )}
@@ -134,6 +168,8 @@ function BulletPoint (props) {
         )}
 
     </Fragment>
+  ) : (
+    null
   );
 
 }
@@ -154,5 +190,9 @@ BulletPoint.propTypes = {
   handleTimestamp: PropTypes.func,
   color: PropTypes.string,
   tooltip: PropTypes.string,
-  reviewing: PropTypes.bool
+  reviewing: PropTypes.bool,
+  setCheck: PropTypes.func,
+  checked: PropTypes.bool,
+  highlightStyle: PropTypes.number,
+  internal: PropTypes.number
 };

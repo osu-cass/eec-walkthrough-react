@@ -19,7 +19,7 @@ function CreateCategory(props) {
     setShow(false);
     setErrorMessage("");
   }
-  
+
   function handleShow() {
     setShow(true);
   }
@@ -131,7 +131,7 @@ function CreateCategory(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="formName">
+              <Form.Group controlId="formNameSingular">
                 <Form.Label className="font-weight-bold">Singular Name</Form.Label>
                 <Form.Control type="text" maxLength="100" placeholder="Enter singular name" onChange={(e) => setSingleName(e.target.value)} />
               </Form.Group>
@@ -140,7 +140,7 @@ function CreateCategory(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="formName">
+              <Form.Group controlId="formNamePlural">
                 <Form.Label className="font-weight-bold">Plural Name</Form.Label>
                 <Form.Control type="text" maxLength="100" placeholder="Enter plural name" onChange={(e) => setPluralName(e.target.value)} />
               </Form.Group>

@@ -191,7 +191,7 @@ function ManageSponsors(props) {
 
   // Create a new sponsor
   function createSponsor() {
-    let editedSponsors = [...sponsors];
+    const editedSponsors = [...sponsors];
 
     let newId = 1;
 
@@ -208,7 +208,7 @@ function ManageSponsors(props) {
       title: "",
       websiteUrl: "",
       imageUrl: ""
-    }
+    };
 
     editedSponsors.push(newSponsor);
     setSponsors(editedSponsors);
@@ -266,7 +266,7 @@ function ManageSponsors(props) {
 
         <Modal.Body>
 
-        {sponsors.map((sponsor, i) =>
+          {sponsors.map((sponsor, i) =>
             <Row className="mb-2" key={sponsor.sponsorId}>
               <div className="input-group">
                 <span className="ml-2 mr-3">

@@ -1,7 +1,8 @@
 .createPage {
-  max-width: 100%;
   border-color: #faa945 !important;
   color: #faa945;
+  padding-right: 1em;
+  padding-left: 1em;
 }
 
 .create-page-icon {

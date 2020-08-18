@@ -5,15 +5,17 @@ import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
 import Image from "./Image";
+import HighlightText from "./HighlightText";
 import "./ReviewPage.css";
 
 // Button and modal that allows a user to review a page
 function ReviewPage(props) {
 
-  const pageTypeNames = ["Industry", "Technology", "Process", "Productivity", "Assessments"];
   const [role, setRole] = useState(0);
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [pageTypeName, setPageTypeName] = useState("");
+  const [tempPageTypeName, setTempPageTypeName] = useState("");
 
   // get the current users role
   useEffect(() => {
@@ -21,10 +23,58 @@ function ReviewPage(props) {
     setRole(user.role);
   }, []);
 
+  // display the correct page types in the review modal
+  useEffect(() => {
+
+    async function fetchPageTypes() {
+      const results = await fetch("/api/categories/all");
+      if (results.ok) {
+        const obj = await results.json();
+
+        let typeString = "";
+        let tempTypeString = "";
+
+        for (let i = 0; i < obj.categories.length; i++) {
+          if (props.page.pageType === obj.categories[i].categoryId) {
+            typeString = obj.categories[i].singleName;
+            break;
+          }
+        }
+
+        for (let i = 0; i < obj.categories.length; i++) {
+          if (props.page.tempPageType === obj.categories[i].categoryId) {
+            tempTypeString = obj.categories[i].singleName;
+            break;
+          }
+        }
+
+        if (props.page.internal) {
+          typeString += " / Internal";
+        }
+
+        if (props.page.tempInternal) {
+          tempTypeString += " / Internal";
+        }
+
+        setPageTypeName(typeString);
+        setTempPageTypeName(tempTypeString);
+
+      } else {
+        console.error("Unable to fetch categories for page types.");
+      }
+    }
+
+    fetchPageTypes();
+
+  }, [props.page.pageType, props.page.tempPageType, props.page.internal, props.page.tempInternal]);
+
+  // close the modal
   function handleClose() {
     setShow(false);
     setErrorMessage("");
   }
+
+  // open the modal
   function handleShow() {
     setShow(true);
   }
@@ -254,7 +304,6 @@ function ReviewPage(props) {
 
   return role >= 3 && props.mode === 1 ? (
     <div className='text-center mx-2'>
-
       <Button size="sm" variant="success" onClick={() => handleShow()}>
         <i
           className='fas fa-stamp text-white mr-2'
@@ -275,17 +324,68 @@ function ReviewPage(props) {
 
           {props.page.approved ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
-              <h4 className="font-weight-bold">Published Version</h4>
-              <span className="created-text">Created {formatTime(props.page.created)}</span>
+              <h4 className="font-weight-bold">Published Version ({pageTypeName})</h4>
+              <span className="created-text">Last updated {formatTime(props.page.created)}</span>
               <div className="m-4">
-                <h3 className="font-weight-bold">{props.page.name} ({props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null })</h3>
-                <h4>{props.page.title}</h4>
-                <span>{props.page.description}</span>
-                <Image url={props.page.imageUrl}
-                  title={props.page.name}
-                  thumbnail={false}
-                  header={true}
-                />
+                {props.page.tempPageId ? (
+                  <Fragment>
+                    <div>
+                      <HighlightText
+                        newMode={false}
+                        newText={props.page.tempName}
+                        oldText={props.page.name}
+                        elementType={1}
+                      />
+                    </div>
+                    <div>
+                      <HighlightText
+                        newMode={false}
+                        newText={props.page.tempTitle}
+                        oldText={props.page.title}
+                        elementType={2}
+                      />
+                    </div>
+                    <HighlightText
+                      newMode={false}
+                      newText={props.page.tempDescription}
+                      oldText={props.page.description}
+                      elementType={0}
+                      allowWrap={true}
+                    />
+                    <br />
+                    {props.page.imageUrl !== props.page.tempImageUrl ? (
+                      <div className="p-4 d-inline-block old-review-image-container">
+                        <Image url={props.page.imageUrl}
+                          title={props.page.name}
+                          thumbnail={false}
+                          header={true}
+                        />
+                      </div>
+                    ) : (
+                      <div className="p-4 d-inline-block">
+                        <Image url={props.page.imageUrl}
+                          title={props.page.name}
+                          thumbnail={false}
+                          header={true}
+                        />
+                      </div>
+                    )}
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <h3 className="font-weight-bold">{props.page.name}</h3>
+                    <h4>{props.page.title}</h4>
+                    <span className="description-review-page">{props.page.description}</span>
+                    <br />
+                    <div className="p-4 d-inline-block">
+                      <Image url={props.page.imageUrl}
+                        title={props.page.name}
+                        thumbnail={false}
+                        header={true}
+                      />
+                    </div>
+                  </Fragment>
+                )}
               </div>
             </div>
           ) : (
@@ -294,17 +394,50 @@ function ReviewPage(props) {
 
           {props.page.approved && props.page.tempPageId ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
-              <h4 className="font-weight-bold">New Version</h4>
-              <span className="created-text">Created {formatTime(props.page.tempCreated)}</span>
+              <h4 className="font-weight-bold">New Version ({tempPageTypeName})</h4>
+              <span className="created-text">Last updated {formatTime(props.page.tempCreated)}</span>
               <div className="m-4">
-                <h3 className="font-weight-bold">{props.page.tempName} ({props.page.tempPageType <= pageTypeNames.length ? pageTypeNames[props.page.tempPageType - 1] : null })</h3>
-                <h4>{props.page.tempTitle}</h4>
-                <span>{props.page.tempDescription}</span>
-                <Image url={props.page.tempImageUrl}
-                  title={props.page.tempName}
-                  thumbnail={false}
-                  header={true}
+                <div>
+                  <HighlightText
+                    newMode={true}
+                    newText={props.page.tempName}
+                    oldText={props.page.name}
+                    elementType={1}
+                  />
+                </div>
+                <div>
+                  <HighlightText
+                    newMode={true}
+                    newText={props.page.tempTitle}
+                    oldText={props.page.title}
+                    elementType={2}
+                  />
+                </div>
+                <HighlightText
+                  newMode={true}
+                  newText={props.page.tempDescription}
+                  oldText={props.page.description}
+                  elementType={0}
+                  allowWrap={true}
                 />
+                <br />
+                {props.page.imageUrl !== props.page.tempImageUrl ? (
+                  <div className="p-4 d-inline-block new-review-image-container">
+                    <Image url={props.page.tempImageUrl}
+                      title={props.page.tempName}
+                      thumbnail={false}
+                      header={true}
+                    />
+                  </div>
+                ) : (
+                  <div className="p-4 d-inline-block">
+                    <Image url={props.page.tempImageUrl}
+                      title={props.page.tempName}
+                      thumbnail={false}
+                      header={true}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           ) : (
@@ -313,17 +446,20 @@ function ReviewPage(props) {
                 null
               ) : (
                 <div className="version-container p-2 m-3 border border-dark rounded">
-                  <h4 className="font-weight-bold">New Version</h4>
-                  <span className="created-text">Created {formatTime(props.page.created)}</span>
+                  <h4 className="font-weight-bold">New Version ({pageTypeName})</h4>
+                  <span className="created-text">Last updated {formatTime(props.page.created)}</span>
                   <div className="m-4">
-                    <h3 className="font-weight-bold">{props.page.name} ({props.page.pageType <= pageTypeNames.length ? pageTypeNames[props.page.pageType - 1] : null })</h3>
+                    <h3 className="font-weight-bold">{props.page.name}</h3>
                     <h4>{props.page.title}</h4>
-                    <span>{props.page.description}</span>
-                    <Image url={props.page.imageUrl}
-                      title={props.page.name}
-                      thumbnail={false}
-                      header={true}
-                    />
+                    <span className="description-review-page">{props.page.description}</span>
+                    <br />
+                    <div className="p-4 d-inline-block">
+                      <Image url={props.page.imageUrl}
+                        title={props.page.name}
+                        thumbnail={false}
+                        header={true}
+                      />
+                    </div>
                   </div>
                 </div>
               )}

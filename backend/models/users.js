@@ -341,7 +341,6 @@ async function searchUsers(text, role, sort, order, cursor) {
     sqlArray.push(RESULTS_PER_PAGE + 1);
 
     // perform the query
-    console.log("SQL:", sql);
     const results = await pool.query(sql, sqlArray);
 
     // get the next cursor and return the correct number of users

@@ -26,11 +26,11 @@ function EditPage(props) {
       const results = await fetch(`/api/categories/names`);
 
       if (results.ok) {
-  
+
         const obj = await results.json();
-  
+
         setCategories(obj.categories);
-  
+
       } else {
         console.error("Error fetching category names");
       }

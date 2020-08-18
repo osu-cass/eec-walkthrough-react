@@ -4,6 +4,7 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import BasicItems from "./BasicItems";
 import ThumbnailGallery from "./ThumbnailGallery";
+import HighlightText from "./HighlightText";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
 import "./ReviewCard.css";
@@ -16,12 +17,45 @@ function ReviewCard(props) {
   const [imageItems, setImageItems] = useState([]);
   const [imageTempItems, setTempImageItems] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [cardTypeName, setCardTypeName] = useState("Default");
+  const [tempCardTypeName, setTempCardTypeName] = useState("Default");
 
   // get the current users role
   useEffect(() => {
     const user = getProfile();
     setRole(user.role);
   }, []);
+
+  // display the correct card type in the review modal
+  useEffect(() => {
+    if (props.card.cardType === 10) {
+      setCardTypeName("Default / Internal");
+    } else if (props.card.cardType === 11) {
+      setCardTypeName("Thumbnail Gallery / Internal");
+    } else if (props.card.cardType === 12) {
+      setCardTypeName("Expandable List / Internal");
+    } else if (props.card.cardType === 1) {
+      setCardTypeName("Thumbnail Gallery");
+    } else if (props.card.cardType === 2) {
+      setCardTypeName("Expandable List");
+    } else {
+      setCardTypeName("Default");
+    }
+
+    if (props.card.tempCardType === 10) {
+      setTempCardTypeName("Default / Internal");
+    } else if (props.card.tempCardType === 11) {
+      setTempCardTypeName("Thumbnail Gallery / Internal");
+    } else if (props.card.tempCardType === 12) {
+      setTempCardTypeName("Expandable List / Internal");
+    } else if (props.card.tempCardType === 1) {
+      setTempCardTypeName("Thumbnail Gallery");
+    } else if (props.card.tempCardType === 2) {
+      setTempCardTypeName("Expandable List");
+    } else {
+      setTempCardTypeName("Default");
+    }
+  }, [props.card.tempCardType, props.card.cardType]);
 
   // If the current card is an Image Gallery card then
   // whenever we get new items, filter out all of the non-image ones
@@ -77,6 +111,7 @@ function ReviewCard(props) {
         userId: props.card.userId,
         created: props.card.created,
         orderIndex: props.card.orderIndex,
+        tempOrderIndex: null,
         tempCardId: null,
         tempCardType: null,
         tempCreated: null,
@@ -136,6 +171,7 @@ function ReviewCard(props) {
         userId: props.card.userId,
         created: props.card.created,
         orderIndex: props.card.orderIndex,
+        tempOrderIndex: null,
         tempCardId: null,
         tempCardType: null,
         tempCreated: null,
@@ -197,7 +233,8 @@ function ReviewCard(props) {
           items: props.card.tempItems,
           userId: props.card.tempUserId,
           created: props.card.tempCreated,
-          orderIndex: props.card.orderIndex,
+          orderIndex: props.card.tempOrderIndex,
+          tempOrderIndex: null,
           tempCardId: null,
           tempCardType: null,
           tempCreated: null,
@@ -216,6 +253,7 @@ function ReviewCard(props) {
           userId: props.card.userId,
           created: props.card.created,
           orderIndex: props.card.orderIndex,
+          tempOrderIndex: null,
           tempCardId: null,
           tempCardType: null,
           tempCreated: null,
@@ -273,14 +311,35 @@ function ReviewCard(props) {
 
           {props.card.approved ? (
             <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
-              <h4 className="font-weight-bold">Published Version</h4>
-              <span className="created-text">Created {formatTime(props.card.created)}</span>
+              <h4 className="font-weight-bold">Published Version ({cardTypeName})</h4>
+              <span className="created-text">Last updated {formatTime(props.card.created)}</span>
               <div className="m-3">
-                <h3 className="font-weight-bold">{props.card.title}</h3>
-                {props.card.cardType === 1 || props.card.cardType === 11 ? (
-                  <ThumbnailGallery items={imageItems} />
+                {props.card.tempCardId ? (
+                  <HighlightText
+                    newMode={false}
+                    newText={props.card.tempTitle}
+                    oldText={props.card.title}
+                    elementType={1}
+                  />
                 ) : (
-                  <BasicItems items={props.card.items} mode={props.mode} reviewing={true} />
+                  <h3 className="font-weight-bold">{props.card.title}</h3>
+                )}
+                {props.card.cardType === 1 || props.card.cardType === 11 ? (
+                  <Fragment>
+                    {props.card.tempCardId ? (
+                      <ThumbnailGallery items={imageItems} compareMode={2} otherItems={imageTempItems} />
+                    ) : (
+                      <ThumbnailGallery items={imageItems} />
+                    )}
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    {props.card.tempCardId ? (
+                      <BasicItems items={props.card.items} mode={props.mode} reviewing={true} compareMode={2} otherItems={props.card.tempItems} setCheck={() => {}} />
+                    ) : (
+                      <BasicItems items={props.card.items} mode={props.mode} reviewing={true} setCheck={() => {}} />
+                    )}
+                  </Fragment>
                 )}
               </div>
             </div>
@@ -292,27 +351,32 @@ function ReviewCard(props) {
             <Fragment>
               {props.card.approved && props.card.tempCardId ? (
                 <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
-                  <h4 className="font-weight-bold">New Version</h4>
-                  <span className="created-text">Created {formatTime(props.card.tempCreated)}</span>
+                  <h4 className="font-weight-bold">New Version ({tempCardTypeName})</h4>
+                  <span className="created-text">Last updated {formatTime(props.card.tempCreated)}</span>
                   <div className="m-3">
-                    <h3 className="font-weight-bold">{props.card.tempTitle}</h3>
+                    <HighlightText
+                      newMode={true}
+                      newText={props.card.tempTitle}
+                      oldText={props.card.title}
+                      elementType={1}
+                    />
                     {props.card.tempCardType === 1 || props.card.tempCardType === 11 ? (
-                      <ThumbnailGallery items={imageTempItems} />
+                      <ThumbnailGallery items={imageTempItems} reviewing={true} compareMode={1} otherItems={imageItems} />
                     ) : (
-                      <BasicItems items={props.card.tempItems} mode={props.mode} reviewing={true} />
+                      <BasicItems items={props.card.tempItems} mode={props.mode} reviewing={true} compareMode={1} otherItems={props.card.items} setCheck={() => {}} />
                     )}
                   </div>
                 </div>
               ) : (
                 <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
-                  <h4 className="font-weight-bold">New Version</h4>
-                  <span className="created-text">Created {formatTime(props.card.created)}</span>
+                  <h4 className="font-weight-bold">New Version ({cardTypeName})</h4>
+                  <span className="created-text">Last updated {formatTime(props.card.created)}</span>
                   <div className="m-3">
                     <h3 className="font-weight-bold">{props.card.title}</h3>
                     {props.card.cardType === 1 || props.card.cardType === 11 ? (
                       <ThumbnailGallery items={imageTempItems} />
                     ) : (
-                      <BasicItems items={props.card.tempItems} reviewing={true} />
+                      <BasicItems items={props.card.tempItems} reviewing={true} setCheck={() => {}} />
                     )}
                   </div>
                 </div>

@@ -17,16 +17,14 @@ function SidebarCollection(props) {
         <Fragment>
           {props.role >= 3 || props.collection.length ? (
             <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
-              <Fragment>
+              <span>
                 {props.collectionName}
-              </Fragment>
-              <Fragment>
                 {props.internal ? (
-                  <i className="fas fa-fw fa-unlock-alt fa-sm ml-2" />
+                  <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
                 ) : (
                   null
                 )}
-              </Fragment>
+              </span>
             </Accordion.Toggle>
           ) : (
             null
@@ -36,7 +34,7 @@ function SidebarCollection(props) {
         <Fragment>
           {props.externalLink ? (
             <a className="page-sidebar-nav-link" href={props.externalLink}>
-              <Accordion.Toggle 
+              <Accordion.Toggle
                 as={Card.Header}
                 id="sidebarCollection"
                 style={{fontSize: "1.2rem"}}
@@ -47,7 +45,7 @@ function SidebarCollection(props) {
             </a>
           ) : (
             <NavLink className="page-sidebar-nav-link" to={`/${props.collectionLink}`}>
-              <Accordion.Toggle 
+              <Accordion.Toggle
                 as={Card.Header}
                 id="sidebarCollection"
                 style={{fontSize: "1.2rem"}}
@@ -66,22 +64,40 @@ function SidebarCollection(props) {
               return (
                 <NavLink key={i} to={`/${props.collectionLink}/${item.pageId}`} className="ml-3 nav_link">
                   <Card.Body key={item.pageId} style={{fontSize: "1rem"}} className="nav_link">
-                    {item.name}
+                    <span>
+                      {item.name}
+                      {item.approved === 0 ? (
+                        <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-wrench fa-sm ml-1" /></span>
+                      ) : (
+                        null
+                      )}
+                      {item.internal ? (
+                        <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
+                      ) : (
+                        null
+                      )}
+                    </span>
                   </Card.Body>
                 </NavLink>
               );
             })}
-            <CreatePage
-              title={`Create ${props.collectionName} Page`}
-              refresh={props.refresh}
-              role={props.role}
-              categoryId={props.category.categoryId}
-            />
-            <EditCategory
-              refresh={props.refresh}
-              role={props.role}
-              category={props.category}
-            />
+            {props.show ? (
+              <Fragment>
+                <CreatePage
+                  title={`Create ${props.collectionName} Page`}
+                  refresh={props.refresh}
+                  role={props.role}
+                  categoryId={props.category.categoryId}
+                />
+                <EditCategory
+                  refresh={props.refresh}
+                  role={props.role}
+                  category={props.category}
+                />
+              </Fragment>
+            ) : (
+              null
+            )}
           </Fragment>
         </Accordion.Collapse>
       ) : (
@@ -104,6 +120,7 @@ SidebarCollection.propTypes = {
   role: PropTypes.any,
   externalLink: PropTypes.string,
   category: PropTypes.object,
-  internal: PropTypes.number
+  internal: PropTypes.number,
+  show: PropTypes.bool
 };
 

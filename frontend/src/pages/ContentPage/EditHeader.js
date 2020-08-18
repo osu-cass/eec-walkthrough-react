@@ -75,6 +75,7 @@ function EditHeader(props) {
           created: props.header.created,
           headerId: props.header.headerId,
           orderIndex: props.header.orderIndex,
+          tempOrderIndex: props.header.orderIndex,
           pageId: props.header.pageId,
           internal: props.header.internal,
           tempInternal: internal,
@@ -86,7 +87,8 @@ function EditHeader(props) {
           tempUserId: 0,
           title: props.header.title,
           userId: props.header.userId,
-          cards: props.header.cards
+          cards: props.header.cards,
+          forceFilter: []
         };
       } else {
         newHeader = {
@@ -96,6 +98,7 @@ function EditHeader(props) {
             .replace("T", " "),
           headerId: props.header.headerId,
           orderIndex: props.header.orderIndex,
+          tempOrderIndex: props.header.tempOrderIndex,
           pageId: props.header.pageId,
           internal: internal,
           tempInternal: props.header.tempInternal,
@@ -105,7 +108,8 @@ function EditHeader(props) {
           tempUserId: props.header.tempUserId,
           title: title,
           userId: 0,
-          cards: props.header.cards
+          cards: props.header.cards,
+          forceFilter: []
         };
       }
 
@@ -193,7 +197,7 @@ function EditHeader(props) {
     updateHeader();
   }
 
-  return props.role >= 3 ? (
+  return props.role >= 3 && props.mode === 1 ? (
     <div className='text-center mx-2'>
       <LoadingOverlay loading={showLoad} />
       <Button size="sm" variant="info" onClick={() => handleShowModal()}>
@@ -281,6 +285,7 @@ function EditHeader(props) {
 export default EditHeader;
 
 EditHeader.propTypes = {
+  mode: PropTypes.number,
   header: PropTypes.object,
   role: PropTypes.number,
   handleUpdate: PropTypes.func
