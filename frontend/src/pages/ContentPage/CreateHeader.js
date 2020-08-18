@@ -58,6 +58,7 @@ class CreateHeader extends React.Component {
           .replace("T", " "),
         orderIndex: obj.insertId,
         pageId: this.props.pageId,
+        tempOrderIndex: null,
         tempCreated: null,
         tempHeaderId: null,
         tempTitle: null,
@@ -65,7 +66,8 @@ class CreateHeader extends React.Component {
         title: this.state.title,
         internal: internal,
         tempInternal: null,
-        userId: 0
+        userId: 0,
+        forceFilter: []
       };
 
       this.props.handleUpdate(newHeader, "header", "create");

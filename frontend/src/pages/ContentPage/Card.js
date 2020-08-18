@@ -47,7 +47,7 @@ function Card(props) {
 
   // determines if the current object is only internal viewable
   function isInternal() {
-    if (props.mode === 1) {
+    if (props.mode === 1 || (props.mode === 2 && props.publishedMode === 0)) {
       if ((props.card.tempCardId && props.card.tempCardType >= 10) || (!props.card.tempCardId && props.card.cardType >= 10)) {
         return 1;
       }
@@ -67,7 +67,7 @@ function Card(props) {
     let newItems = [];
     let cardType = 0;
 
-    if (props.card.tempItems.length && props.mode === 1) {
+    if (props.card.tempItems.length && (props.mode === 1 || (props.mode === 2 && props.publishedMode === 0))) {
 
       if (props.card.approved) {
         cardType = props.card.tempCardType;
@@ -101,7 +101,7 @@ function Card(props) {
 
   }
 
-  return (!props.card.approved && props.mode !== 1) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
+  return (!props.card.approved && props.mode !== 1 && (props.mode !== 2 || props.publishedMode !== 0)) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
     <CardBS className={`my-2 shadow-sm ${props.card.edited ? "card-body-review" : "card-body-approved" }
@@ -121,7 +121,7 @@ function Card(props) {
           aria-controls={"collapse" + props.card.cardId}
           className="col pr-0"
         >
-          {props.mode === 1 && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
+          {(props.mode === 1 || (props.mode === 2 && props.publishedMode === 0)) && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
         </div>
         {props.mode === 1 ? (
           <div className="row ml-auto">
@@ -146,15 +146,19 @@ function Card(props) {
                   up={true}
                   header={false}
                   objectId={props.card.cardId}
-                  handleMove={(id, up) => props.handleMoveCard(id, props.card.headerId, up)}
-                  top={props.top}
+                  handleMove={(id, up, mode) => props.handleMoveCard(id, up, mode)}
+                  edited={props.card.edited ? true : false}
+                  approved={props.card.approved}
+                  publishedMode={props.publishedMode}
                 />
                 <OrderObjectButton
                   up={false}
                   header={false}
                   objectId={props.card.cardId}
-                  handleMove={(id, up) => props.handleMoveCard(id, props.card.headerId, up)}
-                  bottom={props.bottom}
+                  handleMove={(id, up, mode) => props.handleMoveCard(id, up, mode)}
+                  edited={props.card.edited ? true : false}
+                  approved={props.card.approved}
+                  publishedMode={props.publishedMode}
                 />
               </div>
             ) : (
@@ -186,6 +190,7 @@ function Card(props) {
                   mode={props.mode}
                   publicMode={props.publicMode}
                   handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+                  setCheck={(check, itemId) => props.setCheck(check, itemId, props.card.cardId)}
                 />
               ) : (
                 <BasicItems
@@ -194,6 +199,7 @@ function Card(props) {
                   publicMode={props.publicMode}
                   handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
                   reviewing={false}
+                  setCheck={(check, itemId) => props.setCheck(check, itemId, props.card.cardId)}
                 />
               )}
             </Fragment>
@@ -213,10 +219,10 @@ Card.propTypes = {
   unfilteredCard: PropTypes.object,
   mode: PropTypes.number,
   publicMode: PropTypes.number,
+  publishedMode: PropTypes.number,
   iconSet: PropTypes.any,
-  top: PropTypes.bool,
-  bottom: PropTypes.bool,
   handleTimestamp: PropTypes.func,
   cardState: PropTypes.number,
-  role: PropTypes.number
+  role: PropTypes.number,
+  setCheck: PropTypes.func
 };

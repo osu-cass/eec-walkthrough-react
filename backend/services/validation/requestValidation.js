@@ -125,6 +125,7 @@ const patchHeaderMove = Object.freeze({
   validation: [
     check("headerId").isInt({min: 1, max: 4294967295}),
     check("direction").isInt({min: 0, max: 1}),
+    check("mode").isInt({min: 0, max: 1})
   ]
 });
 exports.patchHeaderMove = patchHeaderMove;
@@ -162,6 +163,7 @@ const patchCardMove = Object.freeze({
   validation: [
     check("cardId").isInt({min: 1, max: 4294967295}),
     check("direction").isInt({min: 0, max: 1}),
+    check("mode").isInt({min: 0, max: 1})
   ]
 });
 exports.patchCardMove = patchCardMove;
@@ -294,3 +296,13 @@ const patchCategoryVal = Object.freeze({
   ]
 });
 exports.patchCategoryVal = patchCategoryVal;
+
+// validation checks for post view
+const postViewVal = Object.freeze({
+  validation: [
+    check("headers").isArray(),
+    check("publicView").isInt({min: 0, max: 1}),
+    check("viewName").isLength({min: 1, max: 500})
+  ]
+});
+exports.postViewVal = postViewVal;

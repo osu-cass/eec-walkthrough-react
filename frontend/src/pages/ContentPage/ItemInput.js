@@ -41,8 +41,10 @@ function ItemInput(props) {
     <Fragment>
       {props.contentType === 1 ?
         <FormControl
-          className="mx-3"
-          placeholder="Item text"
+          as="textarea"
+          rows="1"
+          className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
+          placeholder="Item Text"
           value={props.value.contentText}
           aria-label="Insert Description"
           aria-describedby="basic-addon1"
@@ -53,8 +55,10 @@ function ItemInput(props) {
       {props.contentType === 2 ?
         <Fragment>
           <FormControl
-            className="ml-3"
-            placeholder="Graphic description"
+            as="textarea"
+            rows="1"
+            className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
+            placeholder="Graphic Label"
             value={props.value.contentLabel}
             aria-label="Insert Description"
             aria-describedby="basic-addon1"
@@ -62,7 +66,9 @@ function ItemInput(props) {
             required
           />
           <FormControl
-            className="mr-3"
+            as="textarea"
+            rows="1"
+            className={props.internal ? "internal-modal-item" : ""}
             placeholder="Graphic URL"
             value={props.value.contentUrl}
             aria-label="Insert Image URL"
@@ -94,16 +100,10 @@ function ItemInput(props) {
             </Dropdown.Menu>
           </Dropdown>
           <FormControl
-            className="ml-3"
-            placeholder="Resource text/description"
-            value={props.value.contentText}
-            aria-label="Insert Description"
-            aria-describedby="basic-addon1"
-            onChange={(e) => props.handleInput(e, props.index, 1)}
-            required
-          />
-          <FormControl
-            placeholder="Resource URL label"
+            as="textarea"
+            rows="1"
+            className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
+            placeholder="Resource Label"
             value={props.value.contentLabel}
             aria-label="Insert URL Label"
             aria-describedby="basic-addon1"
@@ -111,12 +111,25 @@ function ItemInput(props) {
             required
           />
           <FormControl
-            className="mr-3"
+            as="textarea"
+            rows="1"
+            className={props.internal ? "internal-modal-item" : ""}
             placeholder="Resource URL"
             value={props.value.contentUrl}
             aria-label="Insert Resource URL"
             aria-describedby="basic-addon1"
             onChange={(e) => props.handleInput(e, props.index, 3)}
+            required
+          />
+          <FormControl
+            as="textarea"
+            rows="1"
+            className={props.internal ? "internal-modal-item" : ""}
+            placeholder="Description (optional)"
+            value={props.value.contentText}
+            aria-label="Insert Description"
+            aria-describedby="basic-addon1"
+            onChange={(e) => props.handleInput(e, props.index, 1)}
             required
           />
         </Fragment>
@@ -134,5 +147,6 @@ ItemInput.propTypes = {
   value: PropTypes.any,
   handleInput: PropTypes.any,
   index: PropTypes.any,
-  handleLinkValue: PropTypes.func
+  handleLinkValue: PropTypes.func,
+  internal: PropTypes.number
 };

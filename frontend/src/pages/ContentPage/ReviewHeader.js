@@ -4,6 +4,7 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
+import HighlightText from "./HighlightText";
 import "./ReviewHeader.css";
 
 // Button and modal that allows a user to review a header
@@ -12,6 +13,23 @@ function ReviewHeader(props) {
   const [role, setRole] = useState(0);
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [internal, setInternal] = useState("");
+  const [tempInternal, setTempInternal] = useState("");
+
+  // get the current internal status
+  useEffect(() => {
+    if (props.header.internal) {
+      setInternal("(Internal)");
+    } else {
+      setInternal("");
+    }
+
+    if (props.header.tempInternal) {
+      setTempInternal("(Internal)");
+    } else {
+      setTempInternal("");
+    }
+  }, [props.header.internal, props.header.tempInternal]);
 
   // get the current users role
   useEffect(() => {
@@ -19,10 +37,13 @@ function ReviewHeader(props) {
     setRole(user.role);
   }, []);
 
+  // close the modal
   function handleClose() {
     setShow(false);
     setErrorMessage("");
   }
+
+  // open the modal
   function handleShow() {
     setShow(true);
   }
@@ -50,6 +71,7 @@ function ReviewHeader(props) {
         orderIndex: props.header.orderIndex,
         pageId: props.header.pageId,
         internal: props.header.internal,
+        tempOrderIndex: null,
         tempInternal: null,
         tempCreated: null,
         tempHeaderId: null,
@@ -57,7 +79,8 @@ function ReviewHeader(props) {
         tempUserId: null,
         title: props.header.title,
         userId: props.header.userId,
-        cards: props.header.cards
+        cards: props.header.cards,
+        forceFilter: []
       };
 
       // reset error messages
@@ -108,9 +131,10 @@ function ReviewHeader(props) {
           approved: 1,
           created: props.header.tempCreated,
           headerId: props.header.headerId,
-          orderIndex: props.header.orderIndex,
+          orderIndex: props.header.tempOrderIndex,
           pageId: props.header.pageId,
           internal: props.header.tempInternal,
+          tempOrderIndex: null,
           tempInternal: null,
           tempCreated: null,
           tempHeaderId: null,
@@ -118,7 +142,8 @@ function ReviewHeader(props) {
           tempUserId: null,
           title: props.header.tempTitle,
           userId: props.header.tempUserId,
-          cards: props.header.cards
+          cards: props.header.cards,
+          forceFilter: []
         };
       } else {
         newHeader = {
@@ -128,6 +153,7 @@ function ReviewHeader(props) {
           orderIndex: props.header.orderIndex,
           pageId: props.header.pageId,
           internal: props.header.internal,
+          tempOrderIndex: null,
           tempInternal: null,
           tempCreated: null,
           tempHeaderId: null,
@@ -135,7 +161,8 @@ function ReviewHeader(props) {
           tempUserId: null,
           title: props.header.title,
           userId: props.header.userId,
-          cards: props.header.cards
+          cards: props.header.cards,
+          forceFilter: []
         };
       }
 
@@ -187,6 +214,7 @@ function ReviewHeader(props) {
         orderIndex: props.header.orderIndex,
         pageId: props.header.pageId,
         internal: props.header.internal,
+        tempOrderIndex: null,
         tempInternal: null,
         tempCreated: null,
         tempHeaderId: null,
@@ -194,7 +222,8 @@ function ReviewHeader(props) {
         tempUserId: null,
         title: props.header.title,
         userId: props.header.userId,
-        cards: props.header.cards
+        cards: props.header.cards,
+        forceFilter: []
       };
 
       // reset error messages
@@ -222,7 +251,7 @@ function ReviewHeader(props) {
 
   }
 
-  return role >= 3 ? (
+  return role >= 3 && props.mode === 1 ? (
     <div className='text-center mx-2'>
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
@@ -245,10 +274,19 @@ function ReviewHeader(props) {
 
           {props.header.approved ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
-              <h4 className="font-weight-bold">Published Version</h4>
-              <span className="created-text">Created {formatTime(props.header.created)}</span>
+              <h4 className="font-weight-bold">Published Version {internal}</h4>
+              <span className="created-text">Last updated {formatTime(props.header.created)}</span>
               <div className="m-4">
-                <h3 className="font-weight-bold">{props.header.title}</h3>
+                {props.header.tempHeaderId ? (
+                  <HighlightText
+                    newMode={false}
+                    newText={props.header.tempTitle}
+                    oldText={props.header.title}
+                    elementType={1}
+                  />
+                ) : (
+                  <h3 className="font-weight-bold">{props.header.title}</h3>
+                )}
               </div>
             </div>
           ) : (
@@ -257,10 +295,15 @@ function ReviewHeader(props) {
 
           {props.header.approved && props.header.tempHeaderId ? (
             <div className="version-container p-2 m-3 border border-dark rounded">
-              <h4 className="font-weight-bold">New Version</h4>
-              <span className="created-text">Created {formatTime(props.header.tempCreated)}</span>
+              <h4 className="font-weight-bold">New Version {tempInternal}</h4>
+              <span className="created-text">Last updated {formatTime(props.header.tempCreated)}</span>
               <div className="m-4">
-                <h3 className="font-weight-bold">{props.header.tempTitle}</h3>
+                <HighlightText
+                  newMode={true}
+                  newText={props.header.tempTitle}
+                  oldText={props.header.title}
+                  elementType={1}
+                />
               </div>
             </div>
           ) : (
@@ -269,8 +312,8 @@ function ReviewHeader(props) {
                 null
               ) : (
                 <div className="version-container p-2 m-3 border border-dark rounded">
-                  <h4 className="font-weight-bold">New Version</h4>
-                  <span className="created-text">Created {formatTime(props.header.created)}</span>
+                  <h4 className="font-weight-bold">New Version {internal}</h4>
+                  <span className="created-text">Last updated {formatTime(props.header.created)}</span>
                   <div className="m-4">
                     <h3 className="font-weight-bold">{props.header.title}</h3>
                   </div>
@@ -356,6 +399,7 @@ function ReviewHeader(props) {
 export default ReviewHeader;
 
 ReviewHeader.propTypes = {
+  mode: PropTypes.number,
   header: PropTypes.object,
   handleUpdate: PropTypes.func
 };

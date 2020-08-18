@@ -168,6 +168,10 @@ a.article:hover {
 /* ---------------------
     SCROLLBAR STYLE
 ----------------------- */
+#sidebar::-webkit-scrollbar {
+  width: 12px;
+}
+
 #sidebar::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(90,90,90,1);
   border-radius: 12px;

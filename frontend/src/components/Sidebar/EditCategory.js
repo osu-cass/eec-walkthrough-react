@@ -28,7 +28,7 @@ function EditCategory(props) {
     setShow(false);
     setErrorMessage("");
   }
-  
+
   function handleShow() {
     setShow(true);
   }
@@ -125,7 +125,7 @@ function EditCategory(props) {
           className="edit-category-icon fas fa-plus-circle text-info mr-2"
           style={{transform: "scale(1.5)"}}
         />
-            Edit Category
+          Edit Category
       </Button>
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
@@ -142,7 +142,7 @@ function EditCategory(props) {
             <Col>
               <Form.Group controlId="formName">
                 <Form.Label className="font-weight-bold">Singular Name</Form.Label>
-                <Form.Control 
+                <Form.Control
                   type="text"
                   maxLength="100"
                   placeholder="Enter singular name"
@@ -155,7 +155,7 @@ function EditCategory(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="formName">
+              <Form.Group controlId="formPlural">
                 <Form.Label className="font-weight-bold">Plural Name</Form.Label>
                 <Form.Control
                   type="text"

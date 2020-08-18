@@ -1,0 +1,13 @@
+#report-generate-container {
+  top: 1em;
+  z-index: 998;
+}
+
+.custom-report-label.custom-control-label::before,
+.custom-report-label.custom-control-label::after {
+  margin-left: 3em !important;
+  margin-top: 0em !important;
+  top: .15em !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+}

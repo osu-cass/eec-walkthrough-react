@@ -6,8 +6,7 @@ const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
   roleCheck,
-  requireAuth,
-  getUserID
+  requireAuth
 } = require("../services/authentication/cookieAuth");
 const {
   postHeaderVal,
@@ -22,7 +21,8 @@ const {
   updateHeader,
   publishHeader,
   unpublishHeader,
-  moveHeader
+  moveHeader,
+  moveTempHeader
 } = require("../models/headers");
 
 
@@ -213,7 +213,7 @@ app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res)
 
 
 // publish a header
-app.post("/:headerId/publish", getUserID, getHeaderVal.validation, async (req, res) => {
+app.post("/:headerId/publish", requireAuth, getHeaderVal.validation, async (req, res) => {
 
   try {
 
@@ -260,7 +260,7 @@ app.post("/:headerId/publish", getUserID, getHeaderVal.validation, async (req, r
 
 
 // unpublish a header
-app.post("/:headerId/unpublish", getUserID, getHeaderVal.validation, async (req, res) => {
+app.post("/:headerId/unpublish", requireAuth, getHeaderVal.validation, async (req, res) => {
 
   try {
 
@@ -305,12 +305,13 @@ app.post("/:headerId/unpublish", getUserID, getHeaderVal.validation, async (req,
 
 
 // move a header relative to other headers
-app.patch("/:headerId/move/:direction", requireAuth, patchHeaderMove.validation, async (req, res) => {
+app.patch("/:headerId/move/:direction/:mode", requireAuth, patchHeaderMove.validation, async (req, res) => {
 
   try {
 
     const headerId = req.params.headerId;
     const direction = req.params.direction;
+    const mode = req.params.mode;
 
     if (parseInt(direction, 10)) {
       console.log("Move header", headerId, "up");
@@ -326,13 +327,25 @@ app.patch("/:headerId/move/:direction", requireAuth, patchHeaderMove.validation,
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
-      res.status(401).send({error: "Unauthorized user attempting to move header."});
-      return;
+    if (parseInt(mode, 10)) {
+      if (!await roleCheck(4, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to move header."});
+        return;
+      }
+    } else {
+      if (!await roleCheck(3, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to move header."});
+        return;
+      }
     }
 
     // update a header
-    const results = await moveHeader(headerId, parseInt(direction, 10));
+    let results;
+    if (parseInt(mode, 10)) {
+      results = await moveHeader(headerId, parseInt(direction, 10));
+    } else {
+      results = await moveTempHeader(headerId, parseInt(direction, 10));
+    }
 
     if (results.headerId >= 0) {
       res.status(200).send(results);

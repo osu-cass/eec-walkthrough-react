@@ -4,7 +4,10 @@ import Image from "./Image";
 import ReviewPage from "./ReviewPage";
 import ChangeMode from "./ChangeMode";
 import ChangePublic from "./ChangePublic";
+import ChangePublished from "./ChangePublished";
 import EditPage from "./EditPage";
+import SaveView from "./SaveView";
+import LoadView from "./LoadView";
 import "./PageDescription.css";
 
 // Header and card that describes the page
@@ -14,6 +17,7 @@ function PageDescription(props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [newViews, setNewViews] = useState(0);
 
   useEffect(() => {
     if (props.page.approved && props.page.tempPageId && props.mode === 1) {
@@ -40,11 +44,12 @@ function PageDescription(props) {
         return 1;
       }
     }
+    return 0;
   }
 
   return (
     <div>
-      <div className={`d-flex header-bar justify-content-between
+      <div className={`d-flex header-bar justify-content-between sticky-top
         ${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? "page-approved" : "page-review"}
         ${isInternal() ? "page-internal" : ""} my-3 p-3 text-dark-50 rounded shadow-sm border`}
       style={{top: "1em", zIndex: "998"}}
@@ -60,7 +65,27 @@ function PageDescription(props) {
             <ChangePublic
               role={props.role}
               mode={props.mode}
+              publicMode={props.publicMode}
               onPublicMode={e => props.onPublicMode(e)}
+            />
+            <ChangePublished
+              role={props.role}
+              mode={props.mode}
+              publishedMode={props.publishedMode}
+              onPublishedMode={e => props.onPublishedMode(e)}
+            />
+            <SaveView
+              role={props.role}
+              mode={props.mode}
+              pageId={props.page.pageId}
+              headers={props.headers}
+              onNewView={() => setNewViews(newViews + 1)}
+            />
+            <LoadView
+              mode={props.mode}
+              pageId={props.page.pageId}
+              newViews={newViews}
+              onNewView={e => props.onNewView(e)}
             />
             <EditPage
               page={props.page}
@@ -79,6 +104,7 @@ function PageDescription(props) {
               role={props.role}
               mode={props.mode}
               onPageMode={e => props.onPageMode(e)}
+              moved={props.moved}
             />
           </div>
         </div>
@@ -111,12 +137,18 @@ function PageDescription(props) {
 export default PageDescription;
 
 PageDescription.propTypes = {
+  publicMode: PropTypes.number,
+  publishedMode: PropTypes.number,
   page: PropTypes.object,
   role: PropTypes.number,
   mode: PropTypes.number,
   pageState: PropTypes.number,
   onPageMode: PropTypes.func,
   onPublicMode: PropTypes.func,
+  onPublishedMode: PropTypes.func,
   handlePageEdit: PropTypes.func,
-  handleUpdate: PropTypes.func
+  handleUpdate: PropTypes.func,
+  moved: PropTypes.bool,
+  onNewView: PropTypes.func,
+  headers: PropTypes.array
 };

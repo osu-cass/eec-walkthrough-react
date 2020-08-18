@@ -6,8 +6,7 @@ const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
   roleCheck,
-  requireAuth,
-  getUserID
+  requireAuth
 } = require("../services/authentication/cookieAuth");
 const {
   postCardVal,
@@ -22,7 +21,8 @@ const {
   updateCard,
   publishCard,
   unpublishCard,
-  moveCard
+  moveCard,
+  moveTempCard
 } = require("../models/cards");
 
 
@@ -219,7 +219,7 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
 
 
 // publish a card
-app.post("/:cardId/publish", getUserID, getCardVal.validation, async (req, res) => {
+app.post("/:cardId/publish", requireAuth, getCardVal.validation, async (req, res) => {
 
   try {
 
@@ -266,7 +266,7 @@ app.post("/:cardId/publish", getUserID, getCardVal.validation, async (req, res) 
 
 
 // unpublish a card
-app.post("/:cardId/unpublish", getUserID, getCardVal.validation, async (req, res) => {
+app.post("/:cardId/unpublish", requireAuth, getCardVal.validation, async (req, res) => {
 
   try {
 
@@ -311,12 +311,13 @@ app.post("/:cardId/unpublish", getUserID, getCardVal.validation, async (req, res
 
 
 // move a card relative to other cards
-app.patch("/:cardId/move/:direction", requireAuth, patchCardMove.validation, async (req, res) => {
+app.patch("/:cardId/move/:direction/:mode", requireAuth, patchCardMove.validation, async (req, res) => {
 
   try {
 
     const cardId = req.params.cardId;
     const direction = req.params.direction;
+    const mode = req.params.mode;
 
     if (parseInt(direction, 10)) {
       console.log("Move card", cardId, "up");
@@ -332,13 +333,25 @@ app.patch("/:cardId/move/:direction", requireAuth, patchCardMove.validation, asy
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
-      res.status(401).send({error: "Unauthorized user attempting to move card."});
-      return;
+    if (parseInt(mode, 10)) {
+      if (!await roleCheck(4, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to move card."});
+        return;
+      }
+    } else {
+      if (!await roleCheck(3, req.auth.userId)) {
+        res.status(401).send({error: "Unauthorized user attempting to move card."});
+        return;
+      }
     }
 
     // update a card
-    const results = await moveCard(cardId, parseInt(direction, 10));
+    let results;
+    if (parseInt(mode, 10)) {
+      results = await moveCard(cardId, parseInt(direction, 10));
+    } else {
+      results = await moveTempCard(cardId, parseInt(direction, 10));
+    }
 
     if (results.cardId >= 0) {
       res.status(200).send(results);

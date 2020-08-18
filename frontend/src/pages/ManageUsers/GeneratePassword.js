@@ -10,7 +10,7 @@ function GeneratePassword(props) {
   async function setNewPassword() {
 
     const confirmMessage = `Are you sure you want to replace ${props.username}'s ` +
-      `password with a new random password?`;
+      `password with a new random password?\n\nIf you select “OK” a new password will be generated that you can copy and send to the user.`;
 
     if (window.confirm(confirmMessage)) {
 

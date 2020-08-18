@@ -131,8 +131,8 @@ async function updateSponsors(sponsors) {
         "VALUES (?, ?, ?, ?, ?);";
 
       const sqlArray = [sponsors[i].name, sponsors[i].title,
-        sponsors[i].websiteUrl, sponsors[i].imageUrl, sponsors[i].orderIndex]
-      
+        sponsors[i].websiteUrl, sponsors[i].imageUrl, sponsors[i].orderIndex];
+
       await pool.query(sql, sqlArray);
     }
 
