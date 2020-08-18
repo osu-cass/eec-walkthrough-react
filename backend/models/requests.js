@@ -66,15 +66,20 @@ async function getRequest(requestId) {
 
       // get a page object
       if (objects[i].objectType === 1) {
-        sql = "SELECT * " +
+        sql = "SELECT Pages.*, pluralName AS categoryName " +
         "FROM Pages " +
+        "LEFT JOIN Categories on pageType = categoryId " +
         "WHERE approved = 0 " +
         "AND pageId = ?;";
         results = await pool.query(sql, objects[i].objectId);
 
         if (!results[0].length) {
-          sql = "SELECT * " +
+          sql = "SELECT tempPageId AS pageId, tempPageType AS pageType, tempName AS name, " +
+          "tempTitle AS title, tempDescription AS description, tempImageUrl AS imageUrl, " +
+          "tempInternal AS internal, tempUserId AS userId, tempCreated AS created, " +
+          "pluralName AS categoryName " +
           "FROM Temp_Pages " +
+          "LEFT JOIN Categories on tempPageType = categoryId " +
           "WHERE tempPageId = ?;";
           results = await pool.query(sql, objects[i].objectId);
 
@@ -83,8 +88,9 @@ async function getRequest(requestId) {
             const page = results[0][0];
             page.objectType = 1;
 
-            sql = "SELECT * " +
+            sql = "SELECT Pages.*, pluralName AS categoryName " +
             "FROM Pages " +
+            "LEFT JOIN Categories on pageType = categoryId " +
             "WHERE approved = 1 " +
             "AND pageId = ?;";
             results = await pool.query(sql, objects[i].objectId);
@@ -106,15 +112,22 @@ async function getRequest(requestId) {
 
       // get a header object
       if (objects[i].objectType === 2) {
-        sql = "SELECT * " +
+        sql = "SELECT Headers.*, Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
         "FROM Headers " +
-        "WHERE approved = 0 " +
+        "LEFT JOIN Pages on Pages.pageId = Headers.pageId " +
+        "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+        "WHERE Headers.approved = 0 " +
         "AND headerId = ?;";
         results = await pool.query(sql, objects[i].objectId);
 
         if (!results[0].length) {
-          sql = "SELECT * " +
+          sql = "SELECT tempHeaderId AS headerId, tempTitle AS title, tempInternal AS internal, " +
+          "tempOrderIndex AS orderIndex, tempUserId AS userId, tempCreated AS created, " +
+          "Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
           "FROM Temp_Headers " +
+          "LEFT JOIN Headers on Headers.headerId = Temp_Headers.tempHeaderId " +
+          "LEFT JOIN Pages on Pages.pageId = Headers.pageId " +
+          "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
           "WHERE tempHeaderId = ?;";
           results = await pool.query(sql, objects[i].objectId);
 
@@ -123,9 +136,11 @@ async function getRequest(requestId) {
             const header = results[0][0];
             header.objectType = 2;
 
-            sql = "SELECT * " +
+            sql = "SELECT Headers.*, Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
             "FROM Headers " +
-            "WHERE approved = 1 " +
+            "LEFT JOIN Pages on Pages.pageId = Headers.pageId " +
+            "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+            "WHERE Headers.approved = 1 " +
             "AND headerId = ?;";
             results = await pool.query(sql, objects[i].objectId);
 
@@ -146,15 +161,26 @@ async function getRequest(requestId) {
 
       // get a card object
       if (objects[i].objectType === 3) {
-        sql = "SELECT * " +
+        sql = "SELECT Cards.*, Headers.title AS headerName, Pages.pageId, " +
+        "Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
         "FROM Cards " +
-        "WHERE approved = 0 " +
+        "LEFT JOIN Headers on Headers.headerId = Cards.headerId " +
+        "LEFT JOIN Pages on Pages.pageId = Headers.pageId " +
+        "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+        "WHERE Cards.approved = 0 " +
         "AND cardId = ?;";
         results = await pool.query(sql, objects[i].objectId);
 
         if (!results[0].length) {
-          sql = "SELECT * " +
+
+          sql = "SELECT tempCardId AS cardId, tempCardType AS cardType, tempTitle AS title, " +
+          "tempOrderIndex AS orderIndex, tempUserId AS userId, tempCreated AS created, " +
+          "Headers.title AS headerName, Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
           "FROM Temp_Cards " +
+          "LEFT JOIN Cards on Cards.cardId = Temp_Cards.tempCardId " +
+          "LEFT JOIN Headers on Headers.headerId = Cards.headerId " +
+          "LEFT JOIN Pages on Pages.pageId = Headers.pageId " +
+          "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
           "WHERE tempCardId = ?;";
           results = await pool.query(sql, objects[i].objectId);
 
@@ -162,7 +188,7 @@ async function getRequest(requestId) {
           if (results[0].length) {
 
             const card = results[0][0];
-            card.objectType = 2;
+            card.objectType = 3;
 
             // get all of the items
             sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
@@ -181,9 +207,13 @@ async function getRequest(requestId) {
             }
 
             // see if there is an old version
-            sql = "SELECT * " +
+            sql = "SELECT Cards.*, Headers.title AS headerName, Pages.pageId, " +
+            "Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
             "FROM Cards " +
-            "WHERE approved = 1 " +
+            "LEFT JOIN Headers on Headers.headerId = Cards.headerId " +
+            "LEFT JOIN Pages on Pages.pageId = Headers.pageId " +
+            "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+            "WHERE Cards.approved = 1 " +
             "AND cardId = ?;";
             results = await pool.query(sql, objects[i].objectId);
 
@@ -216,7 +246,7 @@ async function getRequest(requestId) {
           if (results[0].length) {
 
             const card = results[0][0];
-            card.objectType = 2;
+            card.objectType = 3;
 
             // get all of the items
             sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
