@@ -75,13 +75,25 @@ async function getRequest(requestId) {
         if (!results[0].length) {
           sql = "SELECT * " +
           "FROM Temp_Pages " +
-          "WHERE pageId = ?;";
+          "WHERE tempPageId = ?;";
           results = await pool.query(sql, objects[i].objectId);
 
-          // save the object
+          // save the object and see if there is an old version
           if (results[0].length) {
-            results[0][0].objectType = 1;
-            fullObjects.push(results[0][0]);
+            const page = results[0][0];
+            page.objectType = 1;
+
+            sql = "SELECT * " +
+            "FROM Pages " +
+            "WHERE approved = 1 " +
+            "AND pageId = ?;";
+            results = await pool.query(sql, objects[i].objectId);
+
+            if (results[0].length) {
+              page.oldVersion = results[0][0];
+            }
+
+            fullObjects.push(page);
           }
 
         } else {
@@ -103,13 +115,25 @@ async function getRequest(requestId) {
         if (!results[0].length) {
           sql = "SELECT * " +
           "FROM Temp_Headers " +
-          "WHERE headerId = ?;";
+          "WHERE tempHeaderId = ?;";
           results = await pool.query(sql, objects[i].objectId);
 
-          // save the object
+          // save the object and see if there is an old version
           if (results[0].length) {
-            results[0][0].objectType = 2;
-            fullObjects.push(results[0][0]);
+            const header = results[0][0];
+            header.objectType = 2;
+
+            sql = "SELECT * " +
+            "FROM Headers " +
+            "WHERE approved = 1 " +
+            "AND headerId = ?;";
+            results = await pool.query(sql, objects[i].objectId);
+
+            if (results[0].length) {
+              header.oldVersion = results[0][0];
+            }
+
+            fullObjects.push(header);
           }
 
         } else {
@@ -131,10 +155,10 @@ async function getRequest(requestId) {
         if (!results[0].length) {
           sql = "SELECT * " +
           "FROM Temp_Cards " +
-          "WHERE cardId = ?;";
+          "WHERE tempCardId = ?;";
           results = await pool.query(sql, objects[i].objectId);
 
-          // get the items and save the object
+          // get the items, see if there is an old version, and save the object
           if (results[0].length) {
 
             const card = results[0][0];
@@ -151,11 +175,39 @@ async function getRequest(requestId) {
             "AND approved = 0 " +
             "ORDER BY orderIndex ASC, itemId ASC";
             results = await pool.query(sql, objects[i].objectId);
-
+            
             if (results[0].length) {
               card.items = results[0];
-              fullObjects.push(card);
             }
+
+            // see if there is an old version
+            sql = "SELECT * " +
+            "FROM Cards " +
+            "WHERE approved = 1 " +
+            "AND cardId = ?;";
+            results = await pool.query(sql, objects[i].objectId);
+
+            if (results[0].length) {
+              card.oldVersion = results[0][0];
+
+              // get all of the old version items
+              sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
+              "Items.iconType, typeName, typeKeyword, contentText, " +
+              "contentUrl, contentLabel, contentMode, internal, " +
+              "created, approved, color " +
+              "FROM Items " +
+              "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+              "WHERE cardId = ? " +
+              "AND approved = 1 " +
+              "ORDER BY orderIndex ASC, itemId ASC";
+              results = await pool.query(sql, objects[i].objectId);
+
+              if (results[0].length) {
+                card.oldVersion.items = results[0];
+              }
+            }
+
+            fullObjects.push(card);
           }
 
         } else {
