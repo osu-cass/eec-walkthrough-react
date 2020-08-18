@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 17, 2020 at 06:06 PM
+-- Generation Time: Aug 17, 2020 at 07:19 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -1535,6 +1535,7 @@ CREATE TABLE `Request_Comments` (
   `requestId` int(10) UNSIGNED NOT NULL,
   `comment` varchar(5000) NOT NULL,
   `review` int(10) UNSIGNED NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `userId` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

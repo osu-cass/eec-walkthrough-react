@@ -45,7 +45,7 @@ async function getRequest(requestId) {
     "WHERE requestId = ? " +
     "ORDER BY created ASC;";
 
-    const results = await pool.query(sql, requestId);
+    let results = await pool.query(sql, requestId);
     const finalResults = results[0][0];
 
     // check to see if we were able to find the request
@@ -53,6 +53,47 @@ async function getRequest(requestId) {
       return {requestId: 0};
     }
 
+    // get all object for the request
+    sql = "SELECT * " +
+    "FROM Request_Objects " +
+    "WHERE requestId = ? " +
+    "ORDER BY requestObjectId ASC;";
+    results = await pool.query(sql, requestId);
+    const objects = results[0];
+    const fullObjects = [];
+
+    for (let i = 0; i < objects.length; i++) {
+
+      // get a page object
+      if (objects[i].objectType === 1) {
+        sql = "SELECT * " +
+        "FROM Pages " +
+        "WHERE approved = 0 " +
+        "AND pageId = ?;";
+        results = await pool.query(sql, objects[i].objectId);
+
+        if (!results[0].length) {
+          sql = "SELECT * " +
+          "FROM Temp_Pages " +
+          "WHERE pageId = ?;";
+          results = await pool.query(sql, objects[i].objectId);
+
+          // save the object
+          if (results[0].length) {
+            results[0][0].objectType = 1;
+            fullObjects.push(results[0][0]);
+          }
+
+        } else {
+          results[0][0].objectType = 1;
+          fullObjects.push(results[0][0]);
+        }
+
+      }
+
+    }
+
+    finalResults.objects = fullObjects;
     // get all of the pages for the request
 
     // get all of the headers for the request
