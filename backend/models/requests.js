@@ -85,20 +85,111 @@ async function getRequest(requestId) {
           }
 
         } else {
+          // save the object
           results[0][0].objectType = 1;
           fullObjects.push(results[0][0]);
         }
+        continue;
+      }
 
+      // get a header object
+      if (objects[i].objectType === 2) {
+        sql = "SELECT * " +
+        "FROM Headers " +
+        "WHERE approved = 0 " +
+        "AND headerId = ?;";
+        results = await pool.query(sql, objects[i].objectId);
+
+        if (!results[0].length) {
+          sql = "SELECT * " +
+          "FROM Temp_Headers " +
+          "WHERE headerId = ?;";
+          results = await pool.query(sql, objects[i].objectId);
+
+          // save the object
+          if (results[0].length) {
+            results[0][0].objectType = 2;
+            fullObjects.push(results[0][0]);
+          }
+
+        } else {
+          // save the object
+          results[0][0].objectType = 2;
+          fullObjects.push(results[0][0]);
+        }
+        continue;
+      }
+
+      // get a card object
+      if (objects[i].objectType === 3) {
+        sql = "SELECT * " +
+        "FROM Cards " +
+        "WHERE approved = 0 " +
+        "AND cardId = ?;";
+        results = await pool.query(sql, objects[i].objectId);
+
+        if (!results[0].length) {
+          sql = "SELECT * " +
+          "FROM Temp_Cards " +
+          "WHERE cardId = ?;";
+          results = await pool.query(sql, objects[i].objectId);
+
+          // get the items and save the object
+          if (results[0].length) {
+
+            const card = results[0][0];
+            card.objectType = 2;
+
+            // get all of the items
+            sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
+            "Items.iconType, typeName, typeKeyword, contentText, " +
+            "contentUrl, contentLabel, contentMode, internal, " +
+            "created, approved, color " +
+            "FROM Items " +
+            "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+            "WHERE cardId = ? " +
+            "AND approved = 0 " +
+            "ORDER BY orderIndex ASC, itemId ASC";
+            results = await pool.query(sql, objects[i].objectId);
+
+            if (results[0].length) {
+              card.items = results[0];
+              fullObjects.push(card);
+            }
+          }
+
+        } else {
+
+          // get the items and save the object
+          if (results[0].length) {
+
+            const card = results[0][0];
+            card.objectType = 2;
+
+            // get all of the items
+            sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
+            "Items.iconType, typeName, typeKeyword, contentText, " +
+            "contentUrl, contentLabel, contentMode, internal, " +
+            "created, approved, color " +
+            "FROM Items " +
+            "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+            "WHERE cardId = ? " +
+            "AND approved = 0 " +
+            "ORDER BY orderIndex ASC, itemId ASC";
+            results = await pool.query(sql, objects[i].objectId);
+
+            if (results[0].length) {
+              card.items = results[0];
+              fullObjects.push(card);
+            }
+          }
+
+        }
       }
 
     }
 
     finalResults.objects = fullObjects;
-    // get all of the pages for the request
-
-    // get all of the headers for the request
-
-    // get all of the cards for the request
 
     return finalResults;
 
