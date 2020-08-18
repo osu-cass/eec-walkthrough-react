@@ -1,6 +1,7 @@
 import React, {useEffect, useState, Fragment} from "react";
+import {Card} from "react-bootstrap";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
-import {formatTime} from "../../utilities/formatTime";
+import RequestComment from "./RequestComment";
 import ReportPage from "../ViewHistory/ReportPage";
 import ReportHeader from "../ViewHistory/ReportHeader";
 import ReportCard from "../ViewHistory/ReportCard";
@@ -61,15 +62,27 @@ function RequestPage() {
         </div>
       </div>
 
-      <div className="table-container">
-        <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
-          <h3 className="py-5 font-weight-bold">A Review</h3>
-          <span>{request.requestId}</span>
-          <span>{request.title}</span>
-          <span>{request.description}</span>
-          <span>{request.status}</span>
-          <span>{request.username}</span>
-          <span>{request.created}</span>
+      <RequestComment
+        created={request.created}
+        username={request.username}
+        description={request.description}
+        status={request.status}
+        initial={true}
+      />
+
+      <Card className="request-card-main my-2 shadow-sm">
+        <Card.Header
+          as="h5"
+          className="card-header-bar d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold"
+        >
+          <div className="col text-center">
+            Currently Published Content
+          </div>
+          <div className="col text-center">
+            New Content to Publish
+          </div>
+        </Card.Header>
+        <Card.Body className="request-card-body">
           {request.objects.map((object, i) =>
             <Fragment key={i}>
               {object.objectType === 1 ? (
@@ -104,8 +117,8 @@ function RequestPage() {
               )}
             </Fragment>
           )}
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
 
     </div>
   );
