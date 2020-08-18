@@ -1,6 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {formatTime} from "../../utilities/formatTime";
+import ReportPage from "../ViewHistory/ReportPage";
+import ReportHeader from "../ViewHistory/ReportHeader";
+import ReportCard from "../ViewHistory/ReportCard";
 import {useParams} from "react-router-dom";
 import "./RequestPage.css";
 
@@ -67,6 +70,40 @@ function RequestPage() {
           <span>{request.status}</span>
           <span>{request.username}</span>
           <span>{request.created}</span>
+          {request.objects.map((object, i) =>
+            <Fragment key={i}>
+              {object.objectType === 1 ? (
+                <ReportPage
+                  key={object.pageId + "p"}
+                  page={object}
+                  newId={i}
+                  removeMode={true}
+                />
+              ) : (
+                null
+              )}
+              {object.objectType === 2 ? (
+                <ReportHeader
+                  key={object.headerId + "h"}
+                  header={object}
+                  newId={i}
+                  removeMode={true}
+                />
+              ) : (
+                null
+              )}
+              {object.objectType === 3 ? (
+                <ReportCard
+                  key={object.cardId + "c"}
+                  card={object}
+                  newId={i}
+                  removeMode={true}
+                />
+              ) : (
+                null
+              )}
+            </Fragment>
+          )}
         </div>
       </div>
 
