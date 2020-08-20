@@ -154,6 +154,21 @@ function ConstructRequestModal(props) {
     }
   }
 
+  // Reset the publish request
+  function handleClear() {
+    if (window.confirm("Are you sure you want to clear the title, description, and content to publish for this request?")) {
+      window.localStorage.setItem("publishRequestTitle", "");
+      window.localStorage.setItem("publishRequestDescription", "");
+      window.localStorage.setItem("publishRequestObjects", "");
+      setTitle("");
+      setDescription("");
+      setSelections([]);
+      setSelectionIds([]);
+      document.getElementById("formRequestTitle").value = "";
+      document.getElementById("formRequestDescription").value = "";
+    }
+  }
+
   return (
     <div className='text-center mx-2'>
       <LoadingOverlay loading={loading} />
@@ -169,7 +184,7 @@ function ConstructRequestModal(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="formName">
+              <Form.Group controlId="formRequestTitle">
                 <Form.Label className="font-weight-bold">Title</Form.Label>
                 <Form.Control
                   type="text"
@@ -183,7 +198,7 @@ function ConstructRequestModal(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="formName">
+              <Form.Group controlId="formRequestDescription">
                 <Form.Label className="font-weight-bold">Description</Form.Label>
                 <Form.Control
                   as="textarea"
@@ -238,6 +253,13 @@ function ConstructRequestModal(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
+          <Button
+            className="mr-auto"
+            variant="danger"
+            onClick={() => handleClear()}
+          >
+            Clear Request
+          </Button>
           <Button variant="primary" onClick={() => {}}>Submit Publish Request</Button>
           <Button variant="secondary" onClick={() => props.handleClose()}>Cancel</Button>
         </Modal.Footer>
