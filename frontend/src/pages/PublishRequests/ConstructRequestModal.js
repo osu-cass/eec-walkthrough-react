@@ -16,44 +16,51 @@ function ConstructRequestModal(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Get selection data from local storage
+  // Get selection data from local storage when the modal is opened
   useEffect(() => {
-    const loadTitle = window.localStorage.getItem("publishRequestTitle");
-    if (typeof loadTitle === "string") {
-      setTitle(loadTitle);
-    }
-
-    const loadDescription = window.localStorage.getItem("publishRequestDescription");
-    if (typeof loadDescription === "string") {
-      setDescription(loadDescription);
-    }
-
-    let loadSelections = window.localStorage.getItem("publishRequestObjects");
-    try {
-
-      // Parse our collection of objects and make sure the objects are in an array
-      loadSelections = JSON.parse(loadSelections);
-      const objectArray = loadSelections.objects;
-
-      if (Array.isArray(objectArray)) {
-        setSelectionIds(objectArray);
-        getObjectInfo(objectArray);
-      } else {
-        throw Error("Invalid collection of objects");
+    if (props.show) {
+      const loadTitle = window.localStorage.getItem("publishRequestTitle");
+      if (typeof loadTitle === "string") {
+        setTitle(loadTitle);
       }
 
-    } catch(err) {
+      const loadDescription = window.localStorage.getItem("publishRequestDescription");
+      if (typeof loadDescription === "string") {
+        setDescription(loadDescription);
+      }
 
-      // We don't have a valid collection of objects.
-      // We clear the collection
-      console.log(err);
-      const collection = {
-        objects: []
-      };
-      window.localStorage.setItem("publishRequestObjects", JSON.stringify(collection));
+      let loadSelections = window.localStorage.getItem("publishRequestObjects");
+      try {
 
+        // Parse our collection of objects and make sure the objects are in an array
+        loadSelections = JSON.parse(loadSelections);
+        const objectArray = loadSelections.objects;
+
+        if (Array.isArray(objectArray)) {
+          setSelectionIds(objectArray);
+          getObjectInfo(objectArray);
+        } else {
+          throw Error("Invalid collection of objects");
+        }
+
+      } catch(err) {
+
+        // We don't have a valid collection of objects.
+        // We clear the collection
+        console.log(err);
+        const collection = {
+          objects: []
+        };
+        window.localStorage.setItem("publishRequestObjects", JSON.stringify(collection));
+
+      }
     }
     // eslint-disable-next-line
+  }, [props.show]);
+
+  // Clear error messages whenever the modal is opened or closed
+  useEffect(() => {
+    setErrorMessage("");
   }, [props.show]);
 
   // Get information about the selected objects
@@ -80,10 +87,54 @@ function ConstructRequestModal(props) {
     setLoading(false);
   }
 
-  // Clear error messages whenever the modal is opened or closed
-  useEffect(() => {
-    setErrorMessage("");
-  }, [props.show]);
+  // Submit the publish request
+  async function submitRequest() {
+    // Check for empty inputs
+    if (checkInputs()) {
+      return;
+    }
+    setLoading(true);
+
+    // Prepare data for new request
+    const RequestData = {
+      title: title,
+      description: description,
+      objects: selectionIds
+    };
+
+    // Create the new request
+    const results = await fetch(`/api/requests`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(RequestData)
+    });
+
+    if (results.ok) {
+
+      handleClear(false);
+      const obj = await results.json();
+
+      // redirect to the new publish request
+      window.location.href = `/publish-requests/${obj.insertId}`;
+
+    } else {
+
+      // there was an error creating the request
+      const obj = await results.json();
+
+      // if the user is performing an unauthorized action
+      // log them out and return them to the homepage
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+    }
+    setLoading(false);
+  }
 
   // Check for empty inputs
   function checkInputs() {
@@ -155,18 +206,22 @@ function ConstructRequestModal(props) {
   }
 
   // Reset the publish request
-  function handleClear() {
-    if (window.confirm("Are you sure you want to clear the title, description, and content to publish for this request?")) {
-      window.localStorage.setItem("publishRequestTitle", "");
-      window.localStorage.setItem("publishRequestDescription", "");
-      window.localStorage.setItem("publishRequestObjects", "");
-      setTitle("");
-      setDescription("");
-      setSelections([]);
-      setSelectionIds([]);
-      document.getElementById("formRequestTitle").value = "";
-      document.getElementById("formRequestDescription").value = "";
+  function handleClear(warn) {
+    if (warn) {
+      if (!window.confirm("Are you sure you want to clear the title, description, and content to publish for this request?")) {
+        return;
+      }
     }
+
+    window.localStorage.setItem("publishRequestTitle", "");
+    window.localStorage.setItem("publishRequestDescription", "");
+    window.localStorage.setItem("publishRequestObjects", "");
+    setTitle("");
+    setDescription("");
+    setSelections([]);
+    setSelectionIds([]);
+    document.getElementById("formRequestTitle").value = "";
+    document.getElementById("formRequestDescription").value = "";
   }
 
   return (
@@ -256,11 +311,11 @@ function ConstructRequestModal(props) {
           <Button
             className="mr-auto"
             variant="danger"
-            onClick={() => handleClear()}
+            onClick={() => handleClear(true)}
           >
             Clear Request
           </Button>
-          <Button variant="primary" onClick={() => {}}>Submit Publish Request</Button>
+          <Button variant="primary" onClick={() => submitRequest()}>Submit Publish Request</Button>
           <Button variant="secondary" onClick={() => props.handleClose()}>Cancel</Button>
         </Modal.Footer>
       </Modal>

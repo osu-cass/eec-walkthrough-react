@@ -411,3 +411,152 @@ async function getSelection(objects) {
 
 }
 exports.getSelection = getSelection;
+
+
+// create a request
+async function createRequest(title, description, objects, user) {
+
+  try {
+
+    const idArray = [];
+    let filteredObjects = [];
+    let finalObjects = [];
+
+    // make sure all objects in the array are valid
+    for (let i = 0; i < objects.length; i++) {
+      if ((objects[i].objectType !== 1 && objects[i].objectType !== 2 && 
+          objects[i].objectType !== 3) || !Number.isInteger(parseInt(objects[i].objectId, 10))) {
+        return {error: 1};
+      } else {
+        const object = {
+          objectType: objects[i].objectType,
+          objectId: Math.abs(parseInt(objects[i].objectId, 10))
+        }
+        filteredObjects.push(object);
+      }
+    }
+
+    // filter out duplicate objects
+    for (let i = 0; i < filteredObjects.length; i++) {
+      idArray.push(filteredObjects[i].objectType + "_" + filteredObjects[i].objectId);
+    }
+    filteredObjects = filteredObjects.filter((value, index) => idArray.indexOf(value.objectType + "_" + value.objectId) === index);
+
+    // check the objects against the database to ensure that they are valid
+    for (let i = 0; i < filteredObjects.length; i++) {
+
+      // if we are looking at a page...
+      if (filteredObjects[i].objectType === 1) {
+
+        // see if the object exists
+        let sql = "SELECT * " +
+        "FROM Pages " +
+        "WHERE pageId = ? " +
+        "AND approved = 0;";
+        let results = await pool.query(sql, filteredObjects[i].objectId);
+
+        if (!results[0].length) {
+
+          let sql = "SELECT * " +
+          "FROM Temp_Pages " +
+          "WHERE tempPageId = ?;";
+          let results = await pool.query(sql, filteredObjects[i].objectId);
+
+          if (results[0].length) {
+            finalObjects.push(filteredObjects[i]);
+          }
+
+        } else {
+          finalObjects.push(filteredObjects[i]);
+        }
+        continue;
+      }
+
+      // if we are looking at a header...
+      if (filteredObjects[i].objectType === 2) {
+
+        // see if the object exists
+        let sql = "SELECT * " +
+        "FROM Headers " +
+        "WHERE headerId = ? " +
+        "AND approved = 0;";
+        let results = await pool.query(sql, filteredObjects[i].objectId);
+
+        if (!results[0].length) {
+
+          let sql = "SELECT * " +
+          "FROM Temp_Headers " +
+          "WHERE tempHeaderId = ?;";
+          let results = await pool.query(sql, filteredObjects[i].objectId);
+
+          if (results[0].length) {
+            finalObjects.push(filteredObjects[i]);
+          }
+
+        } else {
+          finalObjects.push(filteredObjects[i]);
+        }
+        continue;
+      }
+
+      // if we are looking at a card...
+      if (filteredObjects[i].objectType === 3) {
+
+        // see if the object exists
+        let sql = "SELECT * " +
+        "FROM Cards " +
+        "WHERE cardId = ? " +
+        "AND approved = 0;";
+        let results = await pool.query(sql, filteredObjects[i].objectId);
+
+        if (!results[0].length) {
+
+          let sql = "SELECT * " +
+          "FROM Temp_Cards " +
+          "WHERE tempCardId = ?;";
+          let results = await pool.query(sql, filteredObjects[i].objectId);
+
+          if (results[0].length) {
+            finalObjects.push(filteredObjects[i]);
+          }
+
+        } else {
+          finalObjects.push(filteredObjects[i]);
+        }
+        continue;
+      }
+
+    }
+
+    // we must have at least one valid object to continue
+    if (!finalObjects.length) {
+      return {error: 1};
+    }
+
+    // create the new request
+    let sql = "INSERT INTO Requests (title, description, status, userId) " +
+    "VALUES (?, ?, 1, ?);";
+    let results = await pool.query(sql, [title, description, user]);
+
+    const insertId = results[0].insertId;
+
+    // add all of the objects to the new request
+    for (let i = 0; i < finalObjects.length; i++) {
+      sql = "INSERT INTO Request_Objects (requestId, objectId, objectType) " +
+      "VALUES (?, ?, ?);";
+      results = await pool.query(sql, [insertId, finalObjects[i].objectId, finalObjects[i].objectType]);
+    }
+
+    const finalResults = {
+      insertId: insertId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error creating request");
+    throw Error(err);
+  }
+
+}
+exports.createRequest = createRequest;
