@@ -322,3 +322,13 @@ const getSelectionVal = Object.freeze({
   ]
 });
 exports.getSelectionVal = getSelectionVal;
+
+// validation checks for post request
+const postRequestVal = Object.freeze({
+  validation: [
+    check("title").isLength({min: 1, max: 1000}),
+    check("description").isLength({min: 1, max: 5000}),
+    check("objects").isArray({min: 1})
+  ]
+});
+exports.postRequestVal = postRequestVal;
