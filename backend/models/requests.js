@@ -282,3 +282,132 @@ async function getRequest(requestId) {
 
 }
 exports.getRequest = getRequest;
+
+
+// return all data for a group of selected objects (pages, headers, cards)
+async function getSelection(objects) {
+
+  try {
+
+    const newObjects = [];
+
+    for (let i = 0; i < objects.length; i++) {
+
+      const object = {};
+
+      // if we are looking at a page...
+      if (objects[i].objectType === 1) {
+        object.objectType = "Page";
+        object.key = objects[i].objectId + "P";
+
+        // get the objects name
+        let sql = "SELECT name " +
+        "FROM Pages " +
+        "WHERE pageId = ? " +
+        "AND approved = 0;";
+        let results = await pool.query(sql, objects[i].objectId);
+
+        // Check to see if we were able to find the object.
+        // If we were, then we add it to the array.
+        // If we were not able to find it, then search in the temp objects.
+        if (!results[0].length) {
+
+          let sql = "SELECT tempName AS name " +
+          "FROM Temp_Pages " +
+          "WHERE tempPageId = ?;";
+          let results = await pool.query(sql, objects[i].objectId);
+
+          if (results[0].length) {
+            object.objectName = results[0][0].name;
+            newObjects.push(object);
+          }
+
+        } else {
+          object.objectName = results[0][0].name;
+          newObjects.push(object);
+        }
+        continue;
+      }
+
+      // if we are looking at a header...
+      if (objects[i].objectType === 2) {
+        object.objectType = "Header";
+        object.key = objects[i].objectId + "H";
+
+        // get the objects name
+        let sql = "SELECT title AS name " +
+        "FROM Headers " +
+        "WHERE headerId = ? " +
+        "AND approved = 0;";
+        let results = await pool.query(sql, objects[i].objectId);
+
+        // Check to see if we were able to find the object.
+        // If we were, then we add it to the array.
+        // If we were not able to find it, then search in the temp objects.
+        if (!results[0].length) {
+
+          let sql = "SELECT tempTitle AS name " +
+          "FROM Temp_Headers " +
+          "WHERE tempHeaderId = ?;";
+          let results = await pool.query(sql, objects[i].objectId);
+
+          if (results[0].length) {
+            object.objectName = results[0][0].name;
+            newObjects.push(object);
+          }
+
+        } else {
+          object.objectName = results[0][0].name;
+          newObjects.push(object);
+        }
+        continue;
+      }
+
+      // If we are looking at a card...
+      if (objects[i].objectType === 3) {
+        object.objectType = "Card";
+        object.key = objects[i].objectId + "C";
+
+        // get the objects name
+        let sql = "SELECT title AS name " +
+        "FROM Cards " +
+        "WHERE cardId = ? " +
+        "AND approved = 0;";
+        let results = await pool.query(sql, objects[i].objectId);
+
+        // Check to see if we were able to find the object.
+        // If we were, then we add it to the array.
+        // If we were not able to find it, then search in the temp objects.
+        if (!results[0].length) {
+
+          let sql = "SELECT tempTitle AS name " +
+          "FROM Temp_Cards " +
+          "WHERE tempCardId = ?;";
+          let results = await pool.query(sql, objects[i].objectId);
+
+          if (results[0].length) {
+            object.objectName = results[0][0].name;
+            newObjects.push(object);
+          }
+
+        } else {
+          object.objectName = results[0][0].name;
+          newObjects.push(object);
+        }
+      }
+
+    }
+
+      const finalResults = {
+        objects: newObjects
+      };
+
+      return finalResults;
+
+  } catch (err) {
+    console.error("Error searching for request");
+    throw Error(err);
+  }
+
+}
+exports.getSelection = getSelection;

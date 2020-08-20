@@ -1,8 +1,10 @@
 import React, {useEffect, useState, Fragment} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
+import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
+import "./ConstructRequestModal.css";
 
 // Modal used for creating requests
 function ConstructRequestModal(props) {
@@ -10,7 +12,9 @@ function ConstructRequestModal(props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selections, setSelections] = useState([]);
+  const [selectionIds, setSelectionIds] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Get selection data from local storage
   useEffect(() => {
@@ -18,12 +22,63 @@ function ConstructRequestModal(props) {
     if (typeof loadTitle === "string") {
       setTitle(loadTitle);
     }
+
     const loadDescription = window.localStorage.getItem("publishRequestDescription");
     if (typeof loadDescription === "string") {
       setDescription(loadDescription);
     }
+
+    let loadSelections = window.localStorage.getItem("publishRequestObjects");
+    try {
+
+      // Parse our collection of objects and make sure the objects are in an array
+      loadSelections = JSON.parse(loadSelections);
+      const objectArray = loadSelections.objects;
+
+      if (Array.isArray(objectArray)) {
+        setSelectionIds(objectArray);
+        getObjectInfo(objectArray);
+      } else {
+        throw Error("Invalid collection of objects");
+      }
+
+    } catch(err) {
+
+      // We don't have a valid collection of objects.
+      // We clear the collection
+      console.log(err);
+      const collection = {
+        objects: []
+      };
+      window.localStorage.setItem("publishRequestObjects", JSON.stringify(collection));
+
+    }
     // eslint-disable-next-line
   }, [props.show]);
+
+  // Get information about the selected objects
+  async function getObjectInfo(objects) {
+    setLoading(true);
+
+    const objectData = {
+      objects: objects
+    };
+
+    const results = await fetch(`/api/requests/selections`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(objectData)
+    });
+
+    if (results.ok) {
+      const obj = await results.json();
+      setSelections(obj.objects);
+    } else {
+      console.error("Error fetching selection info");
+    }
+
+    setLoading(false);
+  }
 
   // Clear error messages whenever the modal is opened or closed
   useEffect(() => {
@@ -32,7 +87,6 @@ function ConstructRequestModal(props) {
 
   // Check for empty inputs
   function checkInputs() {
-
     const emptyFound = false;
     const newErrorMessage = errorMessage;
 
@@ -49,7 +103,7 @@ function ConstructRequestModal(props) {
     }
 
     // No objects selected
-    if (!description.length) {
+    if (!selections.length) {
       setErrorMessage("Error: No content selected to review");
       return true;
     }
@@ -57,7 +111,6 @@ function ConstructRequestModal(props) {
     setErrorMessage(newErrorMessage);
     if (emptyFound) { return true; }
     return false;
-
   }
 
   // Save new title in local storage
@@ -72,8 +125,38 @@ function ConstructRequestModal(props) {
     setDescription(newDescription);
   }
 
+  // Removes a selected object from the request
+  function removeObject(key) {
+    const ids = [...selectionIds];
+    const visuals = [...selections];
+
+    let index = -1;
+    for (let i = 0; i < visuals.length; i ++) {
+      if (visuals[i].key === key) {
+        index = i;
+        break;
+      }
+    }
+
+    if (index === -1) {
+      return;
+    }
+
+    if (window.confirm("Are you sure you want to exclude this object from your publish request?")) {
+      ids.splice(index, 1);
+      visuals.splice(index, 1);
+      setSelectionIds(ids);
+      setSelections(visuals);
+      const collection = {
+        objects: ids
+      };
+      window.localStorage.setItem("publishRequestObjects", JSON.stringify(collection));
+    }
+  }
+
   return (
     <div className='text-center mx-2'>
+      <LoadingOverlay loading={loading} />
       <Modal show={props.show} onHide={() => props.handleClose()} dialogClassName="modal-width">
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Create Publish Request</h5>
@@ -102,7 +185,7 @@ function ConstructRequestModal(props) {
             <Col>
               <Form.Group controlId="formName">
                 <Form.Label className="font-weight-bold">Description</Form.Label>
-                <Form.Control 
+                <Form.Control
                   as="textarea"
                   maxLength="5000"
                   defaultValue={description} 
@@ -111,6 +194,37 @@ function ConstructRequestModal(props) {
               </Form.Group>
             </Col>
           </Row>
+
+          {selections.length ? (
+            <Fragment>
+            <Form.Label
+              className="font-weight-bold mb-3">
+              Content to Publish
+            </Form.Label>
+            {selections.map((object) =>
+              <div className="request-select-card mx-3 my-3 px-2 py-2 card" key={object.key}>
+                <div className="row">
+                  <div className="col">
+                    <span className="font-weight-bold">{object.objectType}:</span>
+                  </div>
+                  <div 
+                    className="col-1"
+                    onClick={() => removeObject(object.key)}
+                  >
+                    <i className="fas fa-times" />
+                  </div>
+                </div>
+                <span>{object.objectName}</span>
+              </div>
+            )}
+            </Fragment>
+          ) : (
+            <div>
+              <Form.Label className="font-weight-bold mb-3">Content to Publish</Form.Label>
+              <h5>No content selected for publishing.</h5>
+              <span>Please search the website for pages, headers, and cards that you would like to publish.</span>
+            </div>
+          )}
 
           <Row>
             <div className='col-3' />

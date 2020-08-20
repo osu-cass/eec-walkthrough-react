@@ -314,3 +314,11 @@ const getRequestVal = Object.freeze({
   ]
 });
 exports.getRequestVal = getRequestVal;
+
+// validation checks for get request selection
+const getSelectionVal = Object.freeze({
+  validation: [
+    check("objects").isArray({min: 1})
+  ]
+});
+exports.getSelectionVal = getSelectionVal;
