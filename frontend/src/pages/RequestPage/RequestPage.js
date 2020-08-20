@@ -2,6 +2,7 @@ import React, {useEffect, useState, Fragment} from "react";
 import {Card} from "react-bootstrap";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import RequestComment from "./RequestComment";
+import {logout} from "../../utilities/cookieAuth";
 import ReportPage from "../ViewHistory/ReportPage";
 import ReportHeader from "../ViewHistory/ReportHeader";
 import ReportCard from "../ViewHistory/ReportCard";
@@ -43,7 +44,16 @@ function RequestPage() {
       setRequest(obj);
 
     } else {
-      console.error("Error fetching request");
+
+      // if the user is performing an unauthorized action
+      // log them out and return them to the homepage
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else {
+        console.error("Error fetching request");
+      }
+
     }
 
     setLoading(false);

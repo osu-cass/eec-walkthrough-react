@@ -7,6 +7,7 @@ import ThumbnailGallery from "./ThumbnailGallery";
 import HighlightText from "./HighlightText";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
+import AddReviewObject from "./AddReviewObject";
 import "./ReviewCard.css";
 
 // Button and modal that allows a user to review a card
@@ -401,13 +402,19 @@ function ReviewCard(props) {
             <Fragment>
               <Fragment>
                 {props.edited ? (
-                  <Button
-                    className="mr-auto"
-                    variant="danger"
-                    onClick={() => handleClear()}
-                  >
-                    Delete Changes
-                  </Button>
+                  <Fragment>
+                    <Button
+                      className="mr-auto"
+                      variant="danger"
+                      onClick={() => handleClear()}
+                    >
+                      Delete Changes
+                    </Button>
+                    <AddReviewObject 
+                      objectType={3}
+                      objectId={props.card.cardId}
+                    />
+                </Fragment>
                 ) : (
                   null
                 )}
@@ -416,7 +423,7 @@ function ReviewCard(props) {
                 {props.card.approved && props.edited ? (
                   <Fragment>
                     <Button
-                      className="ml-auto"
+                      className="ml-1"
                       variant="danger"
                       onClick={() => handleRemove()}
                     >
@@ -438,13 +445,19 @@ function ReviewCard(props) {
           ) : (
             <Fragment>
               {props.edited ? (
-                <Button
-                  className="mr-auto"
-                  variant="danger"
-                  onClick={() => handleClear()}
-                >
-                  Delete Changes
-                </Button>
+                <Fragment>
+                  <Button
+                    className="mr-auto"
+                    variant="danger"
+                    onClick={() => handleClear()}
+                  >
+                    Delete Changes
+                  </Button>
+                  <AddReviewObject 
+                    objectType={3}
+                    objectId={props.card.cardId}
+                  />
+                </Fragment>
               ) : (
                 null
               )}

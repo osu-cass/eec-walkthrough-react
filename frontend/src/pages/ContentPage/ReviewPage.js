@@ -6,6 +6,7 @@ import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
 import Image from "./Image";
 import HighlightText from "./HighlightText";
+import AddReviewObject from "./AddReviewObject";
 import "./ReviewPage.css";
 
 // Button and modal that allows a user to review a page
@@ -304,6 +305,7 @@ function ReviewPage(props) {
 
   return role >= 3 && props.mode === 1 ? (
     <div className='text-center mx-2'>
+
       <Button size="sm" variant="success" onClick={() => handleShow()}>
         <i
           className='fas fa-stamp text-white mr-2'
@@ -481,13 +483,19 @@ function ReviewPage(props) {
             <Fragment>
               <Fragment>
                 {props.page.tempPageId || !props.page.approved ? (
-                  <Button
-                    className="mr-auto"
-                    variant="danger"
-                    onClick={() => handleClear()}
-                  >
-                    Delete Changes
-                  </Button>
+                  <Fragment>
+                    <Button
+                      className="mr-auto"
+                      variant="danger"
+                      onClick={() => handleClear()}
+                    >
+                      Delete Changes
+                    </Button>
+                    <AddReviewObject
+                      objectType={1}
+                      objectId={props.page.pageId}
+                    />
+                  </Fragment>
                 ) : (
                   null
                 )}
@@ -495,7 +503,7 @@ function ReviewPage(props) {
               {props.page.approved && props.page.tempPageId ? (
                 <Fragment>
                   <Button
-                    className="ml-auto"
+                    className="ml-1"
                     variant="danger"
                     onClick={() => handleRemove()}
                   >
@@ -516,13 +524,19 @@ function ReviewPage(props) {
           ) : (
             <Fragment>
               {props.page.tempPageId || !props.page.approved ? (
-                <Button
-                  className="mr-auto"
-                  variant="danger"
-                  onClick={() => handleClear()}
-                >
-                  Delete Changes
-                </Button>
+                <Fragment>
+                  <Button
+                    className="mr-auto"
+                    variant="danger"
+                    onClick={() => handleClear()}
+                  >
+                    Delete Changes
+                  </Button>
+                  <AddReviewObject 
+                    objectType={1}
+                    objectId={props.page.pageId}
+                  />
+                </Fragment>
               ) : (
                 null
               )}
