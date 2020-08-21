@@ -9,7 +9,8 @@ const {
   getRequest,
   getSelection,
   createRequest,
-  createComment
+  createComment,
+  deleteRequest
 } = require("../models/requests");
 const {
   getRequestVal,
@@ -202,6 +203,46 @@ app.post("/comment/:requestId", requireAuth, postCommentVal.validation, async (r
 
       if (results.error === 1) {
         res.status(403).send({error: "The request does not exist."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete a request
+app.delete("/:requestId", requireAuth, async (req, res) => {
+
+  try {
+
+    const requestId = req.params.requestId;
+    const userId = req.auth.userId;
+    let admin = false;
+    console.log("Delete request", requestId);
+
+    // make sure the user is allowed to perform this action
+    if (await roleCheck(4, req.auth.userId)) {
+      admin = true;
+    }
+
+    // delete the request data
+    const results = await deleteRequest(requestId, userId, admin);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Request not found."});
+      } else if (results.error === 2) {
+        res.status(401).send({error: "Unauthorized user attempting to close request."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

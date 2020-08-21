@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {Card, Form, Button} from "react-bootstrap";
 import Error from "../../components/General/Error";
 import {logout} from "../../utilities/cookieAuth";
+import CloseRequest from "./CloseRequest";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import "./RequestSubmitComment.css";
 
@@ -100,13 +101,21 @@ function RequestSubmitComment(props) {
           message={errorMessage}
         />
 
-        <Button
-          className="float-right"
-          variant="success"
-          onClick={() => submitComment(comment, status)}
-        >
-          Submit Review
-        </Button>
+        <div className="row mx-0">
+          <CloseRequest
+            creatorId={props.creatorId}
+            requestId={props.requestId}
+            onError={(message) => setErrorMessage(message)}
+          />
+
+          <Button
+            className="ml-auto"
+            variant="success"
+            onClick={() => submitComment(comment, status)}
+          >
+            Submit Comment
+          </Button>
+        </div>
 
       </Card.Body>
     </Card>
@@ -116,5 +125,6 @@ function RequestSubmitComment(props) {
 export default RequestSubmitComment;
 
 RequestSubmitComment.propTypes = {
-  requestId:  PropTypes.number
+  creatorId: PropTypes.number,
+  requestId: PropTypes.number
 };

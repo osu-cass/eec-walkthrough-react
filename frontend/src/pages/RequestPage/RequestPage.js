@@ -94,6 +94,7 @@ function RequestPage() {
       )}
 
       <RequestSubmitComment
+        creatorId={parseInt(request.userId, 10)}
         requestId={parseInt(requestId, 10)}
       />
 

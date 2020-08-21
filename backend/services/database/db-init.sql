@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 20, 2020 at 03:14 PM
+-- Generation Time: Aug 20, 2020 at 07:28 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -59,7 +59,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (76, 1, 0, 76, 'General Off Site Resource Links', 51, '2020-06-29 20:51:39', 1),
 (77, 2, 0, 77, 'Improve Compressor Efficiency', 58, '2020-08-17 18:00:21', 1),
 (81, 29, 0, 81, 'Pros', 51, '2020-07-01 18:14:32', 1),
-(82, 30, 0, 82, 'Use More Efficient Pump Control', 55, '2020-07-01 18:19:29', 0),
+(82, 30, 0, 82, 'Use More Efficient Pump Control', 51, '2020-07-01 18:19:29', 0),
 (83, 30, 0, 83, 'Reduce Flow Required', 51, '2020-07-01 21:21:37', 0),
 (84, 30, 0, 84, 'Reduce Head Required', 51, '2020-07-01 21:28:45', 0),
 (85, 30, 0, 85, 'Improve Pump Efficiency', 57, '2020-07-01 21:42:32', 0),
@@ -138,7 +138,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (174, 50, 0, 174, 'Systematic Layout Planning (SLP)', 62, '2020-08-14 21:43:28', 0),
 (175, 38, 0, 175, 'Anaerobic Digestion', 51, '2020-08-17 18:11:37', 1),
 (176, 38, 0, 176, 'Other Opportunities', 51, '2020-08-17 18:16:44', 1),
-(178, 29, 0, 178, 'Best Practices', 51, '2020-08-18 20:59:31', 1),
+(178, 29, 0, 178, 'Best Practices', 51, '2020-08-20 22:33:59', 1),
 (179, 29, 0, 179, 'Standard Data to Collect', 55, '2020-08-18 21:05:04', 0),
 (180, 29, 0, 180, 'Rules of Thumb', 51, '2020-08-18 21:05:56', 1),
 (182, 29, 0, 182, 'Caveats', 55, '2020-08-18 21:38:09', 1),
@@ -396,7 +396,8 @@ INSERT INTO `History_Cards` (`historyId`, `cardId`, `headerId`, `cardType`, `tit
 (85, 124, 29, 0, 'U.S. Department of Energy Tip Sheets', 0, '2020-08-20 00:25:37'),
 (86, 178, 29, 0, 'Best Practices', 0, '2020-08-20 01:00:54'),
 (87, 180, 29, 0, 'Rules of Thumb', 0, '2020-08-20 01:01:02'),
-(88, 182, 29, 0, 'Caveats', 0, '2020-08-20 01:03:50');
+(88, 182, 29, 0, 'Caveats', 0, '2020-08-20 01:03:50'),
+(89, 178, 29, 0, 'Best Practices', 0, '2020-08-20 22:33:59');
 
 -- --------------------------------------------------------
 
@@ -912,7 +913,15 @@ INSERT INTO `History_Items` (`historyId`, `parentId`, `itemId`, `cardId`, `order
 (636, 87, 4706, 180, 0, 0, 3, 'One PSI = 2.31 Feet of water', '', '', 0, 0, '2020-08-20 00:48:42'),
 (637, 87, 4707, 180, 0, 0, 3, 'When designing a pump system it is important to consider the pump\'s net positive suction head required (NPSHR). A general design criteria is that the net positive suction head available (NPSHA) exceeds the NPSHR by at least 25% over the expected range of operating flow rates.', '', '', 0, 0, '2020-08-20 00:48:42'),
 (638, 88, 4639, 182, 0, 0, 4, 'Improperly designed pump systems can lead to low pressures at the pump inlet which can lead to cavitation. This can seriously damage the pump and reduce its operating life.', '', '', 0, 0, '2020-08-19 21:52:48'),
-(639, 88, 4640, 182, 0, 0, 24, 'Online resource discussing how cavitation occurs and how to detect and prevent it from happening.', 'https://modernpumpingtoday.com/detecting-pump-cavitation/', 'Detecting Pump Cavitation (May be able to find a more comprehensive resource)', 1, 0, '2020-08-19 21:52:48');
+(639, 88, 4640, 182, 0, 0, 24, 'Online resource discussing how cavitation occurs and how to detect and prevent it from happening.', 'https://modernpumpingtoday.com/detecting-pump-cavitation/', 'Detecting Pump Cavitation (May be able to find a more comprehensive resource)', 1, 0, '2020-08-19 21:52:48'),
+(640, 89, 4711, 178, 0, 0, 7, 'Install pressure gauges on all pump outlets for a key indicator of system performance.', '', '', 0, 0, '2020-08-20 22:33:47'),
+(641, 89, 4712, 178, 0, 0, 7, 'Install a pressure gage at the inlets of pumps not drawing from a local reservoir for a 2nd key indicator of system performance', '', '', 1, 0, '2020-08-20 22:33:47'),
+(642, 89, 4713, 178, 0, 0, 7, 'Install flow meters on high operating cost pumps or banks of pumps for a 3rd key indicator of system performance', '', '', 1, 0, '2020-08-20 22:33:47'),
+(643, 89, 4714, 178, 0, 1, 8, 'Consider needs of temporary ultrasonic flow meters for pump installations that will not include an in-line flow meter. ', '', '', 1, 0, '2020-08-20 22:33:47'),
+(644, 89, 4715, 178, 0, 0, 7, 'Operate pumps between 85% and 110% of their best efficiency point (BEP)', '', '', 0, 0, '2020-08-20 22:33:47'),
+(645, 89, 4716, 178, 0, 0, 7, 'Use VFD control if the pump operates at multiple flow conditions, particularly for looped flow circuits.', '', '', 0, 0, '2020-08-20 22:33:47'),
+(646, 89, 4717, 178, 0, 1, 4, 'For high static head conditions (pumping to high pressure vessel or high elevation tank) take care in evaluating pump operation with VFD control.  Pumps can be forced into low efficiency, high wear conditions with inappropriate high static head VFD control.', '', '', 1, 0, '2020-08-20 22:33:47'),
+(647, 89, 4718, 178, 0, 0, 17, 'Comprehensive list of pump selection, installation, and operation best practices.', 'http://www.flowserve.com/sites/default/files/2016-07/pss-10-13.5-e.pdf', 'Flowserve: Best Practices for ANSI Pumps', 1, 0, '2020-08-20 22:33:47');
 
 -- --------------------------------------------------------
 
@@ -1269,21 +1278,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2152, 27, 0, 0, 11, 'Use desiccant based air dryer with more efficient desiccant bed regeneration', '', '', 0, 0, '2020-07-07 16:17:13', 1),
 (2153, 27, 0, 0, 11, 'Replace pneumatic hand tools with battery powered hand tools', '', '', 0, 0, '2020-07-07 16:17:13', 1),
 (2179, 123, 0, 0, 17, 'MEASUR is open source software that consists of the following DOE legacy energy system assessment tools (updated): Pumping System Assessment Tool (PSAT), Process Heating Assessment and Survey Tool (PHAST), Fan System Assessment Tool (FSAT), Steam System Assessment Tool (SSAT)/ Steam System Modeler (SSMT), AIRMaster+ (Last accessed 12/2/2019)   ', 'https://www.energy.gov/eere/amo/measur', 'U.S. Department of Energy MEASUR analysis tool', 1, 0, '2020-07-07 18:00:00', 1),
-(2210, 82, 0, 0, 11, 'Replace Valve Control with Variable Speed Drive Control', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2211, 82, 0, 1, 13, 'Pumps are often designed to operate at specific conditions, installing a Variable Speed Drive can allow the pump to supply a wider range of flows while remaining near it\'s best efficiency point', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2212, 82, 0, 1, 10, 'Pumps throttled or supplying excess fluid to a process', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2213, 82, 0, 1, 8, 'Pumps operating over a range of flow conditions may be particularly suited for VFD control', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2214, 82, 0, 1, 14, 'Would a resized pump or impeller trim be more suitable for the application?', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2215, 82, 0, 1, 1, 'Allows efficient operation over wider range of flow conditions', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2216, 82, 0, 1, 2, 'VFDs are expensive - becoming more affordable in recent years', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2217, 82, 0, 1, 4, 'Networks with multiple pumps operating in parallel or series need to be carefully considered before recommending VFD control', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2218, 82, 0, 1, 4, 'VFDs can harm the motor if they are not properly installed', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2219, 82, 0, 1, 7, 'Install grounding shaft to divert VFD induced voltages away from the motor', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2220, 82, 0, 1, 15, 'Pump nameplate/motor nameplate', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2221, 82, 0, 1, 15, 'Flow rates, pressure readings, live amperage data', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2222, 82, 0, 1, 17, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.app.box.com/file/606303033065', 'Analysis Template: Install VFDs on Process Pumps', 2, 0, '2020-07-07 20:28:47', 0),
-(2223, 82, 0, 0, 11, 'Eliminate Bypass Control', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2224, 82, 0, 0, 11, 'Replace On/Off Control with Continuous Flow Control ', '', '', 0, 0, '2020-07-07 20:28:47', 0),
 (2261, 119, 0, 0, 11, 'Manually reduce equipment operation time', '', '', 0, 0, '2020-07-07 23:38:14', 1),
 (2262, 119, 0, 0, 11, 'Automatically control equipment operation time', '', '', 0, 0, '2020-07-07 23:38:14', 1),
 (2263, 119, 0, 0, 11, 'Interlock equipment with a related process', '', '', 0, 0, '2020-07-07 23:38:14', 1),
@@ -1386,8 +1380,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3844, 129, 0, 2, 15, 'Mass flowrate (volumetric is fine if the density is known)', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3845, 129, 0, 2, 15, 'Specific heat', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3846, 129, 0, 1, 15, 'Heating process efficiency', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3847, 129, 0, 1, 15, 'Available floor space', '', '', 0, 0, '2020-08-06 20:53:08', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `created`, `approved`) VALUES
+(3847, 129, 0, 1, 15, 'Available floor space', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3848, 129, 0, 1, 27, 'Contact thermometer (if safe)', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3849, 129, 0, 1, 27, 'IR thermometer', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3850, 129, 0, 1, 27, 'Ultrasonic flow meter if fluid flowrate is unknown and the temperatures are safe for the equipment', '', '', 0, 0, '2020-08-06 20:53:08', 0),
@@ -1396,7 +1389,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3853, 129, 0, 1, 4, 'Heat exchangers can become hot and should not be placed where someone may come into contact with it inadvertently', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3854, 129, 0, 1, 20, '', 'https://drive.google.com/file/d/1CdPMeAFZMbadgXb9opm3qJR72S7zPYwG/view?usp=sharing', 'A spiral heat exchanger is installed for heat transfer between hot sludge coming from anaerobic digestion and cool sludge coming from aerobic digestion. At this facility sludge was being heated going into the anaerobic digestor and then cooled when leaving to enter the aerobic digestor.', 0, 0, '2020-08-06 20:53:08', 0),
 (3855, 129, 0, 1, 20, '', 'https://drive.google.com/file/d/1twM-Rb5cEp3NGoQwPh8Hlh9LvlMvP1Id/view?usp=sharing', 'Raw milk and pasteurized milk in this process pass through a plate heat exchanger. In the pasteurization process, raw milk is heated to kill bacteria, but must be cooled afterwards. To reduce both the heating and cooling loads, the pasteurized milk preheats the raw milk while also cooling itself.', 0, 0, '2020-08-06 20:53:08', 0),
-(3856, 129, 0, 1, 17, 'Thermodynamic properties of water/steam from the Heat Exchanger Design Handbook by C. F. Beaton, published in 1986. This is useful for finding the enthalpy of water/steam for calculating heat transfer.', 'http://thermopedia.com/content/1150/', 'Water/Steam Property Tables', 1, 0, '2020-08-06 20:53:08', 0),
+(3856, 129, 0, 1, 17, 'Thermodynamic properties of water/steam from the Heat Exchanger Design Handbook by C. F. Beaton, published in 1986. This is useful for finding the enthalpy of water/steam for calculating heat transfer.', 'http://thermopedia.com/content/1150/', 'Water/Steam Property Tables', 1, 0, '2020-08-06 20:53:08', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `created`, `approved`) VALUES
 (3857, 129, 0, 1, 24, 'Lists the specific heats of common fluids. This is used for calculating the amount of heat that can be exchanged between the two fluid streams.', 'https://www.engineeringtoolbox.com/specific-heat-fluids-d_151.html', 'Common Fluid Specific Heats', 1, 0, '2020-08-06 20:53:08', 0),
 (3858, 129, 0, 1, 24, 'List of densities for common fluids. This is useful if the fluid\'s volumetric flowrate is known, but not the mass flowrate.', 'https://www.engineeringtoolbox.com/liquids-densities-d_743.html', 'Common Fluid Densities', 1, 0, '2020-08-06 20:53:08', 0),
 (3859, 129, 0, 1, 24, 'Estimated heat exchanger heat transfer coefficients for use in calculating the amount of heat transferred between the two fluid streams.', 'https://www.engineeringtoolbox.com/heat-transfer-coefficients-exchangers-d_450.html', 'Heat Exchanger Heat Transfer Coefficients', 1, 0, '2020-08-06 20:53:08', 0),
@@ -1635,19 +1629,35 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4652, 183, 0, 0, 20, '', 'https://www.aquaculturealliance.org/advocate/cavitation-the-pump-disease/', 'Pump Impeller With Cavitation Marks', 0, 0, '2020-08-19 22:55:35', 0),
 (4653, 183, 0, 0, 20, '', 'https://www.deppmann.com/blog/service-tip-of-the-month/pump-cavitation/', 'Example Pump Impellers With Cavitation Marks', 0, 0, '2020-08-19 22:55:35', 0),
 (4654, 183, 0, 0, 20, '', 'https://www.dxpe.com/different-types-centrifugal-pumps-applications/', 'Centrifugal Pumps', 0, 0, '2020-08-19 22:55:35', 0),
-(4696, 178, 0, 0, 7, 'Install pressure gauges on all pump outlets for a key indicator of system performance.', '', '', 0, 0, '2020-08-20 00:42:22', 1),
-(4697, 178, 0, 0, 7, 'Install a pressure gage at the inlets of pumps not drawing from a local reservoir for a 2nd key indicator of system performance', '', '', 1, 0, '2020-08-20 00:42:22', 1),
-(4698, 178, 0, 0, 7, 'Install flow meters on high operating cost pumps or banks of pumps for a 3rd key indicator of system performance', '', '', 1, 0, '2020-08-20 00:42:22', 1),
-(4699, 178, 0, 1, 8, 'Consider needs of temporary ultrasonic flow meters for pump installations that will not include an in-line flow meter. ', '', '', 1, 0, '2020-08-20 00:42:22', 1),
-(4700, 178, 0, 0, 7, 'Operate pumps between 85% and 110% of their best efficiency point (BEP)', '', '', 0, 0, '2020-08-20 00:42:22', 1),
-(4701, 178, 0, 0, 7, 'Use VFD control if the pump operates at multiple flow conditions, particularly for looped flow circuits.', '', '', 0, 0, '2020-08-20 00:42:22', 1),
-(4702, 178, 0, 1, 4, 'For high static head conditions (pumping to high pressure vessel or high elevation tank) Take care in evaluating pump operation with VFD control.  Pumps can be forced into low efficiency, high wear conditions with inappropriate high static head VFD control.', '', '', 1, 0, '2020-08-20 00:42:22', 1),
-(4703, 178, 0, 0, 17, 'Comprehensive list of pump selection, installation, and operation best practices.', 'http://www.flowserve.com/sites/default/files/2016-07/pss-10-13.5-e.pdf', 'Flowserve: Best Practices for ANSI Pumps', 1, 0, '2020-08-20 00:57:26', 1),
 (4706, 180, 0, 0, 3, 'One PSI = 2.31 Feet of water', '', '', 0, 0, '2020-08-20 00:48:42', 1),
 (4707, 180, 0, 0, 3, 'When designing a pump system it is important to consider the pump\'s net positive suction head required (NPSHR). A general design criteria is that the net positive suction head available (NPSHA) exceeds the NPSHR by at least 25% over the expected range of operating flow rates.', '', '', 0, 0, '2020-08-20 00:48:42', 1),
 (4708, 125, 0, 0, 20, '', 'https://www.pumpsandsystems.com/understanding-pump-curves', 'Sample Pump Curve', 0, 0, '2020-08-20 00:52:21', 0),
 (4709, 125, 0, 0, 20, '', 'https://www.pumpsandsystems.com/understanding-pump-curves', 'Sample Pump and System Curve', 0, 0, '2020-08-20 00:52:21', 0),
-(4710, 125, 0, 0, 20, '', 'https://fluidcontrolproducts.net/catolog/pumps/centrifugal-pumps/cpvc-price-pump-open-box/', 'Sample Pump Nameplate', 0, 0, '2020-08-20 00:52:21', 0);
+(4710, 125, 0, 0, 20, '', 'https://fluidcontrolproducts.net/catolog/pumps/centrifugal-pumps/cpvc-price-pump-open-box/', 'Sample Pump Nameplate', 0, 0, '2020-08-20 00:52:21', 0),
+(4711, 178, 0, 0, 7, 'Install pressure gauges on all pump outlets for a key indicator of system performance.', '', '', 0, 0, '2020-08-20 22:33:47', 1),
+(4712, 178, 0, 0, 7, 'Install a pressure gage at the inlets of pumps not drawing from a local reservoir for a 2nd key indicator of system performance', '', '', 1, 0, '2020-08-20 22:33:47', 1),
+(4713, 178, 0, 0, 7, 'Install flow meters on high operating cost pumps or banks of pumps for a 3rd key indicator of system performance', '', '', 1, 0, '2020-08-20 22:33:47', 1),
+(4714, 178, 0, 1, 8, 'Consider needs of temporary ultrasonic flow meters for pump installations that will not include an in-line flow meter. ', '', '', 1, 0, '2020-08-20 22:33:47', 1),
+(4715, 178, 0, 0, 7, 'Operate pumps between 85% and 110% of their best efficiency point (BEP)', '', '', 0, 0, '2020-08-20 22:33:47', 1),
+(4716, 178, 0, 0, 7, 'Use VFD control if the pump operates at multiple flow conditions, particularly for looped flow circuits.', '', '', 0, 0, '2020-08-20 22:33:47', 1),
+(4717, 178, 0, 1, 4, 'For high static head conditions (pumping to high pressure vessel or high elevation tank) take care in evaluating pump operation with VFD control.  Pumps can be forced into low efficiency, high wear conditions with inappropriate high static head VFD control.', '', '', 1, 0, '2020-08-20 22:33:47', 1),
+(4718, 178, 0, 0, 17, 'Comprehensive list of pump selection, installation, and operation best practices.', 'http://www.flowserve.com/sites/default/files/2016-07/pss-10-13.5-e.pdf', 'Flowserve: Best Practices for ANSI Pumps', 1, 0, '2020-08-20 22:33:47', 1),
+(4735, 82, 0, 0, 11, 'Replace Valve Control with Variable Speed Drive Control', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4736, 82, 0, 1, 13, 'Pumps are often designed to operate at specific conditions, installing a Variable Speed Drive can allow the pump to supply a wider range of flows while remaining near it\'s best efficiency point', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4737, 82, 0, 1, 10, 'Pumps throttled or supplying excess fluid to a process', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4738, 82, 0, 1, 8, 'Pumps operating over a range of flow conditions may be particularly suited for VFD control', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4739, 82, 0, 1, 14, 'Would a resized pump or impeller trim be more suitable for the application?', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4740, 82, 0, 1, 1, 'Allows efficient operation over wider range of flow conditions', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4741, 82, 0, 1, 2, 'VFDs are expensive - becoming more affordable in recent years', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4742, 82, 0, 1, 4, 'Networks with multiple pumps operating in parallel or series need to be carefully considered before recommending VFD control', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4743, 82, 0, 1, 4, 'For high static head conditions (pumping to high pressure vessel or high elevation tank) take care in evaluating pump operation with VFD control.  Pumps can be forced into low efficiency, high wear conditions with inappropriate high static head VFD control.', '', '', 1, 0, '2020-08-20 22:38:49', 0),
+(4744, 82, 0, 1, 4, 'VFDs can harm the motor if they are not properly installed', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4745, 82, 0, 1, 7, 'Install grounding shaft to divert VFD induced voltages away from the motor', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4746, 82, 0, 1, 15, 'Pump nameplate/motor nameplate', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4747, 82, 0, 1, 15, 'Flow rates, pressure readings, live amperage data', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4748, 82, 0, 1, 17, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.app.box.com/file/606303033065', 'Analysis Template: Install VFDs on Process Pumps', 2, 0, '2020-08-20 22:38:49', 0),
+(4749, 82, 0, 0, 11, 'Eliminate Bypass Control', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4750, 82, 0, 0, 11, 'Replace On/Off Control with Continuous Flow Control ', '', '', 0, 0, '2020-08-20 22:38:49', 0);
 
 -- --------------------------------------------------------
 
@@ -1985,7 +1995,8 @@ ALTER TABLE `Requests`
 -- Indexes for table `Request_Comments`
 --
 ALTER TABLE `Request_Comments`
-  ADD PRIMARY KEY (`commentId`);
+  ADD PRIMARY KEY (`commentId`),
+  ADD KEY `comment_request_fk` (`requestId`);
 
 --
 -- Indexes for table `Request_Objects`
@@ -2069,7 +2080,7 @@ ALTER TABLE `Headers`
 -- AUTO_INCREMENT for table `History_Cards`
 --
 ALTER TABLE `History_Cards`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `History_Headers`
@@ -2081,7 +2092,7 @@ ALTER TABLE `History_Headers`
 -- AUTO_INCREMENT for table `History_Items`
 --
 ALTER TABLE `History_Items`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=640;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=648;
 
 --
 -- AUTO_INCREMENT for table `History_Pages`
@@ -2099,7 +2110,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4711;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4751;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -2193,6 +2204,12 @@ ALTER TABLE `Items`
 ALTER TABLE `Pages`
   ADD CONSTRAINT `category_fk` FOREIGN KEY (`pageType`) REFERENCES `Categories` (`categoryId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_page_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
+
+--
+-- Constraints for table `Request_Comments`
+--
+ALTER TABLE `Request_Comments`
+  ADD CONSTRAINT `comment_request_fk` FOREIGN KEY (`requestId`) REFERENCES `Requests` (`requestId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Request_Objects`
