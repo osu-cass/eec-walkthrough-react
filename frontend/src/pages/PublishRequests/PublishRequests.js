@@ -112,8 +112,8 @@ function PublishRequests() {
       ) : (
         <div className="table-container">
           <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
-            <h3 className="py-5 font-weight-bold">No publish requests awaiting review</h3>
-            <h5 className="py-5 font-weight-bold">Would you like to create a request?</h5>
+            <h3 className="py-2 font-weight-bold">No publish requests awaiting review</h3>
+            <h5 className="py-1 font-weight-bold">Would you like to create a request?</h5>
             <CreateRequest />
           </div>
         </div>

@@ -2,6 +2,7 @@ import React, {useEffect, useState, Fragment} from "react";
 import {Card} from "react-bootstrap";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import RequestComment from "./RequestComment";
+import RequestSubmitComment from "./RequestSubmitComment";
 import {logout} from "../../utilities/cookieAuth";
 import ReportPage from "../ViewHistory/ReportPage";
 import ReportHeader from "../ViewHistory/ReportHeader";
@@ -40,7 +41,6 @@ function RequestPage() {
     if (results.ok) {
 
       const obj = await results.json();
-      console.log(obj)
       setRequest(obj);
 
     } else {
@@ -79,6 +79,8 @@ function RequestPage() {
         status={request.status}
         initial={true}
       />
+
+      <RequestSubmitComment />
 
       <Card className="request-card-main my-2 shadow-sm">
         <Card.Header

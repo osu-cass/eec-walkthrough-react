@@ -327,5 +327,5 @@ export default ConstructRequestModal;
 
 ConstructRequestModal.propTypes = {
   handleClose: PropTypes.func,
-  show: PropTypes.bool,
+  show: PropTypes.bool
 };
