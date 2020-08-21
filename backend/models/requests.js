@@ -605,3 +605,48 @@ async function createComment(requestId, comment, status, userId) {
 
 }
 exports.createComment = createComment;
+
+
+// delete a request
+async function deleteRequest(requestId, userId, admin) {
+
+  try {
+
+    // check to see if the request exists
+    let sql = "SELECT * " +
+      "FROM Requests " +
+      "WHERE requestId = ?;";
+    let results = await pool.query(sql, requestId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // if the current user is not an admin,
+    // make sure their user ID matches the user who created the request
+    if (!admin) {
+      if (results[0][0].userId !== userId)
+      {
+        return {error: 2};
+      }
+    }
+
+    // delete the request
+    sql = "DELETE " +
+      "FROM Requests " +
+      "WHERE requestId = ?;";
+    results = await pool.query(sql, requestId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error closing request");
+    throw Error(err);
+  }
+
+}
+exports.deleteRequest = deleteRequest;
