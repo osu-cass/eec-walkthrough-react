@@ -414,7 +414,7 @@ exports.getSelection = getSelection;
 
 
 // create a request
-async function createRequest(title, description, objects, user) {
+async function createRequest(title, description, objects, userId) {
 
   try {
 
@@ -536,7 +536,7 @@ async function createRequest(title, description, objects, user) {
     // create the new request
     let sql = "INSERT INTO Requests (title, description, status, userId) " +
     "VALUES (?, ?, 1, ?);";
-    let results = await pool.query(sql, [title, description, user]);
+    let results = await pool.query(sql, [title, description, userId]);
 
     const insertId = results[0].insertId;
 
@@ -560,3 +560,38 @@ async function createRequest(title, description, objects, user) {
 
 }
 exports.createRequest = createRequest;
+
+
+// create a comment
+async function createComment(requestId, comment, status, userId) {
+
+  try {
+
+    // make sure the request exists
+    let sql = "SELECT * " +
+    "FROM Requests " +
+    "WHERE requestId = ?;";
+    let results = await pool.query(sql, requestId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // create the comment
+    sql = "INSERT INTO Request_Comments (requestId, comment, review, userId) " +
+    "VALUES (?, ?, ?, ?);";
+    results = await pool.query(sql, [requestId, comment, status, userId]);
+
+    const finalResults = {
+      insertId: results[0].insertId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error creating comment");
+    throw Error(err);
+  }
+
+}
+exports.createComment = createComment;
