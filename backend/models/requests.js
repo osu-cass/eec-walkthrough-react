@@ -2,6 +2,9 @@
 // Description: Provides functions for working with requests
 
 const {pool} = require("../services/database/mysqlPool");
+const {publishPage} = require("./pages");
+const {publishHeader} = require("./headers");
+const {publishCard} = require("./cards");
 
 
 // return a list of all requests
@@ -650,3 +653,134 @@ async function deleteRequest(requestId, userId, admin) {
 
 }
 exports.deleteRequest = deleteRequest;
+
+
+// approve a publish request
+async function approveRequest(requestId) {
+
+  try {
+
+    let objectsApproved = 0;
+
+    // check to see if the request exists and has objects
+    let sql = "SELECT * " +
+      "FROM Request_Objects " +
+      "WHERE requestId = ?;";
+    let results = await pool.query(sql, requestId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const objects = results[0];
+
+    // see if each object exists and is ready to publish
+    for (let i = 0; i < objects.length; i++) {
+
+      const object = {};
+
+      // if we are looking at a page...
+      if (objects[i].objectType === 1) {
+
+        let sql = "SELECT * " +
+        "FROM Pages " +
+        "WHERE pageId = ? " +
+        "AND approved = 0;";
+        let results = await pool.query(sql, objects[i].objectId);
+
+        if (!results[0].length) {
+
+          let sql = "SELECT * " +
+          "FROM Temp_Pages " +
+          "WHERE tempPageId = ?;";
+          let results = await pool.query(sql, objects[i].objectId);
+
+          if (results[0].length) {
+            publishPage(objects[i].objectId);
+            objectsApproved++;
+          }
+
+        } else {
+          publishPage(objects[i].objectId);
+          objectsApproved++;
+        }
+        continue;
+      }
+
+      // if we are looking at a header...
+      if (objects[i].objectType === 2) {
+
+        let sql = "SELECT * " +
+        "FROM Headers " +
+        "WHERE headerId = ? " +
+        "AND approved = 0;";
+        let results = await pool.query(sql, objects[i].objectId);
+
+        if (!results[0].length) {
+
+          let sql = "SELECT * " +
+          "FROM Temp_Headers " +
+          "WHERE tempHeaderId = ?;";
+          let results = await pool.query(sql, objects[i].objectId);
+
+          if (results[0].length) {
+            publishHeader(objects[i].objectId);
+            objectsApproved++;
+          }
+
+        } else {
+          publishHeader(objects[i].objectId);
+          objectsApproved++;
+        }
+        continue;
+      }
+
+      // If we are looking at a card...
+      if (objects[i].objectType === 3) {
+
+        let sql = "SELECT * " +
+        "FROM Cards " +
+        "WHERE cardId = ? " +
+        "AND approved = 0;";
+        let results = await pool.query(sql, objects[i].objectId);
+
+        if (!results[0].length) {
+
+          let sql = "SELECT * " +
+          "FROM Temp_Cards " +
+          "WHERE tempCardId = ?;";
+          let results = await pool.query(sql, objects[i].objectId);
+
+          if (results[0].length) {
+            publishCard(objects[i].objectId);
+            objectsApproved++;
+          }
+
+        } else {
+          publishCard(objects[i].objectId);
+          objectsApproved++;
+        }
+
+      }
+
+    }
+
+    // close the publish request
+    sql = "DELETE " +
+    "FROM Requests " +
+    "WHERE requestId = ?;";
+    results = await pool.query(sql, requestId);
+
+    const finalResults = {
+      objectsApproved: objectsApproved
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error approving request");
+    throw Error(err);
+  }
+
+}
+exports.approveRequest = approveRequest;
