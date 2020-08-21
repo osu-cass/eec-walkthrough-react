@@ -22,7 +22,8 @@ function RequestPage() {
     created: null,
     username: "",
     userId: 0,
-    objects: []
+    objects: [],
+    comments: []
   });
   const {requestId} = useParams();
 
@@ -80,6 +81,17 @@ function RequestPage() {
         status={request.status}
         initial={true}
       />
+
+      {request.comments.map((comment, i) =>
+        <RequestComment
+          key={comment.commentId}
+          created={comment.created}
+          username={comment.username}
+          description={comment.comment}
+          status={comment.review}
+          initial={false}
+        />
+      )}
 
       <RequestSubmitComment
         requestId={parseInt(requestId, 10)}
