@@ -347,7 +347,7 @@ function ReviewHeader(props) {
                     >
                       Delete Changes
                     </Button>
-                    <AddReviewObject 
+                    <AddReviewObject
                       objectType={2}
                       objectId={props.header.headerId}
                     />
@@ -390,7 +390,7 @@ function ReviewHeader(props) {
                   >
                     Delete Changes
                   </Button>
-                  <AddReviewObject 
+                  <AddReviewObject
                     objectType={2}
                     objectId={props.header.headerId}
                   />

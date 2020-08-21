@@ -24,12 +24,12 @@ function RequestComment(props) {
         )}
         {!props.initial && props.status === 0 ? (
           <Fragment>
-          <span>{" commented"}</span>
-          <i
-            className="request-icon-comment fas fa-commenting ml-3"
-            style={{transform: "scale(1.5)"}}
-          />
-        </Fragment>
+            <span>{" commented"}</span>
+            <i
+              className="request-icon-comment fas fa-commenting ml-3"
+              style={{transform: "scale(1.5)"}}
+            />
+          </Fragment>
         ) : (
           null
         )}

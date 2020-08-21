@@ -18,7 +18,7 @@ function RequestSubmitComment(props) {
 
   useEffect(() => {
     setErrorMessage("");
-  }, [comment, status])
+  }, [comment, status]);
 
   async function submitComment(commentText, statusVal) {
     // Check for empty inputs

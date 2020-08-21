@@ -13,7 +13,7 @@ async function getRequests() {
   try {
 
     // get all external published links
-    let sql = "SELECT Requests.*, username " +
+    const sql = "SELECT Requests.*, username " +
     "FROM Requests " +
     "LEFT JOIN Users on Requests.userId = Users.userId " +
     "WHERE status = 1 " +
@@ -214,7 +214,7 @@ async function getRequest(requestId) {
             "AND approved = 0 " +
             "ORDER BY orderIndex ASC, itemId ASC";
             results = await pool.query(sql, objects[i].objectId);
-            
+
             if (results[0].length) {
               card.items = results[0];
             }
@@ -314,21 +314,21 @@ async function getSelection(objects) {
         object.key = objects[i].objectId + "P";
 
         // get the objects name
-        let sql = "SELECT name " +
+        const sql = "SELECT name " +
         "FROM Pages " +
         "WHERE pageId = ? " +
         "AND approved = 0;";
-        let results = await pool.query(sql, objects[i].objectId);
+        const results = await pool.query(sql, objects[i].objectId);
 
         // Check to see if we were able to find the object.
         // If we were, then we add it to the array.
         // If we were not able to find it, then search in the temp objects.
         if (!results[0].length) {
 
-          let sql = "SELECT tempName AS name " +
+          const sql = "SELECT tempName AS name " +
           "FROM Temp_Pages " +
           "WHERE tempPageId = ?;";
-          let results = await pool.query(sql, objects[i].objectId);
+          const results = await pool.query(sql, objects[i].objectId);
 
           if (results[0].length) {
             object.objectName = results[0][0].name;
@@ -348,21 +348,21 @@ async function getSelection(objects) {
         object.key = objects[i].objectId + "H";
 
         // get the objects name
-        let sql = "SELECT title AS name " +
+        const sql = "SELECT title AS name " +
         "FROM Headers " +
         "WHERE headerId = ? " +
         "AND approved = 0;";
-        let results = await pool.query(sql, objects[i].objectId);
+        const results = await pool.query(sql, objects[i].objectId);
 
         // Check to see if we were able to find the object.
         // If we were, then we add it to the array.
         // If we were not able to find it, then search in the temp objects.
         if (!results[0].length) {
 
-          let sql = "SELECT tempTitle AS name " +
+          const sql = "SELECT tempTitle AS name " +
           "FROM Temp_Headers " +
           "WHERE tempHeaderId = ?;";
-          let results = await pool.query(sql, objects[i].objectId);
+          const results = await pool.query(sql, objects[i].objectId);
 
           if (results[0].length) {
             object.objectName = results[0][0].name;
@@ -382,21 +382,21 @@ async function getSelection(objects) {
         object.key = objects[i].objectId + "C";
 
         // get the objects name
-        let sql = "SELECT title AS name " +
+        const sql = "SELECT title AS name " +
         "FROM Cards " +
         "WHERE cardId = ? " +
         "AND approved = 0;";
-        let results = await pool.query(sql, objects[i].objectId);
+        const results = await pool.query(sql, objects[i].objectId);
 
         // Check to see if we were able to find the object.
         // If we were, then we add it to the array.
         // If we were not able to find it, then search in the temp objects.
         if (!results[0].length) {
 
-          let sql = "SELECT tempTitle AS name " +
+          const sql = "SELECT tempTitle AS name " +
           "FROM Temp_Cards " +
           "WHERE tempCardId = ?;";
-          let results = await pool.query(sql, objects[i].objectId);
+          const results = await pool.query(sql, objects[i].objectId);
 
           if (results[0].length) {
             object.objectName = results[0][0].name;
@@ -411,11 +411,11 @@ async function getSelection(objects) {
 
     }
 
-      const finalResults = {
-        objects: newObjects
-      };
+    const finalResults = {
+      objects: newObjects
+    };
 
-      return finalResults;
+    return finalResults;
 
   } catch (err) {
     console.error("Error searching for request");
@@ -433,18 +433,18 @@ async function createRequest(title, description, objects, userId) {
 
     const idArray = [];
     let filteredObjects = [];
-    let finalObjects = [];
+    const finalObjects = [];
 
     // make sure all objects in the array are valid
     for (let i = 0; i < objects.length; i++) {
-      if ((objects[i].objectType !== 1 && objects[i].objectType !== 2 && 
+      if ((objects[i].objectType !== 1 && objects[i].objectType !== 2 &&
           objects[i].objectType !== 3) || !Number.isInteger(parseInt(objects[i].objectId, 10))) {
         return {error: 1};
       } else {
         const object = {
           objectType: objects[i].objectType,
           objectId: Math.abs(parseInt(objects[i].objectId, 10))
-        }
+        };
         filteredObjects.push(object);
       }
     }
@@ -462,18 +462,18 @@ async function createRequest(title, description, objects, userId) {
       if (filteredObjects[i].objectType === 1) {
 
         // see if the object exists
-        let sql = "SELECT * " +
+        const sql = "SELECT * " +
         "FROM Pages " +
         "WHERE pageId = ? " +
         "AND approved = 0;";
-        let results = await pool.query(sql, filteredObjects[i].objectId);
+        const results = await pool.query(sql, filteredObjects[i].objectId);
 
         if (!results[0].length) {
 
-          let sql = "SELECT * " +
+          const sql = "SELECT * " +
           "FROM Temp_Pages " +
           "WHERE tempPageId = ?;";
-          let results = await pool.query(sql, filteredObjects[i].objectId);
+          const results = await pool.query(sql, filteredObjects[i].objectId);
 
           if (results[0].length) {
             finalObjects.push(filteredObjects[i]);
@@ -489,18 +489,18 @@ async function createRequest(title, description, objects, userId) {
       if (filteredObjects[i].objectType === 2) {
 
         // see if the object exists
-        let sql = "SELECT * " +
+        const sql = "SELECT * " +
         "FROM Headers " +
         "WHERE headerId = ? " +
         "AND approved = 0;";
-        let results = await pool.query(sql, filteredObjects[i].objectId);
+        const results = await pool.query(sql, filteredObjects[i].objectId);
 
         if (!results[0].length) {
 
-          let sql = "SELECT * " +
+          const sql = "SELECT * " +
           "FROM Temp_Headers " +
           "WHERE tempHeaderId = ?;";
-          let results = await pool.query(sql, filteredObjects[i].objectId);
+          const results = await pool.query(sql, filteredObjects[i].objectId);
 
           if (results[0].length) {
             finalObjects.push(filteredObjects[i]);
@@ -516,18 +516,18 @@ async function createRequest(title, description, objects, userId) {
       if (filteredObjects[i].objectType === 3) {
 
         // see if the object exists
-        let sql = "SELECT * " +
+        const sql = "SELECT * " +
         "FROM Cards " +
         "WHERE cardId = ? " +
         "AND approved = 0;";
-        let results = await pool.query(sql, filteredObjects[i].objectId);
+        const results = await pool.query(sql, filteredObjects[i].objectId);
 
         if (!results[0].length) {
 
-          let sql = "SELECT * " +
+          const sql = "SELECT * " +
           "FROM Temp_Cards " +
           "WHERE tempCardId = ?;";
-          let results = await pool.query(sql, filteredObjects[i].objectId);
+          const results = await pool.query(sql, filteredObjects[i].objectId);
 
           if (results[0].length) {
             finalObjects.push(filteredObjects[i]);
@@ -628,8 +628,7 @@ async function deleteRequest(requestId, userId, admin) {
     // if the current user is not an admin,
     // make sure their user ID matches the user who created the request
     if (!admin) {
-      if (results[0][0].userId !== userId)
-      {
+      if (results[0][0].userId !== userId) {
         return {error: 2};
       }
     }
@@ -677,23 +676,21 @@ async function approveRequest(requestId) {
     // see if each object exists and is ready to publish
     for (let i = 0; i < objects.length; i++) {
 
-      const object = {};
-
       // if we are looking at a page...
       if (objects[i].objectType === 1) {
 
-        let sql = "SELECT * " +
+        const sql = "SELECT * " +
         "FROM Pages " +
         "WHERE pageId = ? " +
         "AND approved = 0;";
-        let results = await pool.query(sql, objects[i].objectId);
+        const results = await pool.query(sql, objects[i].objectId);
 
         if (!results[0].length) {
 
-          let sql = "SELECT * " +
+          const sql = "SELECT * " +
           "FROM Temp_Pages " +
           "WHERE tempPageId = ?;";
-          let results = await pool.query(sql, objects[i].objectId);
+          const results = await pool.query(sql, objects[i].objectId);
 
           if (results[0].length) {
             publishPage(objects[i].objectId);
@@ -710,18 +707,18 @@ async function approveRequest(requestId) {
       // if we are looking at a header...
       if (objects[i].objectType === 2) {
 
-        let sql = "SELECT * " +
+        const sql = "SELECT * " +
         "FROM Headers " +
         "WHERE headerId = ? " +
         "AND approved = 0;";
-        let results = await pool.query(sql, objects[i].objectId);
+        const results = await pool.query(sql, objects[i].objectId);
 
         if (!results[0].length) {
 
-          let sql = "SELECT * " +
+          const sql = "SELECT * " +
           "FROM Temp_Headers " +
           "WHERE tempHeaderId = ?;";
-          let results = await pool.query(sql, objects[i].objectId);
+          const results = await pool.query(sql, objects[i].objectId);
 
           if (results[0].length) {
             publishHeader(objects[i].objectId);
@@ -738,18 +735,18 @@ async function approveRequest(requestId) {
       // If we are looking at a card...
       if (objects[i].objectType === 3) {
 
-        let sql = "SELECT * " +
+        const sql = "SELECT * " +
         "FROM Cards " +
         "WHERE cardId = ? " +
         "AND approved = 0;";
-        let results = await pool.query(sql, objects[i].objectId);
+        const results = await pool.query(sql, objects[i].objectId);
 
         if (!results[0].length) {
 
-          let sql = "SELECT * " +
+          const sql = "SELECT * " +
           "FROM Temp_Cards " +
           "WHERE tempCardId = ?;";
-          let results = await pool.query(sql, objects[i].objectId);
+          const results = await pool.query(sql, objects[i].objectId);
 
           if (results[0].length) {
             publishCard(objects[i].objectId);
