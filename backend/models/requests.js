@@ -53,6 +53,16 @@ async function getRequest(requestId) {
       return {requestId: 0};
     }
 
+    // get all of the comments for the request
+    sql = "SELECT RC.*, username " +
+    "FROM Request_Comments AS RC " +
+    "LEFT JOIN Users on RC.userId = Users.userId " +
+    "WHERE requestId = ? " +
+    "ORDER BY RC.created ASC;";
+    results = await pool.query(sql, requestId);
+
+    finalResults.comments = results[0];
+
     // get all object for the request
     sql = "SELECT * " +
     "FROM Request_Objects " +
