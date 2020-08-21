@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 17, 2020 at 07:19 PM
+-- Generation Time: Aug 20, 2020 at 03:14 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -58,7 +58,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (75, 1, 0, 75, 'U.S. Department of Energy Tip Sheets', 42, '2020-06-30 06:38:25', 1),
 (76, 1, 0, 76, 'General Off Site Resource Links', 51, '2020-06-29 20:51:39', 1),
 (77, 2, 0, 77, 'Improve Compressor Efficiency', 58, '2020-08-17 18:00:21', 1),
-(81, 29, 0, 81, 'Pros', 51, '2020-07-01 18:14:32', 0),
+(81, 29, 0, 81, 'Pros', 51, '2020-07-01 18:14:32', 1),
 (82, 30, 0, 82, 'Use More Efficient Pump Control', 55, '2020-07-01 18:19:29', 0),
 (83, 30, 0, 83, 'Reduce Flow Required', 51, '2020-07-01 21:21:37', 0),
 (84, 30, 0, 84, 'Reduce Head Required', 51, '2020-07-01 21:28:45', 0),
@@ -98,11 +98,11 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (118, 28, 0, 118, 'Motor Controls', 56, '2020-07-03 00:08:01', 1),
 (119, 28, 0, 119, 'Turn of Motors (Consider Load Shedding)', 51, '2020-07-07 23:38:14', 1),
 (120, 28, 0, 120, 'Power Quality', 56, '2020-07-03 00:19:36', 1),
-(122, 29, 0, 122, 'Cons', 57, '2020-07-07 17:54:57', 0),
-(123, 29, 0, 123, 'General Off Site Resource Links', 55, '2020-07-07 18:00:00', 0),
-(124, 29, 0, 124, 'U.S. Department of Energy Tip Sheets', 55, '2020-07-07 20:31:56', 0),
-(125, 29, 0, 125, 'Figures, Charts, and Tables', 55, '2020-07-07 20:33:57', 0),
-(126, 37, 0, 126, 'Common Technologies Used in Wastewater (covered elsewhere in this guide)', 51, '2020-07-07 20:57:07', 0),
+(122, 29, 0, 122, 'Cons', 55, '2020-07-07 17:54:57', 1),
+(123, 29, 0, 123, 'General Off Site Resource Links', 55, '2020-07-07 18:00:00', 1),
+(124, 29, 0, 124, 'U.S. Department of Energy Tip Sheets', 55, '2020-07-07 20:31:56', 1),
+(125, 29, 10, 125, 'Figures, Charts, and Tables', 51, '2020-07-07 20:33:57', 0),
+(126, 37, 0, 126, 'Common Technologies Used in Wastewater (covered elsewhere in this guide)', 51, '2020-07-07 20:57:07', 1),
 (129, 40, 0, 129, 'Heat Exchangers', 58, '2020-07-10 18:20:49', 0),
 (130, 40, 0, 130, 'Insulation', 55, '2020-07-10 18:36:22', 0),
 (131, 40, 0, 131, 'Cooling Towers', 55, '2020-07-10 18:45:42', 0),
@@ -125,8 +125,8 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (158, 47, 10, 6, 'Develop a List of Potential Opportunities to Study', 51, '2020-08-06 23:09:57', 1),
 (161, 47, 10, 3, 'Preliminary Research', 51, '2020-08-06 23:47:20', 1),
 (162, 47, 10, 162, 'Arrange a Client Guided Remote Tour by Phone.', 51, '2020-08-06 22:36:25', 1),
-(163, 38, 0, 163, 'Efficient Aeration', 51, '2020-08-06 22:27:59', 0),
-(164, 36, 0, 164, 'Additional in Depth Site Resources', 51, '2020-08-06 22:32:54', 0),
+(163, 38, 0, 163, 'Efficient Aeration', 51, '2020-08-06 22:27:59', 1),
+(164, 36, 0, 164, 'Additional in Depth Site Resources', 51, '2020-08-06 22:32:54', 1),
 (165, 47, 0, 165, 'Next Step?......', 51, '2020-08-06 22:36:00', 0),
 (166, 48, 0, 166, 'Reduce Bottleneck', 62, '2020-08-10 21:04:25', 0),
 (168, 50, 0, 168, 'Pros', 62, '2020-08-12 21:45:00', 0),
@@ -136,8 +136,13 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (172, 50, 0, 172, 'How to estimate facility efficiency (D-score)', 62, '2020-08-12 23:14:40', 0),
 (173, 50, 0, 173, 'Methodologies for creating new layouts', 62, '2020-08-14 21:00:05', 0),
 (174, 50, 0, 174, 'Systematic Layout Planning (SLP)', 62, '2020-08-14 21:43:28', 0),
-(175, 38, 0, 175, 'Anaerobic Digestion', 51, '2020-08-17 18:11:37', 0),
-(176, 38, 0, 176, 'Other Opportunities', 51, '2020-08-17 18:16:44', 0);
+(175, 38, 0, 175, 'Anaerobic Digestion', 51, '2020-08-17 18:11:37', 1),
+(176, 38, 0, 176, 'Other Opportunities', 51, '2020-08-17 18:16:44', 1),
+(178, 29, 0, 178, 'Best Practices', 51, '2020-08-18 20:59:31', 1),
+(179, 29, 0, 179, 'Standard Data to Collect', 55, '2020-08-18 21:05:04', 0),
+(180, 29, 0, 180, 'Rules of Thumb', 51, '2020-08-18 21:05:56', 1),
+(182, 29, 0, 182, 'Caveats', 55, '2020-08-18 21:38:09', 1),
+(183, 29, 0, 183, 'Gallery: Pump Types etc.', 55, '2020-08-19 21:46:41', 0);
 
 -- --------------------------------------------------------
 
@@ -180,6 +185,70 @@ CREATE TABLE `Filters` (
   `iconId` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `Filters`
+--
+
+INSERT INTO `Filters` (`filterId`, `viewId`, `headerId`, `iconId`) VALUES
+(102, 10, 1, 21),
+(103, 10, 1, 27),
+(104, 10, 1, 7),
+(105, 10, 1, 9),
+(106, 10, 1, 26),
+(107, 10, 1, 4),
+(108, 10, 1, 5),
+(109, 10, 1, 2),
+(110, 10, 1, 15),
+(111, 10, 1, 17),
+(112, 10, 1, 28),
+(113, 10, 1, 6),
+(114, 10, 1, 19),
+(115, 10, 1, 20),
+(116, 10, 1, 16),
+(117, 10, 1, 24),
+(118, 10, 1, 18),
+(119, 10, 1, 11),
+(120, 10, 1, 13),
+(121, 10, 1, 10),
+(122, 10, 1, 1),
+(123, 10, 1, 14),
+(124, 10, 1, 3),
+(125, 10, 1, 22),
+(126, 10, 1, 12),
+(127, 10, 1, 8),
+(128, 10, 1, 25),
+(129, 10, 1, 23),
+(130, 10, 2, 0),
+(131, 11, 1, 21),
+(132, 11, 1, 27),
+(133, 11, 1, 7),
+(134, 11, 1, 9),
+(135, 11, 1, 26),
+(136, 11, 1, 4),
+(137, 11, 1, 5),
+(138, 11, 1, 2),
+(139, 11, 1, 15),
+(140, 11, 1, 17),
+(141, 11, 1, 28),
+(142, 11, 1, 6),
+(143, 11, 1, 19),
+(144, 11, 1, 20),
+(145, 11, 1, 16),
+(146, 11, 1, 24),
+(147, 11, 1, 18),
+(148, 11, 1, 11),
+(149, 11, 1, 13),
+(150, 11, 1, 10),
+(151, 11, 1, 1),
+(152, 11, 1, 14),
+(153, 11, 1, 3),
+(154, 11, 1, 22),
+(155, 11, 1, 12),
+(156, 11, 1, 8),
+(157, 11, 1, 25),
+(158, 11, 1, 23),
+(159, 11, 2, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -205,15 +274,15 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (1, 2, 1, 'Compressed Air Overview', 0, 51, '2020-07-01 18:19:56', 1),
 (2, 2, 2, 'Compressed Air Opportunities to Consider', 0, 51, '2020-05-22 21:22:38', 1),
 (28, 44, 33, 'Motor Opportunities to Consider', 0, 56, '2020-06-29 23:07:40', 1),
-(29, 45, 29, 'Pumps Overview', 0, 51, '2020-07-01 18:13:15', 0),
+(29, 45, 29, 'Pumps Overview', 0, 51, '2020-08-20 00:24:59', 1),
 (30, 45, 30, 'Pumping Opportunities to Consider', 0, 51, '2020-07-01 18:15:04', 0),
 (31, 46, 31, 'Boilers and Steam Overview', 0, 56, '2020-07-02 19:43:04', 1),
 (32, 46, 32, 'Boiler and Steam System Opportunities to Consider', 0, 56, '2020-07-02 21:40:38', 1),
 (33, 44, 28, 'Motors Overview', 0, 56, '2020-07-02 23:12:01', 1),
 (34, 47, 1, 'Thermal Systems Overview', 0, 58, '2020-07-03 03:41:29', 0),
-(36, 50, 1, 'Wastewater Overview', 0, 51, '2020-07-07 20:49:35', 0),
-(37, 50, 3, 'Wastewater Technologies to Consider', 0, 51, '2020-07-07 20:50:10', 0),
-(38, 50, 2, 'Wastewater Opportunities to Consider', 0, 51, '2020-07-07 20:52:27', 0),
+(36, 50, 1, 'Wastewater Overview', 0, 51, '2020-08-20 00:22:34', 1),
+(37, 50, 3, 'Wastewater Technologies to Consider', 0, 51, '2020-08-20 00:23:09', 1),
+(38, 50, 2, 'Wastewater Opportunities to Consider', 0, 51, '2020-08-20 00:22:49', 1),
 (40, 47, 2, 'Thermal Systems Opportunities to Consider', 0, 58, '2020-07-10 17:59:49', 0),
 (41, 48, 41, 'Refrigeration Overview', 0, 58, '2020-07-20 21:19:45', 0),
 (47, 54, 47, 'Assessment Steps', 1, 51, '2020-08-05 19:56:29', 1),
@@ -315,7 +384,19 @@ INSERT INTO `History_Cards` (`historyId`, `cardId`, `headerId`, `cardType`, `tit
 (73, 157, 47, 10, 'Develop a Preliminary Energy Balance', 0, '2020-08-13 19:54:45'),
 (74, 77, 2, 0, 'Improve Compressor Efficiency', 0, '2020-08-17 18:00:21'),
 (75, 156, 47, 10, 'Hold an Initial Remote Assessment Meeting with the Client', 0, '2020-08-17 21:29:23'),
-(76, 156, 47, 10, 'Hold an Initial Remote Assessment Meeting with the Client', 0, '2020-08-17 21:30:23');
+(76, 156, 47, 10, 'Hold an Initial Remote Assessment Meeting with the Client', 0, '2020-08-17 21:30:23'),
+(77, 164, 36, 0, 'Additional in Depth Site Resources', 0, '2020-08-20 00:22:40'),
+(78, 163, 38, 0, 'Efficient Aeration', 0, '2020-08-20 00:22:54'),
+(79, 175, 38, 0, 'Anaerobic Digestion', 0, '2020-08-20 00:22:59'),
+(80, 176, 38, 0, 'Other Opportunities', 0, '2020-08-20 00:23:03'),
+(81, 126, 37, 0, 'Common Technologies Used in Wastewater (covered elsewhere in this guide)', 0, '2020-08-20 00:23:14'),
+(82, 81, 29, 0, 'Pros', 0, '2020-08-20 00:24:53'),
+(83, 122, 29, 0, 'Cons', 0, '2020-08-20 00:25:06'),
+(84, 123, 29, 0, 'General Off Site Resource Links', 0, '2020-08-20 00:25:13'),
+(85, 124, 29, 0, 'U.S. Department of Energy Tip Sheets', 0, '2020-08-20 00:25:37'),
+(86, 178, 29, 0, 'Best Practices', 0, '2020-08-20 01:00:54'),
+(87, 180, 29, 0, 'Rules of Thumb', 0, '2020-08-20 01:01:02'),
+(88, 182, 29, 0, 'Caveats', 0, '2020-08-20 01:03:50');
 
 -- --------------------------------------------------------
 
@@ -359,7 +440,11 @@ INSERT INTO `History_Headers` (`historyId`, `headerId`, `pageId`, `title`, `inte
 (33, 49, 59, 'Header Version #1', 0, 0, '2020-09-01 09:16:55'),
 (34, 49, 0, 'Header Version #2', 59, 0, '2020-09-02 09:20:03'),
 (35, 49, 59, 'Header Version #3', 0, 0, '2020-09-03 10:12:50'),
-(36, 46, 53, 'Simply a new Title @ 1', 0, 0, '2020-08-11 10:31:56');
+(36, 46, 53, 'Simply a new Title @ 1', 0, 0, '2020-08-11 10:31:56'),
+(37, 36, 50, 'Wastewater Overview', 0, 0, '2020-08-20 00:22:34'),
+(38, 38, 50, 'Wastewater Opportunities to Consider', 0, 0, '2020-08-20 00:22:49'),
+(39, 37, 50, 'Wastewater Technologies to Consider', 0, 0, '2020-08-20 00:23:09'),
+(40, 29, 45, 'Pumps Overview', 0, 0, '2020-08-20 00:24:59');
 
 -- --------------------------------------------------------
 
@@ -803,7 +888,31 @@ INSERT INTO `History_Items` (`historyId`, `parentId`, `itemId`, `cardId`, `order
 (612, 76, 4500, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, '2020-08-17 21:29:45'),
 (613, 76, 4501, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, 0, '2020-08-17 21:29:45'),
 (614, 76, 4502, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, 0, '2020-08-17 21:29:45'),
-(615, 76, 4503, 156, 0, 0, 8, 'Try to get more than one key contact at the site involved in the project. (Plant manager, Fiscal Decision Maker, Maintenance Manager, Floor Personnel, Energy Lead, etc)', '', '', 0, 0, '2020-08-17 21:29:45');
+(615, 76, 4503, 156, 0, 0, 8, 'Try to get more than one key contact at the site involved in the project. (Plant manager, Fiscal Decision Maker, Maintenance Manager, Floor Personnel, Energy Lead, etc)', '', '', 0, 0, '2020-08-17 21:29:45'),
+(616, 77, 3892, 164, 0, 0, 24, '$empty', 'https://eec.oregonstate.edu/wastewater-treatment-training-module', 'Wastewater Treatment Training', 0, 0, '2020-08-06 22:33:54'),
+(617, 78, 4118, 163, 0, 0, 11, 'Control Aeration to Hold a Minimum Dissolved Oxygen Level', '', '', 0, 0, '2020-08-06 23:36:56'),
+(618, 78, 4119, 163, 0, 0, 11, 'Replace Standard Aeration Fans with High Efficiency Turbo Blowers', '', '', 0, 0, '2020-08-06 23:36:56'),
+(619, 78, 4120, 163, 0, 0, 11, 'Improve Efficiency of Fine Bubble Diffusers', '', '', 0, 0, '2020-08-06 23:36:56'),
+(620, 79, 4444, 175, 0, 0, 11, 'Use digester gas in a dual fuel boiler', '', '', 0, 0, '2020-08-17 18:11:37'),
+(621, 79, 4445, 175, 0, 0, 11, 'Clean and concentrate digester gas for sale to natural gas utility', '', '', 0, 0, '2020-08-17 18:11:37'),
+(622, 80, 4446, 176, 0, 0, 11, 'Control UV Disinfection to minimum required', '', '', 0, 0, '2020-08-17 18:16:44'),
+(623, 81, 4447, 126, 0, 0, 17, '$empty', '/wiki/technologies/45', 'Pumps', 0, 0, '2020-08-17 20:33:44'),
+(624, 82, 733, 81, 0, 0, 1, 'Centrifugal pumps are capable of developing a wide range of flow and pressures', '', '', 0, 0, '2020-07-01 18:14:32'),
+(625, 83, 4546, 122, 0, 0, 2, 'Actual efficiency can easily vary from 50 percent to 80 percent for optimum operation of a particular pump', '', '', 0, 0, '2020-08-18 21:24:36'),
+(626, 84, 2179, 123, 0, 0, 17, 'MEASUR is open source software that consists of the following DOE legacy energy system assessment tools (updated): Pumping System Assessment Tool (PSAT), Process Heating Assessment and Survey Tool (PHAST), Fan System Assessment Tool (FSAT), Steam System Assessment Tool (SSAT)/ Steam System Modeler (SSMT), AIRMaster+ (Last accessed 12/2/2019)   ', 'https://www.energy.gov/eere/amo/measur', 'U.S. Department of Energy MEASUR analysis tool', 1, 0, '2020-07-07 18:00:00'),
+(627, 85, 4532, 124, 0, 0, 17, 'See pump tip sheets.', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, 0, '2020-08-18 21:02:19'),
+(628, 86, 4696, 178, 0, 0, 7, 'Install pressure gauges on all pump outlets for a key indicator of system performance.', '', '', 0, 0, '2020-08-20 00:42:22'),
+(629, 86, 4697, 178, 0, 0, 7, 'Install a pressure gage at the inlets of pumps not drawing from a local reservoir for a 2nd key indicator of system performance', '', '', 1, 0, '2020-08-20 00:42:22'),
+(630, 86, 4698, 178, 0, 0, 7, 'Install flow meters on high operating cost pumps or banks of pumps for a 3rd key indicator of system performance', '', '', 1, 0, '2020-08-20 00:42:22'),
+(631, 86, 4699, 178, 0, 1, 8, 'Consider needs of temporary ultrasonic flow meters for pump installations that will not include an in-line flow meter. ', '', '', 1, 0, '2020-08-20 00:42:22'),
+(632, 86, 4700, 178, 0, 0, 7, 'Operate pumps between 85% and 110% of their best efficiency point (BEP)', '', '', 0, 0, '2020-08-20 00:42:22'),
+(633, 86, 4701, 178, 0, 0, 7, 'Use VFD control if the pump operates at multiple flow conditions, particularly for looped flow circuits.', '', '', 0, 0, '2020-08-20 00:42:22'),
+(634, 86, 4702, 178, 0, 1, 4, 'For high static head conditions (pumping to high pressure vessel or high elevation tank) Take care in evaluating pump operation with VFD control.  Pumps can be forced into low efficiency, high wear conditions with inappropriate high static head VFD control.', '', '', 1, 0, '2020-08-20 00:42:22'),
+(635, 86, 4703, 178, 0, 0, 17, 'Comprehensive list of pump selection, installation, and operation best practices.', 'http://www.flowserve.com/sites/default/files/2016-07/pss-10-13.5-e.pdf', 'Flowserve: Best Practices for ANSI Pumps', 1, 0, '2020-08-20 00:57:26'),
+(636, 87, 4706, 180, 0, 0, 3, 'One PSI = 2.31 Feet of water', '', '', 0, 0, '2020-08-20 00:48:42'),
+(637, 87, 4707, 180, 0, 0, 3, 'When designing a pump system it is important to consider the pump\'s net positive suction head required (NPSHR). A general design criteria is that the net positive suction head available (NPSHA) exceeds the NPSHR by at least 25% over the expected range of operating flow rates.', '', '', 0, 0, '2020-08-20 00:48:42'),
+(638, 88, 4639, 182, 0, 0, 4, 'Improperly designed pump systems can lead to low pressures at the pump inlet which can lead to cavitation. This can seriously damage the pump and reduce its operating life.', '', '', 0, 0, '2020-08-19 21:52:48'),
+(639, 88, 4640, 182, 0, 0, 24, 'Online resource discussing how cavitation occurs and how to detect and prevent it from happening.', 'https://modernpumpingtoday.com/detecting-pump-cavitation/', 'Detecting Pump Cavitation (May be able to find a more comprehensive resource)', 1, 0, '2020-08-19 21:52:48');
 
 -- --------------------------------------------------------
 
@@ -837,7 +946,8 @@ INSERT INTO `History_Pages` (`historyId`, `pageId`, `pageType`, `name`, `title`,
 (9, 59, 2, 'zz - history', 'A page for testing history', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac aliquet ipsum, et pharetra massa. Mauris fringilla, dui eget tristique posuere, neque urna viverra nisl, ac scelerisque tortor est elementum enim. Maecenas gravida nunc a dui mattis, vestibulum mollis velit maximus. Praesent at eros leo. Sed eget accumsan magna. Nulla nec lacus sit amet velit ultricies gravida a id lectus. Cras euismod porttitor tellus rutrum ullamcorper. Ut facilisis venenatis nibh, a rhoncus orci maximus ac. Praesent fringilla faucibus lectus, at mollis nunc viverra vitae. Pellentesque id ante nec tortor feugiat vehicula.\n\nUt et nunc imperdiet nulla varius pellentesque. Maecenas congue non enim ac bibendum. Praesent eu arcu massa. Etiam eu vehicula dolor. Sed venenatis massa vitae arcu malesuada tincidunt. Cras eu elit in sapien efficitur mollis. Sed a elit ac ante hendrerit iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam interdum nibh vitae turpis euismod, ac congue diam bibendum. Donec pharetra interdum suscipit. In tempor tempor dui, non aliquet justo pretium eget. Praesent molestie magna tellus, eget auctor lectus pellentesque quis.\n\nNam lobortis massa vel tellus facilisis rhoncus. Nullam nec ante vehicula, dignissim nibh eu, euismod diam. Curabitur sem magna, elementum ac metus vitae, bibendum ultricies enim. Donec leo quam, pharetra vitae congue et, pulvinar tincidunt nulla. Nulla aliquet malesuada sem, vel fermentum purus viverra ac. Duis in lorem ac mi scelerisque ultricies eget sed libero. Donec eu tincidunt lorem, vitae volutpat eros. Proin nulla mauris, sollicitudin suscipit libero id, condimentum finibus neque. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.', 'http://placekitten.com/200/500', 1, 0, '2020-09-01 09:14:34'),
 (11, 59, 2, 'zz - history', 'A page for testing history .... this is a change', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac aliquet ipsum, et pharetra massa. Mauris fringilla, dui eget tristique posuere, neque urna viverra nisl, ac scelerisque tortor est elementum enim. a rhoncus orci maximus ac. Praesent fringilla faucibus lectus, at mollis nunc viverra vitae. Pellentesque id ante nec tortor feugiat vehicula.\n\nUt et nunc imperdiet nulla varius pellentesque. Maecenas congue non enim ac bibendum. Praesent eu arcu massa. Etiam eu vehicula dolor. Sed venenatis massa vitae arcu malesuada tincidunt. Cras eu elit in sapien efficitur mollis. Sed a elit ac ante hendrerit iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam interdum nibh vitae turpis euismod, ac congue diam bibendum. Donec pharetra interdum suscipit. In tempor tempor dui, non aliquet justo pretium eget. Praesent molestie magna tellus, eget auctor lectus pellentesque quis.\n\nNam lobortis massa vel tellus facilisis rhoncus. Nullam nec ante vehicula, dignissim nibh eu, euismod diam. Curabitur sem magna, elementum ac metus vitae, bibendum ultricies enim. Donec leo quam, pharetra vitae congue et, pulvinar tincidunt nulla. Nulla aliquet malesuada sem, vel fermentum purus viverra ac. Duis in lorem ac mi scelerisque ultricies eget sed libero. Donec eu tincidunt lorem, vitae volutpat eros. Proin nulla mauris, sollicitudin suscipit libero id, condimentum finibus neque. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.', 'http://placekitten.com/400/500', 1, 0, '2020-09-02 09:19:58'),
 (12, 59, 2, 'zz - history', 'A page for testing history .... this is a change ... one last change', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac aliquet ipsum, et pharetra massa. Mauris fringilla, dui eget tristique posuere, neque urna viverra nisl, ac scelerisque tortor est elementum enim. a rhoncus orci maximus ac. Praesent fringilla faucibus lectus, at mollis nunc viverra vitae. Pellentesque id ante nec tortor feugiat vehicula.\n\nUt et nunc imperdiet nulla varius pellentesque. Maecenas congue non enim ac bibendum. Praesent eu arcu massa. Etiam eu vehicula dolor. Sed venenatis massa vitae arcu malesuada tincidunt. Cras eu elit in sapien efficitur mollis. Sed a elit ac ante hendrerit iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam interdum nibh vitae turpis euismod, ac congue diam bibendum. Donec pharetra interdum suscipit. In tempor tempor dui, non aliquet justo pretium eget. Praesent molestie magna tellus, eget auctor lectus pellentesque quis.\n\nInteger ut fringilla arcu, posuere luctus erat. Integer maximus, ex at venenatis tristique, nisl enim suscipit augue, eu consequat magna lectus eget augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed viverra felis ligula, non volutpat nibh gravida ut. Sed sed dapibus lacus. Morbi quam tortor, blandit vel consequat vestibulum, semper quis lacus. Ut bibendum laoreet lacus, ut iaculis enim eleifend vitae. Morbi malesuada odio est, non interdum risus volutpat quis.\n\nPellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec varius non magna a commodo. Praesent dapibus eu ante ac luctus. Aliquam consequat quis dui vitae elementum. Integer vitae rhoncus massa. Suspendisse potenti. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer egestas ligula ut tellus tincidunt fringilla. Vivamus non elementum mi. Nulla arcu orci, dapibus at molestie sit amet, vehicula ut lectus.', 'http://placekitten.com/600/500', 1, 0, '2020-09-03 10:12:55'),
-(13, 53, 4, 'z - test Diff Demo', 'Basic Page Meant for Testing New Features @ 1', 'Loremem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, velel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nFusce quam eros, tincidunt vitae libero eget, tincidunt aliquam lectus. Curabitur non mi et orci semper sollicitudin. Cras dapibus malesuada accumsan. Maecenas efficitur euismod elit eu lacinia. Aliquam id sollicitudin augue. Quisque pharetra scelerisque ultrices. Curabitur dictum felis metus, vitae pulvinar quam efficitur et. Mauris accumsan cursus ante rutrum interdum. Duis scelerisque pharetra fermentum. Phasellus viverra tellus in rutrum dignissim. Sed ex augue, elementum a aliquam non, rutrum sed metus. Nulla sapien lorem, ullamcorper ut molestie ac, hendrerit ultrices odio. Nullam sit amet eleifend erat. Aenean laoreet fermentum ipsum, ut tempus magna rhoncus at. Cras vitae dolor leo.\n\nCurabitur cursus arcu elit, u scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/200/500', 1, 0, '2020-08-11 10:32:11');
+(13, 53, 4, 'z - test Diff Demo', 'Basic Page Meant for Testing New Features @ 1', 'Loremem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, velel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nFusce quam eros, tincidunt vitae libero eget, tincidunt aliquam lectus. Curabitur non mi et orci semper sollicitudin. Cras dapibus malesuada accumsan. Maecenas efficitur euismod elit eu lacinia. Aliquam id sollicitudin augue. Quisque pharetra scelerisque ultrices. Curabitur dictum felis metus, vitae pulvinar quam efficitur et. Mauris accumsan cursus ante rutrum interdum. Duis scelerisque pharetra fermentum. Phasellus viverra tellus in rutrum dignissim. Sed ex augue, elementum a aliquam non, rutrum sed metus. Nulla sapien lorem, ullamcorper ut molestie ac, hendrerit ultrices odio. Nullam sit amet eleifend erat. Aenean laoreet fermentum ipsum, ut tempus magna rhoncus at. Cras vitae dolor leo.\n\nCurabitur cursus arcu elit, u scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/200/500', 1, 0, '2020-08-11 10:32:11'),
+(14, 50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 0, '2020-08-20 00:22:00');
 
 -- --------------------------------------------------------
 
@@ -972,7 +1082,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (637, 75, 0, 0, 17, 'See compressed air tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, 0, '2020-07-01 00:33:10', 1),
 (638, 75, 0, 0, 17, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air11.pdf', 'Alternative Strategies for Low-Pressure End Uses', 1, 0, '2020-06-30 06:38:26', 1),
 (639, 75, 0, 0, 17, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air4.pdf', 'Analyzing Your Compressed Air System', 1, 0, '2020-06-30 06:38:26', 1),
-(733, 81, 0, 0, 1, 'Centrifugal pumps are capable of developing a wide range of flow and pressures', '', '', 0, 0, '2020-07-01 18:14:32', 0),
+(733, 81, 0, 0, 1, 'Centrifugal pumps are capable of developing a wide range of flow and pressures', '', '', 0, 0, '2020-07-01 18:14:32', 1),
 (779, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50066459491_bb3c3291c5_b.jpg', 'Dry sprinkler systems need compressed air', 0, 0, '2020-07-01 21:19:36', 1),
 (780, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50065906203_65746ac38f_b.jpg', 'Blow off wand and hose', 0, 0, '2020-07-01 21:19:36', 1),
 (781, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50065907458_f8a2a9a7e0_b.jpg', 'Air Motors used to mix paint can be replaced with explosion proof electric motors', 0, 0, '2020-07-01 21:19:36', 1),
@@ -1158,7 +1268,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2151, 27, 0, 0, 11, 'Replace desiccant based air dryer with a refrigerated air dryer if air drying needs permit.', '', '', 0, 0, '2020-07-07 16:17:13', 1),
 (2152, 27, 0, 0, 11, 'Use desiccant based air dryer with more efficient desiccant bed regeneration', '', '', 0, 0, '2020-07-07 16:17:13', 1),
 (2153, 27, 0, 0, 11, 'Replace pneumatic hand tools with battery powered hand tools', '', '', 0, 0, '2020-07-07 16:17:13', 1),
-(2179, 123, 0, 0, 17, 'MEASUR is open source software that consists of the following DOE legacy energy system assessment tools (updated): Pumping System Assessment Tool (PSAT), Process Heating Assessment and Survey Tool (PHAST), Fan System Assessment Tool (FSAT), Steam System Assessment Tool (SSAT)/ Steam System Modeler (SSMT), AIRMaster+ (Last accessed 12/2/2019)   ', 'https://www.energy.gov/eere/amo/measur', 'U.S. Department of Energy MEASUR analysis tool', 1, 0, '2020-07-07 18:00:00', 0),
+(2179, 123, 0, 0, 17, 'MEASUR is open source software that consists of the following DOE legacy energy system assessment tools (updated): Pumping System Assessment Tool (PSAT), Process Heating Assessment and Survey Tool (PHAST), Fan System Assessment Tool (FSAT), Steam System Assessment Tool (SSAT)/ Steam System Modeler (SSMT), AIRMaster+ (Last accessed 12/2/2019)   ', 'https://www.energy.gov/eere/amo/measur', 'U.S. Department of Energy MEASUR analysis tool', 1, 0, '2020-07-07 18:00:00', 1),
 (2210, 82, 0, 0, 11, 'Replace Valve Control with Variable Speed Drive Control', '', '', 0, 0, '2020-07-07 20:28:47', 0),
 (2211, 82, 0, 1, 13, 'Pumps are often designed to operate at specific conditions, installing a Variable Speed Drive can allow the pump to supply a wider range of flows while remaining near it\'s best efficiency point', '', '', 0, 0, '2020-07-07 20:28:47', 0),
 (2212, 82, 0, 1, 10, 'Pumps throttled or supplying excess fluid to a process', '', '', 0, 0, '2020-07-07 20:28:47', 0),
@@ -1174,10 +1284,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2222, 82, 0, 1, 17, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.app.box.com/file/606303033065', 'Analysis Template: Install VFDs on Process Pumps', 2, 0, '2020-07-07 20:28:47', 0),
 (2223, 82, 0, 0, 11, 'Eliminate Bypass Control', '', '', 0, 0, '2020-07-07 20:28:47', 0),
 (2224, 82, 0, 0, 11, 'Replace On/Off Control with Continuous Flow Control ', '', '', 0, 0, '2020-07-07 20:28:47', 0),
-(2225, 124, 0, 0, 17, 'See pump tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, 0, '2020-07-07 20:31:56', 0),
-(2227, 125, 0, 0, 20, '', 'https://www.pumpsandsystems.com/understanding-pump-curves', 'Sample Pump Curve', 0, 0, '2020-07-07 20:36:10', 0),
-(2228, 125, 0, 0, 20, '', 'https://www.pumpsandsystems.com/understanding-pump-curves', 'Sample Pump and System Curve', 0, 0, '2020-07-07 20:36:10', 0),
-(2229, 125, 0, 0, 20, '', 'https://fluidcontrolproducts.net/catolog/pumps/centrifugal-pumps/cpvc-price-pump-open-box/', 'Sample Pump Nameplate', 0, 0, '2020-07-07 20:36:10', 0),
 (2261, 119, 0, 0, 11, 'Manually reduce equipment operation time', '', '', 0, 0, '2020-07-07 23:38:14', 1),
 (2262, 119, 0, 0, 11, 'Automatically control equipment operation time', '', '', 0, 0, '2020-07-07 23:38:14', 1),
 (2263, 119, 0, 0, 11, 'Interlock equipment with a related process', '', '', 0, 0, '2020-07-07 23:38:14', 1),
@@ -1237,8 +1343,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2982, 77, 0, 1, 20, '', 'https://drive.google.com/file/d/1OV8lp9LoQl2dsUxOvEc8l8ppHLB5JWbY/view?usp=sharing', 'Effect of Receiver Capacity on Lubricant-Injected Rotary Compressor with Load-Unload Capacity Control', 0, 0, '2020-07-30 02:31:10', 1),
 (2983, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, 0, '2020-07-30 02:31:10', 1),
 (2984, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, 0, '2020-07-30 02:31:10', 1),
-(3005, 122, 0, 0, 2, 'test', '', '', 0, 0, '2020-08-03 20:29:48', 0),
-(3006, 122, 0, 0, 2, 'Actual efficiency can easily vary from 50 percent to 80 percent for optimum operation of a particular pump', '', '', 0, 0, '2020-08-03 20:29:48', 0),
 (3511, 85, 0, 0, 11, 'Trim Pump Impeller for Better Efficiency at Typical Operating Points', '', '', 0, 0, '2020-08-06 03:46:30', 0),
 (3512, 85, 0, 0, 11, 'Replace Pump with One Selected for Optimum Efficiency at Typical Operating Points', '', '', 0, 0, '2020-08-06 03:46:30', 0),
 (3513, 85, 0, 1, 10, 'Older pumps that have not been adjusted or calibrated to fit existing demand.', '', '', 0, 0, '2020-08-06 03:46:30', 0),
@@ -1273,8 +1377,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3835, 129, 0, 1, 8, 'The higher the temperature difference between the fluid streams, the more heat can be exchanged', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3836, 129, 0, 1, 14, 'How much can the temperature of the two fluid streams change without negatively affecting the process the fluids are required for?', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3837, 129, 0, 1, 14, 'Can these streams be reasonably close together physically to fit into a heat exchanger?', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3838, 129, 0, 1, 14, 'Is there space in the room to accomodate a heat exchanger?', '', '', 0, 0, '2020-08-06 20:53:08', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `created`, `approved`) VALUES
+(3838, 129, 0, 1, 14, 'Is there space in the room to accomodate a heat exchanger?', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3839, 129, 0, 1, 14, 'What kind of heat exchanger best fits the fluid stream? There are several different types.', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3840, 129, 0, 1, 14, 'Is the fluid stream clean or dirty?', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3841, 129, 0, 1, 15, 'System operation hours', '', '', 0, 0, '2020-08-06 20:53:08', 0),
@@ -1283,7 +1386,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3844, 129, 0, 2, 15, 'Mass flowrate (volumetric is fine if the density is known)', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3845, 129, 0, 2, 15, 'Specific heat', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3846, 129, 0, 1, 15, 'Heating process efficiency', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3847, 129, 0, 1, 15, 'Available floor space', '', '', 0, 0, '2020-08-06 20:53:08', 0),
+(3847, 129, 0, 1, 15, 'Available floor space', '', '', 0, 0, '2020-08-06 20:53:08', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `created`, `approved`) VALUES
 (3848, 129, 0, 1, 27, 'Contact thermometer (if safe)', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3849, 129, 0, 1, 27, 'IR thermometer', '', '', 0, 0, '2020-08-06 20:53:08', 0),
 (3850, 129, 0, 1, 27, 'Ultrasonic flow meter if fluid flowrate is unknown and the temperatures are safe for the equipment', '', '', 0, 0, '2020-08-06 20:53:08', 0),
@@ -1322,7 +1426,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3883, 130, 0, 1, 17, 'Example recommendation involving the installation of insulation on two drying silos', 'https://oregonstate.app.box.com/file/656776414288', 'Drying Silo Insulation', 0, 0, '2020-08-06 20:55:52', 0),
 (3884, 130, 0, 1, 17, 'Example recommendation invovling the installation of insulation on injection barrels in a plastics and injection molding facility', 'https://oregonstate.app.box.com/file/606287338448', 'Insulate Injection Barrels', 0, 0, '2020-08-06 20:55:52', 0),
 (3885, 130, 0, 1, 21, 'Template used to develop and present an analysis of the energy savings associated with insulating a facility\'s equipment or other hot surfaces', 'https://oregonstate.app.box.com/folder/51071018894', 'Analysis Template: Install Insulation', 0, 0, '2020-08-06 20:55:52', 0),
-(3892, 164, 0, 0, 24, '$empty', 'https://eec.oregonstate.edu/wastewater-treatment-training-module', 'Wastewater Treatment Training', 0, 0, '2020-08-06 22:33:54', 0),
+(3892, 164, 0, 0, 24, '$empty', 'https://eec.oregonstate.edu/wastewater-treatment-training-module', 'Wastewater Treatment Training', 0, 0, '2020-08-06 22:33:54', 1),
 (3894, 162, 0, 0, 13, 'This is a requirement for U.S.DOE to accept our remote assessment as a deliverable on our contract. It might be done in one session or iteratively in multiple sessions.', '', '', 0, 0, '2020-08-06 22:36:25', 1),
 (3895, 162, 0, 0, 26, 'Begin with a review of preparatory work including the intitial energy balance, and list of possible opportunities.', '', '', 0, 0, '2020-08-06 22:36:25', 1),
 (3896, 162, 0, 0, 26, 'Discuss the best strategy to use for a Guided Remote Tour. This might be a standard tour of the process from start to finish, or a series of targeted tours of areas of specific interest. ', '', '', 0, 0, '2020-08-06 22:36:25', 1),
@@ -1333,9 +1437,9 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4034, 158, 0, 0, 26, 'Pick the brain of anyone with experience in the subject', '', '', 0, 0, '2020-08-06 23:09:57', 1),
 (4035, 158, 0, 0, 26, 'Brainstorm on opportunities as a team and compile a list', '', '', 0, 0, '2020-08-06 23:09:57', 1),
 (4036, 158, 0, 0, 26, 'Develop a table of potential recommendations, and if possible: total energy used by the system related to each opportunity, a high/low estimate of potential % savings,  and the range of potential cost and energy savings potential.', '', '', 0, 0, '2020-08-06 23:09:57', 1),
-(4118, 163, 0, 0, 11, 'Control Aeration to Hold a Minimum Dissolved Oxygen Level', '', '', 0, 0, '2020-08-06 23:36:56', 0),
-(4119, 163, 0, 0, 11, 'Replace Standard Aeration Fans with High Efficiency Turbo Blowers', '', '', 0, 0, '2020-08-06 23:36:56', 0),
-(4120, 163, 0, 0, 11, 'Improve Efficiency of Fine Bubble Diffusers', '', '', 0, 0, '2020-08-06 23:36:56', 0),
+(4118, 163, 0, 0, 11, 'Control Aeration to Hold a Minimum Dissolved Oxygen Level', '', '', 0, 0, '2020-08-06 23:36:56', 1),
+(4119, 163, 0, 0, 11, 'Replace Standard Aeration Fans with High Efficiency Turbo Blowers', '', '', 0, 0, '2020-08-06 23:36:56', 1),
+(4120, 163, 0, 0, 11, 'Improve Efficiency of Fine Bubble Diffusers', '', '', 0, 0, '2020-08-06 23:36:56', 1),
 (4137, 161, 0, 0, 26, 'Review the client\'s web site', '', '', 0, 0, '2020-08-06 23:47:48', 1),
 (4138, 161, 0, 0, 26, 'Develop a list of typical opportunities found in the site\'s industrial sector. BE SURE to add any newly identified opportunities to this site!', '', '', 0, 0, '2020-08-06 23:47:48', 1),
 (4139, 161, 0, 1, 8, ' The IAC University Database allows you to search for common recommendations made by SIC or NAICS code ', '', '', 0, 0, '2020-08-06 23:47:48', 1),
@@ -1450,10 +1554,10 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4441, 174, 0, 0, 26, 'Begin with creating a matrix with every department listed as a header for columns and rows (see figure 1).', '', '', 0, 0, '2020-08-14 21:46:21', 0),
 (4442, 173, 0, 0, 26, 'Most inefficient layouts are the result of future space, workstation, and product expansions that were not considered in the original design of the facility layout..', '', '', 0, 0, '2020-08-14 23:18:36', 0),
 (4443, 173, 0, 0, 26, 'For layouts with obvious flow inefficiencies, using intuition to organize departments is sufficient to achieve savings. However, there are heuristic models that can be used for a more scientific approach.', '', '', 0, 0, '2020-08-14 23:18:36', 0),
-(4444, 175, 0, 0, 11, 'Use digester gas in a dual fuel boiler', '', '', 0, 0, '2020-08-17 18:11:37', 0),
-(4445, 175, 0, 0, 11, 'Clean and concentrate digester gas for sale to natural gas utility', '', '', 0, 0, '2020-08-17 18:11:37', 0),
-(4446, 176, 0, 0, 11, 'Control UV Disinfection to minimum required', '', '', 0, 0, '2020-08-17 18:16:44', 0),
-(4447, 126, 0, 0, 17, '$empty', '/wiki/technologies/45', 'Pumps', 0, 0, '2020-08-17 20:33:44', 0),
+(4444, 175, 0, 0, 11, 'Use digester gas in a dual fuel boiler', '', '', 0, 0, '2020-08-17 18:11:37', 1),
+(4445, 175, 0, 0, 11, 'Clean and concentrate digester gas for sale to natural gas utility', '', '', 0, 0, '2020-08-17 18:11:37', 1),
+(4446, 176, 0, 0, 11, 'Control UV Disinfection to minimum required', '', '', 0, 0, '2020-08-17 18:16:44', 1),
+(4447, 126, 0, 0, 17, '$empty', '/wiki/technologies/45', 'Pumps', 0, 0, '2020-08-17 20:33:44', 1),
 (4496, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, '2020-08-17 21:29:45', 1),
 (4497, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, '2020-08-17 21:29:45', 1),
 (4498, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, '2020-08-17 21:29:45', 1),
@@ -1470,7 +1574,80 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4523, 162, 0, 1, 12, 'A standard tour of the process from start to finish, but this could be an overly long time for a Zoom meeting. ', '', '', 0, 0, '2020-08-17 21:38:35', 0),
 (4524, 162, 0, 1, 12, 'A series of shorter remote targeted tours of areas of specific interest. ', '', '', 0, 0, '2020-08-17 21:38:35', 0),
 (4525, 162, 0, 2, 8, 'This strategy is being used by a number of assessment teams', '', '', 0, 0, '2020-08-17 21:38:35', 0),
-(4526, 162, 0, 2, 1, 'Can simplify scheduling if only key team members must join tours of particular areas.  Others can participate based on availability.', '', '', 0, 0, '2020-08-17 21:38:35', 0);
+(4526, 162, 0, 2, 1, 'Can simplify scheduling if only key team members must join tours of particular areas.  Others can participate based on availability.', '', '', 0, 0, '2020-08-17 21:38:35', 0),
+(4532, 124, 0, 0, 17, 'See pump tip sheets.', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, 0, '2020-08-20 00:57:02', 1),
+(4546, 122, 0, 0, 2, 'Actual efficiency can easily vary from 50 percent to 80 percent for optimum operation of a particular pump', '', '', 0, 0, '2020-08-18 21:24:36', 1),
+(4549, 179, 0, 0, 15, 'Pump nameplate', '', '', 0, 0, '2020-08-18 21:43:11', 0),
+(4550, 179, 0, 0, 15, 'Motor nameplate', '', '', 0, 0, '2020-08-18 21:43:11', 0),
+(4551, 179, 0, 0, 15, 'Pump curve data', '', '', 0, 0, '2020-08-18 21:43:11', 0),
+(4552, 179, 0, 0, 15, 'Live amperage readings, flow rates, and operating pressure (system head)', '', '', 0, 0, '2020-08-18 21:43:11', 0),
+(4566, 154, 0, 0, 26, 'Check the estimated annual energy cost for each utility', '', '', 0, 0, '2020-08-18 21:48:18', 0),
+(4567, 154, 0, 1, 14, 'Is the total annual energy cost suitable for an IAC Assessment? ', '', '', 0, 0, '2020-08-18 21:48:18', 0),
+(4568, 154, 0, 2, 3, '$100,000 a year is the minimum but ideally costs will exceed $200,000  - $300,000 a year. ', '', '', 0, 0, '2020-08-18 21:48:18', 0),
+(4569, 154, 0, 2, 3, 'If annual cost exceeds $2.5 Million, Field Manager / U.S.DOE permission must be obtained to visit. ', '', '', 0, 0, '2020-08-18 21:48:18', 0),
+(4570, 154, 0, 0, 26, 'Accumulate / analyze annual month by month utility bills. ', '', '', 0, 0, '2020-08-18 21:48:18', 0),
+(4571, 154, 0, 1, 12, 'Identify any seasonality to bills.', '', '', 0, 0, '2020-08-18 21:48:18', 0),
+(4572, 154, 0, 1, 12, 'Determine incremental costs (Potential savings with each unit of resource saved )', '', '', 0, 0, '2020-08-18 21:48:18', 0),
+(4573, 154, 0, 1, 12, 'Understand special costs: Electrical Demand and Power Factor cost, meter costs, ...', '', '', 0, 0, '2020-08-18 21:48:18', 0),
+(4574, 154, 0, 1, 12, 'Confirm estimated annual costs ', '', '', 0, 0, '2020-08-18 21:48:18', 0),
+(4575, 154, 0, 1, 17, '(item not added yet)', 'abc.com', 'Example Utility Baseline Analysis', 0, 0, '2020-08-18 21:48:18', 0),
+(4576, 154, 0, 0, 26, 'Ensure all personnel information provided is entered into the OSU IAC Project Management DB', '', '', 0, 0, '2020-08-18 21:48:18', 0),
+(4577, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, 0, '2020-08-18 21:48:18', 0),
+(4578, 154, 0, 0, 14, 'If the client has given permission, consider how to engage utility representatives (and regional incentive and assistance programs such as  ETO or ESI  in the remote assessment process)?', '', '', 0, 0, '2020-08-18 21:48:18', 0),
+(4599, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, '2020-08-18 21:51:21', 0),
+(4600, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, '2020-08-18 21:51:21', 0),
+(4601, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, '2020-08-18 21:51:21', 0),
+(4602, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, '2020-08-18 21:51:21', 0),
+(4603, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, '2020-08-18 21:51:21', 0),
+(4604, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, 0, '2020-08-18 21:51:21', 0),
+(4605, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, 0, '2020-08-18 21:51:21', 0),
+(4606, 156, 0, 0, 8, 'Try to get more than one key contact at the site involved in the project. (Plant manager, Fiscal Decision Maker, Maintenance Manager, Floor Personnel, Energy Lead, etc)', '', '', 0, 0, '2020-08-18 21:51:21', 0),
+(4607, 156, 0, 0, 17, '(Item not added yet)', 'abc.com', 'Pre-Audit Walkthrough Phone Call Checklist', 0, 0, '2020-08-18 21:51:21', 0),
+(4617, 158, 0, 0, 26, 'Review any areas of concern or interest voiced by the client', '', '', 0, 0, '2020-08-18 21:54:33', 0),
+(4618, 158, 0, 0, 26, 'Review typical opportunities found in the energy intensive systems identified at the facility ', '', '', 0, 0, '2020-08-18 21:54:33', 0),
+(4619, 158, 0, 1, 8, 'This Industrial Walkthrough Checklist & Reference will offer more and more ideas for potential opportunities as it is developed over time', '', '', 0, 0, '2020-08-18 21:54:33', 0),
+(4620, 158, 0, 0, 26, 'Review the list of typical opportunities found in the site\'s industrial sector developed in Preliminary Research', '', '', 0, 0, '2020-08-18 21:54:33', 0),
+(4621, 158, 0, 0, 26, 'Pick the brain of anyone with experience in the subject', '', '', 0, 0, '2020-08-18 21:54:33', 0),
+(4622, 158, 0, 0, 26, 'Brainstorm on opportunities as a team and compile a list', '', '', 0, 0, '2020-08-18 21:54:33', 0),
+(4623, 158, 0, 0, 26, 'Develop a table of potential recommendations, and if possible: total energy used by the system related to each opportunity, a high/low estimate of potential % savings,  and the range of potential cost and energy savings potential.', '', '', 0, 0, '2020-08-18 21:54:33', 0),
+(4624, 158, 0, 1, 17, '(Item not added yet)', 'osu.edu', 'Example Table of Potential Opportunities', 0, 0, '2020-08-18 21:54:33', 0),
+(4625, 157, 0, 0, 26, 'Develop a table of significant energy using equipment including collected rated capacity, estimated % of full capacity, and hours of operation', '', '', 0, 0, '2020-08-18 21:54:52', 0),
+(4626, 157, 0, 1, 12, 'Calculate an initial estimate of annual energy used by each piece of equipment', '', '', 0, 0, '2020-08-18 21:54:52', 0),
+(4627, 157, 0, 1, 12, 'Develop a pie chart showing % of total site energy each modeled equipment item uses, and remaining unidentified energy use.', '', '', 0, 0, '2020-08-18 21:54:52', 0),
+(4628, 157, 0, 2, 14, 'Does the total modeled energy exceed the actual energy in the bills? (If so, revise the model.) ', '', '', 0, 0, '2020-08-18 21:54:52', 0),
+(4629, 157, 0, 1, 12, 'Plan to continually revise and improve this balance over the process of the remote assessment.', '', '', 0, 0, '2020-08-18 21:54:52', 0),
+(4630, 157, 0, 2, 14, 'Does more equipment come up that can be added?', '', '', 0, 0, '2020-08-18 21:54:52', 0),
+(4631, 157, 0, 2, 14, 'Does better data become available on any modeled equipment to improve its annual energy use estimate?', '', '', 0, 0, '2020-08-18 21:54:52', 0),
+(4632, 157, 0, 1, 17, '(Item not added yet)', 'osu.edu', 'Example Energy Balance', 0, 0, '2020-08-18 21:54:52', 0),
+(4639, 182, 0, 0, 4, 'Improperly designed pump systems can lead to low pressures at the pump inlet which can lead to cavitation. This can seriously damage the pump and reduce its operating life.', '', '', 0, 0, '2020-08-19 21:52:48', 1),
+(4640, 182, 0, 0, 24, 'Online resource discussing how cavitation occurs and how to detect and prevent it from happening.', 'https://modernpumpingtoday.com/detecting-pump-cavitation/', 'Detecting Pump Cavitation (May be able to find a more comprehensive resource)', 1, 0, '2020-08-19 21:52:48', 1),
+(4641, 161, 0, 0, 26, 'Review the client\'s web site', '', '', 0, 0, '2020-08-19 22:39:25', 0),
+(4642, 161, 0, 0, 26, 'Develop a list of typical opportunities found in the site\'s industrial sector. BE SURE to add any newly identified opportunities to this site!', '', '', 0, 0, '2020-08-19 22:39:25', 0),
+(4643, 161, 0, 1, 7, 'Assign each of the searches suggested below to one member of the assessment team. ', '', '', 0, 0, '2020-08-19 22:39:25', 0),
+(4644, 161, 0, 1, 8, ' The IAC University Database allows you to search for common recommendations made by SIC or NAICS code ', '', '', 0, 0, '2020-08-19 22:39:25', 0),
+(4645, 161, 0, 2, 24, '$empty', 'https://iac.university/searchRecommendations', 'IAC University: Search IAC Recommendations', 1, 0, '2020-08-19 22:39:25', 0),
+(4646, 161, 0, 2, 1, 'The IAC University Database also allows you to search for the top 10 recommendations, the number of assessments and results by industry grouping. Note: one useful search field under assessments: \"Product Type\" can help find similar assessments.', '', '', 0, 0, '2020-08-19 22:39:25', 0),
+(4647, 161, 0, 1, 8, 'Search the OSU IAC Project Management Database to see what we have recommended in the past at similar sites. Note: the search box in the upper right corner is a useful tool for this.', '', '', 0, 0, '2020-08-19 22:39:25', 0),
+(4648, 161, 0, 2, 24, '$empty', 'https://eec.oregonstate.edu/tracking2/modules/login/login.php', 'EEC Project Management', 0, 0, '2020-08-19 22:39:25', 0),
+(4649, 161, 0, 1, 8, 'General internet and literature research can surface new opportunities to consider.  BE SURE to add any newly identified resources to this site!', '', '', 0, 0, '2020-08-19 22:39:25', 0),
+(4650, 161, 0, 2, 1, 'U.S.DOE, Vendor, Other IAC, State Energy Office, and Industrial Association web sites are all among good places to search for resources.', '', '', 0, 0, '2020-08-19 22:39:25', 0),
+(4651, 161, 0, 1, 17, '(item not added yet)', 'abc.com', 'Example List of Common Opportunities', 0, 0, '2020-08-19 22:39:25', 0),
+(4652, 183, 0, 0, 20, '', 'https://www.aquaculturealliance.org/advocate/cavitation-the-pump-disease/', 'Pump Impeller With Cavitation Marks', 0, 0, '2020-08-19 22:55:35', 0),
+(4653, 183, 0, 0, 20, '', 'https://www.deppmann.com/blog/service-tip-of-the-month/pump-cavitation/', 'Example Pump Impellers With Cavitation Marks', 0, 0, '2020-08-19 22:55:35', 0),
+(4654, 183, 0, 0, 20, '', 'https://www.dxpe.com/different-types-centrifugal-pumps-applications/', 'Centrifugal Pumps', 0, 0, '2020-08-19 22:55:35', 0),
+(4696, 178, 0, 0, 7, 'Install pressure gauges on all pump outlets for a key indicator of system performance.', '', '', 0, 0, '2020-08-20 00:42:22', 1),
+(4697, 178, 0, 0, 7, 'Install a pressure gage at the inlets of pumps not drawing from a local reservoir for a 2nd key indicator of system performance', '', '', 1, 0, '2020-08-20 00:42:22', 1),
+(4698, 178, 0, 0, 7, 'Install flow meters on high operating cost pumps or banks of pumps for a 3rd key indicator of system performance', '', '', 1, 0, '2020-08-20 00:42:22', 1),
+(4699, 178, 0, 1, 8, 'Consider needs of temporary ultrasonic flow meters for pump installations that will not include an in-line flow meter. ', '', '', 1, 0, '2020-08-20 00:42:22', 1),
+(4700, 178, 0, 0, 7, 'Operate pumps between 85% and 110% of their best efficiency point (BEP)', '', '', 0, 0, '2020-08-20 00:42:22', 1),
+(4701, 178, 0, 0, 7, 'Use VFD control if the pump operates at multiple flow conditions, particularly for looped flow circuits.', '', '', 0, 0, '2020-08-20 00:42:22', 1),
+(4702, 178, 0, 1, 4, 'For high static head conditions (pumping to high pressure vessel or high elevation tank) Take care in evaluating pump operation with VFD control.  Pumps can be forced into low efficiency, high wear conditions with inappropriate high static head VFD control.', '', '', 1, 0, '2020-08-20 00:42:22', 1),
+(4703, 178, 0, 0, 17, 'Comprehensive list of pump selection, installation, and operation best practices.', 'http://www.flowserve.com/sites/default/files/2016-07/pss-10-13.5-e.pdf', 'Flowserve: Best Practices for ANSI Pumps', 1, 0, '2020-08-20 00:57:26', 1),
+(4706, 180, 0, 0, 3, 'One PSI = 2.31 Feet of water', '', '', 0, 0, '2020-08-20 00:48:42', 1),
+(4707, 180, 0, 0, 3, 'When designing a pump system it is important to consider the pump\'s net positive suction head required (NPSHR). A general design criteria is that the net positive suction head available (NPSHA) exceeds the NPSHR by at least 25% over the expected range of operating flow rates.', '', '', 0, 0, '2020-08-20 00:48:42', 1),
+(4708, 125, 0, 0, 20, '', 'https://www.pumpsandsystems.com/understanding-pump-curves', 'Sample Pump Curve', 0, 0, '2020-08-20 00:52:21', 0),
+(4709, 125, 0, 0, 20, '', 'https://www.pumpsandsystems.com/understanding-pump-curves', 'Sample Pump and System Curve', 0, 0, '2020-08-20 00:52:21', 0),
+(4710, 125, 0, 0, 20, '', 'https://fluidcontrolproducts.net/catolog/pumps/centrifugal-pumps/cpvc-price-pump-open-box/', 'Sample Pump Nameplate', 0, 0, '2020-08-20 00:52:21', 0);
 
 -- --------------------------------------------------------
 
@@ -1498,7 +1675,7 @@ CREATE TABLE `Pages` (
 INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imageUrl`, `internal`, `userId`, `created`, `approved`) VALUES
 (2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/images/air.png', 0, 42, '2020-07-23 10:01:49', 1),
 (44, 2, 'Motors and Controls', 'Electrical Motors and Motor Controls (Variable Speed Drives, etc) are crucial to most mechanized industrial processes and equipment.', 'Motors are a crucial part of any mechanized process and provide a means to do the majority of the mechanical work in most facilities.  Motors convert electrical energy into mechanical work to provide power to a wide range of applications including air compressors, fans, pumps, hydraulics, mixers, conveyors, and much more.', 'https://live.staticflickr.com/65535/50069229503_243696380c_b.jpg', 0, 51, '2020-06-29 23:04:50', 0),
-(45, 2, 'Pumps', 'Pumps provide a typical utility required throughout industry.', 'Centrifugal pumps are the most common type found in industry, followed by positive displacement pumps (used in hydraulics), pneumatic diaphragm pumps, peristaltic pumps, and other specialty pumps. \n\nUnless otherwise noted this section speaks to centrifugal pumps when addressing pump performance and efficiency. Changes in hydraulic energy required (pressure and flow) will translate to any pumping system. ', 'https://live.staticflickr.com/65535/50066427331_ddae8822f2_b.jpg', 0, 51, '2020-07-01 18:11:01', 0),
+(45, 2, 'Pumps', 'Pumps provide a typical utility required throughout industry.', 'Centrifugal pumps are the most common type found in industry, followed by positive displacement pumps (used in hydraulics), pneumatic diaphragm pumps, peristaltic pumps, and other specialty pumps. \n\nUnless otherwise noted this section speaks to centrifugal pumps when addressing pump performance and efficiency. Changes in hydraulic energy required (pressure and flow) will translate to any pumping system. \n\nCentrifugal pumps generally come in three classes: radial flow, mixed flow, and axial flow.', 'https://live.staticflickr.com/65535/50066427331_ddae8822f2_b.jpg', 0, 55, '2020-07-01 18:11:01', 0),
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
 (47, 2, 'Thermal Systems', 'Many industrial processes require encouraging or resisting thermal energy transfer.', 'Heat transfer technologies include heat exchangers, cooling towers, fan cooling, direct impingement and other methods.  Heat transfer is discouraged with insulation, vacuums, reduced emissivity, etc. ', 'https://live.staticflickr.com/65535/50069411093_68ab30e548_b.jpg', 0, 58, '2020-07-02 21:31:22', 0),
 (48, 2, 'Refrigeration', 'Refrigeration technology is important in many industrial processes.', 'Vapor compression is the most common refrigeration technology. Mechanical energy input to a compressor enables absorbing heat in cooler environment and discharging it to a warmer environment. ', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 51, '2020-07-02 22:10:36', 0),
@@ -1599,6 +1776,11 @@ INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderI
 (105, 0, 'Improve the Condensate System', 105, 58, '2020-07-10 18:54:00'),
 (106, 0, 'Reduce Heat Loss', 106, 51, '2020-07-03 17:31:09'),
 (120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52'),
+(154, 10, 'Review/Analyze Pre-Assessment Package Information', 2, 51, '2020-08-18 21:47:50'),
+(156, 10, 'Hold an Initial Remote Assessment Meeting with the Client', 4, 51, '2020-08-18 21:51:21'),
+(157, 10, 'Develop a Preliminary Energy Balance', 5, 51, '2020-08-18 21:52:57'),
+(158, 10, 'Develop a List of Potential Opportunities to Study', 6, 51, '2020-08-18 21:54:33'),
+(161, 10, 'Preliminary Research', 3, 51, '2020-08-18 21:49:35'),
 (162, 10, 'Arrange a Client Guided Remote Tour by Phone.', 162, 51, '2020-08-17 21:09:36');
 
 -- --------------------------------------------------------
@@ -1694,6 +1876,14 @@ CREATE TABLE `Views` (
   `viewName` varchar(500) NOT NULL,
   `public` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Views`
+--
+
+INSERT INTO `Views` (`viewId`, `pageId`, `userId`, `viewName`, `public`) VALUES
+(10, 2, 51, 'Opportunities ', 0),
+(11, 2, 51, 'Opportunities ', 1);
 
 --
 -- Indexes for dumped tables
@@ -1855,7 +2045,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -1867,37 +2057,37 @@ ALTER TABLE `Categories`
 -- AUTO_INCREMENT for table `Filters`
 --
 ALTER TABLE `Filters`
-  MODIFY `filterId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `filterId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=160;
 
 --
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
 --
 ALTER TABLE `History_Cards`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `History_Headers`
 --
 ALTER TABLE `History_Headers`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `History_Items`
 --
 ALTER TABLE `History_Items`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=616;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=640;
 
 --
 -- AUTO_INCREMENT for table `History_Pages`
 --
 ALTER TABLE `History_Pages`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `Icons`
@@ -1909,13 +2099,13 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4527;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4711;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `Requests`
@@ -1951,7 +2141,7 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Views`
 --
 ALTER TABLE `Views`
-  MODIFY `viewId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `viewId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
