@@ -4,6 +4,7 @@ import {Card, Form, Button} from "react-bootstrap";
 import Error from "../../components/General/Error";
 import {logout} from "../../utilities/cookieAuth";
 import CloseRequest from "./CloseRequest";
+import AcceptRequest from "./AcceptRequest";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import "./RequestSubmitComment.css";
 
@@ -108,13 +109,20 @@ function RequestSubmitComment(props) {
             onError={(message) => setErrorMessage(message)}
           />
 
-          <Button
-            className="ml-auto"
-            variant="success"
-            onClick={() => submitComment(comment, status)}
-          >
-            Submit Comment
-          </Button>
+          <div className="row ml-auto mr-0">
+            <AcceptRequest
+              requestId={props.requestId}
+              onError={(message) => setErrorMessage(message)}
+            />
+
+            <Button
+              className="ml-2"
+              variant="success"
+              onClick={() => submitComment(comment, status)}
+            >
+              Submit Comment
+            </Button>
+          </div>
         </div>
 
       </Card.Body>

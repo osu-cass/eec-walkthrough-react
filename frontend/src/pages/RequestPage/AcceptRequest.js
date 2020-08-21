@@ -5,8 +5,8 @@ import {logout} from "../../utilities/cookieAuth";
 import {getProfile} from "../../utilities/cookieAuth";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 
-// Button that allows a user to close a request
-function CloseRequest(props) {
+// Button that allows a user to accept a request
+function AcceptRequest(props) {
 
   const [userId, setUserId] = useState(0);
   const [role, setRole] = useState(0);
@@ -20,17 +20,17 @@ function CloseRequest(props) {
 
   }, [props.requestId, props.creatorId]);
 
-  async function submitClose() {
-    // Confirm that the user wants to close the request
-    if (!window.confirm("Are you sure you want to close this request?\nThis request will be removed and no content will be published.")) {
+  async function submitAccept() {
+    // Confirm that the user wants to accept the request
+    if (!window.confirm("Are you sure you want to accept this request?\nThis will publish all of the requested content and then close this request.")) {
       return;
     }
 
     setLoading(true);
 
-    // delete the request
-    const results = await fetch(`/api/requests/${props.requestId}`, {
-      method: "DELETE",
+    // accept the request
+    const results = await fetch(`/api/requests/accept/${props.requestId}`, {
+      method: "POST",
       headers: {"Content-Type": "application/json"}
     });
 
@@ -58,14 +58,14 @@ function CloseRequest(props) {
     setLoading(false);
   }
 
-  return userId === props.creatorId || role === 4 ? (
+  return role === 4 ? (
     <Fragment>
       <LoadingOverlay loading={loading}/>
       <Button 
-        variant="danger"
-        onClick={() => submitClose()}
+        variant="info"
+        onClick={() => submitAccept()}
       >
-        <span className="text-white">Close Request</span>
+        <span className="text-white">Accept Request</span>
       </Button>
     </Fragment>
   ) : (
@@ -73,10 +73,9 @@ function CloseRequest(props) {
   );
 
 }
-export default CloseRequest;
+export default AcceptRequest;
 
-CloseRequest.propTypes = {
+AcceptRequest.propTypes = {
   onError: PropTypes.func,
-  requestId: PropTypes.number,
-  creatorId: PropTypes.number
+  requestId: PropTypes.number
 };

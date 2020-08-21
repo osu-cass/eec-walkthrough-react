@@ -10,7 +10,8 @@ const {
   getSelection,
   createRequest,
   createComment,
-  deleteRequest
+  deleteRequest,
+  approveRequest
 } = require("../models/requests");
 const {
   getRequestVal,
@@ -202,7 +203,7 @@ app.post("/comment/:requestId", requireAuth, postCommentVal.validation, async (r
     } else {
 
       if (results.error === 1) {
-        res.status(403).send({error: "The request does not exist."});
+        res.status(404).send({error: "Request not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -243,6 +244,43 @@ app.delete("/:requestId", requireAuth, async (req, res) => {
         res.status(404).send({error: "Request not found."});
       } else if (results.error === 2) {
         res.status(401).send({error: "Unauthorized user attempting to close request."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// accept a publish request
+app.post("/accept/:requestId", requireAuth, async (req, res) => {
+
+  try {
+
+    const requestId = req.params.requestId;
+    console.log("Accept request", requestId);
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to approve a request."});
+      return;
+    }
+
+    // approve a request
+    const results = await approveRequest(requestId);
+
+    if (results.objectsApproved >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Request not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
