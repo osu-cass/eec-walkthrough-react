@@ -61,7 +61,7 @@ function CloseRequest(props) {
   return userId === props.creatorId || role === 4 ? (
     <Fragment>
       <LoadingOverlay loading={loading}/>
-      <Button 
+      <Button
         variant="danger"
         onClick={() => submitClose()}
       >

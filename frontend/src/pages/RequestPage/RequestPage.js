@@ -43,7 +43,7 @@ function RequestPage() {
 
       const obj = await results.json();
       setRequest(obj);
-      console.log(obj)
+      console.log(obj);
 
     } else {
 
@@ -82,7 +82,7 @@ function RequestPage() {
         initial={true}
       />
 
-      {request.comments.map((comment, i) =>
+      {request.comments.map((comment) =>
         <RequestComment
           key={comment.commentId}
           created={comment.created}

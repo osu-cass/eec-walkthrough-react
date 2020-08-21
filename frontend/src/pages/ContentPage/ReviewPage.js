@@ -532,7 +532,7 @@ function ReviewPage(props) {
                   >
                     Delete Changes
                   </Button>
-                  <AddReviewObject 
+                  <AddReviewObject
                     objectType={1}
                     objectId={props.page.pageId}
                   />

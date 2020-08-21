@@ -43,7 +43,7 @@ function ConstructRequestModal(props) {
           throw Error("Invalid collection of objects");
         }
 
-      } catch(err) {
+      } catch (err) {
 
         // We don't have a valid collection of objects.
         // We clear the collection
@@ -182,7 +182,7 @@ function ConstructRequestModal(props) {
     const visuals = [...selections];
 
     let index = -1;
-    for (let i = 0; i < visuals.length; i ++) {
+    for (let i = 0; i < visuals.length; i++) {
       if (visuals[i].key === key) {
         index = i;
         break;
@@ -258,7 +258,7 @@ function ConstructRequestModal(props) {
                 <Form.Control
                   as="textarea"
                   maxLength="5000"
-                  defaultValue={description} 
+                  defaultValue={description}
                   onChange={(e) => savePublishRequestDescription(e.target.value)}
                 />
               </Form.Group>
@@ -267,26 +267,26 @@ function ConstructRequestModal(props) {
 
           {selections.length ? (
             <Fragment>
-            <Form.Label
-              className="font-weight-bold mb-3">
+              <Form.Label
+                className="font-weight-bold mb-3">
               Content to Publish
-            </Form.Label>
-            {selections.map((object) =>
-              <div className="request-select-card mx-3 my-3 px-2 py-2 card" key={object.key}>
-                <div className="row">
-                  <div className="col">
-                    <span className="font-weight-bold">{object.objectType}:</span>
+              </Form.Label>
+              {selections.map((object) =>
+                <div className="request-select-card mx-3 my-3 px-2 py-2 card" key={object.key}>
+                  <div className="row">
+                    <div className="col">
+                      <span className="font-weight-bold">{object.objectType}:</span>
+                    </div>
+                    <div
+                      className="col-1"
+                      onClick={() => removeObject(object.key)}
+                    >
+                      <i className="fas fa-times" />
+                    </div>
                   </div>
-                  <div 
-                    className="col-1"
-                    onClick={() => removeObject(object.key)}
-                  >
-                    <i className="fas fa-times" />
-                  </div>
+                  <span>{object.objectName}</span>
                 </div>
-                <span>{object.objectName}</span>
-              </div>
-            )}
+              )}
             </Fragment>
           ) : (
             <div>

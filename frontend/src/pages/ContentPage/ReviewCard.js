@@ -410,11 +410,11 @@ function ReviewCard(props) {
                     >
                       Delete Changes
                     </Button>
-                    <AddReviewObject 
+                    <AddReviewObject
                       objectType={3}
                       objectId={props.card.cardId}
                     />
-                </Fragment>
+                  </Fragment>
                 ) : (
                   null
                 )}
@@ -453,7 +453,7 @@ function ReviewCard(props) {
                   >
                     Delete Changes
                   </Button>
-                  <AddReviewObject 
+                  <AddReviewObject
                     objectType={3}
                     objectId={props.card.cardId}
                   />

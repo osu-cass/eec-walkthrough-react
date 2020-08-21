@@ -8,7 +8,6 @@ import LoadingOverlay from "../../components/General/LoadingOverlay";
 // Button that allows a user to accept a request
 function AcceptRequest(props) {
 
-  const [userId, setUserId] = useState(0);
   const [role, setRole] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -16,9 +15,7 @@ function AcceptRequest(props) {
   useEffect(() => {
     const user = getProfile();
     setRole(user.role);
-    setUserId(user.userId);
-
-  }, [props.requestId, props.creatorId]);
+  }, [props.requestId]);
 
   async function submitAccept() {
     // Confirm that the user wants to accept the request
@@ -61,7 +58,7 @@ function AcceptRequest(props) {
   return role === 4 ? (
     <Fragment>
       <LoadingOverlay loading={loading}/>
-      <Button 
+      <Button
         variant="info"
         onClick={() => submitAccept()}
       >
