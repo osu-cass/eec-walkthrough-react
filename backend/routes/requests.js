@@ -8,12 +8,14 @@ const {
   getRequests,
   getRequest,
   getSelection,
-  createRequest
+  createRequest,
+  createComment
 } = require("../models/requests");
 const {
   getRequestVal,
   getSelectionVal,
-  postRequestVal
+  postRequestVal,
+  postCommentVal
 } = require("../services/validation/requestValidation");
 const {
   requireAuth,
@@ -135,7 +137,7 @@ app.post("/", requireAuth, postRequestVal.validation, async (req, res) => {
     const title = req.body.title;
     const description = req.body.description;
     const objects = req.body.objects;
-    const user = req.auth.userId;
+    const userId = req.auth.userId;
 
     // make sure the user is allowed to perform this action
     if (!await roleCheck(3, req.auth.userId)) {
@@ -144,7 +146,7 @@ app.post("/", requireAuth, postRequestVal.validation, async (req, res) => {
     }
 
     // create the request
-    const results = await createRequest(title, description, objects, user);
+    const results = await createRequest(title, description, objects, userId);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -152,6 +154,54 @@ app.post("/", requireAuth, postRequestVal.validation, async (req, res) => {
 
       if (results.error === 1) {
         res.status(403).send({error: "No valid objects submitted."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// submit a request comment
+app.post("/comment/:requestId", requireAuth, postCommentVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Create a request comment");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const requestId = req.params.requestId;
+    const comment = req.body.comment;
+    const status = req.body.status;
+    const userId = req.auth.userId;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to create a request comment."});
+      return;
+    }
+
+    // create the comment
+    const results = await createComment(requestId, comment, status, userId);
+
+    if (results.insertId) {
+      res.status(201).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(403).send({error: "The request does not exist."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

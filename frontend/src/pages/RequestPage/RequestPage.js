@@ -42,6 +42,7 @@ function RequestPage() {
 
       const obj = await results.json();
       setRequest(obj);
+      console.log(obj)
 
     } else {
 
@@ -80,9 +81,11 @@ function RequestPage() {
         initial={true}
       />
 
-      <RequestSubmitComment />
+      <RequestSubmitComment
+        requestId={parseInt(requestId, 10)}
+      />
 
-      <Card className="request-card-main my-2 shadow-sm">
+      <Card className="request-card-main my-4 shadow-sm">
         <Card.Header
           as="h5"
           className="card-header-bar d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold"
