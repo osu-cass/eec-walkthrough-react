@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 20, 2020 at 07:28 PM
+-- Generation Time: Aug 24, 2020 at 04:18 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -103,7 +103,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (124, 29, 0, 124, 'U.S. Department of Energy Tip Sheets', 55, '2020-07-07 20:31:56', 1),
 (125, 29, 10, 125, 'Figures, Charts, and Tables', 51, '2020-07-07 20:33:57', 0),
 (126, 37, 0, 126, 'Common Technologies Used in Wastewater (covered elsewhere in this guide)', 51, '2020-07-07 20:57:07', 1),
-(129, 40, 0, 129, 'Heat Exchangers', 58, '2020-07-10 18:20:49', 0),
+(129, 40, 0, 129, 'Heat Exchangers', 60, '2020-07-10 18:20:49', 0),
 (130, 40, 0, 130, 'Insulation', 55, '2020-07-10 18:36:22', 0),
 (131, 40, 0, 131, 'Cooling Towers', 55, '2020-07-10 18:45:42', 0),
 (133, 41, 0, 133, 'Pros', 58, '2020-07-20 21:20:19', 0),
@@ -142,7 +142,9 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (179, 29, 0, 179, 'Standard Data to Collect', 55, '2020-08-18 21:05:04', 0),
 (180, 29, 0, 180, 'Rules of Thumb', 51, '2020-08-18 21:05:56', 1),
 (182, 29, 0, 182, 'Caveats', 55, '2020-08-18 21:38:09', 1),
-(183, 29, 0, 183, 'Gallery: Pump Types etc.', 55, '2020-08-19 21:46:41', 0);
+(183, 29, 0, 183, 'Gallery: Pump Types etc.', 55, '2020-08-19 21:46:41', 0),
+(184, 50, 0, 184, 'How to calculate layout efficiency savings', 62, '2020-08-24 19:51:09', 0),
+(185, 50, 0, 185, 'Determining cost savings', 62, '2020-08-24 20:10:02', 0);
 
 -- --------------------------------------------------------
 
@@ -1356,45 +1358,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3606, 131, 0, 0, 11, 'Condenser qater temperature adjustment ', '', '', 0, 0, '2020-08-06 19:13:00', 0),
 (3607, 131, 0, 0, 11, 'Chilled water supply temperature adjustment', '', '', 0, 0, '2020-08-06 19:13:00', 0),
 (3608, 131, 0, 0, 11, 'Fan motor controls (variable speed)', '', '', 0, 0, '2020-08-06 19:13:00', 0),
-(3823, 129, 0, 0, 11, 'Pre-heat combustion air (Adam)', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3824, 129, 0, 1, 13, 'Air-to-air heat transfer (regenerators/recuperators)', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3825, 129, 0, 0, 11, 'Install a heat pipe to recovery process heat', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3826, 129, 0, 1, 13, 'Air-to-air heat transfer (typically for 150-850 ˚F processes)', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3827, 129, 0, 0, 11, 'Install a shell and tube heat exchanger to recover process heat (Matt)', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3828, 129, 0, 1, 13, 'Liquid-to-liquid heat transfer ', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3829, 129, 0, 0, 11, 'Install an economizer to pre-heat boiler make-up water (Matt)', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3830, 129, 0, 1, 13, 'Air-to-liquid heat transfer ', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3831, 129, 0, 0, 11, 'Install a Heat Exchanger Between Two Liquid Flows', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3832, 129, 0, 1, 10, 'Two fluid flows with a large temperature difference where at least one stream requires heat treatment.', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3833, 129, 0, 1, 13, 'Heat exchange between two fluids can be beneficial for both streams, such as hot milk coming out of pasteurization for cooling being used to preheat incoming milk. Less energy is required now to cool the pasteurized milk and the raw milk requires less heat to be added for pasteurization.', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3834, 129, 0, 1, 7, 'Heat exchangers are most effective when configured for counter-flow heat transfer', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3835, 129, 0, 1, 8, 'The higher the temperature difference between the fluid streams, the more heat can be exchanged', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3836, 129, 0, 1, 14, 'How much can the temperature of the two fluid streams change without negatively affecting the process the fluids are required for?', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3837, 129, 0, 1, 14, 'Can these streams be reasonably close together physically to fit into a heat exchanger?', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3838, 129, 0, 1, 14, 'Is there space in the room to accomodate a heat exchanger?', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3839, 129, 0, 1, 14, 'What kind of heat exchanger best fits the fluid stream? There are several different types.', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3840, 129, 0, 1, 14, 'Is the fluid stream clean or dirty?', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3841, 129, 0, 1, 15, 'System operation hours', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3842, 129, 0, 1, 15, 'Fluid properties', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3843, 129, 0, 2, 15, 'Density', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3844, 129, 0, 2, 15, 'Mass flowrate (volumetric is fine if the density is known)', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3845, 129, 0, 2, 15, 'Specific heat', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3846, 129, 0, 1, 15, 'Heating process efficiency', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3847, 129, 0, 1, 15, 'Available floor space', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3848, 129, 0, 1, 27, 'Contact thermometer (if safe)', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3849, 129, 0, 1, 27, 'IR thermometer', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3850, 129, 0, 1, 27, 'Ultrasonic flow meter if fluid flowrate is unknown and the temperatures are safe for the equipment', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3851, 129, 0, 1, 4, 'Pressure drop across the heat exchanger could cause a loss of performance in downstream processes', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3852, 129, 0, 1, 4, 'Heat exchangers can foul over time without proper maintenance and cleaning, reducing their effectiveness', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3853, 129, 0, 1, 4, 'Heat exchangers can become hot and should not be placed where someone may come into contact with it inadvertently', '', '', 0, 0, '2020-08-06 20:53:08', 0),
-(3854, 129, 0, 1, 20, '', 'https://drive.google.com/file/d/1CdPMeAFZMbadgXb9opm3qJR72S7zPYwG/view?usp=sharing', 'A spiral heat exchanger is installed for heat transfer between hot sludge coming from anaerobic digestion and cool sludge coming from aerobic digestion. At this facility sludge was being heated going into the anaerobic digestor and then cooled when leaving to enter the aerobic digestor.', 0, 0, '2020-08-06 20:53:08', 0),
-(3855, 129, 0, 1, 20, '', 'https://drive.google.com/file/d/1twM-Rb5cEp3NGoQwPh8Hlh9LvlMvP1Id/view?usp=sharing', 'Raw milk and pasteurized milk in this process pass through a plate heat exchanger. In the pasteurization process, raw milk is heated to kill bacteria, but must be cooled afterwards. To reduce both the heating and cooling loads, the pasteurized milk preheats the raw milk while also cooling itself.', 0, 0, '2020-08-06 20:53:08', 0),
-(3856, 129, 0, 1, 17, 'Thermodynamic properties of water/steam from the Heat Exchanger Design Handbook by C. F. Beaton, published in 1986. This is useful for finding the enthalpy of water/steam for calculating heat transfer.', 'http://thermopedia.com/content/1150/', 'Water/Steam Property Tables', 1, 0, '2020-08-06 20:53:08', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `created`, `approved`) VALUES
-(3857, 129, 0, 1, 24, 'Lists the specific heats of common fluids. This is used for calculating the amount of heat that can be exchanged between the two fluid streams.', 'https://www.engineeringtoolbox.com/specific-heat-fluids-d_151.html', 'Common Fluid Specific Heats', 1, 0, '2020-08-06 20:53:08', 0),
-(3858, 129, 0, 1, 24, 'List of densities for common fluids. This is useful if the fluid\'s volumetric flowrate is known, but not the mass flowrate.', 'https://www.engineeringtoolbox.com/liquids-densities-d_743.html', 'Common Fluid Densities', 1, 0, '2020-08-06 20:53:08', 0),
-(3859, 129, 0, 1, 24, 'Estimated heat exchanger heat transfer coefficients for use in calculating the amount of heat transferred between the two fluid streams.', 'https://www.engineeringtoolbox.com/heat-transfer-coefficients-exchangers-d_450.html', 'Heat Exchanger Heat Transfer Coefficients', 1, 0, '2020-08-06 20:53:08', 0),
-(3860, 129, 0, 1, 17, 'Describes heat exchanger design for sludge in wastewater treatment facilities. This paper also contains the relevant thermodynamic properties of sludge. Understand that the characteristics of wastewater sludge is not consistent between facilities.', 'https://www.witpress.com/elibrary/wit-transactions-on-modelling-and-simulation/46/18010', 'Importance of experimental measurements and simulations for ‘sludge-to-energy’ systems', 1, 0, '2020-08-06 20:53:08', 0),
 (3861, 130, 0, 0, 11, 'Insulate hot surfaces (Julian)', '', '', 0, 0, '2020-08-06 20:55:52', 0),
 (3862, 130, 0, 1, 13, 'Un-insulated or poorly insulated surfaces are a significant source of lost energy. Temperature differentials between the surfaces and surroundings act as a driving force for the heat transfer between these bodies. The rate of this heat transfer is directly proportional to the magnitude of the temperature differential. Insulating these surfaces will decrease this rate of heat transfer, saving energy and improving system efficiency.', '', '', 0, 0, '2020-08-06 20:55:52', 0),
 (3863, 130, 0, 1, 10, 'Facility has significant amount of uninsulated, high temperature surfaces such as steam lines, boilers, or other thermal equipment', '', '', 0, 0, '2020-08-06 20:55:52', 0),
@@ -1422,7 +1385,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3885, 130, 0, 1, 21, 'Template used to develop and present an analysis of the energy savings associated with insulating a facility\'s equipment or other hot surfaces', 'https://oregonstate.app.box.com/folder/51071018894', 'Analysis Template: Install Insulation', 0, 0, '2020-08-06 20:55:52', 0),
 (3892, 164, 0, 0, 24, '$empty', 'https://eec.oregonstate.edu/wastewater-treatment-training-module', 'Wastewater Treatment Training', 0, 0, '2020-08-06 22:33:54', 1),
 (3894, 162, 0, 0, 13, 'This is a requirement for U.S.DOE to accept our remote assessment as a deliverable on our contract. It might be done in one session or iteratively in multiple sessions.', '', '', 0, 0, '2020-08-06 22:36:25', 1),
-(3895, 162, 0, 0, 26, 'Begin with a review of preparatory work including the intitial energy balance, and list of possible opportunities.', '', '', 0, 0, '2020-08-06 22:36:25', 1),
+(3895, 162, 0, 0, 26, 'Begin with a review of preparatory work including the intitial energy balance, and list of possible opportunities.', '', '', 0, 0, '2020-08-06 22:36:25', 1);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `created`, `approved`) VALUES
 (3896, 162, 0, 0, 26, 'Discuss the best strategy to use for a Guided Remote Tour. This might be a standard tour of the process from start to finish, or a series of targeted tours of areas of specific interest. ', '', '', 0, 0, '2020-08-06 22:36:25', 1),
 (4030, 158, 0, 0, 26, 'Review any areas of concern or interest voiced by the client', '', '', 0, 0, '2020-08-06 23:09:57', 1),
 (4031, 158, 0, 0, 26, 'Review typical opportunities found in the energy intensive systems identified at the facility ', '', '', 0, 0, '2020-08-06 23:09:57', 1),
@@ -1544,8 +1508,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4435, 172, 0, 0, 26, 'Distance traveled between departments (d) is typically calculated rectilinearly, or the sum of the horizontal and vertical differences between the centroids of two departments .   ', '', '', 0, 0, '2020-08-14 21:20:02', 0),
 (4436, 172, 0, 0, 26, 'Relative moving cost (f) is a subjective measurement. If the movement cost is average, it should assume a value of 1. Therefore, if a material requires twice the effort to move compared to the average material it should assume a value of 2.', '', '', 0, 0, '2020-08-14 21:20:02', 0),
 (4437, 172, 0, 0, 26, 'Calculating D-scores should be done tabularly.  ', '', '', 0, 0, '2020-08-14 21:20:02', 0),
-(4440, 174, 0, 0, 26, 'A qualitative, visual strategy for designing a layout.', '', '', 0, 0, '2020-08-14 21:46:21', 0),
-(4441, 174, 0, 0, 26, 'Begin with creating a matrix with every department listed as a header for columns and rows (see figure 1).', '', '', 0, 0, '2020-08-14 21:46:21', 0),
 (4442, 173, 0, 0, 26, 'Most inefficient layouts are the result of future space, workstation, and product expansions that were not considered in the original design of the facility layout..', '', '', 0, 0, '2020-08-14 23:18:36', 0),
 (4443, 173, 0, 0, 26, 'For layouts with obvious flow inefficiencies, using intuition to organize departments is sufficient to achieve savings. However, there are heuristic models that can be used for a more scientific approach.', '', '', 0, 0, '2020-08-14 23:18:36', 0),
 (4444, 175, 0, 0, 11, 'Use digester gas in a dual fuel boiler', '', '', 0, 0, '2020-08-17 18:11:37', 1),
@@ -1657,7 +1619,76 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4747, 82, 0, 1, 15, 'Flow rates, pressure readings, live amperage data', '', '', 0, 0, '2020-08-20 22:38:49', 0),
 (4748, 82, 0, 1, 17, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.app.box.com/file/606303033065', 'Analysis Template: Install VFDs on Process Pumps', 2, 0, '2020-08-20 22:38:49', 0),
 (4749, 82, 0, 0, 11, 'Eliminate Bypass Control', '', '', 0, 0, '2020-08-20 22:38:49', 0),
-(4750, 82, 0, 0, 11, 'Replace On/Off Control with Continuous Flow Control ', '', '', 0, 0, '2020-08-20 22:38:49', 0);
+(4750, 82, 0, 0, 11, 'Replace On/Off Control with Continuous Flow Control ', '', '', 0, 0, '2020-08-20 22:38:49', 0),
+(4760, 174, 0, 0, 26, 'A qualitative, visual strategy for designing a layout.', '', '', 0, 0, '2020-08-22 22:13:57', 0),
+(4761, 174, 0, 0, 26, 'Begin with creating a matrix with every department listed as a header for columns and rows (see figure 1). This is known as a from/to diagram.', '', '', 0, 0, '2020-08-22 22:13:57', 0),
+(4762, 174, 0, 0, 20, '', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPsAAADJCAMAAADSHrQyAAAAgVBMVEX///8AAABiYmLt7e2NjY3k5OTY2NidnZ24uLhNTU29vb339/fAwMA9PT2qqqodHR2Dg4NeXl44ODjd3d3n5+fu7u59fX309PSRkZGHh4fJycmkpKSxsbGlpaVTU1PU1NRzc3NFRUWXl5dqamoSEhIuLi4nJyczMzMYGBgcHBwTExNqJpk3AAARIElEQVR4nO2dC3eiOhCAJwIiDxEbBATkqXT3/v8feJMAgpB0bY1VS2fP2VMnMOaTJISZZAD4lfuIRWXwKRAdd7XydSTdoLruPpSoRjb/OHS18pWkAcAK+a9MAHwGjzUAjeoCbIEHGiCi0ZqjYIctBTxMTiUfsfe4qt8sjN0uXMJROuTPNcHGxsLTULrfBbrhwHZVWZsULbdZ4dOfQzfMNMmLCNAWIsN/YXjK7r1BVLXsBmFHOEJKCrYf6Xgb5UVAjkI51JAtAHQXb5GxoyoIqqWpP7b+twhjLyDKW/aCsvu57hF2N4jzU1TR5k3+7d4hI7/QofD3dasCqFT82PrfIox93bCT/h6pAdPZlH3v6OBG1fKCXXcAF1mjslaw3D6a4OtC2YPyoJMxrqycQ0jvcuUhjr3a0SOsH3SnJuyxQ9hr1jMyotswdtJO1ENsPprg6xLT/4KSDu9ZHOs7piRUWn2IAJalFzFdfAArAY8dVioRGfNIB9HBKl8YXSi4eHQNHidB9Oga/Mqv/Mqv/MqvfEWckKt2EUL85zJSwFN7RO9zT9BJCVrySk4CWxZCKdeUZHFKrtonN/W/CqcAAd9V4Rlk6s+F1xPRd9d8tUXs4294OFipDvfR018FVrqb6oUeGo/O/hKVU6LrwY73K5LrrnELvssLlDhmzPO27TdvNa+dbkSuuYad14ji49vbhvt8u35/4116wq5pnN9dsthbTfN5bZK2+ZpzUf77mJ', 'Figure 1 - From-to Matrix', 0, 0, '2020-08-22 22:13:57', 0),
+(4763, 174, 0, 0, 26, 'Use this information to create a space-relation diagram. See figure 2.', '', '', 0, 0, '2020-08-22 22:13:57', 0),
+(4764, 174, 0, 0, 20, '', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATAAAACmCAMAAABqbSMrAAAAeFBMVEX////e3t7t7e309PRxcXH6+vrCwsKNjY11dXWTk5ODg4PT09OsrKy2trba2trp6elDQ0OioqLIyMiysrJqamoAAACJiYlLS0upqamcnJx+fn5dXV26urrOzs7Gxsbi4uIoKChhYWFSUlIeHh40NDRAQEA5OTkrKyuPAHKLAAAWMUlEQVR4nO2dDZuqqtfGEQRFBDfiMOKAnObsc57v/w0f1F6szLRpmvb5d18zZWZlv2Cx1uJFAL5B7rOa1Xv0HZ/6B4uo+ecNe8x5/DEi+fzz9AXsWC9gK/UCtlIvYCv1ArZSL2Ar9QK2Uj0w3G8KPPH8C9iJOmBo02/63T4/bEXd3QvYiTpgikeFzArDEh3uPTA5o0Ry2hW+F7ATdcAyToXNAC1ywokO+3xMbOLsq4RNKACTDmgbG5Q6k4d7CIg0ubFpm4AXsDMFYKIARW6VjbwvpFWhyBVAgAKFuxewM23dClyT4T4nx8+/gJ3o5Yet1AvYSr2ArdQL2Eq9gK3UC9hKvYCt1BgYlig8oghI5Ha9ay9gJ2pHwAzCIaIEusYaJNt9L2DHKt4P/ZKIAqBBBmSHy209/hewI7FsVMJgAJaABiTdjeDDzhewsTgF1ajnOwE4RgWNoBFAwmHfC9hIhqOYj2yYl/tNttv9XwaG/32b1+fx8Q3z8bFbgc+3/tPANlcOOAKGK0SS/20/DH9cOeB9tF1UWHasvheYj85VfOUN76o1wFwDsrLb+FZg4nde1zVNGxru82473P36whveVyuAWQrSwZf/VmCsPyNLch6MImKDa/c5+5JHajkwo2CFhk0iYTEjmHyphA1nJAigqanJ4Nr9gcAaFqW7feLvv8b6+++330c7/vqKydkDC9xdo0T/6I8DhuMi1MgLKnKJ7ndGW2ChaKncKji4eX8asCLGhl8+pn', 'Figure 2  - Space Relationship Diagram', 0, 0, '2020-08-22 22:13:57', 0),
+(4765, 174, 0, 0, 26, 'Convert the space-relationship diagram into a facility layout.', '', '', 0, 0, '2020-08-22 22:13:57', 0),
+(4766, 129, 0, 0, 11, 'Install a heat pipe to recovery process heat', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4767, 129, 0, 1, 13, 'Air-to-air heat transfer (typically for 150-850 ˚F processes)', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4768, 129, 0, 0, 11, 'Install a shell and tube heat exchanger to recover process heat (Matt)', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4769, 129, 0, 1, 13, 'Liquid-to-liquid heat transfer ', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4770, 129, 0, 0, 11, 'Install an economizer to pre-heat boiler make-up water (Matt)', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4771, 129, 0, 1, 13, 'Air-to-liquid heat transfer ', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4772, 129, 0, 0, 11, 'Install a Heat Exchanger Between Two Liquid Flows', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4773, 129, 0, 1, 10, 'Two fluid flows with a large temperature difference where at least one stream requires heat treatment.', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4774, 129, 0, 1, 13, 'Heat exchange between two fluids can be beneficial for both streams, such as hot milk coming out of pasteurization for cooling being used to preheat incoming milk. Less energy is required now to cool the pasteurized milk and the raw milk requires less heat to be added for pasteurization.', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4775, 129, 0, 1, 7, 'Heat exchangers are most effective when configured for counter-flow heat transfer', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4776, 129, 0, 1, 8, 'The higher the temperature difference between the fluid streams, the more heat can be exchanged', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4777, 129, 0, 1, 14, 'How much can the temperature of the two fluid streams change without negatively affecting the process the fluids are required for?', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4778, 129, 0, 1, 14, 'Can these streams be reasonably close together physically to fit into a heat exchanger?', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4779, 129, 0, 1, 14, 'Is there space in the room to accomodate a heat exchanger?', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4780, 129, 0, 1, 14, 'What kind of heat exchanger best fits the fluid stream? There are several different types.', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4781, 129, 0, 1, 14, 'Is the fluid stream clean or dirty?', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4782, 129, 0, 1, 15, 'System operation hours', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4783, 129, 0, 1, 15, 'Fluid properties', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4784, 129, 0, 1, 15, 'Density', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4785, 129, 0, 1, 15, 'Mass flowrate (volumetric is fine if the density is known)', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4786, 129, 0, 1, 15, 'Specific heat', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4787, 129, 0, 1, 15, 'Heating process efficiency', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4788, 129, 0, 1, 15, 'Available floor space', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4789, 129, 0, 1, 27, 'Contact thermometer (if safe)', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4790, 129, 0, 1, 27, 'IR thermometer', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4791, 129, 0, 1, 27, 'Ultrasonic flow meter if fluid flowrate is unknown and the temperatures are safe for the equipment', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4792, 129, 0, 1, 4, 'Pressure drop across the heat exchanger could cause a loss of performance in downstream processes', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4793, 129, 0, 1, 4, 'Heat exchangers can foul over time without proper maintenance and cleaning, reducing their effectiveness', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4794, 129, 0, 1, 4, 'Heat exchangers can become hot and should not be placed where someone may come into contact with it inadvertently', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4795, 129, 0, 1, 20, '', 'https://drive.google.com/file/d/1CdPMeAFZMbadgXb9opm3qJR72S7zPYwG/view?usp=sharing', 'A spiral heat exchanger is installed for heat transfer between hot sludge coming from anaerobic digestion and cool sludge coming from aerobic digestion. At this facility sludge was being heated going into the anaerobic digestor and then cooled when leaving to enter the aerobic digestor.', 0, 0, '2020-08-24 16:58:32', 0),
+(4796, 129, 0, 1, 20, '', 'https://drive.google.com/file/d/1twM-Rb5cEp3NGoQwPh8Hlh9LvlMvP1Id/view?usp=sharing', 'Raw milk and pasteurized milk in this process pass through a plate heat exchanger. In the pasteurization process, raw milk is heated to kill bacteria, but must be cooled afterwards. To reduce both the heating and cooling loads, the pasteurized milk preheats the raw milk while also cooling itself.', 0, 0, '2020-08-24 16:58:32', 0),
+(4797, 129, 0, 1, 17, 'Thermodynamic properties of water/steam from the Heat Exchanger Design Handbook by C. F. Beaton, published in 1986. This is useful for finding the enthalpy of water/steam for calculating heat transfer.', 'http://thermopedia.com/content/1150/', 'Water/Steam Property Tables', 1, 0, '2020-08-24 16:58:32', 0),
+(4798, 129, 0, 1, 24, 'Lists the specific heats of common fluids. This is used for calculating the amount of heat that can be exchanged between the two fluid streams.', 'https://www.engineeringtoolbox.com/specific-heat-fluids-d_151.html', 'Common Fluid Specific Heats', 1, 0, '2020-08-24 16:58:32', 0),
+(4799, 129, 0, 1, 24, 'List of densities for common fluids. This is useful if the fluid\'s volumetric flowrate is known, but not the mass flowrate.', 'https://www.engineeringtoolbox.com/liquids-densities-d_743.html', 'Common Fluid Densities', 1, 0, '2020-08-24 16:58:32', 0),
+(4800, 129, 0, 1, 24, 'Estimated heat exchanger heat transfer coefficients for use in calculating the amount of heat transferred between the two fluid streams.', 'https://www.engineeringtoolbox.com/heat-transfer-coefficients-exchangers-d_450.html', 'Heat Exchanger Heat Transfer Coefficients', 1, 0, '2020-08-24 16:58:32', 0),
+(4801, 129, 0, 1, 17, 'Describes heat exchanger design for sludge in wastewater treatment facilities. This paper also contains the relevant thermodynamic properties of sludge. Understand that the characteristics of wastewater sludge is not consistent between facilities.', 'https://www.witpress.com/elibrary/wit-transactions-on-modelling-and-simulation/46/18010', 'Importance of experimental measurements and simulations for ‘sludge-to-energy’ systems', 1, 0, '2020-08-24 16:58:32', 0),
+(4802, 129, 0, 0, 11, 'Pre-heat combustion air (Adam)', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4803, 129, 0, 1, 10, 'Look to see if a high temperature oven/furnace is currently recycling hot air from stack.', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4804, 129, 0, 1, 13, 'Two different heat exchangers can be used for this opportunity, recuperators and regenerators. ', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4805, 129, 0, 2, 13, 'Recuperators work like a standard air-to-air heat exchanger. There is a hot flow and a cold flow in which energy is transferred between with the use of internal tubes or plates. The two streams are kept in separate ducts to keep the gasses from mixing. ', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4806, 129, 0, 2, 1, 'PROS HERE UNFINISHED', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4807, 129, 0, 2, 2, 'CONS HERE UNFINISHED', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4808, 129, 0, 2, 20, '', 'https://cdn4.explainthatstuff.com/how-heat-exchangers-work.png', 'Recuperator Schematic', 0, 0, '2020-08-24 16:58:32', 0),
+(4809, 129, 0, 2, 13, 'Regenerators act as heating vessels for both the combustion air and flue gases. Regenerators alternate between heating the storage medium and then taking heat from it. Usually at least two regenerators and burners are needed so that the process is uninterrupted.', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4810, 129, 0, 2, 1, 'PROS HERE UNFINISHED', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4811, 129, 0, 2, 2, 'CONS HERE UNFINISHED', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4812, 129, 0, 2, 20, '', 'https://image.slidesharecdn.com/heatexchangertypesandapplication-171015153006/95/heat-exchanger-types-and-application-13-638.jpg?cb=1508081873', 'Regenerator Schematic', 0, 0, '2020-08-24 16:58:32', 0),
+(4813, 129, 0, 1, 4, 'Take care not to lower exhaust stack temperature too low as it can cause corrosion. This happens because the surface temperature of the stack is lower than the dew point of the flue gas flowing through the stack, causing moisture to accumulate.', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4814, 129, 0, 1, 8, 'Some flue gasses are corrosive and can damage installed heat exchanges. When performing an analysis, research which heat exchangers are best designed for the process in question. ', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4815, 129, 0, 1, 15, 'Flue gas temperature', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4816, 129, 0, 1, 15, 'Inlet air temperature', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4817, 129, 0, 1, 15, 'Fuel feed rate', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4818, 129, 0, 1, 15, 'Excess oxygen', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4819, 129, 0, 1, 15, 'Operation hours', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4820, 129, 0, 1, 27, 'Combustion analyzer', '', '', 0, 0, '2020-08-24 16:58:32', 0),
+(4821, 129, 0, 1, 17, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/et_preheated.pdf', 'D.O.E. Tip Sheet', 1, 0, '2020-08-24 16:58:32', 0),
+(4822, 184, 0, 0, 26, 'First, calculate the D-scores for the original layout (D0) and the proposed layout (D1).', '', '', 0, 0, '2020-08-24 19:51:09', 0),
+(4823, 184, 0, 0, 26, 'Calculate layout efficiency savings by finding the percent difference in d-scores (i.e. D0 - D1 / D1).', '', '', 0, 0, '2020-08-24 19:51:09', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `created`, `approved`) VALUES
+(4824, 184, 0, 0, 26, 'Layout efficiency savings are an important measure in itself and will result in increased productivity, however, translating this figure into monetary cost savings is necessary.', '', '', 0, 0, '2020-08-24 19:51:09', 0),
+(4828, 185, 0, 0, 26, 'Cost savings from improved layouts are the result of reduced material handling costs. Material handling costs typically refer to time and energy spent using manual labor, vehicles (e.g. forklifts), or conveyors to move product or inventory around the facility. ', '', '', 0, 0, '2020-08-24 20:54:37', 0),
+(4829, 185, 0, 0, 26, 'Calculating actual cost savings requires analysis of both layouts. Layout efficiency savings do not directly relate to cost savings unless the facility only uses one way to handle materials.', '', '', 0, 0, '2020-08-24 20:54:37', 0),
+(4830, 185, 0, 0, 26, 'xfgzffdx', '', '', 0, 0, '2020-08-24 20:54:37', 0);
 
 -- --------------------------------------------------------
 
@@ -1737,6 +1768,19 @@ CREATE TABLE `Request_Objects` (
   `requestId` int(10) UNSIGNED NOT NULL,
   `objectId` int(10) UNSIGNED NOT NULL,
   `objectType` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Sources`
+--
+
+CREATE TABLE `Sources` (
+  `sourceId` int(10) UNSIGNED NOT NULL,
+  `pageId` int(10) UNSIGNED NOT NULL,
+  `text` varchar(5000) NOT NULL,
+  `url` varchar(5000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2006,6 +2050,13 @@ ALTER TABLE `Request_Objects`
   ADD KEY `request_object_fk` (`requestId`);
 
 --
+-- Indexes for table `Sources`
+--
+ALTER TABLE `Sources`
+  ADD PRIMARY KEY (`sourceId`),
+  ADD KEY `sources_pages_fk` (`pageId`);
+
+--
 -- Indexes for table `Sponsors`
 --
 ALTER TABLE `Sponsors`
@@ -2056,7 +2107,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=184;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2110,7 +2161,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4751;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4831;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -2135,6 +2186,12 @@ ALTER TABLE `Request_Comments`
 --
 ALTER TABLE `Request_Objects`
   MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Sources`
+--
+ALTER TABLE `Sources`
+  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`
@@ -2216,6 +2273,12 @@ ALTER TABLE `Request_Comments`
 --
 ALTER TABLE `Request_Objects`
   ADD CONSTRAINT `request_object_fk` FOREIGN KEY (`requestId`) REFERENCES `Requests` (`requestId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `Sources`
+--
+ALTER TABLE `Sources`
+  ADD CONSTRAINT `sources_pages_fk` FOREIGN KEY (`pageId`) REFERENCES `Pages` (`pageId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Temp_Cards`
