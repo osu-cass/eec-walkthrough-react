@@ -160,6 +160,7 @@ function setAuthCookie(res, token, username, userId, role) {
       path: "/",
       httpOnly: true,
       sameSite: true,
+      // secure: true,
       expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
       maxAge: COOKIE_EXPIRES_MS / 1000,
     })

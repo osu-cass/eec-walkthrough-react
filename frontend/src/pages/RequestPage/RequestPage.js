@@ -8,6 +8,9 @@ import ReportPage from "../ViewHistory/ReportPage";
 import ReportHeader from "../ViewHistory/ReportHeader";
 import ReportCard from "../ViewHistory/ReportCard";
 import {useParams} from "react-router-dom";
+import CloseRequest from "./CloseRequest";
+import AcceptRequest from "./AcceptRequest";
+import Error from "../../components/General/Error";
 import "./RequestPage.css";
 
 // page for viewing a single publish request
@@ -26,6 +29,7 @@ function RequestPage() {
     comments: []
   });
   const {requestId} = useParams();
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     fetchRequest();
@@ -43,7 +47,6 @@ function RequestPage() {
 
       const obj = await results.json();
       setRequest(obj);
-      console.log(obj);
 
     } else {
 
@@ -68,11 +71,29 @@ function RequestPage() {
 
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
-          <h4 className="flex-grow-1 font-weight-bold">
-            Publish Requests - {request.title}
-          </h4>
+          <div className="col">
+            <h2 className="font-weight-bold">
+              Publish Request - {request.title}
+            </h2>
+          </div>
+        </div>
+        <div className="row mx-2">
+          <CloseRequest
+            creatorId={parseInt(request.userId, 10)}
+            requestId={parseInt(requestId, 10)}
+            onError={(message) => setErrorMessage(message)}
+          />
+          <div className="mx-2" />
+          <AcceptRequest
+            requestId={parseInt(requestId, 10)}
+            onError={(message) => setErrorMessage(message)}
+          />
         </div>
       </div>
+
+      <Error
+        message={errorMessage}
+      />
 
       <RequestComment
         created={request.created}
@@ -94,7 +115,6 @@ function RequestPage() {
       )}
 
       <RequestSubmitComment
-        creatorId={parseInt(request.userId, 10)}
         requestId={parseInt(requestId, 10)}
       />
 
