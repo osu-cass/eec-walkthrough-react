@@ -47,7 +47,6 @@ function ConstructRequestModal(props) {
 
         // We don't have a valid collection of objects.
         // We clear the collection
-        console.log(err);
         const collection = {
           objects: []
         };
