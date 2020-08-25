@@ -130,6 +130,7 @@ function Card(props) {
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
               iconSet={props.iconSet}
               role={props.role}
+              sources={props.sources}
             />
             <ReviewCard
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
@@ -224,5 +225,6 @@ Card.propTypes = {
   handleTimestamp: PropTypes.func,
   cardState: PropTypes.number,
   role: PropTypes.number,
-  setCheck: PropTypes.func
+  setCheck: PropTypes.func,
+  sources: PropTypes.array
 };

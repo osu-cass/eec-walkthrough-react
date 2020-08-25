@@ -39,6 +39,14 @@ async function getFullPage(pageId, viewAll) {
       return {pageId: 0};
     }
 
+    // get all of the sources for the page
+    sql = "SELECT * " +
+    "FROM Sources " +
+    "WHERE pageId = ? " +
+    "ORDER BY sourceId;";
+    results = await pool.query(sql, pageId);
+    finalResults.allSources = results[0];
+
     // get all of the headers for the page
     if (viewAll) {
       sql = "SELECT * " +

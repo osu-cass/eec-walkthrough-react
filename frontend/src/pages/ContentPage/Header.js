@@ -45,6 +45,7 @@ function Header(props) {
       resetChecks(0);
     }
     setFilterShow(allIcons);
+    console.log(props.header)
     // eslint-disable-next-line
   }, [JSON.stringify(props.header.forceFilter), props.iconSet.length, props.cardState]);
 
@@ -690,6 +691,7 @@ function Header(props) {
               publicMode={props.publicMode}
               setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
               publishedMode={props.publishedMode}
+              sources={props.sources}
             />
           )}
         </div>
@@ -719,5 +721,6 @@ Header.propTypes = {
   forceFilter: PropTypes.array,
   updateIcon: PropTypes.func,
   resetIcons: PropTypes.func,
-  clearIcons: PropTypes.func
+  clearIcons: PropTypes.func,
+  sources: PropTypes.array
 };

@@ -38,6 +38,7 @@ function EditCard(props) {
         iconSet={props.iconSet}
         card={props.card}
         role={props.role}
+        sources={props.sources}
       />
     </div>
   ) : (
@@ -51,5 +52,6 @@ EditCard.propTypes = {
   card: PropTypes.object,
   handleUpdate: PropTypes.func,
   iconSet: PropTypes.array,
-  role: PropTypes.number
+  role: PropTypes.number,
+  sources: PropTypes.array
 };
