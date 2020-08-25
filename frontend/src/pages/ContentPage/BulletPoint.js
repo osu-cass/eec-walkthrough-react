@@ -1,6 +1,7 @@
 import React, {Fragment} from "react";
 import Image from "./Image";
 import PropTypes from "prop-types";
+import Source from "./Source";
 import {formatTime} from "../../utilities/formatTime";
 import LinkAccessButtons from "./LinkAccessButtons";
 import "./BulletPoint.css";
@@ -54,17 +55,7 @@ function BulletPoint (props) {
                 <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
                   {props.text}
                 </span>
-                {props.source > 0 ? (
-                  <a href={`#source-${props.source}`}>[{props.source}]</a>
-                ) : (
-                  <Fragment>
-                    {props.source < 0 && props.mode === 1 ? (
-                      <a href={`#source-star`}>[*]</a>
-                    ) : (
-                      null
-                    )}
-                  </Fragment>
-                )}
+                <Source source={props.source}/>
               </div>
             </div>
           ) : (
@@ -82,17 +73,7 @@ function BulletPoint (props) {
                 <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
                   {props.text}
                 </span>
-                {props.source > 0 ? (
-                  <a href={`#source-${props.source}`}>[{props.source}]</a>
-                ) : (
-                  <Fragment>
-                    {props.source < 0 && props.mode === 1 ? (
-                      <a href={`#source-star}`}>[*]</a>
-                    ) : (
-                      null
-                    )}
-                  </Fragment>
-                )}
+                <Source source={props.source}/>
               </div>
             </div>
           )}
@@ -117,6 +98,7 @@ function BulletPoint (props) {
                 {props.text}
               </span>
               {props.label}
+              <Source source={props.source}/>
             </div>
             <Image url={props.url} title={props.label} thumbnail={false} header={false} />
           </div>
