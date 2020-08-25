@@ -10,6 +10,7 @@ import CreateCard from "./CreateCard";
 import CreateHeader from "./CreateHeader";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
+import References from "./References";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import "./ContentPage.css";
@@ -550,6 +551,12 @@ function ContentPage(props) {
             </Fragment>
           );
         })}
+
+        <References
+          sources={pageInfo.sources}
+          tempSources={pageInfo.tempSources}
+          mode={mode}
+        />
 
       </Container>
     ) : <LoadingOverlay loading={true} />;

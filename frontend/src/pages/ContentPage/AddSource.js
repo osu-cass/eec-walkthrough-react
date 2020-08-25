@@ -33,7 +33,7 @@ function AddSource(props) {
     }
 
     fetchSources();
-  }, []);
+  }, [props.pageId]);
 
   function handleCloseModal() {
     setShowModal(false);
