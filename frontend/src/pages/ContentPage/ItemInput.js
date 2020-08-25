@@ -43,6 +43,7 @@ function ItemInput(props) {
         <FormControl
           as="textarea"
           rows="1"
+          maxLength="1000"
           className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
           placeholder="Item Text"
           value={props.value.contentText}
@@ -57,6 +58,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
+            maxLength="1000"
             className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
             placeholder="Graphic Label"
             value={props.value.contentLabel}
@@ -68,6 +70,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
+            maxLength="1000"
             className={props.internal ? "internal-modal-item" : ""}
             placeholder="Graphic URL"
             value={props.value.contentUrl}
@@ -102,6 +105,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
+            maxLength="1000"
             className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
             placeholder="Resource Label"
             value={props.value.contentLabel}
@@ -113,6 +117,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
+            maxLength="1000"
             className={props.internal ? "internal-modal-item" : ""}
             placeholder="Resource URL"
             value={props.value.contentUrl}
@@ -124,6 +129,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
+            maxLength="1000"
             className={props.internal ? "internal-modal-item" : ""}
             placeholder="Description (optional)"
             value={props.value.contentText}

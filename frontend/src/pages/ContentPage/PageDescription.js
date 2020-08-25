@@ -8,6 +8,7 @@ import ChangePublished from "./ChangePublished";
 import EditPage from "./EditPage";
 import SaveView from "./SaveView";
 import LoadView from "./LoadView";
+import AddSource from "./AddSource";
 import "./PageDescription.css";
 
 // Header and card that describes the page
@@ -99,6 +100,11 @@ function PageDescription(props) {
               mode={props.mode}
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
               handlePageEdit={props.handlePageEdit}
+            />
+            <AddSource
+              pageId={props.page.pageId}
+              role={props.role}
+              mode={props.mode}
             />
             <ChangeMode
               role={props.role}
