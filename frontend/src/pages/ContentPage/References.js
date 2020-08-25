@@ -9,7 +9,7 @@ function References(props) {
     <div className="citation-reference-container">
       <div className={`d-flex reference-header-bar justify-content-between sticky-top
         my-3 p-3 text-dark-50 rounded shadow-sm border`}
-        style={{top: "1em", zIndex: "998"}}
+      style={{top: "1em", zIndex: "998"}}
       >
         <div className="row mx-2">
           <h4 className="flex-grow-1 font-weight-bold">
@@ -26,7 +26,7 @@ function References(props) {
                 return <li key={source.sourceId}>
                   <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
                   {source.text}
-                </li>
+                </li>;
               })}
             </Fragment>
           </ol>
@@ -36,7 +36,7 @@ function References(props) {
     </div>
   ) : (
     null
-  )
+  );
 
 }
 export default References;
