@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
-import "./EditPage.css";
 
 // Button and modal that allows a user to add a source to a page
 function AddSource(props) {
@@ -124,16 +123,40 @@ function AddSource(props) {
     // See if the sources meet the minimum required text
     for (let i = 0; i < editedSources.length; i++) {
       if (!editedSources[i].text.length) {
-        setErrorMessage("Error: Text describing the source is blank for source #", i + 1);
+        setErrorMessage("Error: Text describing the source is blank for source #" + (i + 1));
         return;
       }
     }
 
-    setErrorMessage("");
-    setLoading(true);
+    const data = {
+      sources: sources
+    };
 
+    const results = await fetch(`/api/sources/page/${props.pageId}`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
+    });
 
+    if (results.ok) {
 
+      // refresh the page
+      window.location.reload();
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
     setLoading(false);
   }
 

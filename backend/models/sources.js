@@ -9,7 +9,7 @@ async function getSources(pageId) {
 
   try {
 
-    // get the specified page
+    // make sure the page exists
     let sql = "SELECT * " +
     "FROM Pages " +
     "WHERE pageId = ?;";
@@ -47,31 +47,71 @@ async function createSources(pageId, sources) {
 
   try {
 
-    return {error: 1};
-
-    // make sure the request exists
+    // make sure the page exists
     let sql = "SELECT * " +
-    "FROM Requests " +
-    "WHERE requestId = ?;";
-    let results = await pool.query(sql, requestId);
+    "FROM Pages " +
+    "WHERE pageId = ?;";
+    let results = await pool.query(sql, pageId);
 
+    // check to see if we were able to find the page
     if (!results[0].length) {
       return {error: 1};
     }
 
-    // create the comment
-    sql = "INSERT INTO Request_Comments (requestId, comment, review, userId) " +
-    "VALUES (?, ?, ?, ?);";
-    results = await pool.query(sql, [requestId, comment, status, userId]);
+    // start by deleting the source ids that aren't present
+    let sqlArray = [];
+
+    sql = "DELETE FROM Sources " +
+    "WHERE pageId = ? ";
+    sqlArray.push(pageId);
+
+    for (let i = 0; i < sources.length; i++) {
+      sql += "AND sourceID != ? ";
+      sqlArray.push(parseInt(sources[i].sourceId, 10));
+    }
+
+    await pool.query(sql, sqlArray);
+
+    // attempt to add or update the sources
+    for (let i = 0; i < sources.length; i++) {
+      
+      // make sure we have a valid source
+      if (typeof sources[i].text !== "string" || typeof sources[i].url !== "string") {
+        continue;
+      }
+
+      if (sources[i].text.length < 1) {
+        continue;
+      }
+
+      // if we have a valid source ID then we are updating
+      // otherwise we are creating a new source
+      if (parseInt(sources[i].sourceId, 10) > 0) {
+
+        sql = "UPDATE Sources " +
+        "SET text = ?, url = ? " +
+        "WHERE sourceId = ? " +
+        "AND pageId = ?;";
+        await pool.query(sql, [sources[i].text, sources[i].url, sources[i].sourceId, pageId]);
+
+      } else {
+
+        sql = "INSERT INTO Sources (text, url, pageId) " +
+        "VALUES (?, ?, ?);";
+        await pool.query(sql, [sources[i].text, sources[i].url, pageId]);
+
+      }
+
+    }
 
     const finalResults = {
-      insertId: results[0].insertId
+      sourcesUpdated: sources.length
     };
 
     return finalResults;
 
   } catch (err) {
-    console.error("Error creating comment");
+    console.error("Error updating sources");
     throw Error(err);
   }
 
