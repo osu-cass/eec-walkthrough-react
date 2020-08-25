@@ -54,6 +54,17 @@ function BulletPoint (props) {
                 <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
                   {props.text}
                 </span>
+                {props.source > 0 ? (
+                  <a href={`#source-${props.source}`}>[{props.source}]</a>
+                ) : (
+                  <Fragment>
+                    {props.source < 0 && props.mode === 1 ? (
+                      <a href={`#source-star}`}>[*]</a>
+                    ) : (
+                      null
+                    )}
+                  </Fragment>
+                )}
               </div>
             </div>
           ) : (
@@ -71,6 +82,17 @@ function BulletPoint (props) {
                 <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
                   {props.text}
                 </span>
+                {props.source > 0 ? (
+                  <a href={`#source-${props.source}`}>[{props.source}]</a>
+                ) : (
+                  <Fragment>
+                    {props.source < 0 && props.mode === 1 ? (
+                      <a href={`#source-star}`}>[*]</a>
+                    ) : (
+                      null
+                    )}
+                  </Fragment>
+                )}
               </div>
             </div>
           )}
@@ -194,5 +216,6 @@ BulletPoint.propTypes = {
   setCheck: PropTypes.func,
   checked: PropTypes.bool,
   highlightStyle: PropTypes.number,
-  internal: PropTypes.number
+  internal: PropTypes.number,
+  source: PropTypes.number
 };

@@ -125,6 +125,7 @@ function BasicItems(props) {
           checked={item.hideChildren}
           setCheck={(check, itemId) => props.setCheck(check, itemId)}
           highlightStyle={compareArray[i]}
+          source={item.refId}
           internal={item.internal}
         />
       )}
@@ -150,6 +151,7 @@ function BasicItems(props) {
           reviewing={props.reviewing}
           checked={item.hideChildren}
           setCheck={(check, itemId) => props.setCheck(check, itemId)}
+          source={item.refId}
           internal={item.internal}
         />
       )}

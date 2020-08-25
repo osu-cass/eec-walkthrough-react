@@ -12,6 +12,10 @@ async function getFullPage(pageId, viewAll) {
 
     let sql = "";
 
+    // these arrays stores all of the items that have a cited source
+    const sources = [];
+    let sqlArray = [];
+
     // get the specified page
     if (viewAll) {
       sql = "SELECT * " +
@@ -92,7 +96,7 @@ async function getFullPage(pageId, viewAll) {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, internal, " +
-          "created, approved, color " +
+          "created, approved, color, sourceId " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -103,11 +107,18 @@ async function getFullPage(pageId, viewAll) {
 
           finalResults.headers[i].cards[j].items = results[0];
 
+          // get all of the cited source ids
+          for (let k = 0; k < results[0].length; k++) {
+            if (results[0][k].sourceId) {
+              sources.push(results[0][k].sourceId);
+            }
+          }
+
           // get all unapproved items
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, internal, " +
-          "created, approved, color " +
+          "created, approved, color, sourceId " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -123,7 +134,7 @@ async function getFullPage(pageId, viewAll) {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, " +
-          "created, approved, color " +
+          "created, approved, color, sourceId " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -136,10 +147,78 @@ async function getFullPage(pageId, viewAll) {
           finalResults.headers[i].cards[j].items = results[0];
           finalResults.headers[i].cards[j].tempItems = [];
 
+          // get all of the cited source ids
+          for (let k = 0; k < results[0].length; k++) {
+            if (results[0][k].sourceId) {
+              sources.push(results[0][k].sourceId);
+            }
+          }
+
         }
 
       }
 
+    }
+
+    // convert all of the cited source IDs to source objects
+    if (sources.length) {
+      sqlArray = [];
+      sql = "SELECT * " +
+      "FROM Sources " +
+      "WHERE pageId = ? " +
+      "AND (";
+      sqlArray.push(pageId);
+
+      for (let i = 0; i < sources.length; i++) {
+        if (i === sources.length - 1) {
+          sql += "sourceId = ?) ORDER BY sourceId;";
+        } else {
+          sql += "sourceId = ? OR ";
+        }
+        sqlArray.push(sources[i]);
+      }
+
+      results = await pool.query(sql, sqlArray);
+      finalResults.sources = results[0];
+    } else {
+      finalResults.sources = [];
+    }
+
+    // loop through all of the items and set their source IDs to the new order
+    for (let i = 0; i < finalResults.headers.length; i++) {
+      for (let j = 0; j < finalResults.headers[i].cards.length; j++) {
+
+        // normal items
+        for (let k = 0; k < finalResults.headers[i].cards[j].items.length; k++) {
+          if (finalResults.headers[i].cards[j].items[k].sourceId === 0) {
+            finalResults.headers[i].cards[j].items[k].refId = 0;
+          } else {
+            finalResults.headers[i].cards[j].items[k].refId = -1;
+          }
+          for (let l = 0; l < finalResults.sources.length; l++) {
+            if (finalResults.headers[i].cards[j].items[k].sourceId === finalResults.sources[l].sourceId) {
+              finalResults.headers[i].cards[j].items[k].refId = l + 1;
+              break;
+            }
+          }
+        }
+
+        // temp items
+        for (let k = 0; k < finalResults.headers[i].cards[j].tempItems.length; k++) {
+          if (finalResults.headers[i].cards[j].tempItems[k].sourceId === 0) {
+            finalResults.headers[i].cards[j].tempItems[k].refId = 0;
+          } else {
+            finalResults.headers[i].cards[j].tempItems[k].refId = -1;
+          }
+          for (let l = 0; l < finalResults.sources.length; l++) {
+            if (finalResults.headers[i].cards[j].tempItems[k].sourceId === finalResults.sources[l].sourceId) {
+              finalResults.headers[i].cards[j].tempItems[k].refId = l + 1;
+              break;
+            }
+          }
+        }
+
+      }
     }
 
     return finalResults;
