@@ -342,3 +342,20 @@ const postCommentVal = Object.freeze({
   ]
 });
 exports.postCommentVal = postCommentVal;
+
+// validation checks for get sources
+const getSourcesVal = Object.freeze({
+  validation: [
+    check("pageId").isInt({min: 1, max: 4294967295}),
+  ]
+});
+exports.getSourcesVal = getSourcesVal;
+
+// validation checks for post sources
+const postSourcesVal = Object.freeze({
+  validation: [
+    check("pageId").isInt({min: 1, max: 4294967295}),
+    check("sources").isArray({min: 1})
+  ]
+});
+exports.postSourcesVal = postSourcesVal;

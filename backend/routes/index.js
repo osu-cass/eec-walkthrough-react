@@ -40,6 +40,7 @@ app.use("/api/pages", require("./pages"));
 app.use("/api/users", require("./users"));
 app.use("/api/categories", require("./categories"));
 app.use("/api/views", require("./views"));
+app.use("/api/sources", require("./sources"));
 
 // unhandled requests get a 404 error
 app.all("/*", (req, res) => {
