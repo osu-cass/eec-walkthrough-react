@@ -291,7 +291,10 @@ function ManageSponsors(props) {
                 </span>
 
                 <FormControl
+                  as="textarea"
+                  rows="3"
                   className="ml-3"
+                  maxLength="1000"
                   placeholder="Name"
                   defaultValue={sponsor.name}
                   aria-label="Sponsor Name"
@@ -300,7 +303,10 @@ function ManageSponsors(props) {
                   required
                 />
                 <FormControl
+                  as="textarea"
+                  rows="3"
                   placeholder="Description"
+                  maxLength="1000"
                   defaultValue={sponsor.title}
                   aria-label="Description"
                   aria-describedby="basic-addon1"
@@ -308,7 +314,10 @@ function ManageSponsors(props) {
                   required
                 />
                 <FormControl
+                  as="textarea"
+                  rows="3"
                   placeholder="Website URL"
+                  maxLength="1000"
                   defaultValue={sponsor.websiteUrl}
                   aria-label="Website URL"
                   aria-describedby="basic-addon1"
@@ -316,7 +325,10 @@ function ManageSponsors(props) {
                   required
                 />
                 <FormControl
+                  as="textarea"
+                  rows="3"
                   className="mr-3"
+                  maxLength="1000"
                   placeholder="Image URL"
                   defaultValue={sponsor.imageUrl}
                   aria-label="Image URL"
