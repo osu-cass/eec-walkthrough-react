@@ -541,12 +541,14 @@ function ContentPage(props) {
                 updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
                 resetIcons={e => resetIcons(e)}
                 clearIcons={e => clearIcons(e)}
+                sources={pageInfo.allSources}
               />
               <CreateCard
                 headerId={header.headerId}
                 handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
                 mode={mode}
                 iconSet={iconSet}
+                sources={pageInfo.allSources}
               />
             </Fragment>
           );

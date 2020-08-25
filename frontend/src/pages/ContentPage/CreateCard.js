@@ -36,6 +36,7 @@ function CreateCard(props) {
         handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
         iconSet={props.iconSet}
         headerId={props.headerId}
+        sources={props.sources}
       />
     </div>
   ) : (
@@ -49,5 +50,6 @@ CreateCard.propTypes = {
   handleUpdate: PropTypes.func,
   iconSet: PropTypes.array,
   headerId: PropTypes.number,
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  sources: PropTypes.array
 };

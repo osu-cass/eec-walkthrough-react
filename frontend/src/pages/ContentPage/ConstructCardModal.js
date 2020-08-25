@@ -60,6 +60,7 @@ function ConstructCardModal(props) {
       itemData.contentMode = item.contentMode;
       itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
       itemData.internal = item.internal;
+      itemData.sourceId = item.sourceId;
       itemData.current = 1;
       if (item.contentText === "$empty") {
         itemData.contentText = "";
@@ -169,6 +170,7 @@ function ConstructCardModal(props) {
     copy[key].contentMode = newContentMode;
     copy[key].indentation = newIndent;
     copy[key].internal = 0;
+    copy[key].sourceId = 0;
 
     // Make sure the indentation is up to date
     copy = scanIndentation(copy);
@@ -770,6 +772,14 @@ function ConstructCardModal(props) {
     setItems(copy);
   }
 
+  // Controls source data changes coming from <ItemInput>
+  function handleSourceValue(index, value) {
+    const key = index.toString();
+    const copy = [...items];
+    copy[key].sourceId = value;
+    setItems(copy);
+  }
+
   // Updates dropdown icon selected for specific index
   // @param {Number} icon itemType ID of Icon
   // @param {Number} index Index of item being changed
@@ -800,8 +810,6 @@ function ConstructCardModal(props) {
   }
 
   // Returns JSX for dropdown of all icons
-  // @param {Number} i item index passed from generateInputs()
-  // @return {JSX}   Array of JSX of icons
   function generateIcons(i, contentType) {
     const list = [];
     const jsx = [];
@@ -1121,10 +1129,13 @@ function ConstructCardModal(props) {
                   maxLength="1000"
                   handleInput={(e1, e2, e3) => handleInput(e1, e2, e3)}
                   handleLinkValue={(e1, e2) => handleLinkValue(e1, e2)}
+                  handleSourceValue={(e1, e2) => handleSourceValue(e1, e2)}
                   index={i}
                   value={item}
                   contentType={item.contentType}
                   internal={item.internal}
+                  sourceId={item.sourceId}
+                  sources={props.sources}
                 />
               </div>
             </Row>
@@ -1200,5 +1211,6 @@ ConstructCardModal.propTypes = {
   handleUpdate: PropTypes.func,
   iconSet: PropTypes.array,
   headerId: PropTypes.number,
+  sources: PropTypes.array,
   role: PropTypes.number
 };
