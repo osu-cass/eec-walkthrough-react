@@ -27,7 +27,7 @@ async function getSources(pageId) {
     "ORDER BY sourceId;";
     results = await pool.query(sql, pageId);
 
-    finalResults = {
+    const finalResults = {
       sources: results[0]
     };
 
@@ -51,7 +51,7 @@ async function createSources(pageId, sources) {
     let sql = "SELECT * " +
     "FROM Pages " +
     "WHERE pageId = ?;";
-    let results = await pool.query(sql, pageId);
+    const results = await pool.query(sql, pageId);
 
     // check to see if we were able to find the page
     if (!results[0].length) {
@@ -59,7 +59,7 @@ async function createSources(pageId, sources) {
     }
 
     // start by deleting the source ids that aren't present
-    let sqlArray = [];
+    const sqlArray = [];
 
     sql = "DELETE FROM Sources " +
     "WHERE pageId = ? ";
@@ -74,7 +74,7 @@ async function createSources(pageId, sources) {
 
     // attempt to add or update the sources
     for (let i = 0; i < sources.length; i++) {
-      
+
       // make sure we have a valid source
       if (typeof sources[i].text !== "string" || typeof sources[i].url !== "string") {
         continue;

@@ -187,8 +187,8 @@ function AddSource(props) {
                   <button className='btn btn-danger btn-sm ml-2'
                     onClick={() => deleteSource(source.sourceId)}
                     data-index={i}
-                    >
-                      <i className='fas fa-fw fa-times' />
+                  >
+                    <i className='fas fa-fw fa-times' />
                   </button>
                 </span>
                 <FormControl

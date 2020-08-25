@@ -59,7 +59,7 @@ function BulletPoint (props) {
                 ) : (
                   <Fragment>
                     {props.source < 0 && props.mode === 1 ? (
-                      <a href={`#source-star}`}>[*]</a>
+                      <a href={`#source-star`}>[*]</a>
                     ) : (
                       null
                     )}
