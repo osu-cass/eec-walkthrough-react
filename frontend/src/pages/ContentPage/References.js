@@ -22,12 +22,21 @@ function References(props) {
         <div>
           <ol className="source-list">
             <Fragment>
-              {props.sources.map((source, i) => {
-                return <li key={source.sourceId}>
-                  <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
-                  {source.text}
-                </li>;
-              })}
+              {props.sources.map((source, i) =>
+                <li key={source.sourceId}>
+                  {source.url.length ? (
+                    <a href={source.url}>
+                      <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
+                      <span>{source.text}</span>
+                    </a>
+                  ) : (
+                    <Fragment>
+                      <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
+                      <span>{source.text}</span>
+                    </Fragment>
+                  )}
+                </li>
+              )}
             </Fragment>
           </ol>
         </div>
