@@ -40,7 +40,7 @@ app.get("/:pageId/all", getUserID, getPageVal.validation, async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.error(errors.array());
-      return res.status(422).json({errors: errors.array()});
+      return res.status(404).json({errors: errors.array()});
     }
 
     // check if the current user should be able to view this content
