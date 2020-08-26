@@ -33,7 +33,6 @@ function LoadView(props) {
         const obj = await results.json();
         setViews(obj.views);
         setNewModal(false);
-        console.log(obj.views);
 
       } else {
         setErrorMessage("An internal server error occurred. Please try again later.");

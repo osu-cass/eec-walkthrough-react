@@ -33,6 +33,7 @@ function ContentPage(props) {
   const [cardState, setCardState] = useState(0);
   const [pageState, setPageState] = useState(0);
   const [moved, setMoved] = useState(false);
+  const [references, setReferences] = useState([]);
   const {pageId} = useParams();
 
   // get new page data if the page ID has changed
@@ -85,7 +86,9 @@ function ContentPage(props) {
       for (let i = 0; i < obj.headers.length; i++) {
         obj.headers[i].forceFilter = [];
       }
-      setHeaders(headerSortOrder(obj.headers));
+      const sortedHeaders = headerSortOrder(obj.headers);
+      setHeaders(sortedHeaders);
+      updateReferences(sortedHeaders, obj.sources);
       console.log("Page Data:", obj);
     } else {
       if (results.status === 404) {
@@ -142,6 +145,7 @@ function ContentPage(props) {
             setHeaders(headerSortOrder(headerData));
           }
         }
+        updateReferences(headers, pageInfo.sources);
 
       } else if (action === "clear") {
 
@@ -156,6 +160,7 @@ function ContentPage(props) {
             }
           }
         }
+        updateReferences(headers, pageInfo.sources);
       }
 
     } else if (type === "card") {
@@ -215,6 +220,7 @@ function ContentPage(props) {
           }
         }
       }
+      updateReferences(headers, pageInfo.sources);
     }
   }
 
@@ -492,6 +498,62 @@ function ContentPage(props) {
     setHeaders(copy);
   }
 
+  // Calculates all of the page reference data
+  function updateReferences(headerData, sources) {
+    const copy = [...headerData];
+    const refOrder = [];
+    const tempRefOrder = [];
+
+    // normal items
+    for (let i = 0; i < copy.length; i++) {
+      for (let j = 0; j < copy[i].cards.length; j++) {
+        for (let k = 0; k < copy[i].cards[j].items.length; k++) {
+
+          const curItem = copy[i].cards[j].items[k];
+          curItem.refId = 0;
+          if (curItem.sourceId !== 0) {
+            // see if this source has already been referenced
+            for (let l = 0; l < refOrder.length; l++) {
+              if (curItem.sourceId === refOrder[l]) {
+                curItem.refId = l + 1;
+              }
+            }
+
+            // if this is the first time the source is referenced,
+            // then add the source to the list, but only if it is real
+            if (curItem.refId === 0) {
+              let valid = false;
+              for (let l = 0; l < sources.length; l++) {
+                if (curItem.sourceId === sources[l].sourceId) {
+                  valid = true;
+                }
+              }
+              if (valid) {
+                refOrder.push(curItem.sourceId);
+                curItem.refId = refOrder.length;
+              }
+            }
+          }
+
+        }
+      }
+    }
+
+    // Create the array of references
+    const finalRef = [];
+    for (let i = 0; i < refOrder.length; i++) {
+      for (let j = 0; j < sources.length; j++) {
+        if (refOrder[i] === sources[j].sourceId) {
+          finalRef.push(sources[j]);
+          break;
+        }
+      }
+    }
+
+    setReferences(finalRef);
+    setHeaders(copy);
+  }
+
   if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
     return loaded ? ( // Render content when data loaded from backend
       <Container className="my-4" id="content-page">
@@ -541,22 +603,22 @@ function ContentPage(props) {
                 updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
                 resetIcons={e => resetIcons(e)}
                 clearIcons={e => clearIcons(e)}
-                sources={pageInfo.allSources}
+                sources={pageInfo.sources}
               />
               <CreateCard
                 headerId={header.headerId}
                 handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
                 mode={mode}
                 iconSet={iconSet}
-                sources={pageInfo.allSources}
+                sources={pageInfo.sources}
               />
             </Fragment>
           );
         })}
 
         <References
-          sources={pageInfo.sources}
-          tempSources={pageInfo.tempSources}
+          sources={references}
+          tempSources={references}
           mode={mode}
         />
 

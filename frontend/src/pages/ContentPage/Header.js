@@ -45,7 +45,6 @@ function Header(props) {
       resetChecks(0);
     }
     setFilterShow(allIcons);
-    console.log(props.header)
     // eslint-disable-next-line
   }, [JSON.stringify(props.header.forceFilter), props.iconSet.length, props.cardState]);
 
