@@ -287,6 +287,8 @@ function ContentPage(props) {
 
     setMoved(true);
     const copy = [...headers];
+    let moveIndex = -1;
+    let swapIndex = -1;
 
     // change how the headers are moved based on the current mode
     if (mode === 1) {
@@ -294,9 +296,9 @@ function ContentPage(props) {
       // find the current published header
       for (let i = 0; i < copy.length; i++) {
         if (copy[i].headerId === headerId) {
+          moveIndex = i;
 
           // find the header to swap with
-          let swapIndex = -1;
           if (up) {
             for (let j = (i - 1); j >= 0; j--) {
               if (copy[j].approved) {
@@ -320,9 +322,9 @@ function ContentPage(props) {
           }
 
           // swap the headers
-          let swapHeader = copy[swapIndex];
-          copy[swapIndex] = copy[i];
-          copy[i] = swapHeader;
+          let swapHeader = JSON.parse(JSON.stringify(copy[swapIndex]));
+          copy[swapIndex] = JSON.parse(JSON.stringify(copy[i]));
+          copy[moveIndex] = swapHeader;
           setHeaders(copy);
           break;
         }
@@ -333,22 +335,18 @@ function ContentPage(props) {
       // find the current unpublished header
       for (let i = 0; i < copy.length; i++) {
         if (copy[i].headerId === headerId) {
+          moveIndex = i;
 
           // find the header to swap with
-          let swapIndex = -1;
           if (up) {
             for (let j = (i - 1); j >= 0; j--) {
-              if (copy[j].tempHeaderId) {
-                swapIndex = j;
-                break;
-              }
+              swapIndex = j;
+              break;
             }
           } else {
             for (let j = (i + 1); j < copy.length; j++) {
-              if (copy[j].tempHeaderId) {
-                swapIndex = j;
-                break;
-              }
+              swapIndex = j;
+              break;
             }
           }
 
@@ -359,15 +357,18 @@ function ContentPage(props) {
           }
 
           // swap the headers
-          let swapHeader = copy[swapIndex];
-          copy[swapIndex] = copy[i];
-          copy[i] = swapHeader;
+          let swapHeader = JSON.parse(JSON.stringify(copy[swapIndex]));
+          copy[swapIndex] = JSON.parse(JSON.stringify(copy[i]));
+          copy[moveIndex] = swapHeader;
           setHeaders(copy);
           break;
         }
       }
 
     }
+
+    setCardState(cardState + 1);
+    setHeaders(copy);
 
     // get direction value
     let direction = up ? 1 : 0;
@@ -379,7 +380,6 @@ function ContentPage(props) {
     });
 
     if (!results.ok) {
-
       const obj = await results.json();
 
       if (results.status === 404) {
