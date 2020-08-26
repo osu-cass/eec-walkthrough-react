@@ -35,6 +35,7 @@ function ContentPage(props) {
   const [moved, setMoved] = useState(false);
   const [references, setReferences] = useState([]);
   const [tempReferences, setTempReferences] = useState([]);
+  const [cardTitles, setCardTitles] = useState([]);
   const {pageId} = useParams();
 
   // get new page data if the page ID has changed
@@ -72,6 +73,16 @@ function ContentPage(props) {
     if (results.ok) {
       obj = await results.json();
       setIconSet(obj.icons);
+    } else {
+      setErrorPage(500);
+      return;
+    }
+
+    // Fetch all card titles
+    results = await fetch(`/api/cards/titles`);
+    if (results.ok) {
+      obj = await results.json();
+      setCardTitles(obj.titles);
     } else {
       setErrorPage(500);
       return;
@@ -672,6 +683,7 @@ function ContentPage(props) {
                 resetIcons={e => resetIcons(e)}
                 clearIcons={e => clearIcons(e)}
                 sources={pageInfo.sources}
+                cardTitles={cardTitles}
               />
               <CreateCard
                 headerId={header.headerId}
@@ -679,6 +691,7 @@ function ContentPage(props) {
                 mode={mode}
                 iconSet={iconSet}
                 sources={pageInfo.sources}
+                cardTitles={cardTitles}
               />
             </Fragment>
           );

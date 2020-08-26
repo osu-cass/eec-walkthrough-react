@@ -131,6 +131,7 @@ function Card(props) {
               iconSet={props.iconSet}
               role={props.role}
               sources={props.sources}
+              cardTitles={props.cardTitles}
             />
             <ReviewCard
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
@@ -226,5 +227,6 @@ Card.propTypes = {
   cardState: PropTypes.number,
   role: PropTypes.number,
   setCheck: PropTypes.func,
-  sources: PropTypes.array
+  sources: PropTypes.array,
+  cardTitles: PropTypes.array
 };
