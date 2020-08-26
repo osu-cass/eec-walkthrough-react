@@ -159,14 +159,14 @@ const getCardVal = Object.freeze({
 exports.getCardVal = getCardVal;
 
 // validation checks for move card
-const patchCardMove = Object.freeze({
+const patchCardMoveVal = Object.freeze({
   validation: [
     check("cardId").isInt({min: 1, max: 4294967295}),
     check("direction").isInt({min: 0, max: 1}),
     check("mode").isInt({min: 0, max: 1})
   ]
 });
-exports.patchCardMove = patchCardMove;
+exports.patchCardMoveVal = patchCardMoveVal;
 
 // validation checks for post card
 const postCardVal = Object.freeze({
@@ -355,7 +355,15 @@ exports.getSourcesVal = getSourcesVal;
 const postSourcesVal = Object.freeze({
   validation: [
     check("pageId").isInt({min: 1, max: 4294967295}),
-    check("sources").isArray({min: 1})
+    check("sources").isArray()
   ]
 });
 exports.postSourcesVal = postSourcesVal;
+
+// validation checks for post card titles
+const postCardTitleVal = Object.freeze({
+  validation: [
+    check("titles").isArray()
+  ]
+});
+exports.postCardTitleVal = postCardTitleVal;

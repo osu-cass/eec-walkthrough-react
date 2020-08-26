@@ -905,3 +905,40 @@ async function getCardTitles() {
 
 }
 exports.getCardTitles = getCardTitles;
+
+
+// create a list of titles
+async function createCardTitles(titles) {
+
+  try {
+
+    // start by deleting the previous card titles
+    let sql = "DELETE FROM Quick_Titles;";
+    await pool.query(sql, []);
+
+    // make sure that titles are valid
+    for (let i = 0; i < titles.length; i++) {
+      if (typeof titles[i].title !== "string" || titles[i].title.length === 0) {
+        return {error: 1};
+      }
+    }
+
+    // add the new titles
+    for (let i = 0; i < titles.length; i++) {
+      sql = "INSERT INTO Quick_Titles (title) VALUES (?);";
+      await pool.query(sql, titles[i].title);
+    }
+
+    const finalResults = {
+      titlesUpdated: titles.length
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error updating titles");
+    throw Error(err);
+  }
+
+}
+exports.createCardTitles = createCardTitles;

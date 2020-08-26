@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Button, Row, FormControl} from "react-bootstrap";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import {logout} from "../../utilities/cookieAuth";
 import "./ManageCardTitles.css";
 
 // page for managing default card titles
@@ -33,9 +34,52 @@ function ManageCardTitles() {
     setLoading(false);
   }
 
-  // refresh link data when a title is edited or created
-  function handleUpdate() {
-    fetchTitles();
+  // save the current card titles
+  async function handleSubmit() {
+
+    // See if the titles meet the minimum required text
+    for (let i = 0; i < cardTitles.length; i++) {
+      if (!cardTitles[i].title.length) {
+        setErrorMessage("Error: Title #" + (i + 1) + " is blank");
+        return;
+      }
+    }
+
+    setLoading(true);
+
+    const titles = {
+      titles: cardTitles
+    }
+
+    // make the request
+    const results = await fetch(`/api/cards/titles`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(titles),
+    });
+
+    if (results.ok) {
+      // refresh the page
+      window.location.reload();
+    } else {
+      // there was an error updating the titles
+      const obj = await results.json();
+
+      // if the user is performing an unauthorized action
+      // log them out and return them to the homepage
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+    }
+
+    setLoading(false);
   }
 
   // delete a card title
@@ -87,6 +131,7 @@ function ManageCardTitles() {
 
     editedTitles[arrayIndex].title = text;
     setCardTitles(editedTitles);
+    setErrorMessage("");
   }
 
   // create a new card title
@@ -109,6 +154,7 @@ function ManageCardTitles() {
 
     editedTitles.push(newTitle);
     setCardTitles(editedTitles);
+    setErrorMessage("");
   }
 
   return (
@@ -124,11 +170,13 @@ function ManageCardTitles() {
         </div>
       </div>
 
-      <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
+      <div className="prompt-container my-3 py-3 bg-white card rounded shadow-sm">
         {cardTitles.map((title, i) =>
-          <div className="input-group" key={title.titleId}>
-            <span className="ml-2 mr-3">
-              <button className='btn btn-danger btn-sm ml-2'
+          <div className="input-group my-2" key={title.titleId}>
+
+            <span className="mx-2 my-auto">
+              <button 
+                className="btn btn-danger btn-sm ml-2"
                 onClick={() => deleteTitle(title.titleId)}
                 data-index={i}
               >
@@ -139,27 +187,35 @@ function ManageCardTitles() {
             <FormControl
               type="text"
               rows="3"
-              className="mx-3"
+              className="ml-2 mr-3"
               maxLength="1000"
-              placeholder="Title"
+              placeholder="Enter title"
               defaultValue={title.title}
               aria-label="Title"
               aria-describedby="basic-addon1"
-              onChange={(e) => modifyTitles(e.target.value, 1, title.titleId)}
+              onChange={(e) => modifyTitles(e.target.value, title.titleId)}
               required
             />
           </div>
         )}
 
-        <Error
-          message={errorMessage}
-        />
+        <div className="mx-3 my-3">
+          <Error
+            message={errorMessage}
+          />
+        </div>
 
-        <Row className="mx-4 my-4">
-          <Button className="mr-auto" variant="info" onClick={() => createTitle()}>
-            Add title
-          </Button>
-          <Button variant="primary" onClick={(e) => {/*handleSubmit(e)*/}}>Save changes</Button>
+        <Row className="mb-2">
+          <div className="col">
+            <Button className="ml-3" variant="info" onClick={() => createTitle()}>
+              Add title
+            </Button>
+          </div>
+          <div className="col">
+            <Button variant="primary" className="float-right mr-3" onClick={() => handleSubmit()}>
+              Save changes
+            </Button>
+          </div>
         </Row>
       </div>
     </div>

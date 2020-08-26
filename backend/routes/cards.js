@@ -12,7 +12,8 @@ const {
   postCardVal,
   getCardVal,
   patchCardVal,
-  patchCardMove
+  patchCardMoveVal,
+  postCardTitleVal
 } = require("../services/validation/requestValidation");
 const {
   createCard,
@@ -23,7 +24,8 @@ const {
   unpublishCard,
   moveCard,
   moveTempCard,
-  getCardTitles
+  getCardTitles,
+  createCardTitles
 } = require("../models/cards");
 
 
@@ -312,7 +314,7 @@ app.post("/:cardId/unpublish", requireAuth, getCardVal.validation, async (req, r
 
 
 // move a card relative to other cards
-app.patch("/:cardId/move/:direction/:mode", requireAuth, patchCardMove.validation, async (req, res) => {
+app.patch("/:cardId/move/:direction/:mode", requireAuth, patchCardMoveVal.validation, async (req, res) => {
 
   try {
 
@@ -381,7 +383,6 @@ app.patch("/:cardId/move/:direction/:mode", requireAuth, patchCardMove.validatio
 
 
 // get a list of default card titles
-// get information about all icons
 app.get("/titles", async (req, res) => {
 
   try {
@@ -391,6 +392,50 @@ app.get("/titles", async (req, res) => {
     // get all titles
     const results = await getCardTitles();
     res.status(200).send(results);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// create a list of card titles
+app.post("/titles", requireAuth, postCardTitleVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update a list of card titles");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const titles = req.body.titles;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to create default card titles."});
+      return;
+    }
+
+    // create a list of titles
+    const results = await createCardTitles(titles);
+
+    if (results.titlesUpdated >= 0) {
+      res.status(201).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(403).send({error: "Invalid card title."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+    }
 
   } catch (err) {
     console.error(err);
