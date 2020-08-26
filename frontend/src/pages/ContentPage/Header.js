@@ -691,6 +691,7 @@ function Header(props) {
               setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
               publishedMode={props.publishedMode}
               sources={props.sources}
+              cardTitles={props.cardTitles}
             />
           )}
         </div>
@@ -721,5 +722,6 @@ Header.propTypes = {
   updateIcon: PropTypes.func,
   resetIcons: PropTypes.func,
   clearIcons: PropTypes.func,
-  sources: PropTypes.array
+  sources: PropTypes.array,
+  cardTitles: PropTypes.array
 };

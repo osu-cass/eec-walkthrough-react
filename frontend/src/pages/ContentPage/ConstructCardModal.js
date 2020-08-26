@@ -24,7 +24,7 @@ function ConstructCardModal(props) {
   const [linkIcons, setLinkIcons] = useState([]);
   const [checked, setChecked] = useState(0);
   const [copyToast, setCopyToast] = useState(false);
-  const [cardTitleMode, setCardTitleMode] = useState(0);
+  const [cardTitleMode, setCardTitleMode] = useState("");
   const [selectedItem, setSelectedItem] = useState(0);
 
   // setup card data
@@ -295,51 +295,8 @@ function ConstructCardModal(props) {
 
     // If we are using a preset title apply it now
     let submitTitle = title;
-    switch (cardTitleMode) {
-      case 1:
-        submitTitle = "Pros";
-        break;
-      case 2:
-        submitTitle = "Cons";
-        break;
-      case 3:
-        submitTitle = "Caveats";
-        break;
-      case 4:
-        submitTitle = "Best Practices";
-        break;
-      case 5:
-        submitTitle = "Rules of Thumb";
-        break;
-      case 6:
-        submitTitle = "Tips";
-        break;
-      case 7:
-        submitTitle = "Additional in Depth Site Resources";
-        break;
-      case 8:
-        submitTitle = "Charts, Tables, Figures";
-        break;
-      case 9:
-        submitTitle = "Standard Data to Collect";
-        break;
-      case 10:
-        submitTitle = "Data Collection Guides";
-        break;
-      case 11:
-        submitTitle = "Analysis Tools";
-        break;
-      case 12:
-        submitTitle = "Gallery";
-        break;
-      case 13:
-        submitTitle = "U.S. Department of Energy Tip Sheets";
-        break;
-      case 14:
-        submitTitle = "General Off Site Resource Links";
-        break;
-      default:
-        submitTitle = title;
+    if (cardTitleMode !== "") {
+      submitTitle = cardTitleMode;
     }
 
     // Prepare data for new card
@@ -450,51 +407,8 @@ function ConstructCardModal(props) {
 
     // If we are using a preset title apply it now
     let submitTitle = title;
-    switch (cardTitleMode) {
-      case 1:
-        submitTitle = "Pros";
-        break;
-      case 2:
-        submitTitle = "Cons";
-        break;
-      case 3:
-        submitTitle = "Caveats";
-        break;
-      case 4:
-        submitTitle = "Best Practices";
-        break;
-      case 5:
-        submitTitle = "Rules of Thumb";
-        break;
-      case 6:
-        submitTitle = "Tips";
-        break;
-      case 7:
-        submitTitle = "Additional in Depth Site Resources";
-        break;
-      case 8:
-        submitTitle = "Charts, Tables, Figures";
-        break;
-      case 9:
-        submitTitle = "Standard Data to Collect";
-        break;
-      case 10:
-        submitTitle = "Data Collection Guides";
-        break;
-      case 11:
-        submitTitle = "Analysis Tools";
-        break;
-      case 12:
-        submitTitle = "Gallery";
-        break;
-      case 13:
-        submitTitle = "U.S. Department of Energy Tip Sheets";
-        break;
-      case 14:
-        submitTitle = "General Off Site Resource Links";
-        break;
-      default:
-        submitTitle = title;
+    if (cardTitleMode !== "") {
+      submitTitle = cardTitleMode;
     }
 
     // Prepare data for new card
@@ -696,7 +610,7 @@ function ConstructCardModal(props) {
     let i = 0;
 
     // Empty title
-    if (!title.length && !cardTitleMode) {
+    if (!title.length && cardTitleMode === "") {
       emptyFound = true;
       newErrorMessage = "Error: Empty card title";
       if (emptyFound) {
@@ -928,7 +842,7 @@ function ConstructCardModal(props) {
   // Updates the current card title when the dropdown is changed
   function updateCardTitle() {
     const titleSelect = document.getElementById("card-title-dropdown");
-    const newCardValue = parseInt(titleSelect.options[titleSelect.selectedIndex].value, 10);
+    const newCardValue = titleSelect.options[titleSelect.selectedIndex].value;
     setCardTitleMode(newCardValue);
   }
 
@@ -984,29 +898,16 @@ function ConstructCardModal(props) {
                   defaultValue="0"
                   onChange={() => updateCardTitle()}
                 >
-                  <option value="0">Custom</option>
-                  <option value="1">Pros</option>
-                  <option value="2">Cons</option>
-                  <option value="3">Caveats</option>
-                  <option value="4">Best Practices</option>
-                  <option value="5">Rules of Thumb</option>
-                  <option value="6">Tips</option>
-                  <option value="7">Additional in Depth Site Resources</option>
-                  <option value="8">Charts, Tables, Figures</option>
-                  <option value="9">Standard Data to Collect</option>
-                  <option value="10">Data Collection Guides</option>
-                  <option value="11">Analysis Tools</option>
-                  <option value="12">Gallery</option>
-                  <option value="13">U.S. Department of Energy Tip Sheets</option>
-                  <option value="14">General Off Site Resource Links</option>
+                  <option value="">Custom</option>
+                  {props.cardTitles.map((title) =>
+                    <option value={title.title}>{title.title}</option>
+                  )}
                 </select>
               </Form.Group>
             </Col>
           </Row>
 
-          {cardTitleMode ? (
-            null
-          ) : (
+          {cardTitleMode === "" ? (
             <Row>
               <Col>
                 <Form.Group controlId="formTitle">
@@ -1015,6 +916,8 @@ function ConstructCardModal(props) {
                 </Form.Group>
               </Col>
             </Row>
+          ) : (
+            null
           )}
 
           <Row>
@@ -1212,5 +1115,6 @@ ConstructCardModal.propTypes = {
   iconSet: PropTypes.array,
   headerId: PropTypes.number,
   sources: PropTypes.array,
+  cardTitles: PropTypes.array,
   role: PropTypes.number
 };

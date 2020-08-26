@@ -37,6 +37,7 @@ function CreateCard(props) {
         iconSet={props.iconSet}
         headerId={props.headerId}
         sources={props.sources}
+        cardTitles={props.cardTitles}
       />
     </div>
   ) : (
@@ -51,5 +52,6 @@ CreateCard.propTypes = {
   iconSet: PropTypes.array,
   headerId: PropTypes.number,
   mode: PropTypes.number,
-  sources: PropTypes.array
+  sources: PropTypes.array,
+  cardTitles: PropTypes.array
 };
