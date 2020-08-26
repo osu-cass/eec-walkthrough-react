@@ -121,7 +121,9 @@ function Card(props) {
           aria-controls={"collapse" + props.card.cardId}
           className="col pl-0 pr-0"
         >
-          {(props.mode === 1 || (props.mode === 2 && props.publishedMode === 0)) && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
+          <span className="align-middle">
+            {(props.mode === 1 || (props.mode === 2 && props.publishedMode === 0)) && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
+          </span>
         </div>
         {props.mode === 1 ? (
           <div className="row ml-auto">
