@@ -55,6 +55,8 @@ function CreatePage(props) {
 
     if (results.ok) {
 
+      const obj = await results.json();
+
       // Reset state
       setName("");
       setSummary("");
@@ -68,6 +70,9 @@ function CreatePage(props) {
 
       // Reload sidebar after adding
       props.refresh();
+
+      // redirect to the new page
+      window.location.href = `/${props.collectionLink}/${obj.insertId}`;
 
     } else {
 
@@ -225,6 +230,7 @@ export default CreatePage;
 
 CreatePage.propTypes = {
   title: PropTypes.string,
+  collectionLink: PropTypes.string,
   role: PropTypes.number,
   refresh: PropTypes.func,
   categoryId: PropTypes.number

@@ -85,6 +85,7 @@ function SidebarCollection(props) {
               <Fragment>
                 <CreatePage
                   title={`Create ${props.collectionName} Page`}
+                  collectionLink={props.collectionLink}
                   refresh={props.refresh}
                   role={props.role}
                   categoryId={props.category.categoryId}
