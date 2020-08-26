@@ -286,162 +286,113 @@ function ContentPage(props) {
   async function handleMoveHeader(headerId, up, mode) {
 
     setMoved(true);
-
     const copy = [...headers];
 
-    let headerType = "temp";
+    // change how the headers are moved based on the current mode
     if (mode === 1) {
-      headerType = "norm";
-    }
 
-    // divide the normal and edited header in the same array
-    const headerOrderArray = [];
-    for (let i = 0; i < copy.length; i++) {
-      if (copy[i].tempHeaderId && copy[i].approved) {
+      // find the current published header
+      for (let i = 0; i < copy.length; i++) {
+        if (copy[i].headerId === headerId) {
 
-        const headerObj = {
-          id: copy[i].headerId,
-          type: "norm",
-          order: copy[i].orderIndex,
-          solo: false
-        };
-
-        const tempHeaderObj = {
-          id: copy[i].tempHeaderId,
-          type: "temp",
-          order: copy[i].tempOrderIndex,
-          solo: false
-        };
-
-        if (mode) {
-          headerObj.show = "show";
-          tempHeaderObj.show = "hidden";
-        } else {
-          headerObj.show = "hidden";
-          tempHeaderObj.show = "show";
-        }
-
-        headerOrderArray.push(headerObj);
-        headerOrderArray.push(tempHeaderObj);
-
-      } else if (copy[i].approved) {
-        const headerObj = {
-          id: copy[i].headerId,
-          type: "norm",
-          order: copy[i].orderIndex,
-          show: "show",
-          solo: false
-        };
-        headerOrderArray.push(headerObj);
-      } else {
-        const tempHeaderObj = {
-          id: copy[i].headerId,
-          type: "temp",
-          order: copy[i].orderIndex,
-          solo: true
-        };
-        if (mode) {
-          tempHeaderObj.show = "hidden";
-        } else {
-          tempHeaderObj.show = "show";
-        }
-        headerOrderArray.push(tempHeaderObj);
-      }
-    }
-
-    // sort the array of headers by order index
-    headerOrderArray.sort((a, b) => a.order - b.order);
-
-    // find and move the specified header
-    let moved = false;
-    for (let i = 0; i < headerOrderArray.length; i++) {
-      if (parseInt(headerOrderArray[i].id, 10) === parseInt(headerId, 10) && headerOrderArray[i].type === headerType) {
-        if (up) {
-          // try to move up and skip hidden headers
-          for (let j = i; j > 0; j--) {
-            moved = true;
-            const tempObj = headerOrderArray[j - 1];
-            headerOrderArray[j - 1] = headerOrderArray[j];
-            headerOrderArray[j] = tempObj;
-            if (headerOrderArray[j].show !== "hidden") {
-              break;
+          // find the header to swap with
+          let swapIndex = -1;
+          if (up) {
+            for (let j = (i - 1); j >= 0; j--) {
+              if (copy[j].approved) {
+                swapIndex = j;
+                break;
+              }
+            }
+          } else {
+            for (let j = (i + 1); j < copy.length; j++) {
+              if (copy[j].approved) {
+                swapIndex = j;
+                break;
+              }
             }
           }
-          break;
-        } else {
-          // try to move down and skip hidden headers
-          for (let j = i; j < headerOrderArray.length - 1; j++) {
-            moved = true;
-            const tempObj = headerOrderArray[j + 1];
-            headerOrderArray[j + 1] = headerOrderArray[j];
-            headerOrderArray[j] = tempObj;
-            if (headerOrderArray[j].show !== "hidden") {
-              break;
-            }
+
+          // if we didn't find the header to swap with, then we stop now
+          if (swapIndex === -1) {
+            console.error("Unable to move header");
+            return;
           }
+
+          // swap the headers
+          let swapHeader = copy[swapIndex];
+          copy[swapIndex] = copy[i];
+          copy[i] = swapHeader;
+          setHeaders(copy);
           break;
         }
       }
-    }
 
-    // update the real headers to reflect the new order.
-    for (let i = 0; i < copy.length; i++) {
-      for (let j = 0; j < headerOrderArray.length; j++) {
-        if (copy[i].headerId === headerOrderArray[j].id && headerOrderArray[j].type === "norm") {
-          copy[i].orderIndex = j + 1;
-          copy[i].updateCards = true;
-        } else if (copy[i].tempHeaderId === headerOrderArray[j].id && headerOrderArray[j].type === "temp") {
-          copy[i].tempOrderIndex = j + 1;
-          copy[i].updateCards = true;
-        } else if (copy[i].headerId === headerOrderArray[j].id && headerOrderArray[j].solo && headerOrderArray[j].type === "temp") {
-          copy[i].orderIndex = j + 1;
-          copy[i].updateCards = true;
-        }
-      }
-    }
-
-    // sort headers
-    const sortedHeader = headerSortOrder(copy);
-    sortedHeader.forEach(header => {
-      header.orderIndex = header.realOrder;
-      header.tempOrderIndex = header.realOrder;
-    });
-
-    // update the header array
-    if (mode) {
-      setHeaders(sortedHeader);
     } else {
-      fetchData();
+
+      // find the current unpublished header
+      for (let i = 0; i < copy.length; i++) {
+        if (copy[i].headerId === headerId) {
+
+          // find the header to swap with
+          let swapIndex = -1;
+          if (up) {
+            for (let j = (i - 1); j >= 0; j--) {
+              if (copy[j].tempHeaderId) {
+                swapIndex = j;
+                break;
+              }
+            }
+          } else {
+            for (let j = (i + 1); j < copy.length; j++) {
+              if (copy[j].tempHeaderId) {
+                swapIndex = j;
+                break;
+              }
+            }
+          }
+
+          // if we didn't find the header to swap with, then we stop now
+          if (swapIndex === -1) {
+            console.error("Unable to move header");
+            return;
+          }
+
+          // swap the headers
+          let swapHeader = copy[swapIndex];
+          copy[swapIndex] = copy[i];
+          copy[i] = swapHeader;
+          setHeaders(copy);
+          break;
+        }
+      }
+
     }
 
-    let direction = 0;
-    if (up) {
-      direction = 1;
-    }
+    // get direction value
+    let direction = up ? 1 : 0;
 
     // send our move to the API
-    if (moved) {
-      const results = await fetch(`/api/headers/${headerId}/move/${direction}/${mode}`, {
-        method: "PATCH",
-        headers: {"Content-Type": "application/json"}
-      });
+    const results = await fetch(`/api/headers/${headerId}/move/${direction}/${mode}`, {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json"}
+    });
 
-      if (!results.ok) {
+    if (!results.ok) {
 
-        const obj = await results.json();
+      const obj = await results.json();
 
-        if (results.status === 404) {
-          console.error("Couldn't find header to move");
-        } else if (results.status === 500 || typeof obj.error === "undefined") {
-          console.error("An internal server error occurred while trying to move the header.");
-        } else {
-          console.error(obj.error);
-        }
+      if (results.status === 404) {
+        console.error("Couldn't find header to move");
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        console.error("An internal server error occurred while trying to move the header.");
+      } else {
+        console.error(obj.error);
+      }
 
-        if (results.status === 401) {
-          logout();
-          window.location.href = "/";
-        }
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
       }
     }
   }
