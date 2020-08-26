@@ -34,6 +34,7 @@ function ContentPage(props) {
   const [pageState, setPageState] = useState(0);
   const [moved, setMoved] = useState(false);
   const [references, setReferences] = useState([]);
+  const [tempReferences, setTempReferences] = useState([]);
   const {pageId} = useParams();
 
   // get new page data if the page ID has changed
@@ -504,12 +505,12 @@ function ContentPage(props) {
     const refOrder = [];
     const tempRefOrder = [];
 
-    // normal items
     for (let i = 0; i < copy.length; i++) {
       for (let j = 0; j < copy[i].cards.length; j++) {
-        for (let k = 0; k < copy[i].cards[j].items.length; k++) {
 
-          const curItem = copy[i].cards[j].items[k];
+        // normal items
+        for (let k = 0; k < copy[i].cards[j].items.length; k++) {
+          let curItem = copy[i].cards[j].items[k];
           curItem.refId = 0;
           if (curItem.sourceId !== 0) {
             // see if this source has already been referenced
@@ -518,7 +519,6 @@ function ContentPage(props) {
                 curItem.refId = l + 1;
               }
             }
-
             // if this is the first time the source is referenced,
             // then add the source to the list, but only if it is real
             if (curItem.refId === 0) {
@@ -534,12 +534,69 @@ function ContentPage(props) {
               }
             }
           }
-
         }
+
+        // temp items
+        if (copy[i].cards[j].tempItems.length) {
+          for (let k = 0; k < copy[i].cards[j].tempItems.length; k++) {
+            let curItem = copy[i].cards[j].tempItems[k];
+            curItem.refId = 0;
+            if (curItem.sourceId !== 0) {
+              // see if this source has already been referenced
+              for (let l = 0; l < tempRefOrder.length; l++) {
+                if (curItem.sourceId === tempRefOrder[l]) {
+                  curItem.refId = l + 1;
+                }
+              }
+              // if this is the first time the source is referenced,
+              // then add the source to the list, but only if it is real
+              if (curItem.refId === 0) {
+                let valid = false;
+                for (let l = 0; l < sources.length; l++) {
+                  if (curItem.sourceId === sources[l].sourceId) {
+                    valid = true;
+                  }
+                }
+                if (valid) {
+                  tempRefOrder.push(curItem.sourceId);
+                  curItem.refId = tempRefOrder.length;
+                }
+              }
+            }
+          }
+        } else {
+          for (let k = 0; k < copy[i].cards[j].items.length; k++) {
+            let curItem = copy[i].cards[j].items[k];
+            curItem.refId = 0;
+            if (curItem.sourceId !== 0) {
+              // see if this source has already been referenced
+              for (let l = 0; l < tempRefOrder.length; l++) {
+                if (curItem.sourceId === tempRefOrder[l]) {
+                  curItem.refId = l + 1;
+                }
+              }
+              // if this is the first time the source is referenced,
+              // then add the source to the list, but only if it is real
+              if (curItem.refId === 0) {
+                let valid = false;
+                for (let l = 0; l < sources.length; l++) {
+                  if (curItem.sourceId === sources[l].sourceId) {
+                    valid = true;
+                  }
+                }
+                if (valid) {
+                  tempRefOrder.push(curItem.sourceId);
+                  curItem.refId = tempRefOrder.length;
+                }
+              }
+            }
+          }
+        }
+
       }
     }
 
-    // Create the array of references
+    // Create the arrays of references
     const finalRef = [];
     for (let i = 0; i < refOrder.length; i++) {
       for (let j = 0; j < sources.length; j++) {
@@ -550,7 +607,18 @@ function ContentPage(props) {
       }
     }
 
+    const tempFinalRef = [];
+    for (let i = 0; i < tempRefOrder.length; i++) {
+      for (let j = 0; j < sources.length; j++) {
+        if (tempRefOrder[i] === sources[j].sourceId) {
+          tempFinalRef.push(sources[j]);
+          break;
+        }
+      }
+    }
+
     setReferences(finalRef);
+    setTempReferences(tempFinalRef);
     setHeaders(copy);
   }
 
@@ -618,7 +686,7 @@ function ContentPage(props) {
 
         <References
           sources={references}
-          tempSources={references}
+          tempSources={tempReferences}
           mode={mode}
         />
 
