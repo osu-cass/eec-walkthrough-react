@@ -124,6 +124,10 @@ function Sidebar(props) {
               {role >= 4 ? (
                 <Fragment>
                   <SidebarCollection
+                    collectionName="Manage Card Titles"
+                    collectionLink="manage-card-titles"
+                  />
+                  <SidebarCollection
                     collectionName="Manage Icons"
                     collectionLink="manage-icons"
                   />
