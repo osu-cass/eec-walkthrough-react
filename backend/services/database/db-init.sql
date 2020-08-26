@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 24, 2020 at 04:22 PM
+-- Generation Time: Aug 25, 2020 at 07:01 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -1732,6 +1732,37 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Quick_Titles`
+--
+
+CREATE TABLE `Quick_Titles` (
+  `titleId` int(10) UNSIGNED NOT NULL,
+  `title` varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Quick_Titles`
+--
+
+INSERT INTO `Quick_Titles` (`titleId`, `title`) VALUES
+(1, 'Pros'),
+(2, 'Cons'),
+(3, 'Caveats'),
+(4, 'Best Practices'),
+(5, 'Rules of Thumb'),
+(6, 'Tips'),
+(7, 'Additional in Depth Site Resources'),
+(8, 'Charts, Tables, Figures'),
+(9, 'Standard Data to Collect'),
+(10, 'Data Collection Guides'),
+(11, 'Analysis Tools'),
+(12, 'Gallery'),
+(13, 'U.S. Department of Energy Tip Sheets'),
+(14, 'General Off Site Resource Links');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Requests`
 --
 
@@ -2032,6 +2063,12 @@ ALTER TABLE `Pages`
   ADD KEY `category_fk` (`pageType`);
 
 --
+-- Indexes for table `Quick_Titles`
+--
+ALTER TABLE `Quick_Titles`
+  ADD PRIMARY KEY (`titleId`);
+
+--
 -- Indexes for table `Requests`
 --
 ALTER TABLE `Requests`
@@ -2170,6 +2207,12 @@ ALTER TABLE `Items`
 --
 ALTER TABLE `Pages`
   MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
+--
+-- AUTO_INCREMENT for table `Quick_Titles`
+--
+ALTER TABLE `Quick_Titles`
+  MODIFY `titleId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `Requests`

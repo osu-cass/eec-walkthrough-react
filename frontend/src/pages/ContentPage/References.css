@@ -9,6 +9,7 @@
 
 .citation-reference-container ol, .citation-reference-container li {
   list-style-position: outside;
+  margin-top: 1em;
   margin-bottom: 1em;
 }
 
