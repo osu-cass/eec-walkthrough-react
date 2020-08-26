@@ -4,6 +4,7 @@ import Home from "./pages/Home/Home";
 import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import ManageIcons from "./pages/ManageIcons/ManageIcons";
 import ManageLinks from "./pages/ManageLinks/ManageLinks";
+import ManageCardTitles from "./pages/ManageCardTitles/ManageCardTitles";
 import ViewHistory from "./pages/ViewHistory/ViewHistory";
 import Search from "./pages/Search/Search";
 import RegisterUser from "./pages/RegisterUser/RegisterUser";
@@ -73,6 +74,10 @@ function App() {
 
         <Route path="/page-list/:categoryId">
           <PageList />
+        </Route>
+
+        <Route path="/manage-card-titles">
+          <ManageCardTitles />
         </Route>
 
         <Route path="/manage-icons">
