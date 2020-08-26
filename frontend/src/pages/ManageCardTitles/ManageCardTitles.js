@@ -49,7 +49,7 @@ function ManageCardTitles() {
 
     const titles = {
       titles: cardTitles
-    }
+    };
 
     // make the request
     const results = await fetch(`/api/cards/titles`, {
@@ -175,7 +175,7 @@ function ManageCardTitles() {
           <div className="input-group my-2" key={title.titleId}>
 
             <span className="mx-2 my-auto">
-              <button 
+              <button
                 className="btn btn-danger btn-sm ml-2"
                 onClick={() => deleteTitle(title.titleId)}
                 data-index={i}
