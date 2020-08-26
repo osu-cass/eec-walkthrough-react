@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from "react";
+import {Button, Row, FormControl} from "react-bootstrap";
+import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import "./ManageCardTitles.css";
 
@@ -7,6 +9,7 @@ function ManageCardTitles() {
 
   const [cardTitles, setCardTitles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // when the page first loads, get all default card titles
   useEffect(() => {
@@ -22,7 +25,7 @@ function ManageCardTitles() {
 
     if (results.ok) {
       const obj = await results.json();
-      cardTitles(obj.titles);
+      setCardTitles(obj.titles);
     } else {
       console.error("Error fetching card titles");
     }
@@ -33,6 +36,79 @@ function ManageCardTitles() {
   // refresh link data when a title is edited or created
   function handleUpdate() {
     fetchTitles();
+  }
+
+  // delete a card title
+  function deleteTitle(titleId) {
+    if (!window.confirm("Are you sure you want to delete this card title?")) {
+      return;
+    }
+
+    const editedTitles = [...cardTitles];
+    let arrayIndex = -1;
+
+    // Find the index of this title
+    for (let i = 0; i < editedTitles.length; i++) {
+      if (editedTitles[i].titleId === titleId) {
+        arrayIndex = i;
+        break;
+      }
+    }
+
+    // If we can not find the index, then exit
+    if (arrayIndex === -1) {
+      console.error("Unable to find the title to delete");
+      return;
+    }
+
+    editedTitles.splice(arrayIndex, 1);
+    setCardTitles(editedTitles);
+  }
+
+  // Update one of the title fields
+  function modifyTitles(text, titleId) {
+
+    const editedTitles = [...cardTitles];
+    let arrayIndex = -1;
+
+    // Find the index of this title
+    for (let i = 0; i < editedTitles.length; i++) {
+      if (editedTitles[i].titleId === titleId) {
+        arrayIndex = i;
+        break;
+      }
+    }
+
+    // If we can not find the index, then exit
+    if (arrayIndex === -1) {
+      console.error("Unable to find the title to edit");
+      return;
+    }
+
+    editedTitles[arrayIndex].title = text;
+    setCardTitles(editedTitles);
+  }
+
+  // create a new card title
+  function createTitle() {
+    const editedTitles = [...cardTitles];
+
+    let newId = 1;
+
+    // find the largest id from titles and increase it by 1
+    for (let i = 0; i < editedTitles.length; i++) {
+      if (editedTitles[i].titleId >= newId) {
+        newId = editedTitles[i].titleId + 1;
+      }
+    }
+
+    const newTitle = {
+      titleId: newId,
+      title: ""
+    };
+
+    editedTitles.push(newTitle);
+    setCardTitles(editedTitles);
   }
 
   return (
@@ -48,40 +124,44 @@ function ManageCardTitles() {
         </div>
       </div>
 
-      {cardTitles.length ? (
-        <table className="card-title-table shadow mb-5">
-          <thead>
-            <tr>
-              <th style={{width: "75%"}}>
-                Title
-              </th>
-              <th style={{width: "25%"}}>
-                Edit
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {cardTitles.map((title) =>
-              <tr key={title.titleId}>
-                <td className="pl-4 link-data align-top">
-                  <span>
-                    {title.title}
-                  </span>
-                </td>
-                <td className="link-data align-top">
-                  Edit Title Button Goes Here
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      ) : (
-        <div className="table-container">
-          <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
-            <h3 className="py-5 font-weight-bold">No card titles were found.</h3>
+      <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
+        {cardTitles.map((title, i) =>
+          <div className="input-group" key={title.titleId}>
+            <span className="ml-2 mr-3">
+              <button className='btn btn-danger btn-sm ml-2'
+                onClick={() => deleteTitle(title.titleId)}
+                data-index={i}
+              >
+                <i className='fas fa-fw fa-times' />
+              </button>
+            </span>
+
+            <FormControl
+              type="text"
+              rows="3"
+              className="mx-3"
+              maxLength="1000"
+              placeholder="Title"
+              defaultValue={title.title}
+              aria-label="Title"
+              aria-describedby="basic-addon1"
+              onChange={(e) => modifyTitles(e.target.value, 1, title.titleId)}
+              required
+            />
           </div>
-        </div>
-      )}
+        )}
+
+        <Error
+          message={errorMessage}
+        />
+
+        <Row className="mx-4 my-4">
+          <Button className="mr-auto" variant="info" onClick={() => createTitle()}>
+            Add title
+          </Button>
+          <Button variant="primary" onClick={(e) => {/*handleSubmit(e)*/}}>Save changes</Button>
+        </Row>
+      </div>
     </div>
   );
 }

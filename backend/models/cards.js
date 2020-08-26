@@ -879,3 +879,29 @@ async function moveTempCard(cardId, direction) {
 
 }
 exports.moveTempCard = moveTempCard;
+
+
+// return a list of all icons
+async function getCardTitles() {
+
+  try {
+    // get all titles
+    const sql = "SELECT * " +
+		"FROM Quick_Titles " +
+		"ORDER BY title ASC;";
+
+    const results = await pool.query(sql, []);
+
+    const finalResults = {
+      titles: results[0]
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error searching for card titles");
+    throw Error(err);
+  }
+
+}
+exports.getCardTitles = getCardTitles;

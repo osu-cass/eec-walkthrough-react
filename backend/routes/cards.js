@@ -22,7 +22,8 @@ const {
   publishCard,
   unpublishCard,
   moveCard,
-  moveTempCard
+  moveTempCard,
+  getCardTitles
 } = require("../models/cards");
 
 
@@ -370,6 +371,26 @@ app.patch("/:cardId/move/:direction/:mode", requireAuth, patchCardMove.validatio
       }
 
     }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get a list of default card titles
+// get information about all icons
+app.get("/titles", async (req, res) => {
+
+  try {
+
+    console.log("Get a list of all of the default card titles");
+
+    // get all titles
+    const results = await getCardTitles();
+    res.status(200).send(results);
 
   } catch (err) {
     console.error(err);
