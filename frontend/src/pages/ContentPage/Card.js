@@ -119,7 +119,7 @@ function Card(props) {
           data-target={"#collapse" + props.card.cardId}
           aria-expanded="true"
           aria-controls={"collapse" + props.card.cardId}
-          className="col pr-0"
+          className="col pl-0 pr-0"
         >
           {(props.mode === 1 || (props.mode === 2 && props.publishedMode === 0)) && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
         </div>
