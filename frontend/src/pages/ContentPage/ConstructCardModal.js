@@ -900,7 +900,7 @@ function ConstructCardModal(props) {
                 >
                   <option value="">Custom</option>
                   {props.cardTitles.map((title) =>
-                    <option value={title.title}>{title.title}</option>
+                    <option key={title.titleId} value={title.title}>{title.title}</option>
                   )}
                 </select>
               </Form.Group>

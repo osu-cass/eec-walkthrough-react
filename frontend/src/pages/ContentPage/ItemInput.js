@@ -11,7 +11,7 @@ function ItemInput(props) {
 
   useEffect(() => {
     updateLink(props.value.contentMode);
-  
+
     // find the matching index for the source ID
     for (let i = 0; i < props.sources.length; i++) {
       if (props.sourceId === props.sources[i].sourceId) {
@@ -69,12 +69,12 @@ function ItemInput(props) {
                   None
               </Dropdown.Item>
               {props.sources.map((source, i) =>
-                <Dropdown.Item 
+                <Dropdown.Item
                   style={{cursor: "pointer"}}
                   onClick={() => updateSource(i + 1)}
                   key={source.sourceId}
                 >
-                    {i + 1}. {source.text}
+                  {i + 1}. {source.text}
                 </Dropdown.Item>
               )}
             </Dropdown.Menu>
@@ -106,12 +106,12 @@ function ItemInput(props) {
                   None
               </Dropdown.Item>
               {props.sources.map((source, i) =>
-                <Dropdown.Item 
+                <Dropdown.Item
                   style={{cursor: "pointer"}}
                   onClick={() => updateSource(i + 1)}
                   key={source.sourceId}
                 >
-                    {i + 1}. {source.text}
+                  {i + 1}. {source.text}
                 </Dropdown.Item>
               )}
             </Dropdown.Menu>

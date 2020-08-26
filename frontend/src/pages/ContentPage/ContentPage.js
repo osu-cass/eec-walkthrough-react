@@ -521,7 +521,7 @@ function ContentPage(props) {
 
         // normal items
         for (let k = 0; k < copy[i].cards[j].items.length; k++) {
-          let curItem = copy[i].cards[j].items[k];
+          const curItem = copy[i].cards[j].items[k];
           curItem.refId = 0;
           if (curItem.sourceId !== 0) {
             // see if this source has already been referenced
@@ -550,7 +550,7 @@ function ContentPage(props) {
         // temp items
         if (copy[i].cards[j].tempItems.length) {
           for (let k = 0; k < copy[i].cards[j].tempItems.length; k++) {
-            let curItem = copy[i].cards[j].tempItems[k];
+            const curItem = copy[i].cards[j].tempItems[k];
             curItem.refId = 0;
             if (curItem.sourceId !== 0) {
               // see if this source has already been referenced
@@ -577,7 +577,7 @@ function ContentPage(props) {
           }
         } else {
           for (let k = 0; k < copy[i].cards[j].items.length; k++) {
-            let curItem = copy[i].cards[j].items[k];
+            const curItem = copy[i].cards[j].items[k];
             curItem.refId = 0;
             if (curItem.sourceId !== 0) {
               // see if this source has already been referenced
