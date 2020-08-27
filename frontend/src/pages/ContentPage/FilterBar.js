@@ -49,64 +49,68 @@ function FilterBar(props) {
   }, [props.filterIcons, props.tempFilterIcons, props.iconSet]);
 
   return props.mode === 1 ? (
-    <div className="m-2 icons row">
-      {props.tempFilterIcons.map((obj, i) => {
-        return (
-          <i
-            key={obj}
-            className={`fas fa-${tempIconNames[i]} ${
-              props.filterShow[obj] ? "" : "fa-disabled"
-            } mr-3`}
-            onClick={() => props.updateIcon(obj, props.filterShow[obj])}
-            style={{color: tempIconColors[i]}}
-            title={tempIconTooltips[i]}
-          />
-        );
-      })}
-      <i
-        id="reset-filter-icons"
-        className={`fas fa-undo text-dark mr-3`}
-        title="Show All"
-        value="reset"
-        onClick={() => props.resetIcons()}
-      />
-      <i
-        id="clear-filter-icons"
-        className={`fas fa-times text-dark mr-3`}
-        title="Hide All"
-        value="clear"
-        onClick={() => props.clearIcons()}
-      />
+    <div className="card">
+      <div className="m-2 icons row">
+        {props.tempFilterIcons.map((obj, i) => {
+          return (
+            <i
+              key={obj}
+              className={`fas fa-${tempIconNames[i]} ${
+                props.filterShow[obj] ? "" : "fa-disabled"
+              } mx-2`}
+              onClick={() => props.updateIcon(obj, props.filterShow[obj])}
+              style={{color: tempIconColors[i]}}
+              title={tempIconTooltips[i]}
+            />
+          );
+        })}
+        <i
+          id="reset-filter-icons"
+          className={`fas fa-undo text-dark mx-2`}
+          title="Show All"
+          value="reset"
+          onClick={() => props.resetIcons()}
+        />
+        <i
+          id="clear-filter-icons"
+          className={`fas fa-times text-dark mx-2`}
+          title="Hide All"
+          value="clear"
+          onClick={() => props.clearIcons()}
+        />
+      </div>
     </div>
   ) : (
-    <div className="m-2 icons row">
-      {props.filterIcons.map((obj, i) => {
-        return (
-          <i
-            key={obj}
-            className={`fas fa-${iconNames[i]} ${
-              props.filterShow[obj] ? "" : "fa-disabled"
-            } mr-3`}
-            onClick={() => props.updateIcon(obj, props.filterShow[obj])}
-            style={{color: iconColors[i]}}
-            title={iconTooltips[i]}
-          />
-        );
-      })}
-      <i
-        id="reset-filter-icons"
-        className={`fas fa-undo text-dark mr-3`}
-        title="Show All"
-        value="reset"
-        onClick={() => props.resetIcons()}
-      />
-      <i
-        id="clear-filter-icons"
-        className={`fas fa-times text-dark mr-3`}
-        title="Hide All"
-        value="clear"
-        onClick={() => props.clearIcons()}
-      />
+    <div className="card">
+      <div className="m-2 icons row">
+        {props.filterIcons.map((obj, i) => {
+          return (
+            <i
+              key={obj}
+              className={`fas fa-${iconNames[i]} ${
+                props.filterShow[obj] ? "" : "fa-disabled"
+              } mx-2`}
+              onClick={() => props.updateIcon(obj, props.filterShow[obj])}
+              style={{color: iconColors[i]}}
+              title={iconTooltips[i]}
+            />
+          );
+        })}
+        <i
+          id="reset-filter-icons"
+          className={`fas fa-undo text-dark mx-2`}
+          title="Show All"
+          value="reset"
+          onClick={() => props.resetIcons()}
+        />
+        <i
+          id="clear-filter-icons"
+          className={`fas fa-times text-dark mx-2`}
+          title="Hide All"
+          value="clear"
+          onClick={() => props.clearIcons()}
+        />
+      </div>
     </div>
   );
 
