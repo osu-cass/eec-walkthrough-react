@@ -68,7 +68,7 @@ function FilterBar(props) {
           {props.mode === 1 ? (
           <Fragment>
             {props.tempFilterIcons.map((obj, i) => 
-              <div className="col px-2 py-2 align-self-center" key={obj}>
+              <div className="col-auto px-2 py-2 align-self-center" key={obj}>
                 <i
                   className={`fas fa-fw fa-${tempIconNames[i]} ${props.filterShow[obj] ? "" : "fa-disabled"}`}
                   onClick={() => props.updateIcon(obj, props.filterShow[obj])}
@@ -81,7 +81,7 @@ function FilterBar(props) {
           ) : (
             <Fragment>
               {props.filterIcons.map((obj, i) => 
-                <div className="col px-2 py-2 align-self-center" key={obj}>
+                <div className="col-auto px-2 py-2 align-self-center" key={obj}>
                   <i
                     className={`fas fa-fw fa-${iconNames[i]} ${props.filterShow[obj] ? "" : "fa-disabled"}`}
                     onClick={() => props.updateIcon(obj, props.filterShow[obj])}
@@ -98,27 +98,31 @@ function FilterBar(props) {
             toggled={props.toggled}
             toggleList={() => props.updateIcon(0, !props.toggled)}
           />
-          <div
-            className="btn btn-info filter-btn btn-sm py-0 my-1 px-1 mx-1"
-            onClick={() => props.resetIcons()}
-            title="Show All"
-          >
-            <i
-              id="reset-filter-icons"
-              className={`fas fa-fw fa-sm fa-undo text-white`}
-              value="reset"
-            />
+          <div className="col-auto px-2 py-0 align-self-center">
+            <div
+              className="btn btn-info filter-btn btn-sm py-0 my-1 px-1"
+              onClick={() => props.resetIcons()}
+              title="Show All"
+            >
+              <i
+                id="reset-filter-icons"
+                className={`fas fa-fw fa-sm fa-undo text-white`}
+                value="reset"
+              />
+            </div>
           </div>
-          <div 
-            className="btn btn-info filter-btn btn-sm py-0 my-1 px-1 mx-1"
-            onClick={() => props.clearIcons()}
-            title="Hide All"
-          >
-            <i
-              id="clear-filter-icons"
-              className={`fas fa-fw fa-sm fa-times text-white`}
-              value="clear"
-            />
+          <div className="col-auto px-2 py-0 align-self-center">
+            <div 
+              className="btn btn-info filter-btn btn-sm py-0 my-1 px-1"
+              onClick={() => props.clearIcons()}
+              title="Hide All"
+            >
+              <i
+                id="clear-filter-icons"
+                className={`fas fa-fw fa-sm fa-times text-white`}
+                value="clear"
+              />
+            </div>
           </div>
     
         </div>

@@ -202,7 +202,7 @@ function EditHeader(props) {
       <LoadingOverlay loading={showLoad} />
       <Button size="sm" variant="info" onClick={() => handleShowModal()}>
         <i
-          className='fas fa-edit text-white mr-2'
+          className="fas fa-edit text-white mr-2"
           style={{transform: "scale(1.5)"}}>
         </i>
         <span className="text-white">Edit Header</span>
