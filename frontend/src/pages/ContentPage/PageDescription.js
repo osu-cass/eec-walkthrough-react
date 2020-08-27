@@ -50,7 +50,7 @@ function PageDescription(props) {
 
   return (
     <div>
-      <div className={`d-flex header-bar justify-content-between sticky-top
+      <div className={`d-flex header-bar justify-content-between
         ${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? "page-approved" : "page-review"}
         ${isInternal() ? "page-internal" : ""} my-3 p-3 text-dark-50 rounded shadow-sm border`}
       style={{top: "1em", zIndex: "998"}}

@@ -35,3 +35,7 @@ i:hover {
     #efeace 16%
   );
 }
+
+.isSticky {
+  background: blue !important;
+}
