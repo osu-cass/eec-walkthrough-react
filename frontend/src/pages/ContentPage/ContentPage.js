@@ -651,6 +651,8 @@ function ContentPage(props) {
                 cardTitles={cardTitles}
                 showFilter={() => handleShowFilter()}
                 show={showFilters}
+                onPageMode={e => handlePageMode(e)}
+                moved={moved}
               />
               <CreateCard
                 headerId={header.headerId}

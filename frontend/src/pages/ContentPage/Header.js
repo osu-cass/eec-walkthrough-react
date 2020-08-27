@@ -5,6 +5,7 @@ import EditHeader from "./EditHeader";
 import ReviewHeader from "./ReviewHeader";
 import FilterBar from "./FilterBar";
 import OrderObjectButton from "./OrderObjectButton";
+import ChangeMode from "./ChangeMode";
 import Card from "./Card";
 import "./Header.css";
 
@@ -634,6 +635,12 @@ function Header(props) {
                       approved={props.header.approved}
                       publishedMode={props.publishedMode}
                     />
+                    <ChangeMode
+                      role={props.role}
+                      mode={props.mode}
+                      onPageMode={e => props.onPageMode(e)}
+                      moved={props.moved}
+                    />
                   </Fragment>
                 ) : (
                   <Fragment>
@@ -661,6 +668,12 @@ function Header(props) {
                       mode={props.mode}
                       header={props.header}
                       handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                    />
+                    <ChangeMode
+                      role={props.role}
+                      mode={props.mode}
+                      onPageMode={e => props.onPageMode(e)}
+                      moved={props.moved}
                     />
                   </Fragment>
                 )}
@@ -721,5 +734,7 @@ Header.propTypes = {
   sources: PropTypes.array,
   cardTitles: PropTypes.array,
   showFilter: PropTypes.func,
-  show: PropTypes.number
+  show: PropTypes.number,
+  onPageMode: PropTypes.func,
+  moved: PropTypes.bool
 };
