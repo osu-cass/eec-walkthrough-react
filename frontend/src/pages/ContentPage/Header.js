@@ -6,7 +6,6 @@ import ReviewHeader from "./ReviewHeader";
 import FilterBar from "./FilterBar";
 import OrderObjectButton from "./OrderObjectButton";
 import Card from "./Card";
-import ListToggle from "./ListToggle";
 import "./Header.css";
 
 // Header that contains some number of cards
@@ -603,7 +602,7 @@ function Header(props) {
           style={{top: "1em", zIndex: "998"}}
         >
           <div className="row w-100 ml-0">
-            <div className="col align-self-center">
+            <div className="col-auto align-self-center">
               <h4 className="flex-grow-1 font-weight-bold my-0 mx-0">
                 {props.header.approved && props.header.tempHeaderId && viewUnpublished() ? (
                   props.header.tempTitle
@@ -649,6 +648,8 @@ function Header(props) {
                       mode={props.mode}
                       showToggle={opportunitiesExist}
                       toggled={opportunityFilterMode}
+                      showFilter={() => props.showFilter()}
+                      show={props.show}
                     />
                     <EditHeader
                       mode={props.mode}
@@ -718,5 +719,7 @@ Header.propTypes = {
   resetIcons: PropTypes.func,
   clearIcons: PropTypes.func,
   sources: PropTypes.array,
-  cardTitles: PropTypes.array
+  cardTitles: PropTypes.array,
+  showFilter: PropTypes.func,
+  show: PropTypes.number
 };

@@ -3,6 +3,7 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import {getMode} from "../../utilities/pageMode";
 import {getPublic} from "../../utilities/publicMode";
 import {getPublished} from "../../utilities/publishedMode";
+import {getFilterShow, setFilterShow} from "../../utilities/filterMode";
 import Header from "./Header";
 import PageDescription from "./PageDescription";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
@@ -36,6 +37,7 @@ function ContentPage(props) {
   const [references, setReferences] = useState([]);
   const [tempReferences, setTempReferences] = useState([]);
   const [cardTitles, setCardTitles] = useState([]);
+  const [showFilters, setShowFilters] = useState(getFilterShow());
   const {pageId} = useParams();
 
   // get new page data if the page ID has changed
@@ -584,6 +586,18 @@ function ContentPage(props) {
     setHeaders(copy);
   }
 
+  // updates the state of the header filters to either be shown or hidden
+  function handleShowFilter() {
+    if (showFilters) {
+      setFilterShow(0);
+      setShowFilters(0);
+    } else {
+      setFilterShow(1);
+      setShowFilters(1);
+    }
+  }
+
+
   if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
     return loaded ? ( // Render content when data loaded from backend
       <Container className="my-4" id="content-page">
@@ -635,6 +649,8 @@ function ContentPage(props) {
                 clearIcons={e => clearIcons(e)}
                 sources={pageInfo.sources}
                 cardTitles={cardTitles}
+                showFilter={() => handleShowFilter()}
+                show={showFilters}
               />
               <CreateCard
                 headerId={header.headerId}
