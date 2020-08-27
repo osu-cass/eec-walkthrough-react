@@ -647,11 +647,8 @@ function Header(props) {
                       filterShow={filterShow}
                       iconSet={props.iconSet}
                       mode={props.mode}
-                    />
-                    <ListToggle
-                      showButton={opportunitiesExist}
+                      showToggle={opportunitiesExist}
                       toggled={opportunityFilterMode}
-                      toggleList={() => props.updateIcon(0, !opportunityFilterMode, props.header.headerId)}
                     />
                     <EditHeader
                       mode={props.mode}

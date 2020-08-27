@@ -1,32 +1,24 @@
-import React from "react";
-import {Button} from "react-bootstrap";
+import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 
-// button for filtering out non-opportunities at the top level
+// icon for filtering out non-opportunities at the top level
 function ListToggle(props) {
-  return props.showButton ? (
-    <div className='text-center mx-2'>
-      <Button size="sm" variant="dark" onClick={() => props.toggleList()}>
+  return props.showToggle ? (
+    <Fragment>
         {props.toggled ? (
-          <>
-            <i
-              className={`far fa-fw fa-square text-white mr-2`}
-              style={{transform: "scale(1.5)"}}
-            />
-            <span className="text-white">Toggle Opportunities</span>
-          </>
+          <i
+            className={`fas fa-fw fa-check-square mx-2`}
+            title="Check All"
+            onClick={() => props.toggleList()}
+          />
         ) : (
-          <>
-            <i
-              className={`far fa-fw fa-check-square text-white mr-2`}
-              style={{transform: "scale(1.5)"}}
-            />
-            <span className="text-white">Toggle Opportunities</span>
-          </>
-        )
-        }
-      </Button>
-    </div>
+          <i
+            className={`fas fa-fw fa-square mx-2`}
+            title="Uncheck All"
+            onClick={() => props.toggleList()}
+          />
+        )}
+    </Fragment>
   ) : (
     null
   );
@@ -34,7 +26,7 @@ function ListToggle(props) {
 export default ListToggle;
 
 ListToggle.propTypes = {
-  showButton: PropTypes.bool,
+  showToggle: PropTypes.bool,
   toggled: PropTypes.number,
   toggleList: PropTypes.func
 };

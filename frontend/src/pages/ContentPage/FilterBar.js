@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
+import ListToggle from "./ListToggle";
 import "./FilterBar.css";
 
 // The bar inside of a header that is used for filtering out items
@@ -55,7 +56,7 @@ function FilterBar(props) {
           return (
             <i
               key={obj}
-              className={`fas fa-${tempIconNames[i]} ${
+              className={`fas fa-fw fa-${tempIconNames[i]} ${
                 props.filterShow[obj] ? "" : "fa-disabled"
               } mx-2`}
               onClick={() => props.updateIcon(obj, props.filterShow[obj])}
@@ -66,14 +67,14 @@ function FilterBar(props) {
         })}
         <i
           id="reset-filter-icons"
-          className={`fas fa-undo text-dark mx-2`}
+          className={`fas fa-fw fa-undo text-dark mx-2`}
           title="Show All"
           value="reset"
           onClick={() => props.resetIcons()}
         />
         <i
           id="clear-filter-icons"
-          className={`fas fa-times text-dark mx-2`}
+          className={`fas fa-fw fa-times text-dark mx-2`}
           title="Hide All"
           value="clear"
           onClick={() => props.clearIcons()}
@@ -87,7 +88,7 @@ function FilterBar(props) {
           return (
             <i
               key={obj}
-              className={`fas fa-${iconNames[i]} ${
+              className={`fas fa-fw fa-${iconNames[i]} ${
                 props.filterShow[obj] ? "" : "fa-disabled"
               } mx-2`}
               onClick={() => props.updateIcon(obj, props.filterShow[obj])}
@@ -98,17 +99,22 @@ function FilterBar(props) {
         })}
         <i
           id="reset-filter-icons"
-          className={`fas fa-undo text-dark mx-2`}
+          className={`fas fa-fw fa-undo text-dark mx-2`}
           title="Show All"
           value="reset"
           onClick={() => props.resetIcons()}
         />
         <i
           id="clear-filter-icons"
-          className={`fas fa-times text-dark mx-2`}
+          className={`fas fa-fw fa-times text-dark mx-2`}
           title="Hide All"
           value="clear"
           onClick={() => props.clearIcons()}
+        />
+        <ListToggle
+          showToggle={props.showToggle}
+          toggled={props.toggled}
+          toggleList={() => props.updateIcon(0, !props.toggled)}
         />
       </div>
     </div>
@@ -125,5 +131,7 @@ FilterBar.propTypes = {
   iconSet: PropTypes.array,
   filterIcons: PropTypes.array,
   tempFilterIcons: PropTypes.array,
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  showToggle: PropTypes.bool,
+  toggled: PropTypes.number,
 };
