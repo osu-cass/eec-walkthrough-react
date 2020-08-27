@@ -36,6 +36,5 @@ i[title] {
 }
 
 .fltr-expand.fltr-hide {
-  width: 0;
-  height: 0;
+  display: none;
 }
