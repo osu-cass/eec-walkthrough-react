@@ -115,7 +115,7 @@ function SaveView(props) {
   }
 
   return props.role >= 1 && props.mode === 0 ? (
-    <div className='text-center mx-2'>
+    <div className="text-center mx-2 my-auto">
       <Button size="sm"
         variant="success"
         onClick={() => handleOpen()}

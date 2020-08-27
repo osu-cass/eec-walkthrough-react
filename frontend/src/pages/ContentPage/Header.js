@@ -599,76 +599,74 @@ function Header(props) {
         <div className={`d-flex sticky-top
           ${props.header.approved && (!props.header.tempHeaderId || !viewUnpublished()) ? "header-approved" : "header-review"}
           ${isInternal() ? "header-internal" : ""}
-          header-bar header-bar-content justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
-        style={{top: "1em", zIndex: "998"}}
+          header-bar header-bar-content justify-content-between my-3 py-3 text-dark-50 rounded shadow-sm border`}
+          style={{top: "1em", zIndex: "998"}}
         >
-          <div className="row mx-2">
-            <h4 className="flex-grow-1 font-weight-bold">
-              {props.header.approved && props.header.tempHeaderId && viewUnpublished() ? (
-                props.header.tempTitle
-              ) : (
-                props.header.title
-              )}
-            </h4>
-          </div>
+          <div className="row w-100 ml-0">
+            <div className="col align-self-center">
+              <h4 className="flex-grow-1 font-weight-bold my-0 mx-0">
+                {props.header.approved && props.header.tempHeaderId && viewUnpublished() ? (
+                  props.header.tempTitle
+                ) : (
+                  props.header.title
+                )}
+              </h4>
+            </div>
 
-          <div className="row mx-2">
-            <div className="row">
-              {props.mode === 2 ? (
-                <Fragment>
-                  <OrderObjectButton
-                    up={true}
-                    header={true}
-                    objectId={props.header.headerId}
-                    handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                    edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                    approved={props.header.approved}
-                    publishedMode={props.publishedMode}
-                  />
-                  <OrderObjectButton
-                    up={false}
-                    header={true}
-                    objectId={props.header.headerId}
-                    handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                    edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                    approved={props.header.approved}
-                    publishedMode={props.publishedMode}
-                  />
-                </Fragment>
-              ) : (
-                <Fragment>
-                  <FilterBar
-                    updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
-                    resetIcons={() => props.resetIcons(props.header.headerId)}
-                    clearIcons={() => props.clearIcons(props.header.headerId)}
-                    filterIcons={filterIcons}
-                    tempFilterIcons={tempFilterIcons}
-                    filterShow={filterShow}
-                    iconSet={props.iconSet}
-                    mode={props.mode}
-                  />
-                  <div className="col">
-                    <div className="row">
-                      <ListToggle
-                        showButton={opportunitiesExist}
-                        toggled={opportunityFilterMode}
-                        toggleList={() => props.updateIcon(0, !opportunityFilterMode, props.header.headerId)}
-                      />
-                      <EditHeader
-                        mode={props.mode}
-                        header={props.header}
-                        role={props.role}
-                        handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                      />
-                      <ReviewHeader
-                        mode={props.mode}
-                        header={props.header}
-                        handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                      />
-                    </div>
-                  </div>
-                </Fragment>
-              )}
+            <div className="col">
+              <div className="btn-group align-self-center float-right">
+                {props.mode === 2 ? (
+                  <Fragment>
+                    <OrderObjectButton
+                      up={true}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                      edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                      approved={props.header.approved}
+                      publishedMode={props.publishedMode}
+                    />
+                    <OrderObjectButton
+                      up={false}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                      edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                      approved={props.header.approved}
+                      publishedMode={props.publishedMode}
+                    />
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <FilterBar
+                      updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
+                      resetIcons={() => props.resetIcons(props.header.headerId)}
+                      clearIcons={() => props.clearIcons(props.header.headerId)}
+                      filterIcons={filterIcons}
+                      tempFilterIcons={tempFilterIcons}
+                      filterShow={filterShow}
+                      iconSet={props.iconSet}
+                      mode={props.mode}
+                    />
+                    <ListToggle
+                      showButton={opportunitiesExist}
+                      toggled={opportunityFilterMode}
+                      toggleList={() => props.updateIcon(0, !opportunityFilterMode, props.header.headerId)}
+                    />
+                    <EditHeader
+                      mode={props.mode}
+                      header={props.header}
+                      role={props.role}
+                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                    />
+                    <ReviewHeader
+                      mode={props.mode}
+                      header={props.header}
+                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                    />
+                  </Fragment>
+                )}
+              </div>
             </div>
           </div>
         </div>
