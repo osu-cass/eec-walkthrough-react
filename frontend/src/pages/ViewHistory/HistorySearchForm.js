@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Button} from "react-bootstrap";
+import {Button, SplitButton} from "react-bootstrap";
 import "./HistorySearchForm.css";
 
 // search form for finding change history

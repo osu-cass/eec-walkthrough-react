@@ -171,7 +171,7 @@ function ConstructCardModal(props) {
     copy[key].indentation = newIndent;
     copy[key].internal = 0;
     copy[key].sourceId = 0;
-    copy[key].created = new Date().toISOString().slice(0, 19).replace("T", " ");
+    copy[key].created = new Date();
 
     // Make sure the indentation is up to date
     copy = scanIndentation(copy);
@@ -342,9 +342,7 @@ function ConstructCardModal(props) {
         title: submitTitle,
         items: [],
         userId: 0,
-        created: new Date().toISOString()
-          .slice(0, 19)
-          .replace("T", " "),
+        created: new Date(),
         orderIndex: obj.insertId,
         tempOrderIndex: null,
         tempCardId: null,
@@ -459,9 +457,7 @@ function ConstructCardModal(props) {
           tempOrderIndex: props.card.orderIndex,
           tempCardId: props.card.cardId,
           tempCardType: newCardFormat,
-          tempCreated: new Date().toISOString()
-            .slice(0, 19)
-            .replace("T", " "),
+          tempCreated: new Date(),
           tempUserId: 0,
           tempItems: copy,
           tempTitle: submitTitle
@@ -475,9 +471,7 @@ function ConstructCardModal(props) {
           title: submitTitle,
           items: props.card.items,
           userId: 0,
-          created: new Date().toISOString()
-            .slice(0, 19)
-            .replace("T", " "),
+          created: new Date(),
           orderIndex: props.card.orderIndex,
           tempOrderIndex: props.card.tempOrderIndex,
           tempCardId: props.card.tempCardId,

@@ -79,9 +79,7 @@ function EditHeader(props) {
           pageId: props.header.pageId,
           internal: props.header.internal,
           tempInternal: internal,
-          tempCreated: new Date().toISOString()
-            .slice(0, 19)
-            .replace("T", " "),
+          tempCreated: new Date(),
           tempHeaderId: props.header.headerId,
           tempTitle: title,
           tempUserId: 0,
@@ -93,9 +91,7 @@ function EditHeader(props) {
       } else {
         newHeader = {
           approved: props.header.approved,
-          created: new Date().toISOString()
-            .slice(0, 19)
-            .replace("T", " "),
+          created: new Date(),
           headerId: props.header.headerId,
           orderIndex: props.header.orderIndex,
           tempOrderIndex: props.header.tempOrderIndex,
