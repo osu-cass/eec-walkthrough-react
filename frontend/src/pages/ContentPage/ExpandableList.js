@@ -47,6 +47,7 @@ function ExpandableList(props) {
             handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
             checked={item.hideChildren}
             setCheck={(check, itemId) => props.setCheck(check, itemId)}
+            source={item.refId}
             internal={item.internal}
           />
         )}

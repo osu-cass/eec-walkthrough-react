@@ -69,7 +69,7 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
       } else if (results.error === 3) {
         res.status(403).send({error: "Invalid item type in card."});
       } else if (results.error === 4) {
-        res.status(403).send({error: "A thumbnail gallery requires at least one graphic."});
+        res.status(403).send({error: "A thumbnail gallery is only allowed to contain graphics."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -210,7 +210,7 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
       } else if (results.error === 2) {
         res.status(403).send({error: "Invalid item type in card."});
       } else if (results.error === 3) {
-        res.status(403).send({error: "A thumbnail gallery requires at least one graphic."});
+        res.status(403).send({error: "A thumbnail gallery is only allowed to contain graphics."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
