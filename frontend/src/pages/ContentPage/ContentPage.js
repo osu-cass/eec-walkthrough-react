@@ -22,7 +22,6 @@ import {useParams} from "react-router-dom";
 function ContentPage(props) {
 
   const [errorPage, setErrorPage] = useState(false);
-  const [pageInfo, setPageInfo] = useState({});
   const [headers, setHeaders] = useState([]);
   const [iconSet, setIconSet] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -39,6 +38,9 @@ function ContentPage(props) {
   const [cardTitles, setCardTitles] = useState([]);
   const [showFilters, setShowFilters] = useState(getFilterShow());
   const {pageId} = useParams();
+  const [pageInfo, setPageInfo] = useState({
+    sources: []
+  });
 
   // get new page data if the page ID has changed
   useEffect(() => {

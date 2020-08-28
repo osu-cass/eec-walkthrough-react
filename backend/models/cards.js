@@ -39,7 +39,7 @@ async function createCard(headerId, cardType, title, items, userId) {
     "WHERE groupIndex = 0;";
     results = await pool.query(sql, []);
 
-    let foundImage = false;
+    let notImage = false;
     const icons = results[0];
     for (let i = 0; i < items.length; i++) {
       // check the icons
@@ -66,14 +66,14 @@ async function createCard(headerId, cardType, title, items, userId) {
       } else if (typeof items[i].sourceId !== "number") {
         return {error: 3};
       }
-      // see if we have an image item
-      if (items[i].contentText === "" && items[i].contentUrl.length && items[i].contentLabel.length) {
-        foundImage = true
+      // see if we have a non-image item
+      if (items[i].contentText !== "" || !items[i].contentUrl.length || !items[i].contentLabel.length) {
+        notImage = true;
       }
     }
 
-    // if the card is a thumbnail gallery make sure there is at least one image
-    if ((cardType === 1 || cardType === 11) && !foundImage) {
+    // if the card is a thumbnail gallery make sure that only images are allowed
+    if ((cardType === 1 || cardType === 11) && notImage) {
       return {error: 4};
     }
 
@@ -294,7 +294,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
     "WHERE groupIndex = 0;";
     results = await pool.query(sql, []);
 
-    let foundImage = false;
+    let notImage = false;
     const icons = results[0];
     for (let i = 0; i < items.length; i++) {
       // check the icons
@@ -321,14 +321,14 @@ async function updateCard(cardId, cardType, title, items, userId) {
       } else if (typeof items[i].sourceId !== "number") {
         return {error: 2};
       }
-      // see if we have an image item
-      if (items[i].contentText === "" && items[i].contentUrl.length && items[i].contentLabel.length) {
-        foundImage = true
+      // see if we have a non-image item
+      if (items[i].contentText !== "" || !items[i].contentUrl.length || !items[i].contentLabel.length) {
+        notImage = true;
       }
     }
 
-    // if the card is a thumbnail gallery make sure there is at least one image
-    if ((cardType === 1 || cardType === 11) && !foundImage) {
+    // if the card is a thumbnail gallery make sure that only images are allowed
+    if ((cardType === 1 || cardType === 11) && notImage) {
       return {error: 3};
     }
 
