@@ -629,13 +629,21 @@ async function unpublishPage(pageId) {
 exports.unpublishPage = unpublishPage;
 
 
-async function getReport(start, end, condense) {
+async function getReport(start, end, condense, offset) {
 
   try {
 
+    // handle time formatting and offset
+    const serverOffset = new Date().getTimezoneOffset();
+    let newOffset = Math.abs(offset - serverOffset);
+    if (offset + serverOffset < 0) {
+      newOffset = newOffset * - 1;
+    }
     const oldestTimestamp = "2019-01-01 00:00:00";
-    const startTimestamp = start + " 00:00:00";
-    const endTimestamp = end + " 23:59:59";
+    let startTimestamp = start + " 00:00:00";
+    let endTimestamp = end + " 23:59:59";
+    startTimestamp = moment.utc(startTimestamp).utcOffset(newOffset).format("YYYY-MM-DD HH:mm:ss");
+    endTimestamp = moment.utc(endTimestamp).utcOffset(newOffset).format("YYYY-MM-DD HH:mm:ss");
 
     // get all pages within the date range
     let sql = "SELECT HP.*, Categories.pluralName AS categoryName " +

@@ -148,18 +148,14 @@ function EditPage(props) {
           tempImageUrl: url,
           tempName: title,
           tempTitle: summary,
-          tempCreated: new Date().toISOString()
-            .slice(0, 19)
-            .replace("T", " "),
+          tempCreated: new Date(),
           tempUserId: 0,
           headers: []
         };
       } else {
         newPage = {
           approved: props.page.approved,
-          created: new Date().toISOString()
-            .slice(0, 19)
-            .replace("T", " "),
+          created: new Date(),
           description: stateDescription,
           imageUrl: url,
           name: title,
