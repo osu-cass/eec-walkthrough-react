@@ -109,7 +109,7 @@ function Card(props) {
     >
       <CardBS.Header
         as="h5"
-        className={`card-header-bar d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold
+        className={`card-header-bar d-flex justify-content-between border-bottom py-2 px-3 border-gray font-weight-bold
           ${props.card.edited ? "card-body-review" : "card-body-approved" }
           ${isInternal() ? "card-body-internal" : ""}`}
       >
@@ -126,7 +126,7 @@ function Card(props) {
           </span>
         </div>
         {props.mode === 1 ? (
-          <div className="row ml-auto">
+          <div className="row ml-auto mr-0">
             <EditCard
               card={props.card}
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
@@ -145,7 +145,7 @@ function Card(props) {
         ) : (
           <Fragment>
             {props.mode === 2 ? (
-              <div className="row ml-auto">
+              <div className="row ml-auto mr-0">
                 <OrderObjectButton
                   up={true}
                   header={false}
