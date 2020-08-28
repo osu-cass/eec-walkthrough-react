@@ -56,7 +56,7 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
     }
 
     // create a card
-    const results = await createCard(headerId, cardType, title, items, userId);
+    const results = await createCard(headerId, parseInt(cardType, 10), title, items, userId);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -67,7 +67,9 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
       } else if (results.error === 2) {
         res.status(403).send({error: "Parent header does not exist."});
       } else if (results.error === 3) {
-        res.status(404).send({error: "Invalid item type in card."});
+        res.status(403).send({error: "Invalid item type in card."});
+      } else if (results.error === 4) {
+        res.status(403).send({error: "A thumbnail gallery requires at least one graphic."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -197,7 +199,7 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
     }
 
     // update a card
-    const results = await updateCard(cardId, cardType, title, items, userId);
+    const results = await updateCard(cardId, parseInt(cardType, 10), title, items, userId);
 
     if (results.cardId >= 0) {
       res.status(200).send(results);
@@ -206,7 +208,9 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
       if (results.error === 1) {
         res.status(404).send({error: "Card not found."});
       } else if (results.error === 2) {
-        res.status(404).send({error: "Invalid item type in card."});
+        res.status(403).send({error: "Invalid item type in card."});
+      } else if (results.error === 3) {
+        res.status(403).send({error: "A thumbnail gallery requires at least one graphic."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
