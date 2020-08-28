@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 25, 2020 at 07:01 PM
+-- Generation Time: Aug 27, 2020 at 05:29 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -144,7 +144,17 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (182, 29, 0, 182, 'Caveats', 55, '2020-08-18 21:38:09', 1),
 (183, 29, 0, 183, 'Gallery: Pump Types etc.', 55, '2020-08-19 21:46:41', 0),
 (184, 50, 0, 184, 'How to calculate layout efficiency savings', 62, '2020-08-24 19:51:09', 0),
-(185, 50, 0, 185, 'Determining cost savings', 62, '2020-08-24 20:10:02', 0);
+(185, 50, 0, 185, 'Determining cost savings', 62, '2020-08-24 20:10:02', 0),
+(186, 54, 0, 2, 'Pros', 52, '2020-08-26 16:04:13', 0),
+(187, 54, 0, 3, 'Cons', 52, '2020-08-26 16:13:30', 0),
+(189, 54, 0, 6, 'General Off Site Resource Links', 52, '2020-08-26 16:44:39', 0),
+(190, 54, 0, 5, 'Standard Data to Collect', 52, '2020-08-26 16:57:31', 0),
+(192, 55, 0, 192, 'Install Capacitors', 52, '2020-08-26 17:36:17', 0),
+(193, 54, 0, 1, 'What is power factor?', 52, '2020-08-26 17:43:30', 0),
+(194, 56, 10, 194, 'Industrial Assessment Center and Department of Energy', 57, '2020-08-27 00:24:17', 0),
+(195, 56, 10, 195, 'Other Government Tools', 57, '2020-08-27 00:29:22', 0),
+(196, 57, 0, 196, 'Tips and Guides', 57, '2020-08-27 00:38:47', 0),
+(197, 57, 10, 197, 'Tools', 57, '2020-08-27 00:40:11', 0);
 
 -- --------------------------------------------------------
 
@@ -278,8 +288,8 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (28, 44, 33, 'Motor Opportunities to Consider', 0, 56, '2020-06-29 23:07:40', 1),
 (29, 45, 29, 'Pumps Overview', 0, 51, '2020-08-20 00:24:59', 1),
 (30, 45, 30, 'Pumping Opportunities to Consider', 0, 51, '2020-07-01 18:15:04', 0),
-(31, 46, 31, 'Boilers and Steam Overview', 0, 56, '2020-07-02 19:43:04', 1),
-(32, 46, 32, 'Boiler and Steam System Opportunities to Consider', 0, 56, '2020-07-02 21:40:38', 1),
+(31, 46, 1, 'Boilers and Steam Overview', 0, 56, '2020-07-02 19:43:04', 1),
+(32, 46, 3, 'Boiler and Steam System Opportunities to Consider', 0, 56, '2020-07-02 21:40:38', 1),
 (33, 44, 28, 'Motors Overview', 0, 56, '2020-07-02 23:12:01', 1),
 (34, 47, 1, 'Thermal Systems Overview', 0, 58, '2020-07-03 03:41:29', 0),
 (36, 50, 1, 'Wastewater Overview', 0, 51, '2020-08-20 00:22:34', 1),
@@ -289,7 +299,11 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (41, 48, 41, 'Refrigeration Overview', 0, 58, '2020-07-20 21:19:45', 0),
 (47, 54, 47, 'Assessment Steps', 1, 51, '2020-08-05 19:56:29', 1),
 (48, 58, 48, 'Reduce Bottleneck', 0, 62, '2020-08-10 20:58:11', 0),
-(50, 57, 50, 'Change Department Layout', 0, 62, '2020-08-12 21:43:08', 0);
+(50, 57, 50, 'Change Department Layout', 0, 62, '2020-08-12 21:43:08', 0),
+(54, 61, 1, 'Power Factor Correction Overview', 0, 52, '2020-08-26 16:02:06', 0),
+(55, 61, 2, 'Power Factor Correction Opportunities to Consider', 0, 52, '2020-08-26 17:34:55', 0),
+(56, 62, 56, 'Self Assessment Tools', 1, 57, '2020-08-27 00:21:35', 0),
+(57, 62, 57, 'Resources', 1, 57, '2020-08-27 00:29:42', 0);
 
 -- --------------------------------------------------------
 
@@ -1690,7 +1704,49 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4824, 184, 0, 0, 26, 'Layout efficiency savings are an important measure in itself and will result in increased productivity, however, translating this figure into monetary cost savings is necessary.', '', '', 0, 0, 0, '2020-08-24 19:51:09', 0),
 (4828, 185, 0, 0, 26, 'Cost savings from improved layouts are the result of reduced material handling costs. Material handling costs typically refer to time and energy spent using manual labor, vehicles (e.g. forklifts), or conveyors to move product or inventory around the facility. ', '', '', 0, 0, 0, '2020-08-24 20:54:37', 0),
 (4829, 185, 0, 0, 26, 'Calculating actual cost savings requires analysis of both layouts. Layout efficiency savings do not directly relate to cost savings unless the facility only uses one way to handle materials.', '', '', 0, 0, 0, '2020-08-24 20:54:37', 0),
-(4830, 185, 0, 0, 26, 'xfgzffdx', '', '', 0, 0, 0, '2020-08-24 20:54:37', 0);
+(4830, 185, 0, 0, 26, 'xfgzffdx', '', '', 0, 0, 0, '2020-08-24 20:54:37', 0),
+(4832, 186, 0, 0, 1, 'Improving power factor extends equipment life by reducing the total line current which reduces operating temperatures.', '', '', 0, 0, 0, '2020-08-26 16:05:57', 0),
+(4833, 186, 0, 0, 1, 'Improving power factor can significantly reduce monthly electrical utility charges.', '', '', 0, 0, 0, '2020-08-26 16:05:57', 0),
+(4834, 186, 0, 0, 1, 'Capacitors have no moving parts and require little to no maintenance. It is recommended to check fuses on a regular basis.', '', '', 0, 0, 0, '2020-08-26 16:05:57', 0),
+(4835, 187, 0, 0, 2, 'Capacitors can amplify harmonics if nonlinear loads are present. Examples of nonlinear loads include variable frequency drives, induction furnaces, arc welders and arc furnaces.', '', '', 0, 0, 0, '2020-08-26 16:13:30', 0),
+(4842, 189, 0, 0, 17, 'This guide provides information on the fundamentals of power factor, how to improve power factor, example savings calculations for mulitple scenarios, and how to select the right capactior specific applications. Information on harmonics is also included.', 'https://www.eaton.com/ecm/groups/public/%40pub/%40electrical/documents/content/sa02607001e.pdf', 'Eaton - Power Factor Correction: A Guide for the Plant Engineer', 1, 0, 0, '2020-08-26 16:47:50', 0),
+(4843, 189, 0, 0, 17, 'This manual provides technical information for assessing many systems that are commonly found in small to medium sized industrial manufacturing facilities. Chapter 4 section 4.1.4 specifically addresses power factor improvement.', 'https://iac.university/technicalDocs/industr/ch4.pdf', 'Essentials of Industrial Assessments, Chapter 4, Electricity', 1, 0, 0, '2020-08-26 16:47:50', 0),
+(4844, 189, 0, 0, 23, 'This video produced by the The Engineering Mindset on YouTube explains what power factor is, how to calculate power factor, what poor power factor is, and how resistors and capacitors affect power factor.', 'https://www.youtube.com/watch?v=Tv_7XWf96gg', 'Power Factor Explained', 1, 0, 0, '2020-08-26 16:47:50', 0),
+(4866, 190, 0, 0, 15, 'Collect one year of electric utility bills. This will help with identifying meters that can benefit from power factor correction and estimating the potential savings for correcting power factor.', '', '', 0, 0, 0, '2020-08-26 17:59:09', 0),
+(4867, 190, 0, 0, 15, 'The method of billing for low power factor can vary depending on the facilities electric utility provider. The rate schedule associated with each meter will show how the facility is charged for poor power factor. ', '', '', 0, 0, 0, '2020-08-26 17:59:09', 0),
+(4883, 193, 0, 0, 26, 'Power factor represents the portion of the total power consumed by a load that does useful work.', '', '', 0, 0, 0, '2020-08-26 18:07:00', 0),
+(4884, 193, 0, 0, 26, 'Power factor is the ratio of real power, in kilowatts (kW), to apparent power, in kilovolt amperes (kVA). Power factor is represented by the cosine of the angle (theta) between the total power and real power on the power triangle. ', '', '', 0, 0, 0, '2020-08-26 18:07:00', 0),
+(4885, 193, 0, 1, 20, '', 'https://testguy.net/uploads/power-triangle-apparent-real-reactive-factor.jpg', 'The power triangle. (From testguy.net - edit to include internal image)', 0, 0, 0, '2020-08-26 18:07:00', 0),
+(4886, 193, 0, 0, 26, 'Reactive power is needed to create and maintain the magnetic field that rotates the shaft of a motor', '', '', 0, 0, 0, '2020-08-26 18:07:00', 0),
+(4887, 193, 0, 0, 26, 'Inductive loads produce lagging power factor and capacitive loads produce leading power factor. Lagging power factor is most common due to the presence of inductive loads in industrial facilities. In this case, installing capacitors will correct power factor by bringing the current back in phase with the voltage.', '', '', 0, 0, 0, '2020-08-26 18:07:00', 0),
+(4914, 192, 0, 0, 10, 'Reactive power charges constitute a considerable amount of the facility\'s electric utility bill.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4915, 192, 0, 0, 7, 'Correcting power factor to the threshold reactive power on the utility bill. The threshold reactive power is the amount of reactive power that can be present on a utility bill before the user incurs additional charges. This provides the most value to the client without increasing the payback period for this recommendation.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4916, 192, 0, 0, 8, 'Fuses are less expensive than new capacitors. If the facility has offline capacitors, consider if they can be put back into use.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4917, 192, 0, 0, 4, 'Harmonic filters should be used in systems with harmonics. The facility should consult with a power management company to have a harmonic analysis completed before purchasing or installing capacitors.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4918, 192, 0, 0, 27, 'A power quality analyzer can be used to determine the power factor for individual pieces of equipment.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4919, 192, 0, 0, 11, 'Install a fixed capacitor bank', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4920, 192, 0, 0, 11, 'Install an automatically switching capacitor bank', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4921, 192, 0, 1, 8, 'Installing automatically switching capacitor banks is the best solution for variable loads because they provide the right amount of power factor correction as loads turn on and off.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4922, 192, 0, 1, 2, 'Automatically switching banks are more expensive than fixed or individual capacitor banks.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4923, 192, 0, 0, 11, 'Install individual capacitors at the load', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4924, 192, 0, 1, 1, 'Installing individual capacitors at the load makes capacitor selection easy.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4925, 192, 0, 1, 1, 'This can be the most economical solution due to low equipment cost.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4926, 192, 0, 1, 1, 'The capacitor operates with the motor, so other systems are not affected when the motor is offline.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4927, 192, 0, 1, 8, 'For large motors (50 HP and above), install capacitors at the load. For many smaller motors, it may be feasible to install one capacitor for the group of motors.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
+(4956, 196, 0, 0, 26, 'The Federal Communications Commission released ten tips for small business cyber security after meeting with public and private leaders.', '', '', 0, 0, 0, '2020-08-27 00:40:27', 0),
+(4957, 196, 0, 1, 24, ' ', 'https://www.fcc.gov/general/cybersecurity-small-business', 'Cybersecurity for Small Business', 1, 0, 0, '2020-08-27 00:40:27', 0),
+(4958, 196, 0, 0, 26, 'The Cybersecurity and Infrastructure Security Agency (CISA, a part of the US Department of Homeland Security) also has resources focused on increasing the security of industrial control systems.', '', '', 1, 0, 0, '2020-08-27 00:40:27', 0),
+(4959, 196, 0, 1, 24, ' ', 'https://us-cert.cisa.gov/ics', 'Industrial Control Systems', 1, 0, 0, '2020-08-27 00:40:27', 0),
+(4960, 197, 0, 0, 26, 'Researchers from the University of Illinois Urbana-Champaign have developed a tool for manufacturers to simplify the understanding of cybersecurity standards created by the National Institute of Standards and Technology. This tool also follows DFARS, the Department of Defense’s acquisition regulations.', '', '', 0, 0, 0, '2020-08-27 00:40:33', 0),
+(4961, 197, 0, 1, 21, ' ', 'https://iti.illinois.edu/news/new-software-tool-help-manufacturing-companies-meet-complex-cyber-security-standards ', 'The Dashboard', 1, 0, 0, '2020-08-27 00:40:33', 0),
+(4962, 195, 0, 0, 26, 'The Cybersecurity and Infrastructure Security Agency (CISA, a part of the US Department of Homeland Security) has created the Cyber Security Evaluation Tool (CSET). This tool is a provides a comprehensive self-assessment and recommendations to fix potential vulnerabilities. The CSET focuses on industrial control systems and information technology network security.', '', '', 0, 0, 0, '2020-08-27 00:40:46', 0),
+(4963, 195, 0, 1, 21, ' ', 'https://us-cert.cisa.gov/ics/Assessments', 'Cyber Security Evaluation Tool (CSET)', 1, 0, 0, '2020-08-27 00:40:46', 0),
+(4964, 195, 0, 0, 26, 'CISA also offers the Cyber Resilience Review which is a free non-technical cybersecurity self-assessment. This process can also be completed with professionals from the Department of Homeland Security.', '', '', 1, 0, 0, '2020-08-27 00:40:46', 0),
+(4965, 195, 0, 1, 21, ' ', 'https://us-cert.cisa.gov/resources/assessments ', 'Cyber Resilience Review ', 1, 0, 0, '2020-08-27 00:40:46', 0),
+(4966, 194, 0, 0, 26, 'The IAC Industrial Control Systems Cybersecurity Assessment Tool is a 20-question survey that can provide a starting place for a cybersecurity program. This tool is located on the Industrial Assessment Center’s cybersecurity webpage, as well as several other cybersecurity resources.', '', '', 0, 0, 0, '2020-08-27 00:41:15', 0),
+(4967, 194, 0, 1, 21, ' ', 'https://iac.university/cybersecurity', 'Industrial Control Systems Cybersecurity Assessment Tool', 1, 0, 0, '2020-08-27 00:41:15', 0),
+(4968, 194, 0, 0, 26, 'The US Department of Energy released the Cybersecurity Capability Maturity Model (C2M2) to evaluate an organization’s cybersecurity capabilities regardless of their structure, size, or organization type. This includes a self-evaluation and proposed model.', '', '', 1, 0, 0, '2020-08-27 00:41:15', 0),
+(4969, 194, 0, 1, 21, ' ', 'https://www.energy.gov/ceser/activities/cybersecurity-critical-energy-infrastructure/energy-sector-cybersecurity-0-0 ', 'Cybersecurity Capability Maturity Model (C2M2)', 1, 0, 0, '2020-08-27 00:41:15', 0);
 
 -- --------------------------------------------------------
 
@@ -1727,7 +1783,9 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, 51, '2020-08-05 19:54:53', 1),
 (56, 3, 'Combined Heat and Power', 'Combined Heat and Power allows sites to use the waste heat of electrical generation.', 'CHP', 'no image yet', 0, 51, '2020-08-07 00:33:29', 0),
 (57, 4, 'Optimize Facility Layout', 'Improve productivity through the location of departments and workstations and the workflow of personnel and materials.', 'Facility layout has a significant and often underestimated effect on the productivity of a facility. Movement of any form of work represents a non-value-added (NVA) process. Re-arranging the location of workstations and inventory to eliminate movement creates value in several forms. Most typically, fewer labor hours are spent moving materials, and sometimes energy is saved if operating hours of vehicles (e.g. forklifts or conveyors) are reduced. The most lucrative savings for the facility is increased productivity if delivery lead times between workstations are reduced, increasing utilization of the downstream workstation.', 'https://www.manexconsulting.com/wp-content/uploads/Layout-Optimization-Blog.jpg', 0, 62, '2020-08-07 19:21:05', 0),
-(58, 4, 'Queuing Line Optimization', 'The operation of queues and their respective workstations determine the overall production efficiency of a facility.', 'Optimizing the queuing system of a workstation has significant effects on product output. Little\'s law and queuing theory helps simplify any production system into a set of easy to estimate variables. While extensive research, data collection, and possibly simulation should be employed before making any change to a part of the production system, basic analysis can reveal opportunities for cost savings through increased productivity.', 'https://www.umav.org/wp-content/uploads/2019/04/Car-Assembly-Line.jpg', 0, 62, '2020-08-10 19:57:05', 0);
+(58, 4, 'Queuing Line Optimization', 'The operation of queues and their respective workstations determine the overall production efficiency of a facility.', 'Optimizing the queuing system of a workstation has significant effects on product output. Little\'s law and queuing theory helps simplify any production system into a set of easy to estimate variables. While extensive research, data collection, and possibly simulation should be employed before making any change to a part of the production system, basic analysis can reveal opportunities for cost savings through increased productivity.', 'https://www.umav.org/wp-content/uploads/2019/04/Car-Assembly-Line.jpg', 0, 62, '2020-08-10 19:57:05', 0),
+(61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, causing additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will also increase the capacity of the distribution system.', 'https://www.shutterstock.com/image-photo/capacitor-bank-high-voltage-substation-124054798', 0, 52, '2020-08-26 15:55:35', 0),
+(62, 5, 'Cybersecurity', 'Industrial Assessment Center resources for increasing cybersecurity.', 'Cybersecurity is becoming increasingly important as more industries adopt newer and more sophisticated controls for smart manufacturing or data collection to increase production and equipment efficiency. As part of our outreach on energy efficiency, we also provide information and resources about cybersecurity. Using some of the self-assessment tools and other informational resources provided on this page can be an important part of a facility’s plan to regularly evaluate their cybersecurity status.', 'https://live.staticflickr.com/6044/6999839463_ae02bb6a7e_b.jpg', 1, 57, '2020-08-27 00:21:01', 0);
 
 -- --------------------------------------------------------
 
@@ -1890,7 +1948,7 @@ CREATE TABLE `Temp_Headers` (
 --
 
 INSERT INTO `Temp_Headers` (`tempHeaderId`, `tempTitle`, `tempInternal`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
-(32, 'Boilers and Steam Opportunities to Consider', 0, 32, 58, '2020-07-14 18:53:33');
+(32, 'Boilers and Steam Opportunities to Consider', 0, 2, 58, '2020-07-14 18:53:33');
 
 -- --------------------------------------------------------
 
@@ -2146,7 +2204,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2164,7 +2222,7 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
@@ -2200,13 +2258,13 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4831;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4971;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `Quick_Titles`
