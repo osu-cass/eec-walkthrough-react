@@ -32,19 +32,49 @@ async function createCard(headerId, cardType, title, items, userId) {
       return {error: 2};
     }
 
-    // make sure all of the icons being used on this card are valid
+    // make sure all of the icons being used on this card are valid,
+    // and make sure all of the items are valid as well
     sql = "SELECT iconType " +
     "FROM Icons " +
     "WHERE groupIndex = 0;";
     results = await pool.query(sql, []);
 
+    let foundImage = false;
     const icons = results[0];
     for (let i = 0; i < items.length; i++) {
+      // check the icons
       for (let j = 0; j < icons.length; j++) {
         if (items[i].iconType === icons[j].iconType) {
           return {error: 3};
         }
       }
+      // check the other values
+      if (typeof items[i].indentation !== "number") {
+        return {error: 3};
+      } else if (typeof items[i].iconType !== "number") {
+        return {error: 3};
+      } else if (typeof items[i].contentText !== "string") {
+        return {error: 3};
+      } else if (typeof items[i].contentUrl !== "string") {
+        return {error: 3};
+      } else if (typeof items[i].contentLabel !== "string") {
+        return {error: 3};
+      } else if (typeof items[i].contentMode !== "number") {
+        return {error: 3};
+      } else if (typeof items[i].internal !== "number") {
+        return {error: 3};
+      } else if (typeof items[i].sourceId !== "number") {
+        return {error: 3};
+      }
+      // see if we have an image item
+      if (items[i].contentText === "" && items[i].contentUrl.length && items[i].contentLabel.length) {
+        foundImage = true
+      }
+    }
+
+    // if the card is a thumbnail gallery make sure there is at least one image
+    if ((cardType === 1 || cardType === 11) && !foundImage) {
+      return {error: 4};
     }
 
     // create the new card
@@ -257,19 +287,49 @@ async function updateCard(cardId, cardType, title, items, userId) {
     const approved = results[0][0].approved;
     const orderIndex = results[0][0].orderIndex;
 
-    // make sure all of the icons being used on this card are valid
+    // make sure all of the icons being used on this card are valid,
+    // and make sure all of the items are valid as well
     sql = "SELECT iconType " +
     "FROM Icons " +
     "WHERE groupIndex = 0;";
     results = await pool.query(sql, []);
 
+    let foundImage = false;
     const icons = results[0];
     for (let i = 0; i < items.length; i++) {
+      // check the icons
       for (let j = 0; j < icons.length; j++) {
         if (items[i].iconType === icons[j].iconType) {
           return {error: 2};
         }
       }
+      // check the other values
+      if (typeof items[i].indentation !== "number") {
+        return {error: 2};
+      } else if (typeof items[i].iconType !== "number") {
+        return {error: 2};
+      } else if (typeof items[i].contentText !== "string") {
+        return {error: 2};
+      } else if (typeof items[i].contentUrl !== "string") {
+        return {error: 2};
+      } else if (typeof items[i].contentLabel !== "string") {
+        return {error: 2};
+      } else if (typeof items[i].contentMode !== "number") {
+        return {error: 2};
+      } else if (typeof items[i].internal !== "number") {
+        return {error: 2};
+      } else if (typeof items[i].sourceId !== "number") {
+        return {error: 2};
+      }
+      // see if we have an image item
+      if (items[i].contentText === "" && items[i].contentUrl.length && items[i].contentLabel.length) {
+        foundImage = true
+      }
+    }
+
+    // if the card is a thumbnail gallery make sure there is at least one image
+    if ((cardType === 1 || cardType === 11) && !foundImage) {
+      return {error: 3};
     }
 
     // See if we already have an unpublished card.
