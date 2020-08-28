@@ -791,7 +791,7 @@ function ConstructCardModal(props) {
     // stringify the item data
     const itemString = item.contentText + "$%$" + item.contentLabel + "$%$" +
       item.contentUrl + "$%$" + item.iconType + "$%$" + item.contentType + "$%$" +
-      item.contentMode;
+      item.contentMode + "$%$" + item.internal;
 
     // save the item to local storage
     window.localStorage.setItem("itemCopy", itemString);
@@ -824,6 +824,7 @@ function ConstructCardModal(props) {
     copy[key].iconType = parseInt(itemArray[3], 10);
     copy[key].contentType = parseInt(itemArray[4], 10);
     copy[key].contentMode = parseInt(itemArray[5], 10);
+    copy[key].internal = parseInt(itemArray[6], 10);;
     copy[key].indentation = 0;
 
     // Make sure the indentation is up to date
