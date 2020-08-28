@@ -171,6 +171,7 @@ function ConstructCardModal(props) {
     copy[key].indentation = newIndent;
     copy[key].internal = 0;
     copy[key].sourceId = 0;
+    copy[key].created = new Date().toISOString().slice(0, 19).replace("T", " ");
 
     // Make sure the indentation is up to date
     copy = scanIndentation(copy);
