@@ -53,11 +53,19 @@ function FilterBar(props) {
     <Fragment>
 
       {props.show ? (
-        <div className="d-flex btn btn-info fltr-expand-btn ml-2" onClick={() => props.showFilter()}>
-          <i className="fas fa-fw fa-chevron-left align-self-center" />
+        <div 
+          className="d-flex btn btn-info fltr-expand-btn ml-2" 
+          onClick={() => props.showFilter()}
+          title="Hide Filters"
+        >
+          <i className="fas fa-fw fa-chevron-right align-self-center" />
         </div>
       ) : (
-        <div className="d-flex btn btn-info fltr-closed-btn mx-2" onClick={() => props.showFilter()}>
+        <div
+          className="d-flex btn btn-info fltr-closed-btn mx-2"
+          onClick={() => props.showFilter()}
+          title="Show Filters"
+        >
           <i className="fas fa-fw fa-chevron-down align-self-center" />
         </div>
       )}
