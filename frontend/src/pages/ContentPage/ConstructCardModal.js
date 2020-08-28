@@ -288,10 +288,13 @@ function ConstructCardModal(props) {
       newCardFormat += 10;
     }
 
-    // Update the order index of each item
+    // Set the order index of each item and clean up empty strings as needed
     const copy = items;
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
+      if (copy[i].contentType === 3 && copy[i].contentText === "") {
+        copy[i].contentText = "$empty";
+      }
     }
 
     // If we are using a preset title apply it now
