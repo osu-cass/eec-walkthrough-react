@@ -39,7 +39,9 @@ function ContentPage(props) {
   const [showFilters, setShowFilters] = useState(getFilterShow());
   const {pageId} = useParams();
   const [pageInfo, setPageInfo] = useState({
-    sources: []
+    sources: [],
+    approved: 1,
+    internal: 0
   });
 
   // get new page data if the page ID has changed
