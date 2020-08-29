@@ -60,21 +60,7 @@ function ReportCard(props) {
           </div>
         </div>
       ) : (
-        <div className="col">
-          <div className={`version-container p-2 m-3 border border-dark rounded text-wrap hidden-report`}>
-            <h4 className="report-card-special-text pl-3 pt-4">Card</h4>
-            <h5 className="report-card-special-text pl-3">{props.card.categoryName} &rarr; {props.card.pageName} &rarr; {props.card.headerName} &rarr; {props.card.title}</h5>
-            <span className="report-card-special-text pl-3">Updated {formatTime(props.card.created)}</span>
-            <div className="m-3">
-              <span className="report-card-span highlight-new-content">{props.card.title}</span>
-              {props.card.cardType === 1 || props.card.cardType === 11 ? (
-                <ThumbnailGallery items={imageItems} compareMode={3} />
-              ) : (
-                <BasicItems items={props.card.items} mode={0} reviewing={true} compareMode={3} setCheck={() => {}} />
-              )}
-            </div>
-          </div>
-        </div>
+        <div className="col" />
       )}
 
       <div className="col">
@@ -92,7 +78,7 @@ function ReportCard(props) {
                 newId={props.newId}
               />
             ) : (
-              <span className="report-card-span highlight-new-content">{props.card.title}</span>
+              <span className="report-card-span highlight-new-content text-break">{props.card.title}</span>
             )}
             {props.card.cardType === 1 || props.card.cardType === 11 ? (
               <Fragment>
@@ -132,7 +118,7 @@ function ReportCard(props) {
               newId={props.newId}
             />
           ) : (
-            <span className="report-card-span highlight-new-content">{props.card.title}</span>
+            <span className="report-card-span highlight-new-content text-break">{props.card.title}</span>
           )}
           {props.card.cardType === 1 || props.card.cardType === 11 ? (
             <Fragment>

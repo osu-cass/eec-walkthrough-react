@@ -28,16 +28,7 @@ function ReportHeader(props) {
           </div>
         </div>
       ) : (
-        <div className="col">
-          <div className={`version-container p-2 m-3 border border-dark rounded hidden-report`}>
-            <h4 className="report-header-special-text pl-4 pt-4">Header</h4>
-            <h5 className="report-header-special-text pl-4">{props.header.categoryName} &rarr; {props.header.pageName} &rarr; {props.header.title}</h5>
-            <span className="report-header-special-text pl-4">Updated {formatTime(props.header.created)}</span>
-            <div className="m-4">
-              <span className="report-header-span highlight-new-content">{props.header.title}</span>
-            </div>
-          </div>
-        </div>
+        <div className="col" />
       )}
 
       <div className="col">
@@ -55,7 +46,7 @@ function ReportHeader(props) {
                 newId={props.newId}
               />
             ) : (
-              <span className="report-header-span highlight-new-content">{props.header.title}</span>
+              <span className="report-header-span highlight-new-content text-break">{props.header.title}</span>
             )}
           </div>
         </div>
@@ -78,7 +69,7 @@ function ReportHeader(props) {
               newId={props.newId}
             />
           ) : (
-            <span className="report-header-span highlight-new-content">{props.header.title}</span>
+            <span className="report-header-span highlight-new-content text-break">{props.header.title}</span>
           )}
         </div>
       </div>
