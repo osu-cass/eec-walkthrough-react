@@ -18,7 +18,7 @@ function ReportPageRemove(props) {
           <div className="m-4">
             <span className="report-lrg-page-span highlight-old-content">{props.page.name}</span>
             <br />
-            <span className="report-med-page-span highlight-old-content">{props.page.title}</span>
+            <span className="report-med-page-span highlight-old-content text-break">{props.page.title}</span>
             <br />
             <span className="description-report-page highlight-old-content">{props.page.description}</span>
             <br />
