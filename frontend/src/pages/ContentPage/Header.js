@@ -24,11 +24,7 @@ function Header(props) {
 
   // If the filter changes, then update the icons that are being filtered
   useEffect(() => {
-    const allIcons = [];
-    // first reset all icons
-    for (let i = 0; i <= props.iconSet.length; i++) {
-      allIcons.push(true);
-    }
+    const allIcons = newFilter();
     let checkMode = false;
     // then apply filters
     for (let i = 0; i < props.header.forceFilter.length; i++) {
@@ -133,12 +129,23 @@ function Header(props) {
 
   // Gets all of the possible icons and set the default viewing state for them
   useEffect(() => {
+    setFilterShow(newFilter());
+  }, [props.iconSet, props.cardState]);
+
+  // Return new initialized filter
+  function newFilter() {
     const allIcons = [];
-    for (let i = 0; i <= props.iconSet.length; i++) {
+    let maxId = 0;
+    for (let i = 0; i < props.iconSet.length; i++) {
+      if (props.iconSet[i].iconType > maxId) {
+        maxId = props.iconSet[i].iconType;
+      }
+    }
+    for (let i = 0; i <= maxId; i++) {
       allIcons.push(true);
     }
-    setFilterShow(allIcons);
-  }, [props.iconSet, props.cardState]);
+    return allIcons;
+  }
 
   // If the viewing mode changes or the selected filters,
   // Then update the card state

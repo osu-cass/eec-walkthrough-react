@@ -40,6 +40,7 @@ function ContentPage(props) {
   const {pageId} = useParams();
   const [pageInfo, setPageInfo] = useState({
     sources: [],
+    headers: [],
     approved: 1,
     internal: 0
   });
