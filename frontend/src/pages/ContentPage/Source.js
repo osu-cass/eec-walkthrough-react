@@ -9,7 +9,7 @@ function Source (props) {
     if (props.source > 0) {
       window.$('[data-toggle="popover"]').popover();
     }
-  }, []);
+  }, [props.source]);
 
   return props.source > 0 ? (
     <sup className="inline-citation">

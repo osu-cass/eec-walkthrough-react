@@ -32,7 +32,7 @@ function ReportCardRemove(props) {
           <h5 className="report-card-special-text pl-3">{props.card.categoryName} &rarr; {props.card.pageName} &rarr; {props.card.headerName} &rarr; {props.card.title}</h5>
           <span className="report-card-special-text pl-3">Updated {formatTime(props.card.created)}</span>
           <div className="m-3">
-            <span className="report-card-span highlight-old-content">{props.card.title}</span>
+            <span className="report-card-span highlight-old-content text-break">{props.card.title}</span>
             {props.card.cardType === 1 || props.card.cardType === 11 ? (
               <ThumbnailGallery items={imageItems} compareMode={4} />
             ) : (

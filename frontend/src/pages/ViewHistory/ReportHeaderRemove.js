@@ -15,7 +15,7 @@ function ReportHeaderRemove(props) {
           <h5 className="report-header-special-text pl-4">{props.header.categoryName} &rarr; {props.header.pageName} &rarr; {props.header.title}</h5>
           <span className="report-header-special-text pl-4">Updated {formatTime(props.header.created)}</span>
           <div className="m-4">
-            <span className="report-header-span highlight-old-content">{props.header.title}</span>
+            <span className="report-header-span highlight-old-content text-break">{props.header.title}</span>
           </div>
         </div>
       </div>

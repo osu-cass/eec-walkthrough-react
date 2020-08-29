@@ -68,7 +68,6 @@ function SaveView(props) {
       viewName: viewName,
       publicView: publicView
     };
-
     // if the view name already exists, confirm that the user wishes to overwrite it
     for (let i = 0; i < views.length; i++) {
       if (views[i].viewName === viewName && views[i].public === publicView) {
