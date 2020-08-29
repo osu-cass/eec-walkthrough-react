@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 27, 2020 at 05:29 PM
+-- Generation Time: Aug 28, 2020 at 11:55 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
