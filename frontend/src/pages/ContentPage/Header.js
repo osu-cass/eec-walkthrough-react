@@ -145,7 +145,8 @@ function Header(props) {
   useEffect(() => {
     updateCardState(filterShow);
     // eslint-disable-next-line
-  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode, checkedCards, props.publishedMode]);
+  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode,
+    checkedCards, props.publishedMode, props.publicMode]);
 
   // Updates the cards / items that are shown.
   function updateCardState(filterState) {
@@ -194,7 +195,8 @@ function Header(props) {
         }
         // see if the item should be filtered or not
         if (filterState[checkedCards[i].items[j].iconType] &&
-            !filterItem(checkedCards[i].items[j], props.mode, false)) {
+            !filterItem(checkedCards[i].items[j], props.mode, false) &&
+            (props.mode !== 0 || checkedCards[i].items[j].created !== null || !props.publicMode)) {
           allItems.push(checkedCards[i].items[j]);
           itemExists = true;
           // opportunities may have setting to hide their children
