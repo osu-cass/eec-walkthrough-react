@@ -41,7 +41,7 @@ function ViewHistory() {
     if (results.ok) {
 
       const obj = await results.json();
-      console.log(obj)
+      console.log(obj);
       // combine all of the content into one array
       const all = [];
       for (let i = 0; i < obj.pages.length; i++) {

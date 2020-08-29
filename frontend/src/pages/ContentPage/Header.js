@@ -610,7 +610,7 @@ function Header(props) {
           ${props.header.approved && (!props.header.tempHeaderId || !viewUnpublished()) ? "header-approved" : "header-review"}
           ${isInternal() ? "header-internal" : ""}
           header-bar header-bar-content justify-content-between my-3 py-3 text-dark-50 rounded shadow-sm border`}
-          style={{top: "1em", zIndex: "998"}}
+        style={{top: "1em", zIndex: "998"}}
         >
           <div className="row w-100 ml-0">
             <div className="col-auto align-self-center">

@@ -329,7 +329,7 @@ function ContentPage(props) {
           }
 
           // swap the headers
-          let swapHeader = JSON.parse(JSON.stringify(copy[swapIndex]));
+          const swapHeader = JSON.parse(JSON.stringify(copy[swapIndex]));
           copy[swapIndex] = JSON.parse(JSON.stringify(copy[i]));
           copy[moveIndex] = swapHeader;
           setHeaders(copy);
@@ -364,7 +364,7 @@ function ContentPage(props) {
           }
 
           // swap the headers
-          let swapHeader = JSON.parse(JSON.stringify(copy[swapIndex]));
+          const swapHeader = JSON.parse(JSON.stringify(copy[swapIndex]));
           copy[swapIndex] = JSON.parse(JSON.stringify(copy[i]));
           copy[moveIndex] = swapHeader;
           setHeaders(copy);
@@ -378,7 +378,7 @@ function ContentPage(props) {
     setHeaders(copy);
 
     // get direction value
-    let direction = up ? 1 : 0;
+    const direction = up ? 1 : 0;
 
     // send our move to the API
     const results = await fetch(`/api/headers/${headerId}/move/${direction}/${mode}`, {

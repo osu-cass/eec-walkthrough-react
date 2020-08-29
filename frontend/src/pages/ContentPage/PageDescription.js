@@ -53,7 +53,7 @@ function PageDescription(props) {
       <div className={`d-flex header-bar justify-content-between
         ${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? "page-approved" : "page-review"}
         ${isInternal() ? "page-internal" : ""} my-3 p-3 text-dark-50 rounded shadow-sm border`}
-        style={{top: "1em", zIndex: "998"}}
+      style={{top: "1em", zIndex: "998"}}
       >
         <div className="row w-100 ml-0">
           <div className="col align-self-center pl-0">
