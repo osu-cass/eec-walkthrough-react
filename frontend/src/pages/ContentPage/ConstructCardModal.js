@@ -822,8 +822,8 @@ function ConstructCardModal(props) {
     copy[key].iconType = parseInt(itemArray[3], 10);
     copy[key].contentType = parseInt(itemArray[4], 10);
     copy[key].contentMode = parseInt(itemArray[5], 10);
-    copy[key].internal = parseInt(itemArray[6], 10);;
-    copy[key].sourceId = parseInt(itemArray[7], 10);;
+    copy[key].internal = parseInt(itemArray[6], 10);
+    copy[key].sourceId = parseInt(itemArray[7], 10);
     copy[key].indentation = 0;
 
     // Make sure the indentation is up to date

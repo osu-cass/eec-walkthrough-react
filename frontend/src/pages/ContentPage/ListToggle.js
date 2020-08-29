@@ -16,7 +16,7 @@ function ListToggle(props) {
       ) : (
         <div
           className="btn btn-info filter-btn btn-sm py-0 my-1 px-1"
-          onClick={() => props.toggleList()} 
+          onClick={() => props.toggleList()}
           title="Uncheck All"
         >
           <i className={`fas fa-fw fa-sm fa-square text-white`} />
