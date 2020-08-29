@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import BasicItems from "../ContentPage/BasicItems";
+import {isGraphic} from "../../utilities/itemType";
 import ThumbnailGallery from "../ContentPage/ThumbnailGallery";
 import {formatTime} from "../../utilities/formatTime";
 import "./ReportCard.css";
@@ -15,7 +16,7 @@ function ReportCardRemove(props) {
   useEffect(() => {
     const imageArray = [];
     for (let i = 0; i < props.card.items.length; i++) {
-      if (props.card.items[i].contentUrl.length && props.card.items[i].typeName === "chart-area") {
+      if (isGraphic(props.card.items[i])) {
         imageArray.push(props.card.items[i]);
       }
     }

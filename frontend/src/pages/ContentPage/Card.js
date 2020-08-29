@@ -1,5 +1,6 @@
 import React, {useState, useEffect, Fragment} from "react";
 import {Card as CardBS} from "react-bootstrap";
+import {isGraphic} from "../../utilities/itemType";
 import EditCard from "./EditCard";
 import ReviewCard from "./ReviewCard";
 import BasicItems from "./BasicItems";
@@ -23,12 +24,12 @@ function Card(props) {
     const imageArray = [];
     const tempImageArray = [];
     for (let i = 0; i < props.card.items.length; i++) {
-      if (props.card.items[i].contentUrl.length && props.card.items[i].typeName === "chart-area") {
+      if (isGraphic(props.card.items[i])) {
         imageArray.push(props.card.items[i]);
       }
     }
     for (let i = 0; i < props.card.tempItems.length; i++) {
-      if (props.card.tempItems[i].contentUrl.length && props.card.tempItems[i].typeName === "chart-area") {
+      if (isGraphic(props.card.tempItems[i])) {
         tempImageArray.push(props.card.tempItems[i]);
       }
     }
