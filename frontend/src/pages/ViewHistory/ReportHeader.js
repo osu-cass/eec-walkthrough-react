@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import HighlightText from "../ContentPage/HighlightText";
@@ -7,6 +7,17 @@ import "./ReportHeader.css";
 // Header history for a single header
 function ReportHeader(props) {
 
+  const [parentsName, setParentsName] = useState("");
+
+  // Adjust parent history for situations where the parent was deleted
+  useEffect(() => {
+    if (props.header.categoryName === null || props.header.pageName === null) {
+      setParentsName("[Deleted]");
+    } else {
+      setParentsName(`${props.header.categoryName} \u2192 ${props.header.pageName}`);
+    }
+  }, [props.header, props.header.categoryName, props.header.pageName]);
+
   return props.removeMode ? (
     <div className='text-left mx-2 row'>
 
@@ -14,7 +25,7 @@ function ReportHeader(props) {
         <div className="col">
           <div className={`version-container p-2 m-3 border border-dark rounded`}>
             <h4 className="report-header-special-text pl-4 pt-4">Header</h4>
-            <h5 className="report-header-special-text pl-4">{props.header.categoryName} &rarr; {props.header.pageName} &rarr; {props.header.oldVersion.title}</h5>
+            <h5 className="report-header-special-text pl-4">{parentsName} &rarr; {props.header.oldVersion.title}</h5>
             <span className="report-header-special-text pl-4">Updated {formatTime(props.header.oldVersion.created)}</span>
             <div className="m-4">
               <HighlightText
@@ -34,7 +45,7 @@ function ReportHeader(props) {
       <div className="col">
         <div className={`version-container p-2 m-3 border border-dark rounded`}>
           <h4 className="report-header-special-text pl-4 pt-4">Header</h4>
-          <h5 className="report-header-special-text pl-4">{props.header.categoryName} &rarr; {props.header.pageName} &rarr; {props.header.title}</h5>
+          <h5 className="report-header-special-text pl-4">{parentsName} &rarr; {props.header.title}</h5>
           <span className="report-header-special-text pl-4">Updated {formatTime(props.header.created)}</span>
           <div className="m-4">
             {props.header.oldVersion ? (
@@ -57,7 +68,7 @@ function ReportHeader(props) {
     <div className='text-left mx-2'>
       <div className={`version-container p-2 m-3 border border-dark rounded`}>
         <h4 className="report-header-special-text pl-4 pt-4">Header</h4>
-        <h5 className="report-header-special-text pl-4">{props.header.categoryName} &rarr; {props.header.pageName} &rarr; {props.header.title}</h5>
+        <h5 className="report-header-special-text pl-4">{parentsName} &rarr; {props.header.title}</h5>
         <span className="report-header-special-text pl-4">Updated {formatTime(props.header.created)}</span>
         <div className="m-4">
           {props.header.oldVersion ? (
