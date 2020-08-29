@@ -5,7 +5,11 @@ import PropTypes from "prop-types";
 function Source (props) {
 
   return props.source > 0 ? (
-    <a href={`#source-${props.source}`}>[{props.source}]</a>
+    <sup>
+      <a href={`#source-${props.source}`}>
+        [{props.source}]
+      </a>
+    </sup>
   ) : (
     null
   );
