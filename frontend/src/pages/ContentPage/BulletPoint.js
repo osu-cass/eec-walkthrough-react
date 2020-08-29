@@ -61,7 +61,7 @@ function BulletPoint (props) {
                 <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
                   {props.text}
                 </span>
-                <Source source={props.source}/>
+                <Source source={props.source} sourceText={props.sourceText}/>
               </div>
             </div>
           ) : (
@@ -79,7 +79,7 @@ function BulletPoint (props) {
                 <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
                   {props.text}
                 </span>
-                <Source source={props.source}/>
+                <Source source={props.source} sourceText={props.sourceText}/>
               </div>
             </div>
           )}
@@ -104,7 +104,7 @@ function BulletPoint (props) {
                 {props.text}
               </span>
               {props.label}
-              <Source source={props.source}/>
+              <Source source={props.source} sourceText={props.sourceText}/>
             </div>
             <Image url={props.url} title={props.label} thumbnail={false} header={false} />
           </div>
@@ -205,5 +205,6 @@ BulletPoint.propTypes = {
   checked: PropTypes.bool,
   highlightStyle: PropTypes.number,
   internal: PropTypes.number,
-  source: PropTypes.number
+  source: PropTypes.number,
+  sourceText: PropTypes.string
 };

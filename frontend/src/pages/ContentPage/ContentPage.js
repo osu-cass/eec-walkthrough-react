@@ -478,11 +478,18 @@ function ContentPage(props) {
         for (let k = 0; k < copy[i].cards[j].items.length; k++) {
           const curItem = copy[i].cards[j].items[k];
           curItem.refId = 0;
+          curItem.refText = "";
           if (curItem.sourceId !== 0) {
             // see if this source has already been referenced
             for (let l = 0; l < refOrder.length; l++) {
               if (curItem.sourceId === refOrder[l]) {
                 curItem.refId = l + 1;
+                // get the reference text
+                for (let m = 0; m < sources.length; m++) {
+                  if (curItem.sourceId === sources[m].sourceId) {
+                    curItem.refText = sources[m].text;
+                  }
+                }
               }
             }
             // if this is the first time the source is referenced,
@@ -497,6 +504,12 @@ function ContentPage(props) {
               if (valid) {
                 refOrder.push(curItem.sourceId);
                 curItem.refId = refOrder.length;
+                // get the reference text
+                for (let m = 0; m < sources.length; m++) {
+                  if (curItem.sourceId === sources[m].sourceId) {
+                    curItem.refText = sources[m].text;
+                  }
+                }
               }
             }
           }
@@ -507,11 +520,18 @@ function ContentPage(props) {
           for (let k = 0; k < copy[i].cards[j].tempItems.length; k++) {
             const curItem = copy[i].cards[j].tempItems[k];
             curItem.refId = 0;
+            curItem.refText = "";
             if (curItem.sourceId !== 0) {
               // see if this source has already been referenced
               for (let l = 0; l < tempRefOrder.length; l++) {
                 if (curItem.sourceId === tempRefOrder[l]) {
                   curItem.refId = l + 1;
+                  // get the reference text
+                  for (let m = 0; m < sources.length; m++) {
+                    if (curItem.sourceId === sources[m].sourceId) {
+                      curItem.refText = sources[m].text;
+                    }
+                  }
                 }
               }
               // if this is the first time the source is referenced,
@@ -526,6 +546,12 @@ function ContentPage(props) {
                 if (valid) {
                   tempRefOrder.push(curItem.sourceId);
                   curItem.refId = tempRefOrder.length;
+                  // get the reference text
+                  for (let m = 0; m < sources.length; m++) {
+                    if (curItem.sourceId === sources[m].sourceId) {
+                      curItem.refText = sources[m].text;
+                    }
+                  }
                 }
               }
             }
@@ -534,11 +560,18 @@ function ContentPage(props) {
           for (let k = 0; k < copy[i].cards[j].items.length; k++) {
             const curItem = copy[i].cards[j].items[k];
             curItem.refId = 0;
+            curItem.refText = "";
             if (curItem.sourceId !== 0) {
               // see if this source has already been referenced
               for (let l = 0; l < tempRefOrder.length; l++) {
                 if (curItem.sourceId === tempRefOrder[l]) {
                   curItem.refId = l + 1;
+                  // get the reference text
+                  for (let m = 0; m < sources.length; m++) {
+                    if (curItem.sourceId === sources[m].sourceId) {
+                      curItem.refText = sources[m].text;
+                    }
+                  }
                 }
               }
               // if this is the first time the source is referenced,
@@ -553,6 +586,12 @@ function ContentPage(props) {
                 if (valid) {
                   tempRefOrder.push(curItem.sourceId);
                   curItem.refId = tempRefOrder.length;
+                  // get the reference text
+                  for (let m = 0; m < sources.length; m++) {
+                    if (curItem.sourceId === sources[m].sourceId) {
+                      curItem.refText = sources[m].text;
+                    }
+                  }
                 }
               }
             }

@@ -48,6 +48,7 @@ function ExpandableList(props) {
             checked={item.hideChildren}
             setCheck={(check, itemId) => props.setCheck(check, itemId)}
             source={item.refId}
+            sourceText={item.refText}
             internal={item.internal}
           />
         )}
