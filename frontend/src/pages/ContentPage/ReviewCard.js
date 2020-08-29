@@ -1,6 +1,7 @@
 import React, {useState, useEffect, Fragment} from "react";
 import {Modal, Button, Row} from "react-bootstrap";
 import {getProfile, logout} from "../../utilities/cookieAuth";
+import {isGraphic} from "../../utilities/itemType";
 import PropTypes from "prop-types";
 import BasicItems from "./BasicItems";
 import ThumbnailGallery from "./ThumbnailGallery";
@@ -64,12 +65,12 @@ function ReviewCard(props) {
     const imageArray = [];
     const tempImageArray = [];
     for (let i = 0; i < props.card.items.length; i++) {
-      if (props.card.items[i].contentUrl.length && props.card.items[i].typeName === "chart-area") {
+      if (isGraphic(props.card.items[i])) {
         imageArray.push(props.card.items[i]);
       }
     }
     for (let i = 0; i < props.card.tempItems.length; i++) {
-      if (props.card.tempItems[i].contentUrl.length && props.card.tempItems[i].typeName === "chart-area") {
+      if (isGraphic(props.card.tempItems[i])) {
         tempImageArray.push(props.card.tempItems[i]);
       }
     }
