@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import HighlightText from "../ContentPage/HighlightText";
@@ -8,6 +8,17 @@ import "./ReportPage.css";
 // Page history for a single page
 function ReportPage(props) {
 
+  const [parentsName, setParentsName] = useState("");
+
+  // Adjust parent history for situations where the parent was deleted
+  useEffect(() => {
+    if (props.page.categoryName === null) {
+      setParentsName("[Deleted]");
+    } else {
+      setParentsName(`${props.page.categoryName}`);
+    }
+  }, [props.page, props.page.categoryName]);
+
   return props.removeMode ? (
     <div className="text-left mx-2 row">
 
@@ -15,7 +26,7 @@ function ReportPage(props) {
         <div className="col">
           <div className={`version-container p-2 m-3 border border-dark rounded`}>
             <h4 className="report-page-special-text pl-4 pt-4">Page</h4>
-            <h5 className="report-page-special-text pl-4">{props.page.categoryName} &rarr; {props.page.oldVersion.name} </h5>
+            <h5 className="report-page-special-text pl-4">{parentsName} &rarr; {props.page.oldVersion.name} </h5>
             <span className="report-page-special-text pl-4">Updated {formatTime(props.page.oldVersion.created)}</span>
             <div className="m-4">
               <div>
@@ -72,7 +83,7 @@ function ReportPage(props) {
       <div className="col">
         <div className={`version-container p-2 m-3 border border-dark rounded`}>
           <h4 className="report-page-special-text pl-4 pt-4">Page</h4>
-          <h5 className="report-page-special-text pl-4">{props.page.categoryName} &rarr; {props.page.name} </h5>
+          <h5 className="report-page-special-text pl-4">{parentsName} &rarr; {props.page.name} </h5>
           <span className="report-page-special-text pl-4">Updated {formatTime(props.page.created)}</span>
           <div className="m-4">
             {props.page.oldVersion ? (
@@ -148,7 +159,7 @@ function ReportPage(props) {
     <div className="text-left mx-2">
       <div className={`version-container p-2 m-3 border border-dark rounded`}>
         <h4 className="report-page-special-text pl-4 pt-4">Page</h4>
-        <h5 className="report-page-special-text pl-4">{props.page.categoryName} &rarr; {props.page.name} </h5>
+        <h5 className="report-page-special-text pl-4">{parentsName} &rarr; {props.page.name} </h5>
         <span className="report-page-special-text pl-4">Updated {formatTime(props.page.created)}</span>
         <div className="m-4">
           {props.page.oldVersion ? (

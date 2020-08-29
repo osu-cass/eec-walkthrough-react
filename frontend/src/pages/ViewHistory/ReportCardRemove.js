@@ -10,6 +10,16 @@ import "./ReportCard.css";
 function ReportCardRemove(props) {
 
   const [imageItems, setImageItems] = useState([]);
+  const [parentsName, setParentsName] = useState("");
+
+  // Adjust parent history for situations where the parent was deleted
+  useEffect(() => {
+    if (props.card.categoryName === null || props.card.pageName === null || props.card.headerName === null) {
+      setParentsName("[Deleted]");
+    } else {
+      setParentsName(`${props.card.categoryName} \u2192 ${props.card.pageName} \u2192 ${props.card.headerName}`);
+    }
+  }, [props.card, props.card.categoryName, props.card.pageName, props.card.headerName]);
 
   // If the current card is an Image Gallery card then
   // whenever we get new items, filter out all of the non-image ones
@@ -30,7 +40,7 @@ function ReportCardRemove(props) {
       <div className="col">
         <div className={`version-container p-2 m-3 border border-dark rounded text-wrap`}>
           <h4 className="report-card-special-text pl-3 pt-4">Card</h4>
-          <h5 className="report-card-special-text pl-3">{props.card.categoryName} &rarr; {props.card.pageName} &rarr; {props.card.headerName} &rarr; {props.card.title}</h5>
+          <h5 className="report-card-special-text pl-3">{parentsName} &rarr; {props.card.title}</h5>
           <span className="report-card-special-text pl-3">Updated {formatTime(props.card.created)}</span>
           <div className="m-3">
             <span className="report-card-span highlight-old-content text-break">{props.card.title}</span>

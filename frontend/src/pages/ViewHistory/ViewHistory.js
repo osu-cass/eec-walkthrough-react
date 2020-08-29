@@ -41,7 +41,7 @@ function ViewHistory() {
     if (results.ok) {
 
       const obj = await results.json();
-
+      console.log(obj)
       // combine all of the content into one array
       const all = [];
       for (let i = 0; i < obj.pages.length; i++) {
@@ -66,6 +66,38 @@ function ViewHistory() {
 
       if (!all.length) {
         setErrorMessage("No changes were made in this date range.");
+      }
+
+      // check to see if we aren't looking at removals and if all of
+      // the results are removals
+      if (!remove) {
+        let addition = false;
+        for (let i = 0; i < obj.pages.length; i++) {
+          if (obj.pages[i].removed === 0) {
+            addition = true;
+            break;
+          }
+        }
+        if (!addition) {
+          for (let i = 0; i < obj.headers.length; i++) {
+            if (obj.headers[i].removed === 0) {
+              addition = true;
+              break;
+            }
+          }
+        }
+        if (!addition) {
+          for (let i = 0; i < obj.cards.length; i++) {
+            if (obj.cards[i].removed === 0) {
+              addition = true;
+              break;
+            }
+          }
+        }
+        if (!addition) {
+          setPublishedContent([]);
+          setErrorMessage("No changes were made in this date range.");
+        }
       }
 
     } else {
