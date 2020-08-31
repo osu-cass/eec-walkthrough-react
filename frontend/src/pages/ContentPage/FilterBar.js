@@ -66,7 +66,7 @@ function FilterBar(props) {
           onClick={() => props.showFilter()}
           title="Show Filters"
         >
-          <i className="fas fa-fw fa-chevron-down align-self-center" />
+          <i className="fas fa-fw fa-chevron-left align-self-center mr-1" />
         </div>
       )}
 

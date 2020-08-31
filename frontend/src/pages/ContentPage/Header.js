@@ -5,7 +5,7 @@ import EditHeader from "./EditHeader";
 import ReviewHeader from "./ReviewHeader";
 import FilterBar from "./FilterBar";
 import OrderObjectButton from "./OrderObjectButton";
-import ChangeMode from "./ChangeMode";
+import PageOther from "./PageOther";
 import Card from "./Card";
 import "./Header.css";
 
@@ -645,7 +645,7 @@ function Header(props) {
                       approved={props.header.approved}
                       publishedMode={props.publishedMode}
                     />
-                    <ChangeMode
+                    <PageOther
                       role={props.role}
                       mode={props.mode}
                       onPageMode={e => props.onPageMode(e)}
@@ -679,7 +679,7 @@ function Header(props) {
                       header={props.header}
                       handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                     />
-                    <ChangeMode
+                    <PageOther
                       role={props.role}
                       mode={props.mode}
                       onPageMode={e => props.onPageMode(e)}
