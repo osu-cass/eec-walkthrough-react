@@ -42,6 +42,42 @@ async function getSources(pageId) {
 exports.getSources = getSources;
 
 
+// create a single source
+async function createSingleSource(pageId, text, url) {
+
+  try {
+
+    // make sure the page exists
+    let sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ?;";
+    let results = await pool.query(sql, pageId);
+
+    // check to see if we were able to find the page
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // add the new source
+    sql = "INSERT INTO Sources (text, url, pageId) " +
+    "VALUES (?, ?, ?);";
+    results = await pool.query(sql, [text, url, pageId]);
+
+    const finalResults = {
+      insertId: results[0].insertId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error creating source");
+    throw Error(err);
+  }
+
+}
+exports.createSingleSource = createSingleSource;
+
+
 // create a list of sources
 async function createSources(pageId, sources) {
 

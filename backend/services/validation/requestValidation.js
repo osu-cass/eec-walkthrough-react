@@ -351,6 +351,15 @@ const getSourcesVal = Object.freeze({
 });
 exports.getSourcesVal = getSourcesVal;
 
+// validation checks for post source
+const postSourceVal = Object.freeze({
+  validation: [
+    check("text").isLength({min: 1, max: 5000}),
+    check("url").isLength({min: 0, max: 5000})
+  ]
+});
+exports.postSourceVal = postSourceVal;
+
 // validation checks for post sources
 const postSourcesVal = Object.freeze({
   validation: [
