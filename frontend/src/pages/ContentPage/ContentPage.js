@@ -164,7 +164,7 @@ function ContentPage(props) {
             setHeaders(headerSortOrder(headerData));
           }
         }
-        updateReferences(headers, pageInfo.sources);
+        updateReferences(headerData, pageInfo.sources);
 
       } else if (action === "clear") {
 
@@ -179,7 +179,7 @@ function ContentPage(props) {
             }
           }
         }
-        updateReferences(headers, pageInfo.sources);
+        updateReferences(headerData, pageInfo.sources);
       }
 
     } else if (type === "card") {

@@ -33,10 +33,10 @@ function PageOther(props) {
             className="fas fa-chevron-down text-white"
           />
         </button>
-        <div class="dropdown-menu" aria-labelledby="dropdown-page-other">
-          <span class="dropdown-item" onClick={() => scrollTop()}>Scroll to top</span>
-          <span class="dropdown-item" onClick={() => toggleMode(1)}>Switch to edit mode</span>
-          <span class="dropdown-item" onClick={() => toggleMode(2)}>Switch to move mode</span>
+        <div className="dropdown-menu" aria-labelledby="dropdown-page-other">
+          <span className="dropdown-item" onClick={() => scrollTop()}>Scroll to top</span>
+          <span className="dropdown-item" onClick={() => toggleMode(1)}>Switch to edit mode</span>
+          <span className="dropdown-item" onClick={() => toggleMode(2)}>Switch to move mode</span>
         </div>
       </div>
     );
@@ -54,10 +54,10 @@ function PageOther(props) {
             className="fas fa-chevron-down text-white"
           />
         </button>
-        <div class="dropdown-menu" aria-labelledby="dropdown-page-other">
-          <span class="dropdown-item" onClick={() => scrollTop()}>Scroll to top</span>
-          <span class="dropdown-item" onClick={() => toggleMode(0)}>Switch to view mode</span>
-          <span class="dropdown-item" onClick={() => toggleMode(2)}>Switch to move mode</span>
+        <div className="dropdown-menu" aria-labelledby="dropdown-page-other">
+          <span className="dropdown-item" onClick={() => scrollTop()}>Scroll to top</span>
+          <span className="dropdown-item" onClick={() => toggleMode(0)}>Switch to view mode</span>
+          <span className="dropdown-item" onClick={() => toggleMode(2)}>Switch to move mode</span>
         </div>
       </div>
     );
@@ -75,10 +75,10 @@ function PageOther(props) {
             className="fas fa-chevron-down text-white"
           />
         </button>
-        <div class="dropdown-menu" aria-labelledby="dropdown-page-other">
-          <span class="dropdown-item" onClick={() => scrollTop()}>Scroll to top</span>
-          <span class="dropdown-item" onClick={() => toggleMode(0)}>Switch to view mode</span>
-          <span class="dropdown-item" onClick={() => toggleMode(1)}>Switch to edit mode</span>
+        <div className="dropdown-menu" aria-labelledby="dropdown-page-other">
+          <span className="dropdown-item" onClick={() => scrollTop()}>Scroll to top</span>
+          <span className="dropdown-item" onClick={() => toggleMode(0)}>Switch to view mode</span>
+          <span className="dropdown-item" onClick={() => toggleMode(1)}>Switch to edit mode</span>
         </div>
       </div>
     );
