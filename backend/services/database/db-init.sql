@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 28, 2020 at 11:55 PM
+-- Generation Time: Aug 31, 2020 at 02:59 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -177,6 +177,7 @@ CREATE TABLE `Categories` (
 --
 
 INSERT INTO `Categories` (`categoryId`, `singleName`, `pluralName`, `description`, `internal`, `userId`, `created`) VALUES
+(0, 'Instruction', 'Instructions', 'Instructions for navigating and using this web application.', 0, 42, '2020-08-31 21:58:22'),
 (1, 'Industry', 'Industries', 'An overview of common industries followed by typical related subjects and opportunities.', 0, 51, '2020-07-18 03:11:32'),
 (2, 'Technology', 'Technologies', 'Standard technologies used throughout industry', 0, 51, '2020-07-18 03:11:32'),
 (3, 'Process', 'Processes', 'Common industrial processes that use a combination of standard technologies', 0, 51, '2020-07-18 03:11:32'),
@@ -1489,8 +1490,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4311, 101, 0, 1, 17, 'Department of Energy tip sheet that explains how a condensing economizer works and how it saves energy, along with example scenarios', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26a_condensing.pdf', 'Consider Installing a Condensing Economizer', 1, 0, 0, '2020-08-07 21:56:39', 0),
 (4312, 101, 0, 1, 17, 'Department of Energy tip sheet that explains special considerations that need to be taken into account when choosing to do projects with condensing economizers.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26b_condensing.pdf', 'Considerations When Selecting a Condensing Economizer', 1, 0, 0, '2020-08-07 21:56:39', 0),
 (4313, 166, 0, 0, 10, 'Significant levels of work in progress (WIP) inventory immediately upstream of a workstation.', '', '', 0, 0, 0, '2020-08-10 21:04:25', 0),
-(4346, 168, 0, 0, 1, 'Can result in significant savings and increased productivity', '', '', 0, 0, 0, '2020-08-12 21:57:22', 0),
-(4347, 168, 0, 0, 1, 'Easy to estimate cost savings/benefits given sufficient, accurate data..', '', '', 0, 0, 0, '2020-08-12 21:57:22', 0),
 (4376, 154, 0, 0, 26, 'Check the estimated annual energy cost for each utility', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
 (4377, 154, 0, 1, 14, 'Is the total annual energy cost suitable for an IAC Assessment? ', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
 (4378, 154, 0, 2, 3, '$100,000 a year is the minimum but ideally costs will exceed $200,000  - $300,000 a year. ', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
@@ -1687,9 +1686,9 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4808, 129, 0, 2, 20, '', 'https://cdn4.explainthatstuff.com/how-heat-exchangers-work.png', 'Recuperator Schematic', 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4809, 129, 0, 2, 13, 'Regenerators act as heating vessels for both the combustion air and flue gases. Regenerators alternate between heating the storage medium and then taking heat from it. Usually at least two regenerators and burners are needed so that the process is uninterrupted.', '', '', 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4810, 129, 0, 2, 1, 'PROS HERE UNFINISHED', '', '', 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4811, 129, 0, 2, 2, 'CONS HERE UNFINISHED', '', '', 0, 0, 0, '2020-08-24 16:58:32', 0);
+(4811, 129, 0, 2, 2, 'CONS HERE UNFINISHED', '', '', 0, 0, 0, '2020-08-24 16:58:32', 0),
+(4812, 129, 0, 2, 20, '', 'https://image.slidesharecdn.com/heatexchangertypesandapplication-171015153006/95/heat-exchanger-types-and-application-13-638.jpg?cb=1508081873', 'Regenerator Schematic', 0, 0, 0, '2020-08-24 16:58:32', 0);
 INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `sourceId`, `created`, `approved`) VALUES
-(4812, 129, 0, 2, 20, '', 'https://image.slidesharecdn.com/heatexchangertypesandapplication-171015153006/95/heat-exchanger-types-and-application-13-638.jpg?cb=1508081873', 'Regenerator Schematic', 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4813, 129, 0, 1, 4, 'Take care not to lower exhaust stack temperature too low as it can cause corrosion. This happens because the surface temperature of the stack is lower than the dew point of the flue gas flowing through the stack, causing moisture to accumulate.', '', '', 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4814, 129, 0, 1, 8, 'Some flue gasses are corrosive and can damage installed heat exchanges. When performing an analysis, research which heat exchangers are best designed for the process in question. ', '', '', 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4815, 129, 0, 1, 15, 'Flue gas temperature', '', '', 0, 0, 0, '2020-08-24 16:58:32', 0),
@@ -1702,9 +1701,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4822, 184, 0, 0, 26, 'First, calculate the D-scores for the original layout (D0) and the proposed layout (D1).', '', '', 0, 0, 0, '2020-08-24 19:51:09', 0),
 (4823, 184, 0, 0, 26, 'Calculate layout efficiency savings by finding the percent difference in d-scores (i.e. D0 - D1 / D1).', '', '', 0, 0, 0, '2020-08-24 19:51:09', 0),
 (4824, 184, 0, 0, 26, 'Layout efficiency savings are an important measure in itself and will result in increased productivity, however, translating this figure into monetary cost savings is necessary.', '', '', 0, 0, 0, '2020-08-24 19:51:09', 0),
-(4828, 185, 0, 0, 26, 'Cost savings from improved layouts are the result of reduced material handling costs. Material handling costs typically refer to time and energy spent using manual labor, vehicles (e.g. forklifts), or conveyors to move product or inventory around the facility. ', '', '', 0, 0, 0, '2020-08-24 20:54:37', 0),
-(4829, 185, 0, 0, 26, 'Calculating actual cost savings requires analysis of both layouts. Layout efficiency savings do not directly relate to cost savings unless the facility only uses one way to handle materials.', '', '', 0, 0, 0, '2020-08-24 20:54:37', 0),
-(4830, 185, 0, 0, 26, 'xfgzffdx', '', '', 0, 0, 0, '2020-08-24 20:54:37', 0),
 (4832, 186, 0, 0, 1, 'Improving power factor extends equipment life by reducing the total line current which reduces operating temperatures.', '', '', 0, 0, 0, '2020-08-26 16:05:57', 0),
 (4833, 186, 0, 0, 1, 'Improving power factor can significantly reduce monthly electrical utility charges.', '', '', 0, 0, 0, '2020-08-26 16:05:57', 0),
 (4834, 186, 0, 0, 1, 'Capacitors have no moving parts and require little to no maintenance. It is recommended to check fuses on a regular basis.', '', '', 0, 0, 0, '2020-08-26 16:05:57', 0),
@@ -1746,7 +1742,14 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4966, 194, 0, 0, 26, 'The IAC Industrial Control Systems Cybersecurity Assessment Tool is a 20-question survey that can provide a starting place for a cybersecurity program. This tool is located on the Industrial Assessment Center’s cybersecurity webpage, as well as several other cybersecurity resources.', '', '', 0, 0, 0, '2020-08-27 00:41:15', 0),
 (4967, 194, 0, 1, 21, ' ', 'https://iac.university/cybersecurity', 'Industrial Control Systems Cybersecurity Assessment Tool', 1, 0, 0, '2020-08-27 00:41:15', 0),
 (4968, 194, 0, 0, 26, 'The US Department of Energy released the Cybersecurity Capability Maturity Model (C2M2) to evaluate an organization’s cybersecurity capabilities regardless of their structure, size, or organization type. This includes a self-evaluation and proposed model.', '', '', 1, 0, 0, '2020-08-27 00:41:15', 0),
-(4969, 194, 0, 1, 21, ' ', 'https://www.energy.gov/ceser/activities/cybersecurity-critical-energy-infrastructure/energy-sector-cybersecurity-0-0 ', 'Cybersecurity Capability Maturity Model (C2M2)', 1, 0, 0, '2020-08-27 00:41:15', 0);
+(4969, 194, 0, 1, 21, ' ', 'https://www.energy.gov/ceser/activities/cybersecurity-critical-energy-infrastructure/energy-sector-cybersecurity-0-0 ', 'Cybersecurity Capability Maturity Model (C2M2)', 1, 0, 0, '2020-08-27 00:41:15', 0),
+(4971, 185, 0, 0, 26, 'Cost savings from improved layouts are the result of reduced material handling costs. Material handling costs typically refer to time and energy spent using manual labor, vehicles (e.g. forklifts), or conveyors to move product or inventory around the facility. ', '', '', 0, 0, 0, '2020-08-29 20:20:27', 0),
+(4972, 185, 0, 0, 26, 'For rough estimates of cost savings, calculating the cost of work flow of the original layout and multiplying it by the layout efficiency savings will suffice. For example, if it costs $1,000/day to move materials, and the layout efficiency savings are 10%, then savings are $100/day. ', '', '', 0, 0, 0, '2020-08-29 20:20:27', 0),
+(4973, 185, 0, 0, 26, 'Calculating daily material handling costs are most easily estimated using hourly operating costs of material handling systems and how long the specific system operates a day.', '', '', 0, 0, 0, '2020-08-29 20:20:27', 0),
+(4974, 185, 0, 0, 26, 'For more precise estimates, reduction in work flow for each work unit (e.g. inventory, personnel, etc.) needs to be determined. ', '', '', 0, 0, 0, '2020-08-29 20:20:27', 0),
+(4975, 168, 0, 0, 1, 'Can result in significant savings and increased productivity', '', '', 0, 0, 0, '2020-08-29 21:06:18', 0),
+(4976, 168, 0, 0, 1, 'Easy to estimate cost savings/benefits given sufficient, accurate data..', '', '', 0, 0, 0, '2020-08-29 21:06:18', 0),
+(4977, 168, 0, 0, 1, 'Opportunity and cost saving methodology is applicable to how inventory is stored and located.', '', '', 0, 0, 0, '2020-08-29 21:06:18', 0);
 
 -- --------------------------------------------------------
 
@@ -2210,7 +2213,7 @@ ALTER TABLE `Cards`
 -- AUTO_INCREMENT for table `Categories`
 --
 ALTER TABLE `Categories`
-  MODIFY `categoryId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `categoryId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `Filters`
@@ -2258,7 +2261,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4971;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4978;
 
 --
 -- AUTO_INCREMENT for table `Pages`
