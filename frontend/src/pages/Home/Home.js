@@ -109,7 +109,7 @@ function Home(props) {
 
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
-          <div className="col">
+          <div className="col px-0">
             <h2 className="font-weight-bold">{page.mainHeader}</h2>
           </div>
         </div>

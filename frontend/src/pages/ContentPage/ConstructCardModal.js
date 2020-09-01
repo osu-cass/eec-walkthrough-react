@@ -24,7 +24,7 @@ function ConstructCardModal(props) {
   const [linkIcons, setLinkIcons] = useState([]);
   const [checked, setChecked] = useState(0);
   const [copyToast, setCopyToast] = useState(false);
-  const [cardTitleMode, setCardTitleMode] = useState(0);
+  const [cardTitleMode, setCardTitleMode] = useState("");
   const [selectedItem, setSelectedItem] = useState(0);
 
   // setup card data
@@ -60,7 +60,9 @@ function ConstructCardModal(props) {
       itemData.contentMode = item.contentMode;
       itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
       itemData.internal = item.internal;
+      itemData.sourceId = item.sourceId;
       itemData.current = 1;
+      itemData.created = item.created;
       if (item.contentText === "$empty") {
         itemData.contentText = "";
       }
@@ -169,6 +171,8 @@ function ConstructCardModal(props) {
     copy[key].contentMode = newContentMode;
     copy[key].indentation = newIndent;
     copy[key].internal = 0;
+    copy[key].sourceId = 0;
+    copy[key].created = new Date();
 
     // Make sure the indentation is up to date
     copy = scanIndentation(copy);
@@ -285,59 +289,19 @@ function ConstructCardModal(props) {
       newCardFormat += 10;
     }
 
-    // Update the order index of each item
+    // Set the order index of each item and clean up empty strings as needed
     const copy = items;
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
+      if (copy[i].contentType === 3 && copy[i].contentText === "") {
+        copy[i].contentText = "$empty";
+      }
     }
 
     // If we are using a preset title apply it now
     let submitTitle = title;
-    switch (cardTitleMode) {
-      case 1:
-        submitTitle = "Pros";
-        break;
-      case 2:
-        submitTitle = "Cons";
-        break;
-      case 3:
-        submitTitle = "Caveats";
-        break;
-      case 4:
-        submitTitle = "Best Practices";
-        break;
-      case 5:
-        submitTitle = "Rules of Thumb";
-        break;
-      case 6:
-        submitTitle = "Tips";
-        break;
-      case 7:
-        submitTitle = "Additional in Depth Site Resources";
-        break;
-      case 8:
-        submitTitle = "Charts, Tables, Figures";
-        break;
-      case 9:
-        submitTitle = "Standard Data to Collect";
-        break;
-      case 10:
-        submitTitle = "Data Collection Guides";
-        break;
-      case 11:
-        submitTitle = "Analysis Tools";
-        break;
-      case 12:
-        submitTitle = "Gallery";
-        break;
-      case 13:
-        submitTitle = "U.S. Department of Energy Tip Sheets";
-        break;
-      case 14:
-        submitTitle = "General Off Site Resource Links";
-        break;
-      default:
-        submitTitle = title;
+    if (cardTitleMode !== "") {
+      submitTitle = cardTitleMode;
     }
 
     // Prepare data for new card
@@ -379,9 +343,7 @@ function ConstructCardModal(props) {
         title: submitTitle,
         items: [],
         userId: 0,
-        created: new Date().toISOString()
-          .slice(0, 19)
-          .replace("T", " "),
+        created: new Date(),
         orderIndex: obj.insertId,
         tempOrderIndex: null,
         tempCardId: null,
@@ -448,51 +410,8 @@ function ConstructCardModal(props) {
 
     // If we are using a preset title apply it now
     let submitTitle = title;
-    switch (cardTitleMode) {
-      case 1:
-        submitTitle = "Pros";
-        break;
-      case 2:
-        submitTitle = "Cons";
-        break;
-      case 3:
-        submitTitle = "Caveats";
-        break;
-      case 4:
-        submitTitle = "Best Practices";
-        break;
-      case 5:
-        submitTitle = "Rules of Thumb";
-        break;
-      case 6:
-        submitTitle = "Tips";
-        break;
-      case 7:
-        submitTitle = "Additional in Depth Site Resources";
-        break;
-      case 8:
-        submitTitle = "Charts, Tables, Figures";
-        break;
-      case 9:
-        submitTitle = "Standard Data to Collect";
-        break;
-      case 10:
-        submitTitle = "Data Collection Guides";
-        break;
-      case 11:
-        submitTitle = "Analysis Tools";
-        break;
-      case 12:
-        submitTitle = "Gallery";
-        break;
-      case 13:
-        submitTitle = "U.S. Department of Energy Tip Sheets";
-        break;
-      case 14:
-        submitTitle = "General Off Site Resource Links";
-        break;
-      default:
-        submitTitle = title;
+    if (cardTitleMode !== "") {
+      submitTitle = cardTitleMode;
     }
 
     // Prepare data for new card
@@ -539,9 +458,7 @@ function ConstructCardModal(props) {
           tempOrderIndex: props.card.orderIndex,
           tempCardId: props.card.cardId,
           tempCardType: newCardFormat,
-          tempCreated: new Date().toISOString()
-            .slice(0, 19)
-            .replace("T", " "),
+          tempCreated: new Date(),
           tempUserId: 0,
           tempItems: copy,
           tempTitle: submitTitle
@@ -555,9 +472,7 @@ function ConstructCardModal(props) {
           title: submitTitle,
           items: props.card.items,
           userId: 0,
-          created: new Date().toISOString()
-            .slice(0, 19)
-            .replace("T", " "),
+          created: new Date(),
           orderIndex: props.card.orderIndex,
           tempOrderIndex: props.card.tempOrderIndex,
           tempCardId: props.card.tempCardId,
@@ -694,7 +609,7 @@ function ConstructCardModal(props) {
     let i = 0;
 
     // Empty title
-    if (!title.length && !cardTitleMode) {
+    if (!title.length && cardTitleMode === "") {
       emptyFound = true;
       newErrorMessage = "Error: Empty card title";
       if (emptyFound) {
@@ -770,6 +685,14 @@ function ConstructCardModal(props) {
     setItems(copy);
   }
 
+  // Controls source data changes coming from <ItemInput>
+  function handleSourceValue(index, value) {
+    const key = index.toString();
+    const copy = [...items];
+    copy[key].sourceId = value;
+    setItems(copy);
+  }
+
   // Updates dropdown icon selected for specific index
   // @param {Number} icon itemType ID of Icon
   // @param {Number} index Index of item being changed
@@ -800,8 +723,6 @@ function ConstructCardModal(props) {
   }
 
   // Returns JSX for dropdown of all icons
-  // @param {Number} i item index passed from generateInputs()
-  // @return {JSX}   Array of JSX of icons
   function generateIcons(i, contentType) {
     const list = [];
     const jsx = [];
@@ -869,7 +790,7 @@ function ConstructCardModal(props) {
     // stringify the item data
     const itemString = item.contentText + "$%$" + item.contentLabel + "$%$" +
       item.contentUrl + "$%$" + item.iconType + "$%$" + item.contentType + "$%$" +
-      item.contentMode;
+      item.contentMode + "$%$" + item.internal + "$%$" + item.sourceId;
 
     // save the item to local storage
     window.localStorage.setItem("itemCopy", itemString);
@@ -902,6 +823,8 @@ function ConstructCardModal(props) {
     copy[key].iconType = parseInt(itemArray[3], 10);
     copy[key].contentType = parseInt(itemArray[4], 10);
     copy[key].contentMode = parseInt(itemArray[5], 10);
+    copy[key].internal = parseInt(itemArray[6], 10);
+    copy[key].sourceId = parseInt(itemArray[7], 10);
     copy[key].indentation = 0;
 
     // Make sure the indentation is up to date
@@ -920,7 +843,7 @@ function ConstructCardModal(props) {
   // Updates the current card title when the dropdown is changed
   function updateCardTitle() {
     const titleSelect = document.getElementById("card-title-dropdown");
-    const newCardValue = parseInt(titleSelect.options[titleSelect.selectedIndex].value, 10);
+    const newCardValue = titleSelect.options[titleSelect.selectedIndex].value;
     setCardTitleMode(newCardValue);
   }
 
@@ -976,29 +899,16 @@ function ConstructCardModal(props) {
                   defaultValue="0"
                   onChange={() => updateCardTitle()}
                 >
-                  <option value="0">Custom</option>
-                  <option value="1">Pros</option>
-                  <option value="2">Cons</option>
-                  <option value="3">Caveats</option>
-                  <option value="4">Best Practices</option>
-                  <option value="5">Rules of Thumb</option>
-                  <option value="6">Tips</option>
-                  <option value="7">Additional in Depth Site Resources</option>
-                  <option value="8">Charts, Tables, Figures</option>
-                  <option value="9">Standard Data to Collect</option>
-                  <option value="10">Data Collection Guides</option>
-                  <option value="11">Analysis Tools</option>
-                  <option value="12">Gallery</option>
-                  <option value="13">U.S. Department of Energy Tip Sheets</option>
-                  <option value="14">General Off Site Resource Links</option>
+                  <option value="">Custom</option>
+                  {props.cardTitles.map((title) =>
+                    <option key={title.titleId} value={title.title}>{title.title}</option>
+                  )}
                 </select>
               </Form.Group>
             </Col>
           </Row>
 
-          {cardTitleMode ? (
-            null
-          ) : (
+          {cardTitleMode === "" ? (
             <Row>
               <Col>
                 <Form.Group controlId="formTitle">
@@ -1007,6 +917,8 @@ function ConstructCardModal(props) {
                 </Form.Group>
               </Col>
             </Row>
+          ) : (
+            null
           )}
 
           <Row>
@@ -1046,55 +958,57 @@ function ConstructCardModal(props) {
 
           <div className="font-weight-bold mb-2">Items</div>
 
-          <div className="mr-3 mb-3">
-            <button className="btn btn-danger btn ml-2"
-              onClick={() => deleteItem()}
-            >
-              <i className="fas fa-fw fa-times mr-2" />
-              Delete Item
-            </button>
+          <div className="item-button-bar card sticky-top py-2 px-2 mb-3">
+            <div>
+              <button className="btn btn-danger btn ml-2"
+                onClick={() => deleteItem()}
+              >
+                <i className="fas fa-fw fa-times mr-2" />
+                Delete Item
+              </button>
 
-            <button className="btn btn-info internal-item-button btn ml-2"
-              onClick={() => toggleInternal()}
-            >
-              <i className="fas fa-fw fa-unlock mr-2" />
-              Toggle Internal
-            </button>
+              <button className="btn btn-info internal-item-button btn ml-2"
+                onClick={() => toggleInternal()}
+              >
+                <i className="fas fa-fw fa-unlock mr-2" />
+                Toggle Internal
+              </button>
 
-            <button className="btn btn-info copy-paste-button btn ml-2"
-              onClick={() => copyItem()}
-            >
-              <i className="fas fa-fw fa-copy mr-2" />
-              Copy Item
-            </button>
+              <button className="btn btn-info copy-paste-button btn ml-2"
+                onClick={() => copyItem()}
+              >
+                <i className="fas fa-fw fa-copy mr-2" />
+                Copy Item
+              </button>
 
-            <button className="btn btn-primary btn ml-2"
-              onClick={() => changeIndent(-1)}
-            >
-              <i className="fas fa-fw fa-minus mr-2" />
-              Unindent
-            </button>
+              <button className="btn btn-primary btn ml-2"
+                onClick={() => changeIndent(-1)}
+              >
+                <i className="fas fa-fw fa-minus mr-2" />
+                Unindent
+              </button>
 
-            <button className="btn btn-primary btn ml-2"
-              onClick={() => changeIndent(1)}
-            >
-              <i className="fas fa-fw fa-plus mr-2" />
-              Indent
-            </button>
+              <button className="btn btn-primary btn ml-2"
+                onClick={() => changeIndent(1)}
+              >
+                <i className="fas fa-fw fa-plus mr-2" />
+                Indent
+              </button>
 
-            <button className="btn btn-success btn ml-2"
-              onClick={() => changeOrder(true)}
-            >
-              <i className="fas fa-fw fa-arrow-up mr-2" />
-              Move Up
-            </button>
+              <button className="btn btn-success btn ml-2"
+                onClick={() => changeOrder(true)}
+              >
+                <i className="fas fa-fw fa-arrow-up mr-2" />
+                Move Up
+              </button>
 
-            <button className="btn btn-success btn ml-2"
-              onClick={() => changeOrder(false)}
-            >
-              <i className="fas fa-fw fa-arrow-down mr-2" />
-              Move Down
-            </button>
+              <button className="btn btn-success btn ml-2"
+                onClick={() => changeOrder(false)}
+              >
+                <i className="fas fa-fw fa-arrow-down mr-2" />
+                Move Down
+              </button>
+            </div>
           </div>
 
           {/* Item Input Fields */}
@@ -1119,10 +1033,13 @@ function ConstructCardModal(props) {
                   maxLength="1000"
                   handleInput={(e1, e2, e3) => handleInput(e1, e2, e3)}
                   handleLinkValue={(e1, e2) => handleLinkValue(e1, e2)}
+                  handleSourceValue={(e1, e2) => handleSourceValue(e1, e2)}
                   index={i}
                   value={item}
                   contentType={item.contentType}
                   internal={item.internal}
+                  sourceId={item.sourceId}
+                  sources={props.sources}
                 />
               </div>
             </Row>
@@ -1198,5 +1115,7 @@ ConstructCardModal.propTypes = {
   handleUpdate: PropTypes.func,
   iconSet: PropTypes.array,
   headerId: PropTypes.number,
+  sources: PropTypes.array,
+  cardTitles: PropTypes.array,
   role: PropTypes.number
 };

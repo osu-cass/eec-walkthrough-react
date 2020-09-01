@@ -40,7 +40,7 @@ app.get("/:pageId/all", getUserID, getPageVal.validation, async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.error(errors.array());
-      return res.status(422).json({errors: errors.array()});
+      return res.status(404).json({errors: errors.array()});
     }
 
     // check if the current user should be able to view this content
@@ -393,14 +393,15 @@ app.post("/:pageId/unpublish", requireAuth, getPageVal.validation, async (req, r
 
 
 // get a report with all of the published page changes from the start date to the end date
-app.get("/report/:start/:end/:condense", requireAuth, async (req, res) => {
+app.get("/report/:start/:end/:offset/:condense", requireAuth, async (req, res) => {
 
   try {
 
     const start = req.params.start;
     const end = req.params.end;
+    const offset = req.params.offset;
     const condense = req.params.condense;
-    console.log("Get a report from", start, "to", end);
+    console.log("Get a history report (", start, ",", end, ",", "offset: ", offset, ")");
 
     // confirm that the request is valid
     if (condense !== "0" && condense !== "1") {
@@ -429,7 +430,7 @@ app.get("/report/:start/:end/:condense", requireAuth, async (req, res) => {
     }
 
     // get complete page data
-    const results = await getReport(start, end, parseInt(condense, 10));
+    const results = await getReport(start, end, parseInt(condense, 10), parseInt(offset, 10));
     res.status(200).send(results);
 
   } catch (err) {

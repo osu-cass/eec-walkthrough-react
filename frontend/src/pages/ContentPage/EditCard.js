@@ -23,11 +23,12 @@ function EditCard(props) {
   }
 
   return role >= 3 ? (
-    <div className="text-center mx-2">
+    <div className="text-center mx-2 my-auto">
       <Button size="sm" variant="info" onClick={(e) => handleShow(e)}>
         <i
           className="fas fa-fw fa-edit text-white mr-2"
-          style={{transform: "scale(1.5)"}}></i>
+          style={{transform: "scale(1.5)"}}
+        />
         <span className="text-white">Edit Card</span>
       </Button>
       <ConstructCardModal
@@ -38,6 +39,8 @@ function EditCard(props) {
         iconSet={props.iconSet}
         card={props.card}
         role={props.role}
+        sources={props.sources}
+        cardTitles={props.cardTitles}
       />
     </div>
   ) : (
@@ -51,5 +54,7 @@ EditCard.propTypes = {
   card: PropTypes.object,
   handleUpdate: PropTypes.func,
   iconSet: PropTypes.array,
-  role: PropTypes.number
+  role: PropTypes.number,
+  sources: PropTypes.array,
+  cardTitles: PropTypes.array
 };

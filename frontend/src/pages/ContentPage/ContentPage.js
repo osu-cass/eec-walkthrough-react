@@ -3,6 +3,7 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import {getMode} from "../../utilities/pageMode";
 import {getPublic} from "../../utilities/publicMode";
 import {getPublished} from "../../utilities/publishedMode";
+import {getFilterShow, setFilterShow} from "../../utilities/filterMode";
 import Header from "./Header";
 import PageDescription from "./PageDescription";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
@@ -10,6 +11,7 @@ import CreateCard from "./CreateCard";
 import CreateHeader from "./CreateHeader";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
+import References from "./References";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import "./ContentPage.css";
@@ -20,7 +22,6 @@ import {useParams} from "react-router-dom";
 function ContentPage(props) {
 
   const [errorPage, setErrorPage] = useState(false);
-  const [pageInfo, setPageInfo] = useState({});
   const [headers, setHeaders] = useState([]);
   const [iconSet, setIconSet] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -32,7 +33,17 @@ function ContentPage(props) {
   const [cardState, setCardState] = useState(0);
   const [pageState, setPageState] = useState(0);
   const [moved, setMoved] = useState(false);
+  const [references, setReferences] = useState([]);
+  const [tempReferences, setTempReferences] = useState([]);
+  const [cardTitles, setCardTitles] = useState([]);
+  const [showFilters, setShowFilters] = useState(getFilterShow());
   const {pageId} = useParams();
+  const [pageInfo, setPageInfo] = useState({
+    sources: [],
+    headers: [],
+    approved: 1,
+    internal: 0
+  });
 
   // get new page data if the page ID has changed
   useEffect(() => {
@@ -74,6 +85,16 @@ function ContentPage(props) {
       return;
     }
 
+    // Fetch all card titles
+    results = await fetch(`/api/cards/titles`);
+    if (results.ok) {
+      obj = await results.json();
+      setCardTitles(obj.titles);
+    } else {
+      setErrorPage(500);
+      return;
+    }
+
     // Fetch page info
     results = await fetch(`/api/pages/${pageId}/all`);
 
@@ -84,7 +105,9 @@ function ContentPage(props) {
       for (let i = 0; i < obj.headers.length; i++) {
         obj.headers[i].forceFilter = [];
       }
-      setHeaders(headerSortOrder(obj.headers));
+      const sortedHeaders = headerSortOrder(obj.headers);
+      setHeaders(sortedHeaders);
+      updateReferences(sortedHeaders, obj.sources);
       console.log("Page Data:", obj);
     } else {
       if (results.status === 404) {
@@ -141,6 +164,7 @@ function ContentPage(props) {
             setHeaders(headerSortOrder(headerData));
           }
         }
+        updateReferences(headerData, pageInfo.sources);
 
       } else if (action === "clear") {
 
@@ -155,6 +179,7 @@ function ContentPage(props) {
             }
           }
         }
+        updateReferences(headerData, pageInfo.sources);
       }
 
     } else if (type === "card") {
@@ -214,6 +239,7 @@ function ContentPage(props) {
           }
         }
       }
+      updateReferences(headers, pageInfo.sources);
     }
   }
 
@@ -267,162 +293,113 @@ function ContentPage(props) {
   async function handleMoveHeader(headerId, up, mode) {
 
     setMoved(true);
-
     const copy = [...headers];
+    let moveIndex = -1;
+    let swapIndex = -1;
 
-    let headerType = "temp";
+    // change how the headers are moved based on the current mode
     if (mode === 1) {
-      headerType = "norm";
-    }
 
-    // divide the normal and edited header in the same array
-    const headerOrderArray = [];
-    for (let i = 0; i < copy.length; i++) {
-      if (copy[i].tempHeaderId && copy[i].approved) {
+      // find the current published header
+      for (let i = 0; i < copy.length; i++) {
+        if (copy[i].headerId === headerId) {
+          moveIndex = i;
 
-        const headerObj = {
-          id: copy[i].headerId,
-          type: "norm",
-          order: copy[i].orderIndex,
-          solo: false
-        };
-
-        const tempHeaderObj = {
-          id: copy[i].tempHeaderId,
-          type: "temp",
-          order: copy[i].tempOrderIndex,
-          solo: false
-        };
-
-        if (mode) {
-          headerObj.show = "show";
-          tempHeaderObj.show = "hidden";
-        } else {
-          headerObj.show = "hidden";
-          tempHeaderObj.show = "show";
-        }
-
-        headerOrderArray.push(headerObj);
-        headerOrderArray.push(tempHeaderObj);
-
-      } else if (copy[i].approved) {
-        const headerObj = {
-          id: copy[i].headerId,
-          type: "norm",
-          order: copy[i].orderIndex,
-          show: "show",
-          solo: false
-        };
-        headerOrderArray.push(headerObj);
-      } else {
-        const tempHeaderObj = {
-          id: copy[i].headerId,
-          type: "temp",
-          order: copy[i].orderIndex,
-          solo: true
-        };
-        if (mode) {
-          tempHeaderObj.show = "hidden";
-        } else {
-          tempHeaderObj.show = "show";
-        }
-        headerOrderArray.push(tempHeaderObj);
-      }
-    }
-
-    // sort the array of headers by order index
-    headerOrderArray.sort((a, b) => a.order - b.order);
-
-    // find and move the specified header
-    let moved = false;
-    for (let i = 0; i < headerOrderArray.length; i++) {
-      if (parseInt(headerOrderArray[i].id, 10) === parseInt(headerId, 10) && headerOrderArray[i].type === headerType) {
-        if (up) {
-          // try to move up and skip hidden headers
-          for (let j = i; j > 0; j--) {
-            moved = true;
-            const tempObj = headerOrderArray[j - 1];
-            headerOrderArray[j - 1] = headerOrderArray[j];
-            headerOrderArray[j] = tempObj;
-            if (headerOrderArray[j].show !== "hidden") {
-              break;
+          // find the header to swap with
+          if (up) {
+            for (let j = (i - 1); j >= 0; j--) {
+              if (copy[j].approved) {
+                swapIndex = j;
+                break;
+              }
+            }
+          } else {
+            for (let j = (i + 1); j < copy.length; j++) {
+              if (copy[j].approved) {
+                swapIndex = j;
+                break;
+              }
             }
           }
-          break;
-        } else {
-          // try to move down and skip hidden headers
-          for (let j = i; j < headerOrderArray.length - 1; j++) {
-            moved = true;
-            const tempObj = headerOrderArray[j + 1];
-            headerOrderArray[j + 1] = headerOrderArray[j];
-            headerOrderArray[j] = tempObj;
-            if (headerOrderArray[j].show !== "hidden") {
-              break;
-            }
+
+          // if we didn't find the header to swap with, then we stop now
+          if (swapIndex === -1) {
+            console.error("Unable to move header");
+            return;
           }
+
+          // swap the headers
+          const swapHeader = JSON.parse(JSON.stringify(copy[swapIndex]));
+          copy[swapIndex] = JSON.parse(JSON.stringify(copy[i]));
+          copy[moveIndex] = swapHeader;
+          setHeaders(copy);
           break;
         }
       }
-    }
 
-    // update the real headers to reflect the new order.
-    for (let i = 0; i < copy.length; i++) {
-      for (let j = 0; j < headerOrderArray.length; j++) {
-        if (copy[i].headerId === headerOrderArray[j].id && headerOrderArray[j].type === "norm") {
-          copy[i].orderIndex = j + 1;
-          copy[i].updateCards = true;
-        } else if (copy[i].tempHeaderId === headerOrderArray[j].id && headerOrderArray[j].type === "temp") {
-          copy[i].tempOrderIndex = j + 1;
-          copy[i].updateCards = true;
-        } else if (copy[i].headerId === headerOrderArray[j].id && headerOrderArray[j].solo && headerOrderArray[j].type === "temp") {
-          copy[i].orderIndex = j + 1;
-          copy[i].updateCards = true;
-        }
-      }
-    }
-
-    // sort headers
-    let sortedHeader = headerSortOrder(copy);
-    sortedHeader.forEach(header => {
-      header.orderIndex = header.realOrder;
-      header.tempOrderIndex = header.realOrder;
-    });
-
-    // update the header array
-    if (mode) {
-      setHeaders(sortedHeader);
     } else {
-      fetchData();
+
+      // find the current unpublished header
+      for (let i = 0; i < copy.length; i++) {
+        if (copy[i].headerId === headerId) {
+          moveIndex = i;
+
+          // find the header to swap with
+          if (up) {
+            for (let j = (i - 1); j >= 0; j--) {
+              swapIndex = j;
+              break;
+            }
+          } else {
+            for (let j = (i + 1); j < copy.length; j++) {
+              swapIndex = j;
+              break;
+            }
+          }
+
+          // if we didn't find the header to swap with, then we stop now
+          if (swapIndex === -1) {
+            console.error("Unable to move header");
+            return;
+          }
+
+          // swap the headers
+          const swapHeader = JSON.parse(JSON.stringify(copy[swapIndex]));
+          copy[swapIndex] = JSON.parse(JSON.stringify(copy[i]));
+          copy[moveIndex] = swapHeader;
+          setHeaders(copy);
+          break;
+        }
+      }
+
     }
 
-    let direction = 0;
-    if (up) {
-      direction = 1;
-    }
+    setCardState(cardState + 1);
+    setHeaders(copy);
+
+    // get direction value
+    const direction = up ? 1 : 0;
 
     // send our move to the API
-    if (moved) {
-      const results = await fetch(`/api/headers/${headerId}/move/${direction}/${mode}`, {
-        method: "PATCH",
-        headers: {"Content-Type": "application/json"}
-      });
+    const results = await fetch(`/api/headers/${headerId}/move/${direction}/${mode}`, {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json"}
+    });
 
-      if (!results.ok) {
+    if (!results.ok) {
+      const obj = await results.json();
 
-        const obj = await results.json();
+      if (results.status === 404) {
+        console.error("Couldn't find header to move");
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        console.error("An internal server error occurred while trying to move the header.");
+      } else {
+        console.error(obj.error);
+      }
 
-        if (results.status === 404) {
-          console.error("Couldn't find header to move");
-        } else if (results.status === 500 || typeof obj.error === "undefined") {
-          console.error("An internal server error occurred while trying to move the header.");
-        } else {
-          console.error(obj.error);
-        }
-
-        if (results.status === 401) {
-          logout();
-          window.location.href = "/";
-        }
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
       }
     }
   }
@@ -491,6 +468,180 @@ function ContentPage(props) {
     setHeaders(copy);
   }
 
+  // Calculates all of the page reference data
+  function updateReferences(headerData, sources) {
+    const copy = [...headerData];
+    const refOrder = [];
+    const tempRefOrder = [];
+
+    for (let i = 0; i < copy.length; i++) {
+      for (let j = 0; j < copy[i].cards.length; j++) {
+
+        // normal items
+        for (let k = 0; k < copy[i].cards[j].items.length; k++) {
+          const curItem = copy[i].cards[j].items[k];
+          curItem.refId = 0;
+          curItem.refText = "";
+          if (curItem.sourceId !== 0) {
+            // see if this source has already been referenced
+            for (let l = 0; l < refOrder.length; l++) {
+              if (curItem.sourceId === refOrder[l]) {
+                curItem.refId = l + 1;
+                // get the reference text
+                for (let m = 0; m < sources.length; m++) {
+                  if (curItem.sourceId === sources[m].sourceId) {
+                    curItem.refText = sources[m].text;
+                  }
+                }
+              }
+            }
+            // if this is the first time the source is referenced,
+            // then add the source to the list, but only if it is real
+            if (curItem.refId === 0) {
+              let valid = false;
+              for (let l = 0; l < sources.length; l++) {
+                if (curItem.sourceId === sources[l].sourceId) {
+                  valid = true;
+                }
+              }
+              if (valid) {
+                refOrder.push(curItem.sourceId);
+                curItem.refId = refOrder.length;
+                // get the reference text
+                for (let m = 0; m < sources.length; m++) {
+                  if (curItem.sourceId === sources[m].sourceId) {
+                    curItem.refText = sources[m].text;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        // temp items
+        if (copy[i].cards[j].tempItems.length) {
+          for (let k = 0; k < copy[i].cards[j].tempItems.length; k++) {
+            const curItem = copy[i].cards[j].tempItems[k];
+            curItem.refId = 0;
+            curItem.refText = "";
+            if (curItem.sourceId !== 0) {
+              // see if this source has already been referenced
+              for (let l = 0; l < tempRefOrder.length; l++) {
+                if (curItem.sourceId === tempRefOrder[l]) {
+                  curItem.refId = l + 1;
+                  // get the reference text
+                  for (let m = 0; m < sources.length; m++) {
+                    if (curItem.sourceId === sources[m].sourceId) {
+                      curItem.refText = sources[m].text;
+                    }
+                  }
+                }
+              }
+              // if this is the first time the source is referenced,
+              // then add the source to the list, but only if it is real
+              if (curItem.refId === 0) {
+                let valid = false;
+                for (let l = 0; l < sources.length; l++) {
+                  if (curItem.sourceId === sources[l].sourceId) {
+                    valid = true;
+                  }
+                }
+                if (valid) {
+                  tempRefOrder.push(curItem.sourceId);
+                  curItem.refId = tempRefOrder.length;
+                  // get the reference text
+                  for (let m = 0; m < sources.length; m++) {
+                    if (curItem.sourceId === sources[m].sourceId) {
+                      curItem.refText = sources[m].text;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        } else {
+          for (let k = 0; k < copy[i].cards[j].items.length; k++) {
+            const curItem = copy[i].cards[j].items[k];
+            curItem.refId = 0;
+            curItem.refText = "";
+            if (curItem.sourceId !== 0) {
+              // see if this source has already been referenced
+              for (let l = 0; l < tempRefOrder.length; l++) {
+                if (curItem.sourceId === tempRefOrder[l]) {
+                  curItem.refId = l + 1;
+                  // get the reference text
+                  for (let m = 0; m < sources.length; m++) {
+                    if (curItem.sourceId === sources[m].sourceId) {
+                      curItem.refText = sources[m].text;
+                    }
+                  }
+                }
+              }
+              // if this is the first time the source is referenced,
+              // then add the source to the list, but only if it is real
+              if (curItem.refId === 0) {
+                let valid = false;
+                for (let l = 0; l < sources.length; l++) {
+                  if (curItem.sourceId === sources[l].sourceId) {
+                    valid = true;
+                  }
+                }
+                if (valid) {
+                  tempRefOrder.push(curItem.sourceId);
+                  curItem.refId = tempRefOrder.length;
+                  // get the reference text
+                  for (let m = 0; m < sources.length; m++) {
+                    if (curItem.sourceId === sources[m].sourceId) {
+                      curItem.refText = sources[m].text;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
+
+    // Create the arrays of references
+    const finalRef = [];
+    for (let i = 0; i < refOrder.length; i++) {
+      for (let j = 0; j < sources.length; j++) {
+        if (refOrder[i] === sources[j].sourceId) {
+          finalRef.push(sources[j]);
+          break;
+        }
+      }
+    }
+
+    const tempFinalRef = [];
+    for (let i = 0; i < tempRefOrder.length; i++) {
+      for (let j = 0; j < sources.length; j++) {
+        if (tempRefOrder[i] === sources[j].sourceId) {
+          tempFinalRef.push(sources[j]);
+          break;
+        }
+      }
+    }
+
+    setReferences(finalRef);
+    setTempReferences(tempFinalRef);
+    setHeaders(copy);
+  }
+
+  // updates the state of the header filters to either be shown or hidden
+  function handleShowFilter() {
+    if (showFilters) {
+      setFilterShow(0);
+      setShowFilters(0);
+    } else {
+      setFilterShow(1);
+      setShowFilters(1);
+    }
+  }
+
+
   if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
     return loaded ? ( // Render content when data loaded from backend
       <Container className="my-4" id="content-page">
@@ -540,16 +691,30 @@ function ContentPage(props) {
                 updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
                 resetIcons={e => resetIcons(e)}
                 clearIcons={e => clearIcons(e)}
+                sources={pageInfo.sources}
+                cardTitles={cardTitles}
+                showFilter={() => handleShowFilter()}
+                show={showFilters}
+                onPageMode={e => handlePageMode(e)}
+                moved={moved}
               />
               <CreateCard
                 headerId={header.headerId}
                 handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
                 mode={mode}
                 iconSet={iconSet}
+                sources={pageInfo.sources}
+                cardTitles={cardTitles}
               />
             </Fragment>
           );
         })}
+
+        <References
+          sources={references}
+          tempSources={tempReferences}
+          mode={mode}
+        />
 
       </Container>
     ) : <LoadingOverlay loading={true} />;

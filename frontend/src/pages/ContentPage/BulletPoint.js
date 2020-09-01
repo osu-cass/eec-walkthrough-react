@@ -1,6 +1,7 @@
 import React, {Fragment} from "react";
 import Image from "./Image";
 import PropTypes from "prop-types";
+import Source from "./Source";
 import {formatTime} from "../../utilities/formatTime";
 import LinkAccessButtons from "./LinkAccessButtons";
 import "./BulletPoint.css";
@@ -29,6 +30,12 @@ function BulletPoint (props) {
     if (text !== "" && label !== "" && url !== "") { return 3; }
   }
 
+  function updateCheck(state, id) {
+    if (props.mode !== 2) {
+      props.setCheck(state, id);
+    }
+  }
+
   return !props.internal || !props.publicMode ? (
     <Fragment>
       {getContentType(props.text, props.label, props.url) === 1 ? (
@@ -38,15 +45,15 @@ function BulletPoint (props) {
               ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
             >
               <div className="icon-td justify-content-center">
-                {props.checked ? (
+                {props.checked && props.mode !== 2 ? (
                   <i className={`fas fa-fw fa-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
                     title={props.tooltip}
-                    onClick={() => props.setCheck(false, props.id)}
+                    onClick={() => updateCheck(false, props.id)}
                   />
                 ) : (
                   <i className={`fas fa-fw fa-check-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
                     title={props.tooltip}
-                    onClick={() => props.setCheck(true, props.id)}
+                    onClick={() => updateCheck(true, props.id)}
                   />
                 )}
               </div>
@@ -54,6 +61,7 @@ function BulletPoint (props) {
                 <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
                   {props.text}
                 </span>
+                <Source source={props.source} sourceText={props.sourceText}/>
               </div>
             </div>
           ) : (
@@ -71,6 +79,7 @@ function BulletPoint (props) {
                 <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
                   {props.text}
                 </span>
+                <Source source={props.source} sourceText={props.sourceText}/>
               </div>
             </div>
           )}
@@ -95,6 +104,7 @@ function BulletPoint (props) {
                 {props.text}
               </span>
               {props.label}
+              <Source source={props.source} sourceText={props.sourceText}/>
             </div>
             <Image url={props.url} title={props.label} thumbnail={false} header={false} />
           </div>
@@ -194,5 +204,7 @@ BulletPoint.propTypes = {
   setCheck: PropTypes.func,
   checked: PropTypes.bool,
   highlightStyle: PropTypes.number,
-  internal: PropTypes.number
+  internal: PropTypes.number,
+  source: PropTypes.number,
+  sourceText: PropTypes.string
 };

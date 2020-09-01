@@ -1,12 +1,14 @@
 import React, {useState, useEffect, Fragment} from "react";
 import {Modal, Button, Row} from "react-bootstrap";
 import {getProfile, logout} from "../../utilities/cookieAuth";
+import {isGraphic} from "../../utilities/itemType";
 import PropTypes from "prop-types";
 import BasicItems from "./BasicItems";
 import ThumbnailGallery from "./ThumbnailGallery";
 import HighlightText from "./HighlightText";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
+import AddReviewObject from "./AddReviewObject";
 import "./ReviewCard.css";
 
 // Button and modal that allows a user to review a card
@@ -63,12 +65,12 @@ function ReviewCard(props) {
     const imageArray = [];
     const tempImageArray = [];
     for (let i = 0; i < props.card.items.length; i++) {
-      if (props.card.items[i].contentUrl.length && props.card.items[i].typeName === "chart-area") {
+      if (isGraphic(props.card.items[i])) {
         imageArray.push(props.card.items[i]);
       }
     }
     for (let i = 0; i < props.card.tempItems.length; i++) {
-      if (props.card.tempItems[i].contentUrl.length && props.card.tempItems[i].typeName === "chart-area") {
+      if (isGraphic(props.card.tempItems[i])) {
         tempImageArray.push(props.card.tempItems[i]);
       }
     }
@@ -289,7 +291,7 @@ function ReviewCard(props) {
   }
 
   return role >= 3 ? (
-    <div className='text-center mx-2'>
+    <div className="text-center mx-2 my-auto">
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
         <i
@@ -401,13 +403,19 @@ function ReviewCard(props) {
             <Fragment>
               <Fragment>
                 {props.edited ? (
-                  <Button
-                    className="mr-auto"
-                    variant="danger"
-                    onClick={() => handleClear()}
-                  >
-                    Delete Changes
-                  </Button>
+                  <Fragment>
+                    <Button
+                      className="mr-auto"
+                      variant="danger"
+                      onClick={() => handleClear()}
+                    >
+                      Delete Changes
+                    </Button>
+                    <AddReviewObject
+                      objectType={3}
+                      objectId={props.card.cardId}
+                    />
+                  </Fragment>
                 ) : (
                   null
                 )}
@@ -416,7 +424,7 @@ function ReviewCard(props) {
                 {props.card.approved && props.edited ? (
                   <Fragment>
                     <Button
-                      className="ml-auto"
+                      className="ml-1"
                       variant="danger"
                       onClick={() => handleRemove()}
                     >
@@ -438,13 +446,19 @@ function ReviewCard(props) {
           ) : (
             <Fragment>
               {props.edited ? (
-                <Button
-                  className="mr-auto"
-                  variant="danger"
-                  onClick={() => handleClear()}
-                >
-                  Delete Changes
-                </Button>
+                <Fragment>
+                  <Button
+                    className="mr-auto"
+                    variant="danger"
+                    onClick={() => handleClear()}
+                  >
+                    Delete Changes
+                  </Button>
+                  <AddReviewObject
+                    objectType={3}
+                    objectId={props.card.cardId}
+                  />
+                </Fragment>
               ) : (
                 null
               )}

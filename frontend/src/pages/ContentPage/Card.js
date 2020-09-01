@@ -1,5 +1,6 @@
 import React, {useState, useEffect, Fragment} from "react";
 import {Card as CardBS} from "react-bootstrap";
+import {isGraphic} from "../../utilities/itemType";
 import EditCard from "./EditCard";
 import ReviewCard from "./ReviewCard";
 import BasicItems from "./BasicItems";
@@ -23,12 +24,12 @@ function Card(props) {
     const imageArray = [];
     const tempImageArray = [];
     for (let i = 0; i < props.card.items.length; i++) {
-      if (props.card.items[i].contentUrl.length && props.card.items[i].typeName === "chart-area") {
+      if (isGraphic(props.card.items[i])) {
         imageArray.push(props.card.items[i]);
       }
     }
     for (let i = 0; i < props.card.tempItems.length; i++) {
-      if (props.card.tempItems[i].contentUrl.length && props.card.tempItems[i].typeName === "chart-area") {
+      if (isGraphic(props.card.tempItems[i])) {
         tempImageArray.push(props.card.tempItems[i]);
       }
     }
@@ -109,7 +110,7 @@ function Card(props) {
     >
       <CardBS.Header
         as="h5"
-        className={`card-header-bar d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold
+        className={`card-header-bar d-flex justify-content-between border-bottom py-2 px-3 border-gray font-weight-bold
           ${props.card.edited ? "card-body-review" : "card-body-approved" }
           ${isInternal() ? "card-body-internal" : ""}`}
       >
@@ -119,17 +120,21 @@ function Card(props) {
           data-target={"#collapse" + props.card.cardId}
           aria-expanded="true"
           aria-controls={"collapse" + props.card.cardId}
-          className="col pr-0"
+          className="col pl-0 pr-0"
         >
-          {(props.mode === 1 || (props.mode === 2 && props.publishedMode === 0)) && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
+          <span className="align-middle">
+            {(props.mode === 1 || (props.mode === 2 && props.publishedMode === 0)) && props.card.tempCardId ? (props.card.tempTitle) : (props.card.title)}
+          </span>
         </div>
         {props.mode === 1 ? (
-          <div className="row ml-auto">
+          <div className="row ml-auto mr-0">
             <EditCard
               card={props.card}
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
               iconSet={props.iconSet}
               role={props.role}
+              sources={props.sources}
+              cardTitles={props.cardTitles}
             />
             <ReviewCard
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
@@ -141,7 +146,7 @@ function Card(props) {
         ) : (
           <Fragment>
             {props.mode === 2 ? (
-              <div className="row ml-auto">
+              <div className="row ml-auto mr-0">
                 <OrderObjectButton
                   up={true}
                   header={false}
@@ -224,5 +229,7 @@ Card.propTypes = {
   handleTimestamp: PropTypes.func,
   cardState: PropTypes.number,
   role: PropTypes.number,
-  setCheck: PropTypes.func
+  setCheck: PropTypes.func,
+  sources: PropTypes.array,
+  cardTitles: PropTypes.array
 };

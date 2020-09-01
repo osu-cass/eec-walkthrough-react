@@ -35,6 +35,14 @@ async function getFullPage(pageId, viewAll) {
       return {pageId: 0};
     }
 
+    // get all of the sources for the page
+    sql = "SELECT * " +
+    "FROM Sources " +
+    "WHERE pageId = ? " +
+    "ORDER BY sourceId;";
+    results = await pool.query(sql, pageId);
+    finalResults.sources = results[0];
+
     // get all of the headers for the page
     if (viewAll) {
       sql = "SELECT * " +
@@ -92,7 +100,7 @@ async function getFullPage(pageId, viewAll) {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, internal, " +
-          "created, approved, color " +
+          "created, approved, color, sourceId " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -107,7 +115,7 @@ async function getFullPage(pageId, viewAll) {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, internal, " +
-          "created, approved, color " +
+          "created, approved, color, sourceId " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -123,7 +131,7 @@ async function getFullPage(pageId, viewAll) {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, " +
-          "created, approved, color " +
+          "created, approved, color, sourceId " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -398,8 +406,7 @@ async function searchPages(text, cursor, viewAll) {
     };
 
     // initial sql query
-    let sql =
-      "SELECT * FROM Pages ";
+    let sql = "SELECT * FROM Pages ";
 
     // only use the cursor if it isn't the initial search request
     if (cursor.primary === "null") {
@@ -622,27 +629,37 @@ async function unpublishPage(pageId) {
 exports.unpublishPage = unpublishPage;
 
 
-async function getReport(start, end, condense) {
+async function getReport(start, end, condense, offset) {
 
   try {
 
+    // handle time formatting and offset
+    const serverOffset = new Date().getTimezoneOffset();
+    let newOffset = Math.abs(offset - serverOffset);
+    if (offset + serverOffset < 0) {
+      newOffset = newOffset * -1;
+    }
     const oldestTimestamp = "2019-01-01 00:00:00";
-    const startTimestamp = start + " 00:00:00";
-    const endTimestamp = end + " 23:59:59";
+    let startTimestamp = start + " 00:00:00";
+    let endTimestamp = end + " 23:59:59";
+    startTimestamp = moment.utc(startTimestamp).utcOffset(newOffset)
+      .format("YYYY-MM-DD HH:mm:ss");
+    endTimestamp = moment.utc(endTimestamp).utcOffset(newOffset)
+      .format("YYYY-MM-DD HH:mm:ss");
 
     // get all pages within the date range
-    sql = "SELECT HP.*, Categories.pluralName AS categoryName " +
+    let sql = "SELECT HP.*, Categories.pluralName AS categoryName " +
     "FROM History_Pages AS HP " +
     "LEFT JOIN Categories on HP.pageType = Categories.categoryId " +
     "WHERE HP.created BETWEEN ? AND ? " +
     "ORDER BY HP.created ASC;";
-    results = await pool.query(sql, [startTimestamp, endTimestamp]);
+    let results = await pool.query(sql, [startTimestamp, endTimestamp]);
     let allPageArray = results[0];
 
     // if in condense mode, clean up duplicate pages
     if (condense) {
       allPageArray.sort((a, b) => b.created - a.created);
-      idArray = [];
+      const idArray = [];
       for (let i = 0; i < allPageArray.length; i++) {
         idArray.push(allPageArray[i].pageId);
       }
@@ -701,7 +718,7 @@ async function getReport(start, end, condense) {
     // if in condense mode, clean up duplicate headers
     if (condense) {
       allHeaderArray.sort((a, b) => b.created - a.created);
-      idArray = [];
+      const idArray = [];
       for (let i = 0; i < allHeaderArray.length; i++) {
         idArray.push(allHeaderArray[i].headerId);
       }
@@ -759,7 +776,7 @@ async function getReport(start, end, condense) {
     // if in condense mode, clean up duplicate cards
     if (condense) {
       allCardArray.sort((a, b) => b.created - a.created);
-      idArray = [];
+      const idArray = [];
       for (let i = 0; i < allCardArray.length; i++) {
         idArray.push(allCardArray[i].cardId);
       }
@@ -822,7 +839,7 @@ async function getReport(start, end, condense) {
     // get all of the items for each card
     for (let i = 0; i < cardCount; i++) {
 
-      historyId = allCardArray[i].historyId;
+      const historyId = allCardArray[i].historyId;
 
       sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
       "HI.iconType, typeName, typeKeyword, contentText, " +

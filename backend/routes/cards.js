@@ -12,7 +12,8 @@ const {
   postCardVal,
   getCardVal,
   patchCardVal,
-  patchCardMove
+  patchCardMoveVal,
+  postCardTitleVal
 } = require("../services/validation/requestValidation");
 const {
   createCard,
@@ -22,7 +23,9 @@ const {
   publishCard,
   unpublishCard,
   moveCard,
-  moveTempCard
+  moveTempCard,
+  getCardTitles,
+  createCardTitles
 } = require("../models/cards");
 
 
@@ -53,7 +56,7 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
     }
 
     // create a card
-    const results = await createCard(headerId, cardType, title, items, userId);
+    const results = await createCard(headerId, parseInt(cardType, 10), title, items, userId);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -64,7 +67,9 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
       } else if (results.error === 2) {
         res.status(403).send({error: "Parent header does not exist."});
       } else if (results.error === 3) {
-        res.status(404).send({error: "Invalid item type in card."});
+        res.status(403).send({error: "Invalid item type in card."});
+      } else if (results.error === 4) {
+        res.status(403).send({error: "A thumbnail gallery is only allowed to contain graphics."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -194,7 +199,7 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
     }
 
     // update a card
-    const results = await updateCard(cardId, cardType, title, items, userId);
+    const results = await updateCard(cardId, parseInt(cardType, 10), title, items, userId);
 
     if (results.cardId >= 0) {
       res.status(200).send(results);
@@ -203,7 +208,9 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
       if (results.error === 1) {
         res.status(404).send({error: "Card not found."});
       } else if (results.error === 2) {
-        res.status(404).send({error: "Invalid item type in card."});
+        res.status(403).send({error: "Invalid item type in card."});
+      } else if (results.error === 3) {
+        res.status(403).send({error: "A thumbnail gallery is only allowed to contain graphics."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -311,7 +318,7 @@ app.post("/:cardId/unpublish", requireAuth, getCardVal.validation, async (req, r
 
 
 // move a card relative to other cards
-app.patch("/:cardId/move/:direction/:mode", requireAuth, patchCardMove.validation, async (req, res) => {
+app.patch("/:cardId/move/:direction/:mode", requireAuth, patchCardMoveVal.validation, async (req, res) => {
 
   try {
 
@@ -369,6 +376,69 @@ app.patch("/:cardId/move/:direction/:mode", requireAuth, patchCardMove.validatio
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
 
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get a list of default card titles
+app.get("/titles", async (req, res) => {
+
+  try {
+
+    console.log("Get a list of all of the default card titles");
+
+    // get all titles
+    const results = await getCardTitles();
+    res.status(200).send(results);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// create a list of card titles
+app.post("/titles", requireAuth, postCardTitleVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update a list of card titles");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const titles = req.body.titles;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to create default card titles."});
+      return;
+    }
+
+    // create a list of titles
+    const results = await createCardTitles(titles);
+
+    if (results.titlesUpdated >= 0) {
+      res.status(201).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(403).send({error: "Invalid card title."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
     }
 
   } catch (err) {

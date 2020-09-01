@@ -16,7 +16,7 @@ function ChangePublic(props) {
   }
 
   return props.role > 1 && props.mode === 0 ? (
-    <div className='text-center mx-2'>
+    <div className="text-center mx-2 my-auto">
       {publicMode ? (
         <Button size="sm"
           variant="info"

@@ -33,7 +33,6 @@ function LoadView(props) {
         const obj = await results.json();
         setViews(obj.views);
         setNewModal(false);
-        console.log(obj.views)
 
       } else {
         setErrorMessage("An internal server error occurred. Please try again later.");
@@ -120,7 +119,7 @@ function LoadView(props) {
   }
 
   return props.mode === 0 ? (
-    <div className="text-center mx-2">
+    <div className="text-center mx-2 my-auto">
       <Button size="sm"
         variant="success"
         onClick={() => handleOpen()}
@@ -163,7 +162,7 @@ function LoadView(props) {
             </Col>
           </Row>
 
-          <span>The * symbol represents views that all users have access to.</span>
+          <span>The * symbol represents views that all users have access to</span>
 
           <Row>
             <div className='col-3' />

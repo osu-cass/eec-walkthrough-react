@@ -7,9 +7,18 @@ import PropTypes from "prop-types";
 function ItemInput(props) {
 
   const [linkText, setLinkText] = useState("Link");
+  const [sourceText, setSourceText] = useState("Source: None");
 
   useEffect(() => {
     updateLink(props.value.contentMode);
+
+    // find the matching index for the source ID
+    for (let i = 0; i < props.sources.length; i++) {
+      if (props.sourceId === props.sources[i].sourceId) {
+        updateSource(i + 1, props.sources[i].text);
+        break;
+      }
+    }
     // eslint-disable-next-line
   }, [props.value.contentMode]);
 
@@ -37,26 +46,66 @@ function ItemInput(props) {
     }
   }
 
+  function updateSource(value, text) {
+    if (value === 0) {
+      setSourceText("Source: None");
+      props.handleSourceValue(props.index, 0);
+    } else {
+      setSourceText(`Source: ${text.substring(0, 8).trim()}...`);
+      props.handleSourceValue(props.index, props.sources[value - 1].sourceId);
+    }
+  }
+
   return (
     <Fragment>
-      {props.contentType === 1 ?
-        <FormControl
-          as="textarea"
-          rows="1"
-          className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
-          placeholder="Item Text"
-          value={props.value.contentText}
-          aria-label="Insert Description"
-          aria-describedby="basic-addon1"
-          onChange={(e) => props.handleInput(e, props.index, 1)}
-          required
-        />
-        : ""}
-      {props.contentType === 2 ?
+      {props.contentType === 1 ? (
         <Fragment>
           <FormControl
             as="textarea"
             rows="1"
+            maxLength="1000"
+            className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
+            placeholder="Item Text"
+            value={props.value.contentText}
+            aria-label="Insert Description"
+            aria-describedby="basic-addon1"
+            onChange={(e) => props.handleInput(e, props.index, 1)}
+            required
+          />
+          <Dropdown className="source-select-drop-down-menu ml-2">
+            <Dropdown.Toggle variant="outline-dark">
+              {sourceText}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateSource(0)}>
+                  None
+              </Dropdown.Item>
+              {props.sources.map((source, i) =>
+                <Dropdown.Item
+                  className="source-dropdown-val"
+                  style={{cursor: "pointer"}}
+                  onClick={() => updateSource(i + 1, source.text)}
+                  key={source.sourceId}
+                >
+                  {source.text.length > 75 ? (
+                    source.text.substring(0, 75).trim() + "..."
+                  ) : (
+                    source.text
+                  )}
+                </Dropdown.Item>
+              )}
+            </Dropdown.Menu>
+          </Dropdown>
+        </Fragment>
+      ) : (
+        null
+      )}
+      {props.contentType === 2 ? (
+        <Fragment>
+          <FormControl
+            as="textarea"
+            rows="1"
+            maxLength="1000"
             className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
             placeholder="Graphic Label"
             value={props.value.contentLabel}
@@ -68,6 +117,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
+            maxLength="1000"
             className={props.internal ? "internal-modal-item" : ""}
             placeholder="Graphic URL"
             value={props.value.contentUrl}
@@ -76,8 +126,34 @@ function ItemInput(props) {
             onChange={(e) => props.handleInput(e, props.index, 3)}
             required
           />
+          <Dropdown className="source-select-drop-down-menu ml-2">
+            <Dropdown.Toggle variant="outline-dark">
+              {sourceText}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateSource(0)}>
+                  None
+              </Dropdown.Item>
+              {props.sources.map((source, i) =>
+                <Dropdown.Item
+                  className="source-dropdown-val"
+                  style={{cursor: "pointer"}}
+                  onClick={() => updateSource(i + 1, source.text)}
+                  key={source.sourceId}
+                >
+                  {source.text.length > 75 ? (
+                    source.text.substring(0, 75).trim() + "..."
+                  ) : (
+                    source.text
+                  )}
+                </Dropdown.Item>
+              )}
+            </Dropdown.Menu>
+          </Dropdown>
         </Fragment>
-        : ""}
+      ) : (
+        null
+      )}
       {props.contentType === 3 ? (
         <Fragment>
           <Dropdown className="link-select-drop-down-menu ml-2">
@@ -85,16 +161,16 @@ function ItemInput(props) {
               {linkText}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => { updateLink(0); }}>
+              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateLink(0)}>
                   Internal Link
               </Dropdown.Item>
-              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => { updateLink(1); }}>
+              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateLink(1)}>
                   External Link
               </Dropdown.Item>
-              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => { updateLink(2); }}>
+              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateLink(2)}>
                   Internal Download
               </Dropdown.Item>
-              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => { updateLink(3); }}>
+              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateLink(3)}>
                   External Download
               </Dropdown.Item>
             </Dropdown.Menu>
@@ -102,6 +178,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
+            maxLength="1000"
             className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
             placeholder="Resource Label"
             value={props.value.contentLabel}
@@ -113,6 +190,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
+            maxLength="1000"
             className={props.internal ? "internal-modal-item" : ""}
             placeholder="Resource URL"
             value={props.value.contentUrl}
@@ -124,6 +202,7 @@ function ItemInput(props) {
           <FormControl
             as="textarea"
             rows="1"
+            maxLength="1000"
             className={props.internal ? "internal-modal-item" : ""}
             placeholder="Description (optional)"
             value={props.value.contentText}
@@ -148,5 +227,8 @@ ItemInput.propTypes = {
   handleInput: PropTypes.any,
   index: PropTypes.any,
   handleLinkValue: PropTypes.func,
-  internal: PropTypes.number
+  handleSourceValue: PropTypes.func,
+  internal: PropTypes.number,
+  sourceId: PropTypes.number,
+  sources: PropTypes.array
 };

@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import PropTypes from "prop-types";
+import ListToggle from "./ListToggle";
 import "./FilterBar.css";
 
 // The bar inside of a header that is used for filtering out items
@@ -48,66 +49,94 @@ function FilterBar(props) {
     setTempIconTooltips(tempTooltips);
   }, [props.filterIcons, props.tempFilterIcons, props.iconSet]);
 
-  return props.mode === 1 ? (
-    <div className="m-2 icons row">
-      {props.tempFilterIcons.map((obj, i) => {
-        return (
-          <i
-            key={obj}
-            className={`fas fa-${tempIconNames[i]} ${
-              props.filterShow[obj] ? "" : "fa-disabled"
-            } mr-3`}
-            onClick={() => props.updateIcon(obj, props.filterShow[obj])}
-            style={{color: tempIconColors[i]}}
-            title={tempIconTooltips[i]}
+  return (
+    <Fragment>
+
+      {props.show ? (
+        <div
+          className="d-flex btn btn-info fltr-expand-btn ml-2"
+          onClick={() => props.showFilter()}
+          title="Hide Filters"
+        >
+          <i className="fas fa-fw fa-chevron-right align-self-center" />
+        </div>
+      ) : (
+        <div
+          className="d-flex btn btn-info fltr-closed-btn mx-2"
+          onClick={() => props.showFilter()}
+          title="Show Filters"
+        >
+          <i className="fas fa-fw fa-chevron-left align-self-center mr-1" />
+        </div>
+      )}
+
+      <div className={`card fltr-expand mr-2 ${props.show ? "fltr-show" : "fltr-hide"}`}>
+        <div className="m-2 icons row">
+
+          {props.mode === 1 ? (
+            <Fragment>
+              {props.tempFilterIcons.map((obj, i) =>
+                <div className="col-auto px-2 py-2 align-self-center" key={obj}>
+                  <i
+                    className={`fas fa-fw fa-${tempIconNames[i]} ${props.filterShow[obj] ? "" : "fa-disabled"}`}
+                    onClick={() => props.updateIcon(obj, props.filterShow[obj])}
+                    style={{color: tempIconColors[i]}}
+                    title={tempIconTooltips[i]}
+                  />
+                </div>
+              )}
+            </Fragment>
+          ) : (
+            <Fragment>
+              {props.filterIcons.map((obj, i) =>
+                <div className="col-auto px-2 py-2 align-self-center" key={obj}>
+                  <i
+                    className={`fas fa-fw fa-${iconNames[i]} ${props.filterShow[obj] ? "" : "fa-disabled"}`}
+                    onClick={() => props.updateIcon(obj, props.filterShow[obj])}
+                    style={{color: iconColors[i]}}
+                    title={iconTooltips[i]}
+                  />
+                </div>
+              )}
+            </Fragment>
+          )}
+
+          <ListToggle
+            showToggle={props.showToggle}
+            toggled={props.toggled}
+            toggleList={() => props.updateIcon(0, !props.toggled)}
           />
-        );
-      })}
-      <i
-        id="reset-filter-icons"
-        className={`fas fa-undo text-dark mr-3`}
-        title="Show All"
-        value="reset"
-        onClick={() => props.resetIcons()}
-      />
-      <i
-        id="clear-filter-icons"
-        className={`fas fa-times text-dark mr-3`}
-        title="Hide All"
-        value="clear"
-        onClick={() => props.clearIcons()}
-      />
-    </div>
-  ) : (
-    <div className="m-2 icons row">
-      {props.filterIcons.map((obj, i) => {
-        return (
-          <i
-            key={obj}
-            className={`fas fa-${iconNames[i]} ${
-              props.filterShow[obj] ? "" : "fa-disabled"
-            } mr-3`}
-            onClick={() => props.updateIcon(obj, props.filterShow[obj])}
-            style={{color: iconColors[i]}}
-            title={iconTooltips[i]}
-          />
-        );
-      })}
-      <i
-        id="reset-filter-icons"
-        className={`fas fa-undo text-dark mr-3`}
-        title="Show All"
-        value="reset"
-        onClick={() => props.resetIcons()}
-      />
-      <i
-        id="clear-filter-icons"
-        className={`fas fa-times text-dark mr-3`}
-        title="Hide All"
-        value="clear"
-        onClick={() => props.clearIcons()}
-      />
-    </div>
+          <div className="col-auto px-2 py-0 align-self-center">
+            <div
+              className="btn btn-info filter-btn btn-sm py-0 my-1 px-1"
+              onClick={() => props.resetIcons()}
+              title="Show All"
+            >
+              <i
+                id="reset-filter-icons"
+                className={`fas fa-fw fa-sm fa-undo text-white`}
+                value="reset"
+              />
+            </div>
+          </div>
+          <div className="col-auto px-2 py-0 align-self-center">
+            <div
+              className="btn btn-info filter-btn btn-sm py-0 my-1 px-1"
+              onClick={() => props.clearIcons()}
+              title="Hide All"
+            >
+              <i
+                id="clear-filter-icons"
+                className={`fas fa-fw fa-sm fa-times text-white`}
+                value="clear"
+              />
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </Fragment>
   );
 
 }
@@ -121,5 +150,9 @@ FilterBar.propTypes = {
   iconSet: PropTypes.array,
   filterIcons: PropTypes.array,
   tempFilterIcons: PropTypes.array,
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  showToggle: PropTypes.bool,
+  toggled: PropTypes.number,
+  showFilter: PropTypes.func,
+  show: PropTypes.number
 };

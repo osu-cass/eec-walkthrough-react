@@ -88,7 +88,7 @@ exports.searchPageVal = searchPageVal;
 // validation checks for post page
 const postPageVal = Object.freeze({
   validation: [
-    check("pageType").isInt({min: 1, max: 4294967295}),
+    check("pageType").isInt({min: 0, max: 4294967295}),
     check("name").isLength({min: 1, max: 100}),
     check("title").isLength({min: 1, max: 1000}),
     check("description").isLength({min: 1, max: 5000}),
@@ -102,7 +102,7 @@ exports.postPageVal = postPageVal;
 const patchPageVal = Object.freeze({
   validation: [
     check("pageId").isInt({min: 1, max: 4294967295}),
-    check("pageType").isInt({min: 1, max: 4294967295}),
+    check("pageType").isInt({min: 0, max: 4294967295}),
     check("name").isLength({min: 1, max: 100}),
     check("title").isLength({min: 1, max: 1000}),
     check("description").isLength({min: 1, max: 5000}),
@@ -115,7 +115,7 @@ exports.patchPageVal = patchPageVal;
 // validation checks for get header
 const getHeaderVal = Object.freeze({
   validation: [
-    check("headerId").isInt({min: 1, max: 4294967295}),
+    check("headerId").isInt({min: 1, max: 4294967295})
   ]
 });
 exports.getHeaderVal = getHeaderVal;
@@ -159,14 +159,14 @@ const getCardVal = Object.freeze({
 exports.getCardVal = getCardVal;
 
 // validation checks for move card
-const patchCardMove = Object.freeze({
+const patchCardMoveVal = Object.freeze({
   validation: [
     check("cardId").isInt({min: 1, max: 4294967295}),
     check("direction").isInt({min: 0, max: 1}),
     check("mode").isInt({min: 0, max: 1})
   ]
 });
-exports.patchCardMove = patchCardMove;
+exports.patchCardMoveVal = patchCardMoveVal;
 
 // validation checks for post card
 const postCardVal = Object.freeze({
@@ -306,3 +306,73 @@ const postViewVal = Object.freeze({
   ]
 });
 exports.postViewVal = postViewVal;
+
+// validation checks for get request
+const getRequestVal = Object.freeze({
+  validation: [
+    check("requestId").isInt({min: 1, max: 4294967295}),
+  ]
+});
+exports.getRequestVal = getRequestVal;
+
+// validation checks for get request selection
+const getSelectionVal = Object.freeze({
+  validation: [
+    check("objects").isArray({min: 1})
+  ]
+});
+exports.getSelectionVal = getSelectionVal;
+
+// validation checks for post request
+const postRequestVal = Object.freeze({
+  validation: [
+    check("title").isLength({min: 1, max: 1000}),
+    check("description").isLength({min: 1, max: 5000}),
+    check("objects").isArray({min: 1})
+  ]
+});
+exports.postRequestVal = postRequestVal;
+
+// validation checks for post comment
+const postCommentVal = Object.freeze({
+  validation: [
+    check("requestId").isInt({min: 1, max: 4294967295}),
+    check("comment").isLength({min: 1, max: 5000}),
+    check("status").isInt({min: 0, max: 2}),
+  ]
+});
+exports.postCommentVal = postCommentVal;
+
+// validation checks for get sources
+const getSourcesVal = Object.freeze({
+  validation: [
+    check("pageId").isInt({min: 1, max: 4294967295}),
+  ]
+});
+exports.getSourcesVal = getSourcesVal;
+
+// validation checks for post source
+const postSourceVal = Object.freeze({
+  validation: [
+    check("text").isLength({min: 1, max: 5000}),
+    check("url").isLength({min: 0, max: 5000})
+  ]
+});
+exports.postSourceVal = postSourceVal;
+
+// validation checks for post sources
+const postSourcesVal = Object.freeze({
+  validation: [
+    check("pageId").isInt({min: 1, max: 4294967295}),
+    check("sources").isArray()
+  ]
+});
+exports.postSourcesVal = postSourcesVal;
+
+// validation checks for post card titles
+const postCardTitleVal = Object.freeze({
+  validation: [
+    check("titles").isArray()
+  ]
+});
+exports.postCardTitleVal = postCardTitleVal;
