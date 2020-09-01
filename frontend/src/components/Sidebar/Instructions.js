@@ -10,7 +10,7 @@ function Instructions(props) {
   <Accordion>
     {props.instructions.map((item, i) =>
       <NavLink key={i} to={`/wiki/instructions/${item.pageId}`} className="ml-3 nav_link">
-        <Accordion.Toggle as={Card.Header} key={item.pageId} style={{fontSize: "1.2rem"}} eventKey="0" className="nav_link">
+        <Accordion.Toggle as={Card.Header} id="sidebarCollection" key={item.pageId} style={{fontSize: "1.2rem"}} eventKey="0" className="nav_link">
           <span>
             {item.name}
             {item.approved === 0 ? (
