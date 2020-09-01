@@ -8,6 +8,7 @@ import ChangePublished from "./ChangePublished";
 import EditPage from "./EditPage";
 import SaveView from "./SaveView";
 import LoadView from "./LoadView";
+import AddSource from "./AddSource";
 import "./PageDescription.css";
 
 // Header and card that describes the page
@@ -49,63 +50,70 @@ function PageDescription(props) {
 
   return (
     <div>
-      <div className={`d-flex header-bar justify-content-between sticky-top
+      <div className={`d-flex header-bar justify-content-between
         ${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? "page-approved" : "page-review"}
         ${isInternal() ? "page-internal" : ""} my-3 p-3 text-dark-50 rounded shadow-sm border`}
       style={{top: "1em", zIndex: "998"}}
       >
-        <div className="row mx-2">
-          <h4 className="flex-grow-1 font-weight-bold">
-            {name}
-          </h4>
-        </div>
+        <div className="row w-100 ml-0">
+          <div className="col align-self-center pl-0">
+            <h4 className="flex-grow-1 font-weight-bold my-0 mx-0">
+              {name}
+            </h4>
+          </div>
 
-        <div className="row mx-2">
-          <div className="row">
-            <ChangePublic
-              role={props.role}
-              mode={props.mode}
-              publicMode={props.publicMode}
-              onPublicMode={e => props.onPublicMode(e)}
-            />
-            <ChangePublished
-              role={props.role}
-              mode={props.mode}
-              publishedMode={props.publishedMode}
-              onPublishedMode={e => props.onPublishedMode(e)}
-            />
-            <SaveView
-              role={props.role}
-              mode={props.mode}
-              pageId={props.page.pageId}
-              headers={props.headers}
-              onNewView={() => setNewViews(newViews + 1)}
-            />
-            <LoadView
-              mode={props.mode}
-              pageId={props.page.pageId}
-              newViews={newViews}
-              onNewView={e => props.onNewView(e)}
-            />
-            <EditPage
-              page={props.page}
-              role={props.role}
-              mode={props.mode}
-              handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-              handlePageEdit={props.handlePageEdit}
-            />
-            <ReviewPage
-              page={props.page}
-              mode={props.mode}
-              handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-              handlePageEdit={props.handlePageEdit}
-            />
-            <ChangeMode
-              role={props.role}
-              mode={props.mode}
-              onPageMode={e => props.onPageMode(e)}
-              moved={props.moved}
-            />
+          <div className="col pr-0">
+            <div className="btn-group align-self-center float-right">
+              <ChangePublic
+                role={props.role}
+                mode={props.mode}
+                publicMode={props.publicMode}
+                onPublicMode={e => props.onPublicMode(e)}
+              />
+              <ChangePublished
+                role={props.role}
+                mode={props.mode}
+                publishedMode={props.publishedMode}
+                onPublishedMode={e => props.onPublishedMode(e)}
+              />
+              <SaveView
+                role={props.role}
+                mode={props.mode}
+                pageId={props.page.pageId}
+                headers={props.headers}
+                onNewView={() => setNewViews(newViews + 1)}
+              />
+              <LoadView
+                mode={props.mode}
+                pageId={props.page.pageId}
+                newViews={newViews}
+                onNewView={e => props.onNewView(e)}
+              />
+              <EditPage
+                page={props.page}
+                role={props.role}
+                mode={props.mode}
+                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                handlePageEdit={props.handlePageEdit}
+              />
+              <ReviewPage
+                page={props.page}
+                mode={props.mode}
+                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                handlePageEdit={props.handlePageEdit}
+              />
+              <AddSource
+                pageId={props.page.pageId}
+                role={props.role}
+                mode={props.mode}
+              />
+              <ChangeMode
+                role={props.role}
+                mode={props.mode}
+                onPageMode={e => props.onPageMode(e)}
+                moved={props.moved}
+              />
+            </div>
           </div>
         </div>
       </div>

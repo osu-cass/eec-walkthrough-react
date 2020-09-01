@@ -21,3 +21,7 @@ select {
 .internal-modal-item {
   background-color: #dedede;
 }
+
+.item-button-bar {
+  z-index: 800;
+}

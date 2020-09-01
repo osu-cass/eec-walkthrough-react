@@ -15,7 +15,6 @@ async function getViews(pageId, userId) {
     "WHERE (pageId = ?) " +
     "AND (userId = ? OR public = 1) " +
     "ORDER BY public DESC, viewName ASC;";
-
     let results = await pool.query(sql, [pageId, userId]);
 
     const finalResults = {
@@ -29,7 +28,6 @@ async function getViews(pageId, userId) {
       "FROM Filters " +
       "WHERE viewId = ? " +
       "ORDER BY headerId ASC, iconId ASC;";
-
       results = await pool.query(sql, [finalResults.views[i].viewId, userId]);
 
       // see if we have any filters set
@@ -40,7 +38,7 @@ async function getViews(pageId, userId) {
 
       // sort the results into groups of headers
       const headers = [];
-      const headerId = results[0][0].headerId;
+      let headerId = results[0][0].headerId;
       let currentHeader = {
         headerId: 0,
         filters: []
@@ -57,6 +55,7 @@ async function getViews(pageId, userId) {
             filters: []
           };
           currentHeader.filters.push(results[0][j].iconId);
+          headerId = results[0][j].headerId;
         }
       }
 

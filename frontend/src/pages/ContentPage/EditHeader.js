@@ -79,9 +79,7 @@ function EditHeader(props) {
           pageId: props.header.pageId,
           internal: props.header.internal,
           tempInternal: internal,
-          tempCreated: new Date().toISOString()
-            .slice(0, 19)
-            .replace("T", " "),
+          tempCreated: new Date(),
           tempHeaderId: props.header.headerId,
           tempTitle: title,
           tempUserId: 0,
@@ -93,9 +91,7 @@ function EditHeader(props) {
       } else {
         newHeader = {
           approved: props.header.approved,
-          created: new Date().toISOString()
-            .slice(0, 19)
-            .replace("T", " "),
+          created: new Date(),
           headerId: props.header.headerId,
           orderIndex: props.header.orderIndex,
           tempOrderIndex: props.header.tempOrderIndex,
@@ -198,11 +194,11 @@ function EditHeader(props) {
   }
 
   return props.role >= 3 && props.mode === 1 ? (
-    <div className='text-center mx-2'>
+    <div className="text-center mx-2 my-auto">
       <LoadingOverlay loading={showLoad} />
       <Button size="sm" variant="info" onClick={() => handleShowModal()}>
         <i
-          className='fas fa-edit text-white mr-2'
+          className="fas fa-edit text-white mr-2"
           style={{transform: "scale(1.5)"}}>
         </i>
         <span className="text-white">Edit Header</span>

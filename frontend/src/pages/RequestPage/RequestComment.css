@@ -1,0 +1,23 @@
+.request-card-comment-body {
+  white-space: pre-wrap;
+}
+
+.request-icon-approve {
+  color: #4BB543;
+}
+
+.request-icon-comment {
+  color: #16B7FF;
+}
+
+.request-icon-change {
+  color: #FF581A;
+}
+
+.request-icon-new {
+  color: #9BAAB3;
+}
+
+.comment-date-text {
+  color: #239023;
+}

@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import Error from "../../components/General/Error";
 import HighlightText from "./HighlightText";
+import AddReviewObject from "./AddReviewObject";
 import "./ReviewHeader.css";
 
 // Button and modal that allows a user to review a header
@@ -252,7 +253,7 @@ function ReviewHeader(props) {
   }
 
   return role >= 3 && props.mode === 1 ? (
-    <div className='text-center mx-2'>
+    <div className="text-center mx-2 my-auto">
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
         <i
@@ -338,13 +339,19 @@ function ReviewHeader(props) {
             <Fragment>
               <Fragment>
                 {props.header.tempHeaderId || !props.header.approved ? (
-                  <Button
-                    className="mr-auto"
-                    variant="danger"
-                    onClick={() => handleClear()}
-                  >
-                    Delete Changes
-                  </Button>
+                  <Fragment>
+                    <Button
+                      className="mr-auto"
+                      variant="danger"
+                      onClick={() => handleClear()}
+                    >
+                      Delete Changes
+                    </Button>
+                    <AddReviewObject
+                      objectType={2}
+                      objectId={props.header.headerId}
+                    />
+                  </Fragment>
                 ) : (
                   null
                 )}
@@ -353,7 +360,7 @@ function ReviewHeader(props) {
                 {props.header.approved && props.header.tempHeaderId ? (
                   <Fragment>
                     <Button
-                      className="ml-auto"
+                      className="ml-1"
                       variant="danger"
                       onClick={() => handleRemove()}
                     >
@@ -375,13 +382,19 @@ function ReviewHeader(props) {
           ) : (
             <Fragment>
               {props.header.tempHeaderId || !props.header.approved ? (
-                <Button
-                  className="mr-auto"
-                  variant="danger"
-                  onClick={() => handleClear()}
-                >
-                  Delete Changes
-                </Button>
+                <Fragment>
+                  <Button
+                    className="mr-auto"
+                    variant="danger"
+                    onClick={() => handleClear()}
+                  >
+                    Delete Changes
+                  </Button>
+                  <AddReviewObject
+                    objectType={2}
+                    objectId={props.header.headerId}
+                  />
+                </Fragment>
               ) : (
                 null
               )}

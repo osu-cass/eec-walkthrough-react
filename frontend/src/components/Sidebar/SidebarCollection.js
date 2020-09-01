@@ -1,5 +1,4 @@
 import React, {Fragment} from "react";
-import "./Sidebar.css";
 import {NavLink} from "react-router-dom";
 import PropTypes from "prop-types";
 import Accordion from "react-bootstrap/Accordion";
@@ -60,40 +59,43 @@ function SidebarCollection(props) {
       {props.collection ? (
         <Accordion.Collapse eventKey="0">
           <Fragment>
-            {props.collection.map((item, i) => {
-              return (
-                <NavLink key={i} to={`/${props.collectionLink}/${item.pageId}`} className="ml-3 nav_link">
-                  <Card.Body key={item.pageId} style={{fontSize: "1rem"}} className="nav_link">
-                    <span>
-                      {item.name}
-                      {item.approved === 0 ? (
-                        <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-wrench fa-sm ml-1" /></span>
-                      ) : (
-                        null
-                      )}
-                      {item.internal ? (
-                        <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
-                      ) : (
-                        null
-                      )}
-                    </span>
-                  </Card.Body>
-                </NavLink>
-              );
-            })}
+            {props.collection.map((item, i) =>
+              <NavLink key={i} to={`/${props.collectionLink}/${item.pageId}`} className="ml-3 nav_link">
+                <Card.Body key={item.pageId} style={{fontSize: "1rem"}} className="nav_link">
+                  <span>
+                    {item.name}
+                    {item.approved === 0 ? (
+                      <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-wrench fa-sm ml-1" /></span>
+                    ) : (
+                      null
+                    )}
+                    {item.internal ? (
+                      <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
+                    ) : (
+                      null
+                    )}
+                  </span>
+                </Card.Body>
+              </NavLink>
+            )}
             {props.show ? (
               <Fragment>
-                <CreatePage
-                  title={`Create ${props.collectionName} Page`}
-                  refresh={props.refresh}
-                  role={props.role}
-                  categoryId={props.category.categoryId}
-                />
-                <EditCategory
-                  refresh={props.refresh}
-                  role={props.role}
-                  category={props.category}
-                />
+                <div className="my-2">
+                  <CreatePage
+                    title={`Create ${props.collectionName} Page`}
+                    collectionLink={props.collectionLink}
+                    refresh={props.refresh}
+                    role={props.role}
+                    categoryId={props.category.categoryId}
+                  />
+                </div>
+                <div className="my-2">
+                  <EditCategory
+                    refresh={props.refresh}
+                    role={props.role}
+                    category={props.category}
+                  />
+                </div>
               </Fragment>
             ) : (
               null

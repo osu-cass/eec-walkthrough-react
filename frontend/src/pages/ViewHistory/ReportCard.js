@@ -1,6 +1,7 @@
 import React, {Fragment, useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import BasicItems from "../ContentPage/BasicItems";
+import {isGraphic} from "../../utilities/itemType";
 import ThumbnailGallery from "../ContentPage/ThumbnailGallery";
 import {formatTime} from "../../utilities/formatTime";
 import HighlightText from "../ContentPage/HighlightText";
@@ -11,6 +12,16 @@ function ReportCard(props) {
 
   const [imageItems, setImageItems] = useState([]);
   const [oldImageItems, setOldImageItems] = useState([]);
+  const [parentsName, setParentsName] = useState("");
+
+  // Adjust parent history for situations where the parent was deleted
+  useEffect(() => {
+    if (props.card.categoryName === null || props.card.pageName === null || props.card.headerName === null) {
+      setParentsName("[Deleted]");
+    } else {
+      setParentsName(`${props.card.categoryName} \u2192 ${props.card.pageName} \u2192 ${props.card.headerName}`);
+    }
+  }, [props.card, props.card.categoryName, props.card.pageName, props.card.headerName]);
 
   // If the current card is an Image Gallery card then
   // whenever we get new items, filter out all of the non-image ones
@@ -18,13 +29,13 @@ function ReportCard(props) {
     const imageArray = [];
     const oldImageArray = [];
     for (let i = 0; i < props.card.items.length; i++) {
-      if (props.card.items[i].contentUrl.length && props.card.items[i].typeName === "chart-area") {
+      if (isGraphic(props.card.items[i])) {
         imageArray.push(props.card.items[i]);
       }
     }
     if (props.card.oldVersion) {
       for (let i = 0; i < props.card.oldVersion.items.length; i++) {
-        if (props.card.oldVersion.items[i].contentUrl.length && props.card.oldVersion.items[i].typeName === "chart-area") {
+        if (isGraphic(props.card.oldVersion.items[i])) {
           oldImageArray.push(props.card.oldVersion.items[i]);
         }
       }
@@ -41,7 +52,7 @@ function ReportCard(props) {
         <div className="col">
           <div className={`version-container p-2 m-3 border border-dark rounded text-wrap`}>
             <h4 className="report-card-special-text pl-3 pt-4">Card</h4>
-            <h5 className="report-card-special-text pl-3">{props.card.categoryName} &rarr; {props.card.pageName} &rarr; {props.card.headerName} &rarr; {props.card.oldVersion.title}</h5>
+            <h5 className="report-card-special-text pl-3">{parentsName} &rarr; {props.card.oldVersion.title}</h5>
             <span className="report-card-special-text pl-3">Updated {formatTime(props.card.oldVersion.created)}</span>
             <div className="m-3">
               <HighlightText
@@ -60,27 +71,13 @@ function ReportCard(props) {
           </div>
         </div>
       ) : (
-        <div className="col">
-          <div className={`version-container p-2 m-3 border border-dark rounded text-wrap hidden-report`}>
-            <h4 className="report-card-special-text pl-3 pt-4">Card</h4>
-            <h5 className="report-card-special-text pl-3">{props.card.categoryName} &rarr; {props.card.pageName} &rarr; {props.card.headerName} &rarr; {props.card.title}</h5>
-            <span className="report-card-special-text pl-3">Updated {formatTime(props.card.created)}</span>
-            <div className="m-3">
-              <span className="report-card-span highlight-new-content">{props.card.title}</span>
-              {props.card.cardType === 1 || props.card.cardType === 11 ? (
-                <ThumbnailGallery items={imageItems} compareMode={3} />
-              ) : (
-                <BasicItems items={props.card.items} mode={0} reviewing={true} compareMode={3} setCheck={() => {}} />
-              )}
-            </div>
-          </div>
-        </div>
+        <div className="col" />
       )}
 
       <div className="col">
         <div className={`version-container p-2 m-3 border border-dark rounded text-wrap`}>
           <h4 className="report-card-special-text pl-3 pt-4">Card</h4>
-          <h5 className="report-card-special-text pl-3">{props.card.categoryName} &rarr; {props.card.pageName} &rarr; {props.card.headerName} &rarr; {props.card.title}</h5>
+          <h5 className="report-card-special-text pl-3">{parentsName} &rarr; {props.card.title}</h5>
           <span className="report-card-special-text pl-3">Updated {formatTime(props.card.created)}</span>
           <div className="m-3">
             {props.card.oldVersion ? (
@@ -92,7 +89,7 @@ function ReportCard(props) {
                 newId={props.newId}
               />
             ) : (
-              <span className="report-card-span highlight-new-content">{props.card.title}</span>
+              <span className="report-card-span highlight-new-content text-break">{props.card.title}</span>
             )}
             {props.card.cardType === 1 || props.card.cardType === 11 ? (
               <Fragment>
@@ -120,7 +117,7 @@ function ReportCard(props) {
     <div className="text-left mx-2">
       <div className={`version-container p-2 m-3 border border-dark rounded text-wrap`}>
         <h4 className="report-card-special-text pl-3 pt-4">Card</h4>
-        <h5 className="report-card-special-text pl-3">{props.card.categoryName} &rarr; {props.card.pageName} &rarr; {props.card.headerName} &rarr; {props.card.title}</h5>
+        <h5 className="report-card-special-text pl-3">{parentsName} &rarr; {props.card.title}</h5>
         <span className="report-card-special-text pl-3">Updated {formatTime(props.card.created)}</span>
         <div className="m-3">
           {props.card.oldVersion ? (
@@ -132,7 +129,7 @@ function ReportCard(props) {
               newId={props.newId}
             />
           ) : (
-            <span className="report-card-span highlight-new-content">{props.card.title}</span>
+            <span className="report-card-span highlight-new-content text-break">{props.card.title}</span>
           )}
           {props.card.cardType === 1 || props.card.cardType === 11 ? (
             <Fragment>

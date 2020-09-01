@@ -5,8 +5,8 @@ import EditHeader from "./EditHeader";
 import ReviewHeader from "./ReviewHeader";
 import FilterBar from "./FilterBar";
 import OrderObjectButton from "./OrderObjectButton";
+import PageOther from "./PageOther";
 import Card from "./Card";
-import ListToggle from "./ListToggle";
 import "./Header.css";
 
 // Header that contains some number of cards
@@ -24,11 +24,7 @@ function Header(props) {
 
   // If the filter changes, then update the icons that are being filtered
   useEffect(() => {
-    const allIcons = [];
-    // first reset all icons
-    for (let i = 0; i <= props.iconSet.length; i++) {
-      allIcons.push(true);
-    }
+    const allIcons = newFilter();
     let checkMode = false;
     // then apply filters
     for (let i = 0; i < props.header.forceFilter.length; i++) {
@@ -133,19 +129,32 @@ function Header(props) {
 
   // Gets all of the possible icons and set the default viewing state for them
   useEffect(() => {
+    setFilterShow(newFilter());
+    // eslint-disable-next-line
+  }, [props.iconSet, props.cardState]);
+
+  // Return new initialized filter
+  function newFilter() {
     const allIcons = [];
-    for (let i = 0; i <= props.iconSet.length; i++) {
+    let maxId = 0;
+    for (let i = 0; i < props.iconSet.length; i++) {
+      if (props.iconSet[i].iconType > maxId) {
+        maxId = props.iconSet[i].iconType;
+      }
+    }
+    for (let i = 0; i <= maxId; i++) {
       allIcons.push(true);
     }
-    setFilterShow(allIcons);
-  }, [props.iconSet, props.cardState]);
+    return allIcons;
+  }
 
   // If the viewing mode changes or the selected filters,
   // Then update the card state
   useEffect(() => {
     updateCardState(filterShow);
     // eslint-disable-next-line
-  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode, checkedCards, props.publishedMode]);
+  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode,
+    checkedCards, props.publishedMode, props.publicMode]);
 
   // Updates the cards / items that are shown.
   function updateCardState(filterState) {
@@ -194,7 +203,8 @@ function Header(props) {
         }
         // see if the item should be filtered or not
         if (filterState[checkedCards[i].items[j].iconType] &&
-            !filterItem(checkedCards[i].items[j], props.mode, false)) {
+            !filterItem(checkedCards[i].items[j], props.mode, false) &&
+            (props.mode !== 0 || checkedCards[i].items[j].created !== null || !props.publicMode)) {
           allItems.push(checkedCards[i].items[j]);
           itemExists = true;
           // opportunities may have setting to hide their children
@@ -599,76 +609,85 @@ function Header(props) {
         <div className={`d-flex sticky-top
           ${props.header.approved && (!props.header.tempHeaderId || !viewUnpublished()) ? "header-approved" : "header-review"}
           ${isInternal() ? "header-internal" : ""}
-          header-bar header-bar-content justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border`}
+          header-bar header-bar-content justify-content-between my-3 py-3 text-dark-50 rounded shadow-sm border`}
         style={{top: "1em", zIndex: "998"}}
         >
-          <div className="row mx-2">
-            <h4 className="flex-grow-1 font-weight-bold">
-              {props.header.approved && props.header.tempHeaderId && viewUnpublished() ? (
-                props.header.tempTitle
-              ) : (
-                props.header.title
-              )}
-            </h4>
-          </div>
+          <div className="row w-100 ml-0">
+            <div className="col-auto align-self-center">
+              <h4 className="flex-grow-1 font-weight-bold my-0 mx-0">
+                {props.header.approved && props.header.tempHeaderId && viewUnpublished() ? (
+                  props.header.tempTitle
+                ) : (
+                  props.header.title
+                )}
+              </h4>
+            </div>
 
-          <div className="row mx-2">
-            <div className="row">
-              {props.mode === 2 ? (
-                <Fragment>
-                  <OrderObjectButton
-                    up={true}
-                    header={true}
-                    objectId={props.header.headerId}
-                    handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                    edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                    approved={props.header.approved}
-                    publishedMode={props.publishedMode}
-                  />
-                  <OrderObjectButton
-                    up={false}
-                    header={true}
-                    objectId={props.header.headerId}
-                    handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                    edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                    approved={props.header.approved}
-                    publishedMode={props.publishedMode}
-                  />
-                </Fragment>
-              ) : (
-                <Fragment>
-                  <FilterBar
-                    updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
-                    resetIcons={() => props.resetIcons(props.header.headerId)}
-                    clearIcons={() => props.clearIcons(props.header.headerId)}
-                    filterIcons={filterIcons}
-                    tempFilterIcons={tempFilterIcons}
-                    filterShow={filterShow}
-                    iconSet={props.iconSet}
-                    mode={props.mode}
-                  />
-                  <div className="col">
-                    <div className="row">
-                      <ListToggle
-                        showButton={opportunitiesExist}
-                        toggled={opportunityFilterMode}
-                        toggleList={() => props.updateIcon(0, !opportunityFilterMode, props.header.headerId)}
-                      />
-                      <EditHeader
-                        mode={props.mode}
-                        header={props.header}
-                        role={props.role}
-                        handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                      />
-                      <ReviewHeader
-                        mode={props.mode}
-                        header={props.header}
-                        handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                      />
-                    </div>
-                  </div>
-                </Fragment>
-              )}
+            <div className="col">
+              <div className="btn-group align-self-center float-right">
+                {props.mode === 2 ? (
+                  <Fragment>
+                    <OrderObjectButton
+                      up={true}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                      edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                      approved={props.header.approved}
+                      publishedMode={props.publishedMode}
+                    />
+                    <OrderObjectButton
+                      up={false}
+                      header={true}
+                      objectId={props.header.headerId}
+                      handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                      edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                      approved={props.header.approved}
+                      publishedMode={props.publishedMode}
+                    />
+                    <PageOther
+                      role={props.role}
+                      mode={props.mode}
+                      onPageMode={e => props.onPageMode(e)}
+                      moved={props.moved}
+                    />
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <FilterBar
+                      updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
+                      resetIcons={() => props.resetIcons(props.header.headerId)}
+                      clearIcons={() => props.clearIcons(props.header.headerId)}
+                      filterIcons={filterIcons}
+                      tempFilterIcons={tempFilterIcons}
+                      filterShow={filterShow}
+                      iconSet={props.iconSet}
+                      mode={props.mode}
+                      showToggle={opportunitiesExist}
+                      toggled={opportunityFilterMode}
+                      showFilter={() => props.showFilter()}
+                      show={props.show}
+                    />
+                    <EditHeader
+                      mode={props.mode}
+                      header={props.header}
+                      role={props.role}
+                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                    />
+                    <ReviewHeader
+                      mode={props.mode}
+                      header={props.header}
+                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                    />
+                    <PageOther
+                      role={props.role}
+                      mode={props.mode}
+                      onPageMode={e => props.onPageMode(e)}
+                      moved={props.moved}
+                    />
+                  </Fragment>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -690,6 +709,8 @@ function Header(props) {
               publicMode={props.publicMode}
               setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
               publishedMode={props.publishedMode}
+              sources={props.sources}
+              cardTitles={props.cardTitles}
             />
           )}
         </div>
@@ -719,5 +740,11 @@ Header.propTypes = {
   forceFilter: PropTypes.array,
   updateIcon: PropTypes.func,
   resetIcons: PropTypes.func,
-  clearIcons: PropTypes.func
+  clearIcons: PropTypes.func,
+  sources: PropTypes.array,
+  cardTitles: PropTypes.array,
+  showFilter: PropTypes.func,
+  show: PropTypes.number,
+  onPageMode: PropTypes.func,
+  moved: PropTypes.bool
 };
