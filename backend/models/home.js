@@ -26,6 +26,7 @@ async function getHome(viewAll) {
       "FROM Categories AS C " +
       "INNER JOIN Pages " +
       "ON categoryId = pageType " +
+      "WHERE categoryId != 0 " +
       "ORDER BY pluralName ASC;";
     } else {
       sql = "SELECT DISTINCT categoryId, pluralName, singleName, C.description, C.internal " +
@@ -33,6 +34,7 @@ async function getHome(viewAll) {
       "INNER JOIN Pages AS P " +
       "ON categoryId = pageType " +
       "WHERE C.internal = 0 " +
+      "AND C.categoryId != 0 " +
       "AND P.internal = 0 " +
       "AND P.approved = 1 " +
       "ORDER BY pluralName ASC;";

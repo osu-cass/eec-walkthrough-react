@@ -119,7 +119,7 @@ function EditCategory(props) {
   }
 
   return props.role >= 4 ? (
-    <div className="text-center my-2 mx-1 editCategory">
+    <div className="text-center mx-1 editCategory">
       <Button variant="outline-info" className="editCategory" onClick={() => handleShow()}>
         <i
           className="edit-category-icon fas fa-plus-circle text-info mr-2"
