@@ -110,7 +110,7 @@ function CreateCategory(props) {
   }
 
   return props.role >= 4 ? (
-    <div className="text-center mb-4 createCategory">
+    <div className="text-center createCategory">
       <Button variant="outline-info" className="createCategory" onClick={() => handleShow()}>
         <i
           className="create-category-icon fas fa-plus-circle text-info mr-2"

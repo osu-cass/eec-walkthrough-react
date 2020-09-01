@@ -124,7 +124,7 @@ function CreatePage(props) {
   }
 
   return props.role >= 3 ? (
-    <div className='text-center my-2 mx-1 createPage'>
+    <div className='text-center mx-1 createPage'>
       <Button variant="outline-info" className="createPage" onClick={() => handleShow()}>
         <i
           className='create-page-icon fas fa-plus-circle text-info mr-2'

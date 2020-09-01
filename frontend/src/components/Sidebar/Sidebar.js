@@ -1,8 +1,10 @@
 import React, {useState, useEffect, useRef, Fragment} from "react";
 import SidebarCollection from "./SidebarCollection";
 import SidebarToggleView from "./SidebarToggleView";
+import Instructions from "./Instructions";
 import {getProfile} from "../../utilities/cookieAuth";
 import CreateCategory from "./CreateCategory";
+import CreatePage from "./CreatePage";
 import PropTypes from "prop-types";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -12,6 +14,7 @@ import "./Sidebar.css";
 function Sidebar(props) {
 
   const [categories, setCategories] = useState([]);
+  const [instructions, setInstructions] = useState([]);
   const [role, setRole] = useState(0);
   const [showEdit, setShowEdit] = useState(true);
   const wrapperRef = useRef(null);
@@ -48,6 +51,7 @@ function Sidebar(props) {
 
       // bind the event listener
       document.addEventListener("mousedown", handleClickOutside);
+
       return () => {
         // unbind the event listener on clean up
         document.removeEventListener("mousedown", handleClickOutside);
@@ -61,12 +65,24 @@ function Sidebar(props) {
     const results = await fetch("/api/categories/all");
     if (results.ok) {
       const obj = await results.json();
+      
+      // if there is a category with an id of 0,
+      // remove it from the categories and add it to instructions
+      let newInstruction = [];
+      for (let i = 0; i < obj.categories.length; i++) {
+        if (obj.categories[i].categoryId === 0) {
+          newInstruction = obj.categories.splice(i, 1);
+        }
+      }
+
+      setInstructions(newInstruction);
       setCategories(obj.categories);
     } else {
       console.error("Unable to fetch categories for sidebar.");
     }
   }
 
+  // toggles between showing or hiding the edit/create buttons
   function handleToggleEditorButtons() {
     const editString = (!showEdit).toString(10);
     window.localStorage.setItem("showEditButtons", editString);
@@ -95,6 +111,30 @@ function Sidebar(props) {
           </Card>
 
           <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
+            {instructions.length ? (
+              <Instructions
+                instructions={instructions[0].pages}
+              />
+            ) : (
+              null
+            )}
+          </Card>
+
+          {showEdit ? (
+            <div className="mb-4">
+              <CreatePage
+                title={"Create Instructions Page"}
+                collectionLink={"wiki/instructions"}
+                refresh={() => fetchData()}
+                role={role}
+                categoryId={0}
+              />
+            </div>
+          ) : (
+            null
+          )}
+
+          <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
             {categories.map((category) =>
               <SidebarCollection
                 key={category.categoryId}
@@ -111,10 +151,12 @@ function Sidebar(props) {
           </Card>
 
           {showEdit ? (
-            <CreateCategory
-              refresh={() => fetchData()}
-              role={role}
-            />
+            <div className="mb-4">
+              <CreateCategory
+                refresh={() => fetchData()}
+                role={role}
+              />
+            </div>
           ) : (
             null
           )}
