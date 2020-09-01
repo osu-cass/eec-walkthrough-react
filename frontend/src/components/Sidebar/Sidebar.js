@@ -74,7 +74,6 @@ function Sidebar(props) {
           newInstruction = obj.categories.splice(i, 1);
         }
       }
-
       setInstructions(newInstruction);
       setCategories(obj.categories);
     } else {
@@ -110,15 +109,21 @@ function Sidebar(props) {
             />
           </Card>
 
-          <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
-            {instructions.length ? (
-              <Instructions
-                instructions={instructions[0].pages}
-              />
-            ) : (
-              null
-            )}
-          </Card>
+          {instructions.length ? (
+            <Fragment>
+              {instructions[0].pages.length ? (
+                <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
+                  <Instructions
+                    instructions={instructions[0].pages}
+                  />
+                </Card>
+              ) : (
+                null
+              )}
+            </Fragment>
+          ) : (
+            null
+          )}
 
           {showEdit ? (
             <div className="mb-4">
