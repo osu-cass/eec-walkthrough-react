@@ -283,7 +283,7 @@ function AddSource(props) {
           <Button variant="secondary" onClick={() => handleCloseModal()}>Cancel</Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </div>;
 
   } else if (props.mode === 1 && props.role === 3) {
 
@@ -349,11 +349,11 @@ function AddSource(props) {
           <Button variant="secondary" onClick={() => handleCloseModal()}>Cancel</Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </div>;
 
   } else {
 
-    return null
+    return null;
 
   }
 

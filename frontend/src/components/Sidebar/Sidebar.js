@@ -65,7 +65,7 @@ function Sidebar(props) {
     const results = await fetch("/api/categories/all");
     if (results.ok) {
       const obj = await results.json();
-      
+
       // if there is a category with an id of 0,
       // remove it from the categories and add it to instructions
       let newInstruction = [];
