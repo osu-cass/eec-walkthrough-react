@@ -15,7 +15,7 @@ function ItemInput(props) {
     // find the matching index for the source ID
     for (let i = 0; i < props.sources.length; i++) {
       if (props.sourceId === props.sources[i].sourceId) {
-        updateSource(i + 1);
+        updateSource(i + 1, props.sources[i].text);
         break;
       }
     }
@@ -46,12 +46,12 @@ function ItemInput(props) {
     }
   }
 
-  function updateSource(value) {
+  function updateSource(value, text) {
     if (value === 0) {
       setSourceText("Source: None");
       props.handleSourceValue(props.index, 0);
     } else {
-      setSourceText(`Source: ${value}`);
+      setSourceText(`Source: ${text.substring(0, 8).trim()}...`);
       props.handleSourceValue(props.index, props.sources[value - 1].sourceId);
     }
   }
@@ -60,25 +60,6 @@ function ItemInput(props) {
     <Fragment>
       {props.contentType === 1 ? (
         <Fragment>
-          <Dropdown className="source-select-drop-down-menu ml-2">
-            <Dropdown.Toggle variant="outline-dark">
-              {sourceText}
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateSource(0)}>
-                  None
-              </Dropdown.Item>
-              {props.sources.map((source, i) =>
-                <Dropdown.Item
-                  style={{cursor: "pointer"}}
-                  onClick={() => updateSource(i + 1)}
-                  key={source.sourceId}
-                >
-                  {i + 1}. {source.text}
-                </Dropdown.Item>
-              )}
-            </Dropdown.Menu>
-          </Dropdown>
           <FormControl
             as="textarea"
             rows="1"
@@ -91,12 +72,6 @@ function ItemInput(props) {
             onChange={(e) => props.handleInput(e, props.index, 1)}
             required
           />
-        </Fragment>
-      ) : (
-        null
-      )}
-      {props.contentType === 2 ? (
-        <Fragment>
           <Dropdown className="source-select-drop-down-menu ml-2">
             <Dropdown.Toggle variant="outline-dark">
               {sourceText}
@@ -107,15 +82,26 @@ function ItemInput(props) {
               </Dropdown.Item>
               {props.sources.map((source, i) =>
                 <Dropdown.Item
+                  className="source-dropdown-val"
                   style={{cursor: "pointer"}}
-                  onClick={() => updateSource(i + 1)}
+                  onClick={() => updateSource(i + 1, source.text)}
                   key={source.sourceId}
                 >
-                  {i + 1}. {source.text}
+                  {source.text.length > 75 ? (
+                    source.text.substring(0, 75).trim() + "..."
+                  ) : (
+                    source.text
+                  )}
                 </Dropdown.Item>
               )}
             </Dropdown.Menu>
           </Dropdown>
+        </Fragment>
+      ) : (
+        null
+      )}
+      {props.contentType === 2 ? (
+        <Fragment>
           <FormControl
             as="textarea"
             rows="1"
@@ -140,6 +126,30 @@ function ItemInput(props) {
             onChange={(e) => props.handleInput(e, props.index, 3)}
             required
           />
+          <Dropdown className="source-select-drop-down-menu ml-2">
+            <Dropdown.Toggle variant="outline-dark">
+              {sourceText}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateSource(0)}>
+                  None
+              </Dropdown.Item>
+              {props.sources.map((source, i) =>
+                <Dropdown.Item
+                  className="source-dropdown-val"
+                  style={{cursor: "pointer"}}
+                  onClick={() => updateSource(i + 1, source.text)}
+                  key={source.sourceId}
+                >
+                  {source.text.length > 75 ? (
+                    source.text.substring(0, 75).trim() + "..."
+                  ) : (
+                    source.text
+                  )}
+                </Dropdown.Item>
+              )}
+            </Dropdown.Menu>
+          </Dropdown>
         </Fragment>
       ) : (
         null
