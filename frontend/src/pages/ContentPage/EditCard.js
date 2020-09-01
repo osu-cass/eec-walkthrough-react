@@ -27,7 +27,8 @@ function EditCard(props) {
       <Button size="sm" variant="info" onClick={(e) => handleShow(e)}>
         <i
           className="fas fa-fw fa-edit text-white mr-2"
-          style={{transform: "scale(1.5)"}}></i>
+          style={{transform: "scale(1.5)"}}
+        />
         <span className="text-white">Edit Card</span>
       </Button>
       <ConstructCardModal

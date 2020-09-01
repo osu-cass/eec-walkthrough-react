@@ -62,6 +62,7 @@ function ConstructCardModal(props) {
       itemData.internal = item.internal;
       itemData.sourceId = item.sourceId;
       itemData.current = 1;
+      itemData.created = item.created;
       if (item.contentText === "$empty") {
         itemData.contentText = "";
       }
