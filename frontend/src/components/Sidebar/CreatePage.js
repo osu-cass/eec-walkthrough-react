@@ -3,6 +3,7 @@ import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import Error from "../General/Error";
+import ImageInput from "../General/ImageInput";
 import "./CreatePage.css";
 
 // button and modal for creating a new page
@@ -15,6 +16,7 @@ function CreatePage(props) {
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [checked, setChecked] = useState(0);
+  const [imageUpload, setImageUpload] = useState(null);
 
   function handleClose() {
     setShow(false);
@@ -137,7 +139,6 @@ function CreatePage(props) {
           <Button variant="none" onClick={() => handleClose()}>
             <span aria-hidden="true">&times;</span>
           </Button>
-
         </Modal.Header>
 
         <Modal.Body >
@@ -180,9 +181,15 @@ function CreatePage(props) {
           <Row>
             <Col>
               <Form.Group controlId="formURL">
-                <Form.Label className="font-weight-bold">Image URL</Form.Label>
+                <Form.Label className="font-weight-bold">Image</Form.Label>
                 <Form.Control type="text" maxLength="1000" placeholder="Enter URL" onChange={(e) => setUrl(e.target.value)} />
               </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <ImageInput id={0} onNewImage={(newImage) => setImageUpload(newImage)} />
             </Col>
           </Row>
 
