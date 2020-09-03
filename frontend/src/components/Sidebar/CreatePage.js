@@ -87,20 +87,7 @@ function CreatePage(props) {
 
       const obj = await results.json();
 
-      // Reset state
-      setName("");
-      setSummary("");
-      setDescription("");
-      setUrl("");
-      setErrorMessage("");
-      setChecked(0);
-
-      // Close modal
-      handleClose();
-
-      // Reload sidebar after adding
-      props.refresh();
-
+      alert(obj.insertId)
       // redirect to the new page
       window.location.href = `/${props.collectionLink}/${obj.insertId}`;
 
@@ -252,7 +239,7 @@ function CreatePage(props) {
 
         <Modal.Footer className="modal-footer">
           <Button variant="secondary" onClick={() => handleClose()}>Close</Button>
-          <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Page</Button>
+          <Button variant="primary" onClick={() => handleSubmit()}>Submit Page</Button>
         </Modal.Footer>
       </Modal>
     </div >

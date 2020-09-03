@@ -33,7 +33,9 @@ const upload = multer({
   // rejects non jpg or png files
   fileFilter: (req, file, callback) => {
     callback(null, !!imageTypes[file.mimetype]);
-  }
+  },
+  // limit the size of a single image to approximately 6 MB
+  limits: {fileSize: 6 * 1000 * 1000}
 });
 
 
