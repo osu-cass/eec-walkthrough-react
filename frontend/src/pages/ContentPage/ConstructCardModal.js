@@ -875,6 +875,11 @@ function ConstructCardModal(props) {
 
   }
 
+  // handle storing file information for uploaded images
+  function handleNewImage(newImage, index) {
+    //
+  }
+
   return (
     <div className='text-center mx-2'>
 
@@ -1031,6 +1036,7 @@ function ConstructCardModal(props) {
                 <ItemInput
                   title="Text"
                   maxLength="1000"
+                  onNewImage={(newImage, index) => handleNewImage(newImage, index)}
                   handleInput={(e1, e2, e3) => handleInput(e1, e2, e3)}
                   handleLinkValue={(e1, e2) => handleLinkValue(e1, e2)}
                   handleSourceValue={(e1, e2) => handleSourceValue(e1, e2)}

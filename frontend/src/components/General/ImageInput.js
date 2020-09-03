@@ -15,8 +15,7 @@ function ImageInput(props) {
     setFileName(newFileName);
 
     // get file data
-    console.log("e.target.files", e.target.files)
-    props.onNewImage(e.target.files);
+    props.onNewImage(e.target.files[0]);
   }
 
   return (
