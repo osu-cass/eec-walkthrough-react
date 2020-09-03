@@ -56,7 +56,7 @@ function CreatePage(props) {
 
     // see if the url is still valid
     if (!imageUrl.length) {
-      setErrorMessage("Error: Empty image url");
+      setErrorMessage("Error: Invalid image to upload");
       return;
     }
 
@@ -87,7 +87,6 @@ function CreatePage(props) {
 
       const obj = await results.json();
 
-      alert(obj.insertId)
       // redirect to the new page
       window.location.href = `/${props.collectionLink}/${obj.insertId}`;
 

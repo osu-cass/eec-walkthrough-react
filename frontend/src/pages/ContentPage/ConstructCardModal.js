@@ -304,6 +304,57 @@ function ConstructCardModal(props) {
       submitTitle = cardTitleMode;
     }
 
+    // Get all of the selected files to upload
+    const uploadImages = [];
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].imageToUpload) {
+        uploadImages.push(copy[i].imageToUpload);
+      }
+    }
+
+    // see if we need to upload any images
+    if (uploadImages.length) {
+      const formData = new FormData();
+      for (let i = 0; i < uploadImages.length; i++) {
+        formData.append("images", uploadImages[i]);
+      }
+      const results = await fetch("/api/files/bulk", {
+        method: "POST",
+        body: formData
+      });
+      console.log(formData)
+      if (results.ok) {
+        const obj = await results.json();
+        const urls = obj.urls;
+
+        // update the urls for all of the items
+        for (let i = 0; i < urls.length; i++) {
+          for (let j = 0; j < copy.length; j++) {
+            if (copy[j].imageToUpload) {
+              copy[j].imageToUpload = null;
+              copy[j].contentUrl = urls[j];
+              break;
+            }
+          }
+        }
+        setItems(copy);
+      } else {
+        console.error("Failed to upload images.");
+      }
+    }
+    console.log(copy)
+
+    // see if all graphics are still valid
+    for (let i = 0; i < copy.length; i++) {
+      const item = copy[i];
+      if (item.contentType === 2) {
+        if (!item.contentUrl.length) {
+          setErrorMessage("Error: Invalid file to upload on line " + (i + 1));
+          return;
+        }
+      }
+    }
+
     // Prepare data for new card
     const cardData = {
       headerId: props.headerId,
@@ -633,7 +684,7 @@ function ConstructCardModal(props) {
           break;
         }
       } else if (item.contentType === 2) { // label + url
-        if (item.contentLabel === "" || item.contentUrl === "") {
+        if (item.contentLabel === "" || (item.contentUrl === "" && !item.imageToUpload)) {
           emptyFound = true;
           newErrorMessage = "Error: Graphic is not filled out completely on line " + (i + 1);
           break;
