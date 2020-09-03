@@ -217,7 +217,7 @@ function CreatePage(props) {
 
           <Row>
             <Col>
-              <ImageInput id={0} onNewImage={(newImage) => {setImageUpload(newImage[0]); console.log(newImage[0])}} />
+              <ImageInput id={0} onNewImage={(newImage) => setImageUpload(newImage)} />
             </Col>
           </Row>
 

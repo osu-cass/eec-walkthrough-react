@@ -1,6 +1,7 @@
 import React, {Fragment, useState, useEffect} from "react";
 import FormControl from "react-bootstrap/FormControl";
 import Dropdown from "react-bootstrap/Dropdown";
+import ImageInput from "../../components/General/ImageInput";
 import PropTypes from "prop-types";
 
 // An input field for adding or modifying items in a card modal
@@ -126,6 +127,9 @@ function ItemInput(props) {
             onChange={(e) => props.handleInput(e, props.index, 3)}
             required
           />
+          <div className="col px-0">
+            <ImageInput id={props.index} onNewImage={(newImage) => props.onNewImage(newImage, props.index)} />
+          </div>
           <Dropdown className="source-select-drop-down-menu ml-2">
             <Dropdown.Toggle variant="outline-dark">
               {sourceText}
@@ -222,10 +226,11 @@ function ItemInput(props) {
 export default ItemInput;
 
 ItemInput.propTypes = {
-  contentType: PropTypes.any,
+  contentType: PropTypes.number,
   value: PropTypes.any,
-  handleInput: PropTypes.any,
-  index: PropTypes.any,
+  handleInput: PropTypes.func,
+  onNewImage: PropTypes.func,
+  index: PropTypes.number,
   handleLinkValue: PropTypes.func,
   handleSourceValue: PropTypes.func,
   internal: PropTypes.number,
