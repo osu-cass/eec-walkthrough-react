@@ -9,7 +9,7 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const app = express();
 
-// JSON middleware
+// check that JSON body is valid
 app.use((req, res, next) => {
   bodyParser.json()(req, res, err => {
     if (err) {

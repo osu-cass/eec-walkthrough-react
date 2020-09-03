@@ -46,11 +46,18 @@ function CreatePage(props) {
 
       if (results.ok) {
         const obj = await results.json();
-        imageUrl = "basic";//obj.url;
+        imageUrl = obj.url;
+        setUrl(imageUrl);
+        setImageUpload(null);
       } else {
         console.error("Failed to upload image.");
-        imageUrl = "*";
       }
+    }
+
+    // see if the url is still valid
+    if (!imageUrl.length) {
+      setErrorMessage("Error: Empty image url");
+      return;
     }
 
     // See if this page is internal only
