@@ -33,6 +33,27 @@ function CreatePage(props) {
       return;
     }
 
+    let imageUrl = url;
+
+    // See if we are uploading a new image
+    if (imageUpload !== null) {
+      const formData = new FormData();
+      formData.append("image", imageUpload);
+      const results = await fetch("/api/files/single", {
+        method: "POST",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        imageUrl = "basic";//obj.url;
+      } else {
+        console.error("Failed to upload image.");
+        imageUrl = "*";
+      }
+    }
+
+    // See if this page is internal only
     let internal = 0;
     if (document.getElementById("internal-modal-checkbox").checked) {
       internal = 1;
@@ -44,7 +65,7 @@ function CreatePage(props) {
       name: name,
       title: summary,
       description: description,
-      imageUrl: url,
+      imageUrl: imageUrl,
       internal: internal
     };
 
@@ -101,7 +122,7 @@ function CreatePage(props) {
     let emptyFound = false;
     let newErrorMessage = errorMessage;
     // Empty url
-    if (!url.length) {
+    if (!url.length && imageUpload === null) {
       emptyFound = true;
       newErrorMessage = "Error: Empty image url";
     }
@@ -189,7 +210,7 @@ function CreatePage(props) {
 
           <Row>
             <Col>
-              <ImageInput id={0} onNewImage={(newImage) => setImageUpload(newImage)} />
+              <ImageInput id={0} onNewImage={(newImage) => {setImageUpload(newImage[0]); console.log(newImage[0])}} />
             </Col>
           </Row>
 
