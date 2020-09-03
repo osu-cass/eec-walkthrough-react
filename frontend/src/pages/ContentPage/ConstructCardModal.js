@@ -322,7 +322,7 @@ function ConstructCardModal(props) {
         method: "POST",
         body: formData
       });
-      console.log(formData)
+
       if (results.ok) {
         const obj = await results.json();
         const urls = obj.urls;
@@ -332,7 +332,7 @@ function ConstructCardModal(props) {
           for (let j = 0; j < copy.length; j++) {
             if (copy[j].imageToUpload) {
               copy[j].imageToUpload = null;
-              copy[j].contentUrl = urls[j];
+              copy[j].contentUrl = urls[i];
               break;
             }
           }
@@ -342,7 +342,6 @@ function ConstructCardModal(props) {
         console.error("Failed to upload images.");
       }
     }
-    console.log(copy)
 
     // see if all graphics are still valid
     for (let i = 0; i < copy.length; i++) {
@@ -463,6 +462,57 @@ function ConstructCardModal(props) {
     let submitTitle = title;
     if (cardTitleMode !== "") {
       submitTitle = cardTitleMode;
+    }
+
+    // Get all of the selected files to upload
+    const uploadImages = [];
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].imageToUpload) {
+        uploadImages.push(copy[i].imageToUpload);
+      }
+    }
+
+    // see if we need to upload any images
+    if (uploadImages.length) {
+      const formData = new FormData();
+      for (let i = 0; i < uploadImages.length; i++) {
+        formData.append("images", uploadImages[i]);
+      }
+      const results = await fetch("/api/files/bulk", {
+        method: "POST",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        const urls = obj.urls;
+
+        // update the urls for all of the items
+        for (let i = 0; i < urls.length; i++) {
+          for (let j = 0; j < copy.length; j++) {
+            if (copy[j].imageToUpload) {
+              copy[j].imageToUpload = null;
+              copy[j].contentUrl = urls[i];
+              break;
+            }
+          }
+        }
+        setItems(copy);
+      } else {
+        console.error("Failed to upload images.");
+      }
+    }
+
+    // see if all graphics are still valid
+    for (let i = 0; i < copy.length; i++) {
+      const item = copy[i];
+      if (item.contentType === 2) {
+        console.log(item)
+        if (!item.contentUrl.length) {
+          setErrorMessage("Error: Invalid file to upload on line " + (i + 1));
+          return;
+        }
+      }
     }
 
     // Prepare data for new card
