@@ -877,7 +877,10 @@ function ConstructCardModal(props) {
 
   // handle storing file information for uploaded images
   function handleNewImage(newImage, index) {
-    //
+    const key = index.toString();
+    const copy = [...items];
+    copy[key].imageToUpload = newImage;
+    setItems(copy);
   }
 
   return (

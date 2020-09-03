@@ -120,7 +120,7 @@ function ItemInput(props) {
             rows="1"
             maxLength="1000"
             className={props.internal ? "internal-modal-item" : ""}
-            placeholder="Graphic URL"
+            placeholder="Image URL"
             value={props.value.contentUrl}
             aria-label="Insert Image URL"
             aria-describedby="basic-addon1"
