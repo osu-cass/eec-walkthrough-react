@@ -42,7 +42,7 @@ const upload = multer({
 // confirm that the user is a editor or admin
 const checkUser = async (req, res, next) => {
   if (!await roleCheck(3, req.auth.userId)) {
-    res.status(401).send({error: "Unauthorized user attempting to upload a file."});
+    res.status(401).send({error: "Unauthorized user attempting to upload file(s)."});
   } else {
     next();
   }
@@ -50,7 +50,7 @@ const checkUser = async (req, res, next) => {
 
 
 // upload a single file
-app.post('/single', requireAuth, checkUser, upload.single("image"), async (req, res) => {
+app.post("/single", requireAuth, checkUser, upload.single("image"), async (req, res) => {
 
   try {
 
@@ -58,6 +58,37 @@ app.post('/single', requireAuth, checkUser, upload.single("image"), async (req, 
 
     if (req.file) {
       res.status(201).json({url: `/uploads/${req.file.filename}`});
+    } else {
+      res.status(401).send({error: "Invalid file"});
+    }
+
+  } catch(err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// upload multiple files
+app.post("/bulk", requireAuth, checkUser, upload.array("images"), async (req, res) => {
+
+  try {
+
+    console.log("Upload multiple files");
+
+    // if files are valid, return an array of image urls
+    if (req.files.length) {
+      const urlArray = [];
+      for (let i = 0; i < req.files.length; i++) {
+        urlArray.push(`/uploads/${req.files[i].filename}`);
+      }
+
+      const finalResults = {
+        urls: urlArray
+      };
+
+      res.status(201).json(finalResults);
     } else {
       res.status(401).send({error: "Invalid file"});
     }
