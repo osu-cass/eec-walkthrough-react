@@ -4,6 +4,7 @@
 const multer = require("multer");
 const express = require("express");
 const crypto = require("crypto");
+const fs = require("fs");
 const app = express();
 const {
   requireAuth,
@@ -22,7 +23,16 @@ const imageTypes = {
 // define file upload settings
 const upload = multer({
   storage: multer.diskStorage({
-    destination: "../frontend/public/uploads/",
+    destination: (req, file, callback) => {
+      const {userId} = req.auth.userId;
+      const dir = `../frontend/public/uploads/user_${req.auth.userId}/`;
+      fs.exists(dir, exist => {
+        if (!exist) {
+          return fs.mkdir(dir, error => callback(error, dir));
+        }
+        return callback(null, dir);
+      })
+    },
     filename: (req, file, callback) => {
       // store image files with the correct extension.
       const basename = crypto.pseudoRandomBytes(16).toString("hex");
@@ -57,7 +67,7 @@ app.post("/single", requireAuth, checkUser, upload.single("image"), async (req, 
     console.log("Upload a file");
 
     if (req.file) {
-      res.status(201).json({url: `/uploads/${req.file.filename}`});
+      res.status(201).json({url: `/uploads/user_${req.auth.userId}/${req.file.filename}`});
     } else {
       res.status(401).send({error: "Invalid file"});
     }
@@ -81,7 +91,7 @@ app.post("/bulk", requireAuth, checkUser, upload.array("images"), async (req, re
     if (req.files.length) {
       const urlArray = [];
       for (let i = 0; i < req.files.length; i++) {
-        urlArray.push(`/uploads/${req.files[i].filename}`);
+        urlArray.push(`/uploads/user_${req.auth.userId}/${req.files[i].filename}`);
       }
 
       const finalResults = {
