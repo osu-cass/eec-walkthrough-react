@@ -80,14 +80,18 @@
 
 \section{Introduction}
 This document describes all of the API endpoints for the EEC Walkthrough application.
-The document is organized by route name and each API endpoint includes a general description, the expected input, and  the expected output. This API uses cookies to keep track of the user who is making requests. This means that each of these endpoints will have access to all user information for the current user even if it is not requested in the body. This includes ID, username, first name, last name, email, and their role. All endpoints also have the option to return an error code. This will be a value between 400 and 500. In the case of a validation error an object with the property "errors" will be returned, which is an array of objects that describe what was wrong with the contents of the body. All other errors will return an object with the property "error", which is a string that describes the error.
+The document is organized by route name and each API endpoint includes a general description, the expected input, and  the expected output.
+
+This API uses cookies to keep track of the user who is making requests. This means that each of these endpoints will have access to all user information for the current user even if it is not requested in the body. This includes ID, username, first name, last name, email, and their role. All endpoints also have the option to return an error code. This will have a status code between 400 and 500. In the case of a validation error an object with the property "errors" will be returned, which is an array of objects that describe what was wrong with the request body. All other errors will return an object with the property "error", which is a string that describes the error.
+
+To make handling responses from the API easier, all responses return a JSON object. To make it easier to tell what requests are being made to the API (as apposed to requests to get files), each API request starts with "api".
 
 \section{API Endpoints}
 
 \subsection{Cards Endpoints}
 
 \noindent
-\textbf{\textcolor{Green}{POST} api/cards/} \\
+\textbf{\textcolor{Green}{POST} api/cards} \\
 Creates a new card. Only editors and admins can use this endpoint.
 \begin{itemize}
     \item HeaderId: The ID of the header that this card belongs to.
@@ -126,6 +130,9 @@ Creates a new card. Only editors and admins can use this endpoint.
   ]
 }
 \end{lstlisting}
+\begin{itemize}
+  \item insertId: The ID of the newly created card.
+\end{itemize}
 \begin{lstlisting}[caption=Example Response]
 { 
   insertId: 10
@@ -138,7 +145,8 @@ Creates a new card. Only editors and admins can use this endpoint.
 \textbf{\textcolor{Maroon}{DELETE} api/cards/:cardId/changes} \\
 Delete an unpublished card / suggested changes to a card. Only editors and admins can use this endpoint.
 \begin{itemize}
-    \item cardId: The ID of the card to delete.
+  \item cardId: The ID of the card to delete.
+  \item affectedRows: The number of table rows affected by this action.
 \end{itemize}
 \begin{lstlisting}[caption=Example Response]
 { 
@@ -153,6 +161,7 @@ Delete an unpublished card / suggested changes to a card. Only editors and admin
 Delete a specific card (including published cards). Only admins can use this endpoint.
 \begin{itemize}
     \item cardId: The ID of the card to delete.
+    \item affectedRows: The number of table rows affected by this action.
 \end{itemize}
 \begin{lstlisting}[caption=Example Response]
 { 
@@ -201,6 +210,9 @@ Updates a card. If the card is unpublished this will simply change the card. If 
   ]
 }
 \end{lstlisting}
+\begin{itemize}
+  \item cardId: The ID of the current card.
+\end{itemize}
 \begin{lstlisting}[caption=Example Response]
 { 
   cardId: 1
@@ -256,6 +268,9 @@ Changes the selected cards position relative to other cards when displayed. If w
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/cards/titles} \\
 Gets a list of suggested titles for cards. Editors can use these suggested titles to quickly name cards that are similar across pages. Any user can use this endpoint.
+\begin{itemize}
+    \item titles: An array of strings that will be used as the suggested titles.
+\end{itemize}
 \begin{lstlisting}[caption=Example Response]
 { 
   titles: [
@@ -286,6 +301,176 @@ Replaces the current list of suggested card titles. Only admins can use this end
 \begin{lstlisting}[caption=Example Response]
 { 
   titleCount: 3
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{Categories Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/categories/all} \\
+Gets all of the catogories and their respective pages. Users without an account, or external users will get all published categories and pages that are not internal. Internal users, editors, and admins will get all categories and pages.
+\begin{itemize}
+    \item categoryId: The ID of the category.
+    \item created: The date that the category was created.
+    \item description: A general description of the category.
+    \item internal: Whether the category is viewable by the public (value of 0) or just by internal users (value of 1).
+    \item pluralName: The plural name of the category.
+    \item singleName: The singular name of the category.
+    \item userId: The ID of the user who created the category.
+    \item pages: The list of pages that belong to the category.
+    \begin{itemize}
+        \item approved: Whether this page is published and viewable in view mode.
+        \item description: The description of the page.
+        \item internal: Whether the page is viewable by the public (value of 0) or just by internal users (value of 1).
+        \item name: The name of the page.
+        \item pageId: The ID of the page.
+        \item pageType: The category ID that the page belongs to.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  categories: [
+    {
+      categoryId: 5,
+      created: "2020-07-18T03:11:32.000Z",
+      description: "Standard recommended approaches for performing...",
+      internal: 0,
+      pluralName: "Assessments",
+      singleName: "Assessment",
+      userId: 51,
+      pages: [
+        approved: 1,
+        description: "Cybersecurity is...",
+        internal: 1,
+        name: "Cybersecurity",
+        pageId: 62,
+        pageType: 5
+      ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/categories/names} \\
+Gets the names and IDs of all catogories. Users without an account, or external users will get all published categories that are not internal. Internal users, editors, and admins will get all categories.
+\begin{itemize}
+    \item categoryId: The ID of the category.
+    \item singleName: The singular name of the category.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  categories: [
+    {
+      categoryId: 5,
+      singleName: "Assessment"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/categories/:categoryId} \\
+Gets a single category and all of its pages. Users without an account, or external users will get a published category and the pages that are not internal. Internal users, editors, and admins will get the category and all of the pages.
+\begin{itemize}
+    \item categoryId: The ID of the category.
+    \item created: The date that the category was created.
+    \item description: A general description of the category.
+    \item internal: Whether the category is viewable by the public (value of 0) or just by internal users (value of 1).
+    \item pluralName: The plural name of the category.
+    \item singleName: The singular name of the category.
+    \item userId: The ID of the user who created the category.
+    \item pages: The list of pages that belong to the category.
+    \begin{itemize}
+        \item approved: Whether this page is published and viewable in view mode.
+        \item description: The description of the page.
+        \item internal: Whether the page is viewable by the public (value of 0) or just by internal users (value of 1).
+        \item name: The name of the page.
+        \item pageId: The ID of the page.
+        \item pageType: The category ID that the page belongs to.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  categoryId: 5,
+  created: "2020-07-18T03:11:32.000Z",
+  description: "Standard recommended approaches for performing...",
+  internal: 0,
+  pluralName: "Assessments",
+  singleName: "Assessment",
+  userId: 51,
+  pages: [
+    approved: 1,
+    description: "Cybersecurity is...",
+    internal: 1,
+    name: "Cybersecurity",
+    pageId: 62,
+    pageType: 5
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/categories} \\
+Creates a new category. This endpoint can only be used by admins.
+\begin{itemize}
+    \item description: A general description of the category.
+    \item internal: Whether the category is viewable by the public (value of 0) or just by internal users (value of 1).
+    \item pluralName: The plural name of the category.
+    \item singleName: The singular name of the category.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  description: "Standard recommended approaches for performing...",
+  internal: 0,
+  pluralName: "Assessments",
+  singleName: "Assessment",
+}
+\end{lstlisting}
+\begin{itemize}
+  \item insertId: The ID of the newly created category.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  insertId: 10
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/categories/:categoryId} \\
+Updates a category. This endpoint can only be used by admins.
+\begin{itemize}
+    \item categoryId: The ID of the category to be updated.
+    \item description: A general description of the category.
+    \item internal: Whether the category is viewable by the public (value of 0) or just by internal users (value of 1).
+    \item pluralName: The plural name of the category.
+    \item singleName: The singular name of the category.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  description: "Standard recommended approaches for performing...",
+  internal: 0,
+  pluralName: "Assessments",
+  singleName: "Assessment",
+}
+\end{lstlisting}
+\begin{itemize}
+  \item categoryId: The ID of the category.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  categoryId: 10
 }
 \end{lstlisting}
 \\~\\
