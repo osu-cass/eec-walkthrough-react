@@ -1,0 +1,297 @@
+\documentclass[onecolumn, draftclsnofoot,10pt, compsoc, usenames, dvipsnames]{IEEEtran}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{geometry}
+\geometry{textheight=9.5in, textwidth=7in}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+        \begin{center}
+    	%\includegraphics[height=4cm]{coe_v_spot1}
+    	\end{center}
+        \hfill 
+        % 4. If you have a logo, use this includegraphics command to put it on the coversheet.
+        %\includegraphics[height=4cm]{CompanyLogo}   
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \vspace{50pt}
+
+            \textbf{\Huge\ Energy Efficiency Center}\par
+            \vspace{5pt}
+            \textbf{\Huge\ Industrial Walkthrough Checklist}\par
+            \vspace{5pt}
+            \textbf{\Huge\ \& Reference API}\par
+            \vspace{10pt}
+            {\large\today}\par
+            \vspace{350pt}
+            {\large Prepared by }\par
+            \vspace{15pt}
+            {\Huge\ Zachary Thomas}
+            \vspace{30pt}
+        }
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+\clearpage
+
+\section{Introduction}
+This document describes all of the API endpoints for the EEC Walkthrough application.
+The document is organized by route name and each API endpoint includes a general description, the expected input, and  the expected output. This API uses cookies to keep track of the user who is making requests. This means that each of these endpoints will have access to all user information for the current user even if it is not requested in the body. This includes ID, username, first name, last name, email, and their role. All endpoints also have the option to return an error code. This will be a value between 400 and 500. In the case of a validation error an object with the property "errors" will be returned, which is an array of objects that describe what was wrong with the contents of the body. All other errors will return an object with the property "error", which is a string that describes the error.
+
+\section{API Endpoints}
+
+\subsection{Cards Endpoints}
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/cards/} \\
+Creates a new card. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item HeaderId: The ID of the header that this card belongs to.
+    \item cardType: The type of card to create. Examples include: default card, internal card, thumbnail gallery, internal thumbnail gallery, and more.
+    \item title: The title of the card.
+    \item items: The items that will be included in the card.
+    \begin{itemize}
+        \item cardId: The ID of the card that this item belongs to.
+        \item indentation: The level of indentation (0 is none, 3 is max).
+        \item iconType: The ID of the icon that is displayed at the start of the item.
+        \item contentText: The main body of text for the item.
+        \item contentUrl: The URL of the item. For graphic items this will be the URL of the image to display, for link items this will be the URL to direct the user to.
+        \item contentLabel: The bold title of the item, this is shown before the content text.
+        \item contentMode: A special setting that depends on the item in particular. For links this will be used to describe the type of link (internal, external, internal download, external download).
+        \item internal: Determines if the item should be viable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+        \item sourceId: The ID of the source that this item is referencing.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  headerId: 2,
+  cardType: 0,
+  title: "Best Practices",
+  items: [
+   {
+     cardId: 1,
+     indentation: 0,
+     iconType: 16,
+     contentText: "An informational page with analysis tools",
+     contentUrl: "https://www.bpa.gov/EE/Sectors/Industrial/Pages/Co",
+     contentLabel: "Bonneville Power Administration",
+     contentMode: 0,
+     internal: 0,
+     sourceId: 2
+   }
+  ]
+}
+\end{lstlisting}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 10
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/cards/:cardId/changes} \\
+Delete an unpublished card / suggested changes to a card. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item cardId: The ID of the card to delete.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/cards/:cardId} \\
+Delete a specific card (including published cards). Only admins can use this endpoint.
+\begin{itemize}
+    \item cardId: The ID of the card to delete.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/cards/:cardId} \\
+Updates a card. If the card is unpublished this will simply change the card. If the card is published then this will add a suggested edit to the card that will need to be published before it will replace the original. If the card is both published and has an edited version, then this will replace the edited version. Only an editor or an admins can use this endpoint.
+\begin{itemize}
+    \item cardId: The ID of the card to update.
+    \item cardType: The type of card to create. Examples include: default card, internal card, thumbnail gallery, internal thumbnail gallery, and more.
+    \item title: The title of the card.
+    \item items: The items that will be included in the card.
+    \begin{itemize}
+        \item cardId: The ID of the card that this item belongs to.
+        \item indentation: The level of indentation (0 is none, 3 is max).
+        \item iconType: The ID of the icon that is displayed at the start of the item.
+        \item contentText: The main body of text for the item.
+        \item contentUrl: The URL of the item. For graphic items this will be the URL of the image to display, for link items this will be the URL to direct the user to.
+        \item contentLabel: The bold title of the item, this is shown before the content text.
+        \item contentMode: A special setting that depends on the item in particular. For links this will be used to describe the type of link (internal, external, internal download, external download).
+        \item internal: Determines if the item should be viable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+        \item sourceId: The ID of the source that this item is referencing.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  cardType: 0,
+  title: "Best Practices",
+  items: [
+   {
+     cardId: 1,
+     indentation: 0,
+     iconType: 16,
+     contentText: "An informational page with analysis tools",
+     contentUrl: "https://www.bpa.gov/EE/Sectors/Industrial/Pages/Co",
+     contentLabel: "Bonneville Power Administration",
+     contentMode: 0,
+     internal: 0,
+     sourceId: 2
+   }
+  ]
+}
+\end{lstlisting}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  cardId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/cards/:cardId/publish} \\
+Publishes a card. If the card is unpublished this will simply approve the card and show it publicly. If the card has a published version and an edit then the edit will replace the current published version while becoming approved. Only an admins can use this endpoint.
+\begin{itemize}
+    \item cardId: The ID of the card to publish.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  cardId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/cards/:cardId/unpublish} \\
+Unpublishes a card. If the card is published this will simply make the card unapproved and unviewable by the public. If the card has a published version and an edit then the edit will  be replaced by the current published version while becoming unapproved. Only an admins can use this endpoint.
+\begin{itemize}
+    \item cardId: The ID of the card to unpublish.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  cardId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/cards/:cardId/move/:direction/:mode} \\
+Changes the selected cards position relative to other cards when displayed. If we are moving an unpublished card, it will move the card relative to all cards (excluding its published version). If we are moving a published card it will move relative to published cards (skipping over unpublished cards). Only editors or admins can move an unpublished card. Only admins can move a published card.
+\begin{itemize}
+    \item cardId: The ID of the card to move.
+    \item direction: A value of 1 moves the card up one row. A value of 0 moves the card down one row.
+    \item mode: States what type of card we want to move. A value of 0 represents an unpublished card. A value of 1 represents a published card.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  cardId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/cards/titles} \\
+Gets a list of suggested titles for cards. Editors can use these suggested titles to quickly name cards that are similar across pages. Any user can use this endpoint.
+\begin{lstlisting}[caption=Example Response]
+{ 
+  titles: [
+    "General Off Site Resource Links",
+    "Best Practices",
+    "Caveats"
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/cards/titles} \\
+Replaces the current list of suggested card titles. Only admins can use this endpoint.
+\begin{itemize}
+    \item titles: An array of strings that will be used as the new suggested titles.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  titles: [
+    "Data Collection Guides",
+    "Rules of Thumb",
+    "Caveats"
+  ]
+}
+\end{lstlisting}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  titleCount: 3
+}
+\end{lstlisting}
+\\~\\
+
+
+\section{Contact Information}
+If you have any questions about this API that are not answered in this document feel free to reach out to me by email at silverware13@gmail.com. 
+
+\end{document}

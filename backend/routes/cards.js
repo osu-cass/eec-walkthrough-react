@@ -430,7 +430,7 @@ app.post("/titles", requireAuth, postCardTitleVal.validation, async (req, res) =
     // create a list of titles
     const results = await createCardTitles(titles);
 
-    if (results.titlesUpdated >= 0) {
+    if (results.titleCount >= 0) {
       res.status(201).send(results);
     } else {
 
