@@ -609,7 +609,7 @@ Changes the selected header's position relative to other headers when displayed.
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/home} \\
-Gets all of the data displayed on the homepage, with the exception of the sponsors.
+Gets all of the data displayed on the homepage, with the exception of the sponsors. Any user can use this endpoint.
 \begin{itemize}
     \item mainHeader: The main header text for the homepage.
     \item secondaryHeader: The header for the card that describes the categories.
@@ -666,7 +666,7 @@ Gets all of the data displayed on the homepage, with the exception of the sponso
 
 \noindent
 \textbf{\textcolor{BlueGreen}{PATCH} api/home} \\
-Updates the text that is displayed on the homepage.
+Updates the text that is displayed on the homepage. Only admins can use this endpoint.
 \begin{itemize}
     \item mainHeader: The main header text for the homepage.
     \item secondaryHeader: The header for the card that describes the categories.
@@ -714,7 +714,7 @@ Updates the text that is displayed on the homepage.
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/home/sponsors} \\
-Gets all of the sponsors that should be listed on the homepage.
+Gets all of the sponsors that should be listed on the homepage. Any user can use this endpoint.
 \begin{itemize}
     \item sponsors: The sponsors for this application.
     \begin{itemize}
@@ -745,7 +745,7 @@ Gets all of the sponsors that should be listed on the homepage.
 
 \noindent
 \textbf{\textcolor{BlueGreen}{PATCH} api/home/sponsors} \\
-Updates the list of sponsors that is displayed on the homepage.
+Updates the list of sponsors that is displayed on the homepage. Only admins can use this endpoint.
 \begin{itemize}
     \item sponsors: The sponsors for this application.
     \begin{itemize}
@@ -777,6 +777,95 @@ Updates the list of sponsors that is displayed on the homepage.
 \begin{lstlisting}[caption=Example Response]
 {
   sponsorsUpdated: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{Icon Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/icons/all} \\
+Gets a list of all icons that can be appended to items. Any user can use this endpoint.
+\begin{itemize}
+    \item icons: All possible icons.
+    \begin{itemize}
+        \item iconType: The ID of the icon.
+        \item groupIndex: The type of item this icon represents (disabled = 0, default item = 1, graphics item = 2, link item = 3).
+        \item typeKeyword: The name of the icon when it is being hovered over or selected in a menu.
+        \item typeName: The name of the actual Font Awesome icon.
+        \item color: The color of the icon. Represented by a hexadecimal color code.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  icons: [
+    {
+      iconType: 21,
+      groupIndex: 3,
+      typeKeyword: "Analysis Tool",
+      typeName: "list",
+      color: "#000000"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/icons} \\
+Creates a new icon. Only an admin can use this endpoint.
+\begin{itemize}
+    \item groupIndex: The type of item this icon represents (disabled = 0, default item = 1, graphics item = 2, link item = 3).
+    \item typeKeyword: The name of the icon when it is being hovered over or selected in a menu.
+    \item typeName: The name of the actual Font Awesome icon.
+    \item color: The color of the icon. Represented by a hexadecimal color code.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  groupIndex: 3,
+  typeKeyword: "Analysis Tool",
+  typeName: "list",
+  color: "#000000"
+}
+\end{lstlisting}
+\begin{itemize}
+  \item insertId: The ID of the newly created icon.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 10
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/icons/:iconId} \\
+Updates an icon. Only an admin can use this endpoint.
+\begin{itemize}
+    \item iconId: The ID of the icon.
+    \item groupIndex: The type of item this icon represents (disabled = 0, default item = 1, graphics item = 2, link item = 3).
+    \item typeKeyword: The name of the icon when it is being hovered over or selected in a menu.
+    \item typeName: The name of the actual Font Awesome icon.
+    \item color: The color of the icon. Represented by a hexadecimal color code.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  groupIndex: 3,
+  typeKeyword: "Analysis Tool",
+  typeName: "list",
+  color: "#000000"
+}
+\end{lstlisting}
+\begin{itemize}
+  \item iconId: The ID of the icon.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  iconId: 10
 }
 \end{lstlisting}
 \\~\\

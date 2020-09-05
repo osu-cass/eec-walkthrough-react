@@ -57,6 +57,7 @@ function Home(props) {
     if (results.ok) {
 
       const obj = await results.json();
+      console.log(obj)
       const general = [];
       const links = [];
 
