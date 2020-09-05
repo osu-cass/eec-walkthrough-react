@@ -871,6 +871,77 @@ Updates an icon. Only an admin can use this endpoint.
 \\~\\
 
 
+\subsection{Link Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/links/all/:onlyDead} \\
+Gets a list of all of the published link items. If onlyDead is set to 1, then only show invalid links. Only admins can use this endpoint.
+\begin{itemize}
+    \item links: All links.
+    \begin{itemize}
+        \item itemId: The ID of the link item.
+        \item time: The time the link was last confirmed valid. This value is null if the link is currently invalid.
+        \item title: The text that the link is embedded in.
+        \item url: The URL for the link.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  links: [
+    {
+      itemId: 384,
+      time: "2020-06-29T20:55:45.00Z",
+      title: "U.S. Department of Energy analysis tool",
+      url: "https://www.energy.gov/eere/amo/measur"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/links/:linkId} \\
+Changes the URL of a link item, and updates the last confirmed valid date to the current time. Only admins can use this endpoint.
+\begin{itemize}
+    \item linkId: The ID of the link item.
+    \item url: The new URL for the link item.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  url: "https://www.bpa.gov/EE/Sectors/Industrial/Pages/Compressed-Air.aspx"
+}
+\end{lstlisting}
+\begin{itemize}
+  \item linkId: The ID of the link item.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  linkId: 10
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/links/:linkId/timestamp} \\
+Updates a link item's confirmed valid date to the current time. Only editors or admins can use this endpoint.
+\begin{itemize}
+  \item linkId: The ID of the link item.
+  \item timestamp: The time that the link was confirmed valid.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  timestamp: "2020-06-29T20:55:45.00Z"
+}
+\end{lstlisting}
+\\~\\
+
+
+% \subsection{Page Endpoints}
+
+
 \section{Contact Information}
 If you have any questions about this API that are not answered in this document feel free to reach out to me by email at silverware13@gmail.com. 
 
