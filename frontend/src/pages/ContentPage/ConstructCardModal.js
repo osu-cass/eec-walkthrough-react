@@ -507,7 +507,7 @@ function ConstructCardModal(props) {
     for (let i = 0; i < copy.length; i++) {
       const item = copy[i];
       if (item.contentType === 2) {
-        console.log(item)
+
         if (!item.contentUrl.length) {
           setErrorMessage("Error: Invalid file to upload on line " + (i + 1));
           return;
