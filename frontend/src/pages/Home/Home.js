@@ -94,7 +94,6 @@ function Home(props) {
 
       const obj = await results.json();
       setSponsors(obj.sponsors);
-      console.log(obj)
 
     } else {
       console.error("Error fetching sponsors");

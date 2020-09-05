@@ -88,7 +88,7 @@ To make handling responses from the API easier, all responses return a JSON obje
 
 \section{API Endpoints}
 
-\subsection{Cards Endpoints}
+\subsection{Card Endpoints}
 
 \noindent
 \textbf{\textcolor{Green}{POST} api/cards} \\
@@ -106,7 +106,7 @@ Creates a new card. Only editors and admins can use this endpoint.
         \item contentUrl: The URL of the item. For graphic items this will be the URL of the image to display, for link items this will be the URL to direct the user to.
         \item contentLabel: The bold title of the item, this is shown before the content text.
         \item contentMode: A special setting that depends on the item in particular. For links this will be used to describe the type of link (internal, external, internal download, external download).
-        \item internal: Determines if the item should be viable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+        \item internal: Determines if the item should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
         \item sourceId: The ID of the source that this item is referencing.
     \end{itemize}
 \end{itemize}
@@ -187,7 +187,7 @@ Updates a card. If the card is unpublished this will simply change the card. If 
         \item contentUrl: The URL of the item. For graphic items this will be the URL of the image to display, for link items this will be the URL to direct the user to.
         \item contentLabel: The bold title of the item, this is shown before the content text.
         \item contentMode: A special setting that depends on the item in particular. For links this will be used to describe the type of link (internal, external, internal download, external download).
-        \item internal: Determines if the item should be viable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+        \item internal: Determines if the item should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
         \item sourceId: The ID of the source that this item is referencing.
     \end{itemize}
 \end{itemize}
@@ -251,7 +251,7 @@ Unpublishes a card. If the card is published this will simply make the card unap
 
 \noindent
 \textbf{\textcolor{BlueGreen}{PATCH} api/cards/:cardId/move/:direction/:mode} \\
-Changes the selected cards position relative to other cards when displayed. If we are moving an unpublished card, it will move the card relative to all cards (excluding its published version). If we are moving a published card it will move relative to published cards (skipping over unpublished cards). Only editors or admins can move an unpublished card. Only admins can move a published card.
+Changes the selected card's position relative to other cards when displayed. If we are moving an unpublished card, it will move the card relative to all cards (excluding its published version). If we are moving a published card it will move relative to published cards (skipping over unpublished cards). Only editors or admins can move an unpublished card. Only admins can move a published card.
 \begin{itemize}
     \item cardId: The ID of the card to move.
     \item direction: A value of 1 moves the card up one row. A value of 0 moves the card down one row.
@@ -306,7 +306,7 @@ Replaces the current list of suggested card titles. Only admins can use this end
 \\~\\
 
 
-\subsection{Categories Endpoints}
+\subsection{Category Endpoints}
 
 
 \noindent
@@ -471,6 +471,312 @@ Updates a category. This endpoint can only be used by admins.
 \begin{lstlisting}[caption=Example Response]
 {
   categoryId: 10
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{Header Endpoints}
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/headers} \\
+Creates a new header. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item PageId: The ID of the page that this header belongs to.
+    \item title: The title of the header.
+    \item internal: Determines if the header should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  pageId: 15,
+  title: "Wastewater Overview",
+  internal: 0
+}
+\end{lstlisting}
+\begin{itemize}
+  \item insertId: The ID of the newly created header.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 5
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/headers/:headerId/changes} \\
+Delete an unpublished header / suggested changes to a header. Only editors and admins can use this endpoint.
+\begin{itemize}
+  \item headerId: The ID of the header to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/headers/:headerId} \\
+Delete a specific header (including published headers). Only admins can use this endpoint.
+\begin{itemize}
+    \item headerId: The ID of the header to delete.
+    \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/headers/:headerId} \\
+Updates a header. If the header is unpublished this will simply change the header. If the header is published then this will add a suggested edit to the header that will need to be published before it will replace the original. If the header is both published and has an edited version, then this will replace the edited version. Only an editor or an admins can use this endpoint.
+\begin{itemize}
+    \item headerId: The ID of the header to update.
+    \item title: The title of the header.
+    \item internal: Determines if the header should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  title: "Compressed Air Overview",
+  internal: 0
+}
+\end{lstlisting}
+\begin{itemize}
+  \item headerId: The ID of the current header.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  headerId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/headers/:headerId/publish} \\
+Publishes a header. If the header is unpublished this will simply approve the header and show it publicly. If the header has a published version and an edit then the edit will replace the current published version while becoming approved. Only an admins can use this endpoint.
+\begin{itemize}
+    \item headerId: The ID of the header to publish.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  headerId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/headers/:headerId/unpublish} \\
+Unpublishes a header. If the header is published this will simply make the header unapproved and unviewable by the public. If the header has a published version and an edit then the edit will  be replaced by the current published version while becoming unapproved. Only an admins can use this endpoint.
+\begin{itemize}
+    \item headerId: The ID of the header to unpublish.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  headerId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/headers/:headerId/move/:direction/:mode} \\
+Changes the selected header's position relative to other headers when displayed. If we are moving an unpublished header, it will move the card relative to all cards (excluding its published version). If we are moving a published header it will move relative to published header (skipping over unpublished headers). Only editors or admins can move an unpublished header. Only admins can move a published header.
+\begin{itemize}
+    \item headerId: The ID of the header to move.
+    \item direction: A value of 1 moves the header up one row. A value of 0 moves the header down one row.
+    \item mode: States what type of header we want to move. A value of 0 represents an unpublished header. A value of 1 represents a published header.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  headerId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{Home Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/home} \\
+Gets all of the data displayed on the homepage, with the exception of the sponsors.
+\begin{itemize}
+    \item mainHeader: The main header text for the homepage.
+    \item secondaryHeader: The header for the card that describes the categories.
+    \item sectionTitle: The title on the card that describes the categories.
+    \item sectionFooter: The footer on the card that describes the categories.
+    \item tidbitsHeader: The header for the card describing tidbits.
+    \item tidbitsTitle: The title on the card that describes the tidbits.
+    \item tidbitsFooter: The footer on the card that describes the tidbits.
+    \item linksHeader: The header for the card describing links.
+    \item linksTitlePrefix: The title on the card that is shown before the standard link icons are listed.
+    \item linksTitlePostfixInternal: The title on the card that is shown before the link internal and  external icons.
+    \item linksTitlePostfixDownload: The title on the card that is shown before the link download icon.
+    \item linksFooter: The footer on the card that describes the links.
+    \item disclaimerHeader: The header of the disclaimer card.
+    \item disclaimerText: The text on the disclaimer card.
+    \item categories: The categories viewable by the current user.
+    \begin{itemize}
+        \item categoryId: The ID of the category.
+        \item description: A general description of the category.
+        \item internal: Whether the category is viewable by the public (value of 0) or just by internal users (value of 1).
+        \item pluralName: The plural name of the category.
+        \item singleName: The singular name of the category.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  mainHeader: "Welcome",
+  secondaryHeader: "The purpose of this guide...",
+  sectionTitle: "This guide is broken down into sections:",
+  sectionFooter: "",
+  tidbitsHeader: "Each section...",
+  tidbitsTitle: "These include...",
+  tidbitsFooter: "Note: tidbit types can be...",
+  linksHeader: "Each section also refrences...",
+  linksTitlePrefix: "A preceding icon identifies...",
+  linksTitlePostfixInternal: "A trailing icon...",
+  linksTitlePostfixDownload: "A second trailing icon...",
+  linksFooter: "",
+  disclaimerHeader: "Disclaimer",
+  disclaimerText: "The primary objective...",
+  categories: [
+    {
+      categoryId: 5,
+      description: "Standard recommended...",
+      internal: 0,
+      pluralName: "Assessments",
+      singleName: "Assessment"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/home} \\
+Updates the text that is displayed on the homepage.
+\begin{itemize}
+    \item mainHeader: The main header text for the homepage.
+    \item secondaryHeader: The header for the card that describes the categories.
+    \item sectionTitle: The title on the card that describes the categories.
+    \item sectionFooter: The footer on the card that describes the categories.
+    \item tidbitsHeader: The header for the card describing tidbits.
+    \item tidbitsTitle: The title on the card that describes the tidbits.
+    \item tidbitsFooter: The footer on the card that describes the tidbits.
+    \item linksHeader: The header for the card describing links.
+    \item linksTitlePrefix: The title on the card that is shown before the standard link icons are listed.
+    \item linksTitlePostfixInternal: The title on the card that is shown before the link internal and  external icons.
+    \item linksTitlePostfixDownload: The title on the card that is shown before the link download icon.
+    \item linksFooter: The footer on the card that describes the links.
+    \item disclaimerHeader: The header of the disclaimer card.
+    \item disclaimerText: The text on the disclaimer card.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  mainHeader: "Welcome",
+  secondaryHeader: "The purpose of this guide...",
+  sectionTitle: "This guide is broken down into sections:",
+  sectionFooter: "",
+  tidbitsHeader: "Each section...",
+  tidbitsTitle: "These include...",
+  tidbitsFooter: "Note: tidbit types can be...",
+  linksHeader: "Each section also refrences...",
+  linksTitlePrefix: "A preceding icon identifies...",
+  linksTitlePostfixInternal: "A trailing icon...",
+  linksTitlePostfixDownload: "A second trailing icon...",
+  linksFooter: "",
+  disclaimerHeader: "Disclaimer",
+  disclaimerText: "The primary objective..."
+}
+\end{lstlisting}
+\begin{itemize}
+    \item homePageUpdated: Generic value. Should always have a value of 1, showing that the home page was updated correctly.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  homePageUpdated: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/home/sponsors} \\
+Gets all of the sponsors that should be listed on the homepage.
+\begin{itemize}
+    \item sponsors: The sponsors for this application.
+    \begin{itemize}
+        \item sponsorId: The ID of the sponsor.
+        \item name: The name of the sponsor.
+        \item title: A short description of the sponsor that doubles as a link.
+        \item websiteUrl: The URL for the sponsors website.
+        \item imageUrl: The URL for the sponsors image.
+        \item orderIndex: A value that determines the order that the sponsors are listed in. A lower value will appear before a larger value.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  sponsors: [
+    {
+      sponsorId: 5,
+      name: "Industrial Assessment Center",
+      title: "U.S. Department of Energy...",
+      websiteUrl: "https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs",
+      imageUrl: "/images/IAC.png",
+      orderIndex: 0
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/home/sponsors} \\
+Updates the list of sponsors that is displayed on the homepage.
+\begin{itemize}
+    \item sponsors: The sponsors for this application.
+    \begin{itemize}
+        \item sponsorId: The ID of the sponsor.
+        \item name: The name of the sponsor.
+        \item title: A short description of the sponsor that doubles as a link.
+        \item websiteUrl: The URL for the sponsors website.
+        \item imageUrl: The URL for the sponsors image.
+        \item orderIndex: A value that determines the order that the sponsors are listed in. A lower value will appear before a larger value.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  sponsors: [
+    {
+      sponsorId: 5,
+      name: "Industrial Assessment Center",
+      title: "U.S. Department of Energy...",
+      websiteUrl: "https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs",
+      imageUrl: "/images/IAC.png",
+      orderIndex: 0
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item sponsorsUpdated: Generic value. Should always have a value of 1, showing that the sponsors were updated correctly.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  sponsorsUpdated: 1
 }
 \end{lstlisting}
 \\~\\
