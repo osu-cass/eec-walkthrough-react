@@ -112,10 +112,10 @@ app.get("/sponsors", async (req, res) => {
     console.log("Get homepage sponsors");
 
     const results = await getSponsors();
-    if (results.sponsorId) {
+    if (results.sponsors.length >= 0) {
       res.status(200).send(results);
     } else {
-      res.status(404).send({error: "No sponsors found."});
+      res.status(500).send({error: "An internal server error occurred. Please try again later."});
     }
 
   } catch (err) {

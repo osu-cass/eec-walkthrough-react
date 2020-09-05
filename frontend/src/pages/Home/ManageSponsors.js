@@ -329,8 +329,8 @@ function ManageSponsors(props) {
         <Modal.Body>
 
           {sponsors.map((sponsor, i) =>
-            <Fragment>
-              <Row className="my-2" key={sponsor.sponsorId}>
+            <Fragment key={sponsor.sponsorId}>
+              <Row className="my-2">
                 <div className="input-group">
                   <span className="ml-2 mr-3">
                     <button className='btn btn-danger btn-sm ml-2'
