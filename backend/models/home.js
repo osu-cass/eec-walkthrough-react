@@ -67,8 +67,9 @@ async function getSponsors() {
       return {sponsorId: 0};
     }
 
-    const finalResults = results[0];
-    finalResults.sponsorId = 1;
+    const finalResults = {
+      sponsors: results[0]
+    };
 
     return finalResults;
 
