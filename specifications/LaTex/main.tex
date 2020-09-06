@@ -1444,6 +1444,91 @@ Returns a report of all of the published content within the date range. Only edi
 \\~\\
 
 
+\subsection{Request Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/requests/all} \\
+Gets a list of all publish requests that are awaiting approval. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item requests: All publish requests that are awaiting approval.
+    \begin{itemize}
+        \item requestId: The ID of the publish request.
+        \item status: The status of the publish request.
+        \item title: The title of the publish request.
+        \item description: The description of the request. This will often include more information about the request and why it is needed.
+        \item userId: The ID of the user who has opened the publish request.
+        \item userName: The username of the user who has opened the publish request.
+        \item created: The date that the publish request was created.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  requests: [
+    {
+      requestId: 2,
+      status: 1,
+      title: "New Request",
+      description: "This request includes a few pages that I want approved",
+      userId: 58,
+      userName: "testUser",
+      created: "2020-09-04T20:55:06.000Z",
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/requests/:requestId} \\
+Gets all the data related to the specific request. Only editors and admins can use this endpoint.
+\begin{itemize}
+  \item WIP
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  requestId: 2,
+  status: 1,
+  title: "New Request",
+  description: "This request includes a few pages that I want approved",
+  userId: 58,
+  userName: "testUser",
+  created: "2020-09-04T20:55:06.000Z",
+  comments: [
+    {
+      commentId: 2,
+      requestId: 2,
+      comment: "Looks good.",
+      review: 2,
+      userId: 42,
+      username: "Silverware"
+    }
+  ],
+  objects: [
+    {
+      objectType: 1,
+      pageId: 48,
+      pageType: 2,
+      approved: 0,
+      categoryName: "Technologies",
+      created: "2020-07-02T22:10:36.000Z",
+      description: "Vapor compression is...",
+      imageUrl: "https:///live.staticflickr.com/65535/...",
+      internal: 0,
+      name: "Refrigeration",
+      objectType: 1,
+      pageId: 48,
+      pageType: 2,
+      title: "Refrigeration technology...",
+      userId: 51
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
 \section{Contact Information}
 If you have any questions about this API that are not answered in this document feel free to reach out to me by email at silverware13@gmail.com. 
 
