@@ -939,7 +939,509 @@ Updates a link item's confirmed valid date to the current time. Only editors or 
 \\~\\
 
 
-% \subsection{Page Endpoints}
+\subsection{Page Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/pages/:pageId/all} \\
+Gets all of the page info, headers, cards, and items for a single page. Any user can use this endpoint. Only internal users will be allowed to get info about private or unpublished pages, headers, cards, and items.
+\begin{itemize}
+    \item pageId: The ID of the page.
+    \item pageType: The ID of the category that this page belongs to.
+    \item name: The name of the page.
+    \item title: The title of the initial card that shows at the top of the page.
+    \item description: Text that describes the general subject of the page.
+    \item imageUrl: The URL for the image shown at the top of the page.
+    \item created: The time that the page was created, last updated, or last published (whichever was most recent).
+    \item userId: The ID of the user who created or last updated the page (whichever was most recent).
+    \item approved: Lets us know if the page is published (1) or unpublished (0).
+    \item internal: Determines if the page should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+    \item tempPageId: If the page is published and there is an edited version the page, then this is the same as the pageId, otherwise null.
+    \item tempPageType: If the page is published and there is an edited version the page, then this is the same as the pageType, except in relation to the unpublished version, otherwise null.
+    \item tempTitle: If the page is published and there is an edited version the page, then this is the same as the title, except in relation to the unpublished version, otherwise null.
+    \item tempUserId: If the page is published and there is an edited version the page, then this is the same as the userId, except in relation to the unpublished version, otherwise null.
+    \item tempImageUrl: If the page is published and there is an edited version of the page, then this is similar to imageUrl, except in relation to the unpublished version, otherwise null.
+    \item sources: All of the sources that are referenced on this page.
+        \begin{itemize}
+            \item pageId: The page ID of the page that this source belongs to.
+            \item sourceId: The ID of this source.
+            \item text: The citation text that describes this source (IEEE style).
+            \item url: An optional URL that links to a web page related to the source.
+        \end{itemize}
+    \item headers: All of the headers that are on this page.
+        \begin{itemize}
+            \item headerId: The ID of the header.
+            \item pageId: The ID of the page that this header belongs to.
+            \item orderIndex: The order that the headers should be displayed in. A lower value means the header is displayed before a header with a higher value.
+            \item title: The title of the header.
+            \item internal: Determines if the header should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+            \item created: The time that the header was created, last updated, or last published (whichever was most recent).
+            \item userId: The ID of the user who created or last updated the header (whichever was most recent).
+            \item approved: Lets us know if the page is published (1) or unpublished (0).
+            \item tempHeaderId: If the header is published and there is an edited version of the header, then this is the same as headerId, otherwise null.
+            \item tempCreated: If the header is published and there is an edited version of the header, then this is the time that the edited version was created or last updated, otherwise null.
+            \item tempInternal: If the header is published and there is an edited version of the header, then this is similar to internal, except in relation to the unpublished version, otherwise null.
+            \item tempOrderIndex: If the header is published and there is an edited version of the header, then this is similar to orderIndex, except in relation to the unpublished version, otherwise null.
+            \item tempTitle: If the header is published and there is an edited version of the header, then this is similar to title, except in relation to the unpublished version, otherwise null.
+            \item tempUserId: If the header is published and there is an edited version of the header, then this is similar to userId, except in relation to the unpublished version, otherwise null.
+            \item cards: The cards that belong to this header.
+            \begin{itemize}
+                \item cardId: The ID of the card.
+                \item HeaderId: The ID of the header that this card belongs to.
+                \item cardType: The type of card to create. Examples include: default card, internal card, thumbnail gallery, internal thumbnail gallery, and more.
+                \item title: The title of the card.
+                \item created: The time that the card was created, last updated, or last published (whichever was most recent).
+                \item userId: The ID of the user who created or last updated the card (whichever was most recent).
+                \item approved: Lets us know if the card is published (1) or unpublished (0).
+                \item orderIndex: The order that the cards should be displayed in. A lower value means the card is displayed before a card with a higher value.
+                \item tempCardId: If the card is published and there is an edited version of the card, then this is the same as cardId, otherwise null.
+                \item tempCardType: If the card is published and there is an edited version of the card, then this is similar to cardType, except in relation to the unpublished version, otherwise null.
+                \item tempCreated: If the card is published and there is an edited version of the card, then this is the time that the edited version was created or last updated, otherwise null.
+                \item tempOrderIndex: If the card is published and there is an edited version of the card, then this is the similar to orderIndex, except in relation to the unpublished version, otherwise null.
+                \item tempTitle: If the card is published and there is an edited version of the card, then this is the similar to title, except in relation to the unpublished version, otherwise null.
+                \item tempUserId: If the card is published and there is an edited version of the card, then this is the similar to userId, except in relation to the unpublished version, otherwise null.
+                \item cards: The cards that belong to this header.
+                \item items / tempItems: The items that belong to this card. "items" are always approved (1), tempItems are always unapproved (0).
+                \begin{itemize}
+                    \item itemId: The ID of the item.
+                    \item cardId: The ID of the card that this item belongs to.
+                    \item indentation: The level of indentation (0 is none, 3 is max).
+                    \item iconType: The ID of the icon that is displayed at the start of the item.
+                    \item contentText: The main body of text for the item.
+                    \item contentUrl: The URL of the item. For graphic items this will be the URL of the image to display, for link items this will be the URL to direct the user to.
+                    \item contentLabel: The bold title of the item, this is shown before the content text.
+                    \item contentMode: A special setting that depends on the item in particular. For links this will be used to describe the type of link (internal, external, internal download, external download).
+                    \item internal: Determines if the item belongs to a published (1) or unpublished (0) version of the card.
+                    \item iconType: The ID of the icon to use with this item.
+                    \item typeName: The Font Awesome name of the icon that is used with this item.
+                    \item typeKeyWord: The name displayed when a user hovers over the icon.
+                    \item color: The hex color code to use for the icon.
+                    \item sourceId: The ID of the source that this item is referencing.
+                \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  pageId: 2,
+  pageType: 2,
+  name: "Compressed Air",
+  title: "Compressed air is a common utilitiy...",
+  description: "Compressed air has been a key...",
+  imageUrl: "/images/air.png",
+  created: "2020-07-23T10:01:49.000Z",
+  userId: 42,
+  approved: 1,
+  internal: 0,
+  tempCreated: null,
+  tempDescription: null,
+  tempImageUrl: null,
+  tempInternal: null,
+  tempImageUrl: null,
+  tempName: null,
+  tempPageId: null
+  sources: [
+    {
+      sourceId: 1,
+      pageId: 2,
+      text: "S. Cottrell, the study skills handbook...",
+      url: ""
+    }
+  ],
+  headers: [
+    {
+      headerId: 1,
+      pageId: 2,
+      approved: 1,
+      internal: 0,
+      orderIndex: 1,
+      created: "2020-07-01T18:19:56.000Z",
+      title: "Compressed Air Overview",
+      userId: 51,
+      tempCreated: null,
+      tempHeaderId: null,
+      tempInternal: null,
+      tempOrderIndex: null,
+      tempTitle: null,
+      tempUserId: null
+      cards: [
+        {
+          cardId: 9,
+          cardType: 0,
+          approved: 1,
+          created: "2020-06-02T20:58:31.000Z",
+          headerId: 1,
+          orderIndex: 3,
+          title: "Pros",
+          userId: 42,
+          tempCardId: 9,
+          tempCardType: 0,
+          tempCreated: "2020-09-03T23:15:22.000Z",
+          tempOrderIndex: 3,
+          tempTitle: "Pros",
+          tempUserId: 58
+          items [
+            {
+              approved: 1,
+              itemId: 25,
+              cardId: 9,
+              color: "#000000",
+              contentLabel: "",
+              contentMode: 0,
+              contentText: "Versatile. Offers compact energy density.",
+              contentUrl: "",
+              created: "2020-06-02T22:38:04.000Z",
+              internal: 0
+              indentation: 0,
+              iconType: 1,
+              typeName: "plus",
+              typeKeyword: "Pros",
+              sourceId: 0
+            }
+          ],
+          tempItems: [
+            }
+              approved: 0,
+              itemId: 25,
+              cardId: 9,
+              color: "#000000",
+              contentLabel: "",
+              contentMode: 0,
+              contentText: "Versatile. Energy can be stored in a compact way.",
+              contentUrl: "",
+              created: "2020-09-03T23:15:49.000Z",
+              internal: 0
+              indentation: 0,
+              iconType: 1,
+              typeName: "plus",
+              typeKeyword: "Pros",
+              sourceId: 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/pages/search/:text/:cursorPrimary/:cursorSecondary} \\
+Returns a limited list of pages that match the search text and that only includes pages that are at or beyond the cursor. Any user can use this endpoint, however internal or unpublished pages will only be returned for internal users.
+\begin{itemize}
+    \begin{itemize}
+        \item text: The partial or full text that is used to find a match. Partial matches are allowed. For example: searching for "press" would be able to return "Compressed Air" since "press" is contained with in "Compressed Air".
+        \item cursorPrimary: This cursor should contain the name of the page you want to start your search at (alphabetical order). This cursor is used to allow infinite scrolling, while only loading a small number of page results at a time. If this is a new search then this value should be null.
+        \item cursorSecondary: This cursor should contain the page ID of the page you want to start your search at. This cursor is used in instances where the primary cursor value is ambiguous. If this is a new search then this value should be null.
+        \item nextCursor: An object that contains the information needed to continue searching the rest of the pages (the primary and secondary cursor).
+        \item pages: The pages returned from the search.
+        \begin{itemize}
+            \item pageId: The ID of the page.
+            \item created: The time that the page was created, last updated, or last published (whichever was most recent).
+            \item description: Text that describes the general subject of the page.
+            \item imageUrl: The URL for the image shown at the top of the page.
+            \item internal: Determines if the page should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+            \item approved: Lets us know if the page is published (1) or unpublished (0).
+            \item name: The name of the page.
+            \item pageType: The ID of the category that this page belongs to.
+            \item title: The title of the initial card that shows at the top of the page.
+            \item url: The URL needed to access the page.
+            \item userId: The ID of the user who created or last updated the page (whichever was most recent).
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  nextCursor: {primary: null, secondary: null},
+  pages: [
+    pageId: 46,
+    created: "2020-07-02T19:39:56.000Z",
+    description: "Steam energy offered a great...",
+    imageUrl: "https://live.staticflickr.com/65535/...",
+    internal: 0,
+    approved: 1,
+    name: "Boilders and Steam",
+    pageType: 2,
+    title: "Boilers and Steam Systems are found in a large...",
+    url: "/wiki/search-results/46",
+    userId: 51
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/pages} \\
+Creates a new page. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item pageType: The ID of the category that this page belongs to.
+    \item name: The name of the page.
+    \item title: The title of the initial card that shows at the top of the page.
+    \item description: Text that describes the general subject of the page.
+    \item imageUrl: The URL for the image shown at the top of the page.
+    \item internal: Determines if the page should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  pageType: 1,
+  name: "Wastewater Treatment",
+  title: "Municipalities and industry need...",
+  description: "Wastewater treatment systems can...",
+  imageUrl: "https://live.staticflickr.com/65535/...",
+  internal: 0
+}
+\end{lstlisting}
+\begin{itemize}
+  \item insertId: The ID of the newly created page.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 50
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/pages/:pageId/changes} \\
+Delete an unpublished page / suggested changes to a page. Only editors and admins can use this endpoint.
+\begin{itemize}
+  \item pageId: The ID of the page to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/pages/:pageId} \\
+Delete a specific page (including published pages). Only admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to delete.
+    \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/pages/:pageId} \\
+Updates a page. If the page is unpublished this will simply change the page. If the page is published then this will add a suggested edit to the page that will need to be published before it will replace the original. If the page is both published and has an edited version, then this will replace the edited version. Only an editor or an admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to update.
+    \item pageType: The ID of the category that this page belongs to.
+    \item name: The name of the page.
+    \item title: The title of the initial card that shows at the top of the page.
+    \item description: Text that describes the general subject of the page.
+    \item imageUrl: The URL for the image shown at the top of the page.
+    \item internal: Determines if the page should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  pageType: 1,
+  name: "Wastewater Treatment",
+  title: "Municipalities and industry need...",
+  description: "Wastewater treatment systems can...",
+  imageUrl: "https://live.staticflickr.com/65535/...",
+  internal: 0
+}
+\end{lstlisting}
+\begin{itemize}
+  \item pageId: The ID of the current page.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  pageId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/pages/:pageId/publish} \\
+Publishes a page. If the page is unpublished this will simply approve the page and show it publicly. If the page has a published version and an edit then the edit will replace the current published version while becoming approved. Only an admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to publish.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  pageId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/pages/:pageId/unpublish} \\
+Unpublishes a page. If the page is published this will simply make the page unapproved and unviewable by the public. If the page has a published version and an edit then the edit will be replaced by the current published version while becoming unapproved. Only an admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to unpublish.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  pageId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/pages/report/:start/:end/:offset/:condense} \\
+Returns a report of all of the published content within the date range. Only editors and admins can use this endpoint.
+\begin{itemize}
+  \item start: The start date of the report (ex: 2020-09-01).
+  \item end: The end date of the report (ex: 2020-09-06).
+  \item offset: The minute offset of the time zone that the request is being made for, in relation to UTC (ex: 420 for PDT).
+  \item condense: Whether to condense changes for an individual object into a single entry in the report, or to include every change as its own entry in the report.
+  \item pages: Pages that were published or deleted within the date range.
+  \begin{itemize}
+    \item historyId: The ID of this history record.
+    \item removed: If this history record is noting the removal of the page, then this value will be 1. If this history record is signifying that the page was published, then the value will be 0.
+    \item oldVersion: The previous version of this page. Has most of the same attributes as this page. Used for comparing changes on a report.
+    \item pageId: The ID of the page.
+    \item pageType: The ID of the category that this page belongs to.
+    \item name: The name of the page.
+    \item title: The title of the initial card that shows at the top of the page.
+    \item description: Text that describes the general subject of the page.
+    \item imageUrl: The URL for the image shown at the top of the page.
+    \item created: The time that the page was created, last updated, or last published (whichever was most recent).
+    \item userId: The ID of the user who created or last updated the page (whichever was most recent).
+    \item approved: Lets us know if the page is published (1) or unpublished (0).
+    \item internal: Determines if the page should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+  \end{itemize}
+  \item headers: Headers that were published or deleted within the date range.
+  \begin{itemize}
+    \item historyId: The ID of this history record.
+    \item removed: If this history record is noting the removal of the header, then this value will be 1. If this history record is signifying that the header was published, then the value will be 0.
+    \item oldVersion: The previous version of this header. Has most of the same attributes as this header. Used for comparing changes on a report.
+    \item headerId: The ID of the header.
+    \item pageId: The ID of the page that this header belongs to.
+    \item orderIndex: The order that the headers should be displayed in. A lower value means the header is displayed before a header with a higher value.
+    \item title: The title of the header.
+    \item internal: Determines if the header should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+    \item created: The time that the header was created, last updated, or last published (whichever was most recent).
+    \item userId: The ID of the user who created or last updated the header (whichever was most recent).
+    \item approved: Lets us know if the page is published (1) or unpublished (0).
+  \end{itemize}
+  \item cards: Cards that were published or deleted within the date range.
+  \begin{itemize}
+    \item historyId: The ID of this history record.
+    \item removed: If this history record is noting the removal of the page, then this value will be 1. If this history record is signifying that the page was published, then the value will be 0.
+    \item oldVersion: The previous version of this card. Has most of the same attributes as this card. Used for comparing changes on a report.
+    \item cardId: The ID of the card.
+    \item HeaderId: The ID of the header that this card belongs to.
+    \item cardType: The type of card to create. Examples include: default card, internal card, thumbnail gallery, internal thumbnail gallery, and more.
+    \item title: The title of the card.
+    \item created: The time that the card was created, last updated, or last published (whichever was most recent).
+    \item userId: The ID of the user who created or last updated the card (whichever was most recent).
+    \item approved: Lets us know if the card is published (1) or unpublished (0).
+    \item orderIndex: The order that the cards should be displayed in. A lower value means the card is displayed before a card with a higher value.
+    \item items: The items that belong to this card.
+    \begin{itemize}
+        \item itemId: The ID of the item.
+        \item cardId: The ID of the card that this item belongs to.
+        \item indentation: The level of indentation (0 is none, 3 is max).
+        \item iconType: The ID of the icon that is displayed at the start of the item.
+        \item contentText: The main body of text for the item.
+        \item contentUrl: The URL of the item. For graphic items this will be the URL of the image to display, for link items this will be the URL to direct the user to.
+        \item contentLabel: The bold title of the item, this is shown before the content text.
+        \item contentMode: A special setting that depends on the item in particular. For links this will be used to describe the type of link (internal, external, internal download, external download).
+        \item internal: Determines if the item belongs to a published (1) or unpublished (0) version of the card.
+        \item iconType: The ID of the icon to use with this item.
+        \item typeName: The Font Awesome name of the icon that is used with this item.
+        \item typeKeyWord: The name displayed when a user hovers over the icon.
+        \item color: The hex color code to use for the icon.
+        \item sourceId: The ID of the source that this item is referencing.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  pages: [
+    {
+      categoryName: "Technologies",
+      created: "2020-09-03T10:12:55.000Z",
+      description: "Lorem ipsum...",
+      historyId: 12,
+      imageUrl: "https://placekitten.com/600/500",
+      internal: 1,
+      name: "New Page",
+      pageId: 59,
+      pageType: 2,
+      removed: 0,
+      sortType: 0,
+      title: "A page for testing",
+      oldVersion: {...}
+    }
+  ],
+  headers: [
+    {
+      categoryName: "Industries",
+      created: "2020-08-20T00:22:00.000Z",
+      description: "Wastewater treatment systems can address a multitude...",
+      historyId: 14,
+      imageUrl: "https://live.satsicflickr...",
+      internal: 0,
+      name: "Wastewater Treatment",
+      pageId: 50,
+      pageType: 1,
+      removed: 0,
+      sortType: 0,
+      title: "Municipalities and industry...",
+      oldVersion: {...}
+    }
+  ],
+  cards: [
+    {
+      cardId: 13,
+      cardType: 0,
+      categoryName: "Technologies",
+      created: "2020-05-23T22:20:20.000Z",
+      headerId: 1,
+      headerName: "Compressed Air Overview",
+      historyId: 4,
+      pageId: 2,
+      pageName: "Compressed Air",
+      pageType: 2,
+      removed: 0,
+      sortType: 2,
+      title: "Cons",
+      oldVersion: {...},
+      items: [
+        {
+          itemId: 32,
+          cardId: 13,
+          color: "#000000",
+          contentLabel: "",
+          contentMode: 0,
+          contentText: "Extremely energy...",
+          contentUrl: "",
+          created: "2020-05-23T22:52:18.000Z",
+          iconType: 2,
+          indentation: 0,
+          internal: 0,
+          itemId: 32,
+          orderIndex: 1,
+          typeKeyword: "Cons",
+          typeName: "minus"
+        }
+      ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
 
 
 \section{Contact Information}

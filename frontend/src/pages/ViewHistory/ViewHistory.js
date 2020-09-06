@@ -35,13 +35,11 @@ function ViewHistory() {
 
     // get the current time offset from UTC
     const offset = new Date().getTimezoneOffset();
-
     // Fetch report data
     const results = await fetch(`/api/pages/report/${start}/${end}/${offset}/${mode}`);
     if (results.ok) {
 
       const obj = await results.json();
-
       // combine all of the content into one array
       const all = [];
       for (let i = 0; i < obj.pages.length; i++) {
