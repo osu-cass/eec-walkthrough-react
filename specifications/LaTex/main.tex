@@ -1681,6 +1681,97 @@ Accepts the publish request. This causes all of the objects that are part of the
 \\~\\
 
 
+\subsection{Source Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/sources/page/:pageId} \\
+Returns all of the sources on a page (even the ones not being used by an item). Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to get the sources from.
+    \item sources: All of the sources that belong to the page.
+    \begin{itemize}
+        \item pageId: The page ID of the page that this source belongs to.
+        \item sourceId: The ID of this source.
+        \item text: The citation text that describes this source (IEEE style).
+        \item url: An optional URL that links to a web page related to the source.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  sources: [
+    {
+      pageId: 2,
+      sourceId: 1,
+      text: "S. Cottrell, The study skills handbook...",
+      url: ""
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/sources/all/page/:pageId} \\
+Creates a list of sources for a page. Since this new list of sources replaces the previous one, it can be used as a way to create, edit, and delete sources. Only admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to post the source list to.
+    \item sources: All of the sources to add to the page.
+    \begin{itemize}
+        \item text: The citation text that describes this source (IEEE style).
+        \item url: An optional URL that links to a web page related to the source.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  sources: [
+    {
+      text: "S. Cottrell, The study skills handbook...",
+      url: ""
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item sourcesApproved: The number of sources that were successfully added from the new source list.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  sourcesApproved: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/sources/page/:pageId} \\
+Adds a single source to a page. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to add the source to.
+    \item text: The citation text that describes this source (IEEE style).
+    \item url: An optional URL that links to a web page related to the source.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  text: "S. Cottrell, The study skills handbook...",
+  url: ""
+}
+\end{lstlisting}
+\begin{itemize}
+    \item insertId: The ID of the new source.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+% \subsection{User Endpoints}
+% \subsection{View Endpoints}
+
 \section{Contact Information}
 If you have any questions about this API that are not answered in this document feel free to reach out to me by email at silverware13@gmail.com. 
 
