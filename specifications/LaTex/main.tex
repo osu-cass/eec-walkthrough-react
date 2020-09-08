@@ -476,6 +476,96 @@ Updates a category. This endpoint can only be used by admins.
 \\~\\
 
 
+\subsection{File Endpoints}
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/files/single} \\
+Uploads a single file to the server. The file must use one of the following filename extensions: JPG, PNG, or GIF. If a file is successfully uploaded, then it is stored in a directory that is named after the user who uploaded the file. This allows users to be accountable for the content that they upload. Only editors or admins can upload files.
+\begin{itemize}
+    \item fieldname: The form field name. For this endpoint it is always "image".
+    \item originalname: The original file name.
+    \item encoding: The file encoding.
+    \item mimetype: The MIME type of the file. Similar to a filename extension.
+    \item destination: The destination of the file on the server.
+    \item filename: The newly generated filename.
+    \item path: Similar to destination.
+    \item size: The size of the file in bytes.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request File]
+{
+  fieldname: "image",
+  originalname: "taco.gif",
+  encoding: "7bit",
+  mimetype: "image/gif",
+  destination: "../fontend/public/uploads/user_42/",
+  filename: "4fd7f3a50a0c63f368806aad8c36c3c5.gif",
+  path: "..\\frontend\\public\\uploads\\user_42\\4fd7f3a50a0c63f368806aad8c36c3c5.gif",
+  size: 487495
+}
+\end{lstlisting}
+\begin{itemize}
+    \item url: The address that points to the newly uploaded file.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  url: "/uploads/user_42/4fd7f3a50a0c63f368806aad8c36c3c5.gif"
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/files/bulk} \\
+Uploads any number of files to the server. The files must use one of the following filename extensions: JPG, PNG, or GIF. If a file is successfully uploaded, then it is stored in a directory that is named after the user who uploaded the file. This allows users to be accountable for the content that they upload. Only editors or admins can upload files.
+\begin{itemize}
+    \item fieldname: The form field name. For this endpoint it is always "images".
+    \item originalname: The original file name.
+    \item encoding: The file encoding.
+    \item mimetype: The MIME type of the file. Similar to a filename extension.
+    \item destination: The destination of the file on the server.
+    \item filename: The newly generated filename.
+    \item path: Similar to destination.
+    \item size: The size of the file in bytes.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Files]
+[ 
+  {
+    fieldname: "images",
+    originalname: "taco.gif",
+    encoding: "7bit",
+    mimetype: "image/gif",
+    destination: "../fontend/public/uploads/user_42/",
+    filename: "4fd7f3a50a0c63f368806aad8c36c3c5.gif",
+    path: "..\\frontend\\public\\uploads\\user_42\\4fd7f3a50a0c63f368806aad8c36c3c5.gif",
+    size: 487495
+  },
+  {
+    fieldname: "images",
+    originalname: "sushi.gif",
+    encoding: "7bit",
+    mimetype: "image/gif",
+    destination: "../fontend/public/uploads/user_42/",
+    filename: "76ecc168a8dfc7a39331f4dd23009e80.gif",
+    path: "..\\frontend\\public\\uploads\\user_42\\76ecc168a8dfc7a39331f4dd23009e80.gif",
+    size: 90112
+  }
+]
+\end{lstlisting}
+\begin{itemize}
+    \item urls: An array of addresses that point to the newly uploaded files.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  urls: [
+    "/uploads/user_42/4fd7f3a50a0c63f368806aad8c36c3c5.gif",
+    "/uploads/user_42/76ecc168a8dfc7a39331f4dd23009e80.gif"
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
 \subsection{Header Endpoints}
 
 
