@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Sep 04, 2020 at 11:40 PM
+-- Generation Time: Sep 08, 2020 at 12:29 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -159,7 +159,12 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (200, 48, 0, 200, 'Cons', 62, '2020-09-02 22:11:35', 0),
 (201, 48, 0, 201, 'Modeling Simple Queuing Systems', 62, '2020-09-02 22:53:29', 0),
 (202, 60, 10, 202, 'History Reports', 58, '2020-09-04 19:38:18', 0),
-(203, 60, 10, 203, 'How to Complete a Publish Request', 58, '2020-09-04 20:44:09', 0);
+(203, 60, 10, 203, 'How to Complete a Publish Request', 58, '2020-09-04 20:44:09', 0),
+(204, 59, 10, 2, 'Creating Pages', 58, '2020-09-07 23:37:09', 0),
+(205, 59, 10, 1, 'Tips', 58, '2020-09-07 23:40:51', 0),
+(206, 59, 10, 206, 'Adding Images', 58, '2020-09-07 23:43:10', 0),
+(207, 60, 10, 207, 'How to Review and Approve Content for Publishing', 58, '2020-09-08 17:49:46', 0),
+(208, 59, 10, 208, 'Adding References', 58, '2020-09-08 18:55:48', 0);
 
 -- --------------------------------------------------------
 
@@ -188,7 +193,7 @@ INSERT INTO `Categories` (`categoryId`, `singleName`, `pluralName`, `description
 (3, 'Process', 'Processes', 'Common industrial processes that use a combination of standard technologies', 0, 51, '2020-07-18 03:11:32'),
 (4, 'Productivity', 'Productivity', 'Common approaches to improving industrial site productivity', 0, 51, '2020-07-18 03:11:32'),
 (5, 'Assessment', 'Assessments', 'Standard recommended approaches for performing industrial assessments.', 0, 51, '2020-07-18 03:11:32'),
-(7, 'Utilities', 'Utilities', 'An introduction to utility billing structures, resource use analysis, and opportunities to reduce costs.', 0, 51, '2020-08-05 23:59:34');
+(7, 'Utility', 'Utilities', 'An introduction to utility billing structures, resource use analysis, and opportunities to reduce costs.', 0, 42, '2020-08-05 23:59:34');
 
 -- --------------------------------------------------------
 
@@ -310,7 +315,7 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (55, 61, 2, 'Power Factor Correction Opportunities to Consider', 0, 52, '2020-08-26 17:34:55', 0),
 (56, 62, 56, 'Self Assessment Tools', 1, 57, '2020-08-27 00:21:35', 0),
 (57, 62, 57, 'Resources', 1, 57, '2020-08-27 00:29:42', 0),
-(59, 65, 59, 'Creating Pages', 1, 58, '2020-09-04 18:57:48', 0),
+(59, 65, 59, 'Creating Content', 1, 58, '2020-09-04 18:57:48', 0),
 (60, 65, 60, 'Reviewing Content', 1, 58, '2020-09-04 19:23:27', 0);
 
 -- --------------------------------------------------------
@@ -1792,10 +1797,26 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5113, 202, 0, 1, 8, 'Select \"Show Duplicates\" to view a complete history of all edits made to all pages, headers, and cards. Red highlighted content consists of old edits while green highlighted content is the most recent edit made during the selected date range. Yellow highlighted content is material that was only added or updated once. Unhighlighted content predates the selected date range. ', '', '', 0, 0, 0, '2020-09-04 20:46:22', 0),
 (5114, 202, 0, 1, 8, 'Unselect \"Show Duplicates\" to display only the most recent edit made to a page, header, or card.', '', '', 0, 0, 0, '2020-09-04 20:46:22', 0),
 (5115, 202, 0, 1, 8, 'Select \"Show Removals\" to view deleted content. ', '', '', 0, 0, 0, '2020-09-04 20:46:22', 0),
-(5124, 203, 0, 0, 13, 'New and updated content must be approved before being published to the site. Multiple items can be submitted for approval in a single publish request. ', '', '', 0, 0, 0, '2020-09-04 21:11:48', 0),
-(5125, 203, 0, 1, 26, 'To add a page, header or card to a publish request, go to the content in Edit Mode and click the green review button.', '', '', 0, 0, 0, '2020-09-04 21:11:48', 0),
-(5126, 203, 0, 1, 26, 'After all items have been added, go to the Publish Requests page and select Create a Publish Request. Add a title and include the author\'s and reviewer\'s name as well as any additional notes in the description. ', '', '', 0, 0, 0, '2020-09-04 21:11:48', 0),
-(5127, 203, 0, 1, 26, 'Double-check that the Content to Publish includes the intended material then submit the publish request. ', '', '', 0, 0, 0, '2020-09-04 21:11:48', 0);
+(5131, 206, 0, 0, 13, 'An internal image upload feature is currently a work in progress. ', '', '', 0, 0, 0, '2020-09-07 23:43:10', 0),
+(5156, 207, 0, 0, 26, 'From the main sidebar menu, go to the Publish Requests page.', '', '', 0, 0, 0, '2020-09-08 17:53:50', 0),
+(5157, 207, 0, 0, 26, 'Find the publish request you wish to review from the list of live requests and click on the green Review Request button. ', '', '', 0, 0, 0, '2020-09-08 17:53:50', 0),
+(5158, 207, 0, 0, 26, 'A page will open where users can view the currently published content as well as the content to be approved. Users can also add comments, suggest changes, and give approval. Similar to a chatroom format, these entries appear in chronological order which allows for an ongoing dialogue between the author and reviewers. ', '', '', 0, 0, 0, '2020-09-08 17:53:50', 0),
+(5159, 207, 0, 0, 8, 'Click \"Close Request\" to delete a publish request. ', '', '', 0, 0, 0, '2020-09-08 17:53:50', 0),
+(5160, 203, 0, 0, 13, 'New and updated content must be approved before being published to the site. Multiple items can be submitted for approval in a single publish request. ', '', '', 0, 0, 0, '2020-09-08 18:03:24', 0),
+(5161, 203, 0, 1, 26, 'To add a page, header or card to a publish request, go to the content in Edit Mode and click the green review button.', '', '', 0, 0, 0, '2020-09-08 18:03:24', 0),
+(5162, 203, 0, 1, 26, 'After all items have been added, go to the Publish Requests page and select Create a Publish Request. Add a title and include the author\'s and reviewer\'s name as well as any additional notes in the description. ', '', '', 0, 0, 0, '2020-09-08 18:03:24', 0),
+(5163, 203, 0, 1, 26, 'Double-check that the Content to Publish includes the intended material then submit the publish request. ', '', '', 0, 0, 0, '2020-09-08 18:03:24', 0),
+(5164, 203, 0, 1, 8, 'Be reasonable and strategic with what material is lumped together in a single publish request. Submitting two unrelated technology pages together for example will probably just bog down the review process. ', '', '', 0, 0, 0, '2020-09-08 18:03:24', 0),
+(5174, 204, 0, 0, 13, 'To create a new page, first open the sidebar menu and select \"Show Edit Buttons\" near the bottom of the menu. Simply select the category for the new page and click \"Create a Page\". ', '', '', 0, 0, 2, '2020-09-08 18:14:03', 0),
+(5175, 204, 0, 1, 26, 'A page consists of a concise yet descriptive title, a summary of the page\'s purpose, and a description of what can be found on the page and how it can be used. ', '', '', 0, 0, 0, '2020-09-08 18:14:03', 0),
+(5176, 204, 0, 1, 26, 'Within a page editors can create headers and cards. Headers allow for content-carrying cards to be organized into sections and categories.', '', '', 0, 0, 0, '2020-09-08 18:14:03', 0),
+(5181, 208, 0, 0, 13, 'It is always important to cite where information is coming from. A library of sources exists on each page that referenced within content-carrying cards. ', '', '', 0, 0, 0, '2020-09-08 18:57:38', 0),
+(5182, 208, 0, 1, 26, 'To add a reference, click \"Add Source\" in the header of any page in Edit Mode. ', '', '', 0, 0, 0, '2020-09-08 18:57:38', 0),
+(5183, 208, 0, 1, 26, 'Use IEEE formatting for all references and include a URL if applicable. ', '', '', 0, 0, 0, '2020-09-08 18:57:38', 0),
+(5184, 208, 0, 1, 26, 'To connect a source to an item, click \"Edit Card\" and use the source dropdown menu to the right of the item to select the source. ', '', '', 0, 0, 0, '2020-09-08 18:57:38', 0),
+(5185, 208, 0, 1, 17, '$empty', 'https://oregonstate.box.com/s/rm1jtvnmfhb2oyt1wyvzaztgc3w1ww5q', 'IEEE Reference Guide', 0, 0, 0, '2020-09-08 18:57:38', 0),
+(5186, 205, 0, 0, 8, 'When adding a new page, header, or card, select \"Internal (not viewable by the public)\" for material intended to be used by EEC personnel only (such as this instructions page). ', '', '', 0, 0, 3, '2020-09-08 19:25:46', 0),
+(5187, 205, 0, 0, 8, 'Use the toggle in the top right corner of any page header to switch between View Mode, Edit Mode, and Move Mode. The mode shown on the toggle is the mode the page is currently in. ', '', '', 0, 0, 0, '2020-09-08 19:25:46', 0);
 
 -- --------------------------------------------------------
 
@@ -1884,13 +1905,6 @@ CREATE TABLE `Requests` (
   `userId` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `Requests`
---
-
-INSERT INTO `Requests` (`requestId`, `title`, `description`, `status`, `created`, `userId`) VALUES
-(2, 'Test', 'Test', 1, '2020-09-04 20:55:06', 58);
-
 -- --------------------------------------------------------
 
 --
@@ -1919,15 +1933,6 @@ CREATE TABLE `Request_Objects` (
   `objectType` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `Request_Objects`
---
-
-INSERT INTO `Request_Objects` (`requestObjectId`, `requestId`, `objectId`, `objectType`) VALUES
-(3, 2, 48, 1),
-(4, 2, 41, 2),
-(5, 2, 133, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -1946,7 +1951,9 @@ CREATE TABLE `Sources` (
 --
 
 INSERT INTO `Sources` (`sourceId`, `pageId`, `text`, `url`) VALUES
-(1, 2, 'Test', '');
+(1, 2, 'Test', ''),
+(2, 65, 'Test', 'Test'),
+(3, 65, 'Test', '');
 
 -- --------------------------------------------------------
 
@@ -2274,7 +2281,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=204;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2328,7 +2335,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5128;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5188;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -2346,25 +2353,25 @@ ALTER TABLE `Quick_Titles`
 -- AUTO_INCREMENT for table `Requests`
 --
 ALTER TABLE `Requests`
-  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Request_Comments`
 --
 ALTER TABLE `Request_Comments`
-  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `Request_Objects`
 --
 ALTER TABLE `Request_Objects`
-  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `Sources`
 --
 ALTER TABLE `Sources`
-  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`
