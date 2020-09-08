@@ -82,7 +82,7 @@
 This document describes all of the API endpoints for the EEC Walkthrough application.
 The document is organized by route name and each API endpoint includes a general description, the expected input, and  the expected output.
 
-This API uses cookies to keep track of the user who is making requests. This means that each of these endpoints will have access to all user information for the current user even if it is not requested in the body. This includes ID, username, first name, last name, email, and their role. All endpoints also have the option to return an error code. This will have a status code between 400 and 500. In the case of a validation error an object with the property "errors" will be returned, which is an array of objects that describe what was wrong with the request body. All other errors will return an object with the property "error", which is a string that describes the error.
+This API uses cookies to keep track of the user who is making requests. This means that each of these endpoints will have access to all user information for the current user even if it is not requested in the body. This includes ID, username, first name, last name, email, and role. All endpoints also have the option to return an error code. This will have a status code between 400 and 500. In the case of a validation error an object with the property "errors" will be returned, which is an array of objects that describe what was wrong with the request body. All other errors will return an object with the property "error", which is a string that describes the error.
 
 To make handling responses from the API easier, all responses return a JSON object. To make it easier to tell what requests are being made to the API (as apposed to requests to get files), each API request starts with "api".
 
@@ -143,7 +143,7 @@ Creates a new card. Only editors and admins can use this endpoint.
 
 \noindent
 \textbf{\textcolor{Maroon}{DELETE} api/cards/:cardId/changes} \\
-Delete an unpublished card / suggested changes to a card. Only editors and admins can use this endpoint.
+Deletes an unpublished card / suggested changes to a card. Only editors and admins can use this endpoint.
 \begin{itemize}
   \item cardId: The ID of the card to delete.
   \item affectedRows: The number of table rows affected by this action.
@@ -158,7 +158,7 @@ Delete an unpublished card / suggested changes to a card. Only editors and admin
 
 \noindent
 \textbf{\textcolor{Maroon}{DELETE} api/cards/:cardId} \\
-Delete a specific card (including published cards). Only admins can use this endpoint.
+Deletes a card (including published cards). Only admins can use this endpoint.
 \begin{itemize}
     \item cardId: The ID of the card to delete.
     \item affectedRows: The number of table rows affected by this action.
@@ -267,7 +267,7 @@ Changes the selected card's position relative to other cards when displayed. If 
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/cards/titles} \\
-Gets a list of suggested titles for cards. Editors can use these suggested titles to quickly name cards that are similar across pages. Any user can use this endpoint.
+Returns a list of suggested titles for cards. Editors can use these suggested titles to quickly name cards that are similar across pages. Any user can use this endpoint.
 \begin{itemize}
     \item titles: An array of strings that will be used as the suggested titles.
 \end{itemize}
@@ -311,7 +311,7 @@ Replaces the current list of suggested card titles. Only admins can use this end
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/categories/all} \\
-Gets all of the catogories and their respective pages. Users without an account, or external users will get all published categories and pages that are not internal. Internal users, editors, and admins will get all categories and pages.
+Returns all of the categories and their respective pages. Users without an account, or external users will get all published categories and pages that are not internal. Internal users, editors, and admins will get all categories and pages.
 \begin{itemize}
     \item categoryId: The ID of the category.
     \item created: The date that the category was created.
@@ -358,7 +358,7 @@ Gets all of the catogories and their respective pages. Users without an account,
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/categories/names} \\
-Gets the names and IDs of all catogories. Users without an account, or external users will get all published categories that are not internal. Internal users, editors, and admins will get all categories.
+Returns the names and IDs of all categories. Users without an account, or external users will only have access to published categories that are not internal. Internal users, editors, and admins will have access to all categories.
 \begin{itemize}
     \item categoryId: The ID of the category.
     \item singleName: The singular name of the category.
@@ -378,7 +378,7 @@ Gets the names and IDs of all catogories. Users without an account, or external 
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/categories/:categoryId} \\
-Gets a single category and all of its pages. Users without an account, or external users will get a published category and the pages that are not internal. Internal users, editors, and admins will get the category and all of the pages.
+Returns a single category and all of its pages. Users without an account, or external users will only have access to published categories and published pages that are not internal. Internal users, editors, and admins will have access to all categories and all pages.
 \begin{itemize}
     \item categoryId: The ID of the category.
     \item created: The date that the category was created.
@@ -507,7 +507,7 @@ Creates a new header. Only editors and admins can use this endpoint.
 
 \noindent
 \textbf{\textcolor{Maroon}{DELETE} api/headers/:headerId/changes} \\
-Delete an unpublished header / suggested changes to a header. Only editors and admins can use this endpoint.
+Deletes an unpublished header / suggested changes to a header. Only editors and admins can use this endpoint.
 \begin{itemize}
   \item headerId: The ID of the header to delete.
   \item affectedRows: The number of table rows affected by this action.
@@ -522,7 +522,7 @@ Delete an unpublished header / suggested changes to a header. Only editors and a
 
 \noindent
 \textbf{\textcolor{Maroon}{DELETE} api/headers/:headerId} \\
-Delete a specific header (including published headers). Only admins can use this endpoint.
+Deletes a header (including published headers). Only admins can use this endpoint.
 \begin{itemize}
     \item headerId: The ID of the header to delete.
     \item affectedRows: The number of table rows affected by this action.
@@ -609,7 +609,7 @@ Changes the selected header's position relative to other headers when displayed.
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/home} \\
-Gets all of the data displayed on the homepage, with the exception of the sponsors. Any user can use this endpoint.
+Returns all of the data displayed on the homepage, with the exception of the sponsors. Any user can use this endpoint.
 \begin{itemize}
     \item mainHeader: The main header text for the homepage.
     \item secondaryHeader: The header for the card that describes the categories.
@@ -714,7 +714,7 @@ Updates the text that is displayed on the homepage. Only admins can use this end
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/home/sponsors} \\
-Gets all of the sponsors that should be listed on the homepage. Any user can use this endpoint.
+Returns all of the sponsors that should be listed on the homepage. Any user can use this endpoint.
 \begin{itemize}
     \item sponsors: The sponsors for this application.
     \begin{itemize}
@@ -787,7 +787,7 @@ Updates the list of sponsors that is displayed on the homepage. Only admins can 
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/icons/all} \\
-Gets a list of all icons that can be appended to items. Any user can use this endpoint.
+Returns a list of all icons that can be appended to items. Any user can use this endpoint.
 \begin{itemize}
     \item icons: All possible icons.
     \begin{itemize}
@@ -876,7 +876,7 @@ Updates an icon. Only an admin can use this endpoint.
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/links/all/:onlyDead} \\
-Gets a list of all of the published link items. If onlyDead is set to 1, then only show invalid links. Only admins can use this endpoint.
+Returns a list of all of the published link items. If onlyDead is set to 1, then it only returns invalid links. Only admins can use this endpoint.
 \begin{itemize}
     \item links: All links.
     \begin{itemize}
@@ -944,7 +944,7 @@ Updates a link item's confirmed valid date to the current time. Only editors or 
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/pages/:pageId/all} \\
-Gets all of the page info, headers, cards, and items for a single page. Any user can use this endpoint. Only internal users will be allowed to get info about private or unpublished pages, headers, cards, and items.
+Returns all of the page, header, card, and item data for a single page. Any user can use this endpoint. Only internal users will be allowed to get info about private or unpublished pages, headers, cards, and items.
 \begin{itemize}
     \item pageId: The ID of the page.
     \item pageType: The ID of the category that this page belongs to.
@@ -1207,7 +1207,7 @@ Creates a new page. Only editors and admins can use this endpoint.
 
 \noindent
 \textbf{\textcolor{Maroon}{DELETE} api/pages/:pageId/changes} \\
-Delete an unpublished page / suggested changes to a page. Only editors and admins can use this endpoint.
+Deletes an unpublished page / suggested changes to a page. Only editors and admins can use this endpoint.
 \begin{itemize}
   \item pageId: The ID of the page to delete.
   \item affectedRows: The number of table rows affected by this action.
@@ -1222,7 +1222,7 @@ Delete an unpublished page / suggested changes to a page. Only editors and admin
 
 \noindent
 \textbf{\textcolor{Maroon}{DELETE} api/pages/:pageId} \\
-Delete a specific page (including published pages). Only admins can use this endpoint.
+Deletes a page (including published pages). Only admins can use this endpoint.
 \begin{itemize}
     \item pageId: The ID of the page to delete.
     \item affectedRows: The number of table rows affected by this action.
@@ -1308,7 +1308,7 @@ Returns a report of all of the published content within the date range. Only edi
   \begin{itemize}
     \item historyId: The ID of this history record.
     \item removed: If this history record is noting the removal of the page, then this value will be 1. If this history record is signifying that the page was published, then the value will be 0.
-    \item oldVersion: The previous version of this page. Has most of the same attributes as this page. Used for comparing changes on a report.
+    \item oldVersion: The previous version of this page. It has the following properties: created, description, historyId, imageUrl, internal, name, pageId, pageType, removed, and title.
     \item pageId: The ID of the page.
     \item pageType: The ID of the category that this page belongs to.
     \item name: The name of the page.
@@ -1324,7 +1324,7 @@ Returns a report of all of the published content within the date range. Only edi
   \begin{itemize}
     \item historyId: The ID of this history record.
     \item removed: If this history record is noting the removal of the header, then this value will be 1. If this history record is signifying that the header was published, then the value will be 0.
-    \item oldVersion: The previous version of this header. Has most of the same attributes as this header. Used for comparing changes on a report.
+    \item oldVersion: The previous version of this header. It has the following properties: created, headerId, historyId, internal, pageId, removed, and title.
     \item headerId: The ID of the header.
     \item pageId: The ID of the page that this header belongs to.
     \item orderIndex: The order that the headers should be displayed in. A lower value means the header is displayed before a header with a higher value.
@@ -1338,7 +1338,7 @@ Returns a report of all of the published content within the date range. Only edi
   \begin{itemize}
     \item historyId: The ID of this history record.
     \item removed: If this history record is noting the removal of the page, then this value will be 1. If this history record is signifying that the page was published, then the value will be 0.
-    \item oldVersion: The previous version of this card. Has most of the same attributes as this card. Used for comparing changes on a report.
+    \item oldVersion: The previous version of this card. It has the following properties: cardId, cardType, created, headerId, historyId, items, removed, and title.
     \item cardId: The ID of the card.
     \item HeaderId: The ID of the header that this card belongs to.
     \item cardType: The type of card to create. Examples include: default card, internal card, thumbnail gallery, internal thumbnail gallery, and more.
@@ -1449,7 +1449,7 @@ Returns a report of all of the published content within the date range. Only edi
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/requests/all} \\
-Gets a list of all publish requests that are awaiting approval. Only editors and admins can use this endpoint.
+Returns a list of all publish requests that are awaiting approval. Only editors and admins can use this endpoint.
 \begin{itemize}
     \item requests: All publish requests that are awaiting approval.
     \begin{itemize}
@@ -1482,9 +1482,29 @@ Gets a list of all publish requests that are awaiting approval. Only editors and
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/requests/:requestId} \\
-Gets all the data related to the specific request. Only editors and admins can use this endpoint.
+Returns all the data related to a publish request. Only editors and admins can use this endpoint.
 \begin{itemize}
-  \item WIP
+    \item requestId: The ID of the publish request.
+    \item status: The status of the publish request.
+    \item title: The title of the publish request.
+    \item description: The description of the request. This will often include more information about the request and why it is needed.
+    \item userId: The ID of the user who has opened the publish request.
+    \item userName: The username of the user who has opened the publish request.
+    \item created: The date that the publish request was created.
+    \item comments: Comments left on the request by users.
+    \begin{itemize}
+        \item commentId: The ID of the comment.
+        \item requestId: The ID of the publish request that this comment is on.
+        \item comment: The actual text of the comment.
+        \item review: The type of comment (0 = comment, 1 = suggest change, 2 = approval).
+        \item userId: The ID of the user who made the comment.
+        \item userName: The name of the user who made the comment.
+    \end{itemize}
+    \item objects: The objects (pages, headers, and/or cards) that are being selected as part of the publish request.
+    \begin{itemize}
+      \item objectType: The type of object that this is (1 = page, 2 = header, 3 = card).
+      \item The properties that the object will have is based on the object type. Pages will have the following additional properties: approved, categoryName, created, description, imageUrl, internal, name, pageId, pageType, title, and userId. Headers will have the following additional properties: approved, categoryName, created, headerId, internal, orderIndex, pageId, pageName, pageType, title, and userId. Cards will have the following additional properties: approved, cardId, cardType, categoryName, created, headerId, headerName, items, objectType, orderIndex, pageId, pageName, title, and userId.  
+    \end{itemize}
 \end{itemize}
 \begin{lstlisting}[caption=Example Response]
 {
@@ -1524,6 +1544,138 @@ Gets all the data related to the specific request. Only editors and admins can u
       userId: 51
     }
   ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/requests/selections} \\
+Allows a user to use any number of object's type and ID to get more detailed information about them. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item objects: The objects that the user wants more information about.
+    \begin{itemize}
+        \item objectType: The type of the object (1 = page, 2 = header, 3 = card).
+        \item objectId: The ID of the object.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  objects: [
+    {
+      objectType: 1,
+      objectId: 50
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item objects: The objects that the user requested more information about.
+    \begin{itemize}
+        \item objectType: The name of the object type.
+        \item key: A key that is the objects ID with the first letter of its object type appended to it.
+        \item objectName: The name or title of the object.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  objects: [
+    {
+      objectType: "Header",
+      key: "32H",
+      objectName: "Boilers and Steam Opportunities to Consider"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/requests/} \\
+Creates a new publish request. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item description: The description of the request. This will often include more information about the request and why it is needed.
+    \item title: The title of the publish request.
+    \item objects: The objects that are part of the publish request.
+    \begin{itemize}
+        \item objectType: The type of the object (1 = page, 2 = header, 3 = card).
+        \item objectId: The ID of the object.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  description: "This new request will add 3 pages, and 2 headers that are ready",
+  title: "Tim's Request",
+  objects: [
+    {
+      objectType: 3,
+      objectId: 168
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item insertId: The ID of the new publish request.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  insertId: 4
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/requests/comment/:requestId} \\
+Creates a new comment on a publish request. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item requestId: The ID of the publish request to add a comment to.
+    \item comment: The actual text of the comment.
+    \item status: The type of comment (0 = comment, 1 = suggest change, 2 = approval).
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  comment: "Did you want to do anything else with the 5th card?",
+  status: "0"
+}
+\end{lstlisting}
+\begin{itemize}
+    \item insertId: The ID of the new comment.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  insertId: 4
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/requests/:requestId} \\
+Deletes a publish request. Only the creator of the request and admins can use this endpoint.
+\begin{itemize}
+  \item requestId: The ID of the publish request to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/requests/accept/:requestId} \\
+Accepts the publish request. This causes all of the objects that are part of the publish request to become published. Only an admins can use this endpoint.
+\begin{itemize}
+    \item requestId: The ID of the publish request to accept.
+    \item objectsApproved: The number of objects that were published by the request.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  objectsApproved: 5
 }
 \end{lstlisting}
 \\~\\
