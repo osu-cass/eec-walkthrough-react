@@ -1154,7 +1154,10 @@ Returns a limited list of pages that match the search text and that only include
 \end{itemize}
 \begin{lstlisting}[caption=Example Response]
 { 
-  nextCursor: {primary: null, secondary: null},
+  nextCursor: {
+    primary: null, 
+    secondary: null
+  },
   pages: [
     pageId: 46,
     created: "2020-07-02T19:39:56.000Z",
@@ -1769,7 +1772,188 @@ Adds a single source to a page. Only editors and admins can use this endpoint.
 \\~\\
 
 
-% \subsection{User Endpoints}
+\subsection{User Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/users/:userId} \\
+Returns basic information about a user. Any logged in user can use this endpoint.
+\begin{itemize}
+    \item userId: The ID of the user to get information about.
+    \item created: The date that the user account was created.
+    \item email. The user's email address.
+    \item firstName: The user's first name.
+    \item lastName: The user's last name.
+    \item role: The user's role (0 = not logged in, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+    \item userId: The ID of the user.
+    \item username: The username of the user.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  created: "2020-05-14T20:39:15.000Z",
+  email: "thomasza@oregonstate.edu",
+  firstName: "Zachary",
+  lastName: "Thomas",
+  role: 4,
+  userId: 42,
+  username: "Silverware"
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/users/login} \\
+Attempts to login the user. If the user's username and password are correct, then they will be given cookies that will confirm their identity for use with the other endpoints. Any user can use this endpoint.
+\begin{itemize}
+    \item username: The username of the account that the user wants to login to.
+    \item password: A password that should match the username's password.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  username: "newUser",
+  password: "hunter2"
+}
+\end{lstlisting}
+\begin{itemize}
+    \item email: The user's email address.
+    \item firstName: The user's first name.
+    \item lastName: The user's last name.
+    \item role: The user's role (0 = not logged in, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+    \item userId: The ID of the user account.
+    \item username: The username of the user.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  email: "johnDoe@gmail.com",
+  firstName: "John",
+  lastName: "Doe",
+  role: 2,
+  userId: 42,
+  username: "newUser"
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/users/} \\
+Creates a new user account. The new user must not have the same username or email as an existing user. The new user will always start with the "external user" role. Passwords are salted and hashed before being stored in the database. Any user can use this endpoint.
+\begin{itemize}
+    \item email: The user's email address.
+    \item firstName: The user's first name.
+    \item lastName: The user's last name.
+    \item password: The user's password.
+    \item username: The user's username.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  email: "johnDoe@gmail.com",
+  firstName: "John",
+  lastName: "Doe",
+  password: "hunter2",
+  username: "newUser"
+}
+\end{lstlisting}
+\begin{itemize}
+    \item insertId: The ID of the new user.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 42
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/users/search/:text/:role/:sort/:order/:cursorPrimary/:cursorSecondary} \\
+Returns a limited list of users that match the search text and that only includes users that are at or beyond the cursor. The search text can find matches for first name, last name, username, email, or user ID. Only admins can use this endpoint.
+\begin{itemize}
+    \item text: The partial or full text that is used to find a match. Partial matches are allowed. For example: searching for "oh" would be able to return "John123" since "oh" is contained with in "John123".
+    \item cursorPrimary: This cursor should contain the username of the user you want to start your search at (alphabetical order). This cursor is used to allow infinite scrolling, while only loading a small number of page results at a time. If this is a new search then this value should be null.
+    \item cursorSecondary: This cursor should contain the user ID of the user you want to start your search at. This cursor is used in instances where the primary cursor value is ambiguous. If this is a new search then this value should be null.
+    \item nextCursor: An object that contains the information needed to continue searching the rest of the users (the primary and secondary cursor).
+    \item users: The users returned from the search.
+    \begin{itemize}
+        \item created: The date that the user account was created.
+        \item createdUnix: Seconds since January 1st, 1970 (UTC).
+        \item email: The user's email address.
+        \item firstName: The user's first name.
+        \item lastName: The user's last name.
+        \item role: The user's role (0 = not logged in, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+        \item username: The user's username.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  nextCursor: {
+    primary: null,
+    secondary: null
+  },
+  created: "2020-09-01T02:00:00.000Z",
+  createdUnix: 1598925600,
+  email: "testeditor@gmail.com",
+  firstName: "John",
+  lastName: "Doe",
+  role: 3,
+  userId: 67,
+  username: "testEditor"
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/users/:userId} \\
+Updates a user's information. Only the user being updated or an admins can use this endpoint. Only admins can change a user's role.
+\begin{itemize}
+    \item userId: The ID of the user to update.
+    \item email: The user's new email address.
+    \item firstName: The user's new first name.
+    \item lastName: The user's new last name.
+    \item role: The user's new role which can only be set by admins (0 = not logged in, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+    \item username: The user's username.
+    \item oldPassword: The user's current password. 
+    \item newPassword: The user's new password.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  email: "johnDoe@gmail.com",
+  firstName: "John",
+  lastName: "Doe",
+  role: 3,
+  username: "newUser",
+  oldPassword: "hunter2",
+  newPassword: "hunter3"
+}
+\end{lstlisting}
+\begin{itemize}
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/users/:userId/newPassword} \\
+Generates a new random password for a user. This endpoint is ideal for when an admin wants to give a user access to an account that they forgot the password to. Only admins can use this endpoint.
+\begin{itemize}
+    \item userId: The ID of user account to generate a new password for.
+    \item password: The new randomly generated password.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  password: "9RBahxx47qiKcny"
+}
+\end{lstlisting}
+\\~\\
+
+
 % \subsection{View Endpoints}
 
 \section{Contact Information}

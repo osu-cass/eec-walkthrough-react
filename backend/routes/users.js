@@ -258,7 +258,7 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
     // update a user
     const results = await updateUser(userId, username, oldPassword, newPassword, firstName, lastName, email, role);
 
-    if (results.changedRows >= 0) {
+    if (results.affectedRows >= 0) {
       res.status(200).send(results);
     } else {
 
