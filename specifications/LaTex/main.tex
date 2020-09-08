@@ -1954,7 +1954,101 @@ Generates a new random password for a user. This endpoint is ideal for when an a
 \\~\\
 
 
-% \subsection{View Endpoints}
+\subsection{View Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/views/page/:pageId} \\
+Returns all of the views available to the current user for the specific page. Any user can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to get the views for.
+    \item views: The views that can be accessed on this page.
+    \begin{itemize}
+      \item pageId: The page that this view belongs to.
+      \item public: Whether this view is viewable by all users (1) or only viewable by the current user (0).
+      \item userId: The user ID of the user who created this view.
+      \item viewId: The ID of the view.
+      \item viewName: The name of the view.
+      \item headers: The headers and their filter settings for the current view.
+      \begin{itemize}
+        \item headerId: The ID of the current header.
+        \item filters: An array of filter icon IDs. Each value represents a specific filter that is disabled on the current header while in this view.
+      \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\begin{lstlisting}[caption=Example Response]
+{
+  views: [
+    {
+      pageId: 2,
+      public: 1,
+      userId: 51,
+      viewId: 11,
+      viewName: "Opportunities",
+      headers: [
+        {
+          headerId: 1,
+          filters: [1, 2, 3, 4, 5]
+        }
+      ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/views/page/:pageId} \\
+Creates a new view for the specific page. Any logged in user can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page where the new view is created.
+    \item publicView: Whether this view is viewable by all users (1) or only viewable by the current user (0).
+    \item viewName: The name of the new view.
+    \item headers: The headers and their filter settings for the current view.
+      \begin{itemize}
+        \item headerId: The ID of the current header.
+        \item filters: An array of filter icon IDs. Each value represents a specific filter that is disabled on the current header while in this view.
+      \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  publicView: 0,
+  viewName: "No pros or cons",
+  headers: [
+    {
+      headerId: 1,
+      filters: [1, 2]
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item insertId: The ID of the new view.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 5
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/views/:viewId} \\
+Deletes a view. Only the user who created the view or an admins can use this endpoint.
+\begin{itemize}
+  \item viewId: The ID of the view to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
 
 \section{Contact Information}
 If you have any questions about this API that are not answered in this document feel free to reach out to me by email at silverware13@gmail.com. 
