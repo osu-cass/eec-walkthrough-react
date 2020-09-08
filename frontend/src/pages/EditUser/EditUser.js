@@ -66,7 +66,7 @@ function EditUser(props) {
 
         obj = await results.json();
 
-        if (obj.changedRows) {
+        if (obj.affectedRows) {
           setSuccessMessage("User data updated successfully.");
           setErrorMessage("");
 
