@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Sep 08, 2020 at 12:29 PM
+-- Generation Time: Sep 09, 2020 at 03:09 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -162,9 +162,12 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (203, 60, 10, 203, 'How to Complete a Publish Request', 58, '2020-09-04 20:44:09', 0),
 (204, 59, 10, 2, 'Creating Pages', 58, '2020-09-07 23:37:09', 0),
 (205, 59, 10, 1, 'Tips', 58, '2020-09-07 23:40:51', 0),
-(206, 59, 10, 206, 'Adding Images', 58, '2020-09-07 23:43:10', 0),
+(206, 59, 10, 206, 'Adding Images', 42, '2020-09-07 23:43:10', 0),
 (207, 60, 10, 207, 'How to Review and Approve Content for Publishing', 58, '2020-09-08 17:49:46', 0),
-(208, 59, 10, 208, 'Adding References', 58, '2020-09-08 18:55:48', 0);
+(208, 59, 10, 208, 'Adding References', 58, '2020-09-08 18:55:48', 0),
+(211, 63, 2, 211, 'Reduce Ventilation Energy Losses', 52, '2020-09-09 19:06:46', 0),
+(212, 63, 2, 212, 'Reduce Material Losses', 52, '2020-09-09 19:36:40', 0),
+(213, 63, 0, 213, 'Increase welding efficiency', 52, '2020-09-09 21:27:30', 0);
 
 -- --------------------------------------------------------
 
@@ -316,7 +319,9 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (56, 62, 56, 'Self Assessment Tools', 1, 57, '2020-08-27 00:21:35', 0),
 (57, 62, 57, 'Resources', 1, 57, '2020-08-27 00:29:42', 0),
 (59, 65, 59, 'Creating Content', 1, 58, '2020-09-04 18:57:48', 0),
-(60, 65, 60, 'Reviewing Content', 1, 58, '2020-09-04 19:23:27', 0);
+(60, 65, 60, 'Reviewing Content', 1, 58, '2020-09-04 19:23:27', 0),
+(62, 69, 62, 'Metals Manufacturing Overview', 0, 52, '2020-09-09 18:44:04', 0),
+(63, 69, 63, 'Metals Manufacturing Opportunities to Consider', 0, 52, '2020-09-09 18:44:28', 0);
 
 -- --------------------------------------------------------
 
@@ -1717,42 +1722,18 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4822, 184, 0, 0, 26, 'First, calculate the D-scores for the original layout (D0) and the proposed layout (D1).', '', '', 0, 0, 0, '2020-08-24 19:51:09', 0),
 (4823, 184, 0, 0, 26, 'Calculate layout efficiency savings by finding the percent difference in d-scores (i.e. D0 - D1 / D1).', '', '', 0, 0, 0, '2020-08-24 19:51:09', 0),
 (4824, 184, 0, 0, 26, 'Layout efficiency savings are an important measure in itself and will result in increased productivity, however, translating this figure into monetary cost savings is necessary.', '', '', 0, 0, 0, '2020-08-24 19:51:09', 0),
-(4832, 186, 0, 0, 1, 'Improving power factor extends equipment life by reducing the total line current which reduces operating temperatures.', '', '', 0, 0, 0, '2020-08-26 16:05:57', 0),
-(4833, 186, 0, 0, 1, 'Improving power factor can significantly reduce monthly electrical utility charges.', '', '', 0, 0, 0, '2020-08-26 16:05:57', 0),
-(4834, 186, 0, 0, 1, 'Capacitors have no moving parts and require little to no maintenance. It is recommended to check fuses on a regular basis.', '', '', 0, 0, 0, '2020-08-26 16:05:57', 0),
-(4835, 187, 0, 0, 2, 'Capacitors can amplify harmonics if nonlinear loads are present. Examples of nonlinear loads include variable frequency drives, induction furnaces, arc welders and arc furnaces.', '', '', 0, 0, 0, '2020-08-26 16:13:30', 0),
 (4842, 189, 0, 0, 17, 'This guide provides information on the fundamentals of power factor, how to improve power factor, example savings calculations for mulitple scenarios, and how to select the right capactior specific applications. Information on harmonics is also included.', 'https://www.eaton.com/ecm/groups/public/%40pub/%40electrical/documents/content/sa02607001e.pdf', 'Eaton - Power Factor Correction: A Guide for the Plant Engineer', 1, 0, 0, '2020-08-26 16:47:50', 0),
 (4843, 189, 0, 0, 17, 'This manual provides technical information for assessing many systems that are commonly found in small to medium sized industrial manufacturing facilities. Chapter 4 section 4.1.4 specifically addresses power factor improvement.', 'https://iac.university/technicalDocs/industr/ch4.pdf', 'Essentials of Industrial Assessments, Chapter 4, Electricity', 1, 0, 0, '2020-08-26 16:47:50', 0),
 (4844, 189, 0, 0, 23, 'This video produced by the The Engineering Mindset on YouTube explains what power factor is, how to calculate power factor, what poor power factor is, and how resistors and capacitors affect power factor.', 'https://www.youtube.com/watch?v=Tv_7XWf96gg', 'Power Factor Explained', 1, 0, 0, '2020-08-26 16:47:50', 0),
 (4866, 190, 0, 0, 15, 'Collect one year of electric utility bills. This will help with identifying meters that can benefit from power factor correction and estimating the potential savings for correcting power factor.', '', '', 0, 0, 0, '2020-08-26 17:59:09', 0),
 (4867, 190, 0, 0, 15, 'The method of billing for low power factor can vary depending on the facilities electric utility provider. The rate schedule associated with each meter will show how the facility is charged for poor power factor. ', '', '', 0, 0, 0, '2020-08-26 17:59:09', 0),
-(4883, 193, 0, 0, 26, 'Power factor represents the portion of the total power consumed by a load that does useful work.', '', '', 0, 0, 0, '2020-08-26 18:07:00', 0),
-(4884, 193, 0, 0, 26, 'Power factor is the ratio of real power, in kilowatts (kW), to apparent power, in kilovolt amperes (kVA). Power factor is represented by the cosine of the angle (theta) between the total power and real power on the power triangle. ', '', '', 0, 0, 0, '2020-08-26 18:07:00', 0),
-(4885, 193, 0, 1, 20, '', 'https://testguy.net/uploads/power-triangle-apparent-real-reactive-factor.jpg', 'The power triangle. (From testguy.net - edit to include internal image)', 0, 0, 0, '2020-08-26 18:07:00', 0),
-(4886, 193, 0, 0, 26, 'Reactive power is needed to create and maintain the magnetic field that rotates the shaft of a motor', '', '', 0, 0, 0, '2020-08-26 18:07:00', 0),
-(4887, 193, 0, 0, 26, 'Inductive loads produce lagging power factor and capacitive loads produce leading power factor. Lagging power factor is most common due to the presence of inductive loads in industrial facilities. In this case, installing capacitors will correct power factor by bringing the current back in phase with the voltage.', '', '', 0, 0, 0, '2020-08-26 18:07:00', 0),
-(4914, 192, 0, 0, 10, 'Reactive power charges constitute a considerable amount of the facility\'s electric utility bill.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
-(4915, 192, 0, 0, 7, 'Correcting power factor to the threshold reactive power on the utility bill. The threshold reactive power is the amount of reactive power that can be present on a utility bill before the user incurs additional charges. This provides the most value to the client without increasing the payback period for this recommendation.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
-(4916, 192, 0, 0, 8, 'Fuses are less expensive than new capacitors. If the facility has offline capacitors, consider if they can be put back into use.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
-(4917, 192, 0, 0, 4, 'Harmonic filters should be used in systems with harmonics. The facility should consult with a power management company to have a harmonic analysis completed before purchasing or installing capacitors.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
-(4918, 192, 0, 0, 27, 'A power quality analyzer can be used to determine the power factor for individual pieces of equipment.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
-(4919, 192, 0, 0, 11, 'Install a fixed capacitor bank', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
-(4920, 192, 0, 0, 11, 'Install an automatically switching capacitor bank', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
-(4921, 192, 0, 1, 8, 'Installing automatically switching capacitor banks is the best solution for variable loads because they provide the right amount of power factor correction as loads turn on and off.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
-(4922, 192, 0, 1, 2, 'Automatically switching banks are more expensive than fixed or individual capacitor banks.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
-(4923, 192, 0, 0, 11, 'Install individual capacitors at the load', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
-(4924, 192, 0, 1, 1, 'Installing individual capacitors at the load makes capacitor selection easy.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
-(4925, 192, 0, 1, 1, 'This can be the most economical solution due to low equipment cost.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
-(4926, 192, 0, 1, 1, 'The capacitor operates with the motor, so other systems are not affected when the motor is offline.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
-(4927, 192, 0, 1, 8, 'For large motors (50 HP and above), install capacitors at the load. For many smaller motors, it may be feasible to install one capacitor for the group of motors.', '', '', 0, 0, 0, '2020-08-26 18:35:02', 0),
 (4956, 196, 0, 0, 26, 'The Federal Communications Commission released ten tips for small business cyber security after meeting with public and private leaders.', '', '', 0, 0, 0, '2020-08-27 00:40:27', 0),
 (4957, 196, 0, 1, 24, ' ', 'https://www.fcc.gov/general/cybersecurity-small-business', 'Cybersecurity for Small Business', 1, 0, 0, '2020-08-27 00:40:27', 0),
 (4958, 196, 0, 0, 26, 'The Cybersecurity and Infrastructure Security Agency (CISA, a part of the US Department of Homeland Security) also has resources focused on increasing the security of industrial control systems.', '', '', 1, 0, 0, '2020-08-27 00:40:27', 0),
 (4959, 196, 0, 1, 24, ' ', 'https://us-cert.cisa.gov/ics', 'Industrial Control Systems', 1, 0, 0, '2020-08-27 00:40:27', 0),
 (4960, 197, 0, 0, 26, 'Researchers from the University of Illinois Urbana-Champaign have developed a tool for manufacturers to simplify the understanding of cybersecurity standards created by the National Institute of Standards and Technology. This tool also follows DFARS, the Department of Defense’s acquisition regulations.', '', '', 0, 0, 0, '2020-08-27 00:40:33', 0),
 (4961, 197, 0, 1, 21, ' ', 'https://iti.illinois.edu/news/new-software-tool-help-manufacturing-companies-meet-complex-cyber-security-standards ', 'The Dashboard', 1, 0, 0, '2020-08-27 00:40:33', 0),
-(4962, 195, 0, 0, 26, 'The Cybersecurity and Infrastructure Security Agency (CISA, a part of the US Department of Homeland Security) has created the Cyber Security Evaluation Tool (CSET). This tool is a provides a comprehensive self-assessment and recommendations to fix potential vulnerabilities. The CSET focuses on industrial control systems and information technology network security.', '', '', 0, 0, 0, '2020-08-27 00:40:46', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `sourceId`, `created`, `approved`) VALUES
+(4962, 195, 0, 0, 26, 'The Cybersecurity and Infrastructure Security Agency (CISA, a part of the US Department of Homeland Security) has created the Cyber Security Evaluation Tool (CSET). This tool is a provides a comprehensive self-assessment and recommendations to fix potential vulnerabilities. The CSET focuses on industrial control systems and information technology network security.', '', '', 0, 0, 0, '2020-08-27 00:40:46', 0),
 (4963, 195, 0, 1, 21, ' ', 'https://us-cert.cisa.gov/ics/Assessments', 'Cyber Security Evaluation Tool (CSET)', 1, 0, 0, '2020-08-27 00:40:46', 0),
 (4964, 195, 0, 0, 26, 'CISA also offers the Cyber Resilience Review which is a free non-technical cybersecurity self-assessment. This process can also be completed with professionals from the Department of Homeland Security.', '', '', 1, 0, 0, '2020-08-27 00:40:46', 0),
 (4965, 195, 0, 1, 21, ' ', 'https://us-cert.cisa.gov/resources/assessments ', 'Cyber Resilience Review ', 1, 0, 0, '2020-08-27 00:40:46', 0),
@@ -1774,7 +1755,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4984, 200, 0, 0, 2, 'Precise analysis requires a deep understanding of how the entire production line operates. Statistics based simulation is often the only way to achieve this.', '', '', 0, 0, 0, '2020-09-02 22:11:35', 0),
 (4985, 200, 0, 0, 2, 'Unless time studies on how product flows into and out of the workstation are conducted, several assumptions are required even for basic analysis.', '', '', 0, 0, 0, '2020-09-02 22:11:35', 0),
 (4995, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
-(4996, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
+(4996, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `sourceId`, `created`, `approved`) VALUES
 (4997, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
 (4998, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
 (4999, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
@@ -1797,7 +1779,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5113, 202, 0, 1, 8, 'Select \"Show Duplicates\" to view a complete history of all edits made to all pages, headers, and cards. Red highlighted content consists of old edits while green highlighted content is the most recent edit made during the selected date range. Yellow highlighted content is material that was only added or updated once. Unhighlighted content predates the selected date range. ', '', '', 0, 0, 0, '2020-09-04 20:46:22', 0),
 (5114, 202, 0, 1, 8, 'Unselect \"Show Duplicates\" to display only the most recent edit made to a page, header, or card.', '', '', 0, 0, 0, '2020-09-04 20:46:22', 0),
 (5115, 202, 0, 1, 8, 'Select \"Show Removals\" to view deleted content. ', '', '', 0, 0, 0, '2020-09-04 20:46:22', 0),
-(5131, 206, 0, 0, 13, 'An internal image upload feature is currently a work in progress. ', '', '', 0, 0, 0, '2020-09-07 23:43:10', 0),
 (5156, 207, 0, 0, 26, 'From the main sidebar menu, go to the Publish Requests page.', '', '', 0, 0, 0, '2020-09-08 17:53:50', 0),
 (5157, 207, 0, 0, 26, 'Find the publish request you wish to review from the list of live requests and click on the green Review Request button. ', '', '', 0, 0, 0, '2020-09-08 17:53:50', 0),
 (5158, 207, 0, 0, 26, 'A page will open where users can view the currently published content as well as the content to be approved. Users can also add comments, suggest changes, and give approval. Similar to a chatroom format, these entries appear in chronological order which allows for an ongoing dialogue between the author and reviewers. ', '', '', 0, 0, 0, '2020-09-08 17:53:50', 0),
@@ -1807,16 +1788,68 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5162, 203, 0, 1, 26, 'After all items have been added, go to the Publish Requests page and select Create a Publish Request. Add a title and include the author\'s and reviewer\'s name as well as any additional notes in the description. ', '', '', 0, 0, 0, '2020-09-08 18:03:24', 0),
 (5163, 203, 0, 1, 26, 'Double-check that the Content to Publish includes the intended material then submit the publish request. ', '', '', 0, 0, 0, '2020-09-08 18:03:24', 0),
 (5164, 203, 0, 1, 8, 'Be reasonable and strategic with what material is lumped together in a single publish request. Submitting two unrelated technology pages together for example will probably just bog down the review process. ', '', '', 0, 0, 0, '2020-09-08 18:03:24', 0),
-(5174, 204, 0, 0, 13, 'To create a new page, first open the sidebar menu and select \"Show Edit Buttons\" near the bottom of the menu. Simply select the category for the new page and click \"Create a Page\". ', '', '', 0, 0, 2, '2020-09-08 18:14:03', 0),
-(5175, 204, 0, 1, 26, 'A page consists of a concise yet descriptive title, a summary of the page\'s purpose, and a description of what can be found on the page and how it can be used. ', '', '', 0, 0, 0, '2020-09-08 18:14:03', 0),
-(5176, 204, 0, 1, 26, 'Within a page editors can create headers and cards. Headers allow for content-carrying cards to be organized into sections and categories.', '', '', 0, 0, 0, '2020-09-08 18:14:03', 0),
 (5181, 208, 0, 0, 13, 'It is always important to cite where information is coming from. A library of sources exists on each page that referenced within content-carrying cards. ', '', '', 0, 0, 0, '2020-09-08 18:57:38', 0),
 (5182, 208, 0, 1, 26, 'To add a reference, click \"Add Source\" in the header of any page in Edit Mode. ', '', '', 0, 0, 0, '2020-09-08 18:57:38', 0),
 (5183, 208, 0, 1, 26, 'Use IEEE formatting for all references and include a URL if applicable. ', '', '', 0, 0, 0, '2020-09-08 18:57:38', 0),
 (5184, 208, 0, 1, 26, 'To connect a source to an item, click \"Edit Card\" and use the source dropdown menu to the right of the item to select the source. ', '', '', 0, 0, 0, '2020-09-08 18:57:38', 0),
 (5185, 208, 0, 1, 17, '$empty', 'https://oregonstate.box.com/s/rm1jtvnmfhb2oyt1wyvzaztgc3w1ww5q', 'IEEE Reference Guide', 0, 0, 0, '2020-09-08 18:57:38', 0),
-(5186, 205, 0, 0, 8, 'When adding a new page, header, or card, select \"Internal (not viewable by the public)\" for material intended to be used by EEC personnel only (such as this instructions page). ', '', '', 0, 0, 3, '2020-09-08 19:25:46', 0),
-(5187, 205, 0, 0, 8, 'Use the toggle in the top right corner of any page header to switch between View Mode, Edit Mode, and Move Mode. The mode shown on the toggle is the mode the page is currently in. ', '', '', 0, 0, 0, '2020-09-08 19:25:46', 0);
+(5188, 204, 0, 0, 13, 'To create a new page, first open the sidebar menu and select \"Show Edit Buttons\" near the bottom of the menu. Simply select the category for the new page and click \"Create a Page\". ', '', '', 0, 0, 0, '2020-09-08 21:47:25', 0),
+(5189, 204, 0, 1, 26, 'A page consists of a concise yet descriptive title, a summary of the page\'s purpose, and a description of what can be found on the page and how it can be used. ', '', '', 0, 0, 0, '2020-09-08 21:47:25', 0),
+(5190, 204, 0, 1, 26, 'Within a page editors can create headers and cards. Headers allow for content-carrying cards to be organized into sections and categories.', '', '', 0, 0, 0, '2020-09-08 21:47:25', 0),
+(5191, 205, 0, 0, 8, 'When adding a new page, header, or card, select \"Internal (not viewable by the public)\" for material intended to be used by EEC personnel only (such as this instructions page). ', '', '', 0, 0, 0, '2020-09-08 21:48:22', 0),
+(5192, 205, 0, 0, 8, 'Use the toggle in the top right corner of any page header to switch between View Mode, Edit Mode, and Move Mode. The mode shown on the toggle is the mode the page is currently in. ', '', '', 0, 0, 0, '2020-09-08 21:48:22', 0),
+(5224, 193, 0, 0, 26, 'Power factor represents the portion of the total power consumed by a load that does useful work', '', '', 0, 0, 0, '2020-09-09 17:32:07', 0),
+(5225, 193, 0, 0, 26, 'Power factor is the ratio of real power, in kilowatts (kW), to apparent power, in kilovolt amperes (kVA)', '', '', 0, 0, 0, '2020-09-09 17:32:07', 0),
+(5226, 193, 0, 1, 20, '', '/uploads/user_52/3bacc6ae00660669452ad7219c34b33e.png', 'The power triangle. Power factor is represented by the cosine of the angle (theta) between the total power and real power on the power triangle. ', 0, 0, 0, '2020-09-09 17:32:07', 0),
+(5227, 193, 0, 0, 26, 'Reactive power is needed to create and maintain the magnetic field that rotates the shaft of a motor', '', '', 0, 0, 0, '2020-09-09 17:32:07', 0),
+(5228, 193, 0, 0, 26, 'Inductive loads produce lagging power factor and capacitive loads produce leading power factor. Lagging power factor is most common due to the presence of inductive loads in industrial facilities. In this case, installing capacitors will correct power factor by bringing the current back in phase with the voltage.', '', '', 0, 0, 0, '2020-09-09 17:32:07', 0),
+(5287, 187, 0, 0, 2, 'Capacitors can amplify harmonics if nonlinear loads are present. Examples of nonlinear loads include variable frequency drives, induction furnaces, arc welders and arc furnaces.', '', '', 0, 0, 4, '2020-09-09 17:57:39', 0),
+(5288, 192, 0, 0, 10, 'Reactive power charges constitute a considerable amount of the facility\'s electric utility bill', '', '', 0, 0, 0, '2020-09-09 17:59:29', 0),
+(5289, 192, 0, 0, 7, 'Correcting power factor to the threshold reactive power provides the most value to the client without increasing the payback period for this recommendation. The threshold reactive power is the amount of reactive power that can be present on a utility bill before the user incurs additional charges.', '', '', 0, 0, 0, '2020-09-09 17:59:29', 0),
+(5290, 192, 0, 0, 8, 'Fuses are less expensive than new capacitors. If the facility has offline capacitors, determine if they can be put back into use.', '', '', 0, 0, 0, '2020-09-09 17:59:29', 0),
+(5291, 192, 0, 0, 4, 'Harmonic filters should be used in distribution systems with harmonics. The facility should consult with a power management company to have a harmonic analysis completed before purchasing or installing capacitors.', '', '', 0, 0, 4, '2020-09-09 17:59:29', 0),
+(5292, 192, 0, 0, 27, 'A power quality analyzer can be used to determine the power factor for individual pieces of equipment', '', '', 0, 0, 0, '2020-09-09 17:59:29', 0),
+(5293, 192, 0, 0, 11, 'Install individual capacitors', '', '', 0, 0, 0, '2020-09-09 17:59:29', 0),
+(5294, 192, 0, 1, 1, 'Installing individual capacitors at the load makes capacitor selection easy', '', '', 0, 0, 0, '2020-09-09 17:59:29', 0),
+(5295, 192, 0, 1, 1, 'This can be the most economical solution due to low equipment cost', '', '', 0, 0, 4, '2020-09-09 17:59:29', 0),
+(5296, 192, 0, 1, 1, 'The capacitor operates with the motor, so other systems are not affected when the motor is offline', '', '', 0, 0, 0, '2020-09-09 17:59:29', 0),
+(5297, 192, 0, 1, 8, 'For large motors (50 HP and above), install capacitors at the load. For many smaller motors, it may be feasible to install one capacitor for the group of motors.', '', '', 0, 0, 4, '2020-09-09 17:59:29', 0),
+(5298, 192, 0, 0, 11, 'Install a capacitor bank', '', '', 0, 0, 0, '2020-09-09 17:59:29', 0),
+(5299, 192, 0, 1, 26, 'A fixed capacitor bank is suitable for equipment that has little variance in load characteristics', '', '', 0, 0, 0, '2020-09-09 17:59:29', 0),
+(5300, 192, 0, 1, 26, 'Installing automatically switching capacitor banks is the best solution for variable loads because they provide the right amount of power factor correction as loads turn on and off', '', '', 0, 0, 0, '2020-09-09 17:59:29', 0),
+(5301, 192, 0, 1, 1, 'Only one installation is required for a capacitor bank compared to multiple capacitors at the load', '', '', 0, 0, 0, '2020-09-09 17:59:29', 0),
+(5302, 192, 0, 1, 2, 'Automatically switching banks are more expensive than fixed banks or individual capacitors and lead to longer payback periods', '', '', 0, 0, 0, '2020-09-09 17:59:29', 0),
+(5303, 186, 0, 0, 1, 'Improving power factor extends equipment life by reducing the total line current which reduces operating temperatures.', '', '', 0, 0, 0, '2020-09-09 18:12:30', 0),
+(5304, 186, 0, 0, 1, 'Improving power factor can significantly reduce monthly electrical utility charges.', '', '', 0, 0, 0, '2020-09-09 18:12:30', 0),
+(5305, 186, 0, 0, 1, 'Capacitors have no moving parts and require little to no maintenance. It is recommended to check fuses on a regular basis. All capacitors should be checked annually to ensure proper operation.', '', '', 0, 0, 5, '2020-09-09 18:12:30', 0),
+(5390, 211, 0, 0, 11, 'Install localized welding ventilation', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
+(5391, 211, 0, 1, 26, 'Reduce ventilation energy losses by installing localized ventilation ducting above welding stations', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
+(5392, 211, 0, 1, 26, 'Welding areas must be ventilated to maintain air quality standards specified by the Oregon Health and Safety Administration (OSHA)', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
+(5393, 211, 0, 1, 15, 'Note the source of heating and cooling for the building whether it is packaged HVAC units or gas/electric heaters', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
+(5394, 211, 0, 1, 15, 'Heating degree days for the local area. Temperature bin data can be obtained from the National Ocean and Atmospheric Administration (NOAA).', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
+(5395, 211, 0, 1, 15, 'Operation hours for the air conditioning system', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
+(5396, 211, 0, 1, 15, 'Approximate the proposed length of ventilation required for the installation to estimate the cost of implementation', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
+(5397, 211, 0, 1, 15, 'Current exhaust air flow', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
+(5398, 212, 0, 0, 11, 'Increase Spray Paint Efficiency', '', '', 0, 0, 0, '2020-09-09 21:14:15', 0),
+(5399, 212, 0, 1, 8, 'Training paint personnel to reduce overspray in painting applications can significantly reduce annual paint consumption and extends booth filter life', '', '', 0, 0, 0, '2020-09-09 21:14:15', 0),
+(5400, 212, 0, 1, 26, 'Paint booths are often present in metals manufacturing facilities that produce final products or components', '', '', 0, 0, 0, '2020-09-09 21:14:15', 0),
+(5401, 212, 0, 1, 26, 'Operator spray technique and equipment settings can be adjusted to minimize paint overspray. Equipment settings include paint gun adjustment, equipment maintenance, and paint gun distance and orientation.', '', '', 0, 0, 0, '2020-09-09 21:14:15', 0),
+(5402, 212, 0, 1, 26, 'Painting efficiency can be improved by as much 25% for even the most experienced painters with increased attention to application techniques', '', '', 0, 0, 6, '2020-09-09 21:14:15', 0),
+(5403, 212, 0, 1, 15, 'Annual consumption of paint and associated cost', '', '', 0, 0, 0, '2020-09-09 21:14:15', 0),
+(5404, 212, 0, 1, 3, 'Proposed savings can be conservatively estimated at 10-15% reduction in paint consumption. Percent savings may approach 25% if the recommended techniques are replicated and adhered to.', '', '', 0, 0, 0, '2020-09-09 21:14:15', 0),
+(5487, 213, 0, 0, 11, 'Replace transformer-rectifier welders with inverter welders', '', '', 0, 0, 0, '2020-09-09 22:01:08', 0),
+(5488, 213, 0, 1, 3, 'A transformer-rectifier welder is 67% efficient and an inverter-based welder is 87% efficient, on average. ', '', '', 0, 0, 7, '2020-09-09 22:01:08', 0),
+(5489, 213, 0, 1, 1, 'Inverter welders are smaller and more lightweight compared to transformer-rectifier welders making them more portable', '', '', 0, 0, 0, '2020-09-09 22:01:08', 0),
+(5490, 213, 0, 1, 1, 'Inverter welders are capable of stick, MIG, TIG, FCAW, arc gouging and pulsing styles. They also produce a higher quality weld.', '', '', 0, 0, 7, '2020-09-09 22:01:08', 0),
+(5491, 213, 0, 1, 8, 'For upgrading to an inverter welder, the Energy Trust of Oregon (ETO) offers a $1,200 incentive for each machine that operates over 1,200 hours per year.', '', '', 0, 0, 9, '2020-09-09 22:01:08', 0),
+(5492, 213, 0, 1, 26, 'The transformer cores, windings, and electronic switching components are designed to minimize losses leading to efficiency improvements for inverter welders by design.', '', '', 0, 0, 7, '2020-09-09 22:01:08', 0),
+(5493, 213, 0, 1, 26, 'Upgrading a single transformer-rectifier welder to an inverter welder can save up to $1,724 annually. This calculation assumes a 20% increase in welder efficiency with 6,240 annual operation hours and a 25% idle time.', '', '', 0, 0, 8, '2020-09-09 22:01:08', 0),
+(5499, 206, 0, 0, 13, 'When creating pages or cards there are two methods for adding images:', '', '', 0, 0, 0, '2020-09-09 22:04:31', 0),
+(5500, 206, 0, 1, 26, 'You may enter an image URL. This is a web address that points to a specific image (ex: https://placekitten.com/300/200).', '', '', 0, 0, 0, '2020-09-09 22:04:31', 0),
+(5501, 206, 0, 2, 4, 'Always include \"https\" at the start of your image address and never \"http\". This ensures that the image is being sent over a secure channel. A published page with HTTP images will display as \"Not Secure\" in most browsers, which will make users less confident when using our application.', '', '', 0, 0, 0, '2020-09-09 22:04:31', 0),
+(5502, 206, 0, 1, 26, 'You may upload an image. Valid images have the file format JPG, PNG, or GIF. Images are not allowed to be larger than six megabytes. ', '', '', 0, 0, 0, '2020-09-09 22:04:31', 0),
+(5503, 206, 0, 2, 12, 'Only upload images that you have intellectual property rights to use. This means that you should not use images that you did not create unless you have gotten express permission to use them from the creator.', '', '', 0, 0, 0, '2020-09-09 22:04:31', 0),
+(5504, 206, 0, 2, 7, 'If you want to use an image in multiple locations. Upload the image by submitting some content, then edit the content and you will see that the image has a URL that you can copy. You can reuse this URL anywhere on the website, this is the preferred method as it saves space on the server by only uploading the image once.', '', '', 0, 0, 0, '2020-09-09 22:04:31', 0);
 
 -- --------------------------------------------------------
 
@@ -1854,10 +1887,11 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (56, 3, 'Combined Heat and Power', 'Combined Heat and Power allows sites to use the waste heat of electrical generation.', 'CHP', 'no image yet', 0, 51, '2020-08-07 00:33:29', 0),
 (57, 4, 'Optimize Facility Layout', 'Improve productivity through the location of departments and workstations and the workflow of personnel and materials.', 'Facility layout has a significant and often underestimated effect on the productivity of a facility. Movement of any form of work represents a non-value-added (NVA) process. Re-arranging the location of workstations and inventory to eliminate movement creates value in several forms. Most typically, fewer labor hours are spent moving materials, and sometimes energy is saved if operating hours of vehicles (e.g. forklifts or conveyors) are reduced. The most lucrative savings for the facility is increased productivity if delivery lead times between workstations are reduced, increasing utilization of the downstream workstation.', 'https://www.manexconsulting.com/wp-content/uploads/Layout-Optimization-Blog.jpg', 0, 62, '2020-08-07 19:21:05', 0),
 (58, 4, 'Queuing Line Optimization', 'The operation of queues and their respective workstations determine the overall production efficiency of a facility.', 'Optimizing the queuing system of a workstation has significant effects on product output. Little\'s law and queuing theory helps simplify any production system into a set of easy to estimate variables. While extensive research, data collection, and possibly simulation should be employed before making any change to a part of the production system, basic analysis can reveal opportunities for cost savings through increased productivity.', 'https://www.umav.org/wp-content/uploads/2019/04/Car-Assembly-Line.jpg', 0, 62, '2020-08-10 19:57:05', 0),
-(61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, which creates additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will increase the capacity of the distribution system.', 'https://www.shutterstock.com/image-photo/capacitor-bank-high-voltage-substation-124054798', 0, 52, '2020-08-26 15:55:35', 0),
+(61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, which creates additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will increase the capacity of the distribution system.', '/uploads/user_52/ec8550a6c0caa67f935129b59a4c8185.jpg', 0, 52, '2020-08-26 15:55:35', 0),
 (62, 5, 'Cybersecurity', 'Industrial Assessment Center resources for increasing cybersecurity.', 'Cybersecurity is becoming increasingly important as more industries adopt newer and more sophisticated controls for smart manufacturing or data collection to increase production and equipment efficiency. As part of our outreach on energy efficiency, we also provide information and resources about cybersecurity. Using some of the self-assessment tools and other informational resources provided on this page can be an important part of a facility’s plan to regularly evaluate their cybersecurity status.\n\nThe National Institute of Standards and Technology (NIST) Manufacturing Extension Partnership stated that 61% of small businesses experienced a cyber attack within the last 12 months, making up 58% of cyber attack victims. Furthermore, 34% of targets were manufacturing facilities and the median cost per attack was $60,000.', 'https://live.staticflickr.com/6044/6999839463_ae02bb6a7e_b.jpg', 1, 57, '2020-08-27 00:21:01', 0),
 (64, 0, 'How to Use EEC Walkthrough', 'summary', 'description', 'https://via.placeholder.com/350', 0, 42, '2020-08-31 22:17:53', 0),
-(65, 0, 'How to Edit EEC Walkthrough', 'An analyst oriented guide for creating, editing, and reviewing content on the EEC Industrial Walkthrough Checklist.', 'Description', 'https://via.placeholder.com/350', 1, 58, '2020-08-31 22:17:53', 0);
+(65, 0, 'How to Edit EEC Walkthrough', 'An analyst oriented guide for creating, editing, and reviewing content on the EEC Industrial Walkthrough Checklist.', 'Description', 'https://via.placeholder.com/350', 1, 58, '2020-08-31 22:17:53', 0),
+(69, 1, 'Metals Manufacturing', 'Industrial metals manufacturing processes may include casting, forging, bending, forming, spinning, welding, cutting and finishing to produce a final product.', 'Metals manufacturing includes production of raw stock, replacement parts and final products. Many production processes are common among all metals manufacturing facilities.', '/uploads/user_52/0baf5657b6e1ac3fef0b0e048672324b.jpg', 0, 52, '2020-09-09 18:37:04', 0);
 
 -- --------------------------------------------------------
 
@@ -1905,6 +1939,13 @@ CREATE TABLE `Requests` (
   `userId` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `Requests`
+--
+
+INSERT INTO `Requests` (`requestId`, `title`, `description`, `status`, `created`, `userId`) VALUES
+(4, 'Power factor correction', 'The google spreadsheet for this page was orange reviewed. I added images and sources to this page, and rearranged the opportunities section. ', 1, '2020-09-09 18:20:02', 52);
+
 -- --------------------------------------------------------
 
 --
@@ -1933,6 +1974,21 @@ CREATE TABLE `Request_Objects` (
   `objectType` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `Request_Objects`
+--
+
+INSERT INTO `Request_Objects` (`requestObjectId`, `requestId`, `objectId`, `objectType`) VALUES
+(7, 4, 61, 1),
+(8, 4, 54, 2),
+(9, 4, 193, 3),
+(10, 4, 186, 3),
+(11, 4, 187, 3),
+(12, 4, 190, 3),
+(13, 4, 189, 3),
+(14, 4, 55, 2),
+(15, 4, 192, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -1953,7 +2009,13 @@ CREATE TABLE `Sources` (
 INSERT INTO `Sources` (`sourceId`, `pageId`, `text`, `url`) VALUES
 (1, 2, 'Test', ''),
 (2, 65, 'Test', 'Test'),
-(3, 65, 'Test', '');
+(3, 65, 'Test', ''),
+(4, 61, 'Eaton. Power factor correction: a guide for the plant engineer (2014). Accessed: Sept. 9, 2020. [Online]. Available: https://www.eaton.com/ecm/groups/public/%40pub/%40electrical/documents/content/sa02607001e.pdf', 'https://www.eaton.com/ecm/groups/public/%40pub/%40electrical/documents/content/sa02607001e.pdf'),
+(5, 61, 'M. R. Muller, M. Simek, J. Mak, B. Mitroic. Essentials of Industrial Assessments. Accessed: Sept. 9, 2020. [Online]. Available: https://iac.university/technicalDocs/industr/ch4.pdf', 'https://iac.university/technicalDocs/industr/ch4.pdf'),
+(6, 69, '\"Spray Painting Efficiency Training.\" Pacific Northwest Pollution Prevention Resource Center. https://pprc.org/2012/projects-2/projects/spray-painting-training-efficiency/ (accessed Sept. 9, 2020)', 'https://pprc.org/2012/projects-2/projects/spray-painting-training-efficiency/'),
+(7, 69, '\"Energy Efficiency: Inverter Power Source.\" Lincoln Electric. https://www.lincolnelectric.com/en-us/support/process-and-theory/Pages/inverter-power-detail.aspx (accessed Sept. 9, 2020).', 'https://www.lincolnelectric.com/en-us/support/process-and-theory/Pages/inverter-power-detail.aspx'),
+(8, 69, '\"Welding Guide to Power Efficiency.\" Millerwelds.com. https://www.millerwelds.com/resources/article-library/welding-guide-to-power-efficiency (accessed Sept. 9, 2020).', 'https://www.millerwelds.com/resources/article-library/welding-guide-to-power-efficiency'),
+(9, 69, '\"Welding Equipment.\" energytrust.org. https://www.energytrust.org/incentives/industry-welding-equipment/#tab-two (accessed Sept. 9, 2020).', 'https://www.energytrust.org/incentives/industry-welding-equipment/#tab-two');
 
 -- --------------------------------------------------------
 
@@ -2281,7 +2343,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2299,7 +2361,7 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
@@ -2335,13 +2397,13 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5188;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5505;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `Quick_Titles`
@@ -2353,7 +2415,7 @@ ALTER TABLE `Quick_Titles`
 -- AUTO_INCREMENT for table `Requests`
 --
 ALTER TABLE `Requests`
-  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `Request_Comments`
@@ -2365,13 +2427,13 @@ ALTER TABLE `Request_Comments`
 -- AUTO_INCREMENT for table `Request_Objects`
 --
 ALTER TABLE `Request_Objects`
-  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `Sources`
 --
 ALTER TABLE `Sources`
-  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`
