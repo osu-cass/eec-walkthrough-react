@@ -9,7 +9,7 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const app = express();
 
-// catch invalid JSON request bodies
+// check that JSON body is valid
 app.use((req, res, next) => {
   bodyParser.json()(req, res, err => {
     if (err) {
@@ -23,13 +23,14 @@ app.use((req, res, next) => {
 
 // general middleware
 app.use(logger("dev"));
-app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
+app.use(express.json());
 
 // handle requests
+app.use("/api/files", require("./files"));
 app.use("/api/cards", require("./cards"));
 app.use("/api/headers", require("./headers"));
 app.use("/api/home", require("./home"));

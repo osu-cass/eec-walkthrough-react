@@ -1,0 +1,2146 @@
+\documentclass[onecolumn, draftclsnofoot,10pt, compsoc, usenames, dvipsnames]{IEEEtran}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{geometry}
+\geometry{textheight=9.5in, textwidth=7in}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{
+   language=JavaScript,
+   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+
+\newcommand{\NameSigPair}[1]{\par
+\makebox[2.75in][r]{#1} \hfil 	\makebox[3.25in]{\makebox[2.25in]{\hrulefill} \hfill		\makebox[.75in]{\hrulefill}}
+\par\vspace{-12pt} \textit{\tiny\noindent
+\makebox[2.75in]{} \hfil		\makebox[3.25in]{\makebox[2.25in][r]{Signature} \hfill	\makebox[.75in][r]{Date}}}}
+
+\begin{document}
+\begin{titlepage}
+    \pagenumbering{gobble}
+        \begin{center}
+    	%\includegraphics[height=4cm]{coe_v_spot1}
+    	\end{center}
+        \hfill 
+        % 4. If you have a logo, use this includegraphics command to put it on the coversheet.
+        %\includegraphics[height=4cm]{CompanyLogo}   
+        \par\vspace{.2in}
+        \centering
+        \scshape{
+            \vspace{50pt}
+
+            \textbf{\Huge\ Energy Efficiency Center}\par
+            \vspace{5pt}
+            \textbf{\Huge\ Industrial Walkthrough Checklist}\par
+            \vspace{5pt}
+            \textbf{\Huge\ \& Reference API}\par
+            \vspace{10pt}
+            {\large\today}\par
+            \vspace{350pt}
+            {\large Prepared by }\par
+            \vspace{15pt}
+            {\Huge\ Zachary Thomas}
+            \vspace{30pt}
+        }
+\end{titlepage}
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+\clearpage
+
+\section{Introduction}
+This document describes all of the API endpoints for the EEC Walkthrough application.
+The document is organized by route name and each API endpoint includes a general description, the expected input, and  the expected output.
+
+This API uses cookies to keep track of the user who is making requests. This means that each of these endpoints will have access to all user information for the current user even if it is not requested in the body. This includes ID, username, first name, last name, email, and role. All endpoints also have the option to return an error code. This will have a status code between 400 and 500. In the case of a validation error an object with the property "errors" will be returned, which is an array of objects that describe what was wrong with the request body. All other errors will return an object with the property "error", which is a string that describes the error.
+
+To make handling responses from the API easier, all responses return a JSON object. To make it easier to tell what requests are being made to the API (as apposed to requests to get files), each API request starts with "api".
+
+\section{API Endpoints}
+
+\subsection{Card Endpoints}
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/cards} \\
+Creates a new card. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item HeaderId: The ID of the header that this card belongs to.
+    \item cardType: The type of card to create. Examples include: default card, internal card, thumbnail gallery, internal thumbnail gallery, and more.
+    \item title: The title of the card.
+    \item items: The items that will be included in the card.
+    \begin{itemize}
+        \item cardId: The ID of the card that this item belongs to.
+        \item indentation: The level of indentation (0 is none, 3 is max).
+        \item iconType: The ID of the icon that is displayed at the start of the item.
+        \item contentText: The main body of text for the item.
+        \item contentUrl: The URL of the item. For graphic items this will be the URL of the image to display, for link items this will be the URL to direct the user to.
+        \item contentLabel: The bold title of the item, this is shown before the content text.
+        \item contentMode: A special setting that depends on the item in particular. For links this will be used to describe the type of link (internal, external, internal download, external download).
+        \item internal: Determines if the item should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+        \item sourceId: The ID of the source that this item is referencing.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  headerId: 2,
+  cardType: 0,
+  title: "Best Practices",
+  items: [
+   {
+     cardId: 1,
+     indentation: 0,
+     iconType: 16,
+     contentText: "An informational page with analysis tools",
+     contentUrl: "https://www.bpa.gov/EE/Sectors/Industrial/Pages/Co",
+     contentLabel: "Bonneville Power Administration",
+     contentMode: 0,
+     internal: 0,
+     sourceId: 2
+   }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+  \item insertId: The ID of the newly created card.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 10
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/cards/:cardId/changes} \\
+Deletes an unpublished card / suggested changes to a card. Only editors and admins can use this endpoint.
+\begin{itemize}
+  \item cardId: The ID of the card to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/cards/:cardId} \\
+Deletes a card (including published cards). Only admins can use this endpoint.
+\begin{itemize}
+    \item cardId: The ID of the card to delete.
+    \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/cards/:cardId} \\
+Updates a card. If the card is unpublished this will simply change the card. If the card is published then this will add a suggested edit to the card that will need to be published before it will replace the original. If the card is both published and has an edited version, then this will replace the edited version. Only an editor or an admins can use this endpoint.
+\begin{itemize}
+    \item cardId: The ID of the card to update.
+    \item cardType: The type of card to create. Examples include: default card, internal card, thumbnail gallery, internal thumbnail gallery, and more.
+    \item title: The title of the card.
+    \item items: The items that will be included in the card.
+    \begin{itemize}
+        \item cardId: The ID of the card that this item belongs to.
+        \item indentation: The level of indentation (0 is none, 3 is max).
+        \item iconType: The ID of the icon that is displayed at the start of the item.
+        \item contentText: The main body of text for the item.
+        \item contentUrl: The URL of the item. For graphic items this will be the URL of the image to display, for link items this will be the URL to direct the user to.
+        \item contentLabel: The bold title of the item, this is shown before the content text.
+        \item contentMode: A special setting that depends on the item in particular. For links this will be used to describe the type of link (internal, external, internal download, external download).
+        \item internal: Determines if the item should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+        \item sourceId: The ID of the source that this item is referencing.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  cardType: 0,
+  title: "Best Practices",
+  items: [
+   {
+     cardId: 1,
+     indentation: 0,
+     iconType: 16,
+     contentText: "An informational page with analysis tools",
+     contentUrl: "https://www.bpa.gov/EE/Sectors/Industrial/Pages/Co",
+     contentLabel: "Bonneville Power Administration",
+     contentMode: 0,
+     internal: 0,
+     sourceId: 2
+   }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+  \item cardId: The ID of the current card.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  cardId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/cards/:cardId/publish} \\
+Publishes a card. If the card is unpublished this will simply approve the card and show it publicly. If the card has a published version and an edit then the edit will replace the current published version while becoming approved. Only an admins can use this endpoint.
+\begin{itemize}
+    \item cardId: The ID of the card to publish.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  cardId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/cards/:cardId/unpublish} \\
+Unpublishes a card. If the card is published this will simply make the card unapproved and unviewable by the public. If the card has a published version and an edit then the edit will  be replaced by the current published version while becoming unapproved. Only an admins can use this endpoint.
+\begin{itemize}
+    \item cardId: The ID of the card to unpublish.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  cardId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/cards/:cardId/move/:direction/:mode} \\
+Changes the selected card's position relative to other cards when displayed. If we are moving an unpublished card, it will move the card relative to all cards (excluding its published version). If we are moving a published card it will move relative to published cards (skipping over unpublished cards). Only editors or admins can move an unpublished card. Only admins can move a published card.
+\begin{itemize}
+    \item cardId: The ID of the card to move.
+    \item direction: A value of 1 moves the card up one row. A value of 0 moves the card down one row.
+    \item mode: States what type of card we want to move. A value of 0 represents an unpublished card. A value of 1 represents a published card.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  cardId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/cards/titles} \\
+Returns a list of suggested titles for cards. Editors can use these suggested titles to quickly name cards that are similar across pages. Any user can use this endpoint.
+\begin{itemize}
+    \item titles: An array of strings that will be used as the suggested titles.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  titles: [
+    "General Off Site Resource Links",
+    "Best Practices",
+    "Caveats"
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/cards/titles} \\
+Replaces the current list of suggested card titles. Only admins can use this endpoint.
+\begin{itemize}
+    \item titles: An array of strings that will be used as the new suggested titles.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  titles: [
+    "Data Collection Guides",
+    "Rules of Thumb",
+    "Caveats"
+  ]
+}
+\end{lstlisting}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  titleCount: 3
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{Category Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/categories/all} \\
+Returns all of the categories and their respective pages. Users without an account, or external users will get all published categories and pages that are not internal. Internal users, editors, and admins will get all categories and pages.
+\begin{itemize}
+    \item categoryId: The ID of the category.
+    \item created: The date that the category was created.
+    \item description: A general description of the category.
+    \item internal: Whether the category is viewable by the public (value of 0) or just by internal users (value of 1).
+    \item pluralName: The plural name of the category.
+    \item singleName: The singular name of the category.
+    \item userId: The ID of the user who created the category.
+    \item pages: The list of pages that belong to the category.
+    \begin{itemize}
+        \item approved: Whether this page is published and viewable in view mode.
+        \item description: The description of the page.
+        \item internal: Whether the page is viewable by the public (value of 0) or just by internal users (value of 1).
+        \item name: The name of the page.
+        \item pageId: The ID of the page.
+        \item pageType: The category ID that the page belongs to.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  categories: [
+    {
+      categoryId: 5,
+      created: "2020-07-18T03:11:32.000Z",
+      description: "Standard recommended approaches for performing...",
+      internal: 0,
+      pluralName: "Assessments",
+      singleName: "Assessment",
+      userId: 51,
+      pages: [
+        approved: 1,
+        description: "Cybersecurity is...",
+        internal: 1,
+        name: "Cybersecurity",
+        pageId: 62,
+        pageType: 5
+      ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/categories/names} \\
+Returns the names and IDs of all categories. Users without an account, or external users will only have access to published categories that are not internal. Internal users, editors, and admins will have access to all categories.
+\begin{itemize}
+    \item categoryId: The ID of the category.
+    \item singleName: The singular name of the category.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  categories: [
+    {
+      categoryId: 5,
+      singleName: "Assessment"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/categories/:categoryId} \\
+Returns a single category and all of its pages. Users without an account, or external users will only have access to published categories and published pages that are not internal. Internal users, editors, and admins will have access to all categories and all pages.
+\begin{itemize}
+    \item categoryId: The ID of the category.
+    \item created: The date that the category was created.
+    \item description: A general description of the category.
+    \item internal: Whether the category is viewable by the public (value of 0) or just by internal users (value of 1).
+    \item pluralName: The plural name of the category.
+    \item singleName: The singular name of the category.
+    \item userId: The ID of the user who created the category.
+    \item pages: The list of pages that belong to the category.
+    \begin{itemize}
+        \item approved: Whether this page is published and viewable in view mode.
+        \item description: The description of the page.
+        \item internal: Whether the page is viewable by the public (value of 0) or just by internal users (value of 1).
+        \item name: The name of the page.
+        \item pageId: The ID of the page.
+        \item pageType: The category ID that the page belongs to.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  categoryId: 5,
+  created: "2020-07-18T03:11:32.000Z",
+  description: "Standard recommended approaches for performing...",
+  internal: 0,
+  pluralName: "Assessments",
+  singleName: "Assessment",
+  userId: 51,
+  pages: [
+    approved: 1,
+    description: "Cybersecurity is...",
+    internal: 1,
+    name: "Cybersecurity",
+    pageId: 62,
+    pageType: 5
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/categories} \\
+Creates a new category. This endpoint can only be used by admins.
+\begin{itemize}
+    \item description: A general description of the category.
+    \item internal: Whether the category is viewable by the public (value of 0) or just by internal users (value of 1).
+    \item pluralName: The plural name of the category.
+    \item singleName: The singular name of the category.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  description: "Standard recommended approaches for performing...",
+  internal: 0,
+  pluralName: "Assessments",
+  singleName: "Assessment",
+}
+\end{lstlisting}
+\begin{itemize}
+  \item insertId: The ID of the newly created category.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  insertId: 10
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/categories/:categoryId} \\
+Updates a category. This endpoint can only be used by admins.
+\begin{itemize}
+    \item categoryId: The ID of the category to be updated.
+    \item description: A general description of the category.
+    \item internal: Whether the category is viewable by the public (value of 0) or just by internal users (value of 1).
+    \item pluralName: The plural name of the category.
+    \item singleName: The singular name of the category.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  description: "Standard recommended approaches for performing...",
+  internal: 0,
+  pluralName: "Assessments",
+  singleName: "Assessment",
+}
+\end{lstlisting}
+\begin{itemize}
+  \item categoryId: The ID of the category.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  categoryId: 10
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{File Endpoints}
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/files/single} \\
+Uploads a single file to the server. The file must use one of the following filename extensions: JPG, PNG, or GIF. If a file is successfully uploaded, then it is stored in a directory that is named after the user who uploaded the file. This allows users to be accountable for the content that they upload. Only editors or admins can upload files.
+\begin{itemize}
+    \item fieldname: The form field name. For this endpoint it is always "image".
+    \item originalname: The original file name.
+    \item encoding: The file encoding.
+    \item mimetype: The MIME type of the file. Similar to a filename extension.
+    \item destination: The destination of the file on the server.
+    \item filename: The newly generated filename.
+    \item path: Similar to destination.
+    \item size: The size of the file in bytes.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request File]
+{
+  fieldname: "image",
+  originalname: "taco.gif",
+  encoding: "7bit",
+  mimetype: "image/gif",
+  destination: "../fontend/public/uploads/user_42/",
+  filename: "4fd7f3a50a0c63f368806aad8c36c3c5.gif",
+  path: "..\\frontend\\public\\uploads\\user_42\\4fd7f3a50a0c63f368806aad8c36c3c5.gif",
+  size: 487495
+}
+\end{lstlisting}
+\begin{itemize}
+    \item url: The address that points to the newly uploaded file.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  url: "/uploads/user_42/4fd7f3a50a0c63f368806aad8c36c3c5.gif"
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/files/bulk} \\
+Uploads any number of files to the server. The files must use one of the following filename extensions: JPG, PNG, or GIF. If a file is successfully uploaded, then it is stored in a directory that is named after the user who uploaded the file. This allows users to be accountable for the content that they upload. Only editors or admins can upload files.
+\begin{itemize}
+    \item fieldname: The form field name. For this endpoint it is always "images".
+    \item originalname: The original file name.
+    \item encoding: The file encoding.
+    \item mimetype: The MIME type of the file. Similar to a filename extension.
+    \item destination: The destination of the file on the server.
+    \item filename: The newly generated filename.
+    \item path: Similar to destination.
+    \item size: The size of the file in bytes.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Files]
+[ 
+  {
+    fieldname: "images",
+    originalname: "taco.gif",
+    encoding: "7bit",
+    mimetype: "image/gif",
+    destination: "../fontend/public/uploads/user_42/",
+    filename: "4fd7f3a50a0c63f368806aad8c36c3c5.gif",
+    path: "..\\frontend\\public\\uploads\\user_42\\4fd7f3a50a0c63f368806aad8c36c3c5.gif",
+    size: 487495
+  },
+  {
+    fieldname: "images",
+    originalname: "sushi.gif",
+    encoding: "7bit",
+    mimetype: "image/gif",
+    destination: "../fontend/public/uploads/user_42/",
+    filename: "76ecc168a8dfc7a39331f4dd23009e80.gif",
+    path: "..\\frontend\\public\\uploads\\user_42\\76ecc168a8dfc7a39331f4dd23009e80.gif",
+    size: 90112
+  }
+]
+\end{lstlisting}
+\begin{itemize}
+    \item urls: An array of addresses that point to the newly uploaded files.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  urls: [
+    "/uploads/user_42/4fd7f3a50a0c63f368806aad8c36c3c5.gif",
+    "/uploads/user_42/76ecc168a8dfc7a39331f4dd23009e80.gif"
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{Header Endpoints}
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/headers} \\
+Creates a new header. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item PageId: The ID of the page that this header belongs to.
+    \item title: The title of the header.
+    \item internal: Determines if the header should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  pageId: 15,
+  title: "Wastewater Overview",
+  internal: 0
+}
+\end{lstlisting}
+\begin{itemize}
+  \item insertId: The ID of the newly created header.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 5
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/headers/:headerId/changes} \\
+Deletes an unpublished header / suggested changes to a header. Only editors and admins can use this endpoint.
+\begin{itemize}
+  \item headerId: The ID of the header to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/headers/:headerId} \\
+Deletes a header (including published headers). Only admins can use this endpoint.
+\begin{itemize}
+    \item headerId: The ID of the header to delete.
+    \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/headers/:headerId} \\
+Updates a header. If the header is unpublished this will simply change the header. If the header is published then this will add a suggested edit to the header that will need to be published before it will replace the original. If the header is both published and has an edited version, then this will replace the edited version. Only an editor or an admins can use this endpoint.
+\begin{itemize}
+    \item headerId: The ID of the header to update.
+    \item title: The title of the header.
+    \item internal: Determines if the header should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  title: "Compressed Air Overview",
+  internal: 0
+}
+\end{lstlisting}
+\begin{itemize}
+  \item headerId: The ID of the current header.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  headerId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/headers/:headerId/publish} \\
+Publishes a header. If the header is unpublished this will simply approve the header and show it publicly. If the header has a published version and an edit then the edit will replace the current published version while becoming approved. Only an admins can use this endpoint.
+\begin{itemize}
+    \item headerId: The ID of the header to publish.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  headerId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/headers/:headerId/unpublish} \\
+Unpublishes a header. If the header is published this will simply make the header unapproved and unviewable by the public. If the header has a published version and an edit then the edit will  be replaced by the current published version while becoming unapproved. Only an admins can use this endpoint.
+\begin{itemize}
+    \item headerId: The ID of the header to unpublish.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  headerId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/headers/:headerId/move/:direction/:mode} \\
+Changes the selected header's position relative to other headers when displayed. If we are moving an unpublished header, it will move the card relative to all cards (excluding its published version). If we are moving a published header it will move relative to published header (skipping over unpublished headers). Only editors or admins can move an unpublished header. Only admins can move a published header.
+\begin{itemize}
+    \item headerId: The ID of the header to move.
+    \item direction: A value of 1 moves the header up one row. A value of 0 moves the header down one row.
+    \item mode: States what type of header we want to move. A value of 0 represents an unpublished header. A value of 1 represents a published header.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  headerId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{Home Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/home} \\
+Returns all of the data displayed on the homepage, with the exception of the sponsors. Any user can use this endpoint.
+\begin{itemize}
+    \item mainHeader: The main header text for the homepage.
+    \item secondaryHeader: The header for the card that describes the categories.
+    \item sectionTitle: The title on the card that describes the categories.
+    \item sectionFooter: The footer on the card that describes the categories.
+    \item tidbitsHeader: The header for the card describing tidbits.
+    \item tidbitsTitle: The title on the card that describes the tidbits.
+    \item tidbitsFooter: The footer on the card that describes the tidbits.
+    \item linksHeader: The header for the card describing links.
+    \item linksTitlePrefix: The title on the card that is shown before the standard link icons are listed.
+    \item linksTitlePostfixInternal: The title on the card that is shown before the link internal and  external icons.
+    \item linksTitlePostfixDownload: The title on the card that is shown before the link download icon.
+    \item linksFooter: The footer on the card that describes the links.
+    \item disclaimerHeader: The header of the disclaimer card.
+    \item disclaimerText: The text on the disclaimer card.
+    \item categories: The categories viewable by the current user.
+    \begin{itemize}
+        \item categoryId: The ID of the category.
+        \item description: A general description of the category.
+        \item internal: Whether the category is viewable by the public (value of 0) or just by internal users (value of 1).
+        \item pluralName: The plural name of the category.
+        \item singleName: The singular name of the category.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  mainHeader: "Welcome",
+  secondaryHeader: "The purpose of this guide...",
+  sectionTitle: "This guide is broken down into sections:",
+  sectionFooter: "",
+  tidbitsHeader: "Each section...",
+  tidbitsTitle: "These include...",
+  tidbitsFooter: "Note: tidbit types can be...",
+  linksHeader: "Each section also refrences...",
+  linksTitlePrefix: "A preceding icon identifies...",
+  linksTitlePostfixInternal: "A trailing icon...",
+  linksTitlePostfixDownload: "A second trailing icon...",
+  linksFooter: "",
+  disclaimerHeader: "Disclaimer",
+  disclaimerText: "The primary objective...",
+  categories: [
+    {
+      categoryId: 5,
+      description: "Standard recommended...",
+      internal: 0,
+      pluralName: "Assessments",
+      singleName: "Assessment"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/home} \\
+Updates the text that is displayed on the homepage. Only admins can use this endpoint.
+\begin{itemize}
+    \item mainHeader: The main header text for the homepage.
+    \item secondaryHeader: The header for the card that describes the categories.
+    \item sectionTitle: The title on the card that describes the categories.
+    \item sectionFooter: The footer on the card that describes the categories.
+    \item tidbitsHeader: The header for the card describing tidbits.
+    \item tidbitsTitle: The title on the card that describes the tidbits.
+    \item tidbitsFooter: The footer on the card that describes the tidbits.
+    \item linksHeader: The header for the card describing links.
+    \item linksTitlePrefix: The title on the card that is shown before the standard link icons are listed.
+    \item linksTitlePostfixInternal: The title on the card that is shown before the link internal and  external icons.
+    \item linksTitlePostfixDownload: The title on the card that is shown before the link download icon.
+    \item linksFooter: The footer on the card that describes the links.
+    \item disclaimerHeader: The header of the disclaimer card.
+    \item disclaimerText: The text on the disclaimer card.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  mainHeader: "Welcome",
+  secondaryHeader: "The purpose of this guide...",
+  sectionTitle: "This guide is broken down into sections:",
+  sectionFooter: "",
+  tidbitsHeader: "Each section...",
+  tidbitsTitle: "These include...",
+  tidbitsFooter: "Note: tidbit types can be...",
+  linksHeader: "Each section also refrences...",
+  linksTitlePrefix: "A preceding icon identifies...",
+  linksTitlePostfixInternal: "A trailing icon...",
+  linksTitlePostfixDownload: "A second trailing icon...",
+  linksFooter: "",
+  disclaimerHeader: "Disclaimer",
+  disclaimerText: "The primary objective..."
+}
+\end{lstlisting}
+\begin{itemize}
+    \item homePageUpdated: Generic value. Should always have a value of 1, showing that the home page was updated correctly.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  homePageUpdated: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/home/sponsors} \\
+Returns all of the sponsors that should be listed on the homepage. Any user can use this endpoint.
+\begin{itemize}
+    \item sponsors: The sponsors for this application.
+    \begin{itemize}
+        \item sponsorId: The ID of the sponsor.
+        \item name: The name of the sponsor.
+        \item title: A short description of the sponsor that doubles as a link.
+        \item websiteUrl: The URL for the sponsors website.
+        \item imageUrl: The URL for the sponsors image.
+        \item orderIndex: A value that determines the order that the sponsors are listed in. A lower value will appear before a larger value.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  sponsors: [
+    {
+      sponsorId: 5,
+      name: "Industrial Assessment Center",
+      title: "U.S. Department of Energy...",
+      websiteUrl: "https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs",
+      imageUrl: "/images/IAC.png",
+      orderIndex: 0
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/home/sponsors} \\
+Updates the list of sponsors that is displayed on the homepage. Only admins can use this endpoint.
+\begin{itemize}
+    \item sponsors: The sponsors for this application.
+    \begin{itemize}
+        \item sponsorId: The ID of the sponsor.
+        \item name: The name of the sponsor.
+        \item title: A short description of the sponsor that doubles as a link.
+        \item websiteUrl: The URL for the sponsors website.
+        \item imageUrl: The URL for the sponsors image.
+        \item orderIndex: A value that determines the order that the sponsors are listed in. A lower value will appear before a larger value.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  sponsors: [
+    {
+      sponsorId: 5,
+      name: "Industrial Assessment Center",
+      title: "U.S. Department of Energy...",
+      websiteUrl: "https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs",
+      imageUrl: "/images/IAC.png",
+      orderIndex: 0
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item sponsorsUpdated: Generic value. Should always have a value of 1, showing that the sponsors were updated correctly.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  sponsorsUpdated: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{Icon Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/icons/all} \\
+Returns a list of all icons that can be appended to items. Any user can use this endpoint.
+\begin{itemize}
+    \item icons: All possible icons.
+    \begin{itemize}
+        \item iconType: The ID of the icon.
+        \item groupIndex: The type of item this icon represents (disabled = 0, default item = 1, graphics item = 2, link item = 3).
+        \item typeKeyword: The name of the icon when it is being hovered over or selected in a menu.
+        \item typeName: The name of the actual Font Awesome icon.
+        \item color: The color of the icon. Represented by a hexadecimal color code.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  icons: [
+    {
+      iconType: 21,
+      groupIndex: 3,
+      typeKeyword: "Analysis Tool",
+      typeName: "list",
+      color: "#000000"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/icons} \\
+Creates a new icon. Only an admin can use this endpoint.
+\begin{itemize}
+    \item groupIndex: The type of item this icon represents (disabled = 0, default item = 1, graphics item = 2, link item = 3).
+    \item typeKeyword: The name of the icon when it is being hovered over or selected in a menu.
+    \item typeName: The name of the actual Font Awesome icon.
+    \item color: The color of the icon. Represented by a hexadecimal color code.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  groupIndex: 3,
+  typeKeyword: "Analysis Tool",
+  typeName: "list",
+  color: "#000000"
+}
+\end{lstlisting}
+\begin{itemize}
+  \item insertId: The ID of the newly created icon.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 10
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/icons/:iconId} \\
+Updates an icon. Only an admin can use this endpoint.
+\begin{itemize}
+    \item iconId: The ID of the icon.
+    \item groupIndex: The type of item this icon represents (disabled = 0, default item = 1, graphics item = 2, link item = 3).
+    \item typeKeyword: The name of the icon when it is being hovered over or selected in a menu.
+    \item typeName: The name of the actual Font Awesome icon.
+    \item color: The color of the icon. Represented by a hexadecimal color code.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  groupIndex: 3,
+  typeKeyword: "Analysis Tool",
+  typeName: "list",
+  color: "#000000"
+}
+\end{lstlisting}
+\begin{itemize}
+  \item iconId: The ID of the icon.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  iconId: 10
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{Link Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/links/all/:onlyDead} \\
+Returns a list of all of the published link items. If onlyDead is set to 1, then it only returns invalid links. Only admins can use this endpoint.
+\begin{itemize}
+    \item links: All links.
+    \begin{itemize}
+        \item itemId: The ID of the link item.
+        \item time: The time the link was last confirmed valid. This value is null if the link is currently invalid.
+        \item title: The text that the link is embedded in.
+        \item url: The URL for the link.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  links: [
+    {
+      itemId: 384,
+      time: "2020-06-29T20:55:45.00Z",
+      title: "U.S. Department of Energy analysis tool",
+      url: "https://www.energy.gov/eere/amo/measur"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/links/:linkId} \\
+Changes the URL of a link item, and updates the last confirmed valid date to the current time. Only admins can use this endpoint.
+\begin{itemize}
+    \item linkId: The ID of the link item.
+    \item url: The new URL for the link item.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  url: "https://www.bpa.gov/EE/Sectors/Industrial/Pages/Compressed-Air.aspx"
+}
+\end{lstlisting}
+\begin{itemize}
+  \item linkId: The ID of the link item.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  linkId: 10
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/links/:linkId/timestamp} \\
+Updates a link item's confirmed valid date to the current time. Only editors or admins can use this endpoint.
+\begin{itemize}
+  \item linkId: The ID of the link item.
+  \item timestamp: The time that the link was confirmed valid.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  timestamp: "2020-06-29T20:55:45.00Z"
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{Page Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/pages/:pageId/all} \\
+Returns all of the page, header, card, and item data for a single page. Any user can use this endpoint. Only internal users will be allowed to get info about private or unpublished pages, headers, cards, and items.
+\begin{itemize}
+    \item pageId: The ID of the page.
+    \item pageType: The ID of the category that this page belongs to.
+    \item name: The name of the page.
+    \item title: The title of the initial card that shows at the top of the page.
+    \item description: Text that describes the general subject of the page.
+    \item imageUrl: The URL for the image shown at the top of the page.
+    \item created: The time that the page was created, last updated, or last published (whichever was most recent).
+    \item userId: The ID of the user who created or last updated the page (whichever was most recent).
+    \item approved: Lets us know if the page is published (1) or unpublished (0).
+    \item internal: Determines if the page should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+    \item tempPageId: If the page is published and there is an edited version the page, then this is the same as the pageId, otherwise null.
+    \item tempPageType: If the page is published and there is an edited version the page, then this is the same as the pageType, except in relation to the unpublished version, otherwise null.
+    \item tempTitle: If the page is published and there is an edited version the page, then this is the same as the title, except in relation to the unpublished version, otherwise null.
+    \item tempUserId: If the page is published and there is an edited version the page, then this is the same as the userId, except in relation to the unpublished version, otherwise null.
+    \item tempImageUrl: If the page is published and there is an edited version of the page, then this is similar to imageUrl, except in relation to the unpublished version, otherwise null.
+    \item sources: All of the sources that are referenced on this page.
+        \begin{itemize}
+            \item pageId: The page ID of the page that this source belongs to.
+            \item sourceId: The ID of this source.
+            \item text: The citation text that describes this source (IEEE style).
+            \item url: An optional URL that links to a web page related to the source.
+        \end{itemize}
+    \item headers: All of the headers that are on this page.
+        \begin{itemize}
+            \item headerId: The ID of the header.
+            \item pageId: The ID of the page that this header belongs to.
+            \item orderIndex: The order that the headers should be displayed in. A lower value means the header is displayed before a header with a higher value.
+            \item title: The title of the header.
+            \item internal: Determines if the header should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+            \item created: The time that the header was created, last updated, or last published (whichever was most recent).
+            \item userId: The ID of the user who created or last updated the header (whichever was most recent).
+            \item approved: Lets us know if the page is published (1) or unpublished (0).
+            \item tempHeaderId: If the header is published and there is an edited version of the header, then this is the same as headerId, otherwise null.
+            \item tempCreated: If the header is published and there is an edited version of the header, then this is the time that the edited version was created or last updated, otherwise null.
+            \item tempInternal: If the header is published and there is an edited version of the header, then this is similar to internal, except in relation to the unpublished version, otherwise null.
+            \item tempOrderIndex: If the header is published and there is an edited version of the header, then this is similar to orderIndex, except in relation to the unpublished version, otherwise null.
+            \item tempTitle: If the header is published and there is an edited version of the header, then this is similar to title, except in relation to the unpublished version, otherwise null.
+            \item tempUserId: If the header is published and there is an edited version of the header, then this is similar to userId, except in relation to the unpublished version, otherwise null.
+            \item cards: The cards that belong to this header.
+            \begin{itemize}
+                \item cardId: The ID of the card.
+                \item HeaderId: The ID of the header that this card belongs to.
+                \item cardType: The type of card to create. Examples include: default card, internal card, thumbnail gallery, internal thumbnail gallery, and more.
+                \item title: The title of the card.
+                \item created: The time that the card was created, last updated, or last published (whichever was most recent).
+                \item userId: The ID of the user who created or last updated the card (whichever was most recent).
+                \item approved: Lets us know if the card is published (1) or unpublished (0).
+                \item orderIndex: The order that the cards should be displayed in. A lower value means the card is displayed before a card with a higher value.
+                \item tempCardId: If the card is published and there is an edited version of the card, then this is the same as cardId, otherwise null.
+                \item tempCardType: If the card is published and there is an edited version of the card, then this is similar to cardType, except in relation to the unpublished version, otherwise null.
+                \item tempCreated: If the card is published and there is an edited version of the card, then this is the time that the edited version was created or last updated, otherwise null.
+                \item tempOrderIndex: If the card is published and there is an edited version of the card, then this is the similar to orderIndex, except in relation to the unpublished version, otherwise null.
+                \item tempTitle: If the card is published and there is an edited version of the card, then this is the similar to title, except in relation to the unpublished version, otherwise null.
+                \item tempUserId: If the card is published and there is an edited version of the card, then this is the similar to userId, except in relation to the unpublished version, otherwise null.
+                \item cards: The cards that belong to this header.
+                \item items / tempItems: The items that belong to this card. "items" are always approved (1), tempItems are always unapproved (0).
+                \begin{itemize}
+                    \item itemId: The ID of the item.
+                    \item cardId: The ID of the card that this item belongs to.
+                    \item indentation: The level of indentation (0 is none, 3 is max).
+                    \item iconType: The ID of the icon that is displayed at the start of the item.
+                    \item contentText: The main body of text for the item.
+                    \item contentUrl: The URL of the item. For graphic items this will be the URL of the image to display, for link items this will be the URL to direct the user to.
+                    \item contentLabel: The bold title of the item, this is shown before the content text.
+                    \item contentMode: A special setting that depends on the item in particular. For links this will be used to describe the type of link (internal, external, internal download, external download).
+                    \item internal: Determines if the item belongs to a published (1) or unpublished (0) version of the card.
+                    \item iconType: The ID of the icon to use with this item.
+                    \item typeName: The Font Awesome name of the icon that is used with this item.
+                    \item typeKeyWord: The name displayed when a user hovers over the icon.
+                    \item color: The hex color code to use for the icon.
+                    \item sourceId: The ID of the source that this item is referencing.
+                \end{itemize}
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  pageId: 2,
+  pageType: 2,
+  name: "Compressed Air",
+  title: "Compressed air is a common utilitiy...",
+  description: "Compressed air has been a key...",
+  imageUrl: "/images/air.png",
+  created: "2020-07-23T10:01:49.000Z",
+  userId: 42,
+  approved: 1,
+  internal: 0,
+  tempCreated: null,
+  tempDescription: null,
+  tempImageUrl: null,
+  tempInternal: null,
+  tempImageUrl: null,
+  tempName: null,
+  tempPageId: null
+  sources: [
+    {
+      sourceId: 1,
+      pageId: 2,
+      text: "S. Cottrell, the study skills handbook...",
+      url: ""
+    }
+  ],
+  headers: [
+    {
+      headerId: 1,
+      pageId: 2,
+      approved: 1,
+      internal: 0,
+      orderIndex: 1,
+      created: "2020-07-01T18:19:56.000Z",
+      title: "Compressed Air Overview",
+      userId: 51,
+      tempCreated: null,
+      tempHeaderId: null,
+      tempInternal: null,
+      tempOrderIndex: null,
+      tempTitle: null,
+      tempUserId: null
+      cards: [
+        {
+          cardId: 9,
+          cardType: 0,
+          approved: 1,
+          created: "2020-06-02T20:58:31.000Z",
+          headerId: 1,
+          orderIndex: 3,
+          title: "Pros",
+          userId: 42,
+          tempCardId: 9,
+          tempCardType: 0,
+          tempCreated: "2020-09-03T23:15:22.000Z",
+          tempOrderIndex: 3,
+          tempTitle: "Pros",
+          tempUserId: 58
+          items [
+            {
+              approved: 1,
+              itemId: 25,
+              cardId: 9,
+              color: "#000000",
+              contentLabel: "",
+              contentMode: 0,
+              contentText: "Versatile. Offers compact energy density.",
+              contentUrl: "",
+              created: "2020-06-02T22:38:04.000Z",
+              internal: 0
+              indentation: 0,
+              iconType: 1,
+              typeName: "plus",
+              typeKeyword: "Pros",
+              sourceId: 0
+            }
+          ],
+          tempItems: [
+            }
+              approved: 0,
+              itemId: 25,
+              cardId: 9,
+              color: "#000000",
+              contentLabel: "",
+              contentMode: 0,
+              contentText: "Versatile. Energy can be stored in a compact way.",
+              contentUrl: "",
+              created: "2020-09-03T23:15:49.000Z",
+              internal: 0
+              indentation: 0,
+              iconType: 1,
+              typeName: "plus",
+              typeKeyword: "Pros",
+              sourceId: 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/pages/search/:text/:cursorPrimary/:cursorSecondary} \\
+Returns a limited list of pages that match the search text and that only includes pages that are at or beyond the cursor. Any user can use this endpoint, however internal or unpublished pages will only be returned for internal users.
+\begin{itemize}
+    \begin{itemize}
+        \item text: The partial or full text that is used to find a match. Partial matches are allowed. For example: searching for "press" would be able to return "Compressed Air" since "press" is contained with in "Compressed Air".
+        \item cursorPrimary: This cursor should contain the name of the page you want to start your search at (alphabetical order). This cursor is used to allow infinite scrolling, while only loading a small number of page results at a time. If this is a new search then this value should be null.
+        \item cursorSecondary: This cursor should contain the page ID of the page you want to start your search at. This cursor is used in instances where the primary cursor value is ambiguous. If this is a new search then this value should be null.
+        \item nextCursor: An object that contains the information needed to continue searching the rest of the pages (the primary and secondary cursor).
+        \item pages: The pages returned from the search.
+        \begin{itemize}
+            \item pageId: The ID of the page.
+            \item created: The time that the page was created, last updated, or last published (whichever was most recent).
+            \item description: Text that describes the general subject of the page.
+            \item imageUrl: The URL for the image shown at the top of the page.
+            \item internal: Determines if the page should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+            \item approved: Lets us know if the page is published (1) or unpublished (0).
+            \item name: The name of the page.
+            \item pageType: The ID of the category that this page belongs to.
+            \item title: The title of the initial card that shows at the top of the page.
+            \item url: The URL needed to access the page.
+            \item userId: The ID of the user who created or last updated the page (whichever was most recent).
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  nextCursor: {
+    primary: null, 
+    secondary: null
+  },
+  pages: [
+    pageId: 46,
+    created: "2020-07-02T19:39:56.000Z",
+    description: "Steam energy offered a great...",
+    imageUrl: "https://live.staticflickr.com/65535/...",
+    internal: 0,
+    approved: 1,
+    name: "Boilders and Steam",
+    pageType: 2,
+    title: "Boilers and Steam Systems are found in a large...",
+    url: "/wiki/search-results/46",
+    userId: 51
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/pages} \\
+Creates a new page. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item pageType: The ID of the category that this page belongs to.
+    \item name: The name of the page.
+    \item title: The title of the initial card that shows at the top of the page.
+    \item description: Text that describes the general subject of the page.
+    \item imageUrl: The URL for the image shown at the top of the page.
+    \item internal: Determines if the page should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  pageType: 1,
+  name: "Wastewater Treatment",
+  title: "Municipalities and industry need...",
+  description: "Wastewater treatment systems can...",
+  imageUrl: "https://live.staticflickr.com/65535/...",
+  internal: 0
+}
+\end{lstlisting}
+\begin{itemize}
+  \item insertId: The ID of the newly created page.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 50
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/pages/:pageId/changes} \\
+Deletes an unpublished page / suggested changes to a page. Only editors and admins can use this endpoint.
+\begin{itemize}
+  \item pageId: The ID of the page to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/pages/:pageId} \\
+Deletes a page (including published pages). Only admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to delete.
+    \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/pages/:pageId} \\
+Updates a page. If the page is unpublished this will simply change the page. If the page is published then this will add a suggested edit to the page that will need to be published before it will replace the original. If the page is both published and has an edited version, then this will replace the edited version. Only an editor or an admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to update.
+    \item pageType: The ID of the category that this page belongs to.
+    \item name: The name of the page.
+    \item title: The title of the initial card that shows at the top of the page.
+    \item description: Text that describes the general subject of the page.
+    \item imageUrl: The URL for the image shown at the top of the page.
+    \item internal: Determines if the page should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  pageType: 1,
+  name: "Wastewater Treatment",
+  title: "Municipalities and industry need...",
+  description: "Wastewater treatment systems can...",
+  imageUrl: "https://live.staticflickr.com/65535/...",
+  internal: 0
+}
+\end{lstlisting}
+\begin{itemize}
+  \item pageId: The ID of the current page.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  pageId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/pages/:pageId/publish} \\
+Publishes a page. If the page is unpublished this will simply approve the page and show it publicly. If the page has a published version and an edit then the edit will replace the current published version while becoming approved. Only an admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to publish.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  pageId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/pages/:pageId/unpublish} \\
+Unpublishes a page. If the page is published this will simply make the page unapproved and unviewable by the public. If the page has a published version and an edit then the edit will be replaced by the current published version while becoming unapproved. Only an admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to unpublish.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  pageId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/pages/report/:start/:end/:offset/:condense} \\
+Returns a report of all of the published content within the date range. Only editors and admins can use this endpoint.
+\begin{itemize}
+  \item start: The start date of the report (ex: 2020-09-01).
+  \item end: The end date of the report (ex: 2020-09-06).
+  \item offset: The minute offset of the time zone that the request is being made for, in relation to UTC (ex: 420 for PDT).
+  \item condense: Whether to condense changes for an individual object into a single entry in the report, or to include every change as its own entry in the report.
+  \item pages: Pages that were published or deleted within the date range.
+  \begin{itemize}
+    \item historyId: The ID of this history record.
+    \item removed: If this history record is noting the removal of the page, then this value will be 1. If this history record is signifying that the page was published, then the value will be 0.
+    \item oldVersion: The previous version of this page. It has the following properties: created, description, historyId, imageUrl, internal, name, pageId, pageType, removed, and title.
+    \item pageId: The ID of the page.
+    \item pageType: The ID of the category that this page belongs to.
+    \item name: The name of the page.
+    \item title: The title of the initial card that shows at the top of the page.
+    \item description: Text that describes the general subject of the page.
+    \item imageUrl: The URL for the image shown at the top of the page.
+    \item created: The time that the page was created, last updated, or last published (whichever was most recent).
+    \item userId: The ID of the user who created or last updated the page (whichever was most recent).
+    \item approved: Lets us know if the page is published (1) or unpublished (0).
+    \item internal: Determines if the page should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+  \end{itemize}
+  \item headers: Headers that were published or deleted within the date range.
+  \begin{itemize}
+    \item historyId: The ID of this history record.
+    \item removed: If this history record is noting the removal of the header, then this value will be 1. If this history record is signifying that the header was published, then the value will be 0.
+    \item oldVersion: The previous version of this header. It has the following properties: created, headerId, historyId, internal, pageId, removed, and title.
+    \item headerId: The ID of the header.
+    \item pageId: The ID of the page that this header belongs to.
+    \item orderIndex: The order that the headers should be displayed in. A lower value means the header is displayed before a header with a higher value.
+    \item title: The title of the header.
+    \item internal: Determines if the header should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+    \item created: The time that the header was created, last updated, or last published (whichever was most recent).
+    \item userId: The ID of the user who created or last updated the header (whichever was most recent).
+    \item approved: Lets us know if the page is published (1) or unpublished (0).
+  \end{itemize}
+  \item cards: Cards that were published or deleted within the date range.
+  \begin{itemize}
+    \item historyId: The ID of this history record.
+    \item removed: If this history record is noting the removal of the page, then this value will be 1. If this history record is signifying that the page was published, then the value will be 0.
+    \item oldVersion: The previous version of this card. It has the following properties: cardId, cardType, created, headerId, historyId, items, removed, and title.
+    \item cardId: The ID of the card.
+    \item HeaderId: The ID of the header that this card belongs to.
+    \item cardType: The type of card to create. Examples include: default card, internal card, thumbnail gallery, internal thumbnail gallery, and more.
+    \item title: The title of the card.
+    \item created: The time that the card was created, last updated, or last published (whichever was most recent).
+    \item userId: The ID of the user who created or last updated the card (whichever was most recent).
+    \item approved: Lets us know if the card is published (1) or unpublished (0).
+    \item orderIndex: The order that the cards should be displayed in. A lower value means the card is displayed before a card with a higher value.
+    \item items: The items that belong to this card.
+    \begin{itemize}
+        \item itemId: The ID of the item.
+        \item cardId: The ID of the card that this item belongs to.
+        \item indentation: The level of indentation (0 is none, 3 is max).
+        \item iconType: The ID of the icon that is displayed at the start of the item.
+        \item contentText: The main body of text for the item.
+        \item contentUrl: The URL of the item. For graphic items this will be the URL of the image to display, for link items this will be the URL to direct the user to.
+        \item contentLabel: The bold title of the item, this is shown before the content text.
+        \item contentMode: A special setting that depends on the item in particular. For links this will be used to describe the type of link (internal, external, internal download, external download).
+        \item internal: Determines if the item belongs to a published (1) or unpublished (0) version of the card.
+        \item iconType: The ID of the icon to use with this item.
+        \item typeName: The Font Awesome name of the icon that is used with this item.
+        \item typeKeyWord: The name displayed when a user hovers over the icon.
+        \item color: The hex color code to use for the icon.
+        \item sourceId: The ID of the source that this item is referencing.
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  pages: [
+    {
+      categoryName: "Technologies",
+      created: "2020-09-03T10:12:55.000Z",
+      description: "Lorem ipsum...",
+      historyId: 12,
+      imageUrl: "https://placekitten.com/600/500",
+      internal: 1,
+      name: "New Page",
+      pageId: 59,
+      pageType: 2,
+      removed: 0,
+      sortType: 0,
+      title: "A page for testing",
+      oldVersion: {...}
+    }
+  ],
+  headers: [
+    {
+      categoryName: "Industries",
+      created: "2020-08-20T00:22:00.000Z",
+      description: "Wastewater treatment systems can address a multitude...",
+      historyId: 14,
+      imageUrl: "https://live.satsicflickr...",
+      internal: 0,
+      name: "Wastewater Treatment",
+      pageId: 50,
+      pageType: 1,
+      removed: 0,
+      sortType: 0,
+      title: "Municipalities and industry...",
+      oldVersion: {...}
+    }
+  ],
+  cards: [
+    {
+      cardId: 13,
+      cardType: 0,
+      categoryName: "Technologies",
+      created: "2020-05-23T22:20:20.000Z",
+      headerId: 1,
+      headerName: "Compressed Air Overview",
+      historyId: 4,
+      pageId: 2,
+      pageName: "Compressed Air",
+      pageType: 2,
+      removed: 0,
+      sortType: 2,
+      title: "Cons",
+      oldVersion: {...},
+      items: [
+        {
+          itemId: 32,
+          cardId: 13,
+          color: "#000000",
+          contentLabel: "",
+          contentMode: 0,
+          contentText: "Extremely energy...",
+          contentUrl: "",
+          created: "2020-05-23T22:52:18.000Z",
+          iconType: 2,
+          indentation: 0,
+          internal: 0,
+          itemId: 32,
+          orderIndex: 1,
+          typeKeyword: "Cons",
+          typeName: "minus"
+        }
+      ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{Request Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/requests/all} \\
+Returns a list of all publish requests that are awaiting approval. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item requests: All publish requests that are awaiting approval.
+    \begin{itemize}
+        \item requestId: The ID of the publish request.
+        \item status: The status of the publish request.
+        \item title: The title of the publish request.
+        \item description: The description of the request. This will often include more information about the request and why it is needed.
+        \item userId: The ID of the user who has opened the publish request.
+        \item userName: The username of the user who has opened the publish request.
+        \item created: The date that the publish request was created.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  requests: [
+    {
+      requestId: 2,
+      status: 1,
+      title: "New Request",
+      description: "This request includes a few pages that I want approved",
+      userId: 58,
+      userName: "testUser",
+      created: "2020-09-04T20:55:06.000Z",
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/requests/:requestId} \\
+Returns all the data related to a publish request. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item requestId: The ID of the publish request.
+    \item status: The status of the publish request.
+    \item title: The title of the publish request.
+    \item description: The description of the request. This will often include more information about the request and why it is needed.
+    \item userId: The ID of the user who has opened the publish request.
+    \item userName: The username of the user who has opened the publish request.
+    \item created: The date that the publish request was created.
+    \item comments: Comments left on the request by users.
+    \begin{itemize}
+        \item commentId: The ID of the comment.
+        \item requestId: The ID of the publish request that this comment is on.
+        \item comment: The actual text of the comment.
+        \item review: The type of comment (0 = comment, 1 = suggest change, 2 = approval).
+        \item userId: The ID of the user who made the comment.
+        \item userName: The name of the user who made the comment.
+    \end{itemize}
+    \item objects: The objects (pages, headers, and/or cards) that are being selected as part of the publish request.
+    \begin{itemize}
+      \item objectType: The type of object that this is (1 = page, 2 = header, 3 = card).
+      \item The properties that the object will have is based on the object type. Pages will have the following additional properties: approved, categoryName, created, description, imageUrl, internal, name, pageId, pageType, title, and userId. Headers will have the following additional properties: approved, categoryName, created, headerId, internal, orderIndex, pageId, pageName, pageType, title, and userId. Cards will have the following additional properties: approved, cardId, cardType, categoryName, created, headerId, headerName, items, objectType, orderIndex, pageId, pageName, title, and userId.  
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  requestId: 2,
+  status: 1,
+  title: "New Request",
+  description: "This request includes a few pages that I want approved",
+  userId: 58,
+  userName: "testUser",
+  created: "2020-09-04T20:55:06.000Z",
+  comments: [
+    {
+      commentId: 2,
+      requestId: 2,
+      comment: "Looks good.",
+      review: 2,
+      userId: 42,
+      username: "Silverware"
+    }
+  ],
+  objects: [
+    {
+      objectType: 1,
+      pageId: 48,
+      pageType: 2,
+      approved: 0,
+      categoryName: "Technologies",
+      created: "2020-07-02T22:10:36.000Z",
+      description: "Vapor compression is...",
+      imageUrl: "https:///live.staticflickr.com/65535/...",
+      internal: 0,
+      name: "Refrigeration",
+      objectType: 1,
+      pageId: 48,
+      pageType: 2,
+      title: "Refrigeration technology...",
+      userId: 51
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/requests/selections} \\
+Allows a user to use any number of object's type and ID to get more detailed information about them. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item objects: The objects that the user wants more information about.
+    \begin{itemize}
+        \item objectType: The type of the object (1 = page, 2 = header, 3 = card).
+        \item objectId: The ID of the object.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  objects: [
+    {
+      objectType: 1,
+      objectId: 50
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item objects: The objects that the user requested more information about.
+    \begin{itemize}
+        \item objectType: The name of the object type.
+        \item key: A key that is the objects ID with the first letter of its object type appended to it.
+        \item objectName: The name or title of the object.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  objects: [
+    {
+      objectType: "Header",
+      key: "32H",
+      objectName: "Boilers and Steam Opportunities to Consider"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/requests/} \\
+Creates a new publish request. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item description: The description of the request. This will often include more information about the request and why it is needed.
+    \item title: The title of the publish request.
+    \item objects: The objects that are part of the publish request.
+    \begin{itemize}
+        \item objectType: The type of the object (1 = page, 2 = header, 3 = card).
+        \item objectId: The ID of the object.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  description: "This new request will add 3 pages, and 2 headers that are ready",
+  title: "Tim's Request",
+  objects: [
+    {
+      objectType: 3,
+      objectId: 168
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item insertId: The ID of the new publish request.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  insertId: 4
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/requests/comment/:requestId} \\
+Creates a new comment on a publish request. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item requestId: The ID of the publish request to add a comment to.
+    \item comment: The actual text of the comment.
+    \item status: The type of comment (0 = comment, 1 = suggest change, 2 = approval).
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  comment: "Did you want to do anything else with the 5th card?",
+  status: "0"
+}
+\end{lstlisting}
+\begin{itemize}
+    \item insertId: The ID of the new comment.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  insertId: 4
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/requests/:requestId} \\
+Deletes a publish request. Only the creator of the request and admins can use this endpoint.
+\begin{itemize}
+  \item requestId: The ID of the publish request to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/requests/accept/:requestId} \\
+Accepts the publish request. This causes all of the objects that are part of the publish request to become published. Only an admins can use this endpoint.
+\begin{itemize}
+    \item requestId: The ID of the publish request to accept.
+    \item objectsApproved: The number of objects that were published by the request.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  objectsApproved: 5
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{Source Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/sources/page/:pageId} \\
+Returns all of the sources on a page (even the ones not being used by an item). Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to get the sources from.
+    \item sources: All of the sources that belong to the page.
+    \begin{itemize}
+        \item pageId: The page ID of the page that this source belongs to.
+        \item sourceId: The ID of this source.
+        \item text: The citation text that describes this source (IEEE style).
+        \item url: An optional URL that links to a web page related to the source.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  sources: [
+    {
+      pageId: 2,
+      sourceId: 1,
+      text: "S. Cottrell, The study skills handbook...",
+      url: ""
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/sources/all/page/:pageId} \\
+Creates a list of sources for a page. Since this new list of sources replaces the previous one, it can be used as a way to create, edit, and delete sources. Only admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to post the source list to.
+    \item sources: All of the sources to add to the page.
+    \begin{itemize}
+        \item text: The citation text that describes this source (IEEE style).
+        \item url: An optional URL that links to a web page related to the source.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  sources: [
+    {
+      text: "S. Cottrell, The study skills handbook...",
+      url: ""
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item sourcesApproved: The number of sources that were successfully added from the new source list.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  sourcesApproved: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/sources/page/:pageId} \\
+Adds a single source to a page. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to add the source to.
+    \item text: The citation text that describes this source (IEEE style).
+    \item url: An optional URL that links to a web page related to the source.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  text: "S. Cottrell, The study skills handbook...",
+  url: ""
+}
+\end{lstlisting}
+\begin{itemize}
+    \item insertId: The ID of the new source.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{User Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/users/:userId} \\
+Returns basic information about a user. Any logged in user can use this endpoint.
+\begin{itemize}
+    \item userId: The ID of the user to get information about.
+    \item created: The date that the user account was created.
+    \item email. The user's email address.
+    \item firstName: The user's first name.
+    \item lastName: The user's last name.
+    \item role: The user's role (0 = not logged in, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+    \item userId: The ID of the user.
+    \item username: The username of the user.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  created: "2020-05-14T20:39:15.000Z",
+  email: "thomasza@oregonstate.edu",
+  firstName: "Zachary",
+  lastName: "Thomas",
+  role: 4,
+  userId: 42,
+  username: "Silverware"
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/users/login} \\
+Attempts to login the user. If the user's username and password are correct, then they will be given cookies that will confirm their identity for use with the other endpoints. Any user can use this endpoint.
+\begin{itemize}
+    \item username: The username of the account that the user wants to login to.
+    \item password: A password that should match the username's password.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  username: "newUser",
+  password: "hunter2"
+}
+\end{lstlisting}
+\begin{itemize}
+    \item email: The user's email address.
+    \item firstName: The user's first name.
+    \item lastName: The user's last name.
+    \item role: The user's role (0 = not logged in, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+    \item userId: The ID of the user account.
+    \item username: The username of the user.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  email: "johnDoe@gmail.com",
+  firstName: "John",
+  lastName: "Doe",
+  role: 2,
+  userId: 42,
+  username: "newUser"
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/users/} \\
+Creates a new user account. The new user must not have the same username or email as an existing user. The new user will always start with the "external user" role. Passwords are salted and hashed before being stored in the database. Any user can use this endpoint.
+\begin{itemize}
+    \item email: The user's email address.
+    \item firstName: The user's first name.
+    \item lastName: The user's last name.
+    \item password: The user's password.
+    \item username: The user's username.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  email: "johnDoe@gmail.com",
+  firstName: "John",
+  lastName: "Doe",
+  password: "hunter2",
+  username: "newUser"
+}
+\end{lstlisting}
+\begin{itemize}
+    \item insertId: The ID of the new user.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 42
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/users/search/:text/:role/:sort/:order/:cursorPrimary/:cursorSecondary} \\
+Returns a limited list of users that match the search text and that only includes users that are at or beyond the cursor. The search text can find matches for first name, last name, username, email, or user ID. Only admins can use this endpoint.
+\begin{itemize}
+    \item text: The partial or full text that is used to find a match. Partial matches are allowed. For example: searching for "oh" would be able to return "John123" since "oh" is contained with in "John123".
+    \item cursorPrimary: This cursor should contain the username of the user you want to start your search at (alphabetical order). This cursor is used to allow infinite scrolling, while only loading a small number of page results at a time. If this is a new search then this value should be null.
+    \item cursorSecondary: This cursor should contain the user ID of the user you want to start your search at. This cursor is used in instances where the primary cursor value is ambiguous. If this is a new search then this value should be null.
+    \item nextCursor: An object that contains the information needed to continue searching the rest of the users (the primary and secondary cursor).
+    \item users: The users returned from the search.
+    \begin{itemize}
+        \item created: The date that the user account was created.
+        \item createdUnix: Seconds since January 1st, 1970 (UTC).
+        \item email: The user's email address.
+        \item firstName: The user's first name.
+        \item lastName: The user's last name.
+        \item role: The user's role (0 = not logged in, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+        \item username: The user's username.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  nextCursor: {
+    primary: null,
+    secondary: null
+  },
+  created: "2020-09-01T02:00:00.000Z",
+  createdUnix: 1598925600,
+  email: "testeditor@gmail.com",
+  firstName: "John",
+  lastName: "Doe",
+  role: 3,
+  userId: 67,
+  username: "testEditor"
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/users/:userId} \\
+Updates a user's information. Only the user being updated or an admins can use this endpoint. Only admins can change a user's role.
+\begin{itemize}
+    \item userId: The ID of the user to update.
+    \item email: The user's new email address.
+    \item firstName: The user's new first name.
+    \item lastName: The user's new last name.
+    \item role: The user's new role which can only be set by admins (0 = not logged in, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+    \item username: The user's username.
+    \item oldPassword: The user's current password. 
+    \item newPassword: The user's new password.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  email: "johnDoe@gmail.com",
+  firstName: "John",
+  lastName: "Doe",
+  role: 3,
+  username: "newUser",
+  oldPassword: "hunter2",
+  newPassword: "hunter3"
+}
+\end{lstlisting}
+\begin{itemize}
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/users/:userId/newPassword} \\
+Generates a new random password for a user. This endpoint is ideal for when an admin wants to give a user access to an account that they forgot the password to. Only admins can use this endpoint.
+\begin{itemize}
+    \item userId: The ID of user account to generate a new password for.
+    \item password: The new randomly generated password.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  password: "9RBahxx47qiKcny"
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{View Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/views/page/:pageId} \\
+Returns all of the views available to the current user for the specific page. Any user can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page to get the views for.
+    \item views: The views that can be accessed on this page.
+    \begin{itemize}
+      \item pageId: The page that this view belongs to.
+      \item public: Whether this view is viewable by all users (1) or only viewable by the current user (0).
+      \item userId: The user ID of the user who created this view.
+      \item viewId: The ID of the view.
+      \item viewName: The name of the view.
+      \item headers: The headers and their filter settings for the current view.
+      \begin{itemize}
+        \item headerId: The ID of the current header.
+        \item filters: An array of filter icon IDs. Each value represents a specific filter that is disabled on the current header while in this view.
+      \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\begin{lstlisting}[caption=Example Response]
+{
+  views: [
+    {
+      pageId: 2,
+      public: 1,
+      userId: 51,
+      viewId: 11,
+      viewName: "Opportunities",
+      headers: [
+        {
+          headerId: 1,
+          filters: [1, 2, 3, 4, 5]
+        }
+      ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/views/page/:pageId} \\
+Creates a new view for the specific page. Any logged in user can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page where the new view is created.
+    \item publicView: Whether this view is viewable by all users (1) or only viewable by the current user (0).
+    \item viewName: The name of the new view.
+    \item headers: The headers and their filter settings for the current view.
+      \begin{itemize}
+        \item headerId: The ID of the current header.
+        \item filters: An array of filter icon IDs. Each value represents a specific filter that is disabled on the current header while in this view.
+      \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  publicView: 0,
+  viewName: "No pros or cons",
+  headers: [
+    {
+      headerId: 1,
+      filters: [1, 2]
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item insertId: The ID of the new view.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  insertId: 5
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/views/:viewId} \\
+Deletes a view. Only the user who created the view or an admins can use this endpoint.
+\begin{itemize}
+  \item viewId: The ID of the view to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\section{Contact Information}
+If you have any questions about this API that are not answered in this document feel free to reach out to me by email at silverware13@gmail.com. 
+
+\end{document}

@@ -990,7 +990,7 @@ async function createCardTitles(titles) {
     }
 
     const finalResults = {
-      titlesUpdated: titles.length
+      titleCount: titles.length
     };
 
     return finalResults;

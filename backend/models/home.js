@@ -59,7 +59,7 @@ async function getSponsors() {
 
   try {
 
-    const sql = "SELECT * FROM Sponsors;";
+    const sql = "SELECT * FROM Sponsors ORDER BY orderIndex ASC;";
     const results = await pool.query(sql, []);
 
     // check to see if we were able to find the content
@@ -67,8 +67,9 @@ async function getSponsors() {
       return {sponsorId: 0};
     }
 
-    const finalResults = results[0];
-    finalResults.sponsorId = 1;
+    const finalResults = {
+      sponsors: results[0]
+    };
 
     return finalResults;
 

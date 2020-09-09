@@ -204,7 +204,7 @@ async function updateUser(userId, username, oldPassword, newPassword, firstName,
     results = await pool.query(sql, sqlArray);
 
     const finalResults = {
-      changedRows: results[0].changedRows
+      affectedRows: results[0].affectedRows
     };
 
     return finalResults;

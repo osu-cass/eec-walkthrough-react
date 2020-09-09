@@ -23,7 +23,6 @@ function AddSource(props) {
       if (results.ok) {
 
         const obj = await results.json();
-
         setSources(obj.sources);
 
       } else {

@@ -89,7 +89,7 @@ app.post("/all/page/:pageId", requireAuth, postSourcesVal.validation, async (req
     // create the sources
     const results = await createSources(pageId, sources);
 
-    if (results.sourcesUpdated >= 0) {
+    if (results.sourcesApproved >= 0) {
       res.status(200).send(results);
     } else {
 

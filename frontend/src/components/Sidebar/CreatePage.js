@@ -3,6 +3,7 @@ import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import Error from "../General/Error";
+import ImageInput from "../General/ImageInput";
 import "./CreatePage.css";
 
 // button and modal for creating a new page
@@ -15,6 +16,7 @@ function CreatePage(props) {
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [checked, setChecked] = useState(0);
+  const [imageUpload, setImageUpload] = useState(null);
 
   function handleClose() {
     setShow(false);
@@ -31,6 +33,34 @@ function CreatePage(props) {
       return;
     }
 
+    let imageUrl = url;
+
+    // See if we are uploading a new image
+    if (imageUpload !== null) {
+      const formData = new FormData();
+      formData.append("image", imageUpload);
+      const results = await fetch("/api/files/single", {
+        method: "POST",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        imageUrl = obj.url;
+        setUrl(imageUrl);
+        setImageUpload(null);
+      } else {
+        console.error("Failed to upload image.");
+      }
+    }
+
+    // see if the url is still valid
+    if (!imageUrl.length) {
+      setErrorMessage("Error: Invalid image to upload");
+      return;
+    }
+
+    // See if this page is internal only
     let internal = 0;
     if (document.getElementById("internal-modal-checkbox").checked) {
       internal = 1;
@@ -42,7 +72,7 @@ function CreatePage(props) {
       name: name,
       title: summary,
       description: description,
-      imageUrl: url,
+      imageUrl: imageUrl,
       internal: internal
     };
 
@@ -56,20 +86,6 @@ function CreatePage(props) {
     if (results.ok) {
 
       const obj = await results.json();
-
-      // Reset state
-      setName("");
-      setSummary("");
-      setDescription("");
-      setUrl("");
-      setErrorMessage("");
-      setChecked(0);
-
-      // Close modal
-      handleClose();
-
-      // Reload sidebar after adding
-      props.refresh();
 
       // redirect to the new page
       window.location.href = `/${props.collectionLink}/${obj.insertId}`;
@@ -99,7 +115,7 @@ function CreatePage(props) {
     let emptyFound = false;
     let newErrorMessage = errorMessage;
     // Empty url
-    if (!url.length) {
+    if (!url.length && imageUpload === null) {
       emptyFound = true;
       newErrorMessage = "Error: Empty image url";
     }
@@ -137,7 +153,6 @@ function CreatePage(props) {
           <Button variant="none" onClick={() => handleClose()}>
             <span aria-hidden="true">&times;</span>
           </Button>
-
         </Modal.Header>
 
         <Modal.Body >
@@ -180,9 +195,15 @@ function CreatePage(props) {
           <Row>
             <Col>
               <Form.Group controlId="formURL">
-                <Form.Label className="font-weight-bold">Image URL</Form.Label>
+                <Form.Label className="font-weight-bold">Image</Form.Label>
                 <Form.Control type="text" maxLength="1000" placeholder="Enter URL" onChange={(e) => setUrl(e.target.value)} />
               </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <ImageInput id={0} onNewImage={(newImage) => setImageUpload(newImage)} />
             </Col>
           </Row>
 
@@ -217,7 +238,7 @@ function CreatePage(props) {
 
         <Modal.Footer className="modal-footer">
           <Button variant="secondary" onClick={() => handleClose()}>Close</Button>
-          <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Page</Button>
+          <Button variant="primary" onClick={() => handleSubmit()}>Submit Page</Button>
         </Modal.Footer>
       </Modal>
     </div >

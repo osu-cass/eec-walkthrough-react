@@ -104,7 +104,7 @@ function BulletPoint (props) {
                 {props.text}
               </span>
               {props.label}
-              <Source source={props.source} sourceText={props.sourceText}/>
+              <Source source={props.source} sourceText={props.sourceText} />
             </div>
             <Image url={props.url} title={props.label} thumbnail={false} header={false} />
           </div>
