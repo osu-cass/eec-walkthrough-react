@@ -298,7 +298,7 @@ function ConstructRequestModal(props) {
               <br />
               <span>How to add a page, header, or card to your request:</span>
               <ul>
-                <li>Navigate to the page that contains the content you are interested in.</li>
+                <li>Navigate to the page that contains the content that you are interested in.</li>
                 <li>Make sure you are in edit mode so that you can see unpublished changes.</li>
                 <li>Find the page, header, or card you are interested in and press the "Review" button.</li>
                 <li>Press the "Add to Publish Request" button.</li>
