@@ -10,12 +10,19 @@ function ImageInput(props) {
   function handleChangeStatus(e) {
     // get file name
     const input = document.getElementById(`custom-file-upload-${props.id}`);
-    const file = input.value.split("\\");
-    const newFileName = file[file.length-1];
-    setFileName(newFileName);
+    if (input.value !== "") {
 
-    // get file data
-    props.onNewImage(e.target.files[0]);
+      const file = input.value.split("\\");
+      const newFileName = file[file.length-1];
+      setFileName(newFileName);
+
+      // get file data
+      props.onNewImage(e.target.files[0]);
+
+    } else {
+      setFileName("... or Upload an Image");
+      props.onNewImage(null);
+    }
   }
 
   return (
@@ -26,7 +33,7 @@ function ImageInput(props) {
           className="custom-file-input"
           id={`custom-file-upload-${props.id}`}
           aria-describedby="inputGroupFileAddon01"
-          onChange={(e) => handleChangeStatus(e)}
+          onInput={(e) => handleChangeStatus(e)}
         />
         <label className="custom-file-label" htmlFor={`custom-file-upload-${props.id}`}>
           {fileName}
