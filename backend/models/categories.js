@@ -191,7 +191,7 @@ async function createCategory(singleName, pluralName, description, userId, inter
 }
 exports.createCategory = createCategory;
 
-
+// make changes to a category
 async function updateCategory(categoryId, singleName, pluralName, description, userId, internal) {
 
   try {

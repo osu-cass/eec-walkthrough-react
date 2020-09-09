@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Aug 31, 2020 at 07:02 PM
+-- Generation Time: Sep 08, 2020 at 12:29 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -118,17 +118,17 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (142, 41, 0, 142, 'Analysis Tools', 58, '2020-07-20 22:12:33', 0),
 (143, 41, 0, 143, 'In Depth Site Resources', 58, '2020-07-20 22:13:43', 0),
 (144, 41, 0, 144, 'Off Site Resource Links', 58, '2020-07-20 22:14:24', 0),
-(154, 47, 10, 2, 'Review/Analyze Pre-Assessment Package Information', 52, '2020-08-13 19:49:33', 1),
+(154, 47, 10, 2, 'Review/Analyze Pre-Assessment Package Information', 51, '2020-09-03 20:04:30', 1),
 (155, 47, 10, 1, 'Identify Potential Sites to Work With', 51, '2020-08-06 23:50:17', 1),
-(156, 47, 10, 4, 'Hold an Initial Remote Assessment Meeting with the Client', 51, '2020-08-17 21:30:23', 1),
-(157, 47, 10, 5, 'Develop a Preliminary Energy Balance', 52, '2020-08-13 19:54:45', 1),
-(158, 47, 10, 6, 'Develop a List of Potential Opportunities to Study', 51, '2020-08-06 23:09:57', 1),
-(161, 47, 10, 3, 'Preliminary Research', 51, '2020-08-06 23:47:20', 1),
-(162, 47, 10, 162, 'Arrange a Client Guided Remote Tour by Phone.', 51, '2020-08-06 22:36:25', 1),
+(156, 47, 10, 4, 'Hold an Initial Remote Assessment Meeting with the Client', 51, '2020-09-03 20:04:47', 1),
+(157, 47, 10, 5, 'Develop a Preliminary Energy Balance', 51, '2020-09-03 20:05:07', 1),
+(158, 47, 10, 6, 'Develop a List of Potential Opportunities to Study', 51, '2020-09-03 20:11:20', 1),
+(161, 47, 10, 3, 'Preliminary Research', 51, '2020-09-03 20:04:11', 1),
+(162, 47, 10, 162, 'Arrange a Client Guided Remote Tour by Phone.', 51, '2020-09-03 20:05:27', 1),
 (163, 38, 0, 163, 'Efficient Aeration', 51, '2020-08-06 22:27:59', 1),
 (164, 36, 0, 164, 'Additional in Depth Site Resources', 51, '2020-08-06 22:32:54', 1),
-(165, 47, 0, 165, 'Next Step?......', 51, '2020-08-06 22:36:00', 0),
-(166, 48, 0, 166, 'Reduce Bottleneck', 62, '2020-08-10 21:04:25', 0),
+(165, 47, 0, 165, 'Next Step?......', 51, '2020-08-06 22:36:00', 1),
+(166, 48, 0, 166, 'Opportunity Flags', 62, '2020-08-10 21:04:25', 0),
 (168, 50, 0, 168, 'Pros', 62, '2020-08-12 21:45:00', 0),
 (169, 50, 0, 169, 'Caveats', 62, '2020-08-12 21:56:54', 0),
 (170, 50, 0, 170, 'Opportunity Flag', 62, '2020-08-12 22:02:27', 0),
@@ -154,7 +154,17 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (194, 56, 10, 194, 'Industrial Assessment Center and Department of Energy', 57, '2020-08-27 00:24:17', 0),
 (195, 56, 10, 195, 'Other Government Tools', 57, '2020-08-27 00:29:22', 0),
 (196, 57, 0, 196, 'Tips and Guides', 57, '2020-08-27 00:38:47', 0),
-(197, 57, 10, 197, 'Tools', 57, '2020-08-27 00:40:11', 0);
+(197, 57, 10, 197, 'Tools', 57, '2020-08-27 00:40:11', 0),
+(199, 48, 0, 199, 'Pros', 62, '2020-09-02 22:05:59', 0),
+(200, 48, 0, 200, 'Cons', 62, '2020-09-02 22:11:35', 0),
+(201, 48, 0, 201, 'Modeling Simple Queuing Systems', 62, '2020-09-02 22:53:29', 0),
+(202, 60, 10, 202, 'History Reports', 58, '2020-09-04 19:38:18', 0),
+(203, 60, 10, 203, 'How to Complete a Publish Request', 58, '2020-09-04 20:44:09', 0),
+(204, 59, 10, 2, 'Creating Pages', 58, '2020-09-07 23:37:09', 0),
+(205, 59, 10, 1, 'Tips', 58, '2020-09-07 23:40:51', 0),
+(206, 59, 10, 206, 'Adding Images', 58, '2020-09-07 23:43:10', 0),
+(207, 60, 10, 207, 'How to Review and Approve Content for Publishing', 58, '2020-09-08 17:49:46', 0),
+(208, 59, 10, 208, 'Adding References', 58, '2020-09-08 18:55:48', 0);
 
 -- --------------------------------------------------------
 
@@ -183,7 +193,7 @@ INSERT INTO `Categories` (`categoryId`, `singleName`, `pluralName`, `description
 (3, 'Process', 'Processes', 'Common industrial processes that use a combination of standard technologies', 0, 51, '2020-07-18 03:11:32'),
 (4, 'Productivity', 'Productivity', 'Common approaches to improving industrial site productivity', 0, 51, '2020-07-18 03:11:32'),
 (5, 'Assessment', 'Assessments', 'Standard recommended approaches for performing industrial assessments.', 0, 51, '2020-07-18 03:11:32'),
-(7, 'Utilities', 'Utilities', 'An introduction to utility billing structures, resource use analysis, and opportunities to reduce costs.', 0, 51, '2020-08-05 23:59:34');
+(7, 'Utility', 'Utilities', 'An introduction to utility billing structures, resource use analysis, and opportunities to reduce costs.', 0, 42, '2020-08-05 23:59:34');
 
 -- --------------------------------------------------------
 
@@ -299,12 +309,14 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (40, 47, 2, 'Thermal Systems Opportunities to Consider', 0, 58, '2020-07-10 17:59:49', 0),
 (41, 48, 41, 'Refrigeration Overview', 0, 58, '2020-07-20 21:19:45', 0),
 (47, 54, 47, 'Assessment Steps', 1, 51, '2020-08-05 19:56:29', 1),
-(48, 58, 48, 'Reduce Bottleneck', 0, 62, '2020-08-10 20:58:11', 0),
+(48, 58, 48, 'Bottleneck Reduction', 0, 62, '2020-08-10 20:58:11', 0),
 (50, 57, 50, 'Change Department Layout', 0, 62, '2020-08-12 21:43:08', 0),
 (54, 61, 1, 'Power Factor Correction Overview', 0, 52, '2020-08-26 16:02:06', 0),
 (55, 61, 2, 'Power Factor Correction Opportunities to Consider', 0, 52, '2020-08-26 17:34:55', 0),
 (56, 62, 56, 'Self Assessment Tools', 1, 57, '2020-08-27 00:21:35', 0),
-(57, 62, 57, 'Resources', 1, 57, '2020-08-27 00:29:42', 0);
+(57, 62, 57, 'Resources', 1, 57, '2020-08-27 00:29:42', 0),
+(59, 65, 59, 'Creating Content', 1, 58, '2020-09-04 18:57:48', 0),
+(60, 65, 60, 'Reviewing Content', 1, 58, '2020-09-04 19:23:27', 0);
 
 -- --------------------------------------------------------
 
@@ -414,7 +426,14 @@ INSERT INTO `History_Cards` (`historyId`, `cardId`, `headerId`, `cardType`, `tit
 (86, 178, 29, 0, 'Best Practices', 0, '2020-08-20 01:00:54'),
 (87, 180, 29, 0, 'Rules of Thumb', 0, '2020-08-20 01:01:02'),
 (88, 182, 29, 0, 'Caveats', 0, '2020-08-20 01:03:50'),
-(89, 178, 29, 0, 'Best Practices', 0, '2020-08-20 22:33:59');
+(89, 178, 29, 0, 'Best Practices', 0, '2020-08-20 22:33:59'),
+(90, 161, 47, 10, 'Preliminary Research', 0, '2020-09-03 20:04:11'),
+(91, 154, 47, 10, 'Review/Analyze Pre-Assessment Package Information', 0, '2020-09-03 20:04:30'),
+(92, 156, 47, 10, 'Hold an Initial Remote Assessment Meeting with the Client', 0, '2020-09-03 20:04:47'),
+(93, 157, 47, 10, 'Develop a Preliminary Energy Balance', 0, '2020-09-03 20:05:07'),
+(94, 162, 47, 10, 'Arrange a Client Guided Remote Tour by Phone.', 0, '2020-09-03 20:05:27'),
+(95, 158, 47, 10, 'Develop a List of Potential Opportunities to Study', 0, '2020-09-03 20:11:20'),
+(96, 165, 47, 0, 'Next Step?......', 0, '2020-09-03 20:11:43');
 
 -- --------------------------------------------------------
 
@@ -939,7 +958,66 @@ INSERT INTO `History_Items` (`historyId`, `parentId`, `itemId`, `cardId`, `order
 (644, 89, 4715, 178, 0, 0, 7, 'Operate pumps between 85% and 110% of their best efficiency point (BEP)', '', '', 0, 0, 0, '2020-08-20 22:33:47'),
 (645, 89, 4716, 178, 0, 0, 7, 'Use VFD control if the pump operates at multiple flow conditions, particularly for looped flow circuits.', '', '', 0, 0, 0, '2020-08-20 22:33:47'),
 (646, 89, 4717, 178, 0, 1, 4, 'For high static head conditions (pumping to high pressure vessel or high elevation tank) take care in evaluating pump operation with VFD control.  Pumps can be forced into low efficiency, high wear conditions with inappropriate high static head VFD control.', '', '', 1, 0, 0, '2020-08-20 22:33:47'),
-(647, 89, 4718, 178, 0, 0, 17, 'Comprehensive list of pump selection, installation, and operation best practices.', 'http://www.flowserve.com/sites/default/files/2016-07/pss-10-13.5-e.pdf', 'Flowserve: Best Practices for ANSI Pumps', 1, 0, 0, '2020-08-20 22:33:47');
+(647, 89, 4718, 178, 0, 0, 17, 'Comprehensive list of pump selection, installation, and operation best practices.', 'http://www.flowserve.com/sites/default/files/2016-07/pss-10-13.5-e.pdf', 'Flowserve: Best Practices for ANSI Pumps', 1, 0, 0, '2020-08-20 22:33:47'),
+(648, 90, 4641, 161, 0, 0, 26, 'Review the client\'s web site', '', '', 0, 0, 0, '2020-08-19 22:39:25'),
+(649, 90, 4642, 161, 0, 0, 26, 'Develop a list of typical opportunities found in the site\'s industrial sector. BE SURE to add any newly identified opportunities to this site!', '', '', 0, 0, 0, '2020-08-19 22:39:25'),
+(650, 90, 4643, 161, 0, 1, 7, 'Assign each of the searches suggested below to one member of the assessment team. ', '', '', 0, 0, 0, '2020-08-19 22:39:25'),
+(651, 90, 4644, 161, 0, 1, 8, ' The IAC University Database allows you to search for common recommendations made by SIC or NAICS code ', '', '', 0, 0, 0, '2020-08-19 22:39:25'),
+(652, 90, 4645, 161, 0, 2, 24, '$empty', 'https://iac.university/searchRecommendations', 'IAC University: Search IAC Recommendations', 1, 0, 0, '2020-08-19 22:39:25'),
+(653, 90, 4646, 161, 0, 2, 1, 'The IAC University Database also allows you to search for the top 10 recommendations, the number of assessments and results by industry grouping. Note: one useful search field under assessments: \"Product Type\" can help find similar assessments.', '', '', 0, 0, 0, '2020-08-19 22:39:25'),
+(654, 90, 4647, 161, 0, 1, 8, 'Search the OSU IAC Project Management Database to see what we have recommended in the past at similar sites. Note: the search box in the upper right corner is a useful tool for this.', '', '', 0, 0, 0, '2020-08-19 22:39:25'),
+(655, 90, 4648, 161, 0, 2, 24, '$empty', 'https://eec.oregonstate.edu/tracking2/modules/login/login.php', 'EEC Project Management', 0, 0, 0, '2020-08-19 22:39:25'),
+(656, 90, 4649, 161, 0, 1, 8, 'General internet and literature research can surface new opportunities to consider.  BE SURE to add any newly identified resources to this site!', '', '', 0, 0, 0, '2020-08-19 22:39:25'),
+(657, 90, 4650, 161, 0, 2, 1, 'U.S.DOE, Vendor, Other IAC, State Energy Office, and Industrial Association web sites are all among good places to search for resources.', '', '', 0, 0, 0, '2020-08-19 22:39:25'),
+(658, 90, 4651, 161, 0, 1, 17, '(item not added yet)', 'abc.com', 'Example List of Common Opportunities', 0, 0, 0, '2020-08-19 22:39:25'),
+(659, 91, 4566, 154, 0, 0, 26, 'Check the estimated annual energy cost for each utility', '', '', 0, 0, 0, '2020-08-18 21:48:18'),
+(660, 91, 4567, 154, 0, 1, 14, 'Is the total annual energy cost suitable for an IAC Assessment? ', '', '', 0, 0, 0, '2020-08-18 21:48:18'),
+(661, 91, 4568, 154, 0, 2, 3, '$100,000 a year is the minimum but ideally costs will exceed $200,000  - $300,000 a year. ', '', '', 0, 0, 0, '2020-08-18 21:48:18'),
+(662, 91, 4569, 154, 0, 2, 3, 'If annual cost exceeds $2.5 Million, Field Manager / U.S.DOE permission must be obtained to visit. ', '', '', 0, 0, 0, '2020-08-18 21:48:18'),
+(663, 91, 4570, 154, 0, 0, 26, 'Accumulate / analyze annual month by month utility bills. ', '', '', 0, 0, 0, '2020-08-18 21:48:18'),
+(664, 91, 4571, 154, 0, 1, 12, 'Identify any seasonality to bills.', '', '', 0, 0, 0, '2020-08-18 21:48:18'),
+(665, 91, 4572, 154, 0, 1, 12, 'Determine incremental costs (Potential savings with each unit of resource saved )', '', '', 0, 0, 0, '2020-08-18 21:48:18'),
+(666, 91, 4573, 154, 0, 1, 12, 'Understand special costs: Electrical Demand and Power Factor cost, meter costs, ...', '', '', 0, 0, 0, '2020-08-18 21:48:18'),
+(667, 91, 4574, 154, 0, 1, 12, 'Confirm estimated annual costs ', '', '', 0, 0, 0, '2020-08-18 21:48:18'),
+(668, 91, 4575, 154, 0, 1, 17, '(item not added yet)', 'abc.com', 'Example Utility Baseline Analysis', 0, 0, 0, '2020-08-18 21:48:18'),
+(669, 91, 4576, 154, 0, 0, 26, 'Ensure all personnel information provided is entered into the OSU IAC Project Management DB', '', '', 0, 0, 0, '2020-08-18 21:48:18'),
+(670, 91, 4577, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, 0, 0, '2020-08-18 21:48:18'),
+(671, 91, 4578, 154, 0, 0, 14, 'If the client has given permission, consider how to engage utility representatives (and regional incentive and assistance programs such as  ETO or ESI  in the remote assessment process)?', '', '', 0, 0, 0, '2020-08-18 21:48:18'),
+(672, 92, 4995, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, 0, '2020-09-03 20:03:28'),
+(673, 92, 4996, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, 0, '2020-09-03 20:03:28'),
+(674, 92, 4997, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, 0, '2020-09-03 20:03:28'),
+(675, 92, 4998, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, 0, '2020-09-03 20:03:28'),
+(676, 92, 4999, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, 0, '2020-09-03 20:03:28'),
+(677, 92, 5000, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, 0, 0, '2020-09-03 20:03:28'),
+(678, 92, 5001, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, 0, 0, '2020-09-03 20:03:28'),
+(679, 92, 5002, 156, 0, 0, 8, 'Try to get more than one key contact at the site involved in the project. (Plant manager, Fiscal Decision Maker, Maintenance Manager, Floor Personnel, Energy Lead, etc)', '', '', 0, 0, 0, '2020-09-03 20:03:28'),
+(680, 92, 5003, 156, 0, 0, 17, '(Item not added yet)', 'abc.com', 'Pre-Audit Walkthrough Phone Call Checklist', 0, 0, 0, '2020-09-03 20:03:28'),
+(681, 92, 5004, 156, 0, 0, 14, 'How best could we get Utility & Incentive Representatives involved (if the client permits) ', '', '', 0, 0, 0, '2020-09-03 20:03:28'),
+(682, 93, 4625, 157, 0, 0, 26, 'Develop a table of significant energy using equipment including collected rated capacity, estimated % of full capacity, and hours of operation', '', '', 0, 0, 0, '2020-08-18 21:54:52'),
+(683, 93, 4626, 157, 0, 1, 12, 'Calculate an initial estimate of annual energy used by each piece of equipment', '', '', 0, 0, 0, '2020-08-18 21:54:52'),
+(684, 93, 4627, 157, 0, 1, 12, 'Develop a pie chart showing % of total site energy each modeled equipment item uses, and remaining unidentified energy use.', '', '', 0, 0, 0, '2020-08-18 21:54:52'),
+(685, 93, 4628, 157, 0, 2, 14, 'Does the total modeled energy exceed the actual energy in the bills? (If so, revise the model.) ', '', '', 0, 0, 0, '2020-08-18 21:54:52'),
+(686, 93, 4629, 157, 0, 1, 12, 'Plan to continually revise and improve this balance over the process of the remote assessment.', '', '', 0, 0, 0, '2020-08-18 21:54:52'),
+(687, 93, 4630, 157, 0, 2, 14, 'Does more equipment come up that can be added?', '', '', 0, 0, 0, '2020-08-18 21:54:52'),
+(688, 93, 4631, 157, 0, 2, 14, 'Does better data become available on any modeled equipment to improve its annual energy use estimate?', '', '', 0, 0, 0, '2020-08-18 21:54:52'),
+(689, 93, 4632, 157, 0, 1, 17, '(Item not added yet)', 'osu.edu', 'Example Energy Balance', 0, 0, 0, '2020-08-18 21:54:52'),
+(690, 94, 4520, 162, 0, 0, 13, 'This is a requirement for U.S.DOE to accept our remote assessment as a deliverable on our contract. It might be done in one session or iteratively in multiple sessions.', '', '', 0, 0, 0, '2020-08-17 21:38:35'),
+(691, 94, 4521, 162, 0, 0, 26, 'Begin with a review of preparatory work including the intitial energy balance, and list of possible opportunities.', '', '', 0, 0, 0, '2020-08-17 21:38:35'),
+(692, 94, 4522, 162, 0, 0, 26, 'Discuss the best strategy to use for a Guided Remote Tour. This might be: ', '', '', 0, 0, 0, '2020-08-17 21:38:35'),
+(693, 94, 4523, 162, 0, 1, 12, 'A standard tour of the process from start to finish, but this could be an overly long time for a Zoom meeting. ', '', '', 0, 0, 0, '2020-08-17 21:38:35'),
+(694, 94, 4524, 162, 0, 1, 12, 'A series of shorter remote targeted tours of areas of specific interest. ', '', '', 0, 0, 0, '2020-08-17 21:38:35'),
+(695, 94, 4525, 162, 0, 2, 8, 'This strategy is being used by a number of assessment teams', '', '', 0, 0, 0, '2020-08-17 21:38:35'),
+(696, 94, 4526, 162, 0, 2, 1, 'Can simplify scheduling if only key team members must join tours of particular areas.  Others can participate based on availability.', '', '', 0, 0, 0, '2020-08-17 21:38:35'),
+(697, 95, 4617, 158, 0, 0, 26, 'Review any areas of concern or interest voiced by the client', '', '', 0, 0, 0, '2020-08-18 21:54:33'),
+(698, 95, 4618, 158, 0, 0, 26, 'Review typical opportunities found in the energy intensive systems identified at the facility ', '', '', 0, 0, 0, '2020-08-18 21:54:33'),
+(699, 95, 4619, 158, 0, 1, 8, 'This Industrial Walkthrough Checklist & Reference will offer more and more ideas for potential opportunities as it is developed over time', '', '', 0, 0, 0, '2020-08-18 21:54:33'),
+(700, 95, 4620, 158, 0, 0, 26, 'Review the list of typical opportunities found in the site\'s industrial sector developed in Preliminary Research', '', '', 0, 0, 0, '2020-08-18 21:54:33'),
+(701, 95, 4621, 158, 0, 0, 26, 'Pick the brain of anyone with experience in the subject', '', '', 0, 0, 0, '2020-08-18 21:54:33'),
+(702, 95, 4622, 158, 0, 0, 26, 'Brainstorm on opportunities as a team and compile a list', '', '', 0, 0, 0, '2020-08-18 21:54:33'),
+(703, 95, 4623, 158, 0, 0, 26, 'Develop a table of potential recommendations, and if possible: total energy used by the system related to each opportunity, a high/low estimate of potential % savings,  and the range of potential cost and energy savings potential.', '', '', 0, 0, 0, '2020-08-18 21:54:33'),
+(704, 95, 4624, 158, 0, 1, 17, '(Item not added yet)', 'osu.edu', 'Example Table of Potential Opportunities', 0, 0, 0, '2020-08-18 21:54:33'),
+(705, 96, 4506, 165, 0, 0, 26, 'What will we do next?', '', '', 0, 0, 0, '2020-08-17 21:32:04'),
+(706, 96, 4507, 165, 0, 0, 26, 'How can we get incentive program personnel involved (ETO, ESU, utility reps)?', '', '', 0, 0, 0, '2020-08-17 21:32:04');
 
 -- --------------------------------------------------------
 
@@ -986,11 +1064,6 @@ CREATE TABLE `Home` (
   `mainHeader` varchar(1000) NOT NULL,
   `secondaryHeader` varchar(1000) NOT NULL,
   `sectionsTitle` varchar(1000) NOT NULL,
-  `assessments` varchar(1000) NOT NULL,
-  `industries` varchar(1000) NOT NULL,
-  `processes` varchar(1000) NOT NULL,
-  `productivity` varchar(1000) NOT NULL,
-  `technologies` varchar(1000) NOT NULL,
   `sectionsFooter` mediumtext NOT NULL,
   `tidbitsHeader` varchar(1000) NOT NULL,
   `tidbitsTitle` varchar(1000) NOT NULL,
@@ -1008,8 +1081,8 @@ CREATE TABLE `Home` (
 -- Dumping data for table `Home`
 --
 
-INSERT INTO `Home` (`mainHeader`, `secondaryHeader`, `sectionsTitle`, `assessments`, `industries`, `processes`, `productivity`, `technologies`, `sectionsFooter`, `tidbitsHeader`, `tidbitsTitle`, `tidbitsFooter`, `linksHeader`, `linksTitlePrefix`, `linksTitlePostfixInternal`, `linksTitlePostfixDownload`, `linksFooter`, `disclaimerHeader`, `disclaimerText`) VALUES
-('Welcome to the Industrial Walkthrough Checklist & Reference!', 'The purpose of this guide is to provide users with an easily accessible reference of common efficiency improvement opportunities to look for in an industrial facility.', 'This guide is broken down into sections:', 'An introduction to a method for evaluating or estimating.', 'An overview of the industry is followed by a list of common related subjects.', 'An introduction to a process or technique.', 'An introduction to a specific improvement opportunity to consider.', 'An introduction to an industrial technology.', '', 'Each section includes a number of useful pertinent \"tidbits\" identified by a preceding icon', 'These include', 'Note: \"tidbit\" types can be toggled between \"hidden\" and \"unhidden\" by clicking the icon in the header bars of each section. A list of opportunities only can be toggled to, with the ability to expand information on any particular opportunity. Registered users can save preferred view configurations.', 'Each section also references in depth learning resources that offer deeper information about the topic. These are identified by a pair of icons', 'A preceding icon identifies the type of learning resource offered', 'A trailing icon identifies the learning resource as internal or external', 'A second trailing icon will indicate when the learning resource is a download', '', 'Disclaimer', 'The primary objective of the OSU EEC is to promote energy efficiency, waste minimization, and productivity in the industrial, commercial, agricultural, and residential sectors. A key strategy has included performance of energy and efficiency site assessments. This work is intended is to provide background and tools that will be helpful in identifying and evaluating potential opportunities.\r\n\r\nWe believe Industrial Walkthrough Checklist & Reference to be a reasonably accurate representation of opportunities to reduce energy use, lower waste generation, and make production practices more efficient. However, the OSU EEC cannot guarantee the accuracy, completeness, or usefulness of the information contained on this website, nor assume any liability for damages resulting from the use of any information, equipment, method or process disclosed on this website.\r\n\r\nPollution prevention recommendations are not intended to deal with the issue of compliance with applicable environmental regulations. Questions regarding compliance should be addressed to either a reputable consulting engineering firm experienced with environmental regulations or to the appropriate regulatory agency. Clients are encouraged to develop positive working relationships with regulators so that compliance issues can be addressed and resolved.\r\n\r\nThe assumptions and equations used to arrive at energy, waste, productivity, and cost savings for the opportunities are presented on this website. We believe the assumptions to be conservative. If you would like to revise the assumptions you may follow the calculation methodologies presented using adjusted assumptions to develop your own revised estimates of energy, waste, productivity, and cost savings.\r\n\r\nPlease feel welcome to contact the OSU EEC if you would like to discuss the content of this website or if you have another question about energy use or pollution prevention.');
+INSERT INTO `Home` (`mainHeader`, `secondaryHeader`, `sectionsTitle`, `sectionsFooter`, `tidbitsHeader`, `tidbitsTitle`, `tidbitsFooter`, `linksHeader`, `linksTitlePrefix`, `linksTitlePostfixInternal`, `linksTitlePostfixDownload`, `linksFooter`, `disclaimerHeader`, `disclaimerText`) VALUES
+('Welcome to the Industrial Walkthrough Checklist & Reference!', 'The purpose of this guide is to provide users with an easily accessible reference of common efficiency improvement opportunities to look for in an industrial facility.', 'This guide is broken down into sections:', '', 'Each section includes a number of useful pertinent \"tidbits\" identified by a preceding icon', 'These include', 'Note: \"tidbit\" types can be toggled between \"hidden\" and \"unhidden\" by clicking the icon in the header bars of each section. A list of opportunities only can be toggled to, with the ability to expand information on any particular opportunity. Registered users can save preferred view configurations.', 'Each section also references in depth learning resources that offer deeper information about the topic. These are identified by a pair of icons', 'A preceding icon identifies the type of learning resource offered', 'A trailing icon identifies the learning resource as internal or external', 'A second trailing icon will indicate when the learning resource is a download', '', 'Disclaimer', 'The primary objective of the OSU EEC is to promote energy efficiency, waste minimization, and productivity in the industrial, commercial, agricultural, and residential sectors. A key strategy has included performance of energy and efficiency site assessments. This work is intended is to provide background and tools that will be helpful in identifying and evaluating potential opportunities.\r\n\r\nWe believe Industrial Walkthrough Checklist & Reference to be a reasonably accurate representation of opportunities to reduce energy use, lower waste generation, and make production practices more efficient. However, the OSU EEC cannot guarantee the accuracy, completeness, or usefulness of the information contained on this website, nor assume any liability for damages resulting from the use of any information, equipment, method or process disclosed on this website.\r\n\r\nPollution prevention recommendations are not intended to deal with the issue of compliance with applicable environmental regulations. Questions regarding compliance should be addressed to either a reputable consulting engineering firm experienced with environmental regulations or to the appropriate regulatory agency. Clients are encouraged to develop positive working relationships with regulators so that compliance issues can be addressed and resolved.\r\n\r\nThe assumptions and equations used to arrive at energy, waste, productivity, and cost savings for the opportunities are presented on this website. We believe the assumptions to be conservative. If you would like to revise the assumptions you may follow the calculation methodologies presented using adjusted assumptions to develop your own revised estimates of energy, waste, productivity, and cost savings.\r\n\r\nPlease feel welcome to contact the OSU EEC if you would like to discuss the content of this website or if you have another question about energy use or pollution prevention.');
 
 -- --------------------------------------------------------
 
@@ -1402,28 +1475,9 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `sourceId`, `created`, `approved`) VALUES
 (3885, 130, 0, 1, 21, 'Template used to develop and present an analysis of the energy savings associated with insulating a facility\'s equipment or other hot surfaces', 'https://oregonstate.app.box.com/folder/51071018894', 'Analysis Template: Install Insulation', 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3892, 164, 0, 0, 24, '$empty', 'https://eec.oregonstate.edu/wastewater-treatment-training-module', 'Wastewater Treatment Training', 0, 0, 0, '2020-08-06 22:33:54', 1),
-(3894, 162, 0, 0, 13, 'This is a requirement for U.S.DOE to accept our remote assessment as a deliverable on our contract. It might be done in one session or iteratively in multiple sessions.', '', '', 0, 0, 0, '2020-08-06 22:36:25', 1),
-(3895, 162, 0, 0, 26, 'Begin with a review of preparatory work including the intitial energy balance, and list of possible opportunities.', '', '', 0, 0, 0, '2020-08-06 22:36:25', 1),
-(3896, 162, 0, 0, 26, 'Discuss the best strategy to use for a Guided Remote Tour. This might be a standard tour of the process from start to finish, or a series of targeted tours of areas of specific interest. ', '', '', 0, 0, 0, '2020-08-06 22:36:25', 1),
-(4030, 158, 0, 0, 26, 'Review any areas of concern or interest voiced by the client', '', '', 0, 0, 0, '2020-08-06 23:09:57', 1),
-(4031, 158, 0, 0, 26, 'Review typical opportunities found in the energy intensive systems identified at the facility ', '', '', 0, 0, 0, '2020-08-06 23:09:57', 1),
-(4032, 158, 0, 1, 8, 'This Industrial Walkthrough Checklist & Reference will offer more and more ideas for potential opportunities as it is developed over time', '', '', 0, 0, 0, '2020-08-06 23:09:57', 1),
-(4033, 158, 0, 0, 26, 'Review the list of typical opportunities found in the site\'s industrial sector developed in Preliminary Research', '', '', 0, 0, 0, '2020-08-06 23:09:57', 1),
-(4034, 158, 0, 0, 26, 'Pick the brain of anyone with experience in the subject', '', '', 0, 0, 0, '2020-08-06 23:09:57', 1),
-(4035, 158, 0, 0, 26, 'Brainstorm on opportunities as a team and compile a list', '', '', 0, 0, 0, '2020-08-06 23:09:57', 1),
-(4036, 158, 0, 0, 26, 'Develop a table of potential recommendations, and if possible: total energy used by the system related to each opportunity, a high/low estimate of potential % savings,  and the range of potential cost and energy savings potential.', '', '', 0, 0, 0, '2020-08-06 23:09:57', 1),
 (4118, 163, 0, 0, 11, 'Control Aeration to Hold a Minimum Dissolved Oxygen Level', '', '', 0, 0, 0, '2020-08-06 23:36:56', 1),
 (4119, 163, 0, 0, 11, 'Replace Standard Aeration Fans with High Efficiency Turbo Blowers', '', '', 0, 0, 0, '2020-08-06 23:36:56', 1),
 (4120, 163, 0, 0, 11, 'Improve Efficiency of Fine Bubble Diffusers', '', '', 0, 0, 0, '2020-08-06 23:36:56', 1),
-(4137, 161, 0, 0, 26, 'Review the client\'s web site', '', '', 0, 0, 0, '2020-08-06 23:47:48', 1),
-(4138, 161, 0, 0, 26, 'Develop a list of typical opportunities found in the site\'s industrial sector. BE SURE to add any newly identified opportunities to this site!', '', '', 0, 0, 0, '2020-08-06 23:47:48', 1),
-(4139, 161, 0, 1, 8, ' The IAC University Database allows you to search for common recommendations made by SIC or NAICS code ', '', '', 0, 0, 0, '2020-08-06 23:47:48', 1),
-(4140, 161, 0, 2, 24, '$empty', 'https://iac.university/searchRecommendations', 'IAC University: Search IAC Recommendations', 1, 0, 0, '2020-08-06 23:47:48', 1),
-(4141, 161, 0, 2, 1, 'The IAC University Database also allows you to search for the top 10 recommendations, the number of assessments and results by industry grouping. Note: one useful search field under assessments: \"Product Type\" can help find similar assessments.', '', '', 0, 0, 0, '2020-08-06 23:47:48', 1),
-(4142, 161, 0, 1, 8, 'Search the OSU IAC Project Management Database to see what we have recommended in the past at similar sites. Note: the search box in the upper right corner is a useful tool for this.', '', '', 0, 0, 0, '2020-08-06 23:47:48', 1),
-(4143, 161, 0, 2, 24, '$empty', 'https://eec.oregonstate.edu/tracking2/modules/login/login.php', 'EEC Project Management', 0, 0, 0, '2020-08-06 23:47:48', 1),
-(4144, 161, 0, 1, 8, 'General internet and literature research can surface new opportunities to consider.  BE SURE to add any newly identified resources to this site!', '', '', 0, 0, 0, '2020-08-06 23:47:48', 1),
-(4145, 161, 0, 2, 1, 'U.S.DOE, Vendor, Other IAC, State Energy Office, and Industrial Association web sites are all among good places to search for resources.', '', '', 0, 0, 0, '2020-08-06 23:47:48', 1),
 (4146, 155, 0, 0, 26, 'Initiate a conversation with potential clients in follow up to industry requests, partner references, or direct contact.', '', '', 0, 0, 0, '2020-08-06 23:50:17', 1),
 (4147, 155, 0, 0, 26, 'Confirm suitability of the site and client for a remote IAC assessment', '', '', 0, 0, 0, '2020-08-06 23:50:17', 1),
 (4148, 155, 0, 1, 12, 'Let clients know of key IAC eligibility criteria (Annual Energy Cost between $100K and $2.5 Mil, less than 500 employees,...) ', '', '', 0, 0, 0, '2020-08-06 23:50:17', 1),
@@ -1489,26 +1543,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4310, 101, 0, 1, 24, 'This webpage lists the epcific heats and gas constants for different gasses. This is uesd for calculating the properties of the flue gasses.', 'https://www.engineeringtoolbox.com/specific-heat-capacity-gases-d_159.html', 'Specific Heat and Individual Gas Constant of Gases', 1, 0, 0, '2020-08-07 21:56:39', 0),
 (4311, 101, 0, 1, 17, 'Department of Energy tip sheet that explains how a condensing economizer works and how it saves energy, along with example scenarios', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26a_condensing.pdf', 'Consider Installing a Condensing Economizer', 1, 0, 0, '2020-08-07 21:56:39', 0),
 (4312, 101, 0, 1, 17, 'Department of Energy tip sheet that explains special considerations that need to be taken into account when choosing to do projects with condensing economizers.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26b_condensing.pdf', 'Considerations When Selecting a Condensing Economizer', 1, 0, 0, '2020-08-07 21:56:39', 0),
-(4313, 166, 0, 0, 10, 'Significant levels of work in progress (WIP) inventory immediately upstream of a workstation.', '', '', 0, 0, 0, '2020-08-10 21:04:25', 0),
-(4376, 154, 0, 0, 26, 'Check the estimated annual energy cost for each utility', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
-(4377, 154, 0, 1, 14, 'Is the total annual energy cost suitable for an IAC Assessment? ', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
-(4378, 154, 0, 2, 3, '$100,000 a year is the minimum but ideally costs will exceed $200,000  - $300,000 a year. ', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
-(4379, 154, 0, 2, 3, 'If annual cost exceeds $2.5 Million, Field Manager / U.S.DOE permission must be obtained to visit. ', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
-(4380, 154, 0, 0, 26, 'Accumulate / analyze annual month by month utility bills. ', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
-(4381, 154, 0, 1, 12, 'Identify any seasonality to bills.', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
-(4382, 154, 0, 1, 12, 'Determine incremental costs (Potential savings with each unit of resource saved )', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
-(4383, 154, 0, 1, 12, 'Understand special costs: Electrical Demand and Power Factor cost, meter costs, ...', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
-(4384, 154, 0, 1, 12, 'Confirm estimated annual costs ', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
-(4385, 154, 0, 0, 26, 'Ensure all personnel information provided is entered into the OSU IAC Project Management DB', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
-(4386, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
-(4387, 154, 0, 0, 14, 'If the client has given permission, consider how to engage utility representatives (and regional incentive and assistance programs such as  ETO or ESI  in the remote assessment process)?', '', '', 0, 0, 0, '2020-08-13 19:49:23', 1),
-(4395, 157, 0, 0, 26, 'Develop a table of significant energy using equipment including collected rated capacity, estimated % of full capacity, and hours of operation', '', '', 0, 0, 0, '2020-08-13 19:54:40', 1),
-(4396, 157, 0, 1, 12, 'Calculate an initial estimate of annual energy used by each piece of equipment', '', '', 0, 0, 0, '2020-08-13 19:54:40', 1),
-(4397, 157, 0, 1, 12, 'Develop a pie chart showing % of total site energy each modeled equipment item uses, and remaining unidentified energy use.', '', '', 0, 0, 0, '2020-08-13 19:54:40', 1),
-(4398, 157, 0, 2, 14, 'Does the total modeled energy exceed the actual energy in the bills? (If so, revise the model.) ', '', '', 0, 0, 0, '2020-08-13 19:54:40', 1),
-(4399, 157, 0, 1, 12, 'Plan to continually revise and improve this balance over the process of the remote assessment.', '', '', 0, 0, 0, '2020-08-13 19:54:40', 1),
-(4400, 157, 0, 2, 14, 'Does more equipment come up that can be added?', '', '', 0, 0, 0, '2020-08-13 19:54:40', 1),
-(4401, 157, 0, 2, 14, 'Does better data become available on any modeled equipment to improve its annual energy use estimate?', '', '', 0, 0, 0, '2020-08-13 19:54:40', 1),
 (4402, 169, 0, 0, 4, 'Implementation is typically costly and time consuming. Relocation of departments and workstations typically requires plant downtime.', '', '', 0, 0, 0, '2020-08-14 20:44:57', 0),
 (4403, 169, 0, 0, 4, 'Data for sufficient analysis is difficult to obtain without longer term studies. Variance in workflows greatly influences calculations if non-annual data is used.', '', '', 0, 0, 0, '2020-08-14 20:44:57', 0),
 (4409, 170, 0, 0, 10, 'The flow of work in progress product, personnel, or inventory/materials appears non-linear or requires excessive movement.', '', '', 0, 0, 0, '2020-08-14 21:06:31', 0),
@@ -1529,80 +1563,63 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4445, 175, 0, 0, 11, 'Clean and concentrate digester gas for sale to natural gas utility', '', '', 0, 0, 0, '2020-08-17 18:11:37', 1),
 (4446, 176, 0, 0, 11, 'Control UV Disinfection to minimum required', '', '', 0, 0, 0, '2020-08-17 18:16:44', 1),
 (4447, 126, 0, 0, 17, '$empty', '/wiki/technologies/45', 'Pumps', 0, 0, 0, '2020-08-17 20:33:44', 1),
-(4496, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, 0, '2020-08-17 21:29:45', 1),
-(4497, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, 0, '2020-08-17 21:29:45', 1),
-(4498, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, 0, '2020-08-17 21:29:45', 1),
-(4499, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, 0, '2020-08-17 21:29:45', 1),
-(4500, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, 0, '2020-08-17 21:29:45', 1),
-(4501, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, 0, 0, '2020-08-17 21:29:45', 1),
-(4502, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, 0, 0, '2020-08-17 21:29:45', 1),
-(4503, 156, 0, 0, 8, 'Try to get more than one key contact at the site involved in the project. (Plant manager, Fiscal Decision Maker, Maintenance Manager, Floor Personnel, Energy Lead, etc)', '', '', 0, 0, 0, '2020-08-17 21:29:45', 1),
-(4506, 165, 0, 0, 26, 'What will we do next?', '', '', 0, 0, 0, '2020-08-17 21:32:04', 0),
-(4507, 165, 0, 0, 26, 'How can we get incentive program personnel involved (ETO, ESU, utility reps)?', '', '', 0, 0, 0, '2020-08-17 21:32:04', 0),
-(4520, 162, 0, 0, 13, 'This is a requirement for U.S.DOE to accept our remote assessment as a deliverable on our contract. It might be done in one session or iteratively in multiple sessions.', '', '', 0, 0, 0, '2020-08-17 21:38:35', 0),
-(4521, 162, 0, 0, 26, 'Begin with a review of preparatory work including the intitial energy balance, and list of possible opportunities.', '', '', 0, 0, 0, '2020-08-17 21:38:35', 0),
-(4522, 162, 0, 0, 26, 'Discuss the best strategy to use for a Guided Remote Tour. This might be: ', '', '', 0, 0, 0, '2020-08-17 21:38:35', 0),
-(4523, 162, 0, 1, 12, 'A standard tour of the process from start to finish, but this could be an overly long time for a Zoom meeting. ', '', '', 0, 0, 0, '2020-08-17 21:38:35', 0),
-(4524, 162, 0, 1, 12, 'A series of shorter remote targeted tours of areas of specific interest. ', '', '', 0, 0, 0, '2020-08-17 21:38:35', 0),
-(4525, 162, 0, 2, 8, 'This strategy is being used by a number of assessment teams', '', '', 0, 0, 0, '2020-08-17 21:38:35', 0),
-(4526, 162, 0, 2, 1, 'Can simplify scheduling if only key team members must join tours of particular areas.  Others can participate based on availability.', '', '', 0, 0, 0, '2020-08-17 21:38:35', 0),
+(4506, 165, 0, 0, 26, 'What will we do next?', '', '', 0, 0, 0, '2020-08-17 21:32:04', 1),
+(4507, 165, 0, 0, 26, 'How can we get incentive program personnel involved (ETO, ESU, utility reps)?', '', '', 0, 0, 0, '2020-08-17 21:32:04', 1),
+(4520, 162, 0, 0, 13, 'This is a requirement for U.S.DOE to accept our remote assessment as a deliverable on our contract. It might be done in one session or iteratively in multiple sessions.', '', '', 0, 0, 0, '2020-08-17 21:38:35', 1),
+(4521, 162, 0, 0, 26, 'Begin with a review of preparatory work including the intitial energy balance, and list of possible opportunities.', '', '', 0, 0, 0, '2020-08-17 21:38:35', 1),
+(4522, 162, 0, 0, 26, 'Discuss the best strategy to use for a Guided Remote Tour. This might be: ', '', '', 0, 0, 0, '2020-08-17 21:38:35', 1),
+(4523, 162, 0, 1, 12, 'A standard tour of the process from start to finish, but this could be an overly long time for a Zoom meeting. ', '', '', 0, 0, 0, '2020-08-17 21:38:35', 1),
+(4524, 162, 0, 1, 12, 'A series of shorter remote targeted tours of areas of specific interest. ', '', '', 0, 0, 0, '2020-08-17 21:38:35', 1),
+(4525, 162, 0, 2, 8, 'This strategy is being used by a number of assessment teams', '', '', 0, 0, 0, '2020-08-17 21:38:35', 1),
+(4526, 162, 0, 2, 1, 'Can simplify scheduling if only key team members must join tours of particular areas.  Others can participate based on availability.', '', '', 0, 0, 0, '2020-08-17 21:38:35', 1),
 (4532, 124, 0, 0, 17, 'See pump tip sheets.', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, 0, 0, '2020-08-20 00:57:02', 1),
 (4546, 122, 0, 0, 2, 'Actual efficiency can easily vary from 50 percent to 80 percent for optimum operation of a particular pump', '', '', 0, 0, 0, '2020-08-18 21:24:36', 1),
 (4549, 179, 0, 0, 15, 'Pump nameplate', '', '', 0, 0, 0, '2020-08-18 21:43:11', 0),
 (4550, 179, 0, 0, 15, 'Motor nameplate', '', '', 0, 0, 0, '2020-08-18 21:43:11', 0),
 (4551, 179, 0, 0, 15, 'Pump curve data', '', '', 0, 0, 0, '2020-08-18 21:43:11', 0),
 (4552, 179, 0, 0, 15, 'Live amperage readings, flow rates, and operating pressure (system head)', '', '', 0, 0, 0, '2020-08-18 21:43:11', 0),
-(4566, 154, 0, 0, 26, 'Check the estimated annual energy cost for each utility', '', '', 0, 0, 0, '2020-08-18 21:48:18', 0),
-(4567, 154, 0, 1, 14, 'Is the total annual energy cost suitable for an IAC Assessment? ', '', '', 0, 0, 0, '2020-08-18 21:48:18', 0),
-(4568, 154, 0, 2, 3, '$100,000 a year is the minimum but ideally costs will exceed $200,000  - $300,000 a year. ', '', '', 0, 0, 0, '2020-08-18 21:48:18', 0),
-(4569, 154, 0, 2, 3, 'If annual cost exceeds $2.5 Million, Field Manager / U.S.DOE permission must be obtained to visit. ', '', '', 0, 0, 0, '2020-08-18 21:48:18', 0),
-(4570, 154, 0, 0, 26, 'Accumulate / analyze annual month by month utility bills. ', '', '', 0, 0, 0, '2020-08-18 21:48:18', 0),
-(4571, 154, 0, 1, 12, 'Identify any seasonality to bills.', '', '', 0, 0, 0, '2020-08-18 21:48:18', 0),
-(4572, 154, 0, 1, 12, 'Determine incremental costs (Potential savings with each unit of resource saved )', '', '', 0, 0, 0, '2020-08-18 21:48:18', 0),
-(4573, 154, 0, 1, 12, 'Understand special costs: Electrical Demand and Power Factor cost, meter costs, ...', '', '', 0, 0, 0, '2020-08-18 21:48:18', 0),
-(4574, 154, 0, 1, 12, 'Confirm estimated annual costs ', '', '', 0, 0, 0, '2020-08-18 21:48:18', 0),
-(4575, 154, 0, 1, 17, '(item not added yet)', 'abc.com', 'Example Utility Baseline Analysis', 0, 0, 0, '2020-08-18 21:48:18', 0),
-(4576, 154, 0, 0, 26, 'Ensure all personnel information provided is entered into the OSU IAC Project Management DB', '', '', 0, 0, 0, '2020-08-18 21:48:18', 0),
-(4577, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, 0, 0, '2020-08-18 21:48:18', 0),
-(4578, 154, 0, 0, 14, 'If the client has given permission, consider how to engage utility representatives (and regional incentive and assistance programs such as  ETO or ESI  in the remote assessment process)?', '', '', 0, 0, 0, '2020-08-18 21:48:18', 0),
-(4599, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, 0, '2020-08-18 21:51:21', 0),
-(4600, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, 0, '2020-08-18 21:51:21', 0),
-(4601, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, 0, '2020-08-18 21:51:21', 0),
-(4602, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, 0, '2020-08-18 21:51:21', 0),
-(4603, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, 0, '2020-08-18 21:51:21', 0),
-(4604, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, 0, 0, '2020-08-18 21:51:21', 0),
-(4605, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, 0, 0, '2020-08-18 21:51:21', 0),
-(4606, 156, 0, 0, 8, 'Try to get more than one key contact at the site involved in the project. (Plant manager, Fiscal Decision Maker, Maintenance Manager, Floor Personnel, Energy Lead, etc)', '', '', 0, 0, 0, '2020-08-18 21:51:21', 0),
-(4607, 156, 0, 0, 17, '(Item not added yet)', 'abc.com', 'Pre-Audit Walkthrough Phone Call Checklist', 0, 0, 0, '2020-08-18 21:51:21', 0),
-(4617, 158, 0, 0, 26, 'Review any areas of concern or interest voiced by the client', '', '', 0, 0, 0, '2020-08-18 21:54:33', 0),
-(4618, 158, 0, 0, 26, 'Review typical opportunities found in the energy intensive systems identified at the facility ', '', '', 0, 0, 0, '2020-08-18 21:54:33', 0),
-(4619, 158, 0, 1, 8, 'This Industrial Walkthrough Checklist & Reference will offer more and more ideas for potential opportunities as it is developed over time', '', '', 0, 0, 0, '2020-08-18 21:54:33', 0),
-(4620, 158, 0, 0, 26, 'Review the list of typical opportunities found in the site\'s industrial sector developed in Preliminary Research', '', '', 0, 0, 0, '2020-08-18 21:54:33', 0),
-(4621, 158, 0, 0, 26, 'Pick the brain of anyone with experience in the subject', '', '', 0, 0, 0, '2020-08-18 21:54:33', 0),
-(4622, 158, 0, 0, 26, 'Brainstorm on opportunities as a team and compile a list', '', '', 0, 0, 0, '2020-08-18 21:54:33', 0),
-(4623, 158, 0, 0, 26, 'Develop a table of potential recommendations, and if possible: total energy used by the system related to each opportunity, a high/low estimate of potential % savings,  and the range of potential cost and energy savings potential.', '', '', 0, 0, 0, '2020-08-18 21:54:33', 0),
-(4624, 158, 0, 1, 17, '(Item not added yet)', 'osu.edu', 'Example Table of Potential Opportunities', 0, 0, 0, '2020-08-18 21:54:33', 0),
-(4625, 157, 0, 0, 26, 'Develop a table of significant energy using equipment including collected rated capacity, estimated % of full capacity, and hours of operation', '', '', 0, 0, 0, '2020-08-18 21:54:52', 0),
-(4626, 157, 0, 1, 12, 'Calculate an initial estimate of annual energy used by each piece of equipment', '', '', 0, 0, 0, '2020-08-18 21:54:52', 0),
-(4627, 157, 0, 1, 12, 'Develop a pie chart showing % of total site energy each modeled equipment item uses, and remaining unidentified energy use.', '', '', 0, 0, 0, '2020-08-18 21:54:52', 0),
-(4628, 157, 0, 2, 14, 'Does the total modeled energy exceed the actual energy in the bills? (If so, revise the model.) ', '', '', 0, 0, 0, '2020-08-18 21:54:52', 0),
-(4629, 157, 0, 1, 12, 'Plan to continually revise and improve this balance over the process of the remote assessment.', '', '', 0, 0, 0, '2020-08-18 21:54:52', 0),
-(4630, 157, 0, 2, 14, 'Does more equipment come up that can be added?', '', '', 0, 0, 0, '2020-08-18 21:54:52', 0),
-(4631, 157, 0, 2, 14, 'Does better data become available on any modeled equipment to improve its annual energy use estimate?', '', '', 0, 0, 0, '2020-08-18 21:54:52', 0),
-(4632, 157, 0, 1, 17, '(Item not added yet)', 'osu.edu', 'Example Energy Balance', 0, 0, 0, '2020-08-18 21:54:52', 0),
+(4566, 154, 0, 0, 26, 'Check the estimated annual energy cost for each utility', '', '', 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4567, 154, 0, 1, 14, 'Is the total annual energy cost suitable for an IAC Assessment? ', '', '', 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4568, 154, 0, 2, 3, '$100,000 a year is the minimum but ideally costs will exceed $200,000  - $300,000 a year. ', '', '', 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4569, 154, 0, 2, 3, 'If annual cost exceeds $2.5 Million, Field Manager / U.S.DOE permission must be obtained to visit. ', '', '', 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4570, 154, 0, 0, 26, 'Accumulate / analyze annual month by month utility bills. ', '', '', 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4571, 154, 0, 1, 12, 'Identify any seasonality to bills.', '', '', 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4572, 154, 0, 1, 12, 'Determine incremental costs (Potential savings with each unit of resource saved )', '', '', 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4573, 154, 0, 1, 12, 'Understand special costs: Electrical Demand and Power Factor cost, meter costs, ...', '', '', 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4574, 154, 0, 1, 12, 'Confirm estimated annual costs ', '', '', 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4575, 154, 0, 1, 17, '(item not added yet)', 'abc.com', 'Example Utility Baseline Analysis', 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4576, 154, 0, 0, 26, 'Ensure all personnel information provided is entered into the OSU IAC Project Management DB', '', '', 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4577, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4578, 154, 0, 0, 14, 'If the client has given permission, consider how to engage utility representatives (and regional incentive and assistance programs such as  ETO or ESI  in the remote assessment process)?', '', '', 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4617, 158, 0, 0, 26, 'Review any areas of concern or interest voiced by the client', '', '', 0, 0, 0, '2020-08-18 21:54:33', 1),
+(4618, 158, 0, 0, 26, 'Review typical opportunities found in the energy intensive systems identified at the facility ', '', '', 0, 0, 0, '2020-08-18 21:54:33', 1),
+(4619, 158, 0, 1, 8, 'This Industrial Walkthrough Checklist & Reference will offer more and more ideas for potential opportunities as it is developed over time', '', '', 0, 0, 0, '2020-08-18 21:54:33', 1),
+(4620, 158, 0, 0, 26, 'Review the list of typical opportunities found in the site\'s industrial sector developed in Preliminary Research', '', '', 0, 0, 0, '2020-08-18 21:54:33', 1),
+(4621, 158, 0, 0, 26, 'Pick the brain of anyone with experience in the subject', '', '', 0, 0, 0, '2020-08-18 21:54:33', 1),
+(4622, 158, 0, 0, 26, 'Brainstorm on opportunities as a team and compile a list', '', '', 0, 0, 0, '2020-08-18 21:54:33', 1),
+(4623, 158, 0, 0, 26, 'Develop a table of potential recommendations, and if possible: total energy used by the system related to each opportunity, a high/low estimate of potential % savings,  and the range of potential cost and energy savings potential.', '', '', 0, 0, 0, '2020-08-18 21:54:33', 1),
+(4624, 158, 0, 1, 17, '(Item not added yet)', 'osu.edu', 'Example Table of Potential Opportunities', 0, 0, 0, '2020-08-18 21:54:33', 1),
+(4625, 157, 0, 0, 26, 'Develop a table of significant energy using equipment including collected rated capacity, estimated % of full capacity, and hours of operation', '', '', 0, 0, 0, '2020-08-18 21:54:52', 1),
+(4626, 157, 0, 1, 12, 'Calculate an initial estimate of annual energy used by each piece of equipment', '', '', 0, 0, 0, '2020-08-18 21:54:52', 1),
+(4627, 157, 0, 1, 12, 'Develop a pie chart showing % of total site energy each modeled equipment item uses, and remaining unidentified energy use.', '', '', 0, 0, 0, '2020-08-18 21:54:52', 1),
+(4628, 157, 0, 2, 14, 'Does the total modeled energy exceed the actual energy in the bills? (If so, revise the model.) ', '', '', 0, 0, 0, '2020-08-18 21:54:52', 1),
+(4629, 157, 0, 1, 12, 'Plan to continually revise and improve this balance over the process of the remote assessment.', '', '', 0, 0, 0, '2020-08-18 21:54:52', 1),
+(4630, 157, 0, 2, 14, 'Does more equipment come up that can be added?', '', '', 0, 0, 0, '2020-08-18 21:54:52', 1),
+(4631, 157, 0, 2, 14, 'Does better data become available on any modeled equipment to improve its annual energy use estimate?', '', '', 0, 0, 0, '2020-08-18 21:54:52', 1),
+(4632, 157, 0, 1, 17, '(Item not added yet)', 'osu.edu', 'Example Energy Balance', 0, 0, 0, '2020-08-18 21:54:52', 1),
 (4639, 182, 0, 0, 4, 'Improperly designed pump systems can lead to low pressures at the pump inlet which can lead to cavitation. This can seriously damage the pump and reduce its operating life.', '', '', 0, 0, 0, '2020-08-19 21:52:48', 1),
 (4640, 182, 0, 0, 24, 'Online resource discussing how cavitation occurs and how to detect and prevent it from happening.', 'https://modernpumpingtoday.com/detecting-pump-cavitation/', 'Detecting Pump Cavitation (May be able to find a more comprehensive resource)', 1, 0, 0, '2020-08-19 21:52:48', 1),
-(4641, 161, 0, 0, 26, 'Review the client\'s web site', '', '', 0, 0, 0, '2020-08-19 22:39:25', 0),
-(4642, 161, 0, 0, 26, 'Develop a list of typical opportunities found in the site\'s industrial sector. BE SURE to add any newly identified opportunities to this site!', '', '', 0, 0, 0, '2020-08-19 22:39:25', 0),
-(4643, 161, 0, 1, 7, 'Assign each of the searches suggested below to one member of the assessment team. ', '', '', 0, 0, 0, '2020-08-19 22:39:25', 0),
-(4644, 161, 0, 1, 8, ' The IAC University Database allows you to search for common recommendations made by SIC or NAICS code ', '', '', 0, 0, 0, '2020-08-19 22:39:25', 0),
-(4645, 161, 0, 2, 24, '$empty', 'https://iac.university/searchRecommendations', 'IAC University: Search IAC Recommendations', 1, 0, 0, '2020-08-19 22:39:25', 0),
-(4646, 161, 0, 2, 1, 'The IAC University Database also allows you to search for the top 10 recommendations, the number of assessments and results by industry grouping. Note: one useful search field under assessments: \"Product Type\" can help find similar assessments.', '', '', 0, 0, 0, '2020-08-19 22:39:25', 0),
-(4647, 161, 0, 1, 8, 'Search the OSU IAC Project Management Database to see what we have recommended in the past at similar sites. Note: the search box in the upper right corner is a useful tool for this.', '', '', 0, 0, 0, '2020-08-19 22:39:25', 0),
-(4648, 161, 0, 2, 24, '$empty', 'https://eec.oregonstate.edu/tracking2/modules/login/login.php', 'EEC Project Management', 0, 0, 0, '2020-08-19 22:39:25', 0),
-(4649, 161, 0, 1, 8, 'General internet and literature research can surface new opportunities to consider.  BE SURE to add any newly identified resources to this site!', '', '', 0, 0, 0, '2020-08-19 22:39:25', 0),
-(4650, 161, 0, 2, 1, 'U.S.DOE, Vendor, Other IAC, State Energy Office, and Industrial Association web sites are all among good places to search for resources.', '', '', 0, 0, 0, '2020-08-19 22:39:25', 0),
-(4651, 161, 0, 1, 17, '(item not added yet)', 'abc.com', 'Example List of Common Opportunities', 0, 0, 0, '2020-08-19 22:39:25', 0),
+(4641, 161, 0, 0, 26, 'Review the client\'s web site', '', '', 0, 0, 0, '2020-08-19 22:39:25', 1),
+(4642, 161, 0, 0, 26, 'Develop a list of typical opportunities found in the site\'s industrial sector. BE SURE to add any newly identified opportunities to this site!', '', '', 0, 0, 0, '2020-08-19 22:39:25', 1),
+(4643, 161, 0, 1, 7, 'Assign each of the searches suggested below to one member of the assessment team. ', '', '', 0, 0, 0, '2020-08-19 22:39:25', 1),
+(4644, 161, 0, 1, 8, ' The IAC University Database allows you to search for common recommendations made by SIC or NAICS code ', '', '', 0, 0, 0, '2020-08-19 22:39:25', 1),
+(4645, 161, 0, 2, 24, '$empty', 'https://iac.university/searchRecommendations', 'IAC University: Search IAC Recommendations', 1, 0, 0, '2020-08-19 22:39:25', 1),
+(4646, 161, 0, 2, 1, 'The IAC University Database also allows you to search for the top 10 recommendations, the number of assessments and results by industry grouping. Note: one useful search field under assessments: \"Product Type\" can help find similar assessments.', '', '', 0, 0, 0, '2020-08-19 22:39:25', 1),
+(4647, 161, 0, 1, 8, 'Search the OSU IAC Project Management Database to see what we have recommended in the past at similar sites. Note: the search box in the upper right corner is a useful tool for this.', '', '', 0, 0, 0, '2020-08-19 22:39:25', 1),
+(4648, 161, 0, 2, 24, '$empty', 'https://eec.oregonstate.edu/tracking2/modules/login/login.php', 'EEC Project Management', 0, 0, 0, '2020-08-19 22:39:25', 1),
+(4649, 161, 0, 1, 8, 'General internet and literature research can surface new opportunities to consider.  BE SURE to add any newly identified resources to this site!', '', '', 0, 0, 0, '2020-08-19 22:39:25', 1),
+(4650, 161, 0, 2, 1, 'U.S.DOE, Vendor, Other IAC, State Energy Office, and Industrial Association web sites are all among good places to search for resources.', '', '', 0, 0, 0, '2020-08-19 22:39:25', 1),
+(4651, 161, 0, 1, 17, '(item not added yet)', 'abc.com', 'Example List of Common Opportunities', 0, 0, 0, '2020-08-19 22:39:25', 1),
 (4652, 183, 0, 0, 20, '', 'https://www.aquaculturealliance.org/advocate/cavitation-the-pump-disease/', 'Pump Impeller With Cavitation Marks', 0, 0, 0, '2020-08-19 22:55:35', 0),
 (4653, 183, 0, 0, 20, '', 'https://www.deppmann.com/blog/service-tip-of-the-month/pump-cavitation/', 'Example Pump Impellers With Cavitation Marks', 0, 0, 0, '2020-08-19 22:55:35', 0),
 (4654, 183, 0, 0, 20, '', 'https://www.dxpe.com/different-types-centrifugal-pumps-applications/', 'Centrifugal Pumps', 0, 0, 0, '2020-08-19 22:55:35', 0),
@@ -1687,8 +1704,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4809, 129, 0, 2, 13, 'Regenerators act as heating vessels for both the combustion air and flue gases. Regenerators alternate between heating the storage medium and then taking heat from it. Usually at least two regenerators and burners are needed so that the process is uninterrupted.', '', '', 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4810, 129, 0, 2, 1, 'PROS HERE UNFINISHED', '', '', 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4811, 129, 0, 2, 2, 'CONS HERE UNFINISHED', '', '', 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4812, 129, 0, 2, 20, '', 'https://image.slidesharecdn.com/heatexchangertypesandapplication-171015153006/95/heat-exchanger-types-and-application-13-638.jpg?cb=1508081873', 'Regenerator Schematic', 0, 0, 0, '2020-08-24 16:58:32', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `sourceId`, `created`, `approved`) VALUES
+(4812, 129, 0, 2, 20, '', 'https://image.slidesharecdn.com/heatexchangertypesandapplication-171015153006/95/heat-exchanger-types-and-application-13-638.jpg?cb=1508081873', 'Regenerator Schematic', 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4813, 129, 0, 1, 4, 'Take care not to lower exhaust stack temperature too low as it can cause corrosion. This happens because the surface temperature of the stack is lower than the dew point of the flue gas flowing through the stack, causing moisture to accumulate.', '', '', 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4814, 129, 0, 1, 8, 'Some flue gasses are corrosive and can damage installed heat exchanges. When performing an analysis, research which heat exchangers are best designed for the process in question. ', '', '', 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4815, 129, 0, 1, 15, 'Flue gas temperature', '', '', 0, 0, 0, '2020-08-24 16:58:32', 0),
@@ -1735,7 +1751,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4959, 196, 0, 1, 24, ' ', 'https://us-cert.cisa.gov/ics', 'Industrial Control Systems', 1, 0, 0, '2020-08-27 00:40:27', 0),
 (4960, 197, 0, 0, 26, 'Researchers from the University of Illinois Urbana-Champaign have developed a tool for manufacturers to simplify the understanding of cybersecurity standards created by the National Institute of Standards and Technology. This tool also follows DFARS, the Department of Defense’s acquisition regulations.', '', '', 0, 0, 0, '2020-08-27 00:40:33', 0),
 (4961, 197, 0, 1, 21, ' ', 'https://iti.illinois.edu/news/new-software-tool-help-manufacturing-companies-meet-complex-cyber-security-standards ', 'The Dashboard', 1, 0, 0, '2020-08-27 00:40:33', 0),
-(4962, 195, 0, 0, 26, 'The Cybersecurity and Infrastructure Security Agency (CISA, a part of the US Department of Homeland Security) has created the Cyber Security Evaluation Tool (CSET). This tool is a provides a comprehensive self-assessment and recommendations to fix potential vulnerabilities. The CSET focuses on industrial control systems and information technology network security.', '', '', 0, 0, 0, '2020-08-27 00:40:46', 0),
+(4962, 195, 0, 0, 26, 'The Cybersecurity and Infrastructure Security Agency (CISA, a part of the US Department of Homeland Security) has created the Cyber Security Evaluation Tool (CSET). This tool is a provides a comprehensive self-assessment and recommendations to fix potential vulnerabilities. The CSET focuses on industrial control systems and information technology network security.', '', '', 0, 0, 0, '2020-08-27 00:40:46', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `sourceId`, `created`, `approved`) VALUES
 (4963, 195, 0, 1, 21, ' ', 'https://us-cert.cisa.gov/ics/Assessments', 'Cyber Security Evaluation Tool (CSET)', 1, 0, 0, '2020-08-27 00:40:46', 0),
 (4964, 195, 0, 0, 26, 'CISA also offers the Cyber Resilience Review which is a free non-technical cybersecurity self-assessment. This process can also be completed with professionals from the Department of Homeland Security.', '', '', 1, 0, 0, '2020-08-27 00:40:46', 0),
 (4965, 195, 0, 1, 21, ' ', 'https://us-cert.cisa.gov/resources/assessments ', 'Cyber Resilience Review ', 1, 0, 0, '2020-08-27 00:40:46', 0),
@@ -1749,7 +1766,57 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4974, 185, 0, 0, 26, 'For more precise estimates, reduction in work flow for each work unit (e.g. inventory, personnel, etc.) needs to be determined. ', '', '', 0, 0, 0, '2020-08-29 20:20:27', 0),
 (4975, 168, 0, 0, 1, 'Can result in significant savings and increased productivity', '', '', 0, 0, 0, '2020-08-29 21:06:18', 0),
 (4976, 168, 0, 0, 1, 'Easy to estimate cost savings/benefits given sufficient, accurate data..', '', '', 0, 0, 0, '2020-08-29 21:06:18', 0),
-(4977, 168, 0, 0, 1, 'Opportunity and cost saving methodology is applicable to how inventory is stored and located.', '', '', 0, 0, 0, '2020-08-29 21:06:18', 0);
+(4977, 168, 0, 0, 1, 'Opportunity and cost saving methodology is applicable to how inventory is stored and located.', '', '', 0, 0, 0, '2020-08-29 21:06:18', 0),
+(4978, 166, 0, 0, 10, 'Significant levels of work in progress (WIP) inventory immediately upstream of a workstation.', '', '', 0, 0, 0, '2020-09-02 21:55:04', 0),
+(4979, 166, 0, 0, 10, 'Machine or workstation with prolonged down times.', '', '', 0, 0, 0, '2020-09-02 21:55:04', 0),
+(4982, 199, 0, 0, 1, 'Alleviating bottlenecks is often the most valuable productivity opportunity. ', '', '', 0, 0, 0, '2020-09-02 22:07:11', 0),
+(4983, 199, 0, 0, 1, 'Basic analysis and cost savings estimation requires few variable values.', '', '', 0, 0, 0, '2020-09-02 22:07:11', 0),
+(4984, 200, 0, 0, 2, 'Precise analysis requires a deep understanding of how the entire production line operates. Statistics based simulation is often the only way to achieve this.', '', '', 0, 0, 0, '2020-09-02 22:11:35', 0),
+(4985, 200, 0, 0, 2, 'Unless time studies on how product flows into and out of the workstation are conducted, several assumptions are required even for basic analysis.', '', '', 0, 0, 0, '2020-09-02 22:11:35', 0),
+(4995, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
+(4996, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
+(4997, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
+(4998, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
+(4999, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
+(5000, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
+(5001, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
+(5002, 156, 0, 0, 8, 'Try to get more than one key contact at the site involved in the project. (Plant manager, Fiscal Decision Maker, Maintenance Manager, Floor Personnel, Energy Lead, etc)', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
+(5003, 156, 0, 0, 17, '(Item not added yet)', 'abc.com', 'Pre-Audit Walkthrough Phone Call Checklist', 0, 0, 0, '2020-09-03 20:03:28', 1),
+(5004, 156, 0, 0, 14, 'How best could we get Utility & Incentive Representatives involved (if the client permits) ', '', '', 0, 0, 0, '2020-09-03 20:03:28', 1),
+(5005, 201, 0, 0, 26, 'In its simplest form, a workstation with one machine and one queue can be represented as a markov chain in a \"birth-death\" process. ', '', '', 0, 0, 0, '2020-09-03 21:21:21', 0),
+(5006, 201, 0, 0, 26, 'A markov chain is a set of states where the probability or rate at which a state is active is not dependent on its history/prior states.', '', '', 0, 0, 0, '2020-09-03 21:21:21', 0),
+(5007, 201, 0, 0, 26, 'In a birth-death process of a simple process (one workstation and queue), the birth rate is the rate at which product enters the system (inter-arrival times) while the death rate is the rate at which product leaves the system (effective processing times).', '', '', 0, 0, 0, '2020-09-03 21:21:21', 0),
+(5008, 201, 0, 0, 20, '', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeUAAABoCAMAAAD4txjiAAAAjVBMVEX///8AAAD39/doaGj6+vrw8PDU1NRfX1/s7Ozz8/Po6Oj29vby8vLg4ODr6+vOzs5ISEiHh4fa2tpvb2++vr7IyMimpqZ8fHx5eXnQ0NBxcXG3t7dqamrCwsKRkZGxsbFWVlZQUFCfn5+Tk5OioqIzMzNBQUEjIyMbGxtDQ0MLCws5OTkYGBgrKys0NDRN/y7SAAAVlklEQVR4nO1deX+rqNd3QTEmxOACxl3M0i3z/l/eg0nbm0SCuKTTeX73+8f9TKf2iBzOfgBN+4u/+Iu/+Iv/91gb89GylvPR+hEsZhnwcjEHlacClvPRwsV8tH4EBM9BJUpmlJTnoDDnE8DwH2s2Wj+CUJ+Div/x6z97pdvzEdNnVAw/gnk0GZ5FJTwT3oycsXQMZiP2E0B7cwYq6+o0A5WnwjxtZqPVHA9oNmI/gfKwn0GTbfcv0XQqz8TqENW+xkw8g2kx6jxOuTMyh3z8CKzKrhoNu+cfAB3LqizFgVb4841rdjSVhk031sp8Oq30TUtP2jaB00n9DPz3dX6wMMr5EgflfiSXjZONjqjxvV+rxxY10aJ9SrR8OpcBjbm7iZb2f0aWaaGtjwhj3EZC1lhZJvx7TzkrqDvr4GaEV/F/gpizejqX3Yov5qLR0H9Glmv+0eUufo+WGR8zHsllPntaVODDb48vjNhuvNmo+dVspH4E2INnKRxtl88otvEvd8E0lObzpW+McCqF7RzDUIat2WdHO5rkgNoAzcbl7XouSr8Z+gd1f39u+Hlo9E1o/bcyD4NguP428nSOemeD+9+dsd5y+O7q3xngs7FGthfF/Ps/aDjJZ3ftlDBKM/MLWYwppayMBpFd2yHZURx8kzETToUWJBoTOfoRaWhiwsrMaKCf8RbfOK2A1dUZMMsyWFVZgtm4d9lRSTB/2Z8JaA', 'Birth Death Markov Chain', 0, 0, 0, '2020-09-03 21:21:21', 0),
+(5014, 9, 0, 0, 1, 'Versatile. Offers compact energy density. ', '', '', 0, 0, 0, '2020-09-03 23:15:49', 0),
+(5015, 9, 0, 0, 1, 'Spark free for potentially explosive environments', '', '', 0, 0, 0, '2020-09-03 23:15:49', 0),
+(5016, 9, 0, 0, 1, 'Can be used as an easy quick fix for many issues', '', '', 0, 0, 0, '2020-09-03 23:15:49', 0),
+(5017, 9, 0, 0, 1, 'Familiar utility for industrial personnel', '', '', 0, 0, 0, '2020-09-03 23:15:49', 0),
+(5018, 9, 0, 0, 1, 'A single mechanical energy input at the compressor can be distributed throughout a facility. ', '', '', 0, 0, 0, '2020-09-03 23:15:49', 0),
+(5111, 202, 0, 0, 13, 'The History Report tool displays all content added or edited during a selected date range.', '', '', 0, 0, 0, '2020-09-04 20:46:22', 0),
+(5112, 202, 0, 1, 26, 'A header on each entry shows the type of material (page, header, or card) added, edited or deleted, the name and location of the material, and the date/time of the update.', '', '', 0, 0, 0, '2020-09-04 20:46:22', 0),
+(5113, 202, 0, 1, 8, 'Select \"Show Duplicates\" to view a complete history of all edits made to all pages, headers, and cards. Red highlighted content consists of old edits while green highlighted content is the most recent edit made during the selected date range. Yellow highlighted content is material that was only added or updated once. Unhighlighted content predates the selected date range. ', '', '', 0, 0, 0, '2020-09-04 20:46:22', 0),
+(5114, 202, 0, 1, 8, 'Unselect \"Show Duplicates\" to display only the most recent edit made to a page, header, or card.', '', '', 0, 0, 0, '2020-09-04 20:46:22', 0),
+(5115, 202, 0, 1, 8, 'Select \"Show Removals\" to view deleted content. ', '', '', 0, 0, 0, '2020-09-04 20:46:22', 0),
+(5131, 206, 0, 0, 13, 'An internal image upload feature is currently a work in progress. ', '', '', 0, 0, 0, '2020-09-07 23:43:10', 0),
+(5156, 207, 0, 0, 26, 'From the main sidebar menu, go to the Publish Requests page.', '', '', 0, 0, 0, '2020-09-08 17:53:50', 0),
+(5157, 207, 0, 0, 26, 'Find the publish request you wish to review from the list of live requests and click on the green Review Request button. ', '', '', 0, 0, 0, '2020-09-08 17:53:50', 0),
+(5158, 207, 0, 0, 26, 'A page will open where users can view the currently published content as well as the content to be approved. Users can also add comments, suggest changes, and give approval. Similar to a chatroom format, these entries appear in chronological order which allows for an ongoing dialogue between the author and reviewers. ', '', '', 0, 0, 0, '2020-09-08 17:53:50', 0),
+(5159, 207, 0, 0, 8, 'Click \"Close Request\" to delete a publish request. ', '', '', 0, 0, 0, '2020-09-08 17:53:50', 0),
+(5160, 203, 0, 0, 13, 'New and updated content must be approved before being published to the site. Multiple items can be submitted for approval in a single publish request. ', '', '', 0, 0, 0, '2020-09-08 18:03:24', 0),
+(5161, 203, 0, 1, 26, 'To add a page, header or card to a publish request, go to the content in Edit Mode and click the green review button.', '', '', 0, 0, 0, '2020-09-08 18:03:24', 0),
+(5162, 203, 0, 1, 26, 'After all items have been added, go to the Publish Requests page and select Create a Publish Request. Add a title and include the author\'s and reviewer\'s name as well as any additional notes in the description. ', '', '', 0, 0, 0, '2020-09-08 18:03:24', 0),
+(5163, 203, 0, 1, 26, 'Double-check that the Content to Publish includes the intended material then submit the publish request. ', '', '', 0, 0, 0, '2020-09-08 18:03:24', 0),
+(5164, 203, 0, 1, 8, 'Be reasonable and strategic with what material is lumped together in a single publish request. Submitting two unrelated technology pages together for example will probably just bog down the review process. ', '', '', 0, 0, 0, '2020-09-08 18:03:24', 0),
+(5174, 204, 0, 0, 13, 'To create a new page, first open the sidebar menu and select \"Show Edit Buttons\" near the bottom of the menu. Simply select the category for the new page and click \"Create a Page\". ', '', '', 0, 0, 2, '2020-09-08 18:14:03', 0),
+(5175, 204, 0, 1, 26, 'A page consists of a concise yet descriptive title, a summary of the page\'s purpose, and a description of what can be found on the page and how it can be used. ', '', '', 0, 0, 0, '2020-09-08 18:14:03', 0),
+(5176, 204, 0, 1, 26, 'Within a page editors can create headers and cards. Headers allow for content-carrying cards to be organized into sections and categories.', '', '', 0, 0, 0, '2020-09-08 18:14:03', 0),
+(5181, 208, 0, 0, 13, 'It is always important to cite where information is coming from. A library of sources exists on each page that referenced within content-carrying cards. ', '', '', 0, 0, 0, '2020-09-08 18:57:38', 0),
+(5182, 208, 0, 1, 26, 'To add a reference, click \"Add Source\" in the header of any page in Edit Mode. ', '', '', 0, 0, 0, '2020-09-08 18:57:38', 0),
+(5183, 208, 0, 1, 26, 'Use IEEE formatting for all references and include a URL if applicable. ', '', '', 0, 0, 0, '2020-09-08 18:57:38', 0),
+(5184, 208, 0, 1, 26, 'To connect a source to an item, click \"Edit Card\" and use the source dropdown menu to the right of the item to select the source. ', '', '', 0, 0, 0, '2020-09-08 18:57:38', 0),
+(5185, 208, 0, 1, 17, '$empty', 'https://oregonstate.box.com/s/rm1jtvnmfhb2oyt1wyvzaztgc3w1ww5q', 'IEEE Reference Guide', 0, 0, 0, '2020-09-08 18:57:38', 0),
+(5186, 205, 0, 0, 8, 'When adding a new page, header, or card, select \"Internal (not viewable by the public)\" for material intended to be used by EEC personnel only (such as this instructions page). ', '', '', 0, 0, 3, '2020-09-08 19:25:46', 0),
+(5187, 205, 0, 0, 8, 'Use the toggle in the top right corner of any page header to switch between View Mode, Edit Mode, and Move Mode. The mode shown on the toggle is the mode the page is currently in. ', '', '', 0, 0, 0, '2020-09-08 19:25:46', 0);
 
 -- --------------------------------------------------------
 
@@ -1787,10 +1854,10 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (56, 3, 'Combined Heat and Power', 'Combined Heat and Power allows sites to use the waste heat of electrical generation.', 'CHP', 'no image yet', 0, 51, '2020-08-07 00:33:29', 0),
 (57, 4, 'Optimize Facility Layout', 'Improve productivity through the location of departments and workstations and the workflow of personnel and materials.', 'Facility layout has a significant and often underestimated effect on the productivity of a facility. Movement of any form of work represents a non-value-added (NVA) process. Re-arranging the location of workstations and inventory to eliminate movement creates value in several forms. Most typically, fewer labor hours are spent moving materials, and sometimes energy is saved if operating hours of vehicles (e.g. forklifts or conveyors) are reduced. The most lucrative savings for the facility is increased productivity if delivery lead times between workstations are reduced, increasing utilization of the downstream workstation.', 'https://www.manexconsulting.com/wp-content/uploads/Layout-Optimization-Blog.jpg', 0, 62, '2020-08-07 19:21:05', 0),
 (58, 4, 'Queuing Line Optimization', 'The operation of queues and their respective workstations determine the overall production efficiency of a facility.', 'Optimizing the queuing system of a workstation has significant effects on product output. Little\'s law and queuing theory helps simplify any production system into a set of easy to estimate variables. While extensive research, data collection, and possibly simulation should be employed before making any change to a part of the production system, basic analysis can reveal opportunities for cost savings through increased productivity.', 'https://www.umav.org/wp-content/uploads/2019/04/Car-Assembly-Line.jpg', 0, 62, '2020-08-10 19:57:05', 0),
-(61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, causing additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will also increase the capacity of the distribution system.', 'https://www.shutterstock.com/image-photo/capacitor-bank-high-voltage-substation-124054798', 0, 52, '2020-08-26 15:55:35', 0),
-(62, 5, 'Cybersecurity', 'Industrial Assessment Center resources for increasing cybersecurity.', 'Cybersecurity is becoming increasingly important as more industries adopt newer and more sophisticated controls for smart manufacturing or data collection to increase production and equipment efficiency. As part of our outreach on energy efficiency, we also provide information and resources about cybersecurity. Using some of the self-assessment tools and other informational resources provided on this page can be an important part of a facility’s plan to regularly evaluate their cybersecurity status.', 'https://live.staticflickr.com/6044/6999839463_ae02bb6a7e_b.jpg', 1, 57, '2020-08-27 00:21:01', 0),
-(64, 0, 'How to Use EEC Walkthrough', 'summary', 'description', 'https://placekitten.com/300/300', 0, 42, '2020-08-31 22:17:53', 0),
-(65, 0, 'How to Edit EEC Walkthrough', 'summary', 'description', 'https://placekitten.com/400/400', 1, 42, '2020-08-31 22:17:53', 0);
+(61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, which creates additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will increase the capacity of the distribution system.', 'https://www.shutterstock.com/image-photo/capacitor-bank-high-voltage-substation-124054798', 0, 52, '2020-08-26 15:55:35', 0),
+(62, 5, 'Cybersecurity', 'Industrial Assessment Center resources for increasing cybersecurity.', 'Cybersecurity is becoming increasingly important as more industries adopt newer and more sophisticated controls for smart manufacturing or data collection to increase production and equipment efficiency. As part of our outreach on energy efficiency, we also provide information and resources about cybersecurity. Using some of the self-assessment tools and other informational resources provided on this page can be an important part of a facility’s plan to regularly evaluate their cybersecurity status.\n\nThe National Institute of Standards and Technology (NIST) Manufacturing Extension Partnership stated that 61% of small businesses experienced a cyber attack within the last 12 months, making up 58% of cyber attack victims. Furthermore, 34% of targets were manufacturing facilities and the median cost per attack was $60,000.', 'https://live.staticflickr.com/6044/6999839463_ae02bb6a7e_b.jpg', 1, 57, '2020-08-27 00:21:01', 0),
+(64, 0, 'How to Use EEC Walkthrough', 'summary', 'description', 'https://via.placeholder.com/350', 0, 42, '2020-08-31 22:17:53', 0),
+(65, 0, 'How to Edit EEC Walkthrough', 'An analyst oriented guide for creating, editing, and reviewing content on the EEC Industrial Walkthrough Checklist.', 'Description', 'https://via.placeholder.com/350', 1, 58, '2020-08-31 22:17:53', 0);
 
 -- --------------------------------------------------------
 
@@ -1879,6 +1946,15 @@ CREATE TABLE `Sources` (
   `url` varchar(5000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `Sources`
+--
+
+INSERT INTO `Sources` (`sourceId`, `pageId`, `text`, `url`) VALUES
+(1, 2, 'Test', ''),
+(2, 65, 'Test', 'Test'),
+(3, 65, 'Test', '');
+
 -- --------------------------------------------------------
 
 --
@@ -1921,17 +1997,12 @@ CREATE TABLE `Temp_Cards` (
 --
 
 INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
+(9, 0, 'Pros', 3, 58, '2020-09-03 23:15:22'),
 (100, 0, 'Off Site Resource Links', 100, 51, '2020-07-03 17:55:16'),
 (101, 0, 'Improve Boiler Combustion Efficiency', 101, 57, '2020-07-03 17:28:05'),
 (105, 0, 'Improve the Condensate System', 105, 58, '2020-07-10 18:54:00'),
 (106, 0, 'Reduce Heat Loss', 106, 51, '2020-07-03 17:31:09'),
-(120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52'),
-(154, 10, 'Review/Analyze Pre-Assessment Package Information', 2, 51, '2020-08-18 21:47:50'),
-(156, 10, 'Hold an Initial Remote Assessment Meeting with the Client', 4, 51, '2020-08-18 21:51:21'),
-(157, 10, 'Develop a Preliminary Energy Balance', 5, 51, '2020-08-18 21:52:57'),
-(158, 10, 'Develop a List of Potential Opportunities to Study', 6, 51, '2020-08-18 21:54:33'),
-(161, 10, 'Preliminary Research', 3, 51, '2020-08-18 21:49:35'),
-(162, 10, 'Arrange a Client Guided Remote Tour by Phone.', 162, 51, '2020-08-17 21:09:36');
+(120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52');
 
 -- --------------------------------------------------------
 
@@ -2210,7 +2281,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2228,13 +2299,13 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
 --
 ALTER TABLE `History_Cards`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `History_Headers`
@@ -2246,7 +2317,7 @@ ALTER TABLE `History_Headers`
 -- AUTO_INCREMENT for table `History_Items`
 --
 ALTER TABLE `History_Items`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=648;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=707;
 
 --
 -- AUTO_INCREMENT for table `History_Pages`
@@ -2264,7 +2335,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4978;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5188;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -2282,25 +2353,25 @@ ALTER TABLE `Quick_Titles`
 -- AUTO_INCREMENT for table `Requests`
 --
 ALTER TABLE `Requests`
-  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Request_Comments`
 --
 ALTER TABLE `Request_Comments`
-  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `Request_Objects`
 --
 ALTER TABLE `Request_Objects`
-  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `Sources`
 --
 ALTER TABLE `Sources`
-  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`

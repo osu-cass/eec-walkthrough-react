@@ -12,8 +12,11 @@
 # production
 /build
 
-#backend
+# backend
 /backend/node_modules
+
+# uploads
+/frontend/public/uploads
 
 # misc
 .vscode

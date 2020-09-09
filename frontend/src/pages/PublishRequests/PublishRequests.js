@@ -28,7 +28,6 @@ function PublishRequests() {
     if (results.ok) {
 
       const obj = await results.json();
-
       setRequests(obj.requests);
 
     } else {

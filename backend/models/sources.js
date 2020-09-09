@@ -141,7 +141,7 @@ async function createSources(pageId, sources) {
     }
 
     const finalResults = {
-      sourcesUpdated: sources.length
+      sourcesApproved: sources.length
     };
 
     return finalResults;

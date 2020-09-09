@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
+import ImageInput from "../../components/General/ImageInput";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
 import "./EditPage.css";
@@ -19,6 +20,7 @@ function EditPage(props) {
   const [pageType, setPageType] = useState(0);
   const [checked, setChecked] = useState(0);
   const [categories, setCategories] = useState([]);
+  const [imageUpload, setImageUpload] = useState(null);
 
   // When the page is first loaded, go ahead and fetch all of the category types
   useEffect(() => {
@@ -83,11 +85,47 @@ function EditPage(props) {
     }
   }
 
+  // show the modal
   function handleShowModal() {
     setShowModal(true);
   }
 
+  // Check for empty inputs in state before submission
+  // True if empty inputs found, false if all inputs filled
+  function checkInputs() {
+    let emptyFound = false;
+    let newErrorMessage = errorMessage;
+    // Empty url
+    if (!url.length && imageUpload === null) {
+      emptyFound = true;
+      newErrorMessage = "Error: Empty image url";
+    }
+    // Empty description
+    if (!description.length) {
+      emptyFound = true;
+      newErrorMessage = "Error: Empty page description";
+    }
+    // Empty summary
+    if (!summary.length) {
+      emptyFound = true;
+      newErrorMessage = "Error: Empty page summary";
+    }
+    // Empty name
+    if (!title.length) {
+      emptyFound = true;
+      newErrorMessage = "Error: Empty page name";
+    }
+    setErrorMessage(newErrorMessage);
+    if (emptyFound) { return true; }
+    return false;
+  }
+
+  // update the page
   async function updatePage() {
+    // Check for empty inputs
+    if (checkInputs()) {
+      return;
+    }
     setShowLoad(true);
 
     let internal = 0;
@@ -98,11 +136,38 @@ function EditPage(props) {
     const typeSelect = document.getElementById("select-new-page-type");
     const newPageType = parseInt(typeSelect.options[typeSelect.selectedIndex].value, 10);
 
+    let imageUrl = url;
+
+    // See if we are uploading a new image
+    if (imageUpload !== null) {
+      const formData = new FormData();
+      formData.append("image", imageUpload);
+      const results = await fetch("/api/files/single", {
+        method: "POST",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        imageUrl = obj.url;
+        setUrl(imageUrl);
+        setImageUpload(null);
+      } else {
+        console.error("Failed to upload image.");
+      }
+    }
+
+    // see if the url is still valid
+    if (!imageUrl.length) {
+      setErrorMessage("Error: Empty image url");
+      return;
+    }
+
     const data = {
       name: title,
       title: summary,
       description: description,
-      imageUrl: url,
+      imageUrl: imageUrl,
       internal: internal,
       pageType: newPageType
     };
@@ -145,7 +210,7 @@ function EditPage(props) {
           tempInternal: internal,
           tempPageId: props.page.pageId,
           tempDescription: stateDescription,
-          tempImageUrl: url,
+          tempImageUrl: imageUrl,
           tempName: title,
           tempTitle: summary,
           tempCreated: new Date(),
@@ -157,7 +222,7 @@ function EditPage(props) {
           approved: props.page.approved,
           created: new Date(),
           description: stateDescription,
-          imageUrl: url,
+          imageUrl: imageUrl,
           name: title,
           title: summary,
           pageId: props.page.pageId,
@@ -300,7 +365,7 @@ function EditPage(props) {
           <Row>
             <Col>
               <Form.Group controlId="formName">
-                <Form.Label className="font-weight-bold">Page Title</Form.Label>
+                <Form.Label className="font-weight-bold">Page Name</Form.Label>
                 <Form.Control
                   type="text"
                   maxLength="100"
@@ -368,7 +433,7 @@ function EditPage(props) {
           <Row>
             <Col>
               <Form.Group controlId="formURL">
-                <Form.Label className="font-weight-bold">Image URL</Form.Label>
+                <Form.Label className="font-weight-bold">Image</Form.Label>
                 <Form.Control
                   type="text"
                   maxLength="1000"
@@ -377,6 +442,12 @@ function EditPage(props) {
                   onChange={(e) => setUrl(e.target.value)}
                 />
               </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <ImageInput id={0} onNewImage={(newImage) => setImageUpload(newImage)} />
             </Col>
           </Row>
 
