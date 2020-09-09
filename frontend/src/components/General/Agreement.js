@@ -28,7 +28,7 @@ function Agreement(props) {
         <Modal.Footer className="modal-footer">
           <Button
             variant="success"
-            onClick={() => {acceptAgreement(props.agreementName); props.acceptFunction()}}
+            onClick={() => { acceptAgreement(props.agreementName); props.acceptFunction(); }}
           >
             Accept Terms
           </Button>
