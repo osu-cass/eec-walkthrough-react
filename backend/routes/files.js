@@ -15,8 +15,8 @@ const {
 // valid image types
 const imageTypes = {
   "image/jpeg": "jpg",
-  "image/png" : "png",
-  "image/gif" : "gif"
+  "image/png": "png",
+  "image/gif": "gif"
 };
 
 
@@ -24,14 +24,13 @@ const imageTypes = {
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, callback) => {
-      const {userId} = req.auth.userId;
       const dir = `../frontend/public/uploads/user_${req.auth.userId}/`;
       fs.exists(dir, exist => {
         if (!exist) {
           return fs.mkdir(dir, error => callback(error, dir));
         }
         return callback(null, dir);
-      })
+      });
     },
     filename: (req, file, callback) => {
       // store image files with the correct extension.
@@ -72,7 +71,7 @@ app.post("/single", requireAuth, checkUser, upload.single("image"), async (req, 
       res.status(401).send({error: "Invalid file"});
     }
 
-  } catch(err) {
+  } catch (err) {
     console.error(err);
     res.status(500).send({error: "An internal server error occurred. Please try again later."});
   }
@@ -103,7 +102,7 @@ app.post("/bulk", requireAuth, checkUser, upload.array("images"), async (req, re
       res.status(401).send({error: "Invalid file"});
     }
 
-  } catch(err) {
+  } catch (err) {
     console.error(err);
     res.status(500).send({error: "An internal server error occurred. Please try again later."});
   }

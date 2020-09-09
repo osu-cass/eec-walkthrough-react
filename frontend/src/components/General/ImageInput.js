@@ -13,7 +13,7 @@ function ImageInput(props) {
     if (input.value !== "") {
 
       const file = input.value.split("\\");
-      const newFileName = file[file.length-1];
+      const newFileName = file[file.length - 1];
       setFileName(newFileName);
 
       // get file data
