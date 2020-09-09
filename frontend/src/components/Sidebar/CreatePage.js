@@ -166,7 +166,7 @@ function CreatePage(props) {
     setPendingImage(null);
     const imageInput = document.getElementById("custom-file-upload-0");
     imageInput.value = "";
-    const inputEvent = new Event("input", { bubbles: true});
+    const inputEvent = new Event("input", {bubbles: true});
     imageInput.dispatchEvent(inputEvent);
   }
 

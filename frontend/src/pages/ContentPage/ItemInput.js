@@ -59,6 +59,7 @@ function ItemInput(props) {
 
   return (
     <Fragment>
+
       {props.contentType === 1 ? (
         <Fragment>
           <FormControl
@@ -101,6 +102,7 @@ function ItemInput(props) {
       ) : (
         null
       )}
+
       {props.contentType === 2 ? (
         <Fragment>
           <FormControl
@@ -158,6 +160,7 @@ function ItemInput(props) {
       ) : (
         null
       )}
+
       {props.contentType === 3 ? (
         <Fragment>
           <Dropdown className="link-select-drop-down-menu ml-2">
@@ -219,6 +222,7 @@ function ItemInput(props) {
       ) : (
         null
       )}
+
     </Fragment>
   );
 

@@ -1,6 +1,8 @@
 import React, {useEffect, useState, Fragment} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
+import {getAgreement} from "../../utilities/agreementMode";
+import Agreement from "../../components/General/Agreement";
 import AddButton from "./AddButton";
 import ItemInput from "./ItemInput";
 import IconDropdown from "./IconDropdown";
@@ -26,6 +28,11 @@ function ConstructCardModal(props) {
   const [copyToast, setCopyToast] = useState(false);
   const [cardTitleMode, setCardTitleMode] = useState("");
   const [selectedItem, setSelectedItem] = useState(0);
+  const [imageAgreement, setImageAgreement] = useState(getAgreement("image"));
+  const [showAgreement, setShowAgreement] = useState(false);
+  const [imageTerms] = useState("Before uploading any images you must agree that " +
+  "you will only upload images that you have intellectual property rights to use. " +
+  "You must also agree to only upload images that are suitable for the general public to view.");
 
   // setup card data
   useEffect(() => {
@@ -507,7 +514,6 @@ function ConstructCardModal(props) {
     for (let i = 0; i < copy.length; i++) {
       const item = copy[i];
       if (item.contentType === 2) {
-
         if (!item.contentUrl.length) {
           setErrorMessage("Error: Invalid file to upload on line " + (i + 1));
           return;
@@ -982,10 +988,50 @@ function ConstructCardModal(props) {
     const copy = [...items];
     copy[key].imageToUpload = newImage;
     setItems(copy);
+
+    if (!imageAgreement) {
+      setShowAgreement(true);
+    }
+  }
+
+  // when the user cancels an image upload agreement
+  function cancelAgreement() {
+    const copy = [...items];
+
+    // clear all of the images to upload for all items
+    for (let i = 0; i < copy.length; i++) {
+      copy[i].imageToUpload = null;
+      if (copy[i].contentType === 2) {
+        const imageInput = document.getElementById(`custom-file-upload-${i}`);
+        console.log(`custom-file-upload-${i + 1}`);
+        console.log(imageInput);
+        imageInput.value = "";
+        const inputEvent = new Event("input", {bubbles: true});
+        imageInput.dispatchEvent(inputEvent);
+      }
+    }
+
+    setItems(copy);
+    setShowAgreement(false);
+  }
+
+  // when the user accepts an image upload agreement
+  function acceptAgreement() {
+    setShowAgreement(false);
+    setImageAgreement(true);
   }
 
   return (
     <div className='text-center mx-2'>
+
+      <Agreement
+        agreementTitle={"Image Agreement"}
+        agreementName={"image"}
+        terms={imageTerms}
+        acceptFunction={() => acceptAgreement()}
+        show={showAgreement}
+        closeModal={() => cancelAgreement()}
+      />
 
       <Toast show={copyToast} text="Item copied" handleClose={() => closeToast()} />
 
