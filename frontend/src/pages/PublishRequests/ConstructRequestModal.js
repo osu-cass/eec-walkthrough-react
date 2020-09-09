@@ -38,7 +38,9 @@ function ConstructRequestModal(props) {
 
         if (Array.isArray(objectArray)) {
           setSelectionIds(objectArray);
-          getObjectInfo(objectArray);
+          if (objectArray.length) {
+            getObjectInfo(objectArray);
+          }
         } else {
           throw Error("Invalid collection of objects");
         }
@@ -292,6 +294,15 @@ function ConstructRequestModal(props) {
               <Form.Label className="font-weight-bold mb-3">Content to Publish</Form.Label>
               <h5>No content selected for publishing.</h5>
               <span>Please search the website for pages, headers, and cards that you would like to publish.</span>
+              <br />
+              <br />
+              <span>How to add a page, header, or card to your request:</span>
+              <ul>
+                <li>Navigate to the page that contains the content you are interested in.</li>
+                <li>Make sure you are in edit mode so that you can see unpublished changes.</li>
+                <li>Find the page, header, or card you are interested in and press the "Review" button.</li>
+                <li>Press the "Add to Publish Request" button.</li>
+              </ul>
             </div>
           )}
 
