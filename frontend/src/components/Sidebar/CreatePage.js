@@ -1,6 +1,8 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
+import Agreement from "../General/Agreement";
+import {getAgreement} from "../../utilities/agreementMode";
 import PropTypes from "prop-types";
 import Error from "../General/Error";
 import ImageInput from "../General/ImageInput";
@@ -16,17 +18,35 @@ function CreatePage(props) {
   const [show, setShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [checked, setChecked] = useState(0);
+  const [pendingImage, setPendingImage] = useState(null);
   const [imageUpload, setImageUpload] = useState(null);
+  const [showAgreement, setShowAgreement] = useState(false);
+  const [imageTerms] = useState("Before uploading any images you must agree that " +
+  "you will only upload images that you have intellectual property rights to use. " +
+  "You must also agree to only upload images that are suitable for the general public to view.");
 
+  // show terms of image submission if they haven't been accepted before
+  useEffect(() => {
+    if (pendingImage !== null && !getAgreement("image")) {
+      setShowAgreement(true);
+    } else if (pendingImage !== null && getAgreement("image")) {
+      setShowAgreement(false);
+      setImageUpload(pendingImage);
+    }
+  }, [pendingImage]);
+
+  // close the modal
   function handleClose() {
     setShow(false);
     setErrorMessage("");
   }
 
+  // show the modal
   function handleShow() {
     setShow(true);
   }
 
+  // submit the new page
   async function handleSubmit() {
     // Check for empty inputs
     if (checkInputs()) {
@@ -139,8 +159,35 @@ function CreatePage(props) {
     return false;
   }
 
+  // when the user cancels an image upload agreement
+  function cancelAgreement() {
+    setShowAgreement(false);
+    setImageUpload(null);
+    setPendingImage(null);
+    const imageInput = document.getElementById("custom-file-upload-0");
+    imageInput.value = "";
+    const inputEvent = new Event("input", { bubbles: true});
+    imageInput.dispatchEvent(inputEvent);
+  }
+
+  // when the user accepts an image upload agreement
+  function acceptAgreement() {
+    setShowAgreement(false);
+    setImageUpload(pendingImage);
+  }
+
   return props.role >= 3 ? (
     <div className='text-center mx-1 createPage'>
+
+      <Agreement
+        agreementTitle={"Image Agreement"}
+        agreementName={"image"}
+        terms={imageTerms}
+        acceptFunction={() => acceptAgreement()}
+        show={showAgreement}
+        closeModal={() => cancelAgreement()}
+      />
+
       <Button variant="outline-info" className="createPage" onClick={() => handleShow()}>
         <i
           className='create-page-icon fas fa-plus-circle text-info mr-2'
@@ -203,7 +250,7 @@ function CreatePage(props) {
 
           <Row>
             <Col>
-              <ImageInput id={0} onNewImage={(newImage) => setImageUpload(newImage)} />
+              <ImageInput id={0} onNewImage={(newImage) => setPendingImage(newImage)} />
             </Col>
           </Row>
 

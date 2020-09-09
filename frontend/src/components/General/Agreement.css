@@ -1,0 +1,12 @@
+.agreement-modal .modal-content {
+  width: 50%;
+  margin: auto;
+}
+
+.agreement-modal {
+  z-index: 100000 !important;
+}
+
+.fade {
+  z-index: 990000 !important;
+}
