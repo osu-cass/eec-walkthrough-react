@@ -1003,8 +1003,6 @@ function ConstructCardModal(props) {
       copy[i].imageToUpload = null;
       if (copy[i].contentType === 2) {
         const imageInput = document.getElementById(`custom-file-upload-${i}`);
-        console.log(`custom-file-upload-${i + 1}`);
-        console.log(imageInput);
         imageInput.value = "";
         const inputEvent = new Event("input", {bubbles: true});
         imageInput.dispatchEvent(inputEvent);

@@ -1,6 +1,8 @@
 import React, {useEffect, useState, Fragment} from "react";
 import {Modal, Button, Row, FormControl} from "react-bootstrap";
 import PropTypes from "prop-types";
+import {getAgreement} from "../../utilities/agreementMode";
+import Agreement from "../../components/General/Agreement";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import ImageInput from "../../components/General/ImageInput";
@@ -15,6 +17,11 @@ function ManageSponsors(props) {
   const [showLoad, setShowLoad] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [sponsors, setSponsors] = useState([]);
+  const [imageAgreement, setImageAgreement] = useState(getAgreement("image"));
+  const [showAgreement, setShowAgreement] = useState(false);
+  const [imageTerms] = useState("Before uploading any images you must agree that " +
+  "you will only upload images that you have intellectual property rights to use. " +
+  "You must also agree to only upload images that are suitable for the general public to view.");
 
   // set the list of sponsors
   useEffect(() => {
@@ -307,10 +314,46 @@ function ManageSponsors(props) {
     }
 
     setSponsors(copy);
+    if (!imageAgreement) {
+      setShowAgreement(true);
+    }
+  }
+
+  // when the user cancels an image upload agreement
+  function cancelAgreement() {
+    const copy = [...sponsors];
+
+    // clear all of the images to upload for all items
+    for (let i = 0; i < copy.length; i++) {
+      copy[i].imageToUpload = null;
+      const imageInput = document.getElementById(`custom-file-upload-${copy[i].sponsorId}`);
+      imageInput.value = "";
+      const inputEvent = new Event("input", {bubbles: true});
+      imageInput.dispatchEvent(inputEvent);
+    }
+
+    setSponsors(copy);
+    setShowAgreement(false);
+  }
+
+  // when the user accepts an image upload agreement
+  function acceptAgreement() {
+    setShowAgreement(false);
+    setImageAgreement(true);
   }
 
   return role >= 4 ? (
     <div className="text-center mx-2">
+
+      <Agreement
+        agreementTitle={"Image Agreement"}
+        agreementName={"image"}
+        terms={imageTerms}
+        acceptFunction={() => acceptAgreement()}
+        show={showAgreement}
+        closeModal={() => cancelAgreement()}
+      />
+
       <LoadingOverlay loading={showLoad} />
       <Button variant="info" onClick={() => handleShowModal()}>
         <i
