@@ -2,6 +2,15 @@ i:hover {
   cursor: pointer;
 }
 
+.filter-col {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.filter-div {
+  max-width: 100%;
+}
+
 .header-approved {
   background: rgb(214,214,214);
   background: linear-gradient(0deg, rgba(214,214,214,1) 0%, rgba(255,255,255,1) 100%);
