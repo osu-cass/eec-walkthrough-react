@@ -24,7 +24,7 @@ const imageTypes = {
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, callback) => {
-      const dir = `../frontend/public/uploads/user_${req.auth.userId}/`;
+      const dir = `./client/public/uploads/user_${req.auth.userId}/`;
       fs.exists(dir, exist => {
         if (!exist) {
           return fs.mkdir(dir, error => callback(error, dir));
