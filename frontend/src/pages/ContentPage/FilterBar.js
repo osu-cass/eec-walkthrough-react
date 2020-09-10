@@ -21,6 +21,7 @@ function FilterBar(props) {
   // check if the filter bar is overflowing
   useEffect(() => {
     setHasOverflow(checkForOverflow(ref));
+    setScrollLimits();
   }, [ref.current]);
 
   // check if we should be scrolling each second
@@ -32,6 +33,7 @@ function FilterBar(props) {
         } else if (scroll === 2) {
           scrollContainer(0);
         }
+        setScrollLimits();
       }, 50);
       return () => clearInterval(interval);
     }
@@ -85,7 +87,7 @@ function FilterBar(props) {
     scrollbar.scrollBy({left: distance, behavior: "smooth"});
   }
 
-  // checks if there is overflow due to icons in the scrollbar
+  // checks if the content of the filter bar is overflowing
   function checkForOverflow(ref) {
     let scrollWidth = 0;
     let clientWidth = 0;
@@ -95,6 +97,14 @@ function FilterBar(props) {
     }
     const isOverflow = scrollWidth > clientWidth;
     return isOverflow;
+  }
+
+  // updates the state for scrolling right and left
+  function setScrollLimits() {
+    const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
+    const {scrollLeft, scrollWidth, clientWidth} = scrollbar;
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft !== scrollWidth - clientWidth);
   }
 
   // the mouse down event for scrolling, this lets us know to start
@@ -137,7 +147,7 @@ function FilterBar(props) {
       {/* Scroll filter bar left */}
       {hasOverflow ? (
         <div
-          className="d-flex btn btn-info fltr-scroll-left px-1 ml-2"
+          className={`d-flex btn btn-info fltr-scroll-left px-1 ml-2 ${canScrollLeft ? "" : "disabled"}`}
           onMouseUp={() => mouseUp()}
           onMouseDown={() => mouseDown(1)}
           title="Scroll Left"
@@ -222,7 +232,7 @@ function FilterBar(props) {
       {/* Scroll filter bar right */}
       {hasOverflow ? (
         <div
-          className="d-flex btn btn-info fltr-scroll-right px-1 mr-2"
+          className={`d-flex btn btn-info fltr-scroll-right px-1 mr-2 ${canScrollRight ? "" : "disabled"}`}
           onMouseUp={() => mouseUp()}
           onMouseDown={() => mouseDown(0)}
           title="Scroll Right"
