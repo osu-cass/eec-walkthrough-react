@@ -4,7 +4,8 @@
 console.log("Server JavaScript start");
 
 // setup database connection and routing
-require("dotenv").config();
+require("dotenv").config({silent: process.env.NODE_ENV === "production"});
+
 const {pool} = require("./services/database/mysqlPool");
 const app = require("./routes/index");
 

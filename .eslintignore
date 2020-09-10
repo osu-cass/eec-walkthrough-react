@@ -1,5 +1,7 @@
-frontend/build/*
-frontend/public/*
+client/build/*
+client/public/*
+node_modules
+client/node_modules
 *.json
 *.css
 *.css.map
