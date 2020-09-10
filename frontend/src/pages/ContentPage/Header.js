@@ -655,6 +655,7 @@ function Header(props) {
                 ) : (
                   <Fragment>
                     <FilterBar
+                      headerId={props.header.headerId}
                       updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
                       resetIcons={() => props.resetIcons(props.header.headerId)}
                       clearIcons={() => props.clearIcons(props.header.headerId)}
