@@ -151,9 +151,10 @@ function FilterBar(props) {
         null
       )}
 
-      <div className={`card fltr-expand ${hasOverflow ? "filter-corners" : "mr-2 filter-round"} ${props.show ? "fltr-show" : "fltr-hide"}`}>
+      {/* Filterbar body */}
+      <div className={`fltr-expand card px-3 ${hasOverflow ? "filter-corners" : "mr-2 filter-round"} ${props.show ? "fltr-show" : "fltr-hide"}`}>
         <div
-          className={`filter-icon-container mx-2 icons row flex-nowrap`}
+          className={`filter-icon-container icons row flex-nowrap`}
           id={`filter-bar-${props.headerId}`}
           ref={ref}
         >
