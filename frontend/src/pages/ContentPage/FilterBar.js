@@ -18,11 +18,23 @@ function FilterBar(props) {
   const [scroll, setScroll] = useState(0);
   const ref = useRef(null);
 
+  // check if the window width has changed
+  useEffect(() => {
+    function updateWindowDimensions() {
+      setHasOverflow(checkForOverflow(ref));
+      setScrollLimits();
+    };
+
+    window.addEventListener("resize", updateWindowDimensions);
+
+    return () => window.removeEventListener("resize", updateWindowDimensions) 
+  }, []);
+
   // check if the filter bar is overflowing
   useEffect(() => {
     setHasOverflow(checkForOverflow(ref));
     setScrollLimits();
-  }, [ref.current]);
+  }, [ref.current, props.show]);
 
   // check if we should be scrolling each second
   useEffect(() => {
@@ -129,7 +141,7 @@ function FilterBar(props) {
         null
       ) : (
         <div
-          className="d-flex btn btn-info fltr-closed-btn mr-2"
+          className="d-flex btn btn-info filter-closed-btn mr-2"
           onClick={() => props.showFilter()}
           title="Show Filterbar"
         >
@@ -140,7 +152,7 @@ function FilterBar(props) {
       {/* Scroll filter bar left */}
       {hasOverflow && props.show ? (
         <div
-          className={`d-flex btn btn-info fltr-scroll-left px-1 ml-2 ${canScrollLeft ? "" : "disabled"}`}
+          className={`d-flex btn btn-info filter-scroll-left px-1 ml-2 ${canScrollLeft ? "" : "disabled"}`}
           onMouseUp={() => mouseUp()}
           onMouseDown={() => mouseDown(1)}
           title="Scroll Left"
@@ -152,7 +164,7 @@ function FilterBar(props) {
       )}
 
       {/* Filterbar body */}
-      <div className={`fltr-expand card px-3 ${hasOverflow ? "filter-corners" : "mr-2 filter-round"} ${props.show ? "fltr-show" : "fltr-hide"}`}>
+      <div className={`filter-expand card px-3 ${hasOverflow ? "filter-corners" : "mr-2 filter-round"} ${props.show ? "filter-show" : "filter-hide"}`}>
         <div
           className={`filter-icon-container icons row flex-nowrap`}
           id={`filter-bar-${props.headerId}`}
@@ -241,7 +253,7 @@ function FilterBar(props) {
       {/* Scroll filter bar right */}
       {hasOverflow && props.show ? (
         <div
-          className={`d-flex btn btn-info fltr-scroll-right px-1 mr-2 ${canScrollRight ? "" : "disabled"}`}
+          className={`d-flex btn btn-info filter-scroll-right px-1 mr-2 ${canScrollRight ? "" : "disabled"}`}
           onMouseUp={() => mouseUp()}
           onMouseDown={() => mouseDown(0)}
           title="Scroll Right"

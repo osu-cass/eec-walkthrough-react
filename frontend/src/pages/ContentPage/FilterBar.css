@@ -23,26 +23,23 @@ i[title] {
   height: 1.75em;
 }
 
-.fltr-closed-btn {
+.filter-closed-btn {
   border-radius: 0.25em 0.25em 0.25em 0.25em !important;
 }
 
-
-.fltr-scroll-left {
+.filter-scroll-left {
   border-radius: 0.25em 0 0 0.25em !important;
 }
 
-.fltr-scroll-right {
+.filter-scroll-right {
   border-radius: 0 0.25em 0.25em 0 !important;
 }
 
-.fltr-expand {
-  overflow-x: hidden;
-  max-width: 0;
+.filter-expand {
+  max-width: 100%;
 }
 
 .filter-icon-container {
-  max-width: 200px;
   overflow: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -53,10 +50,10 @@ i[title] {
   display: none;
 }
 
-.fltr-expand.fltr-show {
+.filter-expand.filter-show {
   max-width: 10000px;
 }
 
-.fltr-expand.fltr-hide {
+.filter-expand.filter-hide {
   display: none;
 }
