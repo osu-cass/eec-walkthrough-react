@@ -18,15 +18,13 @@ function FilterBar(props) {
   const [scroll, setScroll] = useState(0);
   const ref = useRef(null);
 
-  // check if the window width has changed
+  // check if the window width has changed and updates appearance
   useEffect(() => {
     function updateWindowDimensions() {
       setHasOverflow(checkForOverflow(ref));
       setScrollLimits();
     };
-
     window.addEventListener("resize", updateWindowDimensions);
-
     return () => window.removeEventListener("resize", updateWindowDimensions) 
   }, []);
 
@@ -35,6 +33,13 @@ function FilterBar(props) {
     setHasOverflow(checkForOverflow(ref));
     setScrollLimits();
   }, [ref.current, props.show]);
+
+  // checks if the filter bar has been hidden/shown and resets the scrollbar
+  useEffect(() => {
+    resetScroll();
+    setCanScrollLeft(false);
+    setCanScrollRight(true);
+  }, [props.show]);
 
   // check if we should be scrolling each second
   useEffect(() => {
@@ -86,6 +91,12 @@ function FilterBar(props) {
     setIconTooltips(tooltips);
     setTempIconTooltips(tempTooltips);
   }, [props.filterIcons, props.tempFilterIcons, props.iconSet]);
+
+  // resets the scroll bar to be all the way to the left
+  function resetScroll() {
+    const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
+    scrollbar.scroll(0, 0);
+  }
 
   // sets the current position of the scrollbar
   function scrollContainer(scrollLeft) {
