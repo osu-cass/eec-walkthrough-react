@@ -24,7 +24,7 @@ i[title] {
 }
 
 .fltr-closed-btn {
-  border-radius: 0.25em 0.25em 0.25em 0.25em;
+  border-radius: 0.25em 0.25em 0.25em 0.25em !important;
 }
 
 
