@@ -8,9 +8,9 @@ import "./Agreement.css";
 function Agreement(props) {
 
   return (
-    <div className="text-center mx-2 my-auto">
+    <div className="agreement-container text-center mx-2 my-auto">
 
-      <Modal show={props.show} onHide={() => props.closeModal()} dialogClassName="modal-width" className="agreement-modal">
+      <Modal show={props.show} onHide={() => props.closeModal()}>
 
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">{props.agreementTitle}</h5>
