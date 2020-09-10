@@ -11,17 +11,25 @@ i[title] {
   animation: fadeIn 2s;
 }
 
+.filter-round {
+  border-radius: 0.25em 0.25em 0.25em 0.25em;
+}
+
+.filter-corners {
+  border-radius: 0;
+}
+
 .filter-btn {
   height: 1.75em;
 }
 
-.fltr-expand-btn {
-  border-color: rgba(223, 223, 233, 1);
-  border-radius: 0.25em 0 0 0.25em !important;
+.fltr-closed-btn {
+  border-radius: 0.25em 0.25em 0.25em 0.25em;
 }
 
-.fltr-closed-btn {
-  border-radius: 0.25em 0.25em 0.25em 0.25em !important;
+
+.fltr-scroll-left {
+  border-radius: 0.25em 0 0 0.25em !important;
 }
 
 .fltr-scroll-right {
@@ -29,10 +37,8 @@ i[title] {
 }
 
 .fltr-expand {
-  border-radius: 0 0.25em 0.25em 0 !important;
   overflow-x: hidden;
   max-width: 0;
-  /* transition: max-width 2s; */
 }
 
 .filter-icon-container {

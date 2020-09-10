@@ -15,12 +15,27 @@ function FilterBar(props) {
   const [hasOverflow, setHasOverflow] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [scroll, setScroll] = useState(0);
   const ref = useRef(null);
 
   // check if the filter bar is overflowing
   useEffect(() => {
     setHasOverflow(checkForOverflow(ref));
   }, [ref.current]);
+
+  // check if we should be scrolling each second
+  useEffect(() => {
+    if (scroll) {
+      const interval = setInterval(() => {
+        if (scroll === 1) {
+          scrollContainer(1);
+        } else if (scroll === 2) {
+          scrollContainer(0);
+        }
+      }, 50);
+      return () => clearInterval(interval);
+    }
+  }, [scroll]);
 
   // get an array of the icon names that match the filter icon IDs
   useEffect(() => {
@@ -59,11 +74,16 @@ function FilterBar(props) {
   }, [props.filterIcons, props.tempFilterIcons, props.iconSet]);
 
   // sets the current position of the scrollbar
-  function changeContentScroll(pos) {
-    // const currentPos = $content.scrollLeft();
-    // $content.scrollLeft(currentPos + pos);
+  function scrollContainer(scrollLeft) {
+    let distance;
+    if (scrollLeft) {
+      distance = -10;
+    } else {
+      distance = 10;
+    }
+    const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
+    scrollbar.scrollBy({left: distance, behavior: "smooth"});
   }
-
 
   // checks if there is overflow due to icons in the scrollbar
   function checkForOverflow(ref) {
@@ -77,15 +97,18 @@ function FilterBar(props) {
     return isOverflow;
   }
 
-
-  // moves the scrollbar to the right
-  function onRight() {
-    changeContentScroll(-10);
+  // the mouse down event for scrolling, this lets us know to start
+  function mouseDown(scrollLeft) {
+    if (scrollLeft) {
+      setScroll(1);
+    } else {
+      setScroll(2);
+    }
   }
 
-  // moves the scrollbar to the left
-  function onLeft() {
-    changeContentScroll(+10);
+  // the mouse up event for scrolling, this lets us know to stop
+  function mouseUp() {
+    setScroll(0);
   }
 
   return (
@@ -111,9 +134,23 @@ function FilterBar(props) {
       )}
       */}
 
-      <div className={`card fltr-expand ${props.show ? "fltr-show" : "fltr-hide"}`}>
+      {/* Scroll filter bar left */}
+      {hasOverflow ? (
         <div
-          className="filter-icon-container mx-2 icons row flex-nowrap"
+          className="d-flex btn btn-info fltr-scroll-left px-1 ml-2"
+          onMouseUp={() => mouseUp()}
+          onMouseDown={() => mouseDown(1)}
+          title="Scroll Left"
+        >
+          <i className="fas fa-fw fa-chevron-left align-self-center" />
+        </div>
+      ) : (
+        null
+      )}
+
+      <div className={`card fltr-expand ${hasOverflow ? "filter-corners" : "filter-round"} ${props.show ? "fltr-show" : "fltr-hide"}`}>
+        <div
+          className={`filter-icon-container mx-2 icons row flex-nowrap`}
           id={`filter-bar-${props.headerId}`}
           ref={ref}
         >
@@ -182,13 +219,19 @@ function FilterBar(props) {
         </div>
       </div>
 
-      <div
-        className="d-flex btn btn-info fltr-scroll-right px-1 mr-2"
-        onClick={() => onRight()}
-        title="Scroll Right"
-      >
-        <i className="fas fa-fw fa-chevron-right align-self-center" />
-      </div>
+      {/* Scroll filter bar right */}
+      {hasOverflow ? (
+        <div
+          className="d-flex btn btn-info fltr-scroll-right px-1 mr-2"
+          onMouseUp={() => mouseUp()}
+          onMouseDown={() => mouseDown(0)}
+          title="Scroll Right"
+        >
+          <i className="fas fa-fw fa-chevron-right align-self-center" />
+        </div>
+      ) : (
+        null
+      )}
 
     </Fragment>
   );
