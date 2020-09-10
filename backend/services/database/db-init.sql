@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Sep 09, 2020 at 03:09 PM
+-- Generation Time: Sep 10, 2020 at 01:04 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -165,9 +165,10 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (206, 59, 10, 206, 'Adding Images', 42, '2020-09-07 23:43:10', 0),
 (207, 60, 10, 207, 'How to Review and Approve Content for Publishing', 58, '2020-09-08 17:49:46', 0),
 (208, 59, 10, 208, 'Adding References', 58, '2020-09-08 18:55:48', 0),
-(211, 63, 2, 211, 'Reduce Ventilation Energy Losses', 52, '2020-09-09 19:06:46', 0),
-(212, 63, 2, 212, 'Reduce Material Losses', 52, '2020-09-09 19:36:40', 0),
-(213, 63, 0, 213, 'Increase welding efficiency', 52, '2020-09-09 21:27:30', 0);
+(211, 63, 2, 1, 'Ventilation Improvements', 52, '2020-09-09 19:06:46', 0),
+(212, 63, 2, 3, 'Reduce Material Losses', 52, '2020-09-09 19:36:40', 0),
+(213, 63, 0, 4, 'Increase welding efficiency', 52, '2020-09-09 21:27:30', 0),
+(214, 63, 2, 2, 'Increase Spray/Paint Booth Efficiency', 52, '2020-09-10 17:01:56', 0);
 
 -- --------------------------------------------------------
 
@@ -1822,34 +1823,61 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5303, 186, 0, 0, 1, 'Improving power factor extends equipment life by reducing the total line current which reduces operating temperatures.', '', '', 0, 0, 0, '2020-09-09 18:12:30', 0),
 (5304, 186, 0, 0, 1, 'Improving power factor can significantly reduce monthly electrical utility charges.', '', '', 0, 0, 0, '2020-09-09 18:12:30', 0),
 (5305, 186, 0, 0, 1, 'Capacitors have no moving parts and require little to no maintenance. It is recommended to check fuses on a regular basis. All capacitors should be checked annually to ensure proper operation.', '', '', 0, 0, 5, '2020-09-09 18:12:30', 0),
-(5390, 211, 0, 0, 11, 'Install localized welding ventilation', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
-(5391, 211, 0, 1, 26, 'Reduce ventilation energy losses by installing localized ventilation ducting above welding stations', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
-(5392, 211, 0, 1, 26, 'Welding areas must be ventilated to maintain air quality standards specified by the Oregon Health and Safety Administration (OSHA)', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
-(5393, 211, 0, 1, 15, 'Note the source of heating and cooling for the building whether it is packaged HVAC units or gas/electric heaters', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
-(5394, 211, 0, 1, 15, 'Heating degree days for the local area. Temperature bin data can be obtained from the National Ocean and Atmospheric Administration (NOAA).', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
-(5395, 211, 0, 1, 15, 'Operation hours for the air conditioning system', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
-(5396, 211, 0, 1, 15, 'Approximate the proposed length of ventilation required for the installation to estimate the cost of implementation', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
-(5397, 211, 0, 1, 15, 'Current exhaust air flow', '', '', 0, 0, 0, '2020-09-09 21:14:05', 0),
-(5398, 212, 0, 0, 11, 'Increase Spray Paint Efficiency', '', '', 0, 0, 0, '2020-09-09 21:14:15', 0),
-(5399, 212, 0, 1, 8, 'Training paint personnel to reduce overspray in painting applications can significantly reduce annual paint consumption and extends booth filter life', '', '', 0, 0, 0, '2020-09-09 21:14:15', 0),
-(5400, 212, 0, 1, 26, 'Paint booths are often present in metals manufacturing facilities that produce final products or components', '', '', 0, 0, 0, '2020-09-09 21:14:15', 0),
-(5401, 212, 0, 1, 26, 'Operator spray technique and equipment settings can be adjusted to minimize paint overspray. Equipment settings include paint gun adjustment, equipment maintenance, and paint gun distance and orientation.', '', '', 0, 0, 0, '2020-09-09 21:14:15', 0),
-(5402, 212, 0, 1, 26, 'Painting efficiency can be improved by as much 25% for even the most experienced painters with increased attention to application techniques', '', '', 0, 0, 6, '2020-09-09 21:14:15', 0),
-(5403, 212, 0, 1, 15, 'Annual consumption of paint and associated cost', '', '', 0, 0, 0, '2020-09-09 21:14:15', 0),
-(5404, 212, 0, 1, 3, 'Proposed savings can be conservatively estimated at 10-15% reduction in paint consumption. Percent savings may approach 25% if the recommended techniques are replicated and adhered to.', '', '', 0, 0, 0, '2020-09-09 21:14:15', 0),
-(5487, 213, 0, 0, 11, 'Replace transformer-rectifier welders with inverter welders', '', '', 0, 0, 0, '2020-09-09 22:01:08', 0),
-(5488, 213, 0, 1, 3, 'A transformer-rectifier welder is 67% efficient and an inverter-based welder is 87% efficient, on average. ', '', '', 0, 0, 7, '2020-09-09 22:01:08', 0),
-(5489, 213, 0, 1, 1, 'Inverter welders are smaller and more lightweight compared to transformer-rectifier welders making them more portable', '', '', 0, 0, 0, '2020-09-09 22:01:08', 0),
-(5490, 213, 0, 1, 1, 'Inverter welders are capable of stick, MIG, TIG, FCAW, arc gouging and pulsing styles. They also produce a higher quality weld.', '', '', 0, 0, 7, '2020-09-09 22:01:08', 0),
-(5491, 213, 0, 1, 8, 'For upgrading to an inverter welder, the Energy Trust of Oregon (ETO) offers a $1,200 incentive for each machine that operates over 1,200 hours per year.', '', '', 0, 0, 9, '2020-09-09 22:01:08', 0),
-(5492, 213, 0, 1, 26, 'The transformer cores, windings, and electronic switching components are designed to minimize losses leading to efficiency improvements for inverter welders by design.', '', '', 0, 0, 7, '2020-09-09 22:01:08', 0),
-(5493, 213, 0, 1, 26, 'Upgrading a single transformer-rectifier welder to an inverter welder can save up to $1,724 annually. This calculation assumes a 20% increase in welder efficiency with 6,240 annual operation hours and a 25% idle time.', '', '', 0, 0, 8, '2020-09-09 22:01:08', 0),
-(5499, 206, 0, 0, 13, 'When creating pages or cards there are two methods for adding images:', '', '', 0, 0, 0, '2020-09-09 22:04:31', 0),
-(5500, 206, 0, 1, 26, 'You may enter an image URL. This is a web address that points to a specific image (ex: https://placekitten.com/300/200).', '', '', 0, 0, 0, '2020-09-09 22:04:31', 0),
-(5501, 206, 0, 2, 4, 'Always include \"https\" at the start of your image address and never \"http\". This ensures that the image is being sent over a secure channel. A published page with HTTP images will display as \"Not Secure\" in most browsers, which will make users less confident when using our application.', '', '', 0, 0, 0, '2020-09-09 22:04:31', 0),
-(5502, 206, 0, 1, 26, 'You may upload an image. Valid images have the file format JPG, PNG, or GIF. Images are not allowed to be larger than six megabytes. ', '', '', 0, 0, 0, '2020-09-09 22:04:31', 0),
-(5503, 206, 0, 2, 12, 'Only upload images that you have intellectual property rights to use. This means that you should not use images that you did not create unless you have gotten express permission to use them from the creator.', '', '', 0, 0, 0, '2020-09-09 22:04:31', 0),
-(5504, 206, 0, 2, 7, 'If you want to use an image in multiple locations. Upload the image by submitting some content, then edit the content and you will see that the image has a URL that you can copy. You can reuse this URL anywhere on the website, this is the preferred method as it saves space on the server by only uploading the image once.', '', '', 0, 0, 0, '2020-09-09 22:04:31', 0);
+(5505, 206, 0, 0, 13, 'When creating pages or cards there are two methods for adding images:', '', '', 0, 0, 0, '2020-09-09 22:17:03', 0),
+(5506, 206, 0, 1, 26, 'You may enter an image URL. This is a web address that points to a specific image (ex: https://placekitten.com/300/200).', '', '', 0, 0, 0, '2020-09-09 22:17:03', 0),
+(5507, 206, 0, 2, 4, 'Always include \"https\" at the start of your image address and never \"http\". This ensures that the image is being sent over a secure network. A published page with HTTP images will display as \"Not Secure\" in most browsers, which will make users less confident when using our application.', '', '', 0, 0, 0, '2020-09-09 22:17:03', 0),
+(5508, 206, 0, 1, 26, 'You may upload an image. Valid images have the file format JPG, PNG, or GIF. Images are not allowed to be larger than six megabytes. ', '', '', 0, 0, 0, '2020-09-09 22:17:03', 0),
+(5509, 206, 0, 2, 12, 'Only upload images that you have intellectual property rights to use. This means that you should not use images that you did not create unless you have gotten express permission to use them from the creator.', '', '', 0, 0, 0, '2020-09-09 22:17:03', 0),
+(5510, 206, 0, 2, 7, 'If you want to use an image in multiple locations. Upload the image by submitting some content, then edit the content and you will see that the image has a URL that you can copy. You can reuse this URL anywhere on the website, this is the preferred method as it saves space on the server by only uploading the image once.', '', '', 0, 0, 0, '2020-09-09 22:17:03', 0),
+(5581, 213, 0, 0, 11, 'Replace transformer-rectifier welders with inverter welders', '', '', 0, 0, 0, '2020-09-09 23:54:38', 0),
+(5582, 213, 0, 1, 3, 'A transformer-rectifier welder is 67% efficient and an inverter-based welder is 87% efficient, on average. ', '', '', 0, 0, 7, '2020-09-09 23:54:38', 0),
+(5583, 213, 0, 1, 1, 'Inverter welders are smaller and more lightweight compared to transformer-rectifier welders making them more portable', '', '', 0, 0, 0, '2020-09-09 23:54:38', 0),
+(5584, 213, 0, 1, 1, 'Inverter welders are capable of stick, MIG, TIG, FCAW, arc gouging and pulsing styles. They also produce a higher quality weld.', '', '', 0, 0, 7, '2020-09-09 23:54:38', 0),
+(5585, 213, 0, 1, 8, 'For upgrading to an inverter welder, the Energy Trust of Oregon (ETO) offers a $1,200 incentive for each machine that operates over 1,200 hours per year.', '', '', 0, 0, 9, '2020-09-09 23:54:38', 0),
+(5586, 213, 0, 1, 26, 'The transformer cores, windings, and electronic switching components are designed to minimize losses leading to efficiency improvements for inverter welders by design.', '', '', 0, 0, 7, '2020-09-09 23:54:38', 0),
+(5587, 213, 0, 1, 26, 'Upgrading a single transformer-rectifier welder to an inverter welder can save up to $1,724 annually. This calculation assumes a 20% increase in welder efficiency with 6,240 annual operation hours and a 25% idle time.', '', '', 0, 0, 8, '2020-09-09 23:54:38', 0),
+(5588, 213, 0, 0, 11, 'Install a robotic welder', '', '', 0, 0, 0, '2020-09-09 23:54:38', 0),
+(5589, 213, 0, 1, 1, 'Robotic welding can increase productivity and improve weld quality', '', '', 0, 0, 10, '2020-09-09 23:54:38', 0),
+(5590, 213, 0, 1, 1, 'Robotic welders can meet production standards that are difficult to meet with manual welding, and can do so with 36-46% reduction in cycle time.', '', '', 0, 0, 11, '2020-09-09 23:54:38', 0),
+(5591, 213, 0, 1, 8, 'The facility should utilize robotic welding integrators who can run process and capability studies to verify the applicability of robotic welding', '', '', 0, 0, 10, '2020-09-09 23:54:38', 0),
+(5592, 213, 0, 1, 8, 'Robot integrators and manufacturers offer training to ensure the system will run successfully and profitably for the duration of the products life', '', '', 0, 0, 10, '2020-09-09 23:54:38', 0),
+(5593, 212, 0, 0, 11, 'Increase Spray Paint Efficiency', '', '', 0, 0, 0, '2020-09-09 23:56:24', 0),
+(5594, 212, 0, 1, 8, 'Training paint personnel to reduce overspray in painting applications can significantly reduce annual paint consumption and extends booth filter life', '', '', 0, 0, 0, '2020-09-09 23:56:24', 0),
+(5595, 212, 0, 1, 26, 'Paint booths are often present in metals manufacturing facilities that produce final products or components', '', '', 0, 0, 0, '2020-09-09 23:56:24', 0),
+(5596, 212, 0, 1, 26, 'Operator spray technique and equipment settings can be adjusted to minimize paint overspray. Equipment settings include paint gun adjustment, equipment maintenance, and paint gun distance and orientation.', '', '', 0, 0, 0, '2020-09-09 23:56:24', 0),
+(5597, 212, 0, 1, 1, 'Painting efficiency can be improved by as much 25% for even the most experienced painters with increased attention to application techniques', '', '', 0, 0, 6, '2020-09-09 23:56:24', 0),
+(5598, 212, 0, 1, 15, 'Annual consumption of paint and associated costs', '', '', 0, 0, 0, '2020-09-09 23:56:24', 0),
+(5599, 212, 0, 1, 3, 'Proposed savings can be conservatively estimated at 10-15% reduction in paint consumption. Percent savings may approach 25% if the recommended techniques are replicated and adhered to.', '', '', 0, 0, 0, '2020-09-09 23:56:24', 0),
+(5601, 211, 0, 0, 11, 'Install localized welding ventilation', '', '', 0, 0, 0, '2020-09-10 17:02:26', 0),
+(5602, 211, 0, 1, 26, 'Reduce ventilation energy losses by installing localized ventilation ducting above welding stations', '', '', 0, 0, 0, '2020-09-10 17:02:26', 0),
+(5603, 211, 0, 1, 26, 'Welding areas must be ventilated to maintain air quality standards specified by the Oregon Health and Safety Administration (OSHA)', '', '', 0, 0, 0, '2020-09-10 17:02:26', 0),
+(5604, 211, 0, 1, 15, 'Note the source of heating and cooling for the building whether it is packaged HVAC units or gas/electric heaters', '', '', 0, 0, 0, '2020-09-10 17:02:26', 0),
+(5605, 211, 0, 1, 15, 'Heating degree days for the local area. Temperature bin data can be obtained from the National Ocean and Atmospheric Administration (NOAA).', '', '', 0, 0, 0, '2020-09-10 17:02:26', 0),
+(5606, 211, 0, 1, 15, 'Operation hours for the air conditioning system', '', '', 0, 0, 0, '2020-09-10 17:02:26', 0),
+(5607, 211, 0, 1, 15, 'Approximate the proposed length of ventilation required for the installation to estimate the cost of implementation', '', '', 0, 0, 0, '2020-09-10 17:02:26', 0),
+(5608, 211, 0, 1, 15, 'Current exhaust air flow', '', '', 0, 0, 0, '2020-09-10 17:02:26', 0),
+(5750, 214, 0, 0, 13, 'Conditioning air for painting, drying and treating emissions all represent sources of energy consumption in a painting process. Energy saving measures can be identified at each one of these steps.', '', '', 0, 0, 13, '2020-09-10 19:31:45', 0),
+(5751, 214, 0, 0, 11, 'Reduce airflow in paint booth', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0),
+(5752, 214, 0, 1, 13, 'Air must be exhausted from paint booths to removed evaporated solvent, oversprayed paint particles and pollutants such as volatile organic compounds (VOCs). The energy consumed by the ventilation system depends on the target outlet concentration of VOCs. Paint is the source of the VOCs and they are removed from the air exhaust stream through filtration or incineration.', '', '', 0, 0, 13, '2020-09-10 19:31:45', 0),
+(5753, 214, 0, 1, 26, 'Reducing the amount of air that is exhausted from the paint booth reduces the amount of fuel required to raise the inlet air to the target temperature, and reduces the volume of exhaust air that must be treated.', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0),
+(5754, 214, 0, 1, 4, 'If the air flow rate is too low, cold spots may be present in the booth and lead to poor paint quality and condensation.', '', '', 0, 0, 13, '2020-09-10 19:31:45', 0),
+(5755, 214, 0, 1, 7, 'For air recirculating ovens, 90% of the air in the booth should be recycled', '', '', 0, 0, 13, '2020-09-10 19:31:45', 0),
+(5756, 214, 0, 1, 3, 'For every 2,000 hours/year that an oven operates, every 10 cubic meters per hour of exhaust flow loses 150 kWh at 50C, 400 kWh at 100C, 600 kWh at 150C, and 750 kWh at 200C', '', '', 0, 0, 13, '2020-09-10 19:31:45', 0),
+(5757, 214, 0, 1, 12, 'Turn down air flow rates during breaks to realize immediate cost savings.', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0),
+(5758, 214, 0, 1, 1, 'Computer-controlled ventilation systems can operate based on solvent concentration in the paint booth or by spray gun operation.', '', '', 0, 0, 13, '2020-09-10 19:31:45', 0),
+(5759, 214, 0, 0, 11, 'Exhaust heat recovery', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0),
+(5760, 214, 0, 1, 8, 'Heat recovery measures typically save 30-60% of energy consumption associated with a paint booth and have a 1-3 year payback period', '', '', 0, 0, 12, '2020-09-10 19:31:45', 0),
+(5761, 214, 0, 1, 1, 'Rotary heat exchangers can be installed on paint booths to save up to 50% of the exhausted heat', '', '', 0, 0, 13, '2020-09-10 19:31:45', 0),
+(5762, 214, 0, 1, 2, 'Heat recovered from paint booths is low grade heat', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0),
+(5763, 214, 0, 1, 2, 'These installations may be of interest only to large scale painting operations', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0),
+(5764, 214, 0, 1, 2, 'Heat wheels do not perform well with streams that have particles or where condensation may be present ', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0),
+(5765, 214, 0, 0, 11, 'New paint - powders', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0),
+(5766, 214, 0, 1, 1, 'Powder-based paints do not have solvents, the paint particles are attracted to the part by an applied electrostatic charge. The energy requirement for powder-based painting can be up to 30% lower due to the reduced energy consumption associated with eliminating VOCs from the exhaust stream.', '', '', 0, 0, 13, '2020-09-10 19:31:45', 0),
+(5767, 214, 0, 1, 8, 'These measures can save 18-30% of energy consumption associated with a paint booth and have a 2-3 year payback period', '', '', 0, 0, 12, '2020-09-10 19:31:45', 0),
+(5768, 214, 0, 0, 11, 'Install an air-to-fuel ratio control unit', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0),
+(5769, 214, 0, 1, 3, 'This may reduce energy consumption associated with combustion by 5-15% depending on demand', '', '', 0, 0, 13, '2020-09-10 19:31:45', 0),
+(5770, 214, 0, 0, 11, 'Install activated carbon filters to remove VOCs from the exhaust stream', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0),
+(5771, 214, 0, 1, 26, 'Activated carbon filters capture and concentrate VOCs from the exhaust stream reducing the amount of air that must be treated by incineration', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0);
 
 -- --------------------------------------------------------
 
@@ -1889,8 +1917,8 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (58, 4, 'Queuing Line Optimization', 'The operation of queues and their respective workstations determine the overall production efficiency of a facility.', 'Optimizing the queuing system of a workstation has significant effects on product output. Little\'s law and queuing theory helps simplify any production system into a set of easy to estimate variables. While extensive research, data collection, and possibly simulation should be employed before making any change to a part of the production system, basic analysis can reveal opportunities for cost savings through increased productivity.', 'https://www.umav.org/wp-content/uploads/2019/04/Car-Assembly-Line.jpg', 0, 62, '2020-08-10 19:57:05', 0),
 (61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, which creates additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will increase the capacity of the distribution system.', '/uploads/user_52/ec8550a6c0caa67f935129b59a4c8185.jpg', 0, 52, '2020-08-26 15:55:35', 0),
 (62, 5, 'Cybersecurity', 'Industrial Assessment Center resources for increasing cybersecurity.', 'Cybersecurity is becoming increasingly important as more industries adopt newer and more sophisticated controls for smart manufacturing or data collection to increase production and equipment efficiency. As part of our outreach on energy efficiency, we also provide information and resources about cybersecurity. Using some of the self-assessment tools and other informational resources provided on this page can be an important part of a facility’s plan to regularly evaluate their cybersecurity status.\n\nThe National Institute of Standards and Technology (NIST) Manufacturing Extension Partnership stated that 61% of small businesses experienced a cyber attack within the last 12 months, making up 58% of cyber attack victims. Furthermore, 34% of targets were manufacturing facilities and the median cost per attack was $60,000.', 'https://live.staticflickr.com/6044/6999839463_ae02bb6a7e_b.jpg', 1, 57, '2020-08-27 00:21:01', 0),
-(64, 0, 'How to Use EEC Walkthrough', 'summary', 'description', 'https://via.placeholder.com/350', 0, 42, '2020-08-31 22:17:53', 0),
-(65, 0, 'How to Edit EEC Walkthrough', 'An analyst oriented guide for creating, editing, and reviewing content on the EEC Industrial Walkthrough Checklist.', 'Description', 'https://via.placeholder.com/350', 1, 58, '2020-08-31 22:17:53', 0),
+(64, 0, 'How to Use EEC Walkthrough', 'summary', 'description', 'https://picsum.photos/seed/newseed/700/700', 0, 42, '2020-08-31 22:17:53', 0),
+(65, 0, 'How to Edit EEC Walkthrough', 'An analyst oriented guide for creating, editing, and reviewing content on the EEC Industrial Walkthrough Checklist.', 'Description', 'https://picsum.photos/seed/picsum/700/700', 1, 42, '2020-08-31 22:17:53', 0),
 (69, 1, 'Metals Manufacturing', 'Industrial metals manufacturing processes may include casting, forging, bending, forming, spinning, welding, cutting and finishing to produce a final product.', 'Metals manufacturing includes production of raw stock, replacement parts and final products. Many production processes are common among all metals manufacturing facilities.', '/uploads/user_52/0baf5657b6e1ac3fef0b0e048672324b.jpg', 0, 52, '2020-09-09 18:37:04', 0);
 
 -- --------------------------------------------------------
@@ -2015,7 +2043,11 @@ INSERT INTO `Sources` (`sourceId`, `pageId`, `text`, `url`) VALUES
 (6, 69, '\"Spray Painting Efficiency Training.\" Pacific Northwest Pollution Prevention Resource Center. https://pprc.org/2012/projects-2/projects/spray-painting-training-efficiency/ (accessed Sept. 9, 2020)', 'https://pprc.org/2012/projects-2/projects/spray-painting-training-efficiency/'),
 (7, 69, '\"Energy Efficiency: Inverter Power Source.\" Lincoln Electric. https://www.lincolnelectric.com/en-us/support/process-and-theory/Pages/inverter-power-detail.aspx (accessed Sept. 9, 2020).', 'https://www.lincolnelectric.com/en-us/support/process-and-theory/Pages/inverter-power-detail.aspx'),
 (8, 69, '\"Welding Guide to Power Efficiency.\" Millerwelds.com. https://www.millerwelds.com/resources/article-library/welding-guide-to-power-efficiency (accessed Sept. 9, 2020).', 'https://www.millerwelds.com/resources/article-library/welding-guide-to-power-efficiency'),
-(9, 69, '\"Welding Equipment.\" energytrust.org. https://www.energytrust.org/incentives/industry-welding-equipment/#tab-two (accessed Sept. 9, 2020).', 'https://www.energytrust.org/incentives/industry-welding-equipment/#tab-two');
+(9, 69, '\"Welding Equipment.\" energytrust.org. https://www.energytrust.org/incentives/industry-welding-equipment/#tab-two (accessed Sept. 9, 2020).', 'https://www.energytrust.org/incentives/industry-welding-equipment/#tab-two'),
+(10, 69, '\"Implementing Robotic Welding: What to Know to be Successful.\" tregaskiss.com. https://www.tregaskiss.com/implementing-robotic-welding-what-to-know-to-be-successful-p162156#.X1li73lKi00 (accessed Sept. 9, 2020).', 'https://www.tregaskiss.com/implementing-robotic-welding-what-to-know-to-be-successful-p162156#.X1li73lKi00'),
+(11, 69, '\"Robotic Welding for Fabrication of MilSpec Hydra Skid Systems Cuts Cycle Time.\" genesis-systems.com. https://www.genesis-systems.com/robotic-welding-skid-systems-case-study (accessed Sept. 9, 2020).', 'https://www.genesis-systems.com/robotic-welding-skid-systems-case-study'),
+(12, 69, 'C. Galitsky, E. Worrell, and E. Dutrow. \"ENERGY STAR® Guides for Energy Efficiency Opportunities, Featuring the Motor Vehicle Assembly Industry.\"', 'https://www.aceee.org/files/proceedings/2003/data/papers/SS03_Panel4_Paper_11.pdf'),
+(13, 69, 'C. Galitsky, E. Worrell. \"Energy Efficiency Improvement and Cost Saving Opportunities for the Vehicle Assembly Industry - An ENERGY STAR Guide for Energy and Plant Managers,\" Lawrence Berkeley National Laboratory, Berkeley, CA, 2008. Accessed: Sept. 10, 2020. [Online]. Available: https://www.osti.gov/servlets/purl/927881', 'https://www.osti.gov/servlets/purl/927881');
 
 -- --------------------------------------------------------
 
@@ -2343,7 +2375,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2397,7 +2429,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5505;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5772;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -2433,7 +2465,7 @@ ALTER TABLE `Request_Objects`
 -- AUTO_INCREMENT for table `Sources`
 --
 ALTER TABLE `Sources`
-  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`
