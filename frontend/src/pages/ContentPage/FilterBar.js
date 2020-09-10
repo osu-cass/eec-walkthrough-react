@@ -124,28 +124,21 @@ function FilterBar(props) {
   return (
     <Fragment>
 
-      {/*
+      {/* Show filters */}
       {props.show ? (
-        <div
-          className="d-flex btn btn-info fltr-expand-btn ml-2"
-          onClick={() => props.showFilter()}
-          title="Hide Filters"
-        >
-          <i className="fas fa-fw fa-chevron-right align-self-center" />
-        </div>
+        null
       ) : (
         <div
-          className="d-flex btn btn-info fltr-closed-btn mx-2"
+          className="d-flex btn btn-info fltr-closed-btn mr-2"
           onClick={() => props.showFilter()}
-          title="Show Filters"
+          title="Show Filterbar"
         >
-          <i className="fas fa-fw fa-chevron-left align-self-center mr-1" />
+          <i className="fas fa-fw fa-plus align-self-center" />
         </div>
       )}
-      */}
 
       {/* Scroll filter bar left */}
-      {hasOverflow ? (
+      {hasOverflow && props.show ? (
         <div
           className={`d-flex btn btn-info fltr-scroll-left px-1 ml-2 ${canScrollLeft ? "" : "disabled"}`}
           onMouseUp={() => mouseUp()}
@@ -158,7 +151,7 @@ function FilterBar(props) {
         null
       )}
 
-      <div className={`card fltr-expand ${hasOverflow ? "filter-corners" : "filter-round"} ${props.show ? "fltr-show" : "fltr-hide"}`}>
+      <div className={`card fltr-expand ${hasOverflow ? "filter-corners" : "mr-2 filter-round"} ${props.show ? "fltr-show" : "fltr-hide"}`}>
         <div
           className={`filter-icon-container mx-2 icons row flex-nowrap`}
           id={`filter-bar-${props.headerId}`}
@@ -212,6 +205,7 @@ function FilterBar(props) {
               />
             </div>
           </div>
+
           <div className="col-auto px-2 py-0 align-self-center">
             <div
               className="btn btn-info filter-btn btn-sm py-0 my-1 px-1"
@@ -226,11 +220,25 @@ function FilterBar(props) {
             </div>
           </div>
 
+          <div className="col-auto px-2 py-0 align-self-center">
+            <div
+              className="btn btn-info filter-btn btn-sm py-0 my-1 px-1"
+              onClick={() => props.showFilter()}
+              title="Hide Filterbar"
+            >
+              <i
+                id="hide-filter-icons"
+                className={`fas fa-fw fa-sm fa-minus text-white`}
+                value="clear"
+              />
+            </div>
+          </div>
+
         </div>
       </div>
 
       {/* Scroll filter bar right */}
-      {hasOverflow ? (
+      {hasOverflow && props.show ? (
         <div
           className={`d-flex btn btn-info fltr-scroll-right px-1 mr-2 ${canScrollRight ? "" : "disabled"}`}
           onMouseUp={() => mouseUp()}
