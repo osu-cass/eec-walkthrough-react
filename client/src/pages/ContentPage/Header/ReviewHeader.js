@@ -1,11 +1,11 @@
 import React, {useState, useEffect, Fragment} from "react";
 import {Modal, Button, Row} from "react-bootstrap";
-import {getProfile, logout} from "../../utilities/cookieAuth";
+import {getProfile, logout} from "../../../utilities/cookieAuth";
 import PropTypes from "prop-types";
-import {formatTime} from "../../utilities/formatTime";
-import Error from "../../components/General/Error";
-import HighlightText from "./HighlightText";
-import AddReviewObject from "./AddReviewObject";
+import {formatTime} from "../../../utilities/formatTime";
+import Error from "../../../components/General/Error";
+import HighlightText from "../Various/HighlightText";
+import AddReviewObject from "../Various/AddReviewObject";
 import "./ReviewHeader.css";
 
 // Button and modal that allows a user to review a header

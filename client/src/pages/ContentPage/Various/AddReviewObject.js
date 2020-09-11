@@ -1,5 +1,5 @@
 import React, {useState, Fragment} from "react";
-import Toast from "../../components/General/Toast";
+import Toast from "../../../components/General/Toast";
 import {Button} from "react-bootstrap";
 import PropTypes from "prop-types";
 

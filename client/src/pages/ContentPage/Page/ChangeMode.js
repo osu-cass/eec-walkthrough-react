@@ -1,7 +1,7 @@
 import React from "react";
 import {Button} from "react-bootstrap";
 import PropTypes from "prop-types";
-import {setMode} from "../../utilities/pageMode";
+import {setMode} from "../../../utilities/pageMode";
 
 // Button that toggles between edit, move, and view page modes
 function ChangeMode(props) {

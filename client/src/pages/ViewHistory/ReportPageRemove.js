@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
-import Image from "../ContentPage/Image";
+import Image from "../ContentPage/Various/Image";
 import "./ReportPage.css";
 
 // Page history for a single removed page

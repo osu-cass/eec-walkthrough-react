@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
-import BasicItems from "../ContentPage/BasicItems";
+import BasicItems from "../ContentPage/Card/BasicItems";
 import {isGraphic} from "../../utilities/itemType";
-import ThumbnailGallery from "../ContentPage/ThumbnailGallery";
+import ThumbnailGallery from "../ContentPage/Card/ThumbnailGallery";
 import {formatTime} from "../../utilities/formatTime";
 import "./ReportCard.css";
 

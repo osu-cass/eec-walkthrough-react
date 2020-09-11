@@ -1,7 +1,7 @@
 import React, {Fragment, useState, useEffect} from "react";
 import FormControl from "react-bootstrap/FormControl";
 import Dropdown from "react-bootstrap/Dropdown";
-import ImageInput from "../../components/General/ImageInput";
+import ImageInput from "../../../components/General/ImageInput";
 import PropTypes from "prop-types";
 
 // An input field for adding or modifying items in a card modal

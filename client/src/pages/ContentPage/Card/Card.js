@@ -1,13 +1,13 @@
 import React, {useState, useEffect, Fragment} from "react";
 import {Card as CardBS} from "react-bootstrap";
-import {isGraphic} from "../../utilities/itemType";
+import {isGraphic} from "../../../utilities/itemType";
 import PlaceHolder from "./PlaceHolder";
 import EditCard from "./EditCard";
 import ReviewCard from "./ReviewCard";
 import BasicItems from "./BasicItems";
 import ExpandableList from "./ExpandableList";
 import ThumbnailGallery from "./ThumbnailGallery";
-import OrderObjectButton from "./OrderObjectButton";
+import OrderObjectButton from "../Various/OrderObjectButton";
 import PropTypes from "prop-types";
 import "./Card.css";
 

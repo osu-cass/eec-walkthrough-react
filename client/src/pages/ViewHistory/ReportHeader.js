@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
-import HighlightText from "../ContentPage/HighlightText";
+import HighlightText from "../ContentPage/Various/HighlightText";
 import "./ReportHeader.css";
 
 // Header history for a single header

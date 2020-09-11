@@ -1,11 +1,12 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import {Col} from "react-bootstrap";
 import PropTypes from "prop-types";
-import VerticallyCenteredModal from "./VerticallyCenteredModal";
+import ImageModal from "./ImageModal";
 import "./Image.css";
 
+// Displays various kinds of images
 function Image(props) {
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
   if (props.thumbnail) {
     return (
@@ -17,7 +18,7 @@ function Image(props) {
           className="expandable-image rounded img-fluid img-thumbnail"
           onClick={() => setModalShow(true)}
         />
-        <VerticallyCenteredModal
+        <ImageModal
           show={modalShow}
           url={props.url}
           header={props.title}
@@ -34,7 +35,7 @@ function Image(props) {
           className="expandable-image header rounded img-fluid img-normal"
           onClick={() => setModalShow(true)}
         />
-        <VerticallyCenteredModal
+        <ImageModal
           show={modalShow}
           url={props.url}
           header={props.title}
@@ -52,7 +53,7 @@ function Image(props) {
           style={{cursor: "pointer", maxWidth: "15em"}}
           onClick={() => setModalShow(true)}
         />
-        <VerticallyCenteredModal
+        <ImageModal
           show={modalShow}
           url={props.url}
           header={props.title}

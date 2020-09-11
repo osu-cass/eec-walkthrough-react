@@ -1,8 +1,8 @@
 import React, {useState, useEffect, Fragment} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
-import HighlightText from "../ContentPage/HighlightText";
-import Image from "../ContentPage/Image";
+import HighlightText from "../ContentPage/Various/HighlightText";
+import Image from "../ContentPage/Various/Image";
 import "./ReportPage.css";
 
 // Page history for a single page

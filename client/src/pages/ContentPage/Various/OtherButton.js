@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {setMode} from "../../utilities/pageMode";
+import {setMode} from "../../../utilities/pageMode";
 
 // A dropdown that shows a list of actions for this page
-function PageOther(props) {
+function OtherButton(props) {
 
   // scroll to the top of the screen
   function scrollTop() {
@@ -87,9 +87,9 @@ function PageOther(props) {
   }
 
 }
-export default PageOther;
+export default OtherButton;
 
-PageOther.propTypes = {
+OtherButton.propTypes = {
   role: PropTypes.number,
   mode: PropTypes.number,
   onPageMode: PropTypes.func,

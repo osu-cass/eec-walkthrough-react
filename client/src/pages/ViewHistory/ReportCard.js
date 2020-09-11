@@ -1,10 +1,10 @@
 import React, {Fragment, useState, useEffect} from "react";
 import PropTypes from "prop-types";
-import BasicItems from "../ContentPage/BasicItems";
+import BasicItems from "../ContentPage/Card/BasicItems";
 import {isGraphic} from "../../utilities/itemType";
-import ThumbnailGallery from "../ContentPage/ThumbnailGallery";
+import ThumbnailGallery from "../ContentPage/Card/ThumbnailGallery";
 import {formatTime} from "../../utilities/formatTime";
-import HighlightText from "../ContentPage/HighlightText";
+import HighlightText from "../ContentPage/Various/HighlightText";
 import "./ReportCard.css";
 
 // Card history for a single card

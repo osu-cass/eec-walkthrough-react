@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import PropTypes from "prop-types";
-import Error from "../../components/General/Error";
-import Agreement from "../../components/General/Agreement";
-import {getAgreement} from "../../utilities/agreementMode";
-import ImageInput from "../../components/General/ImageInput";
-import LoadingOverlay from "../../components/General/LoadingOverlay";
-import {logout} from "../../utilities/cookieAuth";
+import Error from "../../../components/General/Error";
+import Agreement from "../../../components/General/Agreement";
+import {getAgreement} from "../../../utilities/agreementMode";
+import ImageInput from "../../../components/General/ImageInput";
+import LoadingOverlay from "../../../components/General/LoadingOverlay";
+import {logout} from "../../../utilities/cookieAuth";
 import "./EditPage.css";
 
 // Button and modal that allows a user to edit a page
