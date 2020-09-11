@@ -1,6 +1,7 @@
 import React, {useState, useEffect, Fragment} from "react";
 import {Card as CardBS} from "react-bootstrap";
 import {isGraphic} from "../../utilities/itemType";
+import PlaceHolder from "./PlaceHolder";
 import EditCard from "./EditCard";
 import ReviewCard from "./ReviewCard";
 import BasicItems from "./BasicItems";
@@ -198,14 +199,17 @@ function Card(props) {
                   setCheck={(check, itemId) => props.setCheck(check, itemId, props.card.cardId)}
                 />
               ) : (
-                <BasicItems
-                  items={items}
-                  mode={props.mode}
-                  publicMode={props.publicMode}
-                  handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
-                  reviewing={false}
-                  setCheck={(check, itemId) => props.setCheck(check, itemId, props.card.cardId)}
-                />
+                <Fragment>
+                  <BasicItems
+                    items={items}
+                    mode={props.mode}
+                    publicMode={props.publicMode}
+                    handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+                    reviewing={false}
+                    setCheck={(check, itemId) => props.setCheck(check, itemId, props.card.cardId)}
+                  />
+                  <PlaceHolder type={0} />
+                </Fragment>
               )}
             </Fragment>
           )}
