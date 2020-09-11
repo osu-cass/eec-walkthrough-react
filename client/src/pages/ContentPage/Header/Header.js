@@ -1,12 +1,12 @@
 import React, {useEffect, useState, Fragment} from "react";
 import PropTypes from "prop-types";
-import {logout} from "../../utilities/cookieAuth";
+import {logout} from "../../../utilities/cookieAuth";
 import EditHeader from "./EditHeader";
 import ReviewHeader from "./ReviewHeader";
 import FilterBar from "./FilterBar";
-import OrderObjectButton from "./OrderObjectButton";
-import PageOther from "./PageOther";
-import Card from "./Card";
+import OrderObjectButton from "../Various/OrderObjectButton";
+import OtherButton from "../Various/OtherButton";
+import Card from "../Card/Card";
 import "./Header.css";
 
 // Header that contains some number of cards
@@ -644,7 +644,7 @@ function Header(props) {
                     approved={props.header.approved}
                     publishedMode={props.publishedMode}
                   />
-                  <PageOther
+                  <OtherButton
                     role={props.role}
                     mode={props.mode}
                     onPageMode={e => props.onPageMode(e)}
@@ -686,7 +686,7 @@ function Header(props) {
                       header={props.header}
                       handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                     />
-                    <PageOther
+                    <OtherButton
                       role={props.role}
                       mode={props.mode}
                       onPageMode={e => props.onPageMode(e)}

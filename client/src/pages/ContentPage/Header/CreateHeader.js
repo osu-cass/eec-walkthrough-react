@@ -1,8 +1,8 @@
 import React from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import PropTypes from "prop-types";
-import {logout} from "../../utilities/cookieAuth";
-import Error from "../../components/General/Error";
+import {logout} from "../../../utilities/cookieAuth";
+import Error from "../../../components/General/Error";
 import "./CreateHeader.css";
 
 // Create header button and modal

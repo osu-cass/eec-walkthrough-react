@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import {Modal} from "react-bootstrap";
 import PropTypes from "prop-types";
 
 // Modal for holding images
-function VerticallyCenteredModal(props) {
-  const [expand, setExpand] = React.useState(false);
+function ImageModal(props) {
+  const [expand, setExpand] = useState(false);
 
   return (
     <Modal
@@ -31,9 +31,9 @@ function VerticallyCenteredModal(props) {
     </Modal>
   );
 }
-export default VerticallyCenteredModal;
+export default ImageModal;
 
-VerticallyCenteredModal.propTypes = {
+ImageModal.propTypes = {
   url: PropTypes.string.isRequired,
   header: PropTypes.string
 };

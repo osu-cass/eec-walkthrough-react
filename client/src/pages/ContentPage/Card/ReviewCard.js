@@ -1,14 +1,14 @@
 import React, {useState, useEffect, Fragment} from "react";
 import {Modal, Button, Row} from "react-bootstrap";
-import {getProfile, logout} from "../../utilities/cookieAuth";
-import {isGraphic} from "../../utilities/itemType";
+import {getProfile, logout} from "../../../utilities/cookieAuth";
+import {isGraphic} from "../../../utilities/itemType";
 import PropTypes from "prop-types";
 import BasicItems from "./BasicItems";
 import ThumbnailGallery from "./ThumbnailGallery";
-import HighlightText from "./HighlightText";
-import {formatTime} from "../../utilities/formatTime";
-import Error from "../../components/General/Error";
-import AddReviewObject from "./AddReviewObject";
+import HighlightText from "../Various/HighlightText";
+import {formatTime} from "../../../utilities/formatTime";
+import Error from "../../../components/General/Error";
+import AddReviewObject from "../Various/AddReviewObject";
 import "./ReviewCard.css";
 
 // Button and modal that allows a user to review a card

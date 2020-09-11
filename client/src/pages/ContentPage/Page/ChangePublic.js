@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Button} from "react-bootstrap";
 import PropTypes from "prop-types";
-import {setPublic} from "../../utilities/publicMode";
+import {setPublic} from "../../../utilities/publicMode";
 
 // Button that toggles viewing internal content and viewing public content
 function ChangePublic(props) {

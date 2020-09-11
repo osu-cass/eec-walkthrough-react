@@ -1,8 +1,8 @@
 import React, {Fragment} from "react";
-import Image from "./Image";
+import Image from "../Various/Image";
 import PropTypes from "prop-types";
 import Source from "./Source";
-import {formatTime} from "../../utilities/formatTime";
+import {formatTime} from "../../../utilities/formatTime";
 import LinkAccessButtons from "./LinkAccessButtons";
 import "./BulletPoint.css";
 

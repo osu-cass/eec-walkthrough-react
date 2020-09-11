@@ -1,15 +1,15 @@
 import React, {useEffect, useState, Fragment} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
-import {logout} from "../../utilities/cookieAuth";
-import {getAgreement} from "../../utilities/agreementMode";
-import Agreement from "../../components/General/Agreement";
+import {logout} from "../../../utilities/cookieAuth";
+import {getAgreement} from "../../../utilities/agreementMode";
+import Agreement from "../../../components/General/Agreement";
 import AddButton from "./AddButton";
 import ItemInput from "./ItemInput";
 import IconDropdown from "./IconDropdown";
-import Toast from "../../components/General/Toast";
+import Toast from "../../../components/General/Toast";
 import Indent from "./Indent";
 import PropTypes from "prop-types";
-import Error from "../../components/General/Error";
+import Error from "../../../components/General/Error";
 import "./ConstructCardModal.css";
 
 // Modal used for creating and editing cards

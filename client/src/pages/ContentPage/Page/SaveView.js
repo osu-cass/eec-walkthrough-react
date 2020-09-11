@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
-import Error from "../../components/General/Error";
+import Error from "../../../components/General/Error";
 import PropTypes from "prop-types";
 
 // Button and modal that allows saving view settings

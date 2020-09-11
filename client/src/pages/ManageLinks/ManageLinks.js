@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import LinkSearchForm from "./LinkSearchForm";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {formatTime} from "../../utilities/formatTime";
-import LinkAccessButtons from "../ContentPage/LinkAccessButtons";
+import LinkAccessButtons from "../ContentPage/Card/LinkAccessButtons";
 import EditLinks from "./EditLinks";
 import "./ManageLinks.css";
 

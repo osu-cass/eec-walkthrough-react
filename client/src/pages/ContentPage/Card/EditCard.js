@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Button} from "react-bootstrap";
-import {getProfile} from "../../utilities/cookieAuth";
+import {getProfile} from "../../../utilities/cookieAuth";
 import ConstructCardModal from "./ConstructCardModal";
 import PropTypes from "prop-types";
 

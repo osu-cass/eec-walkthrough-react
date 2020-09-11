@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import PropTypes from "prop-types";
-import Error from "../../components/General/Error";
-import LoadingOverlay from "../../components/General/LoadingOverlay";
-import {logout} from "../../utilities/cookieAuth";
+import Error from "../../../components/General/Error";
+import LoadingOverlay from "../../../components/General/LoadingOverlay";
+import {logout} from "../../../utilities/cookieAuth";
 import "./EditHeader.css";
 
 // Button and modal that allows a user to edit a header

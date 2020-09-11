@@ -1,6 +1,6 @@
 import React, {useState, Fragment} from "react";
 import Button from "react-bootstrap/Button";
-import {getProfile} from "../../utilities/cookieAuth";
+import {getProfile} from "../../../utilities/cookieAuth";
 
 import PropTypes from "prop-types";
 
