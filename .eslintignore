@@ -1,7 +1,5 @@
 client/build/*
 client/public/*
-node_modules
-client/node_modules
 *.json
 *.css
 *.css.map
@@ -15,3 +13,6 @@ client/node_modules
 *.chunk.js.LICENSE
 *.env
 *.sql
+*.pdf
+*.tex
+*.md

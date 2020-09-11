@@ -623,79 +623,79 @@ function Header(props) {
               </h4>
             </div>
 
-                {props.mode === 2 ? (
-                  <div className="col">
-                    <div className="btn-group align-self-center float-right">
-                      <OrderObjectButton
-                        up={true}
-                        header={true}
-                        objectId={props.header.headerId}
-                        handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                        edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                        approved={props.header.approved}
-                        publishedMode={props.publishedMode}
-                      />
-                      <OrderObjectButton
-                        up={false}
-                        header={true}
-                        objectId={props.header.headerId}
-                        handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                        edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                        approved={props.header.approved}
-                        publishedMode={props.publishedMode}
-                      />
-                      <PageOther
-                        role={props.role}
-                        mode={props.mode}
-                        onPageMode={e => props.onPageMode(e)}
-                        moved={props.moved}
-                      />
-                    </div>
+            {props.mode === 2 ? (
+              <div className="col">
+                <div className="btn-group align-self-center float-right">
+                  <OrderObjectButton
+                    up={true}
+                    header={true}
+                    objectId={props.header.headerId}
+                    handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                    edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                    approved={props.header.approved}
+                    publishedMode={props.publishedMode}
+                  />
+                  <OrderObjectButton
+                    up={false}
+                    header={true}
+                    objectId={props.header.headerId}
+                    handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                    edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                    approved={props.header.approved}
+                    publishedMode={props.publishedMode}
+                  />
+                  <PageOther
+                    role={props.role}
+                    mode={props.mode}
+                    onPageMode={e => props.onPageMode(e)}
+                    moved={props.moved}
+                  />
+                </div>
+              </div>
+            ) : (
+              <Fragment>
+                <div className="col filter-col align-self-center px-0">
+                  <div className="btn-group align-self-center float-right filter-div">
+                    <FilterBar
+                      headerId={props.header.headerId}
+                      updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
+                      resetIcons={() => props.resetIcons(props.header.headerId)}
+                      clearIcons={() => props.clearIcons(props.header.headerId)}
+                      filterIcons={filterIcons}
+                      tempFilterIcons={tempFilterIcons}
+                      filterShow={filterShow}
+                      iconSet={props.iconSet}
+                      mode={props.mode}
+                      showToggle={opportunitiesExist}
+                      toggled={opportunityFilterMode}
+                      showFilter={() => props.showFilter()}
+                      show={props.show}
+                    />
                   </div>
-                ) : (
-                  <Fragment>
-                    <div className="col filter-col align-self-center px-0">
-                      <div className="btn-group align-self-center float-right filter-div">
-                      <FilterBar
-                        headerId={props.header.headerId}
-                        updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
-                        resetIcons={() => props.resetIcons(props.header.headerId)}
-                        clearIcons={() => props.clearIcons(props.header.headerId)}
-                        filterIcons={filterIcons}
-                        tempFilterIcons={tempFilterIcons}
-                        filterShow={filterShow}
-                        iconSet={props.iconSet}
-                        mode={props.mode}
-                        showToggle={opportunitiesExist}
-                        toggled={opportunityFilterMode}
-                        showFilter={() => props.showFilter()}
-                        show={props.show}
-                      />
-                      </div>
-                    </div>
-                    <div className="col-auto align-self-center pl-0">
-                      <div className="btn-group align-self-center float-right">
-                        <EditHeader
-                          mode={props.mode}
-                          header={props.header}
-                          role={props.role}
-                          handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                        />
-                        <ReviewHeader
-                          mode={props.mode}
-                          header={props.header}
-                          handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                        />
-                        <PageOther
-                          role={props.role}
-                          mode={props.mode}
-                          onPageMode={e => props.onPageMode(e)}
-                          moved={props.moved}
-                        />
-                      </div>
-                    </div>
-                  </Fragment>
-                )}
+                </div>
+                <div className="col-auto align-self-center pl-0">
+                  <div className="btn-group align-self-center float-right">
+                    <EditHeader
+                      mode={props.mode}
+                      header={props.header}
+                      role={props.role}
+                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                    />
+                    <ReviewHeader
+                      mode={props.mode}
+                      header={props.header}
+                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                    />
+                    <PageOther
+                      role={props.role}
+                      mode={props.mode}
+                      onPageMode={e => props.onPageMode(e)}
+                      moved={props.moved}
+                    />
+                  </div>
+                </div>
+              </Fragment>
+            )}
 
           </div>
         </div>
