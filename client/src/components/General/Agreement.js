@@ -10,7 +10,7 @@ function Agreement(props) {
   return (
     <div className="agreement-container text-center mx-2 my-auto">
 
-      <Modal show={props.show} onHide={() => props.closeModal()}>
+      <Modal show={props.show} onHide={() => props.closeModal()} backdropClassName="agreement-modal">
 
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">{props.agreementTitle}</h5>
