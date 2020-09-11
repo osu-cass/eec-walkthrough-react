@@ -23,9 +23,9 @@ function FilterBar(props) {
     function updateWindowDimensions() {
       setHasOverflow(checkForOverflow(ref));
       setScrollLimits();
-    };
+    }
     window.addEventListener("resize", updateWindowDimensions);
-    return () => window.removeEventListener("resize", updateWindowDimensions) 
+    return () => window.removeEventListener("resize", updateWindowDimensions);
   }, []);
 
   // check if the filter bar is overflowing
