@@ -26,12 +26,14 @@ function FilterBar(props) {
     }
     window.addEventListener("resize", updateWindowDimensions);
     return () => window.removeEventListener("resize", updateWindowDimensions);
+    // eslint-disable-next-line
   }, []);
 
   // check if the filter bar is overflowing
   useEffect(() => {
     setHasOverflow(checkForOverflow(ref));
     setScrollLimits();
+    // eslint-disable-next-line
   }, [ref.current, props.show]);
 
   // checks if the filter bar has been hidden/shown and resets the scrollbar
@@ -39,6 +41,7 @@ function FilterBar(props) {
     resetScroll();
     setCanScrollLeft(false);
     setCanScrollRight(true);
+    // eslint-disable-next-line
   }, [props.show]);
 
   // check if we should be scrolling each second
@@ -54,6 +57,7 @@ function FilterBar(props) {
       }, 50);
       return () => clearInterval(interval);
     }
+    // eslint-disable-next-line
   }, [scroll]);
 
   // get an array of the icon names that match the filter icon IDs
