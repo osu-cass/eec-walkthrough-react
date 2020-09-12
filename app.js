@@ -2,6 +2,7 @@
 // Description: handles server functions and setup
 
 console.log("Server JavaScript start");
+console.log("Running in ", process.env.NODE_ENV, "mode");
 
 // setup database connection and routing
 require("dotenv").config({silent: process.env.NODE_ENV === "production"});
