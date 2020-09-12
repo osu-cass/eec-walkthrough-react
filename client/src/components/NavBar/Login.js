@@ -3,6 +3,7 @@ import {Form} from "react-bootstrap";
 import LoadingOverlay from "../General/LoadingOverlay";
 import {withRouter} from "react-router-dom";
 import Error from "../General/Error";
+import {APIURL} from "../../utilities/constants";
 import "./Login.css";
 
 // login button, acts as the logout button when a user is already logged in
@@ -36,12 +37,8 @@ function Login (props) {
         password: password
       };
 
-      // construct the request url
-      const postUrl = "/api/users/login";
-      let obj = [];
-
       // make the request
-      const results = await fetch(postUrl, {
+      const results = await fetch(`${APIURL}/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -51,7 +48,7 @@ function Login (props) {
 
       if (results.ok) {
 
-        obj = await results.json();
+        const obj = await results.json();
 
         // hide the modal, pass login state up to navbar, and return to the homepage
         $("#loginModal").modal("hide");
@@ -60,7 +57,7 @@ function Login (props) {
 
       } else {
 
-        obj = await results.json();
+        const obj = await results.json();
 
         if (results.status === 400 && typeof obj.error !== "undefined") {
           setErrorMessage(obj.error);

@@ -7,6 +7,7 @@ import {getAgreement} from "../../../utilities/agreementMode";
 import ImageInput from "../../../components/General/ImageInput";
 import LoadingOverlay from "../../../components/General/LoadingOverlay";
 import {logout} from "../../../utilities/cookieAuth";
+import {APIURL} from "../../../utilities/constants";
 import "./EditPage.css";
 
 // Button and modal that allows a user to edit a page
@@ -42,7 +43,7 @@ function EditPage(props) {
   // When the page is first loaded, go ahead and fetch all of the category types
   useEffect(() => {
     async function fetchNames() {
-      const results = await fetch(`/api/categories/names`);
+      const results = await fetch(`${APIURL}/categories/names`);
 
       if (results.ok) {
 
@@ -159,7 +160,7 @@ function EditPage(props) {
     if (imageUpload !== null) {
       const formData = new FormData();
       formData.append("image", imageUpload);
-      const results = await fetch("/api/files/single", {
+      const results = await fetch(`${APIURL}/files/single`, {
         method: "POST",
         body: formData
       });
@@ -189,7 +190,7 @@ function EditPage(props) {
       pageType: newPageType
     };
 
-    const results = await fetch(`/api/pages/${props.page.pageId}`, {
+    const results = await fetch(`${APIURL}/pages/${props.page.pageId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
@@ -291,7 +292,7 @@ function EditPage(props) {
   async function deletePage() {
     setShowLoad(true);
 
-    const results = await fetch(`/api/pages/${props.page.pageId}`, {
+    const results = await fetch(`${APIURL}/pages/${props.page.pageId}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });

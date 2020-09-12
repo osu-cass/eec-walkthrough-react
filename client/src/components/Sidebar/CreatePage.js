@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
+import {APIURL} from "../../utilities/constants";
 import Agreement from "../General/Agreement";
 import {getAgreement} from "../../utilities/agreementMode";
 import PropTypes from "prop-types";
@@ -59,7 +60,7 @@ function CreatePage(props) {
     if (imageUpload !== null) {
       const formData = new FormData();
       formData.append("image", imageUpload);
-      const results = await fetch("/api/files/single", {
+      const results = await fetch(`${APIURL}/files/single`, {
         method: "POST",
         body: formData
       });
@@ -97,7 +98,7 @@ function CreatePage(props) {
     };
 
     // Create new page
-    const results = await fetch("/api/pages/", {
+    const results = await fetch(`${APIURL}/pages/`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)

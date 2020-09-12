@@ -3,6 +3,7 @@ import {getProfile, logout} from "../../utilities/cookieAuth";
 import {getMode} from "../../utilities/pageMode";
 import {getPublic} from "../../utilities/publicMode";
 import {getPublished} from "../../utilities/publishedMode";
+import {APIURL} from "../../utilities/constants";
 import {getFilterShow, setFilterShow} from "../../utilities/filterMode";
 import Header from "./Header/Header";
 import PageDescription from "./Page/PageDescription";
@@ -75,7 +76,7 @@ function ContentPage(props) {
     setLoaded(false);
 
     // Fetch all icons
-    let results = await fetch(`/api/icons/all`);
+    let results = await fetch(`${APIURL}/icons/all`);
 
     if (results.ok) {
       obj = await results.json();
@@ -86,7 +87,7 @@ function ContentPage(props) {
     }
 
     // Fetch all card titles
-    results = await fetch(`/api/cards/titles`);
+    results = await fetch(`${APIURL}/cards/titles`);
     if (results.ok) {
       obj = await results.json();
       setCardTitles(obj.titles);
@@ -96,7 +97,7 @@ function ContentPage(props) {
     }
 
     // Fetch page info
-    results = await fetch(`/api/pages/${pageId}/all`);
+    results = await fetch(`${APIURL}/pages/${pageId}/all`);
 
     if (results.ok) {
       obj = await results.json();
@@ -381,7 +382,7 @@ function ContentPage(props) {
     const direction = up ? 1 : 0;
 
     // send our move to the API
-    const results = await fetch(`/api/headers/${headerId}/move/${direction}/${mode}`, {
+    const results = await fetch(`${APIURL}/headers/${headerId}/move/${direction}/${mode}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"}
     });

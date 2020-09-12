@@ -3,6 +3,7 @@ import SidebarCollection from "./SidebarCollection";
 import SidebarToggleView from "./SidebarToggleView";
 import Instructions from "./Instructions";
 import {getProfile} from "../../utilities/cookieAuth";
+import {APIURL} from "../../utilities/constants";
 import CreateCategory from "./CreateCategory";
 import CreatePage from "./CreatePage";
 import PropTypes from "prop-types";
@@ -62,7 +63,7 @@ function Sidebar(props) {
 
   // fetch all category data
   async function fetchData() {
-    const results = await fetch("/api/categories/all");
+    const results = await fetch(`${APIURL}/categories/all`);
     if (results.ok) {
       const obj = await results.json();
 

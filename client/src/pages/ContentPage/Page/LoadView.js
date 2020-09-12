@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import Error from "../../../components/General/Error";
+import {APIURL} from "../../../utilities/constants";
 import PropTypes from "prop-types";
 
 // Button and modal that allows loading view settings
@@ -26,7 +27,7 @@ function LoadView(props) {
     if (newModal) {
 
       // Fetch the views for this page
-      const results = await fetch(`/api/views/page/${props.pageId}`);
+      const results = await fetch(`${APIURL}/views/page/${props.pageId}`);
 
       if (results.ok) {
 
@@ -84,7 +85,7 @@ function LoadView(props) {
 
     // delete the view
     if (window.confirm(`Are you sure you want to delete the "${viewName}" view?`)) {
-      const results = await fetch(`/api/views/${viewId}`, {
+      const results = await fetch(`${APIURL}/views/${viewId}`, {
         method: "DELETE",
         headers: {"Content-Type": "application/json"}
       });
@@ -94,7 +95,7 @@ function LoadView(props) {
         setErrorMessage("");
 
         // reload the view list
-        const results = await fetch(`/api/views/page/${props.pageId}`);
+        const results = await fetch(`${APIURL}/views/page/${props.pageId}`);
 
         if (results.ok) {
 

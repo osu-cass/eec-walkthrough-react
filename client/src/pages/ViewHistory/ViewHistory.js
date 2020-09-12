@@ -2,6 +2,7 @@ import React, {useState, Fragment} from "react";
 import HistorySearchForm from "./HistorySearchForm";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
+import {APIURL} from "../../utilities/constants";
 import ReportPage from "./ReportPage";
 import ReportPageRemove from "./ReportPageRemove";
 import ReportHeader from "./ReportHeader";
@@ -36,7 +37,7 @@ function ViewHistory() {
     // get the current time offset from UTC
     const offset = new Date().getTimezoneOffset();
     // Fetch report data
-    const results = await fetch(`/api/pages/report/${start}/${end}/${offset}/${mode}`);
+    const results = await fetch(`${APIURL}/pages/report/${start}/${end}/${offset}/${mode}`);
     if (results.ok) {
 
       const obj = await results.json();

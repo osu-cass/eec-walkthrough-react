@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import {APIURL} from "../../utilities/constants";
 import PageSearchResults from "./PageSearchResults";
 import {useParams, withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
@@ -60,18 +61,13 @@ function Search(props) {
         textValue = searchFields.textValue;
       }
 
-      // construct the request url
-      const getUrl = `/api/pages/search/${textValue}` +
-        `/${cursor.primary}/${cursor.secondary}`;
-      let obj = [];
-
       // get our search results
-      const results = await fetch(getUrl);
+      const results = await fetch(`${APIURL}/pages/search/${textValue}/${cursor.primary}/${cursor.secondary}`);
 
       if (results.ok) {
 
         // if the cursor is new then we will want to relist pages
-        obj = await results.json();
+        const obj = await results.json();
 
         // add a search link to each new page
         for (let i = 0; i < obj.pages.length; i++) {

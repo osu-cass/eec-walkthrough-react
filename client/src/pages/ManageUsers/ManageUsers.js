@@ -4,6 +4,7 @@ import UserSearchResults from "./UserSearchResults";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import Container from "react-bootstrap/Container";
 import {logout} from "../../utilities/cookieAuth";
+import {APIURL} from "../../utilities/constants";
 
 // manage users page
 function ManageUsers() {
@@ -79,9 +80,8 @@ function ManageUsers() {
         }
 
         // construct the request url
-        const getUrl = `/api/users/search/${textValue}/${roleValue}/` +
+        const getUrl = `${APIURL}/users/search/${textValue}/${roleValue}/` +
           `${sortValue}/${orderValue}/${cursor.primary}/${cursor.secondary}`;
-        let obj = {};
 
         // get our search results
         const results = await fetch(getUrl);
@@ -89,7 +89,7 @@ function ManageUsers() {
         if (results.ok) {
 
           // if the cursor is new then we will want to relist users
-          obj = await results.json();
+          const obj = await results.json();
 
           if (cursor.primary === "null") {
             setUsers([...obj.users]);
@@ -100,7 +100,7 @@ function ManageUsers() {
 
         } else {
 
-          obj = await results.json();
+          const obj = await results.json();
 
           // there was an error while attempting to search
           if (results.status === 404) {

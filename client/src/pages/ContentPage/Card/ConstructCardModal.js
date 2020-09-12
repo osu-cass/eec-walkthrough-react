@@ -2,6 +2,7 @@ import React, {useEffect, useState, Fragment} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../../utilities/cookieAuth";
 import {getAgreement} from "../../../utilities/agreementMode";
+import {APIURL} from "../../../utilities/constants";
 import Agreement from "../../../components/General/Agreement";
 import AddButton from "./AddButton";
 import ItemInput from "./ItemInput";
@@ -325,7 +326,7 @@ function ConstructCardModal(props) {
       for (let i = 0; i < uploadImages.length; i++) {
         formData.append("images", uploadImages[i]);
       }
-      const results = await fetch("/api/files/bulk", {
+      const results = await fetch(`${APIURL}/files/bulk`, {
         method: "POST",
         body: formData
       });
@@ -370,7 +371,7 @@ function ConstructCardModal(props) {
     };
 
     // Create the new card
-    const results = await fetch(`/api/cards`, {
+    const results = await fetch(`${APIURL}/cards`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(cardData)
@@ -485,7 +486,7 @@ function ConstructCardModal(props) {
       for (let i = 0; i < uploadImages.length; i++) {
         formData.append("images", uploadImages[i]);
       }
-      const results = await fetch("/api/files/bulk", {
+      const results = await fetch(`${APIURL}/files/bulk`, {
         method: "POST",
         body: formData
       });
@@ -529,7 +530,7 @@ function ConstructCardModal(props) {
     };
 
     // Edit card
-    const results = await fetch(`/api/cards/${props.card.cardId}`, {
+    const results = await fetch(`${APIURL}/cards/${props.card.cardId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(cardData)
@@ -678,7 +679,7 @@ function ConstructCardModal(props) {
   // Delete the current card
   async function deleteCard() {
     // Send call to backend to delete card
-    const results = await fetch(`/api/cards/${props.card.cardId}`, {
+    const results = await fetch(`${APIURL}/cards/${props.card.cardId}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });

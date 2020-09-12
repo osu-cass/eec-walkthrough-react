@@ -1,6 +1,7 @@
 import React, {useState, Fragment} from "react";
 import Button from "react-bootstrap/Button";
 import {getProfile} from "../../../utilities/cookieAuth";
+import {APIURL} from "../../../utilities/constants";
 
 import PropTypes from "prop-types";
 
@@ -18,10 +19,7 @@ function LinkAccessButtons(props) {
       deadLink: deadLink
     };
 
-    // construct the request url
-    const patchUrl = `/api/links/${props.itemId}/timestamp`;
-
-    const results = await fetch(patchUrl, {
+    const results = await fetch(`${APIURL}/links/${props.itemId}/timestamp`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Error from "../../../components/General/Error";
 import LoadingOverlay from "../../../components/General/LoadingOverlay";
 import {logout} from "../../../utilities/cookieAuth";
+import {APIURL} from "../../../utilities/constants";
 import "./EditHeader.css";
 
 // Button and modal that allows a user to edit a header
@@ -59,7 +60,7 @@ function EditHeader(props) {
       internal: internal
     };
 
-    const results = await fetch(`/api/headers/${props.header.headerId}`, {
+    const results = await fetch(`${APIURL}/headers/${props.header.headerId}`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
@@ -138,7 +139,7 @@ function EditHeader(props) {
   async function deleteHeader() {
     setShowLoad(true);
 
-    const results = await fetch(`/api/headers/${props.header.headerId}`, {
+    const results = await fetch(`${APIURL}/headers/${props.header.headerId}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });
