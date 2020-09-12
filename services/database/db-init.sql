@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Sep 10, 2020 at 01:04 PM
+-- Generation Time: Sep 12, 2020 at 01:32 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -168,7 +168,8 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (211, 63, 2, 1, 'Ventilation Improvements', 52, '2020-09-09 19:06:46', 0),
 (212, 63, 2, 3, 'Reduce Material Losses', 52, '2020-09-09 19:36:40', 0),
 (213, 63, 0, 4, 'Increase welding efficiency', 52, '2020-09-09 21:27:30', 0),
-(214, 63, 2, 2, 'Increase Spray/Paint Booth Efficiency', 52, '2020-09-10 17:01:56', 0);
+(214, 63, 2, 2, 'Increase Spray/Paint Booth Efficiency', 52, '2020-09-10 17:01:56', 0),
+(215, 63, 2, 215, 'Reduce Compressed Air Leaks', 52, '2020-09-10 20:11:02', 0);
 
 -- --------------------------------------------------------
 
@@ -1877,7 +1878,10 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5768, 214, 0, 0, 11, 'Install an air-to-fuel ratio control unit', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0),
 (5769, 214, 0, 1, 3, 'This may reduce energy consumption associated with combustion by 5-15% depending on demand', '', '', 0, 0, 13, '2020-09-10 19:31:45', 0),
 (5770, 214, 0, 0, 11, 'Install activated carbon filters to remove VOCs from the exhaust stream', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0),
-(5771, 214, 0, 1, 26, 'Activated carbon filters capture and concentrate VOCs from the exhaust stream reducing the amount of air that must be treated by incineration', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0);
+(5771, 214, 0, 1, 26, 'Activated carbon filters capture and concentrate VOCs from the exhaust stream reducing the amount of air that must be treated by incineration', '', '', 0, 0, 0, '2020-09-10 19:31:45', 0),
+(5775, 215, 0, 0, 11, 'Replace the pistons on stamping die cushions with air actuators', '', '', 0, 0, 0, '2020-09-10 20:11:21', 0),
+(5776, 215, 0, 1, 13, 'Die cushions on large stamping presses are used to support inserts in the lower die.', '', '', 0, 0, 13, '2020-09-10 20:11:21', 0),
+(5777, 215, 0, 1, 26, 'Die cushions can produce significant air leaks, up to 100 ft^3/min in some cases, after moderate use. Air actuators are more resilient and can operate without air leaks for over five years.', '', '', 0, 0, 13, '2020-09-10 20:11:21', 0);
 
 -- --------------------------------------------------------
 
@@ -2160,7 +2164,7 @@ CREATE TABLE `Users` (
 --
 
 INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `email`, `role`, `created`) VALUES
-(42, 'Silverware', 'd8e7859c74c2672a13a2388538143c99$631f9c78dbc16fbd3b013aa7903a8527cee7d46befeb496b7510b1dcb4ae95c0', 'Zachary', 'Thomas', 'thomasza@oregonstate.edu', 4, '2020-05-14 20:39:15'),
+(42, 'Silverware', 'd8e7859c74c2672a13a2388538143c99$631f9c78dbc16fbd3b013aa7903a8527cee7d46befeb496b7510b1dcb4ae95c0', 'Zachary', 'Thomas', 'silverware13@gmail.com', 4, '2020-05-14 20:39:15'),
 (47, 'rogrogrog', '8a3c5ecabadca6102a92052e5f6160d3$59606e43e8086a5cb735dfc87244f218638a629133558c6701390129ec8bb71a', 'rog', 'rog', 'rog@gmail.com', 3, '2020-06-01 20:39:15'),
 (51, 'JoeJunker', 'b755592eabbdac736d8c5907fa64fa11$fae30b426545c803420b3f7f0bd4f1e80fd99ea09336ea525c769ef7041d1679', 'Joe', 'Junker', 'joseph.f.junker@gmail.com', 4, '2020-06-02 20:39:15'),
 (52, 'mattye', 'bc8f2478b1eb8785d085b8c1512933f2$47ff478fcee9b0f829ed70012cd2c406ed67b7bae6708c855b9072ef8adb662b', 'Ethan', 'Matty', 'mattye.eec@gmail.com', 4, '2020-06-10 20:39:15'),
@@ -2375,7 +2379,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2429,7 +2433,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5772;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5778;
 
 --
 -- AUTO_INCREMENT for table `Pages`
