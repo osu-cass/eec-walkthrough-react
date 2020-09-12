@@ -5,6 +5,7 @@ import EditHome from "./EditHome";
 import ManageSponsors from "./ManageSponsors";
 import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import {APIURL} from "../../utilities/constants";
 import "./Home.css";
 
 // application homepage
@@ -52,7 +53,7 @@ function Home(props) {
     setLoading(true);
 
     // Fetch all icons
-    let results = await fetch(`/api/icons/all`);
+    let results = await fetch(`${APIURL}/icons/all`);
 
     if (results.ok) {
 
@@ -77,7 +78,7 @@ function Home(props) {
     }
 
     // Fetch all homepage content
-    results = await fetch(`/api/home`);
+    results = await fetch(`${APIURL}/home`);
 
     if (results.ok) {
 
@@ -89,7 +90,7 @@ function Home(props) {
     }
 
     // Fetch all sponsors
-    results = await fetch(`/api/home/sponsors`);
+    results = await fetch(`${APIURL}/home/sponsors`);
     if (results.ok) {
 
       const obj = await results.json();
