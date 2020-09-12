@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import LinkSearchForm from "./LinkSearchForm";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {formatTime} from "../../utilities/formatTime";
+import {APIURL} from "../../utilities/constants";
 import LinkAccessButtons from "../ContentPage/Card/LinkAccessButtons";
 import EditLinks from "./EditLinks";
 import "./ManageLinks.css";
@@ -45,7 +46,7 @@ function ManageLinks() {
     setLoading(true);
 
     // Fetch all links
-    const results = await fetch(`/api/links/all/${filter}`);
+    const results = await fetch(`${APIURL}/links/all/${filter}`);
 
     if (results.ok) {
 

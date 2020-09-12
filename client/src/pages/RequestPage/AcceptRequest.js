@@ -3,6 +3,7 @@ import {Button} from "react-bootstrap";
 import PropTypes from "prop-types";
 import {logout} from "../../utilities/cookieAuth";
 import {getProfile} from "../../utilities/cookieAuth";
+import {APIURL} from "../../utilities/constants";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 
 // Button that allows a user to accept a request
@@ -26,7 +27,7 @@ function AcceptRequest(props) {
     setLoading(true);
 
     // accept the request
-    const results = await fetch(`/api/requests/accept/${props.requestId}`, {
+    const results = await fetch(`${APIURL}/requests/accept/${props.requestId}`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });

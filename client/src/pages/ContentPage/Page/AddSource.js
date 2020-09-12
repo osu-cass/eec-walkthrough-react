@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Error from "../../../components/General/Error";
 import LoadingOverlay from "../../../components/General/LoadingOverlay";
 import {logout} from "../../../utilities/cookieAuth";
+import {APIURL} from "../../../utilities/constants";
 
 // Button and modal that allows users to manage sources for a given page
 function AddSource(props) {
@@ -18,7 +19,7 @@ function AddSource(props) {
   useEffect(() => {
     async function fetchSources() {
       setLoading(true);
-      const results = await fetch(`/api/sources/page/${props.pageId}`);
+      const results = await fetch(`${APIURL}/sources/page/${props.pageId}`);
 
       if (results.ok) {
 
@@ -130,7 +131,7 @@ function AddSource(props) {
       url: url
     };
 
-    const results = await fetch(`/api/sources/page/${props.pageId}`, {
+    const results = await fetch(`${APIURL}/sources/page/${props.pageId}`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
@@ -175,7 +176,7 @@ function AddSource(props) {
       sources: sources
     };
 
-    const results = await fetch(`/api/sources/all/page/${props.pageId}`, {
+    const results = await fetch(`${APIURL}/sources/all/page/${props.pageId}`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)

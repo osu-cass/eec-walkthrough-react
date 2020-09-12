@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {PropTypes} from "prop-types";
 import {formatRole} from "../../utilities/formatRole";
 import {logout} from "../../utilities/cookieAuth";
+import {APIURL} from "../../utilities/constants";
 import "./UserSelectRole.css";
 
 // dropdown menu for selecting a user's role
@@ -22,7 +23,6 @@ function UserSelectRole(props) {
 
       // the user confirmed that they wanted to change the role
       // so we will send a request to the API server
-      const patchURL = `/api/users/${props.userId}`;
       const patchObj = {
         role: select.value
       };
@@ -30,7 +30,7 @@ function UserSelectRole(props) {
       try {
 
         props.onLoading(true);
-        const results = await fetch(patchURL, {
+        const results = await fetch(`${APIURL}/users/${props.userId}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json"

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Card, Container} from "react-bootstrap";
 import {getProfile, changeUsername} from "../../utilities/cookieAuth";
+import {APIURL} from "../../utilities/constants";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import Error from "../../components/General/Error";
 import Success from "../../components/General/Success";
@@ -49,12 +50,8 @@ function EditUser(props) {
       // get current user info
       const currentUser = getProfile();
 
-      // construct the request url
-      const postUrl = `/api/users/${currentUser.userId}`;
-      let obj = [];
-
       // make the request
-      const results = await fetch(postUrl, {
+      const results = await fetch(`${APIURL}/users/${currentUser.userId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
@@ -64,7 +61,7 @@ function EditUser(props) {
 
       if (results.ok) {
 
-        obj = await results.json();
+        const obj = await results.json();
 
         if (obj.affectedRows) {
           setSuccessMessage("User data updated successfully.");
@@ -81,7 +78,7 @@ function EditUser(props) {
 
       } else {
 
-        obj = await results.json();
+        const obj = await results.json();
 
         if (results.status >= 400 && results.status < 500 && typeof obj.error !== "undefined") {
           setErrorMessage(obj.error);
@@ -116,16 +113,12 @@ function EditUser(props) {
         setActiveUser(true);
       }
 
-      // construct the request url
-      const getUrl = `/api/users/${currentUser.userId}`;
-      let obj = [];
-
       // make the request
-      const results = await fetch(getUrl);
+      const results = await fetch(`${APIURL}/users/${currentUser.userId}`);
 
       if (results.ok) {
 
-        obj = await results.json();
+        const obj = await results.json();
 
         // set the input fields to match the current user data
         document.getElementById("input-register-username").value = obj.username;

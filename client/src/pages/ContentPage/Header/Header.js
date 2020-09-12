@@ -1,6 +1,7 @@
 import React, {useEffect, useState, Fragment} from "react";
 import PropTypes from "prop-types";
 import {logout} from "../../../utilities/cookieAuth";
+import {APIURL} from "../../../utilities/constants";
 import EditHeader from "./EditHeader";
 import ReviewHeader from "./ReviewHeader";
 import FilterBar from "./FilterBar";
@@ -562,7 +563,7 @@ function Header(props) {
 
     // send our move to the API
     if (moved) {
-      const results = await fetch(`/api/cards/${cardId}/move/${direction}/${mode}`, {
+      const results = await fetch(`${APIURL}/cards/${cardId}/move/${direction}/${mode}`, {
         method: "PATCH",
         headers: {"Content-Type": "application/json"}
       });

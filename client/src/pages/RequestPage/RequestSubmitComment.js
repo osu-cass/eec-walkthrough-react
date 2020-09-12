@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {Card, Form, Button} from "react-bootstrap";
 import Error from "../../components/General/Error";
 import {logout} from "../../utilities/cookieAuth";
+import {APIURL} from "../../utilities/constants";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import "./RequestSubmitComment.css";
 
@@ -33,7 +34,7 @@ function RequestSubmitComment(props) {
     };
 
     // Create the new request
-    const results = await fetch(`/api/requests/comment/${props.requestId}`, {
+    const results = await fetch(`${APIURL}/requests/comment/${props.requestId}`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(commentData)

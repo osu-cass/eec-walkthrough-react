@@ -7,6 +7,7 @@ import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import ImageInput from "../../components/General/ImageInput";
 import {getProfile, logout} from "../../utilities/cookieAuth";
+import {APIURL} from "../../utilities/constants";
 import "./ManageSponsors.css";
 
 // Button and modal that allows a user to manage sponsors
@@ -70,7 +71,7 @@ function ManageSponsors(props) {
       for (let i = 0; i < uploadImages.length; i++) {
         formData.append("images", uploadImages[i]);
       }
-      const results = await fetch("/api/files/bulk", {
+      const results = await fetch(`${APIURL}/files/bulk`, {
         method: "POST",
         body: formData
       });
@@ -107,7 +108,7 @@ function ManageSponsors(props) {
       sponsors: copy
     };
 
-    const results = await fetch(`/api/home/sponsors`, {
+    const results = await fetch(`${APIURL}/home/sponsors`, {
       method: "PATCH",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)

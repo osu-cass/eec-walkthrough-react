@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {useParams, withRouter, Link} from "react-router-dom";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {formatTime} from "../../utilities/formatTime";
+import {APIURL} from "../../utilities/constants";
 import "./PageList.css";
 
 // lists pages for each section
@@ -47,14 +48,11 @@ function PageList() {
 
   // grabs and returns list of relevant pages
   async function getCategory() {
-    const getUrl = `/api/categories/${categoryId}`;
-    let obj = [];
-
-    const results = await fetch(getUrl);
+    const results = await fetch(`${APIURL}/categories/${categoryId}`);
 
     if (results.ok) {
 
-      obj = await results.json();
+      const obj = await results.json();
 
       setCategory(obj);
 

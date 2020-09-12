@@ -2,6 +2,7 @@ import React from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import PropTypes from "prop-types";
 import {logout} from "../../../utilities/cookieAuth";
+import {APIURL} from "../../../utilities/constants";
 import Error from "../../../components/General/Error";
 import "./CreateHeader.css";
 
@@ -39,7 +40,7 @@ class CreateHeader extends React.Component {
     };
 
     // Create new header
-    const results = await fetch("/api/headers/", {
+    const results = await fetch(`${APIURL}/headers/`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)

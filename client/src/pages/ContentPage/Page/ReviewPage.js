@@ -3,6 +3,7 @@ import {Modal, Button, Row} from "react-bootstrap";
 import {getProfile, logout} from "../../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import {formatTime} from "../../../utilities/formatTime";
+import {APIURL} from "../../../utilities/constants";
 import Error from "../../../components/General/Error";
 import Image from "../Various/Image";
 import HighlightText from "../Various/HighlightText";
@@ -28,7 +29,7 @@ function ReviewPage(props) {
   useEffect(() => {
 
     async function fetchPageTypes() {
-      const results = await fetch("/api/categories/all");
+      const results = await fetch(`${APIURL}/categories/all`);
       if (results.ok) {
         const obj = await results.json();
 
@@ -89,7 +90,7 @@ function ReviewPage(props) {
     }
 
     // Unpublish the page
-    const results = await fetch(`/api/pages/${props.page.pageId}/unpublish`, {
+    const results = await fetch(`${APIURL}/pages/${props.page.pageId}/unpublish`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });
@@ -154,7 +155,7 @@ function ReviewPage(props) {
     }
 
     // Approve the page
-    const results = await fetch(`/api/pages/${props.page.pageId}/publish`, {
+    const results = await fetch(`${APIURL}/pages/${props.page.pageId}/publish`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     });
@@ -245,7 +246,7 @@ function ReviewPage(props) {
     }
 
     // delete proposed changes
-    const results = await fetch(`/api/pages/${props.page.pageId}/changes`, {
+    const results = await fetch(`${APIURL}/pages/${props.page.pageId}/changes`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     });

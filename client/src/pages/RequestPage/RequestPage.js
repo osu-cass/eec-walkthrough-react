@@ -4,6 +4,7 @@ import LoadingOverlay from "../../components/General/LoadingOverlay";
 import RequestComment from "./RequestComment";
 import RequestSubmitComment from "./RequestSubmitComment";
 import {logout} from "../../utilities/cookieAuth";
+import {APIURL} from "../../utilities/constants";
 import ReportPage from "../ViewHistory/ReportPage";
 import ReportHeader from "../ViewHistory/ReportHeader";
 import ReportCard from "../ViewHistory/ReportCard";
@@ -41,7 +42,7 @@ function RequestPage() {
     setLoading(true);
 
     // Fetch all requests
-    const results = await fetch(`/api/requests/${requestId}`);
+    const results = await fetch(`${APIURL}/requests/${requestId}`);
 
     if (results.ok) {
 

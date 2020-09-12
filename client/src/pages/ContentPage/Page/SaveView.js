@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import Error from "../../../components/General/Error";
+import {APIURL} from "../../../utilities/constants";
 import PropTypes from "prop-types";
 
 // Button and modal that allows saving view settings
@@ -23,7 +24,7 @@ function SaveView(props) {
     if (newModal) {
 
       // Fetch the views for this page
-      const results = await fetch(`/api/views/page/${props.pageId}`);
+      const results = await fetch(`${APIURL}/views/page/${props.pageId}`);
 
       if (results.ok) {
 
@@ -80,7 +81,7 @@ function SaveView(props) {
     }
 
     // create the new view
-    const results = await fetch(`/api/views/page/${props.pageId}`, {
+    const results = await fetch(`${APIURL}/views/page/${props.pageId}`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(newViews)
@@ -91,7 +92,7 @@ function SaveView(props) {
       handleClose();
 
       // reload the view list
-      const results = await fetch(`/api/views/page/${props.pageId}`);
+      const results = await fetch(`${APIURL}/views/page/${props.pageId}`);
 
       if (results.ok) {
 

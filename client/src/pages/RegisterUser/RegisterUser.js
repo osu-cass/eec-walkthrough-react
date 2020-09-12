@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Card} from "react-bootstrap";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import Error from "../../components/General/Error";
+import {APIURL} from "../../utilities/constants";
 import validator from "validator";
 import "./RegisterUser.css";
 
@@ -25,12 +26,8 @@ function RegisterUser () {
         email: email
       };
 
-      // construct the request url
-      const postUrl = "/api/users";
-      let obj = [];
-
       // make the request
-      const results = await fetch(postUrl, {
+      const results = await fetch(`${APIURL}/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -40,14 +37,14 @@ function RegisterUser () {
 
       if (results.ok) {
 
-        obj = await results.json();
+        const obj = await results.json();
 
         // we have created the new user, return to the homepage
         window.location.href = "/";
 
       } else {
 
-        obj = await results.json();
+        const obj = await results.json();
 
         if (results.status === 403 && typeof obj.error !== "undefined") {
           setErrorMessage(obj.error);
