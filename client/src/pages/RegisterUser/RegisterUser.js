@@ -37,8 +37,6 @@ function RegisterUser () {
 
       if (results.ok) {
 
-        const obj = await results.json();
-
         // we have created the new user, return to the homepage
         window.location.href = "/";
 

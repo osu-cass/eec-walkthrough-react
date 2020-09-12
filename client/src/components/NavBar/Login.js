@@ -48,8 +48,6 @@ function Login (props) {
 
       if (results.ok) {
 
-        const obj = await results.json();
-
         // hide the modal, pass login state up to navbar, and return to the homepage
         $("#loginModal").modal("hide");
         props.onLogin();
