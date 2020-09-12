@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(express.json());
 
-// handle requests
+// handle api requests
 app.use("/api/files", require("./files"));
 app.use("/api/cards", require("./cards"));
 app.use("/api/headers", require("./headers"));
@@ -42,6 +42,15 @@ app.use("/api/users", require("./users"));
 app.use("/api/categories", require("./categories"));
 app.use("/api/views", require("./views"));
 app.use("/api/sources", require("./sources"));
+
+if (process.env.NODE_ENV === "production") {
+  // handle file requests
+  app.use(express.static(path.join("client/build", "build")));
+
+  app.get("/", function(req, res) {
+    res.sendFile(path.join("client/build", "build", "index.html"))
+  });
+}
 
 // unhandled requests get a 404 error
 app.all("/*", (req, res) => {
