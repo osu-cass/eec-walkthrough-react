@@ -43,15 +43,6 @@ app.use("/api/categories", require("./categories"));
 app.use("/api/views", require("./views"));
 app.use("/api/sources", require("./sources"));
 
-if (process.env.NODE_ENV === "production") {
-  // handle file requests
-  app.use(express.static(path.join("client/build", "build")));
-
-  app.get("/", function(req, res) {
-    res.sendFile(path.join("client/build", "build", "index.html"))
-  });
-}
-
 // unhandled requests get a 404 error
 app.all("/*", (req, res) => {
   console.error("404: File not found\n");
