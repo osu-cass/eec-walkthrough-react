@@ -46,10 +46,13 @@ app.use("/api/categories", require("./categories"));
 app.use("/api/views", require("./views"));
 app.use("/api/sources", require("./sources"));
 
-// unhandled requests get a 404 error
-app.all("/*", (req, res) => {
+// unhandled API requests get a 404 error
+app.all("/api/*", (req, res) => {
   console.error("404: File not found\n");
   res.status(404).send({error: "Not Found"});
 });
+
+// serve static files
+app.use(express.static(__dirname + "/client/build"));
 
 module.exports = app;
