@@ -1,14 +1,14 @@
 // File: app.js
 // Description: handles server functions and setup
 
-console.log("Server JavaScript start");
-console.log("Running in", process.env.NODE_ENV, "mode");
-
 // setup database connection and routing
 require("dotenv").config({silent: process.env.NODE_ENV === "production"});
 
 const {pool} = require("./services/database/mysqlPool");
 const app = require("./routes/index");
+
+console.log("Server JavaScript start");
+console.log("Running in", process.env.NODE_ENV, "mode");
 
 // confirm that connection was made to the database
 async function testConnection(pool, attempt, callback) {
