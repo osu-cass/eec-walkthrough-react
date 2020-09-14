@@ -21,9 +21,8 @@ function LinkAccessButtons(props) {
 
     const results = await fetch(`${APIURL}/links/${props.itemId}/timestamp`, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      credentials: "include",
+      headers: {"Content-Type": "application/json"},
       body: JSON.stringify(patchObj),
     });
 

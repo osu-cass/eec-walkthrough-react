@@ -24,9 +24,8 @@ function GeneratePassword(props) {
 
         const results = await fetch(`${APIURL}/users/${props.userId}/newPassword`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          }
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
         });
 
         if (results.ok) {

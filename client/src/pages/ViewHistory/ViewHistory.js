@@ -37,7 +37,12 @@ function ViewHistory() {
     // get the current time offset from UTC
     const offset = new Date().getTimezoneOffset();
     // Fetch report data
-    const results = await fetch(`${APIURL}/pages/report/${start}/${end}/${offset}/${mode}`);
+    const results = await fetch(`${APIURL}/pages/report/${start}/${end}/${offset}/${mode}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
     if (results.ok) {
 
       const obj = await results.json();

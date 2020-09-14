@@ -53,9 +53,8 @@ function EditUser(props) {
       // make the request
       const results = await fetch(`${APIURL}/users/${currentUser.userId}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        credentials: "include",
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(postObj),
       });
 
@@ -114,7 +113,11 @@ function EditUser(props) {
       }
 
       // make the request
-      const results = await fetch(`${APIURL}/users/${currentUser.userId}`);
+      const results = await fetch(`${APIURL}/users/${currentUser.userId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
 
       if (results.ok) {
 

@@ -29,7 +29,12 @@ function ReviewPage(props) {
   useEffect(() => {
 
     async function fetchPageTypes() {
-      const results = await fetch(`${APIURL}/categories/all`);
+      const results = await fetch(`${APIURL}/categories/all`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
+
       if (results.ok) {
         const obj = await results.json();
 
@@ -92,6 +97,7 @@ function ReviewPage(props) {
     // Unpublish the page
     const results = await fetch(`${APIURL}/pages/${props.page.pageId}/unpublish`, {
       method: "POST",
+      credentials: "include",
       headers: {"Content-Type": "application/json"}
     });
 
@@ -157,6 +163,7 @@ function ReviewPage(props) {
     // Approve the page
     const results = await fetch(`${APIURL}/pages/${props.page.pageId}/publish`, {
       method: "POST",
+      credentials: "include",
       headers: {"Content-Type": "application/json"}
     });
 
@@ -248,6 +255,7 @@ function ReviewPage(props) {
     // delete proposed changes
     const results = await fetch(`${APIURL}/pages/${props.page.pageId}/changes`, {
       method: "DELETE",
+      credentials: "include",
       headers: {"Content-Type": "application/json"}
     });
 

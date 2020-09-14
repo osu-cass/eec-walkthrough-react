@@ -61,6 +61,7 @@ function ReviewHeader(props) {
     // Unpublish the header
     const results = await fetch(`${APIURL}/headers/${props.header.headerId}/unpublish`, {
       method: "POST",
+      credentials: "include",
       headers: {"Content-Type": "application/json"}
     });
 
@@ -121,6 +122,7 @@ function ReviewHeader(props) {
     // Approve the header
     const results = await fetch(`${APIURL}/headers/${props.header.headerId}/publish`, {
       method: "POST",
+      credentials: "include",
       headers: {"Content-Type": "application/json"}
     });
 
@@ -204,6 +206,7 @@ function ReviewHeader(props) {
     // delete proposed changes
     const results = await fetch(`${APIURL}/headers/${props.header.headerId}/changes`, {
       method: "DELETE",
+      credentials: "include",
       headers: {"Content-Type": "application/json"}
     });
 

@@ -23,7 +23,11 @@ function ManageCardTitles() {
   async function fetchTitles() {
     setLoading(true);
 
-    const results = await fetch(`${APIURL}/cards/titles`);
+    const results = await fetch(`${APIURL}/cards/titles`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
 
     if (results.ok) {
       const obj = await results.json();
@@ -55,9 +59,8 @@ function ManageCardTitles() {
     // make the request
     const results = await fetch(`${APIURL}/cards/titles`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      credentials: "include",
+      headers: {"Content-Type": "application/json"},
       body: JSON.stringify(titles),
     });
 

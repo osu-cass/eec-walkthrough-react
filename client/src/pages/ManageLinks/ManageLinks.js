@@ -46,7 +46,11 @@ function ManageLinks() {
     setLoading(true);
 
     // Fetch all links
-    const results = await fetch(`${APIURL}/links/all/${filter}`);
+    const results = await fetch(`${APIURL}/links/all/${filter}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
 
     if (results.ok) {
 

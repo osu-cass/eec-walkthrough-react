@@ -565,6 +565,7 @@ function Header(props) {
     if (moved) {
       const results = await fetch(`${APIURL}/cards/${cardId}/move/${direction}/${mode}`, {
         method: "PATCH",
+        credentials: "include",
         headers: {"Content-Type": "application/json"}
       });
 

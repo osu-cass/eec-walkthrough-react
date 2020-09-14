@@ -57,6 +57,7 @@ function ConstructIconModal(props) {
     // Create the new icon
     const results = await fetch(`${APIURL}/icons`, {
       method: "POST",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(iconData)
     });
@@ -112,6 +113,7 @@ function ConstructIconModal(props) {
     // Edit icon
     const results = await fetch(`${APIURL}/icons/${props.icon.iconType}`, {
       method: "PATCH",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(iconData)
     });

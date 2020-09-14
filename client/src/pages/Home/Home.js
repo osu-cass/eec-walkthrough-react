@@ -53,7 +53,11 @@ function Home(props) {
     setLoading(true);
 
     // Fetch all icons
-    let results = await fetch(`${APIURL}/icons/all`);
+    let results = await fetch(`${APIURL}/icons/all`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
 
     if (results.ok) {
 
@@ -78,7 +82,11 @@ function Home(props) {
     }
 
     // Fetch all homepage content
-    results = await fetch(`${APIURL}/home`);
+    results = await fetch(`${APIURL}/home`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
 
     if (results.ok) {
 
@@ -90,7 +98,12 @@ function Home(props) {
     }
 
     // Fetch all sponsors
-    results = await fetch(`${APIURL}/home/sponsors`);
+    results = await fetch(`${APIURL}/home/sponsors`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
     if (results.ok) {
 
       const obj = await results.json();

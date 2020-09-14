@@ -42,6 +42,7 @@ function ConstructLinkModal(props) {
     // Edit link
     const results = await fetch(`${APIURL}/links/${props.link.itemId}`, {
       method: "PATCH",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(linkData)
     });

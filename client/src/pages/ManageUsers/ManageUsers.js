@@ -84,7 +84,11 @@ function ManageUsers() {
           `${sortValue}/${orderValue}/${cursor.primary}/${cursor.secondary}`;
 
         // get our search results
-        const results = await fetch(getUrl);
+        const results = await fetch(getUrl, {
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
 
         if (results.ok) {
 

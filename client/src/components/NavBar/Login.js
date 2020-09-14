@@ -52,9 +52,7 @@ function Login (props) {
         // hide the modal, pass login state up to navbar, and return to the homepage
         $("#loginModal").modal("hide");
         props.onLogin();
-        const obj = await results.json();
-        console.log(obj)
-        //props.history.push(`/`);
+        props.history.push(`/`);
 
       } else {
 

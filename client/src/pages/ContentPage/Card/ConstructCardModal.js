@@ -328,6 +328,7 @@ function ConstructCardModal(props) {
       }
       const results = await fetch(`${APIURL}/files/bulk`, {
         method: "POST",
+        credentials: "include",
         body: formData
       });
 
@@ -373,6 +374,7 @@ function ConstructCardModal(props) {
     // Create the new card
     const results = await fetch(`${APIURL}/cards`, {
       method: "POST",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(cardData)
     });
@@ -488,6 +490,7 @@ function ConstructCardModal(props) {
       }
       const results = await fetch(`${APIURL}/files/bulk`, {
         method: "POST",
+        credentials: "include",
         body: formData
       });
 
@@ -532,6 +535,7 @@ function ConstructCardModal(props) {
     // Edit card
     const results = await fetch(`${APIURL}/cards/${props.card.cardId}`, {
       method: "PATCH",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(cardData)
     });
@@ -681,6 +685,7 @@ function ConstructCardModal(props) {
     // Send call to backend to delete card
     const results = await fetch(`${APIURL}/cards/${props.card.cardId}`, {
       method: "DELETE",
+      credentials: "include",
       headers: {"Content-Type": "application/json"}
     });
 

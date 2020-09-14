@@ -62,7 +62,11 @@ function Search(props) {
       }
 
       // get our search results
-      const results = await fetch(`${APIURL}/pages/search/${textValue}/${cursor.primary}/${cursor.secondary}`);
+      const results = await fetch(`${APIURL}/pages/search/${textValue}/${cursor.primary}/${cursor.secondary}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
 
       if (results.ok) {
 

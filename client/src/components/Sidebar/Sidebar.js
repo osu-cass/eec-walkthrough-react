@@ -63,7 +63,12 @@ function Sidebar(props) {
 
   // fetch all category data
   async function fetchData() {
-    const results = await fetch(`${APIURL}/categories/all`);
+    const results = await fetch(`${APIURL}/categories/all`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
     if (results.ok) {
       const obj = await results.json();
 

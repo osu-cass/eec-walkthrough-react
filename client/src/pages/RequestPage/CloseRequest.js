@@ -32,6 +32,7 @@ function CloseRequest(props) {
     // delete the request
     const results = await fetch(`${APIURL}/requests/${props.requestId}`, {
       method: "DELETE",
+      credentials: "include",
       headers: {"Content-Type": "application/json"}
     });
 

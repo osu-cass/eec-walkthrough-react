@@ -27,7 +27,11 @@ function LoadView(props) {
     if (newModal) {
 
       // Fetch the views for this page
-      const results = await fetch(`${APIURL}/views/page/${props.pageId}`);
+      const results = await fetch(`${APIURL}/views/page/${props.pageId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
 
       if (results.ok) {
 
@@ -87,6 +91,7 @@ function LoadView(props) {
     if (window.confirm(`Are you sure you want to delete the "${viewName}" view?`)) {
       const results = await fetch(`${APIURL}/views/${viewId}`, {
         method: "DELETE",
+        credentials: "include",
         headers: {"Content-Type": "application/json"}
       });
 
@@ -95,7 +100,11 @@ function LoadView(props) {
         setErrorMessage("");
 
         // reload the view list
-        const results = await fetch(`${APIURL}/views/page/${props.pageId}`);
+        const results = await fetch(`${APIURL}/views/page/${props.pageId}`, {
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
 
         if (results.ok) {
 

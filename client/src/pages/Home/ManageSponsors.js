@@ -73,6 +73,7 @@ function ManageSponsors(props) {
       }
       const results = await fetch(`${APIURL}/files/bulk`, {
         method: "POST",
+        credentials: "include",
         body: formData
       });
 
@@ -110,6 +111,7 @@ function ManageSponsors(props) {
 
     const results = await fetch(`${APIURL}/home/sponsors`, {
       method: "PATCH",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
     });
