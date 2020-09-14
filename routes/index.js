@@ -53,6 +53,6 @@ app.all("/api/*", (req, res) => {
 });
 
 // serve static files
-app.use(express.static(__dirname + "/client/build"));
+// app.use(express.static(__dirname + "/client/build"));
 
 module.exports = app;
