@@ -40,10 +40,10 @@ function Login (props) {
       // make the request
       const results = await fetch(`${APIURL}/users/login`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json"
         },
-        credentials: "include",
         body: JSON.stringify(postObj),
       });
 
