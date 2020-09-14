@@ -143,29 +143,28 @@ function setAuthCookie(res, token, username, userId, role) {
     res.setHeader("Set-Cookie", [
       cookie.serialize("username_ck", username, {
         path: "/",
-        sameSite: false,
+        sameSite: true,
         secure: true,
         expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
         maxAge: COOKIE_EXPIRES_MS / 1000,
       }),
       cookie.serialize("userId_ck", userId, {
         path: "/",
-        sameSite: false,
+        sameSite: true,
         secure: true,
         expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
         maxAge: COOKIE_EXPIRES_MS / 1000,
       }),
       cookie.serialize("role_ck", role, {
         path: "/",
-        sameSite: false,
+        sameSite: true,
         secure: true,
         expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
         maxAge: COOKIE_EXPIRES_MS / 1000,
       }),
       cookie.serialize("auth_ck", token, {
         path: "/",
-        httpOnly: true,
-        sameSite: false,
+        sameSite: true,
         secure: true,
         expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
         maxAge: COOKIE_EXPIRES_MS / 1000,
