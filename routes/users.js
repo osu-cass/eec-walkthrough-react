@@ -89,6 +89,8 @@ app.post("/login", loginUserVal.validation, async (req, res) => {
       // set authentication cookies for the current user
       setAuthCookie(res, token, results.username, results.userId, results.role);
 
+      console.log(`${results.username} logged in successfully`);
+
       res.status(200).send(results);
     }
 
