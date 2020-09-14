@@ -37,7 +37,7 @@ async function testConnection(pool, attempt, callback) {
 
 // listen for incoming requests
 testConnection(pool, 1, () => {
-  http.createServer(options, app).listen(port, () => {
+  https.createServer(options, app).listen(port, () => {
     console.log("Server is listening on port", port, "\n");
   });
 });
