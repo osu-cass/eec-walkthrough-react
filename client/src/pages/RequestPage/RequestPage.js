@@ -42,7 +42,11 @@ function RequestPage() {
     setLoading(true);
 
     // Fetch all requests
-    const results = await fetch(`${APIURL}/requests/${requestId}`);
+    const results = await fetch(`${APIURL}/requests/${requestId}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
 
     if (results.ok) {
 

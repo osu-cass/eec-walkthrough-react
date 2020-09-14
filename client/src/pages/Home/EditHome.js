@@ -84,6 +84,7 @@ function EditHome(props) {
 
     const results = await fetch(`${APIURL}/home`, {
       method: "PATCH",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
     });

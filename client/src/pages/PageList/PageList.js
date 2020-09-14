@@ -48,7 +48,11 @@ function PageList() {
 
   // grabs and returns list of relevant pages
   async function getCategory() {
-    const results = await fetch(`${APIURL}/categories/${categoryId}`);
+    const results = await fetch(`${APIURL}/categories/${categoryId}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
 
     if (results.ok) {
 

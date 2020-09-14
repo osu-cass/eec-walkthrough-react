@@ -62,6 +62,7 @@ function EditHeader(props) {
 
     const results = await fetch(`${APIURL}/headers/${props.header.headerId}`, {
       method: "PATCH",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
     });
@@ -141,6 +142,7 @@ function EditHeader(props) {
 
     const results = await fetch(`${APIURL}/headers/${props.header.headerId}`, {
       method: "DELETE",
+      credentials: "include",
       headers: {"Content-Type": "application/json"}
     });
 

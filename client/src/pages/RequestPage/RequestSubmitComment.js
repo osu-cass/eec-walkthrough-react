@@ -36,6 +36,7 @@ function RequestSubmitComment(props) {
     // Create the new request
     const results = await fetch(`${APIURL}/requests/comment/${props.requestId}`, {
       method: "POST",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(commentData)
     });

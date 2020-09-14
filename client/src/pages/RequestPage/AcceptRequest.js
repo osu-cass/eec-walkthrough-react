@@ -29,6 +29,7 @@ function AcceptRequest(props) {
     // accept the request
     const results = await fetch(`${APIURL}/requests/accept/${props.requestId}`, {
       method: "POST",
+      credentials: "include",
       headers: {"Content-Type": "application/json"}
     });
 

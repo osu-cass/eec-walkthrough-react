@@ -25,7 +25,11 @@ function ManageIcons() {
     setLoading(true);
 
     // Fetch all icons
-    const results = await fetch(`${APIURL}/icons/all`);
+    const results = await fetch(`${APIURL}/icons/all`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
 
     if (results.ok) {
 

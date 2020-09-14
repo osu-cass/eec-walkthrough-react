@@ -62,6 +62,7 @@ function CreatePage(props) {
       formData.append("image", imageUpload);
       const results = await fetch(`${APIURL}/files/single`, {
         method: "POST",
+        credentials: "include",
         body: formData
       });
 
@@ -100,6 +101,7 @@ function CreatePage(props) {
     // Create new page
     const results = await fetch(`${APIURL}/pages/`, {
       method: "POST",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
     });

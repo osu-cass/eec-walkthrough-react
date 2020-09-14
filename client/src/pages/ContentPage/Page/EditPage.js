@@ -43,7 +43,11 @@ function EditPage(props) {
   // When the page is first loaded, go ahead and fetch all of the category types
   useEffect(() => {
     async function fetchNames() {
-      const results = await fetch(`${APIURL}/categories/names`);
+      const results = await fetch(`${APIURL}/categories/names`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
 
       if (results.ok) {
 
@@ -162,6 +166,7 @@ function EditPage(props) {
       formData.append("image", imageUpload);
       const results = await fetch(`${APIURL}/files/single`, {
         method: "POST",
+        credentials: "include",
         body: formData
       });
 
@@ -192,6 +197,7 @@ function EditPage(props) {
 
     const results = await fetch(`${APIURL}/pages/${props.page.pageId}`, {
       method: "PATCH",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
     });
@@ -294,6 +300,7 @@ function EditPage(props) {
 
     const results = await fetch(`${APIURL}/pages/${props.page.pageId}`, {
       method: "DELETE",
+      credentials: "include",
       headers: {"Content-Type": "application/json"}
     });
 

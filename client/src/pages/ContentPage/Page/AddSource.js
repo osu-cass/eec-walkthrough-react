@@ -19,7 +19,11 @@ function AddSource(props) {
   useEffect(() => {
     async function fetchSources() {
       setLoading(true);
-      const results = await fetch(`${APIURL}/sources/page/${props.pageId}`);
+      const results = await fetch(`${APIURL}/sources/page/${props.pageId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
 
       if (results.ok) {
 
@@ -133,6 +137,7 @@ function AddSource(props) {
 
     const results = await fetch(`${APIURL}/sources/page/${props.pageId}`, {
       method: "POST",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
     });
@@ -178,6 +183,7 @@ function AddSource(props) {
 
     const results = await fetch(`${APIURL}/sources/all/page/${props.pageId}`, {
       method: "POST",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(data)
     });

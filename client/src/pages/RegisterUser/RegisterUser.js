@@ -29,9 +29,8 @@ function RegisterUser () {
       // make the request
       const results = await fetch(`${APIURL}/users`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        credentials: "include",
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(postObj),
       });
 

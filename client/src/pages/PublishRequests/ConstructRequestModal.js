@@ -75,6 +75,7 @@ function ConstructRequestModal(props) {
 
     const results = await fetch(`${APIURL}/requests/selections`, {
       method: "POST",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(objectData)
     });
@@ -107,6 +108,7 @@ function ConstructRequestModal(props) {
     // Create the new request
     const results = await fetch(`${APIURL}/requests`, {
       method: "POST",
+      credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(RequestData)
     });

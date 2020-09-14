@@ -32,9 +32,8 @@ function UserSelectRole(props) {
         props.onLoading(true);
         const results = await fetch(`${APIURL}/users/${props.userId}`, {
           method: "PATCH",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          credentials: "include",
+          headers: {"Content-Type": "application/json"},
           body: JSON.stringify(patchObj),
         });
 

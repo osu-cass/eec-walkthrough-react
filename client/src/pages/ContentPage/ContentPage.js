@@ -76,7 +76,11 @@ function ContentPage(props) {
     setLoaded(false);
 
     // Fetch all icons
-    let results = await fetch(`${APIURL}/icons/all`);
+    let results = await fetch(`${APIURL}/icons/all`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
 
     if (results.ok) {
       obj = await results.json();
@@ -87,7 +91,12 @@ function ContentPage(props) {
     }
 
     // Fetch all card titles
-    results = await fetch(`${APIURL}/cards/titles`);
+    results = await fetch(`${APIURL}/cards/titles`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
     if (results.ok) {
       obj = await results.json();
       setCardTitles(obj.titles);
@@ -97,7 +106,11 @@ function ContentPage(props) {
     }
 
     // Fetch page info
-    results = await fetch(`${APIURL}/pages/${pageId}/all`);
+    results = await fetch(`${APIURL}/pages/${pageId}/all`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
 
     if (results.ok) {
       obj = await results.json();
@@ -384,6 +397,7 @@ function ContentPage(props) {
     // send our move to the API
     const results = await fetch(`${APIURL}/headers/${headerId}/move/${direction}/${mode}`, {
       method: "PATCH",
+      credentials: "include",
       headers: {"Content-Type": "application/json"}
     });
 

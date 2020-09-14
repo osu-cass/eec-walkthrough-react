@@ -24,7 +24,11 @@ function PublishRequests() {
     setLoading(true);
 
     // Fetch all requests
-    const results = await fetch(`${APIURL}/requests/all`);
+    const results = await fetch(`${APIURL}/requests/all`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
 
     if (results.ok) {
 
