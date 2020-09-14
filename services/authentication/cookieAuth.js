@@ -138,41 +138,7 @@ exports.generateAuthToken = generateAuthToken;
 // Set user cookies for general data and authentication
 function setAuthCookie(res, token, username, userId, role) {
 
-  if (process.env.NODE_ENV === "production") {
-
-    res.setHeader("Set-Cookie", [
-      cookie.serialize("username_ck", username, {
-        path: "/",
-        sameSite: true,
-        secure: true,
-        expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
-        maxAge: COOKIE_EXPIRES_MS / 1000,
-      }),
-      cookie.serialize("userId_ck", userId, {
-        path: "/",
-        sameSite: true,
-        secure: true,
-        expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
-        maxAge: COOKIE_EXPIRES_MS / 1000,
-      }),
-      cookie.serialize("role_ck", role, {
-        path: "/",
-        sameSite: true,
-        secure: true,
-        expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
-        maxAge: COOKIE_EXPIRES_MS / 1000,
-      }),
-      cookie.serialize("auth_ck", token, {
-        path: "/",
-        httpOnly: true,
-        sameSite: true,
-        secure: true,
-        expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
-        maxAge: COOKIE_EXPIRES_MS / 1000,
-      })
-    ]);
-
-  } else {
+  /* if (process.env.NODE_ENV === "production") {
 
     res.setHeader("Set-Cookie", [
       cookie.serialize("username_ck", username, {
@@ -197,11 +163,42 @@ function setAuthCookie(res, token, username, userId, role) {
         path: "/",
         httpOnly: true,
         sameSite: true,
+        secure: true,
         expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
         maxAge: COOKIE_EXPIRES_MS / 1000,
       })
     ]);
 
-  }
+  } else { */
+
+    res.setHeader("Set-Cookie", [
+      cookie.serialize("username_ck", username, {
+        path: "/",
+        sameSite: true,
+        expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
+        maxAge: COOKIE_EXPIRES_MS / 1000,
+      }),
+      cookie.serialize("userId_ck", userId, {
+        path: "/",
+        sameSite: true,
+        expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
+        maxAge: COOKIE_EXPIRES_MS / 1000,
+      }),
+      cookie.serialize("role_ck", role, {
+        path: "/",
+        sameSite: true,
+        expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
+        maxAge: COOKIE_EXPIRES_MS / 1000,
+      }),
+      cookie.serialize("auth_ck", token, {
+        path: "/",
+        httpOnly: true,
+        sameSite: true,
+        expires: new Date(Date.now() + COOKIE_EXPIRES_MS),
+        maxAge: COOKIE_EXPIRES_MS / 1000,
+      })
+    ]);
+
+  /* } */
 }
 exports.setAuthCookie = setAuthCookie;
