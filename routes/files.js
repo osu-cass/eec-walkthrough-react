@@ -24,7 +24,12 @@ const imageTypes = {
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, callback) => {
-      const dir = `./client/uploads/user_${req.auth.userId}/`;
+      let dir;
+      if (process.env.NODE_ENV === "production") {
+        dir = `./client/files/uploads/user_${req.auth.userId}/`;
+      } else {
+        dir = `./client/public/uploads/user_${req.auth.userId}/`;
+      }
       fs.exists(dir, exist => {
         if (!exist) {
           return fs.mkdir(dir, error => callback(error, dir));
@@ -66,7 +71,7 @@ app.post("/single", requireAuth, checkUser, upload.single("image"), async (req, 
     console.log("Upload a file");
 
     if (req.file) {
-      res.status(201).json({url: `/user_${req.auth.userId}/${req.file.filename}`});
+      res.status(201).json({url: `/uploads/user_${req.auth.userId}/${req.file.filename}`});
     } else {
       res.status(401).send({error: "Invalid file"});
     }
