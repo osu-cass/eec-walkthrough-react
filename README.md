@@ -39,7 +39,8 @@ SQL_HOST='localhost'
 SQL_PASSWORD=''
 SQL_PORT=3307
 SQL_USER='root'
-JWT_SECRET_KEY='Coe2QWp2!PCEqo432'```
+JWT_SECRET_KEY='Coe2QWp2!PCEqo432'
+```
 
 ### `ssl certificate`
 
