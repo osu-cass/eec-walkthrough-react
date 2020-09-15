@@ -4,8 +4,15 @@
 // setup database connection and routing
 require("dotenv").config({silent: process.env.NODE_ENV === "production"});
 
+
+const express = require('express');
+const path = require('path');
+const app = express();
+
+
+
 const {pool} = require("./services/database/mysqlPool");
-const app = require("./routes/index");
+// const app = require("./routes/index");
 const https = require("https");
 const http = require("http");
 const fs = require("fs");
@@ -68,4 +75,4 @@ testConnection(pool, 1, () => {
 });
 */
 
-module.exports = app;
+// module.exports = app;
