@@ -4,7 +4,6 @@
 // setup database connection and routing
 require("dotenv").config({silent: process.env.NODE_ENV === "production"});
 
-
 const express = require('express');
 const path = require('path');
 const fileApp = express();
@@ -50,7 +49,7 @@ async function testConnection(pool, attempt, callback) {
 if (process.env.NODE_ENV === "production") {
   fileApp.use(express.static(path.join(__dirname + "/client/", "build")));
 
-  fileApp.get('/', function(req, res) {
+  fileApp.get("/*", function(req, res) {
     res.sendFile(path.join(__dirname + "/client/", "build", "index.html"));
   });
 
