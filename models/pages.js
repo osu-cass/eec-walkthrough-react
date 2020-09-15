@@ -435,7 +435,7 @@ async function searchPages(text, cursor, viewAll) {
 
     // only show the user pages they are allowed to see
     if (!viewAll) {
-      sql += "AND approved = 1 ";
+      sql += "AND approved = 1 AND internal = 0 ";
     }
 
     // sort search results by name
