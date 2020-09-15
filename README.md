@@ -32,7 +32,8 @@ JWT_SECRET_KEY: A random string that will be used as a secret key.
 The secret key should be at least 15 characters long.
 
 An example file contains the following:
-```API_PORT=1111
+```
+API_PORT=1111
 FILE_PORT=2222
 SQL_DB_NAME='eec_walkthrough'
 SQL_HOST='localhost'
