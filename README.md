@@ -10,12 +10,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 To make it easier to manage your environment variables it is recommend that you
 create a `.env` file in the root directory.
 
-PORT: The port that this application will run on in production mode.<br>
-In developer mode there are two applications, the API server and the React client.
+API_PORT: The port that this application will use to serve API requests.<br>
 This value will set the API server's port. The react application by default will run
 on port 3000.<br>
 If you change this value you will need to update the `proxy` value in
 `client/package.json` and the `APIURL` value in `client/src/utilities/constants`.
+
+FILE_PORT: The port that this application will use to serve build files in production mode.
 
 SQL_DB_NAME: The name of the SQL database.
 
@@ -31,7 +32,8 @@ JWT_SECRET_KEY: A random string that will be used as a secret key.
 The secret key should be at least 15 characters long.
 
 An example file contains the following:
-PORT=1111
+API_PORT=1111
+FILE_PORT=2222
 SQL_DB_NAME='eec_walkthrough'
 SQL_HOST='localhost'
 SQL_PASSWORD=''
