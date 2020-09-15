@@ -17,7 +17,9 @@ const fs = require("fs");
 console.log("Server JavaScript start");
 console.log("Running in", process.env.NODE_ENV, "mode");
 
-const port = process.env.PORT || 1111;
+const apiPort = process.env.API_PORT || 1111;
+const filePort = process.env.FILE_PORT || 2222;
+
 
 let options = {};
 
@@ -52,8 +54,8 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname + "/client/", "build", "index.html"));
   });
 
-  fileApp.listen(2222, () => {
-    console.log("File server is listening on port", 2222, "\n");
+  fileApp.listen(filePort, () => {
+    console.log("File server is listening on port", filePort, "\n");
   });
 }
 
@@ -62,12 +64,12 @@ testConnection(pool, 1, () => {
 
   // for production we use https, for development we use http
   if (process.env.NODE_ENV === "production") {
-    https.createServer(options, app).listen(port, () => {
-      console.log("API server is listening on port", port, "\n");
+    https.createServer(options, app).listen(apiPort, () => {
+      console.log("API server is listening on port", apiPort, "\n");
     });
   } else {
-    http.createServer(app).listen(port, () => {
-      console.log("API server is listening on port", port, "\n");
+    http.createServer(app).listen(apiPort, () => {
+      console.log("API server is listening on port", apiPort, "\n");
     });
   }
 });
