@@ -40,6 +40,18 @@ async function testConnection(pool, attempt, callback) {
   }
 }
 
+const directoryName = __dirname + "/client/";
+console.log(directoryName);
+
+app.use(express.static(path.join(directoryName, "build")));
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(directoryName, "build", "index.html"));
+});
+
+app.listen(2222);
+
+/*
 // listen for incoming requests
 testConnection(pool, 1, () => {
 
@@ -54,5 +66,6 @@ testConnection(pool, 1, () => {
     });
   }
 });
+*/
 
 module.exports = app;
