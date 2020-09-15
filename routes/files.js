@@ -24,7 +24,12 @@ const imageTypes = {
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, callback) => {
-      const dir = `./client/public/uploads/user_${req.auth.userId}/`;
+      let dir;
+      if (process.env.NODE_ENV === "production") {
+        dir = `./client/build/uploads/user_${req.auth.userId}/`;
+      } else {
+        dir = `./client/public/uploads/user_${req.auth.userId}/`;
+      }
       fs.exists(dir, exist => {
         if (!exist) {
           return fs.mkdir(dir, error => callback(error, dir));

@@ -122,7 +122,9 @@ function ContentPage(props) {
       const sortedHeaders = headerSortOrder(obj.headers);
       setHeaders(sortedHeaders);
       updateReferences(sortedHeaders, obj.sources);
-      console.log("Page Data:", obj);
+      if (process.env.NODE_ENV === "development") {
+        console.log("Page Data:", obj);
+      }
     } else {
       if (results.status === 404) {
         setErrorPage(404);
