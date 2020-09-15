@@ -46,7 +46,7 @@ async function getCategory(categoryId, viewAll) {
       sql = "SELECT * " +
       "FROM Pages " +
       "WHERE pageType = ? " +
-      "AND published = 1 " +
+      "AND approved = 1 " +
       "AND internal = 0 " +
       "ORDER BY name ASC;";
     }
