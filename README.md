@@ -78,11 +78,7 @@ Builds the app for production to the `client/build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-WARNING: User uploaded files are stored in `client/build/uploads` when running in production mode.
-If you run the build command it will replace all of the uploaded files that don't also exist in `client/public/uploads`.
-Make sure you backup all uploads before attempting to build.
+Your app is ready to be deployed.
 
 ## Learn More
 
