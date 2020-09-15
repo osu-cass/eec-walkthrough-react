@@ -1,41 +1,82 @@
+This application is a wiki that allows users to browse, edit, and review
+content pages. The application uses Node.js, express, React, and MySQL.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Required Resources
+
+### `environment variables`
+
+To make it easier to manage your environment variables it is recommend that you
+create a `.env` file in the root directory.
+
+PORT: The port that this application will run on in production mode.<br>
+In developer mode there are two applications, the API server and the React client.
+This value will set the API server's port. The react application by default will run
+on port 3000.<br>
+If you change this value you will need to update the `proxy` value in
+`client/package.json` and the `APIURL` value in `client/src/utilities/constants`.
+
+SQL_DB_NAME: The name of the SQL database.
+
+SQL_HOST: The host address of the SQL server.
+
+SQL_PASSWORD: The password for the SQL server.
+
+SQL_PORT: The port used to access the SQL database.
+
+SQL_USER: The username to connect to the SQL server with.
+
+JWT_SECRET_KEY: A random string that will be used as a secret key.
+The secret key should be at least 15 characters long.
+
+An example file contains the following:
+PORT=1111
+SQL_DB_NAME='eec_walkthrough'
+SQL_HOST='localhost'
+SQL_PASSWORD=''
+SQL_PORT=3307
+SQL_USER='root'
+JWT_SECRET_KEY='Coe2QWp2!PCEqo432'
+
+### `ssl certificate`
+
+If you plan to run this application in production mode you will need to include
+a certificate and private key file in the root directory. The files should be name
+`walkthrough.cer` and `walkthrough.key` respectively.
 
 ## Available Scripts
 
 In the project directory, you can run:
 
+### `npm run installAll`
+
+This is the first script you should run when you start working on this project.
+This command installs all of the backend and client modules. This process may take some time.
+
 ### `npm start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Runs the app in production mode.<br />
+
+While in production mode webpages will be served from the `client/build` folder,
+and all API requests will be required to be sent over https.
+
+### `npm run dev`
+
+Runs the app in development mode.<br />
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
 
-Builds the app for production to the `build` folder.<br />
+Builds the app for production to the `client/build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## Learn More
 
