@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Sep 12, 2020 at 01:32 AM
+-- Generation Time: Sep 14, 2020 at 07:57 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -1059,7 +1059,8 @@ INSERT INTO `History_Pages` (`historyId`, `pageId`, `pageType`, `name`, `title`,
 (11, 59, 2, 'zz - history', 'A page for testing history .... this is a change', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac aliquet ipsum, et pharetra massa. Mauris fringilla, dui eget tristique posuere, neque urna viverra nisl, ac scelerisque tortor est elementum enim. a rhoncus orci maximus ac. Praesent fringilla faucibus lectus, at mollis nunc viverra vitae. Pellentesque id ante nec tortor feugiat vehicula.\n\nUt et nunc imperdiet nulla varius pellentesque. Maecenas congue non enim ac bibendum. Praesent eu arcu massa. Etiam eu vehicula dolor. Sed venenatis massa vitae arcu malesuada tincidunt. Cras eu elit in sapien efficitur mollis. Sed a elit ac ante hendrerit iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam interdum nibh vitae turpis euismod, ac congue diam bibendum. Donec pharetra interdum suscipit. In tempor tempor dui, non aliquet justo pretium eget. Praesent molestie magna tellus, eget auctor lectus pellentesque quis.\n\nNam lobortis massa vel tellus facilisis rhoncus. Nullam nec ante vehicula, dignissim nibh eu, euismod diam. Curabitur sem magna, elementum ac metus vitae, bibendum ultricies enim. Donec leo quam, pharetra vitae congue et, pulvinar tincidunt nulla. Nulla aliquet malesuada sem, vel fermentum purus viverra ac. Duis in lorem ac mi scelerisque ultricies eget sed libero. Donec eu tincidunt lorem, vitae volutpat eros. Proin nulla mauris, sollicitudin suscipit libero id, condimentum finibus neque. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas convallis nec tellus eu scelerisque. Morbi faucibus pulvinar turpis ut pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.', 'http://placekitten.com/400/500', 1, 0, '2020-09-02 09:19:58'),
 (12, 59, 2, 'zz - history', 'A page for testing history .... this is a change ... one last change', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac aliquet ipsum, et pharetra massa. Mauris fringilla, dui eget tristique posuere, neque urna viverra nisl, ac scelerisque tortor est elementum enim. a rhoncus orci maximus ac. Praesent fringilla faucibus lectus, at mollis nunc viverra vitae. Pellentesque id ante nec tortor feugiat vehicula.\n\nUt et nunc imperdiet nulla varius pellentesque. Maecenas congue non enim ac bibendum. Praesent eu arcu massa. Etiam eu vehicula dolor. Sed venenatis massa vitae arcu malesuada tincidunt. Cras eu elit in sapien efficitur mollis. Sed a elit ac ante hendrerit iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam interdum nibh vitae turpis euismod, ac congue diam bibendum. Donec pharetra interdum suscipit. In tempor tempor dui, non aliquet justo pretium eget. Praesent molestie magna tellus, eget auctor lectus pellentesque quis.\n\nInteger ut fringilla arcu, posuere luctus erat. Integer maximus, ex at venenatis tristique, nisl enim suscipit augue, eu consequat magna lectus eget augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed viverra felis ligula, non volutpat nibh gravida ut. Sed sed dapibus lacus. Morbi quam tortor, blandit vel consequat vestibulum, semper quis lacus. Ut bibendum laoreet lacus, ut iaculis enim eleifend vitae. Morbi malesuada odio est, non interdum risus volutpat quis.\n\nPellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec varius non magna a commodo. Praesent dapibus eu ante ac luctus. Aliquam consequat quis dui vitae elementum. Integer vitae rhoncus massa. Suspendisse potenti. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer egestas ligula ut tellus tincidunt fringilla. Vivamus non elementum mi. Nulla arcu orci, dapibus at molestie sit amet, vehicula ut lectus.', 'http://placekitten.com/600/500', 1, 0, '2020-09-03 10:12:55'),
 (13, 53, 4, 'z - test Diff Demo', 'Basic Page Meant for Testing New Features @ 1', 'Loremem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, velel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nFusce quam eros, tincidunt vitae libero eget, tincidunt aliquam lectus. Curabitur non mi et orci semper sollicitudin. Cras dapibus malesuada accumsan. Maecenas efficitur euismod elit eu lacinia. Aliquam id sollicitudin augue. Quisque pharetra scelerisque ultrices. Curabitur dictum felis metus, vitae pulvinar quam efficitur et. Mauris accumsan cursus ante rutrum interdum. Duis scelerisque pharetra fermentum. Phasellus viverra tellus in rutrum dignissim. Sed ex augue, elementum a aliquam non, rutrum sed metus. Nulla sapien lorem, ullamcorper ut molestie ac, hendrerit ultrices odio. Nullam sit amet eleifend erat. Aenean laoreet fermentum ipsum, ut tempus magna rhoncus at. Cras vitae dolor leo.\n\nCurabitur cursus arcu elit, u scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/200/500', 1, 0, '2020-08-11 10:32:11'),
-(14, 50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 0, '2020-08-20 00:22:00');
+(14, 50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 0, '2020-08-20 00:22:00'),
+(15, 2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/uploads/user_42/fe1402c50e24309eb11f4209c73e2daf.png', 0, 0, '2020-09-14 12:50:14');
 
 -- --------------------------------------------------------
 
@@ -1907,7 +1908,7 @@ CREATE TABLE `Pages` (
 --
 
 INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imageUrl`, `internal`, `userId`, `created`, `approved`) VALUES
-(2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/images/air.png', 0, 42, '2020-07-23 10:01:49', 1),
+(2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/uploads/user_42/fe1402c50e24309eb11f4209c73e2daf.png', 0, 42, '2020-09-14 12:50:14', 1),
 (44, 2, 'Motors and Controls', 'Electrical Motors and Motor Controls (Variable Speed Drives, etc) are crucial to most mechanized industrial processes and equipment.', 'Motors are a crucial part of any mechanized process and provide a means to do the majority of the mechanical work in most facilities.  Motors convert electrical energy into mechanical work to provide power to a wide range of applications including air compressors, fans, pumps, hydraulics, mixers, conveyors, and much more.', 'https://live.staticflickr.com/65535/50069229503_243696380c_b.jpg', 0, 51, '2020-06-29 23:04:50', 0),
 (45, 2, 'Pumps', 'Pumps provide a typical utility required throughout industry.', 'Centrifugal pumps are the most common type found in industry, followed by positive displacement pumps (used in hydraulics), pneumatic diaphragm pumps, peristaltic pumps, and other specialty pumps. \n\nUnless otherwise noted this section speaks to centrifugal pumps when addressing pump performance and efficiency. Changes in hydraulic energy required (pressure and flow) will translate to any pumping system. \n\nCentrifugal pumps generally come in three classes: radial flow, mixed flow, and axial flow.', 'https://live.staticflickr.com/65535/50066427331_ddae8822f2_b.jpg', 0, 55, '2020-07-01 18:11:01', 0),
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
@@ -2073,7 +2074,7 @@ CREATE TABLE `Sponsors` (
 --
 
 INSERT INTO `Sponsors` (`sponsorId`, `name`, `title`, `websiteUrl`, `imageUrl`, `orderIndex`) VALUES
-(1, 'Industrial Assessment Center', 'U.S. Department of Energy, Office of Energy Efficiency & Renewable Energy, Advanced Manufacturing Office, Industrial Assessment Centers', 'https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs', '/images/IAC.png', 0);
+(2, 'Industrial Assessment Center', 'U.S. Department of Energy, Office of Energy Efficiency & Renewable Energy, Advanced Manufacturing Office, Industrial Assessment Centers', 'https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs', '/uploads/user_42/8936b3254b55ec513b042662758f9a68.png', 0);
 
 -- --------------------------------------------------------
 
@@ -2181,7 +2182,8 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (64, 'NewUser', '0f98b126f8c5f97567986f7344a65d35$b56cdfeeb26a024487d97ea457a4691c8059a5a41f6102362319a7010488ecf7', 'Zachary', 'Thomas', 'newUser@gmail.com', 1, '2020-08-04 20:49:52'),
 (65, 'KarlHaapala', 'b57616ebf0b31e2b470945548ebb37c3$ce2a1a37a4eeb500f9ff3d7ae5a436bd96f996cc7035089b06c66296ef664a0e', 'Karl', 'Haapala', 'Karl.Haapala@oregonstate.edu', 3, '2020-08-10 16:43:08'),
 (66, 'BrianFronk', 'e19515b3011f1b9ae350416702e366ae$bc12ddf1a36485efdc2f3076306c0f3fbf8e0ebc161228b3d96df617b3003a54', 'Brian', 'Fronk', 'Brian.Fronk@oregonstate.edu', 1, '2020-08-17 17:50:49'),
-(67, 'testEditor', '378a3004a2a67d4de86381f1167f67f0$667800fc22bccfb093ed7370d527f1b07e7b3cf3a54acfd43e71edc477c1391f', 'Test', 'Editor', 'testeditor@gmail.com', 3, '2020-09-01 02:00:00');
+(67, 'testEditor', '378a3004a2a67d4de86381f1167f67f0$667800fc22bccfb093ed7370d527f1b07e7b3cf3a54acfd43e71edc477c1391f', 'Test', 'Editor', 'testeditor@gmail.com', 3, '2020-09-01 02:00:00'),
+(68, 'newUser1', '6722e86ced77c549439d1a1746634998$4a86c207b6c1d91696c82191547f9a6068888fecaa1c137cee77621c74a8cf8f', 'new', 'user', 'newUser1@gmail.com', 1, '2020-09-14 10:31:05');
 
 -- --------------------------------------------------------
 
@@ -2379,7 +2381,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2421,7 +2423,7 @@ ALTER TABLE `History_Items`
 -- AUTO_INCREMENT for table `History_Pages`
 --
 ALTER TABLE `History_Pages`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `Icons`
@@ -2433,7 +2435,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5778;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5781;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -2475,13 +2477,13 @@ ALTER TABLE `Sources`
 -- AUTO_INCREMENT for table `Sponsors`
 --
 ALTER TABLE `Sponsors`
-  MODIFY `sponsorId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `sponsorId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `Views`
