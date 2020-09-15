@@ -13,7 +13,7 @@ const fs = require("fs");
 console.log("Server JavaScript start");
 console.log("Running in", process.env.NODE_ENV, "mode");
 
-const port = process.env.PORT || 2222;
+const port = process.env.PORT || 1111;
 
 let options = {};
 

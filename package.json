@@ -34,6 +34,7 @@
     "dev": "cross-env NODE_ENV=development concurrently \"npm run serverDev\" \"npm run client\"",
     "serverDev": "nodemon app.js --ignore client/*",
     "client": "cd client && npm start",
-    "deploy": "cd client && npm install && npm run build"
+    "installAll": "npm install && cd client && npm install",
+    "build": "cd client && npm run build"
   }
 }
