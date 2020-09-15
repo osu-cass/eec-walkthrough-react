@@ -7,12 +7,9 @@ require("dotenv").config({silent: process.env.NODE_ENV === "production"});
 
 const express = require('express');
 const path = require('path');
-const app = express();
-
-
-
+const fileApp = express();
 const {pool} = require("./services/database/mysqlPool");
-// const app = require("./routes/index");
+app = require("./routes/index");
 const https = require("https");
 const http = require("http");
 const fs = require("fs");
@@ -47,32 +44,33 @@ async function testConnection(pool, attempt, callback) {
   }
 }
 
-const directoryName = __dirname + "/client/";
-console.log(directoryName);
+// serve static files while in production mode
+if (process.env.NODE_ENV === "production") {
+  fileApp.use(express.static(path.join(__dirname + "/client/", "build")));
 
-app.use(express.static(path.join(directoryName, "build")));
+  fileApp.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + "/client/", "build", "index.html"));
+  });
 
-app.get('/', function(req, res) {
-  res.sendFile(path.join(directoryName, "build", "index.html"));
-});
+  fileApp.listen(2222, () => {
+    console.log("File server is listening on port", 2222, "\n");
+  });
+}
 
-app.listen(2222);
-
-/*
 // listen for incoming requests
 testConnection(pool, 1, () => {
 
   // for production we use https, for development we use http
   if (process.env.NODE_ENV === "production") {
     https.createServer(options, app).listen(port, () => {
-      console.log("Server is listening on port", port, "\n");
+      console.log("API server is listening on port", port, "\n");
     });
   } else {
     http.createServer(app).listen(port, () => {
-      console.log("Server is listening on port", port, "\n");
+      console.log("API server is listening on port", port, "\n");
     });
   }
 });
-*/
 
-// module.exports = app;
+
+module.exports = app;
