@@ -10,7 +10,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 // check that JSON body is valid
-app.use((req, res, next) => {
+app.use("/api/*", (req, res, next) => {
   bodyParser.json()(req, res, err => {
     if (err) {
       console.error("400: Invalid JSON request body");
@@ -22,15 +22,15 @@ app.use((req, res, next) => {
 });
 
 // general middleware
-app.use(logger("dev"));
-app.use(express.urlencoded({extended: false}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
-app.use(cors({
+app.use("/api/*", logger("dev"));
+app.use("/api/*", express.urlencoded({extended: false}));
+app.use("/api/*", cookieParser());
+app.use("/api/*", express.static(path.join(__dirname, "public")));
+app.use("/api/*", express.json());
+app.use("/api/*", cors({
   origin: true,
   credentials: true
 }));
-app.use(express.json());
 
 // handle api requests
 app.use("/api/files", require("./files"));
@@ -48,10 +48,11 @@ app.use("/api/sources", require("./sources"));
 
 // unhandled API requests get a 404 error
 app.all("/api/*", (req, res) => {
-  console.error("404: File not found\n");
+  console.error("404: API endpoint not found\n");
   res.status(404).send({error: "Not Found"});
 });
 
+// serve files in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname + "/client/", "build")));
   app.use(express.static(path.join(__dirname + "/client/", "files")));
@@ -61,5 +62,11 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname + "/client/", "build", "index.html"));
   });
 }
+
+// unhandled requests get a 404 error
+app.all("/*", (req, res) => {
+  console.error("404: File not found\n");
+  res.status(404).send({error: "Not Found"});
+});
 
 module.exports = app;
