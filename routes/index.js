@@ -54,6 +54,7 @@ app.all("/api/*", (req, res) => {
 
 // serve files in production
 if (process.env.NODE_ENV === "production") {
+  console.log("lets serve")
   app.use(express.static(path.join(__dirname + "/client/", "build")));
   app.use(express.static(path.join(__dirname + "/client/", "files")));
 
