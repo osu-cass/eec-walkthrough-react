@@ -9,7 +9,6 @@ const path = require('path');
 const fileApp = express();
 const {pool} = require("./services/database/mysqlPool");
 app = require("./routes/index");
-const https = require("https");
 const http = require("http");
 const fs = require("fs");
 
@@ -61,17 +60,9 @@ if (process.env.NODE_ENV === "production") {
 
 // listen for incoming requests
 testConnection(pool, 1, () => {
-
-  // for production we use https, for development we use http
-  if (process.env.NODE_ENV === "production") {
-    https.createServer(options, app).listen(apiPort, () => {
-      console.log("API server is listening on port", apiPort, "\n");
-    });
-  } else {
-    http.createServer(app).listen(apiPort, () => {
-      console.log("API server is listening on port", apiPort, "\n");
-    });
-  }
+  http.createServer(app).listen(apiPort, () => {
+    console.log("API server is listening on port", apiPort, "\n");
+  });
 });
 
 
