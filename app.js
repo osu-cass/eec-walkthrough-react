@@ -45,10 +45,6 @@ async function testConnection(pool, attempt, callback) {
   }
 }
 
-// serve files
-app.use(express.static(path.join(__dirname + "/client/", "build")));
-app.use(express.static(path.join(__dirname + "/client/", "files")));
-
 // listen for incoming requests
 testConnection(pool, 1, () => {
 
