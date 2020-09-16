@@ -52,7 +52,9 @@ app.all("/api/*", (req, res) => {
   res.status(404).send({error: "Not Found"});
 });
 
-// serve static files
-// app.use(express.static(__dirname + "/client/build"));
+// file requests
+app.get("/*", function(req, res) {
+  res.sendFile(path.join(__dirname + "/client/", "build", "index.html"));
+});
 
 module.exports = app;
