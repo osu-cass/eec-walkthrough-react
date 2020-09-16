@@ -45,6 +45,20 @@ async function testConnection(pool, attempt, callback) {
   }
 }
 
+// serve static files while in production mode
+if (process.env.NODE_ENV === "production") {
+  fileApp.use(express.static(path.join(__dirname + "/client/", "build")));
+  fileApp.use(express.static(path.join(__dirname + "/client/", "files")));
+
+  fileApp.get("/*", function(req, res) {
+    res.sendFile(path.join(__dirname + "/client/", "build", "index.html"));
+  });
+
+  fileApp.listen(filePort, () => {
+    console.log("File server is listening on port", filePort, "\n");
+  });
+}
+
 // listen for incoming requests
 testConnection(pool, 1, () => {
 
@@ -59,22 +73,6 @@ testConnection(pool, 1, () => {
     });
   }
 });
-
-/*
-// serve static files while in production mode
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname + "/client/", "build")));
-  app.use(express.static(path.join(__dirname + "/client/", "files")));
-
-  app.get("/*", function(req, res) {
-    res.sendFile(path.join(__dirname + "/client/", "build", "index.html"));
-  });
-
-  fileApp.listen(filePort, () => {
-    console.log("File server is listening on port", filePort, "\n");
-  });
-}
-*/
 
 
 module.exports = app;
