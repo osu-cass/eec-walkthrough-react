@@ -2,6 +2,7 @@ import React, {Fragment, useState, useEffect} from "react";
 import FormControl from "react-bootstrap/FormControl";
 import Dropdown from "react-bootstrap/Dropdown";
 import ImageInput from "../../../components/General/ImageInput";
+import sanitizeHtml from "sanitize-html";
 import PropTypes from "prop-types";
 
 // An input field for adding or modifying items in a card modal
@@ -9,6 +10,7 @@ function ItemInput(props) {
 
   const [linkText, setLinkText] = useState("Link");
   const [sourceText, setSourceText] = useState("Source: None");
+  const [sources, setSources] = useState(props.sources);
 
   useEffect(() => {
     updateLink(props.value.contentMode);
@@ -22,6 +24,20 @@ function ItemInput(props) {
     }
     // eslint-disable-next-line
   }, [props.value.contentMode]);
+
+  // sanitize all sources by removing all tags
+  useEffect(() => {
+    const copy = [...props.sources];
+    for (let i = 0; i < props.sources.length; i++) {
+      const newSourceText = sanitizeHtml(props.sources[i].text, {
+        allowedTags: [],
+        allowedAttributes: {}
+      });
+
+      copy[i].text = newSourceText;
+    }
+    setSources(copy);
+  }, [props.sources]);
 
   function updateLink(value) {
     switch (value) {
@@ -52,8 +68,9 @@ function ItemInput(props) {
       setSourceText("Source: None");
       props.handleSourceValue(props.index, 0);
     } else {
-      setSourceText(`Source: ${text.substring(0, 8).trim()}...`);
-      props.handleSourceValue(props.index, props.sources[value - 1].sourceId);
+      const cleanString = sanitizeHtml(text, {allowedTags: [], allowedAttributes: {}});
+      setSourceText(`Source: ${cleanString.substring(0, 8).trim()}...`);
+      props.handleSourceValue(props.index, sources[value - 1].sourceId);
     }
   }
 
@@ -82,7 +99,7 @@ function ItemInput(props) {
               <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateSource(0)}>
                   None
               </Dropdown.Item>
-              {props.sources.map((source, i) =>
+              {sources.map((source, i) =>
                 <Dropdown.Item
                   className="source-dropdown-val"
                   style={{cursor: "pointer"}}
@@ -140,7 +157,7 @@ function ItemInput(props) {
               <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateSource(0)}>
                   None
               </Dropdown.Item>
-              {props.sources.map((source, i) =>
+              {sources.map((source, i) =>
                 <Dropdown.Item
                   className="source-dropdown-val"
                   style={{cursor: "pointer"}}

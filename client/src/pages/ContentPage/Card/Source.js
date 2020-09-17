@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import PropTypes from "prop-types";
+import sanitizeHtml from "sanitize-html";
 import "./Source.css";
 
 // Represents an inline citation that links to the reference card
@@ -18,7 +19,10 @@ function Source (props) {
         title="Reference"
         data-toggle="popover"
         data-trigger="hover"
-        data-content={props.sourceText}
+        data-content={sanitizeHtml(props.sourceText, {
+          allowedTags: [],
+          allowedAttributes: {}
+        })}
         className="text-wrap pre-wrap"
       >
         [{props.source}]

@@ -1,6 +1,7 @@
 import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import "./References.css";
+import SanitizedHTML from "react-sanitized-html";
 
 // Header and card that describes the references for the current page
 function References(props) {
@@ -25,19 +26,8 @@ function References(props) {
               <Fragment>
                 {props.sources.map((source, i) =>
                   <li key={source.sourceId}>
-                    {source.url.length ? (
-                      <Fragment>
-                        <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
-                        <a href={source.url}>
-                          <span>{source.text}</span>
-                        </a>
-                      </Fragment>
-                    ) : (
-                      <Fragment>
-                        <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
-                        <span>{source.text}</span>
-                      </Fragment>
-                    )}
+                    <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
+                    <SanitizedHTML html={source.text} />
                   </li>
                 )}
               </Fragment>
@@ -45,19 +35,8 @@ function References(props) {
               <Fragment>
                 {props.tempSources.map((source, i) =>
                   <li key={source.sourceId}>
-                    {source.url.length ? (
-                      <Fragment>
-                        <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
-                        <a href={source.url}>
-                          <span>{source.text}</span>
-                        </a>
-                      </Fragment>
-                    ) : (
-                      <Fragment>
-                        <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
-                        <span>{source.text}</span>
-                      </Fragment>
-                    )}
+                    <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
+                    <SanitizedHTML html={source.text} />
                   </li>
                 )}
               </Fragment>

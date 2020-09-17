@@ -16,3 +16,9 @@
 .source-anchor {
   font-size: 0;
 }
+
+ol li div {
+  vertical-align: top;
+  display: inline;
+  background-color: blue;
+}

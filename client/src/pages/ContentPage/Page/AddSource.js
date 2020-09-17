@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Modal, Button, Row, FormControl} from "react-bootstrap";
+import RichTextEditor from "../../../components/General/RichTextEditor";
 import PropTypes from "prop-types";
 import Error from "../../../components/General/Error";
 import LoadingOverlay from "../../../components/General/LoadingOverlay";
@@ -14,6 +15,7 @@ function AddSource(props) {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [negativeId, setNegativeId] = useState(-1);
+  const [richText, setRichText] = useState("");
 
   // When the page is first loaded, go ahead and fetch all of the sources
   useEffect(() => {
@@ -122,9 +124,9 @@ function AddSource(props) {
   async function handleSubmitSingle(e) {
     e.preventDefault();
 
-    const text = document.getElementById("single-source-text").value;
-    const url = document.getElementById("single-source-url").value;
-
+    const text = richText;
+    const url = "";
+    console.log(richText)
     if (!text.length) {
       setErrorMessage("Error: Text describing the source is blank");
       return;
@@ -312,32 +314,11 @@ function AddSource(props) {
 
         <Modal.Body>
 
-          <Row className="mb-2">
-            <div className="input-group">
-              <FormControl
-                id="single-source-text"
-                className="ml-3"
-                as="textarea"
-                rows="3"
-                maxLength="5000"
-                placeholder="Citation Text"
-                aria-label="Citation Text"
-                aria-describedby="basic-addon1"
-                required
-              />
-              <FormControl
-                id="single-source-url"
-                className="mr-3"
-                as="textarea"
-                rows="3"
-                maxLength="5000"
-                placeholder="URL (optional)"
-                aria-label="URL"
-                aria-describedby="basic-addon1"
-                required
-              />
-            </div>
-          </Row>
+          <RichTextEditor 
+            id={"submit-source-0"}
+            value={richText}
+            onChange={(text) => setRichText(text)}
+          />
 
           <Row>
             <div className='col-3' />
