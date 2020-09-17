@@ -1,0 +1,39 @@
+.rich-text-container {
+  text-align: center;
+}
+
+.rich-text-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.rich-text-controls {
+  border: 1px solid grey;
+  width: 50vw;
+  text-align: left;
+  padding: 10px;
+}
+
+.rich-text-button {
+  font-size: calc(8px + 2vmin);
+  margin: 0 2px;
+  width: 50px;
+  background-color: white;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.rich-text-button.selected {
+  background-color: lightgrey;
+  color: white;
+}
+
+.rich-text-text {
+  font-size: calc(5px + 2vmin);
+  width: 50vw;
+  padding: 10px;
+}
