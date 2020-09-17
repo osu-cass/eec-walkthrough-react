@@ -11,12 +11,17 @@ To make it easier to manage your environment variables it is recommend that you
 create a `.env` file in the root directory.
 
 API_PORT: The port that this application will use to serve API requests.<br>
-This value will set the API server's port. The react application by default will run
-on port 3000.<br>
+This value will set the API server's port.<br>
 If you change this value you will need to update the `proxy` value in
-`client/package.json` and the `APIURL` value in `client/src/utilities/constants`.
+`client/package.json`.
 
 FILE_PORT: The port that this application will use to serve build files in production mode.
+
+REACT_APP_API_HOST: The address that will be used when attempting to send requests
+to the API. Note that you might use a different port here if you are sending requests
+through a proxy. For example you might set API_PORT to 1111 and then have the
+host use port 444 as a https public port, that way you can have the public communicate with the server 
+over a SSL and not have to deal with a SSL inside the application.
 
 SQL_DB_NAME: The name of the SQL database.
 
@@ -35,6 +40,7 @@ An example file contains the following:
 ```
 API_PORT=1111
 FILE_PORT=2222
+REACT_APP_API_HOST='https://walkthrough.eec.oregonstate.edu:444/'
 SQL_DB_NAME='eec_walkthrough'
 SQL_HOST='localhost'
 SQL_PASSWORD=''

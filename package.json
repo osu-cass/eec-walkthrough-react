@@ -35,6 +35,6 @@
     "serverDev": "nodemon app.js --ignore client/*",
     "client": "cd client && npm start",
     "installAll": "npm install && cd client && npm install",
-    "build": "cd client && npm run build"
+    "build": "cp .env client && cd client && npm run build"
   }
 }
