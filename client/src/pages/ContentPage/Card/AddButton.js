@@ -8,7 +8,7 @@ function AddButton(props) {
     <Button
       variant={props.variant}
       onClick={props.onClick}
-      className="mr-2"
+      className="mr-2 my-1"
     >
       <i
         className='fas fa-plus-circle text-white mr-2'
