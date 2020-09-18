@@ -27,7 +27,8 @@ function ItemInput(props) {
 
   // sanitize all sources by removing all tags
   useEffect(() => {
-    const copy = [...props.sources];
+    console.log(props.sources)
+    const copy = JSON.parse(JSON.stringify(props.sources));
     for (let i = 0; i < props.sources.length; i++) {
       const newSourceText = sanitizeHtml(props.sources[i].text, {
         allowedTags: [],
@@ -64,6 +65,7 @@ function ItemInput(props) {
   }
 
   function updateSource(value, text) {
+    console.log(text)
     if (value === 0) {
       setSourceText("Source: None");
       props.handleSourceValue(props.index, 0);
@@ -103,7 +105,7 @@ function ItemInput(props) {
                 <Dropdown.Item
                   className="source-dropdown-val"
                   style={{cursor: "pointer"}}
-                  onClick={() => updateSource(i + 1, source.text)}
+                  onClick={() => updateSource(i + 1, props.sources[i].text)}
                   key={source.sourceId}
                 >
                   {source.text.length > 75 ? (
@@ -161,7 +163,7 @@ function ItemInput(props) {
                 <Dropdown.Item
                   className="source-dropdown-val"
                   style={{cursor: "pointer"}}
-                  onClick={() => updateSource(i + 1, source.text)}
+                  onClick={() => updateSource(i + 1, props.sources[i].text)}
                   key={source.sourceId}
                 >
                   {source.text.length > 75 ? (

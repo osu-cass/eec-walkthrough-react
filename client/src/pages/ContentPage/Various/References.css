@@ -20,5 +20,9 @@
 ol li div {
   vertical-align: top;
   display: inline;
-  background-color: blue;
+}
+
+ol li div p {
+  vertical-align: top;
+  display: inline;
 }
