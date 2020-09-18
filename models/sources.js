@@ -43,7 +43,7 @@ exports.getSources = getSources;
 
 
 // create a single source
-async function createSingleSource(pageId, text, url) {
+async function createSingleSource(pageId, text) {
 
   try {
 
@@ -59,9 +59,9 @@ async function createSingleSource(pageId, text, url) {
     }
 
     // add the new source
-    sql = "INSERT INTO Sources (text, url, pageId) " +
-    "VALUES (?, ?, ?);";
-    results = await pool.query(sql, [text, url, pageId]);
+    sql = "INSERT INTO Sources (text, pageId) " +
+    "VALUES (?, ?);";
+    results = await pool.query(sql, [text, pageId]);
 
     const finalResults = {
       insertId: results[0].insertId
@@ -112,7 +112,7 @@ async function createSources(pageId, sources) {
     for (let i = 0; i < sources.length; i++) {
 
       // make sure we have a valid source
-      if (typeof sources[i].text !== "string" || typeof sources[i].url !== "string") {
+      if (typeof sources[i].text !== "string") {
         continue;
       }
 
@@ -125,16 +125,16 @@ async function createSources(pageId, sources) {
       if (parseInt(sources[i].sourceId, 10) > 0) {
 
         sql = "UPDATE Sources " +
-        "SET text = ?, url = ? " +
+        "SET text = ? " +
         "WHERE sourceId = ? " +
         "AND pageId = ?;";
-        await pool.query(sql, [sources[i].text, sources[i].url, sources[i].sourceId, pageId]);
+        await pool.query(sql, [sources[i].text, sources[i].sourceId, pageId]);
 
       } else {
 
-        sql = "INSERT INTO Sources (text, url, pageId) " +
-        "VALUES (?, ?, ?);";
-        await pool.query(sql, [sources[i].text, sources[i].url, pageId]);
+        sql = "INSERT INTO Sources (text, pageId) " +
+        "VALUES (?, ?);";
+        await pool.query(sql, [sources[i].text, pageId]);
 
       }
 
