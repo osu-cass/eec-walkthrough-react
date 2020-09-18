@@ -14,19 +14,19 @@ function Source (props) {
 
   return props.source > 0 ? (
     <sup className="inline-citation">
+
       <a
         href={`#source-${props.source}`}
         title="Reference"
         data-toggle="popover"
         data-trigger="hover"
-        data-content={sanitizeHtml(props.sourceText, {
-          allowedTags: [],
-          allowedAttributes: {}
-        })}
+        data-html="true"
+        data-content={sanitizeHtml(props.sourceText)}
         className="text-wrap pre-wrap"
       >
         [{props.source}]
       </a>
+
     </sup>
   ) : (
     null
