@@ -1119,49 +1119,49 @@ function ConstructCardModal(props) {
 
           <div className="item-button-bar card sticky-top py-2 px-2 mb-3">
             <div>
-              <button className="btn btn-danger btn ml-2"
+              <button className="btn btn-danger btn ml-2 my-1"
                 onClick={() => deleteItem()}
               >
-                <i className="fas fa-fw fa-times mr-2" />
+                <i className="fas fa-fw fa-times mr-2 my-1" />
                 Delete Item
               </button>
 
               <button className="btn btn-info internal-item-button btn ml-2"
                 onClick={() => toggleInternal()}
               >
-                <i className="fas fa-fw fa-unlock mr-2" />
+                <i className="fas fa-fw fa-unlock mr-2 my-1" />
                 Toggle Internal
               </button>
 
               <button className="btn btn-info copy-paste-button btn ml-2"
                 onClick={() => copyItem()}
               >
-                <i className="fas fa-fw fa-copy mr-2" />
+                <i className="fas fa-fw fa-copy mr-2 my-1" />
                 Copy Item
               </button>
 
-              <button className="btn btn-primary btn ml-2"
+              <button className="btn btn-primary btn ml-2 my-1"
                 onClick={() => changeIndent(-1)}
               >
-                <i className="fas fa-fw fa-minus mr-2" />
+                <i className="fas fa-fw fa-minus mr-2 my-1" />
                 Unindent
               </button>
 
-              <button className="btn btn-primary btn ml-2"
+              <button className="btn btn-primary btn ml-2 my-1"
                 onClick={() => changeIndent(1)}
               >
                 <i className="fas fa-fw fa-plus mr-2" />
                 Indent
               </button>
 
-              <button className="btn btn-success btn ml-2"
+              <button className="btn btn-success btn ml-2 my-1"
                 onClick={() => changeOrder(true)}
               >
-                <i className="fas fa-fw fa-arrow-up mr-2" />
+                <i className="fas fa-fw fa-arrow-up mr-2 my-1" />
                 Move Up
               </button>
 
-              <button className="btn btn-success btn ml-2"
+              <button className="btn btn-success btn ml-2 my-1"
                 onClick={() => changeOrder(false)}
               >
                 <i className="fas fa-fw fa-arrow-down mr-2" />

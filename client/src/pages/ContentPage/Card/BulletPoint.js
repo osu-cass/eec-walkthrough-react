@@ -58,10 +58,26 @@ function BulletPoint (props) {
                 )}
               </div>
               <div className="content-td pb-2 col">
-                <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
-                  {props.text}
-                </span>
-                <Source source={props.source} sourceText={props.sourceText}/>
+
+                {/* opportunity descriptions are contained within a div */}
+                {styleText(props.icon) === "opportunity-desc" ? (
+                  <Fragment>
+                    <div className="opportunity-desc-block">
+                      <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
+                        {props.text}
+                      </span>
+                      <Source source={props.source} sourceText={props.sourceText} />
+                    </div>
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
+                      {props.text}
+                    </span>
+                    <Source source={props.source} sourceText={props.sourceText} />
+                  </Fragment>
+                )}
+
               </div>
             </div>
           ) : (
@@ -79,7 +95,7 @@ function BulletPoint (props) {
                 <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
                   {props.text}
                 </span>
-                <Source source={props.source} sourceText={props.sourceText}/>
+                <Source source={props.source} sourceText={props.sourceText} />
               </div>
             </div>
           )}
