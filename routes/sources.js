@@ -116,7 +116,6 @@ app.post("/page/:pageId", requireAuth, postSourceVal.validation, async (req, res
 
     const pageId = req.params.pageId;
     const text = req.body.text;
-    const url = req.body.url;
     console.log("Post a source for page", pageId);
 
     // confirm that the request is valid
@@ -133,7 +132,7 @@ app.post("/page/:pageId", requireAuth, postSourceVal.validation, async (req, res
     }
 
     // create the source
-    const results = await createSingleSource(pageId, text, url);
+    const results = await createSingleSource(pageId, text);
 
     if (results.insertId) {
       res.status(200).send(results);

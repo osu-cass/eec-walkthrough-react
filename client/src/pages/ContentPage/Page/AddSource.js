@@ -51,7 +51,7 @@ function AddSource(props) {
   }
 
   // Update one of the source fields
-  function modifySource(text, fieldNumber, sourceId) {
+  function modifySource(sourceId, text) {
     const editedSources = [...sources];
     let arrayIndex = -1;
 
@@ -69,13 +69,8 @@ function AddSource(props) {
       return;
     }
 
-    if (fieldNumber === 1) {
-      editedSources[arrayIndex].text = text;
-      setSources(editedSources);
-    } else {
-      editedSources[arrayIndex].url = text;
-      setSources(editedSources);
-    }
+    editedSources[arrayIndex].text = text;
+    setSources(editedSources);
   }
 
   // Create a new source
@@ -84,8 +79,7 @@ function AddSource(props) {
 
     const newSource = {
       sourceId: negativeId,
-      text: "",
-      url: ""
+      text: ""
     };
 
     editedSources.push(newSource);
@@ -125,16 +119,13 @@ function AddSource(props) {
     e.preventDefault();
 
     const text = richText;
-    const url = "";
-    console.log(richText)
     if (!text.length) {
       setErrorMessage("Error: Text describing the source is blank");
       return;
     }
 
     const data = {
-      text: text,
-      url: url
+      text: text
     };
 
     const results = await fetch(`${APIURL}/sources/page/${props.pageId}`, {
@@ -235,40 +226,22 @@ function AddSource(props) {
 
           {sources.map((source, i) =>
             <Row className="mb-2" key={source.sourceId}>
-              <div className="input-group">
-                <span className="ml-2 mr-3">
-                  <button className='btn btn-danger btn-sm ml-2'
+                <div className="col-auto pr-0">
+                  <button className="btn btn-danger btn-sm"
                     onClick={() => deleteSource(source.sourceId)}
                     data-index={i}
                   >
-                    <i className='fas fa-fw fa-times' />
+                    <i className="fas fa-fw fa-times" />
                   </button>
-                </span>
-                <FormControl
-                  className="ml-3"
-                  as="textarea"
-                  rows="3"
-                  maxLength="5000"
-                  placeholder="Citation Text"
-                  defaultValue={source.text}
-                  aria-label="Citation Text"
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => modifySource(e.target.value, 1, source.sourceId)}
-                  required
-                />
-                <FormControl
-                  className="mr-3"
-                  as="textarea"
-                  rows="3"
-                  maxLength="5000"
-                  placeholder="URL (optional)"
-                  defaultValue={source.url}
-                  aria-label="URL"
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => modifySource(e.target.value, 2, source.sourceId)}
-                  required
-                />
-              </div>
+                </div>
+
+                <div className="col">
+                  <RichTextEditor
+                    id={`submit-source-${i}`}
+                    value={source.text}
+                    onChange={(text) => modifySource(source.sourceId, text)}
+                  />
+                </div>
             </Row>
           )}
 
