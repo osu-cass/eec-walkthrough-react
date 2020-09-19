@@ -69,8 +69,8 @@ function BulletPoint (props) {
               ${props.internal ? "internal-item" : ""} ${props.highlightStyle === 2 ? "move-review-item" : ""}
               ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
             >
-              <div className={`${props.inline ? "d-inline" : ""} icon-td justify-content-center`} >
-                <i className={`${props.inline ? "d-inline" : ""} fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}
+              <div className={`${props.inline ? "d-inline" : ""} icon-td justify-content-center indent-level-${props.indentation}`} >
+                <i className={`${props.inline ? "d-inline" : ""} fas fa-fw fa-${props.icon} mr-2 icon-item
                   ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
                 style={{color: props.color}}
                 title={props.tooltip}

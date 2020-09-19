@@ -20,7 +20,7 @@ function ManageIcons() {
     fetchIcons();
   }
 
-  // fetch homepage data
+  // fetch icon data
   async function fetchIcons() {
     setLoading(true);
 
