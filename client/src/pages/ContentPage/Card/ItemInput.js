@@ -126,7 +126,7 @@ function ItemInput(props) {
             as="textarea"
             rows="1"
             maxLength="1000"
-            className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
+            className={`ml-3 ${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
             placeholder="Graphic Label"
             value={props.value.contentLabel}
             aria-label="Insert Description"
@@ -138,7 +138,7 @@ function ItemInput(props) {
             as="textarea"
             rows="1"
             maxLength="1000"
-            className={props.internal ? "internal-modal-item" : ""}
+            className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
             placeholder="Image URL"
             value={props.value.contentUrl}
             aria-label="Insert Image URL"
@@ -147,7 +147,7 @@ function ItemInput(props) {
             required
           />
           <div className="col px-0">
-            <ImageInput id={props.index} onNewImage={(newImage) => props.onNewImage(newImage, props.index)} />
+            <ImageInput id={props.index} internal={props.internal} inline={props.inline} onNewImage={(newImage) => props.onNewImage(newImage, props.index)} />
           </div>
           <Dropdown className="source-select-drop-down-menu ml-2">
             <Dropdown.Toggle variant="outline-dark">
@@ -203,7 +203,7 @@ function ItemInput(props) {
             as="textarea"
             rows="1"
             maxLength="1000"
-            className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
+            className={`ml-3 ${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
             placeholder="Resource Label"
             value={props.value.contentLabel}
             aria-label="Insert URL Label"
@@ -215,7 +215,7 @@ function ItemInput(props) {
             as="textarea"
             rows="1"
             maxLength="1000"
-            className={props.internal ? "internal-modal-item" : ""}
+            className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
             placeholder="Resource URL"
             value={props.value.contentUrl}
             aria-label="Insert Resource URL"
@@ -227,7 +227,7 @@ function ItemInput(props) {
             as="textarea"
             rows="1"
             maxLength="1000"
-            className={props.internal ? "internal-modal-item" : ""}
+            className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
             placeholder="Description (optional)"
             value={props.value.contentText}
             aria-label="Insert Description"

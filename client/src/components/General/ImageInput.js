@@ -35,7 +35,10 @@ function ImageInput(props) {
           aria-describedby="inputGroupFileAddon01"
           onInput={(e) => handleChangeStatus(e)}
         />
-        <label className="custom-file-label" htmlFor={`custom-file-upload-${props.id}`}>
+        <label 
+          className={`custom-file-label ${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
+          htmlFor={`custom-file-upload-${props.id}`}
+        >
           {fileName}
         </label>
       </div>
@@ -46,6 +49,8 @@ export default ImageInput;
 
 ImageInput.propTypes = {
   id: PropTypes.number,
-  onNewImage: PropTypes.func
+  onNewImage: PropTypes.func,
+  internal: PropTypes.number,
+  inline: PropTypes.number
 };
 
