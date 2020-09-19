@@ -94,27 +94,15 @@ function BulletPoint (props) {
           ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
         >
 
-          {props.inline ? (
-            null
-          ) : (
-            <div className="icon-td pb-2">
-              <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
-                style={{color: props.color}}
-                title={props.tooltip}
-              />
-            </div>
-          )}
+          <div className={props.inline ? "inline-graphic align-top" : "icon-td pb-2"}>
+            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
+              style={{color: props.color}}
+              title={props.tooltip}
+            />
+          </div>
 
-          <div className={`${props.inline ? "mr-3" : "col"} content-td pb-2`}>
+          <div className={`${props.inline ? "inline-graphic mr-3" : "col"} content-td pb-2`}>
             <div className="pb-1">
-              {props.inline ? (
-                <i className={`d-inline fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
-                  style={{color: props.color}}
-                  title={props.tooltip}
-                />
-              ) : (
-                null
-              )}
               <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
                 {props.text}
               </span>
