@@ -4,11 +4,11 @@
 // setup database connection and routing
 require("dotenv").config({silent: process.env.NODE_ENV === "production"});
 
-const express = require('express');
-const path = require('path');
+const express = require("express");
+const path = require("path");
 const fileApp = express();
 const {pool} = require("./services/database/mysqlPool");
-app = require("./routes/index");
+const app = require("./routes/index");
 const http = require("http");
 const fs = require("fs");
 
@@ -17,16 +17,6 @@ console.log("Running in", process.env.NODE_ENV, "mode");
 
 const apiPort = process.env.API_PORT || 1111;
 const filePort = process.env.FILE_PORT || 2222;
-
-
-let options = {};
-
-if (process.env.NODE_ENV === "production") {
-  options = {
-    key: fs.readFileSync("walkthrough.key"),
-    cert: fs.readFileSync("walkthrough.cer")
-  };
-}
 
 // confirm that connection was made to the database
 async function testConnection(pool, attempt, callback) {
@@ -46,10 +36,11 @@ async function testConnection(pool, attempt, callback) {
 
 // serve static files while in production mode
 if (process.env.NODE_ENV === "production") {
+
   fileApp.use(express.static(path.join(__dirname + "/client/", "build")));
   fileApp.use(express.static(path.join(__dirname + "/client/", "files")));
 
-  fileApp.get("/*", function(req, res) {
+  fileApp.get("/*", (req, res) => {
     res.sendFile(path.join(__dirname + "/client/", "build", "index.html"));
   });
 
