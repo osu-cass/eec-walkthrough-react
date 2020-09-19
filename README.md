@@ -48,13 +48,6 @@ SQL_PORT=3307
 SQL_USER='root'
 JWT_SECRET_KEY='Coe2QWp2!PCEqo432'
 ```
-
-### `ssl certificate`
-
-If you plan to run this application in production mode you will need to include
-a certificate and private key file in the root directory. The files should be named
-`walkthrough.cer` and `walkthrough.key` respectively.
-
 ## Available Scripts
 
 In the project directory, you can run:
