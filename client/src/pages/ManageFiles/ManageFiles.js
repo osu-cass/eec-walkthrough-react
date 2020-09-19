@@ -41,7 +41,7 @@ function ManageFiles() {
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
           <h4 className="flex-grow-1 font-weight-bold">
-            Manage Uploads
+            Manage Images
           </h4>
         </div>
       </div>
@@ -66,28 +66,28 @@ function ManageFiles() {
             <th style={{width: "15%"}}>
               User ID
             </th>
+            <th style={{width: "15%"}}>
+              Delete File
+            </th>
           </tr>
         </thead>
         <tbody>
-          {icons.map((icon) =>
-            <tr key={icon.iconType}>
+          {files.map((file) =>
+            <tr key={file.name}>
               <td className="file-data pl-5">
-                <i className={`fas fa-fw fa-${icon.typeName} mr-2`} style={{color: icon.color}}/>
+                <img src="https://placekitten.com/200/300" alt="uploaded file" />
               </td>
               <td className="file-data">
-                {icon.iconType}
+                {file.name}
               </td>
               <td className="file-data">
-                {icon.typeKeyword}
+                {file.source}
               </td>
               <td className="file-data">
-                {icon.typeName}
+                {file.used}
               </td>
               <td className="file-data">
-                {groupName(icon.groupIndex)}
-              </td>
-              <td className="file-data">
-                {icon.color}
+                {file.userId}
               </td>
               <td className="file-data text-left">
                 [DELETE FILE]
