@@ -100,7 +100,7 @@ async function getFullPage(pageId, viewAll) {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, internal, " +
-          "created, approved, color, sourceId " +
+          "created, approved, color, sourceId, inline " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -115,7 +115,7 @@ async function getFullPage(pageId, viewAll) {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, internal, " +
-          "created, approved, color, sourceId " +
+          "created, approved, color, sourceId, inline " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -131,7 +131,7 @@ async function getFullPage(pageId, viewAll) {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, " +
-          "created, approved, color, sourceId " +
+          "created, approved, color, sourceId, inline " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -821,7 +821,7 @@ async function getReport(start, end, condense, offset) {
         sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
         "HI.iconType, typeName, typeKeyword, contentText, " +
         "contentUrl, contentLabel, contentMode, internal, " +
-        "created, color " +
+        "created, color, sourceId, inline " +
         "FROM History_Items AS HI " +
         "LEFT JOIN Icons on HI.iconType = Icons.iconType " +
         "WHERE parentId = ? " +
@@ -844,7 +844,7 @@ async function getReport(start, end, condense, offset) {
       sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
       "HI.iconType, typeName, typeKeyword, contentText, " +
       "contentUrl, contentLabel, contentMode, internal, " +
-      "created, color " +
+      "created, color, sourceId, inline " +
       "FROM History_Items AS HI " +
       "LEFT JOIN Icons on HI.iconType = Icons.iconType " +
       "WHERE parentId = ? " +

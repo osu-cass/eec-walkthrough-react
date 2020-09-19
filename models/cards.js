@@ -63,6 +63,8 @@ async function createCard(headerId, cardType, title, items, userId) {
         return {error: 3};
       } else if (typeof items[i].internal !== "number") {
         return {error: 3};
+      } else if (typeof items[i].inline !== "number") {
+        return {error: 3};
       } else if (typeof items[i].sourceId !== "number") {
         return {error: 3};
       }
@@ -92,10 +94,10 @@ async function createCard(headerId, cardType, title, items, userId) {
 
     // create the new items
     sql = "INSERT INTO Items (cardId, indentation, iconType, contentText, " +
-    "contentUrl, contentLabel, contentMode, internal, sourceId, approved) VALUES ";
+    "contentUrl, contentLabel, contentMode, internal, inline, sourceId, approved) VALUES ";
     // expand the sql string and array based on the number of items
     items.forEach((currentValue) => {
-      sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
+      sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
       sqlArray.push(cardId);
       sqlArray.push(currentValue.indentation);
       sqlArray.push(currentValue.iconType);
@@ -104,6 +106,7 @@ async function createCard(headerId, cardType, title, items, userId) {
       sqlArray.push(currentValue.contentLabel);
       sqlArray.push(currentValue.contentMode);
       sqlArray.push(currentValue.internal);
+      sqlArray.push(currentValue.inline);
       sqlArray.push(currentValue.sourceId);
     });
 
@@ -165,8 +168,8 @@ async function deleteCard(cardId) {
 
         sql = "INSERT INTO History_Items " +
         "(parentId, itemId, cardId, orderIndex, indentation, iconType, contentText, " +
-        "contentUrl, contentLabel, contentMode, internal, created, sourceId) " +
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        "contentUrl, contentLabel, contentMode, internal, inline, created, sourceId) " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         await pool.query(sql, sqlArray);
       }
@@ -318,6 +321,8 @@ async function updateCard(cardId, cardType, title, items, userId) {
         return {error: 2};
       } else if (typeof items[i].internal !== "number") {
         return {error: 2};
+      } else if (typeof items[i].inline !== "number") {
+        return {error: 2};
       } else if (typeof items[i].sourceId !== "number") {
         return {error: 2};
       }
@@ -375,11 +380,11 @@ async function updateCard(cardId, cardType, title, items, userId) {
 
         // create all of the new items
         sql = "INSERT INTO Items (cardId, indentation, iconType, " +
-        "contentText, contentUrl, contentLabel, contentMode, internal, sourceId, approved) VALUES ";
+        "contentText, contentUrl, contentLabel, contentMode, internal, inline, sourceId, approved) VALUES ";
 
         // expand the sql string and array based on the number of items
         items.forEach((currentValue) => {
-          sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
+          sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
           sqlArray.push(cardId);
           sqlArray.push(currentValue.indentation);
           sqlArray.push(currentValue.iconType);
@@ -388,6 +393,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
           sqlArray.push(currentValue.contentLabel);
           sqlArray.push(currentValue.contentMode);
           sqlArray.push(currentValue.internal);
+          sqlArray.push(currentValue.inline);
           sqlArray.push(currentValue.sourceId);
         });
 
@@ -530,12 +536,12 @@ async function publishCard(cardId) {
       const sqlArray = [newHistoryId, results[0][i].itemId, results[0][i].cardId,
         results[0][i].orderIndex, results[0][i].indentation, results[0][i].iconType,
         results[0][i].contentText, results[0][i].contentUrl, results[0][i].contentLabel,
-        results[0][i].contentMode, results[0][i].internal, results[0][i].created, results[0][i].sourceId];
+        results[0][i].contentMode, results[0][i].internal, results[0][i].inline, results[0][i].created, results[0][i].sourceId];
 
       sql = "INSERT INTO History_Items " +
       "(parentId, itemId, cardId, orderIndex, indentation, iconType, contentText, " +
-      "contentUrl, contentLabel, contentMode, internal, created, sourceId) " +
-      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+      "contentUrl, contentLabel, contentMode, internal, inline, created, sourceId) " +
+      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
       await pool.query(sql, sqlArray);
     }
