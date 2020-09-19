@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Modal, Button, Row, FormControl} from "react-bootstrap";
+import {Modal, Button, Row} from "react-bootstrap";
 import RichTextEditor from "../../../components/General/RichTextEditor";
 import PropTypes from "prop-types";
 import Error from "../../../components/General/Error";

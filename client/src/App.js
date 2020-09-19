@@ -4,6 +4,7 @@ import Home from "./pages/Home/Home";
 import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import ManageIcons from "./pages/ManageIcons/ManageIcons";
 import ManageLinks from "./pages/ManageLinks/ManageLinks";
+import ManageFiles from "./pages/ManageFiles/ManageFiles";
 import ManageCardTitles from "./pages/ManageCardTitles/ManageCardTitles";
 import ViewHistory from "./pages/ViewHistory/ViewHistory";
 import Search from "./pages/Search/Search";
@@ -82,6 +83,10 @@ function App() {
 
         <Route path="/manage-icons">
           <ManageIcons />
+        </Route>
+
+        <Route path="/manage-images">
+          <ManageFiles />
         </Route>
 
         <Route path="/manage-links">
