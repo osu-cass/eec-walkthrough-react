@@ -31,7 +31,7 @@ SQL_PASSWORD: The password for the SQL server.
 
 SQL_PORT: The port used to access the SQL database.
 
-SQL_USER: The username to connect to the SQL server with.
+SQL_USER: The username for connecting to the SQL server.
 
 JWT_SECRET_KEY: A random string that will be used as a secret key.
 The secret key should be at least 15 characters long.
@@ -52,7 +52,7 @@ JWT_SECRET_KEY='Coe2QWp2!PCEqo432'
 ### `ssl certificate`
 
 If you plan to run this application in production mode you will need to include
-a certificate and private key file in the root directory. The files should be name
+a certificate and private key file in the root directory. The files should be named
 `walkthrough.cer` and `walkthrough.key` respectively.
 
 ## Available Scripts
