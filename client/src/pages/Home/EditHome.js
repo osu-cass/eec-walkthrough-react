@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {getProfile, logout} from "../../utilities/cookieAuth";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import "./EditHome.css";
 
 // Button and modal that allows a user to edit the homepage
@@ -82,7 +82,7 @@ function EditHome(props) {
       disclaimerText: disclaimerText
     };
 
-    const results = await fetch(`${APIURL}/home`, {
+    const results = await fetch(`${API_URL}/home`, {
       method: "PATCH",
       credentials: "include",
       headers: {"Content-Type": "application/json"},

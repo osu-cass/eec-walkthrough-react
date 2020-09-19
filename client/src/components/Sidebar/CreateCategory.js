@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import Error from "../General/Error";
 import "./CreateCategory.css";
 
@@ -45,7 +45,7 @@ function CreateCategory(props) {
     };
 
     // Create new category
-    const results = await fetch(`${APIURL}/categories/`, {
+    const results = await fetch(`${API_URL}/categories/`, {
       method: "POST",
       credentials: "include",
       headers: {"Content-Type": "application/json"},

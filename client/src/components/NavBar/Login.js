@@ -3,7 +3,7 @@ import {Form} from "react-bootstrap";
 import LoadingOverlay from "../General/LoadingOverlay";
 import {withRouter} from "react-router-dom";
 import Error from "../General/Error";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import "./Login.css";
 
 // login button, acts as the logout button when a user is already logged in
@@ -38,7 +38,7 @@ function Login (props) {
       };
 
       // make the request
-      const results = await fetch(`${APIURL}/users/login`, {
+      const results = await fetch(`${API_URL}/users/login`, {
         method: "POST",
         credentials: "include",
         headers: {

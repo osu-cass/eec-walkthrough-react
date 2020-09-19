@@ -2,7 +2,7 @@ import React from "react";
 import {PropTypes} from "prop-types";
 import {Button} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 
 // button for generating a random password for a user
 function GeneratePassword(props) {
@@ -22,7 +22,7 @@ function GeneratePassword(props) {
         // the user confirmed that they wanted to change the password
         // so we will send a request to the API server
 
-        const results = await fetch(`${APIURL}/users/${props.userId}/newPassword`, {
+        const results = await fetch(`${API_URL}/users/${props.userId}/newPassword`, {
           method: "POST",
           credentials: "include",
           headers: {"Content-Type": "application/json"}

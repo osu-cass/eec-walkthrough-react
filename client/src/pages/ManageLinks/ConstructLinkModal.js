@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import "./ConstructLinkModal.css";
@@ -40,7 +40,7 @@ function ConstructLinkModal(props) {
     };
 
     // Edit link
-    const results = await fetch(`${APIURL}/links/${props.link.itemId}`, {
+    const results = await fetch(`${API_URL}/links/${props.link.itemId}`, {
       method: "PATCH",
       credentials: "include",
       headers: {"Content-Type": "application/json"},

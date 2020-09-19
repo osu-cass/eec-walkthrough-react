@@ -7,7 +7,7 @@ import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import ImageInput from "../../components/General/ImageInput";
 import {getProfile, logout} from "../../utilities/cookieAuth";
-import {APIURL} from "../../utilities/constants";
+import {API_URL, UPLOAD_TERMS} from "../../utilities/constants";
 import "./ManageSponsors.css";
 
 // Button and modal that allows a user to manage sponsors
@@ -20,9 +20,7 @@ function ManageSponsors(props) {
   const [sponsors, setSponsors] = useState([]);
   const [imageAgreement, setImageAgreement] = useState(getAgreement("image"));
   const [showAgreement, setShowAgreement] = useState(false);
-  const [imageTerms] = useState("Before uploading any images you must agree that " +
-  "you will only upload images that you have intellectual property rights to use. " +
-  "You must also agree to only upload images that are suitable for the general public to view.");
+  const [imageTerms] = useState(UPLOAD_TERMS);
 
   // set the list of sponsors
   useEffect(() => {
@@ -71,7 +69,7 @@ function ManageSponsors(props) {
       for (let i = 0; i < uploadImages.length; i++) {
         formData.append("images", uploadImages[i]);
       }
-      const results = await fetch(`${APIURL}/files/bulk`, {
+      const results = await fetch(`${API_URL}/files/bulk`, {
         method: "POST",
         credentials: "include",
         body: formData
@@ -109,7 +107,7 @@ function ManageSponsors(props) {
       sponsors: copy
     };
 
-    const results = await fetch(`${APIURL}/home/sponsors`, {
+    const results = await fetch(`${API_URL}/home/sponsors`, {
       method: "PATCH",
       credentials: "include",
       headers: {"Content-Type": "application/json"},

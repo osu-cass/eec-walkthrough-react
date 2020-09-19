@@ -2,7 +2,7 @@ import React, {useEffect, useState, Fragment} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../../utilities/cookieAuth";
 import {getAgreement} from "../../../utilities/agreementMode";
-import {APIURL} from "../../../utilities/constants";
+import {API_URL, UPLOAD_TERMS} from "../../../utilities/constants";
 import Agreement from "../../../components/General/Agreement";
 import AddButton from "./AddButton";
 import ItemInput from "./ItemInput";
@@ -31,9 +31,7 @@ function ConstructCardModal(props) {
   const [selectedItem, setSelectedItem] = useState(0);
   const [imageAgreement, setImageAgreement] = useState(getAgreement("image"));
   const [showAgreement, setShowAgreement] = useState(false);
-  const [imageTerms] = useState("Before uploading any images you must agree that " +
-  "you will only upload images that you have intellectual property rights to use. " +
-  "You must also agree to only upload images that are suitable for the general public to view.");
+  const [imageTerms] = useState(UPLOAD_TERMS);
 
   // setup card data
   useEffect(() => {
@@ -68,6 +66,7 @@ function ConstructCardModal(props) {
       itemData.contentMode = item.contentMode;
       itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
       itemData.internal = item.internal;
+      itemData.inline = item.inline;
       itemData.sourceId = item.sourceId;
       itemData.current = 1;
       itemData.created = item.created;
@@ -178,6 +177,7 @@ function ConstructCardModal(props) {
     copy[key].contentType = contentType;
     copy[key].contentMode = newContentMode;
     copy[key].indentation = newIndent;
+    copy[key].inline = 0;
     copy[key].internal = 0;
     copy[key].sourceId = 0;
     copy[key].created = new Date();
@@ -326,7 +326,7 @@ function ConstructCardModal(props) {
       for (let i = 0; i < uploadImages.length; i++) {
         formData.append("images", uploadImages[i]);
       }
-      const results = await fetch(`${APIURL}/files/bulk`, {
+      const results = await fetch(`${API_URL}/files/bulk`, {
         method: "POST",
         credentials: "include",
         body: formData
@@ -372,7 +372,7 @@ function ConstructCardModal(props) {
     };
 
     // Create the new card
-    const results = await fetch(`${APIURL}/cards`, {
+    const results = await fetch(`${API_URL}/cards`, {
       method: "POST",
       credentials: "include",
       headers: {"Content-Type": "application/json"},
@@ -488,7 +488,7 @@ function ConstructCardModal(props) {
       for (let i = 0; i < uploadImages.length; i++) {
         formData.append("images", uploadImages[i]);
       }
-      const results = await fetch(`${APIURL}/files/bulk`, {
+      const results = await fetch(`${API_URL}/files/bulk`, {
         method: "POST",
         credentials: "include",
         body: formData
@@ -533,7 +533,7 @@ function ConstructCardModal(props) {
     };
 
     // Edit card
-    const results = await fetch(`${APIURL}/cards/${props.card.cardId}`, {
+    const results = await fetch(`${API_URL}/cards/${props.card.cardId}`, {
       method: "PATCH",
       credentials: "include",
       headers: {"Content-Type": "application/json"},
@@ -683,7 +683,7 @@ function ConstructCardModal(props) {
   // Delete the current card
   async function deleteCard() {
     // Send call to backend to delete card
-    const results = await fetch(`${APIURL}/cards/${props.card.cardId}`, {
+    const results = await fetch(`${API_URL}/cards/${props.card.cardId}`, {
       method: "DELETE",
       credentials: "include",
       headers: {"Content-Type": "application/json"}
@@ -903,7 +903,7 @@ function ConstructCardModal(props) {
     // stringify the item data
     const itemString = item.contentText + "$%$" + item.contentLabel + "$%$" +
       item.contentUrl + "$%$" + item.iconType + "$%$" + item.contentType + "$%$" +
-      item.contentMode + "$%$" + item.internal + "$%$" + item.sourceId;
+      item.contentMode + "$%$" + item.internal + "$%$" + item.sourceId + "$%$" + item.inline;
 
     // save the item to local storage
     window.localStorage.setItem("itemCopy", itemString);
@@ -938,6 +938,7 @@ function ConstructCardModal(props) {
     copy[key].contentMode = parseInt(itemArray[5], 10);
     copy[key].internal = parseInt(itemArray[6], 10);
     copy[key].sourceId = parseInt(itemArray[7], 10);
+    copy[key].inline = parseInt(itemArray[8], 10);
     copy[key].indentation = 0;
 
     // Make sure the indentation is up to date
@@ -985,7 +986,33 @@ function ConstructCardModal(props) {
     } else {
       setItems(copy);
     }
+  }
 
+  // Toggle inline displaying of an item
+  function toggleInline() {
+    const counterId = selectedItem;
+    let arrayIndex = -1;
+    const copy = [...items];
+
+    // Find the item
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].counterId === counterId) {
+        if (copy[i].inline === 1) {
+          copy[i].inline = 0;
+        } else {
+          copy[i].inline = 1;
+        }
+        arrayIndex = i;
+        break;
+      }
+    }
+
+    // If we can not find the index, then exit
+    if (arrayIndex === -1) {
+      console.error("Unable to find item change inline status");
+    } else {
+      setItems(copy);
+    }
   }
 
   // handle storing file information for uploaded images
@@ -1123,21 +1150,28 @@ function ConstructCardModal(props) {
                 onClick={() => deleteItem()}
               >
                 <i className="fas fa-fw fa-times mr-2 my-1" />
-                Delete Item
+                Delete
               </button>
 
               <button className="btn btn-info internal-item-button btn ml-2"
                 onClick={() => toggleInternal()}
               >
                 <i className="fas fa-fw fa-unlock mr-2 my-1" />
-                Toggle Internal
+                Internal
+              </button>
+
+              <button className="btn btn-info inline-item-button btn ml-2"
+                onClick={() => toggleInline()}
+              >
+                <i className="fas fa-fw fa-ellipsis-h mr-2 my-1" />
+                Inline
               </button>
 
               <button className="btn btn-info copy-paste-button btn ml-2"
                 onClick={() => copyItem()}
               >
                 <i className="fas fa-fw fa-copy mr-2 my-1" />
-                Copy Item
+                Copy
               </button>
 
               <button className="btn btn-primary btn ml-2 my-1"
@@ -1174,7 +1208,8 @@ function ConstructCardModal(props) {
 
           {items.map((item, i) =>
             <Row
-              className={`mb-2 mx-2 ${item.counterId === selectedItem ? "modal-selected-item" : ""} ${item.internal ? "internal-modal-item" : ""}`}
+              className={`mb-2 mx-2 ${item.counterId === selectedItem ? "modal-selected-item" : ""}
+                ${item.internal ? "internal-modal-item" : ""} ${item.inline ? "inline-modal-item" : ""}`}
               key={item.counterId}
               onClick={() => setSelectedItem(item.counterId)}
             >
@@ -1198,6 +1233,7 @@ function ConstructCardModal(props) {
                   value={item}
                   contentType={item.contentType}
                   internal={item.internal}
+                  inline={item.inline}
                   sourceId={item.sourceId}
                   sources={props.sources}
                 />

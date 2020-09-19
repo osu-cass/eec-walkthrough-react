@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Card} from "react-bootstrap";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import Error from "../../components/General/Error";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import validator from "validator";
 import "./RegisterUser.css";
 
@@ -27,7 +27,7 @@ function RegisterUser () {
       };
 
       // make the request
-      const results = await fetch(`${APIURL}/users`, {
+      const results = await fetch(`${API_URL}/users`, {
         method: "POST",
         credentials: "include",
         headers: {"Content-Type": "application/json"},

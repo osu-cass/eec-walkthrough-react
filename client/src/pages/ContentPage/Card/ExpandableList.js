@@ -50,6 +50,7 @@ function ExpandableList(props) {
             source={item.refId}
             sourceText={item.refText}
             internal={item.internal}
+            inline={item.inline}
           />
         )}
       </div>

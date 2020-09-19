@@ -7,7 +7,7 @@ import {getAgreement} from "../../../utilities/agreementMode";
 import ImageInput from "../../../components/General/ImageInput";
 import LoadingOverlay from "../../../components/General/LoadingOverlay";
 import {logout} from "../../../utilities/cookieAuth";
-import {APIURL} from "../../../utilities/constants";
+import {API_URL, UPLOAD_TERMS} from "../../../utilities/constants";
 import "./EditPage.css";
 
 // Button and modal that allows a user to edit a page
@@ -26,9 +26,7 @@ function EditPage(props) {
   const [pendingImage, setPendingImage] = useState(null);
   const [imageUpload, setImageUpload] = useState(null);
   const [showAgreement, setShowAgreement] = useState(false);
-  const [imageTerms] = useState("Before uploading any images you must agree that " +
-  "you will only upload images that you have intellectual property rights to use. " +
-  "You must also agree to only upload images that are suitable for the general public to view.");
+  const [imageTerms] = useState(UPLOAD_TERMS);
 
   // show terms of image submission if they haven't been accepted before
   useEffect(() => {
@@ -43,7 +41,7 @@ function EditPage(props) {
   // When the page is first loaded, go ahead and fetch all of the category types
   useEffect(() => {
     async function fetchNames() {
-      const results = await fetch(`${APIURL}/categories/names`, {
+      const results = await fetch(`${API_URL}/categories/names`, {
         method: "GET",
         credentials: "include",
         headers: {"Content-Type": "application/json"}
@@ -164,7 +162,7 @@ function EditPage(props) {
     if (imageUpload !== null) {
       const formData = new FormData();
       formData.append("image", imageUpload);
-      const results = await fetch(`${APIURL}/files/single`, {
+      const results = await fetch(`${API_URL}/files/single`, {
         method: "POST",
         credentials: "include",
         body: formData
@@ -195,7 +193,7 @@ function EditPage(props) {
       pageType: newPageType
     };
 
-    const results = await fetch(`${APIURL}/pages/${props.page.pageId}`, {
+    const results = await fetch(`${API_URL}/pages/${props.page.pageId}`, {
       method: "PATCH",
       credentials: "include",
       headers: {"Content-Type": "application/json"},
@@ -298,7 +296,7 @@ function EditPage(props) {
   async function deletePage() {
     setShowLoad(true);
 
-    const results = await fetch(`${APIURL}/pages/${props.page.pageId}`, {
+    const results = await fetch(`${API_URL}/pages/${props.page.pageId}`, {
       method: "DELETE",
       credentials: "include",
       headers: {"Content-Type": "application/json"}

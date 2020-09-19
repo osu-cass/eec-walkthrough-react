@@ -140,13 +140,13 @@ function PlaceHolder(props) {
   } else if (props.type === 3) {
     // inline with no-wrap
     return (
-      <Fragment>
+      <div className="item-separator-div">
         {/* An item */}
         <div className="d-inline text-nowrap">
           <div className="d-inline icon-td justify-content-center">
             <i className="fas fa-fw fa-pencil-alt mr-2 icon-item indent-level-0"/>
           </div>
-          <div className="d-inline content-td pb-2 col mr-2">
+          <div className="d-inline mr-2 content-td pb-2 col">
             <span className="icon-item-text">
               Lorem ipsum dolor sit amet.
             </span>
@@ -207,7 +207,7 @@ function PlaceHolder(props) {
             </span>
           </div>
         </div>
-      </Fragment>
+      </div>
     );
   } else if (props.type === 4) {
     // grid

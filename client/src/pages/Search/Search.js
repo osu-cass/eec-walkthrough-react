@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import PageSearchResults from "./PageSearchResults";
 import {useParams, withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
@@ -62,7 +62,7 @@ function Search(props) {
       }
 
       // get our search results
-      const results = await fetch(`${APIURL}/pages/search/${textValue}/${cursor.primary}/${cursor.secondary}`, {
+      const results = await fetch(`${API_URL}/pages/search/${textValue}/${cursor.primary}/${cursor.secondary}`, {
         method: "GET",
         credentials: "include",
         headers: {"Content-Type": "application/json"}

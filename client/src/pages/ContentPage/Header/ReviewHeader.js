@@ -3,7 +3,7 @@ import {Modal, Button, Row} from "react-bootstrap";
 import {getProfile, logout} from "../../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import {formatTime} from "../../../utilities/formatTime";
-import {APIURL} from "../../../utilities/constants";
+import {API_URL} from "../../../utilities/constants";
 import Error from "../../../components/General/Error";
 import HighlightText from "../Various/HighlightText";
 import AddReviewObject from "../Various/AddReviewObject";
@@ -59,7 +59,7 @@ function ReviewHeader(props) {
     }
 
     // Unpublish the header
-    const results = await fetch(`${APIURL}/headers/${props.header.headerId}/unpublish`, {
+    const results = await fetch(`${API_URL}/headers/${props.header.headerId}/unpublish`, {
       method: "POST",
       credentials: "include",
       headers: {"Content-Type": "application/json"}
@@ -120,7 +120,7 @@ function ReviewHeader(props) {
     }
 
     // Approve the header
-    const results = await fetch(`${APIURL}/headers/${props.header.headerId}/publish`, {
+    const results = await fetch(`${API_URL}/headers/${props.header.headerId}/publish`, {
       method: "POST",
       credentials: "include",
       headers: {"Content-Type": "application/json"}
@@ -204,7 +204,7 @@ function ReviewHeader(props) {
     }
 
     // delete proposed changes
-    const results = await fetch(`${APIURL}/headers/${props.header.headerId}/changes`, {
+    const results = await fetch(`${API_URL}/headers/${props.header.headerId}/changes`, {
       method: "DELETE",
       credentials: "include",
       headers: {"Content-Type": "application/json"}

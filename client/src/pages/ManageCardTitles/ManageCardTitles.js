@@ -3,7 +3,7 @@ import {Button, Row, FormControl} from "react-bootstrap";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import "./ManageCardTitles.css";
 
 // page for managing default card titles
@@ -23,7 +23,7 @@ function ManageCardTitles() {
   async function fetchTitles() {
     setLoading(true);
 
-    const results = await fetch(`${APIURL}/cards/titles`, {
+    const results = await fetch(`${API_URL}/cards/titles`, {
       method: "GET",
       credentials: "include",
       headers: {"Content-Type": "application/json"}
@@ -57,7 +57,7 @@ function ManageCardTitles() {
     };
 
     // make the request
-    const results = await fetch(`${APIURL}/cards/titles`, {
+    const results = await fetch(`${API_URL}/cards/titles`, {
       method: "POST",
       credentials: "include",
       headers: {"Content-Type": "application/json"},

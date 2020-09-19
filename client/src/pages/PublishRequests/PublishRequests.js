@@ -3,7 +3,7 @@ import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {NavLink} from "react-router-dom";
 import {logout} from "../../utilities/cookieAuth";
 import {formatTime} from "../../utilities/formatTime";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import CreateRequest from "./CreateRequest";
 import {Button} from "react-bootstrap";
 import "./PublishRequests.css";
@@ -24,7 +24,7 @@ function PublishRequests() {
     setLoading(true);
 
     // Fetch all requests
-    const results = await fetch(`${APIURL}/requests/all`, {
+    const results = await fetch(`${API_URL}/requests/all`, {
       method: "GET",
       credentials: "include",
       headers: {"Content-Type": "application/json"}
