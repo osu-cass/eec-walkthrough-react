@@ -99,3 +99,7 @@
     #ebebeb 8%
   );
 }
+
+.inline-graphic {
+  display: inline-block;
+}
