@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import EditIcons from "./EditIcons";
 import CreateIcon from "./CreateIcon";
 import "./ManageIcons.css";
@@ -25,7 +25,7 @@ function ManageIcons() {
     setLoading(true);
 
     // Fetch all icons
-    const results = await fetch(`${APIURL}/icons/all`, {
+    const results = await fetch(`${API_URL}/icons/all`, {
       method: "GET",
       credentials: "include",
       headers: {"Content-Type": "application/json"}

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
-import {APIURL} from "../../utilities/constants";
+import {API_URL, UPLOAD_TERMS} from "../../utilities/constants";
 import Agreement from "../General/Agreement";
 import {getAgreement} from "../../utilities/agreementMode";
 import PropTypes from "prop-types";
@@ -22,9 +22,7 @@ function CreatePage(props) {
   const [pendingImage, setPendingImage] = useState(null);
   const [imageUpload, setImageUpload] = useState(null);
   const [showAgreement, setShowAgreement] = useState(false);
-  const [imageTerms] = useState("Before uploading any images you must agree that " +
-  "you will only upload images that you have intellectual property rights to use. " +
-  "You must also agree to only upload images that are suitable for the general public to view.");
+  const [imageTerms] = useState(UPLOAD_TERMS);
 
   // show terms of image submission if they haven't been accepted before
   useEffect(() => {
@@ -60,7 +58,7 @@ function CreatePage(props) {
     if (imageUpload !== null) {
       const formData = new FormData();
       formData.append("image", imageUpload);
-      const results = await fetch(`${APIURL}/files/single`, {
+      const results = await fetch(`${API_URL}/files/single`, {
         method: "POST",
         credentials: "include",
         body: formData
@@ -99,7 +97,7 @@ function CreatePage(props) {
     };
 
     // Create new page
-    const results = await fetch(`${APIURL}/pages/`, {
+    const results = await fetch(`${API_URL}/pages/`, {
       method: "POST",
       credentials: "include",
       headers: {"Content-Type": "application/json"},

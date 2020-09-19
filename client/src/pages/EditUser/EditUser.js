@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Card, Container} from "react-bootstrap";
 import {getProfile, changeUsername} from "../../utilities/cookieAuth";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import Error from "../../components/General/Error";
 import Success from "../../components/General/Success";
@@ -51,7 +51,7 @@ function EditUser(props) {
       const currentUser = getProfile();
 
       // make the request
-      const results = await fetch(`${APIURL}/users/${currentUser.userId}`, {
+      const results = await fetch(`${API_URL}/users/${currentUser.userId}`, {
         method: "PATCH",
         credentials: "include",
         headers: {"Content-Type": "application/json"},
@@ -113,7 +113,7 @@ function EditUser(props) {
       }
 
       // make the request
-      const results = await fetch(`${APIURL}/users/${currentUser.userId}`, {
+      const results = await fetch(`${API_URL}/users/${currentUser.userId}`, {
         method: "GET",
         credentials: "include",
         headers: {"Content-Type": "application/json"}

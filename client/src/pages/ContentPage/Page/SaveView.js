@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import Error from "../../../components/General/Error";
-import {APIURL} from "../../../utilities/constants";
+import {API_URL} from "../../../utilities/constants";
 import PropTypes from "prop-types";
 
 // Button and modal that allows saving view settings
@@ -24,7 +24,7 @@ function SaveView(props) {
     if (newModal) {
 
       // Fetch the views for this page
-      const results = await fetch(`${APIURL}/views/page/${props.pageId}`, {
+      const results = await fetch(`${API_URL}/views/page/${props.pageId}`, {
         method: "GET",
         credentials: "include",
         headers: {"Content-Type": "application/json"}
@@ -85,7 +85,7 @@ function SaveView(props) {
     }
 
     // create the new view
-    const results = await fetch(`${APIURL}/views/page/${props.pageId}`, {
+    const results = await fetch(`${API_URL}/views/page/${props.pageId}`, {
       method: "POST",
       credentials: "include",
       headers: {"Content-Type": "application/json"},
@@ -97,7 +97,7 @@ function SaveView(props) {
       handleClose();
 
       // reload the view list
-      const results = await fetch(`${APIURL}/views/page/${props.pageId}`, {
+      const results = await fetch(`${API_URL}/views/page/${props.pageId}`, {
         method: "GET",
         credentials: "include",
         headers: {"Content-Type": "application/json"}

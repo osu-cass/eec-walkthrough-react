@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import PropTypes from "prop-types";
 import Error from "../General/Error";
 import "./EditCategory.css";
@@ -54,7 +54,7 @@ function EditCategory(props) {
     };
 
     // update a category
-    const results = await fetch(`${APIURL}/categories/${props.category.categoryId}`, {
+    const results = await fetch(`${API_URL}/categories/${props.category.categoryId}`, {
       method: "PATCH",
       credentials: "include",
       headers: {"Content-Type": "application/json"},

@@ -22,6 +22,14 @@ select {
   background-color: #dedede;
 }
 
+.inline-modal-item {
+  background-color: #c1e1ec;
+}
+
+.inline-modal-item.internal-modal-item {
+  background-color: #99cfe0;
+}
+
 .item-button-bar {
   z-index: 800;
 }

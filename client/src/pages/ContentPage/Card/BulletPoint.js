@@ -41,57 +41,42 @@ function BulletPoint (props) {
       {getContentType(props.text, props.label, props.url) === 1 ? (
         <Fragment>
           {props.icon === "check-square" ? (
-            <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
+            <div className={`${props.inline ? "d-inline text-nowrap" : "row mx-auto"} ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
               ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
             >
-              <div className="icon-td justify-content-center">
+              <div className={`${props.inline ? "d-inline" : ""} icon-td justify-content-center`}>
                 {props.checked && props.mode !== 2 ? (
-                  <i className={`fas fa-fw fa-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
+                  <i className={`${props.inline ? "d-inline" : ""} fas fa-fw fa-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
                     title={props.tooltip}
                     onClick={() => updateCheck(false, props.id)}
                   />
                 ) : (
-                  <i className={`fas fa-fw fa-check-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
+                  <i className={`${props.inline ? "d-inline" : ""} fas fa-fw fa-check-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
                     title={props.tooltip}
                     onClick={() => updateCheck(true, props.id)}
                   />
                 )}
               </div>
-              <div className="content-td pb-2 col">
-
-                {/* opportunity descriptions are contained within a div */}
-                {styleText(props.icon) === "opportunity-desc" ? (
-                  <Fragment>
-                    <div className="opportunity-desc-block">
-                      <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
-                        {props.text}
-                      </span>
-                      <Source source={props.source} sourceText={props.sourceText} />
-                    </div>
-                  </Fragment>
-                ) : (
-                  <Fragment>
-                    <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
-                      {props.text}
-                    </span>
-                    <Source source={props.source} sourceText={props.sourceText} />
-                  </Fragment>
-                )}
-
+              <div className={`${props.inline ? "d-inline mr-2" : ""} content-td pb-2 col`}>
+                <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
+                  {props.text}
+                </span>
+                <Source source={props.source} sourceText={props.sourceText} />
               </div>
             </div>
           ) : (
-            <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
-              ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
+            <div className={`${props.inline ? "d-inline text-nowrap" : "row mx-auto"} ${props.highlightStyle === 1 ? "new-review-item" : ""} 
+              ${props.internal ? "internal-item" : ""} ${props.highlightStyle === 2 ? "move-review-item" : ""}
+              ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
             >
-              <div className="icon-td justify-content-center">
-                <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}
+              <div className={`${props.inline ? "d-inline" : ""} icon-td justify-content-center`} >
+                <i className={`${props.inline ? "d-inline" : ""} fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}
                   ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
                 style={{color: props.color}}
                 title={props.tooltip}
                 />
               </div>
-              <div className="content-td pb-2 col">
+              <div className={`${props.inline ? "d-inline mr-2" : ""} content-td pb-2 col`}>
                 <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
                   {props.text}
                 </span>

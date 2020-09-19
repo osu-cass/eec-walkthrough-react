@@ -5,7 +5,7 @@ import EditHome from "./EditHome";
 import ManageSponsors from "./ManageSponsors";
 import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import "./Home.css";
 
 // application homepage
@@ -53,7 +53,7 @@ function Home(props) {
     setLoading(true);
 
     // Fetch all icons
-    let results = await fetch(`${APIURL}/icons/all`, {
+    let results = await fetch(`${API_URL}/icons/all`, {
       method: "GET",
       credentials: "include",
       headers: {"Content-Type": "application/json"}
@@ -82,7 +82,7 @@ function Home(props) {
     }
 
     // Fetch all homepage content
-    results = await fetch(`${APIURL}/home`, {
+    results = await fetch(`${API_URL}/home`, {
       method: "GET",
       credentials: "include",
       headers: {"Content-Type": "application/json"}
@@ -98,7 +98,7 @@ function Home(props) {
     }
 
     // Fetch all sponsors
-    results = await fetch(`${APIURL}/home/sponsors`, {
+    results = await fetch(`${API_URL}/home/sponsors`, {
       method: "GET",
       credentials: "include",
       headers: {"Content-Type": "application/json"}

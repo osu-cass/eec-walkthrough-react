@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {PropTypes} from "prop-types";
 import {formatRole} from "../../utilities/formatRole";
 import {logout} from "../../utilities/cookieAuth";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import "./UserSelectRole.css";
 
 // dropdown menu for selecting a user's role
@@ -30,7 +30,7 @@ function UserSelectRole(props) {
       try {
 
         props.onLoading(true);
-        const results = await fetch(`${APIURL}/users/${props.userId}`, {
+        const results = await fetch(`${API_URL}/users/${props.userId}`, {
           method: "PATCH",
           credentials: "include",
           headers: {"Content-Type": "application/json"},

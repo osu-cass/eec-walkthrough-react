@@ -2,7 +2,7 @@ import React, {useEffect, useState, Fragment} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {logout} from "../../utilities/cookieAuth";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import "./ConstructRequestModal.css";
@@ -73,7 +73,7 @@ function ConstructRequestModal(props) {
       objects: objects
     };
 
-    const results = await fetch(`${APIURL}/requests/selections`, {
+    const results = await fetch(`${API_URL}/requests/selections`, {
       method: "POST",
       credentials: "include",
       headers: {"Content-Type": "application/json"},
@@ -106,7 +106,7 @@ function ConstructRequestModal(props) {
     };
 
     // Create the new request
-    const results = await fetch(`${APIURL}/requests`, {
+    const results = await fetch(`${API_URL}/requests`, {
       method: "POST",
       credentials: "include",
       headers: {"Content-Type": "application/json"},

@@ -1,7 +1,7 @@
 import React, {useEffect, useState, Fragment} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
 import {SketchPicker} from "react-color";
@@ -55,7 +55,7 @@ function ConstructIconModal(props) {
     };
 
     // Create the new icon
-    const results = await fetch(`${APIURL}/icons`, {
+    const results = await fetch(`${API_URL}/icons`, {
       method: "POST",
       credentials: "include",
       headers: {"Content-Type": "application/json"},
@@ -111,7 +111,7 @@ function ConstructIconModal(props) {
     };
 
     // Edit icon
-    const results = await fetch(`${APIURL}/icons/${props.icon.iconType}`, {
+    const results = await fetch(`${API_URL}/icons/${props.icon.iconType}`, {
       method: "PATCH",
       credentials: "include",
       headers: {"Content-Type": "application/json"},

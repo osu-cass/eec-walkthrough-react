@@ -83,7 +83,7 @@ function ItemInput(props) {
             as="textarea"
             rows="1"
             maxLength="1000"
-            className={`ml-3 ${props.internal ? "internal-modal-item" : ""}`}
+            className={`ml-3 ${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
             placeholder="Item Text"
             value={props.value.contentText}
             aria-label="Insert Description"
@@ -255,6 +255,7 @@ ItemInput.propTypes = {
   handleLinkValue: PropTypes.func,
   handleSourceValue: PropTypes.func,
   internal: PropTypes.number,
+  inline: PropTypes.number,
   sourceId: PropTypes.number,
   sources: PropTypes.array
 };

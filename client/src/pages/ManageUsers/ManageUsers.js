@@ -4,7 +4,7 @@ import UserSearchResults from "./UserSearchResults";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import Container from "react-bootstrap/Container";
 import {logout} from "../../utilities/cookieAuth";
-import {APIURL} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 
 // manage users page
 function ManageUsers() {
@@ -80,7 +80,7 @@ function ManageUsers() {
         }
 
         // construct the request url
-        const getUrl = `${APIURL}/users/search/${textValue}/${roleValue}/` +
+        const getUrl = `${API_URL}/users/search/${textValue}/${roleValue}/` +
           `${sortValue}/${orderValue}/${cursor.primary}/${cursor.secondary}`;
 
         // get our search results
