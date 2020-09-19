@@ -41,7 +41,7 @@ function BulletPoint (props) {
       {getContentType(props.text, props.label, props.url) === 1 ? (
         <Fragment>
           {props.icon === "check-square" ? (
-            <div className={`${props.inline ? "d-inline text-nowrap" : "row mx-auto"} ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
+            <div className={`${props.inline ? "d-inline text-nowrap ml-1" : "row mx-auto"} ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
               ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
             >
               <div className={`${props.inline ? "d-inline" : ""} icon-td justify-content-center`}>
@@ -65,7 +65,7 @@ function BulletPoint (props) {
               </div>
             </div>
           ) : (
-            <div className={`${props.inline ? "d-inline text-nowrap" : "row mx-auto"} ${props.highlightStyle === 1 ? "new-review-item" : ""} 
+            <div className={`${props.inline ? "d-inline text-nowrap ml-1" : "row mx-auto"} ${props.highlightStyle === 1 ? "new-review-item" : ""} 
               ${props.internal ? "internal-item" : ""} ${props.highlightStyle === 2 ? "move-review-item" : ""}
               ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
             >
