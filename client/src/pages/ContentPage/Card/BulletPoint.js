@@ -130,16 +130,16 @@ function BulletPoint (props) {
 
       {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 ||
         props.contentMode === 0 || props.contentMode === 2 || props.created !== null || props.publicMode === 0) ? (
-          <div className={`row mx-auto ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
+          <div className={`${props.inline ? "inline-link align-top mr-4" : "row mx-auto"} ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
             ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
           >
-            <div className="icon-td pb-2">
+            <div className={props.inline ? "inline-link align-top" : "icon-td pb-2"}>
               <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
                 style={{color: props.color}}
                 title={props.tooltip}
               />
             </div>
-            <div className="content-td pb-2 col">
+            <div className={`${props.inline ? "inline-link" : "col"} content-td pb-2`}>
               <div>
                 <div className="row">
                   <a href={props.url} className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}> {props.label} </a>

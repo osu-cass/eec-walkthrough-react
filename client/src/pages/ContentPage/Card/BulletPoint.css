@@ -103,3 +103,7 @@
 .inline-graphic {
   display: inline-block;
 }
+
+.inline-link {
+  display: inline-block;
+}
