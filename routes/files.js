@@ -10,6 +10,9 @@ const {
   requireAuth,
   roleCheck
 } = require("../services/authentication/cookieAuth");
+const {
+  getFiles,
+} = require("../models/files");
 
 
 // valid image types
@@ -105,6 +108,38 @@ app.post("/bulk", requireAuth, checkUser, upload.array("images"), async (req, re
       res.status(201).json(finalResults);
     } else {
       res.status(401).send({error: "Invalid file"});
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get information about all of the files the current user owns
+app.get("/", requireAuth, async (req, res) => {
+
+  try {
+
+    const userId = req.auth.userId;
+
+    console.log("Get files uploaded by user", userId);
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to read files."});
+      return;
+    }
+
+    // get file data
+    const results = await getFiles(userId);
+
+    if (results.files) {
+      res.status(200).send(results);
+    } else {
+      res.status(500).send({error: "An internal server error occurred. Please try again later."});
     }
 
   } catch (err) {
