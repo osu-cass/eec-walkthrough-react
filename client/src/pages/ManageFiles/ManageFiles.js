@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {API_URL} from "../../utilities/constants";
 import SanitizedHTML from "react-sanitized-html";
+import Button from "react-bootstrap/Button";
 import "./ManageFiles.css";
 
 // page for viewing and deleting files
@@ -34,6 +35,28 @@ function ManageFiles() {
     }
 
     setLoading(false);
+  }
+
+  // delete a file
+  async function deleteFile(name) {
+    if (!window.confirm("Are you sure you want to delete this file?")) {
+      return;
+    }
+
+    // attempt to delete the file
+    const results = await fetch(`${API_URL}/files/${name}`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+      // refresh the page
+      window.location.reload();
+    } else {
+      alert("Error deleting file. Please try again later.");
+    }
+
   }
 
   return (
@@ -91,7 +114,9 @@ function ManageFiles() {
                 {file.userId}
               </td>
               <td className="file-data text-left align-top">
-                [DELETE FILE]
+                <Button className="mx-1" variant="danger" onClick={() => deleteFile(file.name)}>
+                  Delete File
+                </Button>
               </td>
             </tr>
           )}
