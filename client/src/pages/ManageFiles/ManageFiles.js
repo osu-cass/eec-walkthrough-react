@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {API_URL} from "../../utilities/constants";
+import SanitizedHTML from "react-sanitized-html";
 import "./ManageFiles.css";
 
 // page for viewing and deleting files
@@ -36,7 +37,7 @@ function ManageFiles() {
   }
 
   return (
-    <div className="container file-page-container">
+    <div className="container file-page-container mb-5">
 
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
@@ -51,19 +52,19 @@ function ManageFiles() {
       <table className="file-table shadow">
         <thead>
           <tr>
-            <th className="pl-5" style={{width: "10%"}}>
+            <th className="pl-5" style={{width: "15%"}}>
               Image
             </th>
-            <th style={{width: "10%"}}>
+            <th style={{width: "30%"}}>
               File Name
             </th>
-            <th style={{width: "15%"}}>
+            <th style={{width: "30%"}}>
               Source
             </th>
-            <th style={{width: "20%"}}>
+            <th style={{width: "5%"}}>
               Used on Website
             </th>
-            <th style={{width: "15%"}}>
+            <th style={{width: "5%"}}>
               User ID
             </th>
             <th style={{width: "15%"}}>
@@ -74,22 +75,22 @@ function ManageFiles() {
         <tbody>
           {files.map((file) =>
             <tr key={file.name}>
-              <td className="file-data pl-5">
-                <img src="https://placekitten.com/200/300" alt="uploaded file" />
+              <td className="file-data pl-5 align-top">
+                <img className="file-thumb" src={file.url} alt="uploaded file" />
               </td>
-              <td className="file-data">
+              <td className="file-data align-top">
                 {file.name}
               </td>
-              <td className="file-data">
-                {file.source}
+              <td className="file-data-source align-top">
+                <SanitizedHTML html={file.source} />
               </td>
-              <td className="file-data">
+              <td className="file-data align-top">
                 {file.used}
               </td>
-              <td className="file-data">
+              <td className="file-data align-top">
                 {file.userId}
               </td>
-              <td className="file-data text-left">
+              <td className="file-data text-left align-top">
                 [DELETE FILE]
               </td>
             </tr>

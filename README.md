@@ -1,6 +1,10 @@
 This application is a wiki that allows users to browse, edit, and review
 content pages. The application uses Node.js, express, React, and MySQL.
 
+In production the server that this application is hosted on is expected to accept
+HTTPS requests from the public (for example using ports 444 and 443) and then proxy
+these requests using HTTP (for example using ports 1111 and 2222).
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Required Resources
