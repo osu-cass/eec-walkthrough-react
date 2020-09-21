@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import {Card} from "react-bootstrap";
+import SanitizedHTML from "react-sanitized-html";
 import "./RequestComment.css";
 
 // a single comment on a publish request
@@ -59,7 +60,7 @@ function RequestComment(props) {
         <small className="comment-date-text">{formatTime(props.created)}</small>
         <br/>
         <br/>
-        <span>{props.description}</span>
+        <SanitizedHTML html={props.description} />
       </Card.Body>
     </Card>
   );

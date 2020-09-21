@@ -5,6 +5,7 @@ import Error from "../../components/General/Error";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import RichTextEditor from "../../components/General/RichTextEditor";
 import "./RequestSubmitComment.css";
 
 // A field for entering and submitting a comment on a publish request
@@ -89,12 +90,10 @@ function RequestSubmitComment(props) {
       <Card.Body className="request-card-comment-body">
 
         <Form.Group controlId="formComment">
-          <Form.Control
-            as="textarea"
-            maxLength="5000"
-            rows="5"
-            placeholder="Leave a comment"
-            onChange={(e) => setComment(e.target.value)}
+          <RichTextEditor
+            id={`submit-comment-0`}
+            value={comment}
+            onChange={(text) => setComment(text)}
           />
         </Form.Group>
 
