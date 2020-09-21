@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Sep 18, 2020 at 04:09 PM
+-- Generation Time: Sep 21, 2020 at 12:06 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -1343,13 +1343,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2103, 106, 0, 0, 11, 'Insulate condensate lines', '', '', 0, 0, 0, 0, '2020-07-03 17:31:09', 0),
 (2104, 106, 0, 0, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://drive.google.com/file/d/1Et50Qc77pWtPkZcorKcPG_RSuK-Vc_lx/view?usp=sharing', 'Insulation Template  (almost approved)', 0, 0, 0, 0, '2020-07-03 17:31:09', 0),
 (2105, 106, 0, 0, 21, 'North American Insulation Manufacturers Association Software Download', 'https://insulationinstitute.org/tools-resources/free-3e-plus/?cn-reloaded=1', 'NAIMA 3E Plus Insulation Tool', 1, 0, 0, 0, '2020-07-03 17:31:09', 0),
-(2108, 100, 0, 0, 24, 'See steam tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, 0, 0, 0, '2020-07-07 20:54:30', 0),
-(2109, 100, 0, 0, 17, 'United Nations Industrial Development Organization Document', 'https://www.unido.org/sites/default/files/2017-11/SSO-Manual-Print-FINAL-20161109-One-Page-V2.pdf', 'Manual for Industrial Steam Systems Assessment and Optimization', 1, 0, 0, 0, '2020-07-03 17:55:16', 0),
-(2110, 100, 0, 0, 17, 'CleaverBrooks Document', 'http://cleaverbrooks.com/reference-center/insights/Boiler%20Efficiency%20Guide.pdf', 'Boiler Efficiency Guide', 1, 0, 0, 0, '2020-07-03 17:55:16', 0),
-(2111, 100, 0, 0, 25, 'Pacific NW Boiler Vendor', 'https://coleindust.com/', 'Cole Industrial', 1, 0, 0, 0, '2020-07-03 17:55:16', 0),
-(2112, 100, 0, 0, 25, 'Pacific NW Boiler Vendor', 'https://www.nationwideboiler.com/pacific-combustion-engineering.html', 'Pacific Combustion Engineering', 1, 0, 0, 0, '2020-07-03 17:55:16', 0),
-(2113, 100, 0, 0, 25, 'Boiler Manufacturer', 'http://cleaverbrooks.com/', 'CleaverBrooks', 1, 0, 0, 0, '2020-07-03 17:55:16', 0),
-(2114, 100, 0, 0, 8, 'ADD A LINK TO STEAM TABLES SOMEWHERE', '', '', 1, 0, 0, 0, '2020-07-03 17:55:16', 0),
 (2115, 99, 0, 0, 22, 'An OSU EEC Google Slideshow', 'https://docs.google.com/presentation/d/1A-bLNUv7hCuBV2zMsS0A4JEKPNVxaKnIwUMoVZCFr2w/edit?usp=sharing', 'Steam Systems', 0, 0, 0, 0, '2020-07-03 17:55:50', 1),
 (2116, 99, 0, 0, 17, 'An OSU EEC Appendix in Microsoft Word Format', 'https://drive.google.com/file/d/1Jh6CaIDd6ugCo6FYqviyVK-O49ic_275/view?usp=sharing', 'Combustion Appendix', 0, 0, 0, 0, '2020-07-03 17:55:50', 1),
 (2117, 95, 0, 0, 15, 'Boiler Nameplate Data: Rated Capacity', '', '', 0, 0, 0, 0, '2020-07-03 17:57:24', 1),
@@ -1400,8 +1393,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2275, 113, 0, 0, 27, 'Power Quality Analyzer ', '', '', 0, 0, 0, 0, '2020-07-08 22:29:50', 0),
 (2309, 120, 0, 0, 11, 'Correct Power Factor (Ethan)', '', '', 0, 0, 0, 0, '2020-07-10 18:53:01', 0),
 (2310, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, 0, 0, 0, '2020-07-10 18:53:01', 0),
-(2324, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, 0, 0, 0, '2020-07-10 18:54:00', 0),
-(2325, 105, 0, 0, 11, 'Recover Flash Steam (Chris) ', '', '', 0, 0, 0, 0, '2020-07-10 18:54:00', 0),
 (2677, 133, 0, 0, 1, 'Pro1', '', '', 0, 0, 0, 0, '2020-07-20 21:20:19', 0),
 (2678, 134, 0, 0, 2, 'Con1', '', '', 0, 0, 0, 0, '2020-07-20 21:20:35', 0),
 (2679, 135, 0, 0, 4, 'Caveat', '', '', 0, 0, 0, 0, '2020-07-20 21:21:07', 0),
@@ -1482,15 +1473,15 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3877, 130, 0, 1, 27, 'Thermal Imager', '', '', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3878, 130, 0, 1, 20, '', 'https://www.buyinsulationproductstore.com/blog/dollar-amount-savings-by-installing-fiberglass-pipe-insulation-on-steam-piping/', 'Sample thermal image showing the different heat signatures of insulated vs. uninsulated pipes', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3879, 130, 0, 1, 20, '', 'https://www.tcorr.com.au/coating-inspection/inspection-of-pipe-and-tank-linings/', 'Sample thermal image capture of uninsulated steam generating equipmentg', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
-(3880, 130, 0, 1, 24, 'US DOE Steam Tip Sheet #17', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam17_valves_fittings.pdf', 'Install Removable Insulation on Valves and Fittings', 1, 0, 0, 0, '2020-08-06 20:55:52', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(3880, 130, 0, 1, 24, 'US DOE Steam Tip Sheet #17', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam17_valves_fittings.pdf', 'Install Removable Insulation on Valves and Fittings', 1, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3881, 130, 0, 1, 24, 'US DOE Steam Tip Sheet #2', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam2_insulate.pdf', 'Insulate Steam Distribution and Condensate Return Lines', 1, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3882, 130, 0, 1, 21, '3E Plus Software', 'https://insulationinstitute.org/tools-resources/free-3e-plus/', 'PIpe Insulation | Calculate Thickness | 3E Plus Software', 1, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3883, 130, 0, 1, 17, 'Example recommendation involving the installation of insulation on two drying silos', 'https://oregonstate.app.box.com/file/656776414288', 'Drying Silo Insulation', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3884, 130, 0, 1, 17, 'Example recommendation invovling the installation of insulation on injection barrels in a plastics and injection molding facility', 'https://oregonstate.app.box.com/file/606287338448', 'Insulate Injection Barrels', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3885, 130, 0, 1, 21, 'Template used to develop and present an analysis of the energy savings associated with insulating a facility\'s equipment or other hot surfaces', 'https://oregonstate.app.box.com/folder/51071018894', 'Analysis Template: Install Insulation', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3892, 164, 0, 0, 24, '$empty', 'https://eec.oregonstate.edu/wastewater-treatment-training-module', 'Wastewater Treatment Training', 0, 0, 0, 0, '2020-08-06 22:33:54', 1),
-(4118, 163, 0, 0, 11, 'Control Aeration to Hold a Minimum Dissolved Oxygen Level', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1),
+(4118, 163, 0, 0, 11, 'Control Aeration to Hold a Minimum Dissolved Oxygen Level', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (4119, 163, 0, 0, 11, 'Replace Standard Aeration Fans with High Efficiency Turbo Blowers', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1),
 (4120, 163, 0, 0, 11, 'Improve Efficiency of Fine Bubble Diffusers', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1),
 (4146, 155, 0, 0, 26, 'Initiate a conversation with potential clients in follow up to industry requests, partner references, or direct contact.', '', '', 0, 0, 0, 0, '2020-08-06 23:50:17', 1),
@@ -1755,8 +1746,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4972, 185, 0, 0, 26, 'For rough estimates of cost savings, calculating the cost of work flow of the original layout and multiplying it by the layout efficiency savings will suffice. For example, if it costs $1,000/day to move materials, and the layout efficiency savings are 10%, then savings are $100/day. ', '', '', 0, 0, 0, 0, '2020-08-29 20:20:27', 0),
 (4973, 185, 0, 0, 26, 'Calculating daily material handling costs are most easily estimated using hourly operating costs of material handling systems and how long the specific system operates a day.', '', '', 0, 0, 0, 0, '2020-08-29 20:20:27', 0),
 (4974, 185, 0, 0, 26, 'For more precise estimates, reduction in work flow for each work unit (e.g. inventory, personnel, etc.) needs to be determined. ', '', '', 0, 0, 0, 0, '2020-08-29 20:20:27', 0),
-(4975, 168, 0, 0, 1, 'Can result in significant savings and increased productivity', '', '', 0, 0, 0, 0, '2020-08-29 21:06:18', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(4975, 168, 0, 0, 1, 'Can result in significant savings and increased productivity', '', '', 0, 0, 0, 0, '2020-08-29 21:06:18', 0),
 (4976, 168, 0, 0, 1, 'Easy to estimate cost savings/benefits given sufficient, accurate data..', '', '', 0, 0, 0, 0, '2020-08-29 21:06:18', 0),
 (4977, 168, 0, 0, 1, 'Opportunity and cost saving methodology is applicable to how inventory is stored and located.', '', '', 0, 0, 0, 0, '2020-08-29 21:06:18', 0),
 (4978, 166, 0, 0, 10, 'Significant levels of work in progress (WIP) inventory immediately upstream of a workstation.', '', '', 0, 0, 0, 0, '2020-09-02 21:55:04', 0),
@@ -1764,7 +1754,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4982, 199, 0, 0, 1, 'Alleviating bottlenecks is often the most valuable productivity opportunity. ', '', '', 0, 0, 0, 0, '2020-09-02 22:07:11', 0),
 (4983, 199, 0, 0, 1, 'Basic analysis and cost savings estimation requires few variable values.', '', '', 0, 0, 0, 0, '2020-09-02 22:07:11', 0),
 (4984, 200, 0, 0, 2, 'Precise analysis requires a deep understanding of how the entire production line operates. Statistics based simulation is often the only way to achieve this.', '', '', 0, 0, 0, 0, '2020-09-02 22:11:35', 0),
-(4985, 200, 0, 0, 2, 'Unless time studies on how product flows into and out of the workstation are conducted, several assumptions are required even for basic analysis.', '', '', 0, 0, 0, 0, '2020-09-02 22:11:35', 0),
+(4985, 200, 0, 0, 2, 'Unless time studies on how product flows into and out of the workstation are conducted, several assumptions are required even for basic analysis.', '', '', 0, 0, 0, 0, '2020-09-02 22:11:35', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (4995, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
 (4996, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
 (4997, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
@@ -1905,7 +1896,36 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5851, 223, 0, 0, 26, 'Electricity consumption is measured in units of kilowatt-hours (kwh) and is commonly broken down into metered on-peak demand and metered off-peak demand.', '', '', 0, 0, 0, 0, '2020-09-17 20:18:41', 0),
 (5852, 223, 0, 1, 26, 'Electric companies may charge different rates per kwh depending on the time of day (eg. rates during nighttime hours can be less than daytime).  This also can apply to seasonal rates that change depending on the time of year.  Consult your provided rate schedule to find these rates, if applicable.', '', '', 0, 0, 0, 0, '2020-09-17 20:18:41', 0),
 (5853, 223, 0, 0, 26, 'Reactive power is also measured in units of reactive kilovolt-amperes (kVAR) through the power factor (PF) percentage and may be a significant contributor to energy costs (see Power Factor Correction page for more information)', '', '', 0, 0, 0, 0, '2020-09-17 20:18:41', 0),
-(5854, 223, 0, 1, 28, '$empty', 'https://walkthrough.eec.oregonstate.edu/wiki/utilities/61', 'Power Factor Correction', 0, 0, 0, 0, '2020-09-17 20:18:41', 0);
+(5854, 223, 0, 1, 28, '$empty', 'https://walkthrough.eec.oregonstate.edu/wiki/utilities/61', 'Power Factor Correction', 0, 0, 0, 0, '2020-09-17 20:18:41', 0),
+(5908, 95, 0, 0, 15, 'Boiler Nameplate Data: Rated Capacity', '', '', 0, 0, 0, 0, '2020-09-21 16:41:42', 0),
+(5909, 95, 0, 0, 15, 'Combustion Analysis: Excess O2, Stack Temperature, Inlet / Ambient Temperature ', '', '', 0, 0, 0, 0, '2020-09-21 16:41:42', 0),
+(5910, 95, 0, 0, 15, 'Capacity over time', '', '', 0, 0, 0, 0, '2020-09-21 16:41:42', 0),
+(5911, 95, 0, 1, 15, 'Hourly steam production', '', '', 0, 0, 0, 0, '2020-09-21 16:41:42', 0),
+(5957, 100, 0, 0, 24, 'See steam tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
+(5958, 100, 0, 0, 17, 'United Nations Industrial Development Organization Document', 'https://www.unido.org/sites/default/files/2017-11/SSO-Manual-Print-FINAL-20161109-One-Page-V2.pdf', 'Manual for Industrial Steam Systems Assessment and Optimization', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
+(5959, 100, 0, 0, 17, 'CleaverBrooks Document', 'http://cleaverbrooks.com/reference-center/insights/Boiler%20Efficiency%20Guide.pdf', 'Boiler Efficiency Guide', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
+(5960, 100, 0, 0, 25, 'Pacific NW Boiler Vendor', 'https://coleindust.com/', 'Cole Industrial', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
+(5961, 100, 0, 0, 25, 'Pacific NW Boiler Vendor', 'https://www.nationwideboiler.com/pacific-combustion-engineering.html', 'Pacific Combustion Engineering', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
+(5962, 100, 0, 0, 25, 'Boiler Manufacturer', 'http://cleaverbrooks.com/', 'CleaverBrooks', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
+(5963, 100, 0, 0, 8, 'ADD A LINK TO STEAM TABLES SOMEWHERE', '', '', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
+(5964, 100, 0, 0, 24, 'Steam Table. Also contains several pages that explain steam systems and equations.', 'https://www.tlv.com/global/US/steam-theory/how-to-read-a-steam-table.html', 'TLV Steam Theory', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
+(5965, 105, 0, 0, 15, 'Condensate flow and temperature', '', '', 1, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5966, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5967, 105, 0, 0, 11, 'Recover Flash Steam', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5968, 105, 0, 1, 10, 'Steam being released into atmosphere from the boiler system', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5969, 105, 0, 1, 1, 'Payback period is usually within a year', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5970, 105, 0, 1, 1, 'Condensate does not require any chemical treatment other than condensate polishing. ', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5971, 105, 0, 2, 8, 'A condensate polisher is similar to a water softener. Polishing removes the trace amount of mineral that are dissolved in the condensate after running though the boiler. ', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5972, 105, 0, 1, 1, 'Capturing and reusing the steam can reduce hog fuel by 14.5%', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5973, 105, 0, 1, 2, 'Maintenance crews will need training to work with steam recovery systems', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5974, 105, 0, 1, 2, 'There are usually no incentives for this opportunity, because the system usually pays for itself within a year.', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5975, 105, 0, 1, 3, 'A good recovery system can collect up to 80%', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5976, 105, 0, 1, 3, 'Steam recovery is most efficient when waste heat is high and flow is continuous', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5977, 105, 0, 1, 8, 'Multiple different types of steam traps available to fit company needs: Mechanical, Thermodynamic, or Thermostatic', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5978, 105, 0, 1, 23, 'Explains how steam traps work, brief history and lists several different types of traps in detail.', 'https://www.youtube.com/watch?v=IiRyxcCBTa0', 'Let\'s Talk Steam Traps', 1, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5979, 105, 0, 1, 17, 'Contains specific information about flash steam recovery', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam12_lowpressure_steam.pdf', 'DOE Tip Sheet Flash Steam Recovery', 1, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5980, 105, 0, 1, 24, 'Contains several pages with useful calculations for steam systems. This link leads to the flash steam page.', 'https://www.tlv.com/global/US/steam-theory/introduction-to-condensate-recovery.html', 'TLV Steam Theory', 1, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5981, 105, 0, 1, 21, '$empty', 'https://oregonstate.app.box.com/file/337450150435', 'Flash Steam Recovery', 0, 0, 0, 0, '2020-09-21 17:02:20', 0);
 
 -- --------------------------------------------------------
 
@@ -2127,9 +2147,10 @@ CREATE TABLE `Temp_Cards` (
 
 INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
 (9, 0, 'Pros', 3, 58, '2020-09-03 23:15:22'),
-(100, 0, 'Off Site Resource Links', 100, 51, '2020-07-03 17:55:16'),
+(95, 0, 'Standard Data to Collect', 95, 61, '2020-09-21 16:41:42'),
+(100, 0, 'Off Site Resource Links', 100, 61, '2020-07-03 17:55:16'),
 (101, 0, 'Improve Boiler Combustion Efficiency', 101, 57, '2020-07-03 17:28:05'),
-(105, 0, 'Improve the Condensate System', 105, 58, '2020-07-10 18:54:00'),
+(105, 0, 'Improve the Condensate System', 105, 61, '2020-07-10 18:54:00'),
 (106, 0, 'Reduce Heat Loss', 106, 51, '2020-07-03 17:31:09'),
 (120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52');
 
@@ -2465,7 +2486,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5855;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5982;
 
 --
 -- AUTO_INCREMENT for table `Pages`
