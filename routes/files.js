@@ -150,4 +150,51 @@ app.get("/", requireAuth, async (req, res) => {
 });
 
 
+// delete a file
+app.delete("/:userId/:fileName", requireAuth, async (req, res) => {
+
+  try {
+
+    const directoryId = req.params.userId.replace(/\//g,"");
+    const fileName = req.params.fileName.replace(/\//g,"");
+
+    console.log("Delete file ", fileName);
+
+    // make sure the user is allowed to perform this action
+    if (req.params.userId !== req.auth.userId && !await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to read files."});
+      return;
+    }
+
+    // get the file path
+    let path;
+    if (process.env.NODE_ENV === "production") {
+      path = `./client/files/uploads/user_${directoryId}/${fileName}`;
+    } else {
+      path = `./client/public/uploads/user_${directoryId}/${fileName}`;
+    }
+
+    // check if the file exists
+    fs.exists(path, exist => {
+      if (!exist) {
+        return res.status(404).send({error: "File not found."});
+      }
+
+      // delete the file if it exists
+      fs.unlink(path, (err) => {
+        if (err) {
+          return res.status(500).send({error: "An internal server error occurred. Please try again later."});
+        }
+        res.status(200).send({filesRemoved: 1});
+      });
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
 module.exports = app;

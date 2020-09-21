@@ -38,13 +38,13 @@ function ManageFiles() {
   }
 
   // delete a file
-  async function deleteFile(name) {
+  async function deleteFile(userId, name) {
     if (!window.confirm("Are you sure you want to delete this file?")) {
       return;
     }
 
     // attempt to delete the file
-    const results = await fetch(`${API_URL}/files/${name}`, {
+    const results = await fetch(`${API_URL}/files/${userId}/${name}`, {
       method: "DELETE",
       credentials: "include",
       headers: {"Content-Type": "application/json"}
@@ -97,7 +97,7 @@ function ManageFiles() {
         </thead>
         <tbody>
           {files.map((file) =>
-            <tr key={file.name}>
+            <tr key={file.userId + file.name}>
               <td className="file-data pl-5 align-top">
                 <img className="file-thumb" src={file.url} alt="uploaded file" />
               </td>
@@ -114,7 +114,7 @@ function ManageFiles() {
                 {file.userId}
               </td>
               <td className="file-data text-left align-top">
-                <Button className="mx-1" variant="danger" onClick={() => deleteFile(file.name)}>
+                <Button className="mx-1" variant="danger" onClick={() => deleteFile(file.userId, file.name)}>
                   Delete File
                 </Button>
               </td>
