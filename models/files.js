@@ -5,6 +5,74 @@ const {pool} = require("../services/database/mysqlPool");
 const path = require("path");
 const fs = require("await-fs");
 
+// return a list of the upload directories
+async function getDirectories() {
+
+  try {
+    const directoryArray = [];
+
+    // joining path of directory
+    let directoryPath;
+    if (process.env.NODE_ENV === "production") {
+      directoryPath = path.join(__dirname, `../client/files/uploads/`);
+    } else {
+      directoryPath = path.join(__dirname, `../client/public/uploads/`);
+    }
+
+    // passing directoryPath and callback function
+    const files = await fs.readdir(directoryPath);
+
+    // create a file object for each directory found
+    files.forEach(function (file) {
+
+      // see if the file (directory) is named correctly with a
+      // underscore dividing the name in two
+      const splitName = file.split("_");
+      if (splitName.length === 2) {
+        const fileObject = {
+          name: "",
+          userId: splitName[1],
+          fileCount: 0
+        };
+        
+        directoryArray.push(fileObject);
+      }
+    });
+
+    // find the username for each directory
+    for (let i = 0; i < directoryArray.length; i++) {
+
+      // get the username
+      const sql = "SELECT username " +
+      "FROM Users " +
+      "WHERE userId = ?;";
+      const results = await pool.query(sql, directoryArray[i].userId);
+
+      // if we found a match then we know this is used on the site
+      if (results[0].length) {
+        directoryArray[i].name = results[0][0].username;
+      }
+
+      // see how many files are in the directory
+      const directoryFiles = await fs.readdir(`${directoryPath}user_${directoryArray[i].userId}`);
+      directoryArray[i].fileCount = directoryFiles.length;
+    }
+
+    const finalResults = {
+      directories: directoryArray
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error searching for directories");
+    throw Error(err);
+  }
+
+}
+exports.getDirectories = getDirectories;
+
+
 // return a list of the files owned by a user
 async function getFiles(userId) {
 
@@ -42,7 +110,7 @@ async function getFiles(userId) {
       // check items
       let sql = "SELECT contentUrl, sourceId " +
       "FROM Items " +
-      "WHERE contentUrl LIKE CONCAT('%', ?, '%');"
+      "WHERE contentUrl LIKE CONCAT('%', ?, '%');";
       let results = await pool.query(sql, fileUrl);
 
       // if we found a match then we know this is used on the site
@@ -70,7 +138,7 @@ async function getFiles(userId) {
       // check pages
       sql = "SELECT imageUrl " +
       "FROM Pages " +
-      "WHERE imageUrl LIKE CONCAT('%', ?, '%');"
+      "WHERE imageUrl LIKE CONCAT('%', ?, '%');";
       results = await pool.query(sql, fileUrl);
 
       if (results[0].length) {
@@ -80,7 +148,7 @@ async function getFiles(userId) {
       // check sponsors
       sql = "SELECT imageUrl " +
       "FROM Sponsors " +
-      "WHERE imageUrl LIKE CONCAT('%', ?, '%');"
+      "WHERE imageUrl LIKE CONCAT('%', ?, '%');";
       results = await pool.query(sql, fileUrl);
 
       if (results[0].length) {
