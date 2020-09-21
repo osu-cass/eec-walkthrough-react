@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {API_URL} from "../../utilities/constants";
 import Button from "react-bootstrap/Button";
+import {NavLink} from "react-router-dom";
 import "./ManageDirectories.css";
 
 // page for viewing user  deleting files
@@ -61,7 +62,7 @@ function ManageDirectories() {
             <th style={{width: "25%"}}>
               Number of files
             </th>
-            <th style={{width: "25%"}}>
+            <th style={{width: "15%"}}>
               View Files
             </th>
           </tr>
@@ -79,9 +80,11 @@ function ManageDirectories() {
                 {directory.fileCount}
               </td>
               <td className="file-data text-left align-top">
-                <Button className="mx-1" variant="danger" onClick={() => {}}>
-                  View Files
-                </Button>
+                <NavLink to={`/manage-images/${directory.userId}`}>
+                  <Button className="pull-right mx-2 px-5" variant="success" onClick={() => {}}>
+                    View Files
+                  </Button>
+                </NavLink>
               </td>
             </tr>
           )}

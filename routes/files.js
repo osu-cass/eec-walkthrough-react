@@ -12,6 +12,7 @@ const {
 } = require("../services/authentication/cookieAuth");
 const {
   getFiles,
+  getDirectories
 } = require("../models/files");
 
 
@@ -56,7 +57,7 @@ const upload = multer({
 });
 
 
-// confirm that the user is a editor or admin
+// confirm that the user is an editor or admin
 const checkUser = async (req, res, next) => {
   if (!await roleCheck(3, req.auth.userId)) {
     res.status(401).send({error: "Unauthorized user attempting to upload file(s)."});
@@ -137,6 +138,38 @@ app.get("/", requireAuth, async (req, res) => {
     const results = await getFiles(userId);
 
     if (results.files) {
+      res.status(200).send(results);
+    } else {
+      res.status(500).send({error: "An internal server error occurred. Please try again later."});
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get information about all of the directories
+app.get("/directories", requireAuth, async (req, res) => {
+
+  try {
+
+    const userId = req.auth.userId;
+
+    console.log("Get file directories");
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to read directories."});
+      return;
+    }
+
+    // get file data
+    const results = await getDirectories();
+
+    if (results.directories) {
       res.status(200).send(results);
     } else {
       res.status(500).send({error: "An internal server error occurred. Please try again later."});

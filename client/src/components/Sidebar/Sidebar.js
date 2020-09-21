@@ -175,7 +175,7 @@ function Sidebar(props) {
           {role >= 2 ? (
             <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
 
-              {role >= 3 ? (
+              {role === 3 ? (
                 <SidebarCollection
                   collectionName="Manage Images"
                   collectionLink="manage-images"
