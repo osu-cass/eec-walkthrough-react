@@ -6,10 +6,10 @@ import {logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import RichTextEditor from "../../components/General/RichTextEditor";
-import "./RequestSubmitComment.css";
+import "./SubmitComment.css";
 
 // A field for entering and submitting a comment on a publish request
-function RequestSubmitComment(props) {
+function SubmitComment(props) {
 
   const [comment, setComment] = useState("");
   const [status, setStatus] = useState("0");
@@ -20,7 +20,7 @@ function RequestSubmitComment(props) {
     setErrorMessage("");
   }, [comment, status]);
 
-  async function submitComment(commentText, statusVal) {
+  async function postComment(commentText, statusVal) {
     // Check for empty inputs
     if (!commentText.length) {
       setErrorMessage("Error: Empty comment");
@@ -31,7 +31,8 @@ function RequestSubmitComment(props) {
     // Prepare data for the comment
     const commentData = {
       comment: commentText,
-      status: statusVal
+      status: statusVal,
+      targetId: props.targetId
     };
 
     // Create the new request
@@ -106,7 +107,7 @@ function RequestSubmitComment(props) {
             <Button
               className="ml-2"
               variant="success"
-              onClick={() => submitComment(comment, status)}
+              onClick={() => postComment(comment, status)}
             >
               Submit Comment
             </Button>
@@ -118,8 +119,9 @@ function RequestSubmitComment(props) {
   );
 
 }
-export default RequestSubmitComment;
+export default SubmitComment;
 
-RequestSubmitComment.propTypes = {
-  requestId: PropTypes.number
+SubmitComment.propTypes = {
+  requestId: PropTypes.number,
+  targetId: PropTypes.string
 };

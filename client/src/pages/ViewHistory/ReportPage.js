@@ -3,12 +3,14 @@ import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import HighlightText from "../ContentPage/Various/HighlightText";
 import Image from "../ContentPage/Various/Image";
+import SubmitComment from "../RequestPage/SubmitComment";
 import "./ReportPage.css";
 
 // Page history for a single page
 function ReportPage(props) {
 
   const [parentsName, setParentsName] = useState("");
+  const [showComment, setShowComment] = useState(false);
 
   // Adjust parent history for situations where the parent was deleted
   useEffect(() => {
@@ -82,9 +84,37 @@ function ReportPage(props) {
 
       <div className="col">
         <div className={`version-container p-2 m-3 border border-dark rounded`}>
-          <h4 className="report-page-special-text pl-4 pt-4">Page</h4>
+        {props.reviewMode ? (
+            <div className="row">
+              <div className="col-10">
+                <h4 className="report-page-special-text pl-4 pt-4">Page</h4>
+              </div>
+              <div className="col-2">
+                <button
+                  type="button"
+                  className="btn btn-success btn-report-page pull-right mr-2 mt-2"
+                  onClick={() => setShowComment(!showComment)}
+                >
+                  <i className={`fas fa-fw fa-xs fa-${showComment ? "minus" : "plus"}`} />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <h4 className="report-page-special-text pl-4 pt-4">Page</h4>
+          )}
           <h5 className="report-page-special-text pl-4">{parentsName} &rarr; {props.page.name} </h5>
           <span className="report-page-special-text pl-4">Updated {formatTime(props.page.created)}</span>
+          
+          {/* if the user is in review mode they can open a comment field */}
+          {showComment ? (
+            <SubmitComment
+              requestId={props.requestId}
+              targetId={`P${props.page.pageId}`}
+            />
+          ) : (
+            null
+          )}
+
           <div className="m-4">
             {props.page.oldVersion ? (
               <Fragment>
@@ -237,5 +267,7 @@ export default ReportPage;
 ReportPage.propTypes = {
   page: PropTypes.object,
   newId: PropTypes.number,
-  removeMode: PropTypes.bool
+  removeMode: PropTypes.bool,
+  reviewMode: PropTypes.bool,
+  requestId: PropTypes.number
 };

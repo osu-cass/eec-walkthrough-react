@@ -338,6 +338,7 @@ const postCommentVal = Object.freeze({
   validation: [
     check("requestId").isInt({min: 1, max: 4294967295}),
     check("comment").isLength({min: 1, max: 5000}),
+    check("targetId").isLength({min: 1, max: 100}),
     check("status").isInt({min: 0, max: 2}),
   ]
 });

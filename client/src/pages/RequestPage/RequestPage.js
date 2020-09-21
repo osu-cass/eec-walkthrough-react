@@ -2,7 +2,7 @@ import React, {useEffect, useState, Fragment} from "react";
 import {Card} from "react-bootstrap";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import RequestComment from "./RequestComment";
-import RequestSubmitComment from "./RequestSubmitComment";
+import SubmitComment from "./SubmitComment";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import ReportPage from "../ViewHistory/ReportPage";
@@ -14,7 +14,7 @@ import AcceptRequest from "./AcceptRequest";
 import Error from "../../components/General/Error";
 import "./RequestPage.css";
 
-// page for viewing a single publish request
+// Page for viewing a single publish request
 function RequestPage() {
 
   const [loading, setLoading] = useState(false);
@@ -119,8 +119,9 @@ function RequestPage() {
         />
       )}
 
-      <RequestSubmitComment
+      <SubmitComment
         requestId={parseInt(requestId, 10)}
+        targetId={"0"}
       />
 
       <Card className="request-card-main my-4 shadow-sm">
@@ -144,6 +145,8 @@ function RequestPage() {
                   page={object}
                   newId={i}
                   removeMode={true}
+                  reviewMode={true}
+                  requestId={parseInt(requestId, 10)}
                 />
               ) : (
                 null
@@ -154,6 +157,8 @@ function RequestPage() {
                   header={object}
                   newId={i}
                   removeMode={true}
+                  reviewMode={true}
+                  requestId={parseInt(requestId, 10)}
                 />
               ) : (
                 null
@@ -164,6 +169,8 @@ function RequestPage() {
                   card={object}
                   newId={i}
                   removeMode={true}
+                  reviewMode={true}
+                  requestId={parseInt(requestId, 10)}
                 />
               ) : (
                 null

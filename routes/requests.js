@@ -187,6 +187,7 @@ app.post("/comment/:requestId", requireAuth, postCommentVal.validation, async (r
     const requestId = req.params.requestId;
     const comment = req.body.comment;
     const status = req.body.status;
+    const targetId = req.body.targetId;
     const userId = req.auth.userId;
 
     // make sure the user is allowed to perform this action
@@ -196,7 +197,7 @@ app.post("/comment/:requestId", requireAuth, postCommentVal.validation, async (r
     }
 
     // create the comment
-    const results = await createComment(requestId, comment, status, userId);
+    const results = await createComment(requestId, comment, status, targetId, userId);
 
     if (results.insertId) {
       res.status(201).send(results);

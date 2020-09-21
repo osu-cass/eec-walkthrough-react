@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Sep 21, 2020 at 12:06 PM
+-- Generation Time: Sep 21, 2020 at 01:57 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -2031,6 +2031,7 @@ INSERT INTO `Requests` (`requestId`, `title`, `description`, `status`, `created`
 CREATE TABLE `Request_Comments` (
   `commentId` int(10) UNSIGNED NOT NULL,
   `requestId` int(10) UNSIGNED NOT NULL,
+  `targetId` varchar(100) NOT NULL,
   `comment` varchar(5000) NOT NULL,
   `review` int(10) UNSIGNED NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -2041,8 +2042,8 @@ CREATE TABLE `Request_Comments` (
 -- Dumping data for table `Request_Comments`
 --
 
-INSERT INTO `Request_Comments` (`commentId`, `requestId`, `comment`, `review`, `created`, `userId`) VALUES
-(8, 4, '\"total power consumed\"  - should change to \"total power drawn\" as the reactive power is not consumed but borrowed and returned.', 0, '2020-09-15 20:49:02', 51);
+INSERT INTO `Request_Comments` (`commentId`, `requestId`, `targetId`, `comment`, `review`, `created`, `userId`) VALUES
+(8, 4, '0', '\"total power consumed\"  - should change to \"total power drawn\" as the reactive power is not consumed but borrowed and returned.', 0, '2020-09-15 20:49:02', 51);
 
 -- --------------------------------------------------------
 
