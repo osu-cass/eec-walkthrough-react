@@ -175,21 +175,6 @@ function Sidebar(props) {
           {role >= 2 ? (
             <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
 
-              {role >= 4 ? (
-                <Fragment>
-                  <SidebarCollection
-                    collectionName="Manage Card Titles"
-                    collectionLink="manage-card-titles"
-                  />
-                  <SidebarCollection
-                    collectionName="Manage Icons"
-                    collectionLink="manage-icons"
-                  />
-                </Fragment>
-              ) : (
-                null
-              )}
-
               {role >= 3 ? (
                 <SidebarCollection
                   collectionName="Manage Images"
@@ -201,6 +186,18 @@ function Sidebar(props) {
 
               {role >= 4 ? (
                 <Fragment>
+                  <SidebarCollection
+                    collectionName="Manage Card Titles"
+                    collectionLink="manage-card-titles"
+                  />
+                  <SidebarCollection
+                    collectionName="Manage Icons"
+                    collectionLink="manage-icons"
+                  />
+                  <SidebarCollection
+                    collectionName="Manage Images"
+                    collectionLink="manage-uploads"
+                  />
                   <SidebarCollection
                     collectionName="Manage Links"
                     collectionLink="manage-links"
