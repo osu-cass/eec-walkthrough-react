@@ -15,6 +15,7 @@ function ManageFiles() {
 
   useEffect(() => {
     fetchFiles();
+    // eslint-disable-next-line
   }, []);
 
   // fetch file data
