@@ -3,6 +3,7 @@ import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {API_URL} from "../../utilities/constants";
 import SanitizedHTML from "react-sanitized-html";
 import Button from "react-bootstrap/Button";
+import {useParams} from "react-router-dom";
 import "./ManageFiles.css";
 
 // page for viewing and deleting files
@@ -10,6 +11,7 @@ function ManageFiles() {
 
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const {userId} = useParams();
 
   useEffect(() => {
     fetchFiles();
@@ -19,7 +21,7 @@ function ManageFiles() {
   async function fetchFiles() {
     setLoading(true);
 
-    const results = await fetch(`${API_URL}/files`, {
+    const results = await fetch(`${API_URL}/files/${userId}`, {
       method: "GET",
       credentials: "include",
       headers: {"Content-Type": "application/json"}
@@ -38,7 +40,7 @@ function ManageFiles() {
   }
 
   // delete a file
-  async function deleteFile(userId, name) {
+  async function deleteFile(name) {
     if (!window.confirm("Are you sure you want to delete this file?")) {
       return;
     }
@@ -114,7 +116,7 @@ function ManageFiles() {
                 {file.userId}
               </td>
               <td className="file-data text-left align-top">
-                <Button className="mx-1" variant="danger" onClick={() => deleteFile(file.userId, file.name)}>
+                <Button className="mx-1" variant="danger" onClick={() => deleteFile(file.name)}>
                   Delete File
                 </Button>
               </td>

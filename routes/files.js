@@ -119,38 +119,6 @@ app.post("/bulk", requireAuth, checkUser, upload.array("images"), async (req, re
 });
 
 
-// get information about all of the files the current user owns
-app.get("/", requireAuth, async (req, res) => {
-
-  try {
-
-    const userId = req.auth.userId;
-
-    console.log("Get files uploaded by user", userId);
-
-    // make sure the user is allowed to perform this action
-    if (!await roleCheck(3, req.auth.userId)) {
-      res.status(401).send({error: "Unauthorized user attempting to read files."});
-      return;
-    }
-
-    // get file data
-    const results = await getFiles(userId);
-
-    if (results.files) {
-      res.status(200).send(results);
-    } else {
-      res.status(500).send({error: "An internal server error occurred. Please try again later."});
-    }
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({error: "An internal server error occurred. Please try again later."});
-  }
-
-});
-
-
 // get information about all of the directories
 app.get("/directories", requireAuth, async (req, res) => {
 
@@ -183,6 +151,39 @@ app.get("/directories", requireAuth, async (req, res) => {
 });
 
 
+// get information about all of files a user has uploaded
+app.get("/:userId", requireAuth, async (req, res) => {
+
+  try {
+
+    const userId = req.params.userId;
+
+    console.log("Get files uploaded by user", userId);
+
+    // make sure the user is allowed to perform this action
+    console.log("userId", userId, "req.auth.userId", toString(req.auth.userId))
+    if (userId !== req.auth.userId.toString() && !await roleCheck(4, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to read files."});
+      return;
+    }
+
+    // get file data
+    const results = await getFiles(userId);
+
+    if (results.files) {
+      res.status(200).send(results);
+    } else {
+      res.status(500).send({error: "An internal server error occurred. Please try again later."});
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
 // delete a file
 app.delete("/:userId/:fileName", requireAuth, async (req, res) => {
 
@@ -194,7 +195,7 @@ app.delete("/:userId/:fileName", requireAuth, async (req, res) => {
     console.log("Delete file ", fileName);
 
     // make sure the user is allowed to perform this action
-    if (req.params.userId !== req.auth.userId && !await roleCheck(4, req.auth.userId)) {
+    if (directoryId !== req.auth.userId.toString() && !await roleCheck(4, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to read files."});
       return;
     }
