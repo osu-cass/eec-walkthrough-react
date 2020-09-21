@@ -576,7 +576,7 @@ exports.createRequest = createRequest;
 
 
 // create a comment
-async function createComment(requestId, comment, status, userId) {
+async function createComment(requestId, comment, status, targetId, userId) {
 
   try {
 
@@ -591,9 +591,9 @@ async function createComment(requestId, comment, status, userId) {
     }
 
     // create the comment
-    sql = "INSERT INTO Request_Comments (requestId, comment, review, userId) " +
-    "VALUES (?, ?, ?, ?);";
-    results = await pool.query(sql, [requestId, comment, status, userId]);
+    sql = "INSERT INTO Request_Comments (requestId, comment, review, targetId, userId) " +
+    "VALUES (?, ?, ?, ?, ?);";
+    results = await pool.query(sql, [requestId, comment, status, targetId, userId]);
 
     const finalResults = {
       insertId: results[0].insertId

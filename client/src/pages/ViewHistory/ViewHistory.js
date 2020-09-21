@@ -157,6 +157,7 @@ function ViewHistory() {
                           page={object}
                           newId={i}
                           removeMode={removeMode}
+                          reviewMode={false}
                         />
                       )}
                     </Fragment>
@@ -178,6 +179,7 @@ function ViewHistory() {
                           header={object}
                           newId={i}
                           removeMode={removeMode}
+                          reviewMode={false}
                         />
                       )}
                     </Fragment>
@@ -199,6 +201,7 @@ function ViewHistory() {
                           card={object}
                           newId={i}
                           removeMode={removeMode}
+                          reviewMode={false}
                         />
                       )}
                     </Fragment>

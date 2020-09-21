@@ -5,6 +5,7 @@ import {isGraphic} from "../../utilities/itemType";
 import ThumbnailGallery from "../ContentPage/Card/ThumbnailGallery";
 import {formatTime} from "../../utilities/formatTime";
 import HighlightText from "../ContentPage/Various/HighlightText";
+import SubmitComment from "../RequestPage/SubmitComment";
 import "./ReportCard.css";
 
 // Card history for a single card
@@ -13,6 +14,7 @@ function ReportCard(props) {
   const [imageItems, setImageItems] = useState([]);
   const [oldImageItems, setOldImageItems] = useState([]);
   const [parentsName, setParentsName] = useState("");
+  const [showComment, setShowComment] = useState(false);
 
   // Adjust parent history for situations where the parent was deleted
   useEffect(() => {
@@ -76,9 +78,37 @@ function ReportCard(props) {
 
       <div className="col">
         <div className={`version-container p-2 m-3 border border-dark rounded text-wrap`}>
-          <h4 className="report-card-special-text pl-3 pt-4">Card</h4>
+          {props.reviewMode ? (
+            <div className="row">
+              <div className="col-10">
+                <h4 className="report-card-special-text pl-3 pt-4">Card</h4>
+              </div>
+              <div className="col-2">
+                <button 
+                  type="button"
+                  className="btn btn-success btn-report-card pull-right mr-2 mt-2"
+                  onClick={() => setShowComment(!showComment)}
+                >
+                  <i className={`fas fa-fw fa-xs fa-${showComment ? "minus" : "plus"}`} />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <h4 className="report-card-special-text pl-3 pt-4">Card</h4>
+          )}
           <h5 className="report-card-special-text pl-3">{parentsName} &rarr; {props.card.title}</h5>
           <span className="report-card-special-text pl-3">Updated {formatTime(props.card.created)}</span>
+
+          {/* if the user is in review mode they can open a comment field */}
+          {showComment ? (
+            <SubmitComment
+              requestId={props.requestId}
+              targetId={`C${props.card.cardId}`}
+            />
+          ) : (
+            null
+          )}
+
           <div className="m-3">
             {props.card.oldVersion ? (
               <HighlightText
@@ -159,5 +189,7 @@ export default ReportCard;
 ReportCard.propTypes = {
   card: PropTypes.object,
   newId: PropTypes.number,
-  removeMode: PropTypes.bool
+  removeMode: PropTypes.bool,
+  reviewMode: PropTypes.bool,
+  requestId: PropTypes.number
 };
