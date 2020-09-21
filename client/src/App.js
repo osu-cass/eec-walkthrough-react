@@ -86,7 +86,7 @@ function App() {
           <ManageIcons />
         </Route>
 
-        <Route path="/manage-images">
+        <Route path="/manage-images/:userId">
           <ManageFiles />
         </Route>
 

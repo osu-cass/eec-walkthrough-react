@@ -17,6 +17,7 @@ function Sidebar(props) {
   const [categories, setCategories] = useState([]);
   const [instructions, setInstructions] = useState([]);
   const [role, setRole] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [showEdit, setShowEdit] = useState(true);
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
@@ -26,6 +27,7 @@ function Sidebar(props) {
     // check user role to see what we should render
     const user = getProfile();
     setRole(user.role);
+    setUserId(user.userId);
     fetchData();
   }, [props.loginStatusChange, props.pageEdit]);
 
@@ -178,7 +180,7 @@ function Sidebar(props) {
               {role === 3 ? (
                 <SidebarCollection
                   collectionName="Manage Images"
-                  collectionLink="manage-images"
+                  collectionLink={`manage-images/${userId}`}
                 />
               ) : (
                 null
