@@ -83,6 +83,18 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed.
 
+## Other
+
+Running a linter to check for stylistic errors and simple bugs is good practice.
+
+To install eslint on your computer run the following command:
+
+`npm install eslint --global`
+
+From the root directory, attempt to fix all errors across the project:
+
+`eslint "./*" --fix`
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
