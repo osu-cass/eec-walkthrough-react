@@ -4,6 +4,7 @@ import {formatTime} from "../../utilities/formatTime";
 import HighlightText from "../ContentPage/Various/HighlightText";
 import Image from "../ContentPage/Various/Image";
 import SubmitComment from "../RequestPage/SubmitComment";
+import RequestComment from "../RequestPage/RequestComment";
 import "./ReportPage.css";
 
 // Page history for a single page
@@ -105,11 +106,37 @@ function ReportPage(props) {
           <h5 className="report-page-special-text pl-4">{parentsName} &rarr; {props.page.name} </h5>
           <span className="report-page-special-text pl-4">Updated {formatTime(props.page.created)}</span>
           
+          {/* if the user is in review mode show comments on this object */}
+          {props.reviewMode ? (
+            <Fragment>
+              {props.comments.map((comment) =>
+                <Fragment>
+                  {comment.targetId === `P${props.page.pageId}` ? (
+                  <RequestComment
+                    key={comment.commentId}
+                    created={comment.created}
+                    username={comment.username}
+                    description={comment.comment}
+                    status={comment.review}
+                    initial={false}
+                    borderDark={true}
+                  />
+                  ) : (
+                    null
+                  )}
+                </Fragment>
+              )}
+            </Fragment>
+          ) : (
+            null
+          )}
+
           {/* if the user is in review mode they can open a comment field */}
           {showComment ? (
             <SubmitComment
               requestId={props.requestId}
               targetId={`P${props.page.pageId}`}
+              borderDark={true}
             />
           ) : (
             null
@@ -269,5 +296,6 @@ ReportPage.propTypes = {
   newId: PropTypes.number,
   removeMode: PropTypes.bool,
   reviewMode: PropTypes.bool,
-  requestId: PropTypes.number
+  requestId: PropTypes.number,
+  comments: PropTypes.array
 };

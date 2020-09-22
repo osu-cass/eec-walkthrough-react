@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import "./References.css";
-import SanitizedHTML from "react-sanitized-html";
+import Sanitized from "../../../components/General/Sanitized";
 
 // Header and card that describes the references for the current page
 function References(props) {
@@ -27,7 +27,7 @@ function References(props) {
                 {props.sources.map((source, i) =>
                   <li key={source.sourceId}>
                     <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
-                    <SanitizedHTML html={source.text} />
+                    <Sanitized html={source.text} />
                   </li>
                 )}
               </Fragment>
@@ -36,7 +36,7 @@ function References(props) {
                 {props.tempSources.map((source, i) =>
                   <li key={source.sourceId}>
                     <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
-                    <SanitizedHTML html={source.text} />
+                    <Sanitized html={source.text} />
                   </li>
                 )}
               </Fragment>

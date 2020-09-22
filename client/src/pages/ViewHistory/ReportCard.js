@@ -6,6 +6,7 @@ import ThumbnailGallery from "../ContentPage/Card/ThumbnailGallery";
 import {formatTime} from "../../utilities/formatTime";
 import HighlightText from "../ContentPage/Various/HighlightText";
 import SubmitComment from "../RequestPage/SubmitComment";
+import RequestComment from "../RequestPage/RequestComment";
 import "./ReportCard.css";
 
 // Card history for a single card
@@ -99,11 +100,37 @@ function ReportCard(props) {
           <h5 className="report-card-special-text pl-3">{parentsName} &rarr; {props.card.title}</h5>
           <span className="report-card-special-text pl-3">Updated {formatTime(props.card.created)}</span>
 
+          {/* if the user is in review mode show comments on this object */}
+          {props.reviewMode ? (
+            <Fragment>
+              {props.comments.map((comment) =>
+                <Fragment>
+                  {comment.targetId === `C${props.card.cardId}` ? (
+                  <RequestComment
+                    key={comment.commentId}
+                    created={comment.created}
+                    username={comment.username}
+                    description={comment.comment}
+                    status={comment.review}
+                    initial={false}
+                    borderDark={true}
+                  />
+                  ) : (
+                    null
+                  )}
+                </Fragment>
+              )}
+            </Fragment>
+          ) : (
+            null
+          )}
+
           {/* if the user is in review mode they can open a comment field */}
           {showComment ? (
             <SubmitComment
               requestId={props.requestId}
               targetId={`C${props.card.cardId}`}
+              borderDark={true}
             />
           ) : (
             null
@@ -191,5 +218,6 @@ ReportCard.propTypes = {
   newId: PropTypes.number,
   removeMode: PropTypes.bool,
   reviewMode: PropTypes.bool,
-  requestId: PropTypes.number
+  requestId: PropTypes.number,
+  comments: PropTypes.array
 };

@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import HighlightText from "../ContentPage/Various/HighlightText";
 import SubmitComment from "../RequestPage/SubmitComment";
+import RequestComment from "../RequestPage/RequestComment";
 import "./ReportHeader.css";
 
 // Header history for a single header
@@ -67,11 +68,37 @@ function ReportHeader(props) {
           <h5 className="report-header-special-text pl-4">{parentsName} &rarr; {props.header.title}</h5>
           <span className="report-header-special-text pl-4">Updated {formatTime(props.header.created)}</span>
 
+          {/* if the user is in review mode show comments on this object */}
+          {props.reviewMode ? (
+            <Fragment>
+              {props.comments.map((comment) =>
+                <Fragment>
+                  {comment.targetId === `H${props.header.headerId}` ? (
+                  <RequestComment
+                    key={comment.commentId}
+                    created={comment.created}
+                    username={comment.username}
+                    description={comment.comment}
+                    status={comment.review}
+                    initial={false}
+                    borderDark={true}
+                  />
+                  ) : (
+                    null
+                  )}
+                </Fragment>
+              )}
+            </Fragment>
+          ) : (
+            null
+          )}
+
           {/* if the user is in review mode they can open a comment field */}
           {showComment ? (
             <SubmitComment
               requestId={props.requestId}
               targetId={`H${props.header.headerId}`}
+              borderDark={true}
             />
           ) : (
             null
@@ -125,5 +152,6 @@ ReportHeader.propTypes = {
   newId: PropTypes.number,
   removeMode: PropTypes.bool,
   reviewMode: PropTypes.bool,
-  requestId: PropTypes.number
+  requestId: PropTypes.number,
+  comments: PropTypes.array
 };

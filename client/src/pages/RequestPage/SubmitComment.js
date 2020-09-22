@@ -68,7 +68,7 @@ function SubmitComment(props) {
   }
 
   return (
-    <Card className="request-comment-submit-card mt-2 mb-4 shadow-sm">
+    <Card className={`request-comment-submit-card mt-2 mb-4 shadow-sm ${props.borderDark ? "border-dark mx-4" : ""}`}>
 
       <LoadingOverlay loading={loading} />
 
@@ -123,5 +123,6 @@ export default SubmitComment;
 
 SubmitComment.propTypes = {
   requestId: PropTypes.number,
-  targetId: PropTypes.string
+  targetId: PropTypes.string,
+  borderDark: PropTypes.bool
 };
