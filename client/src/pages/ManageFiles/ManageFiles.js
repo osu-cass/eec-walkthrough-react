@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {API_URL} from "../../utilities/constants";
-import SanitizedHTML from "react-sanitized-html";
+import Sanitized from "../../components/General/Sanitized";
 import Button from "react-bootstrap/Button";
 import {useParams} from "react-router-dom";
 import "./ManageFiles.css";
@@ -108,7 +108,7 @@ function ManageFiles() {
                 {file.name}
               </td>
               <td className="file-data-source align-top">
-                <SanitizedHTML html={file.source} />
+                <Sanitized html={file.source} />
               </td>
               <td className="file-data align-top">
                 {file.used}

@@ -2,14 +2,14 @@ import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import {Card} from "react-bootstrap";
-import SanitizedHTML from "react-sanitized-html";
+import Sanitized from "../../components/General/Sanitized";
 import "./RequestComment.css";
 
 // a single comment on a publish request
 function RequestComment(props) {
 
   return (
-    <Card className="request-comment-card my-2 shadow-sm">
+    <Card className={`request-comment-card my-2 shadow-sm ${props.borderDark ? "border-dark mx-4" : ""}`}>
       <Card.Body className="request-card-comment-body">
         <span className="font-weight-bold">{props.username}</span>
         {props.initial ? (
@@ -60,7 +60,7 @@ function RequestComment(props) {
         <small className="comment-date-text">{formatTime(props.created)}</small>
         <br/>
         <br/>
-        <SanitizedHTML html={props.description} />
+        <Sanitized html={props.description} />
       </Card.Body>
     </Card>
   );
@@ -73,5 +73,6 @@ RequestComment.propTypes = {
   username: PropTypes.string,
   description: PropTypes.string,
   status: PropTypes.number,
-  initial: PropTypes.bool
+  initial: PropTypes.bool,
+  borderDark: PropTypes.bool
 };

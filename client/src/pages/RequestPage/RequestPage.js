@@ -147,6 +147,7 @@ function RequestPage() {
                   removeMode={true}
                   reviewMode={true}
                   requestId={parseInt(requestId, 10)}
+                  comments={request.comments}
                 />
               ) : (
                 null
@@ -159,6 +160,7 @@ function RequestPage() {
                   removeMode={true}
                   reviewMode={true}
                   requestId={parseInt(requestId, 10)}
+                  comments={request.comments}
                 />
               ) : (
                 null
@@ -171,6 +173,7 @@ function RequestPage() {
                   removeMode={true}
                   reviewMode={true}
                   requestId={parseInt(requestId, 10)}
+                  comments={request.comments}
                 />
               ) : (
                 null
