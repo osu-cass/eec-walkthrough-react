@@ -10,7 +10,6 @@ const fileApp = express();
 const {pool} = require("./services/database/mysqlPool");
 const app = require("./routes/index");
 const http = require("http");
-const fs = require("fs");
 
 console.log("Server JavaScript start");
 console.log("Running in", process.env.NODE_ENV, "mode");
