@@ -101,6 +101,7 @@ function RequestPage() {
       />
 
       <RequestComment
+        commentId={request.commentId}
         created={request.created}
         username={request.username}
         description={request.description}
@@ -111,11 +112,14 @@ function RequestPage() {
       {request.comments.map((comment) =>
         <RequestComment
           key={comment.commentId}
+          commentId={comment.commentId}
           created={comment.created}
           username={comment.username}
           description={comment.comment}
           status={comment.review}
+          targetId={comment.targetId}
           initial={false}
+          linkToComment={true}
         />
       )}
 

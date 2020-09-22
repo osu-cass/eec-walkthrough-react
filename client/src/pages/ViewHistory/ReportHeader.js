@@ -72,17 +72,18 @@ function ReportHeader(props) {
           {props.reviewMode ? (
             <Fragment>
               {props.comments.map((comment) =>
-                <Fragment>
+                <Fragment key={comment.commentId + "H"}>
                   {comment.targetId === `H${props.header.headerId}` ? (
-                  <RequestComment
-                    key={comment.commentId}
-                    created={comment.created}
-                    username={comment.username}
-                    description={comment.comment}
-                    status={comment.review}
-                    initial={false}
-                    borderDark={true}
-                  />
+                    <RequestComment
+                      commentId={comment.commentId}
+                      created={comment.created}
+                      username={comment.username}
+                      description={comment.comment}
+                      status={comment.review}
+                      targetId={comment.targetId}
+                      initial={false}
+                      borderDark={true}
+                    />
                   ) : (
                     null
                   )}

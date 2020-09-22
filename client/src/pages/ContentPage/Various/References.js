@@ -26,7 +26,7 @@ function References(props) {
               <Fragment>
                 {props.sources.map((source, i) =>
                   <li key={source.sourceId}>
-                    <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
+                    <span id={`source-` + (i + 1)} className="source-anchor" />
                     <Sanitized html={source.text} />
                   </li>
                 )}
@@ -35,7 +35,7 @@ function References(props) {
               <Fragment>
                 {props.tempSources.map((source, i) =>
                   <li key={source.sourceId}>
-                    <a href={`#source-` + (i + 1)} name={`source-` + (i + 1)} className="source-anchor">&nbsp;</a>
+                    <span id={`source-` + (i + 1)} className="source-anchor" />
                     <Sanitized html={source.text} />
                   </li>
                 )}
