@@ -566,6 +566,72 @@ Uploads any number of files to the server. The files must use one of the followi
 \\~\\
 
 
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/files/directories} \\
+Returns information about the file upload directories that belong to each user. Only an admin can use this endpoint.
+\begin{itemize}
+    \item name: The name of the user who owns the directory.
+    \item userId: The ID of the user who owns the directory.
+    \item fileCount: The number of uploaded files in the directory.
+\end{itemize}
+
+\begin{lstlisting}[caption=Example Response]
+{
+  directories: [
+    {
+      name: "Silverware",
+      userId: 42,
+      fileCount: 4
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/files/:userId} \\
+Returns information about the files a user has uploaded. Only the user who uploaded the files or an admin can use this endpoint.
+\begin{itemize}
+    \item userId: The ID of the user who uploaded files.
+    \item url: A path pointing to the files location.
+    \item name: The name of the file.
+    \item used: Whether or not this file is referenced somewhere on the website.
+    \item source: The first valid source referenced along with the file on the website.
+\end{itemize}
+
+\begin{lstlisting}[caption=Example Response]
+{
+  directories: [
+    {
+      userId: 42,
+      url: "/uploads/user_42/d0d105c1ba1fe16e613f69173867b797.jpg",
+      name: "d0d105c1ba1fe16e613f69173867b797.jpg",
+      used: "Yes",
+      source: "Robotic Welding for Fabrication of MilSpec Hydra ..."
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/files/:userId/:fileName} \\
+Deletes a file. Only the user who uploaded the file or an admins can use this endpoint.
+\begin{itemize}
+  \item userId: The ID of the user who uploaded the file.
+  \item fileName: The name of the file.
+  \item filesRemoved: The number of files removed.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  filesRemoved: 1
+}
+\end{lstlisting}
+\\~\\
+
+
 \subsection{Header Endpoints}
 
 
@@ -1726,11 +1792,13 @@ Creates a new comment on a publish request. Only editors and admins can use this
     \item requestId: The ID of the publish request to add a comment to.
     \item comment: The actual text of the comment.
     \item status: The type of comment (0 = comment, 1 = suggest change, 2 = approval).
+    \item targetId: A string that describes the specific object being commented on. If this is a general comment than targetId is "0". If this is a page it starts with a "P", header starts with an "H", card starts with a "C", and then the objects ID.
 \end{itemize}
 \begin{lstlisting}[caption=Example Request Body]
 { 
-  comment: "Did you want to do anything else with the 5th card?",
-  status: "0"
+  comment: "Did you want to do anything else with the image title?",
+  status: "0",
+  targetID: "C121"
 }
 \end{lstlisting}
 \begin{itemize}
@@ -1786,8 +1854,7 @@ Returns all of the sources on a page (even the ones not being used by an item). 
     \begin{itemize}
         \item pageId: The page ID of the page that this source belongs to.
         \item sourceId: The ID of this source.
-        \item text: The citation text that describes this source (IEEE style).
-        \item url: An optional URL that links to a web page related to the source.
+        \item text: The citation text that describes this source (IEEE style). This text may include HTML tags.
     \end{itemize}
 \end{itemize}
 \begin{lstlisting}[caption=Example Response]
@@ -1796,8 +1863,7 @@ Returns all of the sources on a page (even the ones not being used by an item). 
     {
       pageId: 2,
       sourceId: 1,
-      text: "S. Cottrell, The study skills handbook...",
-      url: ""
+      text: "S. Cottrell, The study skills handbook..."
     }
   ]
 }
@@ -1812,16 +1878,14 @@ Creates a list of sources for a page. Since this new list of sources replaces th
     \item pageId: The ID of the page to post the source list to.
     \item sources: All of the sources to add to the page.
     \begin{itemize}
-        \item text: The citation text that describes this source (IEEE style).
-        \item url: An optional URL that links to a web page related to the source.
+        \item text: The citation text that describes this source (IEEE style). This text may include HTML tags.
     \end{itemize}
 \end{itemize}
 \begin{lstlisting}[caption=Example Request Body]
 { 
   sources: [
     {
-      text: "S. Cottrell, The study skills handbook...",
-      url: ""
+      text: "S. Cottrell, The study skills handbook..."
     }
   ]
 }
@@ -1843,12 +1907,10 @@ Adds a single source to a page. Only editors and admins can use this endpoint.
 \begin{itemize}
     \item pageId: The ID of the page to add the source to.
     \item text: The citation text that describes this source (IEEE style).
-    \item url: An optional URL that links to a web page related to the source.
 \end{itemize}
 \begin{lstlisting}[caption=Example Request Body]
 {
-  text: "S. Cottrell, The study skills handbook...",
-  url: ""
+  text: "S. Cottrell, The study skills handbook..."
 }
 \end{lstlisting}
 \begin{itemize}
