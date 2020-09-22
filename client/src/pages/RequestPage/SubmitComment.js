@@ -76,7 +76,7 @@ function SubmitComment(props) {
         as="h5"
         className="card-header-bar d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold"
       >
-        <span className="my-auto">Review the Request</span>
+        <span className="my-auto">Leave a comment</span>
 
         <select
           className="select-review-type form-control w-auto"

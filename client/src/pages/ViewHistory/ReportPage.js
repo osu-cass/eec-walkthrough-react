@@ -110,17 +110,18 @@ function ReportPage(props) {
           {props.reviewMode ? (
             <Fragment>
               {props.comments.map((comment) =>
-                <Fragment>
+                <Fragment key={comment.commentId + "P"}>
                   {comment.targetId === `P${props.page.pageId}` ? (
-                  <RequestComment
-                    key={comment.commentId}
-                    created={comment.created}
-                    username={comment.username}
-                    description={comment.comment}
-                    status={comment.review}
-                    initial={false}
-                    borderDark={true}
-                  />
+                    <RequestComment
+                      commentId={comment.commentId}
+                      created={comment.created}
+                      username={comment.username}
+                      description={comment.comment}
+                      status={comment.review}
+                      targetId={comment.targetId}
+                      initial={false}
+                      borderDark={true}
+                    />
                   ) : (
                     null
                   )}

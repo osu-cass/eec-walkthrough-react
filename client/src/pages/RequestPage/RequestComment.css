@@ -1,3 +1,7 @@
+.comment-anchor {
+  font-size: 0;
+}
+
 .request-card-comment-body {
   white-space: pre-wrap;
 }
