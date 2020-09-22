@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Sep 21, 2020 at 04:24 PM
+-- Generation Time: Sep 21, 2020 at 11:24 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -2083,28 +2083,24 @@ INSERT INTO `Request_Objects` (`requestObjectId`, `requestId`, `objectId`, `obje
 CREATE TABLE `Sources` (
   `sourceId` int(10) UNSIGNED NOT NULL,
   `pageId` int(10) UNSIGNED NOT NULL,
-  `text` varchar(5000) NOT NULL,
-  `url` varchar(5000) NOT NULL
+  `text` varchar(5000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `Sources`
 --
 
-INSERT INTO `Sources` (`sourceId`, `pageId`, `text`, `url`) VALUES
-(1, 2, 'Test', ''),
-(2, 65, 'Test', 'Test'),
-(3, 65, 'Test', ''),
-(4, 61, 'Eaton. Power factor correction: a guide for the plant engineer (2014). Accessed: Sept. 9, 2020. [Online]. Available: https://www.eaton.com/ecm/groups/public/%40pub/%40electrical/documents/content/sa02607001e.pdf', 'https://www.eaton.com/ecm/groups/public/%40pub/%40electrical/documents/content/sa02607001e.pdf'),
-(5, 61, 'M. R. Muller, M. Simek, J. Mak, B. Mitroic. Essentials of Industrial Assessments. Accessed: Sept. 9, 2020. [Online]. Available: https://iac.university/technicalDocs/industr/ch4.pdf', 'https://iac.university/technicalDocs/industr/ch4.pdf'),
-(6, 69, '\"Spray Painting Efficiency Training.\" Pacific Northwest Pollution Prevention Resource Center. https://pprc.org/2012/projects-2/projects/spray-painting-training-efficiency/ (accessed Sept. 9, 2020)', 'https://pprc.org/2012/projects-2/projects/spray-painting-training-efficiency/'),
-(7, 69, '\"Energy Efficiency: Inverter Power Source.\" Lincoln Electric. https://www.lincolnelectric.com/en-us/support/process-and-theory/Pages/inverter-power-detail.aspx (accessed Sept. 9, 2020).', 'https://www.lincolnelectric.com/en-us/support/process-and-theory/Pages/inverter-power-detail.aspx'),
-(8, 69, '\"Welding Guide to Power Efficiency.\" Millerwelds.com. https://www.millerwelds.com/resources/article-library/welding-guide-to-power-efficiency (accessed Sept. 9, 2020).', 'https://www.millerwelds.com/resources/article-library/welding-guide-to-power-efficiency'),
-(9, 69, '\"Welding Equipment.\" energytrust.org. https://www.energytrust.org/incentives/industry-welding-equipment/#tab-two (accessed Sept. 9, 2020).', 'https://www.energytrust.org/incentives/industry-welding-equipment/#tab-two'),
-(10, 69, '\"Implementing Robotic Welding: What to Know to be Successful.\" tregaskiss.com. https://www.tregaskiss.com/implementing-robotic-welding-what-to-know-to-be-successful-p162156#.X1li73lKi00 (accessed Sept. 9, 2020).', 'https://www.tregaskiss.com/implementing-robotic-welding-what-to-know-to-be-successful-p162156#.X1li73lKi00'),
-(11, 69, '\"Robotic Welding for Fabrication of MilSpec Hydra Skid Systems Cuts Cycle Time.\" genesis-systems.com. https://www.genesis-systems.com/robotic-welding-skid-systems-case-study (accessed Sept. 9, 2020).', 'https://www.genesis-systems.com/robotic-welding-skid-systems-case-study'),
-(12, 69, 'C. Galitsky, E. Worrell, and E. Dutrow. \"ENERGY STAR® Guides for Energy Efficiency Opportunities, Featuring the Motor Vehicle Assembly Industry.\"', 'https://www.aceee.org/files/proceedings/2003/data/papers/SS03_Panel4_Paper_11.pdf'),
-(13, 69, 'C. Galitsky, E. Worrell. \"Energy Efficiency Improvement and Cost Saving Opportunities for the Vehicle Assembly Industry - An ENERGY STAR Guide for Energy and Plant Managers,\" Lawrence Berkeley National Laboratory, Berkeley, CA, 2008. Accessed: Sept. 10, 2020. [Online]. Available: https://www.osti.gov/servlets/purl/927881', 'https://www.osti.gov/servlets/purl/927881');
+INSERT INTO `Sources` (`sourceId`, `pageId`, `text`) VALUES
+(4, 61, 'Eaton. Power factor correction: a guide for the plant engineer (2014). Accessed: Sept. 9, 2020. [Online]. Available: https://www.eaton.com/ecm/groups/public/%40pub/%40electrical/documents/content/sa02607001e.pdf'),
+(5, 61, 'M. R. Muller, M. Simek, J. Mak, B. Mitroic. Essentials of Industrial Assessments. Accessed: Sept. 9, 2020. [Online]. Available: https://iac.university/technicalDocs/industr/ch4.pdf'),
+(6, 69, '<p>\"Spray Painting Efficiency Training.\" Pacific Northwest Pollution Prevention Resource Center. <a href=\"https://pprc.org/2012/projects-2/projects/spray-painting-training-efficiency/\" rel=\"noopener noreferrer\" target=\"_blank\">https://pprc.org/2012/projects-2/projects/spray-painting-training-efficiency/</a> (accessed Sept. 9, 2020)</p>'),
+(7, 69, '<p>\"Energy Efficiency: Inverter Power Source.\" Lincoln Electric. <a href=\"https://www.lincolnelectric.com/en-us/support/process-and-theory/Pages/inverter-power-detail.aspx\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.lincolnelectric.com/en-us/support/process-and-theory/Pages/inverter-power-detail.aspx</a> (accessed Sept. 9, 2020).</p>'),
+(8, 69, '<p>\"Welding Guide to Power Efficiency.\" Millerwelds.com. <a href=\"https://www.millerwelds.com/resources/article-library/welding-guide-to-power-efficiency\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.millerwelds.com/resources/article-library/welding-guide-to-power-efficiency</a> (accessed Sept. 9, 2020).</p>'),
+(9, 69, '<p>\"Welding Equipment.\" energytrust.org. <a href=\"https://www.energytrust.org/incentives/industry-welding-equipment/#tab-two\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.energytrust.org/incentives/industry-welding-equipment/#tab-two</a> (accessed Sept. 9, 2020).</p>'),
+(10, 69, '<p>\"Implementing Robotic Welding: What to Know to be Successful.\" tregaskiss.com. <a href=\"https://www.tregaskiss.com/implementing-robotic-welding-what-to-know-to-be-successful-p162156#.X1li73lKi00\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.tregaskiss.com/implementing-robotic-welding-what-to-know-to-be-successful-p162156#.X1li73lKi00</a> (accessed Sept. 9, 2020).</p>'),
+(11, 69, '<p>\"Robotic Welding for Fabrication of MilSpec Hydra Skid Systems Cuts Cycle Time.\" genesis-systems.com. <a href=\"https://www.genesis-systems.com/robotic-welding-skid-systems-case-study\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.genesis-systems.com/robotic-welding-skid-systems-case-study</a> (accessed Sept. 9, 2020).</p>'),
+(12, 69, '<p>C. Galitsky, E. Worrell, and E. Dutrow. \"ENERGY STAR® Guides for Energy Efficiency Opportunities, Featuring the Motor Vehicle Assembly Industry.\"</p>'),
+(13, 69, '<p>C. Galitsky, E. Worrell. \"Energy Efficiency Improvement and Cost Saving Opportunities for the Vehicle Assembly Industry - An ENERGY STAR Guide for Energy and Plant Managers,\" Lawrence Berkeley National Laboratory, Berkeley, CA, 2008. Accessed: Sept. 10, 2020. [Online]. Available: <a href=\"https://www.osti.gov/servlets/purl/927881\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.osti.gov/servlets/purl/927881</a></p>');
 
 -- --------------------------------------------------------
 
@@ -2434,7 +2430,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=227;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2488,7 +2484,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5982;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6036;
 
 --
 -- AUTO_INCREMENT for table `Pages`
