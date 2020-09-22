@@ -4,6 +4,7 @@ import {API_URL} from "../../utilities/constants";
 import Sanitized from "../../components/General/Sanitized";
 import Button from "react-bootstrap/Button";
 import {useParams} from "react-router-dom";
+import Image from "../ContentPage/Various/Image";
 import "./ManageFiles.css";
 
 // page for viewing and deleting files
@@ -102,7 +103,12 @@ function ManageFiles() {
           {files.map((file) =>
             <tr key={file.userId + file.name}>
               <td className="file-data pl-5 align-top">
-                <img className="file-thumb" src={file.url} alt="uploaded file" />
+                <Image
+                  url={file.url}
+                  title={file.name}
+                  thumbnail={false}
+                  header={true}
+                />
               </td>
               <td className="file-data align-top">
                 {file.name}
