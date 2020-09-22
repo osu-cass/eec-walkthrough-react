@@ -225,7 +225,7 @@ function AddSource(props) {
         <Modal.Body>
 
           {sources.map((source, i) =>
-            <Row className="mb-2" key={source.sourceId}>
+            <Row className="mb-5" key={source.sourceId}>
                 <div className="col-auto pr-0">
                   <button className="btn btn-danger btn-sm"
                     onClick={() => deleteSource(source.sourceId)}
