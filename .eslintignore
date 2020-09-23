@@ -1,5 +1,5 @@
-frontend/build/*
-frontend/public/*
+client/build/*
+client/public/*
 *.json
 *.css
 *.css.map
@@ -13,3 +13,6 @@ frontend/public/*
 *.chunk.js.LICENSE
 *.env
 *.sql
+*.pdf
+*.tex
+*.md

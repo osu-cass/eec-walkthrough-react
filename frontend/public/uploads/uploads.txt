@@ -1,2 +1,0 @@
-This is where files that users have uploaded will be stored.
-Each sub-directory in this folder represents a different user's uploaded files.

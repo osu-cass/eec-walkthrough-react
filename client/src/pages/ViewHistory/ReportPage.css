@@ -1,0 +1,21 @@
+.btn-report-page {
+  font-size: x-large;
+  padding: 0 0.2em 0.1em 0.2em;
+}
+
+.report-page-special-text {
+  color: #239023;
+}
+
+.description-report-page {
+  white-space: pre-wrap;
+}
+
+.report-lrg-page-span {
+  font-weight: bold;
+  font-size: xx-large;
+}
+
+.report-med-page-span {
+  font-size: x-large;
+}
