@@ -1,0 +1,28 @@
+.reference-header-bar {
+  background: rgb(214,214,214);
+  background: linear-gradient(0deg, rgba(214,214,214,1) 0%, rgba(255,255,255,1) 100%);
+}
+
+.allow-newlines {
+  white-space: pre-wrap;
+}
+
+.citation-reference-container ol, .citation-reference-container li {
+  list-style-position: outside;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.source-anchor {
+  font-size: 0;
+}
+
+ol li div {
+  vertical-align: top;
+  display: inline;
+}
+
+ol li div p {
+  vertical-align: top;
+  display: inline;
+}

@@ -1,0 +1,25 @@
+.generic-header-bar {
+  background: rgb(214,214,214);
+  background: linear-gradient(0deg, rgba(214,214,214,1) 0%, rgba(255,255,255,1) 100%);
+  top: 1em;
+  z-index: 998;
+}
+
+.file-thumb {
+  max-width: 100%;
+}
+
+.file-data-source {
+  max-width: 10px;
+}
+
+body {
+  background-color: #f8f9fa;
+  font-family: 'Roboto', sans-serif;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 70%;
+  }
+}

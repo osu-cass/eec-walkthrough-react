@@ -1,0 +1,35 @@
+select {
+  font-family: 'Font Awesome\ 5 Brands' , 'arial';
+}
+
+.modal-width {
+  max-width: 65%;
+}
+
+.modal-selected-item {
+  box-shadow: 0 0 5px #0275d8;
+  border: 1px solid #0275d8;
+}
+
+.custom-control-label::before,
+.custom-control-label::after {
+  top: .15em !important;
+  width: 1.25em !important;
+  height: 1.25em !important;
+}
+
+.internal-modal-item {
+  background-color: #dedede;
+}
+
+.inline-modal-item {
+  background-color: #c1e1ec;
+}
+
+.inline-modal-item.internal-modal-item {
+  background-color: #99cfe0;
+}
+
+.item-button-bar {
+  z-index: 800;
+}

@@ -1,0 +1,193 @@
+import React, {useEffect, useState, Fragment} from "react";
+import {Card} from "react-bootstrap";
+import LoadingOverlay from "../../components/General/LoadingOverlay";
+import RequestComment from "./RequestComment";
+import SubmitComment from "./SubmitComment";
+import {logout} from "../../utilities/cookieAuth";
+import {API_URL} from "../../utilities/constants";
+import ReportPage from "../ViewHistory/ReportPage";
+import ReportHeader from "../ViewHistory/ReportHeader";
+import ReportCard from "../ViewHistory/ReportCard";
+import {useParams} from "react-router-dom";
+import CloseRequest from "./CloseRequest";
+import AcceptRequest from "./AcceptRequest";
+import Error from "../../components/General/Error";
+import "./RequestPage.css";
+
+// Page for viewing a single publish request
+function RequestPage() {
+
+  const [loading, setLoading] = useState(false);
+  const [request, setRequest] = useState({
+    requestId: 0,
+    title: "",
+    description: "",
+    status: 1,
+    created: null,
+    username: "",
+    userId: 0,
+    objects: [],
+    comments: []
+  });
+  const {requestId} = useParams();
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    fetchRequest();
+    // eslint-disable-next-line
+  }, []);
+
+  // fetch request data
+  async function fetchRequest() {
+    setLoading(true);
+
+    // Fetch all requests
+    const results = await fetch(`${API_URL}/requests/${requestId}`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      const obj = await results.json();
+      setRequest(obj);
+
+    } else {
+
+      // if the user is performing an unauthorized action
+      // log them out and return them to the homepage
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else {
+        console.error("Error fetching request");
+      }
+
+    }
+
+    setLoading(false);
+  }
+
+  return (
+    <div className="container request-page-container">
+
+      <LoadingOverlay loading={loading} />
+
+      <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
+        <div className="row mx-2">
+          <div className="col">
+            <h2 className="font-weight-bold">
+              Publish Request - {request.title}
+            </h2>
+          </div>
+        </div>
+        <div className="row mx-2">
+          <CloseRequest
+            creatorId={parseInt(request.userId, 10)}
+            requestId={parseInt(requestId, 10)}
+            onError={(message) => setErrorMessage(message)}
+          />
+          <div className="mx-2" />
+          <AcceptRequest
+            requestId={parseInt(requestId, 10)}
+            onError={(message) => setErrorMessage(message)}
+          />
+        </div>
+      </div>
+
+      <Error
+        message={errorMessage}
+      />
+
+      <RequestComment
+        commentId={request.commentId}
+        created={request.created}
+        username={request.username}
+        description={request.description}
+        status={request.status}
+        initial={true}
+      />
+
+      {request.comments.map((comment) =>
+        <RequestComment
+          key={comment.commentId}
+          commentId={comment.commentId}
+          created={comment.created}
+          username={comment.username}
+          description={comment.comment}
+          status={comment.review}
+          targetId={comment.targetId}
+          initial={false}
+          linkToComment={true}
+        />
+      )}
+
+      <SubmitComment
+        requestId={parseInt(requestId, 10)}
+        targetId={"0"}
+      />
+
+      <Card className="request-card-main my-4 shadow-sm">
+        <Card.Header
+          as="h5"
+          className="card-header-bar d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold"
+        >
+          <div className="col text-center">
+            Currently Published Content
+          </div>
+          <div className="col text-center">
+            New Content to Publish
+          </div>
+        </Card.Header>
+        <Card.Body className="request-card-body">
+          {request.objects.map((object, i) =>
+            <Fragment key={i}>
+              {object.objectType === 1 ? (
+                <ReportPage
+                  key={object.pageId + "p"}
+                  page={object}
+                  newId={i}
+                  removeMode={true}
+                  reviewMode={true}
+                  requestId={parseInt(requestId, 10)}
+                  comments={request.comments}
+                />
+              ) : (
+                null
+              )}
+              {object.objectType === 2 ? (
+                <ReportHeader
+                  key={object.headerId + "h"}
+                  header={object}
+                  newId={i}
+                  removeMode={true}
+                  reviewMode={true}
+                  requestId={parseInt(requestId, 10)}
+                  comments={request.comments}
+                />
+              ) : (
+                null
+              )}
+              {object.objectType === 3 ? (
+                <ReportCard
+                  key={object.cardId + "c"}
+                  card={object}
+                  newId={i}
+                  removeMode={true}
+                  reviewMode={true}
+                  requestId={parseInt(requestId, 10)}
+                  comments={request.comments}
+                />
+              ) : (
+                null
+              )}
+            </Fragment>
+          )}
+        </Card.Body>
+      </Card>
+
+    </div>
+  );
+}
+export default RequestPage;

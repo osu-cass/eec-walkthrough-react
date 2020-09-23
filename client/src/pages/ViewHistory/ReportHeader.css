@@ -1,0 +1,13 @@
+.btn-report-header {
+  font-size: x-large;
+  padding: 0 0.2em 0.1em 0.2em;
+}
+
+.report-header-special-text {
+  color: #239023;
+}
+
+.report-header-span {
+  font-weight: bold;
+  font-size: xx-large;
+}
