@@ -74,6 +74,7 @@ function ManageUsers() {
             sortValue: sortValue,
             orderValue: orderValue
           });
+
         } else {
           textValue = searchFields.textValue;
           roleValue = searchFields.roleValue;

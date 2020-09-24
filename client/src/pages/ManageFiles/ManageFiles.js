@@ -5,6 +5,7 @@ import Sanitized from "../../components/General/Sanitized";
 import Button from "react-bootstrap/Button";
 import {useParams} from "react-router-dom";
 import Image from "../ContentPage/Various/Image";
+import LoadMoreButton from "../../components/General/LoadMoreButton";
 import "./ManageFiles.css";
 
 // page for viewing and deleting files
@@ -13,17 +14,25 @@ function ManageFiles() {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const {userId} = useParams();
+  const [cursor, setCursor] = useState("null");
+  const [searchFields, setSearchFields] = useState({
+    sortValue: 0,
+    orderValue: 1
+  });
 
+  // initiate a new search request when the sorting order changes
   useEffect(() => {
-    fetchFiles();
+    fetchFiles(cursor);
     // eslint-disable-next-line
-  }, []);
+  }, [searchFields.orderValue, searchFields.sortValue]);
 
   // fetch file data
-  async function fetchFiles() {
+  async function fetchFiles(cursor) {
     setLoading(true);
+    const sortValue = searchFields.sortValue;
+    const orderValue = searchFields.orderValue;
 
-    const results = await fetch(`${API_URL}/files/${userId}`, {
+    const results = await fetch(`${API_URL}/files/${userId}/${sortValue}/${orderValue}/${cursor}`, {
       method: "GET",
       credentials: "include",
       headers: {"Content-Type": "application/json"}
@@ -32,9 +41,15 @@ function ManageFiles() {
     if (results.ok) {
 
       const obj = await results.json();
-      setFiles(obj.files);
+      if (cursor === "null") {
+        setFiles([...obj.files]);
+      } else {
+        setFiles([...files, ...obj.files]);
+      }
+      setCursor(obj.nextCursor);
 
     } else {
+      setFiles([]);
       console.error("Error fetching files");
     }
 
@@ -63,6 +78,28 @@ function ManageFiles() {
 
   }
 
+  // updates the sorting order of the table columns
+  function changeSort(sortValue, alternateOrder) {
+    if (alternateOrder) {
+      setCursor("null");
+      setSearchFields({
+        sortValue: sortValue,
+        orderValue: 1 - searchFields.orderValue
+      });
+    } else {
+      setCursor("null");
+      setSearchFields({
+        sortValue: sortValue,
+        orderValue: 1
+      });
+    }
+  }
+
+  // if we scroll far enough load more images
+  function handleLoadMore(cursor) {
+    fetchFiles(cursor);
+  }
+
   return (
     <div className="container file-page-container mb-5">
 
@@ -82,17 +119,35 @@ function ManageFiles() {
             <th className="pl-5" style={{width: "15%"}}>
               Image
             </th>
-            <th style={{width: "30%"}}>
-              File Name
-            </th>
-            <th style={{width: "30%"}}>
-              Source
-            </th>
+            {searchFields.sortValue === 0 ? (
+              <th className="active-sort" style={{width: "30%"}} onClick={() => changeSort(0, true)}>
+                File Name <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+              </th>
+            ) : (
+              <th style={{width: "30%"}} onClick={() => changeSort(0, false)}>
+                File Name <small>▼</small>
+              </th>
+            )}
+            {searchFields.sortValue === 1 ? (
+              <th className="active-sort" style={{width: "30%"}} onClick={() => changeSort(1, true)}>
+                Source <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+              </th>
+            ) : (
+              <th style={{width: "30%"}} onClick={() => changeSort(1, false)}>
+                Source <small>▼</small>
+              </th>
+            )}
+            {searchFields.sortValue === 2 ? (
+              <th className="active-sort" style={{width: "5%"}} onClick={() => changeSort(2, true)}>
+                Used on Website <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+              </th>
+            ) : (
+              <th style={{width: "5%"}} onClick={() => changeSort(2, false)}>
+                Used on Website <small>▼</small>
+              </th>
+            )}
             <th style={{width: "5%"}}>
-              Used on Website
-            </th>
-            <th style={{width: "5%"}}>
-              User ID
+              User ID 
             </th>
             <th style={{width: "15%"}}>
               Delete File
@@ -131,7 +186,14 @@ function ManageFiles() {
           )}
         </tbody>
       </table>
-
+      {cursor === "null" ? (
+        null
+      ) : (
+        <LoadMoreButton
+          onUpdate={() => handleLoadMore(cursor)}
+          loading={loading} 
+        />
+      )}
     </div>
   );
 }
