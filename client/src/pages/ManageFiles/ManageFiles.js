@@ -41,6 +41,7 @@ function ManageFiles() {
     if (results.ok) {
 
       const obj = await results.json();
+
       if (cursor === "null") {
         setFiles([...obj.files]);
       } else {
@@ -75,7 +76,6 @@ function ManageFiles() {
     } else {
       alert("Error deleting file. Please try again later.");
     }
-
   }
 
   // updates the sorting order of the table columns
@@ -101,7 +101,7 @@ function ManageFiles() {
   }
 
   return (
-    <div className="container file-page-container mb-5">
+    <div className="container file-page-container text-center mb-5">
 
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
@@ -115,7 +115,7 @@ function ManageFiles() {
 
       {files.length ? (
         <Fragment>
-          <table className="file-table shadow">
+          <table className="file-table shadow text-left">
             <thead>
               <tr>
                 <th className="pl-5" style={{width: "15%"}}>

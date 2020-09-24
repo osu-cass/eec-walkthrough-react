@@ -1,25 +1,35 @@
-import React, {useEffect, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {API_URL} from "../../utilities/constants";
 import Button from "react-bootstrap/Button";
 import {NavLink} from "react-router-dom";
+import LoadMoreButton from "../../components/General/LoadMoreButton";
 import "./ManageDirectories.css";
 
-// page for viewing user  deleting files
+// page for viewing user owned file upload directories
 function ManageDirectories() {
 
   const [directories, setDirectories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [cursor, setCursor] = useState("null");
+  const [searchFields, setSearchFields] = useState({
+    sortValue: 0,
+    orderValue: 1
+  });
 
+  // initiate a new search request when the sorting order changes
   useEffect(() => {
-    fetchFiles();
-  }, []);
+    fetchFiles(cursor);
+    // eslint-disable-next-line
+  }, [searchFields.orderValue, searchFields.sortValue]);
 
   // fetch directory data
-  async function fetchFiles() {
+  async function fetchFiles(cursor) {
     setLoading(true);
+    const sortValue = searchFields.sortValue;
+    const orderValue = searchFields.orderValue;
 
-    const results = await fetch(`${API_URL}/files/directories`, {
+    const results = await fetch(`${API_URL}/files/directories/${sortValue}/${orderValue}/${cursor}`, {
       method: "GET",
       credentials: "include",
       headers: {"Content-Type": "application/json"}
@@ -28,17 +38,46 @@ function ManageDirectories() {
     if (results.ok) {
 
       const obj = await results.json();
-      setDirectories(obj.directories);
+
+      if (cursor === "null") {
+        setDirectories([...obj.directories]);
+      } else {
+        setDirectories([...directories, ...obj.directories]);
+      }
+      setCursor(obj.nextCursor);
 
     } else {
+      setDirectories([]);
       console.error("Error fetching files");
     }
 
     setLoading(false);
   }
 
+  // updates the sorting order of the table columns
+  function changeSort(sortValue, alternateOrder) {
+    if (alternateOrder) {
+      setCursor("null");
+      setSearchFields({
+        sortValue: sortValue,
+        orderValue: 1 - searchFields.orderValue
+      });
+    } else {
+      setCursor("null");
+      setSearchFields({
+        sortValue: sortValue,
+        orderValue: 1
+      });
+    }
+  }
+
+  // if we scroll far enough load more directories
+  function handleLoadMore(cursor) {
+    fetchFiles(cursor);
+  }
+
   return (
-    <div className="container file-page-container mb-5">
+    <div className="container file-page-container text-center mb-5">
 
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
@@ -50,46 +89,82 @@ function ManageDirectories() {
 
       <LoadingOverlay loading={loading} />
 
-      <table className="file-table shadow">
-        <thead>
-          <tr>
-            <th className="pl-5" style={{width: "30%"}}>
-              User
-            </th>
-            <th style={{width: "20%"}}>
-              User ID
-            </th>
-            <th style={{width: "25%"}}>
-              Number of files
-            </th>
-            <th style={{width: "15%"}}>
-              View Files
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {directories.map((directory) =>
-            <tr key={directory.userId}>
-              <td className="file-data pl-5 align-top">
-                {directory.name}
-              </td>
-              <td className="file-data align-top">
-                {directory.userId}
-              </td>
-              <td className="file-data-source align-top">
-                {directory.fileCount}
-              </td>
-              <td className="file-data text-left align-top">
-                <NavLink to={`/manage-images/${directory.userId}`}>
-                  <Button className="pull-right mx-2 px-5" variant="success" onClick={() => {}}>
-                    View Files
-                  </Button>
-                </NavLink>
-              </td>
-            </tr>
+      {directories.length ? (
+        <Fragment>
+          <table className="file-table shadow text-left">
+            <thead>
+              <tr>
+                {searchFields.sortValue === 0 ? (
+                  <th className="pl-5 active-sort" style={{width: "30%"}} onClick={() => changeSort(0, true)}>
+                    User <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                  </th>
+                ) : (
+                  <th className="pl-5" style={{width: "30%"}} onClick={() => changeSort(0, false)}>
+                    User <small>▼</small>
+                  </th>
+                )}
+                {searchFields.sortValue === 1 ? (
+                  <th className="active-sort" style={{width: "20%"}} onClick={() => changeSort(1, true)}>
+                    User ID <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                  </th>
+                ) : (
+                  <th style={{width: "20%"}} onClick={() => changeSort(1, false)}>
+                    User ID <small>▼</small>
+                  </th>
+                )}
+                {searchFields.sortValue === 2 ? (
+                  <th className="active-sort" style={{width: "25%"}} onClick={() => changeSort(2, true)}>
+                    Number of files <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                  </th>
+                ) : (
+                  <th style={{width: "25%"}} onClick={() => changeSort(2, false)}>
+                    Number of files <small>▼</small>
+                  </th>
+                )}
+                <th style={{width: "15%"}}>
+                  View Files
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {directories.map((directory) =>
+                <tr key={directory.userId}>
+                  <td className="file-data pl-5 align-top">
+                    {directory.name}
+                  </td>
+                  <td className="file-data align-top">
+                    {directory.userId}
+                  </td>
+                  <td className="file-data-source align-top">
+                    {directory.fileCount}
+                  </td>
+                  <td className="file-data text-left align-top">
+                    <NavLink to={`/manage-images/${directory.userId}`}>
+                      <Button className="pull-right mx-2 px-5" variant="success" onClick={() => {}}>
+                        View Files
+                      </Button>
+                    </NavLink>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+          {cursor === "null" ? (
+            null
+          ) : (
+            <LoadMoreButton
+              onUpdate={() => handleLoadMore(cursor)}
+              loading={loading} 
+            />
           )}
-        </tbody>
-      </table>
+        </Fragment>
+      ) : (
+        <div className="table-container">
+          <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
+              <h3 className="py-5 font-weight-bold">No files have been uploaded</h3>
+          </div>
+        </div>
+      )}
 
     </div>
   );
