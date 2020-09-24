@@ -16,7 +16,8 @@ const {
   getDirectories
 } = require("../models/files");
 const {
-  getFilesVal
+  getFilesVal,
+  getDirectoriesVal
 } = require("../services/validation/requestValidation");
 
 
@@ -124,13 +125,22 @@ app.post("/bulk", requireAuth, checkUser, upload.array("images"), async (req, re
 
 
 // get information about all of the directories
-app.get("/directories", requireAuth, async (req, res) => {
+app.get("/directories/:sort/:order/:cursor", requireAuth, getDirectoriesVal.validation, async (req, res) => {
 
   try {
 
-    const userId = req.auth.userId;
-
     console.log("Get file directories");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const sort = req.params.sort;
+    const order = req.params.order;
+    const cursor = req.params.cursor;
 
     // make sure the user is allowed to perform this action
     if (!await roleCheck(4, req.auth.userId)) {
@@ -139,7 +149,7 @@ app.get("/directories", requireAuth, async (req, res) => {
     }
 
     // get file data
-    const results = await getDirectories();
+    const results = await getDirectories(sort, order, cursor);
 
     if (results.directories) {
       res.status(200).send(results);

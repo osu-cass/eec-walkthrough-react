@@ -6,9 +6,11 @@ const path = require("path");
 const fs = require("await-fs");
 
 // return a list of the upload directories
-async function getDirectories() {
+async function getDirectories(sort, order, cursor) {
 
   try {
+
+    const RESULTS_PER_PAGE = 25;
     const directoryArray = [];
 
     // joining path of directory
@@ -58,8 +60,54 @@ async function getDirectories() {
       directoryArray[i].fileCount = directoryFiles.length;
     }
 
+    // sort the list of results
+    // 0: username, 1: user ID, 2: number of files
+    if (sort === "0") {
+      if (order === "0") {
+        directoryArray.sort((a, b) => (a.name > b.name) ? 1 : -1);
+      } else {
+        directoryArray.sort((a, b) => (a.name < b.name) ? 1 : -1);
+      }
+    } else if (sort === "1") {
+      if (order === "0") {
+        directoryArray.sort((a, b) => (parseInt(a.userId, 10) > parseInt(b.userId, 10)) ? 1 : -1);
+      } else {
+        directoryArray.sort((a, b) => (parseInt(a.userId, 10) < parseInt(b.userId, 10)) ? 1 : -1);
+      }
+    } else {
+      if (order === "0") {
+        directoryArray.sort((a, b) => (parseInt(a.fileCount, 10) > parseInt(b.fileCount, 10)) ? 1 : -1);
+      } else {
+        directoryArray.sort((a, b) => (parseInt(a.fileCount, 10) < parseInt(b.fileCount, 10)) ? 1 : -1);
+      }
+    }
+
+    // select a max of 25 directories based on our cursor
+    let nextCursor = "null";
+    if (cursor === "null") {
+      if (RESULTS_PER_PAGE < directoryArray.length) {
+        nextCursor = directoryArray[RESULTS_PER_PAGE].userId;
+        directoryArray.length = RESULTS_PER_PAGE;
+      }
+    } else {
+      // the cursor is set, remove each element before the cursor
+      for (let i = 0; i < directoryArray.length; i++) {
+        if (directoryArray[i].userId === cursor) {
+          directoryArray.splice(0, i);
+          break;
+        }
+      }
+
+      // make sure we are still meeting the 25 limit
+      if (RESULTS_PER_PAGE < directoryArray.length) {
+        nextCursor = directoryArray[RESULTS_PER_PAGE].userId;
+        directoryArray.length = RESULTS_PER_PAGE;
+      }
+    }
+
     const finalResults = {
-      directories: directoryArray
+      directories: directoryArray,
+      nextCursor: nextCursor
     };
 
     return finalResults;
@@ -160,7 +208,7 @@ async function getFiles(userId, sort, order, cursor) {
     }
 
     // sort the list of results
-    // 0: file name, 1: Source, 2: Used on Website
+    // 0: file name, 1: source, 2: used on website
     if (sort === "0") {
       if (order === "0") {
         filesArray.sort((a, b) => (a.name > b.name) ? 1 : -1);
