@@ -74,9 +74,11 @@ exports.getDirectories = getDirectories;
 
 
 // return a list of the files owned by a user
-async function getFiles(userId) {
+async function getFiles(userId, sort, order, cursor) {
 
   try {
+
+    const RESULTS_PER_PAGE = 25;
     const filesArray = [];
 
     // joining path of directory
@@ -157,8 +159,54 @@ async function getFiles(userId) {
 
     }
 
+    // sort the list of results
+    // 0: file name, 1: Source, 2: Used on Website
+    if (sort === "0") {
+      if (order === "0") {
+        filesArray.sort((a, b) => (a.name > b.name) ? 1 : -1);
+      } else {
+        filesArray.sort((a, b) => (a.name < b.name) ? 1 : -1);
+      }
+    } else if (sort === "1") {
+      if (order === "0") {
+        filesArray.sort((a, b) => (a.source > b.source) ? 1 : -1);
+      } else {
+        filesArray.sort((a, b) => (a.source < b.source) ? 1 : -1);
+      }
+    } else {
+      if (order === "0") {
+        filesArray.sort((a, b) => (a.used > b.used) ? 1 : -1);
+      } else {
+        filesArray.sort((a, b) => (a.used < b.used) ? 1 : -1);
+      }
+    }
+
+    // select a max of 25 images based on our cursor
+    let nextCursor = "null";
+    if (cursor === "null") {
+      if (RESULTS_PER_PAGE < filesArray.length) {
+        nextCursor = filesArray[RESULTS_PER_PAGE].name;
+        filesArray.length = RESULTS_PER_PAGE;
+      }
+    } else {
+      // the cursor is set, remove each element before the cursor
+      for (let i = 0; i < filesArray.length; i++) {
+        if (filesArray[i].name === cursor) {
+          filesArray.splice(0, i);
+          break;
+        }
+      }
+
+      // make sure we are still meeting the 25 limit
+      if (RESULTS_PER_PAGE < filesArray.length) {
+        nextCursor = filesArray[RESULTS_PER_PAGE].name;
+        filesArray.length = RESULTS_PER_PAGE;
+      }
+    }
+
     const finalResults = {
-      files: filesArray
+      files: filesArray,
+      nextCursor: nextCursor
     };
 
     return finalResults;

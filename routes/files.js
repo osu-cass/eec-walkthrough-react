@@ -6,6 +6,7 @@ const express = require("express");
 const crypto = require("crypto");
 const fs = require("fs");
 const app = express();
+const {validationResult} = require("express-validator");
 const {
   requireAuth,
   roleCheck
@@ -14,6 +15,9 @@ const {
   getFiles,
   getDirectories
 } = require("../models/files");
+const {
+  getFilesVal
+} = require("../services/validation/requestValidation");
 
 
 // valid image types
@@ -152,13 +156,23 @@ app.get("/directories", requireAuth, async (req, res) => {
 
 
 // get information about all of files a user has uploaded
-app.get("/:userId", requireAuth, async (req, res) => {
+app.get("/:userId/:sort/:order/:cursor", requireAuth, getFilesVal.validation, async (req, res) => {
 
   try {
 
     const userId = req.params.userId;
+    const sort = req.params.sort;
+    const order = req.params.order;
+    const cursor = req.params.cursor;
 
     console.log("Get files uploaded by user", userId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
 
     // make sure the user is allowed to perform this action
     console.log("userId", userId, "req.auth.userId", toString(req.auth.userId))
@@ -168,7 +182,7 @@ app.get("/:userId", requireAuth, async (req, res) => {
     }
 
     // get file data
-    const results = await getFiles(userId);
+    const results = await getFiles(userId, sort, order, cursor);
 
     if (results.files) {
       res.status(200).send(results);

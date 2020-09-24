@@ -376,3 +376,13 @@ const postCardTitleVal = Object.freeze({
   ]
 });
 exports.postCardTitleVal = postCardTitleVal;
+
+// validation checks for get files
+const getFilesVal = Object.freeze({
+  validation: [
+    check("sort").isInt({min: 0, max: 10}),
+    check("order").isInt({min: 0, max: 1}),
+    check("cursor").isLength({min: 1, max: 1000})
+  ]
+});
+exports.getFilesVal = getFilesVal;
