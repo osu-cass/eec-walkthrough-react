@@ -19,6 +19,7 @@ function BasicItems(props) {
 
     // check each item and group inline items
     for (let i = copy.length - 1; i >= 0; i--) {
+
       if (copy[i].inline) {
 
         // the group will get the indentation of the most recent item
@@ -50,6 +51,11 @@ function BasicItems(props) {
         }
       }
 
+      // store an index value for each item to make it easier to handle nested maps
+      for (let i = 0; i < copy.length; i++) {
+        copy[i].index = i;
+      }
+
       // if we are an expandable list, only show a select number of items
       if (props.expandableList) {
         const showItems = [];
@@ -70,6 +76,11 @@ function BasicItems(props) {
 
     const statusArray = [];
     const foundItems = [];
+
+    // compareMode: 1, means this is the old card, we mark it with red changes
+    // compareMode: 2, means this is the new card, we mark it with green changes
+    // compareMode: 3, this card is all new, mark everything green.
+    // compareMode: 4, this card was deleted, mark everything red.
 
     if (props.compareMode === 1) {
 
@@ -162,11 +173,11 @@ function BasicItems(props) {
 
   return props.compareMode ? (
     <div className="item-separator-div">
-      {items.map((item, i) =>
-        <Fragment key={item.itemId + "a" + i}>
+      {items.map((item) =>
+        <Fragment key={item.itemId + "a" + item.index}>
           {item.wrapper ? (
             <div className={`item-wrapper div-indent-level-${item.indentation}`}>
-              {item.items.map((item, i) => 
+              {item.items.map((item) => 
                 <BulletPoint
                   key={item.itemId + "wrap"}
                   url={item.contentUrl}
@@ -185,7 +196,7 @@ function BasicItems(props) {
                   reviewing={props.reviewing}
                   checked={item.hideChildren}
                   setCheck={(check, itemId) => props.setCheck(check, itemId)}
-                  highlightStyle={compareArray[i]}
+                  highlightStyle={compareArray[item.index]}
                   source={item.refId}
                   sourceText={item.refText}
                   internal={item.internal}
@@ -212,7 +223,7 @@ function BasicItems(props) {
               reviewing={props.reviewing}
               checked={item.hideChildren}
               setCheck={(check, itemId) => props.setCheck(check, itemId)}
-              highlightStyle={compareArray[i]}
+              highlightStyle={compareArray[item.index]}
               source={item.refId}
               sourceText={item.refText}
               internal={item.internal}
@@ -224,11 +235,11 @@ function BasicItems(props) {
     </div>
   ) : (
     <div className="item-separator-div">
-      {items.map((item, i) =>
-        <Fragment key={item.itemId + "b" + i}>
+      {items.map((item) =>
+        <Fragment key={item.itemId + "b" + item.index}>
           {item.wrapper ? (
             <div className={`item-wrapper div-indent-level-${item.indentation}`}>
-              {item.items.map((item, i) => 
+              {item.items.map((item) => 
                 <BulletPoint
                   key={item.itemId + "wrap"}
                   url={item.contentUrl}
