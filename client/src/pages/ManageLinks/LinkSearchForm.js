@@ -18,7 +18,7 @@ function LinkSearchForm(props) {
   }
 
   return (
-    <div id="link-search-container" className="justify-content-between p-3 mt-3 mb-5 text-dark-50 bg-white rounded shadow">
+    <div id="link-search-container" className="justify-content-between p-3 mt-3 mb-5 text-dark-50 bg-white rounded shadow text-left">
 
       <form id="search-form" >
         <div className="form-group">

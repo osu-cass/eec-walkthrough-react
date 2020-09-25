@@ -242,7 +242,7 @@ async function searchUsers(text, role, sort, order, cursor) {
       sql += "WHERE TRUE ";
     } else {
 
-      // We set our primary cursor to the username as it is the value
+      // We set our primary cursor to the username if it is the value
       // that we are sorting by.
       //
       // Instances where the primary cursor value could have duplicate values
