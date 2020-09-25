@@ -14,3 +14,19 @@
   border-collapse: separate !important;
   border-spacing: 0 0 !important;
 }
+
+.div-indent-level-1 {
+  margin-left: 1.5em;
+}
+
+.div-indent-level-2 {
+  margin-left: 3em;
+}
+
+.div-indent-level-3 {
+  margin-left: 4.5em;
+}
+
+.div-indent-level-4 {
+  margin-left: 6em;
+}
