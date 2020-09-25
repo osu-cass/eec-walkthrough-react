@@ -62,20 +62,20 @@ async function getDirectories(sort, order, cursor) {
 
     // sort the list of results
     // 0: username, 1: user ID, 2: number of files
-    if (sort === "0") {
-      if (order === "0") {
+    if (sort === 0) {
+      if (order === 0) {
         directoryArray.sort((a, b) => (a.name > b.name) ? 1 : -1);
       } else {
         directoryArray.sort((a, b) => (a.name < b.name) ? 1 : -1);
       }
-    } else if (sort === "1") {
-      if (order === "0") {
+    } else if (sort === 1) {
+      if (order === 0) {
         directoryArray.sort((a, b) => (parseInt(a.userId, 10) > parseInt(b.userId, 10)) ? 1 : -1);
       } else {
         directoryArray.sort((a, b) => (parseInt(a.userId, 10) < parseInt(b.userId, 10)) ? 1 : -1);
       }
     } else {
-      if (order === "0") {
+      if (order === 0) {
         directoryArray.sort((a, b) => (parseInt(a.fileCount, 10) > parseInt(b.fileCount, 10)) ? 1 : -1);
       } else {
         directoryArray.sort((a, b) => (parseInt(a.fileCount, 10) < parseInt(b.fileCount, 10)) ? 1 : -1);
@@ -209,20 +209,20 @@ async function getFiles(userId, sort, order, cursor) {
 
     // sort the list of results
     // 0: file name, 1: source, 2: used on website
-    if (sort === "0") {
-      if (order === "0") {
+    if (sort === 0) {
+      if (order === 0) {
         filesArray.sort((a, b) => (a.name > b.name) ? 1 : -1);
       } else {
         filesArray.sort((a, b) => (a.name < b.name) ? 1 : -1);
       }
-    } else if (sort === "1") {
-      if (order === "0") {
+    } else if (sort === 1) {
+      if (order === 0) {
         filesArray.sort((a, b) => (a.source > b.source) ? 1 : -1);
       } else {
         filesArray.sort((a, b) => (a.source < b.source) ? 1 : -1);
       }
     } else {
-      if (order === "0") {
+      if (order === 0) {
         filesArray.sort((a, b) => (a.used > b.used) ? 1 : -1);
       } else {
         filesArray.sort((a, b) => (a.used < b.used) ? 1 : -1);
