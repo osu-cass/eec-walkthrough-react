@@ -79,15 +79,22 @@ function ManageUsers() {
         roleValue = searchFields.roleValue;
       }
 
-      // construct the request url
-      const getUrl = `${API_URL}/users/search/${textValue}/${roleValue}/` +
-        `${sortValue}/${orderValue}/${cursor.primary}/${cursor.secondary}`;
+      // construct the request body
+      const postObj = {
+        text: textValue,
+        role: roleValue,
+        sort: sortValue,
+        order: orderValue,
+        cursorPrimary: cursor.primary,
+        cursorSecondary: cursor.secondary
+      };
 
       // get our search results
-      const results = await fetch(getUrl, {
-        method: "GET",
+      const results = await fetch(`${API_URL}/users/search`, {
+        method: "POST",
         credentials: "include",
-        headers: {"Content-Type": "application/json"}
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(postObj)
       });
 
       if (results.ok) {

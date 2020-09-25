@@ -103,7 +103,7 @@ app.post("/login", loginUserVal.validation, async (req, res) => {
 
 
 // get a list of users based on a search query
-app.get("/search/:text/:role/:sort/:order/:cursorPrimary/:cursorSecondary", requireAuth, searchUserVal.validation, async (req, res) => {
+app.post("/search", requireAuth, searchUserVal.validation, async (req, res) => {
 
   try {
 
@@ -116,13 +116,13 @@ app.get("/search/:text/:role/:sort/:order/:cursorPrimary/:cursorSecondary", requ
       return res.status(422).json({errors: errors.array()});
     }
 
-    const text = req.params.text;
-    const role = req.params.role;
-    const sort = req.params.sort;
-    const order = req.params.order;
+    const text = req.body.text;
+    const role = req.body.role;
+    const sort = req.body.sort;
+    const order = req.body.order;
     const cursor = {
-      primary: req.params.cursorPrimary,
-      secondary: req.params.cursorSecondary
+      primary: req.body.cursorPrimary,
+      secondary: req.body.cursorSecondary
     };
 
     // make sure the user is allowed to perform this action
