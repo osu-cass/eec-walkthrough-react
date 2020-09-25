@@ -4,7 +4,6 @@ import {isGraphic} from "../../../utilities/itemType";
 import EditCard from "./EditCard";
 import ReviewCard from "./ReviewCard";
 import BasicItems from "./BasicItems";
-import ExpandableList from "./ExpandableList";
 import ThumbnailGallery from "./ThumbnailGallery";
 import OrderObjectButton from "../Various/OrderObjectButton";
 import PropTypes from "prop-types";
@@ -190,12 +189,14 @@ function Card(props) {
           ) : (
             <Fragment>
               {cardType === 2 || cardType === 12 ? (
-                <ExpandableList
+                <BasicItems
                   items={items}
                   mode={props.mode}
                   publicMode={props.publicMode}
                   handleTimestamp={(m, a, i) => props.handleTimestamp(m, a, i, props.card.cardId)}
+                  reviewing={false}
                   setCheck={(check, itemId) => props.setCheck(check, itemId, props.card.cardId)}
+                  expandableList={true}
                 />
               ) : (
                 <BasicItems

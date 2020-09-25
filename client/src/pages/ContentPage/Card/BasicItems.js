@@ -8,6 +8,8 @@ function BasicItems(props) {
 
   const [items, setItems] = useState([]);
   const [compareArray, setCompareArray] = useState([]);
+  const [showCount, setShowCount] = useState(3);
+  const [realItemCount, setRealItemCount] = useState(0);
 
   // wrap inline items in an object to give them proper indentation
   useEffect(() => {
@@ -48,9 +50,20 @@ function BasicItems(props) {
         }
       }
 
-      setItems(copy);
+      // if we are an expandable list, only show a select number of items
+      if (props.expandableList) {
+        const showItems = [];
+        for (let i = 0; i < copy.length && i < showCount; i++) {
+          showItems.push(copy[i]);
+        }
+        setItems(showItems);
+        setRealItemCount(copy.length);
+      } else {
+        setItems(copy);
+      }
+
     }
-  }, [props.items]);
+  }, [props.items, showCount]);
 
   // compare a published and unpublished card and mark what items have changed
   useEffect(() => {
@@ -268,6 +281,17 @@ function BasicItems(props) {
           )}
         </Fragment>
       )}
+      
+      {/* if this is an expandable card, then show a button for expanding */}
+      {props.expandableList && realItemCount > showCount ? (
+        <div className="text-center">
+          <button type="button" className="btn btn-info" onClick={() => setShowCount(showCount + 3)}>
+            <span className="text-white">Show More</span>
+          </button>
+        </div>
+      ) : (
+        null
+      )}
     </div>
   );
 
@@ -282,5 +306,6 @@ BasicItems.propTypes = {
   reviewing: PropTypes.bool,
   setCheck: PropTypes.func,
   compareMode: PropTypes.number,
-  otherItems: PropTypes.array
+  otherItems: PropTypes.array,
+  expandableList: PropTypes.bool
 };
