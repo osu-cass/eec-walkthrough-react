@@ -32,10 +32,18 @@ function ManageFiles() {
     const sortValue = searchFields.sortValue;
     const orderValue = searchFields.orderValue;
 
-    const results = await fetch(`${API_URL}/files/${userId}/${sortValue}/${orderValue}/${cursor}`, {
-      method: "GET",
+    // construct the request body
+    const postObj = {
+      sort: sortValue,
+      order: orderValue,
+      cursor: cursor,
+    };
+
+    const results = await fetch(`${API_URL}/files/${userId}`, {
+      method: "POST",
       credentials: "include",
-      headers: {"Content-Type": "application/json"}
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(postObj)
     });
 
     if (results.ok) {

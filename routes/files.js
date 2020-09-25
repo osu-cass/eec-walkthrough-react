@@ -125,7 +125,7 @@ app.post("/bulk", requireAuth, checkUser, upload.array("images"), async (req, re
 
 
 // get information about all of the directories
-app.get("/directories/:sort/:order/:cursor", requireAuth, getDirectoriesVal.validation, async (req, res) => {
+app.post("/directories", requireAuth, getDirectoriesVal.validation, async (req, res) => {
 
   try {
 
@@ -138,10 +138,10 @@ app.get("/directories/:sort/:order/:cursor", requireAuth, getDirectoriesVal.vali
       return res.status(422).json({errors: errors.array()});
     }
 
-    const sort = req.params.sort;
-    const order = req.params.order;
-    const cursor = req.params.cursor;
-
+    const sort = req.body.sort;
+    const order = req.body.order;
+    const cursor = req.body.cursor;
+    console.log(sort, order, cursor)
     // make sure the user is allowed to perform this action
     if (!await roleCheck(4, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to read directories."});
@@ -166,14 +166,14 @@ app.get("/directories/:sort/:order/:cursor", requireAuth, getDirectoriesVal.vali
 
 
 // get information about all of files a user has uploaded
-app.get("/:userId/:sort/:order/:cursor", requireAuth, getFilesVal.validation, async (req, res) => {
+app.post("/:userId", requireAuth, getFilesVal.validation, async (req, res) => {
 
   try {
 
     const userId = req.params.userId;
-    const sort = req.params.sort;
-    const order = req.params.order;
-    const cursor = req.params.cursor;
+    const sort = req.body.sort;
+    const order = req.body.order;
+    const cursor = req.body.cursor;
 
     console.log("Get files uploaded by user", userId);
 
