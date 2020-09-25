@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import LinkSearchForm from "./LinkSearchForm";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {formatTime} from "../../utilities/formatTime";
 import {API_URL} from "../../utilities/constants";
 import LinkAccessButtons from "../ContentPage/Card/LinkAccessButtons";
+import LoadMoreButton from "../../components/General/LoadMoreButton";
 import EditLinks from "./EditLinks";
 import "./ManageLinks.css";
 
@@ -13,11 +14,23 @@ function ManageLinks() {
   const [filter, setFilter] = useState(0);
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [cursor, setCursor] = useState({
+    primary: "null",
+    secondary: "null"
+  });
+  const [searchFields, setSearchFields] = useState({
+    sortValue: 0,
+    orderValue: 1
+  });
 
   useEffect(() => {
-    fetchLinks();
+    const newCursor = {
+      primary: "null",
+      secondary: "null"
+    }
+    fetchLinks(newCursor);
     // eslint-disable-next-line
-  }, [filter]);
+  }, [filter, searchFields.orderValue, searchFields.sortValue]);
 
   // update the timestamp if we change it
   function handleTimestamp(timestamp, itemId) {
@@ -31,46 +44,101 @@ function ManageLinks() {
     setLinks(copy);
   }
 
-  // refresh link data when a link is edited
-  function handleUpdate() {
-    fetchLinks();
+  // handle changes to the filter
+  function handleFilter(newFilter) {
+    setFilter(newFilter);
+    setCursor({
+      primary: "null",
+      secondary: "null"
+    });
   }
 
-  // refresh link data when the filter is changed
-  function handleFilterChange(filterMode) {
-    setFilter(filterMode);
+  // refresh link data when a link is edited
+  function handleUpdate() {
+    const newCursor = {
+      primary: "null",
+      secondary: "null"
+    }
+    fetchLinks(newCursor);
   }
 
   // fetch link data
-  async function fetchLinks() {
+  async function fetchLinks(cursor) {
     setLoading(true);
 
+    const sortValue = searchFields.sortValue;
+    const orderValue = searchFields.orderValue;
+
+    // construct the request body
+    const postObj = {
+      onlyDead: filter,
+      sort: sortValue,
+      order: orderValue,
+      cursorPrimary: cursor.primary,
+      cursorSecondary: cursor.secondary
+    };
+
     // Fetch all links
-    const results = await fetch(`${API_URL}/links/all/${filter}`, {
-      method: "GET",
+    const results = await fetch(`${API_URL}/links/all`, {
+      method: "POST",
       credentials: "include",
-      headers: {"Content-Type": "application/json"}
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(postObj)
     });
 
     if (results.ok) {
 
       const obj = await results.json();
 
-      setLinks(obj.links);
+      if (cursor.primary === "null") {
+        setLinks([...obj.links]);
+      } else {
+        setLinks([...links, ...obj.links]);
+      }
+      setCursor(obj.nextCursor);
 
     } else {
+      setLinks([]);
       console.error("Error fetching link list");
     }
 
     setLoading(false);
   }
 
+  // updates the sorting order of the table columns
+  function changeSort(sortValue, alternateOrder) {
+    if (alternateOrder) {
+      setCursor({
+        primary: "null",
+        secondary: "null"
+      });
+      setSearchFields({
+        sortValue: sortValue,
+        orderValue: 1 - searchFields.orderValue
+      });
+    } else {
+      setCursor({
+        primary: "null",
+        secondary: "null"
+      });
+      setSearchFields({
+        sortValue: sortValue,
+        orderValue: 1
+      });
+    }
+  }
+
+  // if we scroll far enough load more links
+  function handleLoadMore() {
+    fetchLinks(cursor);
+  }
+
   return (
-    <div className="container link-page-container">
+    <div className="container link-page-container text-center">
 
       <LoadingOverlay loading={loading} />
 
-      <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
+      <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar text-left">
         <div className="row mx-2">
           <h4 className="flex-grow-1 font-weight-bold">
             Manage Links
@@ -78,55 +146,83 @@ function ManageLinks() {
         </div>
       </div>
 
-      <LinkSearchForm onFilterChange={(e) => handleFilterChange(e)}/>
+      <LinkSearchForm onFilterChange={(e) => handleFilter(e)}/>
 
       {links.length ? (
-        <table className="link-table shadow mb-5">
-          <thead>
-            <tr>
-              <th className="pl-4" style={{width: "10%"}}>
-                Confirmed Valid
-              </th>
-              <th style={{width: "25%"}}>
-                Title
-              </th>
-              <th style={{width: "35%"}}>
-                URL
-              </th>
-              <th style={{width: "30%"}}>
-                Edit
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {links.map((link) =>
-              <tr key={link.itemId}>
-                <td className="pl-4 link-data align-top">
-                  <span className={`${link.time === null ? "invalid-external-link" : "valid-external-link"}`}>
-                    {link.time === null ? "Invalid" : formatTime(link.time)}
-                  </span>
-                </td>
-                <td className="link-data align-top">
-                  {link.title}
-                </td>
-                <td className="link-data align-top">
-                  <a href={link.url}>
-                    {link.url}
-                  </a>
-                </td>
-                <td className="link-data align-top">
-                  <div className = "row">
-                    <LinkAccessButtons
-                      itemId={link.itemId}
-                      handleTimestamp={(m) => handleTimestamp(m, link.itemId)}
-                    />
-                    <EditLinks link={link} handleUpdate={(timestamp) => handleUpdate(timestamp)} />
-                  </div>
-                </td>
+        <Fragment>
+          <table className="link-table shadow mb-5 text-left">
+            <thead>
+              <tr>
+              {searchFields.sortValue === 0 ? (
+                <th className="pl-4 active-sort" style={{width: "10%"}} onClick={() => changeSort(0, true)}>
+                  Confirmed Valid <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                </th>
+              ) : (
+                <th className="pl-4" style={{width: "10%"}} onClick={() => changeSort(0, false)}>
+                  Confirmed Valid <small>▼</small>
+                </th>
+              )}
+              {searchFields.sortValue === 1 ? (
+                <th className="active-sort" style={{width: "25%"}} onClick={() => changeSort(1, true)}>
+                  Title <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                </th>
+              ) : (
+                <th style={{width: "25%"}} onClick={() => changeSort(1, false)}>
+                  Title <small>▼</small>
+                </th>
+              )}
+              {searchFields.sortValue === 2 ? (
+                <th className="active-sort" style={{width: "35%"}} onClick={() => changeSort(2, true)}>
+                  URL <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                </th>
+              ) : (
+                <th style={{width: "35%"}} onClick={() => changeSort(2, false)}>
+                  URL <small>▼</small>
+                </th>
+              )}
+                <th style={{width: "30%"}}>
+                  Edit
+                </th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {links.map((link) =>
+                <tr key={link.itemId}>
+                  <td className="pl-4 link-data align-top">
+                    <span className={`${link.time === null ? "invalid-external-link" : "valid-external-link"}`}>
+                      {link.time === null ? "Invalid" : formatTime(link.time)}
+                    </span>
+                  </td>
+                  <td className="link-data align-top">
+                    {link.title}
+                  </td>
+                  <td className="link-data align-top">
+                    <a href={link.url}>
+                      {link.url}
+                    </a>
+                  </td>
+                  <td className="link-data align-top">
+                    <div className = "row">
+                      <LinkAccessButtons
+                        itemId={link.itemId}
+                        handleTimestamp={(m) => handleTimestamp(m, link.itemId)}
+                      />
+                      <EditLinks link={link} handleUpdate={(timestamp) => handleUpdate(timestamp)} />
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+          {cursor.primary === "null" ? (
+            null
+          ) : (
+            <LoadMoreButton
+              onUpdate={() => handleLoadMore()}
+              loading={loading} 
+            />
+          )}
+        </Fragment>
       ) : (
         <div className="table-container">
           <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
