@@ -55,6 +55,7 @@ function ContentPage(props) {
 
     async function fetchData() {
       try {
+
         let obj = [];
         setMoved(false);
         setLoading(true);
@@ -159,7 +160,6 @@ function ContentPage(props) {
       ignore = true;
       controller.abort();
     };
-
     // eslint-disable-next-line
   }, [pageId, publishedMode]);
 
