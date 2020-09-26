@@ -12,55 +12,85 @@ function ManageDirectories() {
   const [directories, setDirectories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [cursor, setCursor] = useState("null");
+  const [changeLoadMore, setChangeLoadMore] = useState(false);
   const [searchFields, setSearchFields] = useState({
     sortValue: 0,
     orderValue: 1
   });
 
-  // initiate a new search request when the sorting order changes
+  // get all of the directory information when the page loads,
+  // when a change is made, or when the user scrolls to the bottom of the screen
   useEffect(() => {
-    fetchFiles(cursor);
-    // eslint-disable-next-line
-  }, [searchFields.orderValue, searchFields.sortValue]);
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
 
-  // fetch directory data
-  async function fetchFiles(cursor) {
-    setLoading(true);
-    const sortValue = searchFields.sortValue;
-    const orderValue = searchFields.orderValue;
+    async function fetchFiles(cursor) {
+      try {
 
-    // construct the request body
-    const postObj = {
-      sort: sortValue,
-      order: orderValue,
-      cursor: cursor,
-    };
+        setLoading(true);
+        const sortValue = searchFields.sortValue;
+        const orderValue = searchFields.orderValue;
+    
+        // construct the request body
+        const postObj = {
+          sort: sortValue,
+          order: orderValue,
+          cursor: cursor,
+        };
+    
+        const results = await fetch(`${API_URL}/files/directories`, {
+          signal: controller.signal,
+          method: "POST",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(postObj)
+        });
+    
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
 
-    const results = await fetch(`${API_URL}/files/directories`, {
-      method: "POST",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(postObj)
-    });
+        if (results.ok) {
+    
+          const obj = await results.json();
+    
+          if (cursor === "null") {
+            setDirectories([...obj.directories]);
+          } else {
+            setDirectories([...directories, ...obj.directories]);
+          }
+          setCursor(obj.nextCursor);
+    
+        } else {
+          setDirectories([]);
+          console.error("Error fetching files");
+        }
+    
+        setLoading(false);
 
-    if (results.ok) {
-
-      const obj = await results.json();
-
-      if (cursor === "null") {
-        setDirectories([...obj.directories]);
-      } else {
-        setDirectories([...directories, ...obj.directories]);
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
       }
-      setCursor(obj.nextCursor);
-
-    } else {
-      setDirectories([]);
-      console.error("Error fetching files");
     }
 
-    setLoading(false);
-  }
+    fetchFiles(cursor);
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
+    // eslint-disable-next-line
+  }, [searchFields.orderValue, searchFields.sortValue, changeLoadMore]);
 
   // updates the sorting order of the table columns
   function changeSort(sortValue, alternateOrder) {
@@ -77,11 +107,6 @@ function ManageDirectories() {
         orderValue: 1
       });
     }
-  }
-
-  // if we scroll far enough load more directories
-  function handleLoadMore(cursor) {
-    fetchFiles(cursor);
   }
 
   return (
@@ -161,7 +186,7 @@ function ManageDirectories() {
             null
           ) : (
             <LoadMoreButton
-              onUpdate={() => handleLoadMore(cursor)}
+              onUpdate={() => setChangeLoadMore(!changeLoadMore)}
               loading={loading} 
             />
           )}
