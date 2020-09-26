@@ -20,6 +20,7 @@ function PageDescription(props) {
   const [imageUrl, setImageUrl] = useState("");
   const [newViews, setNewViews] = useState(0);
 
+  // decide what is displayed based on the current page mode
   useEffect(() => {
     if (props.page.approved && props.page.tempPageId && props.mode === 1) {
       setName(props.page.tempName);

@@ -61,10 +61,16 @@ function ContentPage(props) {
 
         // Fetch all icons
         let results = await fetch(`${API_URL}/icons/all`, {
+          signal: controller.signal,
           method: "GET",
           credentials: "include",
           headers: {"Content-Type": "application/json"}
         });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
 
         if (results.ok) {
           obj = await results.json();
@@ -76,10 +82,16 @@ function ContentPage(props) {
 
         // Fetch all card titles
         results = await fetch(`${API_URL}/cards/titles`, {
+          signal: controller.signal,
           method: "GET",
           credentials: "include",
           headers: {"Content-Type": "application/json"}
         });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
 
         if (results.ok) {
           obj = await results.json();
@@ -97,35 +109,41 @@ function ContentPage(props) {
           headers: {"Content-Type": "application/json"}
         });
 
-        if (!ignore) {
-          if (results.ok) {
-            obj = await results.json();
-            setPageInfo(obj);
-            // add empty array of applied filters to each header
-            for (let i = 0; i < obj.headers.length; i++) {
-              obj.headers[i].forceFilter = [];
-            }
-            const sortedHeaders = headerSortOrder(obj.headers);
-            setHeaders(sortedHeaders);
-            updateReferences(sortedHeaders, obj.sources);
-            if (process.env.NODE_ENV === "development") {
-              console.log("Page Data:", obj);
-            }
-          } else {
-            if (results.status === 404) {
-              setErrorPage(404);
-              return;
-            } else {
-              setErrorPage(500);
-              return;
-            }
-          }
-
-          setLoading(false);
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
         }
+
+        if (results.ok) {
+          obj = await results.json();
+          setPageInfo(obj);
+          // add empty array of applied filters to each header
+          for (let i = 0; i < obj.headers.length; i++) {
+            obj.headers[i].forceFilter = [];
+          }
+          const sortedHeaders = headerSortOrder(obj.headers);
+          setHeaders(sortedHeaders);
+          updateReferences(sortedHeaders, obj.sources);
+          if (process.env.NODE_ENV === "development") {
+            console.log("Page Data:", obj);
+          }
+        } else {
+          if (results.status === 404) {
+            setErrorPage(404);
+            return;
+          } else {
+            setErrorPage(500);
+            return;
+          }
+        }
+
+        setLoading(false);
+
       } catch (err) {
         if (err instanceof DOMException) {
-          console.log("HTTP request aborted");
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
         } else {
           throw err;
         }

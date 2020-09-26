@@ -19,26 +19,55 @@ function AddSource(props) {
 
   // When the page is first loaded, go ahead and fetch all of the sources
   useEffect(() => {
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
+
     async function fetchSources() {
-      setLoading(true);
-      const results = await fetch(`${API_URL}/sources/page/${props.pageId}`, {
-        method: "GET",
-        credentials: "include",
-        headers: {"Content-Type": "application/json"}
-      });
+      try {
 
-      if (results.ok) {
+        setLoading(true);
+        const results = await fetch(`${API_URL}/sources/page/${props.pageId}`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
 
-        const obj = await results.json();
-        setSources(obj.sources);
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
 
-      } else {
-        console.error("Error fetching sources");
+        if (results.ok) {
+
+          const obj = await results.json();
+          setSources(obj.sources);
+
+        } else {
+          console.error("Error fetching sources");
+        }
+        setLoading(false);
+
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
       }
-      setLoading(false);
     }
 
     fetchSources();
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
   }, [props.pageId]);
 
   function handleCloseModal() {

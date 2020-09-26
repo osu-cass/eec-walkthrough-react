@@ -40,25 +40,53 @@ function EditPage(props) {
 
   // When the page is first loaded, go ahead and fetch all of the category types
   useEffect(() => {
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
+
     async function fetchNames() {
-      const results = await fetch(`${API_URL}/categories/names`, {
-        method: "GET",
-        credentials: "include",
-        headers: {"Content-Type": "application/json"}
-      });
+      try {
 
-      if (results.ok) {
+        const results = await fetch(`${API_URL}/categories/names`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
 
-        const obj = await results.json();
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
 
-        setCategories(obj.categories);
+        if (results.ok) {
 
-      } else {
-        console.error("Error fetching category names");
+          const obj = await results.json();
+
+          setCategories(obj.categories);
+        } else {
+          console.error("Error fetching category names");
+        }
+
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
       }
     }
 
     fetchNames();
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
   }, []);
 
   // If the page is edited, make sure we keep the modal up to date
