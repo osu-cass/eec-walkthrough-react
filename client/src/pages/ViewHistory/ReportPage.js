@@ -85,7 +85,7 @@ function ReportPage(props) {
 
       <div className="col">
         <div className={`version-container p-2 m-3 border border-dark rounded`}>
-        {props.reviewMode ? (
+          {props.reviewMode ? (
             <div className="row">
               <div className="col-10">
                 <h4 className="report-page-special-text pl-4 pt-4">Page</h4>
@@ -105,7 +105,7 @@ function ReportPage(props) {
           )}
           <h5 className="report-page-special-text pl-4">{parentsName} &rarr; {props.page.name} </h5>
           <span className="report-page-special-text pl-4">Updated {formatTime(props.page.created)}</span>
-          
+
           {/* if the user is in review mode show comments on this object */}
           {props.reviewMode ? (
             <Fragment>

@@ -7,10 +7,10 @@ function Sanitized(props) {
   return (
     <SanitizedHTML
       allowedTags={["a", "p", "strong", "u", "ol", "li", "em", "s"]}
-      allowedAttributes={{ "a": ["href"] }}
+      allowedAttributes={{a: ["href"]}}
       html={props.html}
     />
-  )
+  );
 }
 export default Sanitized;
 

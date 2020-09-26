@@ -174,33 +174,33 @@ function ManageLinks() {
           <table className="link-table shadow mb-5 text-left">
             <thead>
               <tr>
-              {searchFields.sortValue === 0 ? (
-                <th className="pl-4 active-sort" style={{width: "10%"}} onClick={() => changeSort(0, true)}>
+                {searchFields.sortValue === 0 ? (
+                  <th className="pl-4 active-sort" style={{width: "10%"}} onClick={() => changeSort(0, true)}>
                   Confirmed Valid <small>{searchFields.orderValue ? "▲" : "▼" }</small>
-                </th>
-              ) : (
-                <th className="pl-4" style={{width: "10%"}} onClick={() => changeSort(0, false)}>
+                  </th>
+                ) : (
+                  <th className="pl-4" style={{width: "10%"}} onClick={() => changeSort(0, false)}>
                   Confirmed Valid <small>▼</small>
-                </th>
-              )}
-              {searchFields.sortValue === 1 ? (
-                <th className="active-sort" style={{width: "25%"}} onClick={() => changeSort(1, true)}>
+                  </th>
+                )}
+                {searchFields.sortValue === 1 ? (
+                  <th className="active-sort" style={{width: "25%"}} onClick={() => changeSort(1, true)}>
                   Title <small>{searchFields.orderValue ? "▲" : "▼" }</small>
-                </th>
-              ) : (
-                <th style={{width: "25%"}} onClick={() => changeSort(1, false)}>
+                  </th>
+                ) : (
+                  <th style={{width: "25%"}} onClick={() => changeSort(1, false)}>
                   Title <small>▼</small>
-                </th>
-              )}
-              {searchFields.sortValue === 2 ? (
-                <th className="active-sort" style={{width: "35%"}} onClick={() => changeSort(2, true)}>
+                  </th>
+                )}
+                {searchFields.sortValue === 2 ? (
+                  <th className="active-sort" style={{width: "35%"}} onClick={() => changeSort(2, true)}>
                   URL <small>{searchFields.orderValue ? "▲" : "▼" }</small>
-                </th>
-              ) : (
-                <th style={{width: "35%"}} onClick={() => changeSort(2, false)}>
+                  </th>
+                ) : (
+                  <th style={{width: "35%"}} onClick={() => changeSort(2, false)}>
                   URL <small>▼</small>
-                </th>
-              )}
+                  </th>
+                )}
                 <th style={{width: "30%"}}>
                   Edit
                 </th>
@@ -240,7 +240,7 @@ function ManageLinks() {
           ) : (
             <LoadMoreButton
               onUpdate={() => setChangeLoadMore(!changeLoadMore)}
-              loading={loading} 
+              loading={loading}
             />
           )}
         </Fragment>

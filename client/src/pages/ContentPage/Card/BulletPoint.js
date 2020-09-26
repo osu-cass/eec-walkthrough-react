@@ -209,5 +209,6 @@ BulletPoint.propTypes = {
   highlightStyle: PropTypes.number,
   internal: PropTypes.number,
   source: PropTypes.number,
-  sourceText: PropTypes.string
+  sourceText: PropTypes.string,
+  inline: PropTypes.number
 };

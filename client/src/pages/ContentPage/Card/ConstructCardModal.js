@@ -227,7 +227,7 @@ function ConstructCardModal(props) {
           break;
         }
       }
-      
+
       // if we can't find the first item in the row then return
       if (!found) {
         console.error("Unable to indent this inline item");

@@ -25,7 +25,7 @@ function PublishRequests() {
       try {
 
         setLoading(true);
-    
+
         // Fetch all requests
         const results = await fetch(`${API_URL}/requests/all`, {
           signal: controller.signal,
@@ -40,12 +40,12 @@ function PublishRequests() {
         }
 
         if (results.ok) {
-    
+
           const obj = await results.json();
           setRequests(obj.requests);
-    
+
         } else {
-    
+
           // if the user is performing an unauthorized action
           // log them out and return them to the homepage
           if (results.status === 401) {

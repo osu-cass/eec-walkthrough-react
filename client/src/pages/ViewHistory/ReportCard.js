@@ -85,7 +85,7 @@ function ReportCard(props) {
                 <h4 className="report-card-special-text pl-3 pt-4">Card</h4>
               </div>
               <div className="col-2">
-                <button 
+                <button
                   type="button"
                   className="btn btn-success btn-report-card pull-right mr-2 mt-2"
                   onClick={() => setShowComment(!showComment)}

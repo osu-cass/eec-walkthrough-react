@@ -24,14 +24,14 @@ function ManageCardTitles() {
       try {
 
         setLoading(true);
-    
+
         const results = await fetch(`${API_URL}/cards/titles`, {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
           headers: {"Content-Type": "application/json"}
         });
-    
+
         // if this component is cleaned up, stop here
         if (ignore) {
           return;
@@ -43,7 +43,7 @@ function ManageCardTitles() {
         } else {
           console.error("Error fetching card titles");
         }
-    
+
         setLoading(false);
 
       } catch (err) {
