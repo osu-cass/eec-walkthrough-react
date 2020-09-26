@@ -128,7 +128,7 @@ function Card(props) {
         {props.mode === 1 ? (
           <div className="row ml-auto mr-0">
             <EditCard
-              card={props.card}
+              card={props.unfilteredCard}
               handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
               iconSet={props.iconSet}
               role={props.role}
