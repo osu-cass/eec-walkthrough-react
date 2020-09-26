@@ -33,7 +33,7 @@ async function getLinks(onlyDead, sort, order, cursor) {
 
     // only use the cursor if it isn't the initial search request
     if (cursor.primary !== "null") {
-    
+
       let orderChar = "<";
       if (order === ASC) {
         orderChar = ">";
@@ -114,7 +114,7 @@ async function getLinks(onlyDead, sort, order, cursor) {
       // have results with matching primary values.
       links = results[0].slice(0, -1);
       const nextLink = results[0][RESULTS_PER_PAGE];
-      console.log("nextLink", nextLink)
+      console.log("nextLink", nextLink);
 
       switch (sort) {
         case 0:
@@ -139,7 +139,7 @@ async function getLinks(onlyDead, sort, order, cursor) {
 
     }
 
-    console.log(nextCursor)
+    console.log(nextCursor);
     return {
       links: links,
       nextCursor: nextCursor

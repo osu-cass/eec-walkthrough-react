@@ -23,7 +23,7 @@ function ManageIcons() {
       try {
 
         setLoading(true);
-    
+
         // Fetch all icons
         const results = await fetch(`${API_URL}/icons/all`, {
           signal: controller.signal,
@@ -38,17 +38,17 @@ function ManageIcons() {
         }
 
         if (results.ok) {
-    
+
           const obj = await results.json();
-    
+
           obj.icons.sort((a, b) => a.iconType - b.iconType);
-    
+
           setIcons(obj.icons);
-    
+
         } else {
           console.error("Error fetching icon list");
         }
-    
+
         setLoading(false);
 
       } catch (err) {

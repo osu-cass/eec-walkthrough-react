@@ -47,103 +47,102 @@ function Home(props) {
     let ignore = false;
     const controller = new AbortController();
 
-    if (typeof props.loginStatusChange === "boolean") {
+    async function fetchHome() {
+      try {
+        setLoading(true);
 
-      async function fetchHome() {
-        try {
-          setLoading(true);
+        // Fetch all icons
+        let results = await fetch(`${API_URL}/icons/all`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
 
-          // Fetch all icons
-          let results = await fetch(`${API_URL}/icons/all`, {
-            signal: controller.signal,
-            method: "GET",
-            credentials: "include",
-            headers: {"Content-Type": "application/json"}
-          });
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
 
-          // if this component is cleaned up, stop here
-          if (ignore) {
-            return;
-          }
+        if (results.ok) {
 
-          if (results.ok) {
+          const obj = await results.json();
+          const general = [];
+          const links = [];
 
-            const obj = await results.json();
-            const general = [];
-            const links = [];
-
-            // Sort the icons by group
-            for (let i = 0; i < obj.icons.length; i++) {
-              if (obj.icons[i].groupIndex === 1 || obj.icons[i].groupIndex === 2) {
-                general.push(obj.icons[i]);
-              } else if (obj.icons[i].groupIndex === 3) {
-                links.push(obj.icons[i]);
-              }
+          // Sort the icons by group
+          for (let i = 0; i < obj.icons.length; i++) {
+            if (obj.icons[i].groupIndex === 1 || obj.icons[i].groupIndex === 2) {
+              general.push(obj.icons[i]);
+            } else if (obj.icons[i].groupIndex === 3) {
+              links.push(obj.icons[i]);
             }
-
-            setGeneralIcons(general);
-            setLinkIcons(links);
-
-          } else {
-            console.error("Error fetching icon list");
           }
 
-          // Fetch all homepage content
-          results = await fetch(`${API_URL}/home`, {
-            signal: controller.signal,
-            method: "GET",
-            credentials: "include",
-            headers: {"Content-Type": "application/json"}
-          });
+          setGeneralIcons(general);
+          setLinkIcons(links);
 
-          // if this component is cleaned up, stop here
-          if (ignore) {
-            return;
+        } else {
+          console.error("Error fetching icon list");
+        }
+
+        // Fetch all homepage content
+        results = await fetch(`${API_URL}/home`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+          setPage(obj);
+
+        } else {
+          console.error("Error fetching homepage content");
+        }
+
+        // Fetch all sponsors
+        results = await fetch(`${API_URL}/home/sponsors`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+          setSponsors(obj.sponsors);
+
+        } else {
+          console.error("Error fetching sponsors");
+        }
+
+        setLoading(false);
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
           }
-
-          if (results.ok) {
-
-            const obj = await results.json();
-            setPage(obj);
-
-          } else {
-            console.error("Error fetching homepage content");
-          }
-
-          // Fetch all sponsors
-          results = await fetch(`${API_URL}/home/sponsors`, {
-            signal: controller.signal,
-            method: "GET",
-            credentials: "include",
-            headers: {"Content-Type": "application/json"}
-          });
-
-          // if this component is cleaned up, stop here
-          if (ignore) {
-            return;
-          }
-
-          if (results.ok) {
-
-            const obj = await results.json();
-            setSponsors(obj.sponsors);
-
-          } else {
-            console.error("Error fetching sponsors");
-          }
-
-          setLoading(false);
-        } catch (err) {
-          if (err instanceof DOMException) {
-            if (process.env.NODE_ENV === "development") {
-              console.log("HTTP request aborted");
-            }
-          } else {
-            throw err;
-          }
+        } else {
+          throw err;
         }
       }
+    }
 
+    if (typeof props.loginStatusChange === "boolean") {
       fetchHome();
     }
 

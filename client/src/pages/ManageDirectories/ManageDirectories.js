@@ -32,14 +32,14 @@ function ManageDirectories() {
         setLoading(true);
         const sortValue = searchFields.sortValue;
         const orderValue = searchFields.orderValue;
-    
+
         // construct the request body
         const postObj = {
           sort: sortValue,
           order: orderValue,
           cursor: cursor,
         };
-    
+
         const results = await fetch(`${API_URL}/files/directories`, {
           signal: controller.signal,
           method: "POST",
@@ -47,28 +47,28 @@ function ManageDirectories() {
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(postObj)
         });
-    
+
         // if this component is cleaned up, stop here
         if (ignore) {
           return;
         }
 
         if (results.ok) {
-    
+
           const obj = await results.json();
-    
+
           if (cursor === "null") {
             setDirectories([...obj.directories]);
           } else {
             setDirectories([...directories, ...obj.directories]);
           }
           setCursor(obj.nextCursor);
-    
+
         } else {
           setDirectories([]);
           console.error("Error fetching files");
         }
-    
+
         setLoading(false);
 
       } catch (err) {
@@ -187,14 +187,14 @@ function ManageDirectories() {
           ) : (
             <LoadMoreButton
               onUpdate={() => setChangeLoadMore(!changeLoadMore)}
-              loading={loading} 
+              loading={loading}
             />
           )}
         </Fragment>
       ) : (
         <div className="table-container">
           <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
-              <h3 className="py-5 font-weight-bold">No files have been uploaded</h3>
+            <h3 className="py-5 font-weight-bold">No files have been uploaded</h3>
           </div>
         </div>
       )}

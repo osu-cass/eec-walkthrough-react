@@ -36,9 +36,9 @@ function BasicItems(props) {
             wrapper: true,
             indentation: wrapperIndentation,
             items: newWrapper.reverse()
-          }
+          };
 
-          //replace the item
+          // replace the item
           copy.splice(i, 1, wrapperObject);
 
           newWrapper = [];
@@ -177,7 +177,7 @@ function BasicItems(props) {
         <Fragment key={item.itemId + "a" + item.index}>
           {item.wrapper ? (
             <div className={`item-wrapper div-indent-level-${item.indentation}`}>
-              {item.items.map((item) => 
+              {item.items.map((item) =>
                 <BulletPoint
                   key={item.itemId + "wrap"}
                   url={item.contentUrl}
@@ -239,7 +239,7 @@ function BasicItems(props) {
         <Fragment key={item.itemId + "b" + item.index}>
           {item.wrapper ? (
             <div className={`item-wrapper div-indent-level-${item.indentation}`}>
-              {item.items.map((item) => 
+              {item.items.map((item) =>
                 <BulletPoint
                   key={item.itemId + "wrap"}
                   url={item.contentUrl}
@@ -292,7 +292,7 @@ function BasicItems(props) {
           )}
         </Fragment>
       )}
-      
+
       {/* if this is an expandable card, then show a button for expanding */}
       {props.expandableList && realItemCount > showCount ? (
         <div className="text-center">

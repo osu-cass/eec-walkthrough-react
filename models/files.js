@@ -25,7 +25,7 @@ async function getDirectories(sort, order, cursor) {
     const files = await fs.readdir(directoryPath);
 
     // create a file object for each directory found
-    files.forEach(function (file) {
+    files.forEach((file) => {
 
       // see if the file (directory) is named correctly with a
       // underscore dividing the name in two
@@ -36,7 +36,7 @@ async function getDirectories(sort, order, cursor) {
           userId: splitName[1],
           fileCount: 0
         };
-        
+
         directoryArray.push(fileObject);
       }
     });
@@ -141,7 +141,7 @@ async function getFiles(userId, sort, order, cursor) {
     const files = await fs.readdir(directoryPath);
 
     // create a file object for each file found
-    files.forEach(function (file) {
+    files.forEach((file) => {
       const fileObject = {
         url: `/uploads/user_${userId}/${file}`,
         name: file,
