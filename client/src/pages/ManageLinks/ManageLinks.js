@@ -50,6 +50,7 @@ function ManageLinks() {
 
         // Fetch all links
         const results = await fetch(`${API_URL}/links/all`, {
+          signal: controller.signal,
           method: "POST",
           credentials: "include",
           headers: {"Content-Type": "application/json"},
@@ -78,6 +79,7 @@ function ManageLinks() {
         }
 
         setLoading(false);
+
       } catch (err) {
         if (err instanceof DOMException) {
           if (process.env.NODE_ENV === "development") {

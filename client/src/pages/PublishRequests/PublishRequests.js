@@ -14,42 +14,72 @@ function PublishRequests() {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // when the page first loads, get all of the pending publish requests
   useEffect(() => {
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
+
+    async function fetchRequests() {
+      try {
+
+        setLoading(true);
+    
+        // Fetch all requests
+        const results = await fetch(`${API_URL}/requests/all`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+    
+          const obj = await results.json();
+          setRequests(obj.requests);
+    
+        } else {
+    
+          // if the user is performing an unauthorized action
+          // log them out and return them to the homepage
+          if (results.status === 401) {
+            logout();
+            window.location.href = "/";
+          } else {
+            console.error("Error fetching requests list");
+          }
+
+        }
+
+        setLoading(false);
+
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
+      }
+    }
+
     fetchRequests();
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
     // eslint-disable-next-line
   }, []);
 
-  // fetch request data
-  async function fetchRequests() {
-    setLoading(true);
-
-    // Fetch all requests
-    const results = await fetch(`${API_URL}/requests/all`, {
-      method: "GET",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"}
-    });
-
-    if (results.ok) {
-
-      const obj = await results.json();
-      setRequests(obj.requests);
-
-    } else {
-
-      // if the user is performing an unauthorized action
-      // log them out and return them to the homepage
-      if (results.status === 401) {
-        logout();
-        window.location.href = "/";
-      } else {
-        console.error("Error fetching requests list");
-      }
-
-    }
-
-    setLoading(false);
-  }
 
   return (
     <div className="container request-page-container">
