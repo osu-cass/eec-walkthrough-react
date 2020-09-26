@@ -14,6 +14,7 @@ function ManageLinks() {
   const [filter, setFilter] = useState(0);
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [changeLoadMore, setChangeLoadMore] = useState(false);
   const [cursor, setCursor] = useState({
     primary: "null",
     secondary: "null"
@@ -23,14 +24,80 @@ function ManageLinks() {
     orderValue: 1
   });
 
+  // get all of the link information when the page loads,
+  // when a change is made, or when the user scrolls to the bottom of the screen
   useEffect(() => {
-    const newCursor = {
-      primary: "null",
-      secondary: "null"
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
+
+    async function fetchLinks(cursor) {
+      try {
+        setLoading(true);
+
+        const sortValue = searchFields.sortValue;
+        const orderValue = searchFields.orderValue;
+
+        // construct the request body
+        const postObj = {
+          onlyDead: filter,
+          sort: sortValue,
+          order: orderValue,
+          cursorPrimary: cursor.primary,
+          cursorSecondary: cursor.secondary
+        };
+
+        // Fetch all links
+        const results = await fetch(`${API_URL}/links/all`, {
+          method: "POST",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(postObj)
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+
+          if (cursor.primary === "null") {
+            setLinks([...obj.links]);
+          } else {
+            setLinks([...links, ...obj.links]);
+          }
+          setCursor(obj.nextCursor);
+
+        } else {
+          setLinks([]);
+          console.error("Error fetching link list");
+        }
+
+        setLoading(false);
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
+      }
     }
-    fetchLinks(newCursor);
+
+    fetchLinks(cursor);
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
     // eslint-disable-next-line
-  }, [filter, searchFields.orderValue, searchFields.sortValue]);
+  }, [filter, searchFields.orderValue, searchFields.sortValue, changeLoadMore]);
 
   // update the timestamp if we change it
   function handleTimestamp(timestamp, itemId) {
@@ -46,63 +113,20 @@ function ManageLinks() {
 
   // handle changes to the filter
   function handleFilter(newFilter) {
-    setFilter(newFilter);
     setCursor({
       primary: "null",
       secondary: "null"
     });
+    setFilter(newFilter);
   }
 
   // refresh link data when a link is edited
   function handleUpdate() {
-    const newCursor = {
+    setCursor({
       primary: "null",
       secondary: "null"
-    }
-    fetchLinks(newCursor);
-  }
-
-  // fetch link data
-  async function fetchLinks(cursor) {
-    setLoading(true);
-
-    const sortValue = searchFields.sortValue;
-    const orderValue = searchFields.orderValue;
-
-    // construct the request body
-    const postObj = {
-      onlyDead: filter,
-      sort: sortValue,
-      order: orderValue,
-      cursorPrimary: cursor.primary,
-      cursorSecondary: cursor.secondary
-    };
-
-    // Fetch all links
-    const results = await fetch(`${API_URL}/links/all`, {
-      method: "POST",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(postObj)
     });
-
-    if (results.ok) {
-
-      const obj = await results.json();
-
-      if (cursor.primary === "null") {
-        setLinks([...obj.links]);
-      } else {
-        setLinks([...links, ...obj.links]);
-      }
-      setCursor(obj.nextCursor);
-
-    } else {
-      setLinks([]);
-      console.error("Error fetching link list");
-    }
-
-    setLoading(false);
+    setChangeLoadMore(!changeLoadMore);
   }
 
   // updates the sorting order of the table columns
@@ -126,11 +150,6 @@ function ManageLinks() {
         orderValue: 1
       });
     }
-  }
-
-  // if we scroll far enough load more links
-  function handleLoadMore() {
-    fetchLinks(cursor);
   }
 
   return (
@@ -218,7 +237,7 @@ function ManageLinks() {
             null
           ) : (
             <LoadMoreButton
-              onUpdate={() => handleLoadMore()}
+              onUpdate={() => setChangeLoadMore(!changeLoadMore)}
               loading={loading} 
             />
           )}
