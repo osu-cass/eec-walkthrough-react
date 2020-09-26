@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Sep 21, 2020 at 11:24 PM
+-- Generation Time: Sep 26, 2020 at 02:34 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -173,7 +173,13 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (222, 62, 0, 222, 'Additional in Depth Site Resources', 52, '2020-09-15 19:40:23', 0),
 (223, 64, 10, 223, 'Measuring Electricity', 54, '2020-09-17 19:39:07', 0),
 (224, 64, 10, 224, 'Electric Rate Schedules', 54, '2020-09-17 19:57:57', 0),
-(225, 64, 10, 225, 'Common Electricity Charges', 54, '2020-09-17 19:59:38', 0);
+(225, 64, 10, 225, 'Common Electricity Charges', 54, '2020-09-17 19:59:38', 0),
+(228, 65, 10, 228, 'Measuring Natural Gas', 54, '2020-09-23 21:45:05', 0),
+(229, 65, 10, 229, 'Natural Gas Rate Schedules', 54, '2020-09-23 21:49:22', 0),
+(230, 65, 10, 230, 'Common Natural Gas Charges', 54, '2020-09-23 21:55:01', 0),
+(231, 66, 10, 231, 'Measuring Water', 54, '2020-09-23 22:00:24', 0),
+(232, 66, 10, 232, 'Water Rate Schedules', 54, '2020-09-23 22:22:08', 0),
+(233, 66, 10, 233, 'Common Water Charges', 54, '2020-09-23 22:26:50', 0);
 
 -- --------------------------------------------------------
 
@@ -447,7 +453,8 @@ INSERT INTO `History_Cards` (`historyId`, `cardId`, `headerId`, `cardType`, `tit
 (93, 157, 47, 10, 'Develop a Preliminary Energy Balance', 0, '2020-09-03 20:05:07'),
 (94, 162, 47, 10, 'Arrange a Client Guided Remote Tour by Phone.', 0, '2020-09-03 20:05:27'),
 (95, 158, 47, 10, 'Develop a List of Potential Opportunities to Study', 0, '2020-09-03 20:11:20'),
-(96, 165, 47, 0, 'Next Step?......', 0, '2020-09-03 20:11:43');
+(96, 165, 47, 0, 'Next Step?......', 0, '2020-09-03 20:11:43'),
+(97, 227, 67, 0, 'Rows', 0, '2020-09-22 20:52:51');
 
 -- --------------------------------------------------------
 
@@ -495,7 +502,8 @@ INSERT INTO `History_Headers` (`historyId`, `headerId`, `pageId`, `title`, `inte
 (37, 36, 50, 'Wastewater Overview', 0, 0, '2020-08-20 00:22:34'),
 (38, 38, 50, 'Wastewater Opportunities to Consider', 0, 0, '2020-08-20 00:22:49'),
 (39, 37, 50, 'Wastewater Technologies to Consider', 0, 0, '2020-08-20 00:23:09'),
-(40, 29, 45, 'Pumps Overview', 0, 0, '2020-08-20 00:24:59');
+(40, 29, 45, 'Pumps Overview', 0, 0, '2020-08-20 00:24:59'),
+(41, 67, 70, 'New Header', 0, 0, '2020-09-22 20:53:26');
 
 -- --------------------------------------------------------
 
@@ -1032,7 +1040,21 @@ INSERT INTO `History_Items` (`historyId`, `parentId`, `itemId`, `cardId`, `order
 (703, 95, 4623, 158, 0, 0, 26, 'Develop a table of potential recommendations, and if possible: total energy used by the system related to each opportunity, a high/low estimate of potential % savings,  and the range of potential cost and energy savings potential.', '', '', 0, 0, 0, 0, '2020-08-18 21:54:33'),
 (704, 95, 4624, 158, 0, 1, 17, '(Item not added yet)', 'osu.edu', 'Example Table of Potential Opportunities', 0, 0, 0, 0, '2020-08-18 21:54:33'),
 (705, 96, 4506, 165, 0, 0, 26, 'What will we do next?', '', '', 0, 0, 0, 0, '2020-08-17 21:32:04'),
-(706, 96, 4507, 165, 0, 0, 26, 'How can we get incentive program personnel involved (ETO, ESU, utility reps)?', '', '', 0, 0, 0, 0, '2020-08-17 21:32:04');
+(706, 96, 4507, 165, 0, 0, 26, 'How can we get incentive program personnel involved (ETO, ESU, utility reps)?', '', '', 0, 0, 0, 0, '2020-08-17 21:32:04'),
+(707, 97, 6081, 227, 0, 0, 15, 'Lorem ipsum dolor sit amet.', '', '', 0, 0, 1, 0, '2020-09-22 20:51:32'),
+(708, 97, 6082, 227, 0, 0, 15, 'Maecenas eu ex a turpis laoreet posuere.', '', '', 0, 0, 1, 0, '2020-09-22 20:51:32'),
+(709, 97, 6083, 227, 0, 0, 15, 'Lorem ipsum dolor sit amet.', '', '', 0, 0, 1, 0, '2020-09-22 20:51:32'),
+(710, 97, 6084, 227, 0, 0, 15, 'Praesent pretium nisl ut nibh tincidunt congue.', '', '', 0, 0, 1, 0, '2020-09-22 20:51:32'),
+(711, 97, 6085, 227, 0, 0, 15, 'Quisque aliquet lectus urna.', '', '', 0, 0, 1, 0, '2020-09-22 20:51:32'),
+(712, 97, 6086, 227, 0, 0, 15, 'Donec maximus magna vitae tellus.', '', '', 0, 0, 1, 0, '2020-09-22 20:51:32'),
+(713, 97, 6087, 227, 0, 0, 26, 'Break', '', '', 0, 0, 0, 0, '2020-09-22 20:51:32'),
+(714, 97, 6088, 227, 0, 0, 20, '', '/uploads/user_69/36ff5e73d0f00135f02899d66e41fee3.gif', 'Taco', 0, 0, 1, 0, '2020-09-22 20:51:32'),
+(715, 97, 6089, 227, 0, 0, 20, '', '/uploads/user_69/50cbaff5cb58cb5a1882a9c3fe0f9bb3.gif', 'Pizza', 0, 0, 1, 0, '2020-09-22 20:51:32'),
+(716, 97, 6090, 227, 0, 0, 20, '', '/uploads/user_69/f313aad3efad3bf51165ce8d0a496cc4.gif', 'Sushi', 0, 0, 1, 0, '2020-09-22 20:51:32'),
+(717, 97, 6091, 227, 0, 0, 26, 'Break', '', '', 0, 0, 0, 0, '2020-09-22 20:51:32'),
+(718, 97, 6092, 227, 0, 0, 17, '$empty', 'http://placekitten.com/200/300', 'Some Link', 0, 0, 1, 0, '2020-09-22 20:51:32'),
+(719, 97, 6093, 227, 0, 0, 24, '$empty', 'http://placekitten.com/200/300', 'Some Link', 2, 0, 1, 0, '2020-09-22 20:51:32'),
+(720, 97, 6094, 227, 0, 0, 28, '$empty', 'http://placekitten.com/200/300', 'Some Link', 3, 0, 1, 0, '2020-09-22 20:51:32');
 
 -- --------------------------------------------------------
 
@@ -1894,10 +1916,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5836, 225, 0, 0, 26, 'Reactive Power', '', '', 0, 0, 0, 0, '2020-09-17 19:59:38', 0),
 (5837, 225, 0, 0, 26, 'City Tax', '', '', 0, 0, 0, 0, '2020-09-17 19:59:38', 0),
 (5838, 225, 0, 0, 26, 'Public Purpose Charge', '', '', 0, 0, 0, 0, '2020-09-17 19:59:38', 0),
-(5851, 223, 0, 0, 26, 'Electricity consumption is measured in units of kilowatt-hours (kwh) and is commonly broken down into metered on-peak demand and metered off-peak demand.', '', '', 0, 0, 0, 0, '2020-09-17 20:18:41', 0),
-(5852, 223, 0, 1, 26, 'Electric companies may charge different rates per kwh depending on the time of day (eg. rates during nighttime hours can be less than daytime).  This also can apply to seasonal rates that change depending on the time of year.  Consult your provided rate schedule to find these rates, if applicable.', '', '', 0, 0, 0, 0, '2020-09-17 20:18:41', 0),
-(5853, 223, 0, 0, 26, 'Reactive power is also measured in units of reactive kilovolt-amperes (kVAR) through the power factor (PF) percentage and may be a significant contributor to energy costs (see Power Factor Correction page for more information)', '', '', 0, 0, 0, 0, '2020-09-17 20:18:41', 0),
-(5854, 223, 0, 1, 28, '$empty', 'https://walkthrough.eec.oregonstate.edu/wiki/utilities/61', 'Power Factor Correction', 0, 0, 0, 0, '2020-09-17 20:18:41', 0),
 (5908, 95, 0, 0, 15, 'Boiler Nameplate Data: Rated Capacity', '', '', 0, 0, 0, 0, '2020-09-21 16:41:42', 0),
 (5909, 95, 0, 0, 15, 'Combustion Analysis: Excess O2, Stack Temperature, Inlet / Ambient Temperature ', '', '', 0, 0, 0, 0, '2020-09-21 16:41:42', 0),
 (5910, 95, 0, 0, 15, 'Capacity over time', '', '', 0, 0, 0, 0, '2020-09-21 16:41:42', 0),
@@ -1926,7 +1944,44 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5978, 105, 0, 1, 23, 'Explains how steam traps work, brief history and lists several different types of traps in detail.', 'https://www.youtube.com/watch?v=IiRyxcCBTa0', 'Let\'s Talk Steam Traps', 1, 0, 0, 0, '2020-09-21 17:02:20', 0),
 (5979, 105, 0, 1, 17, 'Contains specific information about flash steam recovery', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam12_lowpressure_steam.pdf', 'DOE Tip Sheet Flash Steam Recovery', 1, 0, 0, 0, '2020-09-21 17:02:20', 0),
 (5980, 105, 0, 1, 24, 'Contains several pages with useful calculations for steam systems. This link leads to the flash steam page.', 'https://www.tlv.com/global/US/steam-theory/introduction-to-condensate-recovery.html', 'TLV Steam Theory', 1, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5981, 105, 0, 1, 21, '$empty', 'https://oregonstate.app.box.com/file/337450150435', 'Flash Steam Recovery', 0, 0, 0, 0, '2020-09-21 17:02:20', 0);
+(5981, 105, 0, 1, 21, '$empty', 'https://oregonstate.app.box.com/file/337450150435', 'Flash Steam Recovery', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(6169, 223, 0, 0, 26, 'Electricity consumption is measured in units of kilowatt-hours (kWh) and is commonly broken down into metered on-peak demand and metered off-peak demand.', '', '', 0, 0, 0, 0, '2020-09-23 21:35:38', 0),
+(6170, 223, 0, 1, 26, 'Electric companies may charge different rates per kWh depending on the time of day (eg. rates during nighttime hours can be less than daytime).  This also can apply to seasonal rates that change depending on the time of year.  Consult your provided rate schedule to find these rates, if applicable.', '', '', 0, 0, 0, 0, '2020-09-23 21:35:38', 0),
+(6171, 223, 0, 0, 26, 'Reactive power is also measured in units of reactive kilovolt-amperes (kVAR) through the power factor (PF) percentage and may be a significant contributor to energy costs (see Power Factor Correction page for more information)', '', '', 0, 0, 0, 0, '2020-09-23 21:35:38', 0),
+(6172, 223, 0, 1, 28, '$empty', 'https://walkthrough.eec.oregonstate.edu/wiki/utilities/61', 'Power Factor Correction', 0, 0, 0, 0, '2020-09-23 21:35:38', 0),
+(6174, 228, 0, 0, 26, 'Natural gas is most often measured in units of heat called therms or one million British Thermal Units (MMBtu).', '', '', 0, 0, 0, 0, '2020-09-23 21:45:51', 0),
+(6197, 229, 0, 0, 26, 'Natural gas is unique in that there are two options for obtaining this utility:', '', '', 0, 0, 0, 0, '2020-09-23 21:52:55', 0),
+(6198, 229, 0, 1, 26, 'From the gas company - industries obtain their gas directly from their local company.', '', '', 0, 0, 0, 0, '2020-09-23 21:52:55', 0),
+(6199, 229, 0, 1, 26, 'From 3rd party - industries purchase the gas from an outside party and their local company transports the gas from the source to the industry site.', '', '', 0, 0, 0, 0, '2020-09-23 21:52:55', 0),
+(6200, 229, 0, 2, 26, 'Local gas companies typically add a transport fee to cover the delivery.', '', '', 0, 0, 0, 0, '2020-09-23 21:52:55', 0),
+(6201, 229, 0, 0, 26, 'The specific details and charges of a rate schedule often vary depending on the gas company.', '', '', 0, 0, 0, 0, '2020-09-23 21:52:55', 0),
+(6202, 229, 0, 1, 26, 'Consult the rate schedule provided by your gas company for your rates and charges.', '', '', 0, 0, 0, 0, '2020-09-23 21:52:55', 0),
+(6206, 230, 0, 0, 26, 'Base charge', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
+(6207, 230, 0, 0, 26, 'Supply rate', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
+(6208, 230, 0, 0, 26, 'Transport fees', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
+(6209, 230, 0, 0, 26, 'City tax', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
+(6210, 230, 0, 0, 26, 'Public purpose charge', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
+(6231, 232, 0, 0, 26, 'Generally, water companies assign different classes of rate schedules depending on the application.', '', '', 0, 0, 0, 0, '2020-09-23 22:25:06', 0),
+(6232, 232, 0, 1, 26, 'An industrial or commercial rate schedule is often assigned to industry consumers', '', '', 0, 0, 0, 0, '2020-09-23 22:25:06', 0),
+(6233, 232, 0, 0, 26, 'The specific details and charges of a rate schedule often varies depending on the water company.', '', '', 0, 0, 0, 0, '2020-09-23 22:25:06', 0),
+(6234, 232, 0, 1, 26, 'Consult the rate schedule provided by your electric company for your rates and charges.', '', '', 0, 0, 0, 0, '2020-09-23 22:25:06', 0),
+(6242, 233, 0, 0, 26, 'Base Charge', '', '', 0, 0, 0, 0, '2020-09-23 22:28:08', 0),
+(6243, 233, 0, 0, 26, 'Demanded Water', '', '', 0, 0, 0, 0, '2020-09-23 22:28:08', 0),
+(6244, 233, 0, 0, 26, 'Effluent Water', '', '', 0, 0, 0, 0, '2020-09-23 22:28:08', 0),
+(6245, 233, 0, 1, 26, 'BOD Waste', '', '', 0, 0, 0, 0, '2020-09-23 22:28:08', 0),
+(6246, 233, 0, 1, 26, 'TSS Waste', '', '', 0, 0, 0, 0, '2020-09-23 22:28:08', 0),
+(6247, 233, 0, 1, 26, 'Stormwater Rate', '', '', 0, 0, 0, 0, '2020-09-23 22:28:08', 0),
+(6248, 233, 0, 1, 26, 'Sewer Rate', '', '', 0, 0, 0, 0, '2020-09-23 22:28:08', 0),
+(6249, 233, 0, 0, 26, 'City Tax', '', '', 0, 0, 0, 0, '2020-09-23 22:28:08', 0),
+(6250, 233, 0, 0, 26, 'Public Purpose Charge', '', '', 0, 0, 0, 0, '2020-09-23 22:28:08', 0),
+(6273, 231, 0, 0, 26, 'Demanded Water:', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
+(6274, 231, 0, 1, 26, 'This water is typically measured in volumetric units of hundred cubic feet (HCF) or liters (L).', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
+(6275, 231, 0, 0, 26, 'Effluent Water:', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
+(6276, 231, 0, 1, 26, 'Biological Oxygen Demand (BOD) - this is the amount of dissolved oxygen aerobic microorganisms use to decompose organic matter in the water.  It is measured in units of milligrams per liter (mg/L).', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
+(6277, 231, 0, 1, 26, 'Total Suspended Solids (TSS) - this is the dry weight of suspended particulates in water.  It is measured in units of milligrams per liter (mg/L).', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
+(6278, 231, 0, 1, 26, 'Effluent characteristics such as these are often charged to incentivize a higher degree of water treatment, preventing adverse effects when the effluent is reintroduced to the environment.', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
+(6279, 231, 0, 0, 26, 'Some water companies may use general, volumetric sewer measurements for effluent water instead of BOD and TSS.  Additionally, some companies may add a charge for stormwater volumes as well.', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
+(6280, 231, 0, 1, 26, 'Examine the rate schedule provided by your water company to determine how your effluent is being charged.', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0);
 
 -- --------------------------------------------------------
 
@@ -1958,7 +2013,7 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
 (47, 2, 'Thermal Systems', 'Many industrial processes require encouraging or resisting thermal energy transfer.', 'Heat transfer technologies include heat exchangers, cooling towers, fan cooling, direct impingement and other methods.  Heat transfer is discouraged with insulation, vacuums, reduced emissivity, etc. ', 'https://live.staticflickr.com/65535/50069411093_68ab30e548_b.jpg', 0, 58, '2020-07-02 21:31:22', 0),
 (48, 2, 'Refrigeration', 'Refrigeration technology is important in many industrial processes.', 'Vapor compression is the most common refrigeration technology. Mechanical energy input to a compressor enables absorbing heat in cooler environment and discharging it to a warmer environment. ', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 51, '2020-07-02 22:10:36', 0),
-(49, 7, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'Utility bills are based not only on the commodity. They can also be based on the rate of use (Dem...', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 0, 51, '2020-07-02 22:40:27', 0),
+(49, 7, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'Utility bills are based not only on the commodity. They can also be based on the rate of use, when use occurs, how the commodity is obtained, or how the commodity is measured.', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 1, 54, '2020-07-02 22:40:27', 0),
 (50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 51, '2020-07-07 20:46:38', 0),
 (54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, 51, '2020-08-05 19:54:53', 1),
 (56, 3, 'Combined Heat and Power', 'Combined Heat and Power allows sites to use the waste heat of electrical generation.', 'CHP', 'no image yet', 0, 51, '2020-08-07 00:33:29', 0),
@@ -2091,8 +2146,8 @@ CREATE TABLE `Sources` (
 --
 
 INSERT INTO `Sources` (`sourceId`, `pageId`, `text`) VALUES
-(4, 61, 'Eaton. Power factor correction: a guide for the plant engineer (2014). Accessed: Sept. 9, 2020. [Online]. Available: https://www.eaton.com/ecm/groups/public/%40pub/%40electrical/documents/content/sa02607001e.pdf'),
-(5, 61, 'M. R. Muller, M. Simek, J. Mak, B. Mitroic. Essentials of Industrial Assessments. Accessed: Sept. 9, 2020. [Online]. Available: https://iac.university/technicalDocs/industr/ch4.pdf'),
+(4, 61, '<p>Eaton. Power factor correction: a guide for the plant engineer (2014). Accessed: Sept. 9, 2020. [Online]. Available: <a href=\"https://www.eaton.com/ecm/groups/public/%40pub/%40electrical/documents/content/sa02607001e.pdf\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.eaton.com/ecm/groups/public/%40pub/%40electrical/documents/content/sa02607001e.pdf</a></p>'),
+(5, 61, '<p>M. R. Muller, M. Simek, J. Mak, B. Mitroic. Essentials of Industrial Assessments. Accessed: Sept. 9, 2020. [Online]. Available: <a href=\"https://iac.university/technicalDocs/industr/ch4.pdf\" rel=\"noopener noreferrer\" target=\"_blank\">https://iac.university/technicalDocs/industr/ch4.pdf</a></p>'),
 (6, 69, '<p>\"Spray Painting Efficiency Training.\" Pacific Northwest Pollution Prevention Resource Center. <a href=\"https://pprc.org/2012/projects-2/projects/spray-painting-training-efficiency/\" rel=\"noopener noreferrer\" target=\"_blank\">https://pprc.org/2012/projects-2/projects/spray-painting-training-efficiency/</a> (accessed Sept. 9, 2020)</p>'),
 (7, 69, '<p>\"Energy Efficiency: Inverter Power Source.\" Lincoln Electric. <a href=\"https://www.lincolnelectric.com/en-us/support/process-and-theory/Pages/inverter-power-detail.aspx\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.lincolnelectric.com/en-us/support/process-and-theory/Pages/inverter-power-detail.aspx</a> (accessed Sept. 9, 2020).</p>'),
 (8, 69, '<p>\"Welding Guide to Power Efficiency.\" Millerwelds.com. <a href=\"https://www.millerwelds.com/resources/article-library/welding-guide-to-power-efficiency\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.millerwelds.com/resources/article-library/welding-guide-to-power-efficiency</a> (accessed Sept. 9, 2020).</p>'),
@@ -2232,7 +2287,8 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (65, 'KarlHaapala', 'b57616ebf0b31e2b470945548ebb37c3$ce2a1a37a4eeb500f9ff3d7ae5a436bd96f996cc7035089b06c66296ef664a0e', 'Karl', 'Haapala', 'Karl.Haapala@oregonstate.edu', 3, '2020-08-10 16:43:08'),
 (66, 'BrianFronk', 'e19515b3011f1b9ae350416702e366ae$bc12ddf1a36485efdc2f3076306c0f3fbf8e0ebc161228b3d96df617b3003a54', 'Brian', 'Fronk', 'Brian.Fronk@oregonstate.edu', 1, '2020-08-17 17:50:49'),
 (67, 'testEditor', '378a3004a2a67d4de86381f1167f67f0$667800fc22bccfb093ed7370d527f1b07e7b3cf3a54acfd43e71edc477c1391f', 'Test', 'Editor', 'testeditor@gmail.com', 3, '2020-09-01 02:00:00'),
-(68, 'newUser1', '6722e86ced77c549439d1a1746634998$4a86c207b6c1d91696c82191547f9a6068888fecaa1c137cee77621c74a8cf8f', 'new', 'user', 'newUser1@gmail.com', 1, '2020-09-14 10:31:05');
+(68, 'newUser1', '6722e86ced77c549439d1a1746634998$4a86c207b6c1d91696c82191547f9a6068888fecaa1c137cee77621c74a8cf8f', 'new', 'user', 'newUser1@gmail.com', 1, '2020-09-14 10:31:05'),
+(69, 'testEditor1', 'fbb3b3a0d4f8be764fbe6bdc27f6d983$2ce25602f589f0e5be6a55d9141875272a99496e3d6b343cad56f1949eaf48bd', 'test', 'editor', 'testeditor1@gmail.com', 3, '2020-09-22 20:46:41');
 
 -- --------------------------------------------------------
 
@@ -2430,7 +2486,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=227;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=234;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2448,25 +2504,25 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
 --
 ALTER TABLE `History_Cards`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT for table `History_Headers`
 --
 ALTER TABLE `History_Headers`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `History_Items`
 --
 ALTER TABLE `History_Items`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=707;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=721;
 
 --
 -- AUTO_INCREMENT for table `History_Pages`
@@ -2484,13 +2540,13 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6036;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6281;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `Quick_Titles`
@@ -2508,7 +2564,7 @@ ALTER TABLE `Requests`
 -- AUTO_INCREMENT for table `Request_Comments`
 --
 ALTER TABLE `Request_Comments`
-  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `Request_Objects`
@@ -2520,7 +2576,7 @@ ALTER TABLE `Request_Objects`
 -- AUTO_INCREMENT for table `Sources`
 --
 ALTER TABLE `Sources`
-  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`
@@ -2532,7 +2588,7 @@ ALTER TABLE `Sponsors`
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `Views`
