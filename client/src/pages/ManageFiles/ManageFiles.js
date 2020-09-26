@@ -15,55 +15,85 @@ function ManageFiles() {
   const [loading, setLoading] = useState(false);
   const {userId} = useParams();
   const [cursor, setCursor] = useState("null");
+  const [changeLoadMore, setChangeLoadMore] = useState(false);
   const [searchFields, setSearchFields] = useState({
     sortValue: 0,
     orderValue: 1
   });
 
-  // initiate a new search request when the sorting order changes
+  // get all of the file information when the page loads,
+  // when a change is made, or when the user scrolls to the bottom of the screen
   useEffect(() => {
-    fetchFiles(cursor);
-    // eslint-disable-next-line
-  }, [searchFields.orderValue, searchFields.sortValue]);
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
 
-  // fetch file data
-  async function fetchFiles(cursor) {
-    setLoading(true);
-    const sortValue = searchFields.sortValue;
-    const orderValue = searchFields.orderValue;
+    async function fetchFiles(cursor) {
+      try {
 
-    // construct the request body
-    const postObj = {
-      sort: sortValue,
-      order: orderValue,
-      cursor: cursor,
-    };
+        setLoading(true);
+        const sortValue = searchFields.sortValue;
+        const orderValue = searchFields.orderValue;
+    
+        // construct the request body
+        const postObj = {
+          sort: sortValue,
+          order: orderValue,
+          cursor: cursor,
+        };
+    
+        const results = await fetch(`${API_URL}/files/${userId}`, {
+          signal: controller.signal,
+          method: "POST",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(postObj)
+        });
 
-    const results = await fetch(`${API_URL}/files/${userId}`, {
-      method: "POST",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(postObj)
-    });
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
 
-    if (results.ok) {
+        if (results.ok) {
+    
+          const obj = await results.json();
+    
+          if (cursor === "null") {
+            setFiles([...obj.files]);
+          } else {
+            setFiles([...files, ...obj.files]);
+          }
+          setCursor(obj.nextCursor);
+    
+        } else {
+          setFiles([]);
+          console.error("Error fetching files");
+        }
+    
+        setLoading(false);
 
-      const obj = await results.json();
-
-      if (cursor === "null") {
-        setFiles([...obj.files]);
-      } else {
-        setFiles([...files, ...obj.files]);
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
       }
-      setCursor(obj.nextCursor);
-
-    } else {
-      setFiles([]);
-      console.error("Error fetching files");
     }
 
-    setLoading(false);
-  }
+    fetchFiles(cursor);
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
+    // eslint-disable-next-line
+  }, [searchFields.orderValue, searchFields.sortValue, changeLoadMore]);
 
   // delete a file
   async function deleteFile(name) {
@@ -101,11 +131,6 @@ function ManageFiles() {
         orderValue: 1
       });
     }
-  }
-
-  // if we scroll far enough load more images
-  function handleLoadMore(cursor) {
-    fetchFiles(cursor);
   }
 
   return (
@@ -200,7 +225,7 @@ function ManageFiles() {
             null
           ) : (
             <LoadMoreButton
-              onUpdate={() => handleLoadMore(cursor)}
+              onUpdate={() => setChangeLoadMore(!changeLoadMore)}
               loading={loading} 
             />
           )}

@@ -69,7 +69,7 @@ function BasicItems(props) {
       }
 
     }
-  }, [props.items, showCount]);
+  }, [props.items, showCount, props.expandableList]);
 
   // compare a published and unpublished card and mark what items have changed
   useEffect(() => {
