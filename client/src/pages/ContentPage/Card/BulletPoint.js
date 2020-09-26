@@ -44,7 +44,7 @@ function BulletPoint (props) {
             <div className={`${props.inline ? "d-inline text-nowrap ml-1" : "row mx-auto"} ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
               ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
             >
-              <div className={`${props.inline ? "d-inline" : ""} icon-td justify-content-center`}>
+              <div className={`${props.inline ? "inline-block-icon pb-2" : ""} icon-td justify-content-center`}>
                 {props.checked && props.mode !== 2 ? (
                   <i className={`${props.inline ? "d-inline" : ""} fas fa-fw fa-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
                     title={props.tooltip}
@@ -69,7 +69,7 @@ function BulletPoint (props) {
               ${props.internal ? "internal-item" : ""} ${props.highlightStyle === 2 ? "move-review-item" : ""}
               ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
             >
-              <div className={`${props.inline ? "d-inline" : ""} icon-td justify-content-center indent-level-${props.indentation}`} >
+              <div className={`${props.inline ? "inline-block-icon pb-2" : ""} icon-td justify-content-center indent-level-${props.indentation}`} >
                 <i className={`${props.inline ? "d-inline" : ""} fas fa-fw fa-${props.icon} mr-2 icon-item
                   ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
                 style={{color: props.color}}
