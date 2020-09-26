@@ -190,7 +190,7 @@ function ConstructCardModal(props) {
     setPureCounter(pureCounter + newCounter + 1);
   }
 
-  // Increase the indentation level of the item
+  // Change the indentation level of the selected item
   function changeIndent(amount) {
     const counterId = selectedItem;
     let arrayIndex = -1;
@@ -214,6 +214,25 @@ function ConstructCardModal(props) {
     if (arrayIndex === 0) {
       console.error("This item can not be indented");
       return;
+    }
+
+    // If we are indenting an inline item, we will instead
+    // focus on the first inline item in the row
+    if (copy[arrayIndex].inline) {
+      let found = false;
+      for (let i = arrayIndex; i > 0; i--) {
+        if (!copy[i - 1].inline) {
+          arrayIndex = i;
+          found = true;
+          break;
+        }
+      }
+      
+      // if we can't find the first item in the row then return
+      if (!found) {
+        console.error("Unable to indent this inline item");
+        return;
+      }
     }
 
     // If we are removing indentation do that and return
@@ -677,6 +696,23 @@ function ConstructCardModal(props) {
       }
       itemArray[i].maxIndent = itemArray[i - 1].indentation + 1;
     }
+    // scan through once more and enforce matching indentation for inline items
+    let movedRow = false;
+    for (let i = 1; i < itemArray.length; i++) {
+      if (itemArray[i].inline && itemArray[i - 1].inline) {
+        itemArray[i].indentation = itemArray[i - 1].indentation;
+        movedRow = true;
+      }
+    }
+    // if we had to move an inline row of items, do one last pass for indentation
+    if (movedRow) {
+      for (let i = 1; i < itemArray.length; i++) {
+        if (itemArray[i].indentation > itemArray[i - 1].indentation + 1) {
+          itemArray[i].indentation = itemArray[i - 1].indentation + 1;
+        }
+        itemArray[i].maxIndent = itemArray[i - 1].indentation + 1;
+      }
+    }
     return itemArray;
   }
 
@@ -992,7 +1028,7 @@ function ConstructCardModal(props) {
   function toggleInline() {
     const counterId = selectedItem;
     let arrayIndex = -1;
-    const copy = [...items];
+    let copy = [...items];
 
     // Find the item
     for (let i = 0; i < copy.length; i++) {
@@ -1006,6 +1042,9 @@ function ConstructCardModal(props) {
         break;
       }
     }
+
+    // Make sure the indentation is up to date
+    copy = scanIndentation(copy);
 
     // If we can not find the index, then exit
     if (arrayIndex === -1) {
