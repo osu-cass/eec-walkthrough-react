@@ -25,7 +25,7 @@ function ContentPage(props) {
   const [errorPage, setErrorPage] = useState(false);
   const [headers, setHeaders] = useState([]);
   const [iconSet, setIconSet] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(0);
   const [role, setRole] = useState(0);
   const [mode, setMode] = useState(getMode());
@@ -48,9 +48,100 @@ function ContentPage(props) {
 
   // get new page data if the page ID has changed
   useEffect(() => {
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
+
+    async function fetchData() {
+      try {
+        let obj = [];
+        setMoved(false);
+        setLoading(true);
+
+        // Fetch all icons
+        let results = await fetch(`${API_URL}/icons/all`, {
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        if (results.ok) {
+          obj = await results.json();
+          setIconSet(obj.icons);
+        } else {
+          setErrorPage(500);
+          return;
+        }
+
+        // Fetch all card titles
+        results = await fetch(`${API_URL}/cards/titles`, {
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        if (results.ok) {
+          obj = await results.json();
+          setCardTitles(obj.titles);
+        } else {
+          setErrorPage(500);
+          return;
+        }
+
+        // Fetch page info
+        results = await fetch(`${API_URL}/pages/${pageId}/all`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        if (!ignore) {
+          if (results.ok) {
+            obj = await results.json();
+            setPageInfo(obj);
+            // add empty array of applied filters to each header
+            for (let i = 0; i < obj.headers.length; i++) {
+              obj.headers[i].forceFilter = [];
+            }
+            const sortedHeaders = headerSortOrder(obj.headers);
+            setHeaders(sortedHeaders);
+            updateReferences(sortedHeaders, obj.sources);
+            if (process.env.NODE_ENV === "development") {
+              console.log("Page Data:", obj);
+            }
+          } else {
+            if (results.status === 404) {
+              setErrorPage(404);
+              return;
+            } else {
+              setErrorPage(500);
+              return;
+            }
+          }
+
+          setLoading(false);
+        }
+      } catch (err) {
+        if (err instanceof DOMException) {
+          console.log("HTTP request aborted");
+        } else {
+          throw err;
+        }
+      }
+    }
+
     setUserId(getProfile().userId);
     setRole(getProfile().role);
     fetchData();
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
+
     // eslint-disable-next-line
   }, [pageId, publishedMode]);
 
@@ -67,75 +158,6 @@ function ContentPage(props) {
   // sets the current published mode (published / unpublished)
   function handlePublishedMode(newMode) {
     setPublishedMode(newMode);
-  }
-
-  // fetch page data
-  async function fetchData() {
-    let obj = [];
-    setMoved(false);
-    setLoaded(false);
-
-    // Fetch all icons
-    let results = await fetch(`${API_URL}/icons/all`, {
-      method: "GET",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"}
-    });
-
-    if (results.ok) {
-      obj = await results.json();
-      setIconSet(obj.icons);
-    } else {
-      setErrorPage(500);
-      return;
-    }
-
-    // Fetch all card titles
-    results = await fetch(`${API_URL}/cards/titles`, {
-      method: "GET",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"}
-    });
-
-    if (results.ok) {
-      obj = await results.json();
-      setCardTitles(obj.titles);
-    } else {
-      setErrorPage(500);
-      return;
-    }
-
-    // Fetch page info
-    results = await fetch(`${API_URL}/pages/${pageId}/all`, {
-      method: "GET",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"}
-    });
-
-    if (results.ok) {
-      obj = await results.json();
-      setPageInfo(obj);
-      // add empty array of applied filters to each header
-      for (let i = 0; i < obj.headers.length; i++) {
-        obj.headers[i].forceFilter = [];
-      }
-      const sortedHeaders = headerSortOrder(obj.headers);
-      setHeaders(sortedHeaders);
-      updateReferences(sortedHeaders, obj.sources);
-      if (process.env.NODE_ENV === "development") {
-        console.log("Page Data:", obj);
-      }
-    } else {
-      if (results.status === 404) {
-        setErrorPage(404);
-        return;
-      } else {
-        setErrorPage(500);
-        return;
-      }
-    }
-
-    setLoaded(true);
   }
 
   // update the structure of the current page object
@@ -661,7 +683,9 @@ function ContentPage(props) {
 
 
   if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
-    return loaded ? ( // Render content when data loaded from backend
+    return loading ? (
+      <LoadingOverlay loading={true} />
+    ) : (
       <Container className="my-4" id="content-page">
         <PageDescription
           page={pageInfo}
@@ -689,44 +713,42 @@ function ContentPage(props) {
           handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
         />
 
-        {headers.map((header, i) => {
-          return (
-            <Fragment key={i}>
-              <Header
-                header={header}
-                handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
-                handleMoveCard={() => setMoved(true)}
-                role={role}
-                mode={mode}
-                publicMode={publicMode}
-                publishedMode={publishedMode}
-                iconSet={iconSet}
-                cardState={cardState}
-                top={i === 0 ? (true) : (false)}
-                bottom={i >= headers.length - 1 ? (true) : (false)}
-                handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
-                handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
-                updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
-                resetIcons={e => resetIcons(e)}
-                clearIcons={e => clearIcons(e)}
-                sources={pageInfo.sources}
-                cardTitles={cardTitles}
-                showFilter={() => handleShowFilter()}
-                show={showFilters}
-                onPageMode={e => handlePageMode(e)}
-                moved={moved}
-              />
-              <CreateCard
-                headerId={header.headerId}
-                handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
-                mode={mode}
-                iconSet={iconSet}
-                sources={pageInfo.sources}
-                cardTitles={cardTitles}
-              />
-            </Fragment>
-          );
-        })}
+        {headers.map((header, i) =>
+          <Fragment key={i}>
+            <Header
+              header={header}
+              handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
+              handleMoveCard={() => setMoved(true)}
+              role={role}
+              mode={mode}
+              publicMode={publicMode}
+              publishedMode={publishedMode}
+              iconSet={iconSet}
+              cardState={cardState}
+              top={i === 0 ? (true) : (false)}
+              bottom={i >= headers.length - 1 ? (true) : (false)}
+              handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
+              handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+              updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
+              resetIcons={e => resetIcons(e)}
+              clearIcons={e => clearIcons(e)}
+              sources={pageInfo.sources}
+              cardTitles={cardTitles}
+              showFilter={() => handleShowFilter()}
+              show={showFilters}
+              onPageMode={e => handlePageMode(e)}
+              moved={moved}
+            />
+            <CreateCard
+              headerId={header.headerId}
+              handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+              mode={mode}
+              iconSet={iconSet}
+              sources={pageInfo.sources}
+              cardTitles={cardTitles}
+            />
+          </Fragment>
+        )}
 
         <References
           sources={references}
@@ -735,7 +757,7 @@ function ContentPage(props) {
         />
 
       </Container>
-    ) : <LoadingOverlay loading={true} />;
+    );
   } else if (publicMode === 1 && (!pageInfo.approved || pageInfo.internal) && mode === 0) {
     return <NonPublicPage onPublicMode={e => handlePublicMode(e)} />;
   } else if (errorPage === 404) {
