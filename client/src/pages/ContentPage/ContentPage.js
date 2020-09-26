@@ -139,6 +139,7 @@ function ContentPage(props) {
   }
 
   // update the structure of the current page object
+  // this generally happens when a page, header, or card is changed is someway
   function handleUpdate(object, type, action) {
     const headerData = [...headers];
 

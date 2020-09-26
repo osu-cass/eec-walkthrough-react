@@ -128,12 +128,6 @@ function Header(props) {
     setTempFilterIcons(allIcons);
   }, [props.header, props.cardState]);
 
-  // Gets all of the possible icons and set the default viewing state for them
-  useEffect(() => {
-    setFilterShow(newFilter());
-    // eslint-disable-next-line
-  }, [props.iconSet, props.cardState]);
-
   // Return new initialized filter
   function newFilter() {
     const allIcons = [];
