@@ -1,17 +1,22 @@
-import React, {useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import "./Toast.css";
 
 // toast that is centered on screen, overlaying the rest of the page content
 function Toast (props) {
 
+  const [timeoutId, setTimeoutId] = useState(null);
+
   // close the toast automatically after a specified amount of time
   useEffect(() => {
     if (props.show) {
-      setTimeout(() => { props.handleClose(); }, 3000);
+      if (timeoutId === null) {
+        setTimeoutId(setTimeout(() => { props.handleClose(); }, 3000));
+      }
+    } else {
+      setTimeoutId(null);
     }
-    // eslint-disable-next-line
-  }, [props.show]);
+  }, [props, timeoutId]);
 
   return (
     <div className={`toast ${props.show ? "show" : "hide"} toast-overlay`} role="alert" aria-live="assertive" aria-atomic="true">
