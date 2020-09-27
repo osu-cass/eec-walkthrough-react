@@ -6,36 +6,36 @@ import "./LoadMoreButton.css";
 // generic load more button
 function LoadMoreButton(props) {
 
-  // check if we are already scrolled to the bottom of the page
-  // when this component first appears
+  // if we are no longer loading, then we check if we are scrolled to the
+  // bottom of the screen, meaning that we can load more results
   useEffect(() => {
     if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2
       && !props.loading) {
-      checkLoading();
+      props.onUpdate();
     }
-    // eslint-disable-next-line
+    
   }, [props.loading]);
 
   // checks to see if the user has reached the bottom of the page
   // so that we can load more results
   window.onscroll = function() {
-    if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2) {
-      checkLoading();
+    if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2
+      && !props.loading) {
+      props.onUpdate();
     }
   };
 
-  // checks to see if the page is already loading results,
-  // if this is the case then we do not ask for more to load
-  function checkLoading() {
-
-    if (!props.loading) {
+  // if the user clicks the load more button, then we see if we are allowed
+  // to load more content
+  function handleClick() {
+    if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2
+      && !props.loading) {
       props.onUpdate();
     }
-
   }
 
   return (
-    <button id="load-more-button" className="btn btn-info mb-2" onClick={() => checkLoading()}>
+    <button id="load-more-button" className="btn btn-info mb-2" onClick={() => handleClick()}>
         Show More
     </button>
   );
