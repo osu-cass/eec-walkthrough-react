@@ -6,22 +6,23 @@ import "./LoadMoreButton.css";
 // generic load more button
 function LoadMoreButton(props) {
 
+  const {onUpdate, loading} = props;
+
   // if we are no longer loading, then we check if we are scrolled to the
   // bottom of the screen, meaning that we can load more results
   useEffect(() => {
     if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2
-      && !props.loading) {
-      props.onUpdate();
+      && !loading) {
+      onUpdate();
     }
-    
-  }, [props.loading]);
+  }, [loading, onUpdate]);
 
   // checks to see if the user has reached the bottom of the page
   // so that we can load more results
   window.onscroll = function() {
     if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2
-      && !props.loading) {
-      props.onUpdate();
+      && !loading) {
+      onUpdate();
     }
   };
 
@@ -29,8 +30,8 @@ function LoadMoreButton(props) {
   // to load more content
   function handleClick() {
     if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2
-      && !props.loading) {
-      props.onUpdate();
+      && !loading) {
+      onUpdate();
     }
   }
 
