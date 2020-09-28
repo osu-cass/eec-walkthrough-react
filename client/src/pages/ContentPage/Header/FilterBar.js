@@ -29,6 +29,7 @@ function FilterBar(props) {
       setCanScrollLeft(scrollLeft > 0);
       setCanScrollRight(scrollLeft !== scrollWidth - clientWidth);
     }
+
     window.addEventListener("resize", updateWindowDimensions);
     return () => window.removeEventListener("resize", updateWindowDimensions);
   }, [props.headerId]);
@@ -42,7 +43,7 @@ function FilterBar(props) {
     const {scrollLeft, scrollWidth, clientWidth} = scrollbar;
     setCanScrollLeft(scrollLeft > 0);
     setCanScrollRight(scrollLeft !== scrollWidth - clientWidth);
-  }, [ref, props.show, props.headerId]);
+  }, [ref, props.show, props.headerId, ref.current]);
 
   // checks if the filter bar has been hidden/shown and resets the scrollbar
   useEffect(() => {
@@ -179,7 +180,7 @@ function FilterBar(props) {
         null
       )}
 
-      {/* Filterbar body */}
+      {/* filter bar body */}
       <div className={`filter-expand card px-3 ${hasOverflow ? "filter-corners" : "mr-2 filter-round"} ${props.show ? "filter-show" : "filter-hide"}`}>
         <div
           className={`filter-icon-container icons row flex-nowrap`}
@@ -253,7 +254,7 @@ function FilterBar(props) {
             <div
               className="btn btn-info filter-btn btn-sm py-0 my-1 px-1"
               onClick={() => props.showFilter()}
-              title="Hide Filterbar"
+              title="Hide Filter Bar"
             >
               <i
                 id="hide-filter-icons"
