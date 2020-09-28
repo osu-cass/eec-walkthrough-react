@@ -77,7 +77,6 @@ function ReviewCard(props) {
     }
     setImageItems(imageArray);
     setTempImageItems(tempImageArray);
-    // eslint-disable-next-line
   }, [props.card.items, props.card.tempItems]);
 
   function handleClose() {

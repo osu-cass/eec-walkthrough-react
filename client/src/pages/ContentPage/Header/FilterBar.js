@@ -22,30 +22,53 @@ function FilterBar(props) {
   useEffect(() => {
     function updateWindowDimensions() {
       setHasOverflow(checkForOverflow(ref));
-      setScrollLimits();
+
+      // updates the state for scrolling right and left
+      const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
+      const {scrollLeft, scrollWidth, clientWidth} = scrollbar;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft !== scrollWidth - clientWidth);
     }
     window.addEventListener("resize", updateWindowDimensions);
     return () => window.removeEventListener("resize", updateWindowDimensions);
-    // eslint-disable-next-line
-  }, []);
+  }, [props.headerId]);
 
   // check if the filter bar is overflowing
   useEffect(() => {
     setHasOverflow(checkForOverflow(ref));
-    setScrollLimits();
-    // eslint-disable-next-line
-  }, [ref.current, props.show]);
+  
+    // updates the state for scrolling right and left
+    const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
+    const {scrollLeft, scrollWidth, clientWidth} = scrollbar;
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft !== scrollWidth - clientWidth);
+  }, [ref, props.show, props.headerId]);
 
   // checks if the filter bar has been hidden/shown and resets the scrollbar
   useEffect(() => {
-    resetScroll();
+    // resets the scroll bar to be all the way to the left
+    const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
+    scrollbar.scroll(0, 0);
+
+    // lets us know that we can move the scroll bar to the right
     setCanScrollLeft(false);
     setCanScrollRight(true);
-    // eslint-disable-next-line
-  }, [props.show]);
+  }, [props.show, props.headerId]);
 
   // check if we should be scrolling each second
   useEffect(() => {
+    // sets the current position of the scrollbar
+    function scrollContainer(scrollLeft) {
+      let distance;
+      if (scrollLeft) {
+        distance = -10;
+      } else {
+        distance = 10;
+      }
+      const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
+      scrollbar.scrollBy({left: distance, behavior: "smooth"});
+    }
+
     if (scroll) {
       const interval = setInterval(() => {
         if (scroll === 1) {
@@ -53,12 +76,16 @@ function FilterBar(props) {
         } else if (scroll === 2) {
           scrollContainer(0);
         }
-        setScrollLimits();
+        // updates the state for scrolling right and left
+        const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
+        const {scrollLeft, scrollWidth, clientWidth} = scrollbar;
+        setCanScrollLeft(scrollLeft > 0);
+        setCanScrollRight(scrollLeft !== scrollWidth - clientWidth);
       }, 50);
+
       return () => clearInterval(interval);
     }
-    // eslint-disable-next-line
-  }, [scroll]);
+  }, [scroll, props.headerId]);
 
   // get an array of the icon names that match the filter icon IDs
   useEffect(() => {
@@ -96,24 +123,6 @@ function FilterBar(props) {
     setTempIconTooltips(tempTooltips);
   }, [props.filterIcons, props.tempFilterIcons, props.iconSet]);
 
-  // resets the scroll bar to be all the way to the left
-  function resetScroll() {
-    const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
-    scrollbar.scroll(0, 0);
-  }
-
-  // sets the current position of the scrollbar
-  function scrollContainer(scrollLeft) {
-    let distance;
-    if (scrollLeft) {
-      distance = -10;
-    } else {
-      distance = 10;
-    }
-    const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
-    scrollbar.scrollBy({left: distance, behavior: "smooth"});
-  }
-
   // checks if the content of the filter bar is overflowing
   function checkForOverflow(ref) {
     let scrollWidth = 0;
@@ -124,14 +133,6 @@ function FilterBar(props) {
     }
     const isOverflow = scrollWidth > clientWidth;
     return isOverflow;
-  }
-
-  // updates the state for scrolling right and left
-  function setScrollLimits() {
-    const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
-    const {scrollLeft, scrollWidth, clientWidth} = scrollbar;
-    setCanScrollLeft(scrollLeft > 0);
-    setCanScrollRight(scrollLeft !== scrollWidth - clientWidth);
   }
 
   // the mouse down event for scrolling, this lets us know to start
