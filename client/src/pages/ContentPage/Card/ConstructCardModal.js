@@ -823,7 +823,7 @@ function ConstructCardModal(props) {
     return false;
   }
 
-  // Control input coming from <ItemInput> for each row according to
+  // Control input coming from ItemInput for each row according to
   // contentType and index in the items state
   function handleInput(e, index, contentType) {
     const key = index.toString();
@@ -854,73 +854,47 @@ function ConstructCardModal(props) {
     setItems(copy);
   }
 
-  // Updates dropdown icon selected for specific index
-  // @param {Number} icon itemType ID of Icon
-  // @param {Number} index Index of item being changed
-  // @return {State} Updated state, no actual return value
+  // Updates the an item's icon
   function updateIcon(icon, index) {
     const copy = [...items];
     copy[index].iconType = icon;
     setItems(copy);
   }
 
-  // Gets the name of an icon given an ID and content type
-  function getIconName(id, contentType) {
+  // Gets the index of the icon in the appropriate icon array
+  function getIconIndex(id, contentType) {
     let i;
     if (contentType === 3) {
       for (i = 0; i < linkIcons.length; i++) {
-        if (linkIcons[i].iconType === id) { return i; }
+        if (linkIcons[i].iconType === id) {
+          return i;
+        }
       }
     } else if (contentType === 2) {
       for (i = 0; i < imageIcons.length; i++) {
-        if (imageIcons[i].iconType === id) { return i; }
+        if (imageIcons[i].iconType === id) {
+          return i;
+        }
       }
     } else {
       for (i = 0; i < basicIcons.length; i++) {
-        if (basicIcons[i].iconType === id) { return i; }
+        if (basicIcons[i].iconType === id) {
+          return i;
+        }
       }
     }
     return null;
   }
 
-  // Returns JSX for dropdown of all icons
-  function generateIcons(i, contentType) {
-    const list = [];
-    const jsx = [];
-    const values = [];
+  // Returns a list of icons based on the type of item
+  function getIcons(contentType) {
     if (contentType === 3) {
-      linkIcons.map((type) => {
-        // filter out icons based on the content type
-        jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} style={{color: type.color}} /> {type.typeKeyword}
-        </div>);
-        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} style={{color: type.color}} />;
-        values.push([type.iconType, jsxIcon]);
-        return null;
-      });
+      return linkIcons;
     } else if (contentType === 2) {
-      imageIcons.map((type) => {
-        // filter out icons based on the content type
-        jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} style={{color: type.color}} /> {type.typeKeyword}
-        </div>);
-        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} style={{color: type.color}} />;
-        values.push([type.iconType, jsxIcon]);
-        return null;
-      });
+      return imageIcons;
     } else {
-      basicIcons.map((type) => {
-        // filter out icons based on the content type
-        jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} style={{color: type.color}} /> {type.typeKeyword}
-        </div>);
-        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} style={{color: type.color}} />;
-        values.push([type.iconType, jsxIcon]);
-        return null;
-      });
+      return basicIcons;
     }
-    list.push(jsx, values);
-    return list;
   }
 
   // Copy item
@@ -1104,7 +1078,7 @@ function ConstructCardModal(props) {
   }
 
   return (
-    <div className='text-center mx-2'>
+    <div className="text-center mx-2">
 
       <Agreement
         agreementTitle={"Image Agreement"}
@@ -1267,11 +1241,10 @@ function ConstructCardModal(props) {
               <div className="input-group">
                 <Indent indentLevel={item.indentation} />
                 <IconDropdown
-                  idx={i}
-                  list={generateIcons(i, item.contentType)}
-                  selectedIndex={getIconName(item.iconType, item.contentType)}
-                  handleClick={(id, idx) => updateIcon(id, idx)}
-                  edit
+                  itemId={item.itemId}
+                  icons={getIcons(item.contentType)}
+                  iconIndex={getIconIndex(item.iconType, item.contentType)}
+                  onIconChange={(icon) => updateIcon(icon, i)}
                 />
                 <ItemInput
                   title="Text"
