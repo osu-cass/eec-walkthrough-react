@@ -25,9 +25,52 @@ function Header(props) {
 
   // If the filter changes, then update the icons that are being filtered
   useEffect(() => {
-    const allIcons = newFilter();
+    // if the opportunity filter mode changes,
+    // then make sure the correct items are checked
+    function resetChecks(currentFilterMode) {
+      const newCards = [...props.header.cards];
+
+      if (currentFilterMode) {
+        for (let i = 0; i < newCards.length; i++) {
+          for (let j = 0; j < newCards[i].items.length; j++) {
+            if (newCards[i].items[j].iconType === 11) {
+              newCards[i].items[j].hideChildren = true;
+            }
+          }
+          for (let j = 0; j < newCards[i].tempItems.length; j++) {
+            if (newCards[i].tempItems[j].iconType === 11) {
+              newCards[i].tempItems[j].hideChildren = true;
+            }
+          }
+        }
+      } else {
+        for (let i = 0; i < newCards.length; i++) {
+          for (let j = 0; j < newCards[i].items.length; j++) {
+            newCards[i].items[j].hideChildren = false;
+          }
+          for (let j = 0; j < newCards[i].tempItems.length; j++) {
+            newCards[i].tempItems[j].hideChildren = false;
+          }
+        }
+      }
+
+      setCheckedCards(newCards);
+    }
+
+    // Return a new initialized filter
+    const allIcons = [];
+    let maxId = 0;
+    for (let i = 0; i < props.iconSet.length; i++) {
+      if (props.iconSet[i].iconType > maxId) {
+        maxId = props.iconSet[i].iconType;
+      }
+    }
+    for (let i = 0; i <= maxId; i++) {
+      allIcons.push(true);
+    }
+
+    // apply filters
     let checkMode = false;
-    // then apply filters
     for (let i = 0; i < props.header.forceFilter.length; i++) {
       allIcons[props.header.forceFilter[i]] = false;
       // if there is a filter for 0 ID, then we change the opportunity checks
@@ -43,7 +86,7 @@ function Header(props) {
     }
     setFilterShow(allIcons);
     // eslint-disable-next-line
-  }, [JSON.stringify(props.header.forceFilter), props.iconSet.length, props.cardState]);
+  }, [JSON.stringify(props.header.forceFilter), props.header.cards, props.iconSet.length, props.cardState, props.iconSet]);
 
   // Get all of the icons that could be used for published filtering
   useEffect(() => {
@@ -128,32 +171,9 @@ function Header(props) {
     setTempFilterIcons(allIcons);
   }, [props.header, props.cardState]);
 
-  // Return new initialized filter
-  function newFilter() {
-    const allIcons = [];
-    let maxId = 0;
-    for (let i = 0; i < props.iconSet.length; i++) {
-      if (props.iconSet[i].iconType > maxId) {
-        maxId = props.iconSet[i].iconType;
-      }
-    }
-    for (let i = 0; i <= maxId; i++) {
-      allIcons.push(true);
-    }
-    return allIcons;
-  }
-
   // If the viewing mode changes or the selected filters,
   // Then update the card state
   useEffect(() => {
-    updateCardState(filterShow);
-    // eslint-disable-next-line
-  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode,
-    checkedCards, props.publishedMode, props.publicMode]);
-
-  // Updates the cards / items that are shown.
-  function updateCardState(filterState) {
-
     // Don't bother filtering if in move mode
     if (props.mode === 2) {
       // Check if we want to view edited cards or not
@@ -197,7 +217,7 @@ function Header(props) {
           hideIndent = 1000;
         }
         // see if the item should be filtered or not
-        if (filterState[checkedCards[i].items[j].iconType] &&
+        if (filterShow[checkedCards[i].items[j].iconType] &&
             !filterItem(checkedCards[i].items[j], props.mode, false) &&
             (props.mode !== 0 || checkedCards[i].items[j].created !== null || !props.publicMode)) {
           allItems.push(checkedCards[i].items[j]);
@@ -223,7 +243,7 @@ function Header(props) {
           hideIndent = 1000;
         }
         // see if the item should be filtered or not
-        if (filterState[checkedCards[i].tempItems[j].iconType] &&
+        if (filterShow[checkedCards[i].tempItems[j].iconType] &&
             !filterItem(checkedCards[i].tempItems[j], props.mode, false)) {
           allTempItems.push(checkedCards[i].tempItems[j]);
           tempItemExists = true;
@@ -260,7 +280,9 @@ function Header(props) {
     }
     setCards(cardSortOrder(allCards));
     setUnfilteredCards(cardSortOrder(allUnfilteredCards));
-  }
+    // eslint-disable-next-line
+  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode,
+    checkedCards, props.publishedMode, props.publicMode]);
 
   // sort cards based on their edited status and their order index
   function cardSortOrder(cards) {
@@ -370,39 +392,6 @@ function Header(props) {
         return 1;
       }
     }
-  }
-
-  // if the opportunity filter mode changes,
-  // then make sure the correct items are checked
-  function resetChecks(currentFilterMode) {
-
-    const newCards = [...props.header.cards];
-
-    if (currentFilterMode) {
-      for (let i = 0; i < newCards.length; i++) {
-        for (let j = 0; j < newCards[i].items.length; j++) {
-          if (newCards[i].items[j].iconType === 11) {
-            newCards[i].items[j].hideChildren = true;
-          }
-        }
-        for (let j = 0; j < newCards[i].tempItems.length; j++) {
-          if (newCards[i].tempItems[j].iconType === 11) {
-            newCards[i].tempItems[j].hideChildren = true;
-          }
-        }
-      }
-    } else {
-      for (let i = 0; i < newCards.length; i++) {
-        for (let j = 0; j < newCards[i].items.length; j++) {
-          newCards[i].items[j].hideChildren = false;
-        }
-        for (let j = 0; j < newCards[i].tempItems.length; j++) {
-          newCards[i].tempItems[j].hideChildren = false;
-        }
-      }
-    }
-
-    setCheckedCards(newCards);
   }
 
   // changes the checked status of an item
