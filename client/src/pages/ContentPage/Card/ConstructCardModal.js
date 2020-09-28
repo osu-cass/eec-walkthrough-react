@@ -35,10 +35,29 @@ function ConstructCardModal(props) {
 
   // setup card data
   useEffect(() => {
-    // Sort icons into three categories, general items, images, and links
+
+    // sort icons into three categories, general items, images, and links
+    function sortIcons() {
+      const gen = [];
+      const images = [];
+      const links = [];
+      for (let i = 0; i < props.iconSet.length; i++) {
+        if (props.iconSet[i].groupIndex === 1) {
+          gen.push(props.iconSet[i]);
+        } else if (props.iconSet[i].groupIndex === 2) {
+          images.push(props.iconSet[i]);
+        } else if (props.iconSet[i].groupIndex === 3) {
+          links.push(props.iconSet[i]);
+        }
+      }
+      setBasicIcons(gen);
+      setImageIcons(images);
+      setLinkIcons(links);
+    }
+
     sortIcons(props.iconSet);
 
-    // If we are a new card, just return
+    // if we are a new card, just return
     if (!props.edit) {
       return;
     }
@@ -81,7 +100,6 @@ function ConstructCardModal(props) {
     newItems = scanIndentation(newItems);
     setItems(newItems);
     setCounter(newCounter);
-    setPureCounter(pureCounter + newCounter);
     setErrorMessage("");
     if (props.card.tempCardId) {
       setTitle(props.card.tempTitle);
@@ -90,46 +108,38 @@ function ConstructCardModal(props) {
       setTitle(props.card.title);
       setFormat(props.card.cardType);
     }
-    setChecked(isInternal());
-    // eslint-disable-next-line
-  }, [props.show]);
 
-  // Clear error messages whenever the modal is opened or closed
-  useEffect(() => {
-    setErrorMessage("");
-  }, [props.show]);
-
-  // Checks if the current card is internal only
-  function isInternal() {
+    // if the current card is internal, then the modals has
+    // the internal setting checked when opened
     let currentCardType = 0;
 
+    // get the card type
     if (props.card.tempCardId) {
       currentCardType = props.card.tempCardType;
     } else {
       currentCardType = props.card.cardType;
     }
 
-    return currentCardType >= 10;
-  }
+    // card types that are greater than or equal to 10 are always internal
+    setChecked(currentCardType >= 10);
+  }, [props.show, props.card, props.edit, props.iconSet]);
 
-  // Sort icons into three categories, general items, images, and links
-  function sortIcons() {
-    const gen = [];
-    const images = [];
-    const links = [];
-    for (let i = 0; i < props.iconSet.length; i++) {
-      if (props.iconSet[i].groupIndex === 1) {
-        gen.push(props.iconSet[i]);
-      } else if (props.iconSet[i].groupIndex === 2) {
-        images.push(props.iconSet[i]);
-      } else if (props.iconSet[i].groupIndex === 3) {
-        links.push(props.iconSet[i]);
+  // make sure that the next assigned ID is always larger than the most recent item
+  // the reason that counter is not reliable, is due to the ability to delete items
+  useEffect(() => {
+    let pure = 0;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].counterId > pure) {
+        pure = items[i].counterId;
       }
     }
-    setBasicIcons(gen);
-    setImageIcons(images);
-    setLinkIcons(links);
-  }
+    setPureCounter(pure + 1);
+  }, [items, items.length, counter])
+
+  // Clear error messages whenever the modal is opened or closed
+  useEffect(() => {
+    setErrorMessage("");
+  }, [props.show]);
 
   // Makes a copy of the items in the props
   function generateItems(itemList) {

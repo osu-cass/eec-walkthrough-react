@@ -34,16 +34,58 @@ function Card(props) {
     }
     setImageItems(imageArray);
     setTempImageItems(tempImageArray);
-    // eslint-disable-next-line
   }, [props.card.items, props.card.tempItems, props.cardState]);
 
   // Get information about the current card type and the correct set of items
   useEffect(() => {
+
+    // Returns information about the correct array of items to use
+    function getItemInfo() {
+
+      // Show the correct card contents based on if
+      // the card has been edited and the card type
+      let newItems = [];
+      let cardType = 0;
+
+      if (props.card.tempItems.length && (props.mode === 1 || (props.mode === 2 && props.publishedMode === 0))) {
+
+        if (props.card.approved) {
+          cardType = props.card.tempCardType;
+        } else {
+          cardType = props.card.cardType;
+        }
+        if (props.card.cardType === 1 || props.card.cardType === 11) {
+          newItems = imageTempItems;
+        } else {
+          newItems = props.card.tempItems;
+        }
+
+      } else {
+
+        if (props.card.cardType === 1 || props.card.cardType === 11) {
+          cardType = props.card.cardType;
+          newItems = imageItems;
+        } else {
+          cardType = props.card.cardType;
+          newItems = props.card.items;
+        }
+
+      }
+
+      const cardData = {
+        items: newItems,
+        cardType: cardType
+      };
+
+      return cardData;
+    }
+
     const itemInfo = getItemInfo();
     setCardType(itemInfo.cardType);
     setItems(itemInfo.items);
-    // eslint-disable-next-line
-  }, [imageItems, imageTempItems, props.cardState]);
+  }, [imageItems, imageTempItems, props.cardState, props.card.approved,
+    props.card.cardType, props.card.items, props.card.tempCardType,
+    props.card.tempItems, props.mode, props.publishedMode]);
 
   // determines if the current object is only internal viewable
   function isInternal() {
@@ -56,49 +98,6 @@ function Card(props) {
         return 1;
       }
     }
-  }
-
-  // Returns information about the correct array of items to use
-  function getItemInfo() {
-
-    // Show the correct card contents based on if
-    // the card has been edited and the card type
-
-    let newItems = [];
-    let cardType = 0;
-
-    if (props.card.tempItems.length && (props.mode === 1 || (props.mode === 2 && props.publishedMode === 0))) {
-
-      if (props.card.approved) {
-        cardType = props.card.tempCardType;
-      } else {
-        cardType = props.card.cardType;
-      }
-      if (props.card.cardType === 1 || props.card.cardType === 11) {
-        newItems = imageTempItems;
-      } else {
-        newItems = props.card.tempItems;
-      }
-
-    } else {
-
-      if (props.card.cardType === 1 || props.card.cardType === 11) {
-        cardType = props.card.cardType;
-        newItems = imageItems;
-      } else {
-        cardType = props.card.cardType;
-        newItems = props.card.items;
-      }
-
-    }
-
-    const cardData = {
-      items: newItems,
-      cardType: cardType
-    };
-
-    return cardData;
-
   }
 
   return (!props.card.approved && props.mode !== 1 && (props.mode !== 2 || props.publishedMode !== 0)) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (

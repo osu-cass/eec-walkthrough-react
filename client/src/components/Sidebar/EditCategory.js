@@ -22,8 +22,8 @@ function EditCategory(props) {
     setPluralName(props.category.pluralName);
     setDescription(props.category.description);
     setChecked(props.category.internal);
-    // eslint-disable-next-line
-  }, [props.category, props.category.internal]);
+  }, [props.category.singleName, props.category.pluralName,
+    props.category.description, props.category.internal]);
 
   function handleClose() {
     setShow(false);
