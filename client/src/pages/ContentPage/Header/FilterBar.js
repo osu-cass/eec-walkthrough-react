@@ -37,7 +37,7 @@ function FilterBar(props) {
   // check if the filter bar is overflowing
   useEffect(() => {
     setHasOverflow(checkForOverflow(ref));
-  
+
     // updates the state for scrolling right and left
     const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
     const {scrollLeft, scrollWidth, clientWidth} = scrollbar;

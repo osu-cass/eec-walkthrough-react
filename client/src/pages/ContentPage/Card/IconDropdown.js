@@ -28,6 +28,7 @@ function IconDropdown(props) {
           )}
         </Dropdown.Toggle>
         <Dropdown.Menu>
+
           {props.icons.map((icon, i) =>
             <Dropdown.Item
               key={icon.iconType}
@@ -42,6 +43,7 @@ function IconDropdown(props) {
               {icon.typeKeyword}
             </Dropdown.Item>
           )}
+
         </Dropdown.Menu>
       </Dropdown>
     </Fragment>
