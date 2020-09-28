@@ -117,7 +117,7 @@ function Login (props) {
   } else {
     return (
       <div className="login">
-        
+
         {/* Login Button */}
         <button
           className="btn btn-success mx-4 px-4"
@@ -138,63 +138,63 @@ function Login (props) {
             </Button>
           </Modal.Header>
 
-            <Modal.Body>
-              <Form>
-                <Form.Group>
-                  <Form.Label className="mr-2">Username</Form.Label>
-                  <Form.Control
-                    className="form-control"
-                    type="username"
-                    id="username-control"
-                    placeholder="Enter username"
-                    maxLength="50"
-                  />
-                </Form.Group>
+          <Modal.Body>
+            <Form>
+              <Form.Group>
+                <Form.Label className="mr-2">Username</Form.Label>
+                <Form.Control
+                  className="form-control"
+                  type="username"
+                  id="username-control"
+                  placeholder="Enter username"
+                  maxLength="50"
+                />
+              </Form.Group>
 
-                <Form.Group>
-                  <Form.Label className="mr-2">Password</Form.Label>
-                  <Form.Control
-                    className="form-control"
-                    type="password"
-                    id="password-control"
-                    placeholder="Enter password"
-                    maxLength="50"
-                  />
-                </Form.Group>
-              </Form>
+              <Form.Group>
+                <Form.Label className="mr-2">Password</Form.Label>
+                <Form.Control
+                  className="form-control"
+                  type="password"
+                  id="password-control"
+                  placeholder="Enter password"
+                  maxLength="50"
+                />
+              </Form.Group>
+            </Form>
 
-              <Error
-                message={errorMessage}
-              />
+            <Error
+              message={errorMessage}
+            />
 
-              <div id="no-account-login"
-                onClick={(e) => registerHandler(e)}
-              >
+            <div id="no-account-login"
+              onClick={(e) => registerHandler(e)}
+            >
                 Don&apos;t have an account?
-              </div>
-            </Modal.Body>
+            </div>
+          </Modal.Body>
 
-            <Modal.Footer className="modal-footer">
-                <button
-                  type="submit"
-                  className="btn btn-success"
-                  name="login"
-                  value="login"
-                  onClick={(e) => submitHandler(e)}
-                >
+          <Modal.Footer className="modal-footer">
+            <button
+              type="submit"
+              className="btn btn-success"
+              name="login"
+              value="login"
+              onClick={(e) => submitHandler(e)}
+            >
                   Login
-                </button>
+            </button>
 
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowModal(false)}
-                >
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setShowModal(false)}
+            >
                   Cancel
-                </button>
+            </button>
 
-                <LoadingOverlay loading={loading} />
-            </Modal.Footer>
+            <LoadingOverlay loading={loading} />
+          </Modal.Footer>
         </Modal>
       </div>
     );

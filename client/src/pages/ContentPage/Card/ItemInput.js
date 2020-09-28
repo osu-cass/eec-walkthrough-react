@@ -8,24 +8,60 @@ import PropTypes from "prop-types";
 // An input field for adding or modifying items in a card modal
 function ItemInput(props) {
 
+  const [linkValue, setLinkValue] = useState(props.value.contentMode);
+  const [sourceValue, setSourceValue] = useState(props.sourceId);
   const [linkText, setLinkText] = useState("Link");
   const [sourceText, setSourceText] = useState("Source: None");
   const [sources, setSources] = useState(props.sources);
+  const {value, index, handleLinkValue, handleSourceValue} = props;
 
+  // updates the link dropdown text to match a selection
   useEffect(() => {
-    updateLink(props.value.contentMode);
-
-    // find the matching index for the source ID
-    for (let i = 0; i < props.sources.length; i++) {
-      if (props.sourceId === props.sources[i].sourceId) {
-        updateSource(i + 1, props.sources[i].text);
+    switch (linkValue) {
+      case 0:
+        setLinkText("IL");
+        handleLinkValue(index, 0);
         break;
+      case 1:
+        setLinkText("EL");
+        handleLinkValue(index, 1);
+        break;
+      case 2:
+        setLinkText("ID");
+        handleLinkValue(index, 2);
+        break;
+      case 3:
+        setLinkText("ED");
+        handleLinkValue(index, 3);
+        break;
+      default:
+        setLinkText("Link");
+        handleLinkValue(index, -1);
+    }
+    // eslint-disable-next-line
+  }, [linkValue, value.contentMode, index]);
+
+  // updates the source dropdown text to match a selection
+  useEffect(() => {
+    // if no source is selected
+    if (sourceValue === 0) {
+      setSourceText("Source: None");
+      handleSourceValue(index, 0);
+    } else {
+      // find the text for the current selected source
+      for (let i = 0; i < sources.length; i++) {
+        if (sourceValue === sources[i].sourceId) {
+          const cleanString = sanitizeHtml(sources[i].text, {allowedTags: [], allowedAttributes: {}});
+          setSourceText(`Source: ${cleanString.substring(0, 8).trim()}...`);
+          handleSourceValue(index, sources[i].sourceId);
+          break;
+        }
       }
     }
     // eslint-disable-next-line
-  }, [props.value.contentMode]);
+  }, [sourceValue, sources]);
 
-  // sanitize all sources by removing all tags
+  // sanitize all sources by removing all HTML tags
   useEffect(() => {
     const copy = JSON.parse(JSON.stringify(props.sources));
     for (let i = 0; i < props.sources.length; i++) {
@@ -38,41 +74,6 @@ function ItemInput(props) {
     }
     setSources(copy);
   }, [props.sources]);
-
-  function updateLink(value) {
-    switch (value) {
-      case 0:
-        setLinkText("IL");
-        props.handleLinkValue(props.index, 0);
-        break;
-      case 1:
-        setLinkText("EL");
-        props.handleLinkValue(props.index, 1);
-        break;
-      case 2:
-        setLinkText("ID");
-        props.handleLinkValue(props.index, 2);
-        break;
-      case 3:
-        setLinkText("ED");
-        props.handleLinkValue(props.index, 3);
-        break;
-      default:
-        setLinkText("Link");
-        props.handleLinkValue(props.index, -1);
-    }
-  }
-
-  function updateSource(value, text) {
-    if (value === 0) {
-      setSourceText("Source: None");
-      props.handleSourceValue(props.index, 0);
-    } else {
-      const cleanString = sanitizeHtml(text, {allowedTags: [], allowedAttributes: {}});
-      setSourceText(`Source: ${cleanString.substring(0, 8).trim()}...`);
-      props.handleSourceValue(props.index, sources[value - 1].sourceId);
-    }
-  }
 
   return (
     <Fragment>
@@ -96,14 +97,14 @@ function ItemInput(props) {
               {sourceText}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateSource(0)}>
+              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => setSourceValue(0)}>
                   None
               </Dropdown.Item>
-              {sources.map((source, i) =>
+              {sources.map((source) =>
                 <Dropdown.Item
                   className="source-dropdown-val"
                   style={{cursor: "pointer"}}
-                  onClick={() => updateSource(i + 1, props.sources[i].text)}
+                  onClick={() => setSourceValue(source.sourceId)}
                   key={source.sourceId}
                 >
                   {source.text.length > 75 ? (
@@ -154,14 +155,14 @@ function ItemInput(props) {
               {sourceText}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateSource(0)}>
+              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => setSourceValue(0)}>
                   None
               </Dropdown.Item>
-              {sources.map((source, i) =>
+              {sources.map((source) =>
                 <Dropdown.Item
                   className="source-dropdown-val"
                   style={{cursor: "pointer"}}
-                  onClick={() => updateSource(i + 1, props.sources[i].text)}
+                  onClick={() => setSourceValue(source.sourceId)}
                   key={source.sourceId}
                 >
                   {source.text.length > 75 ? (
@@ -185,16 +186,16 @@ function ItemInput(props) {
               {linkText}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateLink(0)}>
+              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => setLinkValue(0)}>
                   Internal Link
               </Dropdown.Item>
-              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateLink(1)}>
+              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => setLinkValue(1)}>
                   External Link
               </Dropdown.Item>
-              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateLink(2)}>
+              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => setLinkValue(2)}>
                   Internal Download
               </Dropdown.Item>
-              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => updateLink(3)}>
+              <Dropdown.Item style={{cursor: "pointer"}} onClick={() => setLinkValue(3)}>
                   External Download
               </Dropdown.Item>
             </Dropdown.Menu>
