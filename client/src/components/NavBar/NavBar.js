@@ -31,7 +31,7 @@ function NavBar (props) {
     <div className="navigation-bar">
 
       <nav className="navbar navbar-dark bg-dark align-items-center">
-        <div className="row text-white nav-item align-items-center">
+        <div className="flex-grow-1 row text-white nav-item align-items-center title">
           <button
             className="nav-hamburger text-info ml-4 border-0 bg-dark"
             href="#"
@@ -45,18 +45,24 @@ function NavBar (props) {
             alt={"Oregon State University"}
             title={"Oregon State University"}
           />
-          <div className="column">
-            <h4 className="nav-header-top">
+          <div className="col mx-2">
+            <h4 className="nav-header-top-full">
               Energy Efficiency Center
             </h4>
-            <h4 className="nav-header-bottom">
+            <h4 className="nav-header-top-short">
+              OSU EEC
+            </h4>
+            <h4 className="nav-header-bottom-full">
               Industrial Walkthrough Checklist &amp; Reference (Demo)
+            </h4>
+            <h4 className="nav-header-bottom-short">
+              Checklist &amp; Reference
             </h4>
           </div>
 
         </div>
 
-        <div className="d-flex nav-item align-items-center mt-3">
+        <div className="d-flex flex-grow-1 justify-content-between align-items-center ml-auto mt-3">
           <PageSearch />
           <UserIcon onLogin={() => updateUser(true)} username={username} role={role} />
           <Login onLogin={() => updateUser(true)} role={role} />

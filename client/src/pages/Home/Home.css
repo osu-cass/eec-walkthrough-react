@@ -16,6 +16,12 @@ body {
   }
 }
 
+@media (max-width: 575.98px) {
+  .header-text {
+    font-size: 28px;
+  }
+}
+
 .home-page-container a {
   outline: none;
   text-decoration: none;

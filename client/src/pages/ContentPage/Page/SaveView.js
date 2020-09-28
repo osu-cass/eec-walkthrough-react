@@ -130,10 +130,10 @@ function SaveView(props) {
         onClick={() => handleOpen()}
       >
         <i
-          className='fas fa-save text-white mr-2'
+          className='button fas fa-save text-white mr-2'
           style={{transform: "scale(1.5)"}}
         />
-        <span className="text-white">Save View</span>
+        <span className="button-text text-white">Save View</span>
       </Button>
 
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">

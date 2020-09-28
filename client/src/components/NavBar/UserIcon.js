@@ -29,9 +29,9 @@ function UserIcon(props) {
   if (props.role) {
     return (
 
-      <div className="dropdown" id="user-navbar-icon-container">
+      <div className="dropdown flex-grow-1 text-right" id="user-navbar-icon-container">
 
-        <button className="btn btn-dark mx-4" type="button" id="user-navbar-icon-drp"
+        <button className="btn btn-dark mx-3" type="button" id="user-navbar-icon-drp"
           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
           <div className="d-flex align-items-center font-weight-bold">

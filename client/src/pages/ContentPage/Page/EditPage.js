@@ -399,9 +399,9 @@ function EditPage(props) {
       <LoadingOverlay loading={showLoad} />
       <Button size="sm" variant="info" onClick={() => handleShowModal()}>
         <i
-          className="fas fa-edit text-white mr-2"
+          className="button fas fa-edit text-white mr-2"
           style={{transform: "scale(1.5)"}}></i>
-        <span className="text-white">Edit Page</span>
+        <span className="button-text text-white">Edit Page</span>
       </Button>
       <Modal show={showModal} onHide={() => handleCloseModal()} dialogClassName="modal-width">
         <Modal.Header>

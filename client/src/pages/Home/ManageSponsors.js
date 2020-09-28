@@ -344,7 +344,7 @@ function ManageSponsors(props) {
   }
 
   return role >= 4 ? (
-    <div className="text-center mx-2">
+    <div className="text-center mx-2 my-auto">
 
       <Agreement
         agreementTitle={"Image Agreement"}
@@ -358,9 +358,9 @@ function ManageSponsors(props) {
       <LoadingOverlay loading={showLoad} />
       <Button variant="info" onClick={() => handleShowModal()}>
         <i
-          className="fas fa-users text-white ml-auto mr-2"
+          className="button fas fa-users text-white ml-auto mr-2"
           style={{transform: "scale(1.5)"}}></i>
-        <span className="text-white">Manage Sponsors</span>
+        <span className="button-text text-white">Manage Sponsors</span>
       </Button>
       <Modal show={showModal} onHide={() => handleCloseModal()} dialogClassName="modal-width">
         <Modal.Header>

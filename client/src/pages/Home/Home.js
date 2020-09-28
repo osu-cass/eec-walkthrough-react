@@ -127,7 +127,7 @@ function Home(props) {
             <h2 className="font-weight-bold">{page.mainHeader}</h2>
           </div>
         </div>
-        <div className="row">
+        <div className="row mx-0">
           <EditHome
             handlePageEdit={() => handlePageEdit()}
             loginStatusChange={props.loginStatusChange}
@@ -250,14 +250,14 @@ function Home(props) {
           <Card.Header>
             <h5>Sponsors</h5>
           </Card.Header>
-          <Col className="my-4">
+          <Col className="mt-4">
             {sponsors.map((sponsor) =>
               <img
                 key={sponsor.name}
                 src={sponsor.imageUrl}
                 alt={sponsor.name}
                 title={sponsor.name}
-                className="expandable-image img-fluid img-thumbnail ml-5"
+                className="expandable-image img-fluid img-thumbnail px-5"
               />
             )}
           </Col>

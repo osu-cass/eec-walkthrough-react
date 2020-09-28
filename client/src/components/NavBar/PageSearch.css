@@ -1,3 +1,26 @@
+@media (max-width: 426px) {
+  .searchbar {
+    display: none;
+  }
+}
+
+@media (min-width: 427px) {
+  .searchbar-s {
+    display: none;
+  }
+}
+
+@media (max-width: 575px) {
+  #magnify-search-button, #magnify-search-button:hover,
+  #magnify-search-button:active, #magnify-search-button:target {
+    margin-left: 1rem;
+  }
+}
+
+.searchbar, .searchbar-s {
+  max-width:  18rem;
+}
+
 #magnify-search-button, #magnify-search-button:hover,
 #magnify-search-button:active, #magnify-search-button:target {
   border-style: none !important;

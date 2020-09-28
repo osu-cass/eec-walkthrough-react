@@ -5,7 +5,7 @@
 // gets the current agreement mode value
 export function getAgreement(name) {
   const agreementString = window.localStorage.getItem(`agreement-store-${name}`);
-  
+
   // see if there is any value in storage
   if (!agreementString) {
     return false;
@@ -33,7 +33,7 @@ export function acceptAgreement(name) {
   const agreement = {
     value: "true",
     expiry: currentTime.getTime() + expirationLimit
-  }
+  };
 
   // store the agreement
   window.localStorage.setItem(`agreement-store-${name}`, JSON.stringify(agreement));

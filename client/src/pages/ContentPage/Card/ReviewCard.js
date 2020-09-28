@@ -299,10 +299,10 @@ function ReviewCard(props) {
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
         <i
-          className='fas fa-stamp text-white mr-2'
+          className='button fas fa-stamp text-white mr-2'
           style={{transform: "scale(1.5)"}}
         />
-        <span className="text-white">Review Card</span>
+        <span className="button-text text-white">Review Card</span>
       </Button>
 
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">

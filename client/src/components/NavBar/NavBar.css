@@ -1,3 +1,31 @@
+@media (max-width: 718px) {
+  .nav-header-top-full {
+    display: none;
+  }
+
+  .nav-header-bottom-full {
+    display: none;
+  }
+
+  .osu-logo {
+    display: none;
+  }
+}
+
+@media (min-width: 719px) {
+  .nav-header-top-short {
+    display: none;
+  }
+
+  .nav-header-bottom-short {
+    display: none;
+  }
+}
+
+.title {
+  width: 70vw;
+}
+
 .nav-hamburger {
   width: 3.5em !important;
   height: 3.5em !important;
@@ -7,14 +35,27 @@
   color: #d73f09;
 }
 
-.nav-header-top {
+.nav-header-top-full {
   margin: 0;
   margin-top: 0.25em;
   margin-bottom: 0.25em;
   font-family: "Times New Roman", Times, serif;
 }
 
-.nav-header-bottom {
+.nav-header-top-short {
+  margin: 0;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.nav-header-bottom-full {
+  margin: 0;
+  font-weight: bold;
+  color: #d73f09;
+}
+
+.nav-header-bottom-short {
   margin: 0;
   font-weight: bold;
   color: #d73f09;

@@ -123,13 +123,13 @@ function EditHome(props) {
   }
 
   return role >= 4 ? (
-    <div className="text-center mx-2">
+    <div className="text-center mx-2 my-auto">
       <LoadingOverlay loading={showLoad} />
       <Button variant="info" onClick={() => handleShowModal()}>
         <i
-          className="fas fa-edit text-white ml-auto mr-2"
+          className="button fas fa-edit text-white ml-auto mr-2"
           style={{transform: "scale(1.5)"}}></i>
-        <span className="text-white">Edit Homepage</span>
+        <span className="button-text text-white">Edit Homepage</span>
       </Button>
       <Modal show={showModal} onHide={() => handleCloseModal()} dialogClassName="modal-width">
         <Modal.Header>

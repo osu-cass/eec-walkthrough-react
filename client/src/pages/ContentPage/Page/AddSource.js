@@ -209,10 +209,10 @@ function AddSource(props) {
       <LoadingOverlay loading={loading} />
       <Button size="sm" variant="info" onClick={() => handleShowModal()}>
         <i
-          className="fas fa-book text-white ml-auto mr-2"
+          className="button fas fa-book text-white ml-auto mr-2"
           style={{transform: "scale(1.5)"}}
         />
-        <span className="text-white">Manage Sources</span>
+        <span className="button-text text-white">Manage Sources</span>
       </Button>
       <Modal show={showModal} onHide={() => handleCloseModal()} dialogClassName="modal-width">
         <Modal.Header>
@@ -226,22 +226,22 @@ function AddSource(props) {
 
           {sources.map((source, i) =>
             <Row className="mb-5" key={source.sourceId}>
-                <div className="col-auto pr-0">
-                  <button className="btn btn-danger btn-sm"
-                    onClick={() => deleteSource(source.sourceId)}
-                    data-index={i}
-                  >
-                    <i className="fas fa-fw fa-times" />
-                  </button>
-                </div>
+              <div className="col-auto pr-0">
+                <button className="btn btn-danger btn-sm"
+                  onClick={() => deleteSource(source.sourceId)}
+                  data-index={i}
+                >
+                  <i className="fas fa-fw fa-times" />
+                </button>
+              </div>
 
-                <div className="col">
-                  <RichTextEditor
-                    id={`submit-source-${i}`}
-                    value={source.text}
-                    onChange={(text) => modifySource(source.sourceId, text)}
-                  />
-                </div>
+              <div className="col">
+                <RichTextEditor
+                  id={`submit-source-${i}`}
+                  value={source.text}
+                  onChange={(text) => modifySource(source.sourceId, text)}
+                />
+              </div>
             </Row>
           )}
 
@@ -287,7 +287,7 @@ function AddSource(props) {
 
         <Modal.Body>
 
-          <RichTextEditor 
+          <RichTextEditor
             id={"submit-source-0"}
             value={richText}
             onChange={(text) => setRichText(text)}

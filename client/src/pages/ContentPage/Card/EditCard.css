@@ -1,0 +1,8 @@
+@media (max-width: 479px) {
+  .button {
+    margin-right: 0 !important;
+  }
+  .button-text {
+    display: none;
+  }
+}

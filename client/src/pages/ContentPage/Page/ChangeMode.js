@@ -20,10 +20,10 @@ function ChangeMode(props) {
           onClick={() => toggleMode(1)}
         >
           <i
-            className="fas fa-eye text-white mr-2"
+            className="button fas fa-eye text-white mr-2"
             style={{transform: "scale(1.5)"}}
           />
-          <span className="text-white">View Mode</span>
+          <span className="button-text text-white">View Mode</span>
         </Button>
       </div>
     );
@@ -35,10 +35,10 @@ function ChangeMode(props) {
           onClick={() => toggleMode(2)}
         >
           <i
-            className="fas fa-wrench text-white mr-2"
+            className="button fas fa-wrench text-white mr-2"
             style={{transform: "scale(1.5)"}}
           />
-          <span className="text-white">Edit Mode</span>
+          <span className="button-text text-white">Edit Mode</span>
         </Button>
       </div>
     );
@@ -55,10 +55,10 @@ function ChangeMode(props) {
           }}
         >
           <i
-            className="fas fa-arrow-down text-white mr-2"
+            className="button fas fa-arrow-down text-white mr-2"
             style={{transform: "scale(1.5)"}}
           />
-          <span className="text-white">Move Mode</span>
+          <span className="button-text text-white">Move Mode</span>
         </Button>
       </div>
     );

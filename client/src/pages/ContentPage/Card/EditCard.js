@@ -3,6 +3,7 @@ import {Button} from "react-bootstrap";
 import {getProfile} from "../../../utilities/cookieAuth";
 import ConstructCardModal from "./ConstructCardModal";
 import PropTypes from "prop-types";
+import "./EditCard.css";
 
 // Button that allows a user to edit a card
 function EditCard(props) {
@@ -26,10 +27,10 @@ function EditCard(props) {
     <div className="text-center mx-2 my-auto">
       <Button size="sm" variant="info" onClick={(e) => handleShow(e)}>
         <i
-          className="fas fa-fw fa-edit text-white mr-2"
+          className="button fas fa-fw fa-edit text-white mr-2"
           style={{transform: "scale(1.5)"}}
         />
-        <span className="text-white">Edit Card</span>
+        <span className="button-text text-white">Edit Card</span>
       </Button>
       <ConstructCardModal
         edit={true}
