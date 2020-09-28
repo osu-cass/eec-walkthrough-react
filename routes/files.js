@@ -21,7 +21,7 @@ const {
 } = require("../services/validation/requestValidation");
 
 
-// valid image types
+// accepted image types
 const imageTypes = {
   "image/jpeg": "jpg",
   "image/png": "png",

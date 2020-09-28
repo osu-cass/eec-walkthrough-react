@@ -104,12 +104,12 @@ function EditPage(props) {
       setUrl(props.page.imageUrl);
       setPageType(props.page.pageType);
     }
-    
+
     // determines if the current object is only internal viewable
     let internal = 0;
     if ((props.page.tempPageId && props.page.tempInternal) || (!props.page.tempPageId && props.page.internal)) {
       internal = 1;
-    };
+    }
     setChecked(internal);
   }, [props.page, props.page.internal, props.page.tempInternal]);
 
