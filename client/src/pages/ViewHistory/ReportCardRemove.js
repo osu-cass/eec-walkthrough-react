@@ -31,7 +31,6 @@ function ReportCardRemove(props) {
       }
     }
     setImageItems(imageArray);
-    // eslint-disable-next-line
   }, [props.card]);
 
   return props.removeMode ? (

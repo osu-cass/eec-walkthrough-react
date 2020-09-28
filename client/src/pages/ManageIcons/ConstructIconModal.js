@@ -26,8 +26,7 @@ function ConstructIconModal(props) {
     setTypeName(props.icon.typeName);
     setGroupIndex(props.icon.groupIndex);
     setColor(props.icon.color);
-    // eslint-disable-next-line
-  }, [props.show]);
+  }, [props.show, props.icon, props.edit]);
 
   // Clear error messages whenever the modal is opened or closed
   useEffect(() => {
@@ -213,7 +212,7 @@ function ConstructIconModal(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="formGroup">
+              <Form.Group >
                 <Form.Label className="font-weight-bold">Category</Form.Label>
                 <select className="form-control"
                   id="select-new-category"
@@ -230,7 +229,7 @@ function ConstructIconModal(props) {
 
           <Row>
             <Col>
-              <Form.Group controlId="formColor">
+              <Form.Group >
                 <Form.Label className="font-weight-bold">Color Code</Form.Label>
                 <Form.Control id="hex-color-field" type="text" maxLength="7" defaultValue={color} onChange={(e) => setColor(e.target.value)} />
               </Form.Group>

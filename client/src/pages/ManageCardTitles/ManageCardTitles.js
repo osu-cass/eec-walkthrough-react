@@ -64,7 +64,6 @@ function ManageCardTitles() {
       ignore = true;
       controller.abort();
     };
-    // eslint-disable-next-line
   }, []);
 
   // save the current card titles

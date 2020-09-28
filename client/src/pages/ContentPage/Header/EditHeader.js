@@ -26,11 +26,11 @@ function EditHeader(props) {
     }
 
     // if this item is internal, then make sure it is shown as such in modal
-    let checked = false
+    let internal = 0;
     if ((props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal)) {
-      checked = true;
+      internal = 1;
     }
-    setChecked(checked);
+    setChecked(internal);
   }, [props.header.tempHeaderId, props.header.tempTitle, props.header.title, props.header.internal, props.header.tempInternal]);
 
   // close the modal

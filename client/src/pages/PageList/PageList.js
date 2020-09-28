@@ -19,57 +19,80 @@ function PageList() {
   const [loading, setLoading] = useState(false);
   const {categoryId} = useParams();
 
-  // display loading spinner and gets pages
+  // when the page first loads get a list of all of the pages for this category
   useEffect(() => {
-    setLoading(true);
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
+
+    // grabs and returns list of relevant pages
+    async function getCategory() {
+      try {
+
+        setLoading(true);
+
+        const results = await fetch(`${API_URL}/categories/${categoryId}`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+
+          setCategory(obj);
+
+        } else {
+
+          if (results.status === 404) {
+            setCategory({pages: []});
+          } else {
+            console.error("An internal server error occurred while trying to search for pages. Please try again later.");
+          }
+
+        }
+
+        setLoading(false);
+
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
+      }
+    }
+
     getCategory();
-    // eslint-disable-next-line
-  }, []);
 
-  // generate page links for each page
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
+  }, [categoryId]);
+
+  // generate page links for each page whenever category data changes
   useEffect(() => {
-
     const linkArray = [];
 
     for (let i = 0; i < category.pages.length; i++) {
-
       const url = `/wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}/${category.pages[i].pageId}`;
-
       linkArray.push(url);
-
     }
 
     setPageLinks(linkArray);
-
-    // remove spinner after finished generating links
-    setLoading(false);
-    // eslint-disable-next-line
   }, [category]);
-
-  // grabs and returns list of relevant pages
-  async function getCategory() {
-    const results = await fetch(`${API_URL}/categories/${categoryId}`, {
-      method: "GET",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"}
-    });
-
-    if (results.ok) {
-
-      const obj = await results.json();
-
-      setCategory(obj);
-
-    } else {
-
-      if (results.status === 404) {
-        setCategory({});
-      } else {
-        console.error("An internal server error occurred while trying to search for pages. Please try again later.");
-      }
-
-    }
-  }
 
   if (pageLinks.length) {
     return (
