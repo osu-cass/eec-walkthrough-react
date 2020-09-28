@@ -3,51 +3,45 @@ import {Dropdown} from "react-bootstrap";
 import PropTypes from "prop-types";
 import "./IconDropdown.css";
 
-// Drop down menu that contains icons for creating items in a card
+// Drop down menu that contains icons that can be selected for an item
 function IconDropdown(props) {
 
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [selectedIcon, setSelectedIcon] = useState(props.iconIndex);
 
-  function newClick(id, idx) {
-    // Set state of current dropdown menu
-    setSelectedIndex(idx);
-    // Pass back up to parent
-    props.handleClick(id, props.idx);
-  }
-
-  function generateList() {
-    const jsx = [];
-    props.list[0].map((elem, idx) => {
-      jsx.push(
-        <Dropdown.Item key={idx} style={{cursor: "pointer"}} onClick={() => newClick(props.list[1][idx][0], idx)}>
-          {elem}
-        </Dropdown.Item>
-      );
-      return null;
-    });
-    return jsx;
+  // update the currently selected icon
+  function changeIcon(icon, index) {
+    setSelectedIcon(index);
+    props.onIconChange(icon);
   }
 
   return (
-    <Fragment key={props.index}>
+    <Fragment >
       <Dropdown className="icon-drop-down-menu">
         <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
-          {props.edit ? (
-            props.selectedIndex === null ? (
-              "Icon"
-            ) : (
-              props.list[1][props.selectedIndex][1]
-            )
+          {selectedIcon === null ? (
+            "Icon"
           ) : (
-            selectedIndex === null ? (
-              "Icon"
-            ) : (
-              props.list[1][selectedIndex][1]
-            )
+            <i
+              className={`fas fa-fw fa-${props.icons[selectedIcon].typeName}`}
+              style={{color: props.icons[selectedIcon].color}}
+            />
           )}
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          {generateList()}
+          {props.icons.map((icon, i) =>
+            <Dropdown.Item
+              key={icon.iconType}
+              className="icon-dropdown-val"
+              style={{cursor: "pointer"}}
+              onClick={() => changeIcon(icon.iconType, i)}
+            >
+              <i
+                className={`fas fa-fw fa-${icon.typeName}`}
+                style={{color: icon.color}}
+              />
+              {icon.typeKeyword}
+            </Dropdown.Item>
+          )}
         </Dropdown.Menu>
       </Dropdown>
     </Fragment>
@@ -57,16 +51,8 @@ function IconDropdown(props) {
 export default IconDropdown;
 
 IconDropdown.propTypes = {
-  list: PropTypes.arrayOf(PropTypes.array),
-  handleClick: PropTypes.any,
-  idx: PropTypes.any,
-  index: PropTypes.any,
-  edit: PropTypes.any,
-  selectedIndex: PropTypes.any
+  itemId: PropTypes.number,
+  icons: PropTypes.array,
+  onIconChange: PropTypes.func,
+  iconIndex: PropTypes.number
 };
-
-// pass in a "list" prop, zero index is jsx elements and first index is corresponding [0]values[1]valueName, if any
-// list[0] = JSX Elements inserted into dropdown
-// list[1][i] = Array with value of JSX element, and printed name of JSX element, for on click
-// list[1][i][0] = Value of JSX element
-// list[1][i][1] = Printed name of JSX element
