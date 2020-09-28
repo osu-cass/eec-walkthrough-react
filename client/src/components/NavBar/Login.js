@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Form} from "react-bootstrap";
+import {Form, Modal, Button} from "react-bootstrap";
 import LoadingOverlay from "../General/LoadingOverlay";
 import {withRouter} from "react-router-dom";
 import Error from "../General/Error";
@@ -9,8 +9,8 @@ import "./Login.css";
 // login button, acts as the logout button when a user is already logged in
 function Login (props) {
 
-  const $ = window.$;
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   // attempt to login
@@ -50,7 +50,7 @@ function Login (props) {
       if (results.ok) {
 
         // hide the modal, pass login state up to navbar, and return to the homepage
-        $("#loginModal").modal("hide");
+        setShowModal(false);
         props.onLogin();
         props.history.push(`/`);
 
@@ -73,19 +73,21 @@ function Login (props) {
     setLoading(false);
   }
 
-  // clean up fields and error messages when the modal is reopened
-  function clearContent() {
+  // open the modal and clean up fields and error messages
+  function openModal() {
+    setShowModal(true);
     setErrorMessage("");
-    document.getElementById("username-control").value = "";
-    document.getElementById("password-control").value = "";
+
+    if (document.getElementById("username-control") && document.getElementById("password-control")) {
+      document.getElementById("username-control").value = "";
+      document.getElementById("password-control").value = "";
+    }
   }
 
   // perform login when button is pressed
   function submitHandler(e) {
-
     // don't allow logging in when we are still loading the previous attempt
     if (!loading) {
-
       // prevent the default behavior of the form button
       e.preventDefault();
 
@@ -93,21 +95,17 @@ function Login (props) {
       const username = document.getElementById("username-control").value;
       const password = document.getElementById("password-control").value;
       attemptLogin(username, password);
-
     }
-
   }
 
   // clean up modal and go to registration page
   function registerHandler(e) {
-
     // prevent the default behavior of the form button
     e.preventDefault();
 
     // clean up the modal and go to the registration page
-    $("#loginModal").modal("hide");
+    setShowModal(false);
     props.history.push(`/register-user`);
-
   }
 
   // render a logout button if the user is already logged in,
@@ -119,99 +117,85 @@ function Login (props) {
   } else {
     return (
       <div className="login">
+        
         {/* Login Button */}
         <button
           className="btn btn-success mx-4 px-4"
           type="button"
           data-toggle="modal"
-          data-target="#loginModal"
-          onClick={(e) => clearContent(e)}
+          onClick={() => openModal()}
         >
           Login
         </button>
 
         {/* Login Modal */}
-        <div className="modal fade" tabIndex="-1" role="dialog" id="loginModal" data-target="#loginModal">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Login</h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
 
+        <Modal show={showModal} onHide={() => props.handleClose()} dialogClassName="modal-width" id="login-modal">
+          <Modal.Header>
+            <h5 className="modal-title">Login</h5>
+            <Button variant="none" onClick={() => setShowModal(false)}>
+              <span aria-hidden="true">&times;</span>
+            </Button>
+          </Modal.Header>
+
+            <Modal.Body>
               <Form>
-
-                <div className="modal-body">
-
-                  <Form.Group>
-                    <Form.Label className="mr-2">Username</Form.Label>
-                    <Form.Control
-                      className="form-control"
-                      type="username"
-                      id="username-control"
-                      placeholder="Enter username"
-                      maxLength="50"
-                    />
-                  </Form.Group>
-
-                  <Form.Group>
-                    <Form.Label className="mr-2">Password</Form.Label>
-                    <Form.Control
-                      className="form-control"
-                      type="password"
-                      id="password-control"
-                      placeholder="Enter password"
-                      maxLength="50"
-                    />
-                  </Form.Group>
-
-                  <Error
-                    message={errorMessage}
+                <Form.Group>
+                  <Form.Label className="mr-2">Username</Form.Label>
+                  <Form.Control
+                    className="form-control"
+                    type="username"
+                    id="username-control"
+                    placeholder="Enter username"
+                    maxLength="50"
                   />
+                </Form.Group>
 
-                  <div id="no-account-login"
-                    onClick={(e) => registerHandler(e)}
-                  >
-                    Don&apos;t have an account?
-                  </div>
-
-                  <div className="modal-footer">
-
-                    <button
-                      type="submit"
-                      className="btn btn-success"
-                      name="login"
-                      value="login"
-                      onClick={(e) => submitHandler(e)}
-                    >
-                    Login
-                    </button>
-
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      data-dismiss="modal"
-                    >
-                    Cancel
-                    </button>
-
-                    <LoadingOverlay loading={loading} />
-                  </div>
-
-                </div>
-
+                <Form.Group>
+                  <Form.Label className="mr-2">Password</Form.Label>
+                  <Form.Control
+                    className="form-control"
+                    type="password"
+                    id="password-control"
+                    placeholder="Enter password"
+                    maxLength="50"
+                  />
+                </Form.Group>
               </Form>
 
-            </div>
-          </div>
-        </div>
+              <Error
+                message={errorMessage}
+              />
+
+              <div id="no-account-login"
+                onClick={(e) => registerHandler(e)}
+              >
+                Don&apos;t have an account?
+              </div>
+            </Modal.Body>
+
+            <Modal.Footer className="modal-footer">
+                <button
+                  type="submit"
+                  className="btn btn-success"
+                  name="login"
+                  value="login"
+                  onClick={(e) => submitHandler(e)}
+                >
+                  Login
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+
+                <LoadingOverlay loading={loading} />
+            </Modal.Footer>
+        </Modal>
       </div>
     );
   }
