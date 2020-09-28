@@ -54,11 +54,11 @@ function NavBar (props) {
         <div className="d-flex nav-item align-items-center mt-3">
           <PageSearch />
           <UserIcon
-            onLogin={() => {setLoginChange(!loginChange); handleLoginStatusChange()}}
-            username={username} role={role} 
+            onLogin={() => { setLoginChange(!loginChange); handleLoginStatusChange(); }}
+            username={username} role={role}
           />
           <Login
-            onLogin={() => {setLoginChange(!loginChange); handleLoginStatusChange()}}
+            onLogin={() => { setLoginChange(!loginChange); handleLoginStatusChange(); }}
             role={role}
           />
         </div>

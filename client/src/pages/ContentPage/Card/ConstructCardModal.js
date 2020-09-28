@@ -134,7 +134,7 @@ function ConstructCardModal(props) {
       }
     }
     setPureCounter(pure + 1);
-  }, [items, items.length, counter])
+  }, [items, items.length, counter]);
 
   // Clear error messages whenever the modal is opened or closed
   useEffect(() => {
@@ -838,7 +838,7 @@ function ConstructCardModal(props) {
     setItems(copy);
   }
 
-  // Controls link data changes coming from <ItemInput>
+  // Controls link data changes coming from the item input component
   function handleLinkValue(index, value) {
     const key = index.toString();
     const copy = [...items];
@@ -846,7 +846,7 @@ function ConstructCardModal(props) {
     setItems(copy);
   }
 
-  // Controls source data changes coming from <ItemInput>
+  // Controls source data changes coming from the item input component
   function handleSourceValue(index, value) {
     const key = index.toString();
     const copy = [...items];
