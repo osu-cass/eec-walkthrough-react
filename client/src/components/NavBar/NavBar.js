@@ -8,24 +8,19 @@ import "./NavBar.css";
 
 // navigation bar that appears at the top of the page
 function NavBar (props) {
+
   const [username, setUsername] = useState("");
   const [role, setRole] = useState(0);
+  const [loginChange, setLoginChange] = useState(false);
+  const {nameChange, handleLoginStatusChange, openSidebar} = props;
 
-  // check the username and role when the navbar first loads
+  // get the username and role when the navbar first loads, or when
+  // the username is changed, or when a user logs in
   useEffect(() => {
-    updateUser(false);
-    // eslint-disable-next-line
-  }, [props.nameChange]);
-
-  // updates username and role using cookies
-  function updateUser(updateStatus) {
     const user = getProfile();
     setUsername(user.username);
     setRole(user.role);
-    if (updateStatus) {
-      props.handleLoginStatusChange();
-    }
-  }
+  }, [nameChange, loginChange]);
 
   return (
     <div className="navigation-bar">
@@ -35,7 +30,7 @@ function NavBar (props) {
           <button
             className="nav-hamburger text-info ml-4 border-0 bg-dark"
             href="#"
-            onClick={props.openSidebar}
+            onClick={openSidebar}
           >
             <i className="nav-hamburger-icon fas fa-bars fa-3x" />
           </button>
@@ -58,8 +53,14 @@ function NavBar (props) {
 
         <div className="d-flex nav-item align-items-center mt-3">
           <PageSearch />
-          <UserIcon onLogin={() => updateUser(true)} username={username} role={role} />
-          <Login onLogin={() => updateUser(true)} role={role} />
+          <UserIcon
+            onLogin={() => {setLoginChange(!loginChange); handleLoginStatusChange()}}
+            username={username} role={role} 
+          />
+          <Login
+            onLogin={() => {setLoginChange(!loginChange); handleLoginStatusChange()}}
+            role={role}
+          />
         </div>
       </nav>
     </div>
@@ -69,5 +70,6 @@ export default NavBar;
 
 NavBar.propTypes = {
   handleLoginStatusChange: PropTypes.any,
-  openSidebar: PropTypes.any
+  openSidebar: PropTypes.any,
+  nameChange: PropTypes.any
 };

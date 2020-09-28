@@ -142,6 +142,7 @@ function Home(props) {
       }
     }
 
+    // fixes a bug where fetchHome would sometimes get called twice
     if (typeof props.loginStatusChange === "boolean") {
       fetchHome();
     }

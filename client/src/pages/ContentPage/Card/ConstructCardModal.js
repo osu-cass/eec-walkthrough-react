@@ -53,6 +53,7 @@ function ConstructCardModal(props) {
     } else {
       itemSet = generateItems(props.card.items);
     }
+
     // Push items from props to state
     itemSet.forEach((item) => {
       itemData = {};
@@ -76,6 +77,7 @@ function ConstructCardModal(props) {
       newItems.push(itemData);
       newCounter++;
     });
+
     newItems = scanIndentation(newItems);
     setItems(newItems);
     setCounter(newCounter);
