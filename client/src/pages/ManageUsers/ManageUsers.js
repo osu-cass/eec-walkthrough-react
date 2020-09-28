@@ -145,13 +145,11 @@ function ManageUsers() {
     } else {
       setMounted(true);
     }
-
     // eslint-disable-next-line
   }, [request]);
 
   // initiate a new search request when the sorting order changes
   useEffect(() => {
-
     if (mounted) {
       setRequest({
         primary: "null",
@@ -159,7 +157,6 @@ function ManageUsers() {
         new: true
       });
     }
-
     // eslint-disable-next-line
   }, [searchFields.orderValue, searchFields.sortValue]);
 

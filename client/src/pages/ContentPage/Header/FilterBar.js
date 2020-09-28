@@ -43,7 +43,8 @@ function FilterBar(props) {
     const {scrollLeft, scrollWidth, clientWidth} = scrollbar;
     setCanScrollLeft(scrollLeft > 0);
     setCanScrollRight(scrollLeft !== scrollWidth - clientWidth);
-  }, [ref, props.show, props.headerId, ref.current]);
+    // eslint-disable-next-line
+  }, [ref, ref.current, props.show, props.headerId]);
 
   // checks if the filter bar has been hidden/shown and resets the scrollbar
   useEffect(() => {

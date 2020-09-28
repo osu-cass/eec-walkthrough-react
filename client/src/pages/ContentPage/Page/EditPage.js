@@ -104,8 +104,13 @@ function EditPage(props) {
       setUrl(props.page.imageUrl);
       setPageType(props.page.pageType);
     }
-    setChecked(isInternal());
-    // eslint-disable-next-line
+    
+    // determines if the current object is only internal viewable
+    let internal = 0;
+    if ((props.page.tempPageId && props.page.tempInternal) || (!props.page.tempPageId && props.page.internal)) {
+      internal = 1;
+    };
+    setChecked(internal);
   }, [props.page, props.page.internal, props.page.tempInternal]);
 
   function handleCloseModal() {
@@ -122,15 +127,6 @@ function EditPage(props) {
       setUrl(props.page.imageUrl);
     }
     setErrorMessage("");
-  }
-
-  // determines if the current object is only internal viewable
-  function isInternal() {
-    if ((props.page.tempPageId && props.page.tempInternal) || (!props.page.tempPageId && props.page.internal)) {
-      return 1;
-    } else {
-      return 0;
-    }
   }
 
   // show the modal

@@ -12,6 +12,66 @@ function HighlightText(props) {
   // when the text changes, update the highlighting
   useEffect(() => {
 
+    // gets difference information
+    function getDifference(newMode) {
+      const dmp = new DiffMatchPatch();
+      const diff = dmp.diff_main(props.newText, props.oldText);
+      const diffArray = [];
+      if (newMode) {
+        for (let i = 0; i < diff.length; i++) {
+          for (let j = 0; j < diff[i][1].length; j++) {
+            if (diff[i][0] === -1) {
+              diffArray.push(1);
+            } else if (diff[i][0] === 0) {
+              diffArray.push(0);
+            }
+          }
+        }
+      } else {
+        for (let i = 0; i < diff.length; i++) {
+          for (let j = 0; j < diff[i][1].length; j++) {
+            if (diff[i][0] === 1) {
+              diffArray.push(1);
+            } else if (diff[i][0] === 0) {
+              diffArray.push(0);
+            }
+          }
+        }
+      }
+      return diffArray;
+    }
+
+    // highlight the text based on the current mode
+    async function highlight(newText, oldText, newMode) {
+      await sleep(500);
+      const diffArray = getDifference(newMode);
+      if (newMode) {
+        newText.forEach((character, i) => {
+          // see if we should highlight the current character
+          if (i < diffArray.length && diffArray[i] === 1) {
+            const charElement = document.getElementById(`new-highlight-${i}-${props.elementType}-${props.newId}`);
+            if (charElement !== null) {
+              charElement.classList.add("highlight-new-content");
+            }
+          }
+        });
+      } else {
+        oldText.forEach((character, i) => {
+          if (i < diffArray.length && diffArray[i] === 1) {
+            const charElement = document.getElementById(`old-highlight-${i}-${props.elementType}-${props.newId}`);
+            if (charElement !== null) {
+              charElement.classList.add("highlight-old-content");
+            }
+          }
+        });
+      }
+    }
+
+    // sleep for a specific number of milliseconds (replace at a later time)
+    function sleep(milliseconds) {
+      return new Promise(resolve => setTimeout(resolve, milliseconds));
+    }
+
     // save the strings as arrays
     const newTextArray = props.newText.split("");
     const oldTextArray = props.oldText.split("");
@@ -20,69 +80,7 @@ function HighlightText(props) {
 
     // highlight the text
     highlight(newTextArray, oldTextArray, props.newMode);
-
-    // eslint-disable-next-line
-  }, [props.newText, props.oldText, props.newMode]);
-
-  // sleep for a specific number of milliseconds (replace at a later time)
-  function sleep(milliseconds) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
-  }
-
-  // gets difference information
-  function getDifference(newMode) {
-    const dmp = new DiffMatchPatch();
-    const diff = dmp.diff_main(props.newText, props.oldText);
-    const diffArray = [];
-    if (newMode) {
-      for (let i = 0; i < diff.length; i++) {
-        for (let j = 0; j < diff[i][1].length; j++) {
-          if (diff[i][0] === -1) {
-            diffArray.push(1);
-          } else if (diff[i][0] === 0) {
-            diffArray.push(0);
-          }
-        }
-      }
-    } else {
-      for (let i = 0; i < diff.length; i++) {
-        for (let j = 0; j < diff[i][1].length; j++) {
-          if (diff[i][0] === 1) {
-            diffArray.push(1);
-          } else if (diff[i][0] === 0) {
-            diffArray.push(0);
-          }
-        }
-      }
-    }
-    return diffArray;
-  }
-
-  // highlight the text based on the current mode
-  async function highlight(newText, oldText, newMode) {
-    await sleep(500);
-    const diffArray = getDifference(newMode);
-    if (newMode) {
-      newText.forEach((character, i) => {
-        // see if we should highlight the current character
-        if (i < diffArray.length && diffArray[i] === 1) {
-          const charElement = document.getElementById(`new-highlight-${i}-${props.elementType}-${props.newId}`);
-          if (charElement !== null) {
-            charElement.classList.add("highlight-new-content");
-          }
-        }
-      });
-    } else {
-      oldText.forEach((character, i) => {
-        if (i < diffArray.length && diffArray[i] === 1) {
-          const charElement = document.getElementById(`old-highlight-${i}-${props.elementType}-${props.newId}`);
-          if (charElement !== null) {
-            charElement.classList.add("highlight-old-content");
-          }
-        }
-      });
-    }
-  }
+  }, [props.newText, props.oldText, props.newMode, props.elementType, props.newId]);
 
   if (props.elementType === 1) {
 
