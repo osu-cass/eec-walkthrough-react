@@ -33,7 +33,7 @@ async function getDirectories(sort, order, cursor) {
       if (splitName.length === 2) {
         const fileObject = {
           name: "",
-          userId: splitName[1],
+          userId: parseInt(splitName[1], 10),
           fileCount: 0
         };
 

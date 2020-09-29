@@ -1,5 +1,13 @@
 \documentclass[onecolumn, draftclsnofoot,10pt, compsoc, usenames, dvipsnames]{IEEEtran}
 
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{geometry}
 \geometry{textheight=9.5in, textwidth=7in}
@@ -567,14 +575,29 @@ Uploads any number of files to the server. The files must use one of the followi
 
 
 \noindent
-\textbf{\textcolor{RoyalBlue}{GET} api/files/directories} \\
+\textbf{\textcolor{Green}{POST} api/files/directories} \\
 Returns information about the file upload directories that belong to each user. Only an admin can use this endpoint.
 \begin{itemize}
-    \item name: The name of the user who owns the directory.
-    \item userId: The ID of the user who owns the directory.
-    \item fileCount: The number of uploaded files in the directory.
+    \item sort: The value to sort results by (0 = username, 1 = user ID, 2 = number of files).
+    \item order: The order in which to display results (0 = descending, 1 = ascending).
+    \item cursor: The user ID associated with the first directory to be displayed. If you want to display results from the start of the list use null.
 \end{itemize}
-
+\begin{lstlisting}[caption=Example Request Body]
+{
+  sort: 0,
+  order: 1,
+  cursor: 11
+}
+\end{lstlisting}
+\begin{itemize}
+    \item directories: The list of directories.
+    \begin{itemize}
+        \item name: The name of the user who owns the directory.
+        \item userId: The ID of the user who owns the directory.
+        \item fileCount: The number of uploaded files in the directory.
+    \end{itemize}
+    \item nextCursor: The user ID associated with the next directory to be displayed. If there are no more directories then this value is null.
+\end{itemize}
 \begin{lstlisting}[caption=Example Response]
 {
   directories: [
@@ -583,26 +606,43 @@ Returns information about the file upload directories that belong to each user. 
       userId: 42,
       fileCount: 4
     }
-  ]
+  ],
+  nextCursor: 11
 }
 \end{lstlisting}
 \\~\\
 
 
 \noindent
-\textbf{\textcolor{RoyalBlue}{GET} api/files/:userId} \\
+\textbf{\textcolor{Green}{POST} api/files/:userId} \\
 Returns information about the files a user has uploaded. Only the user who uploaded the files or an admin can use this endpoint.
 \begin{itemize}
+    \item userId: The ID of the user who uploaded files.
+    \item sort: The value to sort results by (0 = file name, 1 = source, 2 = used on website).
+    \item order: The order in which to display results (0 = descending, 1 = ascending).
+    \item cursor: The file name associated with the first file to be displayed. If you want to display results from the start of the list use null.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  sort: 0,
+  order: 1,
+  cursor: "null"
+}
+\end{lstlisting}
+\begin{itemize}
+    \item files: The list of files.
+    \begin{itemize}
     \item userId: The ID of the user who uploaded files.
     \item url: A path pointing to the files location.
     \item name: The name of the file.
     \item used: Whether or not this file is referenced somewhere on the website.
     \item source: The first valid source referenced along with the file on the website.
+    \end{itemize}
+    \item nextCursor: The file name of the next file to be displayed. If there are no more files then this value is null.
 \end{itemize}
-
 \begin{lstlisting}[caption=Example Response]
 {
-  directories: [
+  files: [
     {
       userId: 42,
       url: "/uploads/user_42/d0d105c1ba1fe16e613f69173867b797.jpg",
@@ -610,7 +650,8 @@ Returns information about the files a user has uploaded. Only the user who uploa
       used: "Yes",
       source: "Robotic Welding for Fabrication of MilSpec Hydra ..."
     }
-  ]
+  ],
+  nextCursor: "b2da01c1ba1ca16b242a62145867b121.jpg"
 }
 \end{lstlisting}
 \\~\\
@@ -1031,15 +1072,37 @@ Updates an icon. Only an admin can use this endpoint.
 
 
 \noindent
-\textbf{\textcolor{RoyalBlue}{GET} api/links/all/:onlyDead} \\
-Returns a list of all of the published link items. If onlyDead is set to 1, then it only returns invalid links. Only admins can use this endpoint.
+\textbf{\textcolor{Green}{POST} api/links/all} \\
+Returns a list of all of the published link items. Only admins can use this endpoint.
+\begin{itemize}
+    \item onlyDead: This value determines if we want to view all published links or just published links that have been marked invalid (0 = all links, 1 = invalid links only)
+    \item sort: The value to sort results by (0 = last confirmed valid time, 1 = title, 2 = url).
+    \item order: The order in which to display results (0 = descending, 1 = ascending).
+    \item cursorPrimary: This cursor should contain the value that we are sorting by of the link that we want to start our results with. This cursor is used to allow infinite scrolling, while only loading a small number of page results at a time. If this is a new search then this value should be null.
+    \item cursorSecondary: This cursor should contain the item ID of the link that we want to start our results with. This cursor is used in instances where the primary cursor value is ambiguous. If this is a new search then this value should be null.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  onlyDead: 0,
+  sort: 0,
+  order: 1,
+  cursorPrimary: "null"
+  cursorSecondary: "null"
+}
+\end{lstlisting}
 \begin{itemize}
     \item links: All links.
     \begin{itemize}
         \item itemId: The ID of the link item.
         \item time: The time the link was last confirmed valid. This value is null if the link is currently invalid.
+        \item unixTime: The time the link was last confirmed valid. This value is represented as the number of seconds that have elapsed since the Unix epoch. This value is null if the link is currently invalid.
         \item title: The text that the link is embedded in.
         \item url: The URL for the link.
+    \end{itemize}
+    \item nextCursor: An object that contains the information needed to continue getting the remaining results.
+    \begin{itemize}
+        \item cursorPrimary: This cursor should contain the value that we are sorting by of the link that should appear next in the search results. If this is null, then there are no more links.
+        \item cursorSecondary: This cursor should contain the item ID of the link that should appear next in the search results. If this is null, then there are no more links.
     \end{itemize}
 \end{itemize}
 \begin{lstlisting}[caption=Example Response]
@@ -1047,11 +1110,16 @@ Returns a list of all of the published link items. If onlyDead is set to 1, then
   links: [
     {
       itemId: 384,
-      time: "2020-06-29T20:55:45.00Z",
+      time: "2020-06-29T20:55:45.000Z",
+      unixTime: 1593464145,
       title: "U.S. Department of Energy analysis tool",
       url: "https://www.energy.gov/eere/amo/measur"
     }
-  ]
+  ],
+  nextCursor: {
+    primary: "1601157152",
+    secondary: "6287"
+  }
 }
 \end{lstlisting}
 \\~\\
@@ -2019,38 +2087,61 @@ Creates a new user account. The new user must not have the same username or emai
 
 
 \noindent
-\textbf{\textcolor{RoyalBlue}{GET} api/users/search/:text/:role/:sort/:order/:cursorPrimary/:cursorSecondary} \\
+\textbf{\textcolor{Green}{POST} api/users/search} \\
 Returns a limited list of users that match the search text and that only includes users that are at or beyond the cursor. The search text can find matches for first name, last name, username, email, or user ID. Only admins can use this endpoint.
 \begin{itemize}
     \item text: The partial or full text that is used to find a match. Partial matches are allowed. For example: searching for "oh" would be able to return "John123" since "oh" is contained with in "John123".
-    \item cursorPrimary: This cursor should contain the username of the user you want to start your search at (alphabetical order). This cursor is used to allow infinite scrolling, while only loading a small number of page results at a time. If this is a new search then this value should be null.
+    \item role: The role to filter results by (0 = any, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+    \item sort: The value to sort results by (0 = username, 1 = name, 2 = user ID, 3 = email, 4 = created, 5 = role).
+    \item order: The order in which to display results (0 = descending, 1 = ascending).
+    \item cursorPrimary: This cursor should contain the value that we are sorting by of the user we want to start our search at. This cursor is used to allow infinite scrolling, while only loading a small number of page results at a time. If this is a new search then this value should be null.
     \item cursorSecondary: This cursor should contain the user ID of the user you want to start your search at. This cursor is used in instances where the primary cursor value is ambiguous. If this is a new search then this value should be null.
-    \item nextCursor: An object that contains the information needed to continue searching the rest of the users (the primary and secondary cursor).
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  text: "oregonstate",
+  role: 0,
+  sort: 0,
+  order: 1,
+  cursorPrimary: "null",
+  cursorSecondary: "null"
+}
+\end{lstlisting}
+\begin{itemize}
     \item users: The users returned from the search.
     \begin{itemize}
         \item created: The date that the user account was created.
-        \item createdUnix: Seconds since January 1st, 1970 (UTC).
+        \item createdUnix: The date that the user account was created. This value is represented as the number of seconds that have elapsed since the Unix epoch.
         \item email: The user's email address.
         \item firstName: The user's first name.
         \item lastName: The user's last name.
         \item role: The user's role (0 = not logged in, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
         \item username: The user's username.
     \end{itemize}
+    \item nextCursor: An object that contains the information needed to continue getting the remaining search results.
+    \begin{itemize}
+        \item cursorPrimary: This cursor should contain the value that we are sorting by of the user we that should appear next in the search results. If this is null, then there are no more users.
+        \item cursorSecondary: This cursor should contain the user ID of the user that should appear next in the search results. If this is null, then there are no more users.
+    \end{itemize}
 \end{itemize}
 \begin{lstlisting}[caption=Example Response]
 {
+  users: [
+    {
+      created: "2020-09-01T02:00:00.000Z",
+      createdUnix: 1598925600,
+      email: "testeditor@oregonstate.edu",
+      firstName: "John",
+      lastName: "Doe",
+      role: 3,
+      userId: 67,
+      username: "testEditor"
+    }
+  ]
   nextCursor: {
     primary: null,
     secondary: null
   },
-  created: "2020-09-01T02:00:00.000Z",
-  createdUnix: 1598925600,
-  email: "testeditor@gmail.com",
-  firstName: "John",
-  lastName: "Doe",
-  role: 3,
-  userId: 67,
-  username: "testEditor"
 }
 \end{lstlisting}
 \\~\\
