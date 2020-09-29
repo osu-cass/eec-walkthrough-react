@@ -129,11 +129,11 @@ function ManageDirectories() {
               <tr>
                 {searchFields.sortValue === 0 ? (
                   <th className="pl-5 active-sort" style={{width: "30%"}} onClick={() => changeSort(0, true)}>
-                    User <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                    Username <small>{searchFields.orderValue ? "▲" : "▼" }</small>
                   </th>
                 ) : (
                   <th className="pl-5" style={{width: "30%"}} onClick={() => changeSort(0, false)}>
-                    User <small>▼</small>
+                    Username <small>▼</small>
                   </th>
                 )}
                 {searchFields.sortValue === 1 ? (
