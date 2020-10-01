@@ -65,7 +65,7 @@ function BulletPointItem(props) {
 
         {/* Container holding item text and possibly a source */}
         <div className={`${props.inline ? "d-inline mr-2" : ""} content-td pb-2 col`}>
-          <span className={`icon-item-text ${styleText(props.icon)} ${props.bold ? "font-weight-bold" : ""}`}>
+          <span className={`icon-item-text ${styleText(props.icon)}`}>
             {props.text}
           </span>
           <Source source={props.source} sourceText={props.sourceText} />
@@ -80,10 +80,9 @@ function BulletPointItem(props) {
 export default BulletPointItem;
 
 BulletPointItem.propTypes = {
-  id: PropTypes.any,
+  id: PropTypes.number,
   text: PropTypes.string,
-  icon: PropTypes.any,
-  bold: PropTypes.any,
+  icon: PropTypes.string,
   indentation: PropTypes.number,
   mode: PropTypes.number,
   color: PropTypes.string,

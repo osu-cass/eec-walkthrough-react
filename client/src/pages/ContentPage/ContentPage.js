@@ -304,10 +304,15 @@ function ContentPage(props) {
   function handleTimestamp(message, approved, itemId, cardId, headerId) {
     const copy = [...headers];
 
+    // find the correct header
     for (let i = 0; i < copy.length; i++) {
       if (copy[i].headerId === headerId) {
+
+        // find the correct card
         for (let j = 0; j < copy[i].cards.length; j++) {
           if (copy[i].cards[j].cardId === cardId) {
+
+            // update the correct link (the published or unpublished version)
             if (approved) {
               for (let k = 0; k < copy[i].cards[j].items.length; k++) {
                 if (copy[i].cards[j].items[k].itemId === itemId) {
@@ -325,8 +330,10 @@ function ContentPage(props) {
                 }
               }
             }
+
           }
         }
+
       }
     }
 

@@ -86,7 +86,7 @@ function Header(props) {
     }
     setFilterShow(allIcons);
     // eslint-disable-next-line
-  }, [JSON.stringify(props.header.forceFilter), props.header.cards, props.iconSet.length, props.cardState, props.iconSet]);
+  }, [JSON.stringify(props.header.forceFilter), JSON.stringify(props.header.cards), props.iconSet.length, props.cardState, props.iconSet]);
 
   // Get all of the icons that could be used for published filtering
   useEffect(() => {

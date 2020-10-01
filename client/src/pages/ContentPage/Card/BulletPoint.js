@@ -5,7 +5,7 @@ import BulletPointGraphic from "./BulletPointGraphic";
 import BulletPointResource from "./BulletPointResource";
 import "./BulletPoint.css";
 
-// Represents a single item inside a card
+// Represents a single bullet point inside a card
 function BulletPoint(props) {
 
   // determine the type of bullet point (item, graphic, resource)
@@ -95,13 +95,12 @@ function BulletPoint(props) {
 export default BulletPoint;
 
 BulletPoint.propTypes = {
-  id: PropTypes.any,
-  text: PropTypes.any,
-  label: PropTypes.any,
-  url: PropTypes.any,
-  icon: PropTypes.any,
-  bold: PropTypes.any,
-  created: PropTypes.any,
+  id: PropTypes.number,
+  text: PropTypes.string,
+  label: PropTypes.string,
+  url: PropTypes.string,
+  icon: PropTypes.string,
+  created: PropTypes.string,
   indentation: PropTypes.number,
   mode: PropTypes.number,
   publicMode: PropTypes.number,

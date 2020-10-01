@@ -46,10 +46,10 @@ function BulletPointGraphic(props) {
 export default BulletPointGraphic;
 
 BulletPointGraphic.propTypes = {
-  text: PropTypes.any,
-  label: PropTypes.any,
-  url: PropTypes.any,
-  icon: PropTypes.any,
+  text: PropTypes.string,
+  label: PropTypes.string,
+  url: PropTypes.string,
+  icon: PropTypes.string,
   indentation: PropTypes.number,
   color: PropTypes.string,
   tooltip: PropTypes.string,
