@@ -1,184 +1,90 @@
 import React, {Fragment} from "react";
-import Image from "../Various/Image";
 import PropTypes from "prop-types";
-import Source from "./Source";
-import {formatTime} from "../../../utilities/formatTime";
-import LinkAccessButtons from "./LinkAccessButtons";
+import BulletPointItem from "./BulletPointItem";
+import BulletPointGraphic from "./BulletPointGraphic";
+import BulletPointResource from "./BulletPointResource";
 import "./BulletPoint.css";
 
 // Represents a single item inside a card
-function BulletPoint (props) {
+function BulletPoint(props) {
 
-  function styleText(icon) {
-    if (icon === "check-square") { return "check-square-icon"; }
-    if (icon === "flag") { return "font-italic"; }
-    if (icon === "angle-right") { return "opportunity-desc"; }
-    return "";
-  }
-
-  function isBold(bold) {
-    if (bold) {
-      return "font-weight-bold";
-    } else {
-      return "";
-    }
-  }
-
+  // determine the type of bullet point (item, graphic, resource)
   function getContentType(text, label, url) {
     if (text !== "" && label === "" && url === "") { return 1; }
     if (text === "" && label !== "" && url !== "") { return 2; }
     if (text !== "" && label !== "" && url !== "") { return 3; }
   }
 
-  function updateCheck(state, id) {
-    if (props.mode !== 2) {
-      props.setCheck(state, id);
-    }
-  }
-
+  // don't show bullet points that are internal when we are viewing in public mode
   return !props.internal || !props.publicMode ? (
     <Fragment>
+
+      {/* If the bullet point is an item */}
       {getContentType(props.text, props.label, props.url) === 1 ? (
-        <Fragment>
-          {props.icon === "check-square" ? (
-            <div className={`${props.inline ? "d-inline text-nowrap ml-1" : "row mx-auto"} ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
-              ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
-            >
-              <div className={`${props.inline ? "inline-block-icon pb-2" : ""} icon-td justify-content-center`}>
-                {props.checked && props.mode !== 2 ? (
-                  <i className={`${props.inline ? "d-inline" : ""} fas fa-fw fa-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
-                    title={props.tooltip}
-                    onClick={() => updateCheck(false, props.id)}
-                  />
-                ) : (
-                  <i className={`${props.inline ? "d-inline" : ""} fas fa-fw fa-check-square mr-2 icon-item indent-level-${props.indentation} ${styleText(props.icon)}`}
-                    title={props.tooltip}
-                    onClick={() => updateCheck(true, props.id)}
-                  />
-                )}
-              </div>
-              <div className={`${props.inline ? "d-inline mr-2" : ""} content-td pb-2 col`}>
-                <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
-                  {props.text}
-                </span>
-                <Source source={props.source} sourceText={props.sourceText} />
-              </div>
-            </div>
-          ) : (
-            <div className={`${props.inline ? "d-inline text-nowrap ml-1" : "row mx-auto"} ${props.highlightStyle === 1 ? "new-review-item" : ""} 
-              ${props.internal ? "internal-item" : ""} ${props.highlightStyle === 2 ? "move-review-item" : ""}
-              ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
-            >
-              <div className={`${props.inline ? "inline-block-icon pb-2" : ""} icon-td justify-content-center indent-level-${props.indentation}`} >
-                <i className={`${props.inline ? "d-inline" : ""} fas fa-fw fa-${props.icon} mr-2 icon-item
-                  ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
-                style={{color: props.color}}
-                title={props.tooltip}
-                />
-              </div>
-              <div className={`${props.inline ? "d-inline mr-2" : ""} content-td pb-2 col`}>
-                <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
-                  {props.text}
-                </span>
-                <Source source={props.source} sourceText={props.sourceText} />
-              </div>
-            </div>
-          )}
-        </Fragment>
+        <BulletPointItem
+          id={props.id}
+          text={props.text}
+          icon={props.icon}
+          bold={props.bold}
+          indentation={props.indentation}
+          mode={props.mode}
+          color={props.color}
+          tooltip={props.tooltip}
+          setCheck={(state, id) => props.setCheck(state, id)}
+          checked={props.checked}
+          highlightStyle={props.highlightStyle}
+          internal={props.internal}
+          source={props.source}
+          sourceText={props.sourceText}
+          inline={props.inline}
+        />
       ) : (
         null
       )}
 
+      {/* If the bullet point is a graphic */}
       {getContentType(props.text, props.label, props.url) === 2 ? (
-        <div className={`${props.inline ? "inline-graphic align-top" : "row mx-auto"} ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
-          ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
-        >
-
-          <div className={props.inline ? "inline-graphic align-top" : "icon-td pb-2"}>
-            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
-              style={{color: props.color}}
-              title={props.tooltip}
-            />
-          </div>
-
-          <div className={`${props.inline ? "inline-graphic mr-3" : "col"} content-td pb-2`}>
-            <div className="pb-1">
-              <span className={`icon-item-text ${styleText(props.icon) || isBold(props.bold)}`}>
-                {props.text}
-              </span>
-              {props.label}
-              <Source source={props.source} sourceText={props.sourceText} />
-            </div>
-            <Image url={props.url} title={props.label} thumbnail={false} header={false} />
-          </div>
-        </div>
+        <BulletPointGraphic
+          text={props.text}
+          label={props.label}
+          url={props.url}
+          icon={props.icon}
+          indentation={props.indentation}
+          color={props.color}
+          tooltip={props.tooltip}
+          highlightStyle={props.highlightStyle}
+          internal={props.internal}
+          source={props.source}
+          sourceText={props.sourceText}
+          inline={props.inline}
+        />
       ) : (
         null
       )}
 
-      {getContentType(props.text, props.label, props.url) === 3 && (props.mode !== 0 ||
-        props.contentMode === 0 || props.contentMode === 2 || props.created !== null || props.publicMode === 0) ? (
-          <div className={`${props.inline ? "inline-link align-top mr-4" : "row mx-auto"} ${props.highlightStyle === 1 ? "new-review-item" : ""} ${props.internal ? "internal-item" : ""}
-            ${props.highlightStyle === 2 ? "move-review-item" : ""} ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
-          >
-            <div className={props.inline ? "inline-link align-top" : "icon-td pb-2"}>
-              <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item ${styleText(props.icon)} indent-level-${props.indentation}`}
-                style={{color: props.color}}
-                title={props.tooltip}
-              />
-            </div>
-            <div className={`${props.inline ? "inline-link" : "col"} content-td pb-2`}>
-              <div>
-                <div className="row">
-                  <a href={props.url} className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}> {props.label} </a>
-                  {props.contentMode === 1 || props.contentMode === 3 ? (
-                    <i className={`fas fa-fw fa-sm fa-link mx-1 icon-item`} title="External Resource" />
-                  ) : (
-                    <i className={`fas fa-fw fa-sm fa-info mx-1 icon-item`} title="Internal Resource" />
-                  )}
-                  {props.contentMode === 2 || props.contentMode === 3 ? (
-                    <i className={`fas fa-fw fa-sm fa-download mr-1 icon-item`} title="Download" />
-                  ) : (
-                    null
-                  )}
-                  {props.contentMode === 1 || props.contentMode === 3 ? (
-                    <Fragment>
-                      {props.created !== null ? (
-                        <small className="last-accessed-link">
-                          {`Confirmed valid ${formatTime(props.created)}`}
-                        </small>
-                      ) : (
-                        <small className="last-accessed-link-bad">
-                          {`This link is no longer valid`}
-                        </small>
-                      )}
-                    </Fragment>
-                  ) : (
-                    null
-                  )}
-                </div>
-                <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}>
-                  <small>
-                    {props.text === "$empty" ? (null) : (props.text)}
-                  </small>
-                </a>
-              </div>
-              {(props.contentMode === 1 || props.contentMode === 3) && props.mode !== 0 && !props.reviewing ? (
-                <div className="row">
-                  <LinkAccessButtons
-                    mode={props.mode}
-                    itemId={props.id}
-                    handleTimestamp={(m) => props.handleTimestamp(m)}
-                  />
-                </div>
-              ) : (
-                null
-              )}
-            </div>
-          </div>
-        ) : (
-          null
-        )}
+      {/* If the bullet point is a resource */}
+      {getContentType(props.text, props.label, props.url) === 3 ? (
+        <BulletPointResource
+          id={props.id}
+          text={props.text}
+          label={props.label}
+          url={props.url}
+          icon={props.icon}
+          created={props.created}
+          indentation={props.indentation}
+          mode={props.mode}
+          contentMode={props.contentMode}
+          handleTimestamp={(m) => props.handleTimestamp(m)}
+          color={props.color}
+          tooltip={props.tooltip}
+          reviewing={props.reviewing}
+          highlightStyle={props.highlightStyle}
+          internal={props.internal}
+          inline={props.inline}
+        />
+      ) : (
+        null
+      )}
 
     </Fragment>
   ) : (
