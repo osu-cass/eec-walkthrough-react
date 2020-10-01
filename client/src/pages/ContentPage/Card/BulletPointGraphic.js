@@ -1,0 +1,61 @@
+import React, {Fragment} from "react";
+import Image from "../Various/Image";
+import PropTypes from "prop-types";
+import Source from "./Source";
+
+// Represents a single graphic type bullet inside a card
+function BulletPointGraphic(props) {
+
+  return (
+    <Fragment>
+      {/* Main container holding graphic */}
+      <div 
+        className={`${props.inline ? "inline-graphic align-top" : "row mx-auto"}
+        ${props.highlightStyle === 1 ? "new-review-item" : ""}
+        ${props.internal ? "internal-item" : ""}
+        ${props.highlightStyle === 2 ? "move-review-item" : ""}
+        ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
+      >
+
+        {/* Container holding graphic's icon */}
+        <div className={props.inline ? "inline-graphic align-top" : "icon-td pb-2"}>
+          <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}`}
+            style={{color: props.color}}
+            title={props.tooltip}
+          />
+        </div>
+
+        {/* Container holding graphic image, text, and possibly a source */}
+        <div className={`${props.inline ? "inline-graphic mr-3" : "col"} content-td pb-2`}>
+          <div className="pb-1">
+            <span className={`icon-item-text`}>
+              {props.text}
+            </span>
+            {props.label}
+            <Source source={props.source} sourceText={props.sourceText} />
+          </div>
+          <Image url={props.url} title={props.label} thumbnail={false} header={false} />
+        </div>
+
+      </div>
+
+    </Fragment>
+  );
+
+}
+export default BulletPointGraphic;
+
+BulletPointGraphic.propTypes = {
+  text: PropTypes.any,
+  label: PropTypes.any,
+  url: PropTypes.any,
+  icon: PropTypes.any,
+  indentation: PropTypes.number,
+  color: PropTypes.string,
+  tooltip: PropTypes.string,
+  highlightStyle: PropTypes.number,
+  internal: PropTypes.number,
+  source: PropTypes.number,
+  sourceText: PropTypes.string,
+  inline: PropTypes.number
+};
