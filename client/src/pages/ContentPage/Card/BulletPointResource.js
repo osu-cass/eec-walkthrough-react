@@ -105,12 +105,12 @@ function BulletPointResource(props) {
 export default BulletPointResource;
 
 BulletPointResource.propTypes = {
-  id: PropTypes.any,
-  text: PropTypes.any,
-  label: PropTypes.any,
-  url: PropTypes.any,
-  icon: PropTypes.any,
-  created: PropTypes.any,
+  id: PropTypes.number,
+  text: PropTypes.string,
+  label: PropTypes.string,
+  url: PropTypes.string,
+  icon: PropTypes.string,
+  created: PropTypes.string,
   indentation: PropTypes.number,
   mode: PropTypes.number,
   contentMode: PropTypes.number,
