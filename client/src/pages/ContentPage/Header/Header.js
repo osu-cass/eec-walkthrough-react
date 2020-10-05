@@ -357,7 +357,7 @@ function Header(props) {
     setUnfilteredCards(cardSortOrder(allUnfilteredCards));
   }
 
-  // returns true if the item is being filtered by the opportunity filter mode
+  // Returns true if the item is being filtered by the opportunity filter mode
   function filterItem(item, mode, ignoreChecked) {
     if (ignoreChecked) {
       if (mode !== 1) {
@@ -572,7 +572,7 @@ function Header(props) {
     }
   }
 
-  // gets an unfiltered card by its ID
+  // Gets an unfiltered card by its ID
   function getUnfilteredCard(cardId) {
     for (let i = 0; i < unfilteredCards.length; i++) {
       if (unfilteredCards[i].cardId === cardId) {
@@ -581,54 +581,115 @@ function Header(props) {
     }
   }
 
-  // returns true if we should be able to view unpublished content
+  // Returns true if the current user should see unpublished content
   function viewUnpublished() {
     return props.mode === 1 || (props.mode === 2 && props.publishedMode === 0);
   }
 
+  // Checks if the current header should be displayed
   return (!props.header.approved && props.mode !== 1 && (props.mode !== 2 || props.publishedMode !== 0)) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
     <div>
-      <div>
-        <div className={`d-flex sticky-top
-          ${props.header.approved && (!props.header.tempHeaderId || !viewUnpublished()) ? "header-approved" : "header-review"}
-          ${isInternal() ? "header-internal" : ""}
-          header-bar header-bar-content justify-content-between my-3 py-3 text-dark-50 rounded shadow-sm border`}
-        style={{top: "1em", zIndex: "998"}}
-        >
-          <div className="row w-100 ml-0">
-            <div className="col-auto align-self-center">
-              <h4 className="flex-grow-1 font-weight-bold my-0 mx-0">
-                {props.header.approved && props.header.tempHeaderId && viewUnpublished() ? (
-                  props.header.tempTitle
-                ) : (
-                  props.header.title
-                )}
-              </h4>
-            </div>
 
-            {props.mode === 2 ? (
-              <div className="col">
+      {/* Container that holds the header title */}
+      <div className={`d-flex sticky-top
+        ${props.header.approved && (!props.header.tempHeaderId || !viewUnpublished()) ? "header-approved" : "header-review"}
+        ${isInternal() ? "header-internal" : ""}
+        header-bar header-bar-content justify-content-between my-3 py-3 text-dark-50 rounded shadow-sm border`}
+      style={{top: "1em", zIndex: "998"}}
+      >
+        <div className="row w-100 ml-0">
+          <div className="col-auto align-self-center">
+
+            {/* Header title */}
+            <h4 className="flex-grow-1 font-weight-bold my-0 mx-0">
+              {props.header.approved && props.header.tempHeaderId && viewUnpublished() ? (
+                props.header.tempTitle
+              ) : (
+                props.header.title
+              )}
+            </h4>
+
+          </div>
+
+          {/* Only display the buttons for reordering headers in move mode */}
+          {props.mode === 2 ? (
+            <div className="col">
+              <div className="btn-group align-self-center float-right">
+                {/* Button to move header up */}
+                <OrderObjectButton
+                  up={true}
+                  header={true}
+                  objectId={props.header.headerId}
+                  handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                  edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                  approved={props.header.approved}
+                  publishedMode={props.publishedMode}
+                />
+
+                {/* Button to move header down */}
+                <OrderObjectButton
+                  up={false}
+                  header={true}
+                  objectId={props.header.headerId}
+                  handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                  edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                  approved={props.header.approved}
+                  publishedMode={props.publishedMode}
+                />
+
+                {/* Dropdown that allows users to perform various page actions */}
+                <OtherButton
+                  role={props.role}
+                  mode={props.mode}
+                  onPageMode={e => props.onPageMode(e)}
+                  moved={props.moved}
+                />
+              </div>
+            </div>
+          ) : (
+            <Fragment>
+              <div className="col filter-col align-self-center px-0">
+                <div className="btn-group align-self-center float-right filter-div">
+
+                  {/* Used for filtering content in the items below the header */}
+                  <FilterBar
+                    headerId={props.header.headerId}
+                    updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
+                    resetIcons={() => props.resetIcons(props.header.headerId)}
+                    clearIcons={() => props.clearIcons(props.header.headerId)}
+                    filterIcons={filterIcons}
+                    tempFilterIcons={tempFilterIcons}
+                    filterShow={filterShow}
+                    iconSet={props.iconSet}
+                    mode={props.mode}
+                    showToggle={opportunitiesExist}
+                    toggled={opportunityFilterMode}
+                    showFilter={() => props.showFilter()}
+                    show={props.show}
+                  />
+
+                </div>
+              </div>
+              <div className="col-auto align-self-center pl-0">
                 <div className="btn-group align-self-center float-right">
-                  <OrderObjectButton
-                    up={true}
-                    header={true}
-                    objectId={props.header.headerId}
-                    handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                    edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                    approved={props.header.approved}
-                    publishedMode={props.publishedMode}
+                  {/* Button for editing the current header */}
+                  <EditHeader
+                    mode={props.mode}
+                    header={props.header}
+                    role={props.role}
+                    handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                   />
-                  <OrderObjectButton
-                    up={false}
-                    header={true}
-                    objectId={props.header.headerId}
-                    handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                    edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                    approved={props.header.approved}
-                    publishedMode={props.publishedMode}
+
+                  {/* Used to compare changes made to the header with the previous version */}
+                  <ReviewHeader
+                    mode={props.mode}
+                    header={props.header}
+                    handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                   />
+
+                  {/* Dropdown that allows users to perform various page actions */}
                   <OtherButton
                     role={props.role}
                     mode={props.mode}
@@ -637,78 +698,36 @@ function Header(props) {
                   />
                 </div>
               </div>
-            ) : (
-              <Fragment>
-                <div className="col filter-col align-self-center px-0">
-                  <div className="btn-group align-self-center float-right filter-div">
-                    <FilterBar
-                      headerId={props.header.headerId}
-                      updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
-                      resetIcons={() => props.resetIcons(props.header.headerId)}
-                      clearIcons={() => props.clearIcons(props.header.headerId)}
-                      filterIcons={filterIcons}
-                      tempFilterIcons={tempFilterIcons}
-                      filterShow={filterShow}
-                      iconSet={props.iconSet}
-                      mode={props.mode}
-                      showToggle={opportunitiesExist}
-                      toggled={opportunityFilterMode}
-                      showFilter={() => props.showFilter()}
-                      show={props.show}
-                    />
-                  </div>
-                </div>
-                <div className="col-auto align-self-center pl-0">
-                  <div className="btn-group align-self-center float-right">
-                    <EditHeader
-                      mode={props.mode}
-                      header={props.header}
-                      role={props.role}
-                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                    />
-                    <ReviewHeader
-                      mode={props.mode}
-                      header={props.header}
-                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                    />
-                    <OtherButton
-                      role={props.role}
-                      mode={props.mode}
-                      onPageMode={e => props.onPageMode(e)}
-                      moved={props.moved}
-                    />
-                  </div>
-                </div>
-              </Fragment>
-            )}
-
-          </div>
-        </div>
-
-        <div id="accordion" role="tablist" aria-multiselectable="true">
-          {cards.map((card) =>
-            <Card
-              key={card.cardId}
-              headerId={props.header.headerId}
-              unfilteredCard={getUnfilteredCard(card.cardId)}
-              card={card}
-              handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-              mode={props.mode}
-              iconSet={props.iconSet}
-              handleMoveCard={(cardId, up, mode) => handleMoveCard(cardId, up, mode)}
-              handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
-              cardState={props.cardState}
-              role={props.role}
-              publicMode={props.publicMode}
-              setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
-              publishedMode={props.publishedMode}
-              sources={props.sources}
-              cardTitles={props.cardTitles}
-            />
+            </Fragment>
           )}
-        </div>
 
+        </div>
       </div>
+
+      {/* Cards that are displayed beneath the current header */}
+      <div id="accordion" role="tablist" aria-multiselectable="true">
+        {cards.map((card) =>
+          <Card
+            key={card.cardId}
+            headerId={props.header.headerId}
+            unfilteredCard={getUnfilteredCard(card.cardId)}
+            card={card}
+            handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+            mode={props.mode}
+            iconSet={props.iconSet}
+            handleMoveCard={(cardId, up, mode) => handleMoveCard(cardId, up, mode)}
+            handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
+            cardState={props.cardState}
+            role={props.role}
+            publicMode={props.publicMode}
+            setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
+            publishedMode={props.publishedMode}
+            sources={props.sources}
+            cardTitles={props.cardTitles}
+          />
+        )}
+      </div>
+
     </div>
   );
 
