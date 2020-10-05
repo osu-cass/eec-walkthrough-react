@@ -656,7 +656,7 @@ function Header(props) {
               </div>
             ) : (
               <Fragment>
-                <div className="col filter-col align-self-center px-0">
+                <div className="col filter-col align-self-center px-2">
                   <div className="btn-group align-self-center float-right filter-div">
                     <FilterBar
                       headerId={props.header.headerId}

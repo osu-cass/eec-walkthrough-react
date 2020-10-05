@@ -17,6 +17,7 @@ function FilterBar(props) {
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [scroll, setScroll] = useState(0);
   const ref = useRef(null);
+  const isMobileDevice = /Mobi/i.test(window.navigator.userAgent);
 
   // check if the window width has changed and updates appearance
   useEffect(() => {
@@ -165,7 +166,7 @@ function FilterBar(props) {
       )}
 
       {/* Scroll filter bar left */}
-      {hasOverflow && props.show ? (
+      {hasOverflow && !isMobileDevice && props.show ? (
         <div
           className={`d-flex btn btn-info filter-scroll-left px-1 ml-2 ${canScrollLeft ? "" : "disabled"}`}
           onMouseUp={() => mouseUp()}
@@ -266,7 +267,7 @@ function FilterBar(props) {
       </div>
 
       {/* Scroll filter bar right */}
-      {hasOverflow && props.show ? (
+      {hasOverflow && !isMobileDevice && props.show ? (
         <div
           className={`d-flex btn btn-info filter-scroll-right px-1 mr-2 ${canScrollRight ? "" : "disabled"}`}
           onMouseUp={() => mouseUp()}
