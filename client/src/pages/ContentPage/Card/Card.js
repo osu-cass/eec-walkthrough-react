@@ -182,7 +182,7 @@ function Card(props) {
       <div id={"collapse" + props.card.cardId} className="collapse show" aria-labelledby={"heading" + props.card.cardId}>
         <CardBS.Body className="content-card-body">
 
-          {/* Special content to show that a card with no content is invalid */}
+          {/* Special card for when a card has no content and is invalid */}
           {/* There should be no way to create an invalid card, so the presence of one shows that there is a bug */}
           {props.card.invalid ? (
             <Fragment>
@@ -205,8 +205,7 @@ function Card(props) {
           )}
 
           {/* Based on the card type we will display the items in a different way */}
-          {/* The first option adds a button for displaying the content in parts */}
-          {/* The second option is default and is a bulleted list of items */}
+          {/* This is a bulleted list that adds a button for displaying the content in parts */}
           {cardType === 2 || cardType === 12 ? (
             <BasicItems
               items={items}
@@ -218,6 +217,12 @@ function Card(props) {
               expandableList={true}
             />
           ) : (
+            null
+          )}
+
+          {/* Based on the card type we will display the items in a different way */}
+          {/* This is the default option and is a bulleted list of items */}
+          {cardType !== 1 && cardType !== 2 && cardType !== 11 && cardType !== 12 ? (
             <BasicItems
               items={items}
               mode={props.mode}
@@ -226,6 +231,8 @@ function Card(props) {
               reviewing={false}
               setCheck={(check, itemId) => props.setCheck(check, itemId, props.card.cardId)}
             />
+          ) : (
+            null
           )}
 
         </CardBS.Body>

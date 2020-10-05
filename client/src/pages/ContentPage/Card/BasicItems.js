@@ -11,7 +11,7 @@ function BasicItems(props) {
   const [showCount, setShowCount] = useState(3);
   const [realItemCount, setRealItemCount] = useState(0);
 
-  // wrap inline items in an object to give them proper indentation
+  // Wrap inline items in an object to give them proper indentation
   useEffect(() => {
     const copy = JSON.parse(JSON.stringify(props.items));
     let newWrapper = [];
@@ -71,7 +71,7 @@ function BasicItems(props) {
     }
   }, [props.items, showCount, props.expandableList]);
 
-  // compare a published and unpublished card and mark what items have changed
+  // Compare a published and unpublished card and mark what items have changed
   useEffect(() => {
 
     const statusArray = [];
@@ -171,72 +171,13 @@ function BasicItems(props) {
 
   }, [props.compareMode, props.items, props.otherItems]);
 
-  return props.compareMode ? (
+  return (
     <div className="item-separator-div">
       {items.map((item) =>
-        <Fragment key={item.itemId + "a" + item.index}>
-          {item.wrapper ? (
-            <div className={`item-wrapper div-indent-level-${item.indentation}`}>
-              {item.items.map((item) =>
-                <BulletPoint
-                  key={item.itemId + "wrap"}
-                  url={item.contentUrl}
-                  id={item.itemId}
-                  icon={item.typeName}
-                  tooltip={item.typeKeyword}
-                  color={item.color}
-                  text={item.contentText}
-                  label={item.contentLabel}
-                  contentMode={item.contentMode}
-                  created={item.created}
-                  indentation={item.indentation}
-                  mode={props.mode}
-                  publicMode={props.publicMode}
-                  handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
-                  reviewing={props.reviewing}
-                  checked={item.hideChildren}
-                  setCheck={(check, itemId) => props.setCheck(check, itemId)}
-                  highlightStyle={compareArray[item.index]}
-                  source={item.refId}
-                  sourceText={item.refText}
-                  internal={item.internal}
-                  inline={item.inline}
-                />
-              )}
-            </div>
-          ) : (
-            <BulletPoint
-              key={item.itemId + "no-wrap"}
-              url={item.contentUrl}
-              id={item.itemId}
-              icon={item.typeName}
-              tooltip={item.typeKeyword}
-              color={item.color}
-              text={item.contentText}
-              label={item.contentLabel}
-              contentMode={item.contentMode}
-              created={item.created}
-              indentation={item.indentation}
-              mode={props.mode}
-              publicMode={props.publicMode}
-              handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
-              reviewing={props.reviewing}
-              checked={item.hideChildren}
-              setCheck={(check, itemId) => props.setCheck(check, itemId)}
-              highlightStyle={compareArray[item.index]}
-              source={item.refId}
-              sourceText={item.refText}
-              internal={item.internal}
-              inline={item.inline}
-            />
-          )}
-        </Fragment>
-      )}
-    </div>
-  ) : (
-    <div className="item-separator-div">
-      {items.map((item) =>
-        <Fragment key={item.itemId + "b" + item.index}>
+        <Fragment key={item.itemId + item.index}>
+
+          {/* If the item is a wrapper for multiple items, then this means that */}
+          {/* this is an inline item that should be treated as a single item */}
           {item.wrapper ? (
             <div className={`item-wrapper div-indent-level-${item.indentation}`}>
               {item.items.map((item) =>
@@ -262,6 +203,7 @@ function BasicItems(props) {
                   sourceText={item.refText}
                   internal={item.internal}
                   inline={item.inline}
+                  highlightStyle={item.index < compareArray.length ? (compareArray[item.index]) : (0)}
                 />
               )}
             </div>
@@ -288,6 +230,7 @@ function BasicItems(props) {
               sourceText={item.refText}
               internal={item.internal}
               inline={item.inline}
+              highlightStyle={item.index < compareArray.length ? (compareArray[item.index]) : (0)}
             />
           )}
         </Fragment>
