@@ -19,7 +19,7 @@ import "./ContentPage.css";
 import NonPublicPage from "../NonPublicPage/NonPublicPage";
 import {useParams} from "react-router-dom";
 
-// A page representing an industry or subject
+// An encyclopedia style page describing some topic
 function ContentPage(props) {
 
   const [errorPage, setErrorPage] = useState(false);
@@ -46,7 +46,7 @@ function ContentPage(props) {
     internal: 0
   });
 
-  // get new page data if the page ID has changed
+  // Gets all of the page data when the page first loads
   useEffect(() => {
     // abort controller for if this component is cleaned up before
     // the fetch request gets a response
@@ -163,23 +163,7 @@ function ContentPage(props) {
     // eslint-disable-next-line
   }, [pageId, publishedMode]);
 
-  // sets the current page mode (view / edit / move)
-  function handlePageMode(newMode) {
-    setMode(newMode);
-  }
-
-  // sets the current public mode (show / hide)
-  function handlePublicMode(newMode) {
-    setPublicMode(newMode);
-  }
-
-  // sets the current published mode (published / unpublished)
-  function handlePublishedMode(newMode) {
-    setPublishedMode(newMode);
-  }
-
-  // update the structure of the current page object
-  // this generally happens when a page, header, or card is changed is someway
+  // Updates the content shown on the page when a change is made by the user
   function handleUpdate(object, type, action) {
     const headerData = [...headers];
 
@@ -300,7 +284,7 @@ function ContentPage(props) {
     }
   }
 
-  // Updates a timestamp (for an external link) that has been edited
+  // Updates a timestamp for an external link
   function handleTimestamp(message, approved, itemId, cardId, headerId) {
     const copy = [...headers];
 
@@ -339,7 +323,7 @@ function ContentPage(props) {
 
   }
 
-  // sort headers based on their edited status and their order index
+  // Sort headers based on their edited status and their order index
   function headerSortOrder(headers) {
     const copy = [...headers];
     for (let i = 0; i < copy.length; i++) {
@@ -441,7 +425,7 @@ function ContentPage(props) {
     setCardState(cardState + 1);
     setHeaders(copy);
 
-    // get direction value
+    // get the direction value
     const direction = up ? 1 : 0;
 
     // send our move to the API
@@ -469,7 +453,7 @@ function ContentPage(props) {
     }
   }
 
-  // handle a new view being loaded
+  // Handle a new view being loaded
   function handleNewView(headerFilters) {
     const copy = [...headers];
     // set default force filters
@@ -487,7 +471,7 @@ function ContentPage(props) {
     setHeaders(copy);
   }
 
-  // Changes the viewing state of an icon for a specific header
+  // Changes the filter state of an icon for a specific header
   function updateIcon(iconId, state, headerId) {
     const copy = [...headers];
     for (let i = 0; i < copy.length; i++) {
@@ -507,7 +491,7 @@ function ContentPage(props) {
     setHeaders(copy);
   }
 
-  // Resets the viewing state for all icon types for a specific header
+  // Resets the filter state for all icon types for a specific header
   function resetIcons(headerId) {
     const copy = [...headers];
     for (let i = 0; i < copy.length; i++) {
@@ -519,7 +503,7 @@ function ContentPage(props) {
     setHeaders(copy);
   }
 
-  // Clears the viewing state for all icon types for a specific header
+  // Clears the filter state for all icon types for a specific header
   function clearIcons(headerId) {
     const copy = [...headers];
     for (let i = 0; i < copy.length; i++) {
@@ -669,7 +653,7 @@ function ContentPage(props) {
       }
     }
 
-    // Create the arrays of references
+    // Create the arrays of references (published and unpublished)
     const finalRef = [];
     for (let i = 0; i < refOrder.length; i++) {
       for (let j = 0; j < sources.length; j++) {
@@ -690,28 +674,35 @@ function ContentPage(props) {
       }
     }
 
+    // Update the page content and references card to show the correct references
     setReferences(finalRef);
     setTempReferences(tempFinalRef);
     setHeaders(copy);
   }
 
-  // updates the state of the header filters to either be shown or hidden
+  // Toggles displaying or hiding filter bars
   function handleShowFilter() {
     if (showFilters) {
+      // calls a function to update the local storage to remember this setting
       setFilterShow(0);
+      // updates the state of the filter
       setShowFilters(0);
     } else {
+      // calls a function to update the local storage to remember this setting
       setFilterShow(1);
+      // updates the state of the filter
       setShowFilters(1);
     }
   }
 
-
+  // If there is an error, display the correct error page
   if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
     return loading ? (
       <LoadingOverlay loading={true} />
     ) : (
       <Container className="my-4" id="content-page">
+
+        {/* This is the top header and card that describes the page */}
         <PageDescription
           page={pageInfo}
           handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
@@ -720,15 +711,16 @@ function ContentPage(props) {
           publicMode={publicMode}
           publishedMode={publishedMode}
           pageState={pageState}
-          onPageMode={e => handlePageMode(e)}
-          onPublicMode={e => handlePublicMode(e)}
-          onPublishedMode={e => handlePublishedMode(e)}
+          onPageMode={mode => setMode(mode)}
+          onPublicMode={publicMode => setPublicMode(publicMode)}
+          onPublishedMode={published => setPublishedMode(published)}
           handlePageEdit={props.handlePageEdit}
           moved={moved}
           onNewView={e => handleNewView(e)}
           headers={headers}
         />
 
+        {/* Button for creating new headers */}
         <CreateHeader
           pageId={parseInt(pageId)}
           role={role}
@@ -740,6 +732,7 @@ function ContentPage(props) {
 
         {headers.map((header, i) =>
           <Fragment key={i}>
+            {/* A header bar that contains any number of cards beneath it */}
             <Header
               header={header}
               handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
@@ -761,9 +754,11 @@ function ContentPage(props) {
               cardTitles={cardTitles}
               showFilter={() => handleShowFilter()}
               show={showFilters}
-              onPageMode={e => handlePageMode(e)}
+              onPageMode={mode => setMode(mode)}
               moved={moved}
             />
+
+            {/* Button for creating a new card under the current header */}
             <CreateCard
               headerId={header.headerId}
               handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
@@ -775,6 +770,7 @@ function ContentPage(props) {
           </Fragment>
         )}
 
+        {/* A card at the end of the page that lists all of the references */}
         <References
           sources={references}
           tempSources={tempReferences}
@@ -784,7 +780,7 @@ function ContentPage(props) {
       </Container>
     );
   } else if (publicMode === 1 && (!pageInfo.approved || pageInfo.internal) && mode === 0) {
-    return <NonPublicPage onPublicMode={e => handlePublicMode(e)} />;
+    return <NonPublicPage onPublicMode={publicMode => setPublicMode(publicMode)} />;
   } else if (errorPage === 404) {
     return <Error404 />;
   } else {
@@ -794,7 +790,5 @@ function ContentPage(props) {
 export default ContentPage;
 
 ContentPage.propTypes = {
-  match: PropTypes.any,
-  pageId: PropTypes.string,
   handlePageEdit: PropTypes.func
 };
