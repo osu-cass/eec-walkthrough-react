@@ -17,18 +17,18 @@ function BasicItems(props) {
     let newWrapper = [];
     let wrapperIndentation = 0;
 
-    // check each item and group inline items
+    // Check each item and group inline items
     for (let i = copy.length - 1; i >= 0; i--) {
 
       if (copy[i].inline) {
 
-        // the group will get the indentation of the most recent item
+        // The group will get the indentation of the most recent item
         const newItem = copy[i];
         wrapperIndentation = newItem.indentation;
         newItem.indentation = 0;
         newWrapper.push(newItem);
 
-        // if this is the last item on the card, or the next item is not inline
+        // If this is the last item on the card, or the next item is not inline
         // create the new grouping of inline items
         if (i === 0 || !copy[i - 1].inline) {
 
@@ -38,25 +38,25 @@ function BasicItems(props) {
             items: newWrapper.reverse()
           };
 
-          // replace the item
+          // Replace the item
           copy.splice(i, 1, wrapperObject);
 
           newWrapper = [];
 
         } else {
 
-          // remove the old item
+          // Remove the old item
           copy.splice(i, 1);
 
         }
       }
 
-      // store an index value for each item to make it easier to handle nested maps
+      // Store an index value for each item to make it easier to handle nested maps
       for (let i = 0; i < copy.length; i++) {
         copy[i].index = i;
       }
 
-      // if we are an expandable list, only show a select number of items
+      // If we are an expandable list, only show a select number of items
       if (props.expandableList) {
         const showItems = [];
         for (let i = 0; i < copy.length && i < showCount; i++) {
@@ -236,7 +236,7 @@ function BasicItems(props) {
         </Fragment>
       )}
 
-      {/* if this is an expandable card, then show a button for expanding */}
+      {/* If this is an expandable card, then show a button for expanding */}
       {props.expandableList && realItemCount > showCount ? (
         <div className="text-center">
           <button type="button" className="btn btn-info" onClick={() => setShowCount(showCount + 3)}>

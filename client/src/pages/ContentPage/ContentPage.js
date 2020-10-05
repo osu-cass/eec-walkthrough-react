@@ -474,20 +474,41 @@ function ContentPage(props) {
   // Changes the filter state of an icon for a specific header
   function updateIcon(iconId, state, headerId) {
     const copy = [...headers];
+    let header = null;
+
+    // update the filter for the header
     for (let i = 0; i < copy.length; i++) {
       if (headerId === copy[i].headerId) {
+        header = copy[i];
         if (state) {
-          copy[i].forceFilter.push(iconId);
+          header.forceFilter.push(iconId);
           break;
         } else {
-          for (let j = 0; j < copy[i].forceFilter.length; j++) {
-            if (copy[i].forceFilter[j] === iconId) {
-              copy[i].forceFilter.splice(j, 1);
+          for (let j = 0; j < header.forceFilter.length; j++) {
+            if (header.forceFilter[j] === iconId) {
+              header.forceFilter.splice(j, 1);
             }
           }
         }
       }
     }
+
+    // if this is the checkbox filter icon, then also change the checked status
+    if (iconId === 0 && header) {
+      for (let i = 0; i < header.cards.length; i++) {
+
+        // published items
+        for (let j = 0; j < header.cards[i].items.length; j++) {
+          header.cards[i].items[j].hideChildren = state;
+        }
+
+        // unpublished items
+        for (let j = 0; j < header.cards[i].tempItems.length; j++) {
+          header.cards[i].tempItems[j].hideChildren = state;
+        }
+      }
+    }
+
     setHeaders(copy);
   }
 
@@ -513,6 +534,46 @@ function ContentPage(props) {
         }
         break;
       }
+    }
+    setHeaders(copy);
+  }
+
+  // Set the checked state for a single icon
+  function checkIcon(headerId, cardId, itemId, check) {
+    const copy = [...headers];
+    for (let i = 0; i < copy.length; i++) {
+
+      // find the header that the item belongs to
+      if (headerId === copy[i].headerId) {
+        const header = copy[i];
+
+        // find the card that the item belongs to
+        for (let j = 0; j < header.cards.length; j++) {
+          if (cardId === header.cards[j].cardId) {
+
+            // published items
+            for (let k = 0; k < header.cards[j].items.length; k++) {
+              if (itemId === header.cards[j].items[k].itemId) {
+                // set the item to the correct checked state
+                header.cards[j].items[k].hideChildren = check;
+              }
+            }
+
+            // unpublished items
+            for (let k = 0; k < header.cards[j].tempItems.length; k++) {
+              if (itemId === header.cards[j].tempItems[k].itemId) {
+                // set the item to the correct checked state
+                header.cards[j].tempItems[k].hideChildren = check;
+                break;
+              }
+            }
+            break;
+          }
+        }
+
+        break;
+      }
+
     }
     setHeaders(copy);
   }
@@ -750,6 +811,7 @@ function ContentPage(props) {
               updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
               resetIcons={e => resetIcons(e)}
               clearIcons={e => clearIcons(e)}
+              checkIcon={(headerId, cardId, itemId, check) => checkIcon(headerId, cardId, itemId, check)}
               sources={pageInfo.sources}
               cardTitles={cardTitles}
               showFilter={() => handleShowFilter()}
