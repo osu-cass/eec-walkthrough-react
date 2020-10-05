@@ -5,7 +5,7 @@ import Source from "./Source";
 // Represents a single item type bullet inside a card
 function BulletPointItem(props) {
 
-  // sets specific styling rules based on the icon used for this item
+  // Sets specific styling rules based on the icon used for this item
   function styleText(icon) {
     if (icon === "check-square") { return "check-square-icon"; }
     if (icon === "flag") { return "font-italic"; }
@@ -13,7 +13,7 @@ function BulletPointItem(props) {
     return "";
   }
 
-  // clicking the check icon of an opportunity item will toggle its check
+  // Clicking the check icon of an opportunity item will toggle its check
   // if it is not in move mode
   function updateCheck(state, id) {
     if (props.mode !== 2) {

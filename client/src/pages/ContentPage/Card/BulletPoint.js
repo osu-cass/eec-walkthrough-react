@@ -8,14 +8,14 @@ import "./BulletPoint.css";
 // Represents a single bullet point inside a card
 function BulletPoint(props) {
 
-  // determine the type of bullet point (item, graphic, resource)
+  // Determine the type of bullet point (item, graphic, resource)
   function getContentType(text, label, url) {
     if (text !== "" && label === "" && url === "") { return 1; }
     if (text === "" && label !== "" && url !== "") { return 2; }
     if (text !== "" && label !== "" && url !== "") { return 3; }
   }
 
-  // don't show bullet points that are internal when we are viewing in public mode
+  // Don't show bullet points that are internal when we are viewing in public mode
   return !props.internal || !props.publicMode ? (
     <Fragment>
 
