@@ -1,75 +1,192 @@
-import React, {useState, useEffect} from "react";
-import Login from "./Login";
-import PageSearch from "./PageSearch";
+import React, {useState, useEffect, Fragment} from "react";
 import PropTypes from "prop-types";
-import UserIcon from "./UserIcon";
 import {getProfile} from "../../utilities/cookieAuth";
+import {API_URL} from "../../utilities/constants";
 import "./NavBar.css";
 
 // navigation bar that appears at the top of the page
 function NavBar (props) {
 
-  const [username, setUsername] = useState("");
   const [role, setRole] = useState(0);
-  const [loginChange, setLoginChange] = useState(false);
-  const {nameChange, handleLoginStatusChange, openSidebar} = props;
+  const [userId, setUserId] = useState(0);
+  const [instructions, setInstructions] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-  // get the username and role when the navbar first loads, or when
-  // the username is changed, or when a user logs in
+  // if our login changes, refresh the navbar and the user's role
   useEffect(() => {
     const user = getProfile();
-    setUsername(user.username);
     setRole(user.role);
-  }, [nameChange, loginChange]);
+    setUserId(user.userId);
+    fetchData();
+  }, [props.loginStatusChange]);
+
+  // fetch all category data
+  async function fetchData() {
+    const results = await fetch(`${API_URL}/categories/all`, {
+      method: "GET",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+      const obj = await results.json();
+
+      // if there is a category with an id of 0,
+      // remove it from the categories and add it to instructions
+      let newInstruction = [];
+      for (let i = 0; i < obj.categories.length; i++) {
+        if (obj.categories[i].categoryId === 0) {
+          newInstruction = obj.categories.splice(i, 1);
+          newInstruction = newInstruction[0].pages;
+        }
+      }
+      setInstructions(newInstruction);
+      setCategories(obj.categories);
+    } else {
+      console.error("Unable to fetch categories for navbar.");
+    }
+  }
 
   return (
-    <div className="navigation-bar">
+    <div className="nav-bar-main mb-5 px-4">
 
-      <nav className="navbar navbar-dark bg-dark align-items-center">
-        <div className="row text-white nav-item align-items-center">
-          <button
-            className="nav-hamburger text-info ml-4 border-0 bg-dark"
-            href="#"
-            onClick={openSidebar}
-          >
-            <i className="nav-hamburger-icon fas fa-bars fa-3x" />
-          </button>
-          <img
-            className="osu-logo ml-4 mr-5"
-            src={"/images/OSU.png"}
-            alt={"Oregon State University"}
-            title={"Oregon State University"}
-          />
-          <div className="column">
-            <h4 className="nav-header-top">
-              Energy Efficiency Center
-            </h4>
-            <h4 className="nav-header-bottom">
-              Industrial Walkthrough Checklist &amp; Reference (Demo)
-            </h4>
+      {/* Button that links to homepage */}
+      <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
+        <a href="/">Home</a>
+      </div>
+
+      {/* Dropdown for instructions on how to use the site */}
+      {instructions.length ? (
+        <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
+          <span>How to Use</span>
+          <div className="dropdown-content">
+            {instructions.map((page) =>
+              <div className="navbar-item px-2 py-1" key={page.pageId}>
+                <a href={`/wiki/instructions/${page.pageId}`}>
+                  {page.name}
+                </a>
+              </div>
+            )}
           </div>
-
         </div>
+      ) : (
+        null
+      )}
 
-        <div className="d-flex nav-item align-items-center mt-3">
-          <PageSearch />
-          <UserIcon
-            onLogin={() => { setLoginChange(!loginChange); handleLoginStatusChange(); }}
-            username={username} role={role}
-          />
-          <Login
-            onLogin={() => { setLoginChange(!loginChange); handleLoginStatusChange(); }}
-            role={role}
-          />
+      {/* Each category gets its own dropdown */}
+      {categories.map((category) =>
+        <Fragment key={category.categoryId}>
+          {category.pages.length ? (
+            <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
+              <span>{category.pluralName}</span>
+              <div className="dropdown-content">
+                {category.pages.map((page) =>
+                  <div className="navbar-item px-2 py-1" key={page.pageId}>
+                    <a href={`/wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}/${page.pageId}`}>
+                      {page.name}
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            null
+          )}
+        </Fragment>
+      )}
+
+      {/* All internal tool pages */}
+      {role >= 2 ? (
+        <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
+          <span>Internal Tools</span>
+          <div className="dropdown-content">
+
+            {role === 3 ? (
+              <div className="navbar-item px-2 py-1">
+                <a href={`/manage-images/${userId}`}>
+                  Manage Images
+                </a>
+              </div>
+            ) : (
+              null
+            )}
+
+            {role >= 4 ? (
+              <Fragment>
+                <div className="navbar-item px-2 py-1">
+                  <a href="/manage-card-titles">
+                    Manage Card Titles
+                  </a>
+                </div>
+
+                <div className="navbar-item px-2 py-1">
+                  <a href="/manage-icons">
+                    Manage Icons
+                  </a>
+                </div>
+
+                <div className="navbar-item px-2 py-1">
+                  <a href="/manage-uploads">
+                    Manage Images
+                  </a>
+                </div>
+
+                <div className="navbar-item px-2 py-1">
+                  <a href="/manage-links">
+                    Manage Links
+                  </a>
+                </div>
+
+                <div className="navbar-item px-2 py-1">
+                  <a href="/manage-users">
+                    Manage Users
+                  </a>
+                </div>
+              </Fragment>
+            ) : (
+              null
+            )}
+
+            <div className="navbar-item px-2 py-1">
+              <a href="/history-report">
+                History Report
+              </a>
+            </div>
+
+            {role >= 3 ? (
+              <div className="navbar-item px-2 py-1">
+                <a href="/publish-requests">
+                  Publish Requests
+                </a>
+              </div>
+            ) : (
+              null
+            )}
+
+          </div>
         </div>
-      </nav>
+      ) : (
+        null
+      )}
+
+      {/* External sites */}
+      <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
+        <span>Related Sites</span>
+        <div className="dropdown-content">
+          <div className="navbar-item px-2 py-1">
+            <a href="https://eec.oregonstate.edu/">
+              OSU Energy Efficiency Center
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
 export default NavBar;
 
 NavBar.propTypes = {
-  handleLoginStatusChange: PropTypes.any,
-  openSidebar: PropTypes.any,
-  nameChange: PropTypes.any
+  role: PropTypes.number,
+  loginStatusChange: PropTypes.bool
 };
