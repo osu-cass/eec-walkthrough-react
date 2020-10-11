@@ -16,6 +16,7 @@ import EditUser from "./pages/EditUser/EditUser";
 import PageList from "./pages/PageList/PageList";
 import Error404 from "./pages/404/Error404";
 import Error500 from "./pages/500/Error500";
+import PageHeader from "./components/PageHeader/PageHeader";
 import NavBar from "./components/NavBar/NavBar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import {Route, Switch} from "react-router-dom";
@@ -32,10 +33,14 @@ function App() {
     <main>
       <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 
-      <NavBar
+      <PageHeader
         nameChange={nameChange}
         openSidebar={() => setSidebarOpen(true)}
         handleLoginStatusChange={() => setLoginStatusChange(!loginStatusChange)}
+      />
+
+      <NavBar
+        loginStatusChange={loginStatusChange}
       />
 
       <Sidebar
