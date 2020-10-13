@@ -169,13 +169,18 @@ function NavBar (props) {
       {categories.map((category) =>
         <Fragment key={category.categoryId}>
           {category.pages.length || role >= 3 ? (
+
+            <a href={`/page-list/${category.categoryId}`}>
             <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
-              <span>{category.pluralName}</span>
+                <span>{category.pluralName}</span>
+
+
               {category.internal ? (
                 <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
               ) : (
                 null
               )}
+
               <div className="dropdown-content mt-2">
                 {category.pages.map((page) =>
                   <a href={`/wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}/${page.pageId}`}>
@@ -196,6 +201,7 @@ function NavBar (props) {
                 )}
               </div>
             </div>
+            </a>
           ) : (
             null
           )}
