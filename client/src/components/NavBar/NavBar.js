@@ -2,6 +2,7 @@ import React, {useState, useEffect, Fragment} from "react";
 import PropTypes from "prop-types";
 import {getProfile} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
+import CreateCategory from "../Sidebar/CreateCategory";
 import "./NavBar.css";
 
 // navigation bar that appears at the top of the page
@@ -12,7 +13,7 @@ function NavBar (props) {
   const [instructions, setInstructions] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  // if our login changes, refresh the navbar and the user's role
+  // If our login changes, refresh the navbar and the user's role
   useEffect(() => {
     const user = getProfile();
     setRole(user.role);
@@ -31,7 +32,7 @@ function NavBar (props) {
     if (results.ok) {
       const obj = await results.json();
 
-      // if there is a category with an id of 0,
+      // If there is a category with an id of 0,
       // remove it from the categories and add it to instructions
       let newInstruction = [];
       for (let i = 0; i < obj.categories.length; i++) {
@@ -51,21 +52,23 @@ function NavBar (props) {
     <div className="nav-bar-main mb-5 px-4">
 
       {/* Button that links to homepage */}
-      <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
-        <a href="/">Home</a>
-      </div>
+      <a href="/">
+        <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
+          Home
+        </div>
+      </a>
 
       {/* Dropdown for instructions on how to use the site */}
       {instructions.length ? (
         <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
           <span>Help</span>
-          <div className="dropdown-content">
+          <div className="dropdown-content mt-2">
             {instructions.map((page) =>
-              <div className="navbar-item px-2 py-1" key={page.pageId}>
-                <a href={`/wiki/instructions/${page.pageId}`}>
-                  {page.name}
-                </a>
-              </div>
+              <a href={`/wiki/instructions/${page.pageId}`}>
+                <div className="navbar-item px-2 py-1" key={page.pageId}>
+                    {page.name}
+                </div>
+              </a>
             )}
           </div>
         </div>
@@ -73,92 +76,71 @@ function NavBar (props) {
         null
       )}
 
-      {/* Each category gets its own dropdown */}
-      {categories.map((category) =>
-        <Fragment key={category.categoryId}>
-          {category.pages.length ? (
-            <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
-              <span>{category.pluralName}</span>
-              <div className="dropdown-content">
-                {category.pages.map((page) =>
-                  <div className="navbar-item px-2 py-1" key={page.pageId}>
-                    <a href={`/wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}/${page.pageId}`}>
-                      {page.name}
-                    </a>
-                  </div>
-                )}
-              </div>
-            </div>
-          ) : (
-            null
-          )}
-        </Fragment>
-      )}
-
       {/* All internal tool pages */}
       {role >= 2 ? (
         <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
           <span>Internal Tools</span>
-          <div className="dropdown-content">
+          <div className="dropdown-content mt-2">
 
             {role === 3 ? (
-              <div className="navbar-item px-2 py-1">
-                <a href={`/manage-images/${userId}`}>
-                  Manage Images
-                </a>
-              </div>
+              <a href={`/manage-images/${userId}`}>
+                <div className="navbar-item px-2 py-1">
+                    Manage Images
+                </div>
+              </a>
             ) : (
               null
             )}
 
             {role >= 4 ? (
               <Fragment>
-                <div className="navbar-item px-2 py-1">
-                  <a href="/manage-card-titles">
-                    Manage Card Titles
-                  </a>
-                </div>
+                <a href="/manage-card-titles">
+                  <div className="navbar-item px-2 py-1">
+                      Manage Card Titles
+                  </div>
+                </a>
 
-                <div className="navbar-item px-2 py-1">
-                  <a href="/manage-icons">
+                <a href="/manage-icons">
+                  <div className="navbar-item px-2 py-1">
                     Manage Icons
-                  </a>
-                </div>
+                  </div>
+                </a>
 
-                <div className="navbar-item px-2 py-1">
-                  <a href="/manage-uploads">
+                <a href="/manage-uploads">
+                  <div className="navbar-item px-2 py-1">
                     Manage Images
-                  </a>
-                </div>
+                  </div>
+                </a>
 
-                <div className="navbar-item px-2 py-1">
-                  <a href="/manage-links">
+                <a href="/manage-links">
+                  <div className="navbar-item px-2 py-1">
                     Manage Links
-                  </a>
-                </div>
+                  </div>
+                </a>
 
-                <div className="navbar-item px-2 py-1">
-                  <a href="/manage-users">
+                <a href="/manage-users">
+                  <div className="navbar-item px-2 py-1">
                     Manage Users
-                  </a>
-                </div>
+                  </div>
+                </a>
               </Fragment>
             ) : (
               null
             )}
 
-            <div className="navbar-item px-2 py-1">
-              <a href="/history-report">
+
+            <a href="/history-report">
+              <div className="navbar-item px-2 py-1">
                 History Report
-              </a>
-            </div>
+              </div>
+            </a>
 
             {role >= 3 ? (
-              <div className="navbar-item px-2 py-1">
-                <a href="/publish-requests">
+              <a href="/publish-requests">
+                <div className="navbar-item px-2 py-1">
                   Publish Requests
-                </a>
-              </div>
+                </div>
+              </a>
             ) : (
               null
             )}
@@ -172,14 +154,60 @@ function NavBar (props) {
       {/* External sites */}
       <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
         <span>Related Sites</span>
-        <div className="dropdown-content">
-          <div className="navbar-item px-2 py-1">
-            <a href="https://eec.oregonstate.edu/">
+        <div className="dropdown-content mt-2">
+
+          <a href="https://eec.oregonstate.edu/">
+            <div className="navbar-item px-2 py-1">
               OSU Energy Efficiency Center
-            </a>
-          </div>
+            </div>
+          </a>
+
         </div>
       </div>
+
+      {/* Each category gets its own dropdown */}
+      {categories.map((category) =>
+        <Fragment key={category.categoryId}>
+          {category.pages.length || role >= 3 ? (
+            <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
+              <span>{category.pluralName}</span>
+              {category.internal ? (
+                <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
+              ) : (
+                null
+              )}
+              <div className="dropdown-content mt-2">
+                {category.pages.map((page) =>
+                  <a href={`/wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}/${page.pageId}`}>
+                    <div className="navbar-item px-2 py-1" key={page.pageId}>
+                        {page.name}
+                        {page.approved === 0 ? (
+                          <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-wrench fa-sm ml-1" /></span>
+                        ) : (
+                          null
+                        )}
+                        {page.internal ? (
+                          <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
+                        ) : (
+                          null
+                        )}
+                    </div>
+                  </a>
+                )}
+              </div>
+            </div>
+          ) : (
+            null
+          )}
+        </Fragment>
+      )}
+
+      {/* Button for creating new categories */}
+      <CreateCategory
+        navbar={true}
+        refresh={() => fetchData()}
+        role={role}
+      />
 
     </div>
   );
