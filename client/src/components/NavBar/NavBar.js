@@ -58,7 +58,7 @@ function NavBar (props) {
       {/* Dropdown for instructions on how to use the site */}
       {instructions.length ? (
         <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
-          <span>How to Use</span>
+          <span>Help</span>
           <div className="dropdown-content">
             {instructions.map((page) =>
               <div className="navbar-item px-2 py-1" key={page.pageId}>

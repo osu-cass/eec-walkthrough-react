@@ -1,3 +1,17 @@
+@media (min-width: 769px) {
+  .nav-hamburger {
+    display: none;
+    position: absolute;
+  }
+}
+
+@media (max-width: 768px) {
+  .osu-logo {
+    display: none;
+    position: absolute;
+  }
+}
+
 .nav-hamburger {
   width: 3.5em !important;
   height: 3.5em !important;

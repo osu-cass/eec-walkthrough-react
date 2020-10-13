@@ -1,3 +1,10 @@
+@media (max-width: 768px) {
+  .nav-bar-main, .dropdown-nav, .dropdown-content {
+    display: none;
+    position: absolute;
+  }
+}
+
 .nav-bar-main {
   background-color: #000;
   color: #fff;
