@@ -409,7 +409,7 @@ function EditPage(props) {
   }
 
   return props.role >= 3 && props.mode === 1 ? (
-    <div className="text-center mx-2 my-auto">
+    <div className="text-center mx-2 my-auto d-print-none">
 
       <Agreement
         agreementTitle={"Image Agreement"}

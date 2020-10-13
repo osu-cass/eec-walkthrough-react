@@ -23,7 +23,7 @@ function EditCard(props) {
   }
 
   return role >= 3 ? (
-    <div className="text-center mx-2 my-auto">
+    <div className="text-center mx-2 my-auto d-print-none">
       <Button size="sm" variant="info" onClick={(e) => handleShow(e)}>
         <i
           className="fas fa-fw fa-edit text-white mr-2"

@@ -2,7 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 
-// button for adding content to a card
+// Button for adding content to a card
 function AddButton(props) {
   return (
     <Button

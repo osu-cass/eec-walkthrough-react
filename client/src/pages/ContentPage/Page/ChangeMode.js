@@ -14,7 +14,7 @@ function ChangeMode(props) {
 
   if (props.role >= 3 && props.mode === 0) {
     return (
-      <div className="text-center mx-2 my-auto">
+      <div className="text-center mx-2 my-auto d-print-none">
         <Button size="sm"
           variant="secondary"
           onClick={() => toggleMode(1)}
@@ -29,7 +29,7 @@ function ChangeMode(props) {
     );
   } else if (props.role >= 3 && props.mode === 1) {
     return (
-      <div className="text-center mx-2 my-auto">
+      <div className="text-center mx-2 my-auto d-print-none">
         <Button size="sm"
           variant="secondary"
           onClick={() => toggleMode(2)}
@@ -44,7 +44,7 @@ function ChangeMode(props) {
     );
   } else if (props.role >= 3 && props.mode === 2) {
     return (
-      <div className="text-center mx-2 my-auto">
+      <div className="text-center mx-2 my-auto d-print-none">
         <Button size="sm"
           variant="secondary"
           onClick={() => {

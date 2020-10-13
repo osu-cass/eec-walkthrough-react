@@ -202,7 +202,7 @@ function EditHeader(props) {
   }
 
   return props.role >= 3 && props.mode === 1 ? (
-    <div className="text-center mx-2 my-auto">
+    <div className="text-center mx-2 my-auto d-print-none">
       <LoadingOverlay loading={showLoad} />
       <Button size="sm" variant="info" onClick={() => handleShowModal()}>
         <i
