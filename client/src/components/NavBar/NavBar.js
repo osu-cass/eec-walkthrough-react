@@ -4,6 +4,7 @@ import {getProfile} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import CreateCategory from "../Sidebar/CreateCategory";
 import CreatePage from "../Sidebar/CreatePage";
+import EditCategory from "../Sidebar/EditCategory";
 import "./NavBar.css";
 
 // navigation bar that appears at the top of the page
@@ -80,7 +81,7 @@ function NavBar (props) {
       {/* All internal tool pages */}
       {role >= 2 ? (
         <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
-          <span>Internal Tools</span>
+          <span>Tools</span>
           <div className="dropdown-content mt-2">
 
             {role === 3 ? (
@@ -206,7 +207,7 @@ function NavBar (props) {
                   </a>
                 )}
 
-                {/* Create Page Button */}
+                {/* Create page button */}
                 <CreatePage
                   navbar={true}
                   title={`Create ${category.pluralName} Page`}
@@ -214,6 +215,14 @@ function NavBar (props) {
                   refresh={() => fetchData()}
                   role={role}
                   categoryId={category.categoryId}
+                />
+
+                {/* Edit category button */}
+                <EditCategory
+                  navbar={true}
+                  refresh={() => fetchData()}
+                  role={role}
+                  category={category}
                 />
               </div>
 
