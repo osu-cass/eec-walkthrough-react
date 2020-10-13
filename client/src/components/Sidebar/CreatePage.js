@@ -189,6 +189,7 @@ function CreatePage(props) {
         show={showAgreement}
         closeModal={() => cancelAgreement()}
       />
+
       {/* The style of the button depends if this is the sidebar or navbar */}
       {props.navbar ? (
         <Fragment>

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
@@ -121,14 +121,28 @@ function EditCategory(props) {
   }
 
   return props.role >= 4 ? (
-    <div className="text-center mx-1 editCategory">
-      <Button variant="outline-info" className="editCategory" onClick={() => handleShow()}>
-        <i
-          className="edit-category-icon fas fa-plus-circle text-info mr-2"
-          style={{transform: "scale(1.5)"}}
-        />
-          Edit Category
-      </Button>
+    <div className={`${props.navbar ? "d-inline" : "text-center mx-1 editCategory"}`}>
+
+      {/* The style of the button depends if this is the sidebar or navbar */}
+      {props.navbar ? (
+        <Fragment>
+          <div className="navbar-item px-2 py-1" onClick={(e) => handleShow(e)}>
+            <i
+              className="nav-bar-icon fas fa-plus-circle text-info mr-2"
+            />
+            <span className="navbar-item-text text-left">Edit Category</span>
+          </div>
+        </Fragment>
+      ) : (
+        <Button variant="outline-info" className="editCategory" onClick={() => handleShow()}>
+          <i
+            className="edit-category-icon fas fa-plus-circle text-info mr-2"
+            style={{transform: "scale(1.5)"}}
+          />
+            Edit Category
+        </Button>
+      )}
+
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Edit Category</h5>
@@ -234,5 +248,6 @@ export default EditCategory;
 EditCategory.propTypes = {
   category: PropTypes.object,
   role: PropTypes.number,
-  refresh: PropTypes.func
+  refresh: PropTypes.func,
+  navbar: PropTypes.bool
 };
