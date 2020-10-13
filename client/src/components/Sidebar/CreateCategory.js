@@ -121,7 +121,7 @@ function CreateCategory(props) {
             <i
               className="nav-bar-icon fas fa-plus-circle text-info mr-2"
             />
-            Create Category
+              Create Category
           </div>
         </Fragment>
       ) : (

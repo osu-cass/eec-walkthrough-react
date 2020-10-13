@@ -50,3 +50,7 @@
 .dropdown:hover .dropdown-content a:hover {
   text-decoration: none;
 }
+
+.navbar-item-text {
+  color: #fff;
+}

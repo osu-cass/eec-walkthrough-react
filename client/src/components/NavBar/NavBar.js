@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {getProfile} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import CreateCategory from "../Sidebar/CreateCategory";
+import CreatePage from "../Sidebar/CreatePage";
 import "./NavBar.css";
 
 // navigation bar that appears at the top of the page
@@ -64,8 +65,8 @@ function NavBar (props) {
           <span>Help</span>
           <div className="dropdown-content mt-2">
             {instructions.map((page) =>
-              <a href={`/wiki/instructions/${page.pageId}`}>
-                <div className="navbar-item px-2 py-1" key={page.pageId}>
+              <a href={`/wiki/instructions/${page.pageId}`} key={page.pageId}>
+                <div className="navbar-item px-2 py-1">
                     {page.name}
                 </div>
               </a>
@@ -170,21 +171,26 @@ function NavBar (props) {
         <Fragment key={category.categoryId}>
           {category.pages.length || role >= 3 ? (
 
-            <a href={`/page-list/${category.categoryId}`}>
-            <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
-                <span>{category.pluralName}</span>
+            <div className="dropdown dropdown-nav d-inline-block">
+              <a href={`/page-list/${category.categoryId}`}>
+                <div className="py-2 px-2 w-100 h-100">
+                  <span>{category.pluralName}</span>
+                  {category.internal ? (
+                    <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
+                  ) : (
+                    null
+                  )}
+                </div>
+              </a>
 
-
-              {category.internal ? (
-                <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
-              ) : (
-                null
-              )}
-
-              <div className="dropdown-content mt-2">
+              <div className="dropdown-content">
+                {/* Pages */}
                 {category.pages.map((page) =>
-                  <a href={`/wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}/${page.pageId}`}>
-                    <div className="navbar-item px-2 py-1" key={page.pageId}>
+                  <a
+                    href={`/wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}/${page.pageId}`}
+                    key={page.pageId}
+                  >
+                    <div className="navbar-item px-2 py-1">
                         {page.name}
                         {page.approved === 0 ? (
                           <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-wrench fa-sm ml-1" /></span>
@@ -199,9 +205,19 @@ function NavBar (props) {
                     </div>
                   </a>
                 )}
+
+                {/* Create Page Button */}
+                <CreatePage
+                  navbar={true}
+                  title={`Create ${category.pluralName} Page`}
+                  collectionLink={`wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}`}
+                  refresh={() => fetchData()}
+                  role={role}
+                  categoryId={category.categoryId}
+                />
               </div>
+
             </div>
-            </a>
           ) : (
             null
           )}
