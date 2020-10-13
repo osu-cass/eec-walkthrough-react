@@ -1,8 +1,15 @@
 #magnify-search-button, #magnify-search-button:hover,
 #magnify-search-button:active, #magnify-search-button:target {
   border-style: none !important;
-  border-color: var(--dark) !important;
-  background-color: var(--dark) !important;
+  border-color: #d73f09;
+  background-color: #d73f09;
   outline: none !important;
   box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .input-search-pages-icon {
+    display: none;
+    position: absolute;
+  }
 }

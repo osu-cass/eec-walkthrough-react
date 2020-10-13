@@ -120,7 +120,7 @@ function Login (props) {
 
         {/* Login Button */}
         <button
-          className="btn btn-success mx-4 px-4"
+          className="btn btn-dark mx-4 px-4"
           type="button"
           data-toggle="modal"
           onClick={() => openModal()}
@@ -129,7 +129,6 @@ function Login (props) {
         </button>
 
         {/* Login Modal */}
-
         <Modal show={showModal} onHide={() => props.handleClose()} dialogClassName="modal-width" id="login-modal">
           <Modal.Header>
             <h5 className="modal-title">Login</h5>
