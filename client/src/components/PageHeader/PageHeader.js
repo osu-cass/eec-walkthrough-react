@@ -47,21 +47,37 @@ function PageHeader (props) {
 
           {/* Header title text*/}
           <div className="page-header-title-container">
+            {/* Large Header */}
             <h4 className="nav-header-title large-org">
               Energy Efficiency Center
             </h4>
-            <h4 className="nav-header-title small-org">
-              EEC
-            </h4>
-            <h4 className="nav-header-symbol mx-2">
+            <h4 className="nav-header-symbol mx-2 large-org">
               &#124;
             </h4>
-            <h4 className="nav-header-title website-title large-org">
+            <h4 className="nav-header-title large-org">
               Industrial Walkthrough Checklist &amp; Reference (Demo)
             </h4>
-            <h4 className="nav-header-title website-title small-org">
+
+            {/* Medium Header */}
+            <h4 className="nav-header-title med-org">
+              EEC
+            </h4>
+            <h4 className="nav-header-symbol mx-2 med-org">
+              &#124;
+            </h4>
+            <h4 className="nav-header-title med-org">
               Industrial Walkthrough Checklist &amp; Reference
             </h4>
+
+            {/* Small Header */}
+            <div className="mobile-title">
+              <h4 className="nav-header-title-top small-org">
+              Energy Efficiency Center
+              </h4>
+              <h4 className="nav-header-title-bottom small-org">
+                Industrial Walkthrough Checklist &amp; Reference
+              </h4>
+            </div>
           </div>
 
         </div>
