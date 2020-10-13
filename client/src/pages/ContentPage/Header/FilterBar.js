@@ -159,7 +159,7 @@ function FilterBar(props) {
         null
       ) : (
         <div
-          className="d-flex btn btn-info filter-closed-btn mr-2"
+          className="d-flex btn btn-info filter-closed-btn mr-2 d-print-none"
           onClick={() => props.showFilter()}
           title="Show Filterbar"
         >
@@ -170,7 +170,7 @@ function FilterBar(props) {
       {/* Scroll filter bar left */}
       {hasOverflow && props.show ? (
         <div
-          className={`d-flex btn btn-info filter-scroll-left px-1 ml-2 ${canScrollLeft ? "" : "disabled"}`}
+          className={`d-flex btn btn-info filter-scroll-left px-1 ml-2 d-print-none ${canScrollLeft ? "" : "disabled"}`}
           onMouseUp={() => mouseUp()}
           onMouseDown={() => mouseDown(1)}
           title="Scroll Left"
@@ -182,7 +182,7 @@ function FilterBar(props) {
       )}
 
       {/* filter bar body */}
-      <div className={`filter-expand card px-3 ${hasOverflow ? "filter-corners" : "mr-2 filter-round"} ${props.show ? "filter-show" : "filter-hide"}`}>
+      <div className={`filter-expand card px-3 d-print-none ${hasOverflow ? "filter-corners" : "mr-2 filter-round"} ${props.show ? "filter-show" : "filter-hide"}`}>
         <div
           className={`filter-icon-container icons row flex-nowrap`}
           id={`filter-bar-${props.headerId}`}
@@ -271,7 +271,7 @@ function FilterBar(props) {
       {/* Scroll filter bar right */}
       {hasOverflow && props.show ? (
         <div
-          className={`d-flex btn btn-info filter-scroll-right px-1 mr-2 ${canScrollRight ? "" : "disabled"}`}
+          className={`d-flex btn btn-info filter-scroll-right px-1 mr-2 d-print-none ${canScrollRight ? "" : "disabled"}`}
           onMouseUp={() => mouseUp()}
           onMouseDown={() => mouseDown(0)}
           title="Scroll Right"

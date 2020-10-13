@@ -236,7 +236,7 @@ function AddSource(props) {
 
     return <div className="text-center mx-2 my-auto">
       <LoadingOverlay loading={loading} />
-      <Button size="sm" variant="info" onClick={() => handleShowModal()}>
+      <Button className="d-print-none" size="sm" variant="info" onClick={() => handleShowModal()}>
         <i
           className="fas fa-book text-white ml-auto mr-2"
           style={{transform: "scale(1.5)"}}
