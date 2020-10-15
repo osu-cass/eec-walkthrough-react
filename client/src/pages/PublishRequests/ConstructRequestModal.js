@@ -57,7 +57,6 @@ function ConstructRequestModal(props) {
 
       }
     }
-    // eslint-disable-next-line
   }, [props.show]);
 
   // Clear error messages whenever the modal is opened or closed

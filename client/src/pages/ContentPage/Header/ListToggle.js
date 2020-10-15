@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-// icon for filtering out non-opportunities at the top level
+// Icon for filtering out non-opportunities at the top level
 function ListToggle(props) {
   return props.showToggle ? (
     <div className="col-auto px-2 py-0 align-self-center">

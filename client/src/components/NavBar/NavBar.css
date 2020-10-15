@@ -1,27 +1,56 @@
-.nav-hamburger {
-  width: 3.5em !important;
-  height: 3.5em !important;
+@media (max-width: 768px) {
+  .nav-bar-main, .dropdown-nav, .dropdown-content {
+    display: none;
+    position: absolute;
+  }
 }
 
-.nav-hamburger-icon {
-  color: #d73f09;
+.nav-bar-main {
+  background-color: #000;
+  color: #fff;
 }
 
-.nav-header-top {
-  margin: 0;
-  margin-top: 0.25em;
-  margin-bottom: 0.25em;
-  font-family: "Times New Roman", Times, serif;
+.dropdown-nav {
+  position: relative;
+  border-left: 1px solid #565656;
+  border-right: 1px solid #565656;
+  color: #fff;
 }
 
-.nav-header-bottom {
-  margin: 0;
-  font-weight: bold;
-  color: #d73f09;
+.dropdown-nav:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
-.osu-logo {
-  height: 4em;
-  background-color: var(--dark);
-  border: 0px;
+.dropdown-nav a:link { color: #fff }
+.dropdown-nav a:visited { color: #fff }
+.dropdown-nav a:hover { color: #fff }
+.dropdown-nav a:active { color: #fff }
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  min-width: 100%;
+  background-color: #000;
+  color: #fff;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  white-space: nowrap;
+  left: 0;
+}
+
+.dropdown:hover .dropdown-content .navbar-item:hover {
+  background-color: #565656;
+}
+
+.dropdown:hover .dropdown-content a:hover {
+  text-decoration: none;
+}
+
+.navbar-item-text {
+  color: #fff;
 }

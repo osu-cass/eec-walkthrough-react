@@ -93,7 +93,7 @@ To install eslint on your computer run the following command:
 
 From the root directory, attempt to fix all errors across the project:
 
-`eslint "./*" --fix`
+`eslint "." --fix`
 
 ## Learn More
 

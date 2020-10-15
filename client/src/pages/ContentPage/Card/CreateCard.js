@@ -22,7 +22,7 @@ function CreateCard(props) {
   }
 
   return role >= 3 && props.mode === 1 ? (
-    <div className="text-center mt-3 mb-2">
+    <div className="text-center mt-3 mb-2 d-print-none">
       <Button variant="info" onClick={() => handleShow()}>
         <i
           className="fas fa-plus-circle text-white mr-2"

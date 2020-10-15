@@ -36,10 +36,10 @@ function LinkAccessButtons(props) {
 
   return role >= 3 && props.mode !== 2 ? (
     <Fragment>
-      <Button className="ml-3" size="sm" variant="info" onClick={() => updateAccess(0)}>
+      <Button className="ml-3 d-print-none" size="sm" variant="info" onClick={() => updateAccess(0)}>
         Confirm Valid
       </Button>
-      <Button className="mx-1" size="sm" variant="danger" onClick={() => updateAccess(1)}>
+      <Button className="mx-1 d-print-none" size="sm" variant="danger" onClick={() => updateAccess(1)}>
         Report Dead Link
       </Button>
     </Fragment>

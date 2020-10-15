@@ -77,7 +77,6 @@ function ReviewCard(props) {
     }
     setImageItems(imageArray);
     setTempImageItems(tempImageArray);
-    // eslint-disable-next-line
   }, [props.card.items, props.card.tempItems]);
 
   function handleClose() {
@@ -295,7 +294,7 @@ function ReviewCard(props) {
   }
 
   return role >= 3 ? (
-    <div className="text-center mx-2 my-auto">
+    <div className="text-center mx-2 my-auto d-print-none">
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
         <i
@@ -331,21 +330,21 @@ function ReviewCard(props) {
                   <h3 className="font-weight-bold">{props.card.title}</h3>
                 )}
                 {props.card.cardType === 1 || props.card.cardType === 11 ? (
-                  <Fragment>
+                  <div className="m-0 p-0 card border-0">
                     {props.card.tempCardId ? (
                       <ThumbnailGallery items={imageItems} compareMode={2} otherItems={imageTempItems} />
                     ) : (
                       <ThumbnailGallery items={imageItems} />
                     )}
-                  </Fragment>
+                  </div>
                 ) : (
-                  <Fragment>
+                  <div className="m-0 p-0 card border-0">
                     {props.card.tempCardId ? (
                       <BasicItems items={props.card.items} mode={props.mode} reviewing={true} compareMode={2} otherItems={props.card.tempItems} setCheck={() => {}} />
                     ) : (
                       <BasicItems items={props.card.items} mode={props.mode} reviewing={true} setCheck={() => {}} />
                     )}
-                  </Fragment>
+                  </div>
                 )}
               </div>
             </div>
@@ -369,7 +368,9 @@ function ReviewCard(props) {
                     {props.card.tempCardType === 1 || props.card.tempCardType === 11 ? (
                       <ThumbnailGallery items={imageTempItems} reviewing={true} compareMode={1} otherItems={imageItems} />
                     ) : (
-                      <BasicItems items={props.card.tempItems} mode={props.mode} reviewing={true} compareMode={1} otherItems={props.card.items} setCheck={() => {}} />
+                      <div className="m-0 p-0 card border-0">
+                        <BasicItems items={props.card.tempItems} mode={props.mode} reviewing={true} compareMode={1} otherItems={props.card.items} setCheck={() => {}} />
+                      </div>
                     )}
                   </div>
                 </div>
@@ -382,7 +383,9 @@ function ReviewCard(props) {
                     {props.card.cardType === 1 || props.card.cardType === 11 ? (
                       <ThumbnailGallery items={imageTempItems} />
                     ) : (
-                      <BasicItems items={props.card.tempItems} reviewing={true} setCheck={() => {}} />
+                      <div className="m-0 p-0 card border-0">
+                        <BasicItems items={props.card.tempItems} reviewing={true} setCheck={() => {}} />
+                      </div>
                     )}
                   </div>
                 </div>

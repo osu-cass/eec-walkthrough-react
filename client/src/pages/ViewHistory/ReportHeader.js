@@ -47,13 +47,13 @@ function ReportHeader(props) {
 
       <div className="col">
         <div className={`version-container p-2 m-3 border border-dark rounded`}>
-        {props.reviewMode ? (
+          {props.reviewMode ? (
             <div className="row">
               <div className="col-10">
                 <h4 className="report-header-special-text pl-4 pt-4">Header</h4>
               </div>
               <div className="col-2">
-                <button 
+                <button
                   type="button"
                   className="btn btn-success btn-report-header pull-right mr-2 mt-2"
                   onClick={() => setShowComment(!showComment)}

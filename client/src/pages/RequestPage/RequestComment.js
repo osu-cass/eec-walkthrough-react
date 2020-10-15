@@ -26,15 +26,15 @@ function RequestComment(props) {
   return (
     <Fragment>
 
-        {/* If there is a child comment in the diff log, add a link to jump to */}
-        {props.targetId !== "0" && !props.linkToComment ? (
-          <span
-            id={`comment-${props.targetId}-${props.commentId}`}
-            className="comment-anchor"
-          />
-        ) : (
-          null
-        )}
+      {/* If there is a child comment in the diff log, add a link to jump to */}
+      {props.targetId !== "0" && !props.linkToComment ? (
+        <span
+          id={`comment-${props.targetId}-${props.commentId}`}
+          className="comment-anchor"
+        />
+      ) : (
+        null
+      )}
 
       <Card className={`request-comment-card my-2 shadow-sm ${props.borderDark ? "border-dark mx-4" : ""}`}>
         <Card.Body className="request-card-comment-body">

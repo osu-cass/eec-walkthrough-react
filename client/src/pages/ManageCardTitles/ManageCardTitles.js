@@ -15,29 +15,56 @@ function ManageCardTitles() {
 
   // when the page first loads, get all default card titles
   useEffect(() => {
-    fetchTitles();
-    // eslint-disable-next-line
-  }, []);
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
 
-  // fetch card titles
-  async function fetchTitles() {
-    setLoading(true);
+    async function fetchTitles() {
+      try {
 
-    const results = await fetch(`${API_URL}/cards/titles`, {
-      method: "GET",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"}
-    });
+        setLoading(true);
 
-    if (results.ok) {
-      const obj = await results.json();
-      setCardTitles(obj.titles);
-    } else {
-      console.error("Error fetching card titles");
+        const results = await fetch(`${API_URL}/cards/titles`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+          const obj = await results.json();
+          setCardTitles(obj.titles);
+        } else {
+          console.error("Error fetching card titles");
+        }
+
+        setLoading(false);
+
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
+      }
     }
 
-    setLoading(false);
-  }
+    fetchTitles();
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
+  }, []);
 
   // save the current card titles
   async function handleSubmit() {

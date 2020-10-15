@@ -8,6 +8,8 @@ import {API_URL} from "../../utilities/constants";
 import ReportPage from "../ViewHistory/ReportPage";
 import ReportHeader from "../ViewHistory/ReportHeader";
 import ReportCard from "../ViewHistory/ReportCard";
+import Error404 from "../404/Error404";
+import Error500 from "../500/Error500";
 import {useParams} from "react-router-dom";
 import CloseRequest from "./CloseRequest";
 import AcceptRequest from "./AcceptRequest";
@@ -18,6 +20,7 @@ import "./RequestPage.css";
 function RequestPage() {
 
   const [loading, setLoading] = useState(false);
+  const [errorPage, setErrorPage] = useState(false);
   const [request, setRequest] = useState({
     requestId: 0,
     title: "",
@@ -32,44 +35,79 @@ function RequestPage() {
   const {requestId} = useParams();
   const [errorMessage, setErrorMessage] = useState("");
 
+  // when the page first loads, get data about the request
   useEffect(() => {
-    fetchRequest();
-    // eslint-disable-next-line
-  }, []);
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
 
-  // fetch request data
-  async function fetchRequest() {
-    setLoading(true);
+    // fetch request data
+    async function fetchRequest() {
+      try {
 
-    // Fetch all requests
-    const results = await fetch(`${API_URL}/requests/${requestId}`, {
-      method: "GET",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"}
-    });
+        setLoading(true);
 
-    if (results.ok) {
+        // Fetch all requests
+        const results = await fetch(`${API_URL}/requests/${requestId}`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
 
-      const obj = await results.json();
-      setRequest(obj);
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
 
-    } else {
+        if (results.ok) {
 
-      // if the user is performing an unauthorized action
-      // log them out and return them to the homepage
-      if (results.status === 401) {
-        logout();
-        window.location.href = "/";
-      } else {
-        console.error("Error fetching request");
+          const obj = await results.json();
+          setRequest(obj);
+
+        } else {
+
+          if (results.status === 404) {
+            // if we can't find the page, then serve a 404 page
+            setErrorPage(404);
+          } else if (results.status === 401) {
+            // if the user is performing an unauthorized action
+            // log them out and return them to the homepage
+            logout();
+            window.location.href = "/";
+          } else {
+            // server a 500 error page
+            setErrorPage(500);
+          }
+
+        }
+
+        setLoading(false);
+
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
       }
-
     }
 
-    setLoading(false);
-  }
+    fetchRequest();
 
-  return (
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
+  }, [requestId]);
+
+
+
+  return !errorPage ? (
     <div className="container request-page-container">
 
       <LoadingOverlay loading={loading} />
@@ -188,6 +226,14 @@ function RequestPage() {
       </Card>
 
     </div>
+  ) : (
+    <Fragment>
+      {errorPage === 404 ? (
+        <Error404 />
+      ) : (
+        <Error500 />
+      )}
+    </Fragment>
   );
 }
 export default RequestPage;

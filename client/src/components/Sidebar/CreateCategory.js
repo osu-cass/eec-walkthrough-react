@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, Fragment} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
@@ -112,14 +112,28 @@ function CreateCategory(props) {
   }
 
   return props.role >= 4 ? (
-    <div className="text-center createCategory">
-      <Button variant="outline-info" className="createCategory" onClick={() => handleShow()}>
-        <i
-          className="create-category-icon fas fa-plus-circle text-info mr-2"
-          style={{transform: "scale(1.5)"}}
-        />
+    <div className={`text-center createCategory ${props.navbar ? "d-inline-block" : ""}`}>
+
+      {/* The style of the button depends if this is the sidebar or navbar */}
+      {props.navbar ? (
+        <Fragment>
+          <div className="dropdown dropdown-nav py-2 px-2 d-inline-block" onClick={() => handleShow()}>
+            <i
+              className="nav-bar-icon fas fa-plus-circle text-info mr-2"
+            />
+              Create Category
+          </div>
+        </Fragment>
+      ) : (
+        <Button variant="outline-info" className="createCategory" onClick={() => handleShow()}>
+          <i
+            className="create-category-icon fas fa-plus-circle text-info mr-2"
+            style={{transform: "scale(1.5)"}}
+          />
             Create Category
-      </Button>
+        </Button>
+      )}
+
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Create Category</h5>
@@ -211,5 +225,6 @@ export default CreateCategory;
 
 CreateCategory.propTypes = {
   role: PropTypes.number,
-  refresh: PropTypes.func
+  refresh: PropTypes.func,
+  navbar: PropTypes.bool
 };

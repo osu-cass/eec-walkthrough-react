@@ -46,88 +46,91 @@ function ManageUsers() {
 
     // search for users
     async function searchUsers(cursor, newSearch) {
-      try {
-        setErrorMessage("");
-        setUserLoading(true);
-        const sortValue = searchFields.sortValue;
-        const orderValue = searchFields.orderValue;
+      setErrorMessage("");
+      setUserLoading(true);
+      const sortValue = searchFields.sortValue;
+      const orderValue = searchFields.orderValue;
 
-        // get the search text from the search field
-        let textValue = document.getElementById("input-search-user").value;
+      // get the search text from the search field
+      let textValue = document.getElementById("input-search-user").value;
 
-        // if search text is empty we use a special char to represent
-        // any text response as valid
-        if (textValue === "") {
-          textValue = "*";
-        }
+      // if search text is empty we use a special char to represent
+      // any text response as valid
+      if (textValue === "") {
+        textValue = "*";
+      }
 
-        // get the role from the role select
-        const roleSelect = document.getElementById("select-role");
-        let roleValue = roleSelect.options[roleSelect.selectedIndex].value;
+      // get the role from the role select
+      const roleSelect = document.getElementById("select-role");
+      let roleValue = roleSelect.options[roleSelect.selectedIndex].value;
 
-        // only set the search values if we are performing a new search
-        if (newSearch) {
+      // only set the search values if we are performing a new search
+      if (newSearch) {
 
-          setSearchFields({
-            textValue: textValue,
-            roleValue: roleValue,
-            sortValue: sortValue,
-            orderValue: orderValue
-          });
-        } else {
-          textValue = searchFields.textValue;
-          roleValue = searchFields.roleValue;
-        }
-
-        // construct the request url
-        const getUrl = `${API_URL}/users/search/${textValue}/${roleValue}/` +
-          `${sortValue}/${orderValue}/${cursor.primary}/${cursor.secondary}`;
-
-        // get our search results
-        const results = await fetch(getUrl, {
-          method: "GET",
-          credentials: "include",
-          headers: {"Content-Type": "application/json"}
+        setSearchFields({
+          textValue: textValue,
+          roleValue: roleValue,
+          sortValue: sortValue,
+          orderValue: orderValue
         });
 
-        if (results.ok) {
+      } else {
+        textValue = searchFields.textValue;
+        roleValue = searchFields.roleValue;
+      }
 
-          // if the cursor is new then we will want to relist users
-          const obj = await results.json();
+      // construct the request body
+      const postObj = {
+        text: textValue,
+        role: roleValue,
+        sort: sortValue,
+        order: orderValue,
+        cursorPrimary: cursor.primary,
+        cursorSecondary: cursor.secondary
+      };
 
-          if (cursor.primary === "null") {
-            setUsers([...obj.users]);
-          } else {
-            setUsers([...users, ...obj.users]);
-          }
-          setCursor(obj.nextCursor);
+      // get our search results
+      const results = await fetch(`${API_URL}/users/search`, {
+        method: "POST",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(postObj)
+      });
 
+      if (results.ok) {
+
+        // if the cursor is new then we will want to relist users
+        const obj = await results.json();
+
+        if (cursor.primary === "null") {
+          setUsers([...obj.users]);
         } else {
-
-          const obj = await results.json();
-
-          // there was an error while attempting to search
-          if (results.status === 404) {
-            setErrorMessage("No matching users found.");
-            setUsers([]);
-          } else if (results.status === 500 || typeof obj.error === "undefined") {
-            setErrorMessage("An internal server error occurred. Please try again later.");
-          } else {
-            console.error(obj.error);
-            setErrorMessage(obj.error);
-          }
-
-          // if the user is performing an unauthorized action
-          // log them out and return them to the homepage
-          if (results.status === 401) {
-            logout();
-            window.location.href = "/";
-          }
-
+          setUsers([...users, ...obj.users]);
         }
-      } catch (err) {
-        // show error message if error while searching
-        setErrorMessage("An internal server error occurred. Please try again later.");
+        setCursor(obj.nextCursor);
+
+      } else {
+
+        const obj = await results.json();
+
+        // there was an error while attempting to search
+        if (results.status === 404) {
+          setErrorMessage("No matching users found.");
+          setUsers([]);
+        } else if (results.status === 500 || typeof obj.error === "undefined") {
+          setErrorMessage("An internal server error occurred. Please try again later.");
+        } else {
+          console.error(obj.error);
+          setErrorMessage(obj.error);
+        }
+
+        // if the user is performing an unauthorized action
+        // log them out and return them to the homepage
+        if (results.status === 401) {
+          logout();
+          window.location.href = "/";
+        }
+
       }
       setUserLoading(false);
     }
@@ -142,13 +145,11 @@ function ManageUsers() {
     } else {
       setMounted(true);
     }
-
     // eslint-disable-next-line
   }, [request]);
 
   // initiate a new search request when the sorting order changes
   useEffect(() => {
-
     if (mounted) {
       setRequest({
         primary: "null",
@@ -156,7 +157,6 @@ function ManageUsers() {
         new: true
       });
     }
-
     // eslint-disable-next-line
   }, [searchFields.orderValue, searchFields.sortValue]);
 

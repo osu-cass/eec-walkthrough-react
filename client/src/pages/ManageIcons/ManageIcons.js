@@ -10,41 +10,66 @@ function ManageIcons() {
 
   const [icons, setIcons] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [iconsChanged, setIconsChanged] = useState(false);
 
+  // get icon data when the page loads or when a change is made
   useEffect(() => {
-    fetchIcons();
-  }, []);
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
 
-  // refresh icon data when an icon is created or edited
-  function handleUpdate() {
-    fetchIcons();
-  }
+    async function fetchIcons() {
+      try {
 
-  // fetch icon data
-  async function fetchIcons() {
-    setLoading(true);
+        setLoading(true);
 
-    // Fetch all icons
-    const results = await fetch(`${API_URL}/icons/all`, {
-      method: "GET",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"}
-    });
+        // Fetch all icons
+        const results = await fetch(`${API_URL}/icons/all`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
 
-    if (results.ok) {
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
 
-      const obj = await results.json();
+        if (results.ok) {
 
-      obj.icons.sort((a, b) => a.iconType - b.iconType);
+          const obj = await results.json();
 
-      setIcons(obj.icons);
+          obj.icons.sort((a, b) => a.iconType - b.iconType);
 
-    } else {
-      console.error("Error fetching icon list");
+          setIcons(obj.icons);
+
+        } else {
+          console.error("Error fetching icon list");
+        }
+
+        setLoading(false);
+
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
+      }
     }
 
-    setLoading(false);
-  }
+    fetchIcons();
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
+  }, [iconsChanged]);
 
   // convert icon group number to string
   function groupName(category) {
@@ -120,14 +145,14 @@ function ManageIcons() {
                 {icon.color}
               </td>
               <td className="icon-data text-left">
-                <EditIcons icon={icon} handleUpdate={(icon) => handleUpdate(icon)} />
+                <EditIcons icon={icon} handleUpdate={() => setIconsChanged(!iconsChanged)} />
               </td>
             </tr>
           )}
         </tbody>
       </table>
 
-      <CreateIcon handleUpdate={(icon) => handleUpdate(icon)} />
+      <CreateIcon handleUpdate={() => setIconsChanged(!iconsChanged)} />
 
     </div>
   );

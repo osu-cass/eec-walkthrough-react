@@ -257,7 +257,7 @@ function ReviewHeader(props) {
   }
 
   return role >= 3 && props.mode === 1 ? (
-    <div className="text-center mx-2 my-auto">
+    <div className="text-center mx-2 my-auto d-print-none">
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
         <i

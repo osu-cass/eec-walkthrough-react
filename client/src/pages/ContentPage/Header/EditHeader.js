@@ -16,16 +16,24 @@ function EditHeader(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [checked, setChecked] = useState(0);
 
+  // get the title and internal status
   useEffect(() => {
+    // select the correct title to use
     if (props.header.tempHeaderId) {
       setTitle(props.header.tempTitle);
     } else {
       setTitle(props.header.title);
     }
-    setChecked(isInternal());
-    // eslint-disable-next-line
+
+    // if this item is internal, then make sure it is shown as such in modal
+    let internal = 0;
+    if ((props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal)) {
+      internal = 1;
+    }
+    setChecked(internal);
   }, [props.header.tempHeaderId, props.header.tempTitle, props.header.title, props.header.internal, props.header.tempInternal]);
 
+  // close the modal
   function handleCloseModal() {
     setShowModal(false);
     if (props.header.tempHeaderId) {
@@ -36,17 +44,12 @@ function EditHeader(props) {
     setErrorMessage("");
   }
 
+  // open the modal
   function handleShowModal() {
     setShowModal(true);
   }
 
-  // determines if the current object is only internal viewable
-  function isInternal() {
-    if ((props.header.tempHeaderId && props.header.tempInternal) || (!props.header.tempHeaderId && props.header.internal)) {
-      return 1;
-    }
-  }
-
+  // update the header with new changes
   async function updateHeader() {
     setShowLoad(true);
 
@@ -137,6 +140,7 @@ function EditHeader(props) {
     setShowLoad(false);
   }
 
+  // delete the header
   async function deleteHeader() {
     setShowLoad(true);
 
@@ -178,6 +182,7 @@ function EditHeader(props) {
     setShowLoad(false);
   }
 
+  // submit the changes to the header
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -197,7 +202,7 @@ function EditHeader(props) {
   }
 
   return props.role >= 3 && props.mode === 1 ? (
-    <div className="text-center mx-2 my-auto">
+    <div className="text-center mx-2 my-auto d-print-none">
       <LoadingOverlay loading={showLoad} />
       <Button size="sm" variant="info" onClick={() => handleShowModal()}>
         <i

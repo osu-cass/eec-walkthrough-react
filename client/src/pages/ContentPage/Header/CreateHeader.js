@@ -118,10 +118,10 @@ class CreateHeader extends React.Component {
 
   render() {
     return this.props.role >= 3 && this.props.mode === 1 ? (
-      <div className='text-center mt-2 mb-2 createPage'>
+      <div className="text-center mt-2 mb-2 createPage d-print-none">
         <Button variant="info" onClick={this.handleShow}>
           <i
-            className='fas fa-plus-circle text-white mr-2'
+            className="fas fa-plus-circle text-white mr-2"
             style={{transform: "scale(1.5)"}}></i>
               Create Header
         </Button>
@@ -164,8 +164,8 @@ class CreateHeader extends React.Component {
             </Row>
 
             <Row>
-              <div className='col-3' />
-              <div className='col-6 mt-2'>
+              <div className="col-3" />
+              <div className="col-6 mt-2">
                 <Error
                   message={this.state.errorMessage}
                 />

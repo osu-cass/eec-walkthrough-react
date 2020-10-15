@@ -12,6 +12,7 @@ import "./Home.css";
 function Home(props) {
 
   const [generalIcons, setGeneralIcons] = useState([]);
+  const [pageChange, setPageChange] = useState(false);
   const [linkIcons, setLinkIcons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sponsors, setSponsors] = useState([]);
@@ -38,83 +39,120 @@ function Home(props) {
     categories: []
   });
 
+  // fetch homepage data based on the users role
+  // more information is shown to internal users
   useEffect(() => {
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
+
+    async function fetchHome() {
+      try {
+        setLoading(true);
+
+        // Fetch all icons
+        let results = await fetch(`${API_URL}/icons/all`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+          const general = [];
+          const links = [];
+
+          // Sort the icons by group
+          for (let i = 0; i < obj.icons.length; i++) {
+            if (obj.icons[i].groupIndex === 1 || obj.icons[i].groupIndex === 2) {
+              general.push(obj.icons[i]);
+            } else if (obj.icons[i].groupIndex === 3) {
+              links.push(obj.icons[i]);
+            }
+          }
+
+          setGeneralIcons(general);
+          setLinkIcons(links);
+
+        } else {
+          console.error("Error fetching icon list");
+        }
+
+        // Fetch all homepage content
+        results = await fetch(`${API_URL}/home`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+          setPage(obj);
+
+        } else {
+          console.error("Error fetching homepage content");
+        }
+
+        // Fetch all sponsors
+        results = await fetch(`${API_URL}/home/sponsors`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+          setSponsors(obj.sponsors);
+
+        } else {
+          console.error("Error fetching sponsors");
+        }
+
+        setLoading(false);
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
+      }
+    }
+
+    // fixes a bug where fetchHome would sometimes get called twice
     if (typeof props.loginStatusChange === "boolean") {
       fetchHome();
     }
-  }, [props.loginStatusChange]);
 
-  function handlePageEdit() {
-    fetchHome();
-  }
-
-  // fetch homepage data
-  async function fetchHome() {
-    setLoading(true);
-
-    // Fetch all icons
-    let results = await fetch(`${API_URL}/icons/all`, {
-      method: "GET",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"}
-    });
-
-    if (results.ok) {
-
-      const obj = await results.json();
-      const general = [];
-      const links = [];
-
-      // Sort the icons by group
-      for (let i = 0; i < obj.icons.length; i++) {
-        if (obj.icons[i].groupIndex === 1 || obj.icons[i].groupIndex === 2) {
-          general.push(obj.icons[i]);
-        } else if (obj.icons[i].groupIndex === 3) {
-          links.push(obj.icons[i]);
-        }
-      }
-
-      setGeneralIcons(general);
-      setLinkIcons(links);
-
-    } else {
-      console.error("Error fetching icon list");
-    }
-
-    // Fetch all homepage content
-    results = await fetch(`${API_URL}/home`, {
-      method: "GET",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"}
-    });
-
-    if (results.ok) {
-
-      const obj = await results.json();
-      setPage(obj);
-
-    } else {
-      console.error("Error fetching homepage content");
-    }
-
-    // Fetch all sponsors
-    results = await fetch(`${API_URL}/home/sponsors`, {
-      method: "GET",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"}
-    });
-
-    if (results.ok) {
-
-      const obj = await results.json();
-      setSponsors(obj.sponsors);
-
-    } else {
-      console.error("Error fetching sponsors");
-    }
-
-    setLoading(false);
-  }
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
+  }, [props.loginStatusChange, pageChange]);
 
   return (
     <div className="container home-page-container">
@@ -129,12 +167,12 @@ function Home(props) {
         </div>
         <div className="row">
           <EditHome
-            handlePageEdit={() => handlePageEdit()}
+            handlePageEdit={() => setPageChange(!pageChange)}
             loginStatusChange={props.loginStatusChange}
             page={page}
           />
           <ManageSponsors
-            handlePageEdit={() => handlePageEdit()}
+            handlePageEdit={() => setPageChange(!pageChange)}
             loginStatusChange={props.loginStatusChange}
             sponsors={sponsors}
           />

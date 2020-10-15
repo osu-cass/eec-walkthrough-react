@@ -16,6 +16,7 @@ import EditUser from "./pages/EditUser/EditUser";
 import PageList from "./pages/PageList/PageList";
 import Error404 from "./pages/404/Error404";
 import Error500 from "./pages/500/Error500";
+import PageHeader from "./components/PageHeader/PageHeader";
 import NavBar from "./components/NavBar/NavBar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import {Route, Switch} from "react-router-dom";
@@ -28,45 +29,32 @@ function App() {
   const [pageEdit, setPageEdit] = useState(false);
   const [nameChange, setNameChange] = useState(false);
 
-  function openSidebar() {
-    setSidebarOpen(true);
-  }
-
-  function closeSidebar() {
-    setSidebarOpen(false);
-  }
-
-  function handleLoginStatusChange() {
-    setLoginStatusChange(!loginStatusChange);
-  }
-
-  function handlePageEdit() {
-    setPageEdit(!pageEdit);
-  }
-
-  function handleNameChange() {
-    setNameChange(!nameChange);
-  }
-
   return (
     <main>
       <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
-      <NavBar
+
+      <PageHeader
         nameChange={nameChange}
-        openSidebar={() => openSidebar()}
-        handleLoginStatusChange={() => handleLoginStatusChange()}
+        openSidebar={() => setSidebarOpen(true)}
+        handleLoginStatusChange={() => setLoginStatusChange(!loginStatusChange)}
       />
+
+      <NavBar
+        loginStatusChange={loginStatusChange}
+      />
+
       <Sidebar
         className={sidebarOpen ? "visible" : "hidden"}
         loginStatusChange={loginStatusChange}
         pageEdit={pageEdit}
-        closeSidebar={() => closeSidebar()}
+        closeSidebar={() => setSidebarOpen(false)}
       />
+
       <Switch>
 
         <Route path="/wiki/:category/:pageId">
           <ContentPage
-            handlePageEdit={() => handlePageEdit()}
+            handlePageEdit={() => setPageEdit(!pageEdit)}
           />
         </Route>
 
@@ -119,7 +107,7 @@ function App() {
         </Route>
 
         <Route path="/edit-user">
-          <EditUser handleNameChange={() => handleNameChange()} />
+          <EditUser handleNameChange={() => setNameChange(!nameChange)} />
         </Route>
 
         <Route path="/500">
@@ -135,6 +123,7 @@ function App() {
         </Route>
 
       </Switch>
+
     </main>
   );
 

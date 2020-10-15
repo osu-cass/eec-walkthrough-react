@@ -100,10 +100,14 @@
   );
 }
 
+.inline-block-icon {
+  display: inline-block !important;  
+}
+
 .inline-graphic {
-  display: inline-block;
+  display: inline-block !important;
 }
 
 .inline-link {
-  display: inline-block;
+  display: inline-block !important;
 }

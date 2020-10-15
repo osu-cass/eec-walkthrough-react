@@ -21,13 +21,19 @@ const {
 
 
 // get information about all links
-app.get("/all/:onlyDead", requireAuth, getLinkVal.validation, async (req, res) => {
+app.post("/all", requireAuth, getLinkVal.validation, async (req, res) => {
 
   try {
 
     console.log("Get a list of links");
 
-    const onlyDead = req.params.onlyDead;
+    const onlyDead = req.body.onlyDead;
+    const sort = req.body.sort;
+    const order = req.body.order;
+    const cursor = {
+      primary: req.body.cursorPrimary,
+      secondary: req.body.cursorSecondary
+    };
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -43,7 +49,7 @@ app.get("/all/:onlyDead", requireAuth, getLinkVal.validation, async (req, res) =
     }
 
     // get links
-    const results = await getLinks(parseInt(onlyDead, 10));
+    const results = await getLinks(parseInt(onlyDead, 10), parseInt(sort, 10), parseInt(order, 10), cursor);
     res.status(200).send(results);
 
   } catch (err) {

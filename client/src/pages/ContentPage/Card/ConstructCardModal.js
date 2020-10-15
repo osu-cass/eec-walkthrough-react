@@ -35,10 +35,29 @@ function ConstructCardModal(props) {
 
   // setup card data
   useEffect(() => {
-    // Sort icons into three categories, general items, images, and links
+
+    // sort icons into three categories, general items, images, and links
+    function sortIcons() {
+      const gen = [];
+      const images = [];
+      const links = [];
+      for (let i = 0; i < props.iconSet.length; i++) {
+        if (props.iconSet[i].groupIndex === 1) {
+          gen.push(props.iconSet[i]);
+        } else if (props.iconSet[i].groupIndex === 2) {
+          images.push(props.iconSet[i]);
+        } else if (props.iconSet[i].groupIndex === 3) {
+          links.push(props.iconSet[i]);
+        }
+      }
+      setBasicIcons(gen);
+      setImageIcons(images);
+      setLinkIcons(links);
+    }
+
     sortIcons(props.iconSet);
 
-    // If we are a new card, just return
+    // if we are a new card, just return
     if (!props.edit) {
       return;
     }
@@ -53,6 +72,7 @@ function ConstructCardModal(props) {
     } else {
       itemSet = generateItems(props.card.items);
     }
+
     // Push items from props to state
     itemSet.forEach((item) => {
       itemData = {};
@@ -76,10 +96,10 @@ function ConstructCardModal(props) {
       newItems.push(itemData);
       newCounter++;
     });
+
     newItems = scanIndentation(newItems);
     setItems(newItems);
     setCounter(newCounter);
-    setPureCounter(pureCounter + newCounter);
     setErrorMessage("");
     if (props.card.tempCardId) {
       setTitle(props.card.tempTitle);
@@ -88,46 +108,38 @@ function ConstructCardModal(props) {
       setTitle(props.card.title);
       setFormat(props.card.cardType);
     }
-    setChecked(isInternal());
-    // eslint-disable-next-line
-  }, [props.show]);
 
-  // Clear error messages whenever the modal is opened or closed
-  useEffect(() => {
-    setErrorMessage("");
-  }, [props.show]);
-
-  // Checks if the current card is internal only
-  function isInternal() {
+    // if the current card is internal, then the modals has
+    // the internal setting checked when opened
     let currentCardType = 0;
 
+    // get the card type
     if (props.card.tempCardId) {
       currentCardType = props.card.tempCardType;
     } else {
       currentCardType = props.card.cardType;
     }
 
-    return currentCardType >= 10;
-  }
+    // card types that are greater than or equal to 10 are always internal
+    setChecked(currentCardType >= 10);
+  }, [props.show, props.card, props.edit, props.iconSet]);
 
-  // Sort icons into three categories, general items, images, and links
-  function sortIcons() {
-    const gen = [];
-    const images = [];
-    const links = [];
-    for (let i = 0; i < props.iconSet.length; i++) {
-      if (props.iconSet[i].groupIndex === 1) {
-        gen.push(props.iconSet[i]);
-      } else if (props.iconSet[i].groupIndex === 2) {
-        images.push(props.iconSet[i]);
-      } else if (props.iconSet[i].groupIndex === 3) {
-        links.push(props.iconSet[i]);
+  // make sure that the next assigned ID is always larger than the most recent item
+  // the reason that counter is not reliable, is due to the ability to delete items
+  useEffect(() => {
+    let pure = 0;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].counterId > pure) {
+        pure = items[i].counterId;
       }
     }
-    setBasicIcons(gen);
-    setImageIcons(images);
-    setLinkIcons(links);
-  }
+    setPureCounter(pure + 1);
+  }, [items, items.length, counter]);
+
+  // Clear error messages whenever the modal is opened or closed
+  useEffect(() => {
+    setErrorMessage("");
+  }, [props.show]);
 
   // Makes a copy of the items in the props
   function generateItems(itemList) {
@@ -190,7 +202,7 @@ function ConstructCardModal(props) {
     setPureCounter(pureCounter + newCounter + 1);
   }
 
-  // Increase the indentation level of the item
+  // Change the indentation level of the selected item
   function changeIndent(amount) {
     const counterId = selectedItem;
     let arrayIndex = -1;
@@ -214,6 +226,25 @@ function ConstructCardModal(props) {
     if (arrayIndex === 0) {
       console.error("This item can not be indented");
       return;
+    }
+
+    // If we are indenting an inline item, we will instead
+    // focus on the first inline item in the row
+    if (copy[arrayIndex].inline) {
+      let found = false;
+      for (let i = arrayIndex; i > 0; i--) {
+        if (!copy[i - 1].inline) {
+          arrayIndex = i;
+          found = true;
+          break;
+        }
+      }
+
+      // if we can't find the first item in the row then return
+      if (!found) {
+        console.error("Unable to indent this inline item");
+        return;
+      }
     }
 
     // If we are removing indentation do that and return
@@ -677,6 +708,23 @@ function ConstructCardModal(props) {
       }
       itemArray[i].maxIndent = itemArray[i - 1].indentation + 1;
     }
+    // scan through once more and enforce matching indentation for inline items
+    let movedRow = false;
+    for (let i = 1; i < itemArray.length; i++) {
+      if (itemArray[i].inline && itemArray[i - 1].inline) {
+        itemArray[i].indentation = itemArray[i - 1].indentation;
+        movedRow = true;
+      }
+    }
+    // if we had to move an inline row of items, do one last pass for indentation
+    if (movedRow) {
+      for (let i = 1; i < itemArray.length; i++) {
+        if (itemArray[i].indentation > itemArray[i - 1].indentation + 1) {
+          itemArray[i].indentation = itemArray[i - 1].indentation + 1;
+        }
+        itemArray[i].maxIndent = itemArray[i - 1].indentation + 1;
+      }
+    }
     return itemArray;
   }
 
@@ -775,7 +823,7 @@ function ConstructCardModal(props) {
     return false;
   }
 
-  // Control input coming from <ItemInput> for each row according to
+  // Control input coming from ItemInput for each row according to
   // contentType and index in the items state
   function handleInput(e, index, contentType) {
     const key = index.toString();
@@ -790,7 +838,7 @@ function ConstructCardModal(props) {
     setItems(copy);
   }
 
-  // Controls link data changes coming from <ItemInput>
+  // Controls link data changes coming from the item input component
   function handleLinkValue(index, value) {
     const key = index.toString();
     const copy = [...items];
@@ -798,7 +846,7 @@ function ConstructCardModal(props) {
     setItems(copy);
   }
 
-  // Controls source data changes coming from <ItemInput>
+  // Controls source data changes coming from the item input component
   function handleSourceValue(index, value) {
     const key = index.toString();
     const copy = [...items];
@@ -806,73 +854,47 @@ function ConstructCardModal(props) {
     setItems(copy);
   }
 
-  // Updates dropdown icon selected for specific index
-  // @param {Number} icon itemType ID of Icon
-  // @param {Number} index Index of item being changed
-  // @return {State} Updated state, no actual return value
+  // Updates the an item's icon
   function updateIcon(icon, index) {
     const copy = [...items];
     copy[index].iconType = icon;
     setItems(copy);
   }
 
-  // Gets the name of an icon given an ID and content type
-  function getIconName(id, contentType) {
+  // Gets the index of the icon in the appropriate icon array
+  function getIconIndex(id, contentType) {
     let i;
     if (contentType === 3) {
       for (i = 0; i < linkIcons.length; i++) {
-        if (linkIcons[i].iconType === id) { return i; }
+        if (linkIcons[i].iconType === id) {
+          return i;
+        }
       }
     } else if (contentType === 2) {
       for (i = 0; i < imageIcons.length; i++) {
-        if (imageIcons[i].iconType === id) { return i; }
+        if (imageIcons[i].iconType === id) {
+          return i;
+        }
       }
     } else {
       for (i = 0; i < basicIcons.length; i++) {
-        if (basicIcons[i].iconType === id) { return i; }
+        if (basicIcons[i].iconType === id) {
+          return i;
+        }
       }
     }
     return null;
   }
 
-  // Returns JSX for dropdown of all icons
-  function generateIcons(i, contentType) {
-    const list = [];
-    const jsx = [];
-    const values = [];
+  // Returns a list of icons based on the type of item
+  function getIcons(contentType) {
     if (contentType === 3) {
-      linkIcons.map((type) => {
-        // filter out icons based on the content type
-        jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} style={{color: type.color}} /> {type.typeKeyword}
-        </div>);
-        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} style={{color: type.color}} />;
-        values.push([type.iconType, jsxIcon]);
-        return null;
-      });
+      return linkIcons;
     } else if (contentType === 2) {
-      imageIcons.map((type) => {
-        // filter out icons based on the content type
-        jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} style={{color: type.color}} /> {type.typeKeyword}
-        </div>);
-        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} style={{color: type.color}} />;
-        values.push([type.iconType, jsxIcon]);
-        return null;
-      });
+      return imageIcons;
     } else {
-      basicIcons.map((type) => {
-        // filter out icons based on the content type
-        jsx.push(<div className="dropdown-item clickIcon" style={{cursor: "pointer"}} key={type.typeId + "a"}>
-          <i className={`fas fa-fw fa-${type.typeName}`} key={type.typeId + "b"} style={{color: type.color}} /> {type.typeKeyword}
-        </div>);
-        const jsxIcon = <i className={`fas fa-fw fa-${type.typeName}`} style={{color: type.color}} />;
-        values.push([type.iconType, jsxIcon]);
-        return null;
-      });
+      return basicIcons;
     }
-    list.push(jsx, values);
-    return list;
   }
 
   // Copy item
@@ -992,7 +1014,7 @@ function ConstructCardModal(props) {
   function toggleInline() {
     const counterId = selectedItem;
     let arrayIndex = -1;
-    const copy = [...items];
+    let copy = [...items];
 
     // Find the item
     for (let i = 0; i < copy.length; i++) {
@@ -1006,6 +1028,9 @@ function ConstructCardModal(props) {
         break;
       }
     }
+
+    // Make sure the indentation is up to date
+    copy = scanIndentation(copy);
 
     // If we can not find the index, then exit
     if (arrayIndex === -1) {
@@ -1053,7 +1078,7 @@ function ConstructCardModal(props) {
   }
 
   return (
-    <div className='text-center mx-2'>
+    <div className="text-center mx-2">
 
       <Agreement
         agreementTitle={"Image Agreement"}
@@ -1216,11 +1241,10 @@ function ConstructCardModal(props) {
               <div className="input-group">
                 <Indent indentLevel={item.indentation} />
                 <IconDropdown
-                  idx={i}
-                  list={generateIcons(i, item.contentType)}
-                  selectedIndex={getIconName(item.iconType, item.contentType)}
-                  handleClick={(id, idx) => updateIcon(id, idx)}
-                  edit
+                  itemId={item.itemId}
+                  icons={getIcons(item.contentType)}
+                  iconIndex={getIconIndex(item.iconType, item.contentType)}
+                  onIconChange={(icon) => updateIcon(icon, i)}
                 />
                 <ItemInput
                   title="Text"

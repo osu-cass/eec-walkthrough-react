@@ -15,8 +15,7 @@ function ConstructLinkModal(props) {
   // setup link data
   useEffect(() => {
     setUrl(props.link.url);
-    // eslint-disable-next-line
-  }, [props.show]);
+  }, [props.show, props.link.url]);
 
   // Clear error messages whenever the modal is opened or closed
   useEffect(() => {

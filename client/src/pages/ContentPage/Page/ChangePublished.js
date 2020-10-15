@@ -16,7 +16,7 @@ function ChangePublished(props) {
   }
 
   return props.role >= 4 && props.mode === 2 ? (
-    <div className="text-center mx-2 my-auto">
+    <div className="text-center mx-2 my-auto d-print-none">
       {publishedMode ? (
         <Button size="sm"
           variant="info"
