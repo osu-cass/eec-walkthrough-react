@@ -32,7 +32,6 @@ function Search(props) {
 
   // perform a new search whenever the search url is updated
   useEffect(() => {
-
     // get the value from the url
     let inputText = searchId;
     inputText = inputText.replace(/%20/g, " ");

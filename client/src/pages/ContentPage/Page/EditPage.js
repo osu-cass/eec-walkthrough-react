@@ -40,25 +40,53 @@ function EditPage(props) {
 
   // When the page is first loaded, go ahead and fetch all of the category types
   useEffect(() => {
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
+
     async function fetchNames() {
-      const results = await fetch(`${API_URL}/categories/names`, {
-        method: "GET",
-        credentials: "include",
-        headers: {"Content-Type": "application/json"}
-      });
+      try {
 
-      if (results.ok) {
+        const results = await fetch(`${API_URL}/categories/names`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
 
-        const obj = await results.json();
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
 
-        setCategories(obj.categories);
+        if (results.ok) {
 
-      } else {
-        console.error("Error fetching category names");
+          const obj = await results.json();
+
+          setCategories(obj.categories);
+        } else {
+          console.error("Error fetching category names");
+        }
+
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
       }
     }
 
     fetchNames();
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
   }, []);
 
   // If the page is edited, make sure we keep the modal up to date
@@ -76,8 +104,13 @@ function EditPage(props) {
       setUrl(props.page.imageUrl);
       setPageType(props.page.pageType);
     }
-    setChecked(isInternal());
-    // eslint-disable-next-line
+
+    // determines if the current object is only internal viewable
+    let internal = 0;
+    if ((props.page.tempPageId && props.page.tempInternal) || (!props.page.tempPageId && props.page.internal)) {
+      internal = 1;
+    }
+    setChecked(internal);
   }, [props.page, props.page.internal, props.page.tempInternal]);
 
   function handleCloseModal() {
@@ -94,15 +127,6 @@ function EditPage(props) {
       setUrl(props.page.imageUrl);
     }
     setErrorMessage("");
-  }
-
-  // determines if the current object is only internal viewable
-  function isInternal() {
-    if ((props.page.tempPageId && props.page.tempInternal) || (!props.page.tempPageId && props.page.internal)) {
-      return 1;
-    } else {
-      return 0;
-    }
   }
 
   // show the modal
@@ -385,7 +409,7 @@ function EditPage(props) {
   }
 
   return props.role >= 3 && props.mode === 1 ? (
-    <div className="text-center mx-2 my-auto">
+    <div className="text-center mx-2 my-auto d-print-none">
 
       <Agreement
         agreementTitle={"Image Agreement"}

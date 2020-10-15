@@ -19,26 +19,55 @@ function AddSource(props) {
 
   // When the page is first loaded, go ahead and fetch all of the sources
   useEffect(() => {
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
+
     async function fetchSources() {
-      setLoading(true);
-      const results = await fetch(`${API_URL}/sources/page/${props.pageId}`, {
-        method: "GET",
-        credentials: "include",
-        headers: {"Content-Type": "application/json"}
-      });
+      try {
 
-      if (results.ok) {
+        setLoading(true);
+        const results = await fetch(`${API_URL}/sources/page/${props.pageId}`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
 
-        const obj = await results.json();
-        setSources(obj.sources);
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
 
-      } else {
-        console.error("Error fetching sources");
+        if (results.ok) {
+
+          const obj = await results.json();
+          setSources(obj.sources);
+
+        } else {
+          console.error("Error fetching sources");
+        }
+        setLoading(false);
+
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
       }
-      setLoading(false);
     }
 
     fetchSources();
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
   }, [props.pageId]);
 
   function handleCloseModal() {
@@ -207,7 +236,7 @@ function AddSource(props) {
 
     return <div className="text-center mx-2 my-auto">
       <LoadingOverlay loading={loading} />
-      <Button size="sm" variant="info" onClick={() => handleShowModal()}>
+      <Button className="d-print-none" size="sm" variant="info" onClick={() => handleShowModal()}>
         <i
           className="fas fa-book text-white ml-auto mr-2"
           style={{transform: "scale(1.5)"}}
@@ -226,22 +255,22 @@ function AddSource(props) {
 
           {sources.map((source, i) =>
             <Row className="mb-5" key={source.sourceId}>
-                <div className="col-auto pr-0">
-                  <button className="btn btn-danger btn-sm"
-                    onClick={() => deleteSource(source.sourceId)}
-                    data-index={i}
-                  >
-                    <i className="fas fa-fw fa-times" />
-                  </button>
-                </div>
+              <div className="col-auto pr-0">
+                <button className="btn btn-danger btn-sm"
+                  onClick={() => deleteSource(source.sourceId)}
+                  data-index={i}
+                >
+                  <i className="fas fa-fw fa-times" />
+                </button>
+              </div>
 
-                <div className="col">
-                  <RichTextEditor
-                    id={`submit-source-${i}`}
-                    value={source.text}
-                    onChange={(text) => modifySource(source.sourceId, text)}
-                  />
-                </div>
+              <div className="col">
+                <RichTextEditor
+                  id={`submit-source-${i}`}
+                  value={source.text}
+                  onChange={(text) => modifySource(source.sourceId, text)}
+                />
+              </div>
             </Row>
           )}
 
@@ -287,7 +316,7 @@ function AddSource(props) {
 
         <Modal.Body>
 
-          <RichTextEditor 
+          <RichTextEditor
             id={"submit-source-0"}
             value={richText}
             onChange={(text) => setRichText(text)}

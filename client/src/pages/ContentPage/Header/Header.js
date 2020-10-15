@@ -16,7 +16,6 @@ function Header(props) {
   const [filterIcons, setFilterIcons] = useState([]);
   const [tempFilterIcons, setTempFilterIcons] = useState([]);
   const [filterShow, setFilterShow] = useState([]);
-  const [checkedCards, setCheckedCards] = useState(props.header.cards);
   const [cards, setCards] = useState(props.header.cards);
   const [unfilteredCards, setUnfilteredCards] = useState(props.header.cards);
   const [opportunitiesExist, setOpportunitiesExist] = useState(false);
@@ -25,25 +24,38 @@ function Header(props) {
 
   // If the filter changes, then update the icons that are being filtered
   useEffect(() => {
-    const allIcons = newFilter();
+    // return a new initialized filter
+    const allIcons = [];
+    let maxId = 0;
+    
+    // get the largest ID of an icon
+    for (let i = 0; i < props.iconSet.length; i++) {
+      if (props.iconSet[i].iconType > maxId) {
+        maxId = props.iconSet[i].iconType;
+      }
+    }
+    
+    // initialize the array to show all icons up to the largest ID
+    for (let i = 0; i <= maxId; i++) {
+      allIcons.push(true);
+    }
+
+    // apply the selected filters
     let checkMode = false;
-    // then apply filters
     for (let i = 0; i < props.header.forceFilter.length; i++) {
       allIcons[props.header.forceFilter[i]] = false;
       // if there is a filter for 0 ID, then we change the opportunity checks
       if (props.header.forceFilter[i] === 0) {
         setOpportunityFilterMode(1);
-        resetChecks(1);
         checkMode = true;
       }
     }
     if (!checkMode) {
       setOpportunityFilterMode(0);
-      resetChecks(0);
     }
     setFilterShow(allIcons);
     // eslint-disable-next-line
-  }, [JSON.stringify(props.header.forceFilter), props.iconSet.length, props.cardState]);
+  }, [JSON.stringify(props.header.forceFilter), JSON.stringify(props.header.cards), props.iconSet.length, props.cardState, props.iconSet]);
 
   // Get all of the icons that could be used for published filtering
   useEffect(() => {
@@ -128,37 +140,9 @@ function Header(props) {
     setTempFilterIcons(allIcons);
   }, [props.header, props.cardState]);
 
-  // Gets all of the possible icons and set the default viewing state for them
-  useEffect(() => {
-    setFilterShow(newFilter());
-    // eslint-disable-next-line
-  }, [props.iconSet, props.cardState]);
-
-  // Return new initialized filter
-  function newFilter() {
-    const allIcons = [];
-    let maxId = 0;
-    for (let i = 0; i < props.iconSet.length; i++) {
-      if (props.iconSet[i].iconType > maxId) {
-        maxId = props.iconSet[i].iconType;
-      }
-    }
-    for (let i = 0; i <= maxId; i++) {
-      allIcons.push(true);
-    }
-    return allIcons;
-  }
-
   // If the viewing mode changes or the selected filters,
   // Then update the card state
   useEffect(() => {
-    updateCardState(filterShow);
-    // eslint-disable-next-line
-  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode,
-    checkedCards, props.publishedMode, props.publicMode]);
-
-  // Updates the cards / items that are shown.
-  function updateCardState(filterState) {
 
     // Don't bother filtering if in move mode
     if (props.mode === 2) {
@@ -174,19 +158,20 @@ function Header(props) {
 
     const allCards = [];
     const allUnfilteredCards = [];
+    const unfilteredCards = props.header.cards;
 
     // Check each card
-    for (let i = 0; i < checkedCards.length; i++) {
+    for (let i = 0; i < unfilteredCards.length; i++) {
 
       // Check if the card should be shown as edited or published
       let cardView = 0;
-      if (checkedCards[i].tempItems.length) {
+      if (unfilteredCards[i].tempItems.length) {
         cardView = 1;
       }
 
       // Filter items out of the current card
-      const card = JSON.parse(JSON.stringify(checkedCards[i]));
-      const fullCard = JSON.parse(JSON.stringify(checkedCards[i]));
+      const card = JSON.parse(JSON.stringify(unfilteredCards[i]));
+      const fullCard = JSON.parse(JSON.stringify(unfilteredCards[i]));
       const allItems = [];
       const allTempItems = [];
       let itemExists = false;
@@ -194,52 +179,52 @@ function Header(props) {
       let hideIndent = 1000;
 
       // check each normal item in the card
-      for (let j = 0; j < checkedCards[i].items.length; j++) {
+      for (let j = 0; j < unfilteredCards[i].items.length; j++) {
         // if we are in hide children mode,
         // then remove items with a greater indentation level
-        if (checkedCards[i].items[j].indentation > hideIndent) {
+        if (unfilteredCards[i].items[j].indentation > hideIndent) {
           continue;
         } else {
           hideIndent = 1000;
         }
         // see if the item should be filtered or not
-        if (filterState[checkedCards[i].items[j].iconType] &&
-            !filterItem(checkedCards[i].items[j], props.mode, false) &&
-            (props.mode !== 0 || checkedCards[i].items[j].created !== null || !props.publicMode)) {
-          allItems.push(checkedCards[i].items[j]);
+        if (filterShow[unfilteredCards[i].items[j].iconType] &&
+            !filterItem(unfilteredCards[i].items[j], props.mode, false) &&
+            (props.mode !== 0 || unfilteredCards[i].items[j].created !== null || !props.publicMode)) {
+          allItems.push(unfilteredCards[i].items[j]);
           itemExists = true;
           // opportunities may have setting to hide their children
-          if (checkedCards[i].items[j].hideChildren) {
-            hideIndent = checkedCards[i].items[j].indentation;
+          if (unfilteredCards[i].items[j].hideChildren) {
+            hideIndent = unfilteredCards[i].items[j].indentation;
           }
         } else {
           // if this item has children they need to be hidden
-          hideIndent = checkedCards[i].items[j].indentation;
+          hideIndent = unfilteredCards[i].items[j].indentation;
         }
       }
 
       hideIndent = 1000;
 
       // check each temp item in the card
-      for (let j = 0; j < checkedCards[i].tempItems.length; j++) {
+      for (let j = 0; j < unfilteredCards[i].tempItems.length; j++) {
         // check if this item is indented and if it needs to be hidden
-        if (checkedCards[i].tempItems[j].indentation > hideIndent) {
+        if (unfilteredCards[i].tempItems[j].indentation > hideIndent) {
           continue;
         } else {
           hideIndent = 1000;
         }
         // see if the item should be filtered or not
-        if (filterState[checkedCards[i].tempItems[j].iconType] &&
-            !filterItem(checkedCards[i].tempItems[j], props.mode, false)) {
-          allTempItems.push(checkedCards[i].tempItems[j]);
+        if (filterShow[unfilteredCards[i].tempItems[j].iconType] &&
+            !filterItem(unfilteredCards[i].tempItems[j], props.mode, false)) {
+          allTempItems.push(unfilteredCards[i].tempItems[j]);
           tempItemExists = true;
           // opportunities may have setting to hide their children
-          if (checkedCards[i].tempItems[j].hideChildren) {
-            hideIndent = checkedCards[i].tempItems[j].indentation;
+          if (unfilteredCards[i].tempItems[j].hideChildren) {
+            hideIndent = unfilteredCards[i].tempItems[j].indentation;
           }
         } else {
           // if this item has children they need to be hidden
-          hideIndent = checkedCards[i].tempItems[j].indentation;
+          hideIndent = unfilteredCards[i].tempItems[j].indentation;
         }
       }
 
@@ -258,7 +243,7 @@ function Header(props) {
         card.edited = true;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
-      } else if (props.mode === 1 && !checkedCards[i].tempItems.length && !checkedCards[i].items.length) {
+      } else if (props.mode === 1 && !unfilteredCards[i].tempItems.length && !unfilteredCards[i].items.length) {
         card.invalid = true;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
@@ -266,9 +251,11 @@ function Header(props) {
     }
     setCards(cardSortOrder(allCards));
     setUnfilteredCards(cardSortOrder(allUnfilteredCards));
-  }
+    // eslint-disable-next-line
+  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode,
+    props.header.cards, props.publishedMode, props.publicMode]);
 
-  // sort cards based on their edited status and their order index
+  // Sort cards based on their edited status and their order index
   function cardSortOrder(cards) {
     const copy = [...cards];
     for (let i = 0; i < copy.length; i++) {
@@ -282,23 +269,24 @@ function Header(props) {
     return copy;
   }
 
-  // marks cards as edited when appropriate
+  // Marks cards as edited when appropriate
   function markEdited() {
     const allCards = [];
     const allUnfilteredCards = [];
+    const unfilteredCards = props.header.cards;
 
     // Check each card
-    for (let i = 0; i < checkedCards.length; i++) {
+    for (let i = 0; i < unfilteredCards.length; i++) {
 
       // Check if the card should be shown as edited or published
       let cardView = 0;
-      if (checkedCards[i].tempItems.length) {
+      if (unfilteredCards[i].tempItems.length) {
         cardView = 1;
       }
 
       // Filter items out of the current card
-      const card = JSON.parse(JSON.stringify(checkedCards[i]));
-      const fullCard = JSON.parse(JSON.stringify(checkedCards[i]));
+      const card = JSON.parse(JSON.stringify(unfilteredCards[i]));
+      const fullCard = JSON.parse(JSON.stringify(unfilteredCards[i]));
       const allItems = [];
       const allTempItems = [];
       let itemExists = false;
@@ -306,14 +294,14 @@ function Header(props) {
 
 
       // check each normal item in the card
-      for (let j = 0; j < checkedCards[i].items.length; j++) {
-        allItems.push(checkedCards[i].items[j]);
+      for (let j = 0; j < unfilteredCards[i].items.length; j++) {
+        allItems.push(unfilteredCards[i].items[j]);
         itemExists = true;
       }
 
       // check each temp item in the card
-      for (let j = 0; j < checkedCards[i].tempItems.length; j++) {
-        allTempItems.push(checkedCards[i].tempItems[j]);
+      for (let j = 0; j < unfilteredCards[i].tempItems.length; j++) {
+        allTempItems.push(unfilteredCards[i].tempItems[j]);
         tempItemExists = true;
       }
 
@@ -331,7 +319,7 @@ function Header(props) {
         card.edited = true;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
-      } else if (!checkedCards[i].tempItems.length && !checkedCards[i].items.length) {
+      } else if (!unfilteredCards[i].tempItems.length && !unfilteredCards[i].items.length) {
         card.invalid = true;
         allCards.push(card);
         allUnfilteredCards.push(fullCard);
@@ -341,7 +329,7 @@ function Header(props) {
     setUnfilteredCards(cardSortOrder(allUnfilteredCards));
   }
 
-  // returns true if the item is being filtered by the opportunity filter mode
+  // Returns true if the item is being filtered by the opportunity filter mode
   function filterItem(item, mode, ignoreChecked) {
     if (ignoreChecked) {
       if (mode !== 1) {
@@ -374,64 +362,6 @@ function Header(props) {
     } else {
       if (props.header.internal) {
         return 1;
-      }
-    }
-  }
-
-  // if the opportunity filter mode changes,
-  // then make sure the correct items are checked
-  function resetChecks(currentFilterMode) {
-
-    const newCards = [...props.header.cards];
-
-    if (currentFilterMode) {
-      for (let i = 0; i < newCards.length; i++) {
-        for (let j = 0; j < newCards[i].items.length; j++) {
-          if (newCards[i].items[j].iconType === 11) {
-            newCards[i].items[j].hideChildren = true;
-          }
-        }
-        for (let j = 0; j < newCards[i].tempItems.length; j++) {
-          if (newCards[i].tempItems[j].iconType === 11) {
-            newCards[i].tempItems[j].hideChildren = true;
-          }
-        }
-      }
-    } else {
-      for (let i = 0; i < newCards.length; i++) {
-        for (let j = 0; j < newCards[i].items.length; j++) {
-          newCards[i].items[j].hideChildren = false;
-        }
-        for (let j = 0; j < newCards[i].tempItems.length; j++) {
-          newCards[i].tempItems[j].hideChildren = false;
-        }
-      }
-    }
-
-    setCheckedCards(newCards);
-  }
-
-  // changes the checked status of an item
-  function handleCheck(check, itemId, cardId) {
-
-    const newCards = [...props.header.cards];
-
-    for (let i = 0; i < newCards.length; i++) {
-      if (newCards[i].cardId === cardId) {
-        for (let j = 0; j < newCards[i].items.length; j++) {
-          if (newCards[i].items[j].itemId === itemId) {
-            newCards[i].items[j].hideChildren = check;
-            setCheckedCards(newCards);
-            return;
-          }
-        }
-        for (let j = 0; j < newCards[i].tempItems.length; j++) {
-          if (newCards[i].tempItems[j].itemId === itemId) {
-            newCards[i].tempItems[j].hideChildren = check;
-            setCheckedCards(newCards);
-            return;
-          }
-        }
       }
     }
   }
@@ -589,7 +519,7 @@ function Header(props) {
     }
   }
 
-  // gets an unfiltered card by its ID
+  // Gets an unfiltered card by its ID
   function getUnfilteredCard(cardId) {
     for (let i = 0; i < unfilteredCards.length; i++) {
       if (unfilteredCards[i].cardId === cardId) {
@@ -598,54 +528,115 @@ function Header(props) {
     }
   }
 
-  // returns true if we should be able to view unpublished content
+  // Returns true if the current user should see unpublished content
   function viewUnpublished() {
     return props.mode === 1 || (props.mode === 2 && props.publishedMode === 0);
   }
 
+  // Checks if the current header should be displayed
   return (!props.header.approved && props.mode !== 1 && (props.mode !== 2 || props.publishedMode !== 0)) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
     <div>
-      <div>
-        <div className={`d-flex sticky-top
-          ${props.header.approved && (!props.header.tempHeaderId || !viewUnpublished()) ? "header-approved" : "header-review"}
-          ${isInternal() ? "header-internal" : ""}
-          header-bar header-bar-content justify-content-between my-3 py-3 text-dark-50 rounded shadow-sm border`}
-        style={{top: "1em", zIndex: "998"}}
-        >
-          <div className="row w-100 ml-0">
-            <div className="col-auto align-self-center">
-              <h4 className="flex-grow-1 font-weight-bold my-0 mx-0">
-                {props.header.approved && props.header.tempHeaderId && viewUnpublished() ? (
-                  props.header.tempTitle
-                ) : (
-                  props.header.title
-                )}
-              </h4>
-            </div>
 
-            {props.mode === 2 ? (
-              <div className="col">
+      {/* Container that holds the header title */}
+      <div className={`d-flex sticky-top
+        ${props.header.approved && (!props.header.tempHeaderId || !viewUnpublished()) ? "header-approved" : "header-review"}
+        ${isInternal() ? "header-internal" : ""}
+        header-bar header-bar-content justify-content-between my-3 py-3 text-dark-50 rounded shadow-sm border`}
+      style={{top: "1em", zIndex: "998"}}
+      >
+        <div className="row w-100 ml-0">
+          <div className="col-auto align-self-center">
+
+            {/* Header title */}
+            <h4 className="flex-grow-1 font-weight-bold my-0 mx-0">
+              {props.header.approved && props.header.tempHeaderId && viewUnpublished() ? (
+                props.header.tempTitle
+              ) : (
+                props.header.title
+              )}
+            </h4>
+
+          </div>
+
+          {/* Only display the buttons for reordering headers in move mode */}
+          {props.mode === 2 ? (
+            <div className="col">
+              <div className="btn-group align-self-center float-right">
+                {/* Button to move header up */}
+                <OrderObjectButton
+                  up={true}
+                  header={true}
+                  objectId={props.header.headerId}
+                  handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                  edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                  approved={props.header.approved}
+                  publishedMode={props.publishedMode}
+                />
+
+                {/* Button to move header down */}
+                <OrderObjectButton
+                  up={false}
+                  header={true}
+                  objectId={props.header.headerId}
+                  handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
+                  edited={!props.header.approved || props.header.tempHeaderId ? true : false}
+                  approved={props.header.approved}
+                  publishedMode={props.publishedMode}
+                />
+
+                {/* Dropdown that allows users to perform various page actions */}
+                <OtherButton
+                  role={props.role}
+                  mode={props.mode}
+                  onPageMode={e => props.onPageMode(e)}
+                  moved={props.moved}
+                />
+              </div>
+            </div>
+          ) : (
+            <Fragment>
+              <div className="col filter-col align-self-center px-0">
+                <div className="btn-group align-self-center float-right filter-div">
+
+                  {/* Used for filtering content in the items below the header */}
+                  <FilterBar
+                    headerId={props.header.headerId}
+                    updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
+                    resetIcons={() => props.resetIcons(props.header.headerId)}
+                    clearIcons={() => props.clearIcons(props.header.headerId)}
+                    filterIcons={filterIcons}
+                    tempFilterIcons={tempFilterIcons}
+                    filterShow={filterShow}
+                    iconSet={props.iconSet}
+                    mode={props.mode}
+                    showToggle={opportunitiesExist}
+                    toggled={opportunityFilterMode}
+                    showFilter={() => props.showFilter()}
+                    show={props.show}
+                  />
+
+                </div>
+              </div>
+              <div className="col-auto align-self-center pl-0">
                 <div className="btn-group align-self-center float-right">
-                  <OrderObjectButton
-                    up={true}
-                    header={true}
-                    objectId={props.header.headerId}
-                    handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                    edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                    approved={props.header.approved}
-                    publishedMode={props.publishedMode}
+                  {/* Button for editing the current header */}
+                  <EditHeader
+                    mode={props.mode}
+                    header={props.header}
+                    role={props.role}
+                    handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                   />
-                  <OrderObjectButton
-                    up={false}
-                    header={true}
-                    objectId={props.header.headerId}
-                    handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
-                    edited={!props.header.approved || props.header.tempHeaderId ? true : false}
-                    approved={props.header.approved}
-                    publishedMode={props.publishedMode}
+
+                  {/* Used to compare changes made to the header with the previous version */}
+                  <ReviewHeader
+                    mode={props.mode}
+                    header={props.header}
+                    handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
                   />
+
+                  {/* Dropdown that allows users to perform various page actions */}
                   <OtherButton
                     role={props.role}
                     mode={props.mode}
@@ -654,78 +645,36 @@ function Header(props) {
                   />
                 </div>
               </div>
-            ) : (
-              <Fragment>
-                <div className="col filter-col align-self-center px-0">
-                  <div className="btn-group align-self-center float-right filter-div">
-                    <FilterBar
-                      headerId={props.header.headerId}
-                      updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
-                      resetIcons={() => props.resetIcons(props.header.headerId)}
-                      clearIcons={() => props.clearIcons(props.header.headerId)}
-                      filterIcons={filterIcons}
-                      tempFilterIcons={tempFilterIcons}
-                      filterShow={filterShow}
-                      iconSet={props.iconSet}
-                      mode={props.mode}
-                      showToggle={opportunitiesExist}
-                      toggled={opportunityFilterMode}
-                      showFilter={() => props.showFilter()}
-                      show={props.show}
-                    />
-                  </div>
-                </div>
-                <div className="col-auto align-self-center pl-0">
-                  <div className="btn-group align-self-center float-right">
-                    <EditHeader
-                      mode={props.mode}
-                      header={props.header}
-                      role={props.role}
-                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                    />
-                    <ReviewHeader
-                      mode={props.mode}
-                      header={props.header}
-                      handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                    />
-                    <OtherButton
-                      role={props.role}
-                      mode={props.mode}
-                      onPageMode={e => props.onPageMode(e)}
-                      moved={props.moved}
-                    />
-                  </div>
-                </div>
-              </Fragment>
-            )}
-
-          </div>
-        </div>
-
-        <div id="accordion" role="tablist" aria-multiselectable="true">
-          {cards.map((card) =>
-            <Card
-              key={card.cardId}
-              headerId={props.header.headerId}
-              unfilteredCard={getUnfilteredCard(card.cardId)}
-              card={card}
-              handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-              mode={props.mode}
-              iconSet={props.iconSet}
-              handleMoveCard={(cardId, up, mode) => handleMoveCard(cardId, up, mode)}
-              handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
-              cardState={props.cardState}
-              role={props.role}
-              publicMode={props.publicMode}
-              setCheck={(check, itemId, cardId) => handleCheck(check, itemId, cardId)}
-              publishedMode={props.publishedMode}
-              sources={props.sources}
-              cardTitles={props.cardTitles}
-            />
+            </Fragment>
           )}
-        </div>
 
+        </div>
       </div>
+
+      {/* Cards that are displayed beneath the current header */}
+      <div id="accordion" role="tablist" aria-multiselectable="true">
+        {cards.map((card) =>
+          <Card
+            key={card.cardId}
+            headerId={props.header.headerId}
+            unfilteredCard={getUnfilteredCard(card.cardId)}
+            card={card}
+            handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+            mode={props.mode}
+            iconSet={props.iconSet}
+            handleMoveCard={(cardId, up, mode) => handleMoveCard(cardId, up, mode)}
+            handleTimestamp={(m, a, i, c) => props.handleTimestamp(m, a, i, c, props.header.headerId)}
+            cardState={props.cardState}
+            role={props.role}
+            publicMode={props.publicMode}
+            setCheck={(check, itemId, cardId) => props.checkIcon(props.header.headerId, cardId, itemId, check)}
+            publishedMode={props.publishedMode}
+            sources={props.sources}
+            cardTitles={props.cardTitles}
+          />
+        )}
+      </div>
+
     </div>
   );
 
@@ -756,5 +705,6 @@ Header.propTypes = {
   showFilter: PropTypes.func,
   show: PropTypes.number,
   onPageMode: PropTypes.func,
-  moved: PropTypes.bool
+  moved: PropTypes.bool,
+  checkIcon: PropTypes.func
 };

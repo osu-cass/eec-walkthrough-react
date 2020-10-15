@@ -129,7 +129,7 @@ function LoadView(props) {
   }
 
   return props.mode === 0 ? (
-    <div className="text-center mx-2 my-auto">
+    <div className="text-center mx-2 my-auto d-print-none">
       <Button size="sm"
         variant="success"
         onClick={() => handleOpen()}

@@ -21,7 +21,7 @@ function OtherButton(props) {
 
   if (props.role >= 3 && props.mode === 0) {
     return (
-      <div className="text-center mx-2 my-auto">
+      <div className="text-center mx-2 my-auto d-print-none">
         <button
           className="btn btn-secondary btn-sm"
           data-toggle="dropdown"
@@ -42,7 +42,7 @@ function OtherButton(props) {
     );
   } else if (props.role >= 3 && props.mode === 1) {
     return (
-      <div className="text-center mx-2 my-auto">
+      <div className="text-center mx-2 my-auto d-print-none">
         <button
           className="btn btn-secondary btn-sm"
           data-toggle="dropdown"
@@ -63,7 +63,7 @@ function OtherButton(props) {
     );
   } else if (props.role >= 3 && props.mode === 2) {
     return (
-      <div className="text-center mx-2 my-auto">
+      <div className="text-center mx-2 my-auto d-print-none">
         <button
           className="btn btn-secondary btn-sm"
           data-toggle="dropdown"

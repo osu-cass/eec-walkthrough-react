@@ -9,12 +9,12 @@ function RichTextEditor(props) {
   const modules = {
     toolbar: [
       ["bold", "italic", "underline", "strike"],
-      [{"list": "ordered"}, {"list": "bullet"}],
+      [{list: "ordered"}, {list: "bullet"}],
       ["link"],
       ["clean"]
     ],
   };
- 
+
   const formats = [
     "bold", "italic", "underline", "strike",
     "list", "bullet",

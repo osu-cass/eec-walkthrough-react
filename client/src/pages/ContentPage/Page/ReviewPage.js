@@ -27,52 +27,79 @@ function ReviewPage(props) {
 
   // display the correct page types in the review modal
   useEffect(() => {
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
 
     async function fetchPageTypes() {
-      const results = await fetch(`${API_URL}/categories/all`, {
-        method: "GET",
-        credentials: "include",
-        headers: {"Content-Type": "application/json"}
-      });
+      try {
 
-      if (results.ok) {
-        const obj = await results.json();
+        const results = await fetch(`${API_URL}/categories/all`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
 
-        let typeString = "";
-        let tempTypeString = "";
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
 
-        for (let i = 0; i < obj.categories.length; i++) {
-          if (props.page.pageType === obj.categories[i].categoryId) {
-            typeString = obj.categories[i].singleName;
-            break;
+        if (results.ok) {
+          const obj = await results.json();
+
+          let typeString = "";
+          let tempTypeString = "";
+
+          for (let i = 0; i < obj.categories.length; i++) {
+            if (props.page.pageType === obj.categories[i].categoryId) {
+              typeString = obj.categories[i].singleName;
+              break;
+            }
           }
-        }
 
-        for (let i = 0; i < obj.categories.length; i++) {
-          if (props.page.tempPageType === obj.categories[i].categoryId) {
-            tempTypeString = obj.categories[i].singleName;
-            break;
+          for (let i = 0; i < obj.categories.length; i++) {
+            if (props.page.tempPageType === obj.categories[i].categoryId) {
+              tempTypeString = obj.categories[i].singleName;
+              break;
+            }
           }
+
+          if (props.page.internal) {
+            typeString += " / Internal";
+          }
+
+          if (props.page.tempInternal) {
+            tempTypeString += " / Internal";
+          }
+
+          setPageTypeName(typeString);
+          setTempPageTypeName(tempTypeString);
+
+        } else {
+          console.error("Unable to fetch categories for page types.");
         }
 
-        if (props.page.internal) {
-          typeString += " / Internal";
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
         }
-
-        if (props.page.tempInternal) {
-          tempTypeString += " / Internal";
-        }
-
-        setPageTypeName(typeString);
-        setTempPageTypeName(tempTypeString);
-
-      } else {
-        console.error("Unable to fetch categories for page types.");
       }
     }
 
     fetchPageTypes();
 
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
   }, [props.page.pageType, props.page.tempPageType, props.page.internal, props.page.tempInternal]);
 
   // close the modal
@@ -313,7 +340,7 @@ function ReviewPage(props) {
   }
 
   return role >= 3 && props.mode === 1 ? (
-    <div className="text-center mx-2 my-auto">
+    <div className="text-center mx-2 my-auto d-print-none">
 
       <Button size="sm" variant="success" onClick={() => handleShow()}>
         <i

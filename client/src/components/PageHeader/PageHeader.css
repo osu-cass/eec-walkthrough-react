@@ -1,0 +1,152 @@
+@media (min-width: 769px) {
+  .nav-hamburger {
+    display: none;
+    position: absolute;
+  }
+  .small-org {
+    display: none !important;
+    position: absolute !important;
+  }
+  .med-org {
+    display: none !important;
+    position: absolute !important;
+  }
+  .large-org {
+    display: inline !important;
+    position: static !important;
+  }
+  .nav-header-title {
+    font-size: 1.4em !important;
+  }
+  .page-header-title-container {
+    margin-right: 1.4em;
+    margin-left: 1.4em;
+  }
+}
+
+@media (max-width: 768px) {
+  .osu-logo {
+    display: none;
+    position: absolute;
+  }
+  .small-org {
+    display: block !important;
+    position: static !important;
+  }
+  .med-org {
+    display: none !important;
+    position: absolute !important;
+  }
+  .large-org {
+    display: none !important;
+    position: absolute !important;
+  }
+  .nav-header-title {
+    font-size: 1em !important;
+  }
+  .page-header-title-container {
+    margin-left: 1em;
+  }
+}
+
+@media (min-width: 951px) and (max-width: 1600px) {
+  .nav-header-title {
+    font-size: 1.4em !important;
+  }
+  .small-org {
+    display: none !important;
+    position: absolute !important;
+  }
+  .med-org {
+    display: inline !important;
+    position: static !important;
+  }
+  .large-org {
+    display: none !important;
+    position: absolute !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 950px) {
+  .page-header-title-container {
+    margin: 0;
+  }
+  .nav-header-title {
+    font-size: 1.25em !important;
+  }
+  .small-org {
+    display: none !important;
+    position: absolute !important;
+  }
+  .med-org {
+    display: inline !important;
+    position: static !important;
+  }
+  .large-org {
+    display: none !important;
+    position: absolute !important;
+  }
+}
+
+.navbar-header {
+  background-color: #d73f09 !important;
+}
+
+.nav-hamburger {
+  width: 3.5em !important;
+  height: 3.5em !important;
+  background-color: #C13908;
+}
+
+.nav-hamburger .nav-hamburger-icon {
+  color: #fff;
+}
+
+.nav-hamburger .nav-hamburger-icon:hover {
+  color: #000;
+}
+
+.nav-header-title {
+  display: inline;
+  font-weight: 500;
+  margin: 0;
+  font-family: 'Open Sans', 'Arial', sans-serif, 'Helvetica', 'Verdana', 'Geneva', 'Trebuchet MS', 'Tahoma';
+  color: #fff;
+}
+
+.nav-header-title-top {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.25em;
+  font-weight: bold;
+  font-size: 1.15em;
+  font-family: 'Open Sans', 'Arial', sans-serif, 'Helvetica', 'Verdana', 'Geneva', 'Trebuchet MS', 'Tahoma';
+  color: #fff;
+}
+
+.nav-header-title-bottom {
+  display: block;
+  font-weight: 500;
+  margin: 0;
+  font-size: 1.15em;
+  font-family: 'Open Sans', 'Arial', sans-serif, 'Helvetica', 'Verdana', 'Geneva', 'Trebuchet MS', 'Tahoma';
+  color: #fff;
+}
+
+.mobile-title {
+  display: inline-block;
+}
+
+.nav-header-symbol {
+  display: inline;
+  font-size: 1.75rem;
+  margin: 0;
+  font-family: 'Open Sans', 'Arial', sans-serif, 'Helvetica', 'Verdana', 'Geneva', 'Trebuchet MS', 'Tahoma';
+  color: #000;
+}
+
+.osu-logo {
+  height: 4em;
+  background-color: #d73f09;
+  border: 0px;
+}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL, UPLOAD_TERMS} from "../../utilities/constants";
@@ -41,7 +41,8 @@ function CreatePage(props) {
   }
 
   // show the modal
-  function handleShow() {
+  function handleShow(e) {
+    e.preventDefault();
     setShow(true);
   }
 
@@ -108,14 +109,14 @@ function CreatePage(props) {
 
       const obj = await results.json();
 
-      // redirect to the new page
+      // Redirect to the new page
       window.location.href = `/${props.collectionLink}/${obj.insertId}`;
 
     } else {
 
       const obj = await results.json();
 
-      // if the user is performing an unauthorized action
+      // If the user is performing an unauthorized action
       // log them out and return them to the homepage
       if (results.status === 401) {
         logout();
@@ -178,7 +179,7 @@ function CreatePage(props) {
   }
 
   return props.role >= 3 ? (
-    <div className='text-center mx-1 createPage'>
+    <div className={`${props.navbar ? "d-inline" : "text-center mx-1 createPage"}`}>
 
       <Agreement
         agreementTitle={"Image Agreement"}
@@ -189,12 +190,25 @@ function CreatePage(props) {
         closeModal={() => cancelAgreement()}
       />
 
-      <Button variant="outline-info" className="createPage" onClick={() => handleShow()}>
+      {/* The style of the button depends if this is the sidebar or navbar */}
+      {props.navbar ? (
+        <Fragment>
+          <div className="navbar-item px-2 py-1" onClick={(e) => handleShow(e)}>
+            <i
+              className="nav-bar-icon fas fa-plus-circle text-info mr-2"
+            />
+            <span className="navbar-item-text text-left">Create Page</span>
+          </div>
+        </Fragment>
+      ) : (
+      <Button variant="outline-info" className="createPage" onClick={(e) => handleShow(e)}>
         <i
           className='create-page-icon fas fa-plus-circle text-info mr-2'
           style={{transform: "scale(1.5)"}}></i>
             Create Page
       </Button>
+      )}
+
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">{props.title}</h5>
@@ -302,5 +316,6 @@ CreatePage.propTypes = {
   collectionLink: PropTypes.string,
   role: PropTypes.number,
   refresh: PropTypes.func,
-  categoryId: PropTypes.number
+  categoryId: PropTypes.number,
+  navbar: PropTypes.bool
 };

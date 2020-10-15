@@ -245,7 +245,11 @@ exports.patchIconVal = patchIconVal;
 // validation checks for get links
 const getLinkVal = Object.freeze({
   validation: [
-    check("onlyDead").isInt({min: 0, max: 1})
+    check("onlyDead").isInt({min: 0, max: 1}),
+    check("sort").isInt({min: 0, max: 10}),
+    check("order").isInt({min: 0, max: 1}),
+    check("cursorPrimary").isLength({min: 1, max: 1000}),
+    check("cursorSecondary").isLength({min: 1, max: 1000})
   ]
 });
 exports.getLinkVal = getLinkVal;
@@ -376,3 +380,24 @@ const postCardTitleVal = Object.freeze({
   ]
 });
 exports.postCardTitleVal = postCardTitleVal;
+
+// validation checks for get files
+const getFilesVal = Object.freeze({
+  validation: [
+    check("userId").isInt({min: 1, max: 4294967295}),
+    check("sort").isInt({min: 0, max: 10}),
+    check("order").isInt({min: 0, max: 1}),
+    check("cursor").isLength({min: 1, max: 1000})
+  ]
+});
+exports.getFilesVal = getFilesVal;
+
+// validation checks for get directories
+const getDirectoriesVal = Object.freeze({
+  validation: [
+    check("sort").isInt({min: 0, max: 10}),
+    check("order").isInt({min: 0, max: 1}),
+    check("cursor").isLength({min: 1, max: 1000})
+  ]
+});
+exports.getDirectoriesVal = getDirectoriesVal;

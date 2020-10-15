@@ -5,6 +5,10 @@
   z-index: 998;
 }
 
+.active-sort { 
+  color: #d73f09;
+}
+
 .invalid-external-link {
   color: #E81224;
 }

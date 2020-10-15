@@ -6,6 +6,7 @@ const express = require("express");
 const crypto = require("crypto");
 const fs = require("fs");
 const app = express();
+const {validationResult} = require("express-validator");
 const {
   requireAuth,
   roleCheck
@@ -14,9 +15,13 @@ const {
   getFiles,
   getDirectories
 } = require("../models/files");
+const {
+  getFilesVal,
+  getDirectoriesVal
+} = require("../services/validation/requestValidation");
 
 
-// valid image types
+// accepted image types
 const imageTypes = {
   "image/jpeg": "jpg",
   "image/png": "png",
@@ -120,14 +125,23 @@ app.post("/bulk", requireAuth, checkUser, upload.array("images"), async (req, re
 
 
 // get information about all of the directories
-app.get("/directories", requireAuth, async (req, res) => {
+app.post("/directories", requireAuth, getDirectoriesVal.validation, async (req, res) => {
 
   try {
 
-    const userId = req.auth.userId;
-
     console.log("Get file directories");
 
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const sort = req.body.sort;
+    const order = req.body.order;
+    const cursor = req.body.cursor;
+    console.log(sort, order, cursor);
     // make sure the user is allowed to perform this action
     if (!await roleCheck(4, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to read directories."});
@@ -135,7 +149,7 @@ app.get("/directories", requireAuth, async (req, res) => {
     }
 
     // get file data
-    const results = await getDirectories();
+    const results = await getDirectories(sort, order, cursor);
 
     if (results.directories) {
       res.status(200).send(results);
@@ -152,23 +166,33 @@ app.get("/directories", requireAuth, async (req, res) => {
 
 
 // get information about all of files a user has uploaded
-app.get("/:userId", requireAuth, async (req, res) => {
+app.post("/:userId", requireAuth, getFilesVal.validation, async (req, res) => {
 
   try {
 
     const userId = req.params.userId;
+    const sort = req.body.sort;
+    const order = req.body.order;
+    const cursor = req.body.cursor;
 
     console.log("Get files uploaded by user", userId);
 
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
     // make sure the user is allowed to perform this action
-    console.log("userId", userId, "req.auth.userId", toString(req.auth.userId))
+    console.log("userId", userId, "req.auth.userId", toString(req.auth.userId));
     if (userId !== req.auth.userId.toString() && !await roleCheck(4, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to read files."});
       return;
     }
 
     // get file data
-    const results = await getFiles(userId);
+    const results = await getFiles(userId, sort, order, cursor);
 
     if (results.files) {
       res.status(200).send(results);
@@ -189,8 +213,8 @@ app.delete("/:userId/:fileName", requireAuth, async (req, res) => {
 
   try {
 
-    const directoryId = req.params.userId.replace(/\//g,"");
-    const fileName = req.params.fileName.replace(/\//g,"");
+    const directoryId = req.params.userId.replace(/\//g, "");
+    const fileName = req.params.fileName.replace(/\//g, "");
 
     console.log("Delete file ", fileName);
 
