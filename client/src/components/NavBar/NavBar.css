@@ -8,6 +8,7 @@
 .nav-bar-main {
   background-color: #000;
   color: #fff;
+  white-space: nowrap;
 }
 
 .dropdown-nav {
@@ -53,4 +54,8 @@
 
 .navbar-item-text {
   color: #fff;
+}
+
+.nav-tab-hidden {
+  display: none;
 }

@@ -1230,7 +1230,6 @@ function ConstructCardModal(props) {
           </div>
 
           {/* Item Input Fields */}
-
           {items.map((item, i) =>
             <Row
               className={`mb-2 mx-2 ${item.counterId === selectedItem ? "modal-selected-item" : ""}

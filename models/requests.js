@@ -610,6 +610,47 @@ async function createComment(requestId, comment, status, targetId, userId) {
 exports.createComment = createComment;
 
 
+// delete a comment
+async function deleteComment(commentId, userId) {
+
+  try {
+
+    // check to see if the comment exists
+    let sql = "SELECT * " +
+      "FROM Request_Comments " +
+      "WHERE commentId = ?;";
+    let results = await pool.query(sql, commentId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // make sure the current user ID matches the user who created the comment
+    if (results[0][0].userId !== userId) {
+      return {error: 2};
+    }
+
+    // delete the comment
+    sql = "DELETE " +
+      "FROM Request_Comments " +
+      "WHERE commentId = ?;";
+    results = await pool.query(sql, commentId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting comment");
+    throw Error(err);
+  }
+
+}
+exports.deleteComment = deleteComment;
+
+
 // delete a request
 async function deleteRequest(requestId, userId, admin) {
 

@@ -14,6 +14,8 @@ function NavBar (props) {
   const [userId, setUserId] = useState(0);
   const [instructions, setInstructions] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [categoriesDisplayed, setCategoriesDisplayed] = useState([]);
+  const [categoriesMore, setCategoriesMore] = useState([]);
 
   // If our login changes, refresh the navbar and the user's role
   useEffect(() => {
@@ -22,6 +24,11 @@ function NavBar (props) {
     setUserId(user.userId);
     fetchData();
   }, [props.loginStatusChange]);
+
+  // If the screen width changes, update the buttons shown on the navbar
+  useEffect(() => {
+    //
+  });
 
   // fetch all category data
   async function fetchData() {

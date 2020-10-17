@@ -14,6 +14,7 @@ import {useParams} from "react-router-dom";
 import CloseRequest from "./CloseRequest";
 import AcceptRequest from "./AcceptRequest";
 import Error from "../../components/General/Error";
+import {getProfile} from "../../utilities/cookieAuth";
 import "./RequestPage.css";
 
 // Page for viewing a single publish request
@@ -33,7 +34,14 @@ function RequestPage() {
     comments: []
   });
   const {requestId} = useParams();
+  const [userId, setUserId] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
+
+  // get the current users ID
+  useEffect(() => {
+    const user = getProfile();
+    setUserId(user.userId);
+  }, [requestId]);
 
   // when the page first loads, get data about the request
   useEffect(() => {
@@ -145,6 +153,8 @@ function RequestPage() {
         description={request.description}
         status={request.status}
         initial={true}
+        commenterId={request.userId}
+        userId={userId}
       />
 
       {request.comments.map((comment) =>
@@ -152,12 +162,15 @@ function RequestPage() {
           key={comment.commentId}
           commentId={comment.commentId}
           created={comment.created}
+          myId={comment.user}
           username={comment.username}
           description={comment.comment}
           status={comment.review}
           targetId={comment.targetId}
           initial={false}
           linkToComment={true}
+          commenterId={comment.userId}
+          userId={userId}
         />
       )}
 

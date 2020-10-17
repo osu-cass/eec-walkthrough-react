@@ -10,6 +10,7 @@ const {
   getSelection,
   createRequest,
   createComment,
+  deleteComment,
   deleteRequest,
   approveRequest
 } = require("../models/requests");
@@ -205,6 +206,40 @@ app.post("/comment/:requestId", requireAuth, postCommentVal.validation, async (r
 
       if (results.error === 1) {
         res.status(404).send({error: "Request not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete a request comment
+app.delete("/comment/:commentId", requireAuth, async (req, res) => {
+
+  try {
+
+    const commentId = req.params.commentId;
+    const userId = req.auth.userId;
+    console.log("Delete request comment", commentId);
+
+    // delete the comment if the user is the owner
+    const results = await deleteComment(commentId, userId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Comment not found."});
+      } else if (results.error === 2) {
+        res.status(401).send({error: "Unauthorized user attempting to delete comment."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
