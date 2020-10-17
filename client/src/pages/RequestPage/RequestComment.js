@@ -3,18 +3,28 @@ import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
-import {Card} from "react-bootstrap";
+import {Card, Form} from "react-bootstrap";
+import Error from "../../components/General/Error";
 import Sanitized from "../../components/General/Sanitized";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import RichTextEditor from "../../components/General/RichTextEditor";
 import "./RequestComment.css";
 
-// a single comment on a publish request
+// Single comment on a publish request
 function RequestComment(props) {
 
   const [targetType, setTargetType] = useState("");
   const [loading, setLoading] = useState(false);
+  const [commentText, setCommentText] = useState(props.description);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [editing, setEditing] = useState(false);
 
-  // figure out what type of object this comment was posted on
+  // Keep the comment description up to date
+  useEffect(() => {
+    setCommentText(props.description);
+  }, [props.description, editing]);
+
+  // Figure out what type of object this comment was posted on
   useEffect(() => {
     if (props.targetId && props.targetId.length) {
       if (props.targetId[0] === "P") {
@@ -62,9 +72,7 @@ function RequestComment(props) {
     setLoading(false);
   }
 
-
-/*
-  async function postComment(commentText, statusVal) {
+  async function editComment(commentText, commentId) {
     // Check for empty inputs
     if (!commentText.length) {
       setErrorMessage("Error: Empty comment");
@@ -74,14 +82,12 @@ function RequestComment(props) {
 
     // Prepare data for the comment
     const commentData = {
-      comment: commentText,
-      status: statusVal,
-      targetId: props.targetId
+      commentText: commentText
     };
 
     // Create the new request
-    const results = await fetch(`${API_URL}/requests/comment/${props.requestId}`, {
-      method: "POST",
+    const results = await fetch(`${API_URL}/requests/comment/${commentId}`, {
+      method: "PATCH",
       credentials: "include",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(commentData)
@@ -94,7 +100,7 @@ function RequestComment(props) {
 
     } else {
 
-      // there was an error creating the comment
+      // there was an error editing the comment
       const obj = await results.json();
 
       // if the user is performing an unauthorized action
@@ -110,11 +116,6 @@ function RequestComment(props) {
     }
     setLoading(false);
   }
-
-*/
-
-
-
 
   return (
     <Fragment>
@@ -220,7 +221,7 @@ function RequestComment(props) {
           {/* If the current user made the comment add a button for editing it */}
           { props.userId === props.commenterId && !props.initial && !props.embedded ? (
             <button className="comment-header-btn btn-success btn btn-sm ml-2 pull-right"
-              onClick={() => {}}
+              onClick={() => setEditing(true)}
             >
               <i className="fas fa-fw fa-edit mr-2 my-1" />
               Edit
@@ -234,8 +235,41 @@ function RequestComment(props) {
           <br/>
           <br/>
 
-          {/* The comment */}
-          <Sanitized html={props.description} />
+          {/* If we are editing, render a text box, otherwise render a comment */}
+          {editing ? (
+            <Form.Group controlId="formCommentEdit">
+              {/* Text box for editing comment */}
+              <div className="mb-3">
+                <RichTextEditor
+                  id={`edit-comment-${props.commentId}`}
+                  value={commentText}
+                  onChange={(text) => setCommentText(text)}
+                />
+              </div>
+
+              {/* Error message */}
+              <div className="mb-3">
+                <Error
+                  message={errorMessage}
+                />
+              </div>
+
+              {/* Buttons for accepting or canceling changes */}
+              <button className="comment-header-btn btn-secondary btn ml-2 pull-right"
+                onClick={() => setEditing(false)}
+              >
+                Cancel
+              </button>
+              <button className="comment-header-btn btn-success btn ml-2 pull-right"
+                onClick={() => editComment(commentText, props.commentId)}
+              >
+                Submit Changes
+              </button>
+            </Form.Group>
+          ) : (
+            <Sanitized html={commentText} />
+          )}
+
         </Card.Body>
       </Card>
     </Fragment>

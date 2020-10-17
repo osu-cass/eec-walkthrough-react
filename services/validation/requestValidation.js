@@ -348,6 +348,14 @@ const postCommentVal = Object.freeze({
 });
 exports.postCommentVal = postCommentVal;
 
+// validation checks for patch comment
+const patchCommentVal = Object.freeze({
+  validation: [
+    check("commentText").isLength({min: 1, max: 5000})
+  ]
+});
+exports.patchCommentVal = patchCommentVal;
+
 // validation checks for get sources
 const getSourcesVal = Object.freeze({
   validation: [

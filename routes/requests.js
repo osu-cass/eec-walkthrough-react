@@ -11,6 +11,7 @@ const {
   createRequest,
   createComment,
   deleteComment,
+  updateComment,
   deleteRequest,
   approveRequest
 } = require("../models/requests");
@@ -18,7 +19,8 @@ const {
   getRequestVal,
   getSelectionVal,
   postRequestVal,
-  postCommentVal
+  postCommentVal,
+  patchCommentVal
 } = require("../services/validation/requestValidation");
 const {
   requireAuth,
@@ -240,6 +242,49 @@ app.delete("/comment/:commentId", requireAuth, async (req, res) => {
         res.status(404).send({error: "Comment not found."});
       } else if (results.error === 2) {
         res.status(401).send({error: "Unauthorized user attempting to delete comment."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// update a request comment
+app.patch("/comment/:commentId", requireAuth, patchCommentVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update a comment");
+
+    const commentId = req.params.commentId;
+    const commentText = req.body.commentText;
+    const userId = req.auth.userId;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // update a comment if the user is the owner
+    const results = await updateComment(commentId, commentText, userId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Comment not found."});
+      } else if (results.error === 2) {
+        res.status(401).send({error: "Unauthorized user attempting to edit comment."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
