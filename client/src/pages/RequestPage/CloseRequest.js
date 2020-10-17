@@ -18,7 +18,6 @@ function CloseRequest(props) {
     const user = getProfile();
     setRole(user.role);
     setUserId(user.userId);
-
   }, [props.requestId, props.creatorId]);
 
   async function submitClose() {

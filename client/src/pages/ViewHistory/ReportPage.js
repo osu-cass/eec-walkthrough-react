@@ -120,7 +120,7 @@ function ReportPage(props) {
                       status={comment.review}
                       targetId={comment.targetId}
                       initial={false}
-                      borderDark={true}
+                      embedded={true}
                     />
                   ) : (
                     null
