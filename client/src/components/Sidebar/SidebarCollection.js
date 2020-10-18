@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import {NavLink} from "react-router-dom";
 import PropTypes from "prop-types";
 import Accordion from "react-bootstrap/Accordion";
@@ -7,17 +7,30 @@ import CreatePage from "./CreatePage";
 import EditCategory from "./EditCategory";
 import "./SidebarCollection.css";
 
-// a group of links that can be expanded or hidden on the sidebar
+// A group of pages that can be expanded or hidden on the sidebar
 function SidebarCollection(props) {
+
+  const [active, setActive] = useState(false);
+
   return (
     <Accordion>
       {/* If no collection passed in, make singular link */}
       {props.collection ? (
         <Fragment>
           {props.role >= 3 || props.collection.length ? (
-            <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
+            <Accordion.Toggle as={Card.Header} className={`sidebarCollection ${active ? "active" : ""}`} onClick={() => setActive(!active)} eventKey="0">
               <span>
+                {props.collectionIcon ? (
+                  <i className={`fas fa-fw fa-${props.collectionIcon} mr-2 my-1`} />
+                ) : (
+                  null
+                )}
                 {props.collectionName}
+                {active ? (
+                  <span className="pull-right">&#11206;</span>
+                ) : (
+                  <span className="pull-right">&#11208;</span>
+                )}
                 {props.internal ? (
                   <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
                 ) : (
@@ -35,10 +48,14 @@ function SidebarCollection(props) {
             <a className="page-sidebar-nav-link" href={props.externalLink}>
               <Accordion.Toggle
                 as={Card.Header}
-                id="sidebarCollection"
-                style={{fontSize: "1.2rem"}}
+                className="sidebarCollection"
                 eventKey="0"
               >
+                {props.collectionIcon ? (
+                  <i className={`fas fa-fw fa-${props.collectionIcon} mr-2 my-1`} />
+                ) : (
+                  null
+                )}
                 {props.collectionName}
               </Accordion.Toggle>
             </a>
@@ -46,10 +63,14 @@ function SidebarCollection(props) {
             <NavLink className="page-sidebar-nav-link" to={`/${props.collectionLink}`}>
               <Accordion.Toggle
                 as={Card.Header}
-                id="sidebarCollection"
-                style={{fontSize: "1.2rem"}}
+                className="sidebarCollection"
                 eventKey="0"
               >
+                {props.collectionIcon ? (
+                  <i className={`fas fa-fw fa-${props.collectionIcon} mr-2 my-1`} />
+                ) : (
+                  null
+                )}
                 {props.collectionName}
               </Accordion.Toggle>
             </NavLink>
@@ -60,8 +81,8 @@ function SidebarCollection(props) {
         <Accordion.Collapse eventKey="0">
           <Fragment>
             {props.collection.map((item, i) =>
-              <NavLink key={i} to={`/${props.collectionLink}/${item.pageId}`} className="ml-3 nav_link">
-                <Card.Body key={item.pageId} style={{fontSize: "1rem"}} className="nav_link">
+              <NavLink key={i} to={`/${props.collectionLink}/${item.pageId}`} className="ml-3 sidebar-nav-link">
+                <Card.Body key={item.pageId} className="sidebar-nav-link">
                   <span>
                     {item.name}
                     {item.approved === 0 ? (
@@ -80,7 +101,6 @@ function SidebarCollection(props) {
             )}
             {props.show ? (
               <Fragment>
-                <div className="my-2">
                   <CreatePage
                     title={`Create ${props.collectionName} Page`}
                     collectionLink={props.collectionLink}
@@ -88,8 +108,6 @@ function SidebarCollection(props) {
                     role={props.role}
                     categoryId={props.category.categoryId}
                   />
-                </div>
-                <div className="my-2">
                   {!props.hideEdit ? (
                     <EditCategory
                       refresh={props.refresh}
@@ -99,7 +117,6 @@ function SidebarCollection(props) {
                   ) : (
                     null
                   )}
-                </div>
               </Fragment>
             ) : (
               null
@@ -128,6 +145,7 @@ SidebarCollection.propTypes = {
   category: PropTypes.object,
   internal: PropTypes.number,
   show: PropTypes.bool,
-  hideEdit: PropTypes.bool
+  hideEdit: PropTypes.bool,
+  collectionIcon: PropTypes.string
 };
 
