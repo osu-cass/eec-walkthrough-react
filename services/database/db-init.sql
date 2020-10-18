@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Oct 13, 2020 at 03:19 AM
+-- Generation Time: Oct 18, 2020 at 02:32 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -145,12 +145,12 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (183, 29, 0, 183, 'Gallery: Pump Types etc.', 55, '2020-08-19 21:46:41', 0),
 (184, 50, 0, 184, 'How to calculate layout efficiency savings', 62, '2020-08-24 19:51:09', 0),
 (185, 50, 0, 185, 'Determining cost savings', 62, '2020-08-24 20:10:02', 0),
-(186, 54, 0, 2, 'Pros', 52, '2020-08-26 16:04:13', 0),
-(187, 54, 0, 3, 'Cons', 52, '2020-08-26 16:13:30', 0),
-(189, 54, 0, 6, 'General Off Site Resource Links', 52, '2020-08-26 16:44:39', 0),
-(190, 54, 0, 5, 'Standard Data to Collect', 52, '2020-08-26 16:57:31', 0),
-(192, 55, 0, 192, 'Install Capacitors', 52, '2020-08-26 17:36:17', 0),
-(193, 54, 0, 1, 'What is power factor?', 52, '2020-08-26 17:43:30', 0),
+(186, 54, 0, 2, 'Pros', 52, '2020-08-26 16:04:13', 1),
+(187, 54, 0, 3, 'Cons', 52, '2020-08-26 16:13:30', 1),
+(189, 54, 0, 6, 'General Off Site Resource Links', 52, '2020-08-26 16:44:39', 1),
+(190, 54, 0, 5, 'Standard Data to Collect', 51, '2020-08-26 16:57:31', 1),
+(192, 55, 0, 192, 'Install Capacitors', 51, '2020-08-26 17:36:17', 1),
+(193, 54, 0, 1, 'What is power factor?', 51, '2020-08-26 17:43:30', 1),
 (194, 56, 10, 194, 'Industrial Assessment Center and Department of Energy', 57, '2020-08-27 00:24:17', 0),
 (195, 56, 10, 195, 'Other Government Tools', 57, '2020-08-27 00:29:22', 0),
 (196, 57, 0, 196, 'Tips and Guides', 57, '2020-08-27 00:38:47', 0),
@@ -171,15 +171,16 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (214, 63, 2, 2, 'Increase Spray/Paint Booth Efficiency', 52, '2020-09-10 17:01:56', 0),
 (215, 63, 2, 215, 'Reduce Compressed Air Leaks', 52, '2020-09-10 20:11:02', 0),
 (222, 62, 0, 222, 'Additional in Depth Site Resources', 52, '2020-09-15 19:40:23', 0),
-(223, 64, 10, 223, 'Measuring Electricity', 54, '2020-09-17 19:39:07', 0),
+(223, 64, 10, 223, 'Measuring Electricity Use', 54, '2020-09-17 19:39:07', 0),
 (224, 64, 10, 224, 'Electric Rate Schedules', 54, '2020-09-17 19:57:57', 0),
 (225, 64, 10, 225, 'Common Electricity Charges', 54, '2020-09-17 19:59:38', 0),
-(228, 65, 10, 228, 'Measuring Natural Gas', 54, '2020-09-23 21:45:05', 0),
+(228, 65, 10, 228, 'Measuring Natural Gas Use', 54, '2020-09-23 21:45:05', 0),
 (229, 65, 10, 229, 'Natural Gas Rate Schedules', 54, '2020-09-23 21:49:22', 0),
 (230, 65, 10, 230, 'Common Natural Gas Charges', 54, '2020-09-23 21:55:01', 0),
-(231, 66, 10, 231, 'Measuring Water', 54, '2020-09-23 22:00:24', 0),
+(231, 66, 10, 231, 'Measuring Water Use', 54, '2020-09-23 22:00:24', 0),
 (232, 66, 10, 232, 'Water Rate Schedules', 54, '2020-09-23 22:22:08', 0),
-(233, 66, 10, 233, 'Common Water Charges', 54, '2020-09-23 22:26:50', 0);
+(233, 66, 10, 233, 'Common Water Charges', 54, '2020-09-23 22:26:50', 0),
+(236, 70, 10, 236, 'Consolidate Meters', 54, '2020-10-14 20:45:46', 0);
 
 -- --------------------------------------------------------
 
@@ -326,17 +327,19 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (47, 54, 47, 'Assessment Steps', 1, 51, '2020-08-05 19:56:29', 1),
 (48, 58, 48, 'Bottleneck Reduction', 0, 62, '2020-08-10 20:58:11', 0),
 (50, 57, 50, 'Change Department Layout', 0, 62, '2020-08-12 21:43:08', 0),
-(54, 61, 1, 'Power Factor Correction Overview', 0, 52, '2020-08-26 16:02:06', 0),
-(55, 61, 2, 'Power Factor Correction Opportunities to Consider', 0, 52, '2020-08-26 17:34:55', 0),
+(54, 61, 1, 'Power Factor Correction Overview', 0, 52, '2020-10-13 20:18:20', 1),
+(55, 61, 2, 'Power Factor Correction Opportunities to Consider', 0, 52, '2020-10-13 20:18:20', 1),
 (56, 62, 56, 'Self Assessment Tools', 1, 57, '2020-08-27 00:21:35', 0),
 (57, 62, 57, 'Resources', 1, 57, '2020-08-27 00:29:42', 0),
 (59, 65, 59, 'Creating Content', 1, 58, '2020-09-04 18:57:48', 0),
 (60, 65, 60, 'Reviewing Content', 1, 58, '2020-09-04 19:23:27', 0),
 (62, 69, 62, 'Metals Manufacturing Overview', 0, 52, '2020-09-09 18:44:04', 0),
 (63, 69, 63, 'Metals Manufacturing Opportunities to Consider', 0, 52, '2020-09-09 18:44:28', 0),
-(64, 49, 64, 'Electricity', 1, 54, '2020-09-17 19:22:43', 0),
-(65, 49, 65, 'Natural Gas', 1, 54, '2020-09-17 20:04:02', 0),
-(66, 49, 66, 'Water', 1, 54, '2020-09-17 20:08:44', 0);
+(64, 49, 1, 'Electricity', 1, 54, '2020-09-17 19:22:43', 0),
+(65, 49, 2, 'Natural Gas', 1, 54, '2020-09-17 20:04:02', 0),
+(66, 49, 3, 'Water', 1, 54, '2020-09-17 20:08:44', 0),
+(69, 49, 4, 'Analysis', 1, 54, '2020-10-14 18:28:03', 0),
+(70, 49, 5, 'Electricity Opportunities to Consider', 1, 54, '2020-10-14 20:41:48', 0);
 
 -- --------------------------------------------------------
 
@@ -454,7 +457,13 @@ INSERT INTO `History_Cards` (`historyId`, `cardId`, `headerId`, `cardType`, `tit
 (94, 162, 47, 10, 'Arrange a Client Guided Remote Tour by Phone.', 0, '2020-09-03 20:05:27'),
 (95, 158, 47, 10, 'Develop a List of Potential Opportunities to Study', 0, '2020-09-03 20:11:20'),
 (96, 165, 47, 0, 'Next Step?......', 0, '2020-09-03 20:11:43'),
-(97, 227, 67, 0, 'Rows', 0, '2020-09-22 20:52:51');
+(97, 227, 67, 0, 'Rows', 0, '2020-09-22 20:52:51'),
+(98, 193, 54, 0, 'What is power factor?', 0, '2020-10-13 20:18:20'),
+(99, 186, 54, 0, 'Pros', 0, '2020-10-13 20:18:20'),
+(100, 187, 54, 0, 'Cons', 0, '2020-10-13 20:18:20'),
+(101, 190, 54, 0, 'Standard Data to Collect', 0, '2020-10-13 20:18:20'),
+(102, 189, 54, 0, 'General Off Site Resource Links', 0, '2020-10-13 20:18:20'),
+(103, 192, 55, 0, 'Install Capacitors', 0, '2020-10-13 20:18:20');
 
 -- --------------------------------------------------------
 
@@ -503,7 +512,9 @@ INSERT INTO `History_Headers` (`historyId`, `headerId`, `pageId`, `title`, `inte
 (38, 38, 50, 'Wastewater Opportunities to Consider', 0, 0, '2020-08-20 00:22:49'),
 (39, 37, 50, 'Wastewater Technologies to Consider', 0, 0, '2020-08-20 00:23:09'),
 (40, 29, 45, 'Pumps Overview', 0, 0, '2020-08-20 00:24:59'),
-(41, 67, 70, 'New Header', 0, 0, '2020-09-22 20:53:26');
+(41, 67, 70, 'New Header', 0, 0, '2020-09-22 20:53:26'),
+(42, 54, 61, 'Power Factor Correction Overview', 0, 0, '2020-10-13 20:18:20'),
+(43, 55, 61, 'Power Factor Correction Opportunities to Consider', 0, 0, '2020-10-13 20:18:20');
 
 -- --------------------------------------------------------
 
@@ -1054,7 +1065,36 @@ INSERT INTO `History_Items` (`historyId`, `parentId`, `itemId`, `cardId`, `order
 (717, 97, 6091, 227, 0, 0, 26, 'Break', '', '', 0, 0, 0, 0, '2020-09-22 20:51:32'),
 (718, 97, 6092, 227, 0, 0, 17, '$empty', 'http://placekitten.com/200/300', 'Some Link', 0, 0, 1, 0, '2020-09-22 20:51:32'),
 (719, 97, 6093, 227, 0, 0, 24, '$empty', 'http://placekitten.com/200/300', 'Some Link', 2, 0, 1, 0, '2020-09-22 20:51:32'),
-(720, 97, 6094, 227, 0, 0, 28, '$empty', 'http://placekitten.com/200/300', 'Some Link', 3, 0, 1, 0, '2020-09-22 20:51:32');
+(720, 97, 6094, 227, 0, 0, 28, '$empty', 'http://placekitten.com/200/300', 'Some Link', 3, 0, 1, 0, '2020-09-22 20:51:32'),
+(721, 98, 6284, 193, 0, 0, 26, 'Power factor represents the portion of the total power drawn by a load that does useful work', '', '', 0, 0, 0, 0, '2020-10-13 20:13:31'),
+(722, 98, 6285, 193, 0, 0, 26, 'Power factor is the ratio of real power, in kilowatts (kW), to apparent power, in kilovolt amperes (kVA)', '', '', 0, 0, 0, 0, '2020-10-13 20:13:31'),
+(723, 98, 6286, 193, 0, 1, 20, '', '/uploads/user_52/3bacc6ae00660669452ad7219c34b33e.png', 'The power triangle. Power factor is represented by the cosine of the angle (theta) between the total power and real power on the power triangle. ', 0, 0, 0, 0, '2020-10-13 20:13:31'),
+(724, 98, 6287, 193, 0, 0, 26, 'Reactive power is needed to create and maintain the magnetic field that rotates the shaft of a motor', '', '', 0, 0, 0, 0, '2020-10-13 20:13:31'),
+(725, 98, 6288, 193, 0, 0, 26, 'Inductive loads produce lagging power factor and capacitive loads produce leading power factor. Lagging power factor is most common due to the presence of inductive loads in industrial facilities. In this case, installing capacitors will correct power factor by bringing the current back in phase with the voltage.', '', '', 0, 0, 0, 0, '2020-10-13 20:13:31'),
+(726, 99, 5303, 186, 0, 0, 1, 'Improving power factor extends equipment life by reducing the total line current which reduces operating temperatures.', '', '', 0, 0, 0, 0, '2020-09-09 18:12:30'),
+(727, 100, 5287, 187, 0, 0, 2, 'Capacitors can amplify harmonics if nonlinear loads are present. Examples of nonlinear loads include variable frequency drives, induction furnaces, arc welders and arc furnaces.', '', '', 0, 0, 0, 4, '2020-09-09 17:57:39'),
+(728, 101, 6289, 190, 0, 0, 15, 'Collect one year of electric utility bills. This will help with identifying meters that can benefit from power factor correction and estimating the potential savings for correcting power factor.', '', '', 0, 0, 0, 0, '2020-10-13 20:15:35'),
+(729, 99, 5304, 186, 0, 0, 1, 'Improving power factor can significantly reduce monthly electrical utility charges.', '', '', 0, 0, 0, 0, '2020-09-09 18:12:30'),
+(730, 101, 6290, 190, 0, 0, 15, 'The method of billing for low power factor can vary depending on the facility\'s electric utility provider. The rate schedule associated with each meter will show how the facility is charged for poor power factor. ', '', '', 0, 0, 0, 0, '2020-10-13 20:15:35'),
+(731, 99, 5305, 186, 0, 0, 1, 'Capacitors have no moving parts and require little to no maintenance. It is recommended to check fuses on a regular basis. All capacitors should be checked annually to ensure proper operation.', '', '', 0, 0, 0, 5, '2020-09-09 18:12:30'),
+(732, 102, 4842, 189, 0, 0, 17, 'This guide provides information on the fundamentals of power factor, how to improve power factor, example savings calculations for mulitple scenarios, and how to select the right capactior specific applications. Information on harmonics is also included.', 'https://www.eaton.com/ecm/groups/public/%40pub/%40electrical/documents/content/sa02607001e.pdf', 'Eaton - Power Factor Correction: A Guide for the Plant Engineer', 1, 0, 0, 0, '2020-08-26 16:47:50'),
+(733, 102, 4843, 189, 0, 0, 17, 'This manual provides technical information for assessing many systems that are commonly found in small to medium sized industrial manufacturing facilities. Chapter 4 section 4.1.4 specifically addresses power factor improvement.', 'https://iac.university/technicalDocs/industr/ch4.pdf', 'Essentials of Industrial Assessments, Chapter 4, Electricity', 1, 0, 0, 0, '2020-08-26 16:47:50'),
+(734, 102, 4844, 189, 0, 0, 23, 'This video produced by the The Engineering Mindset on YouTube explains what power factor is, how to calculate power factor, what poor power factor is, and how resistors and capacitors affect power factor.', 'https://www.youtube.com/watch?v=Tv_7XWf96gg', 'Power Factor Explained', 1, 0, 0, 0, '2020-08-26 16:47:50'),
+(735, 103, 6291, 192, 0, 0, 10, 'Reactive power charges constitute a considerable portion of the facility\'s electric utility bill', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
+(736, 103, 6292, 192, 0, 0, 7, 'Correcting power factor to the threshold reactive power provides the most value to the client without increasing the payback period for this recommendation. The threshold reactive power is the amount of reactive power that can be present on a utility bill before the user incurs additional charges.', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
+(737, 103, 6293, 192, 0, 0, 8, 'Fuses are less expensive than new capacitors. If the facility has offline capacitors, determine if they can be put back into use.', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
+(738, 103, 6294, 192, 0, 0, 4, 'Harmonic filters should be used in distribution systems with harmonics. Consider consulting with a power management company to have a harmonic analysis completed before purchasing or installing capacitors.', '', '', 0, 0, 0, 4, '2020-10-13 20:17:59'),
+(739, 103, 6295, 192, 0, 0, 27, 'A power quality analyzer can be used to determine the power factor for individual pieces of equipment', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
+(740, 103, 6296, 192, 0, 0, 11, 'Install individual capacitors', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
+(741, 103, 6297, 192, 0, 1, 1, 'Installing individual capacitors at the load (typically at the Motor Control Center to switch in an out with the motor\" can make capacitor selection easy', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
+(742, 103, 6298, 192, 0, 1, 1, 'This can be the most economical solution due to low equipment cost', '', '', 0, 0, 0, 4, '2020-10-13 20:17:59'),
+(743, 103, 6299, 192, 0, 1, 1, 'The capacitor operates with the motor, so other systems are not affected when the motor is offline', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
+(744, 103, 6300, 192, 0, 1, 8, 'For large motors (50 HP and above), install capacitors at the load. For many smaller motors, it may be feasible to install one capacitor for the group of motors.', '', '', 0, 0, 0, 4, '2020-10-13 20:17:59'),
+(745, 103, 6301, 192, 0, 0, 11, 'Install a capacitor bank', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
+(746, 103, 6302, 192, 0, 1, 26, 'A fixed capacitor bank is suitable for equipment that has little variance in load characteristics', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
+(747, 103, 6303, 192, 0, 1, 26, 'Installing automatically switching capacitor banks is the best solution for variable loads because they provide the right amount of power factor correction as loads turn on and off', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
+(748, 103, 6304, 192, 0, 1, 1, 'Only one installation is required for a capacitor bank compared to multiple capacitors at the load', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
+(749, 103, 6305, 192, 0, 1, 2, 'Automatically switching banks are more expensive than fixed banks or individual capacitors and lead to longer payback periods', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59');
 
 -- --------------------------------------------------------
 
@@ -1090,7 +1130,8 @@ INSERT INTO `History_Pages` (`historyId`, `pageId`, `pageType`, `name`, `title`,
 (12, 59, 2, 'zz - history', 'A page for testing history .... this is a change ... one last change', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac aliquet ipsum, et pharetra massa. Mauris fringilla, dui eget tristique posuere, neque urna viverra nisl, ac scelerisque tortor est elementum enim. a rhoncus orci maximus ac. Praesent fringilla faucibus lectus, at mollis nunc viverra vitae. Pellentesque id ante nec tortor feugiat vehicula.\n\nUt et nunc imperdiet nulla varius pellentesque. Maecenas congue non enim ac bibendum. Praesent eu arcu massa. Etiam eu vehicula dolor. Sed venenatis massa vitae arcu malesuada tincidunt. Cras eu elit in sapien efficitur mollis. Sed a elit ac ante hendrerit iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam interdum nibh vitae turpis euismod, ac congue diam bibendum. Donec pharetra interdum suscipit. In tempor tempor dui, non aliquet justo pretium eget. Praesent molestie magna tellus, eget auctor lectus pellentesque quis.\n\nInteger ut fringilla arcu, posuere luctus erat. Integer maximus, ex at venenatis tristique, nisl enim suscipit augue, eu consequat magna lectus eget augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed viverra felis ligula, non volutpat nibh gravida ut. Sed sed dapibus lacus. Morbi quam tortor, blandit vel consequat vestibulum, semper quis lacus. Ut bibendum laoreet lacus, ut iaculis enim eleifend vitae. Morbi malesuada odio est, non interdum risus volutpat quis.\n\nPellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec varius non magna a commodo. Praesent dapibus eu ante ac luctus. Aliquam consequat quis dui vitae elementum. Integer vitae rhoncus massa. Suspendisse potenti. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer egestas ligula ut tellus tincidunt fringilla. Vivamus non elementum mi. Nulla arcu orci, dapibus at molestie sit amet, vehicula ut lectus.', 'http://placekitten.com/600/500', 1, 0, '2020-09-03 10:12:55'),
 (13, 53, 4, 'z - test Diff Demo', 'Basic Page Meant for Testing New Features @ 1', 'Loremem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, velel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nFusce quam eros, tincidunt vitae libero eget, tincidunt aliquam lectus. Curabitur non mi et orci semper sollicitudin. Cras dapibus malesuada accumsan. Maecenas efficitur euismod elit eu lacinia. Aliquam id sollicitudin augue. Quisque pharetra scelerisque ultrices. Curabitur dictum felis metus, vitae pulvinar quam efficitur et. Mauris accumsan cursus ante rutrum interdum. Duis scelerisque pharetra fermentum. Phasellus viverra tellus in rutrum dignissim. Sed ex augue, elementum a aliquam non, rutrum sed metus. Nulla sapien lorem, ullamcorper ut molestie ac, hendrerit ultrices odio. Nullam sit amet eleifend erat. Aenean laoreet fermentum ipsum, ut tempus magna rhoncus at. Cras vitae dolor leo.\n\nCurabitur cursus arcu elit, u scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/200/500', 1, 0, '2020-08-11 10:32:11'),
 (14, 50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 0, '2020-08-20 00:22:00'),
-(15, 2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/uploads/user_42/fe1402c50e24309eb11f4209c73e2daf.png', 0, 0, '2020-09-14 12:50:14');
+(15, 2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/uploads/user_42/fe1402c50e24309eb11f4209c73e2daf.png', 0, 0, '2020-09-14 12:50:14'),
+(16, 61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, which creates additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will increase the capacity of the distribution system.', '/uploads/user_52/ec8550a6c0caa67f935129b59a4c8185.jpg', 0, 0, '2020-10-13 20:18:20');
 
 -- --------------------------------------------------------
 
@@ -1746,11 +1787,9 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4822, 184, 0, 0, 26, 'First, calculate the D-scores for the original layout (D0) and the proposed layout (D1).', '', '', 0, 0, 0, 0, '2020-08-24 19:51:09', 0),
 (4823, 184, 0, 0, 26, 'Calculate layout efficiency savings by finding the percent difference in d-scores (i.e. D0 - D1 / D1).', '', '', 0, 0, 0, 0, '2020-08-24 19:51:09', 0),
 (4824, 184, 0, 0, 26, 'Layout efficiency savings are an important measure in itself and will result in increased productivity, however, translating this figure into monetary cost savings is necessary.', '', '', 0, 0, 0, 0, '2020-08-24 19:51:09', 0),
-(4842, 189, 0, 0, 17, 'This guide provides information on the fundamentals of power factor, how to improve power factor, example savings calculations for mulitple scenarios, and how to select the right capactior specific applications. Information on harmonics is also included.', 'https://www.eaton.com/ecm/groups/public/%40pub/%40electrical/documents/content/sa02607001e.pdf', 'Eaton - Power Factor Correction: A Guide for the Plant Engineer', 1, 0, 0, 0, '2020-08-26 16:47:50', 0),
-(4843, 189, 0, 0, 17, 'This manual provides technical information for assessing many systems that are commonly found in small to medium sized industrial manufacturing facilities. Chapter 4 section 4.1.4 specifically addresses power factor improvement.', 'https://iac.university/technicalDocs/industr/ch4.pdf', 'Essentials of Industrial Assessments, Chapter 4, Electricity', 1, 0, 0, 0, '2020-08-26 16:47:50', 0),
-(4844, 189, 0, 0, 23, 'This video produced by the The Engineering Mindset on YouTube explains what power factor is, how to calculate power factor, what poor power factor is, and how resistors and capacitors affect power factor.', 'https://www.youtube.com/watch?v=Tv_7XWf96gg', 'Power Factor Explained', 1, 0, 0, 0, '2020-08-26 16:47:50', 0),
-(4866, 190, 0, 0, 15, 'Collect one year of electric utility bills. This will help with identifying meters that can benefit from power factor correction and estimating the potential savings for correcting power factor.', '', '', 0, 0, 0, 0, '2020-08-26 17:59:09', 0),
-(4867, 190, 0, 0, 15, 'The method of billing for low power factor can vary depending on the facilities electric utility provider. The rate schedule associated with each meter will show how the facility is charged for poor power factor. ', '', '', 0, 0, 0, 0, '2020-08-26 17:59:09', 0),
+(4842, 189, 0, 0, 17, 'This guide provides information on the fundamentals of power factor, how to improve power factor, example savings calculations for mulitple scenarios, and how to select the right capactior specific applications. Information on harmonics is also included.', 'https://www.eaton.com/ecm/groups/public/%40pub/%40electrical/documents/content/sa02607001e.pdf', 'Eaton - Power Factor Correction: A Guide for the Plant Engineer', 1, 0, 0, 0, '2020-10-13 20:21:27', 1),
+(4843, 189, 0, 0, 17, 'This manual provides technical information for assessing many systems that are commonly found in small to medium sized industrial manufacturing facilities. Chapter 4 section 4.1.4 specifically addresses power factor improvement.', 'https://iac.university/technicalDocs/industr/ch4.pdf', 'Essentials of Industrial Assessments, Chapter 4, Electricity', 1, 0, 0, 0, '2020-10-13 20:21:28', 1),
+(4844, 189, 0, 0, 23, 'This video produced by the The Engineering Mindset on YouTube explains what power factor is, how to calculate power factor, what poor power factor is, and how resistors and capacitors affect power factor.', 'https://www.youtube.com/watch?v=Tv_7XWf96gg', 'Power Factor Explained', 1, 0, 0, 0, '2020-10-13 20:21:29', 1),
 (4956, 196, 0, 0, 26, 'The Federal Communications Commission released ten tips for small business cyber security after meeting with public and private leaders.', '', '', 0, 0, 0, 0, '2020-08-27 00:40:27', 0),
 (4957, 196, 0, 1, 24, ' ', 'https://www.fcc.gov/general/cybersecurity-small-business', 'Cybersecurity for Small Business', 1, 0, 0, 0, '2020-08-27 00:40:27', 0),
 (4958, 196, 0, 0, 26, 'The Cybersecurity and Infrastructure Security Agency (CISA, a part of the US Department of Homeland Security) also has resources focused on increasing the security of industrial control systems.', '', '', 1, 0, 0, 0, '2020-08-27 00:40:27', 0),
@@ -1777,12 +1816,12 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4982, 199, 0, 0, 1, 'Alleviating bottlenecks is often the most valuable productivity opportunity. ', '', '', 0, 0, 0, 0, '2020-09-02 22:07:11', 0),
 (4983, 199, 0, 0, 1, 'Basic analysis and cost savings estimation requires few variable values.', '', '', 0, 0, 0, 0, '2020-09-02 22:07:11', 0),
 (4984, 200, 0, 0, 2, 'Precise analysis requires a deep understanding of how the entire production line operates. Statistics based simulation is often the only way to achieve this.', '', '', 0, 0, 0, 0, '2020-09-02 22:11:35', 0),
-(4985, 200, 0, 0, 2, 'Unless time studies on how product flows into and out of the workstation are conducted, several assumptions are required even for basic analysis.', '', '', 0, 0, 0, 0, '2020-09-02 22:11:35', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(4985, 200, 0, 0, 2, 'Unless time studies on how product flows into and out of the workstation are conducted, several assumptions are required even for basic analysis.', '', '', 0, 0, 0, 0, '2020-09-02 22:11:35', 0),
 (4995, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
 (4996, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
 (4997, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
-(4998, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
+(4998, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (4999, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
 (5000, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
 (5001, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
@@ -1822,86 +1861,17 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5190, 204, 0, 1, 26, 'Within a page editors can create headers and cards. Headers allow for content-carrying cards to be organized into sections and categories.', '', '', 0, 0, 0, 0, '2020-09-08 21:47:25', 0),
 (5191, 205, 0, 0, 8, 'When adding a new page, header, or card, select \"Internal (not viewable by the public)\" for material intended to be used by EEC personnel only (such as this instructions page). ', '', '', 0, 0, 0, 0, '2020-09-08 21:48:22', 0),
 (5192, 205, 0, 0, 8, 'Use the toggle in the top right corner of any page header to switch between View Mode, Edit Mode, and Move Mode. The mode shown on the toggle is the mode the page is currently in. ', '', '', 0, 0, 0, 0, '2020-09-08 21:48:22', 0),
-(5224, 193, 0, 0, 26, 'Power factor represents the portion of the total power consumed by a load that does useful work', '', '', 0, 0, 0, 0, '2020-09-09 17:32:07', 0),
-(5225, 193, 0, 0, 26, 'Power factor is the ratio of real power, in kilowatts (kW), to apparent power, in kilovolt amperes (kVA)', '', '', 0, 0, 0, 0, '2020-09-09 17:32:07', 0),
-(5226, 193, 0, 1, 20, '', '/uploads/user_52/3bacc6ae00660669452ad7219c34b33e.png', 'The power triangle. Power factor is represented by the cosine of the angle (theta) between the total power and real power on the power triangle. ', 0, 0, 0, 0, '2020-09-09 17:32:07', 0),
-(5227, 193, 0, 0, 26, 'Reactive power is needed to create and maintain the magnetic field that rotates the shaft of a motor', '', '', 0, 0, 0, 0, '2020-09-09 17:32:07', 0),
-(5228, 193, 0, 0, 26, 'Inductive loads produce lagging power factor and capacitive loads produce leading power factor. Lagging power factor is most common due to the presence of inductive loads in industrial facilities. In this case, installing capacitors will correct power factor by bringing the current back in phase with the voltage.', '', '', 0, 0, 0, 0, '2020-09-09 17:32:07', 0),
-(5287, 187, 0, 0, 2, 'Capacitors can amplify harmonics if nonlinear loads are present. Examples of nonlinear loads include variable frequency drives, induction furnaces, arc welders and arc furnaces.', '', '', 0, 0, 0, 4, '2020-09-09 17:57:39', 0),
-(5288, 192, 0, 0, 10, 'Reactive power charges constitute a considerable amount of the facility\'s electric utility bill', '', '', 0, 0, 0, 0, '2020-09-09 17:59:29', 0),
-(5289, 192, 0, 0, 7, 'Correcting power factor to the threshold reactive power provides the most value to the client without increasing the payback period for this recommendation. The threshold reactive power is the amount of reactive power that can be present on a utility bill before the user incurs additional charges.', '', '', 0, 0, 0, 0, '2020-09-09 17:59:29', 0),
-(5290, 192, 0, 0, 8, 'Fuses are less expensive than new capacitors. If the facility has offline capacitors, determine if they can be put back into use.', '', '', 0, 0, 0, 0, '2020-09-09 17:59:29', 0),
-(5291, 192, 0, 0, 4, 'Harmonic filters should be used in distribution systems with harmonics. The facility should consult with a power management company to have a harmonic analysis completed before purchasing or installing capacitors.', '', '', 0, 0, 0, 4, '2020-09-09 17:59:29', 0),
-(5292, 192, 0, 0, 27, 'A power quality analyzer can be used to determine the power factor for individual pieces of equipment', '', '', 0, 0, 0, 0, '2020-09-09 17:59:29', 0),
-(5293, 192, 0, 0, 11, 'Install individual capacitors', '', '', 0, 0, 0, 0, '2020-09-09 17:59:29', 0),
-(5294, 192, 0, 1, 1, 'Installing individual capacitors at the load makes capacitor selection easy', '', '', 0, 0, 0, 0, '2020-09-09 17:59:29', 0),
-(5295, 192, 0, 1, 1, 'This can be the most economical solution due to low equipment cost', '', '', 0, 0, 0, 4, '2020-09-09 17:59:29', 0),
-(5296, 192, 0, 1, 1, 'The capacitor operates with the motor, so other systems are not affected when the motor is offline', '', '', 0, 0, 0, 0, '2020-09-09 17:59:29', 0),
-(5297, 192, 0, 1, 8, 'For large motors (50 HP and above), install capacitors at the load. For many smaller motors, it may be feasible to install one capacitor for the group of motors.', '', '', 0, 0, 0, 4, '2020-09-09 17:59:29', 0),
-(5298, 192, 0, 0, 11, 'Install a capacitor bank', '', '', 0, 0, 0, 0, '2020-09-09 17:59:29', 0),
-(5299, 192, 0, 1, 26, 'A fixed capacitor bank is suitable for equipment that has little variance in load characteristics', '', '', 0, 0, 0, 0, '2020-09-09 17:59:29', 0),
-(5300, 192, 0, 1, 26, 'Installing automatically switching capacitor banks is the best solution for variable loads because they provide the right amount of power factor correction as loads turn on and off', '', '', 0, 0, 0, 0, '2020-09-09 17:59:29', 0),
-(5301, 192, 0, 1, 1, 'Only one installation is required for a capacitor bank compared to multiple capacitors at the load', '', '', 0, 0, 0, 0, '2020-09-09 17:59:29', 0),
-(5302, 192, 0, 1, 2, 'Automatically switching banks are more expensive than fixed banks or individual capacitors and lead to longer payback periods', '', '', 0, 0, 0, 0, '2020-09-09 17:59:29', 0),
-(5303, 186, 0, 0, 1, 'Improving power factor extends equipment life by reducing the total line current which reduces operating temperatures.', '', '', 0, 0, 0, 0, '2020-09-09 18:12:30', 0),
-(5304, 186, 0, 0, 1, 'Improving power factor can significantly reduce monthly electrical utility charges.', '', '', 0, 0, 0, 0, '2020-09-09 18:12:30', 0),
-(5305, 186, 0, 0, 1, 'Capacitors have no moving parts and require little to no maintenance. It is recommended to check fuses on a regular basis. All capacitors should be checked annually to ensure proper operation.', '', '', 0, 0, 0, 5, '2020-09-09 18:12:30', 0),
+(5287, 187, 0, 0, 2, 'Capacitors can amplify harmonics if nonlinear loads are present. Examples of nonlinear loads include variable frequency drives, induction furnaces, arc welders and arc furnaces.', '', '', 0, 0, 0, 4, '2020-09-09 17:57:39', 1),
+(5303, 186, 0, 0, 1, 'Improving power factor extends equipment life by reducing the total line current which reduces operating temperatures.', '', '', 0, 0, 0, 0, '2020-09-09 18:12:30', 1),
+(5304, 186, 0, 0, 1, 'Improving power factor can significantly reduce monthly electrical utility charges.', '', '', 0, 0, 0, 0, '2020-09-09 18:12:30', 1),
+(5305, 186, 0, 0, 1, 'Capacitors have no moving parts and require little to no maintenance. It is recommended to check fuses on a regular basis. All capacitors should be checked annually to ensure proper operation.', '', '', 0, 0, 0, 5, '2020-09-09 18:12:30', 1),
 (5505, 206, 0, 0, 13, 'When creating pages or cards there are two methods for adding images:', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5506, 206, 0, 1, 26, 'You may enter an image URL. This is a web address that points to a specific image (ex: https://placekitten.com/300/200).', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5507, 206, 0, 2, 4, 'Always include \"https\" at the start of your image address and never \"http\". This ensures that the image is being sent over a secure network. A published page with HTTP images will display as \"Not Secure\" in most browsers, which will make users less confident when using our application.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5508, 206, 0, 1, 26, 'You may upload an image. Valid images have the file format JPG, PNG, or GIF. Images are not allowed to be larger than six megabytes. ', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5509, 206, 0, 2, 12, 'Only upload images that you have intellectual property rights to use. This means that you should not use images that you did not create unless you have gotten express permission to use them from the creator.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5510, 206, 0, 2, 7, 'If you want to use an image in multiple locations. Upload the image by submitting some content, then edit the content and you will see that the image has a URL that you can copy. You can reuse this URL anywhere on the website, this is the preferred method as it saves space on the server by only uploading the image once.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
-(5593, 212, 0, 0, 11, 'Increase Spray Paint Efficiency', '', '', 0, 0, 0, 0, '2020-09-09 23:56:24', 0),
-(5594, 212, 0, 1, 8, 'Training paint personnel to reduce overspray in painting applications can significantly reduce annual paint consumption and extends booth filter life', '', '', 0, 0, 0, 0, '2020-09-09 23:56:24', 0),
-(5595, 212, 0, 1, 26, 'Paint booths are often present in metals manufacturing facilities that produce final products or components', '', '', 0, 0, 0, 0, '2020-09-09 23:56:24', 0),
-(5596, 212, 0, 1, 26, 'Operator spray technique and equipment settings can be adjusted to minimize paint overspray. Equipment settings include paint gun adjustment, equipment maintenance, and paint gun distance and orientation.', '', '', 0, 0, 0, 0, '2020-09-09 23:56:24', 0),
-(5597, 212, 0, 1, 1, 'Painting efficiency can be improved by as much 25% for even the most experienced painters with increased attention to application techniques', '', '', 0, 0, 0, 6, '2020-09-09 23:56:24', 0),
-(5598, 212, 0, 1, 15, 'Annual consumption of paint and associated costs', '', '', 0, 0, 0, 0, '2020-09-09 23:56:24', 0),
-(5599, 212, 0, 1, 3, 'Proposed savings can be conservatively estimated at 10-15% reduction in paint consumption. Percent savings may approach 25% if the recommended techniques are replicated and adhered to.', '', '', 0, 0, 0, 0, '2020-09-09 23:56:24', 0),
-(5601, 211, 0, 0, 11, 'Install localized welding ventilation', '', '', 0, 0, 0, 0, '2020-09-10 17:02:26', 0),
-(5602, 211, 0, 1, 26, 'Reduce ventilation energy losses by installing localized ventilation ducting above welding stations', '', '', 0, 0, 0, 0, '2020-09-10 17:02:26', 0),
-(5603, 211, 0, 1, 26, 'Welding areas must be ventilated to maintain air quality standards specified by the Oregon Health and Safety Administration (OSHA)', '', '', 0, 0, 0, 0, '2020-09-10 17:02:26', 0),
-(5604, 211, 0, 1, 15, 'Note the source of heating and cooling for the building whether it is packaged HVAC units or gas/electric heaters', '', '', 0, 0, 0, 0, '2020-09-10 17:02:26', 0),
-(5605, 211, 0, 1, 15, 'Heating degree days for the local area. Temperature bin data can be obtained from the National Ocean and Atmospheric Administration (NOAA).', '', '', 0, 0, 0, 0, '2020-09-10 17:02:26', 0),
-(5606, 211, 0, 1, 15, 'Operation hours for the air conditioning system', '', '', 0, 0, 0, 0, '2020-09-10 17:02:26', 0),
-(5607, 211, 0, 1, 15, 'Approximate the proposed length of ventilation required for the installation to estimate the cost of implementation', '', '', 0, 0, 0, 0, '2020-09-10 17:02:26', 0),
-(5608, 211, 0, 1, 15, 'Current exhaust air flow', '', '', 0, 0, 0, 0, '2020-09-10 17:02:26', 0),
-(5750, 214, 0, 0, 13, 'Conditioning air for painting, drying and treating emissions all represent sources of energy consumption in a painting process. Energy saving measures can be identified at each one of these steps.', '', '', 0, 0, 0, 13, '2020-09-10 19:31:45', 0),
-(5751, 214, 0, 0, 11, 'Reduce airflow in paint booth', '', '', 0, 0, 0, 0, '2020-09-10 19:31:45', 0),
-(5752, 214, 0, 1, 13, 'Air must be exhausted from paint booths to removed evaporated solvent, oversprayed paint particles and pollutants such as volatile organic compounds (VOCs). The energy consumed by the ventilation system depends on the target outlet concentration of VOCs. Paint is the source of the VOCs and they are removed from the air exhaust stream through filtration or incineration.', '', '', 0, 0, 0, 13, '2020-09-10 19:31:45', 0),
-(5753, 214, 0, 1, 26, 'Reducing the amount of air that is exhausted from the paint booth reduces the amount of fuel required to raise the inlet air to the target temperature, and reduces the volume of exhaust air that must be treated.', '', '', 0, 0, 0, 0, '2020-09-10 19:31:45', 0),
-(5754, 214, 0, 1, 4, 'If the air flow rate is too low, cold spots may be present in the booth and lead to poor paint quality and condensation.', '', '', 0, 0, 0, 13, '2020-09-10 19:31:45', 0),
-(5755, 214, 0, 1, 7, 'For air recirculating ovens, 90% of the air in the booth should be recycled', '', '', 0, 0, 0, 13, '2020-09-10 19:31:45', 0),
-(5756, 214, 0, 1, 3, 'For every 2,000 hours/year that an oven operates, every 10 cubic meters per hour of exhaust flow loses 150 kWh at 50C, 400 kWh at 100C, 600 kWh at 150C, and 750 kWh at 200C', '', '', 0, 0, 0, 13, '2020-09-10 19:31:45', 0),
-(5757, 214, 0, 1, 12, 'Turn down air flow rates during breaks to realize immediate cost savings.', '', '', 0, 0, 0, 0, '2020-09-10 19:31:45', 0),
-(5758, 214, 0, 1, 1, 'Computer-controlled ventilation systems can operate based on solvent concentration in the paint booth or by spray gun operation.', '', '', 0, 0, 0, 13, '2020-09-10 19:31:45', 0),
-(5759, 214, 0, 0, 11, 'Exhaust heat recovery', '', '', 0, 0, 0, 0, '2020-09-10 19:31:45', 0),
-(5760, 214, 0, 1, 8, 'Heat recovery measures typically save 30-60% of energy consumption associated with a paint booth and have a 1-3 year payback period', '', '', 0, 0, 0, 12, '2020-09-10 19:31:45', 0),
-(5761, 214, 0, 1, 1, 'Rotary heat exchangers can be installed on paint booths to save up to 50% of the exhausted heat', '', '', 0, 0, 0, 13, '2020-09-10 19:31:45', 0),
-(5762, 214, 0, 1, 2, 'Heat recovered from paint booths is low grade heat', '', '', 0, 0, 0, 0, '2020-09-10 19:31:45', 0),
-(5763, 214, 0, 1, 2, 'These installations may be of interest only to large scale painting operations', '', '', 0, 0, 0, 0, '2020-09-10 19:31:45', 0),
-(5764, 214, 0, 1, 2, 'Heat wheels do not perform well with streams that have particles or where condensation may be present ', '', '', 0, 0, 0, 0, '2020-09-10 19:31:45', 0),
-(5765, 214, 0, 0, 11, 'New paint - powders', '', '', 0, 0, 0, 0, '2020-09-10 19:31:45', 0),
-(5766, 214, 0, 1, 1, 'Powder-based paints do not have solvents, the paint particles are attracted to the part by an applied electrostatic charge. The energy requirement for powder-based painting can be up to 30% lower due to the reduced energy consumption associated with eliminating VOCs from the exhaust stream.', '', '', 0, 0, 0, 13, '2020-09-10 19:31:45', 0),
-(5767, 214, 0, 1, 8, 'These measures can save 18-30% of energy consumption associated with a paint booth and have a 2-3 year payback period', '', '', 0, 0, 0, 12, '2020-09-10 19:31:45', 0),
-(5768, 214, 0, 0, 11, 'Install an air-to-fuel ratio control unit', '', '', 0, 0, 0, 0, '2020-09-10 19:31:45', 0),
-(5769, 214, 0, 1, 3, 'This may reduce energy consumption associated with combustion by 5-15% depending on demand', '', '', 0, 0, 0, 13, '2020-09-10 19:31:45', 0),
-(5770, 214, 0, 0, 11, 'Install activated carbon filters to remove VOCs from the exhaust stream', '', '', 0, 0, 0, 0, '2020-09-10 19:31:45', 0),
-(5771, 214, 0, 1, 26, 'Activated carbon filters capture and concentrate VOCs from the exhaust stream reducing the amount of air that must be treated by incineration', '', '', 0, 0, 0, 0, '2020-09-10 19:31:45', 0),
 (5788, 222, 0, 0, 17, 'This report details the vehicle assembly process and common energy saving opportunities associated with each step. References to case studies, implementation costs and payback periods are included. Opportunities are included for the following systems: motors, compressed air, steam, lighting, HVAC, materials handling, painting and stamping.', 'https://www.osti.gov/biblio/927881', 'Energy Efficiency Improvement and Cost Saving Opportunities for the Vehicle Assembly Industry', 1, 0, 0, 0, '2020-09-15 19:40:23', 0),
-(5789, 213, 0, 0, 11, 'Replace transformer-rectifier welders with inverter welders', '', '', 0, 0, 0, 0, '2020-09-15 19:56:57', 0),
-(5790, 213, 0, 1, 3, 'A transformer-rectifier welder is 67% efficient and an inverter-based welder is 87% efficient, on average. ', '', '', 0, 0, 0, 7, '2020-09-15 19:56:57', 0),
-(5791, 213, 0, 1, 1, 'Inverter welders are smaller and more lightweight compared to transformer-rectifier welders making them more portable', '', '', 0, 0, 0, 0, '2020-09-15 19:56:57', 0),
-(5792, 213, 0, 1, 1, 'Inverter welders are capable of stick, MIG, TIG, FCAW, arc gouging and pulsing styles. They also produce a higher quality weld.', '', '', 0, 0, 0, 7, '2020-09-15 19:56:57', 0),
-(5793, 213, 0, 1, 8, 'For upgrading to an inverter welder, the Energy Trust of Oregon (ETO) offers a $1,200 incentive for each machine that operates over 1,200 hours per year.', '', '', 0, 0, 0, 9, '2020-09-15 19:56:57', 0),
-(5794, 213, 0, 1, 26, 'The transformer cores, windings, and electronic switching components are designed to minimize losses leading to efficiency improvements for inverter welders by design.', '', '', 0, 0, 0, 7, '2020-09-15 19:56:57', 0),
-(5795, 213, 0, 1, 26, 'Upgrading a single transformer-rectifier welder to an inverter welder can save up to $1,724 annually. This calculation assumes a 20% increase in welder efficiency with 6,240 annual operation hours and a 25% idle time.', '', '', 0, 0, 0, 8, '2020-09-15 19:56:57', 0),
-(5796, 213, 0, 0, 11, 'Install a robotic welder', '', '', 0, 0, 0, 0, '2020-09-15 19:56:57', 0),
-(5797, 213, 0, 1, 1, 'Robotic welding can increase productivity and improve weld quality', '', '', 0, 0, 0, 10, '2020-09-15 19:56:57', 0),
-(5798, 213, 0, 1, 1, 'Robotic welders can meet production standards that are difficult to meet with manual welding, and can do so with 36-46% reduction in cycle time.', '', '', 0, 0, 0, 11, '2020-09-15 19:56:57', 0),
-(5799, 213, 0, 1, 8, 'The facility should utilize robotic welding integrators who can run process and capability studies to verify the applicability of robotic welding', '', '', 0, 0, 0, 10, '2020-09-15 19:56:57', 0),
-(5800, 213, 0, 1, 8, 'Robot integrators and manufacturers offer training to ensure the system will run successfully and profitably for the duration of the products life', '', '', 0, 0, 0, 10, '2020-09-15 19:56:57', 0),
 (5812, 215, 0, 0, 13, 'The following opportunities are specific to metals manufacturing facilities. For more opportunities related to compressed air, go to the Compressed Air Technologies page. ', '', '', 0, 0, 0, 0, '2020-09-15 20:53:32', 0),
 (5813, 215, 0, 0, 11, 'Replace the pistons on stamping die cushions with air actuators', '', '', 0, 0, 0, 0, '2020-09-15 20:53:32', 0),
 (5814, 215, 0, 1, 13, 'Die cushions on large stamping presses are used to support inserts in the lower die.', '', '', 0, 0, 0, 13, '2020-09-15 20:53:32', 0),
@@ -1945,17 +1915,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5979, 105, 0, 1, 17, 'Contains specific information about flash steam recovery', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam12_lowpressure_steam.pdf', 'DOE Tip Sheet Flash Steam Recovery', 1, 0, 0, 0, '2020-09-21 17:02:20', 0),
 (5980, 105, 0, 1, 24, 'Contains several pages with useful calculations for steam systems. This link leads to the flash steam page.', 'https://www.tlv.com/global/US/steam-theory/introduction-to-condensate-recovery.html', 'TLV Steam Theory', 1, 0, 0, 0, '2020-09-21 17:02:20', 0),
 (5981, 105, 0, 1, 21, '$empty', 'https://oregonstate.app.box.com/file/337450150435', 'Flash Steam Recovery', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(6169, 223, 0, 0, 26, 'Electricity consumption is measured in units of kilowatt-hours (kWh) and is commonly broken down into metered on-peak demand and metered off-peak demand.', '', '', 0, 0, 0, 0, '2020-09-23 21:35:38', 0),
-(6170, 223, 0, 1, 26, 'Electric companies may charge different rates per kWh depending on the time of day (eg. rates during nighttime hours can be less than daytime).  This also can apply to seasonal rates that change depending on the time of year.  Consult your provided rate schedule to find these rates, if applicable.', '', '', 0, 0, 0, 0, '2020-09-23 21:35:38', 0),
-(6171, 223, 0, 0, 26, 'Reactive power is also measured in units of reactive kilovolt-amperes (kVAR) through the power factor (PF) percentage and may be a significant contributor to energy costs (see Power Factor Correction page for more information)', '', '', 0, 0, 0, 0, '2020-09-23 21:35:38', 0),
-(6172, 223, 0, 1, 28, '$empty', 'https://walkthrough.eec.oregonstate.edu/wiki/utilities/61', 'Power Factor Correction', 0, 0, 0, 0, '2020-09-23 21:35:38', 0),
-(6174, 228, 0, 0, 26, 'Natural gas is most often measured in units of heat called therms or one million British Thermal Units (MMBtu).', '', '', 0, 0, 0, 0, '2020-09-23 21:45:51', 0),
-(6197, 229, 0, 0, 26, 'Natural gas is unique in that there are two options for obtaining this utility:', '', '', 0, 0, 0, 0, '2020-09-23 21:52:55', 0),
-(6198, 229, 0, 1, 26, 'From the gas company - industries obtain their gas directly from their local company.', '', '', 0, 0, 0, 0, '2020-09-23 21:52:55', 0),
-(6199, 229, 0, 1, 26, 'From 3rd party - industries purchase the gas from an outside party and their local company transports the gas from the source to the industry site.', '', '', 0, 0, 0, 0, '2020-09-23 21:52:55', 0),
-(6200, 229, 0, 2, 26, 'Local gas companies typically add a transport fee to cover the delivery.', '', '', 0, 0, 0, 0, '2020-09-23 21:52:55', 0),
-(6201, 229, 0, 0, 26, 'The specific details and charges of a rate schedule often vary depending on the gas company.', '', '', 0, 0, 0, 0, '2020-09-23 21:52:55', 0),
-(6202, 229, 0, 1, 26, 'Consult the rate schedule provided by your gas company for your rates and charges.', '', '', 0, 0, 0, 0, '2020-09-23 21:52:55', 0),
 (6206, 230, 0, 0, 26, 'Base charge', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
 (6207, 230, 0, 0, 26, 'Supply rate', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
 (6208, 230, 0, 0, 26, 'Transport fees', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
@@ -1974,14 +1933,121 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6248, 233, 0, 1, 26, 'Sewer Rate', '', '', 0, 0, 0, 0, '2020-09-23 22:28:08', 0),
 (6249, 233, 0, 0, 26, 'City Tax', '', '', 0, 0, 0, 0, '2020-09-23 22:28:08', 0),
 (6250, 233, 0, 0, 26, 'Public Purpose Charge', '', '', 0, 0, 0, 0, '2020-09-23 22:28:08', 0),
-(6273, 231, 0, 0, 26, 'Demanded Water:', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
-(6274, 231, 0, 1, 26, 'This water is typically measured in volumetric units of hundred cubic feet (HCF) or liters (L).', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
-(6275, 231, 0, 0, 26, 'Effluent Water:', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
-(6276, 231, 0, 1, 26, 'Biological Oxygen Demand (BOD) - this is the amount of dissolved oxygen aerobic microorganisms use to decompose organic matter in the water.  It is measured in units of milligrams per liter (mg/L).', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
-(6277, 231, 0, 1, 26, 'Total Suspended Solids (TSS) - this is the dry weight of suspended particulates in water.  It is measured in units of milligrams per liter (mg/L).', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
-(6278, 231, 0, 1, 26, 'Effluent characteristics such as these are often charged to incentivize a higher degree of water treatment, preventing adverse effects when the effluent is reintroduced to the environment.', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
-(6279, 231, 0, 0, 26, 'Some water companies may use general, volumetric sewer measurements for effluent water instead of BOD and TSS.  Additionally, some companies may add a charge for stormwater volumes as well.', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0),
-(6280, 231, 0, 1, 26, 'Examine the rate schedule provided by your water company to determine how your effluent is being charged.', '', '', 0, 0, 0, 0, '2020-09-23 22:36:46', 0);
+(6284, 193, 0, 0, 26, 'Power factor represents the portion of the total power drawn by a load that does useful work', '', '', 0, 0, 0, 0, '2020-10-13 20:13:31', 1),
+(6285, 193, 0, 0, 26, 'Power factor is the ratio of real power, in kilowatts (kW), to apparent power, in kilovolt amperes (kVA)', '', '', 0, 0, 0, 0, '2020-10-13 20:13:31', 1),
+(6286, 193, 0, 1, 20, '', '/uploads/user_52/3bacc6ae00660669452ad7219c34b33e.png', 'The power triangle. Power factor is represented by the cosine of the angle (theta) between the total power and real power on the power triangle. ', 0, 0, 0, 0, '2020-10-13 20:13:31', 1),
+(6287, 193, 0, 0, 26, 'Reactive power is needed to create and maintain the magnetic field that rotates the shaft of a motor', '', '', 0, 0, 0, 0, '2020-10-13 20:13:31', 1),
+(6288, 193, 0, 0, 26, 'Inductive loads produce lagging power factor and capacitive loads produce leading power factor. Lagging power factor is most common due to the presence of inductive loads in industrial facilities. In this case, installing capacitors will correct power factor by bringing the current back in phase with the voltage.', '', '', 0, 0, 0, 0, '2020-10-13 20:13:31', 1),
+(6289, 190, 0, 0, 15, 'Collect one year of electric utility bills. This will help with identifying meters that can benefit from power factor correction and estimating the potential savings for correcting power factor.', '', '', 0, 0, 0, 0, '2020-10-13 20:15:35', 1),
+(6290, 190, 0, 0, 15, 'The method of billing for low power factor can vary depending on the facility\'s electric utility provider. The rate schedule associated with each meter will show how the facility is charged for poor power factor. ', '', '', 0, 0, 0, 0, '2020-10-13 20:15:35', 1),
+(6291, 192, 0, 0, 10, 'Reactive power charges constitute a considerable portion of the facility\'s electric utility bill', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59', 1),
+(6292, 192, 0, 0, 7, 'Correcting power factor to the threshold reactive power provides the most value to the client without increasing the payback period for this recommendation. The threshold reactive power is the amount of reactive power that can be present on a utility bill before the user incurs additional charges.', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59', 1),
+(6293, 192, 0, 0, 8, 'Fuses are less expensive than new capacitors. If the facility has offline capacitors, determine if they can be put back into use.', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59', 1),
+(6294, 192, 0, 0, 4, 'Harmonic filters should be used in distribution systems with harmonics. Consider consulting with a power management company to have a harmonic analysis completed before purchasing or installing capacitors.', '', '', 0, 0, 0, 4, '2020-10-13 20:17:59', 1),
+(6295, 192, 0, 0, 27, 'A power quality analyzer can be used to determine the power factor for individual pieces of equipment', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59', 1),
+(6296, 192, 0, 0, 11, 'Install individual capacitors', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59', 1),
+(6297, 192, 0, 1, 1, 'Installing individual capacitors at the load (typically at the Motor Control Center to switch in an out with the motor\" can make capacitor selection easy', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59', 1),
+(6298, 192, 0, 1, 1, 'This can be the most economical solution due to low equipment cost', '', '', 0, 0, 0, 4, '2020-10-13 20:17:59', 1),
+(6299, 192, 0, 1, 1, 'The capacitor operates with the motor, so other systems are not affected when the motor is offline', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59', 1),
+(6300, 192, 0, 1, 8, 'For large motors (50 HP and above), install capacitors at the load. For many smaller motors, it may be feasible to install one capacitor for the group of motors.', '', '', 0, 0, 0, 4, '2020-10-13 20:17:59', 1),
+(6301, 192, 0, 0, 11, 'Install a capacitor bank', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59', 1),
+(6302, 192, 0, 1, 26, 'A fixed capacitor bank is suitable for equipment that has little variance in load characteristics', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59', 1),
+(6303, 192, 0, 1, 26, 'Installing automatically switching capacitor banks is the best solution for variable loads because they provide the right amount of power factor correction as loads turn on and off', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59', 1),
+(6304, 192, 0, 1, 1, 'Only one installation is required for a capacitor bank compared to multiple capacitors at the load', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59', 1),
+(6305, 192, 0, 1, 2, 'Automatically switching banks are more expensive than fixed banks or individual capacitors and lead to longer payback periods', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59', 1),
+(6311, 228, 0, 0, 26, 'Natural gas is most often measured in units of heat called therms or British Thermal Units (Btu).', '', '', 0, 0, 0, 0, '2020-10-14 18:12:59', 0),
+(6339, 231, 0, 0, 26, 'Demanded Water:', '', '', 0, 0, 0, 0, '2020-10-14 20:34:50', 0),
+(6340, 231, 0, 1, 26, 'This water is typically measured in volumetric units of hundred cubic feet (HCF) or liters (L).', '', '', 0, 0, 0, 0, '2020-10-14 20:34:50', 0),
+(6341, 231, 0, 0, 26, 'Effluent Water:', '', '', 0, 0, 0, 0, '2020-10-14 20:34:50', 0),
+(6342, 231, 0, 1, 26, 'Biological Oxygen Demand (BOD) - this is the amount of dissolved oxygen aerobic microorganisms use to decompose organic matter in the water.  It is measured in units of milligrams per liter (mg/L).', '', '', 0, 0, 0, 0, '2020-10-14 20:34:50', 0),
+(6343, 231, 0, 1, 26, 'Total Suspended Solids (TSS) - this is the dry weight of suspended particulates in water.  It is measured in units of milligrams per liter (mg/L).', '', '', 0, 0, 0, 0, '2020-10-14 20:34:50', 0),
+(6344, 231, 0, 1, 26, 'Effluent characteristics such as these are often charged to incentivize a higher degree of water treatment, minimizing adverse effects when the effluent is reintroduced to the surrounding environment.', '', '', 0, 0, 0, 0, '2020-10-14 20:34:50', 0),
+(6345, 231, 0, 0, 26, 'Some water companies may use generalized, volumetric measurements for effluent water instead of BOD and TSS.  Additionally, some companies may add a charge for stormwater volumes as well.', '', '', 0, 0, 0, 0, '2020-10-14 20:34:50', 0),
+(6346, 231, 0, 1, 26, 'Examine the rate schedule provided by your water company to determine how your effluent is being charged.', '', '', 0, 0, 0, 0, '2020-10-14 20:34:50', 0),
+(6347, 236, 0, 0, 10, 'Meters that consistently have relatively low charges (<$500 per month)', '', '', 0, 0, 0, 0, '2020-10-14 20:45:46', 0),
+(6348, 236, 0, 0, 11, 'Combine multiple small meters together', '', '', 0, 0, 0, 0, '2020-10-14 20:45:46', 0),
+(6349, 236, 0, 0, 11, 'Combine a small meter with a larger meter', '', '', 0, 0, 0, 0, '2020-10-14 20:45:46', 0),
+(6367, 211, 0, 0, 11, 'Install localized welding ventilation', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
+(6368, 211, 0, 1, 13, 'Welding processes must be well ventilated to protect personnel from fumes. Energy is consumed to condition the air inside the building and ventilation carries that air and exhausts it outside. Controlled ventilation can reduce the amount of air moved by the ventilation system while adequately ventilating the welding process.', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
+(6369, 211, 0, 1, 26, 'Reduce ventilation energy losses by installing localized ducting above welding stations', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
+(6370, 211, 0, 1, 26, 'Welding areas must be ventilated to maintain air quality standards specified by the Oregon Health and Safety Administration (OSHA)', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
+(6371, 211, 0, 1, 15, 'Identify the source of heating and cooling for the building and the associated cost of operating the equipment. This may be packaged HVAC units , gas/electric heaters, etc. ', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
+(6372, 211, 0, 1, 15, 'Heating degree days for the local area. Temperature bin data can be obtained from the National Ocean and Atmospheric Administration (NOAA).', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
+(6373, 211, 0, 1, 15, 'Current exhaust air flow rate and the minimum exhaust air flow rate required by health and safety regulations', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
+(6374, 211, 0, 1, 15, 'Quantity of welders or welding stations', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
+(6375, 211, 0, 1, 15, 'Approximate the proposed length of ventilation required for the installation to estimate the cost of implementation', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
+(6398, 214, 0, 0, 13, 'Conditioning air for painting, drying and treating emissions all represent sources of energy consumption in a painting process. Energy saving measures may be available at each one of these steps.', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
+(6399, 214, 0, 0, 11, 'Reduce airflow in paint booth', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
+(6400, 214, 0, 1, 13, 'Air must be exhausted from paint booths to remove evaporated solvent, oversprayed paint particles and pollutants such as volatile organic compounds (VOCs). The energy consumed by the ventilation system depends on the target outlet concentration of VOCs. VOCs come from the paint and they are removed from the air exhaust stream through filtration or incineration.', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
+(6401, 214, 0, 1, 26, 'Reducing the amount of air that is exhausted from the paint booth reduces the amount of fuel required to raise the temperature of the inlet air to the target temperature, and reduces the volume of exhaust air that must be treated.', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
+(6402, 214, 0, 1, 4, 'If the air flow rate through the booth is too low, cold spots may be present which lead to poor application and condensation.', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
+(6403, 214, 0, 1, 7, 'For air recirculating ovens, 90% of the air in the booth should be recycled', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
+(6404, 214, 0, 1, 3, 'For every 2,000 hours/year that an oven operates, every 10 cubic meters per hour of exhaust flow loses 150 kWh at 50C, 400 kWh at 100C, 600 kWh at 150C, and 750 kWh at 200C', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
+(6405, 214, 0, 1, 12, 'Turn down air flow rates during breaks to realize immediate cost savings.', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
+(6406, 214, 0, 1, 1, 'Computer-controlled ventilation systems can operate based on solvent concentration in the paint booth or by spray gun operation.', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
+(6407, 214, 0, 0, 11, 'Exhaust heat recovery', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
+(6408, 214, 0, 1, 8, 'Heat recovery measures typically save 30-60% of energy consumption associated with a paint booth and have a 1-3 year payback period', '', '', 0, 0, 0, 12, '2020-10-15 18:16:54', 0),
+(6409, 214, 0, 1, 1, 'Rotary heat exchangers can be installed on paint booths to save up to 50% of the exhausted heat', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
+(6410, 214, 0, 1, 2, 'Heat recovered from paint booths is low-grade heat', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
+(6411, 214, 0, 1, 2, 'These installations are of interest mainly to large scale painting operations', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
+(6412, 214, 0, 1, 2, 'Heat wheels do not perform well with streams that have particles or where condensation occur', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
+(6413, 214, 0, 0, 11, 'Change to powder-based paints', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
+(6414, 214, 0, 1, 1, 'Powder-based paints do not have solvents, the paint particles are attracted to the part by an applied electrostatic charge. The energy requirement for powder-based painting can be up to 30% lower due to the reduced energy consumption associated with eliminating VOCs from the exhaust stream.', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
+(6415, 214, 0, 1, 8, 'These measures can save 18-30% of energy consumption associated with a paint booth and have a 2-3 year payback period', '', '', 0, 0, 0, 12, '2020-10-15 18:16:54', 0),
+(6416, 214, 0, 0, 11, 'Install an air-to-fuel ratio control system on the paint booth air heater', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
+(6417, 214, 0, 1, 3, 'This may reduce energy consumption associated with combustion by 5-15% depending on demand', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
+(6418, 214, 0, 0, 11, 'Install activated carbon filters to remove VOCs from the exhaust stream', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
+(6419, 214, 0, 1, 26, 'Activated carbon filters capture and concentrate VOCs from the exhaust stream reducing the amount of air that must be treated by incineration', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
+(6420, 212, 0, 0, 11, 'Increase Spray Paint Efficiency', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
+(6421, 212, 0, 1, 8, 'Training paint personnel to reduce overspray in painting applications can significantly reduce annual paint consumption and extend booth filter life', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
+(6422, 212, 0, 1, 26, 'Paint booths are often present in metals manufacturing facilities that produce final products or components', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
+(6423, 212, 0, 1, 26, 'Operator spray technique and equipment settings can be adjusted to minimize paint overspray. Equipment settings include paint gun adjustment, equipment maintenance, and paint gun distance and orientation.', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
+(6424, 212, 0, 1, 1, 'Painting efficiency can be improved by as much 25% for even the most experienced painters with increased attention to application techniques', '', '', 0, 0, 0, 6, '2020-10-15 18:18:23', 0),
+(6425, 212, 0, 1, 15, 'Annual consumption of paint and associated cost', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
+(6426, 212, 0, 1, 3, 'Proposed savings can be conservatively estimated at 10-15% reduction in paint consumption. Percent savings may approach 25% if the recommended techniques are replicated and adhered to.', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
+(6427, 213, 0, 0, 11, 'Replace transformer-rectifier welders with inverter welders', '', '', 0, 0, 0, 0, '2020-10-15 18:19:25', 0),
+(6428, 213, 0, 1, 3, 'A transformer-rectifier welder is 67% efficient and an inverter-based welder is 87% efficient, on average. ', '', '', 0, 0, 0, 7, '2020-10-15 18:19:25', 0),
+(6429, 213, 0, 1, 1, 'Inverter welders are smaller and more lightweight compared to transformer-rectifier welders making them more portable', '', '', 0, 0, 0, 0, '2020-10-15 18:19:25', 0),
+(6430, 213, 0, 1, 1, 'Inverter welders are capable of stick, MIG, TIG, FCAW, arc gouging and pulsing styles. They also produce a higher quality weld.', '', '', 0, 0, 0, 7, '2020-10-15 18:19:25', 0),
+(6431, 213, 0, 1, 8, 'For upgrading to an inverter welder, the Energy Trust of Oregon (ETO) offers a $1,200 incentive for each machine that operates over 1,200 hours per year.', '', '', 0, 0, 0, 9, '2020-10-15 18:19:25', 0),
+(6432, 213, 0, 1, 26, 'The transformer cores, windings, and electronic switching components are designed to minimize losses leading to efficiency improvements for inverter welders by design.', '', '', 0, 0, 0, 7, '2020-10-15 18:19:25', 0),
+(6433, 213, 0, 1, 26, 'Upgrading a single transformer-rectifier welder to an inverter welder can save up to $1,724 annually. This calculation assumes a 20% increase in welder efficiency with 6,240 annual operation hours and a 25% idle time.', '', '', 0, 0, 0, 8, '2020-10-15 18:19:25', 0),
+(6434, 213, 0, 0, 11, 'Install a robotic welder', '', '', 0, 0, 0, 0, '2020-10-15 18:19:25', 0),
+(6435, 213, 0, 1, 1, 'Robotic welding can increase productivity and improve weld quality', '', '', 0, 0, 0, 10, '2020-10-15 18:19:25', 0),
+(6436, 213, 0, 1, 1, 'Robotic welders can meet production standards that are difficult to meet with manual welding and can do so with 36-46% reduction in cycle time.', '', '', 0, 0, 0, 11, '2020-10-15 18:19:25', 0),
+(6437, 213, 0, 1, 8, 'The facility should utilize robotic welding integrators who can run process and capability studies to verify the applicability of robotic welding', '', '', 0, 0, 0, 10, '2020-10-15 18:19:25', 0),
+(6438, 213, 0, 1, 8, 'Robot integrators and manufacturers offer training to ensure the system will run successfully and profitably for the duration of the products life', '', '', 0, 0, 0, 10, '2020-10-15 18:19:25', 0),
+(6512, 229, 0, 0, 26, 'Natural gas charges are usually divided into two, distinct categories:', '', '', 0, 0, 0, 17, '2020-10-16 21:36:14', 0),
+(6513, 229, 0, 1, 26, 'Commodity Charge: the cost of the gas itself', '', '', 0, 0, 0, 0, '2020-10-16 21:36:14', 0),
+(6514, 229, 0, 1, 26, 'Transmission/Distribution Charge:  the cost to transport gas from its source to the industry site.', '', '', 0, 0, 0, 0, '2020-10-16 21:36:14', 0),
+(6515, 229, 0, 0, 26, 'This allows for two methods of obtaining this utility:', '', '', 0, 0, 0, 0, '2020-10-16 21:36:14', 0),
+(6516, 229, 0, 1, 26, '1. Gas is purchased from and directly transported by the local gas company.  ', '', '', 0, 0, 0, 0, '2020-10-16 21:36:14', 0),
+(6517, 229, 0, 2, 26, 'Commodity and transmission charges determined by local gas company.', '', '', 0, 0, 0, 0, '2020-10-16 21:36:14', 0),
+(6518, 229, 0, 1, 26, '2. Gas is purchased from a third party vendor and transported by the local gas company', '', '', 0, 0, 0, 0, '2020-10-16 21:36:14', 0),
+(6519, 229, 0, 2, 26, 'Commodity charge from third party; transmission charge from local gas company', '', '', 0, 0, 0, 0, '2020-10-16 21:36:14', 0),
+(6520, 229, 0, 0, 26, 'The specific details and charges of a rate schedule often vary depending on the gas company and the third party, if applicable.', '', '', 0, 0, 0, 0, '2020-10-16 21:36:14', 0),
+(6521, 229, 0, 1, 26, 'Consult the rate schedule provided by your gas company and third party vendor for your rates and charges.', '', '', 0, 0, 0, 0, '2020-10-16 21:36:14', 0),
+(6522, 223, 0, 0, 26, 'Electricity consumption is measured in units of kilowatt-hours (kWh).', '', '', 0, 0, 0, 15, '2020-10-16 21:38:02', 0),
+(6523, 223, 0, 0, 26, 'It is commonly broken down into metered on-peak demand and metered off-peak demand.', '', '', 0, 0, 0, 16, '2020-10-16 21:38:02', 0),
+(6524, 223, 0, 1, 26, 'Electric companies may charge different rates per kWh depending on the time of day.  For example, rates during nighttime hours can be less than daytime.  The higher rate is referred to as \"on-peak\" while the lower rate is considered \"off-peak\".', '', '', 0, 0, 0, 0, '2020-10-16 21:38:02', 0),
+(6525, 223, 0, 1, 26, 'This idea can also apply to seasonal rates that change depending on the time of year.', '', '', 0, 0, 0, 0, '2020-10-16 21:38:02', 0),
+(6526, 223, 0, 1, 26, 'Consult your provided rate schedule to find these rates, if applicable.', '', '', 0, 0, 0, 0, '2020-10-16 21:38:02', 0),
+(6527, 223, 0, 0, 26, 'Reactive power is also measured  and it may be a significant contributor to energy costs (see Power Factor Correction page for more information)', '', '', 0, 0, 0, 0, '2020-10-16 21:38:02', 0),
+(6528, 223, 0, 1, 28, '$empty', 'https://walkthrough.eec.oregonstate.edu/wiki/utilities/61', 'Power Factor Correction', 0, 0, 0, 0, '2020-10-16 21:38:02', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Notifications`
+--
+
+CREATE TABLE `Notifications` (
+  `notificationId` int(11) UNSIGNED NOT NULL,
+  `requestId` int(11) UNSIGNED NOT NULL,
+  `userId` int(11) UNSIGNED NOT NULL,
+  `text` varchar(5000) NOT NULL,
+  `type` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2013,13 +2079,13 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
 (47, 2, 'Thermal Systems', 'Many industrial processes require encouraging or resisting thermal energy transfer.', 'Heat transfer technologies include heat exchangers, cooling towers, fan cooling, direct impingement and other methods.  Heat transfer is discouraged with insulation, vacuums, reduced emissivity, etc. ', 'https://live.staticflickr.com/65535/50069411093_68ab30e548_b.jpg', 0, 58, '2020-07-02 21:31:22', 0),
 (48, 2, 'Refrigeration', 'Refrigeration technology is important in many industrial processes.', 'Vapor compression is the most common refrigeration technology. Mechanical energy input to a compressor enables absorbing heat in cooler environment and discharging it to a warmer environment. ', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 51, '2020-07-02 22:10:36', 0),
-(49, 7, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'Utility bills are based not only on the commodity. They can also be based on the rate of use, when use occurs, how the commodity is obtained, or how the commodity is measured.', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 1, 54, '2020-07-02 22:40:27', 0),
+(49, 7, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'They can also be based on the rate of use, when use occurs, how the commodity is obtained, or how the commodity is measured. Understanding utility bills is essential to identifying potential areas of resource savings and implementing solutions.', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 1, 54, '2020-07-02 22:40:27', 0),
 (50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 51, '2020-07-07 20:46:38', 0),
 (54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, 51, '2020-08-05 19:54:53', 1),
 (56, 3, 'Combined Heat and Power', 'Combined Heat and Power allows sites to use the waste heat of electrical generation.', 'CHP', 'no image yet', 0, 51, '2020-08-07 00:33:29', 0),
 (57, 4, 'Optimize Facility Layout', 'Improve productivity through the location of departments and workstations and the workflow of personnel and materials.', 'Facility layout has a significant and often underestimated effect on the productivity of a facility. Movement of any form of work represents a non-value-added (NVA) process. Re-arranging the location of workstations and inventory to eliminate movement creates value in several forms. Most typically, fewer labor hours are spent moving materials, and sometimes energy is saved if operating hours of vehicles (e.g. forklifts or conveyors) are reduced. The most lucrative savings for the facility is increased productivity if delivery lead times between workstations are reduced, increasing utilization of the downstream workstation.', 'https://www.manexconsulting.com/wp-content/uploads/Layout-Optimization-Blog.jpg', 0, 62, '2020-08-07 19:21:05', 0),
 (58, 4, 'Queuing Line Optimization', 'The operation of queues and their respective workstations determine the overall production efficiency of a facility.', 'Optimizing the queuing system of a workstation has significant effects on product output. Little\'s law and queuing theory helps simplify any production system into a set of easy to estimate variables. While extensive research, data collection, and possibly simulation should be employed before making any change to a part of the production system, basic analysis can reveal opportunities for cost savings through increased productivity.', 'https://www.umav.org/wp-content/uploads/2019/04/Car-Assembly-Line.jpg', 0, 62, '2020-08-10 19:57:05', 0),
-(61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, which creates additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will increase the capacity of the distribution system.', '/uploads/user_52/ec8550a6c0caa67f935129b59a4c8185.jpg', 0, 52, '2020-08-26 15:55:35', 0),
+(61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, which creates additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will increase the capacity of the distribution system.', '/uploads/user_52/ec8550a6c0caa67f935129b59a4c8185.jpg', 0, 52, '2020-08-26 15:55:35', 1),
 (62, 5, 'Cybersecurity', 'Industrial Assessment Center resources for increasing cybersecurity.', 'Cybersecurity is becoming increasingly important as more industries adopt newer and more sophisticated controls for smart manufacturing or data collection to increase production and equipment efficiency. As part of our outreach on energy efficiency, we also provide information and resources about cybersecurity. Using some of the self-assessment tools and other informational resources provided on this page can be an important part of a facility’s plan to regularly evaluate their cybersecurity status.\n\nThe National Institute of Standards and Technology (NIST) Manufacturing Extension Partnership stated that 61% of small businesses experienced a cyber attack within the last 12 months, making up 58% of cyber attack victims. Furthermore, 34% of targets were manufacturing facilities and the median cost per attack was $60,000.', 'https://live.staticflickr.com/6044/6999839463_ae02bb6a7e_b.jpg', 1, 57, '2020-08-27 00:21:01', 0),
 (64, 0, 'How to Use EEC Walkthrough', 'summary', 'description', 'https://picsum.photos/seed/newseed/700/700', 0, 42, '2020-08-31 22:17:53', 0),
 (65, 0, 'How to Edit EEC Walkthrough', 'An analyst oriented guide for creating, editing, and reviewing content on the EEC Industrial Walkthrough Checklist.', 'Description', 'https://picsum.photos/seed/picsum/700/700', 1, 42, '2020-08-31 22:17:53', 0),
@@ -2076,7 +2142,8 @@ CREATE TABLE `Requests` (
 --
 
 INSERT INTO `Requests` (`requestId`, `title`, `description`, `status`, `created`, `userId`) VALUES
-(4, 'Power factor correction', 'The google spreadsheet for this page was orange reviewed. I added images and sources to this page, and rearranged the opportunities section. ', 1, '2020-09-09 18:20:02', 52);
+(5, 'Metals Manufacturing', 'This is the metals manufacturing page that I started while working with ColMac', 1, '2020-10-15 18:21:13', 52),
+(6, 'Utility Billing - Electricity', 'This introduces the utilities page and covers electricity billing structure.  Other utilities are to follow in a similar fashion, so I\'m wanting to check organization and content before reviewing any others.  Last note:  I have no idea what picture to put for the page, so very much open to any suggestions. Thanks!', 1, '2020-10-16 22:04:13', 54);
 
 -- --------------------------------------------------------
 
@@ -2093,13 +2160,6 @@ CREATE TABLE `Request_Comments` (
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `userId` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `Request_Comments`
---
-
-INSERT INTO `Request_Comments` (`commentId`, `requestId`, `targetId`, `comment`, `review`, `created`, `userId`) VALUES
-(8, 4, '0', '\"total power consumed\"  - should change to \"total power drawn\" as the reactive power is not consumed but borrowed and returned.', 0, '2020-09-15 20:49:02', 51);
 
 -- --------------------------------------------------------
 
@@ -2119,15 +2179,19 @@ CREATE TABLE `Request_Objects` (
 --
 
 INSERT INTO `Request_Objects` (`requestObjectId`, `requestId`, `objectId`, `objectType`) VALUES
-(7, 4, 61, 1),
-(8, 4, 54, 2),
-(9, 4, 193, 3),
-(10, 4, 186, 3),
-(11, 4, 187, 3),
-(12, 4, 190, 3),
-(13, 4, 189, 3),
-(14, 4, 55, 2),
-(15, 4, 192, 3);
+(16, 5, 69, 1),
+(17, 5, 222, 3),
+(18, 5, 63, 2),
+(19, 5, 211, 3),
+(20, 5, 214, 3),
+(21, 5, 212, 3),
+(22, 5, 213, 3),
+(23, 5, 215, 3),
+(24, 6, 49, 1),
+(25, 6, 64, 2),
+(26, 6, 223, 3),
+(27, 6, 224, 3),
+(28, 6, 225, 3);
 
 -- --------------------------------------------------------
 
@@ -2155,7 +2219,10 @@ INSERT INTO `Sources` (`sourceId`, `pageId`, `text`) VALUES
 (10, 69, '<p>\"Implementing Robotic Welding: What to Know to be Successful.\" tregaskiss.com. <a href=\"https://www.tregaskiss.com/implementing-robotic-welding-what-to-know-to-be-successful-p162156#.X1li73lKi00\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.tregaskiss.com/implementing-robotic-welding-what-to-know-to-be-successful-p162156#.X1li73lKi00</a> (accessed Sept. 9, 2020).</p>'),
 (11, 69, '<p>\"Robotic Welding for Fabrication of MilSpec Hydra Skid Systems Cuts Cycle Time.\" genesis-systems.com. <a href=\"https://www.genesis-systems.com/robotic-welding-skid-systems-case-study\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.genesis-systems.com/robotic-welding-skid-systems-case-study</a> (accessed Sept. 9, 2020).</p>'),
 (12, 69, '<p>C. Galitsky, E. Worrell, and E. Dutrow. \"ENERGY STAR® Guides for Energy Efficiency Opportunities, Featuring the Motor Vehicle Assembly Industry.\"</p>'),
-(13, 69, '<p>C. Galitsky, E. Worrell. \"Energy Efficiency Improvement and Cost Saving Opportunities for the Vehicle Assembly Industry - An ENERGY STAR Guide for Energy and Plant Managers,\" Lawrence Berkeley National Laboratory, Berkeley, CA, 2008. Accessed: Sept. 10, 2020. [Online]. Available: <a href=\"https://www.osti.gov/servlets/purl/927881\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.osti.gov/servlets/purl/927881</a></p>');
+(13, 69, '<p>C. Galitsky, E. Worrell. \"Energy Efficiency Improvement and Cost Saving Opportunities for the Vehicle Assembly Industry - An ENERGY STAR Guide for Energy and Plant Managers,\" Lawrence Berkeley National Laboratory, Berkeley, CA, 2008. Accessed: Sept. 10, 2020. [Online]. Available: <a href=\"https://www.osti.gov/servlets/purl/927881\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.osti.gov/servlets/purl/927881</a></p>'),
+(15, 49, '<p>\"Electricity Explained: Measuring Electricity.\"&nbsp;US Energy Information Administration.&nbsp;Available:https://www.eia.gov/energyexplained/electricity/measuring-electricity.php. [Accessed: Oct. 16, 2020].</p>'),
+(16, 49, '<p>\"Understanding Peak Power.\" Eugene Water and Electric Board.  Available: http://www.eweb.org/about-us/power-supply/understanding-peak-power.  [Accessed: Oct. 16, 2020].</p>'),
+(17, 49, '<p>\"Natural Gas Explained: Natural Gas Prices.\"  US Energy Information Administration.  Available: https://www.eia.gov/energyexplained/natural-gas/prices.php.  [Accessed: Oct. 16, 2020].</p>');
 
 -- --------------------------------------------------------
 
@@ -2395,6 +2462,12 @@ ALTER TABLE `Items`
   ADD KEY `iconId_fk` (`iconType`);
 
 --
+-- Indexes for table `Notifications`
+--
+ALTER TABLE `Notifications`
+  ADD PRIMARY KEY (`notificationId`);
+
+--
 -- Indexes for table `Pages`
 --
 ALTER TABLE `Pages`
@@ -2486,7 +2559,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=237;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2504,31 +2577,31 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
 --
 ALTER TABLE `History_Cards`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT for table `History_Headers`
 --
 ALTER TABLE `History_Headers`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `History_Items`
 --
 ALTER TABLE `History_Items`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=721;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=750;
 
 --
 -- AUTO_INCREMENT for table `History_Pages`
 --
 ALTER TABLE `History_Pages`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `Icons`
@@ -2540,7 +2613,13 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6284;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6529;
+
+--
+-- AUTO_INCREMENT for table `Notifications`
+--
+ALTER TABLE `Notifications`
+  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -2558,25 +2637,25 @@ ALTER TABLE `Quick_Titles`
 -- AUTO_INCREMENT for table `Requests`
 --
 ALTER TABLE `Requests`
-  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `Request_Comments`
 --
 ALTER TABLE `Request_Comments`
-  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `Request_Objects`
 --
 ALTER TABLE `Request_Objects`
-  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `Sources`
 --
 ALTER TABLE `Sources`
-  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`
