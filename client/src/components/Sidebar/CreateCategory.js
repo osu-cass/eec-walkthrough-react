@@ -1,5 +1,5 @@
 import React, {useState, Fragment} from "react";
-import {Modal, Button, Row, Col, Form} from "react-bootstrap";
+import {Modal, Button, Row, Col, Form, Accordion, Card} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import {API_URL} from "../../utilities/constants";
@@ -112,7 +112,7 @@ function CreateCategory(props) {
   }
 
   return props.role >= 4 ? (
-    <div className={`text-center createCategory ${props.navbar ? "d-inline-block" : ""}`}>
+    <div className={`createCategory d-inline-block ${props.navbar ? "text-center" : "text-left w-100"}`}>
 
       {/* The style of the button depends if this is the sidebar or navbar */}
       {props.navbar ? (
@@ -125,13 +125,14 @@ function CreateCategory(props) {
           </div>
         </Fragment>
       ) : (
-        <Button variant="outline-info" className="createCategory" onClick={() => handleShow()}>
-          <i
-            className="create-category-icon fas fa-plus-circle text-info mr-2"
-            style={{transform: "scale(1.5)"}}
-          />
+        <div className="mx-0 my-0 px-0 py-0 w-100 border-0 text-left" onClick={(e) => handleShow(e)}>
+          <Accordion.Toggle as={Card.Header} className="sidebarCollection" eventKey="0">
+            <i className={`fas fa-fw fa-plus-circle mr-2 my-1`} />
+            <span>
             Create Category
-        </Button>
+            </span>
+          </Accordion.Toggle>
+        </div>
       )}
 
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">

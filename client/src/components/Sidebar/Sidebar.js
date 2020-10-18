@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef, Fragment} from "react";
 import SidebarCollection from "./SidebarCollection";
 import SidebarCollectionSimple from "./SidebarCollectionSimple";
 import SidebarToggleView from "./SidebarToggleView";
@@ -130,29 +130,31 @@ function Sidebar(props) {
       ref={wrapperRef}
     >
       {/* Wrapper is created to be able to click outside sidebar to close it */}
-      <nav id='sidebar'>
-        <Card bg="info" as="h2">
+      <nav id="sidebar">
+        <Card as="h2" id="sidebar-header">
           <Card.Header>
             Directory
           </Card.Header>
         </Card>
 
-        {/* Home */}
-        <Col className="mt-3">
-          <Card className="sidebar-page-container my-4" bg="dark" border="info" style={{cursor: "pointer"}}>
+        <Col id="sidebar-body">
+
+          {/* Home */}
+          <Card className="sidebar-page-container" bg="dark">
             <SidebarCollection
               collectionName="Home"
               collectionLink=""
+              collectionIcon="home"
             />
           </Card>
 
           {/* Help */}
           {instructions.pages.length ? (
-            <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
+            <Card className="sidebar-page-container" bg="dark">
               <SidebarCollection
                 key={instructions.categoryId}
-                collectionName={"Help"}
-                collectionLink={`wiki/instructions`}
+                collectionName="Help"
+                collectionLink="wiki/instructions"
                 collection={instructions.pages}
                 category={instructions}
                 internal={instructions.internal}
@@ -160,6 +162,7 @@ function Sidebar(props) {
                 show={showEdit}
                 role={role}
                 hideEdit={true}
+                collectionIcon="question-circle"
               />
             </Card>
           ) : (
@@ -168,10 +171,11 @@ function Sidebar(props) {
 
           {/* Tools */}
           {tools.length ? (
-            <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
+            <Card className="sidebar-page-container" bg="dark">
               <SidebarCollectionSimple
-                collectionName={"Tools"}
+                collectionName="Tools"
                 collection={tools}
+                collectionIcon="briefcase"
               />
             </Card>
           ) : (
@@ -180,10 +184,11 @@ function Sidebar(props) {
 
           {/* Related Sites */}
           {relatedSites.length ? (
-            <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
+            <Card className="sidebar-page-container" bg="dark">
               <SidebarCollectionSimple
-                collectionName={"Related Sites"}
+                collectionName="Related Sites"
                 collection={relatedSites}
+                collectionIcon="sitemap"
               />
             </Card>
           ) : (
@@ -191,41 +196,53 @@ function Sidebar(props) {
           )}
 
           {/* Categories */}
-          <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
-            {categories.map((category) =>
-              <SidebarCollection
-                key={category.categoryId}
-                collectionName={category.pluralName}
-                collectionLink={`wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}`}
-                collection={category.pages}
-                category={category}
-                internal={category.internal}
-                refresh={() => fetchData()}
-                show={showEdit}
-                role={role}
-              />
-            )}
-          </Card>
+          {categories.map((category) =>
+            <Fragment>
+              {category.pages.length ? (
+                <Card className="sidebar-page-container" bg="dark">
+                  <SidebarCollection
+                    key={category.categoryId}
+                    collectionName={category.pluralName}
+                    collectionLink={`wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}`}
+                    collection={category.pages}
+                    category={category}
+                    internal={category.internal}
+                    refresh={() => fetchData()}
+                    show={showEdit}
+                    role={role}
+                    collectionIcon="file-text"
+                  />
+                </Card>
+              ) : (
+                null
+              )}
+            </Fragment>
+          )}
 
           {/* Create Category */}
           {showEdit ? (
-            <div className="mb-4">
+            <Card className="sidebar-page-container" bg="dark">
               <CreateCategory
                 refresh={() => fetchData()}
                 role={role}
               />
-            </div>
+            </Card>
           ) : (
             null
           )}
 
           {/* Hide Extra Buttons */}
-          <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
-            <SidebarToggleView
-              show={showEdit}
-              onToggleEditorButtons={() => handleToggleEditorButtons()}
-            />
-          </Card>
+          {role >= 3 ? (
+            <Card className="sidebar-page-container" bg="dark">
+              <SidebarToggleView
+                show={showEdit}
+                onToggleEditorButtons={() => handleToggleEditorButtons()}
+              />
+            </Card>
+          ) : (
+            null
+          )}
+
         </Col>
       </nav>
     </div >
