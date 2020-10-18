@@ -5,12 +5,12 @@
 
 #sidebar .card-header, #sidebar h2 {
   /* background: var(--info); */
-  background: #faa945 !important;
-  border-color: #faa945!important;
+  background: #d73f09 !important;
+  border-color: #d73f09!important;
 }
 
 .sidebar-page-container {
-  border-color: #faa945 !important;
+  border-color: #d73f09 !important;
 }
 
 .navbar {
@@ -57,7 +57,7 @@
   line-height: 35px;
   text-align: center;
   /* background: var(--info); */
-  background: #faa945;
+  background: #d73f09;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -91,7 +91,7 @@
 #sidebar .sidebar-header {
   padding: 20px;
   /* background: var(--info); */
-  background: #faa945;
+  background: #d73f09;
 }
 
 #sidebar ul.components {
