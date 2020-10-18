@@ -57,9 +57,6 @@ function RequestComment(props) {
       window.location.reload();
 
     } else {
-      // there was an error deleting the comment
-      const obj = await results.json();
-
       // if the user is performing an unauthorized action
       // log them out and return them to the homepage
       if (results.status === 401) {

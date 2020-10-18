@@ -90,11 +90,15 @@ function SidebarCollection(props) {
                   />
                 </div>
                 <div className="my-2">
-                  <EditCategory
-                    refresh={props.refresh}
-                    role={props.role}
-                    category={props.category}
-                  />
+                  {!props.hideEdit ? (
+                    <EditCategory
+                      refresh={props.refresh}
+                      role={props.role}
+                      category={props.category}
+                    />
+                  ) : (
+                    null
+                  )}
                 </div>
               </Fragment>
             ) : (
@@ -123,6 +127,7 @@ SidebarCollection.propTypes = {
   externalLink: PropTypes.string,
   category: PropTypes.object,
   internal: PropTypes.number,
-  show: PropTypes.bool
+  show: PropTypes.bool,
+  hideEdit: PropTypes.bool
 };
 
