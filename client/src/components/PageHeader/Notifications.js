@@ -8,7 +8,18 @@ import "./Notifications.css";
 function Notifications() {
 
   const [notifications, setNotifications] = useState([]);
+  const [jiggle, setJiggle] = useState(false);
   const TIME_BETWEEN_NOTIFICATIONS = 5000;
+
+  // Whenever the number of notifications change, see if we should perform a 
+  // jiggle animation to get the users attention
+  useEffect(() => {
+    if (notifications.length) {
+      setJiggle(true);
+    } else {
+      setJiggle(false);
+    }
+  }, [notifications.length]);
 
   // Fetch new notifications when the page first loads or when enough time passes
   useEffect(() => {
@@ -63,7 +74,7 @@ function Notifications() {
   async function clearNotification(notificationId, index) {
     try {
       // delete the notification
-      await fetch(`${API_URL}/notification/${notificationId}`, {
+      await fetch(`${API_URL}/notifications/${notificationId}`, {
         method: "DELETE"
       });
 
@@ -92,10 +103,14 @@ function Notifications() {
   }
 
   return (
-    <div className="notification-dropdown dropdown" id="user-navbar-icon-container">
+    <div
+      className={`notification-dropdown dropdown`}
+      id="user-navbar-icon-container"
+      onMouseEnter={() => setJiggle(false)}
+    >
 
       <button
-        className={`btn ml-4 ${notifications.length ? "btn-active-note" : "btn-dark"}`}
+        className={`btn ml-4 ${jiggle ? "jiggle" : ""} ${notifications.length ? "btn-active-note" : "btn-dark"}`}
         type="button"
         id="note-navbar-icon-drp"
         data-toggle="dropdown"
@@ -105,18 +120,30 @@ function Notifications() {
 
         <div className="d-flex align-items-center font-weight-bold">
           <div className="user-icon-container text-white mx-3">
+          {notifications.length ? (
+            <span className="dark-note-text">{notifications.length}</span>
+          ) : (
             <i className="fas fa-fw fa-bell fa-lg" />
+          )}
           </div>
         </div>
       </button>
 
-      <div className="note-dropdown-menu dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenuButton">
+      <div
+        className="note-dropdown-menu dropdown-menu dropdown-menu-left"
+        aria-labelledby="dropdownMenuButton"
+      >
         {notifications.length ? (
           <Fragment>
             {notifications.map((item, index) =>
-              <Link key={item.notificationId} to={`/publish-requests/${item.requestId}`}
-                onClick={(event) => handleClick(event, item, index)}>
-                {item.text}
+              <Link
+                key={item.notificationId}
+                to={`/publish-requests/${item.requestId}`}
+                onClick={(event) => handleClick(event, item, index)}
+              >
+                <button className="dropdown-item note-item">
+                  {item.text}
+                </button>
               </Link>
             )}
           </Fragment>

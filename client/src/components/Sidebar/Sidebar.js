@@ -197,11 +197,10 @@ function Sidebar(props) {
 
           {/* Categories */}
           {categories.map((category) =>
-            <Fragment>
+            <Fragment key={category.categoryId}>
               {category.pages.length ? (
                 <Card className="sidebar-page-container" bg="dark">
                   <SidebarCollection
-                    key={category.categoryId}
                     collectionName={category.pluralName}
                     collectionLink={`wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}`}
                     collection={category.pages}

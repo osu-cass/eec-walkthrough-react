@@ -33,10 +33,10 @@ function SidebarCollection(props) {
       <Accordion.Collapse eventKey="0">
         <Fragment>
           {props.collection.map((item, i) =>
-            <Fragment>
+            <Fragment key={i}>
               {/* Determine if this is a link to an external or internal page */}
               {item.link[0] === "/" ? (
-                <NavLink key={i} to={item.link} className="ml-3 sidebar-nav-link">
+                <NavLink to={item.link} className="ml-3 sidebar-nav-link">
                   <Card.Body className="sidebar-nav-link">
                     <span>
                       {item.name}
