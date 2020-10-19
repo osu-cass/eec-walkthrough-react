@@ -48,7 +48,6 @@ function UserIcon(props) {
             </div>
             <div id="user-icon-arrow" />
           </div>
-
         </button>
 
         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">

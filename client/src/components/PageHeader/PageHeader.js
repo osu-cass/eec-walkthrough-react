@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Login from "./Login";
 import PageSearch from "./PageSearch";
+import Notifications from "./Notifications";
 import PropTypes from "prop-types";
 import UserIcon from "./UserIcon";
 import {getProfile} from "../../utilities/cookieAuth";
@@ -86,6 +87,13 @@ function PageHeader (props) {
 
           {/* Page search bar */}
           <PageSearch />
+
+          {/* Notifications */}
+          {role ? (
+            <Notifications />
+          ) : (
+            null
+          )}
 
           {/* Current user information and menu */}
           <UserIcon
