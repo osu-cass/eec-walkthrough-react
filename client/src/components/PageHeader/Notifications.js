@@ -141,17 +141,17 @@ function Notifications() {
                 to={`/publish-requests/${item.requestId}`}
                 onClick={(event) => handleClick(event, item, index)}
               >
-                <button className="dropdown-item note-item">
+                <div className="dropdown-item note-item">
                   {item.text}
-                </button>
+                </div>
               </Link>
             )}
           </Fragment>
         ) : (
           <Link to={`.`} onClick={(event) => event.preventDefault()}>
-            <button className="dropdown-item note-item">
+            <div className="dropdown-item note-item">
               No new notifications
-            </button>
+            </div>
           </Link>
         )}
       </div>
