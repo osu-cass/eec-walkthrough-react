@@ -129,7 +129,7 @@ function Login (props) {
         </button>
 
         {/* Login Modal */}
-        <Modal show={showModal} onHide={() => props.handleClose()} dialogClassName="modal-width" id="login-modal">
+        <Modal show={showModal} onHide={() => setShowModal(false)} dialogClassName="modal-width" id="login-modal">
           <Modal.Header>
             <h5 className="modal-title">Login</h5>
             <Button variant="none" onClick={() => setShowModal(false)}>
