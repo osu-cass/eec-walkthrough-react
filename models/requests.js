@@ -599,6 +599,44 @@ async function createComment(requestId, comment, status, targetId, userId) {
       insertId: results[0].insertId
     };
 
+    // notify all relevant users about this new comment
+    sql = "(SELECT DISTINCT userId " +
+    "FROM Request_Comments " +
+    "WHERE requestId = ? " +
+    "AND userId != ?) " +
+    "UNION " +
+    "(SELECT DISTINCT userId " +
+    "FROM Requests " +
+    "WHERE requestId = ? " +
+    "AND userId != ?);";
+    results = await pool.query(sql, [requestId, userId, requestId, userId]);
+
+    const usersToNotify = results[0];
+
+    // get the current request name
+    sql = "SELECT title " +
+    "FROM Requests " +
+    "WHERE requestId = ?;";
+    results = await pool.query(sql, [requestId]);
+    const requestName = results[0][0].title;
+
+    // get the current username
+    sql = "SELECT username " +
+    "FROM Users " +
+    "WHERE userId = ?;";
+    results = await pool.query(sql, [userId]);
+    const username = results[0][0].username;
+
+    // generate a notification message
+    const message = `${username} left a comment on the "${requestName}" request`;
+
+    // create the notifications
+    for (let i = 0; i < usersToNotify.length; i++) {
+      sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
+      "VALUES (?, ?, ?, 1);";
+      await pool.query(sql, [requestId, usersToNotify[i].userId, message]);
+    }
+
     return finalResults;
 
   } catch (err) {
