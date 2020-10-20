@@ -36,7 +36,7 @@ function Notifications() {
         const results = await fetch(`${API_URL}/notifications`, {
         method: "GET",
         credentials: "include",
-        headers: {"Content-Type": "application/json"
+        headers: {"Content-Type": "application/json"}
       });
 
         // before checking the results, ensure the request was not canceled
