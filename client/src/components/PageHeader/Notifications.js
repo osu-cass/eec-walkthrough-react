@@ -33,7 +33,11 @@ function Notifications() {
       try {
 
         // get notifications data
-        const results = await fetch(`${API_URL}/notifications`);
+        const results = await fetch(`${API_URL}/notifications`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"
+      });
 
         // before checking the results, ensure the request was not canceled
         if (!ignore) {
@@ -75,7 +79,9 @@ function Notifications() {
     try {
       // delete the notification
       await fetch(`${API_URL}/notifications/${notificationId}`, {
-        method: "DELETE"
+        method: "DELETE",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
       });
 
       // delete the notification on the client-side
