@@ -112,24 +112,37 @@ function CreateCategory(props) {
   }
 
   return props.role >= 4 ? (
-    <div className={`createCategory d-inline-block ${props.navbar ? "text-center" : "text-left w-100"}`}>
+    <div className={props.tinyNav ? "d-inline" : "createCategory d-inline-block text-left w-100"}>
 
       {/* The style of the button depends if this is the sidebar or navbar */}
       {props.navbar ? (
         <Fragment>
-          <div className="dropdown dropdown-nav py-2 px-2 d-inline-block" onClick={() => handleShow()}>
-            <i
-              className="nav-bar-icon fas fa-plus-circle text-info mr-2"
-            />
-              Create Category
-          </div>
+          {props.tinyNav ? (
+            <div className="navbar-item px-2 py-1" onClick={(e) => handleShow(e)}>
+              <i
+                className="nav-bar-icon fas fa-plus-circle text-info mr-2"
+              />
+              <span className="navbar-item-text text-left">Create Category</span>
+            </div>
+          ) : (
+            <div
+              className="dropdown dropdown-nav py-2 px-2 d-inline-block text-center"
+              onClick={() => handleShow()}
+              id="nav-create-cat"
+            >
+              <i
+                className="nav-bar-icon fas fa-plus-circle text-info mr-2"
+              />
+                Create Category
+            </div>
+          )}
         </Fragment>
       ) : (
         <div className="mx-0 my-0 px-0 py-0 w-100 border-0 text-left" onClick={(e) => handleShow(e)}>
           <Accordion.Toggle as={Card.Header} className="sidebarCollection" eventKey="0">
             <i className={`fas fa-fw fa-plus-circle mr-2 my-1`} />
             <span>
-            Create Category
+              Create Category
             </span>
           </Accordion.Toggle>
         </div>
@@ -227,5 +240,6 @@ export default CreateCategory;
 CreateCategory.propTypes = {
   role: PropTypes.number,
   refresh: PropTypes.func,
-  navbar: PropTypes.bool
+  navbar: PropTypes.bool,
+  tinyNav: PropTypes.bool
 };
