@@ -8,12 +8,12 @@ const {
   deleteNotification,
 } = require("../models/notifications");
 const {
-  getUserID
+  requireAuth
 } = require("../services/authentication/cookieAuth");
 
 
 // view all active notifications for a single user
-app.get("/", getUserID, async (req, res) => {
+app.get("/", requireAuth, async (req, res) => {
 
   try {
 
@@ -33,7 +33,7 @@ app.get("/", getUserID, async (req, res) => {
 
 
 // delete a notification
-app.delete("/:notificationId", getUserID, async (req, res) => {
+app.delete("/:notificationId", requireAuth, async (req, res) => {
 
   try {
 
