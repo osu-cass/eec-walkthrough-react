@@ -20,10 +20,10 @@ function CreateIcons(props) {
   }
 
   return (
-    <div className="text-center mx-2 mt-3 mb-4">
+    <div className="text-center mx-2">
       <Button variant="info" onClick={(e) => handleShow(e)}>
         <i
-          className="fas fa-fw fa-edit text-white mr-2"
+          className="fas fa-fw fa-plus-circle text-white mr-2"
           style={{transform: "scale(1.5)"}}></i>
         <span className="text-white">Create Icon</span>
       </Button>
