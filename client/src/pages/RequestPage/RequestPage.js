@@ -36,6 +36,8 @@ function RequestPage() {
   const {requestId} = useParams();
   const [userId, setUserId] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
+  const [open, setOpen] = useState(false);
+
 
   // get the current users ID
   useEffect(() => {
@@ -73,6 +75,12 @@ function RequestPage() {
 
           const obj = await results.json();
           setRequest(obj);
+
+          if (obj.status === 1) {
+            setOpen(true);
+          } else {
+            setOpen(false);
+          }
 
         } else {
 
@@ -116,36 +124,45 @@ function RequestPage() {
 
 
   return !errorPage ? (
-    <div className="container request-page-container">
+    <div className="container request-page-container mb-5">
 
       <LoadingOverlay loading={loading} />
 
+      {/* Page header */}
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
           <div className="col">
             <h2 className="font-weight-bold">
-              Publish Request - {request.title}
+              Publish Request {open ? "" : "History"} - {request.title}
             </h2>
           </div>
         </div>
-        <div className="row mx-2">
-          <CloseRequest
-            creatorId={parseInt(request.userId, 10)}
-            requestId={parseInt(requestId, 10)}
-            onError={(message) => setErrorMessage(message)}
-          />
-          <div className="mx-2" />
-          <AcceptRequest
-            requestId={parseInt(requestId, 10)}
-            onError={(message) => setErrorMessage(message)}
-          />
-        </div>
+
+        {/* Buttons for approving or closing the publish request */}
+        {open ? (
+          <div className="row mx-2">
+            <CloseRequest
+              creatorId={parseInt(request.userId, 10)}
+              requestId={parseInt(requestId, 10)}
+              onError={(message) => setErrorMessage(message)}
+            />
+            <div className="mx-2" />
+            <AcceptRequest
+              requestId={parseInt(requestId, 10)}
+              onError={(message) => setErrorMessage(message)}
+            />
+          </div>
+        ) : (
+          null
+        )}
+
       </div>
 
       <Error
         message={errorMessage}
       />
 
+      {/* The initial comment made by the creator of the request */}
       <RequestComment
         commentId={request.commentId}
         created={request.created}
@@ -157,6 +174,7 @@ function RequestPage() {
         userId={userId}
       />
 
+      {/* All additional comments */}
       {request.comments.map((comment) =>
         <RequestComment
           key={comment.commentId}
@@ -171,72 +189,83 @@ function RequestPage() {
           linkToComment={true}
           commenterId={comment.userId}
           userId={userId}
+          open={open}
         />
       )}
 
-      <SubmitComment
-        requestId={parseInt(requestId, 10)}
-        targetId={"0"}
-      />
+      {/* Form for submitting new comments */}
+      {open ? (
+        <SubmitComment
+          requestId={parseInt(requestId, 10)}
+          targetId={"0"}
+        />
+      ) : (
+        null
+      )}
 
-      <Card className="request-card-main my-4 shadow-sm">
-        <Card.Header
-          as="h5"
-          className="card-header-bar d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold"
-        >
-          <div className="col text-center">
-            Currently Published Content
-          </div>
-          <div className="col text-center">
-            New Content to Publish
-          </div>
-        </Card.Header>
-        <Card.Body className="request-card-body">
-          {request.objects.map((object, i) =>
-            <Fragment key={i}>
-              {object.objectType === 1 ? (
-                <ReportPage
-                  key={object.pageId + "p"}
-                  page={object}
-                  newId={i}
-                  removeMode={true}
-                  reviewMode={true}
-                  requestId={parseInt(requestId, 10)}
-                  comments={request.comments}
-                />
-              ) : (
-                null
-              )}
-              {object.objectType === 2 ? (
-                <ReportHeader
-                  key={object.headerId + "h"}
-                  header={object}
-                  newId={i}
-                  removeMode={true}
-                  reviewMode={true}
-                  requestId={parseInt(requestId, 10)}
-                  comments={request.comments}
-                />
-              ) : (
-                null
-              )}
-              {object.objectType === 3 ? (
-                <ReportCard
-                  key={object.cardId + "c"}
-                  card={object}
-                  newId={i}
-                  removeMode={true}
-                  reviewMode={true}
-                  requestId={parseInt(requestId, 10)}
-                  comments={request.comments}
-                />
-              ) : (
-                null
-              )}
-            </Fragment>
-          )}
-        </Card.Body>
-      </Card>
+      {/* Side by side comparison of the current and requested versions of content */}
+      {open ? (
+        <Card className="request-card-main my-4 shadow-sm">
+          <Card.Header
+            as="h5"
+            className="card-header-bar d-flex justify-content-between border-bottom py-2 border-gray font-weight-bold"
+          >
+            <div className="col text-center">
+              Currently Published Content
+            </div>
+            <div className="col text-center">
+              New Content to Publish
+            </div>
+          </Card.Header>
+          <Card.Body className="request-card-body">
+            {request.objects.map((object, i) =>
+              <Fragment key={i}>
+                {object.objectType === 1 ? (
+                  <ReportPage
+                    key={object.pageId + "p"}
+                    page={object}
+                    newId={i}
+                    removeMode={true}
+                    reviewMode={true}
+                    requestId={parseInt(requestId, 10)}
+                    comments={request.comments}
+                  />
+                ) : (
+                  null
+                )}
+                {object.objectType === 2 ? (
+                  <ReportHeader
+                    key={object.headerId + "h"}
+                    header={object}
+                    newId={i}
+                    removeMode={true}
+                    reviewMode={true}
+                    requestId={parseInt(requestId, 10)}
+                    comments={request.comments}
+                  />
+                ) : (
+                  null
+                )}
+                {object.objectType === 3 ? (
+                  <ReportCard
+                    key={object.cardId + "c"}
+                    card={object}
+                    newId={i}
+                    removeMode={true}
+                    reviewMode={true}
+                    requestId={parseInt(requestId, 10)}
+                    comments={request.comments}
+                  />
+                ) : (
+                  null
+                )}
+              </Fragment>
+            )}
+          </Card.Body>
+        </Card>
+      ) : (
+        null
+      )}
 
     </div>
   ) : (
