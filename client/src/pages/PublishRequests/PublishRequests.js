@@ -82,16 +82,43 @@ function PublishRequests() {
 
 
   return (
-    <div className="container request-page-container">
+    <div className="container request-page-container mb-5">
 
       <LoadingOverlay loading={loading} />
 
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
-        <div className="row mx-2">
-          <h4 className="flex-grow-1 font-weight-bold">
-            Publish Requests
-          </h4>
+        <div className="row w-100 mx-2">
+
+          {/* Page title */}
+          <div className="col-auto">
+            <h4 className="flex-grow-1 font-weight-bold">
+              Publish Requests
+            </h4>
+          </div>
+
+          <div className="col px-0">
+            <div className="btn-group align-self-center float-right">
+
+              {/* Link to request history listing */}
+              <div className="text-center mx-2 pull-right">
+                <Button variant="dark">
+                  <i
+                    className="fas fa-fw fa-history text-white mr-2"
+                    style={{transform: "scale(1.5)"}}></i>
+                  <span className="text-white">View Request History</span>
+                </Button>
+              </div>
+
+              {/* Button and modal for creating a new request */}
+              <div className="ml-2 pull-right">
+                <CreateRequest />
+              </div>
+
+            </div>
+          </div>
+
         </div>
+
       </div>
 
       {requests.length ? (
@@ -141,7 +168,6 @@ function PublishRequests() {
               )}
             </tbody>
           </table>
-          <CreateRequest />
         </Fragment>
       ) : (
         <div className="table-container">
