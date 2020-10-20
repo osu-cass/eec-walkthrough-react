@@ -187,7 +187,7 @@ function RequestComment(props) {
           )}
 
           {/* If there is a parent comment in the header, add a link to jump from it */}
-          {props.targetId !== "0" ? (
+          {props.targetId !== "0" && props.open ? (
             <Fragment>
               {props.linkToComment ? (
                 <strong className="ml-3">
@@ -204,7 +204,7 @@ function RequestComment(props) {
           )}
 
           {/* If the current user made the comment add a button for deleting it */}
-          { props.userId === props.commenterId && !props.initial && !props.embedded ? (
+          { props.userId === props.commenterId && !props.initial && !props.embedded && props.open ? (
             <button className="comment-header-btn btn-danger btn btn-sm ml-2 pull-right"
               onClick={() => deleteComment()}
             >
@@ -216,7 +216,7 @@ function RequestComment(props) {
           )}
 
           {/* If the current user made the comment add a button for editing it */}
-          { props.userId === props.commenterId && !props.initial && !props.embedded ? (
+          { props.userId === props.commenterId && !props.initial && !props.embedded && props.open ? (
             <button className="comment-header-btn btn-success btn btn-sm ml-2 pull-right"
               onClick={() => setEditing(true)}
             >
@@ -233,7 +233,7 @@ function RequestComment(props) {
           <br/>
 
           {/* If we are editing, render a text box, otherwise render a comment */}
-          {editing ? (
+          {editing && props.open ? (
             <Form.Group controlId="formCommentEdit">
               {/* Text box for editing comment */}
               <div className="mb-3">
@@ -286,5 +286,6 @@ RequestComment.propTypes = {
   linkToComment: PropTypes.bool,
   targetId: PropTypes.string,
   userId: PropTypes.number,
-  commenterId: PropTypes.number
+  commenterId: PropTypes.number,
+  open: PropTypes.bool
 };

@@ -11,6 +11,7 @@ import ViewHistory from "./pages/ViewHistory/ViewHistory";
 import Search from "./pages/Search/Search";
 import RegisterUser from "./pages/RegisterUser/RegisterUser";
 import PublishRequests from "./pages/PublishRequests/PublishRequests";
+import PublishRequestHistory from "./pages/PublishRequestHistory/PublishRequestHistory";
 import RequestPage from "./pages/RequestPage/RequestPage";
 import EditUser from "./pages/EditUser/EditUser";
 import PageList from "./pages/PageList/PageList";
@@ -100,6 +101,10 @@ function App() {
 
         <Route path="/publish-requests">
           <PublishRequests />
+        </Route>
+
+        <Route path="/publish-request-history">
+          <PublishRequestHistory />
         </Route>
 
         <Route path="/register-user">

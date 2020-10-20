@@ -4,12 +4,11 @@ import {NavLink} from "react-router-dom";
 import {logout} from "../../utilities/cookieAuth";
 import {formatTime} from "../../utilities/formatTime";
 import {API_URL} from "../../utilities/constants";
-import CreateRequest from "./CreateRequest";
 import {Button} from "react-bootstrap";
-import "./PublishRequests.css";
+import "./PublishRequestHistory.css";
 
-// page for viewing and creating publish requests
-function PublishRequests() {
+// page for viewing closed publish requests
+function PublishRequestHistory() {
 
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -27,7 +26,7 @@ function PublishRequests() {
         setLoading(true);
 
         // Fetch all requests
-        const results = await fetch(`${API_URL}/requests/status/1`, {
+        const results = await fetch(`${API_URL}/requests/status/2`, {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
@@ -92,7 +91,7 @@ function PublishRequests() {
           {/* Page title */}
           <div className="col-auto">
             <h4 className="flex-grow-1 font-weight-bold">
-              Publish Requests
+              Publish Request History
             </h4>
           </div>
 
@@ -101,19 +100,15 @@ function PublishRequests() {
 
               {/* Link to request history listing */}
               <div className="text-center mx-2 pull-right">
-                <NavLink to="/publish-request-history">
+                <NavLink to="/publish-requests">
                   <Button variant="dark">
                     <i
-                      className="fas fa-fw fa-history text-white mr-2"
-                      style={{transform: "scale(1.5)"}}></i>
-                    <span className="text-white">View Request History</span>
+                      className="fas fa-fw fa-book text-white mr-2"
+                      style={{transform: "scale(1.5)"}}
+                    />
+                    <span className="text-white">View Pending Requests</span>
                   </Button>
                 </NavLink>
-              </div>
-
-              {/* Button and modal for creating a new request */}
-              <div className="ml-2 pull-right">
-                <CreateRequest />
               </div>
 
             </div>
@@ -123,7 +118,6 @@ function PublishRequests() {
 
       </div>
 
-      {/* The list of all pending publish requests */}
       {requests.length ? (
         <Fragment>
           <table className="request-table shadow mb-5">
@@ -159,12 +153,12 @@ function PublishRequests() {
                   </td>
                   <td className="request-data align-top">
                     <NavLink to={`/publish-requests/${request.requestId}`}>
-                      <Button size="sm" variant="success" onClick={() => {}}>
+                      <Button size="sm" variant="info" onClick={() => {}}>
                         <i
-                          className="fas fa-fw fa-stamp text-white mr-2"
+                          className="fas fa-fw fa-comment text-white mr-2"
                           style={{transform: "scale(1.5)"}}
                         />
-                        <span className="text-white">Review Request</span>
+                        <span className="text-white">View Comments</span>
                       </Button>
                     </NavLink>
                   </td>
@@ -176,13 +170,11 @@ function PublishRequests() {
       ) : (
         <div className="table-container">
           <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
-            <h3 className="py-2 font-weight-bold">No publish requests awaiting review</h3>
-            <h5 className="py-1 font-weight-bold">Would you like to create a request?</h5>
-            <CreateRequest />
+            <h3 className="py-2 font-weight-bold">No requests have been published or closed</h3>
           </div>
         </div>
       )}
     </div>
   );
 }
-export default PublishRequests;
+export default PublishRequestHistory;
