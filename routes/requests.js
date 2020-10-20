@@ -17,6 +17,7 @@ const {
 } = require("../models/requests");
 const {
   getRequestVal,
+  getRequestStatusVal,
   getSelectionVal,
   postRequestVal,
   postCommentVal,
@@ -29,11 +30,12 @@ const {
 
 
 // get information about all requests
-app.get("/all", requireAuth, async (req, res) => {
+app.get("/status/:status", getRequestStatusVal.validation, requireAuth, async (req, res) => {
 
   try {
 
-    console.log("Get a list of requests");
+    const status = req.params.status;
+    console.log("Get a list of requests where the status is");
 
     // make sure the user is allowed to perform this action
     if (!await roleCheck(3, req.auth.userId)) {
@@ -42,7 +44,7 @@ app.get("/all", requireAuth, async (req, res) => {
     }
 
     // get requests
-    const results = await getRequests();
+    const results = await getRequests(status);
     res.status(200).send(results);
 
   } catch (err) {
@@ -241,6 +243,8 @@ app.delete("/comment/:commentId", requireAuth, async (req, res) => {
       if (results.error === 1) {
         res.status(404).send({error: "Comment not found."});
       } else if (results.error === 2) {
+        res.status(403).send({error: "The request is not open, so the comment cannot be deleted."});
+      } else if (results.error === 3) {
         res.status(401).send({error: "Unauthorized user attempting to delete comment."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
@@ -284,6 +288,8 @@ app.patch("/comment/:commentId", requireAuth, patchCommentVal.validation, async 
       if (results.error === 1) {
         res.status(404).send({error: "Comment not found."});
       } else if (results.error === 2) {
+        res.status(403).send({error: "The request is not open, so the comment cannot be edited."});
+      } else if (results.error === 3) {
         res.status(401).send({error: "Unauthorized user attempting to edit comment."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});

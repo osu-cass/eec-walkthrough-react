@@ -8,7 +8,7 @@ const {publishCard} = require("./cards");
 
 
 // return a list of all requests
-async function getRequests() {
+async function getRequests(status) {
 
   try {
 
@@ -16,10 +16,10 @@ async function getRequests() {
     const sql = "SELECT Requests.*, username " +
     "FROM Requests " +
     "LEFT JOIN Users on Requests.userId = Users.userId " +
-    "WHERE status = 1 " +
+    "WHERE status = ? " +
     "ORDER BY created ASC;";
 
-    const results = await pool.query(sql, []);
+    const results = await pool.query(sql, [status]);
 
     const finalResults = {
       requests: results[0]
@@ -583,7 +583,8 @@ async function createComment(requestId, comment, status, targetId, userId) {
     // make sure the request exists
     let sql = "SELECT * " +
     "FROM Requests " +
-    "WHERE requestId = ?;";
+    "WHERE requestId = ? " +
+    "AND status = 1;";
     let results = await pool.query(sql, requestId);
 
     if (!results[0].length) {
@@ -663,9 +664,23 @@ async function deleteComment(commentId, userId) {
       return {error: 1};
     }
 
-    // make sure the current user ID matches the user who created the comment
-    if (results[0][0].userId !== userId) {
+    const requestId = results[0][0].requestId;
+    const commenterId = results[0][0].userId;
+
+    // make sure the request is still open
+    sql = "SELECT * " +
+      "FROM Requests " +
+      "WHERE status = 1 " +
+      "AND requestId = ?;";
+    results = await pool.query(sql, requestId);
+
+    if (!results[0].length) {
       return {error: 2};
+    }
+
+    // make sure the current user ID matches the user who created the comment
+    if (commenterId !== userId) {
+      return {error: 3};
     }
 
     // delete the comment
@@ -703,9 +718,23 @@ async function updateComment(commentId, commentText, userId) {
       return {error: 1};
     }
 
-    // make sure the current user ID matches the user who created the comment
-    if (results[0][0].userId !== userId) {
+    const requestId = results[0][0].requestId;
+    const commenterId = results[0][0].userId;
+
+    // make sure the request is still open
+    sql = "SELECT * " +
+      "FROM Requests " +
+      "WHERE status = 1 " +
+      "AND requestId = ?;";
+    results = await pool.query(sql, requestId);
+
+    if (!results[0].length) {
       return {error: 2};
+    }
+
+    // make sure the current user ID matches the user who created the comment
+    if (commenterId !== userId) {
+      return {error: 3};
     }
 
     // update the comment
@@ -752,9 +781,9 @@ async function deleteRequest(requestId, userId, admin) {
       }
     }
 
-    // delete the request
-    sql = "DELETE " +
-      "FROM Requests " +
+    // delete the request (but save the request history)
+    sql = "UPDATE Requests " +
+      "SET status = 2 " +
       "WHERE requestId = ?;";
     results = await pool.query(sql, requestId);
 
@@ -882,8 +911,8 @@ async function approveRequest(requestId) {
     }
 
     // close the publish request
-    sql = "DELETE " +
-    "FROM Requests " +
+    sql = "UPDATE Requests " +
+    "SET status = 2 " +
     "WHERE requestId = ?;";
     results = await pool.query(sql, requestId);
 
