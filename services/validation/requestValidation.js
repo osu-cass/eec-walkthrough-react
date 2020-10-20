@@ -319,6 +319,14 @@ const getRequestVal = Object.freeze({
 });
 exports.getRequestVal = getRequestVal;
 
+// validation checks for get request status
+const getRequestStatusVal = Object.freeze({
+  validation: [
+    check("status").isInt({min: 0, max: 4294967295}),
+  ]
+});
+exports.getRequestStatusVal = getRequestStatusVal;
+
 // validation checks for get request selection
 const getSelectionVal = Object.freeze({
   validation: [

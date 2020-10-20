@@ -27,7 +27,7 @@ function PublishRequests() {
         setLoading(true);
 
         // Fetch all requests
-        const results = await fetch(`${API_URL}/requests/all`, {
+        const results = await fetch(`${API_URL}/requests/status/1`, {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
