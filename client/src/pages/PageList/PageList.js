@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {useParams, withRouter, Link} from "react-router-dom";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import Image from "../../components/General/Image";
 import {formatTime} from "../../utilities/formatTime";
 import {API_URL} from "../../utilities/constants";
 import "./PageList.css";
@@ -105,6 +106,14 @@ function PageList() {
               {category.pages.map((page, index) =>
 
                 <div className="page-info-container card m-5" key={page.pageId}>
+                  <div className="img-result-thumb text-left my-2">
+                    <Image
+                      url={page.imageUrl}
+                      title={page.name}
+                      thumbnail={true}
+                      header={false}
+                    />
+                  </div>
                   <Link to={pageLinks[index]}>
                     <h5 className="page-link-header font-weight-bold text-left">
                       {page.name}
