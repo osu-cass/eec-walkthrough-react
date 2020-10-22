@@ -34,10 +34,10 @@ function Notifications() {
 
         // get notifications data
         const results = await fetch(`${API_URL}/notifications`, {
-        method: "GET",
-        credentials: "include",
-        headers: {"Content-Type": "application/json"}
-      });
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
 
         // before checking the results, ensure the request was not canceled
         if (!ignore) {

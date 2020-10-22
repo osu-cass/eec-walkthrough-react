@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import Image from "../Various/Image";
+import Image from "../../../components/General/Image";
 import PropTypes from "prop-types";
 import Source from "./Source";
 

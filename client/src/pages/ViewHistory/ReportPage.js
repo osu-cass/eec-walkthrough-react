@@ -2,7 +2,7 @@ import React, {useState, useEffect, Fragment} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import HighlightText from "../ContentPage/Various/HighlightText";
-import Image from "../ContentPage/Various/Image";
+import Image from "../../components/General/Image";
 import SubmitComment from "../RequestPage/SubmitComment";
 import RequestComment from "../RequestPage/RequestComment";
 import "./ReportPage.css";

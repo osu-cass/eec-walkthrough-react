@@ -10,7 +10,7 @@ function Image(props) {
 
   if (props.thumbnail) {
     return (
-      <Col>
+      <Col className="px-0">
         <img
           src={props.url}
           alt={props.title}
@@ -28,7 +28,7 @@ function Image(props) {
     );
   } else if (props.header) {
     return (
-      <Col>
+      <Col className="px-0">
         <img
           src={props.url}
           alt={props.title}

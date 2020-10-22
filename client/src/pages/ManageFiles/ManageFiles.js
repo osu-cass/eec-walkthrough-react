@@ -4,7 +4,7 @@ import {API_URL} from "../../utilities/constants";
 import Sanitized from "../../components/General/Sanitized";
 import Button from "react-bootstrap/Button";
 import {useParams} from "react-router-dom";
-import Image from "../ContentPage/Various/Image";
+import Image from "../../components/General/Image";
 import LoadMoreButton from "../../components/General/LoadMoreButton";
 import "./ManageFiles.css";
 

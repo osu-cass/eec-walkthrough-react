@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import {formatTime} from "../../../utilities/formatTime";
 import {API_URL} from "../../../utilities/constants";
 import Error from "../../../components/General/Error";
-import Image from "../Various/Image";
+import Image from "../../../components/General/Image";
 import HighlightText from "../Various/HighlightText";
 import AddReviewObject from "../Various/AddReviewObject";
 import "./ReviewPage.css";
