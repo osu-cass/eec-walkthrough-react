@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
-import Image from "../Various/Image";
+import Image from "../../../components/General/Image";
 import ReviewPage from "./ReviewPage";
 import ChangeMode from "./ChangeMode";
 import ChangePublic from "./ChangePublic";

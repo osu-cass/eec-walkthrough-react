@@ -3,6 +3,7 @@ import {withRouter, Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import LoadMoreButton from "../../components/General/LoadMoreButton";
 import {formatTime} from "../../utilities/formatTime";
+import Image from "../../components/General/Image";
 import "./PageSearchResults.css";
 
 // search results for a page search
@@ -13,9 +14,16 @@ function PageSearchResults(props) {
       <div className="content-container mb-5">
         <div className="prompt-container bg-white card rounded shadow-sm">
           <div className="page-search-inner-container m-5">
-            {props.pages.map((page) =>
-
+            {props.pages.map((page) => 
               <div className="page-info-container card m-5" key={page.pageId}>
+                <div className="img-result-thumb text-left my-2">
+                  <Image
+                    url={page.imageUrl}
+                    title={page.name}
+                    thumbnail={true}
+                    header={false}
+                  />
+                </div>
                 <Link to={page.url}>
                   <h5 className="page-link-header font-weight-bold text-left">
                     {page.name}

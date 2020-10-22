@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import Image from "../Various/Image";
+import Image from "../../../components/General/Image";
 import PropTypes from "prop-types";
 
 // The contents of a thumbnail gallery card
