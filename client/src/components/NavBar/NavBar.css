@@ -28,7 +28,7 @@
 .dropdown-nav a:hover { color: #fff }
 .dropdown-nav a:active { color: #fff }
 
-.dropdown-content {
+.dropdown-content, .sub-dropdown-content {
   display: none;
   position: absolute;
   min-width: 100%;
@@ -42,6 +42,14 @@
   display: block;
   white-space: nowrap;
   left: 0;
+}
+
+.sub-show {
+  display: block;
+  position: absolute;
+  white-space: nowrap;
+  right: 100%;
+  margin-top: -2.5rem;
 }
 
 .dropdown:hover .dropdown-content .navbar-item:hover {

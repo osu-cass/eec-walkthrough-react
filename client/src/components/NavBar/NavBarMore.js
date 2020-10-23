@@ -1,6 +1,7 @@
 import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import CreateCategory from "../Sidebar/CreateCategory";
+import NavBarTab from "./NavBarTab";
 import "./NavBar.css";
 
 // Dropdown for categories that couldn't fit in the navbar
@@ -22,16 +23,15 @@ function NavBarMore (props) {
         {props.categories.map((category) =>
           <Fragment key={category.categoryId}>
             {!props.visibleTabs[category.categoryId] ? (
-              <a href={`/page-list/${category.categoryId}`} >
-                <div className="navbar-item px-2 py-1">
-                  {category.pluralName}
-                  {category.internal ? (
-                    <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
-                  ) : (
-                    null
-                  )}
-                </div>
-              </a>
+
+              <NavBarTab
+                role={props.role}
+                category={category}
+                fetchData={() => props.fetchData()}
+                visibleTabs={props.visibleTabs}
+                subTab={true}
+              />
+
             ) : (
               null
             )}
