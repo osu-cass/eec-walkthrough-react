@@ -117,9 +117,11 @@ function NavBar (props) {
 
       {/* Dropdown for instructions on how to use the site */}
       {instructions.length ? (
-        <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
-          <span>Help</span>
-          <div className="dropdown-content mt-2">
+        <div className="dropdown-nav dropdown d-inline-block">
+          <div className="py-2 px-2 w-100 h-100">
+            <span>Help</span>
+          </div>
+          <div className="dropdown-content">
             {instructions.map((page) =>
               <a href={`/wiki/instructions/${page.pageId}`} key={page.pageId}>
                 <div className="navbar-item px-2 py-1">
@@ -135,9 +137,11 @@ function NavBar (props) {
 
       {/* All internal tool pages */}
       {role >= 2 ? (
-        <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
-          <span>Tools</span>
-          <div className="dropdown-content mt-2">
+        <div className="dropdown-nav dropdown d-inline-block">
+          <div className="py-2 px-2 w-100 h-100">
+            <span>Tools</span>
+          </div>
+          <div className="dropdown-content">
 
             {role === 3 ? (
               <a href={`/manage-images/${userId}`}>
@@ -209,9 +213,11 @@ function NavBar (props) {
       )}
 
       {/* External sites */}
-      <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
-        <span>Related Sites</span>
-        <div className="dropdown-content mt-2">
+      <div className="dropdown-nav dropdown d-inline-block">
+        <div className="py-2 px-2 w-100 h-100">
+          <span>Related Sites</span>
+        </div>
+        <div className="dropdown-content">
 
           <a href="https://eec.oregonstate.edu/">
             <div className="navbar-item px-2 py-1">
