@@ -7,7 +7,7 @@ import "./NavBar.css";
 // A single dropdown for a category that appears on the navigation bar
 function NavBarTab (props) {
 
-  const[subShow, setSubShow] = useState(false);
+  const [subShow, setSubShow] = useState(false);
 
   return (
     props.visibleTabs[props.category.categoryId] || (props.subTab && !props.visibleTabs[props.category.categoryId]) ? (

@@ -11,7 +11,7 @@ function Notifications() {
   const [jiggle, setJiggle] = useState(false);
   const TIME_BETWEEN_NOTIFICATIONS = 5000;
 
-  // Whenever the number of notifications change, see if we should perform a 
+  // Whenever the number of notifications change, see if we should perform a
   // jiggle animation to get the users attention
   useEffect(() => {
     if (notifications.length) {
@@ -126,11 +126,11 @@ function Notifications() {
 
         <div className="d-flex align-items-center font-weight-bold">
           <div className="user-icon-container text-white mx-3">
-          {notifications.length ? (
-            <span className="dark-note-text">{notifications.length}</span>
-          ) : (
-            <i className="fas fa-fw fa-bell fa-lg" />
-          )}
+            {notifications.length ? (
+              <span className="dark-note-text">{notifications.length}</span>
+            ) : (
+              <i className="fas fa-fw fa-bell fa-lg" />
+            )}
           </div>
         </div>
       </button>

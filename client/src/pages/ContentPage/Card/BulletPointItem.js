@@ -56,9 +56,9 @@ function BulletPointItem(props) {
           ) : (
             <i className={`${props.inline ? "d-inline" : ""} fas fa-fw fa-${props.icon} mr-2 icon-item
             ${props.icon === "angle-right" ? "d-none" : ""} ${styleText(props.icon)}`}
-              style={{color: props.color}}
-              title={props.tooltip}
-              />
+            style={{color: props.color}}
+            title={props.tooltip}
+            />
           )}
 
         </div>

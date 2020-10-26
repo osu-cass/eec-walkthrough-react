@@ -101,22 +101,22 @@ function SidebarCollection(props) {
             )}
             {props.show ? (
               <Fragment>
-                  <CreatePage
-                    title={`Create ${props.collectionName} Page`}
-                    collectionLink={props.collectionLink}
+                <CreatePage
+                  title={`Create ${props.collectionName} Page`}
+                  collectionLink={props.collectionLink}
+                  refresh={props.refresh}
+                  role={props.role}
+                  categoryId={props.category.categoryId}
+                />
+                {!props.hideEdit ? (
+                  <EditCategory
                     refresh={props.refresh}
                     role={props.role}
-                    categoryId={props.category.categoryId}
+                    category={props.category}
                   />
-                  {!props.hideEdit ? (
-                    <EditCategory
-                      refresh={props.refresh}
-                      role={props.role}
-                      category={props.category}
-                    />
-                  ) : (
-                    null
-                  )}
+                ) : (
+                  null
+                )}
               </Fragment>
             ) : (
               null
