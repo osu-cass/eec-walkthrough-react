@@ -1,5 +1,6 @@
 import React, {useEffect, useState, Fragment} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import LoadMoreButton from "../../components/General/LoadMoreButton";
 import {NavLink} from "react-router-dom";
 import {logout} from "../../utilities/cookieAuth";
 import {formatTime} from "../../utilities/formatTime";
@@ -12,6 +13,15 @@ function PublishRequestHistory() {
 
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [changeLoadMore, setChangeLoadMore] = useState(false);
+  const [cursor, setCursor] = useState({
+    primary: "null",
+    secondary: "null"
+  });
+  const [searchFields, setSearchFields] = useState({
+    sortValue: 0,
+    orderValue: 1
+  });
 
   // when the page first loads, get all of the pending publish requests
   useEffect(() => {
@@ -20,17 +30,28 @@ function PublishRequestHistory() {
     let ignore = false;
     const controller = new AbortController();
 
-    async function fetchRequests() {
+    async function fetchRequests(cursor) {
       try {
-
         setLoading(true);
+
+        const sortValue = searchFields.sortValue;
+        const orderValue = searchFields.orderValue;
+
+        // construct the request body
+        const postObj = {
+          sort: sortValue,
+          order: orderValue,
+          cursorPrimary: cursor.primary,
+          cursorSecondary: cursor.secondary
+        };
 
         // Fetch all requests
         const results = await fetch(`${API_URL}/requests/status/3`, {
           signal: controller.signal,
-          method: "GET",
+          method: "POST",
           credentials: "include",
-          headers: {"Content-Type": "application/json"}
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(postObj)
         });
 
         // if this component is cleaned up, stop here
@@ -41,7 +62,13 @@ function PublishRequestHistory() {
         if (results.ok) {
 
           const obj = await results.json();
-          setRequests(obj.requests);
+
+          if (cursor.primary === "null") {
+            setRequests([...obj.requests]);
+          } else {
+            setRequests([...requests, ...obj.requests]);
+          }
+          setCursor(obj.nextCursor);
 
         } else {
 
@@ -51,6 +78,7 @@ function PublishRequestHistory() {
             logout();
             window.location.href = "/";
           } else {
+            setRequests([]);
             console.error("Error fetching requests list");
           }
 
@@ -69,7 +97,7 @@ function PublishRequestHistory() {
       }
     }
 
-    fetchRequests();
+    fetchRequests(cursor);
 
     // clean up function
     return () => {
@@ -77,8 +105,30 @@ function PublishRequestHistory() {
       controller.abort();
     };
     // eslint-disable-next-line
-  }, []);
+  }, [searchFields.orderValue, searchFields.sortValue, changeLoadMore]);
 
+  // updates the sorting order of the table columns
+  function changeSort(sortValue, alternateOrder) {
+    if (alternateOrder) {
+      setCursor({
+        primary: "null",
+        secondary: "null"
+      });
+      setSearchFields({
+        sortValue: sortValue,
+        orderValue: 1 - searchFields.orderValue
+      });
+    } else {
+      setCursor({
+        primary: "null",
+        secondary: "null"
+      });
+      setSearchFields({
+        sortValue: sortValue,
+        orderValue: 1
+      });
+    }
+  }
 
   return (
     <div className="container request-page-container mb-5">
@@ -123,15 +173,33 @@ function PublishRequestHistory() {
           <table className="request-table shadow mb-5">
             <thead>
               <tr>
-                <th className="pl-4" style={{width: "25%"}}>
-                  Created
-                </th>
-                <th style={{width: "35%"}}>
-                  Title
-                </th>
-                <th style={{width: "25%"}}>
-                  Username
-                </th>
+              {searchFields.sortValue === 0 ? (
+                  <th className="pl-4 active-sort" style={{width: "25%"}} onClick={() => changeSort(0, true)}>
+                  Created <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                  </th>
+                ) : (
+                  <th className="pl-4" style={{width: "25%"}} onClick={() => changeSort(0, false)}>
+                  Created <small>▼</small>
+                  </th>
+                )}
+                {searchFields.sortValue === 1 ? (
+                  <th className="pl-4 active-sort" style={{width: "30%"}} onClick={() => changeSort(1, true)}>
+                  Title <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                  </th>
+                ) : (
+                  <th className="pl-4" style={{width: "30%"}} onClick={() => changeSort(1, false)}>
+                  Title <small>▼</small>
+                  </th>
+                )}
+                {searchFields.sortValue === 2 ? (
+                  <th className="pl-4 active-sort" style={{width: "20%"}} onClick={() => changeSort(2, true)}>
+                  Username <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                  </th>
+                ) : (
+                  <th className="pl-4" style={{width: "20%"}} onClick={() => changeSort(2, false)}>
+                  Username <small>▼</small>
+                  </th>
+                )}
                 <th style={{width: "15%"}}>
                   Review
                 </th>
@@ -166,6 +234,16 @@ function PublishRequestHistory() {
               )}
             </tbody>
           </table>
+          {cursor.primary === "null" ? (
+            null
+          ) : (
+            <div className="text-center">
+              <LoadMoreButton
+                onUpdate={() => setChangeLoadMore(!changeLoadMore)}
+                loading={loading}
+              />
+            </div>
+          )}
         </Fragment>
       ) : (
         <div className="table-container">

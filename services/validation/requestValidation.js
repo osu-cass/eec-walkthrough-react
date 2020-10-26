@@ -323,6 +323,10 @@ exports.getRequestVal = getRequestVal;
 const getRequestStatusVal = Object.freeze({
   validation: [
     check("status").isInt({min: 0, max: 4294967295}),
+    check("sort").isInt({min: 0, max: 10}),
+    check("order").isInt({min: 0, max: 1}),
+    check("cursorPrimary").isLength({min: 1, max: 1000}),
+    check("cursorSecondary").isLength({min: 1, max: 1000})
   ]
 });
 exports.getRequestStatusVal = getRequestStatusVal;
