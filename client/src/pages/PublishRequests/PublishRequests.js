@@ -27,7 +27,7 @@ function PublishRequests() {
         setLoading(true);
 
         // Fetch all requests
-        const results = await fetch(`${API_URL}/requests/status/1`, {
+        const results = await fetch(`${API_URL}/requests/status/0`, {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
@@ -132,11 +132,14 @@ function PublishRequests() {
                 <th className="pl-4" style={{width: "25%"}}>
                   Created
                 </th>
-                <th style={{width: "35%"}}>
+                <th style={{width: "30%"}}>
                   Title
                 </th>
-                <th style={{width: "25%"}}>
+                <th style={{width: "20%"}}>
                   Username
+                </th>
+                <th style={{width: "10%"}}>
+                  status
                 </th>
                 <th style={{width: "15%"}}>
                   Review
@@ -156,6 +159,12 @@ function PublishRequests() {
                   </td>
                   <td className="request-data align-top">
                     {request.username}
+                  </td>
+                  <td className="request-data align-top">
+                    <span
+                      className={`request-dot ${request.status === 1 ? "orange-dot" : "black-dot"}`}
+                      title={request.status === 1 ? "Awaiting orange review" : "Awaiting black review"}
+                    />
                   </td>
                   <td className="request-data align-top">
                     <NavLink to={`/publish-requests/${request.requestId}`}>
