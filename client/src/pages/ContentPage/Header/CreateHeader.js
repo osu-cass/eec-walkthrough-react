@@ -6,7 +6,7 @@ import {API_URL} from "../../../utilities/constants";
 import Error from "../../../components/General/Error";
 import "./CreateHeader.css";
 
-// Create header button and modal
+// Button and modal that allows a user to create a header
 class CreateHeader extends React.Component {
   state = {
     title: "",

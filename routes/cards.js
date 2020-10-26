@@ -157,7 +157,7 @@ app.delete("/:cardId/changes", requireAuth, getCardVal.validation, async (req, r
     } else {
 
       if (results.error === 1) {
-        res.status(404).send({error: "Card not found."});
+        res.status(404).send({error: "No unpublished version of this card found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
