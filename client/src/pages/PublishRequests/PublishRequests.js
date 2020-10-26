@@ -5,6 +5,7 @@ import {logout} from "../../utilities/cookieAuth";
 import {formatTime} from "../../utilities/formatTime";
 import {API_URL} from "../../utilities/constants";
 import CreateRequest from "./CreateRequest";
+import LoadMoreButton from "../../components/General/LoadMoreButton";
 import {Button} from "react-bootstrap";
 import "./PublishRequests.css";
 
@@ -13,6 +14,15 @@ function PublishRequests() {
 
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [changeLoadMore, setChangeLoadMore] = useState(false);
+  const [cursor, setCursor] = useState({
+    primary: "null",
+    secondary: "null"
+  });
+  const [searchFields, setSearchFields] = useState({
+    sortValue: 0,
+    orderValue: 1
+  });
 
   // when the page first loads, get all of the pending publish requests
   useEffect(() => {
@@ -21,17 +31,28 @@ function PublishRequests() {
     let ignore = false;
     const controller = new AbortController();
 
-    async function fetchRequests() {
+    async function fetchRequests(cursor) {
       try {
-
         setLoading(true);
+
+        const sortValue = searchFields.sortValue;
+        const orderValue = searchFields.orderValue;
+
+        // construct the request body
+        const postObj = {
+          sort: sortValue,
+          order: orderValue,
+          cursorPrimary: cursor.primary,
+          cursorSecondary: cursor.secondary
+        };
 
         // Fetch all requests
         const results = await fetch(`${API_URL}/requests/status/0`, {
           signal: controller.signal,
-          method: "GET",
+          method: "POST",
           credentials: "include",
-          headers: {"Content-Type": "application/json"}
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(postObj)
         });
 
         // if this component is cleaned up, stop here
@@ -42,7 +63,13 @@ function PublishRequests() {
         if (results.ok) {
 
           const obj = await results.json();
-          setRequests(obj.requests);
+
+          if (cursor.primary === "null") {
+            setRequests([...obj.requests]);
+          } else {
+            setRequests([...requests, ...obj.requests]);
+          }
+          setCursor(obj.nextCursor);
 
         } else {
 
@@ -52,6 +79,7 @@ function PublishRequests() {
             logout();
             window.location.href = "/";
           } else {
+            setRequests([]);
             console.error("Error fetching requests list");
           }
 
@@ -70,7 +98,7 @@ function PublishRequests() {
       }
     }
 
-    fetchRequests();
+    fetchRequests(cursor);
 
     // clean up function
     return () => {
@@ -78,8 +106,30 @@ function PublishRequests() {
       controller.abort();
     };
     // eslint-disable-next-line
-  }, []);
+  }, [searchFields.orderValue, searchFields.sortValue, changeLoadMore]);
 
+  // updates the sorting order of the table columns
+  function changeSort(sortValue, alternateOrder) {
+    if (alternateOrder) {
+      setCursor({
+        primary: "null",
+        secondary: "null"
+      });
+      setSearchFields({
+        sortValue: sortValue,
+        orderValue: 1 - searchFields.orderValue
+      });
+    } else {
+      setCursor({
+        primary: "null",
+        secondary: "null"
+      });
+      setSearchFields({
+        sortValue: sortValue,
+        orderValue: 1
+      });
+    }
+  }
 
   return (
     <div className="container request-page-container mb-5">
@@ -129,18 +179,42 @@ function PublishRequests() {
           <table className="request-table shadow mb-5">
             <thead>
               <tr>
-                <th className="pl-4" style={{width: "25%"}}>
-                  Created
-                </th>
-                <th style={{width: "30%"}}>
-                  Title
-                </th>
-                <th style={{width: "20%"}}>
-                  Username
-                </th>
-                <th style={{width: "10%"}}>
-                  status
-                </th>
+                {searchFields.sortValue === 0 ? (
+                  <th className="pl-4 active-sort" style={{width: "25%"}} onClick={() => changeSort(0, true)}>
+                  Created <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                  </th>
+                ) : (
+                  <th className="pl-4" style={{width: "25%"}} onClick={() => changeSort(0, false)}>
+                  Created <small>▼</small>
+                  </th>
+                )}
+                {searchFields.sortValue === 1 ? (
+                  <th className="pl-4 active-sort" style={{width: "30%"}} onClick={() => changeSort(1, true)}>
+                  Title <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                  </th>
+                ) : (
+                  <th className="pl-4" style={{width: "30%"}} onClick={() => changeSort(1, false)}>
+                  Title <small>▼</small>
+                  </th>
+                )}
+                {searchFields.sortValue === 2 ? (
+                  <th className="pl-4 active-sort" style={{width: "20%"}} onClick={() => changeSort(2, true)}>
+                  Username <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                  </th>
+                ) : (
+                  <th className="pl-4" style={{width: "20%"}} onClick={() => changeSort(2, false)}>
+                  Username <small>▼</small>
+                  </th>
+                )}
+                {searchFields.sortValue === 3 ? (
+                  <th className="pl-4 active-sort" style={{width: "10%"}} onClick={() => changeSort(3, true)}>
+                  Status <small>{searchFields.orderValue ? "▲" : "▼" }</small>
+                  </th>
+                ) : (
+                  <th className="pl-4" style={{width: "10%"}} onClick={() => changeSort(3, false)}>
+                  Status <small>▼</small>
+                  </th>
+                )}
                 <th style={{width: "15%"}}>
                   Review
                 </th>
@@ -181,6 +255,16 @@ function PublishRequests() {
               )}
             </tbody>
           </table>
+          {cursor.primary === "null" ? (
+            null
+          ) : (
+            <div className="text-center">
+              <LoadMoreButton
+                onUpdate={() => setChangeLoadMore(!changeLoadMore)}
+                loading={loading}
+              />
+            </div>
+          )}
         </Fragment>
       ) : (
         <div className="table-container">

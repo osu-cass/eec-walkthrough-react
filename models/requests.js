@@ -8,33 +8,152 @@ const {publishCard} = require("./cards");
 
 
 // return a list of all requests
-async function getRequests(status) {
-
+async function getRequests(status, sort, order, cursor) {
   try {
 
-    // get all external published links
-    let sql = "SELECT Requests.*, username " +
-    "FROM Requests " +
-    "LEFT JOIN Users on Requests.userId = Users.userId " +
-    "WHERE status = ? " +
-    "ORDER BY created ASC;";
-
-    // if status is 0, then we get all requests that are not closed
-    if (status === 0) {
-      sql = "SELECT Requests.*, username " +
-      "FROM Requests " +
-      "LEFT JOIN Users on Requests.userId = Users.userId " +
-      "WHERE status != 3 " +
-      "ORDER BY created ASC;";
-    }
-
-    const results = await pool.query(sql, [status]);
-
-    const finalResults = {
-      requests: results[0]
+    const ASC = 1;
+    const RESULTS_PER_PAGE = 25;
+    const sqlArray = [];
+    let requests;
+    const nextCursor = {
+      primary: "null",
+      secondary: "null"
     };
 
-    return finalResults;
+    // get all requests (initial sql query)
+    let sql = "SELECT Requests.*, UNIX_TIMESTAMP(Requests.created) AS unixTime, username " +
+    "FROM Requests " +
+    "LEFT JOIN Users on Requests.userId = Users.userId " +
+    "WHERE TRUE ";
+
+    // see what type of requests we should get
+    if (status) {
+      sql += "AND status = ? ";
+      sqlArray.push(status);
+    } else {
+      sql += "AND status != 3 ";
+    }
+
+    // only use the cursor if it isn't the initial search request
+    if (cursor.primary !== "null") {
+
+      let orderChar = "<";
+      if (order === ASC) {
+        orderChar = ">";
+      }
+
+      // We set our primary cursor to the last valid time if it is the value
+      // that we are sorting by.
+      //
+      // Instances where the primary cursor value could have duplicate values
+      // are handled by also sorting by item ID.
+
+      switch (sort) {
+        case 0:
+          sql += `AND (IFNULL(UNIX_TIMESTAMP(Requests.created), 0) ${orderChar}= ? AND ` +
+            `(IFNULL(UNIX_TIMESTAMP(Requests.created), 0) ${orderChar} ? OR requestId >= ? )) `;
+          break;
+        case 1:
+          sql += `AND (title ${orderChar}= ? AND ` +
+            `(title ${orderChar} ? OR requestId >= ? )) `;
+          break;
+        case 2:
+          sql += `AND (username ${orderChar}= ? AND ` +
+            `(username ${orderChar} ? OR requestId >= ? )) `;
+          break;
+        case 3:
+          sql += `AND (status ${orderChar}= ? AND ` +
+            `(status ${orderChar} ? OR requestId >= ? )) `;
+          break;
+        default:
+          sql += `AND (IFNULL(UNIX_TIMESTAMP(Requests.created), 0) ${orderChar}= ? AND ` +
+            `(IFNULL(UNIX_TIMESTAMP(Requests.created), 0) ${orderChar} ? OR requestId >= ? )) `;
+      }
+      sqlArray.push(cursor.primary);
+      sqlArray.push(cursor.primary);
+      sqlArray.push(cursor.secondary);
+
+    }
+
+    // get the results in the order we are sorting by
+    switch (sort) {
+      case 0:
+        sql += "ORDER BY unixTime ";
+        break;
+      case 1:
+        sql += "ORDER BY title ";
+        break;
+      case 2:
+        sql += "ORDER BY username ";
+        break;
+      case 3:
+        sql += "ORDER BY status ";
+        break;
+      default:
+        sql += "ORDER BY unixTime ";
+    }
+
+    // order by ascending or descending
+    if (order === ASC) {
+      sql += "ASC, requestId ASC LIMIT ?;";
+    } else {
+      sql += "DESC, requestId ASC LIMIT ?;";
+    }
+
+    // get the number of results per page (plus the next cursor)
+    sqlArray.push(RESULTS_PER_PAGE + 1);
+
+    // perform the query
+    const results = await pool.query(sql, sqlArray);
+
+    // get the next cursor and return the correct number of requests
+    if (results[0].length < RESULTS_PER_PAGE + 1) {
+
+      // if we have returned the last of the data then we return
+      // a null next cursor
+      requests = results[0];
+      nextCursor.primary = "null";
+      nextCursor.secondary = "null";
+
+    } else {
+
+      // Our next cursor will store a primary and secondary value.
+      // The primary value is the main value we are sorting by.
+      // The secondary value is the request ID and it is used to sort when we
+      // have results with matching primary values.
+      requests = results[0].slice(0, -1);
+      const nextRequest = results[0][RESULTS_PER_PAGE];
+
+      switch (sort) {
+        case 0:
+          nextCursor.primary = String(nextRequest.unixTime);
+          if (nextCursor.primary === "undefined") {
+            nextCursor.primary = "0";
+          }
+          break;
+        case 1:
+          nextCursor.primary = String(nextRequest.title);
+          break;
+        case 2:
+          nextCursor.primary = String(nextRequest.username);
+          break;
+        case 3:
+          nextCursor.primary = String(nextRequest.status);
+          break;
+        default:
+          nextCursor.primary = String(nextRequest.unixTime);
+          if (nextCursor.primary === "undefined") {
+            nextCursor.primary = "0";
+          }
+      }
+      nextCursor.secondary = String(nextRequest.requestId);
+
+    }
+
+    return {
+      requests: requests,
+      nextCursor: nextCursor
+    };
 
   } catch (err) {
     console.error("Error searching for requests");

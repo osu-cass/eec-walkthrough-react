@@ -30,12 +30,26 @@ const {
 
 
 // get information about all requests that match a status
-app.get("/status/:status", getRequestStatusVal.validation, requireAuth, async (req, res) => {
+app.post("/status/:status", getRequestStatusVal.validation, requireAuth, async (req, res) => {
 
   try {
 
+    console.log("Get a list of requests");
+
     const status = req.params.status;
-    console.log("Get a list of requests where the status is");
+    const sort = req.body.sort;
+    const order = req.body.order;
+    const cursor = {
+      primary: req.body.cursorPrimary,
+      secondary: req.body.cursorSecondary
+    };
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
 
     // make sure the user is allowed to perform this action
     if (!await roleCheck(3, req.auth.userId)) {
@@ -44,7 +58,7 @@ app.get("/status/:status", getRequestStatusVal.validation, requireAuth, async (r
     }
 
     // get requests
-    const results = await getRequests(parseInt(status, 10));
+    const results = await getRequests(parseInt(status, 10), parseInt(sort, 10), parseInt(order, 10), cursor);
     res.status(200).send(results);
 
   } catch (err) {
