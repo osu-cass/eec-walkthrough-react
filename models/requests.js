@@ -13,11 +13,20 @@ async function getRequests(status) {
   try {
 
     // get all external published links
-    const sql = "SELECT Requests.*, username " +
+    let sql = "SELECT Requests.*, username " +
     "FROM Requests " +
     "LEFT JOIN Users on Requests.userId = Users.userId " +
     "WHERE status = ? " +
     "ORDER BY created ASC;";
+
+    // if status is 0, then we get all requests that are not closed
+    if (status === 0) {
+      sql = "SELECT Requests.*, username " +
+      "FROM Requests " +
+      "LEFT JOIN Users on Requests.userId = Users.userId " +
+      "WHERE status != 3 " +
+      "ORDER BY created ASC;";
+    }
 
     const results = await pool.query(sql, [status]);
 
@@ -783,7 +792,7 @@ async function deleteRequest(requestId, userId, admin) {
 
     // delete the request (but save the request history)
     sql = "UPDATE Requests " +
-      "SET status = 2 " +
+      "SET status = 3 " +
       "WHERE requestId = ?;";
     results = await pool.query(sql, requestId);
 
@@ -912,7 +921,7 @@ async function approveRequest(requestId) {
 
     // close the publish request
     sql = "UPDATE Requests " +
-    "SET status = 2 " +
+    "SET status = 3 " +
     "WHERE requestId = ?;";
     results = await pool.query(sql, requestId);
 

@@ -29,7 +29,7 @@ const {
 } = require("../services/authentication/cookieAuth");
 
 
-// get information about all requests
+// get information about all requests that match a status
 app.get("/status/:status", getRequestStatusVal.validation, requireAuth, async (req, res) => {
 
   try {
@@ -44,7 +44,7 @@ app.get("/status/:status", getRequestStatusVal.validation, requireAuth, async (r
     }
 
     // get requests
-    const results = await getRequests(status);
+    const results = await getRequests(parseInt(status, 10));
     res.status(200).send(results);
 
   } catch (err) {

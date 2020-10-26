@@ -26,7 +26,7 @@ function PublishRequestHistory() {
         setLoading(true);
 
         // Fetch all requests
-        const results = await fetch(`${API_URL}/requests/status/2`, {
+        const results = await fetch(`${API_URL}/requests/status/3`, {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
