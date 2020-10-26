@@ -24,6 +24,10 @@ function AcceptRequest(props) {
       return;
     }
 
+    if (!window.confirm("Confirm one final time that you wish to accept this request.")) {
+      return;
+    }
+
     setLoading(true);
 
     // accept the request

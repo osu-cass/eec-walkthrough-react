@@ -26,6 +26,10 @@ function CloseRequest(props) {
       return;
     }
 
+    if (!window.confirm("Confirm one final time that you wish to close this request.")) {
+      return;
+    }
+
     setLoading(true);
 
     // delete the request
