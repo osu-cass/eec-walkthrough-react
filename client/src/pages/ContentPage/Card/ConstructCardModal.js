@@ -728,8 +728,8 @@ function ConstructCardModal(props) {
     return itemArray;
   }
 
-   // Delete unpublished card changes
-   async function handleClear() {
+  // Delete unpublished card changes
+  async function handleClear() {
 
     // Check that the user really wants to delete the changes this version
     if (!window.confirm("This will only delete unpublished versions of this card.\nAre you sure you want to delete this card?")) {

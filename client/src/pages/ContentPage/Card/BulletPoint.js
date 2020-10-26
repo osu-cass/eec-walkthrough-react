@@ -25,7 +25,6 @@ function BulletPoint(props) {
           id={props.id}
           text={props.text}
           icon={props.icon}
-          bold={props.bold}
           indentation={props.indentation}
           mode={props.mode}
           color={props.color}

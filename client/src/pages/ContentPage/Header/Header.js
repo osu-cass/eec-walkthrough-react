@@ -27,14 +27,14 @@ function Header(props) {
     // return a new initialized filter
     const allIcons = [];
     let maxId = 0;
-    
+
     // get the largest ID of an icon
     for (let i = 0; i < props.iconSet.length; i++) {
       if (props.iconSet[i].iconType > maxId) {
         maxId = props.iconSet[i].iconType;
       }
     }
-    
+
     // initialize the array to show all icons up to the largest ID
     for (let i = 0; i <= maxId; i++) {
       allIcons.push(true);

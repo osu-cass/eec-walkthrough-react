@@ -9,7 +9,7 @@ function BulletPointGraphic(props) {
   return (
     <Fragment>
       {/* Main container holding graphic */}
-      <div 
+      <div
         className={`${props.inline ? "inline-graphic align-top" : "row mx-auto"}
         ${props.highlightStyle === 1 ? "new-review-item" : ""}
         ${props.internal ? "internal-item" : ""}

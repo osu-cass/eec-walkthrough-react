@@ -72,13 +72,13 @@ function NavBar (props) {
 
     // check if the create category tab exists and should be hidden
     const tab = document.getElementById("nav-create-cat");
-      if (tab) {
-        const bounding = tab.getBoundingClientRect();
-        widthArray[0] = bounding.right;
-      }
-      if (widthArray[0] >= window.innerWidth - 50) {
-        visibleArray[0] = false;
-      }
+    if (tab) {
+      const bounding = tab.getBoundingClientRect();
+      widthArray[0] = bounding.right;
+    }
+    if (widthArray[0] >= window.innerWidth - 50) {
+      visibleArray[0] = false;
+    }
 
     // check if any category tabs exist and should be hidden
     for (let i = 0; i < categories.length; i++) {
@@ -125,7 +125,7 @@ function NavBar (props) {
             {instructions.map((page) =>
               <a href={`/wiki/instructions/${page.pageId}`} key={page.pageId}>
                 <div className="navbar-item px-2 py-1">
-                    {page.name}
+                  {page.name}
                 </div>
               </a>
             )}
@@ -253,7 +253,7 @@ function NavBar (props) {
           role={role}
         />
       ) : (
-        <NavBarMore 
+        <NavBarMore
           categories={categories}
           visibleTabs={visibleTabs}
           refresh={() => fetchData()}
