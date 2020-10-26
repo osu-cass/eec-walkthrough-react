@@ -149,7 +149,7 @@ app.delete("/:headerId/changes", requireAuth, getHeaderVal.validation, async (re
     } else {
 
       if (results.error === 1) {
-        res.status(404).send({error: "Header not found."});
+        res.status(404).send({error: "No unpublished version of this header found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

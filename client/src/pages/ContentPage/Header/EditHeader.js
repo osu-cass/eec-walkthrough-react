@@ -140,8 +140,88 @@ function EditHeader(props) {
     setShowLoad(false);
   }
 
+  // Delete unpublished header changes
+  async function handleClear() {
+
+    // Check that the user really wants to delete the changes this version
+    if (!window.confirm("This will only delete unpublished versions of this header.\nAre you sure you want to delete this header?")) {
+      return;
+    }
+    if (!window.confirm("Please confirm one final time that you want to delete this header.")) {
+      return;
+    }
+
+    // delete proposed changes
+    const results = await fetch(`${API_URL}/headers/${props.header.headerId}/changes`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      const newHeader = {
+        approved: props.header.approved,
+        created: props.header.created,
+        headerId: props.header.headerId,
+        orderIndex: props.header.orderIndex,
+        pageId: props.header.pageId,
+        internal: props.header.internal,
+        tempOrderIndex: null,
+        tempInternal: null,
+        tempCreated: null,
+        tempHeaderId: null,
+        tempTitle: null,
+        tempUserId: null,
+        title: props.header.title,
+        userId: props.header.userId,
+        cards: props.header.cards,
+        forceFilter: []
+      };
+
+      // Reset state
+      setTitle("");
+      setErrorMessage("");
+
+      // Close modal
+      handleCloseModal();
+
+      props.handleUpdate(newHeader, "header", "clear");
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+  }
+
   // delete the header
   async function deleteHeader() {
+    // Confirm the user is ready to delete the card
+    if (props.role >= 4) {
+      if (!window.confirm("This will delete all versions of this header.\nAre you sure you want to delete this header?")) {
+        return;
+      }
+    } else {
+      // Just delete unpublished content
+      handleClear();
+      return;
+    }
+
+    if (!window.confirm("Please confirm one final time that you want to delete this header.")) {
+      return;
+    }
+
     setShowLoad(true);
 
     const results = await fetch(`${API_URL}/headers/${props.header.headerId}`, {
@@ -265,17 +345,13 @@ function EditHeader(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          {props.role >= 4 ? (
-            <Button
-              className="mr-auto"
-              variant="danger"
-              onClick={() => { if (window.confirm("Are you sure you want to delete this header?")) { deleteHeader(); } }}
-            >
-              Delete Header
-            </Button>
-          ) : (
-            null
-          )}
+          <Button
+            className="mr-auto"
+            variant="danger"
+            onClick={() => deleteHeader()}
+          >
+            Delete Header
+          </Button>
           <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Header Edit</Button>
           <Button variant="secondary" onClick={() => handleCloseModal()}>Cancel</Button>
         </Modal.Footer>

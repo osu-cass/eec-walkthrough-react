@@ -728,8 +728,93 @@ function ConstructCardModal(props) {
     return itemArray;
   }
 
+   // Delete unpublished card changes
+   async function handleClear() {
+
+    // Check that the user really wants to delete the changes this version
+    if (!window.confirm("This will only delete unpublished versions of this card.\nAre you sure you want to delete this card?")) {
+      return;
+    }
+    if (!window.confirm("Please confirm one final time that you want to delete this card.")) {
+      return;
+    }
+
+    // delete proposed changes
+    const results = await fetch(`${API_URL}/cards/${props.card.cardId}/changes`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      const newCard = {
+        approved: props.card.approved,
+        cardId: props.card.cardId,
+        headerId: props.card.headerId,
+        cardType: props.card.cardType,
+        title: props.card.title,
+        items: props.card.items,
+        userId: props.card.userId,
+        created: props.card.created,
+        orderIndex: props.card.orderIndex,
+        tempOrderIndex: null,
+        tempCardId: null,
+        tempCardType: null,
+        tempCreated: null,
+        tempUserId: null,
+        tempItems: [],
+        tempTitle: null
+      };
+
+      // Reset state
+      setCounter(0);
+      setPureCounter(0);
+      setTitle("");
+      setFormat(0);
+      setItems([]);
+      setErrorMessage("");
+
+      // Close modal
+      props.handleClose();
+
+
+      props.handleUpdate(newCard, "card", "clear");
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+  }
+
   // Delete the current card
   async function deleteCard() {
+    // Confirm the user is ready to delete the card
+    if (props.role >= 4) {
+      if (!window.confirm("This will delete all versions of this card.\nAre you sure you want to delete this card?")) {
+        return;
+      }
+    } else {
+      // Just delete unpublished content
+      handleClear();
+      return;
+    }
+
+    if (!window.confirm("Please confirm one final time that you want to delete this card.")) {
+      return;
+    }
+
     // Send call to backend to delete card
     const results = await fetch(`${API_URL}/cards/${props.card.cardId}`, {
       method: "DELETE",
@@ -1298,20 +1383,14 @@ function ConstructCardModal(props) {
 
           {props.edit ? (
             <Fragment>
-              {props.role >= 4 ? (
-                <Fragment>
-                  <Button
-                    className="mr-auto"
-                    variant="danger"
-                    onClick={() => { if (window.confirm("Are you sure you want to delete this card?")) { deleteCard(); } }}
-                  >
-                  Delete Card
-                  </Button>
-                  <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
-                </Fragment>
-              ) : (
-                <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
-              )}
+              <Button
+                className="mr-auto"
+                variant="danger"
+                onClick={() => deleteCard()}
+              >
+                Delete Card
+              </Button>
+              <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
             </Fragment>
           ) : (
             <Button variant="primary" onClick={() => handleCreate()}>Submit Card</Button>

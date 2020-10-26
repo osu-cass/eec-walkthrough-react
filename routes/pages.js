@@ -233,7 +233,7 @@ app.delete("/:pageId/changes", requireAuth, getPageVal.validation, async (req, r
     } else {
 
       if (results.error === 1) {
-        res.status(404).send({error: "Page not found."});
+        res.status(404).send({error: "No unpublished version of this page found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

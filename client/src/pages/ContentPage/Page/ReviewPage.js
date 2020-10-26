@@ -279,6 +279,10 @@ function ReviewPage(props) {
       return;
     }
 
+    if (!window.confirm("Confirm one last time that you want to delete the the proposed changes.")) {
+      return;
+    }
+
     // delete proposed changes
     const results = await fetch(`${API_URL}/pages/${props.page.pageId}/changes`, {
       method: "DELETE",
