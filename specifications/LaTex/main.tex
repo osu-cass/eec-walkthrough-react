@@ -1163,6 +1163,53 @@ Updates a link item's confirmed valid date to the current time. Only editors or 
 \\~\\
 
 
+\subsection{Notification Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/notifications} \\
+Returns a list of all notifications that belong to the current user. Any user can use this endpoint.
+\begin{itemize}
+    \item notifications: All notifications that belong to the current user.
+    \begin{itemize}
+        \item notificationId: The ID of the notification.
+        \item requestId: If this notification is related to a request, then this will be the ID of the request.
+        \item userId: The ID of the user who the notification belongs to.
+        \item text: The message that is displayed to the user.
+        \item type: A number representing the type of notification. This value can be used to delete groups of notifications when some event happens.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  notifications: [
+    {
+      notificationId: 15,
+      requestId: 25,
+      userId: 42,
+      text: "The request 'New Request' is awaiting an orange review",
+      type: 1
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/notifications/:notificationId} \\
+Deletes a notification. Only the user who the notification belongs to, can use this endpoint.
+\begin{itemize}
+    \item notificationId: The ID of the notification to delete.
+    \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
 \subsection{Page Endpoints}
 
 
@@ -1675,8 +1722,23 @@ Returns a report of all of the published content within the date range. Only edi
 
 
 \noindent
-\textbf{\textcolor{RoyalBlue}{GET} api/requests/all} \\
-Returns a list of all publish requests that are awaiting approval. Only editors and admins can use this endpoint.
+\textbf{\textcolor{Green}{POST} api/requests/status/:status} \\
+Returns a list of all publish requests that match the given status. Only editors and admins can use this endpoint.
+\begin{itemize}
+    \item status: The status of the requests to return. A status of 0 returns all of the requests that have a status other than 4 (the status of closed requests).
+    \item sort: The value to sort results by (0 = time created, 1 = title, 2 = username of the user who created the request, 3 = request status).
+    \item order: The order in which to display results (0 = descending, 1 = ascending).
+    \item cursorPrimary: This cursor should contain the value that we are sorting by of the request that we want to start our results with. This cursor is used to allow infinite scrolling, while only loading a small number of page results at a time. If this is a new search then this value should be null.
+    \item cursorSecondary: This cursor should contain the request ID of the request that we want to start our results with. This cursor is used in instances where the primary cursor value is ambiguous. If this is a new search then this value should be null.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  sort: 0,
+  order: 1,
+  cursorPrimary: "null"
+  cursorSecondary: "null"
+}
+\end{lstlisting}
 \begin{itemize}
     \item requests: All publish requests that are awaiting approval.
     \begin{itemize}
@@ -1687,6 +1749,11 @@ Returns a list of all publish requests that are awaiting approval. Only editors 
         \item userId: The ID of the user who has opened the publish request.
         \item userName: The username of the user who has opened the publish request.
         \item created: The date that the publish request was created.
+    \end{itemize}
+    \item nextCursor: An object that contains the information needed to continue getting the remaining results.
+    \begin{itemize}
+        \item cursorPrimary: This cursor should contain the value that we are sorting by of the requests that should appear next in the search results. If this is null, then there are no more requests.
+        \item cursorSecondary: This cursor should contain the request ID of the requests that should appear next in the search results. If this is null, then there are no more requests.
     \end{itemize}
 \end{itemize}
 \begin{lstlisting}[caption=Example Response]
@@ -1701,7 +1768,11 @@ Returns a list of all publish requests that are awaiting approval. Only editors 
       userName: "testUser",
       created: "2020-09-04T20:55:06.000Z",
     }
-  ]
+  ],
+  nextCursor: {
+    primary: "3",
+    secondary: "325"
+  }
 }
 \end{lstlisting}
 \\~\\
@@ -1852,6 +1923,20 @@ Creates a new publish request. Only editors and admins can use this endpoint.
 \end{lstlisting}
 \\~\\
 
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/requests/:requestId} \\
+Closes a publish request. This doesn't actually delete the request, but instead gives it the closed status (4). When a request is closed it can't be interacted with, aside from viewing it. Only the creator of the request and admins can use this endpoint.
+\begin{itemize}
+  \item requestId: The ID of the publish request to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
 
 \noindent
 \textbf{\textcolor{Green}{POST} api/requests/comment/:requestId} \\
@@ -1881,10 +1966,18 @@ Creates a new comment on a publish request. Only editors and admins can use this
 
 
 \noindent
-\textbf{\textcolor{Maroon}{DELETE} api/requests/:requestId} \\
-Deletes a publish request. Only the creator of the request and admins can use this endpoint.
+\textbf{\textcolor{BlueGreen}{PATCH} api/requests/comment/:commentId} \\
+Updates a comment that exists on a publish request. Only the creator of the comment can use this endpoint.
 \begin{itemize}
-  \item requestId: The ID of the publish request to delete.
+    \item commentId: The ID of the comment to update.
+    \item commentText: The new text to use for the comment.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  commentText: "This is an edited comment",
+}
+\end{lstlisting}
+\begin{itemize}
   \item affectedRows: The number of table rows affected by this action.
 \end{itemize}
 \begin{lstlisting}[caption=Example Response]
@@ -1896,8 +1989,22 @@ Deletes a publish request. Only the creator of the request and admins can use th
 
 
 \noindent
+\textbf{\textcolor{Maroon}{DELETE} api/requests/comment/:commentId} \\
+Deletes a comment that exists on a publish request. Only the creator of the comment can use this endpoint.
+\begin{itemize}
+  \item requestId: The ID of the comment to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+\noindent
 \textbf{\textcolor{Green}{POST} api/requests/accept/:requestId} \\
-Accepts the publish request. This causes all of the objects that are part of the publish request to become published. Only an admins can use this endpoint.
+Accepts the publish request. This causes all of the objects that are part of the publish request to become published. The request is then closed. This doesn't delete the request, but instead gives it the closed status (4). When a request is closed it can't be interacted with, aside from viewing it. Only an admins can use this endpoint.
 \begin{itemize}
     \item requestId: The ID of the publish request to accept.
     \item objectsApproved: The number of objects that were published by the request.
