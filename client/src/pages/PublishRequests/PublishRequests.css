@@ -34,6 +34,11 @@
 }
 
 .request-check {
+  cursor: initial;
   margin-right: 0.15em;
   margin-top: 0.4em;
+}
+
+.request-check:hover {
+  cursor: initial;
 }
