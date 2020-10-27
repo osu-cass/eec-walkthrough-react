@@ -701,7 +701,7 @@ async function createRequest(title, description, objects, userId) {
     results = await pool.query(sql, []);
 
     const editors = results[0];
-    const message = `A new request named "${title}" was created`;
+    const message = `The request "${title}" is awaiting an orange review`;
 
     for (let i = 0; i < editors.length; i++) {
       sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
@@ -741,6 +741,7 @@ async function createComment(requestId, comment, status, targetId, userId) {
     }
 
     const requestStatus = results[0][0].status;
+    const requestTitle = results[0][0].title;
 
     // if the current comment is a review, make sure we are currently accepting it
     if (requestStatus !== 1 && status === 2) {
@@ -759,19 +760,19 @@ async function createComment(requestId, comment, status, targetId, userId) {
       "WHERE requestId = ?;";
       results = await pool.query(sql, requestId);
 
-      // delete outdated notifications about a new request
+      // delete outdated notifications about an orange review
       sql = "DELETE FROM Notifications " +
       "WHERE requestId = ? AND type = 2;";
       await pool.query(sql, requestId);
 
-      // create new notifications about a completed orange review
+      // create new notifications about a black review
       sql = "SELECT userId " +
       "FROM Users " +
       "WHERE role = 4;";
       results = await pool.query(sql, []);
 
       const admins = results[0];
-      const message = `An orange review was completed for the "${title}" request`;
+      const message = `The request "${requestTitle}" is awaiting a black review`;
 
       for (let i = 0; i < admins.length; i++) {
         sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
@@ -785,6 +786,26 @@ async function createComment(requestId, comment, status, targetId, userId) {
       "SET status = 3 " +
       "WHERE requestId = ?;";
       results = await pool.query(sql, requestId);
+
+      // delete outdated notifications about a black review
+      sql = "DELETE FROM Notifications " +
+      "WHERE requestId = ? AND type = 3;";
+      await pool.query(sql, requestId);
+
+      // create new notifications about admin approval
+      sql = "SELECT userId " +
+      "FROM Users " +
+      "WHERE role = 4;";
+      results = await pool.query(sql, []);
+
+      const admins = results[0];
+      const message = `The request "${requestTitle}" is awaiting admin approval`;
+
+      for (let i = 0; i < admins.length; i++) {
+        sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
+        "VALUES (?, ?, ?, 4);";
+        await pool.query(sql, [insertId, admins[i].userId, message]);
+      }
 
     }
 
@@ -811,13 +832,6 @@ async function createComment(requestId, comment, status, targetId, userId) {
 
     const usersToNotify = results[0];
 
-    // get the current request name
-    sql = "SELECT title " +
-    "FROM Requests " +
-    "WHERE requestId = ?;";
-    results = await pool.query(sql, [requestId]);
-    const requestName = results[0][0].title;
-
     // get the current username
     sql = "SELECT username " +
     "FROM Users " +
@@ -826,7 +840,7 @@ async function createComment(requestId, comment, status, targetId, userId) {
     const username = results[0][0].username;
 
     // generate a notification message
-    const message = `${username} left a comment on the "${requestName}" request`;
+    const message = `${username} left a comment on the "${requestTitle}" request`;
 
     // create the notifications
     for (let i = 0; i < usersToNotify.length; i++) {
