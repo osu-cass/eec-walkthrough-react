@@ -5,6 +5,7 @@ const {pool} = require("../services/database/mysqlPool");
 const {publishPage} = require("./pages");
 const {publishHeader} = require("./headers");
 const {publishCard} = require("./cards");
+const { request } = require("express");
 
 
 // return a list of all requests
@@ -31,7 +32,7 @@ async function getRequests(status, sort, order, cursor) {
       sql += "AND status = ? ";
       sqlArray.push(status);
     } else {
-      sql += "AND status != 3 ";
+      sql += "AND status != 4 ";
     }
 
     // only use the cursor if it isn't the initial search request
@@ -712,11 +713,39 @@ async function createComment(requestId, comment, status, targetId, userId) {
     let sql = "SELECT * " +
     "FROM Requests " +
     "WHERE requestId = ? " +
-    "AND status = 1;";
+    "AND status != 4;";
     let results = await pool.query(sql, requestId);
 
     if (!results[0].length) {
       return {error: 1};
+    }
+
+    const requestStatus = results[0][0].status;
+
+    // if the current comment is a review, make sure we are currently accepting it
+    if (requestStatus !== 1 && status === 2) {
+      return {error: 2};
+    }
+
+    if (requestStatus !== 2 && status === 3) {
+      return {error: 3};
+    }
+
+    // have reviews update the status of the request
+    if (status === 2) {
+
+      sql = "UPDATE Requests " +
+      "SET status = 2 " +
+      "WHERE requestId = ?;";
+      results = await pool.query(sql, requestId);
+
+    } else if (status === 3) {
+
+      sql = "UPDATE Requests " +
+      "SET status = 3 " +
+      "WHERE requestId = ?;";
+      results = await pool.query(sql, requestId);
+
     }
 
     // create the comment
@@ -793,22 +822,28 @@ async function deleteComment(commentId, userId) {
     }
 
     const requestId = results[0][0].requestId;
+    const commentStatus = results[0][0].review;
     const commenterId = results[0][0].userId;
+
+    // don't allow the deletion of review comments
+    if (commentStatus === 2 || commentStatus === 3) {
+      return {error: 2};
+    }
 
     // make sure the request is still open
     sql = "SELECT * " +
       "FROM Requests " +
-      "WHERE status = 1 " +
+      "WHERE status != 4 " +
       "AND requestId = ?;";
     results = await pool.query(sql, requestId);
 
     if (!results[0].length) {
-      return {error: 2};
+      return {error: 3};
     }
 
     // make sure the current user ID matches the user who created the comment
     if (commenterId !== userId) {
-      return {error: 3};
+      return {error: 4};
     }
 
     // delete the comment
@@ -852,7 +887,7 @@ async function updateComment(commentId, commentText, userId) {
     // make sure the request is still open
     sql = "SELECT * " +
       "FROM Requests " +
-      "WHERE status = 1 " +
+      "WHERE status != 4 " +
       "AND requestId = ?;";
     results = await pool.query(sql, requestId);
 
@@ -911,7 +946,7 @@ async function deleteRequest(requestId, userId, admin) {
 
     // delete the request (but save the request history)
     sql = "UPDATE Requests " +
-      "SET status = 3 " +
+      "SET status = 4 " +
       "WHERE requestId = ?;";
     results = await pool.query(sql, requestId);
 
@@ -1040,7 +1075,7 @@ async function approveRequest(requestId) {
 
     // close the publish request
     sql = "UPDATE Requests " +
-    "SET status = 3 " +
+    "SET status = 4 " +
     "WHERE requestId = ?;";
     results = await pool.query(sql, requestId);
 

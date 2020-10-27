@@ -46,7 +46,7 @@ function PublishRequestHistory() {
         };
 
         // Fetch all requests
-        const results = await fetch(`${API_URL}/requests/status/3`, {
+        const results = await fetch(`${API_URL}/requests/status/4`, {
           signal: controller.signal,
           method: "POST",
           credentials: "include",

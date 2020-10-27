@@ -138,6 +138,7 @@ function ReportPage(props) {
               requestId={props.requestId}
               targetId={`P${props.page.pageId}`}
               borderDark={true}
+              requestStatus={props.requestStatus}
             />
           ) : (
             null
@@ -298,5 +299,6 @@ ReportPage.propTypes = {
   removeMode: PropTypes.bool,
   reviewMode: PropTypes.bool,
   requestId: PropTypes.number,
-  comments: PropTypes.array
+  comments: PropTypes.array,
+  requestStatus: PropTypes.number
 };

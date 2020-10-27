@@ -76,7 +76,7 @@ function RequestPage() {
           const obj = await results.json();
           setRequest(obj);
 
-          if (obj.status === 1) {
+          if (obj.status < 4) {
             setOpen(true);
           } else {
             setOpen(false);
@@ -150,6 +150,7 @@ function RequestPage() {
             <AcceptRequest
               requestId={parseInt(requestId, 10)}
               onError={(message) => setErrorMessage(message)}
+              requestStatus={request.status}
             />
           </div>
         ) : (
@@ -198,6 +199,7 @@ function RequestPage() {
         <SubmitComment
           requestId={parseInt(requestId, 10)}
           targetId={"0"}
+          requestStatus={request.status}
         />
       ) : (
         null
@@ -229,6 +231,7 @@ function RequestPage() {
                     reviewMode={true}
                     requestId={parseInt(requestId, 10)}
                     comments={request.comments}
+                    requestStatus={request.status}
                   />
                 ) : (
                   null
@@ -242,6 +245,7 @@ function RequestPage() {
                     reviewMode={true}
                     requestId={parseInt(requestId, 10)}
                     comments={request.comments}
+                    requestStatus={request.status}
                   />
                 ) : (
                   null
@@ -255,6 +259,7 @@ function RequestPage() {
                     reviewMode={true}
                     requestId={parseInt(requestId, 10)}
                     comments={request.comments}
+                    requestStatus={request.status}
                   />
                 ) : (
                   null

@@ -63,7 +63,19 @@ function RequestComment(props) {
         logout();
         window.location.href = "/";
       } else {
-        console.error("An internal server error occurred. Please try again later.");
+        // there was an error editing the comment
+        const obj = await results.json();
+
+        // if the user is performing an unauthorized action
+        // log them out and return them to the homepage
+        if (results.status === 401) {
+          logout();
+          window.location.href = "/";
+        } else if (results.status === 500 || typeof obj.error === "undefined") {
+          setErrorMessage("An internal server error occurred. Please try again later.");
+        } else {
+          setErrorMessage(obj.error);
+        }
       }
     }
     setLoading(false);
@@ -173,12 +185,25 @@ function RequestComment(props) {
             null
           )}
 
-          {/* Title for an approval */}
+          {/* Title for a completed orange review */}
           {!props.initial && props.status === 2 ? (
             <Fragment>
-              <span>{` approved${targetType.length ? ` of a ${targetType}` : ""}`}</span>
+              <span>{` completed an orange review ${targetType.length ? ` of a ${targetType}` : ""}`}</span>
               <i
-                className="request-icon-approve fas fa-check-circle ml-3"
+                className="request-icon-orange fas fa-check-circle ml-2"
+                style={{transform: "scale(1.5)"}}
+              />
+            </Fragment>
+          ) : (
+            null
+          )}
+
+          {/* Title for a completed black review */}
+          {!props.initial && props.status === 3 ? (
+            <Fragment>
+              <span>{` completed a black review ${targetType.length ? ` of a ${targetType}` : ""}`}</span>
+              <i
+                className="request-icon-black fas fa-check-circle ml-2"
                 style={{transform: "scale(1.5)"}}
               />
             </Fragment>
@@ -264,7 +289,14 @@ function RequestComment(props) {
               </button>
             </Form.Group>
           ) : (
-            <Sanitized html={commentText} />
+            <Fragment>
+              <Sanitized html={commentText} />
+              <div className="mb-3">
+                <Error
+                  message={errorMessage}
+                />
+              </div>
+            </Fragment>
           )}
 
         </Card.Body>

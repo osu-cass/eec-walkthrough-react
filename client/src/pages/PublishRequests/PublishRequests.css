@@ -28,3 +28,12 @@
 .black-dot {
   background-color: #000;
 }
+
+.green-dot {
+  background-color: #239023;
+}
+
+.request-check {
+  margin-right: 0.15em;
+  margin-top: 0.4em;
+}

@@ -6,8 +6,12 @@
   white-space: pre-wrap;
 }
 
-.request-icon-approve {
-  color: #4BB543;
+.request-icon-orange {
+  color: #d73f09;
+}
+
+.request-icon-black {
+  color: #000;
 }
 
 .request-icon-comment {
@@ -15,7 +19,7 @@
 }
 
 .request-icon-change {
-  color: #FF581A;
+  color: #8040bf;
 }
 
 .request-icon-new {

@@ -235,10 +235,21 @@ function PublishRequests() {
                     {request.username}
                   </td>
                   <td className="request-data align-top">
-                    <span
-                      className={`request-dot ${request.status === 1 ? "orange-dot" : "black-dot"}`}
-                      title={request.status === 1 ? "Awaiting orange review" : "Awaiting black review"}
-                    />
+                    {request.status === 3 ? (
+                      <span
+                        className="request-dot green-dot text-center"
+                        title="Awaiting admin approval"
+                      >
+                        <i
+                          className="fas fa-fw fa-check text-white fa-sm request-check"
+                        />
+                      </span>
+                    ) : (
+                      <span
+                        className={`request-dot ${request.status === 1 ? "orange-dot" : "black-dot"}`}
+                        title={request.status === 1 ? "Awaiting orange review" : "Awaiting black review"}
+                      />
+                    )}
                   </td>
                   <td className="request-data align-top">
                     <NavLink to={`/publish-requests/${request.requestId}`}>
