@@ -759,6 +759,26 @@ async function createComment(requestId, comment, status, targetId, userId) {
       "WHERE requestId = ?;";
       results = await pool.query(sql, requestId);
 
+      // delete outdated notifications about a new request
+      sql = "DELETE FROM Notifications " +
+      "WHERE requestId = ? AND type = 2;";
+      await pool.query(sql, requestId);
+
+      // create new notifications about a completed orange review
+      sql = "SELECT userId " +
+      "FROM Users " +
+      "WHERE role = 4;";
+      results = await pool.query(sql, []);
+
+      const admins = results[0];
+      const message = `An orange review was completed for the "${title}" request`;
+
+      for (let i = 0; i < admins.length; i++) {
+        sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
+        "VALUES (?, ?, ?, 3);";
+        await pool.query(sql, [insertId, admins[i].userId, message]);
+      }
+
     } else if (status === 3) {
 
       sql = "UPDATE Requests " +
