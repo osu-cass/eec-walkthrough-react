@@ -694,6 +694,21 @@ async function createRequest(title, description, objects, userId) {
       results = await pool.query(sql, [insertId, finalObjects[i].objectId, finalObjects[i].objectType]);
     }
 
+    // send a notification to each editor about the new request
+    sql = "SELECT userId " +
+    "FROM Users " +
+    "WHERE role = 3;";
+    results = await pool.query(sql, []);
+
+    const editors = results[0];
+    const message = `A new request named "${title}" was created`;
+
+    for (let i = 0; i < editors.length; i++) {
+      sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
+      "VALUES (?, ?, ?, 2);";
+      await pool.query(sql, [insertId, editors[i].userId, message]);
+    }
+
     const finalResults = {
       insertId: insertId
     };
