@@ -166,7 +166,7 @@ exports.getRequests = getRequests;
 
 
 // return all data for a single request
-async function getRequest(requestId) {
+async function getRequest(requestId, userId) {
 
   try {
 
@@ -372,7 +372,7 @@ async function getRequest(requestId) {
               "WHERE cardId = ? " +
               "AND approved = 1 " +
               "ORDER BY orderIndex ASC, itemId ASC";
-              results = await pool.query(sql, objects[i].objectId);
+              results = await pool.query(sql, [objects[i].objectId]);
 
               if (results[0].length) {
                 card.oldVersion.items = results[0];
@@ -412,6 +412,11 @@ async function getRequest(requestId) {
       }
 
     }
+
+    // delete all notifications related to this request for the current user
+    sql = "DELETE FROM Notifications " +
+    "WHERE requestId = ? AND userId = ?;";
+    await pool.query(sql, [requestId, userId]);
 
     finalResults.objects = fullObjects;
 
