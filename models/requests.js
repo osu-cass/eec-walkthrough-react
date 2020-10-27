@@ -752,6 +752,15 @@ async function createComment(requestId, comment, status, targetId, userId) {
       return {error: 3};
     }
 
+    // create the comment
+    sql = "INSERT INTO Request_Comments (requestId, comment, review, targetId, userId) " +
+    "VALUES (?, ?, ?, ?, ?);";
+    results = await pool.query(sql, [requestId, comment, status, targetId, userId]);
+
+    const finalResults = {
+      insertId: results[0].insertId
+    };
+
     // have reviews update the status of the request
     if (status === 2) {
 
@@ -777,7 +786,7 @@ async function createComment(requestId, comment, status, targetId, userId) {
       for (let i = 0; i < admins.length; i++) {
         sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
         "VALUES (?, ?, ?, 3);";
-        await pool.query(sql, [insertId, admins[i].userId, message]);
+        await pool.query(sql, [requestId, admins[i].userId, message]);
       }
 
     } else if (status === 3) {
@@ -804,19 +813,9 @@ async function createComment(requestId, comment, status, targetId, userId) {
       for (let i = 0; i < admins.length; i++) {
         sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
         "VALUES (?, ?, ?, 4);";
-        await pool.query(sql, [insertId, admins[i].userId, message]);
+        await pool.query(sql, [requestId, admins[i].userId, message]);
       }
-
     }
-
-    // create the comment
-    sql = "INSERT INTO Request_Comments (requestId, comment, review, targetId, userId) " +
-    "VALUES (?, ?, ?, ?, ?);";
-    results = await pool.query(sql, [requestId, comment, status, targetId, userId]);
-
-    const finalResults = {
-      insertId: results[0].insertId
-    };
 
     // notify all relevant users about this new comment
     sql = "(SELECT DISTINCT userId " +
@@ -1008,6 +1007,11 @@ async function deleteRequest(requestId, userId, admin) {
       affectedRows: results[0].affectedRows
     };
 
+    // delete all notifications about the request
+    sql = "DELETE FROM Notifications " +
+    "WHERE requestId = ?;";
+    await pool.query(sql, requestId);
+
     return finalResults;
 
   } catch (err) {
@@ -1136,6 +1140,11 @@ async function approveRequest(requestId) {
     const finalResults = {
       objectsApproved: objectsApproved
     };
+
+    // delete all notifications about the request
+    sql = "DELETE FROM Notifications " +
+    "WHERE requestId = ?;";
+    await pool.query(sql, requestId);
 
     return finalResults;
 
