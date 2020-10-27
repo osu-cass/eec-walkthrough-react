@@ -100,6 +100,7 @@ function ReportHeader(props) {
               requestId={props.requestId}
               targetId={`H${props.header.headerId}`}
               borderDark={true}
+              requestStatus={props.requestStatus}
             />
           ) : (
             null
@@ -154,5 +155,6 @@ ReportHeader.propTypes = {
   removeMode: PropTypes.bool,
   reviewMode: PropTypes.bool,
   requestId: PropTypes.number,
-  comments: PropTypes.array
+  comments: PropTypes.array,
+  requestStatus: PropTypes.number
 };

@@ -61,7 +61,7 @@ function AcceptRequest(props) {
     setLoading(false);
   }
 
-  return role === 4 ? (
+  return role === 4 && props.requestStatus === 3 ? (
     <Fragment>
       <LoadingOverlay loading={loading}/>
       <Button
@@ -80,5 +80,6 @@ export default AcceptRequest;
 
 AcceptRequest.propTypes = {
   onError: PropTypes.func,
-  requestId: PropTypes.number
+  requestId: PropTypes.number,
+  requestStatus: PropTypes.number
 };

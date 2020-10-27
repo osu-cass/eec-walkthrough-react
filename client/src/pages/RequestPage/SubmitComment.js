@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import PropTypes from "prop-types";
 import {Card, Form, Button} from "react-bootstrap";
 import Error from "../../components/General/Error";
@@ -85,7 +85,20 @@ function SubmitComment(props) {
         >
           <option value="0">Comment</option>
           <option value="1">Suggest Change</option>
-          <option value="2">Approve</option>
+
+          {/* Offer the option to review based on the request status */}
+          {props.requestStatus === 1 ? (
+            <option value="2">Complete Orange Review</option>
+          ) : (
+            <Fragment>
+              {props.requestStatus === 2 ? (
+                <option value="3">Complete Black Review</option>
+              ) : (
+                null
+              )}
+            </Fragment>
+          )}
+
         </select>
       </Card.Header>
       <Card.Body className="request-card-comment-body">
@@ -124,5 +137,6 @@ export default SubmitComment;
 SubmitComment.propTypes = {
   requestId: PropTypes.number,
   targetId: PropTypes.string,
-  borderDark: PropTypes.bool
+  borderDark: PropTypes.bool,
+  requestStatus: PropTypes.number
 };

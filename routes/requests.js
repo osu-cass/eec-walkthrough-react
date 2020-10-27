@@ -216,7 +216,7 @@ app.post("/comment/:requestId", requireAuth, postCommentVal.validation, async (r
     }
 
     // create the comment
-    const results = await createComment(requestId, comment, status, targetId, userId);
+    const results = await createComment(requestId, comment, parseInt(status, 10), targetId, userId);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -224,6 +224,10 @@ app.post("/comment/:requestId", requireAuth, postCommentVal.validation, async (r
 
       if (results.error === 1) {
         res.status(404).send({error: "Request not found."});
+      } else if (results.error === 2) {
+          res.status(403).send({error: "This request is not accepting orange reviews."});
+      } else if (results.error === 3) {
+        res.status(403).send({error: "This request is not accepting black reviews."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -257,8 +261,10 @@ app.delete("/comment/:commentId", requireAuth, async (req, res) => {
       if (results.error === 1) {
         res.status(404).send({error: "Comment not found."});
       } else if (results.error === 2) {
-        res.status(403).send({error: "The request is not open, so the comment cannot be deleted."});
+        res.status(403).send({error: "Reviews are not allowed to be deleted, as the request status has already been updated."});
       } else if (results.error === 3) {
+        res.status(403).send({error: "The request is not open, so the comment cannot be deleted."});
+      } else if (results.error === 4) {
         res.status(401).send({error: "Unauthorized user attempting to delete comment."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
