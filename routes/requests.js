@@ -75,6 +75,7 @@ app.get("/:requestId", requireAuth, getRequestVal.validation, async (req, res) =
   try {
 
     const requestId = req.params.requestId;
+    const userId = req.auth.userId;
     console.log("Get all data related to request", requestId);
 
     // confirm that the request is valid
@@ -91,7 +92,7 @@ app.get("/:requestId", requireAuth, getRequestVal.validation, async (req, res) =
     }
 
     // get requests
-    const results = await getRequest(requestId);
+    const results = await getRequest(requestId, userId);
 
     if (results.requestId === 0) {
       res.status(404).send({error: "Request not found."});
