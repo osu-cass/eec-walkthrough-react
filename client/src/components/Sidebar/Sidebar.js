@@ -19,9 +19,6 @@ function Sidebar(props) {
   const [userId, setUserId] = useState(0);
   const [showEdit, setShowEdit] = useState(true);
   const [tools, setTools] = useState([]);
-  const [relatedSites] = useState([
-    {name: "OSU EEC", link: "https://eec.oregonstate.edu/"}
-  ]);
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
@@ -176,19 +173,6 @@ function Sidebar(props) {
                 collectionName="Tools"
                 collection={tools}
                 collectionIcon="briefcase"
-              />
-            </Card>
-          ) : (
-            null
-          )}
-
-          {/* Related Sites */}
-          {relatedSites.length ? (
-            <Card className="sidebar-page-container" bg="dark">
-              <SidebarCollectionSimple
-                collectionName="Related Sites"
-                collection={relatedSites}
-                collectionIcon="sitemap"
               />
             </Card>
           ) : (

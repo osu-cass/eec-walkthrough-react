@@ -110,14 +110,14 @@ function NavBar (props) {
 
       {/* Button that links to homepage */}
       <a href="/">
-        <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
+        <div className="dropdown dropdown-nav mild-tab py-2 px-2 d-inline-block">
           Home
         </div>
       </a>
 
       {/* Dropdown for instructions on how to use the site */}
       {instructions.length ? (
-        <div className="dropdown-nav dropdown d-inline-block">
+        <div className="dropdown-nav dropdown mild-tab d-inline-block">
           <div className="py-2 px-2 w-100 h-100">
             <span>Help</span>
           </div>
@@ -137,7 +137,7 @@ function NavBar (props) {
 
       {/* All internal tool pages */}
       {role >= 2 ? (
-        <div className="dropdown-nav dropdown d-inline-block">
+        <div className="dropdown-nav dropdown mild-tab d-inline-block">
           <div className="py-2 px-2 w-100 h-100">
             <span>Tools</span>
           </div>
@@ -211,22 +211,6 @@ function NavBar (props) {
       ) : (
         null
       )}
-
-      {/* External sites */}
-      <div className="dropdown-nav dropdown d-inline-block">
-        <div className="py-2 px-2 w-100 h-100">
-          <span>Related Sites</span>
-        </div>
-        <div className="dropdown-content">
-
-          <a href="https://eec.oregonstate.edu/">
-            <div className="navbar-item px-2 py-1">
-              OSU Energy Efficiency Center
-            </div>
-          </a>
-
-        </div>
-      </div>
 
       {/* Each category gets its own dropdown */}
       {categories.map((category) =>
