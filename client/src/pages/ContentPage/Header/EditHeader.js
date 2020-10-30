@@ -350,7 +350,11 @@ function EditHeader(props) {
             variant="danger"
             onClick={() => deleteHeader()}
           >
-            Delete Header
+            {props.role === 4 ? (
+              <span>Delete Header</span>
+            ) : (
+              <span>Delete Unpublished Header</span>
+            )}
           </Button>
           <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Header Edit</Button>
           <Button variant="secondary" onClick={() => handleCloseModal()}>Cancel</Button>

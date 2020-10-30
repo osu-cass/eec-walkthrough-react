@@ -652,7 +652,11 @@ function EditPage(props) {
             variant="danger"
             onClick={() => deletePage()}
           >
-            Delete Page
+            {props.role === 4 ? (
+              <span>Delete Page</span>
+            ) : (
+              <span>Delete Unpublished Page</span>
+            )}
           </Button>
           <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Page Edit</Button>
           <Button variant="secondary" onClick={() => handleCloseModal()}>Cancel</Button>
