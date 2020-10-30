@@ -350,7 +350,7 @@ function EditHeader(props) {
             variant="danger"
             onClick={() => deleteHeader()}
           >
-            {props.role === 4 ? (
+            {props.role >= 4 ? (
               <span>Delete Header</span>
             ) : (
               <span>Delete Unpublished Header</span>

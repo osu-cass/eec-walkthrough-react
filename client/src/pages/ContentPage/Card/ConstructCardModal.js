@@ -1388,7 +1388,7 @@ function ConstructCardModal(props) {
                 variant="danger"
                 onClick={() => deleteCard()}
               >
-                {props.role === 4 ? (
+                {props.role >= 4 ? (
                   <span>Delete Card</span>
                 ) : (
                   <span>Delete Unpublished Card</span>
