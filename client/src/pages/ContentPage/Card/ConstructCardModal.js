@@ -1388,7 +1388,11 @@ function ConstructCardModal(props) {
                 variant="danger"
                 onClick={() => deleteCard()}
               >
-                Delete Card
+                {props.role === 4 ? (
+                  <span>Delete Card</span>
+                ) : (
+                  <span>Delete Unpublished Card</span>
+                )}
               </Button>
               <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
             </Fragment>
