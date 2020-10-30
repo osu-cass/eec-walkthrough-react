@@ -230,19 +230,42 @@ function NavBar (props) {
       )}
 
       {/* Button for creating new categories or more button */}
-      {visibleTabs[0] ? (
-        <CreateCategory
-          navbar={true}
-          refresh={() => fetchData()}
-          role={role}
-        />
+      {props.role >= 4 ? (
+
+        <Fragment>
+          {/* Admins care about the location of the create category tab */}
+          {visibleTabs[0] ? (
+            <CreateCategory
+              navbar={true}
+              refresh={() => fetchData()}
+              role={role}
+            />
+          ) : (
+            <NavBarMore
+              categories={categories}
+              visibleTabs={visibleTabs}
+              refresh={() => fetchData()}
+              role={role}
+            />
+          )}
+        </Fragment>
+
       ) : (
-        <NavBarMore
-          categories={categories}
-          visibleTabs={visibleTabs}
-          refresh={() => fetchData()}
-          role={role}
-        />
+
+        <Fragment>
+          {/* If we are not an admin ignore the create category tab */}
+          {visibleTabs[visibleTabs.length - 1] ? (
+            null
+          ) : (
+            <NavBarMore
+              categories={categories}
+              visibleTabs={visibleTabs}
+              refresh={() => fetchData()}
+              role={role}
+            />
+          )}
+        </Fragment>
+
       )}
 
     </div>

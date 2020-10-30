@@ -652,7 +652,7 @@ function EditPage(props) {
             variant="danger"
             onClick={() => deletePage()}
           >
-            {props.role === 4 ? (
+            {props.role >= 4 ? (
               <span>Delete Page</span>
             ) : (
               <span>Delete Unpublished Page</span>
