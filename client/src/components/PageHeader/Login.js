@@ -123,6 +123,7 @@ function Login (props) {
           className="btn btn-dark mx-4 px-4"
           type="button"
           data-toggle="modal"
+          title="Register for an account to get access to additional features"
           onClick={() => openModal()}
         >
           Login
