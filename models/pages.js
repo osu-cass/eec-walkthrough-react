@@ -393,6 +393,38 @@ async function updatePage(pageId, pageType, name, title, description, imageUrl, 
 exports.updatePage = updatePage;
 
 
+// gets the most recently updated pages
+async function recentPages(viewAll) {
+  try {
+
+    let sql;
+    const RESULTS_PER_PAGE = 25;
+
+    // get the pages
+    if (viewAll) {
+      sql = "SELECT * " +
+      "FROM Pages " +
+      "ORDER BY created DESC LIMIT ?;";
+    } else {
+      sql = "SELECT * " +
+      "FROM Pages " +
+      "WHERE approved = 1 " +
+      "ORDER BY created DESC LIMIT ?;";
+    }
+    let results = await pool.query(sql, RESULTS_PER_PAGE);
+
+    return {
+      pages: results[0]
+    };
+
+  } catch (err) {
+    console.error("Error getting recent pages");
+    throw Error(err);
+  }
+}
+exports.recentPages = recentPages;
+
+
 // gets pages that match the search query
 async function searchPages(text, cursor, viewAll) {
   try {
