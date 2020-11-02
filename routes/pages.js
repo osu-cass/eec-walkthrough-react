@@ -17,6 +17,7 @@ const {
 } = require("../services/validation/requestValidation");
 const {
   getFullPage,
+  recentPages,
   searchPages,
   createPage,
   deletePage,
@@ -65,6 +66,36 @@ app.get("/:pageId/all", getUserID, getPageVal.validation, async (req, res) => {
 
 });
 
+// get a list of the 25 most recently updated pages
+app.get("/updated", getUserID, async (req, res) => {
+
+  try {
+
+    console.log("Get the most recently updated pages");
+
+    const userId = req.auth.userId;
+
+    // check if the current user should be able to view this content
+    let viewAll = false;
+    if (await roleCheck(2, req.auth.userId)) {
+      viewAll = true;
+    }
+
+    // get recent pages
+    const results = await recentPages(viewAll);
+
+    if (results.pages.length) {
+      res.status(200).send(results);
+    } else {
+      res.status(404).send({error: "No matching pages found."});
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
 
 // get a list of pages based on a search query
 app.get("/search/:text/:cursorPrimary/:cursorSecondary", getUserID, searchPageVal.validation, async (req, res) => {
