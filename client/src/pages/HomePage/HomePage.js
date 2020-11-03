@@ -119,6 +119,47 @@ function Home(props) {
         <div className="banner-footer" />
       </div>
 
+      {/* First text block */}
+      <div className="row">
+        <div className="home-content-block home-on col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+          <div className="home-inner-block">
+            <h2>
+              Our Goal
+            </h2>
+            <span>
+              Morbi maximus dui sed malesuada euismod.
+              Praesent quis efficitur est. Integer placerat tempor eros quis pulvinar.
+              In ut tellus dui.
+              Praesent vitae eros pellentesque risus cursus eleifend sed vel leo.
+            </span>
+          </div>
+        </div>
+
+        {/* Second text block */}
+        <div className="home-content-block home-off col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+          <div className="home-inner-block">
+            <h2>
+              News
+            </h2>
+            <span>
+              Morbi maximus dui sed malesuada euismod.
+              Praesent quis efficitur est. Integer placerat tempor eros quis pulvinar.
+              In ut tellus dui.
+              Praesent vitae eros pellentesque risus cursus eleifend sed vel leo.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Recently updated pages */}
+
+      {/* Our Sponsors */}
+
+      {/* Content Contributors */}
+
+      {/* OSU EEC */}
+
+      {/* Disclaimer */}
 
 
       <div className="container home-page-container">

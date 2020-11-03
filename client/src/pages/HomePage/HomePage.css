@@ -45,11 +45,12 @@ body {
 
 @media (max-width: 1000px) {
   .banner-image-text {
-    font-size: 1.5em;
+    font-size: 1.75em;
+    left: 35%;
   }
 
   .home-banner {
-    max-height: 250px;
+    max-height: 350px;
     max-width: 500%;
   }
 }
@@ -60,16 +61,21 @@ body {
   background-color: #d73f09;
 }
 
-.home-page-container a {
-  outline: none;
-  text-decoration: none;
-  padding: 2px 1px 0;
+.home-content-block {
+  text-align: center;
+  white-space: wrap;
 }
 
-.home-page-container img {
-  border-style: none;
+.home-inner-block {
+  margin: auto;
+  padding: 5em 2em 5em 2em;
+  width: 70%;
 }
 
-.allow-newlines {
-  white-space: pre-wrap;
+.home-on {
+  background-color: #fff;
+}
+
+.home-off {
+  background-color: #eee;
 }
