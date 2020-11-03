@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Oct 27, 2020 at 03:28 AM
+-- Generation Time: Nov 03, 2020 at 12:37 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -72,17 +72,17 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (92, 31, 0, 92, 'Tips', 56, '2020-07-02 20:10:02', 1),
 (93, 31, 0, 93, 'Best Practices', 56, '2020-07-02 20:12:06', 1),
 (94, 31, 0, 94, 'Charts, Tables, Figures', 56, '2020-07-02 20:14:45', 0),
-(95, 31, 0, 95, 'Standard Data to Collect', 51, '2020-07-03 17:57:24', 1),
-(96, 31, 0, 96, 'Data Collection Equipment', 51, '2020-07-02 20:22:45', 1),
+(95, 31, 0, 95, 'Standard Data to Collect', 51, '2020-10-29 22:05:47', 1),
+(96, 31, 0, 96, 'Data Collection Equipment', 51, '2020-10-29 22:08:15', 1),
 (97, 31, 0, 97, 'Data Collection Guides', 56, '2020-07-02 20:44:49', 1),
 (98, 31, 0, 98, 'Analysis Tools', 56, '2020-07-02 20:52:07', 1),
 (99, 31, 0, 99, 'In Depth Site Resources', 51, '2020-07-03 17:55:50', 1),
 (100, 31, 0, 100, 'Off Site Resource Links', 56, '2020-07-02 21:38:17', 1),
-(101, 32, 0, 101, 'Improve Boiler Combustion Efficiency ', 56, '2020-07-02 21:53:03', 1),
+(101, 32, 0, 101, 'Improve Boiler Combustion Efficiency', 51, '2020-10-29 21:57:22', 1),
 (102, 32, 0, 102, 'Reduce Run Time', 56, '2020-07-02 21:56:36', 1),
 (103, 32, 0, 103, 'Optimize Blowdown', 56, '2020-07-02 21:58:49', 1),
 (104, 32, 0, 104, 'Minimize Draft Fan Energy ', 56, '2020-07-02 22:01:14', 1),
-(105, 32, 0, 105, 'Improve the Condensate System', 56, '2020-07-02 22:03:34', 1),
+(105, 32, 0, 105, 'Improve the Condensate System', 61, '2020-10-29 21:50:47', 1),
 (106, 32, 0, 106, 'Reduce Heat Loss', 51, '2020-07-02 22:11:55', 1),
 (107, 28, 0, 107, 'Motor and Transmission Efficiency', 56, '2020-07-02 22:52:49', 1),
 (108, 33, 0, 108, 'Rules of Thumb', 56, '2020-07-02 23:14:11', 1),
@@ -463,7 +463,11 @@ INSERT INTO `History_Cards` (`historyId`, `cardId`, `headerId`, `cardType`, `tit
 (100, 187, 54, 0, 'Cons', 0, '2020-10-13 20:18:20'),
 (101, 190, 54, 0, 'Standard Data to Collect', 0, '2020-10-13 20:18:20'),
 (102, 189, 54, 0, 'General Off Site Resource Links', 0, '2020-10-13 20:18:20'),
-(103, 192, 55, 0, 'Install Capacitors', 0, '2020-10-13 20:18:20');
+(103, 192, 55, 0, 'Install Capacitors', 0, '2020-10-13 20:18:20'),
+(104, 105, 32, 0, 'Improve the Condensate System', 0, '2020-10-29 21:50:47'),
+(105, 101, 32, 0, 'Improve Boiler Combustion Efficiency', 0, '2020-10-29 21:57:22'),
+(106, 95, 31, 0, 'Standard Data to Collect', 0, '2020-10-29 22:05:47'),
+(107, 96, 31, 0, 'Data Collection Equipment', 0, '2020-10-29 22:08:15');
 
 -- --------------------------------------------------------
 
@@ -1094,7 +1098,98 @@ INSERT INTO `History_Items` (`historyId`, `parentId`, `itemId`, `cardId`, `order
 (746, 103, 6302, 192, 0, 1, 26, 'A fixed capacitor bank is suitable for equipment that has little variance in load characteristics', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
 (747, 103, 6303, 192, 0, 1, 26, 'Installing automatically switching capacitor banks is the best solution for variable loads because they provide the right amount of power factor correction as loads turn on and off', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
 (748, 103, 6304, 192, 0, 1, 1, 'Only one installation is required for a capacitor bank compared to multiple capacitors at the load', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
-(749, 103, 6305, 192, 0, 1, 2, 'Automatically switching banks are more expensive than fixed banks or individual capacitors and lead to longer payback periods', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59');
+(749, 103, 6305, 192, 0, 1, 2, 'Automatically switching banks are more expensive than fixed banks or individual capacitors and lead to longer payback periods', '', '', 0, 0, 0, 0, '2020-10-13 20:17:59'),
+(750, 104, 5965, 105, 0, 0, 15, 'Condensate flow and temperature', '', '', 1, 0, 0, 0, '2020-09-21 17:02:20'),
+(751, 104, 5966, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20'),
+(752, 104, 5967, 105, 0, 0, 11, 'Recover Flash Steam', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20'),
+(753, 104, 5968, 105, 0, 1, 10, 'Steam being released into atmosphere from the boiler system', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20'),
+(754, 104, 5969, 105, 0, 1, 1, 'Payback period is usually within a year', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20'),
+(755, 104, 5970, 105, 0, 1, 1, 'Condensate does not require any chemical treatment other than condensate polishing. ', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20'),
+(756, 104, 5971, 105, 0, 2, 8, 'A condensate polisher is similar to a water softener. Polishing removes the trace amount of mineral that are dissolved in the condensate after running though the boiler. ', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20'),
+(757, 104, 5972, 105, 0, 1, 1, 'Capturing and reusing the steam can reduce hog fuel by 14.5%', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20'),
+(758, 104, 5973, 105, 0, 1, 2, 'Maintenance crews will need training to work with steam recovery systems', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20'),
+(759, 104, 5974, 105, 0, 1, 2, 'There are usually no incentives for this opportunity, because the system usually pays for itself within a year.', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20'),
+(760, 104, 5975, 105, 0, 1, 3, 'A good recovery system can collect up to 80%', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20'),
+(761, 104, 5976, 105, 0, 1, 3, 'Steam recovery is most efficient when waste heat is high and flow is continuous', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20'),
+(762, 104, 5977, 105, 0, 1, 8, 'Multiple different types of steam traps available to fit company needs: Mechanical, Thermodynamic, or Thermostatic', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20'),
+(763, 104, 5978, 105, 0, 1, 23, 'Explains how steam traps work, brief history and lists several different types of traps in detail.', 'https://www.youtube.com/watch?v=IiRyxcCBTa0', 'Let\'s Talk Steam Traps', 1, 0, 0, 0, '2020-09-21 17:02:20'),
+(764, 104, 5979, 105, 0, 1, 17, 'Contains specific information about flash steam recovery', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam12_lowpressure_steam.pdf', 'DOE Tip Sheet Flash Steam Recovery', 1, 0, 0, 0, '2020-09-21 17:02:20'),
+(765, 104, 5980, 105, 0, 1, 24, 'Contains several pages with useful calculations for steam systems. This link leads to the flash steam page.', 'https://www.tlv.com/global/US/steam-theory/introduction-to-condensate-recovery.html', 'TLV Steam Theory', 1, 0, 0, 0, '2020-09-21 17:02:20'),
+(766, 104, 5981, 105, 0, 1, 21, '$empty', 'https://oregonstate.app.box.com/file/337450150435', 'Flash Steam Recovery', 0, 0, 0, 0, '2020-09-21 17:02:20'),
+(767, 105, 6546, 101, 0, 0, 11, 'Tune the boiler regularly', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(768, 105, 6547, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(769, 105, 6548, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(770, 105, 6549, 101, 0, 1, 15, 'Firing rate over time', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(771, 105, 6550, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(772, 105, 6551, 101, 0, 0, 11, 'Install O2 Controls to maintain optimum combustion efficiency throughout the operating range', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(773, 105, 6552, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(774, 105, 6553, 101, 0, 0, 11, 'Clean heat exchanger surfaces and reduce the exhaust temperature', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(775, 105, 6554, 101, 0, 1, 10, 'Stack temperature exceeds steam temperature by over 150 ˚F', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(776, 105, 6555, 101, 0, 1, 12, 'Clean the fire side. Soot can accumulate and inhibit heat transfer.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(777, 105, 6556, 101, 0, 1, 12, 'Clean the water side. Scale can accumulate and inhibit heat transfer is the water chemistry is off', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(778, 105, 6557, 101, 0, 0, 11, 'Install an economizer', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(779, 105, 6558, 101, 0, 1, 10, 'Boilers rated at 100 BoHP or higher operating at greater than 75 psig.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(780, 105, 6559, 101, 0, 1, 13, 'Economizers can be used to preheat incoming feedwater, reducing the energy required for boiling.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(781, 105, 6560, 101, 0, 1, 3, 'Typically increases efficiency by around 2-4%.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(782, 105, 6561, 101, 0, 1, 3, 'For every 40°F decrease in flue gas temperature there is a 1% increase in efficiency', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(783, 105, 6562, 101, 0, 1, 3, 'Can often reduce fuel requirements by 10%', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(784, 105, 6563, 101, 0, 1, 8, 'Best suited for boilers with flue gasses containing sulfur or other potentially acidic elements/compounds.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26');
+INSERT INTO `History_Items` (`historyId`, `parentId`, `itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`) VALUES
+(785, 105, 6564, 101, 0, 1, 4, 'Flue gasses containing sulphur must remain above dew point. Condensation of sulphuric acid can cause corrosion and damage the system.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(786, 105, 6565, 101, 0, 1, 2, 'Cannot recover as much energy from the boiler stack as a condensing economizer.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(787, 105, 6566, 101, 0, 1, 14, 'Does the boiler contain potentially acidic elements/compounds such as sulfur?', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(788, 105, 6567, 101, 0, 1, 14, 'Would a condensing economizer be a better alternative?', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(789, 105, 6568, 101, 0, 1, 14, 'Is there adequate space for an economizer?', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(790, 105, 6569, 101, 0, 1, 14, 'What is the greatest temperature that the flue gasses can be reduced by without causing condensation?', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(791, 105, 6570, 101, 0, 1, 27, 'Combustion analyzer', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(792, 105, 6571, 101, 0, 1, 15, 'Flue gas temperature', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(793, 105, 6572, 101, 0, 1, 15, 'Fuel used', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(794, 105, 6573, 101, 0, 1, 15, 'Operating hours', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(795, 105, 6574, 101, 0, 1, 15, 'Water mass flowrate', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(796, 105, 6575, 101, 0, 1, 15, 'Water temperatures', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(797, 105, 6576, 101, 0, 1, 15, 'Steam temperature and pressure', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(798, 105, 6577, 101, 0, 1, 15, 'Boiler efficiency', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(799, 105, 6578, 101, 0, 1, 17, 'Department of Energy tip sheet that provides an example case study of a boiler feedwater economizer being installed, as well as general considerations.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam3_recovery.pdf', 'Use Feedwater Economizers for Waste Heat Recovery', 1, 0, 0, 0, '2020-10-29 21:53:26'),
+(800, 105, 6579, 101, 0, 0, 11, 'Install a condensing economizer', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(801, 105, 6580, 101, 0, 1, 10, 'Boilers rate at 100 BoHP or higher operating at greater that 75 psig that do not user fuels with sulphurous products.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(802, 105, 6581, 101, 0, 1, 3, 'Can increase efficiency by up to 10%', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(803, 105, 6582, 101, 0, 1, 3, 'Can increase boiler efficiency to over 90%', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(804, 105, 6583, 101, 0, 1, 1, 'Can recover more energy from the boiler stack by reducing flue gas temperature below dew point.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(805, 105, 6584, 101, 0, 1, 2, 'Not recommended for use with fuels containing sulphur.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(806, 105, 6585, 101, 0, 1, 2, 'The condensed water may be acidic, requiring treatment before being disharged to sewer systems.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(807, 105, 6586, 101, 0, 1, 4, 'Fuels with sulphurous combustions can damage the boiler stack when condensing, creating sulphuric acid.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(808, 105, 6587, 101, 0, 1, 4, 'Boiler stacks are prone to corrosion due to water condensation.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(809, 105, 6588, 101, 0, 1, 14, 'Does the boiler\'s fuel contain potentially acidic elements/compounds such as sulfur?', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(810, 105, 6589, 101, 0, 1, 14, 'What is the greatest temperature the flue gasses can be reduced by?', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(811, 105, 6590, 101, 0, 1, 27, 'Combustion analyzer', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(812, 105, 6591, 101, 0, 1, 15, 'Flue gas temperature', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(813, 105, 6592, 101, 0, 1, 15, 'Flue gas composition', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(814, 105, 6593, 101, 0, 1, 15, 'Fuel used', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(815, 105, 6594, 101, 0, 1, 15, 'Operating hours', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(816, 105, 6595, 101, 0, 1, 15, 'Water mass flowrate', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(817, 105, 6596, 101, 0, 1, 15, 'Water temperatures', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(818, 105, 6597, 101, 0, 1, 15, 'Steam temperature/pressure', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(819, 105, 6598, 101, 0, 1, 15, 'Boiler efficiency', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26'),
+(820, 105, 6599, 101, 0, 1, 12, 'Complete a more in-depth study evaluating the benefits of a condensing economizer and how it may impact the water and how the boiler operates.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(821, 105, 6600, 101, 0, 1, 12, 'Contact a vendor for more implementation details. Condensing economizers are custom made for each boiler.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26'),
+(822, 105, 6601, 101, 0, 1, 24, 'This webpage lists the epcific heats and gas constants for different gasses. This is uesd for calculating the properties of the flue gasses.', 'https://www.engineeringtoolbox.com/specific-heat-capacity-gases-d_159.html', 'Specific Heat and Individual Gas Constant of Gases', 1, 0, 0, 0, '2020-10-29 21:53:26'),
+(823, 105, 6602, 101, 0, 1, 17, 'Department of Energy tip sheet that explains how a condensing economizer works and how it saves energy, along with example scenarios', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26a_condensing.pdf', 'Consider Installing a Condensing Economizer', 1, 0, 0, 0, '2020-10-29 21:53:26'),
+(824, 105, 6603, 101, 0, 1, 17, 'Department of Energy tip sheet that explains special considerations that need to be taken into account when choosing to do projects with condensing economizers.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26b_condensing.pdf', 'Considerations When Selecting a Condensing Economizer', 1, 0, 0, 0, '2020-10-29 21:53:26'),
+(825, 106, 6623, 95, 0, 0, 15, 'Boiler Nameplate Data', '', '', 0, 0, 0, 0, '2020-10-29 22:04:51'),
+(826, 106, 6624, 95, 0, 1, 26, ' Rated Capacity (Steam Production, Maximum Fuel Input)', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51'),
+(827, 106, 6625, 95, 0, 1, 26, 'Fan Horsepower', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51'),
+(828, 106, 6626, 95, 0, 1, 26, 'Make, Model, Serial Number', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51'),
+(829, 106, 6627, 95, 0, 0, 15, 'Combustion Analysis: ', '', '', 0, 0, 0, 0, '2020-10-29 22:04:51'),
+(830, 106, 6628, 95, 0, 1, 26, 'Stack Temperature', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51'),
+(831, 106, 6629, 95, 0, 1, 26, 'Excess O2', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51'),
+(832, 106, 6630, 95, 0, 1, 26, ' Inlet / Ambient Temperature ', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51'),
+(833, 106, 6631, 95, 0, 0, 15, 'Capacity over time', '', '', 0, 0, 0, 0, '2020-10-29 22:04:51'),
+(834, 106, 6632, 95, 0, 1, 26, 'Hourly steam production', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51'),
+(835, 106, 6633, 95, 0, 1, 26, 'Hourly energy use', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51'),
+(836, 106, 6634, 95, 0, 1, 8, 'Sometimes capacity must be inferred from fan energy, and characteristic fan energy curves', '', '', 0, 0, 0, 0, '2020-10-29 22:04:51'),
+(837, 107, 6635, 96, 0, 0, 27, 'Combustion Analyzer ', '', '', 0, 0, 1, 0, '2020-10-29 22:08:04'),
+(838, 107, 6636, 96, 0, 0, 27, 'Digital or Infrared Thermometer', '', '', 0, 0, 1, 0, '2020-10-29 22:08:04'),
+(839, 107, 6637, 96, 0, 0, 8, 'An IR camera can help identify hot spots to insulate', '', '', 0, 0, 0, 0, '2020-10-29 22:08:04');
 
 -- --------------------------------------------------------
 
@@ -1327,8 +1422,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (1408, 103, 0, 0, 11, 'Minimize the continuous blowdown rate with a conductivity sensor', '', '', 0, 0, 0, 0, '2020-07-02 21:58:49', 1),
 (1409, 103, 0, 0, 11, 'Install blowdown heat recovery', '', '', 0, 0, 0, 0, '2020-07-02 21:58:49', 1),
 (1410, 104, 0, 0, 11, 'Replace damper controls on draft fans with variable speed control', '', '', 0, 0, 0, 0, '2020-07-02 22:01:14', 1),
-(1411, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, 0, 0, 0, '2020-07-02 22:03:34', 1),
-(1412, 105, 0, 0, 11, 'Recover Flash Steam (for Chris to flesh out) ', '', '', 0, 0, 0, 0, '2020-07-02 22:03:34', 1),
 (1575, 108, 0, 0, 3, '1 HP = 0.746 kW', '', '', 0, 0, 0, 0, '2020-07-02 23:14:11', 1),
 (1576, 109, 0, 0, 8, 'Tip #1', '', '', 0, 0, 0, 0, '2020-07-02 23:14:41', 0),
 (1577, 110, 0, 0, 7, 'BP #1', '', '', 0, 0, 0, 0, '2020-07-02 23:15:09', 0),
@@ -1338,19 +1431,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (1667, 116, 0, 0, 22, 'An OSU EEC Google Slideshow', 'https://docs.google.com/presentation/d/1eG8ygZ-gpYPzbjnpJKLcm_bmoIUImD7CcBU0ZExhfH4/edit?usp=sharing', 'Motor Assessment Fundamentals', 0, 0, 0, 0, '2020-07-02 23:53:23', 0),
 (1668, 116, 0, 0, 22, 'An IAC Training Slideshow', 'https://docs.google.com/presentation/d/153S2O7Ns9vJzLqHQnifW03rE52y4d-KGAPgC3e3D8zc/edit?usp=sharing', 'Motors Training', 0, 0, 0, 0, '2020-07-02 23:53:23', 0),
 (1669, 116, 0, 0, 22, 'An OSU EEC Google Slideshow', 'https://docs.google.com/presentation/d/1lbgHebPEVJEB17Yqp--r6gARKWkA4YB45nHJx3OEwXg/edit?usp=sharing', 'Power Factor', 0, 0, 0, 0, '2020-07-02 23:53:23', 0),
-(1828, 101, 0, 0, 11, 'Tune the boiler regularly', '', '', 0, 0, 0, 0, '2020-07-03 00:26:01', 1),
-(1829, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, 0, 0, 0, '2020-07-03 00:26:01', 1),
-(1830, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, 0, 0, 0, '2020-07-03 00:26:01', 1),
-(1831, 101, 0, 1, 15, 'Firing rate over time', '', '', 0, 0, 0, 0, '2020-07-03 00:26:01', 1),
-(1832, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, 0, 0, 0, '2020-07-03 00:26:01', 1),
-(1833, 101, 0, 0, 11, 'Install O2 Controls to maintain optimum combustion efficiency throughout the operating range', '', '', 0, 0, 0, 0, '2020-07-03 00:26:01', 1),
-(1834, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, 0, 0, 0, '2020-07-03 00:26:01', 1),
-(1835, 101, 0, 0, 11, 'Clean heat exchanger surfaces and reduce the exhaust temperature', '', '', 0, 0, 0, 0, '2020-07-03 00:26:01', 1),
-(1836, 101, 0, 1, 10, 'Stack temperature exceeds steam temperature by over 150 ˚F', '', '', 0, 0, 0, 0, '2020-07-03 00:26:01', 1),
-(1837, 101, 0, 1, 12, 'Clean the fire side. Soot can accumulate and inhibit heat transfer.', '', '', 0, 0, 0, 0, '2020-07-03 00:26:01', 1),
-(1838, 101, 0, 1, 12, 'Clean the water side. Scale can accumulate and inhibit heat transfer is the water chemistry is off', '', '', 0, 0, 0, 0, '2020-07-03 00:26:01', 1),
-(1839, 101, 0, 0, 11, 'Install an economizer (for Matt to flesh out)', '', '', 0, 0, 0, 0, '2020-07-03 00:26:01', 1),
-(1840, 101, 0, 0, 11, 'Install a condensing economizer (for Matt to flesh out)', '', '', 0, 0, 0, 0, '2020-07-03 00:26:01', 1),
 (1877, 120, 0, 0, 11, 'Correct Power Factor (for Ethan to flesh out)', '', '', 0, 0, 0, 0, '2020-07-03 00:28:39', 1),
 (1878, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, 0, 0, 0, '2020-07-03 00:28:39', 1),
 (1897, 100, 0, 0, 24, 'See steam tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, 0, 0, 0, '2020-08-10 17:50:55', 1),
@@ -1409,9 +1489,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2105, 106, 0, 0, 21, 'North American Insulation Manufacturers Association Software Download', 'https://insulationinstitute.org/tools-resources/free-3e-plus/?cn-reloaded=1', 'NAIMA 3E Plus Insulation Tool', 1, 0, 0, 0, '2020-07-03 17:31:09', 0),
 (2115, 99, 0, 0, 22, 'An OSU EEC Google Slideshow', 'https://docs.google.com/presentation/d/1A-bLNUv7hCuBV2zMsS0A4JEKPNVxaKnIwUMoVZCFr2w/edit?usp=sharing', 'Steam Systems', 0, 0, 0, 0, '2020-07-03 17:55:50', 1),
 (2116, 99, 0, 0, 17, 'An OSU EEC Appendix in Microsoft Word Format', 'https://drive.google.com/file/d/1Jh6CaIDd6ugCo6FYqviyVK-O49ic_275/view?usp=sharing', 'Combustion Appendix', 0, 0, 0, 0, '2020-07-03 17:55:50', 1),
-(2117, 95, 0, 0, 15, 'Boiler Nameplate Data: Rated Capacity', '', '', 0, 0, 0, 0, '2020-07-03 17:57:24', 1),
-(2118, 95, 0, 0, 15, 'Combustion Analysis: Excess O2, Stack Temperature, Inlet / Ambient Temperature ', '', '', 0, 0, 0, 0, '2020-07-03 17:57:24', 1),
-(2119, 95, 0, 0, 15, 'Capacity over time', '', '', 0, 0, 0, 0, '2020-07-03 17:57:24', 1),
 (2125, 27, 0, 0, 13, 'Energy savings associated with reductions in compressed air use are very dependent on the compressor control strategy. In the worst case, a compressor with blow off control might not yield any energy savings with compressed air use reductions, and one with inlet modulation might yield only a small part of potential savings.', '', '', 0, 0, 0, 0, '2020-07-07 16:17:13', 1),
 (2126, 27, 0, 0, 11, 'Reduce compressed air leaks', '', '', 0, 0, 0, 0, '2020-07-07 16:17:13', 1),
 (2127, 27, 0, 1, 13, 'Compressed air is an expensive utility, but leaks can go uncorrected as they do not make a mess.', '', '', 0, 0, 0, 0, '2020-07-07 16:17:13', 1),
@@ -1447,7 +1524,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2263, 119, 0, 0, 11, 'Interlock equipment with a related process', '', '', 0, 0, 0, 0, '2020-07-07 23:38:14', 1),
 (2264, 119, 0, 0, 11, 'Operate equipment in batches rather than continuously ', '', '', 0, 0, 0, 0, '2020-07-07 23:38:14', 1),
 (2265, 119, 0, 1, 10, 'Equipment is idle for significant periods of time', '', '', 0, 0, 0, 0, '2020-07-07 23:38:14', 1),
-(2267, 96, 0, 0, 27, 'Combustion Analyzer ', '', '', 0, 0, 0, 0, '2020-07-08 20:15:53', 1),
 (2268, 112, 0, 0, 15, 'Motor Inventory ', '', '', 0, 0, 0, 0, '2020-07-08 22:27:29', 0),
 (2269, 112, 0, 1, 26, 'Motor ID, Location, Application', '', '', 0, 0, 0, 0, '2020-07-08 22:27:29', 0),
 (2270, 112, 0, 1, 26, 'Nameplate Data ', '', '', 0, 0, 0, 0, '2020-07-08 22:27:29', 0),
@@ -1544,8 +1620,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3884, 130, 0, 1, 17, 'Example recommendation invovling the installation of insulation on injection barrels in a plastics and injection molding facility', 'https://oregonstate.app.box.com/file/606287338448', 'Insulate Injection Barrels', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3885, 130, 0, 1, 21, 'Template used to develop and present an analysis of the energy savings associated with insulating a facility\'s equipment or other hot surfaces', 'https://oregonstate.app.box.com/folder/51071018894', 'Analysis Template: Install Insulation', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3892, 164, 0, 0, 24, '$empty', 'https://eec.oregonstate.edu/wastewater-treatment-training-module', 'Wastewater Treatment Training', 0, 0, 0, 0, '2020-08-06 22:33:54', 1),
-(4118, 163, 0, 0, 11, 'Control Aeration to Hold a Minimum Dissolved Oxygen Level', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(4118, 163, 0, 0, 11, 'Control Aeration to Hold a Minimum Dissolved Oxygen Level', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1),
 (4119, 163, 0, 0, 11, 'Replace Standard Aeration Fans with High Efficiency Turbo Blowers', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1),
 (4120, 163, 0, 0, 11, 'Improve Efficiency of Fine Bubble Diffusers', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1),
 (4146, 155, 0, 0, 26, 'Initiate a conversation with potential clients in follow up to industry requests, partner references, or direct contact.', '', '', 0, 0, 0, 0, '2020-08-06 23:50:17', 1),
@@ -1555,68 +1630,11 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4150, 155, 0, 1, 14, 'Ensure someone at the site can \"walk us through\" or at least go to targeted locations while with us on the phone to ask questions, perhaps get pictures or videos, and really dig into details. (This step is important for our contract with U.S.DOE)', '', '', 0, 0, 0, 0, '2020-08-06 23:50:17', 1),
 (4151, 155, 0, 0, 26, 'Send the standard OSU Pre-Assessment Package to appropriate clients ', '', '', 0, 0, 0, 0, '2020-08-06 23:50:17', 1),
 (4152, 155, 0, 1, 17, '$empty', 'https://docs.google.com/document/d/1miAvxrMxVcEeQe1REf-4EH2OiDF32zTjGluq4hoZnMU/edit', 'Pre_Assessment Package Template', 0, 0, 0, 0, '2020-08-06 23:50:17', 1),
-(4255, 101, 0, 0, 11, 'Tune the boiler regularly', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4256, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4257, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4258, 101, 0, 1, 15, 'Firing rate over time', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4259, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4260, 101, 0, 0, 11, 'Install O2 Controls to maintain optimum combustion efficiency throughout the operating range', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4261, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4262, 101, 0, 0, 11, 'Clean heat exchanger surfaces and reduce the exhaust temperature', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4263, 101, 0, 1, 10, 'Stack temperature exceeds steam temperature by over 150 ˚F', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4264, 101, 0, 1, 12, 'Clean the fire side. Soot can accumulate and inhibit heat transfer.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4265, 101, 0, 1, 12, 'Clean the water side. Scale can accumulate and inhibit heat transfer is the water chemistry is off', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4266, 101, 0, 0, 11, 'Install an economizer', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4267, 101, 0, 1, 10, 'Boilers rated at 100 BoHP or higher operating at greater than 75 psig.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4268, 101, 0, 1, 13, 'Economizers can be used to preheat incoming feedwater, reducing the energy required for boiling.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4269, 101, 0, 1, 3, 'Typically increases efficiency by around 2-4%.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4270, 101, 0, 1, 3, 'For every 40°F decrease in flue gas temperature there is a 1% increase in efficiency', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4271, 101, 0, 1, 3, 'Can often reduce fuel requirements by 10%', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4272, 101, 0, 1, 8, 'Best suited for boilers with flue gasses containing sulfur or other potentially acidic elements/compounds.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4273, 101, 0, 1, 4, 'Flue gasses containing sulphur must remain above dew point. Condensation of sulphuric acid can cause corrosion and damage the system.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4274, 101, 0, 1, 2, 'Cannot recover as much energy from the boiler stack as a condensing economizer.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4275, 101, 0, 1, 14, 'Does the boiler contain potentially acidic elements/compounds such as sulfur?', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4276, 101, 0, 1, 14, 'Would a condensing economizer be a better alternative?', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4277, 101, 0, 1, 14, 'Is there adequate space for an economizer?', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4278, 101, 0, 1, 14, 'What is the greatest temperature that the flue gasses can be reduced by without causing condensation?', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4279, 101, 0, 1, 27, 'Combustion analyzer', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4280, 101, 0, 1, 15, 'Flue gas temperature', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4281, 101, 0, 1, 15, 'Fuel used', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4282, 101, 0, 1, 15, 'Operating hours', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4283, 101, 0, 1, 15, 'Water mass flowrate', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4284, 101, 0, 1, 15, 'Water temperatures', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4285, 101, 0, 1, 15, 'Steam temperature and pressure', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4286, 101, 0, 1, 15, 'Boiler efficiency', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4287, 101, 0, 1, 17, 'Department of Energy tip sheet that provides an example case study of a boiler feedwater economizer being installed, as well as general considerations.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam3_recovery.pdf', 'Use Feedwater Economizers for Waste Heat Recovery', 1, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4288, 101, 0, 0, 11, 'Install a condensing economizer', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4289, 101, 0, 1, 10, 'Boilers rate at 100 BoHP or higher operating at greater that 75 psig that do not user fuels with sulphurous products.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4290, 101, 0, 1, 3, 'Can increase efficiency by up to 10%', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4291, 101, 0, 1, 3, 'Can increase boiler efficiency to over 90%', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4292, 101, 0, 1, 1, 'Can recover more energy from the boiler stack by reducing flue gas temperature below dew point.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4293, 101, 0, 1, 2, 'Not recommended for use with fuels containing sulphur.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4294, 101, 0, 1, 2, 'The condensed water may be acidic, requiring treatment before being disharged to sewer systems.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4295, 101, 0, 1, 4, 'Fuels with sulphurous combustions can damage the boiler stack when condensing, creating sulphuric acid.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4296, 101, 0, 1, 4, 'Boiler stacks are prone to corrosion due to water condensation.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4297, 101, 0, 1, 14, 'Does the boiler\'s fuel contain potentially acidic elements/compounds such as sulfur?', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4298, 101, 0, 1, 14, 'What is the greatest temperature the flue gasses can be reduced by?', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4299, 101, 0, 1, 27, 'Combustion analyzer', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4300, 101, 0, 1, 15, 'Flue gas temperature', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4301, 101, 0, 1, 15, 'Flue gas composition', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4302, 101, 0, 1, 15, 'Fuel used', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4303, 101, 0, 1, 15, 'Operating hours', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4304, 101, 0, 1, 15, 'Water mass flowrate', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4305, 101, 0, 1, 15, 'Water temperatures', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4306, 101, 0, 1, 15, 'Steam temperature/pressure', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4307, 101, 0, 1, 15, 'Boiler efficiency', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4308, 101, 0, 1, 12, 'Complete a more in-depth study evaluating the benefits of a condensing economizer and how it may impact the water and how the boiler operates.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4309, 101, 0, 1, 12, 'Contact a vendor for more implementation details. Condensing economizers are custom made for each boiler.', '', '', 0, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4310, 101, 0, 1, 24, 'This webpage lists the epcific heats and gas constants for different gasses. This is uesd for calculating the properties of the flue gasses.', 'https://www.engineeringtoolbox.com/specific-heat-capacity-gases-d_159.html', 'Specific Heat and Individual Gas Constant of Gases', 1, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4311, 101, 0, 1, 17, 'Department of Energy tip sheet that explains how a condensing economizer works and how it saves energy, along with example scenarios', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26a_condensing.pdf', 'Consider Installing a Condensing Economizer', 1, 0, 0, 0, '2020-08-07 21:56:39', 0),
-(4312, 101, 0, 1, 17, 'Department of Energy tip sheet that explains special considerations that need to be taken into account when choosing to do projects with condensing economizers.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26b_condensing.pdf', 'Considerations When Selecting a Condensing Economizer', 1, 0, 0, 0, '2020-08-07 21:56:39', 0),
 (4402, 169, 0, 0, 4, 'Implementation is typically costly and time consuming. Relocation of departments and workstations typically requires plant downtime.', '', '', 0, 0, 0, 0, '2020-08-14 20:44:57', 0),
 (4403, 169, 0, 0, 4, 'Data for sufficient analysis is difficult to obtain without longer term studies. Variance in workflows greatly influences calculations if non-annual data is used.', '', '', 0, 0, 0, 0, '2020-08-14 20:44:57', 0),
 (4409, 170, 0, 0, 10, 'The flow of work in progress product, personnel, or inventory/materials appears non-linear or requires excessive movement.', '', '', 0, 0, 0, 0, '2020-08-14 21:06:31', 0),
-(4410, 170, 0, 0, 10, 'Inefficient layouts are most common in facilities that produce low volumes of diverse products. Layouts of high volume manufacturing facilities are typically already optimized. ', '', '', 0, 0, 0, 0, '2020-08-14 21:06:31', 0),
+(4410, 170, 0, 0, 10, 'Inefficient layouts are most common in facilities that produce low volumes of diverse products. Layouts of high volume manufacturing facilities are typically already optimized. ', '', '', 0, 0, 0, 0, '2020-08-14 21:06:31', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (4411, 171, 0, 0, 15, 'Facility layout with location and dimensions of departments.', '', '', 0, 0, 0, 0, '2020-08-14 21:08:00', 0),
 (4412, 171, 0, 0, 15, 'Directional flow of materials and personal during processing from start to end..', '', '', 0, 0, 0, 0, '2020-08-14 21:08:00', 0),
 (4413, 171, 0, 0, 15, 'How materials are transported (e.g. manual labor, forklift, conveyors).', '', '', 0, 0, 0, 0, '2020-08-14 21:08:00', 0),
@@ -1820,8 +1838,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4995, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
 (4996, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
 (4997, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
-(4998, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(4998, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
 (4999, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
 (5000, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
 (5001, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, 0, 0, 0, '2020-09-03 20:03:28', 1),
@@ -1869,7 +1886,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5506, 206, 0, 1, 26, 'You may enter an image URL. This is a web address that points to a specific image (ex: https://placekitten.com/300/200).', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5507, 206, 0, 2, 4, 'Always include \"https\" at the start of your image address and never \"http\". This ensures that the image is being sent over a secure network. A published page with HTTP images will display as \"Not Secure\" in most browsers, which will make users less confident when using our application.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5508, 206, 0, 1, 26, 'You may upload an image. Valid images have the file format JPG, PNG, or GIF. Images are not allowed to be larger than six megabytes. ', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
-(5509, 206, 0, 2, 12, 'Only upload images that you have intellectual property rights to use. This means that you should not use images that you did not create unless you have gotten express permission to use them from the creator.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
+(5509, 206, 0, 2, 12, 'Only upload images that you have intellectual property rights to use. This means that you should not use images that you did not create unless you have gotten express permission to use them from the creator.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (5510, 206, 0, 2, 7, 'If you want to use an image in multiple locations. Upload the image by submitting some content, then edit the content and you will see that the image has a URL that you can copy. You can reuse this URL anywhere on the website, this is the preferred method as it saves space on the server by only uploading the image once.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5788, 222, 0, 0, 17, 'This report details the vehicle assembly process and common energy saving opportunities associated with each step. References to case studies, implementation costs and payback periods are included. Opportunities are included for the following systems: motors, compressed air, steam, lighting, HVAC, materials handling, painting and stamping.', 'https://www.osti.gov/biblio/927881', 'Energy Efficiency Improvement and Cost Saving Opportunities for the Vehicle Assembly Industry', 1, 0, 0, 0, '2020-09-15 19:40:23', 0),
 (5812, 215, 0, 0, 13, 'The following opportunities are specific to metals manufacturing facilities. For more opportunities related to compressed air, go to the Compressed Air Technologies page. ', '', '', 0, 0, 0, 0, '2020-09-15 20:53:32', 0),
@@ -1886,10 +1904,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5836, 225, 0, 0, 26, 'Reactive Power', '', '', 0, 0, 0, 0, '2020-09-17 19:59:38', 0),
 (5837, 225, 0, 0, 26, 'City Tax', '', '', 0, 0, 0, 0, '2020-09-17 19:59:38', 0),
 (5838, 225, 0, 0, 26, 'Public Purpose Charge', '', '', 0, 0, 0, 0, '2020-09-17 19:59:38', 0),
-(5908, 95, 0, 0, 15, 'Boiler Nameplate Data: Rated Capacity', '', '', 0, 0, 0, 0, '2020-09-21 16:41:42', 0),
-(5909, 95, 0, 0, 15, 'Combustion Analysis: Excess O2, Stack Temperature, Inlet / Ambient Temperature ', '', '', 0, 0, 0, 0, '2020-09-21 16:41:42', 0),
-(5910, 95, 0, 0, 15, 'Capacity over time', '', '', 0, 0, 0, 0, '2020-09-21 16:41:42', 0),
-(5911, 95, 0, 1, 15, 'Hourly steam production', '', '', 0, 0, 0, 0, '2020-09-21 16:41:42', 0),
 (5957, 100, 0, 0, 24, 'See steam tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
 (5958, 100, 0, 0, 17, 'United Nations Industrial Development Organization Document', 'https://www.unido.org/sites/default/files/2017-11/SSO-Manual-Print-FINAL-20161109-One-Page-V2.pdf', 'Manual for Industrial Steam Systems Assessment and Optimization', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
 (5959, 100, 0, 0, 17, 'CleaverBrooks Document', 'http://cleaverbrooks.com/reference-center/insights/Boiler%20Efficiency%20Guide.pdf', 'Boiler Efficiency Guide', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
@@ -1898,23 +1912,23 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5962, 100, 0, 0, 25, 'Boiler Manufacturer', 'http://cleaverbrooks.com/', 'CleaverBrooks', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
 (5963, 100, 0, 0, 8, 'ADD A LINK TO STEAM TABLES SOMEWHERE', '', '', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
 (5964, 100, 0, 0, 24, 'Steam Table. Also contains several pages that explain steam systems and equations.', 'https://www.tlv.com/global/US/steam-theory/how-to-read-a-steam-table.html', 'TLV Steam Theory', 1, 0, 0, 0, '2020-09-21 16:58:07', 0),
-(5965, 105, 0, 0, 15, 'Condensate flow and temperature', '', '', 1, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5966, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5967, 105, 0, 0, 11, 'Recover Flash Steam', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5968, 105, 0, 1, 10, 'Steam being released into atmosphere from the boiler system', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5969, 105, 0, 1, 1, 'Payback period is usually within a year', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5970, 105, 0, 1, 1, 'Condensate does not require any chemical treatment other than condensate polishing. ', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5971, 105, 0, 2, 8, 'A condensate polisher is similar to a water softener. Polishing removes the trace amount of mineral that are dissolved in the condensate after running though the boiler. ', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5972, 105, 0, 1, 1, 'Capturing and reusing the steam can reduce hog fuel by 14.5%', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5973, 105, 0, 1, 2, 'Maintenance crews will need training to work with steam recovery systems', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5974, 105, 0, 1, 2, 'There are usually no incentives for this opportunity, because the system usually pays for itself within a year.', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5975, 105, 0, 1, 3, 'A good recovery system can collect up to 80%', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5976, 105, 0, 1, 3, 'Steam recovery is most efficient when waste heat is high and flow is continuous', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5977, 105, 0, 1, 8, 'Multiple different types of steam traps available to fit company needs: Mechanical, Thermodynamic, or Thermostatic', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5978, 105, 0, 1, 23, 'Explains how steam traps work, brief history and lists several different types of traps in detail.', 'https://www.youtube.com/watch?v=IiRyxcCBTa0', 'Let\'s Talk Steam Traps', 1, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5979, 105, 0, 1, 17, 'Contains specific information about flash steam recovery', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam12_lowpressure_steam.pdf', 'DOE Tip Sheet Flash Steam Recovery', 1, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5980, 105, 0, 1, 24, 'Contains several pages with useful calculations for steam systems. This link leads to the flash steam page.', 'https://www.tlv.com/global/US/steam-theory/introduction-to-condensate-recovery.html', 'TLV Steam Theory', 1, 0, 0, 0, '2020-09-21 17:02:20', 0),
-(5981, 105, 0, 1, 21, '$empty', 'https://oregonstate.app.box.com/file/337450150435', 'Flash Steam Recovery', 0, 0, 0, 0, '2020-09-21 17:02:20', 0),
+(5965, 105, 0, 0, 15, 'Condensate flow and temperature', '', '', 1, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5966, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5967, 105, 0, 0, 11, 'Recover Flash Steam', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5968, 105, 0, 1, 10, 'Steam being released into atmosphere from the boiler system', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5969, 105, 0, 1, 1, 'Payback period is usually within a year', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5970, 105, 0, 1, 1, 'Condensate does not require any chemical treatment other than condensate polishing. ', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5971, 105, 0, 2, 8, 'A condensate polisher is similar to a water softener. Polishing removes the trace amount of mineral that are dissolved in the condensate after running though the boiler. ', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5972, 105, 0, 1, 1, 'Capturing and reusing the steam can reduce hog fuel by 14.5%', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5973, 105, 0, 1, 2, 'Maintenance crews will need training to work with steam recovery systems', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5974, 105, 0, 1, 2, 'There are usually no incentives for this opportunity, because the system usually pays for itself within a year.', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5975, 105, 0, 1, 3, 'A good recovery system can collect up to 80%', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5976, 105, 0, 1, 3, 'Steam recovery is most efficient when waste heat is high and flow is continuous', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5977, 105, 0, 1, 8, 'Multiple different types of steam traps available to fit company needs: Mechanical, Thermodynamic, or Thermostatic', '', '', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5978, 105, 0, 1, 23, 'Explains how steam traps work, brief history and lists several different types of traps in detail.', 'https://www.youtube.com/watch?v=IiRyxcCBTa0', 'Let\'s Talk Steam Traps', 1, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5979, 105, 0, 1, 17, 'Contains specific information about flash steam recovery', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam12_lowpressure_steam.pdf', 'DOE Tip Sheet Flash Steam Recovery', 1, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5980, 105, 0, 1, 24, 'Contains several pages with useful calculations for steam systems. This link leads to the flash steam page.', 'https://www.tlv.com/global/US/steam-theory/introduction-to-condensate-recovery.html', 'TLV Steam Theory', 1, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5981, 105, 0, 1, 21, '$empty', 'https://oregonstate.app.box.com/file/337450150435', 'Flash Steam Recovery', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
 (6206, 230, 0, 0, 26, 'Base charge', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
 (6207, 230, 0, 0, 26, 'Supply rate', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
 (6208, 230, 0, 0, 26, 'Transport fees', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
@@ -2033,7 +2047,97 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6525, 223, 0, 1, 26, 'This idea can also apply to seasonal rates that change depending on the time of year.', '', '', 0, 0, 0, 0, '2020-10-16 21:38:02', 0),
 (6526, 223, 0, 1, 26, 'Consult your provided rate schedule to find these rates, if applicable.', '', '', 0, 0, 0, 0, '2020-10-16 21:38:02', 0),
 (6527, 223, 0, 0, 26, 'Reactive power is also measured  and it may be a significant contributor to energy costs (see Power Factor Correction page for more information)', '', '', 0, 0, 0, 0, '2020-10-16 21:38:02', 0),
-(6528, 223, 0, 1, 28, '$empty', 'https://walkthrough.eec.oregonstate.edu/wiki/utilities/61', 'Power Factor Correction', 0, 0, 0, 0, '2020-10-16 21:38:02', 0);
+(6528, 223, 0, 1, 28, '$empty', 'https://walkthrough.eec.oregonstate.edu/wiki/utilities/61', 'Power Factor Correction', 0, 0, 0, 0, '2020-10-16 21:38:02', 0),
+(6529, 105, 0, 0, 15, 'Condensate flow and temperature', '', '', 1, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6530, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6531, 105, 0, 0, 11, 'Recover Flash Steam', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6532, 105, 0, 1, 10, 'Steam being released into atmosphere from the boiler system', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6533, 105, 0, 1, 1, 'Payback period is usually within a year', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6534, 105, 0, 1, 1, 'Condensate does not require any chemical treatment other than condensate polishing. ', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6535, 105, 0, 2, 8, 'A condensate polisher is similar to a water softener. Polishing removes the trace amount of mineral that are dissolved in the condensate after running though the boiler. ', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6536, 105, 0, 1, 1, 'Capturing and reusing the steam can reduce hog fuel by 14.5%', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6537, 105, 0, 1, 2, 'Maintenance crews will need training to work with steam recovery systems', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6538, 105, 0, 1, 2, 'There are usually no incentives for this opportunity, because the system usually pays for itself within a year.', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6539, 105, 0, 1, 3, 'A good recovery system can collect up to 80%', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6540, 105, 0, 1, 3, 'Steam recovery is most efficient when waste heat is high and flow is continuous', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6541, 105, 0, 1, 8, 'Multiple different types of steam traps available to fit company needs: Mechanical, Thermodynamic, or Thermostatic', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6542, 105, 0, 1, 23, 'Explains how steam traps work, brief history and lists several different types of traps in detail.', 'https://www.youtube.com/watch?v=IiRyxcCBTa0', 'Let\'s Talk Steam Traps', 1, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6543, 105, 0, 1, 17, 'Contains specific information about flash steam recovery', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam12_lowpressure_steam.pdf', 'DOE Tip Sheet Flash Steam Recovery', 1, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6544, 105, 0, 1, 24, 'Contains several pages with useful calculations for steam systems. This link leads to the flash steam page.', 'https://www.tlv.com/global/US/steam-theory/introduction-to-condensate-recovery.html', 'TLV Steam Theory', 1, 0, 0, 0, '2020-10-29 21:51:42', 0),
+(6545, 105, 0, 1, 21, '$empty', 'https://oregonstate.app.box.com/file/337450150435', 'Flash Steam Recovery', 0, 1, 0, 0, '2020-10-29 21:51:42', 0),
+(6546, 101, 0, 0, 11, 'Tune the boiler regularly', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6547, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6548, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6549, 101, 0, 1, 15, 'Firing rate over time', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6550, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6551, 101, 0, 0, 11, 'Install O2 Controls to maintain optimum combustion efficiency throughout the operating range', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6552, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6553, 101, 0, 0, 11, 'Clean heat exchanger surfaces and reduce the exhaust temperature', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6554, 101, 0, 1, 10, 'Stack temperature exceeds steam temperature by over 150 ˚F', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6555, 101, 0, 1, 12, 'Clean the fire side. Soot can accumulate and inhibit heat transfer.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6556, 101, 0, 1, 12, 'Clean the water side. Scale can accumulate and inhibit heat transfer is the water chemistry is off', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6557, 101, 0, 0, 11, 'Install an economizer', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6558, 101, 0, 1, 10, 'Boilers rated at 100 BoHP or higher operating at greater than 75 psig.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6559, 101, 0, 1, 13, 'Economizers can be used to preheat incoming feedwater, reducing the energy required for boiling.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6560, 101, 0, 1, 3, 'Typically increases efficiency by around 2-4%.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6561, 101, 0, 1, 3, 'For every 40°F decrease in flue gas temperature there is a 1% increase in efficiency', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6562, 101, 0, 1, 3, 'Can often reduce fuel requirements by 10%', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6563, 101, 0, 1, 8, 'Best suited for boilers with flue gasses containing sulfur or other potentially acidic elements/compounds.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6564, 101, 0, 1, 4, 'Flue gasses containing sulphur must remain above dew point. Condensation of sulphuric acid can cause corrosion and damage the system.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6565, 101, 0, 1, 2, 'Cannot recover as much energy from the boiler stack as a condensing economizer.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6566, 101, 0, 1, 14, 'Does the boiler contain potentially acidic elements/compounds such as sulfur?', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6567, 101, 0, 1, 14, 'Would a condensing economizer be a better alternative?', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6568, 101, 0, 1, 14, 'Is there adequate space for an economizer?', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6569, 101, 0, 1, 14, 'What is the greatest temperature that the flue gasses can be reduced by without causing condensation?', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6570, 101, 0, 1, 27, 'Combustion analyzer', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6571, 101, 0, 1, 15, 'Flue gas temperature', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6572, 101, 0, 1, 15, 'Fuel used', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6573, 101, 0, 1, 15, 'Operating hours', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6574, 101, 0, 1, 15, 'Water mass flowrate', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6575, 101, 0, 1, 15, 'Water temperatures', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6576, 101, 0, 1, 15, 'Steam temperature and pressure', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6577, 101, 0, 1, 15, 'Boiler efficiency', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6578, 101, 0, 1, 17, 'Department of Energy tip sheet that provides an example case study of a boiler feedwater economizer being installed, as well as general considerations.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam3_recovery.pdf', 'Use Feedwater Economizers for Waste Heat Recovery', 1, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6579, 101, 0, 0, 11, 'Install a condensing economizer', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6580, 101, 0, 1, 10, 'Boilers rate at 100 BoHP or higher operating at greater that 75 psig that do not user fuels with sulphurous products.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6581, 101, 0, 1, 3, 'Can increase efficiency by up to 10%', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6582, 101, 0, 1, 3, 'Can increase boiler efficiency to over 90%', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6583, 101, 0, 1, 1, 'Can recover more energy from the boiler stack by reducing flue gas temperature below dew point.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6584, 101, 0, 1, 2, 'Not recommended for use with fuels containing sulphur.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6585, 101, 0, 1, 2, 'The condensed water may be acidic, requiring treatment before being disharged to sewer systems.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6586, 101, 0, 1, 4, 'Fuels with sulphurous combustions can damage the boiler stack when condensing, creating sulphuric acid.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6587, 101, 0, 1, 4, 'Boiler stacks are prone to corrosion due to water condensation.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6588, 101, 0, 1, 14, 'Does the boiler\'s fuel contain potentially acidic elements/compounds such as sulfur?', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6589, 101, 0, 1, 14, 'What is the greatest temperature the flue gasses can be reduced by?', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6590, 101, 0, 1, 27, 'Combustion analyzer', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6591, 101, 0, 1, 15, 'Flue gas temperature', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6592, 101, 0, 1, 15, 'Flue gas composition', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6593, 101, 0, 1, 15, 'Fuel used', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6594, 101, 0, 1, 15, 'Operating hours', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6595, 101, 0, 1, 15, 'Water mass flowrate', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6596, 101, 0, 1, 15, 'Water temperatures', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6597, 101, 0, 1, 15, 'Steam temperature/pressure', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6598, 101, 0, 1, 15, 'Boiler efficiency', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
+(6599, 101, 0, 1, 12, 'Complete a more in-depth study evaluating the benefits of a condensing economizer and how it may impact the water and how the boiler operates.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6600, 101, 0, 1, 12, 'Contact a vendor for more implementation details. Condensing economizers are custom made for each boiler.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6601, 101, 0, 1, 24, 'This webpage lists the epcific heats and gas constants for different gasses. This is uesd for calculating the properties of the flue gasses.', 'https://www.engineeringtoolbox.com/specific-heat-capacity-gases-d_159.html', 'Specific Heat and Individual Gas Constant of Gases', 1, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6602, 101, 0, 1, 17, 'Department of Energy tip sheet that explains how a condensing economizer works and how it saves energy, along with example scenarios', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26a_condensing.pdf', 'Consider Installing a Condensing Economizer', 1, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6603, 101, 0, 1, 17, 'Department of Energy tip sheet that explains special considerations that need to be taken into account when choosing to do projects with condensing economizers.', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam26b_condensing.pdf', 'Considerations When Selecting a Condensing Economizer', 1, 0, 0, 0, '2020-10-29 21:53:26', 1),
+(6623, 95, 0, 0, 15, 'Boiler Nameplate Data', '', '', 0, 0, 0, 0, '2020-10-29 22:04:51', 1),
+(6624, 95, 0, 1, 26, ' Rated Capacity (Steam Production, Maximum Fuel Input)', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51', 1),
+(6625, 95, 0, 1, 26, 'Fan Horsepower', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51', 1),
+(6626, 95, 0, 1, 26, 'Make, Model, Serial Number', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51', 1),
+(6627, 95, 0, 0, 15, 'Combustion Analysis: ', '', '', 0, 0, 0, 0, '2020-10-29 22:04:51', 1),
+(6628, 95, 0, 1, 26, 'Stack Temperature', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51', 1),
+(6629, 95, 0, 1, 26, 'Excess O2', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51', 1),
+(6630, 95, 0, 1, 26, ' Inlet / Ambient Temperature ', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51', 1),
+(6631, 95, 0, 0, 15, 'Capacity over time', '', '', 0, 0, 0, 0, '2020-10-29 22:04:51', 1),
+(6632, 95, 0, 1, 26, 'Hourly steam production', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51', 1),
+(6633, 95, 0, 1, 26, 'Hourly energy use', '', '', 0, 0, 1, 0, '2020-10-29 22:04:51', 1),
+(6634, 95, 0, 1, 8, 'Sometimes capacity must be inferred from fan energy, and characteristic fan energy curves', '', '', 0, 0, 0, 0, '2020-10-29 22:04:51', 1),
+(6635, 96, 0, 0, 27, 'Combustion Analyzer ', '', '', 0, 0, 1, 0, '2020-10-29 22:08:04', 1),
+(6636, 96, 0, 0, 27, 'Digital or Infrared Thermometer', '', '', 0, 0, 1, 0, '2020-10-29 22:08:04', 1),
+(6637, 96, 0, 0, 8, 'An IR camera can help identify hot spots to insulate', '', '', 0, 0, 0, 0, '2020-10-29 22:08:04', 1);
 
 -- --------------------------------------------------------
 
@@ -2244,7 +2348,8 @@ CREATE TABLE `Sponsors` (
 --
 
 INSERT INTO `Sponsors` (`sponsorId`, `name`, `title`, `websiteUrl`, `imageUrl`, `orderIndex`) VALUES
-(2, 'Industrial Assessment Center', 'U.S. Department of Energy, Office of Energy Efficiency & Renewable Energy, Advanced Manufacturing Office, Industrial Assessment Centers', 'https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs', '/uploads/user_42/8936b3254b55ec513b042662758f9a68.png', 0);
+(9, 'Industrial Assessment Center', 'U.S. Department of Energy, Office of Energy Efficiency & Renewable Energy, Advanced Manufacturing Office, Industrial Assessment Centers', 'https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs', '/uploads/user_42/8936b3254b55ec513b042662758f9a68.png', 0),
+(10, 'Bonneville Power Administration Energy Efficiency Industrial Sector', 'Bonneville Power Administration Energy Efficiency Industrial Sector', 'https://www.bpa.gov/EE/Sectors/Industrial/Pages/default.aspx  ', '/uploads/user_51/dcf767f2b3dee899ff1a8a33502a271f.png', 1);
 
 -- --------------------------------------------------------
 
@@ -2267,10 +2372,8 @@ CREATE TABLE `Temp_Cards` (
 
 INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
 (9, 0, 'Pros', 3, 58, '2020-09-03 23:15:22'),
-(95, 0, 'Standard Data to Collect', 95, 61, '2020-09-21 16:41:42'),
 (100, 0, 'Off Site Resource Links', 100, 61, '2020-07-03 17:55:16'),
-(101, 0, 'Improve Boiler Combustion Efficiency', 101, 57, '2020-07-03 17:28:05'),
-(105, 0, 'Improve the Condensate System', 105, 61, '2020-07-10 18:54:00'),
+(105, 0, 'Improve the Condensate System', 105, 51, '2020-10-29 21:51:42'),
 (106, 0, 'Reduce Heat Loss', 106, 51, '2020-07-03 17:31:09'),
 (120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52');
 
@@ -2583,7 +2686,7 @@ ALTER TABLE `Headers`
 -- AUTO_INCREMENT for table `History_Cards`
 --
 ALTER TABLE `History_Cards`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `History_Headers`
@@ -2595,7 +2698,7 @@ ALTER TABLE `History_Headers`
 -- AUTO_INCREMENT for table `History_Items`
 --
 ALTER TABLE `History_Items`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=750;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=840;
 
 --
 -- AUTO_INCREMENT for table `History_Pages`
@@ -2613,13 +2716,13 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6529;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6638;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
 --
 ALTER TABLE `Notifications`
-  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -2637,19 +2740,19 @@ ALTER TABLE `Quick_Titles`
 -- AUTO_INCREMENT for table `Requests`
 --
 ALTER TABLE `Requests`
-  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `Request_Comments`
 --
 ALTER TABLE `Request_Comments`
-  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `Request_Objects`
 --
 ALTER TABLE `Request_Objects`
-  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `Sources`
@@ -2661,7 +2764,7 @@ ALTER TABLE `Sources`
 -- AUTO_INCREMENT for table `Sponsors`
 --
 ALTER TABLE `Sponsors`
-  MODIFY `sponsorId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `sponsorId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `Users`
