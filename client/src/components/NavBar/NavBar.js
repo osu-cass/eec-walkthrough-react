@@ -93,6 +93,7 @@ function NavBar (props) {
     }
 
     setTabWidths(widthArray);
+    console.log(visibleArray)
     setVisibleTabs(visibleArray);
   }
 
@@ -230,7 +231,7 @@ function NavBar (props) {
       )}
 
       {/* Button for creating new categories or more button */}
-      {props.role >= 4 ? (
+      {role >= 4 ? (
 
         <Fragment>
           {/* Admins care about the location of the create category tab */}
@@ -274,6 +275,5 @@ function NavBar (props) {
 export default NavBar;
 
 NavBar.propTypes = {
-  role: PropTypes.number,
   loginStatusChange: PropTypes.bool
 };
