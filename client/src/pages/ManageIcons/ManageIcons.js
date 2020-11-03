@@ -85,7 +85,7 @@ function ManageIcons() {
   }
 
   return (
-    <div className="container icon-page-container mb-5">
+    <div className="container icon-page-container my-5">
 
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">

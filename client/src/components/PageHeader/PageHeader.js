@@ -56,7 +56,7 @@ function PageHeader (props) {
               &#124;
             </h4>
             <h4 className="nav-header-title large-org">
-              Industrial Walkthrough Checklist &amp; Reference (Demo)
+              Industrial Walkthrough Checklist &amp; Guide (Demo)
             </h4>
 
             {/* Medium Header */}
@@ -67,7 +67,7 @@ function PageHeader (props) {
               &#124;
             </h4>
             <h4 className="nav-header-title med-org">
-              Industrial Walkthrough Checklist &amp; Reference
+              Industrial Walkthrough Checklist &amp; Guide
             </h4>
 
             {/* Small Header */}
@@ -76,7 +76,7 @@ function PageHeader (props) {
               Energy Efficiency Center
               </h4>
               <h4 className="nav-header-title-bottom small-org">
-                Industrial Walkthrough Checklist &amp; Reference
+                Industrial Walkthrough Checklist &amp; Guide
               </h4>
             </div>
           </div>

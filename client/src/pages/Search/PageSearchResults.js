@@ -11,7 +11,7 @@ function PageSearchResults(props) {
 
   if (props.pages.length) {
     return (
-      <div className="content-container mb-5">
+      <div className="content-container my-5">
         <div className="prompt-container bg-white card rounded shadow-sm">
           <div className="page-search-inner-container m-5">
             {props.pages.map((page) =>
@@ -50,7 +50,7 @@ function PageSearchResults(props) {
     );
   } else {
     return (
-      <div className="content-container mb-5">
+      <div className="content-container my-5">
         <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
           <h3 className="py-5 font-weight-bold">No results found for &quot;{props.searchText}&quot;.</h3>
         </div>

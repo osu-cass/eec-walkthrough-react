@@ -6,7 +6,7 @@ import {API_URL} from "../../utilities/constants";
 import validator from "validator";
 import "./RegisterUser.css";
 
-// user registration page
+// User registration page
 function RegisterUser () {
 
   const [loading, setLoading] = useState(false);
@@ -137,7 +137,7 @@ function RegisterUser () {
 
       <LoadingOverlay loading={loading} />
 
-      <div className="d-flex header-bar justify-content-between mt-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
+      <div className="d-flex header-bar justify-content-between mt-5 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
           <h4 className="flex-grow-1 font-weight-bold">
             Register User

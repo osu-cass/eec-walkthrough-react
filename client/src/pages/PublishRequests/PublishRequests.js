@@ -132,7 +132,7 @@ function PublishRequests() {
   }
 
   return (
-    <div className="container request-page-container mb-5">
+    <div className="container request-page-container my-5">
 
       <LoadingOverlay loading={loading} />
 

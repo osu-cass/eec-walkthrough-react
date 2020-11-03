@@ -189,7 +189,7 @@ function ManageCardTitles() {
   }
 
   return (
-    <div className="container card-title-page-container">
+    <div className="container card-title-page-container my-5">
 
       <LoadingOverlay loading={loading} />
 

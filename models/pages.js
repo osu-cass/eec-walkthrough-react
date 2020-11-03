@@ -397,7 +397,7 @@ exports.updatePage = updatePage;
 async function recentPages() {
   try {
 
-    const RESULTS_PER_PAGE = 4;
+    const RESULTS_PER_PAGE = 3;
 
     const sql = "SELECT * " +
     "FROM Pages " +

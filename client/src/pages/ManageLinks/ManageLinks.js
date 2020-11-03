@@ -155,7 +155,7 @@ function ManageLinks() {
   }
 
   return (
-    <div className="container link-page-container text-center">
+    <div className="container link-page-container text-center my-5">
 
       <LoadingOverlay loading={loading} />
 
