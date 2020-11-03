@@ -1,0 +1,9 @@
+.sponsor-img {
+  box-shadow: 5px 5px 5px rgba(0,0,0,0.1);
+  transition: 0.5s ease;
+}
+
+.sponsor-img:hover {
+  transform: scale(1.15);
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+}
