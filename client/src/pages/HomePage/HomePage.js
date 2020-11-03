@@ -1,7 +1,6 @@
 import React, {useEffect, useState, Fragment} from "react";
-import {Card, Col} from "react-bootstrap";
-import {NavLink} from "react-router-dom";
 import PageCard from "./PageCard";
+import Sponsor from "./Sponsor";
 import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {API_URL} from "../../utilities/constants";
@@ -179,9 +178,42 @@ function HomePage(props) {
         </div>
       </div>
 
-      {/* Our Sponsors */}
+      {/* Text row */}
+      <div className="text-box-row row">
+        {/* Our Sponsors */}
+        <div className="home-content-block home-on col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+          <div className="home-inner-block">
+            <h2>
+              Sponsors
+            </h2>
+            {sponsors.map((sponsor) =>
+              <Sponsor
+                key={sponsor.sponsorId}
+                name={sponsor.name}
+                imageUrl={sponsor.imageUrl}
+                websiteUrl={sponsor.websiteUrl}
+              />
+            )}
+          </div>
+        </div>
 
-      {/* Content Contributors */}
+        {/* Content Contributors */}
+        <div className="home-content-block home-off col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+          <div className="home-inner-block">
+            <h2>
+              News
+            </h2>
+            <span>
+            Aenean sodales at sem feugiat dignissim. Aliquam commodo ex vel lectus condimentum egestas.
+            Donec eget erat eu felis malesuada sagittis. Etiam ac leo ornare, molestie sem ac, ullamcorper justo.
+            Vivamus ac accumsan eros, vitae dapibus erat. Cras suscipit neque ut ipsum aliquam, sed vestibulum nisl auctor.
+            </span>
+            <div className="mt-4">
+              <i className="fas fa-fw fa-newspaper fa-3x" />
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* OSU EEC */}
 
