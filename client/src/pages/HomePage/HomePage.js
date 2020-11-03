@@ -1,16 +1,15 @@
 import React, {useEffect, useState, Fragment} from "react";
 import {Card, Col} from "react-bootstrap";
 import {NavLink} from "react-router-dom";
-import ManageSponsors from "./ManageSponsors";
+import PageCard from "./PageCard";
 import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {API_URL} from "../../utilities/constants";
 import "./HomePage.css";
 
 // Main application home page
-function Home(props) {
+function HomePage(props) {
 
-  const [pageChange, setPageChange] = useState(false);
   const [loading, setLoading] = useState(false);
   const [sponsors, setSponsors] = useState([]);
   const [updated, setUpdated] = useState([]);
@@ -28,7 +27,7 @@ function Home(props) {
         setLoading(true);
 
         // Fetch all recently updated pages
-        let results = await fetch(`${API_URL}/pages/updates`, {
+        let results = await fetch(`${API_URL}/pages/updated`, {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
@@ -44,6 +43,7 @@ function Home(props) {
 
           const obj = await results.json();
           setUpdated(obj.pages);
+          console.log(obj.pages);
 
         } else {
           console.error("Error fetching home page info");
@@ -98,7 +98,7 @@ function Home(props) {
       ignore = true;
       controller.abort();
     };
-  }, [props.loginStatusChange, pageChange]);
+  }, [props.loginStatusChange]);
 
   return (
     <Fragment>
@@ -119,19 +119,23 @@ function Home(props) {
         <div className="banner-footer" />
       </div>
 
-      {/* First text block */}
-      <div className="row">
+      {/* Text row */}
+      <div className="text-box-row row">
+        {/* First text block */}
         <div className="home-content-block home-on col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
           <div className="home-inner-block">
             <h2>
               Our Goal
             </h2>
             <span>
-              Morbi maximus dui sed malesuada euismod.
-              Praesent quis efficitur est. Integer placerat tempor eros quis pulvinar.
-              In ut tellus dui.
-              Praesent vitae eros pellentesque risus cursus eleifend sed vel leo.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Sed vel lacus libero. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            Quisque placerat lobortis nisl, eget volutpat nisl volutpat at. Mauris sit amet sem at magna scelerisque blandit.
+            Curabitur odio. Vivamus lacinia sit amet sapien sed posuere. Maecenas vel imperdiet erat.
             </span>
+            <div className="mt-4">
+              <i className="fas fa-fw fa-trophy fa-3x" />
+            </div>
           </div>
         </div>
 
@@ -142,16 +146,38 @@ function Home(props) {
               News
             </h2>
             <span>
-              Morbi maximus dui sed malesuada euismod.
-              Praesent quis efficitur est. Integer placerat tempor eros quis pulvinar.
-              In ut tellus dui.
-              Praesent vitae eros pellentesque risus cursus eleifend sed vel leo.
+            Aenean sodales at sem feugiat dignissim. Aliquam commodo ex vel lectus condimentum egestas.
+            Donec eget erat eu felis malesuada sagittis. Etiam ac leo ornare, molestie sem ac, ullamcorper justo.
+            Vivamus ac accumsan eros, vitae dapibus erat. Cras suscipit neque ut ipsum aliquam, sed vestibulum nisl auctor.
             </span>
+            <div className="mt-4">
+              <i className="fas fa-fw fa-newspaper fa-3x" />
+            </div>
           </div>
         </div>
       </div>
 
       {/* Recently updated pages */}
+      <div className="home-page-list text-center px-4">
+        <h2 className="light-home-text">
+          Recently Updated
+        </h2>
+        <div className="page-card-row row justify-content-center">
+
+          {/* Use individual cards for each page */}
+          {updated.map((page) =>
+            <PageCard
+              key={page.pageId}
+              imageUrl={page.imageUrl}
+              name={page.name}
+              description={page.description}
+              updated={page.created}
+              pageId={page.pageId}
+            />
+          )}
+
+        </div>
+      </div>
 
       {/* Our Sponsors */}
 
@@ -161,34 +187,11 @@ function Home(props) {
 
       {/* Disclaimer */}
 
-
-      <div className="container home-page-container">
-
-
-
-        {/*
-        <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
-          <div className="row mx-2">
-            <div className="col px-0">
-              <h2 className="font-weight-bold">{page.mainHeader}</h2>
-            </div>
-          </div>
-          <div className="row">
-            <ManageSponsors
-              handlePageEdit={() => setPageChange(!pageChange)}
-              loginStatusChange={props.loginStatusChange}
-              sponsors={sponsors}
-            />
-          </div>
-        </div>
-        */}
-
-      </div>
     </Fragment>
   );
 }
-export default Home;
+export default HomePage;
 
-Home.propTypes = {
+HomePage.propTypes = {
   loginStatusChange: PropTypes.bool
 };
