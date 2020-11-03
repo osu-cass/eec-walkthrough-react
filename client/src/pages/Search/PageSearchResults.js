@@ -14,6 +14,7 @@ function PageSearchResults(props) {
       <div className="content-container my-5">
         <div className="prompt-container bg-white card rounded shadow-sm">
           <div className="page-search-inner-container m-5">
+            <h3 id="title" className="py-4 font-weight-bold">Search Results</h3>
             {props.pages.map((page) =>
               <div className="page-info-container card m-5" key={page.pageId}>
                 <div className="img-result-thumb text-left my-2">
