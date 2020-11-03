@@ -106,7 +106,7 @@ function NavBar (props) {
   }
 
   return (
-    <div className="nav-bar-main mb-5 px-4 d-print-none">
+    <div className="nav-bar-main px-4 d-print-none">
 
       {/* Button that links to homepage */}
       <a href="/">
