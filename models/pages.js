@@ -398,7 +398,7 @@ async function recentPages(viewAll) {
   try {
 
     let sql;
-    const RESULTS_PER_PAGE = 25;
+    const RESULTS_PER_PAGE = 4;
 
     // get the pages
     if (viewAll) {
@@ -408,7 +408,7 @@ async function recentPages(viewAll) {
     } else {
       sql = "SELECT * " +
       "FROM Pages " +
-      "WHERE approved = 1 " +
+      "WHERE approved = 1 AND internal = 0 " +
       "ORDER BY created DESC LIMIT ?;";
     }
     let results = await pool.query(sql, RESULTS_PER_PAGE);

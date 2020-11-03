@@ -66,7 +66,7 @@ app.get("/:pageId/all", getUserID, getPageVal.validation, async (req, res) => {
 
 });
 
-// get a list of the 25 most recently updated pages
+// get a list of the most recently updated pages
 app.get("/updated", getUserID, async (req, res) => {
 
   try {

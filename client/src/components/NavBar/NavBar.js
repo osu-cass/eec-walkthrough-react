@@ -93,7 +93,6 @@ function NavBar (props) {
     }
 
     setTabWidths(widthArray);
-    console.log(visibleArray)
     setVisibleTabs(visibleArray);
   }
 
