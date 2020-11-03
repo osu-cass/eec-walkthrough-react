@@ -67,22 +67,14 @@ app.get("/:pageId/all", getUserID, getPageVal.validation, async (req, res) => {
 });
 
 // get a list of the most recently updated pages
-app.get("/updated", getUserID, async (req, res) => {
+app.get("/updated", async (req, res) => {
 
   try {
 
     console.log("Get the most recently updated pages");
 
-    const userId = req.auth.userId;
-
-    // check if the current user should be able to view this content
-    let viewAll = false;
-    if (await roleCheck(2, req.auth.userId)) {
-      viewAll = true;
-    }
-
     // get recent pages
-    const results = await recentPages(viewAll);
+    const results = await recentPages();
 
     if (results.pages.length) {
       res.status(200).send(results);
