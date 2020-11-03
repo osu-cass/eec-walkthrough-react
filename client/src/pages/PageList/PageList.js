@@ -97,7 +97,7 @@ function PageList() {
 
   if (pageLinks.length) {
     return (
-      <div className="container">
+      <div className="container my-5">
         <LoadingOverlay loading={loading} />
         <div className="content-container mb-5">
           <div className="prompt-container bg-white card rounded shadow-sm">

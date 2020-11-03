@@ -3,7 +3,8 @@ import PageCard from "./PageCard";
 import Sponsor from "./Sponsor";
 import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
-import {API_URL} from "../../utilities/constants";
+import {NavLink} from "react-router-dom";
+import {API_URL, EEC_HOMEPAGE} from "../../utilities/constants";
 import "./HomePage.css";
 
 // Main application home page
@@ -12,6 +13,7 @@ function HomePage(props) {
   const [loading, setLoading] = useState(false);
   const [sponsors, setSponsors] = useState([]);
   const [updated, setUpdated] = useState([]);
+  const currentYear = new Date().getFullYear();
 
   // fetch homepage data based on the users role
   // more information is shown to internal users
@@ -118,7 +120,7 @@ function HomePage(props) {
         <div className="banner-footer" />
       </div>
 
-      {/* Text row */}
+      {/* Text Row */}
       <div className="text-box-row row">
         {/* First text block */}
         <div className="home-content-block home-on col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -178,7 +180,7 @@ function HomePage(props) {
         </div>
       </div>
 
-      {/* Text row */}
+      {/* Text Row */}
       <div className="text-box-row row">
         {/* Our Sponsors */}
         <div className="home-content-block home-on col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -201,7 +203,7 @@ function HomePage(props) {
         <div className="home-content-block home-off col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
           <div className="home-inner-block">
             <h2>
-              News
+              Contributors
             </h2>
             <span>
             Aenean sodales at sem feugiat dignissim. Aliquam commodo ex vel lectus condimentum egestas.
@@ -215,9 +217,25 @@ function HomePage(props) {
         </div>
       </div>
 
-      {/* OSU EEC */}
+      {/* Home Page Footer */}
+      <div className="home-footer py-2 px-2">
+        <div className="home-footer-div mr-5">
+          <NavLink className="home-footer-nav-link" to={`/wiki/instructions/64`}>
+            How to use this guide
+          </NavLink>
+        </div>
 
-      {/* Disclaimer */}
+        <div className="home-footer-div">
+          <a href={EEC_HOMEPAGE}>OSU EEC Homepage</a>
+        </div>
+
+        <div className="home-footer-div pull-right">
+          {`Copyright ${currentYear} | `}
+          <NavLink className="home-footer-nav-link" to={`/disclaimer`}>
+          Disclaimer
+          </NavLink>
+        </div>
+      </div>
 
     </Fragment>
   );

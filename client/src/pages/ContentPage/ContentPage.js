@@ -761,7 +761,7 @@ function ContentPage(props) {
     return loading ? (
       <LoadingOverlay loading={true} />
     ) : (
-      <Container className="my-4" id="content-page">
+      <Container className="my-5" id="content-page">
 
         {/* This is the top header and card that describes the page */}
         <PageDescription

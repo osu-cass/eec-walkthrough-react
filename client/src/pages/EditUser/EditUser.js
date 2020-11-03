@@ -249,7 +249,7 @@ function EditUser(props) {
 
   if (activeUser) {
     return (
-      <div className="container">
+      <div className="container mt-5">
 
         <LoadingOverlay loading={loading} />
 
