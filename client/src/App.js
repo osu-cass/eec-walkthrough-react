@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import ContentPage from "./pages/ContentPage/ContentPage";
+import Home from "./pages/Home/Home";
 import HomePage from "./pages/HomePage/HomePage";
 import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import ManageIcons from "./pages/ManageIcons/ManageIcons";
@@ -124,8 +125,12 @@ function App() {
           <Error500 />
         </Route>
 
-        <Route exact path="/">
+        <Route path="/demo">
           <HomePage loginStatusChange={loginStatusChange} />
+        </Route>
+
+        <Route exact path="/">
+          <Home loginStatusChange={loginStatusChange} />
         </Route>
 
         <Route path="*">
