@@ -155,7 +155,7 @@ function Home(props) {
   }, [props.loginStatusChange, pageChange]);
 
   return (
-    <div className="container home-page-container">
+    <div className="container home-page-container my-5">
 
       <LoadingOverlay loading={loading} />
 
