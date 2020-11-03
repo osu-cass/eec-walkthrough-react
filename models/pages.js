@@ -394,23 +394,15 @@ exports.updatePage = updatePage;
 
 
 // gets the most recently updated pages
-async function recentPages(viewAll) {
+async function recentPages() {
   try {
 
-    let sql;
     const RESULTS_PER_PAGE = 4;
 
-    // get the pages
-    if (viewAll) {
-      sql = "SELECT * " +
-      "FROM Pages " +
-      "ORDER BY created DESC LIMIT ?;";
-    } else {
-      sql = "SELECT * " +
-      "FROM Pages " +
-      "WHERE approved = 1 AND internal = 0 " +
-      "ORDER BY created DESC LIMIT ?;";
-    }
+    const sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE approved = 1 AND internal = 0 " +
+    "ORDER BY created DESC LIMIT ?;";
     let results = await pool.query(sql, RESULTS_PER_PAGE);
 
     return {
