@@ -571,7 +571,8 @@ async function publishPage(pageId) {
     } else {
 
       sql = "UPDATE Pages " +
-      "SET approved = 1 " +
+      "SET approved = 1, " +
+      "created = CURRENT_TIMESTAMP " +
       "WHERE pageId = ?;";
 
       // make sure no other pages share the same name
