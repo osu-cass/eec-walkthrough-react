@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import "./Sponsor.css";
 
@@ -6,12 +6,11 @@ import "./Sponsor.css";
 function Sponsor(props) {
 
   return (
-      <div className="sponsor-container mx-2 my-5">
+      <div className="sponsor-container mx-2 my-2">
         <a href={props.websiteUrl}>
           <img
             src={props.imageUrl}
             alt={props.name}
-            title={props.name}
             className="sponsor-img img-fluid img-thumbnail px-3 py-3"
           />
         </a>

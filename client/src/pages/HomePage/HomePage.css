@@ -82,6 +82,12 @@ body {
   width: 70%;
 }
 
+.home-expanded-inner-block {
+  margin: auto;
+  padding: 5em 2em 5em 2em;
+  width: 90%;
+}
+
 .home-page-list {
   padding-top: 3em;
   padding-bottom: 5em;
@@ -124,4 +130,14 @@ body {
 
 .home-footer-div {
   display: inline-block;
+}
+
+.contributors-all {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .contributors-all {
+    text-align: center !important;
+  }
 }

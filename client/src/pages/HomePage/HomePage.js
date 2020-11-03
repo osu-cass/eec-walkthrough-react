@@ -1,6 +1,7 @@
 import React, {useEffect, useState, Fragment} from "react";
 import PageCard from "./PageCard";
 import Sponsor from "./Sponsor";
+import Contributor from "./Contributor";
 import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {NavLink} from "react-router-dom";
@@ -12,6 +13,27 @@ function HomePage(props) {
 
   const [loading, setLoading] = useState(false);
   const [sponsors, setSponsors] = useState([]);
+  const [contributors] = useState([
+    {
+      contributorId: 1,
+      imageUrl: "/test1.jpg",
+      name: "John Doe",
+      description: "Director, Energy Efficiency Center\n\nDirector, Industrial Assessment Center"
+    },
+    {
+      contributorId: 2,
+      imageUrl: "/test2.jpg",
+      name: "Jane Doe",
+      description: "Assistant Director, Industrial Assessment Center\n\nAssociate Professor of Industrial and Manufacturing Engineering"
+    },
+    {
+      contributorId: 3,
+      imageUrl: "/test3.jpg",
+      name: "Alden Cantrell",
+      description: "Operations Manager, Energy Efficiency Center\n\nFormer Energy Analyst, Energy Efficiency Center\n\n" +
+      "Mechanical Engineering Bachelors Student, Class of 2019\n\nMechanical Engineering Masters Student\n\nExpected graduation date: Spring 2021"
+    }
+  ]);
   const [updated, setUpdated] = useState([]);
   const currentYear = new Date().getFullYear();
 
@@ -44,7 +66,6 @@ function HomePage(props) {
 
           const obj = await results.json();
           setUpdated(obj.pages);
-          console.log(obj.pages);
 
         } else {
           console.error("Error fetching home page info");
@@ -184,34 +205,42 @@ function HomePage(props) {
       <div className="text-box-row row">
         {/* Our Sponsors */}
         <div className="home-content-block home-on col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-          <div className="home-inner-block">
+          <div className="home-expanded-inner-block">
             <h2>
               Sponsors
             </h2>
-            {sponsors.map((sponsor) =>
-              <Sponsor
-                key={sponsor.sponsorId}
-                name={sponsor.name}
-                imageUrl={sponsor.imageUrl}
-                websiteUrl={sponsor.websiteUrl}
-              />
-            )}
+
+            <div className="my-5">
+              {sponsors.map((sponsor) =>
+                <Sponsor
+                  key={sponsor.sponsorId}
+                  name={sponsor.name}
+                  imageUrl={sponsor.imageUrl}
+                  websiteUrl={sponsor.websiteUrl}
+                />
+              )}
+            </div>
           </div>
         </div>
 
         {/* Content Contributors */}
         <div className="home-content-block home-off col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-          <div className="home-inner-block">
+          <div className="home-expanded-inner-block">
             <h2>
               Contributors
             </h2>
-            <span>
-            Aenean sodales at sem feugiat dignissim. Aliquam commodo ex vel lectus condimentum egestas.
-            Donec eget erat eu felis malesuada sagittis. Etiam ac leo ornare, molestie sem ac, ullamcorper justo.
-            Vivamus ac accumsan eros, vitae dapibus erat. Cras suscipit neque ut ipsum aliquam, sed vestibulum nisl auctor.
-            </span>
-            <div className="mt-4">
-              <i className="fas fa-fw fa-newspaper fa-3x" />
+
+            <div className="contributors-all my-5">
+
+                {contributors.map((contributor) =>
+                  <Contributor
+                    key={contributor.contributorId}
+                    name={contributor.name}
+                    imageUrl={contributor.imageUrl}
+                    description={contributor.description}
+                  />
+                )}
+
             </div>
           </div>
         </div>
