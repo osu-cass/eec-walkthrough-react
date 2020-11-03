@@ -438,6 +438,18 @@ async function publishCard(cardId) {
     const title = results[0][0].title;
     const headerId = results[0][0].headerId;
 
+    // get the page ID
+    sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ?;";
+    results = await pool.query(sql, headerId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const pageId = results[0][0].pageId;
+
     // check if there is new card data
     sql = "SELECT * " +
     "FROM Temp_Cards " +
@@ -546,6 +558,12 @@ async function publishCard(cardId) {
 
       await pool.query(sql, sqlArray);
     }
+
+    // update the last updated date of the page
+    sql = "UPDATE Pages " +
+    "SET created = CURRENT_TIMESTAMP " +
+    "WHERE pageId = ?;";
+    await pool.query(sql, pageId);
 
     return finalResults;
 
