@@ -1,19 +1,14 @@
 .contributor-container {
-  display: inline-block;
   box-shadow: 5px 5px 5px rgba(0,0,0,0.1);
-  transition: 0.5s ease;
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #fff;
   text-align: center;
-}
-
-.contributor-container:hover {
-  transform: scale(1.15);
-  box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+  width: 350px;
 }
 
 .img-thumbnail-contributor {
-  height: 10em !important;
+  width: 12em !important;
   cursor: pointer;
+  border-radius: 50%;
 }

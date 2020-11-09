@@ -1,5 +1,5 @@
 .generic-header-bar {
-  background: rgb(214,214,214);
+  background: rgb(204, 155, 155);
   background: linear-gradient(0deg, rgba(214,214,214,1) 0%, rgba(255,255,255,1) 100%);
   top: 1em;
   z-index: 998;

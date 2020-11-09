@@ -6,7 +6,7 @@ import "./Sponsor.css";
 function Sponsor(props) {
 
   return (
-      <div className="sponsor-container mx-2 my-2">
+      <div className="sponsor-container mx-4 my-4">
         <a href={props.websiteUrl}>
           <img
             src={props.imageUrl}
