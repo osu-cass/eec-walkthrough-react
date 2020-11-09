@@ -11,6 +11,7 @@ import ManageCardTitles from "./pages/ManageCardTitles/ManageCardTitles";
 import ViewHistory from "./pages/ViewHistory/ViewHistory";
 import Search from "./pages/Search/Search";
 import Disclaimer from "./pages/Disclaimer/Disclaimer";
+import Contributors from "./pages/Contributors/Contributors";
 import RegisterUser from "./pages/RegisterUser/RegisterUser";
 import PublishRequests from "./pages/PublishRequests/PublishRequests";
 import PublishRequestHistory from "./pages/PublishRequestHistory/PublishRequestHistory";
@@ -99,6 +100,10 @@ function App() {
 
         <Route path="/disclaimer">
           <Disclaimer/>
+        </Route>
+
+        <Route path="/contributors">
+          <Contributors />
         </Route>
 
         <Route path="/publish-requests/:requestId">
