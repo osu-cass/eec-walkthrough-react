@@ -33,14 +33,28 @@
 .dropdown-nav a:active { color: #fff }
 
 .dropdown-content, .sub-dropdown-content {
-  display: block;
   position: absolute;
-  min-width: 100%;
   background-color: #000;
   white-space: nowrap;
   color: #fff;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
+}
+
+.dropdown-size-1 {
+  min-width: 200%;
+}
+
+.dropdown-size-2 {
+  min-width: 500%;
+}
+
+.dropdown-size-3 {
+  min-width: 600%;
+}
+
+.sub-dropdown-content {
+  min-width:100%;
 }
 
 .dropdown-content {
@@ -83,4 +97,15 @@
 
 .nav-tab-hidden {
   display: none;
+}
+
+.dropdown-nav-col, .navbar-image-item {
+  /* min-height: 200px !important; */
+}
+
+.cat-tag-img {
+  max-width: 150px;
+  max-height: 150px;
+  width: 100px;
+  height: 100px;
 }
