@@ -6,6 +6,10 @@
   white-space: pre-wrap;
 }
 
+.request-icon-external {
+  color: #9BAAB3;
+}
+
 .request-icon-orange {
   color: #d73f09;
 }

@@ -86,15 +86,21 @@ function SubmitComment(props) {
           <option value="0">Comment</option>
           <option value="1">Suggest Change</option>
 
-          {/* Offer the option to review based on the request status */}
-          {props.requestStatus === 1 ? (
-            <option value="2">Complete Orange Review</option>
+          {props.role === 3 ? (
+            <option value="4">Complete External Review</option>
           ) : (
             <Fragment>
-              {props.requestStatus === 2 ? (
-                <option value="3">Complete Black Review</option>
+              {/* Offer the option to review based on the request status */}
+              {props.requestStatus === 1 ? (
+                <option value="2">Complete Orange Review</option>
               ) : (
-                null
+                <Fragment>
+                  {props.requestStatus === 2 ? (
+                    <option value="3">Complete Black Review</option>
+                  ) : (
+                    null
+                  )}
+                </Fragment>
               )}
             </Fragment>
           )}
@@ -138,5 +144,6 @@ SubmitComment.propTypes = {
   requestId: PropTypes.number,
   targetId: PropTypes.string,
   borderDark: PropTypes.bool,
-  requestStatus: PropTypes.number
+  requestStatus: PropTypes.number,
+  role: PropTypes.number
 };

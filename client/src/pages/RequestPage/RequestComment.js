@@ -211,6 +211,19 @@ function RequestComment(props) {
             null
           )}
 
+          {/* Title for a completed external review */}
+          {!props.initial && props.status === 4 ? (
+            <Fragment>
+              <span>{` completed an external review ${targetType.length ? ` of a ${targetType}` : ""}`}</span>
+              <i
+                className="request-icon-external fas fa-check-square ml-2"
+                style={{transform: "scale(1.5)"}}
+              />
+            </Fragment>
+          ) : (
+            null
+          )}
+
           {/* If there is a parent comment in the header, add a link to jump from it */}
           {props.targetId !== "0" && props.open ? (
             <Fragment>

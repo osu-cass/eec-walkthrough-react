@@ -132,6 +132,7 @@ function ReportCard(props) {
               targetId={`C${props.card.cardId}`}
               borderDark={true}
               requestStatus={props.requestStatus}
+              role={props.role}
             />
           ) : (
             null
@@ -221,5 +222,6 @@ ReportCard.propTypes = {
   reviewMode: PropTypes.bool,
   requestId: PropTypes.number,
   comments: PropTypes.array,
-  requestStatus: PropTypes.number
+  requestStatus: PropTypes.number,
+  role: PropTypes.number
 };
