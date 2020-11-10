@@ -82,6 +82,7 @@ function UserSelectRole(props) {
       <option value="2">{formatRole(2)}</option>
       <option value="3">{formatRole(3)}</option>
       <option value="4">{formatRole(4)}</option>
+      <option value="5">{formatRole(5)}</option>
 
     </select>
   );
