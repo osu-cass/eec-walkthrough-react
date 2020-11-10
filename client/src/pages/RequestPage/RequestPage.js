@@ -35,6 +35,7 @@ function RequestPage() {
   });
   const {requestId} = useParams();
   const [userId, setUserId] = useState(0);
+  const [role, setRole] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -43,6 +44,7 @@ function RequestPage() {
   useEffect(() => {
     const user = getProfile();
     setUserId(user.userId);
+    setRole(user.role);
   }, [requestId]);
 
   // when the page first loads, get data about the request
@@ -200,6 +202,7 @@ function RequestPage() {
           requestId={parseInt(requestId, 10)}
           targetId={"0"}
           requestStatus={request.status}
+          role={role}
         />
       ) : (
         null
@@ -232,6 +235,7 @@ function RequestPage() {
                     requestId={parseInt(requestId, 10)}
                     comments={request.comments}
                     requestStatus={request.status}
+                    role={role}
                   />
                 ) : (
                   null
@@ -246,6 +250,7 @@ function RequestPage() {
                     requestId={parseInt(requestId, 10)}
                     comments={request.comments}
                     requestStatus={request.status}
+                    role={role}
                   />
                 ) : (
                   null
@@ -260,6 +265,7 @@ function RequestPage() {
                     requestId={parseInt(requestId, 10)}
                     comments={request.comments}
                     requestStatus={request.status}
+                    role={role}
                   />
                 ) : (
                   null

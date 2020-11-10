@@ -226,8 +226,10 @@ app.post("/comment/:requestId", requireAuth, postCommentVal.validation, async (r
       if (results.error === 1) {
         res.status(404).send({error: "Request not found."});
       } else if (results.error === 2) {
-          res.status(403).send({error: "This request is not accepting orange reviews."});
+          res.status(401).send({error: "This user is not allowed to make this type of request."});
       } else if (results.error === 3) {
+          res.status(403).send({error: "This request is not accepting orange reviews."});
+      } else if (results.error === 4) {
         res.status(403).send({error: "This request is not accepting black reviews."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});

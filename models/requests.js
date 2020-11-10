@@ -743,13 +743,35 @@ async function createComment(requestId, comment, status, targetId, userId) {
     const requestStatus = results[0][0].status;
     const requestTitle = results[0][0].title;
 
+    // make sure the current user has the correct role to make a review
+    if (status >= 2) {
+      sql = "SELECT role " +
+        "FROM Users " +
+        "WHERE userId = ?;";
+      results = await pool.query(sql, userId);
+
+      if (results[0].length) {
+        if (status === 2 && results[0][0].role < 4) {
+          return {error: 2}
+        }
+        if (status === 3 && results[0][0].role < 4) {
+          return {error: 2}
+        }
+        if (status === 4 && results[0][0].role !== 3) {
+          return {error: 2}
+        }
+      } else {
+        return {error: 2}
+      }
+    }
+
     // if the current comment is a review, make sure we are currently accepting it
     if (requestStatus !== 1 && status === 2) {
-      return {error: 2};
+      return {error: 3};
     }
 
     if (requestStatus !== 2 && status === 3) {
-      return {error: 3};
+      return {error: 4};
     }
 
     // create the comment
@@ -815,37 +837,64 @@ async function createComment(requestId, comment, status, targetId, userId) {
         "VALUES (?, ?, ?, 4);";
         await pool.query(sql, [requestId, admins[i].userId, message]);
       }
-    }
 
-    // notify all relevant users about this new comment
-    sql = "(SELECT DISTINCT userId " +
-    "FROM Request_Comments " +
-    "WHERE requestId = ? " +
-    "AND userId != ?) " +
-    "UNION " +
-    "(SELECT DISTINCT userId " +
-    "FROM Requests " +
-    "WHERE requestId = ? " +
-    "AND userId != ?);";
-    results = await pool.query(sql, [requestId, userId, requestId, userId]);
+    } else if (status === 4) {
 
-    const usersToNotify = results[0];
+      // get the current username
+      sql = "SELECT username " +
+      "FROM Users " +
+      "WHERE userId = ?;";
+      results = await pool.query(sql, [userId]);
+      const username = results[0][0].username;
 
-    // get the current username
-    sql = "SELECT username " +
-    "FROM Users " +
-    "WHERE userId = ?;";
-    results = await pool.query(sql, [userId]);
-    const username = results[0][0].username;
+      // create new notifications about external review
+      sql = "SELECT userId " +
+      "FROM Users " +
+      "WHERE role >= 3;";
+      results = await pool.query(sql, []);
 
-    // generate a notification message
-    const message = `${username} left a comment on the "${requestTitle}" request`;
+      const editors = results[0];
+      const message = `${username} left an external review on the "${requestTitle}" request`;
 
-    // create the notifications
-    for (let i = 0; i < usersToNotify.length; i++) {
-      sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
-      "VALUES (?, ?, ?, 1);";
-      await pool.query(sql, [requestId, usersToNotify[i].userId, message]);
+      for (let i = 0; i < editors.length; i++) {
+        sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
+        "VALUES (?, ?, ?, 5);";
+        await pool.query(sql, [requestId, editors[i].userId, message]);
+      }
+
+    } else {
+
+      // notify all relevant users about this new comment
+      sql = "(SELECT DISTINCT userId " +
+      "FROM Request_Comments " +
+      "WHERE requestId = ? " +
+      "AND userId != ?) " +
+      "UNION " +
+      "(SELECT DISTINCT userId " +
+      "FROM Requests " +
+      "WHERE requestId = ? " +
+      "AND userId != ?);";
+      results = await pool.query(sql, [requestId, userId, requestId, userId]);
+
+      const usersToNotify = results[0];
+
+      // get the current username
+      sql = "SELECT username " +
+      "FROM Users " +
+      "WHERE userId = ?;";
+      results = await pool.query(sql, [userId]);
+      const username = results[0][0].username;
+
+      // generate a notification message
+      const message = `${username} left a comment on the "${requestTitle}" request`;
+
+      // create the notifications
+      for (let i = 0; i < usersToNotify.length; i++) {
+        sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
+        "VALUES (?, ?, ?, 1);";
+        await pool.query(sql, [requestId, usersToNotify[i].userId, message]);
+      }
+
     }
 
     return finalResults;
