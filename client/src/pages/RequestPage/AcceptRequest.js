@@ -61,7 +61,7 @@ function AcceptRequest(props) {
     setLoading(false);
   }
 
-  return role === 4 && props.requestStatus === 3 ? (
+  return role === 5 && props.requestStatus === 3 ? (
     <Fragment>
       <LoadingOverlay loading={loading}/>
       <Button

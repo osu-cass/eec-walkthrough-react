@@ -208,7 +208,7 @@ function EditHeader(props) {
   // delete the header
   async function deleteHeader() {
     // Confirm the user is ready to delete the card
-    if (props.role >= 4) {
+    if (props.role >= 5) {
       if (!window.confirm("This will delete all versions of this header.\nAre you sure you want to delete this header?")) {
         return;
       }
@@ -350,7 +350,7 @@ function EditHeader(props) {
             variant="danger"
             onClick={() => deleteHeader()}
           >
-            {props.role >= 4 ? (
+            {props.role >= 5 ? (
               <span>Delete Header</span>
             ) : (
               <span>Delete Unpublished Header</span>

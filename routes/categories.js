@@ -31,14 +31,10 @@ app.get("/all", getUserID, async (req, res) => {
 
     console.log("Get a list of all categories");
 
-    // check if the current user should see all or only some of the categories
-    let viewAll = false;
-    if (await roleCheck(2, req.auth.userId)) {
-      viewAll = true;
-    }
+    const userId = req.auth.userId;
 
     // get a list of all categories with their pages
-    const results = await getCategories(viewAll);
+    const results = await getCategories(userId);
     res.status(200).send(results);
 
   } catch (err) {
@@ -56,14 +52,10 @@ app.get("/names", requireAuth, async (req, res) => {
 
     console.log("Get a list of all category names");
 
-    // make sure the user is allowed to perform this action
-    if (!await roleCheck(3, req.auth.userId)) {
-      res.status(401).send({error: "Unauthorized user attempting to get a list of all category names."});
-      return;
-    }
+    const userId = req.auth.userId;
 
     // get a list of all category names
-    const results = await getCategoryNames();
+    const results = await getCategoryNames(userId);
     res.status(200).send(results);
 
   } catch (err) {
@@ -80,6 +72,7 @@ app.get("/:categoryId", getUserID, getCategoryVal.validation, async (req, res) =
   try {
 
     const categoryId = req.params.categoryId;
+    const userId = req.auth.userId;
     console.log("Get category", categoryId);
 
     // confirm that the request is valid
@@ -89,19 +82,19 @@ app.get("/:categoryId", getUserID, getCategoryVal.validation, async (req, res) =
       return res.status(422).json({errors: errors.array()});
     }
 
-    // check if the current user should be able to view this content
-    let viewAll = false;
-    if (await roleCheck(2, req.auth.userId)) {
-      viewAll = true;
-    }
-
     // get category data
-    const results = await getCategory(categoryId, viewAll);
+    const results = await getCategory(categoryId, userId);
 
-    if (results.categoryId === 0) {
-      res.status(404).send({error: "Category not found."});
-    } else {
+    if (results.categoryId) {
       res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Category not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
     }
 
   } catch (err) {
@@ -133,7 +126,7 @@ app.post("/", requireAuth, postCategoryVal.validation, async (req, res) => {
     const userId = req.auth.userId;
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(3, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to create page."});
       return;
     }
@@ -183,7 +176,7 @@ app.patch("/:categoryId", requireAuth, patchCategoryVal.validation, async (req, 
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to update category."});
       return;
     }

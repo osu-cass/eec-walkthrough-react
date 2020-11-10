@@ -410,7 +410,7 @@ function ReviewCard(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          {role >= 4 ? (
+          {role >= 5 ? (
             <Fragment>
               <Fragment>
                 {props.edited ? (

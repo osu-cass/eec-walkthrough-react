@@ -395,7 +395,7 @@ function EditPage(props) {
   // Delete the page
   async function deletePage() {
     // Confirm the user is ready to delete the page
-    if (props.role >= 4) {
+    if (props.role >= 5) {
       if (!window.confirm("This will delete all versions of this page.\nAre you sure you want to delete this page?")) {
         return;
       }
@@ -652,7 +652,7 @@ function EditPage(props) {
             variant="danger"
             onClick={() => deletePage()}
           >
-            {props.role >= 4 ? (
+            {props.role >= 5 ? (
               <span>Delete Page</span>
             ) : (
               <span>Delete Unpublished Page</span>

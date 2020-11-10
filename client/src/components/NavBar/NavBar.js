@@ -153,7 +153,7 @@ function NavBar (props) {
               null
             )}
 
-            {role >= 4 ? (
+            {role >= 5 ? (
               <Fragment>
                 <a href="/manage-card-titles">
                   <div className="navbar-item px-2 py-1">
@@ -230,7 +230,7 @@ function NavBar (props) {
       )}
 
       {/* Button for creating new categories or more button */}
-      {role >= 4 ? (
+      {role >= 5 ? (
 
         <Fragment>
           {/* Admins care about the location of the create category tab */}

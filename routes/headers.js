@@ -6,6 +6,7 @@ const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
   roleCheck,
+  internalCheck,
   requireAuth
 } = require("../services/authentication/cookieAuth");
 const {
@@ -50,6 +51,9 @@ app.post("/", requireAuth, postHeaderVal.validation, async (req, res) => {
       res.status(401).send({error: "Unauthorized user attempting to create header."});
       return;
     }
+    if (parseInt(internal, 10) && !await internalCheck(req.auth.userId)) {
+      res.status(403).send({error: "This user is not allowed to create internal headers."});
+    }
 
     // create a header
     const results = await createHeader(pageId, title, userId, internal);
@@ -92,7 +96,7 @@ app.delete("/:headerId", requireAuth, getHeaderVal.validation, async (req, res) 
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to delete header."});
       return;
     }
@@ -188,6 +192,9 @@ app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res)
       res.status(401).send({error: "Unauthorized user attempting to update header."});
       return;
     }
+    if (parseInt(internal, 10) && !await internalCheck(req.auth.userId)) {
+      res.status(403).send({error: "This user is not allowed to set a header to internal."});
+    }
 
     // update a header
     const results = await updateHeader(headerId, title, userId, internal);
@@ -229,7 +236,7 @@ app.post("/:headerId/publish", requireAuth, getHeaderVal.validation, async (req,
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to publish a header."});
       return;
     }
@@ -276,7 +283,7 @@ app.post("/:headerId/unpublish", requireAuth, getHeaderVal.validation, async (re
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to unpublish a header."});
       return;
     }
@@ -328,7 +335,7 @@ app.patch("/:headerId/move/:direction/:mode", requireAuth, patchHeaderMove.valid
 
     // make sure the user is allowed to perform this action
     if (parseInt(mode, 10)) {
-      if (!await roleCheck(4, req.auth.userId)) {
+      if (!await roleCheck(5, req.auth.userId)) {
         res.status(401).send({error: "Unauthorized user attempting to move header."});
         return;
       }
