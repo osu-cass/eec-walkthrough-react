@@ -108,11 +108,20 @@ function HomePage(props) {
         {/* Image shown at the top of the page */}
         <img className="home-banner" src="home.jpg" alt="Brewery equipment" />
 
-        {/* Text box inside banner image */}
-        <div className="banner-image-text px-3 py-3">
-          <span>
-            Find opportunities<br />to improve industrial<br />efficiency
-          </span>
+        <div className="banner-image-div" >
+          {/* Text box inside banner image */}
+          <div className="banner-image-text px-3 py-3">
+            <span>
+              Find opportunities<br />to improve industrial<br />efficiency
+            </span>
+          </div>
+
+          {/* Button inside banner image */}
+          <NavLink className="banner-nav-link" to="/wiki/instructions/64">
+            <button className="banner-button" >
+              Learn how
+            </button>
+          </NavLink>
         </div>
 
         {/* Small colored stripe at the bottom of image */}
