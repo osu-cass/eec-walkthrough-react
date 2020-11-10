@@ -697,7 +697,7 @@ async function createRequest(title, description, objects, userId) {
     // send a notification to each editor about the new request
     sql = "SELECT userId " +
     "FROM Users " +
-    "WHERE role = 3;";
+    "WHERE role >= 3;";
     results = await pool.query(sql, []);
 
     const editors = results[0];
@@ -777,16 +777,16 @@ async function createComment(requestId, comment, status, targetId, userId) {
       // create new notifications about a black review
       sql = "SELECT userId " +
       "FROM Users " +
-      "WHERE role = 4;";
+      "WHERE role >= 3;";
       results = await pool.query(sql, []);
 
-      const admins = results[0];
-      const message = `The request "${requestTitle}" is awaiting a black review`;
+      const editors = results[0];
+      const message = `The request "${requestTitle}" is awaiting a black review from a qualified reviewer`;
 
-      for (let i = 0; i < admins.length; i++) {
+      for (let i = 0; i < editors.length; i++) {
         sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
         "VALUES (?, ?, ?, 3);";
-        await pool.query(sql, [requestId, admins[i].userId, message]);
+        await pool.query(sql, [requestId, editors[i].userId, message]);
       }
 
     } else if (status === 3) {
