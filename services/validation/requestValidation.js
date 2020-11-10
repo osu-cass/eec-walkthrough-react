@@ -49,7 +49,7 @@ const patchUserVal = Object.freeze({
     check("email").optional()
       .isEmail(),
     check("role").optional()
-      .isInt({min: 1, max: 4})
+      .isInt({min: 1, max: 5})
   ]
 });
 exports.patchUserVal = patchUserVal;
@@ -58,7 +58,7 @@ exports.patchUserVal = patchUserVal;
 const searchUserVal = Object.freeze({
   validation: [
     check("text").isLength({min: 0, max: 1000}),
-    check("role").isInt({min: 0, max: 4}),
+    check("role").isInt({min: 0, max: 5}),
     check("sort").isInt({min: 0, max: 10}),
     check("order").isInt({min: 0, max: 1}),
     check("cursorPrimary").isLength({min: 1, max: 1000}),

@@ -63,7 +63,7 @@ function CloseRequest(props) {
     setLoading(false);
   }
 
-  return userId === props.creatorId || role === 4 ? (
+  return userId === props.creatorId || role === 5 ? (
     <Fragment>
       <LoadingOverlay loading={loading}/>
       <Button

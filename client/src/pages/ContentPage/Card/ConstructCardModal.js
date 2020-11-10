@@ -801,7 +801,7 @@ function ConstructCardModal(props) {
   // Delete the current card
   async function deleteCard() {
     // Confirm the user is ready to delete the card
-    if (props.role >= 4) {
+    if (props.role >= 5) {
       if (!window.confirm("This will delete all versions of this card.\nAre you sure you want to delete this card?")) {
         return;
       }
@@ -1388,7 +1388,7 @@ function ConstructCardModal(props) {
                 variant="danger"
                 onClick={() => deleteCard()}
               >
-                {props.role >= 4 ? (
+                {props.role >= 5 ? (
                   <span>Delete Card</span>
                 ) : (
                   <span>Delete Unpublished Card</span>

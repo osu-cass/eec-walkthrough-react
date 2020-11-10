@@ -10,8 +10,10 @@ export function formatRole(role) {
     case 2:
       return "Internal User";
     case 3:
-      return "Editor";
+      return "External Editor";
     case 4:
+      return "Internal Editor";
+    case 5:
       return "Administrator";
     default:
       return "";

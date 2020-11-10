@@ -111,7 +111,7 @@ function CreateCategory(props) {
     return false;
   }
 
-  return props.role >= 4 ? (
+  return props.role >= 5 ? (
     <div className={props.tinyNav ? "d-inline" : "createCategory d-inline-block text-left"}>
 
       {/* The style of the button depends if this is the sidebar or navbar */}

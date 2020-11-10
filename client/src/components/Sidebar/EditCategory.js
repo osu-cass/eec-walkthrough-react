@@ -121,7 +121,7 @@ function EditCategory(props) {
     return false;
   }
 
-  return props.role >= 4 ? (
+  return props.role >= 5 ? (
     <div className={`${props.navbar ? "d-inline" : "w-100"}`}>
 
       {/* The style of the button depends if this is the sidebar or navbar */}

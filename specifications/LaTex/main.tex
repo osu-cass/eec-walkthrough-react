@@ -2113,7 +2113,7 @@ Returns basic information about a user. Any logged in user can use this endpoint
     \item email. The user's email address.
     \item firstName: The user's first name.
     \item lastName: The user's last name.
-    \item role: The user's role (0 = not logged in, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+    \item role: The user's role (0 = not logged in, 1 = external user, 2 = internal user, 3 = external editor, 4 = internal editor, 5 = admin).
     \item userId: The ID of the user.
     \item username: The username of the user.
 \end{itemize}
@@ -2148,7 +2148,7 @@ Attempts to login the user. If the user's username and password are correct, the
     \item email: The user's email address.
     \item firstName: The user's first name.
     \item lastName: The user's last name.
-    \item role: The user's role (0 = not logged in, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+    \item role: The user's role (0 = not logged in, 1 = external user, 2 = internal user, 3 = external editor, 4 = internal editor, 5 = admin).
     \item userId: The ID of the user account.
     \item username: The username of the user.
 \end{itemize}
@@ -2200,7 +2200,7 @@ Creates a new user account. The new user must not have the same username or emai
 Returns a limited list of users that match the search text and that only includes users that are at or beyond the cursor. The search text can find matches for first name, last name, username, email, or user ID. Only admins can use this endpoint.
 \begin{itemize}
     \item text: The partial or full text that is used to find a match. Partial matches are allowed. For example: searching for "oh" would be able to return "John123" since "oh" is contained with in "John123".
-    \item role: The role to filter results by (0 = any, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+    \item role: The role to filter results by (0 = any, 1 = name, 2 = user ID, 3 = email, 4 = created, 5 = role).
     \item sort: The value to sort results by (0 = username, 1 = name, 2 = user ID, 3 = email, 4 = created, 5 = role).
     \item order: The order in which to display results (0 = descending, 1 = ascending).
     \item cursorPrimary: This cursor should contain the value that we are sorting by of the user we want to start our search at. This cursor is used to allow infinite scrolling, while only loading a small number of page results at a time. If this is a new search then this value should be null.
@@ -2224,7 +2224,7 @@ Returns a limited list of users that match the search text and that only include
         \item email: The user's email address.
         \item firstName: The user's first name.
         \item lastName: The user's last name.
-        \item role: The user's role (0 = not logged in, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+        \item role: The user's role (0 = not logged in, 1 = name, 2 = user ID, 3 = email, 4 = created, 5 = role).
         \item username: The user's username.
     \end{itemize}
     \item nextCursor: An object that contains the information needed to continue getting the remaining search results.
@@ -2264,7 +2264,7 @@ Updates a user's information. Only the user being updated or an admins can use t
     \item email: The user's new email address.
     \item firstName: The user's new first name.
     \item lastName: The user's new last name.
-    \item role: The user's new role which can only be set by admins (0 = not logged in, 1 = external user, 2 = internal user, 3 = editor, 4 = admin).
+    \item role: The user's new role which can only be set by admins (0 = not logged in, 1 = name, 2 = user ID, 3 = email, 4 = created, 5 = role).
     \item username: The user's username.
     \item oldPassword: The user's current password. 
     \item newPassword: The user's new password.

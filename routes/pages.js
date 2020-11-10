@@ -6,6 +6,7 @@ const app = express();
 const {validationResult} = require("express-validator");
 const {
   roleCheck,
+  internalCheck,
   requireAuth,
   getUserID
 } = require("../services/authentication/cookieAuth");
@@ -35,6 +36,7 @@ app.get("/:pageId/all", getUserID, getPageVal.validation, async (req, res) => {
   try {
 
     const pageId = req.params.pageId;
+    const userId = req.auth.userId;
     console.log("Get all data related to page", pageId);
 
     // confirm that the request is valid
@@ -44,14 +46,8 @@ app.get("/:pageId/all", getUserID, getPageVal.validation, async (req, res) => {
       return res.status(404).json({errors: errors.array()});
     }
 
-    // check if the current user should be able to view this content
-    let viewAll = false;
-    if (await roleCheck(2, req.auth.userId)) {
-      viewAll = true;
-    }
-
     // get complete page data
-    const results = await getFullPage(pageId, viewAll);
+    const results = await getFullPage(pageId, userId);
 
     if (results.pageId === 0) {
       res.status(404).send({error: "Page not found."});
@@ -65,6 +61,7 @@ app.get("/:pageId/all", getUserID, getPageVal.validation, async (req, res) => {
   }
 
 });
+
 
 // get a list of the most recently updated pages
 app.get("/updated", async (req, res) => {
@@ -89,6 +86,7 @@ app.get("/updated", async (req, res) => {
 
 });
 
+
 // get a list of pages based on a search query
 app.get("/search/:text/:cursorPrimary/:cursorSecondary", getUserID, searchPageVal.validation, async (req, res) => {
 
@@ -110,13 +108,17 @@ app.get("/search/:text/:cursorPrimary/:cursorSecondary", getUserID, searchPageVa
     };
 
     // check if the current user should be able to view this content
-    let viewAll = false;
-    if (await roleCheck(2, req.auth.userId)) {
-      viewAll = true;
+    let viewEdit = false;
+    let viewInternal = false;
+    if (await roleCheck(3, req.auth.userId)) {
+      viewEdit = true;
+    }
+    if (await internalCheck(req.auth.userId)) {
+      viewInternal = true;
     }
 
     // search for pages
-    const results = await searchPages(text, cursor, viewAll);
+    const results = await searchPages(text, cursor, viewEdit, viewInternal);
 
     if (results.pages.length) {
       res.status(200).send(results);
@@ -159,6 +161,9 @@ app.post("/", requireAuth, postPageVal.validation, async (req, res) => {
       res.status(401).send({error: "Unauthorized user attempting to create page."});
       return;
     }
+    if (parseInt(internal, 10) && !await internalCheck(req.auth.userId)) {
+      res.status(403).send({error: "This user is not allowed to create internal pages."});
+    }
 
     // create a page
     const results = await createPage(pageType, name, title, description, imageUrl, userId, internal);
@@ -199,7 +204,7 @@ app.delete("/:pageId", requireAuth, getPageVal.validation, async (req, res) => {
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to delete page."});
       return;
     }
@@ -299,6 +304,9 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
       res.status(401).send({error: "Unauthorized user attempting to update page."});
       return;
     }
+    if (parseInt(internal, 10) && !await internalCheck(req.auth.userId)) {
+      res.status(403).send({error: "This user is not allowed to set a page to internal."});
+    }
 
     // update a page
     const results = await updatePage(pageId, pageType, name, title, description, imageUrl, userId, internal);
@@ -340,7 +348,7 @@ app.post("/:pageId/publish", requireAuth, getPageVal.validation, async (req, res
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to publish a page."});
       return;
     }
@@ -387,7 +395,7 @@ app.post("/:pageId/unpublish", requireAuth, getPageVal.validation, async (req, r
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to unpublish a page."});
       return;
     }

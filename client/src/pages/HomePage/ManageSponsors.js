@@ -343,7 +343,7 @@ function ManageSponsors(props) {
     setImageAgreement(true);
   }
 
-  return role >= 4 ? (
+  return role >= 5 ? (
     <div className="text-center mx-2">
 
       <Agreement

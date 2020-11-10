@@ -804,7 +804,7 @@ async function createComment(requestId, comment, status, targetId, userId) {
       // create new notifications about admin approval
       sql = "SELECT userId " +
       "FROM Users " +
-      "WHERE role = 4;";
+      "WHERE role = 5;";
       results = await pool.query(sql, []);
 
       const admins = results[0];
