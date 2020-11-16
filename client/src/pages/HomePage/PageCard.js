@@ -10,8 +10,13 @@ function PageCard(props) {
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    if (props.description.length > 100) {
-      setDescription(props.description.substring(0, 100).trim() + "...");
+    let maxChars = 150;
+    if (props.recent) {
+      maxChars = 100;
+    }
+
+    if (props.description.length > maxChars) {
+      setDescription(props.description.substring(0, maxChars).trim() + "...");
     } else {
       setDescription(props.description);
     }
@@ -23,7 +28,13 @@ function PageCard(props) {
         <div className="page-card">
           <div className="card-image" style={{backgroundImage: `url(${props.imageUrl})`}} />
           <div className="card-text">
-            <span className="date">{formatRelativeTime(props.updated)}</span>
+            {props.recent ? (
+              <span className="date">
+                {formatRelativeTime(props.updated)}
+              </span>
+            ) : (
+              null
+            )}
             <h2>{props.name}</h2>
             <p>{description}</p>
           </div>
@@ -39,5 +50,6 @@ PageCard.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
   updated: PropTypes.any,
-  pageId: PropTypes.number
+  pageId: PropTypes.number,
+  recent: PropTypes.bool
 };
