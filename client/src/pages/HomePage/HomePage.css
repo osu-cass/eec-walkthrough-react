@@ -78,17 +78,6 @@ body {
     max-height: 350px;
     max-width: 500%;
   }
-
-  .home-footer-div.mr-5 {
-    display: block !important;
-    margin-bottom: 0.5em !important;
-  }
-}
-
-.banner-footer {
-  width: 100vw;
-  height: 0.15em;
-  background-color: #d73f09;
 }
 
 .text-box-row {
@@ -142,19 +131,6 @@ body {
 
 .page-card-row {
   margin: auto;
-}
-
-.home-footer {
-  color: #fff;
-  background-color: #000;
-}
-
-.home-footer a {
-  color: #fff;
-}
-
-.home-footer-div {
-  display: inline-block;
 }
 
 .contributors-all {

@@ -174,7 +174,7 @@ function BasicItems(props) {
   return (
     <div className="item-separator-div">
       {items.map((item) =>
-        <Fragment key={item.itemId + item.index}>
+        <Fragment key={item.itemId + "|" + item.index}>
 
           {/* If the item is a wrapper for multiple items, then this means that */}
           {/* this is an inline item that should be treated as a single item */}
