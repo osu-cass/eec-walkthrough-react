@@ -143,7 +143,7 @@ function NavBar (props) {
           </div>
           <div className="dropdown-content">
 
-            {role === 3 ? (
+            {role === 3 || role === 4 ? (
               <a href={`/manage-images/${userId}`}>
                 <div className="navbar-item px-2 py-1">
                     Manage Images

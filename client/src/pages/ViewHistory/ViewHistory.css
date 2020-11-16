@@ -8,3 +8,7 @@
 .hidden-report {
   visibility: hidden;
 }
+
+.history-page-container {
+  padding-bottom: 20em;
+}

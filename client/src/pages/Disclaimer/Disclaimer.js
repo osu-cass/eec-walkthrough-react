@@ -6,7 +6,7 @@ import {DISCLAIMER} from "../../utilities/constants";
 function Disclaimer() {
 
   return (
-    <div className="container icon-page-container my-5">
+    <div className="container disclaimer-page-container my-5">
 
       <div className="d-flex header-bar justify-content-between mt-3 mb-4 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
