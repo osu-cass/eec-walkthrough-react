@@ -4,7 +4,7 @@ import Sponsor from "./Sponsor";
 import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {NavLink} from "react-router-dom";
-import {API_URL, EEC_HOMEPAGE} from "../../utilities/constants";
+import {API_URL} from "../../utilities/constants";
 import "./HomePage.css";
 
 // Main application home page
@@ -25,7 +25,6 @@ function HomePage(props) {
       icon: ""
     }
   ])
-  const currentYear = new Date().getFullYear();
 
   // fetch homepage data
   useEffect(() => {
@@ -239,26 +238,6 @@ function HomePage(props) {
               )}
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Home Page Footer */}
-      <div className="home-footer py-2 px-2">
-        <div className="home-footer-div ml-3 mr-5">
-          <a className="home-footer-nav-link" href="/contributors">
-            Contributors
-          </a>
-        </div>
-
-        <div className="home-footer-div">
-          <a href={EEC_HOMEPAGE}>OSU EEC Homepage</a>
-        </div>
-
-        <div className="home-footer-div pull-right">
-          {`Copyright ${currentYear} | `}
-          <NavLink className="home-footer-nav-link" to="/disclaimer">
-          Disclaimer
-          </NavLink>
         </div>
       </div>
 
