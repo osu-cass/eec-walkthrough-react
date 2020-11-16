@@ -42,15 +42,15 @@
 }
 
 .dropdown-size-1 {
-  min-width: 300%;
+  min-width: 300px;
 }
 
 .dropdown-size-2 {
-  min-width: 500%;
+  min-width: 500px;
 }
 
 .dropdown-size-3 {
-  min-width: 600%;
+  min-width: 650px;
 }
 
 .sub-dropdown-content {

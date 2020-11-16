@@ -76,7 +76,7 @@ function NavBar (props) {
       const bounding = tab.getBoundingClientRect();
       widthArray[0] = bounding.right;
     }
-    if (widthArray[0] >= window.innerWidth - 50) {
+    if (widthArray[0] >= window.innerWidth - 600) {
       visibleArray[0] = false;
     }
 
@@ -87,7 +87,7 @@ function NavBar (props) {
         const bounding = tab.getBoundingClientRect();
         widthArray[categories[i].categoryId] = bounding.right;
       }
-      if (widthArray[categories[i].categoryId] >= window.innerWidth - 160) {
+      if (widthArray[categories[i].categoryId] >= window.innerWidth - 600) {
         visibleArray[categories[i].categoryId] = false;
       }
     }
