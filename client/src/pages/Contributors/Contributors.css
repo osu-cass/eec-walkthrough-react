@@ -47,3 +47,7 @@ body {
   padding: 5em 2em 5em 2em;
   width: 70%;
 }
+
+.contributor-page-container {
+  padding-bottom: 10em;
+}

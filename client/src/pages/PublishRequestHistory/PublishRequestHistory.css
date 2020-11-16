@@ -13,3 +13,7 @@
   table-layout: fixed;
   word-wrap: break-word;
 }
+
+.request-page-container {
+  padding-bottom: 25em;
+}

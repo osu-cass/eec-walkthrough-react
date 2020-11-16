@@ -121,7 +121,7 @@ function Contributors() {
     }, []);
 
   return (
-    <div className="container icon-page-container my-5">
+    <div className="container contributor-page-container my-5">
       <LoadingOverlay loading={loading} />
 
       <div className="d-flex header-bar justify-content-between mt-3 mb-4 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">

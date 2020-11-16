@@ -29,7 +29,7 @@ function Sidebar(props) {
     if (role < 2) {
       setTools([]);
     } else {
-      if (role === 3) {
+      if (role === 3 || role === 4) {
         toolList.push({name: "Manage Images", link: `/manage-images/${userId}`});
       }
       if (role >= 5) {
