@@ -1,64 +1,66 @@
 // File: formatTime.js
 // Description: converts a timestamp to a human readable relative time
 
+import {
+  MS_PER_SECOND,
+  MS_PER_MINUTE,
+  MS_PER_HOUR,
+  MS_PER_DAY,
+  MS_PER_MONTH,
+  MS_PER_YEAR
+} from "./constants";
+
 export function formatRelativeTime(timestamp) {
 
   const previous = Date.parse(timestamp);
   const current = Date.now();
-
-  const msPerMinute = 60 * 1000;
-  const msPerHour = msPerMinute * 60;
-  const msPerDay = msPerHour * 24;
-  const msPerMonth = msPerDay * 30;
-  const msPerYear = msPerDay * 365;
-
   const elapsed = current - previous;
 
-  if (elapsed < msPerMinute) {
-    if (Math.floor(elapsed/1000) === 1) {
+  if (elapsed < MS_PER_MINUTE) {
+    if (Math.floor(elapsed/MS_PER_SECOND) === 1) {
       return "1 second ago";
     } else {
-      return Math.floor(elapsed/1000) + " seconds ago";
+      return Math.floor(elapsed/MS_PER_SECOND) + " seconds ago";
     }
   }
 
-  else if (elapsed < msPerHour) {
-    if (Math.floor(elapsed/msPerMinute) === 1) {
+  else if (elapsed < MS_PER_HOUR) {
+    if (Math.floor(elapsed/MS_PER_MINUTE) === 1) {
       return " 1 minute ago";
     } else {
-      return Math.floor(elapsed/msPerMinute) + " minutes ago";
+      return Math.floor(elapsed/MS_PER_MINUTE) + " minutes ago";
     }
   }
 
-  else if (elapsed < msPerDay ) {
-    if (Math.floor(elapsed/msPerHour) === 1) {
+  else if (elapsed < MS_PER_DAY ) {
+    if (Math.floor(elapsed/MS_PER_HOUR) === 1) {
       return "1 hour ago";
     } else {
-      return Math.floor(elapsed/msPerHour) + " hours ago";
+      return Math.floor(elapsed/MS_PER_HOUR) + " hours ago";
     }
   }
 
-  else if (elapsed < msPerMonth) {
-    if (Math.floor(elapsed/msPerDay) === 1) {
+  else if (elapsed < MS_PER_MONTH) {
+    if (Math.floor(elapsed/MS_PER_DAY) === 1) {
       return "1 day ago";
     } else {
-      return Math.floor(elapsed/msPerDay) + " days ago";
+      return Math.floor(elapsed/MS_PER_DAY) + " days ago";
     }
   }
 
-  else if (elapsed < msPerYear) {
-    if (Math.floor(elapsed/msPerMonth) === 1) {
+  else if (elapsed < MS_PER_YEAR) {
+    if (Math.floor(elapsed/MS_PER_MONTH) === 1) {
       return " 1 month ago";
     } else {
-      return Math.floor(elapsed/msPerMonth) + " months ago";
+      return Math.floor(elapsed/MS_PER_MONTH) + " months ago";
     }
   }
 
   else {
-    if (Math.floor(elapsed/msPerYear) === 1) {
+    if (Math.floor(elapsed/MS_PER_YEAR) === 1) {
       return "1 year ago";
     } else {
-      return Math.floor(elapsed/msPerYear) + " years ago";
+      return Math.floor(elapsed/MS_PER_YEAR) + " years ago";
     }
   }
 }

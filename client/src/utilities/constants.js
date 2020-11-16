@@ -13,6 +13,12 @@ if (process.env.NODE_ENV === "development") {
 // generic constants
 module.exports = Object.freeze({
   API_URL: API_URL,
+  MS_PER_SECOND: 1000,
+  MS_PER_MINUTE: 60 * 1000,
+  MS_PER_HOUR: 60 * 60 * 1000,
+  MS_PER_DAY: 24 * 60 * 60 * 1000,
+  MS_PER_MONTH: 30 * 24 * 60 * 60 * 1000,
+  MS_PER_YEAR: 365 * 24 * 60 * 60 * 1000,
   UPLOAD_TERMS: "Before uploading any images you must agree that " +
   "you will only upload images that you have intellectual property rights to use. " +
   "You must also agree to only upload images that are suitable for the general public to view.",

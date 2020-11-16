@@ -4,7 +4,7 @@ import Sponsor from "./Sponsor";
 import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {NavLink} from "react-router-dom";
-import {API_URL} from "../../utilities/constants";
+import {API_URL, MS_PER_MONTH} from "../../utilities/constants";
 import "./HomePage.css";
 
 // Main application home page
@@ -13,6 +13,7 @@ function HomePage(props) {
   const [loading, setLoading] = useState(false);
   const [sponsors, setSponsors] = useState([]);
   const [updated, setUpdated] = useState([]);
+  const [recent, setRecent] = useState(false);
   const [info, setInfo] = useState([
     {
       title: "",
@@ -37,8 +38,8 @@ function HomePage(props) {
       try {
         setLoading(true);
 
-        // Fetch all recently updated pages
-        let results = await fetch(`${API_URL}/pages/updated`, {
+        // Fetch text blurbs
+        let results = await fetch(`${API_URL}/info`, {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
@@ -53,6 +54,71 @@ function HomePage(props) {
         if (results.ok) {
 
           const obj = await results.json();
+
+          if (obj.info.length >= 2) {
+            setInfo(obj.info);
+          }
+
+        } else {
+          console.error("Error fetching home page info");
+        }
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        // Fetch all recently updated pages
+        results = await fetch(`${API_URL}/pages/updated`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+
+          // check if the pages were recently updated
+          let isRecent = true;
+
+          // the first page must be no more than one month old
+          if (obj.pages.length > 0) {
+            const previous = Date.parse(obj.pages[0].created);
+            const current = Date.now();
+            const elapsed = current - previous;
+            if (Math.floor(elapsed/MS_PER_MONTH) > 1) {
+              isRecent = false;
+            }
+          }
+
+          // the second page must be no more than six months old
+          if (obj.pages.length > 1) {
+            const previous = Date.parse(obj.pages[1].created);
+            const current = Date.now();
+            const elapsed = current - previous;
+            if (Math.floor(elapsed/MS_PER_MONTH) > 6) {
+              isRecent = false;
+            }
+          }
+
+          // the third page must be no more than twelve months old
+          if (obj.pages.length > 2) {
+            const previous = Date.parse(obj.pages[2].created);
+            const current = Date.now();
+            const elapsed = current - previous;
+            if (Math.floor(elapsed/MS_PER_MONTH) > 12) {
+              isRecent = false;
+            }
+          }
+
+          setRecent(isRecent);
           setUpdated(obj.pages);
 
         } else {
@@ -84,31 +150,6 @@ function HomePage(props) {
 
         } else {
           console.error("Error fetching sponsors");
-        }
-
-        // Fetch text blurbs
-        results = await fetch(`${API_URL}/info`, {
-          signal: controller.signal,
-          method: "GET",
-          credentials: "include",
-          headers: {"Content-Type": "application/json"}
-        });
-
-        // if this component is cleaned up, stop here
-        if (ignore) {
-          return;
-        }
-
-        if (results.ok) {
-
-          const obj = await results.json();
-
-          if (obj.info.length >= 2) {
-            setInfo(obj.info);
-          }
-
-        } else {
-          console.error("Error fetching home page info");
         }
 
         setLoading(false);
@@ -199,7 +240,11 @@ function HomePage(props) {
       {/* Recently updated pages */}
       <div className="home-page-list text-center px-4">
         <h2 className="light-home-text">
-          Recently Updated
+          {recent ? (
+            <span>Recently Updated</span>
+          ) : (
+            <span>Featured Pages</span>
+          )}
         </h2>
         <div className="page-card-row row justify-content-center">
 
@@ -212,6 +257,7 @@ function HomePage(props) {
               description={page.description}
               updated={page.created}
               pageId={page.pageId}
+              recent={recent}
             />
           )}
 
