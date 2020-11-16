@@ -13,10 +13,21 @@ function HomePage(props) {
   const [loading, setLoading] = useState(false);
   const [sponsors, setSponsors] = useState([]);
   const [updated, setUpdated] = useState([]);
+  const [info, setInfo] = useState([
+    {
+      title: "",
+      text: "",
+      icon: ""
+    },
+    {
+      title: "",
+      text: "",
+      icon: ""
+    }
+  ])
   const currentYear = new Date().getFullYear();
 
-  // fetch homepage data based on the users role
-  // more information is shown to internal users
+  // fetch homepage data
   useEffect(() => {
     // abort controller for if this component is cleaned up before
     // the fetch request gets a response
@@ -46,7 +57,7 @@ function HomePage(props) {
           setUpdated(obj.pages);
 
         } else {
-          console.error("Error fetching home page info");
+          console.error("Error fetching home page cards");
         }
 
         // if this component is cleaned up, stop here
@@ -74,6 +85,31 @@ function HomePage(props) {
 
         } else {
           console.error("Error fetching sponsors");
+        }
+
+        // Fetch text blurbs
+        results = await fetch(`${API_URL}/info`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+
+          if (obj.info.length >= 2) {
+            setInfo(obj.info);
+          }
+
+        } else {
+          console.error("Error fetching home page info");
         }
 
         setLoading(false);
@@ -134,16 +170,13 @@ function HomePage(props) {
         <div className="home-content-block home-on col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
           <div className="home-inner-block">
             <h2>
-              Our Goal
+              {info[0].title}
             </h2>
             <span>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Sed vel lacus libero. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            Quisque placerat lobortis nisl, eget volutpat nisl volutpat at. Mauris sit amet sem at magna scelerisque blandit.
-            Curabitur odio. Vivamus lacinia sit amet sapien sed posuere. Maecenas vel imperdiet erat.
+              {info[0].text}
             </span>
             <div className="mt-4">
-              <i className="fas fa-fw fa-trophy fa-3x" />
+              <i className={`fas fa-fw fa-${info[0].icon} fa-3x`} />
             </div>
           </div>
         </div>
@@ -152,15 +185,13 @@ function HomePage(props) {
         <div className="home-content-block home-off col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
           <div className="home-inner-block">
             <h2>
-              News
+              {info[1].title}
             </h2>
             <span>
-            Aenean sodales at sem feugiat dignissim. Aliquam commodo ex vel lectus condimentum egestas.
-            Donec eget erat eu felis malesuada sagittis. Etiam ac leo ornare, molestie sem ac, ullamcorper justo.
-            Vivamus ac accumsan eros, vitae dapibus erat. Cras suscipit neque ut ipsum aliquam, sed vestibulum nisl auctor.
+              {info[1].text}
             </span>
             <div className="mt-4">
-              <i className="fas fa-fw fa-newspaper fa-3x" />
+              <i className={`fas fa-fw fa-${info[1].icon} fa-3x`} />
             </div>
           </div>
         </div>
@@ -214,9 +245,9 @@ function HomePage(props) {
       {/* Home Page Footer */}
       <div className="home-footer py-2 px-2">
         <div className="home-footer-div ml-3 mr-5">
-          <NavLink className="home-footer-nav-link" to={`/contributors`}>
+          <a className="home-footer-nav-link" href="/contributors">
             Contributors
-          </NavLink>
+          </a>
         </div>
 
         <div className="home-footer-div">
@@ -225,7 +256,7 @@ function HomePage(props) {
 
         <div className="home-footer-div pull-right">
           {`Copyright ${currentYear} | `}
-          <NavLink className="home-footer-nav-link" to={`/disclaimer`}>
+          <NavLink className="home-footer-nav-link" to="/disclaimer">
           Disclaimer
           </NavLink>
         </div>

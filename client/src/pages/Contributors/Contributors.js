@@ -1,10 +1,30 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import ContributorBlock from "./ContributorBlock";
+import LoadingOverlay from "../../components/General/LoadingOverlay";
+import {API_URL} from "../../utilities/constants";
 import "./Contributors.css";
 
 // A list of all of the contributors
 function Contributors() {
 
+  const [loading, setLoading] = useState(true);
+  const [info, setInfo] = useState([
+    {
+      title: "",
+      text: "",
+      icon: ""
+    },
+    {
+      title: "",
+      text: "",
+      icon: ""
+    },
+    {
+      title: "",
+      text: "",
+      icon: ""
+    }
+  ]);
   const [contributors] = useState([
     {
       contributorId: 1,
@@ -43,8 +63,66 @@ function Contributors() {
     }
   ]);
 
+    // fetch text blurb
+    useEffect(() => {
+      // abort controller for if this component is cleaned up before
+      // the fetch request gets a response
+      let ignore = false;
+      const controller = new AbortController();
+  
+      async function fetchText() {
+        try {
+          setLoading(true);
+  
+          // Fetch text blurbs
+          const results = await fetch(`${API_URL}/info`, {
+            signal: controller.signal,
+            method: "GET",
+            credentials: "include",
+            headers: {"Content-Type": "application/json"}
+          });
+  
+          // if this component is cleaned up, stop here
+          if (ignore) {
+            return;
+          }
+  
+          if (results.ok) {
+  
+            const obj = await results.json();
+  
+            if (obj.info.length >= 3) {
+              setInfo(obj.info);
+            }
+  
+          } else {
+            console.error("Error fetching contributor info");
+          }
+  
+          setLoading(false);
+        } catch (err) {
+          if (err instanceof DOMException) {
+            if (process.env.NODE_ENV === "development") {
+              console.log("HTTP request aborted");
+            }
+          } else {
+            throw err;
+          }
+        }
+      }
+  
+      fetchText();
+
+      // clean up function
+      return () => {
+        ignore = true;
+        controller.abort();
+      };
+    }, []);
+
   return (
     <div className="container icon-page-container my-5">
+      <LoadingOverlay loading={loading} />
 
       <div className="d-flex header-bar justify-content-between mt-3 mb-4 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
@@ -61,16 +139,10 @@ function Contributors() {
           <div className="contributor-content-block">
             <div className="contributor-inner-block">
               <h2>
-                Our Team
+                {info[2].title}
               </h2>
               <span>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Sed vel lacus libero. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-              Quisque placerat lobortis nisl, eget volutpat nisl volutpat at. Mauris sit amet sem at magna scelerisque blandit.
-              Curabitur odio. Vivamus lacinia sit amet sapien sed posuere. Maecenas vel imperdiet erat. Nullam cursus volutpat
-              fringilla. Vestibulum rutrum ipsum risus, ac lobortis erat facilisis id. Sed mollis, ligula sed blandit tristique,
-              justo odio porta libero, at iaculis mi felis non erat. Morbi a cursus dui. Suspendisse potenti. Quisque felis turpis,
-              tincidunt id euismod at, semper ut tortor.
+                {info[2].text}
               </span>
             </div>
           </div>

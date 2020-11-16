@@ -1,4 +1,4 @@
-// File: links.js
+// File: notifications.js
 // Description: Provides functions for working with notifications
 
 const {pool} = require("../services/database/mysqlPool");

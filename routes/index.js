@@ -46,6 +46,7 @@ app.use("/api/categories", require("./categories"));
 app.use("/api/views", require("./views"));
 app.use("/api/sources", require("./sources"));
 app.use("/api/notifications", require("./notifications"));
+app.use("/api/info", require("./info"));
 
 // unhandled API requests get a 404 error
 app.all("/api/*", (req, res) => {

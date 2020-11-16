@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Nov 03, 2020 at 12:37 AM
+-- Generation Time: Nov 16, 2020 at 12:32 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -1309,6 +1309,19 @@ INSERT INTO `Icons` (`iconType`, `typeKeyword`, `typeName`, `groupIndex`, `color
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Info`
+--
+
+CREATE TABLE `Info` (
+  `infoId` int(10) UNSIGNED NOT NULL,
+  `title` varchar(150) NOT NULL,
+  `text` varchar(5000) NOT NULL,
+  `icon` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Items`
 --
 
@@ -2153,6 +2166,20 @@ CREATE TABLE `Notifications` (
   `type` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `Notifications`
+--
+
+INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `type`) VALUES
+(29, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
+(30, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
+(31, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
+(32, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
+(33, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
+(34, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
+(35, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
+(36, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -2264,6 +2291,20 @@ CREATE TABLE `Request_Comments` (
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `userId` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Request_Comments`
+--
+
+INSERT INTO `Request_Comments` (`commentId`, `requestId`, `targetId`, `comment`, `review`, `created`, `userId`) VALUES
+(31, 5, 'C214', '<p>I know what you are talking about when you mention ovens (paint booths that also can be used as curing oven) but the idea should be introduced somehow. </p>', 0, '2020-11-03 21:12:22', 51),
+(32, 5, 'C214', '<p>Cast ROT in imperial units as well</p>', 0, '2020-11-03 21:14:45', 51),
+(33, 5, 'C214', '<p>Two items to add. We often suggest occupancy sensors on Paint Booths to turn them off after a set period of inactivity. We also have focused on ensuring the high intensity lighting is also off when not needed. </p>', 0, '2020-11-03 21:18:45', 51),
+(34, 5, 'C212', '<p>Should mention that over spray reduction can also reduce need to replace paint booth air filters and associated material and waste costs. </p>', 0, '2020-11-03 21:22:20', 51),
+(35, 5, 'C213', '<p>Hmm, I like the ETO information, but we should identify that it is a local opportunity somehow. Perhaps it should start as a suggestion to check on potential incentives with ETO as an example. (Makes me think we should create a specific bullet for incentives (and cost?) information </p>', 0, '2020-11-03 21:23:58', 51),
+(36, 5, 'C213', '<p>We need to identify the energy cost used in the estimate of savings for upgrading a single transformer-rectifier welder</p>', 0, '2020-11-03 21:29:01', 51),
+(37, 5, 'C215', '<p>We should add hot link to the compressed air section</p>', 0, '2020-11-03 21:30:49', 51),
+(38, 5, '0', '<p>LMSA: Wanted to move this along ;-) And use this review function more to see if anything needs to change. I have a power point  I will send you. We should add any opportunities in the power point that are not here but specific to metals. </p>', 1, '2020-11-03 21:53:55', 51);
 
 -- --------------------------------------------------------
 
@@ -2439,26 +2480,27 @@ CREATE TABLE `Users` (
 --
 
 INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `email`, `role`, `created`) VALUES
-(42, 'Silverware', 'd8e7859c74c2672a13a2388538143c99$631f9c78dbc16fbd3b013aa7903a8527cee7d46befeb496b7510b1dcb4ae95c0', 'Zachary', 'Thomas', 'silverware13@gmail.com', 4, '2020-05-14 20:39:15'),
-(47, 'rogrogrog', '8a3c5ecabadca6102a92052e5f6160d3$59606e43e8086a5cb735dfc87244f218638a629133558c6701390129ec8bb71a', 'rog', 'rog', 'rog@gmail.com', 3, '2020-06-01 20:39:15'),
-(51, 'JoeJunker', 'b755592eabbdac736d8c5907fa64fa11$fae30b426545c803420b3f7f0bd4f1e80fd99ea09336ea525c769ef7041d1679', 'Joe', 'Junker', 'joseph.f.junker@gmail.com', 4, '2020-06-02 20:39:15'),
-(52, 'mattye', 'bc8f2478b1eb8785d085b8c1512933f2$47ff478fcee9b0f829ed70012cd2c406ed67b7bae6708c855b9072ef8adb662b', 'Ethan', 'Matty', 'mattye.eec@gmail.com', 4, '2020-06-10 20:39:15'),
-(54, 'martzal', '27d9aeff2e1c3e683f042480b6990a5c$963d962575ce1108cf5785fc42778ad0483050a80c50e8d3d29632f6af73f1a9', 'Ali', 'Martz', 'martzal.eec@gmail.com', 3, '2020-06-28 20:39:15'),
-(55, 'peterj', '73a148776eaf3db8dee5b4cc5af1542d$c4d554f54a266e74299e82af3884f39d4e36686054f90837f7753b2d4b77a6f4', 'Julian', 'Peter', 'peterj.eec@gmail.com', 3, '2020-06-30 20:39:15'),
-(56, 'ryanfrench', '8fdce1d0b4394d7a6dd55dd4d1318d54$b36510750272738b7d2de631057527b3ac1547db5d9ef6da8728886d523eca99', 'Ryan', 'French', 'frenchr.eec@gmail.com', 3, '2020-07-05 20:39:15'),
-(57, 'MatthewThomas', 'a532335063fda0518a4a347b0a295166$05c83d3322dbbe787d420353fa83b3ad7b38e5b163d9d784bf752c8b7ebedb15', 'Matthew', 'Thomas', 'matthewthomas.eec@gmail.com', 3, '2020-07-02 20:39:15'),
-(58, 'ryanfrench2', '0f035817ef3a5ebb3b7bedc75f6d5245$950542aafbfdeeceb6e32fcf2d06f5b2c076465e6fce3ef36b052d9ba6290404', 'Ryan', 'French', 'frenchr@oregonstate.com', 3, '2020-07-08 20:47:39'),
-(59, 'djunker', '78d288ab098c3cb5d6d2ba21034e69c1$24786ffa47a290b250ffff18f0cfd703b86c773cf5f911e75fcf6d19989e700d', 'Devlin', 'Junker', 'devlin.junker@gmail.com', 3, '2020-07-10 01:36:09'),
-(60, 'taylorad', 'b320c2b10ea1a5fd6a5df5b60b476a1a$76c9c4d174243210d40e54aa87e6b14926de7e3d7c1b229e7fcea48e98d65d85', 'Adam', 'Taylor', 'taylorad.eec@gmail.com', 3, '2020-07-13 17:38:47'),
-(61, 'Chris_Houck', 'd4bb5e0bfd9c00be21e9e9d844ad7f57$367a89d5eeaf2274ff80b316f9aeda9f79acd192fc1f3717ff852b3cb29c6416', 'Chris', 'Houck', 'houckch.eec@gmail.com', 3, '2020-07-14 20:59:54'),
-(62, 'psukamto', 'bbd4de95486df84c2553cb4cabc1472a$d8d1b75623a7d7eb3b717020dc28b70ba1c9152992db10316e280aedb0f35d6c', 'Peter', 'Sukamto', 'sukamtop.eec@gmail.com', 3, '2020-07-20 22:20:37'),
-(63, 'testUser', '1f9d6b0176ddee97a3a69102b00679fd$f95c8cef6dacedc921486f893f34cdcd497d0e70b36955f84a3f45caa86c6c5f', 'test', 'user', 'testuser@gmail.com', 3, '2020-07-28 20:21:12'),
+(42, 'Silverware', 'd8e7859c74c2672a13a2388538143c99$631f9c78dbc16fbd3b013aa7903a8527cee7d46befeb496b7510b1dcb4ae95c0', 'Zachary', 'Thomas', 'silverware13@gmail.com', 5, '2020-05-14 20:39:15'),
+(47, 'rogrogrog', '8a3c5ecabadca6102a92052e5f6160d3$59606e43e8086a5cb735dfc87244f218638a629133558c6701390129ec8bb71a', 'rog', 'rog', 'rog@gmail.com', 4, '2020-06-01 20:39:15'),
+(51, 'JoeJunker', 'b755592eabbdac736d8c5907fa64fa11$fae30b426545c803420b3f7f0bd4f1e80fd99ea09336ea525c769ef7041d1679', 'Joe', 'Junker', 'joseph.f.junker@gmail.com', 5, '2020-06-02 20:39:15'),
+(52, 'mattye', 'bc8f2478b1eb8785d085b8c1512933f2$47ff478fcee9b0f829ed70012cd2c406ed67b7bae6708c855b9072ef8adb662b', 'Ethan', 'Matty', 'mattye.eec@gmail.com', 5, '2020-06-10 20:39:15'),
+(54, 'martzal', '27d9aeff2e1c3e683f042480b6990a5c$963d962575ce1108cf5785fc42778ad0483050a80c50e8d3d29632f6af73f1a9', 'Ali', 'Martz', 'martzal.eec@gmail.com', 4, '2020-06-28 20:39:15'),
+(55, 'peterj', '73a148776eaf3db8dee5b4cc5af1542d$c4d554f54a266e74299e82af3884f39d4e36686054f90837f7753b2d4b77a6f4', 'Julian', 'Peter', 'peterj.eec@gmail.com', 4, '2020-06-30 20:39:15'),
+(56, 'ryanfrench', '8fdce1d0b4394d7a6dd55dd4d1318d54$b36510750272738b7d2de631057527b3ac1547db5d9ef6da8728886d523eca99', 'Ryan', 'French', 'frenchr.eec@gmail.com', 4, '2020-07-05 20:39:15'),
+(57, 'MatthewThomas', 'a532335063fda0518a4a347b0a295166$05c83d3322dbbe787d420353fa83b3ad7b38e5b163d9d784bf752c8b7ebedb15', 'Matthew', 'Thomas', 'matthewthomas.eec@gmail.com', 4, '2020-07-02 20:39:15'),
+(58, 'ryanfrench2', '0f035817ef3a5ebb3b7bedc75f6d5245$950542aafbfdeeceb6e32fcf2d06f5b2c076465e6fce3ef36b052d9ba6290404', 'Ryan', 'French', 'frenchr@oregonstate.com', 4, '2020-07-08 20:47:39'),
+(59, 'djunker', '78d288ab098c3cb5d6d2ba21034e69c1$24786ffa47a290b250ffff18f0cfd703b86c773cf5f911e75fcf6d19989e700d', 'Devlin', 'Junker', 'devlin.junker@gmail.com', 4, '2020-07-10 01:36:09'),
+(60, 'taylorad', 'b320c2b10ea1a5fd6a5df5b60b476a1a$76c9c4d174243210d40e54aa87e6b14926de7e3d7c1b229e7fcea48e98d65d85', 'Adam', 'Taylor', 'taylorad.eec@gmail.com', 4, '2020-07-13 17:38:47'),
+(61, 'Chris_Houck', 'd4bb5e0bfd9c00be21e9e9d844ad7f57$367a89d5eeaf2274ff80b316f9aeda9f79acd192fc1f3717ff852b3cb29c6416', 'Chris', 'Houck', 'houckch.eec@gmail.com', 4, '2020-07-14 20:59:54'),
+(62, 'psukamto', 'bbd4de95486df84c2553cb4cabc1472a$d8d1b75623a7d7eb3b717020dc28b70ba1c9152992db10316e280aedb0f35d6c', 'Peter', 'Sukamto', 'sukamtop.eec@gmail.com', 4, '2020-07-20 22:20:37'),
+(63, 'testUser', '1f9d6b0176ddee97a3a69102b00679fd$f95c8cef6dacedc921486f893f34cdcd497d0e70b36955f84a3f45caa86c6c5f', 'test', 'user', 'testuser@gmail.com', 4, '2020-07-28 20:21:12'),
 (64, 'NewUser', '0f98b126f8c5f97567986f7344a65d35$b56cdfeeb26a024487d97ea457a4691c8059a5a41f6102362319a7010488ecf7', 'Zachary', 'Thomas', 'newUser@gmail.com', 1, '2020-08-04 20:49:52'),
-(65, 'KarlHaapala', 'b57616ebf0b31e2b470945548ebb37c3$ce2a1a37a4eeb500f9ff3d7ae5a436bd96f996cc7035089b06c66296ef664a0e', 'Karl', 'Haapala', 'Karl.Haapala@oregonstate.edu', 3, '2020-08-10 16:43:08'),
+(65, 'KarlHaapala', 'b57616ebf0b31e2b470945548ebb37c3$ce2a1a37a4eeb500f9ff3d7ae5a436bd96f996cc7035089b06c66296ef664a0e', 'Karl', 'Haapala', 'Karl.Haapala@oregonstate.edu', 4, '2020-08-10 16:43:08'),
 (66, 'BrianFronk', 'e19515b3011f1b9ae350416702e366ae$bc12ddf1a36485efdc2f3076306c0f3fbf8e0ebc161228b3d96df617b3003a54', 'Brian', 'Fronk', 'Brian.Fronk@oregonstate.edu', 1, '2020-08-17 17:50:49'),
-(67, 'testEditor', '378a3004a2a67d4de86381f1167f67f0$667800fc22bccfb093ed7370d527f1b07e7b3cf3a54acfd43e71edc477c1391f', 'Test', 'Editor', 'testeditor@gmail.com', 3, '2020-09-01 02:00:00'),
+(67, 'testEditor', '378a3004a2a67d4de86381f1167f67f0$667800fc22bccfb093ed7370d527f1b07e7b3cf3a54acfd43e71edc477c1391f', 'Test', 'Editor', 'testeditor@gmail.com', 4, '2020-09-01 02:00:00'),
 (68, 'newUser1', '6722e86ced77c549439d1a1746634998$4a86c207b6c1d91696c82191547f9a6068888fecaa1c137cee77621c74a8cf8f', 'new', 'user', 'newUser1@gmail.com', 1, '2020-09-14 10:31:05'),
-(69, 'testEditor1', 'fbb3b3a0d4f8be764fbe6bdc27f6d983$2ce25602f589f0e5be6a55d9141875272a99496e3d6b343cad56f1949eaf48bd', 'test', 'editor', 'testeditor1@gmail.com', 3, '2020-09-22 20:46:41');
+(69, 'testEditor1', 'fbb3b3a0d4f8be764fbe6bdc27f6d983$2ce25602f589f0e5be6a55d9141875272a99496e3d6b343cad56f1949eaf48bd', 'test', 'editor', 'testeditor1@gmail.com', 4, '2020-09-22 20:46:41'),
+(70, 'testExternalEditor', '096ce25eaae6bb651145bdf3b01e5717$f461afb7d38f1ce565b8076a085c39b182796bb0b534868b00d58febf0374c96', 'test', 'external', 'test_external@gmail.com', 3, '2020-11-10 20:21:31');
 
 -- --------------------------------------------------------
 
@@ -2555,6 +2597,12 @@ ALTER TABLE `Home`
 --
 ALTER TABLE `Icons`
   ADD PRIMARY KEY (`iconType`);
+
+--
+-- Indexes for table `Info`
+--
+ALTER TABLE `Info`
+  ADD PRIMARY KEY (`infoId`);
 
 --
 -- Indexes for table `Items`
@@ -2713,6 +2761,12 @@ ALTER TABLE `Icons`
   MODIFY `iconType` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
+-- AUTO_INCREMENT for table `Info`
+--
+ALTER TABLE `Info`
+  MODIFY `infoId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
@@ -2722,7 +2776,7 @@ ALTER TABLE `Items`
 -- AUTO_INCREMENT for table `Notifications`
 --
 ALTER TABLE `Notifications`
-  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -2746,7 +2800,7 @@ ALTER TABLE `Requests`
 -- AUTO_INCREMENT for table `Request_Comments`
 --
 ALTER TABLE `Request_Comments`
-  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `Request_Objects`
@@ -2770,7 +2824,7 @@ ALTER TABLE `Sponsors`
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `userId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `Views`
