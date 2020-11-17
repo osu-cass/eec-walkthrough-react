@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Nov 16, 2020 at 11:43 PM
+-- Generation Time: Nov 17, 2020 at 02:17 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -223,7 +223,8 @@ CREATE TABLE `Contributors` (
   `title` varchar(500) NOT NULL,
   `description` varchar(5000) NOT NULL,
   `imageUrl` varchar(5000) NOT NULL,
-  `priority` int(10) UNSIGNED NOT NULL
+  `priority` int(10) UNSIGNED NOT NULL,
+  `active` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

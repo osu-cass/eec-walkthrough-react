@@ -5,6 +5,10 @@
   z-index: 998;
 }
 
-.manage-home-page-container {
-  padding-bottom: 20em;
+.manage-contributor-container {
+  padding-bottom: 5em;
+}
+
+.con-icon-approved {
+  color: #239023; 
 }
