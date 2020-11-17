@@ -8,6 +8,7 @@ import ManageLinks from "./pages/ManageLinks/ManageLinks";
 import ManageFiles from "./pages/ManageFiles/ManageFiles";
 import ManageDirectories from "./pages/ManageDirectories/ManageDirectories";
 import ManageCardTitles from "./pages/ManageCardTitles/ManageCardTitles";
+import ManageHome from "./pages/ManageHome/ManageHome";
 import ViewHistory from "./pages/ViewHistory/ViewHistory";
 import Search from "./pages/Search/Search";
 import Disclaimer from "./pages/Disclaimer/Disclaimer";
@@ -94,6 +95,10 @@ function App() {
 
           <Route path="/manage-users">
             <ManageUsers />
+          </Route>
+
+          <Route path="/manage-home">
+            <ManageHome />
           </Route>
 
           <Route path="/history-report">
