@@ -142,7 +142,7 @@ function ManageContributors() {
   }
 
   return (
-    <div className="container manage-home-page-container my-5">
+    <div className="container manage-contributor-container my-5">
 
       <LoadingOverlay loading={loading} />
 
@@ -196,10 +196,19 @@ function ManageContributors() {
         <div className="contributor-organizer my-4">
           {publishContributors.map((contributor) =>
             <div className="contributor-container" key={contributor.userId}>
-              <div className="d-block my-2 h-100">
+
+
+              <div className="d-block my-2">
                 <div>
+
                   {/* Contributors name */}
-                  <div className="mb-2">
+                  <div className="mb-4">
+                    {/* Show an accepted icon if the contributor is being show */}
+                    {contributor.active ? (
+                      <i className="con-icon-approved fas fa-fw fa-check-circle fa-2x" />
+                    ) : (
+                      null
+                    )}
                     <h2 className="mb-0">
                       {contributor.firstName + " " + contributor.lastName}
                     </h2>
