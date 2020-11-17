@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import {Button, Row, FormControl} from "react-bootstrap";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
@@ -26,7 +26,7 @@ function ManageContributors() {
 
         setLoading(true);
 
-        const results = await fetch(`${API_URL}/info`, {
+        let results = await fetch(`${API_URL}/info`, {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
@@ -45,6 +45,32 @@ function ManageContributors() {
           }
         } else {
           console.error("Error fetching info");
+        }
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        results = await fetch(`${API_URL}/contributors/requests`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+          setPublishContributors(obj.contributors);
+
+        } else {
+          console.error("Error fetching contributor requests");
         }
 
         setLoading(false);
@@ -156,15 +182,59 @@ function ManageContributors() {
         </div>
 
         {/* Error messages */}
-        <div className="mx-3 my-3">
-          <Error
-            message={errorMessage}
-          />
-        </div>
+        <Error
+          message={errorMessage}
+        />
+
       </div>
 
       <div className="prompt-container my-3 p-5 bg-white card rounded shadow-sm">
-        <span className="h3">User's Publish Requests</span>
+        <span className="h3 mb-4">Possible Contributors</span>
+
+        {/* List all possible contributors */}
+        <div className="contributor-organizer my-4">
+          {publishContributors.map((contributor) =>
+            <Fragment>
+            <div className="contributor-container">
+              <div className="d-block my-2 h-100">
+
+                <div>
+                  {/* Contributors name */}
+                  <h2 className="mb-2">
+                    {contributor.firstName + " " + contributor.lastName}
+                  </h2>
+
+                  {/* List of publish requests made by the contributor */}
+                  <h5>Submitted publish requests:</h5>
+
+                  {contributor.requests.length ? (
+                    null
+                  ) : (
+                    <span>None</span>
+                  )}
+
+
+                  {contributor.requests.map((request) =>
+                    <a href={`/publish-requests/${request.requestId}`}>
+                      {request.title}
+                    </a>
+                  )}
+
+                </div>
+
+                {/* Button for modifying contributor info */}
+                <button
+                  className="btn btn-info btn my-2"
+                  onClick={() => {}}
+                >
+                  Edit Contributor
+                </button>
+              </div>
+            </div>
+            </Fragment>
+          )}
+        </div>
+
       </div>
 
     </div>
