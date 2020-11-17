@@ -160,6 +160,9 @@ function ManageHome() {
       // Reset state
       setErrorMessage("");
 
+      // refresh the page
+      window.location.reload();
+
     } else {
 
       // there was an error updating the info
