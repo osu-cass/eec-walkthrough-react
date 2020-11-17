@@ -4,6 +4,31 @@
 const {pool} = require("../services/database/mysqlPool");
 
 
+// returns all of the contributors
+async function getContributors() {
+
+  try {
+
+    // get all contributors
+    let sql = "SELECT * FROM Contributors " +
+    "ORDER BY priority;";
+    let results = await pool.query(sql, []);
+
+    const finalResults = {
+      contributors: results[0]
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error getting contributors");
+    throw Error(err);
+  }
+
+}
+exports.getContributors = getContributors;
+
+
 // returns a list of contributors and the requests that they have made
 async function getContributorRequests() {
 

@@ -25,43 +25,7 @@ function Contributors() {
       icon: ""
     }
   ]);
-  const [contributors] = useState([
-    {
-      contributorId: 1,
-      imageUrl: "https://placekitten.com/500/500",
-      name: "John Doe",
-      title: "Energy Efficiency Center Director",
-      description: "Quisque mattis nibh id metus cursus, a porttitor nulla tincidunt. Integer euismod nisi id massa ornare lobortis. Interdum et malesuada fames ac ante ipsum primis in faucibus."
-    },
-    {
-      contributorId: 2,
-      imageUrl: "https://placekitten.com/1000/1000",
-      name: "Jane Doe",
-      title: "Assistant Director",
-      description: "Quisque mattis nibh id metus cursus, a porttitor nulla tincidunt. Integer euismod nisi id massa ornare lobortis. Interdum et malesuada fames ac ante ipsum primis in faucibus."
-    },
-    {
-      contributorId: 3,
-      imageUrl: "https://placekitten.com/200/200",
-      name: "Alden Cantrell",
-      title: "Operations Manager",
-      description: "Quisque mattis nibh id metus cursus, a porttitor nulla tincidunt. Integer euismod nisi id massa ornare lobortis. Interdum et malesuada fames ac ante ipsum primis in faucibus."
-    },
-    {
-      contributorId: 4,
-      imageUrl: "https://placekitten.com/250/250",
-      name: "John Smith",
-      title: "General Employee",
-      description: "Quisque mattis nibh id metus cursus, a porttitor nulla tincidunt. Integer euismod nisi id massa ornare lobortis. Interdum et malesuada fames ac ante ipsum primis in faucibus."
-    },
-    {
-      contributorId: 5,
-      imageUrl: "https://placekitten.com/150/150",
-      name: "Jim Doe",
-      title: "General Employee",
-      description: "Quisque mattis nibh id metus cursus, a porttitor nulla tincidunt. Integer euismod nisi id massa ornare lobortis. Interdum et malesuada fames ac ante ipsum primis in faucibus."
-    }
-  ]);
+  const [contributors, setContributors] = useState([]);
 
     // fetch text blurb
     useEffect(() => {
@@ -75,7 +39,7 @@ function Contributors() {
           setLoading(true);
   
           // Fetch text blurbs
-          const results = await fetch(`${API_URL}/info`, {
+          let results = await fetch(`${API_URL}/info`, {
             signal: controller.signal,
             method: "GET",
             credentials: "include",
@@ -97,6 +61,33 @@ function Contributors() {
   
           } else {
             console.error("Error fetching contributor info");
+          }
+
+          // if this component is cleaned up, stop here
+          if (ignore) {
+            return;
+          }
+
+          // Fetch contributors
+          results = await fetch(`${API_URL}/contributors`, {
+            signal: controller.signal,
+            method: "GET",
+            credentials: "include",
+            headers: {"Content-Type": "application/json"}
+          });
+  
+          // if this component is cleaned up, stop here
+          if (ignore) {
+            return;
+          }
+  
+          if (results.ok) {
+  
+            const obj = await results.json();
+            setContributors(obj.contributors);
+  
+          } else {
+            console.error("Error fetching contributors");
           }
   
           setLoading(false);
