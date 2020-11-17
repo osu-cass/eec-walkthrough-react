@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Nov 16, 2020 at 12:32 PM
+-- Generation Time: Nov 16, 2020 at 11:43 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -210,6 +210,21 @@ INSERT INTO `Categories` (`categoryId`, `singleName`, `pluralName`, `description
 (4, 'Productivity', 'Productivity', 'Common approaches to improving industrial site productivity', 0, 51, '2020-07-18 03:11:32'),
 (5, 'Assessment', 'Assessments', 'Standard recommended approaches for performing industrial assessments.', 0, 51, '2020-07-18 03:11:32'),
 (7, 'Utility', 'Utilities', 'An introduction to utility billing structures, resource use analysis, and opportunities to reduce costs.', 0, 42, '2020-08-05 23:59:34');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Contributors`
+--
+
+CREATE TABLE `Contributors` (
+  `contributorId` int(10) UNSIGNED NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `title` varchar(500) NOT NULL,
+  `description` varchar(5000) NOT NULL,
+  `imageUrl` varchar(5000) NOT NULL,
+  `priority` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1319,6 +1334,15 @@ CREATE TABLE `Info` (
   `icon` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `Info`
+--
+
+INSERT INTO `Info` (`infoId`, `title`, `text`, `icon`) VALUES
+(1, 'Our Goal', 'The OSU EEC / IAC  works towards a more efficient industrial sector by promoting energy and resource efficiency and effecting immediate and long-term impacts on local economic profitability through reduced energy and resource waste.', 'trophy'),
+(2, 'About this Guide', 'The OSU EEC / IAC  offers this guide as a tool for users to learn more about their chosen specific industrial efficiency topics and identify specific actions to take to improve a site’s efficiency.  It is offered to industrial site personnel, industrial consultants, nationwide Industrial Assessment Center student analysts, and others working to increase industrial efficiency and competitiveness.', 'newspaper'),
+(3, 'Our Team', 'This guide includes content developed by past OSU EEC Alumni & Faculty that participated the OSU Energy Efficiency Center and Industrial Assessment Center project since its inception in 1986. New Content is being added regularly by current OSU EEC Students & Faculty.', '');
+
 -- --------------------------------------------------------
 
 --
@@ -2421,6 +2445,21 @@ INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderI
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Temp_Contributors`
+--
+
+CREATE TABLE `Temp_Contributors` (
+  `tempContributorId` int(10) UNSIGNED NOT NULL,
+  `tempName` varchar(100) NOT NULL,
+  `tempTitle` varchar(500) NOT NULL,
+  `tempDescription` varchar(5000) NOT NULL,
+  `tempImageUrl` varchar(5000) NOT NULL,
+  `tempPriority` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Temp_Headers`
 --
 
@@ -2544,6 +2583,12 @@ ALTER TABLE `Categories`
   ADD UNIQUE KEY `singleName` (`singleName`),
   ADD UNIQUE KEY `pluralName` (`pluralName`),
   ADD KEY `user_category_fk` (`userId`);
+
+--
+-- Indexes for table `Contributors`
+--
+ALTER TABLE `Contributors`
+  ADD PRIMARY KEY (`contributorId`);
 
 --
 -- Indexes for table `Filters`
@@ -2673,6 +2718,12 @@ ALTER TABLE `Temp_Cards`
   ADD KEY `fk_user_tempCard` (`tempUserId`);
 
 --
+-- Indexes for table `Temp_Contributors`
+--
+ALTER TABLE `Temp_Contributors`
+  ADD PRIMARY KEY (`tempContributorId`);
+
+--
 -- Indexes for table `Temp_Headers`
 --
 ALTER TABLE `Temp_Headers`
@@ -2764,7 +2815,7 @@ ALTER TABLE `Icons`
 -- AUTO_INCREMENT for table `Info`
 --
 ALTER TABLE `Info`
-  MODIFY `infoId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `infoId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Items`
@@ -2850,6 +2901,12 @@ ALTER TABLE `Categories`
   ADD CONSTRAINT `user_category_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
 
 --
+-- Constraints for table `Contributors`
+--
+ALTER TABLE `Contributors`
+  ADD CONSTRAINT `fk_user_contributor` FOREIGN KEY (`contributorId`) REFERENCES `Users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `Filters`
 --
 ALTER TABLE `Filters`
@@ -2907,6 +2964,12 @@ ALTER TABLE `Sources`
 ALTER TABLE `Temp_Cards`
   ADD CONSTRAINT `fk_tempCard` FOREIGN KEY (`tempCardId`) REFERENCES `Cards` (`cardId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_user_tempCard` FOREIGN KEY (`tempUserId`) REFERENCES `Users` (`userId`);
+
+--
+-- Constraints for table `Temp_Contributors`
+--
+ALTER TABLE `Temp_Contributors`
+  ADD CONSTRAINT `fk_user_tempContributor` FOREIGN KEY (`tempContributorId`) REFERENCES `Users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Temp_Headers`
