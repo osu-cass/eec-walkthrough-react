@@ -6,10 +6,11 @@ const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
   getContributors,
-  getContributorRequests
+  getContributorRequests,
+  createContributor
 } = require("../models/contributors");
 const {
-  patchInfoVal
+  postContributorVal
 } = require("../services/validation/requestValidation");
 const {
   requireAuth,
@@ -58,18 +59,20 @@ app.get("/requests", requireAuth, async (req, res) => {
 
 });
 
-/*
-// update an info object
-app.patch("/:infoId", requireAuth, patchInfoVal.validation, async (req, res) => {
+
+// post contributor data
+app.post("/:userId", requireAuth, postContributorVal.validation, async (req, res) => {
 
   try {
 
-    console.log("Update an info object");
+    console.log("Post a contributor");
 
-    const infoId = req.params.infoId;
+    const userId = req.params.userId;
+    const name = req.body.name;
     const title = req.body.title;
-    const text = req.body.text;
-    const icon = req.body.icon;
+    const description = req.body.description;
+    const imageUrl = req.body.imageUrl;
+    const active = req.body.active;
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -80,23 +83,17 @@ app.patch("/:infoId", requireAuth, patchInfoVal.validation, async (req, res) => 
 
     // make sure the user is allowed to perform this action
     if (!await roleCheck(5, req.auth.userId)) {
-      res.status(401).send({error: "Unauthorized user attempting to update info."});
+      res.status(401).send({error: "Unauthorized user attempting to post a contributor."});
       return;
     }
 
-    // update info
-    const results = await updateInfo(infoId, title, text, icon);
+    // post contributor
+    const results = await createContributor(userId, name, title, description, imageUrl, active);
 
-    if (results.infoId >= 0) {
+    if (results.contributorId >= 0) {
       res.status(200).send(results);
     } else {
-
-      if (results.error === 1) {
-        res.status(404).send({error: "Info not found."});
-      } else {
-        res.status(500).send({error: "An internal server error occurred. Please try again later."});
-      }
-
+      res.status(500).send({error: "An internal server error occurred. Please try again later."});
     }
 
   } catch (err) {
@@ -105,6 +102,6 @@ app.patch("/:infoId", requireAuth, patchInfoVal.validation, async (req, res) => 
   }
 
 });
-*/
+
 
 module.exports = app;

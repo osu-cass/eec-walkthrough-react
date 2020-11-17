@@ -1,6 +1,7 @@
 // File: info.js
 // Description: Provides functions for working with info
 
+const e = require("express");
 const {pool} = require("../services/database/mysqlPool");
 
 
@@ -11,6 +12,7 @@ async function getContributors() {
 
     // get all contributors
     let sql = "SELECT * FROM Contributors " +
+    "WHERE active = 1 " +
     "ORDER BY priority;";
     let results = await pool.query(sql, []);
 
@@ -35,7 +37,13 @@ async function getContributorRequests() {
   try {
 
     // get all of the users who could possibly be contributors
-    let sql = "SELECT * FROM Users " +
+    let sql = "SELECT userId, firstName, lastName, username, role, " +
+    "Contributors.*, Temp_Contributors.* " +
+    "FROM Users " +
+    "LEFT JOIN Contributors " +
+    "ON Users.userId = Contributors.contributorId " +
+    "LEFT JOIN Temp_Contributors " +
+    "ON Users.userId = Temp_Contributors.tempContributorId " +
     "WHERE role >= 3 " +
     "ORDER BY username;";
     let results = await pool.query(sql, []);
@@ -65,3 +73,45 @@ async function getContributorRequests() {
 
 }
 exports.getContributorRequests = getContributorRequests;
+
+
+// create a contributor
+async function createContributor(userId, name, title, description, imageUrl, active) {
+
+  try {
+
+    // see if the contributor already exists
+    let sql = "SELECT * FROM Contributors " +
+    "WHERE contributorId = ?;";
+    let results = await pool.query(sql, userId);
+
+    let exists = false;
+    if (results[0].length) {
+      exists = true;
+    }
+
+    // create or update, based on if the contributor already exists
+    if (exists) {
+      sql = "UPDATE Contributors " +
+      "SET name = ?, title = ?, description = ?, imageUrl = ?, active = ?, priority = ? " +
+      "WHERE contributorId = ?;";
+      results = await pool.query(sql, [name, title, description, imageUrl, active, 10, userId]);
+    } else {
+      sql = "INSERT INTO Contributors (contributorId, name, title, description, imageUrl, active, priority) " +
+      "VALUES (?, ?, ?, ?, ?, ?, 10);";
+      results = await pool.query(sql, [userId, name, title, description, imageUrl, active]);
+    }
+
+    const finalResults = {
+      contributorId: userId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error creating contributor");
+    throw Error(err);
+  }
+
+}
+exports.createContributor = createContributor;
