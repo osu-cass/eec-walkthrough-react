@@ -34,6 +34,7 @@ function Sidebar(props) {
       }
       if (role >= 5) {
         toolList.push({name: "Manage Card Titles", link: "/manage-card-titles"});
+        toolList.push({name: "Manage Contributors", link: "/manage-contributors"});
         toolList.push({name: "Manage Home", link: "/manage-home"});
         toolList.push({name: "Manage Icons", link: "/manage-icons"});
         toolList.push({name: "Manage Images", link: "/manage-uploads"});

@@ -8,6 +8,7 @@ import ManageLinks from "./pages/ManageLinks/ManageLinks";
 import ManageFiles from "./pages/ManageFiles/ManageFiles";
 import ManageDirectories from "./pages/ManageDirectories/ManageDirectories";
 import ManageCardTitles from "./pages/ManageCardTitles/ManageCardTitles";
+import ManageContributors from "./pages/ManageContributors/ManageContributors";
 import ManageHome from "./pages/ManageHome/ManageHome";
 import ViewHistory from "./pages/ViewHistory/ViewHistory";
 import Search from "./pages/Search/Search";
@@ -75,6 +76,10 @@ function App() {
 
           <Route path="/manage-card-titles">
             <ManageCardTitles />
+          </Route>
+
+          <Route path="/manage-contributors">
+            <ManageContributors />
           </Route>
 
           <Route path="/manage-icons">
@@ -146,7 +151,7 @@ function App() {
           </Route>
 
           <Route exact path="/">
-            <HomePage loginStatusChange={loginStatusChange} />
+            <Home loginStatusChange={loginStatusChange} />
           </Route>
 
           <Route path="*">
