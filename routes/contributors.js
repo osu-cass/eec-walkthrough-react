@@ -1,13 +1,12 @@
-// File: info.js
-// Description: handles routing for info
+// File: contributors.js
+// Description: handles routing for contributors
 
 const express = require("express");
 const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
-  getInfo,
-  updateInfo
-} = require("../models/info");
+  getContributorRequests
+} = require("../models/contributors");
 const {
   patchInfoVal
 } = require("../services/validation/requestValidation");
@@ -17,14 +16,20 @@ const {
 } = require("../services/authentication/cookieAuth");
 
 
-// get all of the info objects
-app.get("/", async (req, res) => {
+// get contributors with a list of the publish requests that they have made
+app.get("/requests", requireAuth, async (req, res) => {
 
   try {
-    console.log("View info");
+    console.log("View contributor requests");
 
-    // get all info
-    const results = await getInfo();
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(5, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to view contributor requests."});
+      return;
+    }
+
+    // get all contributors
+    const results = await getContributorRequests();
     res.status(200).send(results);
 
   } catch (err) {
@@ -34,7 +39,7 @@ app.get("/", async (req, res) => {
 
 });
 
-
+/*
 // update an info object
 app.patch("/:infoId", requireAuth, patchInfoVal.validation, async (req, res) => {
 
@@ -81,6 +86,6 @@ app.patch("/:infoId", requireAuth, patchInfoVal.validation, async (req, res) => 
   }
 
 });
-
+*/
 
 module.exports = app;
