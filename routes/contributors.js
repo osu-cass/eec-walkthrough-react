@@ -5,6 +5,7 @@ const express = require("express");
 const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
+  getContributors,
   getContributorRequests
 } = require("../models/contributors");
 const {
@@ -14,6 +15,24 @@ const {
   requireAuth,
   roleCheck
 } = require("../services/authentication/cookieAuth");
+
+
+// get all contributors
+app.get("/", async (req, res) => {
+
+  try {
+    console.log("View contributors");
+
+    // get all contributors
+    const results = await getContributors();
+    res.status(200).send(results);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
 
 
 // get contributors with a list of the publish requests that they have made
