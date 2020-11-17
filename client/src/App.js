@@ -137,12 +137,16 @@ function App() {
             <Error500 />
           </Route>
 
+          <Route path="/old-home">
+            <Home loginStatusChange={loginStatusChange} />
+          </Route>
+
           <Route path="/demo">
             <HomePage loginStatusChange={loginStatusChange} />
           </Route>
 
           <Route exact path="/">
-            <Home loginStatusChange={loginStatusChange} />
+            <HomePage loginStatusChange={loginStatusChange} />
           </Route>
 
           <Route path="*">
