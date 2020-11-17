@@ -432,3 +432,16 @@ const patchInfoVal = Object.freeze({
   ]
 });
 exports.patchInfoVal = patchInfoVal;
+
+// validation checks for post contributor
+const postContributorVal = Object.freeze({
+  validation: [
+    check("userId").isInt({min: 0, max: 4294967295}),
+    check("name").isLength({min: 1, max: 100}),
+    check("title").isLength({min: 1, max: 500}),
+    check("description").isLength({min: 1, max: 5000}),
+    check("imageUrl").isLength({min: 1, max: 5000}),
+    check("active").isInt({min: 0, max: 1})
+  ]
+});
+exports.postContributorVal = postContributorVal;

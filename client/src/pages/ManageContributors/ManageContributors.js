@@ -1,7 +1,8 @@
-import React, {useEffect, useState, Fragment} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Row, FormControl} from "react-bootstrap";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import EditContributor from "./EditContributor";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import "./ManageContributors.css";
@@ -194,15 +195,16 @@ function ManageContributors() {
         {/* List all possible contributors */}
         <div className="contributor-organizer my-4">
           {publishContributors.map((contributor) =>
-            <Fragment>
-            <div className="contributor-container">
+            <div className="contributor-container" key={contributor.userId}>
               <div className="d-block my-2 h-100">
-
                 <div>
                   {/* Contributors name */}
-                  <h2 className="mb-2">
-                    {contributor.firstName + " " + contributor.lastName}
-                  </h2>
+                  <div className="mb-2">
+                    <h2 className="mb-0">
+                      {contributor.firstName + " " + contributor.lastName}
+                    </h2>
+                    <span>({contributor.username})</span>
+                  </div>
 
                   {/* List of publish requests made by the contributor */}
                   <h5>Submitted publish requests:</h5>
@@ -213,25 +215,30 @@ function ManageContributors() {
                     <span>None</span>
                   )}
 
-
                   {contributor.requests.map((request) =>
-                    <a href={`/publish-requests/${request.requestId}`}>
-                      {request.title}
-                    </a>
+                    <div>
+                      <a href={`/publish-requests/${request.requestId}`} key={request.requestId}>
+                        {request.title}
+                      </a>
+                    </div>
                   )}
 
                 </div>
 
                 {/* Button for modifying contributor info */}
-                <button
-                  className="btn btn-info btn my-2"
-                  onClick={() => {}}
-                >
-                  Edit Contributor
-                </button>
+                <div className="my-3">
+                  <EditContributor
+                    userId={contributor.userId}
+                    name={contributor.name}
+                    title={contributor.title}
+                    description={contributor.description}
+                    imageUrl={contributor.imageUrl}
+                    checked={!!contributor.active}
+                  />
+                </div>
+
               </div>
             </div>
-            </Fragment>
           )}
         </div>
 
