@@ -45,7 +45,7 @@ async function getContributorRequests() {
     "LEFT JOIN Temp_Contributors " +
     "ON Users.userId = Temp_Contributors.tempContributorId " +
     "WHERE role >= 3 " +
-    "ORDER BY username;";
+    "ORDER BY firstName ASC, lastName ASC;";
     let results = await pool.query(sql, []);
 
     const contributors = results[0];
