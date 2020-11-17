@@ -421,3 +421,14 @@ const getDirectoriesVal = Object.freeze({
   ]
 });
 exports.getDirectoriesVal = getDirectoriesVal;
+
+// validation checks for patch info
+const patchInfoVal = Object.freeze({
+  validation: [
+    check("infoId").isInt({min: 0, max: 4294967295}),
+    check("title").isLength({min: 0, max: 150}),
+    check("text").isLength({min: 0, max: 5000}),
+    check("icon").isLength({min: 0, max: 100})
+  ]
+});
+exports.patchInfoVal = patchInfoVal;

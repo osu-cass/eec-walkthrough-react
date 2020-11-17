@@ -161,6 +161,12 @@ function NavBar (props) {
                   </div>
                 </a>
 
+                <a href="/manage-home">
+                  <div className="navbar-item px-2 py-1">
+                    Manage Home
+                  </div>
+                </a>
+
                 <a href="/manage-icons">
                   <div className="navbar-item px-2 py-1">
                     Manage Icons
