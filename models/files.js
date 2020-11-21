@@ -183,6 +183,7 @@ async function getFiles(userId, sort, order, cursor) {
 
           }
         }
+        continue;
       }
 
       // check pages
@@ -193,6 +194,7 @@ async function getFiles(userId, sort, order, cursor) {
 
       if (results[0].length) {
         filesArray[i].used = "Yes";
+        continue;
       }
 
       // check sponsors
@@ -203,6 +205,29 @@ async function getFiles(userId, sort, order, cursor) {
 
       if (results[0].length) {
         filesArray[i].used = "Yes";
+        continue;
+      }
+
+      // check contributors
+      sql = "SELECT imageUrl " +
+      "FROM Contributors " +
+      "WHERE imageUrl LIKE CONCAT('%', ?, '%');";
+      results = await pool.query(sql, fileUrl);
+
+      if (results[0].length) {
+        filesArray[i].used = "Yes";
+        continue;
+      }
+
+      // check banners
+      sql = "SELECT imageUrl " +
+      "FROM Banners " +
+      "WHERE imageUrl LIKE CONCAT('%', ?, '%');";
+      results = await pool.query(sql, fileUrl);
+
+      if (results[0].length) {
+        filesArray[i].used = "Yes";
+        continue;
       }
 
     }

@@ -407,8 +407,11 @@ function ManageHome() {
       {/* Card for setting homepage banners */}
       <div className="prompt-container my-3 p-5 bg-white card rounded shadow-sm">
         <span className="h3 mb-2">Banner Images</span>
+        <span>
+          Select up to six banner images to randomly display when users visit the homepage.
+        </span>
         <span className="mb-5">
-          Select up to six banner images to randomly display when users visit the homepage
+          Images should be approximately 4500 x 1000 pixels. Images should be no larger than 5MB in size.
         </span>
 
         <div className="mb-5">
