@@ -29,6 +29,12 @@ function ManageHome() {
   const [upload5, setUpload5] = useState(null);
   const [upload6, setUpload6] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error1, setError1] = useState("");
+  const [error2, setError2] = useState("");
+  const [error3, setError3] = useState("");
+  const [error4, setError4] = useState("");
+  const [error5, setError5] = useState("");
+  const [error6, setError6] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   // when the page first loads, get all default info
@@ -158,6 +164,8 @@ function ManageHome() {
   // Submit banner changes
   async function submitBanners() {
 
+    let error = false;
+
     // submit all of the non-empty banner fields
     const banners = [];
 
@@ -175,7 +183,16 @@ function ManageHome() {
         const obj = await results.json();
         banners.push(obj.url);
       } else {
-        console.error("Failed to upload image.");
+        const obj = await results.json();
+        if (results.status === 500 || typeof obj.error === "undefined") {
+          setErrorMessage("Failed to upload image. Please try again later.");
+          setError1("Failed to upload image. Please try again later.");
+          error = true;
+        } else {
+          setErrorMessage(obj.error);
+          setError1(obj.error);
+          error = true;
+        }
       }
     } else if (banner1.trim().length) {
       banners.push(banner1.trim());
@@ -195,7 +212,16 @@ function ManageHome() {
         const obj = await results.json();
         banners.push(obj.url);
       } else {
-        console.error("Failed to upload image.");
+        const obj = await results.json();
+        if (results.status === 500 || typeof obj.error === "undefined") {
+          setErrorMessage("Failed to upload image. Please try again later.");
+          setError2("Failed to upload image. Please try again later.");
+          error = true;
+        } else {
+          setErrorMessage(obj.error);
+          setError2(obj.error);
+          error = true;
+        }
       }
     } else if (banner2.trim().length) {
       banners.push(banner2.trim());
@@ -215,7 +241,16 @@ function ManageHome() {
         const obj = await results.json();
         banners.push(obj.url);
       } else {
-        console.error("Failed to upload image.");
+        const obj = await results.json();
+        if (results.status === 500 || typeof obj.error === "undefined") {
+          setErrorMessage("Failed to upload image. Please try again later.");
+          setError3("Failed to upload image. Please try again later.");
+          error = true;
+        } else {
+          setErrorMessage(obj.error);
+          setError3(obj.error);
+          error = true;
+        }
       }
     } else if (banner3.trim().length) {
       banners.push(banner3.trim());
@@ -235,7 +270,16 @@ function ManageHome() {
         const obj = await results.json();
         banners.push(obj.url);
       } else {
-        console.error("Failed to upload image.");
+        const obj = await results.json();
+        if (results.status === 500 || typeof obj.error === "undefined") {
+          setErrorMessage("Failed to upload image. Please try again later.");
+          setError4("Failed to upload image. Please try again later.");
+          error = true;
+        } else {
+          setErrorMessage(obj.error);
+          setError4(obj.error);
+          error = true;
+        }
       }
     } else if (banner4.trim().length) {
       banners.push(banner4.trim());
@@ -255,7 +299,16 @@ function ManageHome() {
         const obj = await results.json();
         banners.push(obj.url);
       } else {
-        console.error("Failed to upload image.");
+        const obj = await results.json();
+        if (results.status === 500 || typeof obj.error === "undefined") {
+          setErrorMessage("Failed to upload image. Please try again later.");
+          setError5("Failed to upload image. Please try again later.");
+          error = true;
+        } else {
+          setErrorMessage(obj.error);
+          setError5(obj.error);
+          error = true;
+        }
       }
     } else if (banner5.trim().length) {
       banners.push(banner5.trim());
@@ -275,7 +328,16 @@ function ManageHome() {
         const obj = await results.json();
         banners.push(obj.url);
       } else {
-        console.error("Failed to upload image.");
+        const obj = await results.json();
+        if (results.status === 500 || typeof obj.error === "undefined") {
+          setErrorMessage("Failed to upload image. Please try again later.");
+          setError6("Failed to upload image. Please try again later.");
+          error = true;
+        } else {
+          setErrorMessage(obj.error);
+          setError6(obj.error);
+          error = true;
+        }
       }
     } else if (banner6.trim().length) {
       banners.push(banner6.trim());
@@ -308,6 +370,7 @@ function ManageHome() {
       }
     }
 
+    return error;
   }
 
   // Submit info changes
@@ -384,8 +447,10 @@ function ManageHome() {
 
     setLoading(true);
 
-    submitBanners();
-    submitInfo();
+    const error = await submitBanners();
+    if (error === false) {
+      submitInfo();
+    }
 
     setLoading(false);
   }
@@ -433,6 +498,7 @@ function ManageHome() {
             required
           />
           <ImageInput id={1} onNewImage={(newImage) => setUpload1(newImage)} />
+          <Error message={error1} />
         </div>
 
         <div className="mb-5">
@@ -454,6 +520,7 @@ function ManageHome() {
             required
           />
           <ImageInput id={2} onNewImage={(newImage) => setUpload2(newImage)} />
+          <Error message={error2} />
         </div>
 
         <div className="mb-5">
@@ -475,6 +542,7 @@ function ManageHome() {
             required
           />
           <ImageInput id={3} onNewImage={(newImage) => setUpload3(newImage)} />
+          <Error message={error3} />
         </div>
 
         <div className="mb-5">
@@ -496,6 +564,7 @@ function ManageHome() {
             required
           />
           <ImageInput id={4} onNewImage={(newImage) => setUpload4(newImage)} />
+          <Error message={error4} />
         </div>
 
         <div className="mb-5">
@@ -517,6 +586,7 @@ function ManageHome() {
             required
           />
           <ImageInput id={5} onNewImage={(newImage) => setUpload5(newImage)} />
+          <Error message={error5} />
         </div>
 
         <div>
@@ -538,6 +608,7 @@ function ManageHome() {
             required
           />
           <ImageInput id={6} onNewImage={(newImage) => setUpload6(newImage)} />
+          <Error message={error6} />
         </div>
 
       </div>
