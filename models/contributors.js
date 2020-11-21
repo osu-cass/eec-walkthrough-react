@@ -1,7 +1,6 @@
 // File: info.js
 // Description: Provides functions for working with info
 
-const e = require("express");
 const {pool} = require("../services/database/mysqlPool");
 
 

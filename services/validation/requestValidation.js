@@ -445,3 +445,10 @@ const postContributorVal = Object.freeze({
   ]
 });
 exports.postContributorVal = postContributorVal;
+
+const postBannerVal = Object.freeze({
+  validation: [
+    check("banners").isArray({min: 0, max: 25})
+  ]
+});
+exports.postBannerVal = postBannerVal;

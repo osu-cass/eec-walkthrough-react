@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Nov 17, 2020 at 02:17 AM
+-- Generation Time: Nov 21, 2020 at 11:42 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -21,6 +21,17 @@ SET time_zone = "+00:00";
 --
 -- Database: `eec_walkthrough`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Banners`
+--
+
+CREATE TABLE `Banners` (
+  `bannerId` int(10) UNSIGNED NOT NULL,
+  `imageUrl` varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -180,7 +191,14 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (231, 66, 10, 231, 'Measuring Water Use', 54, '2020-09-23 22:00:24', 0),
 (232, 66, 10, 232, 'Water Rate Schedules', 54, '2020-09-23 22:22:08', 0),
 (233, 66, 10, 233, 'Common Water Charges', 54, '2020-09-23 22:26:50', 0),
-(236, 70, 10, 236, 'Consolidate Meters', 54, '2020-10-14 20:45:46', 0);
+(236, 70, 10, 236, 'Consolidate Meters', 54, '2020-10-14 20:45:46', 0),
+(237, 71, 0, 237, 'This guide is broken down into sections:', 51, '2020-11-18 01:11:43', 0),
+(238, 71, 0, 238, 'Each section includes a number of useful pertinent \"tidbits\" identified by a preceding icon', 51, '2020-11-18 01:30:33', 0),
+(239, 71, 0, 239, 'Each section also references in depth learning resources that offer deeper information about the top', 51, '2020-11-18 01:35:33', 0),
+(240, 72, 0, 240, 'Filters allow users to show or hide select types of information by icon type', 51, '2020-11-18 01:44:25', 0),
+(241, 47, 0, 241, 'Opportunity Meeting and Task Designations', 55, '2020-11-20 16:45:04', 0),
+(242, 47, 0, 242, 'Report Drafting', 55, '2020-11-20 16:46:09', 0),
+(243, 47, 0, 243, 'Report Presentation to Client', 55, '2020-11-20 16:47:38', 0);
 
 -- --------------------------------------------------------
 
@@ -226,6 +244,13 @@ CREATE TABLE `Contributors` (
   `priority` int(10) UNSIGNED NOT NULL,
   `active` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Contributors`
+--
+
+INSERT INTO `Contributors` (`contributorId`, `name`, `title`, `description`, `imageUrl`, `priority`, `active`) VALUES
+(42, 'Test Name', 'Some Title', 'This is a description that explains information about the user. Here is more text that explains something about the user.', 'https://placekitten.com/500/500', 10, 0);
 
 -- --------------------------------------------------------
 
@@ -355,7 +380,9 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (65, 49, 2, 'Natural Gas', 1, 54, '2020-09-17 20:04:02', 0),
 (66, 49, 3, 'Water', 1, 54, '2020-09-17 20:08:44', 0),
 (69, 49, 4, 'Analysis', 1, 54, '2020-10-14 18:28:03', 0),
-(70, 49, 5, 'Electricity Opportunities to Consider', 1, 54, '2020-10-14 20:41:48', 0);
+(70, 49, 5, 'Electricity Opportunities to Consider', 1, 54, '2020-10-14 20:41:48', 0),
+(71, 64, 71, 'Understanding the Guide', 0, 51, '2020-11-18 01:06:00', 0),
+(72, 64, 72, 'Using the Guide', 0, 51, '2020-11-18 01:41:03', 0);
 
 -- --------------------------------------------------------
 
@@ -2175,7 +2202,84 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6634, 95, 0, 1, 8, 'Sometimes capacity must be inferred from fan energy, and characteristic fan energy curves', '', '', 0, 0, 0, 0, '2020-10-29 22:04:51', 1),
 (6635, 96, 0, 0, 27, 'Combustion Analyzer ', '', '', 0, 0, 1, 0, '2020-10-29 22:08:04', 1),
 (6636, 96, 0, 0, 27, 'Digital or Infrared Thermometer', '', '', 0, 0, 1, 0, '2020-10-29 22:08:04', 1),
-(6637, 96, 0, 0, 8, 'An IR camera can help identify hot spots to insulate', '', '', 0, 0, 0, 0, '2020-10-29 22:08:04', 1);
+(6637, 96, 0, 0, 8, 'An IR camera can help identify hot spots to insulate', '', '', 0, 0, 0, 0, '2020-10-29 22:08:04', 1),
+(6661, 237, 0, 0, 11, 'Assessments ', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
+(6662, 237, 0, 1, 13, 'Standard recommended approaches for performing industrial assessments.', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
+(6663, 237, 0, 0, 11, 'Industries', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
+(6664, 237, 0, 1, 13, 'An overview of common industries followed by typical related subjects and opportunities.', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
+(6665, 237, 0, 0, 11, 'Processes', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
+(6666, 237, 0, 1, 13, 'Common industrial processes that use a combination of standard technologies', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
+(6667, 237, 0, 0, 11, 'Productivity', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
+(6668, 237, 0, 1, 13, 'Common approaches to improving industrial site productivity', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
+(6669, 237, 0, 0, 11, 'Technologies', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
+(6670, 237, 0, 1, 13, 'Standard technologies used throughout industry', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
+(6671, 237, 0, 0, 11, 'Utilities', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
+(6672, 237, 0, 1, 13, 'An introduction to utility billing structures, resource use analysis, and opportunities to reduce costs.', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
+(6699, 238, 0, 0, 27, 'Assessment Equipment', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
+(6700, 238, 0, 0, 7, 'Best Practices', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
+(6701, 238, 0, 0, 4, 'Caveats', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
+(6702, 238, 0, 0, 2, 'Cons', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
+(6703, 238, 0, 0, 15, 'Data to Collect', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
+(6704, 238, 0, 0, 16, 'File', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
+(6705, 238, 0, 0, 11, 'Opportunity to Consider', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
+(6706, 238, 0, 0, 10, 'Opportunity Flag', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
+(6707, 238, 0, 0, 1, 'Pros', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
+(6708, 238, 0, 0, 14, 'Questions', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
+(6709, 238, 0, 0, 3, 'Rules of Thumb', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
+(6710, 238, 0, 0, 12, 'Suggested Action', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
+(6711, 238, 0, 0, 8, 'Tips', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
+(6727, 240, 0, 0, 8, 'Filters are available on each published page. Clicking on the icons located on each header will filter associated items out or back into the list below.  ', '', '', 0, 0, 0, 0, '2020-11-18 01:55:53', 0),
+(6728, 240, 0, 1, 20, '', '/uploads/user_51/f6503d4e177523d18823ae1f14314853.png', 'Typical Header', 0, 0, 0, 0, '2020-11-18 01:55:53', 0),
+(6729, 240, 0, 1, 8, 'Clicking on the last three icons will bring back all items, hide all items, or hide the filter icon list.', '', '', 0, 0, 0, 0, '2020-11-18 01:55:53', 0),
+(6730, 239, 0, 0, 11, 'A preceding icon identifies the type of learning resource offered', '', '', 0, 0, 0, 0, '2020-11-18 02:13:47', 0),
+(6731, 239, 0, 1, 26, '(Cant show these icons yet)', '', '', 0, 0, 0, 0, '2020-11-18 02:13:47', 0),
+(6732, 239, 0, 0, 11, 'A trailing icon identifies the learning resource as internal or external', '', '', 0, 0, 0, 0, '2020-11-18 02:13:47', 0),
+(6733, 239, 0, 0, 11, 'A second trailing icon will indicate when the learning resource is a download', '', '', 0, 0, 0, 0, '2020-11-18 02:13:47', 0),
+(6772, 158, 0, 0, 26, 'Review any areas of concern or interest voiced by the client', '', '', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
+(6773, 158, 0, 0, 26, 'Review typical opportunities found in the energy intensive systems identified at the facility ', '', '', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
+(6774, 158, 0, 1, 8, 'This Industrial Walkthrough Checklist & Reference will offer more and more ideas for potential opportunities as it is developed over time', '', '', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
+(6775, 158, 0, 0, 26, 'Review the list of typical opportunities found in the site\'s industrial sector developed in Preliminary Research', '', '', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
+(6776, 158, 0, 0, 26, 'Pick the brain of anyone with experience in the subject', '', '', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
+(6777, 158, 0, 0, 26, 'Brainstorm on opportunities as a team and compile a list', '', '', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
+(6778, 158, 0, 0, 26, 'Develop a table of potential recommendations, and if possible: total energy used by the system related to each opportunity, a high/low estimate of potential % savings,  and the range of potential cost and energy savings potential.', '', '', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
+(6779, 158, 0, 1, 17, '(Item not added yet)', 'osu.edu', 'Example Table of Potential Opportunities', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
+(6780, 158, 0, 1, 8, 'Once you have a table of potential recommendations, make a data collection checklist for each recommendation and keep it up to date as you continue to work with the client. The data collection checklist should include all the information you need to develop each opportunity into a recommendation.', '', '', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
+(6781, 158, 0, 1, 26, 'Review any documents or information you already have and start checking things off your data collection checklist.', '', '', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
+(6782, 158, 0, 1, 26, 'For the information you don\'t have, make requests to the client over time or consider sharing the entire data collection checklist with them. If the checklist is lengthy, consider the first option and request information for one or two systems at a time so they remain engaged. In either case, the checklist that you share with the client should be formatted nicely. It should be clear exactly which system or piece of equipment you are talking about. ', '', '', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
+(6783, 162, 0, 0, 13, 'This is a requirement for U.S.DOE to accept our remote assessment as a deliverable on our contract. It might be done in one session or iteratively in multiple sessions.', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
+(6784, 162, 0, 0, 26, 'Begin with a review of preparatory work including the intitial energy balance, and list of possible opportunities.', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
+(6785, 162, 0, 0, 26, 'Discuss the best strategy to use for a Guided Remote Tour. This might be: ', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
+(6786, 162, 0, 1, 12, 'A standard tour of the process from start to finish, but this could be an overly long time for a Zoom meeting. ', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
+(6787, 162, 0, 1, 12, 'A series of shorter remote targeted tours of areas of specific interest. ', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
+(6788, 162, 0, 2, 8, 'This strategy is being used by a number of assessment teams', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
+(6789, 162, 0, 2, 1, 'Can simplify scheduling if only key team members must join tours of particular areas.  Others can participate based on availability.', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
+(6790, 162, 0, 2, 8, 'Come prepared to these meetings with an agenda and an approximate timeline for the meeting. All participants should have questions ready so the meeting can move efficiently.', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
+(6802, 155, 0, 0, 26, 'Initiate a conversation with potential clients in follow up to industry requests, partner references, or direct contact.', '', '', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
+(6803, 155, 0, 0, 26, 'Confirm suitability of the site and client for a remote IAC assessment', '', '', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
+(6804, 155, 0, 1, 12, 'Let clients know of key IAC eligibility criteria (Annual Energy Cost between $100K and $2.5 Mil, less than 500 employees,...) ', '', '', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
+(6805, 155, 0, 1, 14, 'Make sure clients are prepared for the effort required for a remote assessment (we are still learning what this is)', '', '', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
+(6806, 155, 0, 2, 14, 'May be best to have an initial phone conversation with the client to determine how to best structure a remote audit based on their needs.', '', '', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
+(6807, 155, 0, 1, 14, 'Ensure someone at the site can \"walk us through\" or at least go to targeted locations while with us on the phone to ask questions, perhaps get pictures or videos, and really dig into details. (This step is important for our contract with U.S.DOE)', '', '', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
+(6808, 155, 0, 0, 26, 'Send the standard OSU Pre-Assessment Package to appropriate clients ', '', '', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
+(6809, 155, 0, 1, 17, '$empty', 'https://docs.google.com/document/d/1SSk8Ks463YfySrxLr5o5zK08DLoDzkGMIEkecBMs51s/edit', 'Pre_Assessment Package Template', 0, 0, 0, 0, '2020-11-20 16:41:05', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(6814, 242, 0, 0, 13, 'Report drafting process will follow a timeline similar to that used for in person assessments.', '', '', 0, 0, 0, 0, '2020-11-20 16:47:53', 0),
+(6815, 241, 0, 0, 13, 'Upon completion of a remote guided tour, the assessment team will meet to determine which opportunities should be pursued.', '', '', 0, 0, 0, 0, '2020-11-20 16:48:31', 0),
+(6816, 241, 0, 0, 13, 'If possible, this meeting should include the client.', '', '', 0, 0, 0, 0, '2020-11-20 16:48:31', 0),
+(6830, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
+(6831, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
+(6832, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
+(6833, 156, 0, 1, 14, 'Ask for rated capacity, estimated % of full capacity, and hours of operation for significant equipment discussed.', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
+(6834, 156, 0, 2, 8, 'Estimates of the number of smaller motor of various sizes with average load and hours can also be helpful.', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
+(6835, 156, 0, 1, 14, 'Are common utilities such as compressed air, lighting, heating, etc covered in the conversation?', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
+(6836, 156, 0, 0, 26, 'Discuss proposed process for remote assessment going forward (we are still learning and developing this process)', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
+(6837, 156, 0, 0, 8, 'Try to get more than one key contact at the site involved in the project. (Plant manager, Fiscal Decision Maker, Maintenance Manager, Floor Personnel, Energy Lead, etc)', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
+(6838, 156, 0, 0, 17, '(Item not added yet)', 'abc.com', 'Pre-Audit Walkthrough Phone Call Checklist', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
+(6839, 156, 0, 0, 14, 'How best could we get Utility & Incentive Representatives involved (if the client permits) ', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
+(6840, 156, 0, 0, 26, 'At this point, an analyst should be assigned to start the general background. It may take more time to develop the general background while doing a remote assessment so it\'s best to start it early.', '', '', 0, 1, 0, 0, '2020-11-20 21:21:53', 0),
+(6841, 243, 0, 0, 13, 'Once the report has been compiled and made it through the review process, a meeting with the client will be scheduled to present the findings and recommendations in the report.', '', '', 0, 0, 0, 0, '2020-11-20 21:33:31', 0),
+(6842, 243, 0, 1, 13, 'This is something that we may start doing for all assessments moving forward.', '', '', 0, 0, 0, 0, '2020-11-20 21:33:31', 0),
+(6843, 243, 0, 1, 13, 'If possible, this meeting should include all analysts involved in the report.', '', '', 0, 0, 0, 0, '2020-11-20 21:33:31', 0);
 
 -- --------------------------------------------------------
 
@@ -2243,7 +2347,7 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (58, 4, 'Queuing Line Optimization', 'The operation of queues and their respective workstations determine the overall production efficiency of a facility.', 'Optimizing the queuing system of a workstation has significant effects on product output. Little\'s law and queuing theory helps simplify any production system into a set of easy to estimate variables. While extensive research, data collection, and possibly simulation should be employed before making any change to a part of the production system, basic analysis can reveal opportunities for cost savings through increased productivity.', 'https://www.umav.org/wp-content/uploads/2019/04/Car-Assembly-Line.jpg', 0, 62, '2020-08-10 19:57:05', 0),
 (61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, which creates additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will increase the capacity of the distribution system.', '/uploads/user_52/ec8550a6c0caa67f935129b59a4c8185.jpg', 0, 52, '2020-08-26 15:55:35', 1),
 (62, 5, 'Cybersecurity', 'Industrial Assessment Center resources for increasing cybersecurity.', 'Cybersecurity is becoming increasingly important as more industries adopt newer and more sophisticated controls for smart manufacturing or data collection to increase production and equipment efficiency. As part of our outreach on energy efficiency, we also provide information and resources about cybersecurity. Using some of the self-assessment tools and other informational resources provided on this page can be an important part of a facility’s plan to regularly evaluate their cybersecurity status.\n\nThe National Institute of Standards and Technology (NIST) Manufacturing Extension Partnership stated that 61% of small businesses experienced a cyber attack within the last 12 months, making up 58% of cyber attack victims. Furthermore, 34% of targets were manufacturing facilities and the median cost per attack was $60,000.', 'https://live.staticflickr.com/6044/6999839463_ae02bb6a7e_b.jpg', 1, 57, '2020-08-27 00:21:01', 0),
-(64, 0, 'How to Use EEC Walkthrough', 'summary', 'description', 'https://picsum.photos/seed/newseed/700/700', 0, 42, '2020-08-31 22:17:53', 0),
+(64, 0, 'How to Use EEC Walkthrough', 'Find what you need to know quickly', 'This guide is designed to allow the user to \"drill down\" to a specific subject of interest, perhaps associated with a current project. Each topic includes an overview including a quick summary of key things to know, along with links to more in depth resources. This section is followed by a list of common efficiency improvement opportunities to consider along with associated information.', '/uploads/user_51/a8a32589238ec2625ded26ec4774f529.jpg', 0, 51, '2020-08-31 22:17:53', 0),
 (65, 0, 'How to Edit EEC Walkthrough', 'An analyst oriented guide for creating, editing, and reviewing content on the EEC Industrial Walkthrough Checklist.', 'Description', 'https://picsum.photos/seed/picsum/700/700', 1, 42, '2020-08-31 22:17:53', 0),
 (69, 1, 'Metals Manufacturing', 'Industrial metals manufacturing processes may include casting, forging, bending, forming, spinning, welding, cutting and finishing to produce a final product.', 'Metals manufacturing includes production of raw stock, replacement parts and final products. Many production processes are common among all metals manufacturing facilities.', '/uploads/user_52/0baf5657b6e1ac3fef0b0e048672324b.jpg', 0, 52, '2020-09-09 18:37:04', 0);
 
@@ -2441,7 +2545,11 @@ INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderI
 (100, 0, 'Off Site Resource Links', 100, 61, '2020-07-03 17:55:16'),
 (105, 0, 'Improve the Condensate System', 105, 51, '2020-10-29 21:51:42'),
 (106, 0, 'Reduce Heat Loss', 106, 51, '2020-07-03 17:31:09'),
-(120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52');
+(120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52'),
+(155, 10, 'Identify Potential Sites to Work With', 1, 55, '2020-11-19 15:48:15'),
+(156, 10, 'Hold an Initial Remote Assessment Meeting with the Client', 4, 52, '2020-11-20 15:57:46'),
+(158, 10, 'Develop a List of Potential Opportunities to Study', 6, 52, '2020-11-20 15:36:44'),
+(162, 10, 'Arrange a Client Guided Remote Tour by Phone.', 162, 52, '2020-11-20 15:52:48');
 
 -- --------------------------------------------------------
 
@@ -2567,6 +2675,12 @@ INSERT INTO `Views` (`viewId`, `pageId`, `userId`, `viewName`, `public`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `Banners`
+--
+ALTER TABLE `Banners`
+  ADD PRIMARY KEY (`bannerId`);
 
 --
 -- Indexes for table `Cards`
@@ -2759,10 +2873,16 @@ ALTER TABLE `Views`
 --
 
 --
+-- AUTO_INCREMENT for table `Banners`
+--
+ALTER TABLE `Banners`
+  MODIFY `bannerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=237;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2780,7 +2900,7 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
@@ -2822,7 +2942,7 @@ ALTER TABLE `Info`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6638;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6844;
 
 --
 -- AUTO_INCREMENT for table `Notifications`

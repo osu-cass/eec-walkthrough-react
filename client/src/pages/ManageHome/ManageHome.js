@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Button, Row, FormControl} from "react-bootstrap";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import ImageInput from "../../components/General/ImageInput";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import "./ManageHome.css";
@@ -15,6 +16,18 @@ function ManageHome() {
   const [rightTitle, setRightTitle] = useState("");
   const [rightText, setRightText] = useState("");
   const [rightIcon, setRightIcon] = useState("");
+  const [banner1, setBanner1] = useState("");
+  const [banner2, setBanner2] = useState("");
+  const [banner3, setBanner3] = useState("");
+  const [banner4, setBanner4] = useState("");
+  const [banner5, setBanner5] = useState("");
+  const [banner6, setBanner6] = useState("");
+  const [upload1, setUpload1] = useState(null);
+  const [upload2, setUpload2] = useState(null);
+  const [upload3, setUpload3] = useState(null);
+  const [upload4, setUpload4] = useState(null);
+  const [upload5, setUpload5] = useState(null);
+  const [upload6, setUpload6] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -30,7 +43,50 @@ function ManageHome() {
 
         setLoading(true);
 
-        const results = await fetch(`${API_URL}/info`, {
+        let results = await fetch(`${API_URL}/banners`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+        
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+          const obj = await results.json();
+
+          if (obj.banners.length > 0) {
+            setBanner1(obj.banners[0].imageUrl);
+          }
+          if (obj.banners.length > 1) {
+            setBanner2(obj.banners[1].imageUrl);
+          }
+          if (obj.banners.length > 2) {
+            setBanner3(obj.banners[2].imageUrl);
+          }
+          if (obj.banners.length > 3) {
+            setBanner4(obj.banners[3].imageUrl);
+          }
+          if (obj.banners.length > 4) {
+            setBanner5(obj.banners[4].imageUrl);
+          }
+          if (obj.banners.length > 5) {
+            setBanner6(obj.banners[5].imageUrl);
+          }
+
+        } else {
+          console.error("Error fetching info");
+        }
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        results = await fetch(`${API_URL}/info`, {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
@@ -99,11 +155,163 @@ function ManageHome() {
     }
   }
 
+  // Submit banner changes
+  async function submitBanners() {
+
+    // submit all of the non-empty banner fields
+    const banners = [];
+
+    // Check banner 1
+    if (upload1 !== null) {
+      const formData = new FormData();
+      formData.append("image", upload1);
+      const results = await fetch(`${API_URL}/files/single`, {
+        method: "POST",
+        credentials: "include",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        banners.push(obj.url);
+      } else {
+        console.error("Failed to upload image.");
+      }
+    } else if (banner1.trim().length) {
+      banners.push(banner1.trim());
+    }
+
+    // Check banner 2
+    if (upload2 !== null) {
+      const formData = new FormData();
+      formData.append("image", upload2);
+      const results = await fetch(`${API_URL}/files/single`, {
+        method: "POST",
+        credentials: "include",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        banners.push(obj.url);
+      } else {
+        console.error("Failed to upload image.");
+      }
+    } else if (banner2.trim().length) {
+      banners.push(banner2.trim());
+    }
+
+    // Check banner 3
+    if (upload3 !== null) {
+      const formData = new FormData();
+      formData.append("image", upload3);
+      const results = await fetch(`${API_URL}/files/single`, {
+        method: "POST",
+        credentials: "include",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        banners.push(obj.url);
+      } else {
+        console.error("Failed to upload image.");
+      }
+    } else if (banner3.trim().length) {
+      banners.push(banner3.trim());
+    }
+
+    // Check banner 4
+    if (upload4 !== null) {
+      const formData = new FormData();
+      formData.append("image", upload4);
+      const results = await fetch(`${API_URL}/files/single`, {
+        method: "POST",
+        credentials: "include",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        banners.push(obj.url);
+      } else {
+        console.error("Failed to upload image.");
+      }
+    } else if (banner4.trim().length) {
+      banners.push(banner4.trim());
+    }
+
+    // Check banner 5
+    if (upload5 !== null) {
+      const formData = new FormData();
+      formData.append("image", upload5);
+      const results = await fetch(`${API_URL}/files/single`, {
+        method: "POST",
+        credentials: "include",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        banners.push(obj.url);
+      } else {
+        console.error("Failed to upload image.");
+      }
+    } else if (banner5.trim().length) {
+      banners.push(banner5.trim());
+    }
+
+    // Check banner 6
+    if (upload6 !== null) {
+      const formData = new FormData();
+      formData.append("image", upload6);
+      const results = await fetch(`${API_URL}/files/single`, {
+        method: "POST",
+        credentials: "include",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        banners.push(obj.url);
+      } else {
+        console.error("Failed to upload image.");
+      }
+    } else if (banner6.trim().length) {
+      banners.push(banner6.trim());
+    }
+
+    const bannersObject = {
+      banners: banners
+    }
+
+    const results = await fetch(`${API_URL}/banners`, {
+      method: "POST",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(bannersObject)
+    });
+
+    if (!results.ok) {
+      // there was an error updating the info
+      const obj = await results.json();
+
+      // if the user is performing an unauthorized action
+      // log them out and return them to the homepage
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+    }
+
+  }
+
   // Submit info changes
-  async function submitChanges() {
-
-    setLoading(true);
-
+  async function submitInfo() {
     // Create objects with the new info
     const leftObject = {
       title: leftTitle,
@@ -125,13 +333,7 @@ function ManageHome() {
       body: JSON.stringify(leftObject)
     });
 
-    if (results.ok) {
-
-      // Reset state
-      setErrorMessage("");
-
-    } else {
-
+    if (!results.ok) {
       // there was an error updating the info
       const obj = await results.json();
 
@@ -157,14 +359,10 @@ function ManageHome() {
 
     if (results.ok) {
 
-      // Reset state
-      setErrorMessage("");
-
       // refresh the page
       window.location.reload();
 
     } else {
-
       // there was an error updating the info
       const obj = await results.json();
 
@@ -179,6 +377,15 @@ function ManageHome() {
         setErrorMessage(obj.error);
       }
     }
+  }
+
+  // Submit all changes
+  async function submitChanges() {
+
+    setLoading(true);
+
+    submitBanners();
+    submitInfo();
 
     setLoading(false);
   }
@@ -197,137 +404,271 @@ function ManageHome() {
         </div>
       </div>
 
+      {/* Card for setting homepage banners */}
+      <div className="prompt-container my-3 p-5 bg-white card rounded shadow-sm">
+        <span className="h3 mb-2">Banner Images</span>
+        <span className="mb-5">
+          Select up to six banner images to randomly display when users visit the homepage
+        </span>
 
+        <div className="mb-5">
+          <img
+            className="banner-preview"
+            src={banner1}
+            alt="Banner preview"
+            onError={(e) => e.target.src = "/missing.png"}
+          />
+          <FormControl
+            rows="1"
+            className="my-3"
+            maxLength="1000"
+            placeholder="Enter banner image URL"
+            defaultValue={banner1}
+            aria-label="Banner image"
+            aria-describedby="basic-addon1"
+            onChange={(e) => setBanner1(e.target.value)}
+            required
+          />
+          <ImageInput id={1} onNewImage={(newImage) => setUpload1(newImage)} />
+        </div>
 
-        <table className="home-table shadow">
-          <thead>
-            <tr>
-              <th>
-                Title
-              </th>
-              <th>
-                Text
-              </th>
-              <th>
-                <span className="font-weight-bold">Font Awesome Name&nbsp;&nbsp;</span>
-                <a href={"https://www.fontawesome.com/v4.7.0/icons/"}>(All Icon Names)</a>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
+        <div className="mb-5">
+          <img
+            className="banner-preview"
+            src={banner2}
+            alt="Banner preview"
+            onError={(e) => e.target.src = "/missing.png"}
+          />
+          <FormControl
+            rows="1"
+            className="my-3"
+            maxLength="1000"
+            placeholder="Enter banner image URL"
+            defaultValue={banner2}
+            aria-label="Banner image"
+            aria-describedby="basic-addon1"
+            onChange={(e) => setBanner2(e.target.value)}
+            required
+          />
+          <ImageInput id={2} onNewImage={(newImage) => setUpload2(newImage)} />
+        </div>
 
-              {/* Left text fields */}
-              <td className="home-text-field align-top">
-                <FormControl
-                  as="textarea"
-                  rows="3"
-                  className="ml-2 mr-3"
-                  maxLength="150"
-                  placeholder="Enter title"
-                  defaultValue={leftTitle}
-                  aria-label="Title"
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => modifyField(1, 1, e.target.value)}
-                  required
-                />
-              </td>
-              <td className="home-text-field align-top">
-                <FormControl
-                  as="textarea"
-                  rows="3"
-                  className="ml-2 mr-3"
-                  maxLength="5000"
-                  placeholder="Enter text"
-                  defaultValue={leftText}
-                  aria-label="Title"
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => modifyField(1, 2, e.target.value)}
-                  required
-                />
-              </td>
-              <td className="home-text-field align-top">
-                <FormControl
-                  as="textarea"
-                  rows="3"
-                  className="ml-2 mr-3"
-                  maxLength="100"
-                  placeholder="Enter icon"
-                  defaultValue={leftIcon}
-                  aria-label="Title"
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => modifyField(1, 3, e.target.value)}
-                  required
-                />
-              </td>
+        <div className="mb-5">
+          <img
+            className="banner-preview"
+            src={banner3}
+            alt="Banner preview"
+            onError={(e) => e.target.src = "/missing.png"}
+          />
+          <FormControl
+            rows="1"
+            className="my-3"
+            maxLength="1000"
+            placeholder="Enter banner image URL"
+            defaultValue={banner3}
+            aria-label="Banner image"
+            aria-describedby="basic-addon1"
+            onChange={(e) => setBanner3(e.target.value)}
+            required
+          />
+          <ImageInput id={3} onNewImage={(newImage) => setUpload3(newImage)} />
+        </div>
 
-            </tr>
-            <tr>
+        <div className="mb-5">
+          <img
+            className="banner-preview"
+            src={banner4}
+            alt="Banner preview"
+            onError={(e) => e.target.src = "/missing.png"}
+          />
+          <FormControl
+            rows="1"
+            className="my-3"
+            maxLength="1000"
+            placeholder="Enter banner image URL"
+            defaultValue={banner4}
+            aria-label="Banner image"
+            aria-describedby="basic-addon1"
+            onChange={(e) => setBanner4(e.target.value)}
+            required
+          />
+          <ImageInput id={4} onNewImage={(newImage) => setUpload4(newImage)} />
+        </div>
 
-              {/* Right text fields */}
-              <td className="home-text-field align-top">
-                <FormControl
-                  as="textarea"
-                  rows="3"
-                  className="ml-2 mr-3"
-                  maxLength="150"
-                  placeholder="Enter title"
-                  defaultValue={rightTitle}
-                  aria-label="Title"
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => modifyField(2, 1, e.target.value)}
-                  required
-                />
-              </td>
-              <td className="home-text-field align-top">
-                <FormControl
-                  as="textarea"
-                  rows="3"
-                  className="ml-2 mr-3"
-                  maxLength="5000"
-                  placeholder="Enter text"
-                  defaultValue={rightText}
-                  aria-label="Title"
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => modifyField(2, 2, e.target.value)}
-                  required
-                />
-              </td>
-              <td className="home-text-field align-top">
-                <FormControl
-                  as="textarea"
-                  rows="3"
-                  className="ml-2 mr-3"
-                  maxLength="100"
-                  placeholder="Enter icon"
-                  defaultValue={rightIcon}
-                  aria-label="Title"
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => modifyField(2, 3, e.target.value)}
-                  required
-                />
-              </td>
+        <div className="mb-5">
+          <img
+            className="banner-preview"
+            src={banner5}
+            alt="Banner preview"
+            onError={(e) => e.target.src = "/missing.png"}
+          />
+          <FormControl
+            rows="1"
+            className="my-3"
+            maxLength="1000"
+            placeholder="Enter banner image URL"
+            defaultValue={banner5}
+            aria-label="Banner image"
+            aria-describedby="basic-addon1"
+            onChange={(e) => setBanner5(e.target.value)}
+            required
+          />
+          <ImageInput id={5} onNewImage={(newImage) => setUpload5(newImage)} />
+        </div>
 
-            </tr>
-          </tbody>
-        </table>
+        <div>
+          <img
+            className="banner-preview"
+            src={banner6}
+            alt="Banner preview"
+            onError={(e) => e.target.src = "/missing.png"}
+          />
+          <FormControl
+            rows="1"
+            className="my-3"
+            maxLength="1000"
+            placeholder="Enter banner image URL"
+            defaultValue={banner6}
+            aria-label="Banner image"
+            aria-describedby="basic-addon1"
+            onChange={(e) => setBanner6(e.target.value)}
+            required
+          />
+          <ImageInput id={6} onNewImage={(newImage) => setUpload6(newImage)} />
+        </div>
 
-      {/* Error messages */}
-      <div className="mx-3 my-3">
-        <Error
-          message={errorMessage}
-        />
-
-      {/* Save changes */}
       </div>
-        <Row className="mb-2">
-          <div className="col">
-            <Button variant="primary" className="float-right mr-3" onClick={() => submitChanges()}>
-              Save changes
-            </Button>
-          </div>
-        </Row>
-      </div>
+
+      {/* Table for setting homepage text */}
+      <table className="home-table shadow">
+        <thead>
+          <tr>
+            <th>
+              Title
+            </th>
+            <th>
+              Text
+            </th>
+            <th>
+              <span className="font-weight-bold">Font Awesome Name&nbsp;&nbsp;</span>
+              <a href={"https://www.fontawesome.com/v4.7.0/icons/"}>(All Icon Names)</a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+
+            {/* Left text fields */}
+            <td className="home-text-field align-top">
+              <FormControl
+                as="textarea"
+                rows="3"
+                className="ml-2 mr-3"
+                maxLength="150"
+                placeholder="Enter title"
+                defaultValue={leftTitle}
+                aria-label="Title"
+                aria-describedby="basic-addon1"
+                onChange={(e) => modifyField(1, 1, e.target.value)}
+                required
+              />
+            </td>
+            <td className="home-text-field align-top">
+              <FormControl
+                as="textarea"
+                rows="3"
+                className="ml-2 mr-3"
+                maxLength="5000"
+                placeholder="Enter text"
+                defaultValue={leftText}
+                aria-label="Title"
+                aria-describedby="basic-addon1"
+                onChange={(e) => modifyField(1, 2, e.target.value)}
+                required
+              />
+            </td>
+            <td className="home-text-field align-top">
+              <FormControl
+                as="textarea"
+                rows="3"
+                className="ml-2 mr-3"
+                maxLength="100"
+                placeholder="Enter icon"
+                defaultValue={leftIcon}
+                aria-label="Title"
+                aria-describedby="basic-addon1"
+                onChange={(e) => modifyField(1, 3, e.target.value)}
+                required
+              />
+            </td>
+
+          </tr>
+          <tr>
+
+            {/* Right text fields */}
+            <td className="home-text-field align-top">
+              <FormControl
+                as="textarea"
+                rows="3"
+                className="ml-2 mr-3"
+                maxLength="150"
+                placeholder="Enter title"
+                defaultValue={rightTitle}
+                aria-label="Title"
+                aria-describedby="basic-addon1"
+                onChange={(e) => modifyField(2, 1, e.target.value)}
+                required
+              />
+            </td>
+            <td className="home-text-field align-top">
+              <FormControl
+                as="textarea"
+                rows="3"
+                className="ml-2 mr-3"
+                maxLength="5000"
+                placeholder="Enter text"
+                defaultValue={rightText}
+                aria-label="Title"
+                aria-describedby="basic-addon1"
+                onChange={(e) => modifyField(2, 2, e.target.value)}
+                required
+              />
+            </td>
+            <td className="home-text-field align-top">
+              <FormControl
+                as="textarea"
+                rows="3"
+                className="ml-2 mr-3"
+                maxLength="100"
+                placeholder="Enter icon"
+                defaultValue={rightIcon}
+                aria-label="Title"
+                aria-describedby="basic-addon1"
+                onChange={(e) => modifyField(2, 3, e.target.value)}
+                required
+              />
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+
+    {/* Error messages */}
+    <div className="mx-3 my-3">
+      <Error
+        message={errorMessage}
+      />
+
+    {/* Save changes */}
+    </div>
+      <Row className="mb-2">
+        <div className="col">
+          <Button variant="primary" className="float-right mr-3" onClick={() => submitChanges()}>
+            Save changes
+          </Button>
+        </div>
+      </Row>
+    </div>
 
   );
 }
