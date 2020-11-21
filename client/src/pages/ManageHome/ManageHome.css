@@ -8,3 +8,8 @@
 .manage-home-page-container {
   padding-bottom: 20em;
 }
+
+.banner-preview {
+  max-width: 250px;
+  max-height: 100px;
+}
