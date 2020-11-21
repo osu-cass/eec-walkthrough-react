@@ -11,6 +11,7 @@ function Sponsor(props) {
           <img
             src={props.imageUrl}
             alt={props.name}
+            onError={(e) => e.target.src = "/missing.png"}
             className="sponsor-img img-fluid img-thumbnail px-3 py-3"
           />
         </a>

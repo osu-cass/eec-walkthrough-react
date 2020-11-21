@@ -127,7 +127,7 @@ function NavBarTab (props) {
                       href={`/wiki/${props.category.pluralName.replace(/\s+/g, "-").toLowerCase()}/${page.pageId}`}
                     >
                       <div className="navbar-item navbar-image-item text-center pt-auto px-2 py-1">
-                        <img src={page.imageUrl} alt={page.name} className="cat-tag-img mb-2" />
+                        <img src={page.imageUrl} alt={page.name} className="cat-tag-img mb-2" onError={(e) => e.target.src = "/missing.png"} />
                         <br />
                         {page.name}
                         {page.approved === 0 ? (
