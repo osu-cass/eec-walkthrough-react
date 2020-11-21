@@ -11,6 +11,7 @@ function ContributorBlock(props) {
           <img
             src={props.imageUrl}
             alt={props.name}
+            onError={(e) => e.target.src = "/missing.png"}
             className="img-thumbnail-contributor px-3 py-3"
           />
 

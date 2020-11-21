@@ -295,6 +295,7 @@ function Home(props) {
                 src={sponsor.imageUrl}
                 alt={sponsor.name}
                 title={sponsor.name}
+                onError={(e) => e.target.src = "/missing.png"}
                 className="expandable-image img-fluid img-thumbnail ml-5"
               />
             )}
