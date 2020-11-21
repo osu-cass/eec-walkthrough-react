@@ -14,6 +14,7 @@ function HomePage(props) {
   const [sponsors, setSponsors] = useState([]);
   const [updated, setUpdated] = useState([]);
   const [recent, setRecent] = useState(false);
+  const [bannerUrl, setBannerUrl] = useState("");
   const [info, setInfo] = useState([
     {
       title: "",
@@ -38,8 +39,38 @@ function HomePage(props) {
       try {
         setLoading(true);
 
+        // Fetch homepage banners
+        let results = await fetch(`${API_URL}/banners`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+        
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+
+          if (obj.banners.length) {
+            setBannerUrl(obj.banners[Math.floor(Math.random() * obj.banners.length)].imageUrl);
+          }
+
+        } else {
+          console.error("Error fetching home page banner");
+        }
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
         // Fetch text blurbs
-        let results = await fetch(`${API_URL}/info`, {
+        results = await fetch(`${API_URL}/info`, {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
@@ -182,7 +213,12 @@ function HomePage(props) {
 
       <div className="banner-container">
         {/* Image shown at the top of the page */}
-        <img className="home-banner" src="home.jpg" alt="Brewery equipment" />
+        <img
+          className="home-banner"
+          src={bannerUrl}
+          onError={(e) => e.target.src = "/missing_home.jpg"}
+          alt="Home page banner"
+        />
 
         <div className="banner-image-div" >
           {/* Text box inside banner image */}
