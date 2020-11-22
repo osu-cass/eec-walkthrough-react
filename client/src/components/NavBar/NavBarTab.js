@@ -36,7 +36,7 @@ function NavBarTab (props) {
     } else {
       setCategoryGroups([]);
     }
-  }, [props.category])
+  }, [props.category]);
 
   return (
     props.visibleTabs[props.category.categoryId] || (props.subTab && !props.visibleTabs[props.category.categoryId]) ? (
@@ -146,7 +146,7 @@ function NavBarTab (props) {
                 )}
               </div>
             )}
-          
+
 
             {/* Create page button */}
             <CreatePage

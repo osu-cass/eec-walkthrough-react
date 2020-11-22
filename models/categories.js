@@ -10,14 +10,16 @@ async function getCategory(categoryId, userId) {
   try {
 
     let viewAll = false;
+    let sql = "";
+    let results = "";
 
     // check to see if the user should be allowed to see internal content
     if (userId) {
-      let sql = "SELECT * " +
+      sql = "SELECT * " +
         "FROM Users " +
         "WHERE userId = ? " +
         "AND (role = 2 OR role >= 4);";
-      let results = await pool.query(sql, userId);
+      results = await pool.query(sql, userId);
 
       if (results[0].length) {
         viewAll = true;
@@ -85,14 +87,16 @@ async function getCategories(userId) {
   try {
 
     let viewAll = 0;
+    let sql = "";
+    let results = "";
 
     // check to see if the user should be allowed to see internal content
     if (userId) {
-      let sql = "SELECT * " +
+      sql = "SELECT * " +
         "FROM Users " +
         "WHERE userId = ? " +
         "AND (role = 2 OR role >= 4);";
-      let results = await pool.query(sql, userId);
+      results = await pool.query(sql, userId);
 
       if (results[0].length) {
         viewAll = 2;
@@ -177,14 +181,15 @@ async function getCategoryNames(userId) {
   try {
 
     let viewAll = false;
+    let sql = "";
 
     // check to see if the user should be allowed to see internal content
     if (userId) {
-      let sql = "SELECT * " +
+      sql = "SELECT * " +
         "FROM Users " +
         "WHERE userId = ? " +
         "AND (role = 2 OR role >= 4);";
-      let results = await pool.query(sql, userId);
+      const results = await pool.query(sql, userId);
 
       if (results[0].length) {
         viewAll = true;
@@ -196,7 +201,6 @@ async function getCategoryNames(userId) {
     };
 
     // get all of the categories names
-
     if (viewAll) {
       sql = "SELECT categoryId, singleName " +
       "FROM Categories " +

@@ -1,6 +1,5 @@
 import React, {Fragment, useState, useEffect} from "react";
 import FormControl from "react-bootstrap/FormControl";
-import {Form} from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import ImageInput from "../../../components/General/ImageInput";
 import RichTextEditor from "../../../components/General/RichTextEditor";

@@ -33,7 +33,7 @@ async function updateInfo(infoId, title, text, icon) {
 
   try {
 
-    console.log(infoId, title, text, icon)
+    console.log(infoId, title, text, icon);
 
     const sqlArray = [];
 

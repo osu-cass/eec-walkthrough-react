@@ -8,7 +8,7 @@ function RichTextEditor(props) {
 
   const modules = {
     toolbar: [
-      [{"size": ["small", false, "large", "huge"]}],
+      [{size: ["small", false, "large", "huge"]}],
       ["bold", "italic", "underline", "strike"],
       [{list: "ordered"}, {list: "bullet"}],
       ["link"],

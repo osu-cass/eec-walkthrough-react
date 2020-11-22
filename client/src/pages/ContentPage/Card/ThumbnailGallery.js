@@ -122,7 +122,7 @@ function ThumbnailGallery(props) {
   ) : (
     <div className="row text-center text-lg-left">
       {props.items.map((item) =>
-        <div 
+        <div
           className="col-lg-3 col-md-4 col-6 my-auto"
           align="center"
           key={item.itemId}

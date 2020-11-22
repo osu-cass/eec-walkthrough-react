@@ -8,19 +8,19 @@ function ContributorBlock(props) {
   return (
     <div className="contributor-container">
       <div className="d-block my-2 h-100">
-          <img
-            src={props.imageUrl}
-            alt={props.name}
-            onError={(e) => e.target.src = "/missing.png"}
-            className="img-thumbnail-contributor px-3 py-3"
-          />
+        <img
+          src={props.imageUrl}
+          alt={props.name}
+          onError={(e) => e.target.src = "/missing.png"}
+          className="img-thumbnail-contributor px-3 py-3"
+        />
 
-          <h2>{props.name}</h2>
-          <h5>{props.title}</h5>
+        <h2>{props.name}</h2>
+        <h5>{props.title}</h5>
 
-          <div className="contributor-main-text mt-4 px-4">
-            <span>{props.description}</span>
-          </div>
+        <div className="contributor-main-text mt-4 px-4">
+          <span>{props.description}</span>
+        </div>
       </div>
     </div>
   );

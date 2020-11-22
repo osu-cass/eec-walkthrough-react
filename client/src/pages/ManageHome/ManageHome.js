@@ -55,7 +55,7 @@ function ManageHome() {
           credentials: "include",
           headers: {"Content-Type": "application/json"}
         });
-        
+
         // if this component is cleaned up, stop here
         if (ignore) {
           return;
@@ -345,7 +345,7 @@ function ManageHome() {
 
     const bannersObject = {
       banners: banners
-    }
+    };
 
     const results = await fetch(`${API_URL}/banners`, {
       method: "POST",
@@ -380,13 +380,13 @@ function ManageHome() {
       title: leftTitle,
       text: leftText,
       icon: leftIcon
-    }
+    };
 
     const rightObject = {
       title: rightTitle,
       text: rightText,
       icon: rightIcon
-    }
+    };
 
     // Edit left info
     let results = await fetch(`${API_URL}/info/1`, {
@@ -727,14 +727,14 @@ function ManageHome() {
         </tbody>
       </table>
 
-    {/* Error messages */}
-    <div className="mx-3 my-3">
-      <Error
-        message={errorMessage}
-      />
+      {/* Error messages */}
+      <div className="mx-3 my-3">
+        <Error
+          message={errorMessage}
+        />
 
-    {/* Save changes */}
-    </div>
+        {/* Save changes */}
+      </div>
       <Row className="mb-2">
         <div className="col">
           <Button variant="primary" className="float-right mr-3" onClick={() => submitChanges()}>

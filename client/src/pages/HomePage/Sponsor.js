@@ -6,16 +6,16 @@ import "./Sponsor.css";
 function Sponsor(props) {
 
   return (
-      <div className="sponsor-container mx-4 my-4">
-        <a href={props.websiteUrl}>
-          <img
-            src={props.imageUrl}
-            alt={props.name}
-            onError={(e) => e.target.src = "/missing.png"}
-            className="sponsor-img img-fluid img-thumbnail px-3 py-3"
-          />
-        </a>
-      </div>
+    <div className="sponsor-container mx-4 my-4">
+      <a href={props.websiteUrl}>
+        <img
+          src={props.imageUrl}
+          alt={props.name}
+          onError={(e) => e.target.src = "/missing.png"}
+          className="sponsor-img img-fluid img-thumbnail px-3 py-3"
+        />
+      </a>
+    </div>
   );
 }
 export default Sponsor;

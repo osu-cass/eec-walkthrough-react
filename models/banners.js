@@ -35,7 +35,7 @@ async function createBanners(banners) {
 
     // delete all old banners
     let sql = "DELETE FROM Banners;";
-    let results = await pool.query(sql, []);
+    await pool.query(sql, []);
 
     // create all new banners
     for (let i = 0; i < banners.length; i++) {
@@ -45,7 +45,7 @@ async function createBanners(banners) {
     }
 
     const finalResults = {
-      bannersCreated: 1
+      bannersCreatedSuccessfully: 1
     };
 
     return finalResults;
