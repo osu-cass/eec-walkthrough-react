@@ -79,6 +79,8 @@ function ManageIcons() {
       return "Graphic";
     } else if (category === 3) {
       return "Site Resource";
+    } else if (category === 4) {
+      return "Text";
     } else {
       return "Inactive";
     }

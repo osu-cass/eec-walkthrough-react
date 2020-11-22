@@ -7,7 +7,7 @@ import "./IconDropdown.css";
 function IconDropdown(props) {
 
   const [selectedIcon, setSelectedIcon] = useState(props.iconIndex);
-
+console.log(props.icons)
   // update the currently selected icon
   function changeIcon(icon, index) {
     setSelectedIcon(index);

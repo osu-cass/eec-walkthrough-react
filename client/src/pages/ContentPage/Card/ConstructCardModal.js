@@ -25,6 +25,7 @@ function ConstructCardModal(props) {
   const [basicIcons, setBasicIcons] = useState([]);
   const [imageIcons, setImageIcons] = useState([]);
   const [linkIcons, setLinkIcons] = useState([]);
+  const [textIcons, setTextIcons] = useState([]);
   const [checked, setChecked] = useState(0);
   const [copyToast, setCopyToast] = useState(false);
   const [cardTitleMode, setCardTitleMode] = useState("");
@@ -41,6 +42,7 @@ function ConstructCardModal(props) {
       const gen = [];
       const images = [];
       const links = [];
+      const texts = [];
       for (let i = 0; i < props.iconSet.length; i++) {
         if (props.iconSet[i].groupIndex === 1) {
           gen.push(props.iconSet[i]);
@@ -48,11 +50,14 @@ function ConstructCardModal(props) {
           images.push(props.iconSet[i]);
         } else if (props.iconSet[i].groupIndex === 3) {
           links.push(props.iconSet[i]);
+        } else if (props.iconSet[i].groupIndex === 4) {
+          texts.push(props.iconSet[i]);
         }
       }
       setBasicIcons(gen);
       setImageIcons(images);
       setLinkIcons(links);
+      setTextIcons(texts);
     }
 
     sortIcons(props.iconSet);
@@ -153,6 +158,7 @@ function ConstructCardModal(props) {
 
   // Returns the content type (number of fields)
   function getContentType(text, label, url) {
+    if (text !== "" && label === "%zXz%" && url === "%zXz%") { return 4; }
     if (text !== "" && label === "" && url === "") { return 1; }
     if (text === "" && label !== "" && url !== "") { return 2; }
     if ((text !== "" || text === "$empty") && label !== "" && url !== "") { return 3; }
@@ -167,6 +173,8 @@ function ConstructCardModal(props) {
 
     let newIconType = null;
     let newIndent = 0;
+
+    // get the icon and indentation of the previous item if possible
     if (items.length) {
       newIndent = items[items.length - 1].indentation;
       if (items[items.length - 1].contentType === contentType) {
@@ -174,6 +182,7 @@ function ConstructCardModal(props) {
       }
     }
 
+    // if this is a link, then get the previous items link mode
     let newContentMode = -1;
     if (items.length && items[items.length - 1].contentType === 3) {
       newContentMode = items[items.length - 1].contentMode;
@@ -193,6 +202,12 @@ function ConstructCardModal(props) {
     copy[key].internal = 0;
     copy[key].sourceId = 0;
     copy[key].created = new Date();
+
+    // If this is text content, change the url and label
+    if (contentType === 4) {
+      copy[key].contentLabel = "%zXz%";
+      copy[key].contentUrl = "%zXz%";
+    }
 
     // Make sure the indentation is up to date
     copy = scanIndentation(copy);
@@ -224,7 +239,7 @@ function ConstructCardModal(props) {
 
     // If the current index is the first item on the card return
     if (arrayIndex === 0) {
-      console.error("This item can not be indented");
+      console.error("This item cannot be indented");
       return;
     }
 
@@ -919,6 +934,8 @@ function ConstructCardModal(props) {
       copy[key].contentLabel = e.target.value;
     } else if (contentType === 3) {
       copy[key].contentUrl = e.target.value;
+    } else if (contentType === 4) {
+      copy[key].contentText = e;
     }
     setItems(copy);
   }
@@ -949,7 +966,13 @@ function ConstructCardModal(props) {
   // Gets the index of the icon in the appropriate icon array
   function getIconIndex(id, contentType) {
     let i;
-    if (contentType === 3) {
+    if (contentType === 4) {
+      for (i = 0; i < textIcons.length; i++) {
+        if (textIcons[i].iconType === id) {
+          return i;
+        }
+      }
+    } else if (contentType === 3) {
       for (i = 0; i < linkIcons.length; i++) {
         if (linkIcons[i].iconType === id) {
           return i;
@@ -973,7 +996,9 @@ function ConstructCardModal(props) {
 
   // Returns a list of icons based on the type of item
   function getIcons(contentType) {
-    if (contentType === 3) {
+    if (contentType === 4) {
+      return textIcons;
+    } else if (contentType === 3) {
       return linkIcons;
     } else if (contentType === 2) {
       return imageIcons;
@@ -1354,6 +1379,7 @@ function ConstructCardModal(props) {
               <AddButton variant="info" label="Add Item" onClick={() => incrementCounter(1)} />
               <AddButton variant="success" label="Add Graphic" onClick={() => incrementCounter(2)} />
               <AddButton variant="primary" label="Add Site Resource" onClick={() => incrementCounter(3)} />
+              <AddButton variant="success" label="Add Text" onClick={() => incrementCounter(4)} />
               <Button
                 onClick={() => pasteItem()}
                 className="mr-2 copy-paste-button"

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import BulletPointItem from "./BulletPointItem";
 import BulletPointGraphic from "./BulletPointGraphic";
 import BulletPointResource from "./BulletPointResource";
+import BulletPointText from "./BulletPointText";
 import "./BulletPoint.css";
 
 // Represents a single bullet point inside a card
@@ -10,6 +11,7 @@ function BulletPoint(props) {
 
   // Determine the type of bullet point (item, graphic, resource)
   function getContentType(text, label, url) {
+    if (text !== "" && label == "%zXz%" && url == "%zXz%") { return 4; }
     if (text !== "" && label === "" && url === "") { return 1; }
     if (text === "" && label !== "" && url !== "") { return 2; }
     if (text !== "" && label !== "" && url !== "") { return 3; }
@@ -80,6 +82,20 @@ function BulletPoint(props) {
           highlightStyle={props.highlightStyle}
           internal={props.internal}
           inline={props.inline}
+        />
+      ) : (
+        null
+      )}
+
+      {/* If the bullet point is a text field */}
+      {getContentType(props.text, props.label, props.url) === 4 ? (
+        <BulletPointText
+          id={props.id}
+          text={props.text}
+          mode={props.mode}
+          indentation={props.indentation}
+          highlightStyle={props.highlightStyle}
+          internal={props.internal}
         />
       ) : (
         null
