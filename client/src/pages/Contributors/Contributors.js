@@ -27,89 +27,89 @@ function Contributors() {
   ]);
   const [contributors, setContributors] = useState([]);
 
-    // fetch text blurb
-    useEffect(() => {
-      // abort controller for if this component is cleaned up before
-      // the fetch request gets a response
-      let ignore = false;
-      const controller = new AbortController();
-  
-      async function fetchText() {
-        try {
-          setLoading(true);
-  
-          // Fetch text blurbs
-          let results = await fetch(`${API_URL}/info`, {
-            signal: controller.signal,
-            method: "GET",
-            credentials: "include",
-            headers: {"Content-Type": "application/json"}
-          });
-  
-          // if this component is cleaned up, stop here
-          if (ignore) {
-            return;
-          }
-  
-          if (results.ok) {
-  
-            const obj = await results.json();
-  
-            if (obj.info.length >= 3) {
-              setInfo(obj.info);
-            }
-  
-          } else {
-            console.error("Error fetching contributor info");
+  // fetch text blurb
+  useEffect(() => {
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
+
+    async function fetchText() {
+      try {
+        setLoading(true);
+
+        // Fetch text blurbs
+        let results = await fetch(`${API_URL}/info`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+
+          if (obj.info.length >= 3) {
+            setInfo(obj.info);
           }
 
-          // if this component is cleaned up, stop here
-          if (ignore) {
-            return;
-          }
+        } else {
+          console.error("Error fetching contributor info");
+        }
 
-          // Fetch contributors
-          results = await fetch(`${API_URL}/contributors`, {
-            signal: controller.signal,
-            method: "GET",
-            credentials: "include",
-            headers: {"Content-Type": "application/json"}
-          });
-  
-          // if this component is cleaned up, stop here
-          if (ignore) {
-            return;
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        // Fetch contributors
+        results = await fetch(`${API_URL}/contributors`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+          setContributors(obj.contributors);
+
+        } else {
+          console.error("Error fetching contributors");
+        }
+
+        setLoading(false);
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
           }
-  
-          if (results.ok) {
-  
-            const obj = await results.json();
-            setContributors(obj.contributors);
-  
-          } else {
-            console.error("Error fetching contributors");
-          }
-  
-          setLoading(false);
-        } catch (err) {
-          if (err instanceof DOMException) {
-            if (process.env.NODE_ENV === "development") {
-              console.log("HTTP request aborted");
-            }
-          } else {
-            throw err;
-          }
+        } else {
+          throw err;
         }
       }
-  
-      fetchText();
+    }
 
-      // clean up function
-      return () => {
-        ignore = true;
-        controller.abort();
-      };
-    }, []);
+    fetchText();
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
+  }, []);
 
   return (
     <div className="container contributor-page-container my-5">
@@ -124,7 +124,7 @@ function Contributors() {
       </div>
 
       <div className="prompt-container mb-3 py-4 bg-white card rounded shadow-sm">
-        
+
         {/* General team message */}
         <div className="team-text-box-row row">
           <div className="contributor-content-block">
@@ -151,7 +151,7 @@ function Contributors() {
             />
           )}
         </div>
-      
+
       </div>
 
     </div>

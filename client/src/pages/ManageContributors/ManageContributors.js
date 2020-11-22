@@ -106,10 +106,10 @@ function ManageContributors() {
       title: "Our Team",
       text: ourTeamMessage,
       icon: ""
-    }
+    };
 
     // Edit team info
-    let results = await fetch(`${API_URL}/info/3`, {
+    const results = await fetch(`${API_URL}/info/3`, {
       method: "PATCH",
       credentials: "include",
       headers: {"Content-Type": "application/json"},
@@ -225,7 +225,7 @@ function ManageContributors() {
                   )}
 
                   {contributor.requests.map((request) =>
-                    <div>
+                    <div key={request.requestId}>
                       <a href={`/publish-requests/${request.requestId}`} key={request.requestId}>
                         {request.title}
                       </a>

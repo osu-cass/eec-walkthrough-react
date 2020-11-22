@@ -11,7 +11,7 @@ function BulletPoint(props) {
 
   // Determine the type of bullet point (item, graphic, resource)
   function getContentType(text, label, url) {
-    if (text !== "" && label == "%zXz%" && url == "%zXz%") { return 4; }
+    if (text !== "" && label === "%zXz%" && url === "%zXz%") { return 4; }
     if (text !== "" && label === "" && url === "") { return 1; }
     if (text === "" && label !== "" && url !== "") { return 2; }
     if (text !== "" && label !== "" && url !== "") { return 3; }

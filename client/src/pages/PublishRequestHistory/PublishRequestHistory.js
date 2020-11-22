@@ -173,7 +173,7 @@ function PublishRequestHistory() {
           <table className="request-table shadow mb-5">
             <thead>
               <tr>
-              {searchFields.sortValue === 0 ? (
+                {searchFields.sortValue === 0 ? (
                   <th className="pl-4 active-sort" style={{width: "25%"}} onClick={() => changeSort(0, true)}>
                   Created <small>{searchFields.orderValue ? "▲" : "▼" }</small>
                   </th>

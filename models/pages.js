@@ -487,7 +487,7 @@ async function recentPages() {
     "FROM Pages " +
     "WHERE approved = 1 AND internal = 0 " +
     "ORDER BY created DESC LIMIT ?;";
-    let results = await pool.query(sql, RESULTS_PER_PAGE);
+    const results = await pool.query(sql, RESULTS_PER_PAGE);
 
     return {
       pages: results[0]

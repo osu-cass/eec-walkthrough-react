@@ -10,10 +10,10 @@ async function getContributors() {
   try {
 
     // get all contributors
-    let sql = "SELECT * FROM Contributors " +
+    const sql = "SELECT * FROM Contributors " +
     "WHERE active = 1 " +
     "ORDER BY priority;";
-    let results = await pool.query(sql, []);
+    const results = await pool.query(sql, []);
 
     const finalResults = {
       contributors: results[0]

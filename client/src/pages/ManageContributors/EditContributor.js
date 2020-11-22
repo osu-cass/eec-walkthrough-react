@@ -321,7 +321,7 @@ function EditContributor(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          
+
           <Button variant="primary" onClick={() => updateContributor()}>Submit Contributor Changes</Button>
           <Button variant="secondary" onClick={() => handleCloseModal()}>Cancel</Button>
         </Modal.Footer>

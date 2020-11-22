@@ -26,7 +26,7 @@ function HomePage(props) {
       text: "",
       icon: ""
     }
-  ])
+  ]);
 
   // fetch homepage data
   useEffect(() => {
@@ -46,7 +46,7 @@ function HomePage(props) {
           credentials: "include",
           headers: {"Content-Type": "application/json"}
         });
-        
+
         // if this component is cleaned up, stop here
         if (ignore) {
           return;
@@ -124,7 +124,7 @@ function HomePage(props) {
             const previous = Date.parse(obj.pages[0].created);
             const current = Date.now();
             const elapsed = current - previous;
-            if (Math.floor(elapsed/MS_PER_MONTH) > 1) {
+            if (Math.floor(elapsed / MS_PER_MONTH) > 1) {
               isRecent = false;
             }
           }
@@ -134,7 +134,7 @@ function HomePage(props) {
             const previous = Date.parse(obj.pages[1].created);
             const current = Date.now();
             const elapsed = current - previous;
-            if (Math.floor(elapsed/MS_PER_MONTH) > 6) {
+            if (Math.floor(elapsed / MS_PER_MONTH) > 6) {
               isRecent = false;
             }
           }
@@ -144,7 +144,7 @@ function HomePage(props) {
             const previous = Date.parse(obj.pages[2].created);
             const current = Date.now();
             const elapsed = current - previous;
-            if (Math.floor(elapsed/MS_PER_MONTH) > 12) {
+            if (Math.floor(elapsed / MS_PER_MONTH) > 12) {
               isRecent = false;
             }
           }

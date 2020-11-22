@@ -5,7 +5,6 @@ const {pool} = require("../services/database/mysqlPool");
 const {publishPage} = require("./pages");
 const {publishHeader} = require("./headers");
 const {publishCard} = require("./cards");
-const { request } = require("express");
 
 
 // return a list of all requests
@@ -752,16 +751,16 @@ async function createComment(requestId, comment, status, targetId, userId) {
 
       if (results[0].length) {
         if (status === 2 && results[0][0].role < 4) {
-          return {error: 2}
+          return {error: 2};
         }
         if (status === 3 && results[0][0].role < 4) {
-          return {error: 2}
+          return {error: 2};
         }
         if (status === 4 && results[0][0].role !== 3) {
-          return {error: 2}
+          return {error: 2};
         }
       } else {
-        return {error: 2}
+        return {error: 2};
       }
     }
 
