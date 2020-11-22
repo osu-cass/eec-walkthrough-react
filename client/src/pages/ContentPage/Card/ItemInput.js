@@ -1,9 +1,12 @@
 import React, {Fragment, useState, useEffect} from "react";
 import FormControl from "react-bootstrap/FormControl";
+import {Form} from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import ImageInput from "../../../components/General/ImageInput";
+import RichTextEditor from "../../../components/General/RichTextEditor";
 import sanitizeHtml from "sanitize-html";
 import PropTypes from "prop-types";
+import "./ItemInput.css";
 
 // An input field for adding or modifying items in a card modal
 function ItemInput(props) {
@@ -237,6 +240,20 @@ function ItemInput(props) {
             required
           />
         </Fragment>
+      ) : (
+        null
+      )}
+
+      {props.contentType === 4 ? (
+        <div className="text-editor-input">
+          <div className="form-group mx-3 mb-4">
+            <RichTextEditor
+              id={`submit-text-${props.index}`}
+              value={props.value.contentText}
+              onChange={(text) => props.handleInput(text, props.index, 4)}
+            />
+          </div>
+        </div>
       ) : (
         null
       )}

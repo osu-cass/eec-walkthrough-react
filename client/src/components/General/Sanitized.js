@@ -6,8 +6,19 @@ import SanitizedHTML from "react-sanitized-html";
 function Sanitized(props) {
   return (
     <SanitizedHTML
-      allowedTags={["a", "p", "strong", "u", "ol", "li", "em", "s"]}
+      allowedTags={["a", "p", "strong", "u", "ol", "li", "em", "s", "span"]}
       allowedAttributes={{a: ["href"]}}
+      allowedClasses={{
+        a: ["ql-size-huge", "ql-size-large", "ql-size-small"],
+        p: ["ql-size-huge", "ql-size-large", "ql-size-small"],
+        strong: ["ql-size-huge", "ql-size-large", "ql-size-small"],
+        u: ["ql-size-huge", "ql-size-large", "ql-size-small"],
+        ol: ["ql-size-huge", "ql-size-large", "ql-size-small"],
+        li: ["ql-size-huge", "ql-size-large", "ql-size-small"],
+        em: ["ql-size-huge", "ql-size-large", "ql-size-small"],
+        s: ["ql-size-huge", "ql-size-large", "ql-size-small"],
+        span: ["ql-size-huge", "ql-size-large", "ql-size-small"]
+      }}
       html={props.html}
     />
   );
