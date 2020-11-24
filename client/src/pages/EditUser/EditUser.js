@@ -249,7 +249,7 @@ function EditUser(props) {
 
   if (activeUser) {
     return (
-      <div className="container mt-5">
+      <div className="container edit-user-container mt-5">
 
         <LoadingOverlay loading={loading} />
 
@@ -261,56 +261,91 @@ function EditUser(props) {
           </div>
         </div>
 
-        <Card className="mb-2 mb-5" id="user-register-container">
+        <Card className="mb-2 mb-5 mt-3" id="user-register-container">
           <div className="p-2 mb-2 text-dark-50 bg-white" >
             <div className="form-group m-3">
 
               <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                     Username
               </label>
-              <input type="text" className="form-control mx-2 mb-4"
-                id="input-register-username" maxLength="50" />
+              <input
+                type="text"
+                className="form-control mb-4"
+                id="input-register-username"
+                maxLength="50"
+                placeholder="Enter username"
+              />
 
               <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                     Email
               </label>
-              <input type="email" className="form-control mx-2 mb-4"
-                id="input-register-email" maxLength="100" />
+              <input
+                type="email"
+                className="form-control mb-4"
+                id="input-register-email"
+                maxLength="100"
+                placeholder="Enter email"
+              />
 
               <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                     First Name
               </label>
-              <input type="text" className="form-control mx-2 mb-4"
-                id="input-register-first" maxLength="50" />
+              <input
+                type="text"
+                className="form-control mb-4"
+                id="input-register-first"
+                maxLength="50"
+                placeholder="Enter first name"
+              />
 
               <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                     Last Name
               </label>
-              <input type="text" className="form-control mx-2 mb-4"
-                id="input-register-last" maxLength="50" />
+              <input
+                type="text"
+                className="form-control mb-4"
+                id="input-register-last"
+                maxLength="50"
+                placeholder="Enter last name"
+              />
 
               {changePassword ? (
                 <div>
                   <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                         Old Password
                   </label>
-                  <input type="password" className="form-control mx-2 mb-4"
-                    id="input-register-password-old" maxLength="50"
-                    autoComplete="new-password" />
+                  <input
+                    type="password"
+                    className="form-control mb-4"
+                    id="input-register-password-old"
+                    maxLength="50"
+                    autoComplete="new-password"
+                    placeholder="Enter old password"
+                  />
 
                   <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                         New Password
                   </label>
-                  <input type="password" className="form-control mx-2 mb-4"
-                    id="input-register-password-new-1" maxLength="50"
-                    autoComplete="new-password" />
+                  <input
+                    type="password"
+                    className="form-control mb-4"
+                    id="input-register-password-new-1"
+                    maxLength="50"
+                    autoComplete="new-password"
+                    placeholder="Enter new password"
+                  />
 
                   <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                         Retype New Password
                   </label>
-                  <input type="password" className="form-control mx-2 mb-4"
-                    id="input-register-password-new-2" maxLength="50"
-                    autoComplete="new-password" />
+                  <input
+                    type="password"
+                    className="form-control mb-4"
+                    id="input-register-password-new-2"
+                    maxLength="50"
+                    autoComplete="new-password"
+                    placeholder="Enter new password"
+                  />
                 </div>
               ) : (
                 null
@@ -325,12 +360,12 @@ function EditUser(props) {
                 />
               </div>
 
-              <button type="submit" id="search-user-button" className="btn btn-info m-2"
+              <button type="submit" id="save-user-button" className="btn btn-info my-2 ml-2 pull-right"
                 onClick={(e) => submitHandler(e)}>
-                    Save changes
+                    Save Changes
               </button>
 
-              <button type="button" className="btn btn-secondary" onClick={(e) => passwordHandler(e)}>
+              <button type="button" className="btn btn-secondary m-2 pull-right" onClick={(e) => passwordHandler(e)}>
                 {changePassword ? (
                   "Keep Password"
                 ) : (
@@ -345,7 +380,7 @@ function EditUser(props) {
     );
   } else {
     return (
-      <Container className="text-center my-5">
+      <Container className="edit-user-container text-center my-5">
         <div className="error-message-container">
           <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
             <h3 className="py-5 font-weight-bold">User is not currently logged in.</h3>
