@@ -6,6 +6,12 @@ import Source from "./Source";
 // Represents a single graphic type bullet inside a card
 function BulletPointGraphic(props) {
 
+  // Checks if the icon means that this is a large image
+  function largeImage() {
+    if (props.icon === "picture-o") { return true; }
+    return false;
+  }
+
   return (
     <Fragment>
       {/* Main container holding graphic */}
@@ -34,7 +40,7 @@ function BulletPointGraphic(props) {
             {props.label}
             <Source source={props.source} sourceText={props.sourceText} />
           </div>
-          <Image url={props.url} title={props.label} thumbnail={false} header={false} />
+          <Image url={props.url} title={props.label} thumbnail={false} header={largeImage()} />
         </div>
 
       </div>
