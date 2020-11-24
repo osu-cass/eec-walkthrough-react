@@ -136,11 +136,13 @@ function SubmitContributor(props) {
     if (results.ok) {
 
       setSuccessMessage("Contributor information submited sucessfully");
+      setErrorMessage("");
 
     } else {
 
       const obj = await results.json();
 
+      setSuccessMessage("");
       if (results.status === 401) {
         logout();
         window.location.href = "/";
@@ -248,7 +250,7 @@ function SubmitContributor(props) {
               className="btn btn-info my-2 pull-right"
               onClick={() => submitContributorInfo()}
             >
-                  Submit
+              Submit
             </button>
 
           </div>

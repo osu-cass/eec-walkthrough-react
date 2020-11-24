@@ -144,7 +144,7 @@ function Notifications() {
             {notifications.map((item, index) =>
               <Link
                 key={item.notificationId}
-                to={`/publish-requests/${item.requestId}`}
+                to={item.type === 6 ? "/manage-contributors" : `/publish-requests/${item.requestId}`}
                 onClick={(event) => handleClick(event, item, index)}
               >
                 <div className="dropdown-item note-item">
