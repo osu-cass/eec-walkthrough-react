@@ -7,10 +7,12 @@ const {validationResult} = require("express-validator");
 const {
   getContributors,
   getContributorRequests,
-  createContributor
+  createContributor,
+  createContributorSubmission
 } = require("../models/contributors");
 const {
-  postContributorVal
+  postContributorVal,
+  postContributorSubmissionVal
 } = require("../services/validation/requestValidation");
 const {
   requireAuth,
@@ -51,6 +53,49 @@ app.get("/requests", requireAuth, async (req, res) => {
     // get all contributors
     const results = await getContributorRequests();
     res.status(200).send(results);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// post a contributor submission that will need to be reviwed
+app.post("/submission", requireAuth, postContributorSubmissionVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Post a contributor submission");
+
+    const userId = req.auth.userId;
+    const name = req.body.name;
+    const title = req.body.title;
+    const description = req.body.description;
+    const imageUrl = req.body.imageUrl;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to post a contributor submission."});
+      return;
+    }
+
+    // post contributor submission
+    const results = await createContributorSubmission(userId, name, title, description, imageUrl);
+
+    if (results.contributorId >= 0) {
+      res.status(200).send(results);
+    } else {
+      res.status(500).send({error: "An internal server error occurred. Please try again later."});
+    }
 
   } catch (err) {
     console.error(err);

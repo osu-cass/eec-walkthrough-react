@@ -61,9 +61,13 @@ function UserIcon(props) {
             <button className="dropdown-item" onClick={(e) => editHandler(e)}>
               Update User Info
             </button>
-            <button className="dropdown-item" onClick={(e) => submitContributor(e)}>
-              Submit Contributor Info
-            </button>
+            {props.role >= 3 ? (
+              <button className="dropdown-item" onClick={(e) => submitContributor(e)}>
+                Submit Contributor Info
+              </button>
+            ) : (
+              null
+            )}
             <button className="dropdown-item" onClick={(e) => logoutHandler(e)}>
               Logout
             </button>

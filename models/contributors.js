@@ -114,3 +114,78 @@ async function createContributor(userId, name, title, description, imageUrl, act
 
 }
 exports.createContributor = createContributor;
+
+
+// create a contributor submission
+async function createContributorSubmission(userId, name, title, description, imageUrl) {
+
+  try {
+
+    // get the current user's username
+    let sql = "SELECT username FROM Users " +
+    "WHERE userId = ?;";
+    results = await pool.query(sql, userId);
+
+    if (!results[0].length) {
+      return {error: 1}
+    }
+
+    const username = results[0][0].username;
+
+    // see if the contributor already exists
+    sql = "SELECT * FROM Temp_Contributors " +
+    "WHERE tempContributorId = ?;";
+    results = await pool.query(sql, userId);
+
+    let exists = false;
+    if (results[0].length) {
+      exists = true;
+    }
+
+    // create or update, based on if the contributor already exists
+    if (exists) {
+      sql = "UPDATE Temp_Contributors " +
+      "SET tempName = ?, tempTitle = ?, tempDescription = ?, tempImageUrl = ?, tempPriority = ? " +
+      "WHERE tempContributorId = ?;";
+      results = await pool.query(sql, [name, title, description, imageUrl, 10, userId]);
+    } else {
+      sql = "INSERT INTO Temp_Contributors (tempContributorId, tempName, tempTitle, tempDescription, tempImageUrl, tempPriority) " +
+      "VALUES (?, ?, ?, ?, ?, 10);";
+      results = await pool.query(sql, [userId, name, title, description, imageUrl]);
+    }
+
+    // create a notification message for admins
+    const notificationMessage = `${username} has submitted a contributor card that is awaiting review`;
+
+    // delete outdated notifications about submissions
+    sql = "DELETE FROM Notifications " +
+    "WHERE text = ? AND type = 6;";
+    await pool.query(sql, notificationMessage);
+
+    // create new notifications about the submission
+    sql = "SELECT userId " +
+    "FROM Users " +
+    "WHERE role = 5;";
+    results = await pool.query(sql, []);
+
+    const admins = results[0];
+
+    for (let i = 0; i < admins.length; i++) {
+      sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
+      "VALUES (?, ?, ?, 6);";
+      await pool.query(sql, [0, admins[i].userId, notificationMessage]);
+    }
+
+    const finalResults = {
+      contributorId: userId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error creating contributor submission");
+    throw Error(err);
+  }
+
+}
+exports.createContributorSubmission = createContributorSubmission;

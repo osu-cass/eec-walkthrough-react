@@ -446,6 +446,18 @@ const postContributorVal = Object.freeze({
 });
 exports.postContributorVal = postContributorVal;
 
+// validation checks for post contributor submission
+const postContributorSubmissionVal = Object.freeze({
+  validation: [
+    check("name").isLength({min: 1, max: 100}),
+    check("title").isLength({min: 1, max: 500}),
+    check("description").isLength({min: 1, max: 5000}),
+    check("imageUrl").isLength({min: 1, max: 5000})
+  ]
+});
+exports.postContributorSubmissionVal = postContributorSubmissionVal;
+
+// validation checks for post banner
 const postBannerVal = Object.freeze({
   validation: [
     check("banners").isArray({min: 0, max: 25})
