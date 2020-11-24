@@ -148,6 +148,7 @@ function Contributors() {
               imageUrl={contributor.imageUrl}
               title={contributor.title}
               description={contributor.description}
+              pending={false}
             />
           )}
         </div>

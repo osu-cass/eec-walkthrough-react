@@ -6,9 +6,12 @@ const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
   getContributors,
+  getPendingContributors,
   getContributorRequests,
   createContributor,
-  createContributorSubmission
+  createContributorSubmission,
+  rejectContributorSubmission,
+  acceptContributorSubmission
 } = require("../models/contributors");
 const {
   postContributorVal,
@@ -28,6 +31,24 @@ app.get("/", async (req, res) => {
 
     // get all contributors
     const results = await getContributors();
+    res.status(200).send(results);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get all pending contributors
+app.get("/pending", async (req, res) => {
+
+  try {
+    console.log("View pending contributors");
+
+    // get all contributors
+    const results = await getPendingContributors();
     res.status(200).send(results);
 
   } catch (err) {
@@ -139,6 +160,78 @@ app.post("/:userId", requireAuth, postContributorVal.validation, async (req, res
       res.status(200).send(results);
     } else {
       res.status(500).send({error: "An internal server error occurred. Please try again later."});
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// reject a pending contributor submission request
+app.delete("/pending/:contributorId", requireAuth, async (req, res) => {
+
+  try {
+
+    console.log("Reject a contributor submission");
+
+    const contributorId = req.params.contributorId;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(5, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to reject a contributor submission."});
+      return;
+    }
+
+    // reject the contributor submission
+    const results = await rejectContributorSubmission(contributorId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+      if (results.error === 1) {
+        res.status(404).send({error: "Submission not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// accept a pending contributor submission request
+app.patch("/pending/:contributorId", requireAuth, async (req, res) => {
+
+  try {
+
+    console.log("Accept a contributor submission");
+
+    const contributorId = req.params.contributorId;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(5, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to accept a contributor submission."});
+      return;
+    }
+
+    // accept the contributor submission
+    const results = await acceptContributorSubmission(contributorId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+      if (results.error === 1) {
+        res.status(404).send({error: "Submission not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
     }
 
   } catch (err) {
