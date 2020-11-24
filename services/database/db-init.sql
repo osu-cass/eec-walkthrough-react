@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Nov 22, 2020 at 12:09 PM
+-- Generation Time: Nov 23, 2020 at 10:32 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -32,6 +32,14 @@ CREATE TABLE `Banners` (
   `bannerId` int(10) UNSIGNED NOT NULL,
   `imageUrl` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Banners`
+--
+
+INSERT INTO `Banners` (`bannerId`, `imageUrl`) VALUES
+(2, '/uploads/user_42/be19ca0ceb80eff619054bcc36a35adb.jpg'),
+(3, '/uploads/user_42/fc6f4b14282cbab7f8d1796c2bba54a9.jpg');
 
 -- --------------------------------------------------------
 
@@ -195,10 +203,11 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (237, 71, 0, 237, 'This guide is broken down into sections:', 51, '2020-11-18 01:11:43', 0),
 (238, 71, 0, 238, 'Each section includes a number of useful pertinent \"tidbits\" identified by a preceding icon', 51, '2020-11-18 01:30:33', 0),
 (239, 71, 0, 239, 'Each section also references in depth learning resources that offer deeper information about the top', 51, '2020-11-18 01:35:33', 0),
-(240, 72, 0, 240, 'Filters allow users to show or hide select types of information by icon type', 51, '2020-11-18 01:44:25', 0),
+(240, 72, 0, 240, 'Filters allow users to show or hide select types of information by icon type', 42, '2020-11-18 01:44:25', 0),
 (241, 47, 0, 241, 'Opportunity Meeting and Task Designations', 55, '2020-11-20 16:45:04', 0),
 (242, 47, 0, 242, 'Report Drafting', 55, '2020-11-20 16:46:09', 0),
-(243, 47, 0, 243, 'Report Presentation to Client', 55, '2020-11-20 16:47:38', 0);
+(243, 47, 0, 243, 'Report Presentation to Client', 55, '2020-11-20 16:47:38', 0),
+(244, 47, 10, 244, 'Post-Assessment Meetings', 60, '2020-11-23 23:11:25', 0);
 
 -- --------------------------------------------------------
 
@@ -1348,7 +1357,8 @@ INSERT INTO `Icons` (`iconType`, `typeKeyword`, `typeName`, `groupIndex`, `color
 (26, 'Bullet Point', 'circle', 1, '#000000'),
 (27, 'Assessment Equipment', 'ruler-vertical', 1, '#FFC83D'),
 (28, 'EEC Walkthrough Page', 'star', 3, '#FFC83D'),
-(31, 'Text Field', 'font', 0, '#000000');
+(31, 'Text Field', 'font', 4, '#000000'),
+(32, 'Full Image', 'picture-o', 2, '#32C332');
 
 -- --------------------------------------------------------
 
@@ -2229,9 +2239,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6709, 238, 0, 0, 3, 'Rules of Thumb', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
 (6710, 238, 0, 0, 12, 'Suggested Action', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
 (6711, 238, 0, 0, 8, 'Tips', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6727, 240, 0, 0, 8, 'Filters are available on each published page. Clicking on the icons located on each header will filter associated items out or back into the list below.  ', '', '', 0, 0, 0, 0, '2020-11-18 01:55:53', 0),
-(6728, 240, 0, 1, 20, '', '/uploads/user_51/f6503d4e177523d18823ae1f14314853.png', 'Typical Header', 0, 0, 0, 0, '2020-11-18 01:55:53', 0),
-(6729, 240, 0, 1, 8, 'Clicking on the last three icons will bring back all items, hide all items, or hide the filter icon list.', '', '', 0, 0, 0, 0, '2020-11-18 01:55:53', 0),
 (6730, 239, 0, 0, 11, 'A preceding icon identifies the type of learning resource offered', '', '', 0, 0, 0, 0, '2020-11-18 02:13:47', 0),
 (6731, 239, 0, 1, 26, '(Cant show these icons yet)', '', '', 0, 0, 0, 0, '2020-11-18 02:13:47', 0),
 (6732, 239, 0, 0, 11, 'A trailing icon identifies the learning resource as internal or external', '', '', 0, 0, 0, 0, '2020-11-18 02:13:47', 0),
@@ -2262,11 +2269,11 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6806, 155, 0, 2, 14, 'May be best to have an initial phone conversation with the client to determine how to best structure a remote audit based on their needs.', '', '', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
 (6807, 155, 0, 1, 14, 'Ensure someone at the site can \"walk us through\" or at least go to targeted locations while with us on the phone to ask questions, perhaps get pictures or videos, and really dig into details. (This step is important for our contract with U.S.DOE)', '', '', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
 (6808, 155, 0, 0, 26, 'Send the standard OSU Pre-Assessment Package to appropriate clients ', '', '', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
-(6809, 155, 0, 1, 17, '$empty', 'https://docs.google.com/document/d/1SSk8Ks463YfySrxLr5o5zK08DLoDzkGMIEkecBMs51s/edit', 'Pre_Assessment Package Template', 0, 0, 0, 0, '2020-11-20 16:41:05', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(6809, 155, 0, 1, 17, '$empty', 'https://docs.google.com/document/d/1SSk8Ks463YfySrxLr5o5zK08DLoDzkGMIEkecBMs51s/edit', 'Pre_Assessment Package Template', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
 (6814, 242, 0, 0, 13, 'Report drafting process will follow a timeline similar to that used for in person assessments.', '', '', 0, 0, 0, 0, '2020-11-20 16:47:53', 0),
 (6815, 241, 0, 0, 13, 'Upon completion of a remote guided tour, the assessment team will meet to determine which opportunities should be pursued.', '', '', 0, 0, 0, 0, '2020-11-20 16:48:31', 0),
-(6816, 241, 0, 0, 13, 'If possible, this meeting should include the client.', '', '', 0, 0, 0, 0, '2020-11-20 16:48:31', 0),
+(6816, 241, 0, 0, 13, 'If possible, this meeting should include the client.', '', '', 0, 0, 0, 0, '2020-11-20 16:48:31', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (6830, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
 (6831, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
 (6832, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
@@ -2280,7 +2287,19 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6840, 156, 0, 0, 26, 'At this point, an analyst should be assigned to start the general background. It may take more time to develop the general background while doing a remote assessment so it\'s best to start it early.', '', '', 0, 1, 0, 0, '2020-11-20 21:21:53', 0),
 (6841, 243, 0, 0, 13, 'Once the report has been compiled and made it through the review process, a meeting with the client will be scheduled to present the findings and recommendations in the report.', '', '', 0, 0, 0, 0, '2020-11-20 21:33:31', 0),
 (6842, 243, 0, 1, 13, 'This is something that we may start doing for all assessments moving forward.', '', '', 0, 0, 0, 0, '2020-11-20 21:33:31', 0),
-(6843, 243, 0, 1, 13, 'If possible, this meeting should include all analysts involved in the report.', '', '', 0, 0, 0, 0, '2020-11-20 21:33:31', 0);
+(6843, 243, 0, 1, 13, 'If possible, this meeting should include all analysts involved in the report.', '', '', 0, 0, 0, 0, '2020-11-20 21:33:31', 0),
+(6844, 244, 0, 0, 9, 'Working remotely changes the dynamic of working as a team. It is important to have expectations for meetings post-assessment in order to meet the deadline.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
+(6845, 244, 0, 1, 12, 'Schedule a team meeting within three business days of the assessment', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
+(6846, 244, 0, 2, 8, 'The intention of this meeting should be to debrief after the assessment. Topics such as opportunities, best-practices, and AR/OMC assignments should be discussed. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
+(6847, 244, 0, 1, 12, 'Schedule team meeting one week after debrief meeting.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
+(6848, 244, 0, 2, 8, 'The intention of this meeting should be for analysts to update the lead analyst and PA on their assignments. Additionally, any questions analysts have for the facility should be addressed.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
+(6849, 244, 0, 1, 12, 'Schedule 10-15 minute individual meetings with each analyst. The frequency of these meetings should be determined by the lead. At a minimum, every two weeks is recommended. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
+(6850, 244, 0, 2, 8, 'Any issues or questions analysts have encountered should be discussed. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
+(6851, 244, 0, 2, 8, 'Be sure to invite the PA, but their attendance should not be required unless previously discussed.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
+(6852, 244, 0, 0, 7, 'Take notes on every meeting. As the lead, it is your responsibility to make sure nothing gets forgotten.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
+(6860, 240, 0, 0, 8, 'Filters are available on each published page. Clicking on the icons located on each header will filter associated items out or back into the list below.  ', '', '', 0, 0, 0, 0, '2020-11-24 06:31:27', 0),
+(6861, 240, 0, 1, 32, '', '/uploads/user_51/f6503d4e177523d18823ae1f14314853.png', 'Typical Header', 0, 0, 0, 0, '2020-11-24 06:31:27', 0),
+(6862, 240, 0, 1, 8, 'Clicking on the last three icons will bring back all items, hide all items, or hide the filter icon list.', '', '', 0, 0, 0, 0, '2020-11-24 06:31:27', 0);
 
 -- --------------------------------------------------------
 
@@ -2877,13 +2896,13 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Banners`
 --
 ALTER TABLE `Banners`
-  MODIFY `bannerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `bannerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=245;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2931,7 +2950,7 @@ ALTER TABLE `History_Pages`
 -- AUTO_INCREMENT for table `Icons`
 --
 ALTER TABLE `Icons`
-  MODIFY `iconType` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `iconType` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `Info`
@@ -2943,7 +2962,7 @@ ALTER TABLE `Info`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6844;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6863;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
