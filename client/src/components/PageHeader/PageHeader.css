@@ -3,25 +3,29 @@
     display: none;
     position: absolute;
   }
+  .nav-header-title {
+    font-size: 2em !important;
+  }
+  .page-header-title-container {
+    margin-right: 1.4em;
+  }
   .small-org {
     display: none !important;
     position: absolute !important;
   }
-  .med-org {
-    display: none !important;
-    position: absolute !important;
-  }
-  .large-org {
+  .big-org {
     display: inline !important;
     position: static !important;
   }
-  .nav-header-title {
-    font-size: 1.4em !important;
+  .title-break {
+    display: none !important;
+    position: absolute !important;
   }
-  .page-header-title-container {
-    margin-right: 1.4em;
-    margin-left: 1.4em;
-  }
+}
+
+.title-break {
+  display: inline;
+  position: static;
 }
 
 @media (max-width: 768px) {
@@ -29,62 +33,32 @@
     display: none;
     position: absolute;
   }
-  .small-org {
-    display: block !important;
-    position: static !important;
-  }
-  .med-org {
-    display: none !important;
-    position: absolute !important;
-  }
-  .large-org {
-    display: none !important;
-    position: absolute !important;
-  }
   .nav-header-title {
-    font-size: 1em !important;
+    font-size: 1.5em !important;
   }
   .page-header-title-container {
     margin-left: 1em;
   }
-}
-
-@media (min-width: 951px) and (max-width: 1670px) {
-  .nav-header-title {
-    font-size: 1.4em !important;
-  }
   .small-org {
-    display: none !important;
-    position: absolute !important;
-  }
-  .med-org {
     display: inline !important;
     position: static !important;
   }
-  .large-org {
+  .big-org {
     display: none !important;
     position: absolute !important;
+  }
+}
+
+@media (max-width: 1470px) {
+  .title-break {
+    display: inline !important;
+    position: static !important;
   }
 }
 
 @media (min-width: 768px) and (max-width: 950px) {
   .page-header-title-container {
     margin: 0;
-  }
-  .nav-header-title {
-    font-size: 1.25em !important;
-  }
-  .small-org {
-    display: none !important;
-    position: absolute !important;
-  }
-  .med-org {
-    display: inline !important;
-    position: static !important;
-  }
-  .large-org {
-    display: none !important;
-    position: absolute !important;
   }
 }
 
@@ -96,6 +70,15 @@
   width: 3.5em !important;
   height: 3.5em !important;
   background-color: #C13908;
+}
+
+.mini-nav-header {
+  background-color: #000;
+  font-weight: 600;
+}
+
+.school-title {
+  color: #d73f09;
 }
 
 .nav-hamburger .nav-hamburger-icon {
@@ -146,6 +129,7 @@
 }
 
 .osu-logo {
+  margin: 0 2em 0 2em;
   height: 4em;
   background-color: #d73f09;
   border: 0px;

@@ -26,7 +26,16 @@ function PageHeader (props) {
   return (
     <div className="navigation-bar">
 
+      <div className="mini-nav-header p-2">
+        <span className="text-white">
+          <span className="school-title big-org">Oregon State University&nbsp;</span>
+          <span className="school-title small-org">OSU&nbsp;</span>
+          Energy Efficiency Center / Industrial Assessment Center
+        </span>
+      </div>
+
       <nav className="navbar-header navbar align-items-center mb-0">
+
         <div className="row text-white nav-item align-items-center">
 
           {/* Hamburger menu button for mobile devices */}
@@ -40,8 +49,8 @@ function PageHeader (props) {
 
           {/* OSU logo, only shown on desktop devices */}
           <img
-            className="osu-logo ml-4 mr-5"
-            src={"/osu-logo.svg"}
+            className="osu-logo ml-4"
+            src={"/header_logo.png"}
             alt={"Oregon State University"}
             title={"Oregon State University"}
           />
@@ -49,36 +58,10 @@ function PageHeader (props) {
           {/* Header title text*/}
           <div className="page-header-title-container">
             {/* Large Header */}
-            <h4 className="nav-header-title large-org">
-              Energy Efficiency Center
-            </h4>
-            <h4 className="nav-header-symbol mx-2 large-org">
-              &#124;
-            </h4>
-            <h4 className="nav-header-title large-org">
-              Industrial Walkthrough Checklist &amp; Guide (Demo)
+            <h4 className="nav-header-title">
+            Industrial Walkthrough&nbsp;<br className="title-break" />Checklist &amp; Guide (DEMO)
             </h4>
 
-            {/* Medium Header */}
-            <h4 className="nav-header-title med-org">
-              EEC
-            </h4>
-            <h4 className="nav-header-symbol mx-2 med-org">
-              &#124;
-            </h4>
-            <h4 className="nav-header-title med-org">
-              Industrial Walkthrough Checklist &amp; Guide
-            </h4>
-
-            {/* Small Header */}
-            <div className="mobile-title">
-              <h4 className="nav-header-title-top small-org">
-              Energy Efficiency Center
-              </h4>
-              <h4 className="nav-header-title-bottom small-org">
-                Industrial Walkthrough Checklist &amp; Guide
-              </h4>
-            </div>
           </div>
 
         </div>
