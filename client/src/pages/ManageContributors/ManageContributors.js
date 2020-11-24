@@ -5,6 +5,7 @@ import LoadingOverlay from "../../components/General/LoadingOverlay";
 import EditContributor from "./EditContributor";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
+import ContributorBlock from "../Contributors/ContributorBlock";
 import "./ManageContributors.css";
 
 // page for managing home page text
@@ -12,8 +13,10 @@ function ManageContributors() {
 
   const [ourTeamMessage, setOurTeamMessage] = useState("");
   const [publishContributors, setPublishContributors] = useState([]);
+  const [pendingContributors, setPendingContributors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessageRequests, setErrorMessageRequests] = useState("");
 
   // when the page first loads, get all contributors info
   useEffect(() => {
@@ -46,6 +49,32 @@ function ManageContributors() {
           }
         } else {
           console.error("Error fetching info");
+        }
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        results = await fetch(`${API_URL}/contributors/pending`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+          setPendingContributors(obj.contributors);
+
+        } else {
+          console.error("Error fetching pending contributors");
         }
 
         // if this component is cleaned up, stop here
@@ -141,6 +170,89 @@ function ManageContributors() {
     setLoading(false);
   }
 
+  // approve or reject a contributor request
+  async function handleRequest(contributorId, status) {
+
+    // check if the user wants to proceed with the action
+    if (status) {
+      if (!window.confirm("Are you sure you want to approve this request?\nThis card will become visible to all users.")) {
+        return;
+      }
+
+      // the user wants to accept the request
+      setLoading(true);
+
+      const results = await fetch(`${API_URL}/contributors/pending/${contributorId}`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (results.ok) {
+
+        // refresh the page
+        window.location.reload();
+  
+      } else {
+  
+        // there was an error updating the info
+        const obj = await results.json();
+  
+        // if the user is performing an unauthorized action
+        // log them out and return them to the homepage
+        if (results.status === 401) {
+          logout();
+          window.location.href = "/";
+        } else if (results.status === 500 || typeof obj.error === "undefined") {
+          setErrorMessageRequests("An internal server error occurred. Please try again later.");
+        } else {
+          setErrorMessageRequests(obj.error);
+        }
+      }
+
+      setLoading(false);
+
+    } else {
+
+      if (!window.confirm("Are you sure you want to reject this request?")) {
+        return;
+      }
+
+      // the user wants to reject the request
+      setLoading(true);
+
+      const results = await fetch(`${API_URL}/contributors/pending/${contributorId}`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (results.ok) {
+
+        // refresh the page
+        window.location.reload();
+  
+      } else {
+  
+        // there was an error updating the info
+        const obj = await results.json();
+  
+        // if the user is performing an unauthorized action
+        // log them out and return them to the homepage
+        if (results.status === 401) {
+          logout();
+          window.location.href = "/";
+        } else if (results.status === 500 || typeof obj.error === "undefined") {
+          setErrorMessageRequests("An internal server error occurred. Please try again later.");
+        } else {
+          setErrorMessageRequests(obj.error);
+        }
+      }
+
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="container manage-contributor-container my-5">
 
@@ -158,6 +270,10 @@ function ManageContributors() {
       {/* Edit the current team message */}
       <div className="prompt-container my-3 p-5 bg-white card rounded shadow-sm">
         <span className="h3">Our Team Message</span>
+        <span className="mb-5">
+          This message is shown at the top of the&nbsp;
+          <a href="/contributors">contributors page</a>.
+        </span>
         <FormControl
           as="textarea"
           rows="8"
@@ -189,10 +305,55 @@ function ManageContributors() {
 
       </div>
 
-      <div className="prompt-container my-3 p-5 bg-white card rounded shadow-sm">
-        <span className="h3 mb-4">Possible Contributors</span>
+      {/* List all pending contributor requests */}
+      {pendingContributors.length ? (
+        <div className="prompt-container my-3 p-5 bg-white card rounded shadow-sm">
+          <span className="h3 mb-2">
+            Pending Contributor Requests
+          </span>
+          <span>
+            This is a list of contributor requests made by users.
+          </span>
+          <span className="mb-5">
+            If you approve a request it will be shown on the&nbsp;
+            <a href="/contributors">contributors page</a>.
+          </span>
 
-        {/* List all possible contributors */}
+          <div className="contributor-organizer my-4">
+            {pendingContributors.map((contributor) =>
+              <ContributorBlock
+                key={contributor.contributorId}
+                name={contributor.name}
+                imageUrl={contributor.imageUrl}
+                title={contributor.title}
+                description={contributor.description}
+                contributorId={contributor.contributorId}
+                pending={true}
+                onRequest={(contributorId, status) => handleRequest(contributorId, status)}
+              />
+            )}
+          </div>
+
+          <Error
+            message={errorMessageRequests}
+          />
+
+        </div>
+      ) : (
+        null
+      )}
+
+      {/* List all possible contributors */}
+      <div className="prompt-container my-3 p-5 bg-white card rounded shadow-sm">
+        <span className="h3 mb-2">Possible Contributors</span>
+        <span>
+          This is a list of all users who have editor privileges.
+        </span>
+        <span className="mb-5">
+          You may edit their contributor information so that it is shown on the&nbsp;
+          <a href="/contributors">contributors page</a>.
+        </span>
+
         <div className="contributor-organizer my-4">
           {publishContributors.map((contributor) =>
             <div className="contributor-container" key={contributor.userId}>

@@ -30,6 +30,33 @@ async function getContributors() {
 exports.getContributors = getContributors;
 
 
+// returns all of the pending contributors
+async function getPendingContributors() {
+
+  try {
+
+    // get all contributors
+    const sql = "SELECT tempContributorId AS contributorId, tempName AS name, " +
+    "tempTitle AS title, tempDescription AS description, tempImageUrl AS imageUrl " +
+    "FROM Temp_Contributors " +
+    "ORDER BY tempContributorId ASC;";
+    const results = await pool.query(sql, []);
+
+    const finalResults = {
+      contributors: results[0]
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error getting pending contributors");
+    throw Error(err);
+  }
+
+}
+exports.getPendingContributors = getPendingContributors;
+
+
 // returns a list of contributors and the requests that they have made
 async function getContributorRequests() {
 
@@ -124,7 +151,7 @@ async function createContributorSubmission(userId, name, title, description, ima
     // get the current user's username
     let sql = "SELECT username FROM Users " +
     "WHERE userId = ?;";
-    results = await pool.query(sql, userId);
+    let results = await pool.query(sql, userId);
 
     if (!results[0].length) {
       return {error: 1}
@@ -189,3 +216,104 @@ async function createContributorSubmission(userId, name, title, description, ima
 
 }
 exports.createContributorSubmission = createContributorSubmission;
+
+
+// reject a contributor submission
+async function rejectContributorSubmission(contributorId) {
+
+  try {
+
+    // see if the contributor submission exists
+    let sql = "SELECT * FROM Temp_Contributors " +
+    "WHERE tempContributorId = ?;";
+    let results = await pool.query(sql, contributorId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // delete the submission
+    sql = "DELETE " +
+    "FROM Temp_Contributors " +
+    "WHERE tempContributorId = ?;";
+    results = await pool.query(sql, contributorId);
+  
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error rejecting contributor submission");
+    throw Error(err);
+  }
+
+}
+exports.rejectContributorSubmission = rejectContributorSubmission;
+
+
+// accept a contributor submission
+async function acceptContributorSubmission(contributorId) {
+
+  try {
+
+    // see if the contributor submission exists
+    let sql = "SELECT * FROM Temp_Contributors " +
+    "WHERE tempContributorId = ?;";
+    let results = await pool.query(sql, contributorId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // save all of the submission information
+    const submission = results[0][0];
+    const name = submission.tempName;
+    const title = submission.tempTitle;
+    const description = submission.tempDescription;
+    const imageUrl = submission.tempImageUrl;
+    const active = 1;
+    const userId = contributorId;
+
+    // delete the submission
+    sql = "DELETE " +
+    "FROM Temp_Contributors " +
+    "WHERE tempContributorId = ?;";
+    results = await pool.query(sql, contributorId);
+  
+    // see if the contributor already exists
+    sql = "SELECT * FROM Contributors " +
+    "WHERE contributorId = ?;";
+    results = await pool.query(sql, userId);
+
+    let exists = false;
+    if (results[0].length) {
+      exists = true;
+    }
+
+    // create or update, based on if the contributor already exists
+    if (exists) {
+      sql = "UPDATE Contributors " +
+      "SET name = ?, title = ?, description = ?, imageUrl = ?, active = ?, priority = ? " +
+      "WHERE contributorId = ?;";
+      results = await pool.query(sql, [name, title, description, imageUrl, active, 10, userId]);
+    } else {
+      sql = "INSERT INTO Contributors (contributorId, name, title, description, imageUrl, active, priority) " +
+      "VALUES (?, ?, ?, ?, ?, ?, 10);";
+      results = await pool.query(sql, [userId, name, title, description, imageUrl, active]);
+    }
+
+    const finalResults = {
+      affectedRows: 1
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error rejecting contributor submission");
+    throw Error(err);
+  }
+
+}
+exports.acceptContributorSubmission = acceptContributorSubmission;
