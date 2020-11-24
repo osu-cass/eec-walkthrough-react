@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {withRouter} from "react-router-dom";
 import {formatRole} from "../../utilities/formatRole";
 import {logout} from "../../utilities/cookieAuth";
@@ -26,40 +26,51 @@ function UserIcon(props) {
     props.history.push("/edit-user");
   }
 
+  // redirect to the submit contributor page
+  function submitContributor(e) {
+    e.preventDefault();
+    props.history.push("/submit-contributor");
+  }
+
   if (props.role) {
     return (
 
-      <div className="dropdown" id="user-navbar-icon-container">
+      <Fragment>
+        <div className="dropdown" id="user-navbar-icon-container">
 
-        <button className="btn btn-dark mx-4" type="button" id="user-navbar-icon-drp"
-          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button className="btn btn-dark mx-4" type="button" id="user-navbar-icon-drp"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-          <div className="d-flex align-items-center font-weight-bold">
-            <div className="user-icon-container text-white mx-3">
-              <div
-                className="text-capitalize"
-                id="username-navbar"
-              >
-                {props.username}
+            <div className="d-flex align-items-center font-weight-bold">
+              <div className="user-icon-container text-white mx-3">
+                <div
+                  className="text-capitalize"
+                  id="username-navbar"
+                >
+                  {props.username}
+                </div>
+                <div className="text-capitalize small" id="role-navbar d-block">
+                  {formatRole(props.role)}
+                </div>
               </div>
-              <div className="text-capitalize small" id="role-navbar d-block">
-                {formatRole(props.role)}
-              </div>
+              <div id="user-icon-arrow" />
             </div>
-            <div id="user-icon-arrow" />
+          </button>
+
+          <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+            <button className="dropdown-item" onClick={(e) => editHandler(e)}>
+              Update User Info
+            </button>
+            <button className="dropdown-item" onClick={(e) => submitContributor(e)}>
+              Submit Contributor Info
+            </button>
+            <button className="dropdown-item" onClick={(e) => logoutHandler(e)}>
+              Logout
+            </button>
           </div>
-        </button>
 
-        <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-          <button className="dropdown-item" onClick={(e) => editHandler(e)}>
-            Update User Info
-          </button>
-          <button className="dropdown-item" onClick={(e) => logoutHandler(e)}>
-            Logout
-          </button>
         </div>
-
-      </div>
+      </Fragment>
 
     );
   } else {

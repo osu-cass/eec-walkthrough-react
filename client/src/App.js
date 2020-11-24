@@ -9,6 +9,7 @@ import ManageFiles from "./pages/ManageFiles/ManageFiles";
 import ManageDirectories from "./pages/ManageDirectories/ManageDirectories";
 import ManageCardTitles from "./pages/ManageCardTitles/ManageCardTitles";
 import ManageContributors from "./pages/ManageContributors/ManageContributors";
+import SubmitContributor from "./pages/SubmitContributor/SubmitContributor";
 import ManageHome from "./pages/ManageHome/ManageHome";
 import ViewHistory from "./pages/ViewHistory/ViewHistory";
 import Search from "./pages/Search/Search";
@@ -136,6 +137,10 @@ function App() {
 
           <Route path="/edit-user">
             <EditUser handleNameChange={() => setNameChange(!nameChange)} />
+          </Route>
+
+          <Route path="/submit-contributor">
+            <SubmitContributor />
           </Route>
 
           <Route path="/500">
