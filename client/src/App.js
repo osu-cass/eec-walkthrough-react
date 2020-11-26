@@ -156,7 +156,7 @@ function App() {
           </Route>
 
           <Route exact path="/">
-            <Home loginStatusChange={loginStatusChange} />
+            <HomePage loginStatusChange={loginStatusChange} />
           </Route>
 
           <Route path="*">
