@@ -19,6 +19,7 @@ const {
   getCategory,
   getCategories,
   getCategoryNames,
+  getCategoryPublished,
   createCategory,
   updateCategory
 } = require("../models/categories");
@@ -46,16 +47,37 @@ app.get("/all", getUserID, async (req, res) => {
 
 
 // get all of the categories names
-app.get("/names", requireAuth, async (req, res) => {
+app.get("/names", getUserID, async (req, res) => {
 
   try {
 
     console.log("Get a list of all category names");
 
-    const userId = req.auth.userId;
+    const userId = parseInt(req.auth.userId, 10);
 
     // get a list of all category names
     const results = await getCategoryNames(userId);
+    res.status(200).send(results);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// get all of the categories information for categories with at least one published page
+app.get("/published", getUserID, async (req, res) => {
+
+  try {
+
+    console.log("Get a list of all category names for published content");
+
+    const userId = parseInt(req.auth.userId, 10);
+
+    // get a list of all category names
+    const results = await getCategoryPublished(userId);
     res.status(200).send(results);
 
   } catch (err) {
