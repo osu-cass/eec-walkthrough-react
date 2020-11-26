@@ -601,21 +601,25 @@ function Header(props) {
                 <div className="btn-group align-self-center float-right filter-div">
 
                   {/* Used for filtering content in the items below the header */}
-                  <FilterBar
-                    headerId={props.header.headerId}
-                    updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
-                    resetIcons={() => props.resetIcons(props.header.headerId)}
-                    clearIcons={() => props.clearIcons(props.header.headerId)}
-                    filterIcons={filterIcons}
-                    tempFilterIcons={tempFilterIcons}
-                    filterShow={filterShow}
-                    iconSet={props.iconSet}
-                    mode={props.mode}
-                    showToggle={opportunitiesExist}
-                    toggled={opportunityFilterMode}
-                    showFilter={() => props.showFilter()}
-                    show={props.show}
-                  />
+                  {props.header.hideFilter ? (
+                    null
+                  ) : (
+                    <FilterBar
+                      headerId={props.header.headerId}
+                      updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
+                      resetIcons={() => props.resetIcons(props.header.headerId)}
+                      clearIcons={() => props.clearIcons(props.header.headerId)}
+                      filterIcons={filterIcons}
+                      tempFilterIcons={tempFilterIcons}
+                      filterShow={filterShow}
+                      iconSet={props.iconSet}
+                      mode={props.mode}
+                      showToggle={opportunitiesExist}
+                      toggled={opportunityFilterMode}
+                      showFilter={() => props.showFilter()}
+                      show={props.show}
+                    />
+                  )}
 
                 </div>
               </div>

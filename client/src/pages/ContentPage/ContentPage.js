@@ -15,9 +15,10 @@ import PropTypes from "prop-types";
 import References from "./Various/References";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
-import "./ContentPage.css";
 import NonPublicPage from "../NonPublicPage/NonPublicPage";
+import HowToCards from "./Card/HowToCards";
 import {useParams} from "react-router-dom";
+import "./ContentPage.css";
 
 // An encyclopedia style page describing some topic
 function ContentPage(props) {
@@ -39,6 +40,8 @@ function ContentPage(props) {
   const [cardTitles, setCardTitles] = useState([]);
   const [showFilters, setShowFilters] = useState(getFilterShow());
   const {pageId} = useParams();
+  const [categories, setCategories] = useState([]);
+  const [howToPage, setHowToPage] = useState(false);
   const [pageInfo, setPageInfo] = useState({
     sources: [],
     headers: [],
@@ -55,6 +58,14 @@ function ContentPage(props) {
 
     async function fetchData() {
       try {
+
+        // see if this is a "how to use" page that should have
+        // automatically generated content
+        let helpPage = false;
+        if (pageId === "64") {
+          helpPage = true;
+          setHowToPage(true);
+        }
 
         let obj = [];
         setMoved(false);
@@ -117,6 +128,12 @@ function ContentPage(props) {
 
         if (results.ok) {
           obj = await results.json();
+
+          // if this is a help page, don't show the filter bar on the first header
+          if (helpPage & obj.headers.length) {
+            obj.headers[0].hideFilter = true;
+          }
+
           setPageInfo(obj);
           // add empty array of applied filters to each header
           for (let i = 0; i < obj.headers.length; i++) {
@@ -135,6 +152,32 @@ function ContentPage(props) {
           } else {
             setErrorPage(500);
             return;
+          }
+        }
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        // if we are on the help page fetch category names
+        if (helpPage) {
+          // Fetch page info
+          results = await fetch(`${API_URL}/categories/published`, {
+            signal: controller.signal,
+            method: "GET",
+            credentials: "include",
+            headers: {"Content-Type": "application/json"}
+          });
+
+          // if this component is cleaned up, stop here
+          if (ignore) {
+            return;
+          }
+
+          if (results.ok) {
+            obj = await results.json();
+            setCategories(obj.categories);
           }
         }
 
@@ -819,6 +862,16 @@ function ContentPage(props) {
               onPageMode={mode => setMode(mode)}
               moved={moved}
             />
+
+            {/* For auto headers on the "how to" page, create special cards */}
+            {howToPage && i === 0 ? (
+              <HowToCards
+                categories={categories}
+                icons={iconSet}
+              />
+            ) : (
+              null
+            )}
 
             {/* Button for creating a new card under the current header */}
             <CreateCard
