@@ -26,6 +26,7 @@ function PageHeader (props) {
   return (
     <div className="navigation-bar">
 
+      {/* mini-header bar */}
       <div className="mini-nav-header p-2">
         <span className="text-white">
           <span className="school-title big-org">Oregon State University&nbsp;</span>
