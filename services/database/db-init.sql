@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Nov 23, 2020 at 10:32 PM
+-- Generation Time: Nov 30, 2020 at 12:47 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -38,8 +38,8 @@ CREATE TABLE `Banners` (
 --
 
 INSERT INTO `Banners` (`bannerId`, `imageUrl`) VALUES
-(2, '/uploads/user_42/be19ca0ceb80eff619054bcc36a35adb.jpg'),
-(3, '/uploads/user_42/fc6f4b14282cbab7f8d1796c2bba54a9.jpg');
+(7, '/uploads/user_42/be19ca0ceb80eff619054bcc36a35adb.jpg'),
+(8, '/uploads/user_42/fc6f4b14282cbab7f8d1796c2bba54a9.jpg');
 
 -- --------------------------------------------------------
 
@@ -200,14 +200,19 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (232, 66, 10, 232, 'Water Rate Schedules', 54, '2020-09-23 22:22:08', 0),
 (233, 66, 10, 233, 'Common Water Charges', 54, '2020-09-23 22:26:50', 0),
 (236, 70, 10, 236, 'Consolidate Meters', 54, '2020-10-14 20:45:46', 0),
-(237, 71, 0, 237, 'This guide is broken down into sections:', 51, '2020-11-18 01:11:43', 0),
-(238, 71, 0, 238, 'Each section includes a number of useful pertinent \"tidbits\" identified by a preceding icon', 51, '2020-11-18 01:30:33', 0),
-(239, 71, 0, 239, 'Each section also references in depth learning resources that offer deeper information about the top', 51, '2020-11-18 01:35:33', 0),
 (240, 72, 0, 240, 'Filters allow users to show or hide select types of information by icon type', 42, '2020-11-18 01:44:25', 0),
 (241, 47, 0, 241, 'Opportunity Meeting and Task Designations', 55, '2020-11-20 16:45:04', 0),
 (242, 47, 0, 242, 'Report Drafting', 55, '2020-11-20 16:46:09', 0),
 (243, 47, 0, 243, 'Report Presentation to Client', 55, '2020-11-20 16:47:38', 0),
-(244, 47, 10, 244, 'Post-Assessment Meetings', 60, '2020-11-23 23:11:25', 0);
+(244, 47, 10, 244, 'Post-Assessment Meetings', 60, '2020-11-23 23:11:25', 0),
+(247, 75, 10, 247, 'Simulation', 61, '2020-11-28 23:50:18', 0),
+(248, 75, 10, 248, 'Additive Manufacturing', 61, '2020-11-28 23:50:57', 0),
+(249, 75, 10, 249, 'Cloud Computing', 61, '2020-11-28 23:51:50', 0),
+(250, 74, 10, 2, 'General Off Site Resource Links', 61, '2020-11-29 00:01:54', 0),
+(251, 74, 0, 1, 'Summary', 61, '2020-11-29 00:29:29', 0),
+(252, 76, 10, 2, 'Gallery', 61, '2020-11-29 00:42:43', 0),
+(253, 76, 10, 1, 'Summary', 61, '2020-11-30 18:04:41', 0),
+(254, 76, 10, 254, 'General Off Site Resource Links', 61, '2020-11-30 18:07:00', 0);
 
 -- --------------------------------------------------------
 
@@ -259,7 +264,7 @@ CREATE TABLE `Contributors` (
 --
 
 INSERT INTO `Contributors` (`contributorId`, `name`, `title`, `description`, `imageUrl`, `priority`, `active`) VALUES
-(42, 'Test Name', 'Some Title', 'This is a description that explains information about the user. Here is more text that explains something about the user.', 'https://placekitten.com/500/500', 10, 0);
+(42, 'Some Name', 'This Title', 'some description', '9828f40a4c8f40f49a61e85c8fa30e4b.jpg', 10, 0);
 
 -- --------------------------------------------------------
 
@@ -390,8 +395,11 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (66, 49, 3, 'Water', 1, 54, '2020-09-17 20:08:44', 0),
 (69, 49, 4, 'Analysis', 1, 54, '2020-10-14 18:28:03', 0),
 (70, 49, 5, 'Electricity Opportunities to Consider', 1, 54, '2020-10-14 20:41:48', 0),
-(71, 64, 71, 'Understanding the Guide', 0, 51, '2020-11-18 01:06:00', 0),
-(72, 64, 72, 'Using the Guide', 0, 51, '2020-11-18 01:41:03', 0);
+(71, 64, 71, 'Understanding the Guide', 0, 51, '2020-11-26 23:41:50', 1),
+(72, 64, 72, 'Using the Guide', 0, 51, '2020-11-18 01:41:03', 0),
+(74, 72, 3, 'Radio Frequency Identification (RFID)', 1, 61, '2020-11-28 23:26:46', 0),
+(75, 72, 2, 'Technologies', 1, 61, '2020-11-28 23:49:06', 0),
+(76, 72, 4, 'Machine Learning', 1, 61, '2020-11-29 00:38:27', 0);
 
 -- --------------------------------------------------------
 
@@ -570,7 +578,8 @@ INSERT INTO `History_Headers` (`historyId`, `headerId`, `pageId`, `title`, `inte
 (40, 29, 45, 'Pumps Overview', 0, 0, '2020-08-20 00:24:59'),
 (41, 67, 70, 'New Header', 0, 0, '2020-09-22 20:53:26'),
 (42, 54, 61, 'Power Factor Correction Overview', 0, 0, '2020-10-13 20:18:20'),
-(43, 55, 61, 'Power Factor Correction Opportunities to Consider', 0, 0, '2020-10-13 20:18:20');
+(43, 55, 61, 'Power Factor Correction Opportunities to Consider', 0, 0, '2020-10-13 20:18:20'),
+(44, 71, 64, 'Understanding the Guide', 0, 0, '2020-11-26 23:41:50');
 
 -- --------------------------------------------------------
 
@@ -1278,7 +1287,8 @@ INSERT INTO `History_Pages` (`historyId`, `pageId`, `pageType`, `name`, `title`,
 (13, 53, 4, 'z - test Diff Demo', 'Basic Page Meant for Testing New Features @ 1', 'Loremem ipsum dolor sit amet, consectetur adipiscing elit. Nam pulvinar, ipsum sed accumsan rutrum, lorem metus laoreet elit, eget pulvinar nisl leo at libero. Morbi sed pharetra dui, a vestibulum sapien. Mauris laoreet aliquet blandit. Mauris tempor sem, sed ultrices nisi egestas sit amet. Praesent finibus lobortis sodales. Pellentesque scelerisque hendrerit vestibulum. Morbi nulla odio, vulputate quis dapibus eu, fermentum quis libero. Duis efficitur magna lacinia augue tempor fringilla. Quisque elit metus, dictum ut venenatis non, consequat ac sem. Integer convallis imperdiet velit, sit amet consectetur metus. Phasellus molestie, lectus a lobortis pharetra, felis nibh posuere libero, velel feugiat metus erat id eros. Praesent elementum pulvinar purus non scelerisque. Suspendisse eget ex magna. Nam eu vestibulum tortor. Maecenas ultrices egestas tortor, non varius enim placerat volutpat. Ut at nunc et nisl tincidunt varius vitae sed purus.\n\nAliquam commodo tellus vitae lacus suscipit dignissim. Etiam congue aliquam lacus, vitae ultrices turpis accumsan nec. Proin quam ex, sodales ac pharetra et, volutpat a leo. Curabitur nec neque nunc. Maecenas et mauris aliquet, mattis diam at, rutrum erat. Donec eget efficitur ligula. In eget placerat massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod rhoncus fringilla.\n\nFusce quam eros, tincidunt vitae libero eget, tincidunt aliquam lectus. Curabitur non mi et orci semper sollicitudin. Cras dapibus malesuada accumsan. Maecenas efficitur euismod elit eu lacinia. Aliquam id sollicitudin augue. Quisque pharetra scelerisque ultrices. Curabitur dictum felis metus, vitae pulvinar quam efficitur et. Mauris accumsan cursus ante rutrum interdum. Duis scelerisque pharetra fermentum. Phasellus viverra tellus in rutrum dignissim. Sed ex augue, elementum a aliquam non, rutrum sed metus. Nulla sapien lorem, ullamcorper ut molestie ac, hendrerit ultrices odio. Nullam sit amet eleifend erat. Aenean laoreet fermentum ipsum, ut tempus magna rhoncus at. Cras vitae dolor leo.\n\nCurabitur cursus arcu elit, u scelerisque sem lobortis quis. Vivamus tristique ex vel sollicitudin sollicitudin. Duis vehicula quam lacus, et iaculis velit ultricies a. Cras tristique mattis felis, vitae aliquet odio lobortis id. Aliquam venenatis ipsum viverra est blandit. Nunc aliquam eros semper ex facilisis, luctus aliquam sem convallis. Fusce ac nunc ut libero consectetur imperdiet. Maecenas suscipit, nisl non eleifend tincidunt, est libero vestibulum arcu, vel ornare odio ex non sapien. Quisque metus purus, congue non orci at, bibendum ultrices nibh. Ut ut gravida nibh. Pellentesque aliquam porta neque, vitae consequat lorem facilisis eget. Maecenas ut turpis nec dolor lobortis luctus ac consectetur quam.', 'http://placekitten.com/200/500', 1, 0, '2020-08-11 10:32:11'),
 (14, 50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 0, '2020-08-20 00:22:00'),
 (15, 2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/uploads/user_42/fe1402c50e24309eb11f4209c73e2daf.png', 0, 0, '2020-09-14 12:50:14'),
-(16, 61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, which creates additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will increase the capacity of the distribution system.', '/uploads/user_52/ec8550a6c0caa67f935129b59a4c8185.jpg', 0, 0, '2020-10-13 20:18:20');
+(16, 61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, which creates additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will increase the capacity of the distribution system.', '/uploads/user_52/ec8550a6c0caa67f935129b59a4c8185.jpg', 0, 0, '2020-10-13 20:18:20'),
+(17, 64, 0, 'How to Use EEC Walkthrough', 'Find what you need to know quickly', 'This guide is designed to allow the user to \"drill down\" to a specific subject of interest, perhaps associated with a current project. Each topic includes an overview including a quick summary of key things to know, along with links to more in depth resources. This section is followed by a list of common efficiency improvement opportunities to consider along with associated information.', '/uploads/user_51/a8a32589238ec2625ded26ec4774f529.jpg', 0, 0, '2020-11-26 23:41:58');
 
 -- --------------------------------------------------------
 
@@ -1925,11 +1935,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5006, 201, 0, 0, 26, 'A markov chain is a set of states where the probability or rate at which a state is active is not dependent on its history/prior states.', '', '', 0, 0, 0, 0, '2020-09-03 21:21:21', 0),
 (5007, 201, 0, 0, 26, 'In a birth-death process of a simple process (one workstation and queue), the birth rate is the rate at which product enters the system (inter-arrival times) while the death rate is the rate at which product leaves the system (effective processing times).', '', '', 0, 0, 0, 0, '2020-09-03 21:21:21', 0),
 (5008, 201, 0, 0, 20, '', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeUAAABoCAMAAAD4txjiAAAAjVBMVEX///8AAAD39/doaGj6+vrw8PDU1NRfX1/s7Ozz8/Po6Oj29vby8vLg4ODr6+vOzs5ISEiHh4fa2tpvb2++vr7IyMimpqZ8fHx5eXnQ0NBxcXG3t7dqamrCwsKRkZGxsbFWVlZQUFCfn5+Tk5OioqIzMzNBQUEjIyMbGxtDQ0MLCws5OTkYGBgrKys0NDRN/y7SAAAVlklEQVR4nO1deX+rqNd3QTEmxOACxl3M0i3z/l/eg0nbm0SCuKTTeX73+8f9TKf2iBzOfgBN+4u/+Iu/+Iv/91gb89GylvPR+hEsZhnwcjEHlacClvPRwsV8tH4EBM9BJUpmlJTnoDDnE8DwH2s2Wj+CUJ+Div/x6z97pdvzEdNnVAw/gnk0GZ5FJTwT3oycsXQMZiP2E0B7cwYq6+o0A5WnwjxtZqPVHA9oNmI/gfKwn0GTbfcv0XQqz8TqENW+xkw8g2kx6jxOuTMyh3z8CKzKrhoNu+cfAB3LqizFgVb4841rdjSVhk031sp8Oq30TUtP2jaB00n9DPz3dX6wMMr5EgflfiSXjZONjqjxvV+rxxY10aJ9SrR8OpcBjbm7iZb2f0aWaaGtjwhj3EZC1lhZJvx7TzkrqDvr4GaEV/F/gpizejqX3Yov5qLR0H9Glmv+0eUufo+WGR8zHsllPntaVODDb48vjNhuvNmo+dVspH4E2INnKRxtl88otvEvd8E0lObzpW+McCqF7RzDUIat2WdHO5rkgNoAzcbl7XouSr8Z+gd1f39u+Hlo9E1o/bcyD4NguP428nSOemeD+9+dsd5y+O7q3xngs7FGthfF/Ps/aDjJZ3ftlDBKM/MLWYwppayMBpFd2yHZURx8kzETToUWJBoTOfoRaWhiwsrMaKCf8RbfOK2A1dUZMMsyWFVZgtm4d9lRSTB/2Z8JaA', 'Birth Death Markov Chain', 0, 0, 0, 0, '2020-09-03 21:21:21', 0),
-(5014, 9, 0, 0, 1, 'Versatile. Offers compact energy density. ', '', '', 0, 0, 0, 0, '2020-09-03 23:15:49', 0),
-(5015, 9, 0, 0, 1, 'Spark free for potentially explosive environments', '', '', 0, 0, 0, 0, '2020-09-03 23:15:49', 0),
-(5016, 9, 0, 0, 1, 'Can be used as an easy quick fix for many issues', '', '', 0, 0, 0, 0, '2020-09-03 23:15:49', 0),
-(5017, 9, 0, 0, 1, 'Familiar utility for industrial personnel', '', '', 0, 0, 0, 0, '2020-09-03 23:15:49', 0),
-(5018, 9, 0, 0, 1, 'A single mechanical energy input at the compressor can be distributed throughout a facility. ', '', '', 0, 0, 0, 0, '2020-09-03 23:15:49', 0),
 (5111, 202, 0, 0, 13, 'The History Report tool displays all content added or edited during a selected date range.', '', '', 0, 0, 0, 0, '2020-09-04 20:46:22', 0),
 (5112, 202, 0, 1, 26, 'A header on each entry shows the type of material (page, header, or card) added, edited or deleted, the name and location of the material, and the date/time of the update.', '', '', 0, 0, 0, 0, '2020-09-04 20:46:22', 0),
 (5113, 202, 0, 1, 8, 'Select \"Show Duplicates\" to view a complete history of all edits made to all pages, headers, and cards. Red highlighted content consists of old edits while green highlighted content is the most recent edit made during the selected date range. Yellow highlighted content is material that was only added or updated once. Unhighlighted content predates the selected date range. ', '', '', 0, 0, 0, 0, '2020-09-04 20:46:22', 0),
@@ -1962,9 +1967,9 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5506, 206, 0, 1, 26, 'You may enter an image URL. This is a web address that points to a specific image (ex: https://placekitten.com/300/200).', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5507, 206, 0, 2, 4, 'Always include \"https\" at the start of your image address and never \"http\". This ensures that the image is being sent over a secure network. A published page with HTTP images will display as \"Not Secure\" in most browsers, which will make users less confident when using our application.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5508, 206, 0, 1, 26, 'You may upload an image. Valid images have the file format JPG, PNG, or GIF. Images are not allowed to be larger than six megabytes. ', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
-(5509, 206, 0, 2, 12, 'Only upload images that you have intellectual property rights to use. This means that you should not use images that you did not create unless you have gotten express permission to use them from the creator.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0);
+(5509, 206, 0, 2, 12, 'Only upload images that you have intellectual property rights to use. This means that you should not use images that you did not create unless you have gotten express permission to use them from the creator.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
+(5510, 206, 0, 2, 7, 'If you want to use an image in multiple locations. Upload the image by submitting some content, then edit the content and you will see that the image has a URL that you can copy. You can reuse this URL anywhere on the website, this is the preferred method as it saves space on the server by only uploading the image once.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0);
 INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
-(5510, 206, 0, 2, 7, 'If you want to use an image in multiple locations. Upload the image by submitting some content, then edit the content and you will see that the image has a URL that you can copy. You can reuse this URL anywhere on the website, this is the preferred method as it saves space on the server by only uploading the image once.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5788, 222, 0, 0, 17, 'This report details the vehicle assembly process and common energy saving opportunities associated with each step. References to case studies, implementation costs and payback periods are included. Opportunities are included for the following systems: motors, compressed air, steam, lighting, HVAC, materials handling, painting and stamping.', 'https://www.osti.gov/biblio/927881', 'Energy Efficiency Improvement and Cost Saving Opportunities for the Vehicle Assembly Industry', 1, 0, 0, 0, '2020-09-15 19:40:23', 0),
 (5812, 215, 0, 0, 13, 'The following opportunities are specific to metals manufacturing facilities. For more opportunities related to compressed air, go to the Compressed Air Technologies page. ', '', '', 0, 0, 0, 0, '2020-09-15 20:53:32', 0),
 (5813, 215, 0, 0, 11, 'Replace the pistons on stamping die cushions with air actuators', '', '', 0, 0, 0, 0, '2020-09-15 20:53:32', 0),
@@ -2214,35 +2219,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6635, 96, 0, 0, 27, 'Combustion Analyzer ', '', '', 0, 0, 1, 0, '2020-10-29 22:08:04', 1),
 (6636, 96, 0, 0, 27, 'Digital or Infrared Thermometer', '', '', 0, 0, 1, 0, '2020-10-29 22:08:04', 1),
 (6637, 96, 0, 0, 8, 'An IR camera can help identify hot spots to insulate', '', '', 0, 0, 0, 0, '2020-10-29 22:08:04', 1),
-(6661, 237, 0, 0, 11, 'Assessments ', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
-(6662, 237, 0, 1, 13, 'Standard recommended approaches for performing industrial assessments.', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
-(6663, 237, 0, 0, 11, 'Industries', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
-(6664, 237, 0, 1, 13, 'An overview of common industries followed by typical related subjects and opportunities.', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
-(6665, 237, 0, 0, 11, 'Processes', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
-(6666, 237, 0, 1, 13, 'Common industrial processes that use a combination of standard technologies', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
-(6667, 237, 0, 0, 11, 'Productivity', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
-(6668, 237, 0, 1, 13, 'Common approaches to improving industrial site productivity', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
-(6669, 237, 0, 0, 11, 'Technologies', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
-(6670, 237, 0, 1, 13, 'Standard technologies used throughout industry', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
-(6671, 237, 0, 0, 11, 'Utilities', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
-(6672, 237, 0, 1, 13, 'An introduction to utility billing structures, resource use analysis, and opportunities to reduce costs.', '', '', 0, 0, 0, 0, '2020-11-18 01:26:12', 0),
-(6699, 238, 0, 0, 27, 'Assessment Equipment', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6700, 238, 0, 0, 7, 'Best Practices', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6701, 238, 0, 0, 4, 'Caveats', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6702, 238, 0, 0, 2, 'Cons', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6703, 238, 0, 0, 15, 'Data to Collect', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6704, 238, 0, 0, 16, 'File', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6705, 238, 0, 0, 11, 'Opportunity to Consider', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6706, 238, 0, 0, 10, 'Opportunity Flag', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6707, 238, 0, 0, 1, 'Pros', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6708, 238, 0, 0, 14, 'Questions', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6709, 238, 0, 0, 3, 'Rules of Thumb', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6710, 238, 0, 0, 12, 'Suggested Action', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6711, 238, 0, 0, 8, 'Tips', '', '', 0, 0, 0, 0, '2020-11-18 01:32:16', 0),
-(6730, 239, 0, 0, 11, 'A preceding icon identifies the type of learning resource offered', '', '', 0, 0, 0, 0, '2020-11-18 02:13:47', 0),
-(6731, 239, 0, 1, 26, '(Cant show these icons yet)', '', '', 0, 0, 0, 0, '2020-11-18 02:13:47', 0),
-(6732, 239, 0, 0, 11, 'A trailing icon identifies the learning resource as internal or external', '', '', 0, 0, 0, 0, '2020-11-18 02:13:47', 0),
-(6733, 239, 0, 0, 11, 'A second trailing icon will indicate when the learning resource is a download', '', '', 0, 0, 0, 0, '2020-11-18 02:13:47', 0),
 (6772, 158, 0, 0, 26, 'Review any areas of concern or interest voiced by the client', '', '', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
 (6773, 158, 0, 0, 26, 'Review typical opportunities found in the energy intensive systems identified at the facility ', '', '', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
 (6774, 158, 0, 1, 8, 'This Industrial Walkthrough Checklist & Reference will offer more and more ideas for potential opportunities as it is developed over time', '', '', 0, 0, 0, 0, '2020-11-20 15:49:57', 0),
@@ -2272,8 +2248,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6809, 155, 0, 1, 17, '$empty', 'https://docs.google.com/document/d/1SSk8Ks463YfySrxLr5o5zK08DLoDzkGMIEkecBMs51s/edit', 'Pre_Assessment Package Template', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
 (6814, 242, 0, 0, 13, 'Report drafting process will follow a timeline similar to that used for in person assessments.', '', '', 0, 0, 0, 0, '2020-11-20 16:47:53', 0),
 (6815, 241, 0, 0, 13, 'Upon completion of a remote guided tour, the assessment team will meet to determine which opportunities should be pursued.', '', '', 0, 0, 0, 0, '2020-11-20 16:48:31', 0),
-(6816, 241, 0, 0, 13, 'If possible, this meeting should include the client.', '', '', 0, 0, 0, 0, '2020-11-20 16:48:31', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(6816, 241, 0, 0, 13, 'If possible, this meeting should include the client.', '', '', 0, 0, 0, 0, '2020-11-20 16:48:31', 0),
 (6830, 156, 0, 0, 13, 'This meeting is analogous to the what the OSU IAC has traditionally called the \"Pre-Audit Walkthrough Phone Call\" (excluding site visit logistics, safety and PPE discussion)', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
 (6831, 156, 0, 0, 26, 'Have the client(s) verbally  \"walk us through\" their process, highlighting key energy intensive processes', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
 (6832, 156, 0, 1, 14, 'Ask client(s) to let us know of any areas of concern or interest', '', '', 0, 0, 0, 0, '2020-11-20 21:21:53', 0),
@@ -2291,15 +2266,59 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6844, 244, 0, 0, 9, 'Working remotely changes the dynamic of working as a team. It is important to have expectations for meetings post-assessment in order to meet the deadline.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6845, 244, 0, 1, 12, 'Schedule a team meeting within three business days of the assessment', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6846, 244, 0, 2, 8, 'The intention of this meeting should be to debrief after the assessment. Topics such as opportunities, best-practices, and AR/OMC assignments should be discussed. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
-(6847, 244, 0, 1, 12, 'Schedule team meeting one week after debrief meeting.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
+(6847, 244, 0, 1, 12, 'Schedule team meeting one week after debrief meeting.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (6848, 244, 0, 2, 8, 'The intention of this meeting should be for analysts to update the lead analyst and PA on their assignments. Additionally, any questions analysts have for the facility should be addressed.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6849, 244, 0, 1, 12, 'Schedule 10-15 minute individual meetings with each analyst. The frequency of these meetings should be determined by the lead. At a minimum, every two weeks is recommended. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6850, 244, 0, 2, 8, 'Any issues or questions analysts have encountered should be discussed. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6851, 244, 0, 2, 8, 'Be sure to invite the PA, but their attendance should not be required unless previously discussed.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6852, 244, 0, 0, 7, 'Take notes on every meeting. As the lead, it is your responsibility to make sure nothing gets forgotten.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
-(6860, 240, 0, 0, 8, 'Filters are available on each published page. Clicking on the icons located on each header will filter associated items out or back into the list below.  ', '', '', 0, 0, 0, 0, '2020-11-24 06:31:27', 0),
-(6861, 240, 0, 1, 32, '', '/uploads/user_51/f6503d4e177523d18823ae1f14314853.png', 'Typical Header', 0, 0, 0, 0, '2020-11-24 06:31:27', 0),
-(6862, 240, 0, 1, 8, 'Clicking on the last three icons will bring back all items, hide all items, or hide the filter icon list.', '', '', 0, 0, 0, 0, '2020-11-24 06:31:27', 0);
+(6907, 240, 0, 0, 8, 'Filters are available on each published page. Clicking on the icons located on each header will filter associated items out or back into the list below.  ', '', '', 0, 0, 0, 0, '2020-11-24 22:19:06', 0),
+(6908, 240, 0, 1, 32, '', '/uploads/user_51/f6503d4e177523d18823ae1f14314853.png', 'Typical Header', 0, 0, 0, 0, '2020-11-24 22:19:06', 0),
+(6909, 240, 0, 1, 8, 'Clicking on the last three icons will bring back all items, hide all items, or hide the filter icon list.', '', '', 0, 0, 0, 0, '2020-11-24 22:19:06', 0),
+(6910, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6911, 77, 0, 1, 13, 'Reducing the inlet air temperature of oil-injected screw compressors increases mass flow rate while maintaining power input. To efficiently maintain current mass flow rate a variable frequency drive is required to reduce the motor speed and associated power.', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6912, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6913, 77, 0, 1, 10, 'Difficulty meeting a compressor\'s rated air capacity', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6914, 77, 0, 1, 10, 'A compressor running hotter than its specifications', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6915, 77, 0, 2, 8, 'Other factors may be at play such as significant air leaks increasing the load on the compressor', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6916, 77, 0, 1, 3, '1.9% efficiency (scfm/kW) improvement per 10 °F reduction at inlet', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6917, 77, 0, 1, 15, 'Compressor make, model, and nameplate data', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6918, 77, 0, 1, 15, 'Motor nameplate data, live power reading, and one week of amperage data', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6919, 77, 0, 1, 15, 'Complete picture of compressed air system and control strategy', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6920, 77, 0, 1, 15, 'Average ambient temperature at current and proposed inlet locations', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6921, 77, 0, 1, 12, 'Move air inlet to coolest location to reduce power and energy consumption', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6922, 77, 0, 1, 8, 'If implementation requires much more than re-ducting, the chances of this opportunitity being worthwhile are low. ', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6923, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/zk1aol8rf88aul9klflbxkikz6l2ku47', 'Analysis Template: Reduce Inlet Air Temperature', 2, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6924, 77, 0, 1, 17, 'An article from Compressed Air Best Practices by  Tim Dugan, P.E., President, Compression Engineering Corporation', 'https://www.airbestpractices.com/system-assessments/compressor-controls/inlet-air-temperature-impacts-air-compressor-performance', 'Inlet Air Temperature Impacts on Air Compressor Performance', 1, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6925, 77, 0, 0, 11, 'Increase Primary Receiver Capacity', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6926, 77, 0, 1, 13, 'Insufficient receiver capacity can result in short cycling in oil-injected rotary screw compressors that use load-unload controls. Short cycling occurs when system demand forces a compressor to re-load before unload power has been fully realized, causing the compressor to cycle too frequently. Adding receiver capacity increases system efficiency by reducing cycling losses and time spent at partial loads. ', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6927, 77, 0, 1, 10, 'Current receiver capacity for an oil-injected rotary screw compressor is less than 3 gal/cfm', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6928, 77, 0, 1, 10, 'An oil-injected rotary screw compressor consistently unloads for less than 45 seconds', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6929, 77, 0, 1, 3, 'A minimum of 3 gal/cfm receiver capacity is recommended for oil-injected rotary screw compressors ', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6930, 77, 0, 1, 1, 'Improved system efficiency due to reduced cycling frequency ', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6931, 77, 0, 1, 1, 'Critical pressure applications are shielded from pressure fluctuations', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6932, 77, 0, 1, 1, 'Prevents overloading the compressor\'s motor by allowing for a lower pressure set point ', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6933, 77, 0, 1, 15, 'Compressor and motor nameplate data and specifications including unload capacity and power', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6934, 77, 0, 1, 15, 'Week-long amperage data log that represents typical operation to identify when and if short cycling occurs ', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6935, 77, 0, 1, 15, 'Current receiver capacity and operating pressure', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6936, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/fksaccw3fhif7h70nkynzwlbbu26g608', 'Analysis Template: Increase Air Receiver Capacity', 2, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6937, 77, 0, 1, 20, '', '/uploads/user_42/8bef9996285f82268e4fef3c0c42b38a.png', 'Effect of Receiver Capacity on Lubricant-Injected Rotary Compressor with Load-Unload Capacity Control', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6938, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6939, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
+(6947, 249, 0, 0, 31, '<p>Cloud Computing Background</p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-28 23:51:50', 0),
+(6952, 251, 0, 0, 31, '<p>RFID is used to track products. Companies need to keep track of products for inventory control, determining production schedules, and traceability. Some small companies still use paper and clipboard, which has a large margin for error as production scales up. Many companies have made the transition to barcode scanning which is faster and more reliable when shared among many people. It still has a drawback of requiring an operator to scan at appropriate points. If an operator forgets to scan, or enters incorrect information during a scan, product can end up “lost” in storage. RFID has the advantage of not requiring a constant scanning and can be located even if the product is “lost”.&nbsp;</p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-29 00:29:29', 0),
+(6953, 250, 0, 0, 24, 'Springer', 'http://link.springer.com/10.1007/s10586-017-0767-x', 'Yang et al.  “Towards product customization and personalization in IoT-enabled cloud manufacturing,”', 1, 0, 0, 0, '2020-11-29 00:36:24', 0),
+(6954, 250, 0, 0, 24, 'Science Direct', 'http://www.sciencedirect.com/science/article/pii/S0925527314002825', 'Guo et al. “An RFID-based intelligent decision support system architecture for production monitoring and scheduling in a distributed manufacturing environment,”', 1, 0, 0, 0, '2020-11-29 00:36:24', 0),
+(6955, 250, 0, 0, 24, 'MDPI (Open Source)', 'https://www.mdpi.com/2079-9292/6/1/14', 'T. Kamigaki, “Object‐Oriented RFID with IoT: A Design Concept of Information Systems in Manufacturing,”', 1, 0, 0, 0, '2020-11-29 00:36:24', 0),
+(6961, 252, 0, 0, 32, '', 'https://miro.medium.com/max/464/1*UKIHA2AHtB9WPG-KrfwSZg.png', 'What Machine Learning Really is?', 0, 0, 0, 0, '2020-11-29 00:44:32', 0),
+(6962, 247, 0, 0, 31, '<p>Simulation is the process where a physical system is simplified and reproduced in a way that will accurately model the area of interest. Simulations are useful for determining how a machine will function, predicting bottleneck in a process, identifying potential cash flow issues and many other things.  </p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-30 16:56:37', 0),
+(6963, 248, 0, 0, 31, '<p>Additive Manufacturing means depositing material onto a work surface to incrementally build a part.  Although many of the modern additive manufacturing technologies were invented in the 1980\'s and 1990\'s, it was not until early 2000\'s when it started receiving media coverage for printing a kidney. A few years later companies started to sell home hobbies printers which were capable of printing plastics. </p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-30 17:46:53', 0),
+(6964, 248, 0, 0, 31, '<p>Because of the speed at which small parts can be produced, industry often refers to \"rapid prototyping\". Since production lines are so specialized to mass produce a single part, the cost associated with retooling or modifying the production line to make prototypes is high even for the simplest parts. Once the CAD models are done, minimal modification are needed to being production with rapid prototyping. </p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-30 17:46:53', 0),
+(6965, 253, 0, 0, 31, '<p>Machine Learning refers to algorithms that allow a machine to update its program to better match the desired output. At its core machine learning is linear algebra and statistics, which makes it very similar to mathematic regression models. The advantage is that these algorithms do not assume that the process follows any particular model (assumptions like linearity, interaction between variables, significance of variables, or independence of variables) </p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-30 18:04:41', 0),
+(6966, 253, 0, 0, 31, '<p>For small companies where they vary multiple process parameters to get different outcomes, a machine learning system can be developed to help find the ideal parameters for each outcome. </p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-30 18:04:41', 0),
+(6967, 254, 0, 0, 24, '$empty', 'https://linkinghub.elsevier.com/retrieve/pii/S235197891830475X', 'Rethinking Human-Machine Learning in Industry 4.0: How Does the Paradigm Shift Treat the Role of Human Learning?', 1, 0, 0, 0, '2020-11-30 18:07:00', 0),
+(6968, 254, 0, 0, 24, '$empty', 'https://towardsdatascience.com/the-actual-difference-between-statistics-and-machine-learning-64b49f07ea3', 'The Actual Difference Between Statistics and Machine Learning', 1, 0, 0, 0, '2020-11-30 18:07:00', 0);
 
 -- --------------------------------------------------------
 
@@ -2327,7 +2346,8 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (33, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
 (34, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
 (35, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
-(36, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1);
+(36, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
+(39, 0, 52, 'Silverware has submitted a contributor card that is awaiting review', 6);
 
 -- --------------------------------------------------------
 
@@ -2367,9 +2387,10 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (58, 4, 'Queuing Line Optimization', 'The operation of queues and their respective workstations determine the overall production efficiency of a facility.', 'Optimizing the queuing system of a workstation has significant effects on product output. Little\'s law and queuing theory helps simplify any production system into a set of easy to estimate variables. While extensive research, data collection, and possibly simulation should be employed before making any change to a part of the production system, basic analysis can reveal opportunities for cost savings through increased productivity.', 'https://www.umav.org/wp-content/uploads/2019/04/Car-Assembly-Line.jpg', 0, 62, '2020-08-10 19:57:05', 0),
 (61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, which creates additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will increase the capacity of the distribution system.', '/uploads/user_52/ec8550a6c0caa67f935129b59a4c8185.jpg', 0, 52, '2020-08-26 15:55:35', 1),
 (62, 5, 'Cybersecurity', 'Industrial Assessment Center resources for increasing cybersecurity.', 'Cybersecurity is becoming increasingly important as more industries adopt newer and more sophisticated controls for smart manufacturing or data collection to increase production and equipment efficiency. As part of our outreach on energy efficiency, we also provide information and resources about cybersecurity. Using some of the self-assessment tools and other informational resources provided on this page can be an important part of a facility’s plan to regularly evaluate their cybersecurity status.\n\nThe National Institute of Standards and Technology (NIST) Manufacturing Extension Partnership stated that 61% of small businesses experienced a cyber attack within the last 12 months, making up 58% of cyber attack victims. Furthermore, 34% of targets were manufacturing facilities and the median cost per attack was $60,000.', 'https://live.staticflickr.com/6044/6999839463_ae02bb6a7e_b.jpg', 1, 57, '2020-08-27 00:21:01', 0),
-(64, 0, 'How to Use EEC Walkthrough', 'Find what you need to know quickly', 'This guide is designed to allow the user to \"drill down\" to a specific subject of interest, perhaps associated with a current project. Each topic includes an overview including a quick summary of key things to know, along with links to more in depth resources. This section is followed by a list of common efficiency improvement opportunities to consider along with associated information.', '/uploads/user_51/a8a32589238ec2625ded26ec4774f529.jpg', 0, 51, '2020-08-31 22:17:53', 0),
+(64, 0, 'How to Use EEC Walkthrough', 'Find what you need to know quickly', 'This guide is designed to allow the user to \"drill down\" to a specific subject of interest, perhaps associated with a current project. Each topic includes an overview including a quick summary of key things to know, along with links to more in depth resources. This section is followed by a list of common efficiency improvement opportunities to consider along with associated information.', '/uploads/user_51/a8a32589238ec2625ded26ec4774f529.jpg', 0, 51, '2020-11-26 23:41:58', 1),
 (65, 0, 'How to Edit EEC Walkthrough', 'An analyst oriented guide for creating, editing, and reviewing content on the EEC Industrial Walkthrough Checklist.', 'Description', 'https://picsum.photos/seed/picsum/700/700', 1, 42, '2020-08-31 22:17:53', 0),
-(69, 1, 'Metals Manufacturing', 'Industrial metals manufacturing processes may include casting, forging, bending, forming, spinning, welding, cutting and finishing to produce a final product.', 'Metals manufacturing includes production of raw stock, replacement parts and final products. Many production processes are common among all metals manufacturing facilities.', '/uploads/user_52/0baf5657b6e1ac3fef0b0e048672324b.jpg', 0, 52, '2020-09-09 18:37:04', 0);
+(69, 1, 'Metals Manufacturing', 'Industrial metals manufacturing processes may include casting, forging, bending, forming, spinning, welding, cutting and finishing to produce a final product.', 'Metals manufacturing includes production of raw stock, replacement parts and final products. Many production processes are common among all metals manufacturing facilities.', '/uploads/user_52/0baf5657b6e1ac3fef0b0e048672324b.jpg', 0, 52, '2020-09-09 18:37:04', 0),
+(72, 5, 'Smart Manufacturing', 'Smart Manufacturing Summary', 'Lists smart manufacturing technologies that could be applied to assessments.\nImage is from https://www.trianagroup.com. This image is only a placeholder for what I would really like to use. This image might not be suitable to under copyright laws', '/uploads/user_61/1cffd701d341b07912a60941dbbbb22b.jpg', 1, 61, '2020-11-28 23:23:04', 0);
 
 -- --------------------------------------------------------
 
@@ -2561,7 +2582,7 @@ CREATE TABLE `Temp_Cards` (
 --
 
 INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
-(9, 0, 'Pros', 3, 58, '2020-09-03 23:15:22'),
+(77, 0, 'Improve Compressor Efficiency', 77, 42, '2020-11-27 06:07:10'),
 (100, 0, 'Off Site Resource Links', 100, 61, '2020-07-03 17:55:16'),
 (105, 0, 'Improve the Condensate System', 105, 51, '2020-10-29 21:51:42'),
 (106, 0, 'Reduce Heat Loss', 106, 51, '2020-07-03 17:31:09'),
@@ -2896,13 +2917,13 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Banners`
 --
 ALTER TABLE `Banners`
-  MODIFY `bannerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `bannerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=245;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=255;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -2920,7 +2941,7 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
@@ -2932,7 +2953,7 @@ ALTER TABLE `History_Cards`
 -- AUTO_INCREMENT for table `History_Headers`
 --
 ALTER TABLE `History_Headers`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `History_Items`
@@ -2944,7 +2965,7 @@ ALTER TABLE `History_Items`
 -- AUTO_INCREMENT for table `History_Pages`
 --
 ALTER TABLE `History_Pages`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `Icons`
@@ -2962,19 +2983,19 @@ ALTER TABLE `Info`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6863;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6969;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
 --
 ALTER TABLE `Notifications`
-  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `Quick_Titles`
