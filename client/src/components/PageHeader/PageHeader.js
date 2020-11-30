@@ -5,6 +5,7 @@ import Notifications from "./Notifications";
 import PropTypes from "prop-types";
 import UserIcon from "./UserIcon";
 import {getProfile} from "../../utilities/cookieAuth";
+import {EEC_HOMEPAGE} from "../../utilities/constants";
 import "./PageHeader.css";
 
 // header bar that appears at the top of the page
@@ -28,11 +29,13 @@ function PageHeader (props) {
 
       {/* mini-header bar */}
       <div className="mini-nav-header p-2">
-        <span className="text-white">
-          <span className="school-title big-org">Oregon State University&nbsp;</span>
-          <span className="school-title small-org">OSU&nbsp;</span>
-          Energy Efficiency Center / Industrial Assessment Center
-        </span>
+        <a className="mini-nav-text" href={EEC_HOMEPAGE}>
+          <span className="text-white">
+            <span className="school-title big-org">Oregon State University&nbsp;</span>
+            <span className="school-title small-org">OSU&nbsp;</span>
+            Energy Efficiency Center / Industrial Assessment Center
+          </span>
+        </a>
       </div>
 
       <nav className="navbar-header navbar align-items-center mb-0">
