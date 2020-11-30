@@ -6,6 +6,7 @@ import EditContributor from "./EditContributor";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import ContributorBlock from "../Contributors/ContributorBlock";
+import RichTextEditor from "../../components/General/RichTextEditor";
 import "./ManageContributors.css";
 
 // page for managing home page text
@@ -270,26 +271,19 @@ function ManageContributors() {
       {/* Edit the current team message */}
       <div className="prompt-container my-3 p-5 bg-white card rounded shadow-sm">
         <span className="h3">Our Team Message</span>
-        <span className="mb-5">
+        <span className="mb-4">
           This message is shown at the top of the&nbsp;
           <a href="/contributors">contributors page</a>.
         </span>
-        <FormControl
-          as="textarea"
-          rows="8"
-          className="my-3"
-          maxLength="5000"
-          placeholder="Enter team message"
-          defaultValue={ourTeamMessage}
-          aria-label="Team text"
-          aria-describedby="basic-addon1"
-          onChange={(e) => setOurTeamMessage(e.target.value)}
-          required
+        <RichTextEditor
+          id={`submit-text-100`}
+          value={ourTeamMessage}
+          onChange={(text) => setOurTeamMessage(text)}
         />
 
         {/* Save changes */}
         <div>
-          <Row className="mb-2">
+          <Row className="mt-4 mb-2">
             <div className="col">
               <Button variant="primary" className="float-right" onClick={() => submitChanges()}>
                 Save changes
@@ -357,7 +351,6 @@ function ManageContributors() {
         <div className="contributor-organizer my-4">
           {publishContributors.map((contributor) =>
             <div className="contributor-container" key={contributor.userId}>
-
 
               <div className="d-block my-2">
                 <div>

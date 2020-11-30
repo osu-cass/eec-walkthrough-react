@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import ContributorBlock from "./ContributorBlock";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import Sanitized from "../../components/General/Sanitized";
 import {API_URL} from "../../utilities/constants";
 import "./Contributors.css";
 
@@ -133,7 +134,7 @@ function Contributors() {
                 {info[2].title}
               </h2>
               <span>
-                {info[2].text}
+                <Sanitized html={info[2].text} />
               </span>
             </div>
           </div>
