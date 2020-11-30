@@ -78,6 +78,10 @@
   font-size: 1.1em;
 }
 
+.mini-nav-text {
+  text-decoration: none !important;
+}
+
 .school-title {
   color: #d73f09;
 }
