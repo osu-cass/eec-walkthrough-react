@@ -80,7 +80,7 @@ function ItemInput(props) {
   return (
     <Fragment>
 
-      {props.contentType === 1 ? (
+      {props.groupIndex === 1 ? (
         <Fragment>
           <FormControl
             as="textarea"
@@ -123,7 +123,7 @@ function ItemInput(props) {
         null
       )}
 
-      {props.contentType === 2 ? (
+      {props.groupIndex === 2 ? (
         <Fragment>
           <FormControl
             as="textarea"
@@ -181,7 +181,7 @@ function ItemInput(props) {
         null
       )}
 
-      {props.contentType === 3 ? (
+      {props.groupIndex === 3 ? (
         <Fragment>
           <Dropdown className="link-select-drop-down-menu ml-2">
             <Dropdown.Toggle variant="outline-dark">
@@ -243,7 +243,7 @@ function ItemInput(props) {
         null
       )}
 
-      {props.contentType === 4 ? (
+      {props.groupIndex === 4 ? (
         <div className="text-editor-input">
           <div className="form-group mx-3 mb-4">
             <RichTextEditor
@@ -264,7 +264,7 @@ function ItemInput(props) {
 export default ItemInput;
 
 ItemInput.propTypes = {
-  contentType: PropTypes.number,
+  groupIndex: PropTypes.number,
   value: PropTypes.any,
   handleInput: PropTypes.func,
   onNewImage: PropTypes.func,

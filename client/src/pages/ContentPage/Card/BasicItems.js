@@ -204,6 +204,7 @@ function BasicItems(props) {
                   internal={item.internal}
                   inline={item.inline}
                   highlightStyle={item.index < compareArray.length ? (compareArray[item.index]) : (0)}
+                  groupIndex={item.groupIndex}
                 />
               )}
             </div>
@@ -231,6 +232,7 @@ function BasicItems(props) {
               internal={item.internal}
               inline={item.inline}
               highlightStyle={item.index < compareArray.length ? (compareArray[item.index]) : (0)}
+              groupIndex={item.groupIndex}
             />
           )}
         </Fragment>

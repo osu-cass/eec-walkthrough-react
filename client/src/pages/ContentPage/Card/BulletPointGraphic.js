@@ -23,13 +23,17 @@ function BulletPointGraphic(props) {
         ${props.highlightStyle === 3 ? "old-review-item" : ""}`}
       >
 
-        {/* Container holding graphic's icon */}
-        <div className={props.inline ? "inline-graphic align-top" : "icon-td pb-2"}>
-          <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}`}
-            style={{color: props.color}}
-            title={props.tooltip}
-          />
-        </div>
+        {/* Container holding graphic's icon. Only display this if there is a label */}
+        {props.label.length ? (
+          <div className={props.inline ? "inline-graphic align-top" : "icon-td pb-2"}>
+            <i className={`fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}`}
+              style={{color: props.color}}
+              title={props.tooltip}
+            />
+          </div>
+        ) : (
+          null
+        )}
 
         {/* Container holding graphic image, text, and possibly a source */}
         <div className={`${props.inline ? "inline-graphic mr-3" : "col"} content-td pb-2`}>

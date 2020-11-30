@@ -74,7 +74,7 @@ function BulletPointResource(props) {
               {/* Optional resource description */}
               <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}>
                 <small>
-                  {props.text === "$empty" ? (null) : (props.text)}
+                  {props.text}
                 </small>
               </a>
 

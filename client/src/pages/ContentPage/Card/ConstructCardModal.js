@@ -89,15 +89,12 @@ function ConstructCardModal(props) {
       itemData.indentation = item.indentation;
       itemData.iconType = item.iconType;
       itemData.contentMode = item.contentMode;
-      itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
+      itemData.groupIndex = item.groupIndex;
       itemData.internal = item.internal;
       itemData.inline = item.inline;
       itemData.sourceId = item.sourceId;
       itemData.current = 1;
       itemData.created = item.created;
-      if (item.contentText === "$empty") {
-        itemData.contentText = "";
-      }
       newItems.push(itemData);
       newCounter++;
     });
@@ -156,16 +153,8 @@ function ConstructCardModal(props) {
     return itemArray;
   }
 
-  // Returns the content type (number of fields)
-  function getContentType(text, label, url) {
-    if (text !== "" && label === "%zXz%" && url === "%zXz%") { return 4; }
-    if (text !== "" && label === "" && url === "") { return 1; }
-    if (text === "" && label !== "" && url !== "") { return 2; }
-    if ((text !== "" || text === "$empty") && label !== "" && url !== "") { return 3; }
-  }
-
   // Keeps track of the current number of input fields
-  function incrementCounter(contentType) {
+  function incrementCounter(groupIndex) {
     const newCounter = counter;
     const pureId = pureCounter;
     const key = (newCounter).toString();
@@ -177,14 +166,14 @@ function ConstructCardModal(props) {
     // get the icon and indentation of the previous item if possible
     if (items.length) {
       newIndent = items[items.length - 1].indentation;
-      if (items[items.length - 1].contentType === contentType) {
+      if (items[items.length - 1].groupIndex === groupIndex) {
         newIconType = items[items.length - 1].iconType;
       }
     }
 
     // if this is a link, then get the previous items link mode
     let newContentMode = -1;
-    if (items.length && items[items.length - 1].contentType === 3) {
+    if (items.length && items[items.length - 1].groupIndex === 3) {
       newContentMode = items[items.length - 1].contentMode;
     }
 
@@ -195,19 +184,13 @@ function ConstructCardModal(props) {
     copy[key].contentLabel = "";
     copy[key].contentUrl = "";
     copy[key].iconType = newIconType;
-    copy[key].contentType = contentType;
+    copy[key].groupIndex = groupIndex;
     copy[key].contentMode = newContentMode;
     copy[key].indentation = newIndent;
     copy[key].inline = 0;
     copy[key].internal = 0;
     copy[key].sourceId = 0;
     copy[key].created = new Date();
-
-    // If this is text content, change the url and label
-    if (contentType === 4) {
-      copy[key].contentLabel = "%zXz%";
-      copy[key].contentUrl = "%zXz%";
-    }
 
     // Make sure the indentation is up to date
     copy = scanIndentation(copy);
@@ -347,9 +330,6 @@ function ConstructCardModal(props) {
     const copy = items;
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
-      if (copy[i].contentType === 3 && copy[i].contentText === "") {
-        copy[i].contentText = "$empty";
-      }
     }
 
     // If we are using a preset title apply it now
@@ -401,7 +381,7 @@ function ConstructCardModal(props) {
     // see if all graphics are still valid
     for (let i = 0; i < copy.length; i++) {
       const item = copy[i];
-      if (item.contentType === 2) {
+      if (item.groupIndex === 2) {
         if (!item.contentUrl.length) {
           setErrorMessage("Error: Invalid file to upload on line " + (i + 1));
           return;
@@ -509,9 +489,6 @@ function ConstructCardModal(props) {
     const copy = items;
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
-      if (copy[i].contentType === 3 && copy[i].contentText === "") {
-        copy[i].contentText = "$empty";
-      }
     }
 
     // If we are using a preset title apply it now
@@ -563,7 +540,7 @@ function ConstructCardModal(props) {
     // see if all graphics are still valid
     for (let i = 0; i < copy.length; i++) {
       const item = copy[i];
-      if (item.contentType === 2) {
+      if (item.groupIndex === 2) {
         if (!item.contentUrl.length) {
           setErrorMessage("Error: Invalid file to upload on line " + (i + 1));
           return;
@@ -887,19 +864,19 @@ function ConstructCardModal(props) {
     // Empty item text
     for (i = 0; i < items.length; i++) {
       const item = items[i];
-      if (item.contentType === 1) { // text
+      if (item.groupIndex === 1) { // item
         if (item.contentText === "") {
           emptyFound = true;
           newErrorMessage = "Error: Item is not filled out completely on line " + (i + 1);
           break;
         }
-      } else if (item.contentType === 2) { // label + url
-        if (item.contentLabel === "" || (item.contentUrl === "" && !item.imageToUpload)) {
+      } else if (item.groupIndex === 2) { //url
+        if ((item.contentUrl === "" && !item.imageToUpload)) {
           emptyFound = true;
-          newErrorMessage = "Error: Graphic is not filled out completely on line " + (i + 1);
+          newErrorMessage = "Error: No image selected on line " + (i + 1);
           break;
         }
-      } else if (item.contentType === 3) { // text + label + url
+      } else if (item.groupIndex === 3) { // text + label + url
         if (item.contentLabel === "" || item.contentUrl === "") {
           emptyFound = true;
           newErrorMessage = "Error: Resource is not filled out completely on line " + (i + 1);
@@ -910,11 +887,17 @@ function ConstructCardModal(props) {
           newErrorMessage = "Error: Resource link type is not selected on line " + (i + 1);
           break;
         }
+      } else if (item.groupIndex === 4) { // text
+        if (item.contentText === "") {
+          emptyFound = true;
+          newErrorMessage = "Error: Text is not filled out completely on line " + (i + 1);
+          break;
+        }
       }
       // Check icons
       if (item.iconType === null) {
         emptyFound = true;
-        newErrorMessage = "Error: Empty item icon on line " + (i + 1);
+        newErrorMessage = "Error: Empty icon on line " + (i + 1);
         break;
       }
     }
@@ -924,17 +907,17 @@ function ConstructCardModal(props) {
   }
 
   // Control input coming from ItemInput for each row according to
-  // contentType and index in the items state
-  function handleInput(e, index, contentType) {
+  // groupIndex and index in the items state
+  function handleInput(e, index, groupIndex) {
     const key = index.toString();
     const copy = [...items];
-    if (contentType === 1) {
+    if (groupIndex === 1) {
       copy[key].contentText = e.target.value;
-    } else if (contentType === 2) {
+    } else if (groupIndex === 2) {
       copy[key].contentLabel = e.target.value;
-    } else if (contentType === 3) {
+    } else if (groupIndex === 3) {
       copy[key].contentUrl = e.target.value;
-    } else if (contentType === 4) {
+    } else if (groupIndex === 4) {
       copy[key].contentText = e;
     }
     setItems(copy);
@@ -964,21 +947,21 @@ function ConstructCardModal(props) {
   }
 
   // Gets the index of the icon in the appropriate icon array
-  function getIconIndex(id, contentType) {
+  function getIconIndex(id, groupIndex) {
     let i;
-    if (contentType === 4) {
+    if (groupIndex === 4) {
       for (i = 0; i < textIcons.length; i++) {
         if (textIcons[i].iconType === id) {
           return i;
         }
       }
-    } else if (contentType === 3) {
+    } else if (groupIndex === 3) {
       for (i = 0; i < linkIcons.length; i++) {
         if (linkIcons[i].iconType === id) {
           return i;
         }
       }
-    } else if (contentType === 2) {
+    } else if (groupIndex === 2) {
       for (i = 0; i < imageIcons.length; i++) {
         if (imageIcons[i].iconType === id) {
           return i;
@@ -995,12 +978,12 @@ function ConstructCardModal(props) {
   }
 
   // Returns a list of icons based on the type of item
-  function getIcons(contentType) {
-    if (contentType === 4) {
+  function getIcons(groupIndex) {
+    if (groupIndex === 4) {
       return textIcons;
-    } else if (contentType === 3) {
+    } else if (groupIndex === 3) {
       return linkIcons;
-    } else if (contentType === 2) {
+    } else if (groupIndex === 2) {
       return imageIcons;
     } else {
       return basicIcons;
@@ -1034,7 +1017,7 @@ function ConstructCardModal(props) {
 
     // stringify the item data
     const itemString = item.contentText + "$%$" + item.contentLabel + "$%$" +
-      item.contentUrl + "$%$" + item.iconType + "$%$" + item.contentType + "$%$" +
+      item.contentUrl + "$%$" + item.iconType + "$%$" + item.groupIndex + "$%$" +
       item.contentMode + "$%$" + item.internal + "$%$" + item.sourceId + "$%$" + item.inline;
 
     // save the item to local storage
@@ -1066,7 +1049,7 @@ function ConstructCardModal(props) {
     copy[key].contentLabel = itemArray[1];
     copy[key].contentUrl = itemArray[2];
     copy[key].iconType = parseInt(itemArray[3], 10);
-    copy[key].contentType = parseInt(itemArray[4], 10);
+    copy[key].groupIndex = parseInt(itemArray[4], 10);
     copy[key].contentMode = parseInt(itemArray[5], 10);
     copy[key].internal = parseInt(itemArray[6], 10);
     copy[key].sourceId = parseInt(itemArray[7], 10);
@@ -1169,7 +1152,7 @@ function ConstructCardModal(props) {
     // clear all of the images to upload for all items
     for (let i = 0; i < copy.length; i++) {
       copy[i].imageToUpload = null;
-      if (copy[i].contentType === 2) {
+      if (copy[i].groupIndex === 2) {
         const imageInput = document.getElementById(`custom-file-upload-${i}`);
         imageInput.value = "";
         const inputEvent = new Event("input", {bubbles: true});
@@ -1351,8 +1334,8 @@ function ConstructCardModal(props) {
                 <Indent indentLevel={item.indentation} />
                 <IconDropdown
                   itemId={item.itemId}
-                  icons={getIcons(item.contentType)}
-                  iconIndex={getIconIndex(item.iconType, item.contentType)}
+                  icons={getIcons(item.groupIndex)}
+                  iconIndex={getIconIndex(item.iconType, item.groupIndex)}
                   onIconChange={(icon) => updateIcon(icon, i)}
                 />
                 <ItemInput
@@ -1364,7 +1347,7 @@ function ConstructCardModal(props) {
                   handleSourceValue={(e1, e2) => handleSourceValue(e1, e2)}
                   index={i}
                   value={item}
-                  contentType={item.contentType}
+                  groupIndex={item.groupIndex}
                   internal={item.internal}
                   inline={item.inline}
                   sourceId={item.sourceId}
