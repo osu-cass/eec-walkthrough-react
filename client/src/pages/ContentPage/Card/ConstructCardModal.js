@@ -870,13 +870,13 @@ function ConstructCardModal(props) {
           newErrorMessage = "Error: Item is not filled out completely on line " + (i + 1);
           break;
         }
-      } else if (item.groupIndex === 2) { //url
+      } else if (item.groupIndex === 2) { // graphic
         if ((item.contentUrl === "" && !item.imageToUpload)) {
           emptyFound = true;
           newErrorMessage = "Error: No image selected on line " + (i + 1);
           break;
         }
-      } else if (item.groupIndex === 3) { // text + label + url
+      } else if (item.groupIndex === 3) { // link
         if (item.contentLabel === "" || item.contentUrl === "") {
           emptyFound = true;
           newErrorMessage = "Error: Resource is not filled out completely on line " + (i + 1);
@@ -890,7 +890,7 @@ function ConstructCardModal(props) {
       } else if (item.groupIndex === 4) { // text
         if (item.contentText === "") {
           emptyFound = true;
-          newErrorMessage = "Error: Text is not filled out completely on line " + (i + 1);
+          newErrorMessage = "Error: Text is not filled out on line " + (i + 1);
           break;
         }
       }

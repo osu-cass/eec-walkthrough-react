@@ -63,9 +63,9 @@ function FilterBar(props) {
     function scrollContainer(scrollLeft) {
       let distance;
       if (scrollLeft) {
-        distance = -10;
+        distance = -50;
       } else {
-        distance = 10;
+        distance = 50;
       }
       const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
       scrollbar.scrollBy({left: distance, behavior: "smooth"});
