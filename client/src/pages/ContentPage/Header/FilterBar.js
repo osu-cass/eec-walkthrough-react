@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, Fragment} from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import PropTypes from "prop-types";
 import ListToggle from "./ListToggle";
 import "./FilterBar.css";
@@ -12,82 +12,7 @@ function FilterBar(props) {
   const [tempIconColors, setTempIconColors] = useState([]);
   const [iconTooltips, setIconTooltips] = useState([]);
   const [tempIconTooltips, setTempIconTooltips] = useState([]);
-  const [hasOverflow, setHasOverflow] = useState(false);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-  const [scroll, setScroll] = useState(0);
-  const ref = useRef(null);
-
-  // check if the window width has changed and updates appearance
-  useEffect(() => {
-    function updateWindowDimensions() {
-      setHasOverflow(checkForOverflow(ref));
-
-      // updates the state for scrolling right and left
-      const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
-      const {scrollLeft, scrollWidth, clientWidth} = scrollbar;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft !== scrollWidth - clientWidth);
-    }
-
-    window.addEventListener("resize", updateWindowDimensions);
-    return () => window.removeEventListener("resize", updateWindowDimensions);
-  }, [props.headerId]);
-
-  // check if the filter bar is overflowing
-  useEffect(() => {
-    setHasOverflow(checkForOverflow(ref));
-
-    // updates the state for scrolling right and left
-    const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
-    const {scrollLeft, scrollWidth, clientWidth} = scrollbar;
-    setCanScrollLeft(scrollLeft > 0);
-    setCanScrollRight(scrollLeft !== scrollWidth - clientWidth);
-    // eslint-disable-next-line
-  }, [ref, ref.current, props.show, props.headerId]);
-
-  // checks if the filter bar has been hidden/shown and resets the scrollbar
-  useEffect(() => {
-    // resets the scroll bar to be all the way to the left
-    const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
-    scrollbar.scroll(0, 0);
-
-    // lets us know that we can move the scroll bar to the right
-    setCanScrollLeft(false);
-    setCanScrollRight(true);
-  }, [props.show, props.headerId]);
-
-  // check if we should be scrolling each second
-  useEffect(() => {
-    // sets the current position of the scrollbar
-    function scrollContainer(scrollLeft) {
-      let distance;
-      if (scrollLeft) {
-        distance = -50;
-      } else {
-        distance = 50;
-      }
-      const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
-      scrollbar.scrollBy({left: distance, behavior: "smooth"});
-    }
-
-    if (scroll) {
-      const interval = setInterval(() => {
-        if (scroll === 1) {
-          scrollContainer(1);
-        } else if (scroll === 2) {
-          scrollContainer(0);
-        }
-        // updates the state for scrolling right and left
-        const scrollbar = document.getElementById(`filter-bar-${props.headerId}`);
-        const {scrollLeft, scrollWidth, clientWidth} = scrollbar;
-        setCanScrollLeft(scrollLeft > 0);
-        setCanScrollRight(scrollLeft !== scrollWidth - clientWidth);
-      }, 50);
-
-      return () => clearInterval(interval);
-    }
-  }, [scroll, props.headerId]);
+  const [show, setShow] = useState(false);
 
   // get an array of the icon names that match the filter icon IDs
   useEffect(() => {
@@ -125,70 +50,24 @@ function FilterBar(props) {
     setTempIconTooltips(tempTooltips);
   }, [props.filterIcons, props.tempFilterIcons, props.iconSet]);
 
-  // checks if the content of the filter bar is overflowing
-  function checkForOverflow(ref) {
-    let scrollWidth = 0;
-    let clientWidth = 0;
-    if (ref.current) {
-      scrollWidth = ref.current.scrollWidth;
-      clientWidth = ref.current.clientWidth;
-    }
-    const isOverflow = scrollWidth > clientWidth;
-    return isOverflow;
-  }
-
-  // the mouse down event for scrolling, this lets us know to start
-  function mouseDown(scrollLeft) {
-    if (scrollLeft) {
-      setScroll(1);
-    } else {
-      setScroll(2);
-    }
-  }
-
-  // the mouse up event for scrolling, this lets us know to stop
-  function mouseUp() {
-    setScroll(0);
-  }
-
   return (
-    <Fragment>
+    <div className="primary-filter-bar-container" onMouseLeave={() => setShow(false)}>
 
-      {/* Show filters */}
-      {props.show ? (
-        null
-      ) : (
-        <div
-          className="d-flex btn btn-info filter-closed-btn mr-2 d-print-none"
-          onClick={() => props.showFilter()}
-          title="Show Filterbar"
-        >
-          <i className="fas fa-fw fa-plus align-self-center" />
-        </div>
-      )}
+      {/* filter button */}
+      <button
+        className="btn btn-success btn-sm mr-2"
+        onClick={() => setShow(!show)}
+      >
+        <i className="fas fa-fw fa-filter text-white mr-2" style={{transform: "scale(1.4)"}}/>
+        <span>Filters</span>
+      </button>
 
-      {/* Scroll filter bar left */}
-      {hasOverflow && props.show ? (
-        <div
-          className={`d-flex btn btn-info filter-scroll-left px-1 ml-2 d-print-none ${canScrollLeft ? "" : "disabled"}`}
-          onMouseUp={() => mouseUp()}
-          onMouseDown={() => mouseDown(1)}
-          title="Scroll Left"
-        >
-          <i className="fas fa-fw fa-chevron-left align-self-center" />
-        </div>
-      ) : (
-        null
-      )}
+      {/* see if any of the dropdown content should be displayed */}
+      {show ? (
 
-      {/* filter bar body */}
-      <div className={`filter-expand card px-3 d-print-none ${hasOverflow ? "filter-corners" : "mr-2 filter-round"} ${props.show ? "filter-show" : "filter-hide"}`}>
-        <div
-          className={`filter-icon-container icons row flex-nowrap`}
-          id={`filter-bar-${props.headerId}`}
-          ref={ref}
-        >
+        <div className={`dropdown-filter-icon-container dropdown drop-down-z card p-3 filter-bar-${props.headerId}`}>
 
+          {/* the general clickable filter icons */}
           {props.mode === 1 ? (
             <Fragment>
               {props.tempFilterIcons.map((obj, i) =>
@@ -217,12 +96,14 @@ function FilterBar(props) {
             </Fragment>
           )}
 
+          {/* check / uncheck checkbox icons */}
           <ListToggle
             showToggle={props.showToggle}
             toggled={props.toggled}
             toggleList={() => props.updateIcon(0, !props.toggled)}
           />
 
+          {/* show all icons */}
           <div className="col-auto px-2 py-0 align-self-center">
             <div
               className="btn btn-info filter-btn btn-sm py-0 my-1 px-1"
@@ -237,6 +118,7 @@ function FilterBar(props) {
             </div>
           </div>
 
+          {/* hide all icons */}
           <div className="col-auto px-2 py-0 align-self-center">
             <div
               className="btn btn-info filter-btn btn-sm py-0 my-1 px-1"
@@ -251,38 +133,13 @@ function FilterBar(props) {
             </div>
           </div>
 
-          <div className="col-auto px-2 py-0 align-self-center">
-            <div
-              className="btn btn-info filter-btn btn-sm py-0 my-1 px-1"
-              onClick={() => props.showFilter()}
-              title="Hide Filter Bar"
-            >
-              <i
-                id="hide-filter-icons"
-                className={`fas fa-fw fa-sm fa-minus text-white`}
-                value="clear"
-              />
-            </div>
-          </div>
-
         </div>
-      </div>
 
-      {/* Scroll filter bar right */}
-      {hasOverflow && props.show ? (
-        <div
-          className={`d-flex btn btn-info filter-scroll-right px-1 mr-2 d-print-none ${canScrollRight ? "" : "disabled"}`}
-          onMouseUp={() => mouseUp()}
-          onMouseDown={() => mouseDown(0)}
-          title="Scroll Right"
-        >
-          <i className="fas fa-fw fa-chevron-right align-self-center" />
-        </div>
       ) : (
         null
       )}
 
-    </Fragment>
+    </div>
   );
 
 }
@@ -299,7 +156,5 @@ FilterBar.propTypes = {
   tempFilterIcons: PropTypes.array,
   mode: PropTypes.number,
   showToggle: PropTypes.bool,
-  toggled: PropTypes.number,
-  showFilter: PropTypes.func,
-  show: PropTypes.number
+  toggled: PropTypes.number
 };

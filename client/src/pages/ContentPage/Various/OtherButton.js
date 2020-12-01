@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {setMode} from "../../../utilities/pageMode";
+import "./OtherButton.css";
 
 // A dropdown that shows a list of actions for this page
 function OtherButton(props) {
@@ -33,7 +34,7 @@ function OtherButton(props) {
             className="fas fa-chevron-down text-white"
           />
         </button>
-        <div className="dropdown-menu" aria-labelledby="dropdown-page-other">
+        <div className="dropdown-menu drop-down-z" aria-labelledby="dropdown-page-other">
           <span className="dropdown-item" onClick={() => scrollTop()}>Scroll to top</span>
           <span className="dropdown-item" onClick={() => toggleMode(1)}>Switch to edit mode</span>
           <span className="dropdown-item" onClick={() => toggleMode(2)}>Switch to move mode</span>
@@ -54,7 +55,7 @@ function OtherButton(props) {
             className="fas fa-chevron-down text-white"
           />
         </button>
-        <div className="dropdown-menu" aria-labelledby="dropdown-page-other">
+        <div className="dropdown-menu drop-down-z" aria-labelledby="dropdown-page-other">
           <span className="dropdown-item" onClick={() => scrollTop()}>Scroll to top</span>
           <span className="dropdown-item" onClick={() => toggleMode(0)}>Switch to view mode</span>
           <span className="dropdown-item" onClick={() => toggleMode(2)}>Switch to move mode</span>
@@ -75,7 +76,7 @@ function OtherButton(props) {
             className="fas fa-chevron-down text-white"
           />
         </button>
-        <div className="dropdown-menu" aria-labelledby="dropdown-page-other">
+        <div className="dropdown-menu drop-down-z" aria-labelledby="dropdown-page-other">
           <span className="dropdown-item" onClick={() => scrollTop()}>Scroll to top</span>
           <span className="dropdown-item" onClick={() => toggleMode(0)}>Switch to view mode</span>
           <span className="dropdown-item" onClick={() => toggleMode(1)}>Switch to edit mode</span>

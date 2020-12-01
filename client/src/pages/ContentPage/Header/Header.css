@@ -7,10 +7,6 @@ i:hover {
   overflow: hidden;
 }
 
-.filter-div {
-  max-width: 100%;
-}
-
 .header-approved {
   background: rgb(214,214,214);
   background: linear-gradient(0deg, rgba(214,214,214,1) 0%, rgba(255,255,255,1) 100%);
@@ -19,6 +15,12 @@ i:hover {
 .header-review {
   background: rgb(244,232,171);
   background: linear-gradient(0deg, rgba(244,232,171,1) 0%, rgba(254,247,213,1) 100%);
+}
+
+.header-container {
+  z-index: 10 !important;
+  /* position: sticky; */
+  /* top: 0; */
 }
 
 /* lines are 4% darker than base color */
