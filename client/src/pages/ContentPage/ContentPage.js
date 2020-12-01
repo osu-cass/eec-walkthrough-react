@@ -4,7 +4,6 @@ import {getMode} from "../../utilities/pageMode";
 import {getPublic} from "../../utilities/publicMode";
 import {getPublished} from "../../utilities/publishedMode";
 import {API_URL} from "../../utilities/constants";
-import {getFilterShow, setFilterShow} from "../../utilities/filterMode";
 import Header from "./Header/Header";
 import PageDescription from "./Page/PageDescription";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
@@ -38,7 +37,6 @@ function ContentPage(props) {
   const [references, setReferences] = useState([]);
   const [tempReferences, setTempReferences] = useState([]);
   const [cardTitles, setCardTitles] = useState([]);
-  const [showFilters, setShowFilters] = useState(getFilterShow());
   const {pageId} = useParams();
   const [categories, setCategories] = useState([]);
   const [howToPage, setHowToPage] = useState(false);
@@ -784,21 +782,6 @@ function ContentPage(props) {
     setHeaders(copy);
   }
 
-  // Toggles displaying or hiding filter bars
-  function handleShowFilter() {
-    if (showFilters) {
-      // calls a function to update the local storage to remember this setting
-      setFilterShow(0);
-      // updates the state of the filter
-      setShowFilters(0);
-    } else {
-      // calls a function to update the local storage to remember this setting
-      setFilterShow(1);
-      // updates the state of the filter
-      setShowFilters(1);
-    }
-  }
-
   // If there is an error, display the correct error page
   if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
     return loading ? (
@@ -857,8 +840,6 @@ function ContentPage(props) {
               checkIcon={(headerId, cardId, itemId, check) => checkIcon(headerId, cardId, itemId, check)}
               sources={pageInfo.sources}
               cardTitles={cardTitles}
-              showFilter={() => handleShowFilter()}
-              show={showFilters}
               onPageMode={mode => setMode(mode)}
               moved={moved}
             />

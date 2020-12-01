@@ -537,14 +537,14 @@ function Header(props) {
   return (!props.header.approved && props.mode !== 1 && (props.mode !== 2 || props.publishedMode !== 0)) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
-    <div>
+    <Fragment>
 
       {/* Container that holds the header title */}
-      <div className={`d-flex sticky-top
+      <div className={`header-container d-flex
         ${props.header.approved && (!props.header.tempHeaderId || !viewUnpublished()) ? "header-approved" : "header-review"}
         ${isInternal() ? "header-internal" : ""}
         header-bar header-bar-content justify-content-between my-3 py-3 text-dark-50 rounded shadow-sm border`}
-      style={{top: "1em", zIndex: "998"}}
+      style={{top: "1em", zIndex: 500}}
       >
         <div className="row w-100 ml-0">
           <div className="col-auto align-self-center">
@@ -597,8 +597,9 @@ function Header(props) {
             </div>
           ) : (
             <Fragment>
-              <div className="col filter-col align-self-center px-0">
-                <div className="btn-group align-self-center float-right filter-div">
+              <div className="col w-100" />
+              <div className="col-auto align-self-center pl-0 float-right">
+                <div className="btn-group align-self-center float-right">
 
                   {/* Used for filtering content in the items below the header */}
                   {props.header.hideFilter ? (
@@ -616,15 +617,9 @@ function Header(props) {
                       mode={props.mode}
                       showToggle={opportunitiesExist}
                       toggled={opportunityFilterMode}
-                      showFilter={() => props.showFilter()}
-                      show={props.show}
                     />
                   )}
 
-                </div>
-              </div>
-              <div className="col-auto align-self-center pl-0">
-                <div className="btn-group align-self-center float-right">
                   {/* Button for editing the current header */}
                   <EditHeader
                     mode={props.mode}
@@ -679,7 +674,7 @@ function Header(props) {
         )}
       </div>
 
-    </div>
+    </Fragment>
   );
 
 }
