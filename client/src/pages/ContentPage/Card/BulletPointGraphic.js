@@ -36,7 +36,7 @@ function BulletPointGraphic(props) {
         )}
 
         {/* Container holding graphic image, text, and possibly a source */}
-        <div className={`${props.inline ? "inline-graphic mr-3" : "col"} content-td pb-2`}>
+        <div className={`${props.inline ? "inline-graphic mr-3" : "col"} ${props.label.length ? "" : "indent-level-" + props.indentation} content-td pb-2`}>
           <div className="pb-1">
             <span className={`icon-item-text`}>
               {props.text}
