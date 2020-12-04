@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Row, FormControl} from "react-bootstrap";
+import {Button, Row} from "react-bootstrap";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import EditContributor from "./EditContributor";
