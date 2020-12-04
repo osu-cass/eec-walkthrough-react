@@ -55,7 +55,7 @@ function FilterBar(props) {
 
       {/* filter button */}
       <button
-        className="btn btn-success btn-sm mr-2"
+        className="btn btn-success btn-sm mx-2"
         onClick={() => setShow(!show)}
       >
         <i className="fas fa-fw fa-filter text-white mr-2" style={{transform: "scale(1.4)"}}/>
