@@ -23,3 +23,9 @@ body {
 .disclaimer-page-container {
   padding-bottom: 8em;
 }
+
+.answers-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+}
