@@ -154,7 +154,7 @@ function Sidebar(props) {
                 key={instructions.categoryId}
                 collectionName="Help"
                 collectionLink="wiki/instructions"
-                collection={instructions.pages}
+                collection={instructions.pages.reverse()}
                 category={instructions}
                 internal={instructions.internal}
                 refresh={() => fetchData()}
