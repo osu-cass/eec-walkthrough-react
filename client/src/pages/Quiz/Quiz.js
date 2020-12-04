@@ -88,14 +88,29 @@ function Quiz() {
       <div className="d-flex header-bar justify-content-between mt-3 mb-4 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
           <h4 className="flex-grow-1 font-weight-bold">
-            {title} Quiz {questions.length}
+            {title} Quiz
           </h4>
         </div>
       </div>
 
-      <div className="prompt-container mb-3 py-4 bg-white card rounded shadow-sm">
-        <span className="disclaimer-text text-left px-4">quiz</span>
-      </div>
+      {questions.map((question) =>
+        <div
+          className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
+          key={question.questionId}
+        >
+          <span className="font-weight-bold mb-2">
+            {question.text}
+          </span>
+          <div className="answers-block">
+            {question.answers.map((answer) =>
+              <div className="my-2" key={answer.answerId}>
+                <input type="radio" name={`question-${question.questionId}`} />
+                <span className="ml-4">{answer.text}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
     </div>
 
