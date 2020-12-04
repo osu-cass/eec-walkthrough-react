@@ -46,7 +46,7 @@ function NavBar (props) {
           newInstruction = newInstruction[0].pages;
         }
       }
-      setInstructions(newInstruction);
+      setInstructions(newInstruction.reverse());
       setCategories(obj.categories);
       setTabWidths([]);
 
