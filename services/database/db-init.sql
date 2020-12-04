@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Nov 30, 2020 at 01:08 PM
+-- Generation Time: Dec 04, 2020 at 12:49 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -21,6 +21,19 @@ SET time_zone = "+00:00";
 --
 -- Database: `eec_walkthrough`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Answers`
+--
+
+CREATE TABLE `Answers` (
+  `answerId` int(10) UNSIGNED NOT NULL,
+  `questionId` int(10) UNSIGNED NOT NULL,
+  `text` varchar(5000) NOT NULL,
+  `correct` tinyint(3) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -199,7 +212,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (231, 66, 10, 231, 'Measuring Water Use', 54, '2020-09-23 22:00:24', 0),
 (232, 66, 10, 232, 'Water Rate Schedules', 54, '2020-09-23 22:22:08', 0),
 (233, 66, 10, 233, 'Common Water Charges', 54, '2020-09-23 22:26:50', 0),
-(236, 70, 10, 236, 'Consolidate Meters', 54, '2020-10-14 20:45:46', 0),
+(236, 70, 10, 236, 'Consolidate Meters', 42, '2020-10-14 20:45:46', 0),
 (240, 72, 0, 240, 'Filters allow users to show or hide select types of information by icon type', 42, '2020-11-18 01:44:25', 0),
 (241, 47, 0, 241, 'Opportunity Meeting and Task Designations', 55, '2020-11-20 16:45:04', 0),
 (242, 47, 0, 242, 'Report Drafting', 55, '2020-11-20 16:46:09', 0),
@@ -1442,8 +1455,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (384, 76, 1, 0, 17, 'MEASUR is open source software that consists of the following DOE legacy energy system assessment tools (updated): Pumping System Assessment Tool (PSAT), Process Heating Assessment and Survey Tool (PHAST), Fan System Assessment Tool (FSAT), Steam System Assessment Tool (SSAT)/ Steam System Modeler (SSMT), AIRMaster+ (Last accessed 12/2/2019)   ', 'https://www.energy.gov/eere/amo/measur', 'U.S. Department of Energy MEASUR analysis tool', 1, 0, 0, 0, '2020-06-29 20:55:45', 1),
 (385, 76, 1, 0, 17, 'An informational page with analysis tools, case studies, tip sheets, and checklists', 'https://www.bpa.gov/EE/Sectors/Industrial/Pages/Compressed-Air.aspx', 'Bonneville Power Administration Compressed Air Page', 1, 0, 0, 0, '2020-06-29 20:55:45', 1),
 (637, 75, 0, 0, 17, 'See compressed air tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, 0, 0, 0, '2020-07-01 00:33:10', 1),
-(638, 75, 0, 0, 17, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air11.pdf', 'Alternative Strategies for Low-Pressure End Uses', 1, 0, 0, 0, '2020-06-30 06:38:26', 1),
-(639, 75, 0, 0, 17, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air4.pdf', 'Analyzing Your Compressed Air System', 1, 0, 0, 0, '2020-06-30 06:38:26', 1),
+(638, 75, 0, 0, 17, '', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air11.pdf', 'Alternative Strategies for Low-Pressure End Uses', 1, 0, 0, 0, '2020-06-30 06:38:26', 1),
+(639, 75, 0, 0, 17, '', 'https://www.energy.gov/sites/prod/files/2014/05/f16/compressed_air4.pdf', 'Analyzing Your Compressed Air System', 1, 0, 0, 0, '2020-06-30 06:38:26', 1),
 (733, 81, 0, 0, 1, 'Centrifugal pumps are capable of developing a wide range of flow and pressures', '', '', 0, 0, 0, 0, '2020-07-01 18:14:32', 1),
 (779, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50066459491_bb3c3291c5_b.jpg', 'Dry sprinkler systems need compressed air', 0, 0, 0, 0, '2020-07-01 21:19:36', 1),
 (780, 72, 0, 0, 20, '', 'https://live.staticflickr.com/65535/50065906203_65746ac38f_b.jpg', 'Blow off wand and hose', 0, 0, 0, 0, '2020-07-01 21:19:36', 1),
@@ -1705,7 +1718,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3883, 130, 0, 1, 17, 'Example recommendation involving the installation of insulation on two drying silos', 'https://oregonstate.app.box.com/file/656776414288', 'Drying Silo Insulation', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3884, 130, 0, 1, 17, 'Example recommendation invovling the installation of insulation on injection barrels in a plastics and injection molding facility', 'https://oregonstate.app.box.com/file/606287338448', 'Insulate Injection Barrels', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3885, 130, 0, 1, 21, 'Template used to develop and present an analysis of the energy savings associated with insulating a facility\'s equipment or other hot surfaces', 'https://oregonstate.app.box.com/folder/51071018894', 'Analysis Template: Install Insulation', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
-(3892, 164, 0, 0, 24, '$empty', 'https://eec.oregonstate.edu/wastewater-treatment-training-module', 'Wastewater Treatment Training', 0, 0, 0, 0, '2020-08-06 22:33:54', 1),
+(3892, 164, 0, 0, 24, '', 'https://eec.oregonstate.edu/wastewater-treatment-training-module', 'Wastewater Treatment Training', 0, 0, 0, 0, '2020-08-06 22:33:54', 1),
 (4118, 163, 0, 0, 11, 'Control Aeration to Hold a Minimum Dissolved Oxygen Level', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1),
 (4119, 163, 0, 0, 11, 'Replace Standard Aeration Fans with High Efficiency Turbo Blowers', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1),
 (4120, 163, 0, 0, 11, 'Improve Efficiency of Fine Bubble Diffusers', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1),
@@ -1715,12 +1728,12 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4149, 155, 0, 1, 14, 'Make sure clients are prepared for the effort required for a remote assessment (we are still learning what this is)', '', '', 0, 0, 0, 0, '2020-08-06 23:50:17', 1),
 (4150, 155, 0, 1, 14, 'Ensure someone at the site can \"walk us through\" or at least go to targeted locations while with us on the phone to ask questions, perhaps get pictures or videos, and really dig into details. (This step is important for our contract with U.S.DOE)', '', '', 0, 0, 0, 0, '2020-08-06 23:50:17', 1),
 (4151, 155, 0, 0, 26, 'Send the standard OSU Pre-Assessment Package to appropriate clients ', '', '', 0, 0, 0, 0, '2020-08-06 23:50:17', 1),
-(4152, 155, 0, 1, 17, '$empty', 'https://docs.google.com/document/d/1miAvxrMxVcEeQe1REf-4EH2OiDF32zTjGluq4hoZnMU/edit', 'Pre_Assessment Package Template', 0, 0, 0, 0, '2020-08-06 23:50:17', 1),
+(4152, 155, 0, 1, 17, '', 'https://docs.google.com/document/d/1miAvxrMxVcEeQe1REf-4EH2OiDF32zTjGluq4hoZnMU/edit', 'Pre_Assessment Package Template', 0, 0, 0, 0, '2020-08-06 23:50:17', 1),
 (4402, 169, 0, 0, 4, 'Implementation is typically costly and time consuming. Relocation of departments and workstations typically requires plant downtime.', '', '', 0, 0, 0, 0, '2020-08-14 20:44:57', 0),
 (4403, 169, 0, 0, 4, 'Data for sufficient analysis is difficult to obtain without longer term studies. Variance in workflows greatly influences calculations if non-annual data is used.', '', '', 0, 0, 0, 0, '2020-08-14 20:44:57', 0),
-(4409, 170, 0, 0, 10, 'The flow of work in progress product, personnel, or inventory/materials appears non-linear or requires excessive movement.', '', '', 0, 0, 0, 0, '2020-08-14 21:06:31', 0);
+(4409, 170, 0, 0, 10, 'The flow of work in progress product, personnel, or inventory/materials appears non-linear or requires excessive movement.', '', '', 0, 0, 0, 0, '2020-08-14 21:06:31', 0),
+(4410, 170, 0, 0, 10, 'Inefficient layouts are most common in facilities that produce low volumes of diverse products. Layouts of high volume manufacturing facilities are typically already optimized. ', '', '', 0, 0, 0, 0, '2020-08-14 21:06:31', 0);
 INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
-(4410, 170, 0, 0, 10, 'Inefficient layouts are most common in facilities that produce low volumes of diverse products. Layouts of high volume manufacturing facilities are typically already optimized. ', '', '', 0, 0, 0, 0, '2020-08-14 21:06:31', 0),
 (4411, 171, 0, 0, 15, 'Facility layout with location and dimensions of departments.', '', '', 0, 0, 0, 0, '2020-08-14 21:08:00', 0),
 (4412, 171, 0, 0, 15, 'Directional flow of materials and personal during processing from start to end..', '', '', 0, 0, 0, 0, '2020-08-14 21:08:00', 0),
 (4413, 171, 0, 0, 15, 'How materials are transported (e.g. manual labor, forklift, conveyors).', '', '', 0, 0, 0, 0, '2020-08-14 21:08:00', 0),
@@ -1736,7 +1749,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4444, 175, 0, 0, 11, 'Use digester gas in a dual fuel boiler', '', '', 0, 0, 0, 0, '2020-08-17 18:11:37', 1),
 (4445, 175, 0, 0, 11, 'Clean and concentrate digester gas for sale to natural gas utility', '', '', 0, 0, 0, 0, '2020-08-17 18:11:37', 1),
 (4446, 176, 0, 0, 11, 'Control UV Disinfection to minimum required', '', '', 0, 0, 0, 0, '2020-08-17 18:16:44', 1),
-(4447, 126, 0, 0, 17, '$empty', '/wiki/technologies/45', 'Pumps', 0, 0, 0, 0, '2020-08-17 20:33:44', 1),
+(4447, 126, 0, 0, 17, '', '/wiki/technologies/45', 'Pumps', 0, 0, 0, 0, '2020-08-17 20:33:44', 1),
 (4506, 165, 0, 0, 26, 'What will we do next?', '', '', 0, 0, 0, 0, '2020-08-17 21:32:04', 1),
 (4507, 165, 0, 0, 26, 'How can we get incentive program personnel involved (ETO, ESU, utility reps)?', '', '', 0, 0, 0, 0, '2020-08-17 21:32:04', 1),
 (4520, 162, 0, 0, 31, 'This is a requirement for U.S.DOE to accept our remote assessment as a deliverable on our contract. It might be done in one session or iteratively in multiple sessions.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-08-17 21:38:35', 1),
@@ -1787,10 +1800,10 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4642, 161, 0, 0, 26, 'Develop a list of typical opportunities found in the site\'s industrial sector. BE SURE to add any newly identified opportunities to this site!', '', '', 0, 0, 0, 0, '2020-08-19 22:39:25', 1),
 (4643, 161, 0, 1, 7, 'Assign each of the searches suggested below to one member of the assessment team. ', '', '', 0, 0, 0, 0, '2020-08-19 22:39:25', 1),
 (4644, 161, 0, 1, 8, ' The IAC University Database allows you to search for common recommendations made by SIC or NAICS code ', '', '', 0, 0, 0, 0, '2020-08-19 22:39:25', 1),
-(4645, 161, 0, 2, 24, '$empty', 'https://iac.university/searchRecommendations', 'IAC University: Search IAC Recommendations', 1, 0, 0, 0, '2020-08-19 22:39:25', 1),
+(4645, 161, 0, 2, 24, '', 'https://iac.university/searchRecommendations', 'IAC University: Search IAC Recommendations', 1, 0, 0, 0, '2020-08-19 22:39:25', 1),
 (4646, 161, 0, 2, 1, 'The IAC University Database also allows you to search for the top 10 recommendations, the number of assessments and results by industry grouping. Note: one useful search field under assessments: \"Product Type\" can help find similar assessments.', '', '', 0, 0, 0, 0, '2020-08-19 22:39:25', 1),
 (4647, 161, 0, 1, 8, 'Search the OSU IAC Project Management Database to see what we have recommended in the past at similar sites. Note: the search box in the upper right corner is a useful tool for this.', '', '', 0, 0, 0, 0, '2020-08-19 22:39:25', 1),
-(4648, 161, 0, 2, 24, '$empty', 'https://eec.oregonstate.edu/tracking2/modules/login/login.php', 'EEC Project Management', 0, 0, 0, 0, '2020-08-19 22:39:25', 1),
+(4648, 161, 0, 2, 24, '', 'https://eec.oregonstate.edu/tracking2/modules/login/login.php', 'EEC Project Management', 0, 0, 0, 0, '2020-08-19 22:39:25', 1),
 (4649, 161, 0, 1, 8, 'General internet and literature research can surface new opportunities to consider.  BE SURE to add any newly identified resources to this site!', '', '', 0, 0, 0, 0, '2020-08-19 22:39:25', 1),
 (4650, 161, 0, 2, 1, 'U.S.DOE, Vendor, Other IAC, State Energy Office, and Industrial Association web sites are all among good places to search for resources.', '', '', 0, 0, 0, 0, '2020-08-19 22:39:25', 1),
 (4651, 161, 0, 1, 17, '(item not added yet)', 'abc.com', 'Example List of Common Opportunities', 0, 0, 0, 0, '2020-08-19 22:39:25', 1),
@@ -1887,7 +1900,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4818, 129, 0, 1, 15, 'Excess oxygen', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4819, 129, 0, 1, 15, 'Operation hours', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4820, 129, 0, 1, 27, 'Combustion analyzer', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4821, 129, 0, 1, 17, '$empty', 'https://www.energy.gov/sites/prod/files/2014/05/f16/et_preheated.pdf', 'D.O.E. Tip Sheet', 1, 0, 0, 0, '2020-08-24 16:58:32', 0),
+(4821, 129, 0, 1, 17, '', 'https://www.energy.gov/sites/prod/files/2014/05/f16/et_preheated.pdf', 'D.O.E. Tip Sheet', 1, 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4822, 184, 0, 0, 26, 'First, calculate the D-scores for the original layout (D0) and the proposed layout (D1).', '', '', 0, 0, 0, 0, '2020-08-24 19:51:09', 0),
 (4823, 184, 0, 0, 26, 'Calculate layout efficiency savings by finding the percent difference in d-scores (i.e. D0 - D1 / D1).', '', '', 0, 0, 0, 0, '2020-08-24 19:51:09', 0),
 (4824, 184, 0, 0, 26, 'Layout efficiency savings are an important measure in itself and will result in increased productivity, however, translating this figure into monetary cost savings is necessary.', '', '', 0, 0, 0, 0, '2020-08-24 19:51:09', 0),
@@ -1953,7 +1966,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5182, 208, 0, 1, 26, 'To add a reference, click \"Add Source\" in the header of any page in Edit Mode. ', '', '', 0, 0, 0, 0, '2020-09-08 18:57:38', 0),
 (5183, 208, 0, 1, 26, 'Use IEEE formatting for all references and include a URL if applicable. ', '', '', 0, 0, 0, 0, '2020-09-08 18:57:38', 0),
 (5184, 208, 0, 1, 26, 'To connect a source to an item, click \"Edit Card\" and use the source dropdown menu to the right of the item to select the source. ', '', '', 0, 0, 0, 0, '2020-09-08 18:57:38', 0),
-(5185, 208, 0, 1, 17, '$empty', 'https://oregonstate.box.com/s/rm1jtvnmfhb2oyt1wyvzaztgc3w1ww5q', 'IEEE Reference Guide', 0, 0, 0, 0, '2020-09-08 18:57:38', 0),
+(5185, 208, 0, 1, 17, '', 'https://oregonstate.box.com/s/rm1jtvnmfhb2oyt1wyvzaztgc3w1ww5q', 'IEEE Reference Guide', 0, 0, 0, 0, '2020-09-08 18:57:38', 0),
 (5188, 204, 0, 0, 31, 'To create a new page, first open the sidebar menu and select \"Show Edit Buttons\" near the bottom of the menu. Simply select the category for the new page and click \"Create a Page\". ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-09-08 21:47:25', 0),
 (5189, 204, 0, 1, 26, 'A page consists of a concise yet descriptive title, a summary of the page\'s purpose, and a description of what can be found on the page and how it can be used. ', '', '', 0, 0, 0, 0, '2020-09-08 21:47:25', 0),
 (5190, 204, 0, 1, 26, 'Within a page editors can create headers and cards. Headers allow for content-carrying cards to be organized into sections and categories.', '', '', 0, 0, 0, 0, '2020-09-08 21:47:25', 0),
@@ -1967,9 +1980,9 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5506, 206, 0, 1, 26, 'You may enter an image URL. This is a web address that points to a specific image (ex: https://placekitten.com/300/200).', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5507, 206, 0, 2, 4, 'Always include \"https\" at the start of your image address and never \"http\". This ensures that the image is being sent over a secure network. A published page with HTTP images will display as \"Not Secure\" in most browsers, which will make users less confident when using our application.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5508, 206, 0, 1, 26, 'You may upload an image. Valid images have the file format JPG, PNG, or GIF. Images are not allowed to be larger than six megabytes. ', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
-(5509, 206, 0, 2, 12, 'Only upload images that you have intellectual property rights to use. This means that you should not use images that you did not create unless you have gotten express permission to use them from the creator.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0);
+(5509, 206, 0, 2, 12, 'Only upload images that you have intellectual property rights to use. This means that you should not use images that you did not create unless you have gotten express permission to use them from the creator.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
+(5510, 206, 0, 2, 7, 'If you want to use an image in multiple locations. Upload the image by submitting some content, then edit the content and you will see that the image has a URL that you can copy. You can reuse this URL anywhere on the website, this is the preferred method as it saves space on the server by only uploading the image once.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0);
 INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
-(5510, 206, 0, 2, 7, 'If you want to use an image in multiple locations. Upload the image by submitting some content, then edit the content and you will see that the image has a URL that you can copy. You can reuse this URL anywhere on the website, this is the preferred method as it saves space on the server by only uploading the image once.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5788, 222, 0, 0, 17, 'This report details the vehicle assembly process and common energy saving opportunities associated with each step. References to case studies, implementation costs and payback periods are included. Opportunities are included for the following systems: motors, compressed air, steam, lighting, HVAC, materials handling, painting and stamping.', 'https://www.osti.gov/biblio/927881', 'Energy Efficiency Improvement and Cost Saving Opportunities for the Vehicle Assembly Industry', 1, 0, 0, 0, '2020-09-15 19:40:23', 0),
 (5812, 215, 0, 0, 31, 'The following opportunities are specific to metals manufacturing facilities. For more opportunities related to compressed air, go to the Compressed Air Technologies page. ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-09-15 20:53:32', 0),
 (5813, 215, 0, 0, 11, 'Replace the pistons on stamping die cushions with air actuators', '', '', 0, 0, 0, 0, '2020-09-15 20:53:32', 0),
@@ -2009,7 +2022,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5978, 105, 0, 1, 23, 'Explains how steam traps work, brief history and lists several different types of traps in detail.', 'https://www.youtube.com/watch?v=IiRyxcCBTa0', 'Let\'s Talk Steam Traps', 1, 0, 0, 0, '2020-09-21 17:02:20', 1),
 (5979, 105, 0, 1, 17, 'Contains specific information about flash steam recovery', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam12_lowpressure_steam.pdf', 'DOE Tip Sheet Flash Steam Recovery', 1, 0, 0, 0, '2020-09-21 17:02:20', 1),
 (5980, 105, 0, 1, 24, 'Contains several pages with useful calculations for steam systems. This link leads to the flash steam page.', 'https://www.tlv.com/global/US/steam-theory/introduction-to-condensate-recovery.html', 'TLV Steam Theory', 1, 0, 0, 0, '2020-09-21 17:02:20', 1),
-(5981, 105, 0, 1, 21, '$empty', 'https://oregonstate.app.box.com/file/337450150435', 'Flash Steam Recovery', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
+(5981, 105, 0, 1, 21, '', 'https://oregonstate.app.box.com/file/337450150435', 'Flash Steam Recovery', 0, 0, 0, 0, '2020-09-21 17:02:20', 1),
 (6206, 230, 0, 0, 26, 'Base charge', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
 (6207, 230, 0, 0, 26, 'Supply rate', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
 (6208, 230, 0, 0, 26, 'Transport fees', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
@@ -2059,9 +2072,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6344, 231, 0, 1, 26, 'Effluent characteristics such as these are often charged to incentivize a higher degree of water treatment, minimizing adverse effects when the effluent is reintroduced to the surrounding environment.', '', '', 0, 0, 0, 0, '2020-10-14 20:34:50', 0),
 (6345, 231, 0, 0, 26, 'Some water companies may use generalized, volumetric measurements for effluent water instead of BOD and TSS.  Additionally, some companies may add a charge for stormwater volumes as well.', '', '', 0, 0, 0, 0, '2020-10-14 20:34:50', 0),
 (6346, 231, 0, 1, 26, 'Examine the rate schedule provided by your water company to determine how your effluent is being charged.', '', '', 0, 0, 0, 0, '2020-10-14 20:34:50', 0),
-(6347, 236, 0, 0, 10, 'Meters that consistently have relatively low charges (<$500 per month)', '', '', 0, 0, 0, 0, '2020-10-14 20:45:46', 0),
-(6348, 236, 0, 0, 11, 'Combine multiple small meters together', '', '', 0, 0, 0, 0, '2020-10-14 20:45:46', 0),
-(6349, 236, 0, 0, 11, 'Combine a small meter with a larger meter', '', '', 0, 0, 0, 0, '2020-10-14 20:45:46', 0),
 (6367, 211, 0, 0, 11, 'Install localized welding ventilation', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
 (6368, 211, 0, 1, 31, 'Welding processes must be well ventilated to protect personnel from fumes. Energy is consumed to condition the air inside the building and ventilation carries that air and exhausts it outside. Controlled ventilation can reduce the amount of air moved by the ventilation system while adequately ventilating the welding process.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
 (6369, 211, 0, 1, 26, 'Reduce ventilation energy losses by installing localized ducting above welding stations', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
@@ -2128,7 +2138,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6525, 223, 0, 1, 26, 'This idea can also apply to seasonal rates that change depending on the time of year.', '', '', 0, 0, 0, 0, '2020-10-16 21:38:02', 0),
 (6526, 223, 0, 1, 26, 'Consult your provided rate schedule to find these rates, if applicable.', '', '', 0, 0, 0, 0, '2020-10-16 21:38:02', 0),
 (6527, 223, 0, 0, 26, 'Reactive power is also measured  and it may be a significant contributor to energy costs (see Power Factor Correction page for more information)', '', '', 0, 0, 0, 0, '2020-10-16 21:38:02', 0),
-(6528, 223, 0, 1, 28, '$empty', 'https://walkthrough.eec.oregonstate.edu/wiki/utilities/61', 'Power Factor Correction', 0, 0, 0, 0, '2020-10-16 21:38:02', 0),
+(6528, 223, 0, 1, 28, '', 'https://walkthrough.eec.oregonstate.edu/wiki/utilities/61', 'Power Factor Correction', 0, 0, 0, 0, '2020-10-16 21:38:02', 0),
 (6529, 105, 0, 0, 15, 'Condensate flow and temperature', '', '', 1, 0, 0, 0, '2020-10-29 21:51:42', 0),
 (6530, 105, 0, 0, 11, 'Return more/all condensate back to the boiler', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
 (6531, 105, 0, 0, 11, 'Recover Flash Steam', '', '', 0, 0, 0, 0, '2020-10-29 21:51:42', 0),
@@ -2145,7 +2155,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6542, 105, 0, 1, 23, 'Explains how steam traps work, brief history and lists several different types of traps in detail.', 'https://www.youtube.com/watch?v=IiRyxcCBTa0', 'Let\'s Talk Steam Traps', 1, 0, 0, 0, '2020-10-29 21:51:42', 0),
 (6543, 105, 0, 1, 17, 'Contains specific information about flash steam recovery', 'https://www.energy.gov/sites/prod/files/2014/05/f16/steam12_lowpressure_steam.pdf', 'DOE Tip Sheet Flash Steam Recovery', 1, 0, 0, 0, '2020-10-29 21:51:42', 0),
 (6544, 105, 0, 1, 24, 'Contains several pages with useful calculations for steam systems. This link leads to the flash steam page.', 'https://www.tlv.com/global/US/steam-theory/introduction-to-condensate-recovery.html', 'TLV Steam Theory', 1, 0, 0, 0, '2020-10-29 21:51:42', 0),
-(6545, 105, 0, 1, 21, '$empty', 'https://oregonstate.app.box.com/file/337450150435', 'Flash Steam Recovery', 0, 1, 0, 0, '2020-10-29 21:51:42', 0),
+(6545, 105, 0, 1, 21, '', 'https://oregonstate.app.box.com/file/337450150435', 'Flash Steam Recovery', 0, 1, 0, 0, '2020-10-29 21:51:42', 0),
 (6546, 101, 0, 0, 11, 'Tune the boiler regularly', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
 (6547, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
 (6548, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, 0, 1, 0, '2020-10-29 21:53:26', 1),
@@ -2245,7 +2255,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6806, 155, 0, 2, 14, 'May be best to have an initial phone conversation with the client to determine how to best structure a remote audit based on their needs.', '', '', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
 (6807, 155, 0, 1, 14, 'Ensure someone at the site can \"walk us through\" or at least go to targeted locations while with us on the phone to ask questions, perhaps get pictures or videos, and really dig into details. (This step is important for our contract with U.S.DOE)', '', '', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
 (6808, 155, 0, 0, 26, 'Send the standard OSU Pre-Assessment Package to appropriate clients ', '', '', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
-(6809, 155, 0, 1, 17, '$empty', 'https://docs.google.com/document/d/1SSk8Ks463YfySrxLr5o5zK08DLoDzkGMIEkecBMs51s/edit', 'Pre_Assessment Package Template', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
+(6809, 155, 0, 1, 17, '', 'https://docs.google.com/document/d/1SSk8Ks463YfySrxLr5o5zK08DLoDzkGMIEkecBMs51s/edit', 'Pre_Assessment Package Template', 0, 0, 0, 0, '2020-11-20 16:41:05', 0),
 (6814, 242, 0, 0, 31, 'Report drafting process will follow a timeline similar to that used for in person assessments.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-20 16:47:53', 0),
 (6815, 241, 0, 0, 31, 'Upon completion of a remote guided tour, the assessment team will meet to determine which opportunities should be pursued.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-20 16:48:31', 0),
 (6816, 241, 0, 0, 31, 'If possible, this meeting should include the client.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-20 16:48:31', 0),
@@ -2263,12 +2273,12 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6841, 243, 0, 0, 31, 'Once the report has been compiled and made it through the review process, a meeting with the client will be scheduled to present the findings and recommendations in the report.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-20 21:33:31', 0),
 (6842, 243, 0, 1, 31, 'This is something that we may start doing for all assessments moving forward.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-20 21:33:31', 0),
 (6843, 243, 0, 1, 31, 'If possible, this meeting should include all analysts involved in the report.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-20 21:33:31', 0),
-(6844, 244, 0, 0, 9, 'Working remotely changes the dynamic of working as a team. It is important to have expectations for meetings post-assessment in order to meet the deadline.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(6844, 244, 0, 0, 9, 'Working remotely changes the dynamic of working as a team. It is important to have expectations for meetings post-assessment in order to meet the deadline.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6845, 244, 0, 1, 12, 'Schedule a team meeting within three business days of the assessment', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6846, 244, 0, 2, 8, 'The intention of this meeting should be to debrief after the assessment. Topics such as opportunities, best-practices, and AR/OMC assignments should be discussed. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6847, 244, 0, 1, 12, 'Schedule team meeting one week after debrief meeting.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
-(6848, 244, 0, 2, 8, 'The intention of this meeting should be for analysts to update the lead analyst and PA on their assignments. Additionally, any questions analysts have for the facility should be addressed.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
+(6848, 244, 0, 2, 8, 'The intention of this meeting should be for analysts to update the lead analyst and PA on their assignments. Additionally, any questions analysts have for the facility should be addressed.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (6849, 244, 0, 1, 12, 'Schedule 10-15 minute individual meetings with each analyst. The frequency of these meetings should be determined by the lead. At a minimum, every two weeks is recommended. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6850, 244, 0, 2, 8, 'Any issues or questions analysts have encountered should be discussed. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6851, 244, 0, 2, 8, 'Be sure to invite the PA, but their attendance should not be required unless previously discussed.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
@@ -2317,8 +2327,11 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6964, 248, 0, 0, 31, '<p>Because of the speed at which small parts can be produced, industry often refers to \"rapid prototyping\". Since production lines are so specialized to mass produce a single part, the cost associated with retooling or modifying the production line to make prototypes is high even for the simplest parts. Once the CAD models are done, minimal modification are needed to being production with rapid prototyping. </p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-30 17:46:53', 0),
 (6965, 253, 0, 0, 31, '<p>Machine Learning refers to algorithms that allow a machine to update its program to better match the desired output. At its core machine learning is linear algebra and statistics, which makes it very similar to mathematic regression models. The advantage is that these algorithms do not assume that the process follows any particular model (assumptions like linearity, interaction between variables, significance of variables, or independence of variables) </p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-30 18:04:41', 0),
 (6966, 253, 0, 0, 31, '<p>For small companies where they vary multiple process parameters to get different outcomes, a machine learning system can be developed to help find the ideal parameters for each outcome. </p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-30 18:04:41', 0),
-(6967, 254, 0, 0, 24, '$empty', 'https://linkinghub.elsevier.com/retrieve/pii/S235197891830475X', 'Rethinking Human-Machine Learning in Industry 4.0: How Does the Paradigm Shift Treat the Role of Human Learning?', 1, 0, 0, 0, '2020-11-30 18:07:00', 0),
-(6968, 254, 0, 0, 24, '$empty', 'https://towardsdatascience.com/the-actual-difference-between-statistics-and-machine-learning-64b49f07ea3', 'The Actual Difference Between Statistics and Machine Learning', 1, 0, 0, 0, '2020-11-30 18:07:00', 0);
+(6967, 254, 0, 0, 24, '', 'https://linkinghub.elsevier.com/retrieve/pii/S235197891830475X', 'Rethinking Human-Machine Learning in Industry 4.0: How Does the Paradigm Shift Treat the Role of Human Learning?', 1, 0, 0, 0, '2020-11-30 18:07:00', 0),
+(6968, 254, 0, 0, 24, '', 'https://towardsdatascience.com/the-actual-difference-between-statistics-and-machine-learning-64b49f07ea3', 'The Actual Difference Between Statistics and Machine Learning', 1, 0, 0, 0, '2020-11-30 18:07:00', 0),
+(6993, 236, 0, 0, 10, 'Meters that consistently have relatively low charges (<$500 per month)', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0),
+(6994, 236, 0, 0, 11, 'Combine multiple small meters together', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0),
+(6995, 236, 0, 0, 11, 'Combine a small meter with a larger meter', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0);
 
 -- --------------------------------------------------------
 
@@ -2391,6 +2404,20 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (65, 0, 'How to Edit EEC Walkthrough', 'An analyst oriented guide for creating, editing, and reviewing content on the EEC Industrial Walkthrough Checklist.', 'Description', 'https://picsum.photos/seed/picsum/700/700', 1, 42, '2020-08-31 22:17:53', 0),
 (69, 1, 'Metals Manufacturing', 'Industrial metals manufacturing processes may include casting, forging, bending, forming, spinning, welding, cutting and finishing to produce a final product.', 'Metals manufacturing includes production of raw stock, replacement parts and final products. Many production processes are common among all metals manufacturing facilities.', '/uploads/user_52/0baf5657b6e1ac3fef0b0e048672324b.jpg', 0, 52, '2020-09-09 18:37:04', 0),
 (72, 5, 'Smart Manufacturing', 'Smart Manufacturing Summary', 'Lists smart manufacturing technologies that could be applied to assessments.\nImage is from https://www.trianagroup.com. This image is only a placeholder for what I would really like to use. This image might not be suitable to under copyright laws', '/uploads/user_61/1cffd701d341b07912a60941dbbbb22b.jpg', 1, 61, '2020-11-28 23:23:04', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Questions`
+--
+
+CREATE TABLE `Questions` (
+  `questionId` int(10) UNSIGNED NOT NULL,
+  `pageId` int(10) UNSIGNED NOT NULL,
+  `text` varchar(5000) NOT NULL,
+  `type` int(11) UNSIGNED NOT NULL,
+  `priority` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2507,6 +2534,20 @@ INSERT INTO `Request_Objects` (`requestObjectId`, `requestId`, `objectId`, `obje
 (26, 6, 223, 3),
 (27, 6, 224, 3),
 (28, 6, 225, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Scores`
+--
+
+CREATE TABLE `Scores` (
+  `scoreId` int(10) UNSIGNED NOT NULL,
+  `questionId` int(10) UNSIGNED NOT NULL,
+  `userId` int(10) UNSIGNED NOT NULL,
+  `text` varchar(5000) NOT NULL,
+  `correct` tinyint(3) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2718,6 +2759,12 @@ INSERT INTO `Views` (`viewId`, `pageId`, `userId`, `viewName`, `public`) VALUES
 --
 
 --
+-- Indexes for table `Answers`
+--
+ALTER TABLE `Answers`
+  ADD PRIMARY KEY (`answerId`);
+
+--
 -- Indexes for table `Banners`
 --
 ALTER TABLE `Banners`
@@ -2828,6 +2875,13 @@ ALTER TABLE `Pages`
   ADD KEY `category_fk` (`pageType`);
 
 --
+-- Indexes for table `Questions`
+--
+ALTER TABLE `Questions`
+  ADD PRIMARY KEY (`questionId`),
+  ADD KEY `question_page_fk` (`pageId`);
+
+--
 -- Indexes for table `Quick_Titles`
 --
 ALTER TABLE `Quick_Titles`
@@ -2852,6 +2906,14 @@ ALTER TABLE `Request_Comments`
 ALTER TABLE `Request_Objects`
   ADD PRIMARY KEY (`requestObjectId`),
   ADD KEY `request_object_fk` (`requestId`);
+
+--
+-- Indexes for table `Scores`
+--
+ALTER TABLE `Scores`
+  ADD PRIMARY KEY (`scoreId`),
+  ADD KEY `score_question_fk` (`questionId`),
+  ADD KEY `score_user_fk` (`userId`);
 
 --
 -- Indexes for table `Sources`
@@ -2912,6 +2974,12 @@ ALTER TABLE `Views`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `Answers`
+--
+ALTER TABLE `Answers`
+  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Banners`
@@ -2983,7 +3051,7 @@ ALTER TABLE `Info`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6969;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6996;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
@@ -2996,6 +3064,12 @@ ALTER TABLE `Notifications`
 --
 ALTER TABLE `Pages`
   MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+
+--
+-- AUTO_INCREMENT for table `Questions`
+--
+ALTER TABLE `Questions`
+  MODIFY `questionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Quick_Titles`
@@ -3020,6 +3094,12 @@ ALTER TABLE `Request_Comments`
 --
 ALTER TABLE `Request_Objects`
   MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT for table `Scores`
+--
+ALTER TABLE `Scores`
+  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Sources`
@@ -3103,6 +3183,12 @@ ALTER TABLE `Pages`
   ADD CONSTRAINT `user_page_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
 
 --
+-- Constraints for table `Questions`
+--
+ALTER TABLE `Questions`
+  ADD CONSTRAINT `question_page_fk` FOREIGN KEY (`pageId`) REFERENCES `Pages` (`pageId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `Request_Comments`
 --
 ALTER TABLE `Request_Comments`
@@ -3113,6 +3199,13 @@ ALTER TABLE `Request_Comments`
 --
 ALTER TABLE `Request_Objects`
   ADD CONSTRAINT `request_object_fk` FOREIGN KEY (`requestId`) REFERENCES `Requests` (`requestId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `Scores`
+--
+ALTER TABLE `Scores`
+  ADD CONSTRAINT `score_question_fk` FOREIGN KEY (`questionId`) REFERENCES `Questions` (`questionId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `score_user_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Sources`
