@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Dec 04, 2020 at 12:49 PM
+-- Generation Time: Dec 04, 2020 at 02:01 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -2762,7 +2762,8 @@ INSERT INTO `Views` (`viewId`, `pageId`, `userId`, `viewName`, `public`) VALUES
 -- Indexes for table `Answers`
 --
 ALTER TABLE `Answers`
-  ADD PRIMARY KEY (`answerId`);
+  ADD PRIMARY KEY (`answerId`),
+  ADD KEY `question_answer_fk` (`questionId`);
 
 --
 -- Indexes for table `Banners`
@@ -3128,6 +3129,12 @@ ALTER TABLE `Views`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `Answers`
+--
+ALTER TABLE `Answers`
+  ADD CONSTRAINT `question_answer_fk` FOREIGN KEY (`questionId`) REFERENCES `Questions` (`questionId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Cards`
