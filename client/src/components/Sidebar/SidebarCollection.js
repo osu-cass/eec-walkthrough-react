@@ -99,6 +99,18 @@ function SidebarCollection(props) {
                 </Card.Body>
               </NavLink>
             )}
+            {/* If we have a disclaimer, show it after the rest of the items */}
+            {props.disclaimer ? (
+              <NavLink to="/disclaimer" className="ml-3 sidebar-nav-link">
+                <Card.Body className="sidebar-nav-link">
+                  <span>
+                    Disclaimer
+                  </span>
+                </Card.Body>
+              </NavLink>
+            ) : (
+              null
+            )}
             {props.show ? (
               <Fragment>
                 <CreatePage
@@ -146,6 +158,7 @@ SidebarCollection.propTypes = {
   internal: PropTypes.number,
   show: PropTypes.bool,
   hideEdit: PropTypes.bool,
-  collectionIcon: PropTypes.string
+  collectionIcon: PropTypes.string,
+  disclaimer: PropTypes.bool
 };
 

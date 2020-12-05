@@ -129,6 +129,11 @@ function NavBar (props) {
                 </div>
               </a>
             )}
+            <a href="/disclaimer">
+              <div className="navbar-item px-2 py-1">
+                Disclaimer
+              </div>
+            </a>
           </div>
         </div>
       ) : (
