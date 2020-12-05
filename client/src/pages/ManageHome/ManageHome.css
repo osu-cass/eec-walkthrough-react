@@ -13,3 +13,7 @@
   max-width: 250px;
   max-height: 100px;
 }
+
+.prompt-container-home {
+  border: 0;
+}
