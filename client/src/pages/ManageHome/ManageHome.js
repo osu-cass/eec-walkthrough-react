@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import {Button, Row, FormControl} from "react-bootstrap";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
@@ -35,6 +35,7 @@ function ManageHome() {
   const [error4, setError4] = useState("");
   const [error5, setError5] = useState("");
   const [error6, setError6] = useState("");
+  const [sponsors, setSponsors] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
   // when the page first loads, get all default info
@@ -116,6 +117,28 @@ function ManageHome() {
           }
         } else {
           console.error("Error fetching info");
+        }
+
+        // Fetch all sponsors
+        results = await fetch(`${API_URL}/home/sponsors`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+
+          const obj = await results.json();
+          setSponsors(obj.sponsors);
+
+        } else {
+          console.error("Error fetching sponsors");
         }
 
         setLoading(false);
@@ -420,12 +443,7 @@ function ManageHome() {
       body: JSON.stringify(rightObject)
     });
 
-    if (results.ok) {
-
-      // refresh the page
-      window.location.reload();
-
-    } else {
+    if (!results.ok) {
       // there was an error updating the info
       const obj = await results.json();
 
@@ -442,6 +460,100 @@ function ManageHome() {
     }
   }
 
+  // save the changes to the sponsors
+  async function submitSponsors() {
+
+    // Check for empty inputs
+    if (checkInputs()) {
+      return;
+    }
+
+    // save the order of the sponsors
+    const copy = [...sponsors];
+    for (let i = 0; i < copy.length; i++) {
+      copy[i].orderIndex = i;
+    }
+
+    // Get all of the selected files to upload
+    const uploadImages = [];
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].imageToUpload) {
+        uploadImages.push(copy[i].imageToUpload);
+      }
+    }
+
+    // see if we need to upload any images
+    if (uploadImages.length) {
+      const formData = new FormData();
+      for (let i = 0; i < uploadImages.length; i++) {
+        formData.append("images", uploadImages[i]);
+      }
+      const results = await fetch(`${API_URL}/files/bulk`, {
+        method: "POST",
+        credentials: "include",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        const urls = obj.urls;
+
+        // update the urls for all of the sponsors
+        for (let i = 0; i < urls.length; i++) {
+          for (let j = 0; j < copy.length; j++) {
+            if (copy[j].imageToUpload) {
+              copy[j].imageToUpload = null;
+              copy[j].imageUrl = urls[i];
+              break;
+            }
+          }
+        }
+        setSponsors(copy);
+      } else {
+        console.error("Failed to upload images.");
+      }
+    }
+
+    // see if all graphics are still valid
+    for (let i = 0; i < copy.length; i++) {
+      if (!copy[i].imageUrl.length) {
+        setErrorMessage("Error: Invalid file to upload on line " + (i + 1));
+        return;
+      }
+    }
+
+    const data = {
+      sponsors: copy
+    };
+
+    const results = await fetch(`${API_URL}/home/sponsors`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
+    });
+
+    if (results.ok) {
+
+      // refresh the page
+      window.location.reload();
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+  }
+
   // Submit all changes
   async function submitChanges() {
 
@@ -450,9 +562,179 @@ function ManageHome() {
     const error = await submitBanners();
     if (error === false) {
       submitInfo();
+      submitSponsors();
     }
 
     setLoading(false);
+  }
+
+  // Update one of the sponsor fields
+  function modifySponsors(text, fieldNumber, sponsorId) {
+
+    const editedSponsors = [...sponsors];
+    let arrayIndex = -1;
+
+    // Find the index of this sponsor
+    for (let i = 0; i < editedSponsors.length; i++) {
+      if (editedSponsors[i].sponsorId === sponsorId) {
+        arrayIndex = i;
+        break;
+      }
+    }
+
+    // If we can not find the index, then exit
+    if (arrayIndex === -1) {
+      console.error("Unable to find the sponsor to edit");
+      return;
+    }
+
+    if (fieldNumber === 1) {
+      editedSponsors[arrayIndex].name = text;
+      setSponsors(editedSponsors);
+    } else if (fieldNumber === 2) {
+      editedSponsors[arrayIndex].title = text;
+      setSponsors(editedSponsors);
+    } else if (fieldNumber === 3) {
+      editedSponsors[arrayIndex].websiteUrl = text;
+      setSponsors(editedSponsors);
+    } else {
+      editedSponsors[arrayIndex].imageUrl = text;
+      setSponsors(editedSponsors);
+    }
+  }
+
+  // Delete a sponsor
+  function deleteSponsor(sponsorId) {
+    if (!window.confirm("Are you sure you want to delete this sponsor?")) {
+      return;
+    }
+
+    const editedSponsors = [...sponsors];
+    let arrayIndex = -1;
+
+    // Find the index of this sponsor
+    for (let i = 0; i < editedSponsors.length; i++) {
+      if (editedSponsors[i].sponsorId === sponsorId) {
+        arrayIndex = i;
+        break;
+      }
+    }
+
+    // If we can not find the index, then exit
+    if (arrayIndex === -1) {
+      console.error("Unable to find the sponsor to delete");
+      return;
+    }
+
+    editedSponsors.splice(arrayIndex, 1);
+    setSponsors(editedSponsors);
+  }
+
+  // Change the order that the sponsors are displayed in
+  function changeOrder(up, sponsorId) {
+    const editedSponsors = [...sponsors];
+    let arrayIndex = -1;
+
+    // Find the index of this sponsor
+    for (let i = 0; i < editedSponsors.length; i++) {
+      if (editedSponsors[i].sponsorId === sponsorId) {
+        arrayIndex = i;
+        break;
+      }
+    }
+
+    // If we can not find the index, then exit
+    if (arrayIndex === -1) {
+      console.error("Unable to find the sponsor to reorder");
+      return;
+    }
+
+    // Check if we are trying to move up or down the card
+    if (up) {
+      // if this is not the top item on the card, swap it with the item above it
+      if (arrayIndex !== 0) {
+        [editedSponsors[arrayIndex], editedSponsors[arrayIndex - 1]] = [editedSponsors[arrayIndex - 1], editedSponsors[arrayIndex]];
+        setSponsors(editedSponsors);
+      }
+    } else {
+      // if this is not the bottom item on the card, swap it with the item below it
+      if (arrayIndex + 1 < editedSponsors.length) {
+        [editedSponsors[arrayIndex], editedSponsors[arrayIndex + 1]] = [editedSponsors[arrayIndex + 1], editedSponsors[arrayIndex]];
+        setSponsors(editedSponsors);
+      }
+    }
+  }
+
+  // Create a new sponsor
+  function createSponsor() {
+    const editedSponsors = [...sponsors];
+
+    let newId = 1;
+
+    // find the largest id from sponsors and increase it by 1
+    for (let i = 0; i < editedSponsors.length; i++) {
+      if (editedSponsors[i].sponsorId >= newId) {
+        newId = editedSponsors[i].sponsorId + 1;
+      }
+    }
+
+    const newSponsor = {
+      sponsorId: newId,
+      name: "",
+      title: "",
+      websiteUrl: "",
+      imageUrl: ""
+    };
+
+    editedSponsors.push(newSponsor);
+    setSponsors(editedSponsors);
+  }
+
+  // Check for empty inputs (name, description, urls)
+  function checkInputs() {
+    let emptyFound = false;
+    let newErrorMessage = errorMessage;
+    let i = 0;
+
+    // Empty sponsor text
+    for (i = 0; i < sponsors.length; i++) {
+      const sponsor = sponsors[i];
+
+      if (sponsor.name === "") {
+        emptyFound = true;
+        newErrorMessage = "Error: Sponsor is missing a name on line " + (i + 1);
+        break;
+      } else if (sponsor.title === "") {
+        emptyFound = true;
+        newErrorMessage = "Error: Sponsor is missing a description on line " + (i + 1);
+        break;
+      } else if (sponsor.websiteUrl === "") {
+        emptyFound = true;
+        newErrorMessage = "Error: Sponsor is missing a website URL on line " + (i + 1);
+        break;
+      } else if (sponsor.imageUrl === "" && !sponsor.imageToUpload) {
+        emptyFound = true;
+        newErrorMessage = "Error: Sponsor is missing an image URL on line " + (i + 1);
+        break;
+      }
+    }
+    setErrorMessage(newErrorMessage);
+    if (emptyFound) { return true; }
+    return false;
+  }
+
+  // store image information for the newly uploaded image
+  function handleNewImage(newImage, sponsorId) {
+    const copy = [...sponsors];
+
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].sponsorId === sponsorId) {
+        copy[i].imageToUpload = newImage;
+        break;
+      }
+    }
+
+    setSponsors(copy);
   }
 
   return (
@@ -614,118 +896,222 @@ function ManageHome() {
       </div>
 
       {/* Table for setting homepage text */}
-      <table className="home-table shadow">
-        <thead>
-          <tr>
-            <th>
-              Title
-            </th>
-            <th>
-              Text
-            </th>
-            <th>
-              <span className="font-weight-bold">Font Awesome Name&nbsp;&nbsp;</span>
-              <a href={"https://www.fontawesome.com/v4.7.0/icons/"}>(All Icon Names)</a>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
+      <div className="prompt-container my-3 bg-white card rounded shadow-sm">
+        <div className="prompt-container-home p-5 card">
+          <span className="h3 mb-2">Text Blurbs</span>
+          <span>
+            Enter two text blurbs that you would like to display to users who visit the homepage.
+          </span>
+          <span className="mb-2">
+            You may include icons that sit beneath the text blurbs.
+          </span>
+        </div>
 
-            {/* Left text fields */}
-            <td className="home-text-field align-top">
-              <FormControl
-                as="textarea"
-                rows="3"
-                className="ml-2 mr-3"
-                maxLength="150"
-                placeholder="Enter title"
-                defaultValue={leftTitle}
-                aria-label="Title"
-                aria-describedby="basic-addon1"
-                onChange={(e) => modifyField(1, 1, e.target.value)}
-                required
-              />
-            </td>
-            <td className="home-text-field align-top">
-              <FormControl
-                as="textarea"
-                rows="3"
-                className="ml-2 mr-3"
-                maxLength="5000"
-                placeholder="Enter text"
-                defaultValue={leftText}
-                aria-label="Title"
-                aria-describedby="basic-addon1"
-                onChange={(e) => modifyField(1, 2, e.target.value)}
-                required
-              />
-            </td>
-            <td className="home-text-field align-top">
-              <FormControl
-                as="textarea"
-                rows="3"
-                className="ml-2 mr-3"
-                maxLength="100"
-                placeholder="Enter icon"
-                defaultValue={leftIcon}
-                aria-label="Title"
-                aria-describedby="basic-addon1"
-                onChange={(e) => modifyField(1, 3, e.target.value)}
-                required
-              />
-            </td>
+        <table className="home-table shadow">
+          <thead>
+            <tr>
+              <th>
+                Title
+              </th>
+              <th>
+                Text
+              </th>
+              <th>
+                <span className="font-weight-bold">Font Awesome Name&nbsp;&nbsp;</span>
+                <a href={"https://www.fontawesome.com/v4.7.0/icons/"}>(All Icon Names)</a>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
 
-          </tr>
-          <tr>
+              {/* Left text fields */}
+              <td className="home-text-field align-top">
+                <FormControl
+                  as="textarea"
+                  rows="3"
+                  className="ml-2 mr-3"
+                  maxLength="150"
+                  placeholder="Enter title"
+                  defaultValue={leftTitle}
+                  aria-label="Title"
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => modifyField(1, 1, e.target.value)}
+                  required
+                />
+              </td>
+              <td className="home-text-field align-top">
+                <FormControl
+                  as="textarea"
+                  rows="3"
+                  className="ml-2 mr-3"
+                  maxLength="5000"
+                  placeholder="Enter text"
+                  defaultValue={leftText}
+                  aria-label="Title"
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => modifyField(1, 2, e.target.value)}
+                  required
+                />
+              </td>
+              <td className="home-text-field align-top">
+                <FormControl
+                  as="textarea"
+                  rows="3"
+                  className="ml-2 mr-3"
+                  maxLength="100"
+                  placeholder="Enter icon"
+                  defaultValue={leftIcon}
+                  aria-label="Title"
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => modifyField(1, 3, e.target.value)}
+                  required
+                />
+              </td>
 
-            {/* Right text fields */}
-            <td className="home-text-field align-top">
-              <FormControl
-                as="textarea"
-                rows="3"
-                className="ml-2 mr-3"
-                maxLength="150"
-                placeholder="Enter title"
-                defaultValue={rightTitle}
-                aria-label="Title"
-                aria-describedby="basic-addon1"
-                onChange={(e) => modifyField(2, 1, e.target.value)}
-                required
-              />
-            </td>
-            <td className="home-text-field align-top">
-              <FormControl
-                as="textarea"
-                rows="3"
-                className="ml-2 mr-3"
-                maxLength="5000"
-                placeholder="Enter text"
-                defaultValue={rightText}
-                aria-label="Title"
-                aria-describedby="basic-addon1"
-                onChange={(e) => modifyField(2, 2, e.target.value)}
-                required
-              />
-            </td>
-            <td className="home-text-field align-top">
-              <FormControl
-                as="textarea"
-                rows="3"
-                className="ml-2 mr-3"
-                maxLength="100"
-                placeholder="Enter icon"
-                defaultValue={rightIcon}
-                aria-label="Title"
-                aria-describedby="basic-addon1"
-                onChange={(e) => modifyField(2, 3, e.target.value)}
-                required
-              />
-            </td>
+            </tr>
+            <tr>
 
-          </tr>
-        </tbody>
-      </table>
+              {/* Right text fields */}
+              <td className="home-text-field align-top">
+                <FormControl
+                  as="textarea"
+                  rows="3"
+                  className="ml-2 mr-3"
+                  maxLength="150"
+                  placeholder="Enter title"
+                  defaultValue={rightTitle}
+                  aria-label="Title"
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => modifyField(2, 1, e.target.value)}
+                  required
+                />
+              </td>
+              <td className="home-text-field align-top">
+                <FormControl
+                  as="textarea"
+                  rows="3"
+                  className="ml-2 mr-3"
+                  maxLength="5000"
+                  placeholder="Enter text"
+                  defaultValue={rightText}
+                  aria-label="Title"
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => modifyField(2, 2, e.target.value)}
+                  required
+                />
+              </td>
+              <td className="home-text-field align-top">
+                <FormControl
+                  as="textarea"
+                  rows="3"
+                  className="ml-2 mr-3"
+                  maxLength="100"
+                  placeholder="Enter icon"
+                  defaultValue={rightIcon}
+                  aria-label="Title"
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => modifyField(2, 3, e.target.value)}
+                  required
+                />
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Card for setting sponsors */}
+      <div className="prompt-container my-3 bg-white card rounded shadow-sm p-5">
+        <div className="prompt-container-home card">
+          <span className="h3 mb-2">Sponsors</span>
+          <span className="mb-5">
+            Enter information about sponsors that you want displayed on the homepage.
+          </span>
+        </div>
+
+        {sponsors.map((sponsor, i) =>
+          <Fragment key={sponsor.sponsorId}>
+            <Row className="my-2">
+              <div className="input-group">
+                <span className="ml-2 mr-3">
+                  <button className='btn btn-danger btn-sm ml-2'
+                    onClick={() => deleteSponsor(sponsor.sponsorId)}
+                    data-index={i}
+                  >
+                    <i className='fas fa-fw fa-times' />
+                  </button>
+                  <button className={`btn btn-success btn-sm ml-2 ${i ? "" : "disabled"}`}
+                    onClick={() => changeOrder(true, sponsor.sponsorId)}
+                    data-index={i}
+                  >
+                    <i className='fas fa-fw fa-arrow-up' />
+                  </button>
+                  <button className={`btn btn-success btn-sm ml-2 ${i + 1 < sponsors.length ? "" : "disabled"}`}
+                    onClick={() => changeOrder(false, sponsor.sponsorId)}
+                    data-index={i}
+                  >
+                    <i className='fas fa-fw fa-arrow-down' />
+                  </button>
+                </span>
+                <FormControl
+                  as="textarea"
+                  rows="3"
+                  className="ml-3"
+                  maxLength="1000"
+                  placeholder="Name"
+                  defaultValue={sponsor.name}
+                  aria-label="Sponsor Name"
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => modifySponsors(e.target.value, 1, sponsor.sponsorId)}
+                  required
+                />
+                <FormControl
+                  as="textarea"
+                  rows="3"
+                  placeholder="Description"
+                  maxLength="1000"
+                  defaultValue={sponsor.title}
+                  aria-label="Description"
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => modifySponsors(e.target.value, 2, sponsor.sponsorId)}
+                  required
+                />
+                <FormControl
+                  as="textarea"
+                  rows="3"
+                  placeholder="Website URL"
+                  maxLength="1000"
+                  defaultValue={sponsor.websiteUrl}
+                  aria-label="Website URL"
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => modifySponsors(e.target.value, 3, sponsor.sponsorId)}
+                  required
+                />
+                <FormControl
+                  as="textarea"
+                  rows="3"
+                  className="mr-3"
+                  maxLength="1000"
+                  placeholder="Image URL"
+                  defaultValue={sponsor.imageUrl}
+                  aria-label="Image URL"
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => modifySponsors(e.target.value, 4, sponsor.sponsorId)}
+                  required
+                />
+              </div>
+            </Row>
+            <Row className="sponsor-upload mr-1 mb-5">
+              <ImageInput id={sponsor.sponsorId} onNewImage={(newImage) => handleNewImage(newImage, sponsor.sponsorId)} />
+            </Row>
+          </Fragment>
+        )}
+
+        <Button className="ml-auto" variant="info" onClick={() => createSponsor()}>
+          Add Sponsor
+        </Button>
+      </div>
 
       {/* Error messages */}
       <div className="mx-3 my-3">
@@ -735,9 +1121,9 @@ function ManageHome() {
 
         {/* Save changes */}
       </div>
-      <Row className="mb-2">
+      <Row className="mt-5">
         <div className="col">
-          <Button variant="primary" className="float-right mr-3" onClick={() => submitChanges()}>
+          <Button variant="primary" className="float-right btn-lg mr-3" onClick={() => submitChanges()}>
             Save changes
           </Button>
         </div>
