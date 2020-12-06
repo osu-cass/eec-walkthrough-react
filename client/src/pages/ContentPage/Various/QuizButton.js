@@ -5,7 +5,7 @@ import {NavLink} from "react-router-dom";
 // A button used to take a quiz about the pages contents
 function QuizButton(props) {
 
-  return (props.mode === 0) ? (
+  return (props.mode === 0 && props.quiz) ? (
     <div className="quiz-button-container">
 
       {/* Quiz header */}
@@ -44,6 +44,7 @@ function QuizButton(props) {
 export default QuizButton;
 
 QuizButton.propTypes = {
+  quiz: PropTypes.bool,
   pageId: PropTypes.string,
   mode: PropTypes.number,
   pageName: PropTypes.string

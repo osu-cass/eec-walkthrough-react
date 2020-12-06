@@ -234,6 +234,18 @@ async function getFullPage(pageId, userId) {
 
     }
 
+    // check if there are any quizzes for this page
+    sql = "SELECT * " +
+    "FROM Questions " +
+    "WHERE pageId = ?;";
+    results = await pool.query(sql, pageId);
+
+    if (results[0].length) {
+      finalResults.quiz = true;
+    } else {
+      finalResults.quiz = false;
+    }
+
     return finalResults;
 
   } catch (err) {

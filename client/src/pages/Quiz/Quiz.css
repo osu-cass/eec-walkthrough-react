@@ -29,3 +29,8 @@ body {
   grid-template-columns: 1fr 1fr;
   grid-gap: 5px;
 }
+
+.submit-quiz-box {
+  display: inline-block;
+  width: 100%;
+}

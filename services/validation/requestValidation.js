@@ -464,3 +464,11 @@ const postBannerVal = Object.freeze({
   ]
 });
 exports.postBannerVal = postBannerVal;
+
+// validation checks for post quiz results
+const postQuizResultsVal = Object.freeze({
+  validation: [
+    check("scores").isArray({min: 1})
+  ]
+});
+exports.postQuizResultsVal = postQuizResultsVal;

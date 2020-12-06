@@ -876,6 +876,7 @@ function ContentPage(props) {
 
         {/* A link to a quiz about the page content */}
         <QuizButton
+          quiz={pageInfo.quiz}
           pageId={pageId}
           mode={mode}
           pageName={pageInfo.name}

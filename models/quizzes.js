@@ -96,3 +96,61 @@ async function getPageQuiz(pageId, userId) {
 
 }
 exports.getPageQuiz = getPageQuiz;
+
+
+async function submitQuiz(userId, scores) {
+
+  try {
+
+    // make sure all of the scores are valid
+    for (let i = 0; i < scores.length; i++) {
+
+      if (typeof scores[i].questionId !== "number") {
+        return {error: 1};
+      }
+
+      if (typeof scores[i].text !== "string") {
+        return {error: 1};
+      }
+
+      if (typeof scores[i].correct !== "number") {
+        return {error: 1};
+      }
+
+      const sql = "SELECT * " +
+      "FROM Questions " +
+      "WHERE questionId = ?;";
+      const results = await pool.query(sql, scores[i].questionId);
+
+      if (!results[0].length) {
+        return {error: 2};
+      }
+    }
+
+    // delete all old quiz scores for the current user
+    for (let i = 0; i < scores.length; i++) {
+      const sql = "DELETE FROM Scores " +
+      "WHERE questionId = ? AND userId = ?;";
+      await pool.query(sql, [scores[i].questionId, userId]);
+    }
+
+    // create all quiz scores for the current user
+    for (let i = 0; i < scores.length; i++) {
+      const sql = "INSERT INTO Scores (questionId, userId, text, correct) " +
+      "VALUES (?, ?, ?, ?);";
+      await pool.query(sql, [scores[i].questionId, userId, scores[i].text, scores[i].correct]);
+    }
+
+    const finalResults = {
+      submitted: 1
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error submitting quiz scores");
+    throw Error(err);
+  }
+
+}
+exports.submitQuiz = submitQuiz;
