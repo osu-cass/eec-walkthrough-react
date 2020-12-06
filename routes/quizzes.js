@@ -5,13 +5,17 @@ const express = require("express");
 const app = express();
 const {validationResult} = require("express-validator");
 const {
-  getUserID
+  getUserID,
+  requireAuth,
+  roleCheck
 } = require("../services/authentication/cookieAuth");
 const {
-  getPageVal
+  getPageVal,
+  postQuizResultsVal
 } = require("../services/validation/requestValidation");
 const {
   getPageQuiz,
+  submitQuiz
 } = require("../models/quizzes");
 
 
@@ -38,6 +42,54 @@ app.get("/:pageId", getUserID, getPageVal.validation, async (req, res) => {
       res.status(404).send({error: "Page not found."});
     } else {
       res.status(200).send(results);
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// submit quiz results
+app.post("/scores", requireAuth, postQuizResultsVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Submit quiz results");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const userId = req.auth.userId;
+    const scores = req.body.scores;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(1, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to submit quiz results."});
+      return;
+    }
+
+    // create a card
+    const results = await submitQuiz(userId, scores);
+
+    if (!results.error) {
+      res.status(201).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(422).send({error: "Invalid format for scores."});
+      } else if (results.error === 2) {
+        res.status(403).send({error: "A question does not exist."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
     }
 
   } catch (err) {

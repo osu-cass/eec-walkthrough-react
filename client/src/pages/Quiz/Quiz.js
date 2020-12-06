@@ -1,9 +1,11 @@
 import React, {useState, useEffect, Fragment} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {API_URL} from "../../utilities/constants";
-import {useParams} from "react-router-dom";
+import {useParams, useHistory} from "react-router-dom";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
+import Question from "./Question";
+import Error from "../../components/General/Error";
 import "./Quiz.css";
 
 // Generic disclaimer page
@@ -13,7 +15,9 @@ function Quiz() {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
   const {pageId} = useParams();
+  const history = useHistory();
 
   // Gets quiz info when the page first loads
   useEffect(() => {
@@ -80,6 +84,174 @@ function Quiz() {
     // eslint-disable-next-line
   }, [pageId]);
 
+
+  // does a sanitized comparison between two answers to see if they are correct
+  function compareAnswers(realAnswer, userAnswer) {
+    if (typeof realAnswer !== "string" || typeof userAnswer !== "string") {
+      return 0;
+    }
+
+    if (realAnswer.trim().toLowerCase() === userAnswer.trim().toLowerCase()) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  // submit the quiz answers and get the quiz results
+  async function submitQuiz() {
+
+    const answers = [];
+    setErrorMessage("");
+
+    // get all of the user's answers
+    for (let i = 0; i < questions.length; i++) {
+
+      // multiple choice
+      if (questions[i].type === 1) {
+        const selector = document.querySelector(`input[name="question-${questions[i].questionId}"]:checked`);
+        if (selector) {
+          answers.push(selector.value);
+        } else {
+          answers.push("");
+        }
+      }
+
+      // text box
+      if (questions[i].type === 2) {
+        const value = document.getElementById(`question-${questions[i].questionId}`).value;
+        answers.push(value);
+      }
+
+      // multiple text box
+      if (questions[i].type === 3) {
+        for (let j = 0; j < questions[i].answers.length; j++) {
+          const value = document.getElementById(`question-${questions[i].questionId}-${questions[i].answers[j].answerId}`).value;
+          answers.push(value);
+        }
+      }
+
+    }
+
+    // check to make sure all questions have a valid answer
+    let answerCount = 0;
+    for (let i = 0; i < questions.length; i++) {
+
+      // multiple choice and text box are counted different than multi-text box
+      if (questions[i].type !== 3) {
+        if (answers[answerCount] === "") {
+          setErrorMessage(`Question #${i + 1} is missing an answer`);
+          return;
+        }
+        answerCount++;
+      } else {
+        for (let j = 0; j < questions[i].answers.length; j++) {
+          if (answers[answerCount] === "") {
+            setErrorMessage(`Question #${i + 1} is missing an answer`);
+            return;
+          }
+          answerCount++;
+        }
+      }
+    }
+
+    // record the results of the quiz
+    const scores = [];
+    answerCount = 0;
+    for (let i = 0; i < questions.length; i++) {
+
+      const newScore = {
+        questionId: 0,
+        text: "",
+        correct: 0
+      };
+
+      // multiple choice
+      if (questions[i].type === 1) {
+        // find the correct answer
+        let correctAnswer = "";
+        for (let j = 0; j < questions[i].answers.length; j++) {
+          if (questions[i].answers[j].correct) {
+            correctAnswer = questions[i].answers[j].text;
+          }
+        }
+        // save the score
+        newScore.questionId = questions[i].questionId;
+        newScore.text = answers[answerCount];
+        newScore.correct = compareAnswers(correctAnswer, answers[answerCount]);
+        scores.push(newScore);
+        answerCount++;
+      }
+
+      // text box
+      if (questions[i].type === 2) {
+        newScore.questionId = questions[i].questionId;
+        newScore.text = answers[answerCount];
+        newScore.correct = compareAnswers(questions[i].answers[0].text, answers[answerCount]);
+        scores.push(newScore);
+        answerCount++;
+      }
+
+      // multiple text box
+      if (questions[i].type === 3) {
+        newScore.questionId = questions[i].questionId;
+        const currentCount = answerCount;
+        const usedAnswers = [];
+
+        // check each user answer
+        for (let j = currentCount; j < questions[i].answers.length + currentCount; j++) {
+          const copyScore = Object.assign({}, newScore);
+          copyScore.text = answers[j];
+
+          // confirm that the answer has not been used yet
+          let notUsed = true;
+          for (let k = 0; k < usedAnswers.length; k++) {
+            if (compareAnswers(usedAnswers[k], answers[j])) {
+              notUsed = false;
+              break;
+            }
+          }
+
+          // check each user answer against each valid answer
+          if (notUsed) {
+            for (let k = 0; k < questions[i].answers.length; k++) {
+              copyScore.correct = compareAnswers(questions[i].answers[k].text, answers[j]);
+              if (copyScore.correct) {
+                usedAnswers.push(answers[j]);
+                break;
+              }
+            }
+          }
+
+          scores.push(copyScore);
+          answerCount++;
+        }
+
+      }
+    }
+
+    const postObj = {
+      scores: scores
+    };
+
+    // submit the scores
+    const results = await fetch(`${API_URL}/quizzes/scores`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(postObj),
+    });
+
+    if (results.ok) {
+      // go to the results page
+      history.push(`/results/${pageId}`);
+    } else {
+      setErrorMessage("An internal server error occurred. Please try again later.");
+    }
+  }
+
   return !error ? (
     <div className="container quiz-page-container my-5">
 
@@ -94,23 +266,22 @@ function Quiz() {
       </div>
 
       {questions.map((question) =>
-        <div
-          className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
+        <Question
           key={question.questionId}
-        >
-          <span className="font-weight-bold mb-2">
-            {question.text}
-          </span>
-          <div className="answers-block">
-            {question.answers.map((answer) =>
-              <div className="my-2" key={answer.answerId}>
-                <input type="radio" name={`question-${question.questionId}`} />
-                <span className="ml-4">{answer.text}</span>
-              </div>
-            )}
-          </div>
-        </div>
+          questionId={question.questionId}
+          text={question.text}
+          answers={question.answers}
+          type={question.type}
+        />
       )}
+
+      <Error message={errorMessage} />
+
+      <div className="mt-4 submit-quiz-box">
+        <button className="submit-quiz btn btn-lg btn-success pull-right" onClick={() => submitQuiz()}>
+          Submit Answers
+        </button>
+      </div>
 
     </div>
 
