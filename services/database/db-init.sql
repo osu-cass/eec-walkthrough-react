@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Dec 04, 2020 at 02:01 PM
+-- Generation Time: Dec 06, 2020 at 10:17 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.4
 
@@ -2416,7 +2416,8 @@ CREATE TABLE `Questions` (
   `pageId` int(10) UNSIGNED NOT NULL,
   `text` varchar(5000) NOT NULL,
   `type` int(11) UNSIGNED NOT NULL,
-  `priority` int(11) UNSIGNED NOT NULL
+  `priority` int(11) UNSIGNED NOT NULL,
+  `imageUrl` varchar(5000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2543,6 +2544,7 @@ INSERT INTO `Request_Objects` (`requestObjectId`, `requestId`, `objectId`, `obje
 
 CREATE TABLE `Scores` (
   `scoreId` int(10) UNSIGNED NOT NULL,
+  `pageId` int(10) UNSIGNED NOT NULL,
   `questionId` int(10) UNSIGNED NOT NULL,
   `userId` int(10) UNSIGNED NOT NULL,
   `text` varchar(5000) NOT NULL,
@@ -2914,7 +2916,8 @@ ALTER TABLE `Request_Objects`
 ALTER TABLE `Scores`
   ADD PRIMARY KEY (`scoreId`),
   ADD KEY `score_question_fk` (`questionId`),
-  ADD KEY `score_user_fk` (`userId`);
+  ADD KEY `score_user_fk` (`userId`),
+  ADD KEY `score_page_fk` (`pageId`);
 
 --
 -- Indexes for table `Sources`
@@ -3211,6 +3214,7 @@ ALTER TABLE `Request_Objects`
 -- Constraints for table `Scores`
 --
 ALTER TABLE `Scores`
+  ADD CONSTRAINT `score_page_fk` FOREIGN KEY (`pageId`) REFERENCES `Pages` (`pageId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `score_question_fk` FOREIGN KEY (`questionId`) REFERENCES `Questions` (`questionId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `score_user_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 

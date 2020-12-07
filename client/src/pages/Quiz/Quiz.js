@@ -8,7 +8,7 @@ import Question from "./Question";
 import Error from "../../components/General/Error";
 import "./Quiz.css";
 
-// Generic disclaimer page
+// Page where a user answers quiz questions
 function Quiz() {
 
   const [title, setTitle] = useState("");
@@ -50,7 +50,7 @@ function Quiz() {
           const obj = await results.json();
 
           if (results.status === 404) {
-            console.error("Couldn't find card to move");
+            console.error("Couldn't find quiz");
             setError(1);
           } else if (results.status === 500 || typeof obj.error === "undefined") {
             console.error("An internal server error occurred while trying to move the card.");
@@ -243,7 +243,7 @@ function Quiz() {
     };
 
     // submit the scores
-    const results = await fetch(`${API_URL}/quizzes/scores`, {
+    const results = await fetch(`${API_URL}/quizzes/${pageId}/scores`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -254,7 +254,7 @@ function Quiz() {
 
     if (results.ok) {
       // go to the results page
-      history.push(`/results/${pageId}`);
+      history.push(`/quiz-results/${pageId}`);
     } else {
       setErrorMessage("An internal server error occurred. Please try again later.");
     }
@@ -280,6 +280,7 @@ function Quiz() {
           text={question.text}
           answers={question.answers}
           type={question.type}
+          imageUrl={question.imageUrl}
         />
       )}
 

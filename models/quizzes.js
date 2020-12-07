@@ -98,7 +98,57 @@ async function getPageQuiz(pageId, userId) {
 exports.getPageQuiz = getPageQuiz;
 
 
-async function submitQuiz(userId, scores) {
+
+// gets the quiz results for a specific user and page
+async function getQuizResults(pageId, userId) {
+
+  try {
+
+    // see if the page exists
+    let sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ?;";
+    let results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const title = results[0][0].name;
+
+    // get the quiz questions
+    sql = "SELECT * " +
+    "FROM Questions " +
+    "WHERE pageId = ?;";
+    results = await pool.query(sql, pageId);
+    const questions = results[0];
+
+    // get the quiz results
+    sql = "SELECT * " +
+    "FROM Scores " +
+    "WHERE pageId = ? " +
+    "AND userId = ?;";
+    results = await pool.query(sql, [pageId, userId]);
+    const scores = results[0];
+
+    const finalResults = {
+      title: title,
+      questions: questions,
+      scores: scores
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error searching for quiz results");
+    throw Error(err);
+  }
+
+}
+exports.getQuizResults = getQuizResults;
+
+
+async function submitQuiz(userId, scores, pageId) {
 
   try {
 
@@ -127,18 +177,26 @@ async function submitQuiz(userId, scores) {
       }
     }
 
-    // delete all old quiz scores for the current user
-    for (let i = 0; i < scores.length; i++) {
-      const sql = "DELETE FROM Scores " +
-      "WHERE questionId = ? AND userId = ?;";
-      await pool.query(sql, [scores[i].questionId, userId]);
+    // make sure the page exists
+    let sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ?;";
+    const results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 3};
     }
+
+    // delete all old quiz scores for the current user
+    sql = "DELETE FROM Scores " +
+    "WHERE pageId = ? AND userId = ?;";
+    await pool.query(sql, [pageId, userId]);
 
     // create all quiz scores for the current user
     for (let i = 0; i < scores.length; i++) {
-      const sql = "INSERT INTO Scores (questionId, userId, text, correct) " +
-      "VALUES (?, ?, ?, ?);";
-      await pool.query(sql, [scores[i].questionId, userId, scores[i].text, scores[i].correct]);
+      const sql = "INSERT INTO Scores (questionId, userId, text, correct, pageId) " +
+      "VALUES (?, ?, ?, ?, ?);";
+      await pool.query(sql, [scores[i].questionId, userId, scores[i].text.trim().toLowerCase(), scores[i].correct, pageId]);
     }
 
     const finalResults = {
