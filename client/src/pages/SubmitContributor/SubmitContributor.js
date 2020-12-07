@@ -11,7 +11,7 @@ import {logout} from "../../utilities/cookieAuth";
 import "./SubmitContributor.css";
 
 // Submit contributor info for the current user
-function SubmitContributor(props) {
+function SubmitContributor() {
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -185,7 +185,7 @@ function SubmitContributor(props) {
             <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Name
             </label>
-            <input 
+            <input
               type="name"
               className="form-control mb-4"
               id="submit-name"
@@ -224,7 +224,7 @@ function SubmitContributor(props) {
             <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Image (the width and height of the image should be the same value)
             </label>
-            <input 
+            <input
               type="text"
               className="form-control mb-4"
               id="submit-image-url"
