@@ -44,6 +44,14 @@ function QuizButton(props) {
           </div>
         )}
 
+        {props.quizScore >= 0 ? (
+          <h4 className="text-center mb-4">
+            You previously got {props.quizScore}% of questions correct
+          </h4>
+        ) : (
+          null
+        )}
+
       </div>
     </div>
   ) : (
@@ -55,6 +63,7 @@ export default QuizButton;
 
 QuizButton.propTypes = {
   quiz: PropTypes.bool,
+  quizScore: PropTypes.number,
   pageId: PropTypes.string,
   mode: PropTypes.number,
   pageName: PropTypes.string,

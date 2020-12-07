@@ -246,6 +246,29 @@ async function getFullPage(pageId, userId) {
       finalResults.quiz = false;
     }
 
+    // check if this user has a grade for their last attempt at this quiz
+    sql = "SELECT correct " +
+    "FROM Scores " +
+    "WHERE pageId = ? " +
+    "AND userId = ?;";
+    results = await pool.query(sql, [pageId, userId]);
+
+    if (results[0].length) {
+      const scores = results[0];
+      let correct = 0;
+      let incorrect = 0;
+      for (let i = 0; i < scores.length; i++) {
+        if (scores[i].correct) {
+          correct++;
+        } else {
+          incorrect++;
+        }
+      }
+      finalResults.quizScore = ((correct / (correct + incorrect)).toFixed(2)) * 100;
+    } else {
+      finalResults.quizScore = -1;
+    }
+
     return finalResults;
 
   } catch (err) {
