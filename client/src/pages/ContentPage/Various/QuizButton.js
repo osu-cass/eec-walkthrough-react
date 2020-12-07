@@ -27,13 +27,23 @@ function QuizButton(props) {
         </span>
 
         {/* Quiz button */}
-        <div className="text-center my-4">
-          <NavLink className="quiz-nav-link" to={`/quiz/${props.pageId}`}>
-            <button className="btn btn-lg btn-success d-print-none">
+        {props.role ? (
+          <div className="text-center my-4">
+            <NavLink className="quiz-nav-link" to={`/quiz/${props.pageId}`}>
+              <button className="btn btn-lg btn-success d-print-none">
+                Take the Quiz
+              </button>
+            </NavLink>
+          </div>
+        ) : (
+          <div className="text-center my-4">
+            <button className="btn btn-lg btn-secondary disabled d-print-none mb-4">
               Take the Quiz
             </button>
-          </NavLink>
-        </div>
+            <h2>You need to login to take this quiz</h2>
+          </div>
+        )}
+
       </div>
     </div>
   ) : (
@@ -47,5 +57,6 @@ QuizButton.propTypes = {
   quiz: PropTypes.bool,
   pageId: PropTypes.string,
   mode: PropTypes.number,
-  pageName: PropTypes.string
+  pageName: PropTypes.string,
+  role: PropTypes.number
 };

@@ -880,6 +880,7 @@ function ContentPage(props) {
           pageId={pageId}
           mode={mode}
           pageName={pageInfo.name}
+          role={role}
         />
 
       </Container>
