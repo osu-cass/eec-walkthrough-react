@@ -187,7 +187,15 @@ function Quiz() {
       if (questions[i].type === 2) {
         newScore.questionId = questions[i].questionId;
         newScore.text = answers[answerCount];
-        newScore.correct = compareAnswers(questions[i].answers[0].text, answers[answerCount]);
+
+        // check the user answer against each valid answer
+        for (let j = 0; j < questions[i].answers.length; j++) {
+          newScore.correct = compareAnswers(questions[i].answers[j].text, answers[answerCount]);
+          if (newScore.correct) {
+            break;
+          }
+        }
+
         scores.push(newScore);
         answerCount++;
       }
