@@ -468,6 +468,7 @@ exports.postBannerVal = postBannerVal;
 // validation checks for post quiz results
 const postQuizResultsVal = Object.freeze({
   validation: [
+    check("pageId").isInt({min: 0, max: 4294967295}),
     check("scores").isArray({min: 1})
   ]
 });

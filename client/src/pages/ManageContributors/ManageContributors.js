@@ -193,12 +193,12 @@ function ManageContributors() {
 
         // refresh the page
         window.location.reload();
-  
+
       } else {
-  
+
         // there was an error updating the info
         const obj = await results.json();
-  
+
         // if the user is performing an unauthorized action
         // log them out and return them to the homepage
         if (results.status === 401) {
@@ -232,12 +232,12 @@ function ManageContributors() {
 
         // refresh the page
         window.location.reload();
-  
+
       } else {
-  
+
         // there was an error updating the info
         const obj = await results.json();
-  
+
         // if the user is performing an unauthorized action
         // log them out and return them to the homepage
         if (results.status === 401) {

@@ -48,7 +48,7 @@ function ContributorBlock(props) {
               </button>
             </div>
             <div className="col">
-              <button 
+              <button
                 type="button"
                 className="btn btn-success"
                 onClick={() => props.onRequest(props.contributorId, 1)}

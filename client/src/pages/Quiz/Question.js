@@ -1,4 +1,5 @@
 import React, {Fragment} from "react";
+import Image from "../../components/General/Image";
 import PropTypes from "prop-types";
 
 // A single question on a quiz page
@@ -16,6 +17,20 @@ function Question(props) {
           <span className="font-weight-bold mb-2">
             {props.text}
           </span>
+
+          {props.imageUrl.length ? (
+            <div className="mb-3">
+              <Image
+                url={props.imageUrl}
+                title={"Question Image"}
+                thumbnail={true}
+                header={false}
+              />
+            </div>
+          ) : (
+            null
+          )}
+
           <div className="answers-block">
             {props.answers.map((answer) =>
               <div className="my-2" key={answer.answerId}>
@@ -43,6 +58,19 @@ function Question(props) {
             {props.text}
           </span>
 
+          {props.imageUrl.length ? (
+            <div className="mb-3">
+              <Image
+                url={props.imageUrl}
+                title={"Question Image"}
+                thumbnail={true}
+                header={false}
+              />
+            </div>
+          ) : (
+            null
+          )}
+
           <div className="answers-block">
             <input
               type="text"
@@ -66,6 +94,19 @@ function Question(props) {
           <span className="font-weight-bold mb-2">
             {props.text}
           </span>
+
+          {props.imageUrl.length ? (
+            <div className="mb-3">
+              <Image
+                url={props.imageUrl}
+                title={"Question Image"}
+                thumbnail={true}
+                header={false}
+              />
+            </div>
+          ) : (
+            null
+          )}
 
           <div className="answers-block">
             {props.answers.map((answer) =>
@@ -94,5 +135,6 @@ Question.propTypes = {
   questionId: PropTypes.number,
   text: PropTypes.string,
   answers: PropTypes.array,
-  type: PropTypes.number
+  type: PropTypes.number,
+  imageUrl: PropTypes.string
 };
