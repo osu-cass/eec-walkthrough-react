@@ -24,8 +24,8 @@ function HowToCards(props) {
 
     setNormalIcons(iconSetNormal);
     setResourceIcons(iconSetResource);
-    console.log(props.categories)
-  }, [])
+    console.log(props.categories);
+  }, []);
 
   // Checks if the current card should be displayed
   return (
@@ -56,7 +56,7 @@ function HowToCards(props) {
       <Card className="my-2">
         <Card.Header>
           <h5 className="font-weight-bold">
-          Each section includes a number of useful pertinent "tidbits" identified by a preceding icon
+          Each section includes a number of useful pertinent &quot;tidbits&quot; identified by a preceding icon
           </h5>
         </Card.Header>
         <div className="p-4 my-2 text-dark-50 bg-white" >
@@ -72,10 +72,10 @@ function HowToCards(props) {
             </ul>
           </div>
           <div>
-            <span className="font-italic allow-newlines">Note: "tidbit" types can 
-            be toggled between "hidden" and "unhidden" by clicking the icon in the 
-            header bars of each section. A list of opportunities only can be toggled 
-            to, with the ability to expand information on any particular opportunity. 
+            <span className="font-italic allow-newlines">Note: &quot;tidbit&quot; types can
+            be toggled between &quot;hidden&quot; and &quot;unhidden&quot; by clicking the icon in the
+            header bars of each section. A list of opportunities only can be toggled
+            to, with the ability to expand information on any particular opportunity.
             Registered users can save preferred view configurations.
             </span>
           </div>

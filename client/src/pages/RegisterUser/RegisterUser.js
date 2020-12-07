@@ -153,7 +153,7 @@ function RegisterUser () {
               <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Username
               </label>
-              <input 
+              <input
                 type="text"
                 className="form-control mb-4"
                 id="input-register-username"

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, {Fragment} from "react";
 import {withRouter} from "react-router-dom";
 import {formatRole} from "../../utilities/formatRole";
 import {logout} from "../../utilities/cookieAuth";

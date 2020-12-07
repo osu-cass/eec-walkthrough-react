@@ -154,7 +154,7 @@ async function createContributorSubmission(userId, name, title, description, ima
     let results = await pool.query(sql, userId);
 
     if (!results[0].length) {
-      return {error: 1}
+      return {error: 1};
     }
 
     const username = results[0][0].username;
@@ -237,7 +237,7 @@ async function rejectContributorSubmission(contributorId) {
     "FROM Temp_Contributors " +
     "WHERE tempContributorId = ?;";
     results = await pool.query(sql, contributorId);
-  
+
     const finalResults = {
       affectedRows: results[0].affectedRows
     };
@@ -281,7 +281,7 @@ async function acceptContributorSubmission(contributorId) {
     "FROM Temp_Contributors " +
     "WHERE tempContributorId = ?;";
     results = await pool.query(sql, contributorId);
-  
+
     // see if the contributor already exists
     sql = "SELECT * FROM Contributors " +
     "WHERE contributorId = ?;";
