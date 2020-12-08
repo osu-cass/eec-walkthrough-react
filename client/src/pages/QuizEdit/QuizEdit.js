@@ -16,6 +16,7 @@ function QuizEdit() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
+  const [nextKey, setNextKey] = useState(0);
   const {pageId} = useParams();
   const history = useHistory();
 
@@ -45,6 +46,20 @@ function QuizEdit() {
         if (results.ok) {
           const obj = await results.json();
           setTitle(obj.title);
+
+          // get keys for each question
+          for (let i = 0; i < obj.questions.length; i++) {
+            obj.questions[i].questionKey = i + 1;
+          }
+
+          // reset the answer IDs
+          for (let i = 0; i < obj.questions.length; i++) {
+            for (let j = 0; j < obj.questions[i].answers.length; j++) {
+              obj.questions[i].answers[j].answerId = j + 1;
+            }
+          }
+
+          setNextKey(obj.questions.length + 1);
           setQuestions(obj.questions);
         } else {
           const obj = await results.json();
@@ -53,7 +68,7 @@ function QuizEdit() {
             console.error("Couldn't find quiz");
             setError(1);
           } else if (results.status === 500 || typeof obj.error === "undefined") {
-            console.error("An internal server error occurred while trying to move the card.");
+            console.error("An internal server error occurred.");
             setError(2);
           } else {
             console.error(obj.error);
@@ -89,6 +104,132 @@ function QuizEdit() {
     history.push(`/wiki/search-results/${pageId}`);
   }
 
+  // deletes a specific question
+  function onDeleteQuestion(questionKey) {
+
+    if (!window.confirm("Are you sure you want to delete this question?")) {
+      return;
+    }
+
+    const newQuestions = [...questions];
+    let index = -1;
+
+    for (let i = 0; i < newQuestions.length; i++) {
+      if (newQuestions[i].questionKey === questionKey) {
+        index = i;
+        break;
+      }
+    }
+
+    if (index >= 0) {
+      newQuestions.splice(index, 1);
+      setQuestions(newQuestions);
+    }
+  }
+
+  // deletes a specific answer
+  function onDeleteAnswer(questionKey, answerId) {
+
+    if (!window.confirm("Are you sure you want to delete this answer?")) {
+      return;
+    }
+
+    const newQuestions = JSON.parse(JSON.stringify(questions));
+    let index = -1;
+
+    // find the question index
+    for (let i = 0; i < newQuestions.length; i++) {
+      if (newQuestions[i].questionKey === questionKey) {
+        index = i;
+        break;
+      }
+    }
+
+    if (index >= 0) {
+
+      // find the answer index
+      let answerIndex = -1;
+      for (let i = 0; i < newQuestions[index].answers.length; i++) {
+        if (newQuestions[index].answers[i].answerId === answerId) {
+          answerIndex = i;
+          break;
+        }
+      }
+
+      if (answerIndex >= 0) {
+        newQuestions[index].answers.splice(answerIndex, 1);
+        setQuestions(newQuestions);
+      }
+    }
+  }
+
+  // changes the text for a question field
+  function onChangeField(questionKey, text, fieldNumber) {
+    const newQuestions = [...questions];
+    let index = -1;
+
+    for (let i = 0; i < newQuestions.length; i++) {
+      if (newQuestions[i].questionKey === questionKey) {
+        index = i;
+        break;
+      }
+    }
+
+    if (index >= 0) {
+
+      if (fieldNumber === 1) {
+        newQuestions[index].text = text;
+      } else {
+        newQuestions[index].imageUrl = text;
+      }
+
+      setQuestions(newQuestions);
+    }
+  }
+
+  // add a new question to the quiz
+  function addQuestion() {
+    const newQuestions = [...questions];
+    const questionObject = {
+      questionId: 0,
+      questionKey: nextKey,
+      pageId: pageId,
+      text: "",
+      type: 1,
+      imageUrl: "",
+      answers: []
+    };
+    newQuestions.push(questionObject);
+    setNextKey(nextKey + 1);
+    setQuestions(newQuestions);
+  }
+
+  // adds a new answer to a question
+  function onAddAnswer(questionKey) {
+    const newQuestions = JSON.parse(JSON.stringify(questions));
+    let index = -1;
+
+    // find the question index
+    for (let i = 0; i < newQuestions.length; i++) {
+      if (newQuestions[i].questionKey === questionKey) {
+        index = i;
+        break;
+      }
+    }
+
+    // add the new answer
+    if (index >= 0) {
+      const answerObject = {
+        answerId: newQuestions[index].answers.length + 1,
+        questionId: questionKey,
+        text: "",
+        correct: 0
+      };
+      newQuestions[index].answers.push(answerObject);
+      setQuestions(newQuestions);
+    }
+  }
+
   return !error ? (
     <div className="container quiz-page-container my-5">
 
@@ -104,20 +245,28 @@ function QuizEdit() {
 
       {questions.map((question) =>
         <QuestionEdit
-          key={question.questionId}
+          key={question.questionKey}
+          questionKey={question.questionKey}
           questionId={question.questionId}
           text={question.text}
           answers={question.answers}
           type={question.type}
           imageUrl={question.imageUrl}
+          deleteQuestion={(questionKey) => onDeleteQuestion(questionKey)}
+          deleteAnswer={(questionKey, answerId) => onDeleteAnswer(questionKey, answerId)}
+          changeField={(questionKey, text, fieldNumber) => onChangeField(questionKey, text, fieldNumber)}
+          addAnswer={(questionKey) => onAddAnswer(questionKey)}
         />
       )}
 
       <Error message={errorMessage} />
 
       <div className="mt-4 submit-quiz-box">
-        <button className="submit-quiz btn btn-lg btn-success pull-right" onClick={() => saveQuiz()}>
+        <button className="submit-quiz btn btn-lg btn-success pull-right ml-4" onClick={() => saveQuiz()}>
           Save Quiz
+        </button>
+        <button className="add-question btn btn-lg btn-info pull-right" onClick={() => addQuestion()}>
+          Add Question
         </button>
       </div>
 
