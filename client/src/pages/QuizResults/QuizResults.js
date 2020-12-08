@@ -76,7 +76,7 @@ function QuizResults() {
             console.error("Couldn't find quiz");
             setError(1);
           } else if (results.status === 500 || typeof obj.error === "undefined") {
-            console.error("An internal server error occurred while trying to move the card.");
+            console.error("An internal server error occurred.");
             setError(2);
           } else {
             console.error(obj.error);

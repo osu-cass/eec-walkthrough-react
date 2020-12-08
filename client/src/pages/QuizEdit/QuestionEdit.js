@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React from "react";
 import Image from "../../components/General/Image";
 import PropTypes from "prop-types";
 
@@ -6,126 +6,107 @@ import PropTypes from "prop-types";
 function QuestionEdit(props) {
 
   return (
-    <Fragment>
+    <div
+      className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
+    >
 
-      {/* A multiple choice question */}
-      {props.type === 1 ? (
-        <div
-          className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
-          key={props.questionId}
-        >
-          <span className="font-weight-bold mb-2">
-            {props.text}
-          </span>
+      <div className="row">
 
-          {props.imageUrl.length ? (
-            <div className="mb-3">
-              <Image
-                url={props.imageUrl}
-                title={"Question Image"}
-                thumbnail={true}
-                header={false}
-              />
-            </div>
-          ) : (
-            null
-          )}
+        {/* Question type */}
+        <div className="col-8" >
+          <label>
+            Question Type
+          </label>
+          <br/>
+          <select id={`question-type-${props.questionKey}`} className="custom-select mb-2 w-25" defaultValue={props.type}>
+            <option value="1">{"Multiple Choice"}</option>
+            <option value="2">{"Single Text Field"}</option>
+            <option value="3">{"Multiple Text Fields"}</option>
+          </select>
+        </div>
 
-          <div className="answers-block">
-            {props.answers.map((answer) =>
-              <div className="my-2" key={answer.answerId}>
-                <input
-                  type="radio"
-                  name={`question-${props.questionId}`}
-                  value={answer.text}
-                />
-                <span className="ml-4">{answer.text}</span>
-              </div>
-            )}
-          </div>
+        {/* Delete question button */}
+        <div className="col-4" >
+          <button className="btn btn-danger btn pull-right"
+            onClick={() => props.deleteQuestion(props.questionKey)}
+          >
+            <i className="fas fa-fw fa-times mr-2 my-1" />
+            Delete Question
+          </button>
+        </div>
+      </div>
+
+
+      {/* Question text */}
+      <label className="mt-3">
+        Question Text
+      </label>
+      <textarea
+        className="form-control mb-3"
+        id={`question-text-${props.questionKey}`}
+        maxLength="5000"
+        placeholder="Enter Question"
+        defaultValue={props.text}
+        onChange={(e) => props.changeField(props.questionKey, e.target.value, 1)}
+      />
+
+      <label className="mt-3">
+        Image URL
+      </label>
+      <input
+        className="form-control mb-3"
+        id={`question-text-${props.questionKey}`}
+        maxLength="5000"
+        placeholder="Enter Image URL"
+        defaultValue={props.imageUrl}
+        onChange={(e) => props.changeField(props.questionKey, e.target.value, 2)}
+      />
+
+      {/* Preview Image */}
+      {props.imageUrl.length ? (
+        <div className="mb-3">
+          <Image
+            url={props.imageUrl}
+            title={"Question Image"}
+            thumbnail={true}
+            header={false}
+          />
         </div>
       ) : (
         null
       )}
 
-      {/* Text box question */}
-      {props.type === 2 ? (
-        <div
-          className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
-          key={props.questionId}
-        >
-          <span className="font-weight-bold mb-2">
-            {props.text}
-          </span>
-
-          {props.imageUrl.length ? (
-            <div className="mb-3">
-              <Image
-                url={props.imageUrl}
-                title={"Question Image"}
-                thumbnail={true}
-                header={false}
-              />
-            </div>
-          ) : (
-            null
-          )}
-
-          <div className="answers-block">
-            <input
-              type="text"
-              className="form-control"
-              id={`question-${props.questionId}`}
-              placeholder=""
-            />
-          </div>
-
+      {/* Answers */}
+      <label className="mt-3">
+        Answers
+      </label>
+      {props.answers.map((answer) =>
+        <div className="row mb-2 pl-3" key={answer.answerId}>
+          <button className="btn btn-danger btn mr-3 col-auto"
+            onClick={() => props.deleteAnswer(props.questionKey, answer.answerId)}
+          >
+            <i className="fas fa-fw fa-times" />
+          </button>
+          <input
+            type="text"
+            className="form-control col-8"
+            id={`question-${props.questionId}-${answer.answerId}`}
+            value={answer.text}
+            placeholder="Enter answer"
+          />
         </div>
-      ) : (
-        null
       )}
 
-      {/* Multi-text box question */}
-      {props.type === 3 ? (
-        <div
-          className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
-          key={props.questionId}
+      {/* Add answer button */}
+      <div className="row mt-3">
+        <button className="btn btn-info btn ml-auto mr-3"
+          onClick={() => props.addAnswer(props.questionKey)}
         >
-          <span className="font-weight-bold mb-2">
-            {props.text}
-          </span>
+          Add Answer
+        </button>
+      </div>
 
-          {props.imageUrl.length ? (
-            <div className="mb-3">
-              <Image
-                url={props.imageUrl}
-                title={"Question Image"}
-                thumbnail={true}
-                header={false}
-              />
-            </div>
-          ) : (
-            null
-          )}
-
-          <div className="answers-block">
-            {props.answers.map((answer) =>
-              <input
-                key={answer.answerId}
-                type="text"
-                className="form-control"
-                id={`question-${props.questionId}-${answer.answerId}`}
-                placeholder=""
-              />
-            )}
-          </div>
-
-        </div>
-      ) : (
-        null
-      )}
-
-    </Fragment>
+    </div>
   );
 
 }
@@ -133,8 +114,13 @@ export default QuestionEdit;
 
 QuestionEdit.propTypes = {
   questionId: PropTypes.number,
+  questionKey: PropTypes.number,
   text: PropTypes.string,
   answers: PropTypes.array,
   type: PropTypes.number,
-  imageUrl: PropTypes.string
+  imageUrl: PropTypes.string,
+  deleteQuestion: PropTypes.func,
+  deleteAnswer: PropTypes.func,
+  addAnswer: PropTypes.func,
+  changeField: PropTypes.func
 };

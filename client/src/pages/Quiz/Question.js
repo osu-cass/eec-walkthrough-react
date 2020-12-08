@@ -12,7 +12,6 @@ function Question(props) {
       {props.type === 1 ? (
         <div
           className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
-          key={props.questionId}
         >
           <span className="font-weight-bold mb-2">
             {props.text}
@@ -52,7 +51,6 @@ function Question(props) {
       {props.type === 2 ? (
         <div
           className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
-          key={props.questionId}
         >
           <span className="font-weight-bold mb-2">
             {props.text}
@@ -89,7 +87,6 @@ function Question(props) {
       {props.type === 3 ? (
         <div
           className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
-          key={props.questionId}
         >
           <span className="font-weight-bold mb-2">
             {props.text}
