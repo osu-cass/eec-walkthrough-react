@@ -101,7 +101,8 @@ function QuizEdit() {
 
   // save the quiz settings
   async function saveQuiz() {
-    history.push(`/wiki/search-results/${pageId}`);
+    console.log(questions);
+    // history.push(`/wiki/search-results/${pageId}`);
   }
 
   // deletes a specific question
@@ -146,7 +147,6 @@ function QuizEdit() {
     }
 
     if (index >= 0) {
-
       // find the answer index
       let answerIndex = -1;
       for (let i = 0; i < newQuestions[index].answers.length; i++) {
@@ -187,6 +187,72 @@ function QuizEdit() {
     }
   }
 
+  // change an answers text
+  function onChangeAnswer(questionKey, answerId, text) {
+    const newQuestions = [...questions];
+    let index = -1;
+
+    // find the question index
+    for (let i = 0; i < newQuestions.length; i++) {
+      if (newQuestions[i].questionKey === questionKey) {
+        index = i;
+        break;
+      }
+    }
+
+    if (index >= 0) {
+      // find the answer index
+      let answerIndex = -1;
+      for (let i = 0; i < newQuestions[index].answers.length; i++) {
+        if (newQuestions[index].answers[i].answerId === answerId) {
+          answerIndex = i;
+          break;
+        }
+      }
+
+      if (answerIndex >= 0) {
+        newQuestions[index].answers[answerIndex].text = text;
+        setQuestions(newQuestions);
+      }
+    }
+  }
+
+  // change an answers correct status
+  function onChangeCorrect(questionKey, answerId) {
+    let correct = document.getElementById(`check-${questionKey}-${answerId}`).checked;
+    if (correct) {
+      correct = 1;
+    } else {
+      correct = 0;
+    }
+    const newQuestions = [...questions];
+    let index = -1;
+
+    // find the question index
+    for (let i = 0; i < newQuestions.length; i++) {
+      if (newQuestions[i].questionKey === questionKey) {
+        index = i;
+        break;
+      }
+    }
+
+    if (index >= 0) {
+      // find the answer index
+      let answerIndex = -1;
+      for (let i = 0; i < newQuestions[index].answers.length; i++) {
+        if (newQuestions[index].answers[i].answerId === answerId) {
+          answerIndex = i;
+          break;
+        }
+      }
+
+      if (answerIndex >= 0) {
+        newQuestions[index].answers[answerIndex].correct = correct;
+        setQuestions(newQuestions);
+      }
+    }
+  }
+
   // add a new question to the quiz
   function addQuestion() {
     const newQuestions = [...questions];
@@ -219,8 +285,18 @@ function QuizEdit() {
 
     // add the new answer
     if (index >= 0) {
+
+      // find the next valid id
+      let newId = 1;
+      for (let i = 0; i < newQuestions[index].answers.length; i++) {
+        if (newQuestions[index].answers[i].answerId >= newId) {
+          newId = newQuestions[index].answers[i].answerId + 1;
+        }
+      }
+
+      // create the new answer
       const answerObject = {
-        answerId: newQuestions[index].answers.length + 1,
+        answerId: newId,
         questionId: questionKey,
         text: "",
         correct: 0
@@ -256,6 +332,8 @@ function QuizEdit() {
           deleteAnswer={(questionKey, answerId) => onDeleteAnswer(questionKey, answerId)}
           changeField={(questionKey, text, fieldNumber) => onChangeField(questionKey, text, fieldNumber)}
           addAnswer={(questionKey) => onAddAnswer(questionKey)}
+          changeAnswer={(questionKey, text, answerId) => onChangeAnswer(questionKey, text, answerId)}
+          changeCorrect={(questionKey, answerId) => onChangeCorrect(questionKey, answerId)}
         />
       )}
 

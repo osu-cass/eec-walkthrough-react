@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Image from "../../components/General/Image";
 import PropTypes from "prop-types";
 
@@ -93,7 +93,26 @@ function QuestionEdit(props) {
             id={`question-${props.questionId}-${answer.answerId}`}
             value={answer.text}
             placeholder="Enter answer"
+            onChange={(e) => props.changeAnswer(props.questionKey, e.target.value, answer.answerId)}
           />
+
+          {/* Multiple choice has correct and incorrect answers */}
+          {props.type === 1 ? (
+            <Fragment>
+              <input
+                id={`check-${props.questionKey}-${answer.answerId}`}
+                className="big-quiz-checkbox ml-3 my-auto"
+                type="checkbox"
+                name="correct"
+                onClick={() => props.changeCorrect(props.questionKey, answer.answerId)}
+              />
+              <label className="ml-3 my-auto">
+                Correct Answer
+              </label>
+            </Fragment>
+          ) : (
+            null
+          )}
         </div>
       )}
 
@@ -122,5 +141,7 @@ QuestionEdit.propTypes = {
   deleteQuestion: PropTypes.func,
   deleteAnswer: PropTypes.func,
   addAnswer: PropTypes.func,
-  changeField: PropTypes.func
+  changeField: PropTypes.func,
+  changeAnswer: PropTypes.func,
+  changeCorrect: PropTypes.func
 };
