@@ -11,12 +11,14 @@ const {
 } = require("../services/authentication/cookieAuth");
 const {
   getPageVal,
-  postQuizResultsVal
+  postQuizResultsVal,
+  postQuizVal
 } = require("../services/validation/requestValidation");
 const {
   getPageQuiz,
   getQuizResults,
-  submitQuiz
+  submitQuiz,
+  createQuiz
 } = require("../models/quizzes");
 
 
@@ -122,6 +124,54 @@ app.post("/:pageId/scores", requireAuth, postQuizResultsVal.validation, async (r
       } else if (results.error === 2) {
         res.status(404).send({error: "Question not found."});
       } else if (results.error === 3) {
+        res.status(404).send({error: "Page not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// create quiz questions
+app.post("/:pageId", requireAuth, postQuizVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Submit quiz questions");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const pageId = req.params.pageId;
+    const questions = req.body.questions;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(5, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to submit quiz questions."});
+      return;
+    }
+
+    // create a card
+    const results = await createQuiz(questions, pageId);
+
+    if (!results.error) {
+      res.status(201).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(422).send({error: "Invalid format for questions."});
+      } else if (results.error === 2) {
         res.status(404).send({error: "Page not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});

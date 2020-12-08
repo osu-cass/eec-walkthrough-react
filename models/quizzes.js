@@ -98,7 +98,6 @@ async function getPageQuiz(pageId, userId) {
 exports.getPageQuiz = getPageQuiz;
 
 
-
 // gets the quiz results for a specific user and page
 async function getQuizResults(pageId, userId) {
 
@@ -148,6 +147,7 @@ async function getQuizResults(pageId, userId) {
 exports.getQuizResults = getQuizResults;
 
 
+// submit quiz results for a specific user
 async function submitQuiz(userId, scores, pageId) {
 
   try {
@@ -212,3 +212,159 @@ async function submitQuiz(userId, scores, pageId) {
 
 }
 exports.submitQuiz = submitQuiz;
+
+
+// create quiz questions
+async function createQuiz(questions, pageId) {
+
+  try {
+
+    // make sure all of the questions are valid
+    for (let i = 0; i < questions.length; i++) {
+
+      if (typeof questions[i].questionId !== "number") {
+        return {error: 1};
+      }
+
+      if (typeof questions[i].text !== "string") {
+        return {error: 1};
+      }
+
+      if (typeof questions[i].imageUrl !== "string") {
+        return {error: 1};
+      }
+
+      if (typeof questions[i].type !== "number") {
+        return {error: 1};
+      }
+
+      if (!Array.isArray(questions[i].answers)) {
+        return {error: 1};
+      }
+
+      let correctCount = 0;
+      for (let j = 0; j < questions[i].answers.length; j++) {
+        if (typeof questions[i].answers[j].questionId !== "number") {
+          return {error: 1};
+        }
+
+        if (typeof questions[i].answers[j].text !== "string") {
+          return {error: 1};
+        }
+
+        if (typeof questions[i].answers[j].correct !== "number") {
+          return {error: 1};
+        }
+
+        if (questions[i].answers[j].correct) {
+          correctCount++;
+        }
+      }
+
+      if (questions[i].type === 1 && correctCount !== 1) {
+        return {error: 1};
+      }
+    }
+
+    // make sure the page exists
+    let sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ?;";
+    let results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 2};
+    }
+
+    // see if there are any questions we need to delete
+    sql = "SELECT * " +
+    "FROM Questions " +
+    "WHERE pageId = ?;";
+    results = await pool.query(sql, pageId);
+
+    const currentQuestions = results[0];
+
+    // check each question to see if there is a match, no matches means we delete
+    for (let i = 0; i < currentQuestions.length; i++) {
+      let matchFound = false;
+
+      for (let j = 0; j < questions.length; j++) {
+        if (currentQuestions[i].questionId === questions[j].questionId) {
+          matchFound = true;
+          break;
+        }
+      }
+
+      // if we found no matches delete the question
+      if (!matchFound) {
+        sql = "DELETE FROM Questions WHERE questionId = ?;";
+        await pool.query(sql, currentQuestions[i].questionId);
+      }
+    }
+
+    // create or update each question
+    for (let i = 0; i < questions.length; i++) {
+      const question = questions[i];
+
+      let questionExists = false;
+      let questionId = question.questionId;
+
+      if (questionId) {
+        sql = "SELECT * " +
+        "FROM Questions " +
+        "WHERE questionId = ?;";
+        results = await pool.query(sql, question.questionId);
+
+        if (results[0].length) {
+          questionExists = true;
+        }
+      }
+
+      if (questionExists) {
+
+        // update
+        sql = "UPDATE Questions " +
+        "SET pageId = ?, text = ?, type = ?, imageUrl = ? " +
+        "WHERE questionId = ?;";
+        await pool.query(sql, [pageId, question.text, question.type, question.imageUrl, questionId]);
+
+      } else {
+
+        // insert
+        sql = "INSERT INTO Questions (pageId, text, type, imageUrl) " +
+        "VALUES (?, ?, ?, ?);";
+        results = await pool.query(sql, [pageId, question.text, question.type, question.imageUrl]);
+        questionId = results[0].insertId;
+
+      }
+
+      // delete the old answers for this question
+      sql = "DELETE FROM Answers " +
+      "WHERE questionId = ?;";
+      await pool.query(sql, questionId);
+
+      // create all of the new answers
+      for (let j = 0; j < question.answers.length; j++) {
+        let newCorrect = question.answers[j].correct;
+        if (question.type !== 1) {
+          newCorrect = 1;
+        }
+        const sql = "INSERT INTO Answers (questionId, text, correct) " +
+        "VALUES (?, ?, ?);";
+        await pool.query(sql, [questionId, question.answers[j].text.trim().toLowerCase(), newCorrect]);
+      }
+    }
+
+    const finalResults = {
+      submitted: 1
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error submitting quiz questions");
+    throw Error(err);
+  }
+
+}
+exports.createQuiz = createQuiz;

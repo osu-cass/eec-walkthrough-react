@@ -473,3 +473,12 @@ const postQuizResultsVal = Object.freeze({
   ]
 });
 exports.postQuizResultsVal = postQuizResultsVal;
+
+// validation checks for post quiz
+const postQuizVal = Object.freeze({
+  validation: [
+    check("pageId").isInt({min: 0, max: 4294967295}),
+    check("questions").isArray({min: 1})
+  ]
+});
+exports.postQuizVal = postQuizVal;
