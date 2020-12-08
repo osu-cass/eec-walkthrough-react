@@ -6,6 +6,7 @@ import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import QuestionEdit from "./QuestionEdit";
 import Error from "../../components/General/Error";
+import {logout} from "../../utilities/cookieAuth";
 import "./QuizEdit.css";
 
 // Page for editing quizzes
@@ -99,12 +100,6 @@ function QuizEdit() {
     // eslint-disable-next-line
   }, [pageId]);
 
-  // save the quiz settings
-  async function saveQuiz() {
-    console.log(questions);
-    // history.push(`/wiki/search-results/${pageId}`);
-  }
-
   // deletes a specific question
   function onDeleteQuestion(questionKey) {
 
@@ -177,7 +172,9 @@ function QuizEdit() {
 
     if (index >= 0) {
 
-      if (fieldNumber === 1) {
+      if (fieldNumber === 0) {
+        newQuestions[index].type = parseInt(text, 10);
+      } else if (fieldNumber === 1) {
         newQuestions[index].text = text;
       } else {
         newQuestions[index].imageUrl = text;
@@ -306,6 +303,80 @@ function QuizEdit() {
     }
   }
 
+  // check to make sure all questions are valid
+  function validInputs() {
+    for (let i = 0; i < questions.length; i++) {
+      if (!questions[i].text.length) {
+        setErrorMessage(`Question ${i + 1} is missing question text.`);
+        return false;
+      }
+      if (!questions[i].answers.length) {
+        setErrorMessage(`Question ${i + 1} does not have any valid answers.`);
+        return false;
+      }
+      if (questions[i].type === 1) {
+        let correctCount = 0;
+        for (let j = 0; j < questions[i].answers.length; j++) {
+          if (questions[i].answers[j].correct) {
+            correctCount++;
+          }
+        }
+        if (correctCount !== 1) {
+          setErrorMessage(`Question ${i + 1} must have exactly one correct answer.`);
+          return false;
+        }
+      }
+      for (let j = 0; j < questions[i].answers.length; j++) {
+        if (!questions[i].answers[j].text.length) {
+          setErrorMessage(`Question ${i + 1} is missing answer text.`);
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // upload quiz changes
+  async function updateQuiz() {
+    // Check for invalid inputs
+    if (!validInputs()) {
+      return;
+    }
+    setLoading(true);
+
+    const data = {
+      questions: questions
+    };
+
+    const results = await fetch(`${API_URL}/quizzes/${pageId}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
+    });
+
+    if (results.ok) {
+
+      // refresh the page
+      history.push(`/wiki/search-results/${pageId}`);
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+    setLoading(false);
+  }
+
   return !error ? (
     <div className="container quiz-page-container my-5">
 
@@ -332,7 +403,7 @@ function QuizEdit() {
           deleteAnswer={(questionKey, answerId) => onDeleteAnswer(questionKey, answerId)}
           changeField={(questionKey, text, fieldNumber) => onChangeField(questionKey, text, fieldNumber)}
           addAnswer={(questionKey) => onAddAnswer(questionKey)}
-          changeAnswer={(questionKey, text, answerId) => onChangeAnswer(questionKey, text, answerId)}
+          changeAnswer={(questionKey, answerId, text) => onChangeAnswer(questionKey, answerId, text)}
           changeCorrect={(questionKey, answerId) => onChangeCorrect(questionKey, answerId)}
         />
       )}
@@ -340,7 +411,7 @@ function QuizEdit() {
       <Error message={errorMessage} />
 
       <div className="mt-4 submit-quiz-box">
-        <button className="submit-quiz btn btn-lg btn-success pull-right ml-4" onClick={() => saveQuiz()}>
+        <button className="submit-quiz btn btn-lg btn-success pull-right ml-4" onClick={() => updateQuiz()}>
           Save Quiz
         </button>
         <button className="add-question btn btn-lg btn-info pull-right" onClick={() => addQuestion()}>

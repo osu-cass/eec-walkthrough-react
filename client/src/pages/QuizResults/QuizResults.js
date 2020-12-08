@@ -139,7 +139,7 @@ function QuizResults() {
           Out of {correct + incorrect} questions, you got {correct} questions correct
         </h5>
         <h2 className="font-weight-bold text-center">
-          Overall you got {((correct / (correct + incorrect)).toFixed(2)) * 100}% of questions correct
+          Overall you got {Math.round(correct / (correct + incorrect) * 100)}% of questions correct
         </h2>
       </div>
 

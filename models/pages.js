@@ -264,7 +264,7 @@ async function getFullPage(pageId, userId) {
           incorrect++;
         }
       }
-      finalResults.quizScore = ((correct / (correct + incorrect)).toFixed(2)) * 100;
+      finalResults.quizScore = Math.round(correct / (correct + incorrect) * 100);
     } else {
       finalResults.quizScore = -1;
     }

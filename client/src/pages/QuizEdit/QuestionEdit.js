@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, {Fragment} from "react";
 import Image from "../../components/General/Image";
 import PropTypes from "prop-types";
 
@@ -18,7 +18,12 @@ function QuestionEdit(props) {
             Question Type
           </label>
           <br/>
-          <select id={`question-type-${props.questionKey}`} className="custom-select mb-2 w-25" defaultValue={props.type}>
+          <select
+            id={`question-type-${props.questionKey}`}
+            className="custom-select mb-2 w-25"
+            defaultValue={props.type}
+            onChange={(e) => props.changeField(props.questionKey, e.target.value, 0)}
+          >
             <option value="1">{"Multiple Choice"}</option>
             <option value="2">{"Single Text Field"}</option>
             <option value="3">{"Multiple Text Fields"}</option>
@@ -93,7 +98,7 @@ function QuestionEdit(props) {
             id={`question-${props.questionId}-${answer.answerId}`}
             value={answer.text}
             placeholder="Enter answer"
-            onChange={(e) => props.changeAnswer(props.questionKey, e.target.value, answer.answerId)}
+            onChange={(e) => props.changeAnswer(props.questionKey, answer.answerId, e.target.value)}
           />
 
           {/* Multiple choice has correct and incorrect answers */}
@@ -104,6 +109,7 @@ function QuestionEdit(props) {
                 className="big-quiz-checkbox ml-3 my-auto"
                 type="checkbox"
                 name="correct"
+                checked={answer.correct}
                 onClick={() => props.changeCorrect(props.questionKey, answer.answerId)}
               />
               <label className="ml-3 my-auto">
