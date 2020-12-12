@@ -12,13 +12,16 @@ const {
 const {
   getPageVal,
   postQuizResultsVal,
-  postQuizVal
+  postQuizVal,
+  postObservationVal
 } = require("../services/validation/requestValidation");
 const {
   getPageQuiz,
   getQuizResults,
   submitQuiz,
-  createQuiz
+  submitObservations,
+  createQuiz,
+  getObservations
 } = require("../models/quizzes");
 
 
@@ -162,7 +165,7 @@ app.post("/:pageId", requireAuth, postQuizVal.validation, async (req, res) => {
       return;
     }
 
-    // create a card
+    // create a quiz
     const results = await createQuiz(questions, pageId);
 
     if (!results.error) {
@@ -171,6 +174,88 @@ app.post("/:pageId", requireAuth, postQuizVal.validation, async (req, res) => {
 
       if (results.error === 1) {
         res.status(422).send({error: "Invalid format for questions."});
+      } else if (results.error === 2) {
+        res.status(404).send({error: "Page not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// gets the observations made by users who took a quiz
+app.get("/observation", requireAuth, async (req, res) => {
+
+  try {
+
+    // const userId = req.auth.userId;
+    console.log("Get all observations");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(404).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(5, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to view observations."});
+      return;
+    }
+
+    // get quiz observation data
+    const results = await getObservations();
+    res.status(200).send(results);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// submit quiz observations
+app.post("/:pageId/observation", requireAuth, postObservationVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Submit observation(s)");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const userId = req.auth.userId;
+    const pageId = req.params.pageId;
+    const observations = req.body.observations;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(1, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to submit an observation."});
+      return;
+    }
+
+    // save user observations
+    const results = await submitObservations(userId, pageId, observations);
+
+    if (!results.error) {
+      res.status(201).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(422).send({error: "Invalid format for observations."});
       } else if (results.error === 2) {
         res.status(404).send({error: "Page not found."});
       } else {
