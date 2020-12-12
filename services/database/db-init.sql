@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.4
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Dec 06, 2020 at 10:17 PM
+-- Generation Time: Dec 12, 2020 at 01:38 PM
 -- Server version: 10.3.13-MariaDB-log
--- PHP Version: 7.4.4
+-- PHP Version: 7.4.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -34,6 +33,25 @@ CREATE TABLE `Answers` (
   `text` varchar(5000) NOT NULL,
   `correct` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Answers`
+--
+
+INSERT INTO `Answers` (`answerId`, `questionId`, `text`, `correct`) VALUES
+(27, 1, 'sql injection', 0),
+(28, 1, 'social engineering', 1),
+(29, 1, 'rainbow table attack', 0),
+(30, 1, 'yodeling', 0),
+(31, 2, 'hacker', 1),
+(32, 2, 'attacker', 1),
+(33, 2, 'cracker', 1),
+(34, 3, 'mouse', 1),
+(35, 3, 'keyboard', 1),
+(44, 4, '10%-15%', 0),
+(45, 4, '35%-40%', 0),
+(46, 4, '65%-70%', 0),
+(47, 4, '85%-90%', 1);
 
 -- --------------------------------------------------------
 
@@ -186,7 +204,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (194, 56, 10, 194, 'Industrial Assessment Center and Department of Energy', 57, '2020-08-27 00:24:17', 0),
 (195, 56, 10, 195, 'Other Government Tools', 57, '2020-08-27 00:29:22', 0),
 (196, 57, 0, 196, 'Tips and Guides', 57, '2020-08-27 00:38:47', 0),
-(197, 57, 10, 197, 'Tools', 57, '2020-08-27 00:40:11', 0),
+(197, 57, 10, 197, 'Tools', 42, '2020-08-27 00:40:11', 0),
 (199, 48, 0, 199, 'Pros', 62, '2020-09-02 22:05:59', 0),
 (200, 48, 0, 200, 'Cons', 62, '2020-09-02 22:11:35', 0),
 (201, 48, 0, 201, 'Modeling Simple Queuing Systems', 62, '2020-09-02 22:53:29', 0),
@@ -1911,8 +1929,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4957, 196, 0, 1, 24, ' ', 'https://www.fcc.gov/general/cybersecurity-small-business', 'Cybersecurity for Small Business', 1, 0, 0, 0, '2020-08-27 00:40:27', 0),
 (4958, 196, 0, 0, 26, 'The Cybersecurity and Infrastructure Security Agency (CISA, a part of the US Department of Homeland Security) also has resources focused on increasing the security of industrial control systems.', '', '', 1, 0, 0, 0, '2020-08-27 00:40:27', 0),
 (4959, 196, 0, 1, 24, ' ', 'https://us-cert.cisa.gov/ics', 'Industrial Control Systems', 1, 0, 0, 0, '2020-08-27 00:40:27', 0),
-(4960, 197, 0, 0, 26, 'Researchers from the University of Illinois Urbana-Champaign have developed a tool for manufacturers to simplify the understanding of cybersecurity standards created by the National Institute of Standards and Technology. This tool also follows DFARS, the Department of Defense’s acquisition regulations.', '', '', 0, 0, 0, 0, '2020-08-27 00:40:33', 0),
-(4961, 197, 0, 1, 21, ' ', 'https://iti.illinois.edu/news/new-software-tool-help-manufacturing-companies-meet-complex-cyber-security-standards ', 'The Dashboard', 1, 0, 0, 0, '2020-08-27 00:40:33', 0),
 (4962, 195, 0, 0, 26, 'The Cybersecurity and Infrastructure Security Agency (CISA, a part of the US Department of Homeland Security) has created the Cyber Security Evaluation Tool (CSET). This tool is a provides a comprehensive self-assessment and recommendations to fix potential vulnerabilities. The CSET focuses on industrial control systems and information technology network security.', '', '', 0, 0, 0, 0, '2020-08-27 00:40:46', 0),
 (4963, 195, 0, 1, 21, ' ', 'https://us-cert.cisa.gov/ics/Assessments', 'Cyber Security Evaluation Tool (CSET)', 1, 0, 0, 0, '2020-08-27 00:40:46', 0),
 (4964, 195, 0, 0, 26, 'CISA also offers the Cyber Resilience Review which is a free non-technical cybersecurity self-assessment. This process can also be completed with professionals from the Department of Homeland Security.', '', '', 1, 0, 0, 0, '2020-08-27 00:40:46', 0),
@@ -1981,10 +1997,10 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5507, 206, 0, 2, 4, 'Always include \"https\" at the start of your image address and never \"http\". This ensures that the image is being sent over a secure network. A published page with HTTP images will display as \"Not Secure\" in most browsers, which will make users less confident when using our application.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5508, 206, 0, 1, 26, 'You may upload an image. Valid images have the file format JPG, PNG, or GIF. Images are not allowed to be larger than six megabytes. ', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5509, 206, 0, 2, 12, 'Only upload images that you have intellectual property rights to use. This means that you should not use images that you did not create unless you have gotten express permission to use them from the creator.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
-(5510, 206, 0, 2, 7, 'If you want to use an image in multiple locations. Upload the image by submitting some content, then edit the content and you will see that the image has a URL that you can copy. You can reuse this URL anywhere on the website, this is the preferred method as it saves space on the server by only uploading the image once.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(5510, 206, 0, 2, 7, 'If you want to use an image in multiple locations. Upload the image by submitting some content, then edit the content and you will see that the image has a URL that you can copy. You can reuse this URL anywhere on the website, this is the preferred method as it saves space on the server by only uploading the image once.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5788, 222, 0, 0, 17, 'This report details the vehicle assembly process and common energy saving opportunities associated with each step. References to case studies, implementation costs and payback periods are included. Opportunities are included for the following systems: motors, compressed air, steam, lighting, HVAC, materials handling, painting and stamping.', 'https://www.osti.gov/biblio/927881', 'Energy Efficiency Improvement and Cost Saving Opportunities for the Vehicle Assembly Industry', 1, 0, 0, 0, '2020-09-15 19:40:23', 0),
-(5812, 215, 0, 0, 31, 'The following opportunities are specific to metals manufacturing facilities. For more opportunities related to compressed air, go to the Compressed Air Technologies page. ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-09-15 20:53:32', 0),
+(5812, 215, 0, 0, 31, 'The following opportunities are specific to metals manufacturing facilities. For more opportunities related to compressed air, go to the Compressed Air Technologies page. ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-09-15 20:53:32', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (5813, 215, 0, 0, 11, 'Replace the pistons on stamping die cushions with air actuators', '', '', 0, 0, 0, 0, '2020-09-15 20:53:32', 0),
 (5814, 215, 0, 1, 31, 'Die cushions on large stamping presses are used to support inserts in the lower die.', '%zXz%', '%zXz%', 0, 0, 0, 13, '2020-09-15 20:53:32', 0),
 (5815, 215, 0, 1, 26, 'Die cushions can produce significant air leaks, up to 100 CFM in some cases, after moderate use. Air actuators are more resilient and can operate without air leaks for over five years.', '', '', 0, 0, 0, 13, '2020-09-15 20:53:32', 0),
@@ -2277,12 +2293,12 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6845, 244, 0, 1, 12, 'Schedule a team meeting within three business days of the assessment', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6846, 244, 0, 2, 8, 'The intention of this meeting should be to debrief after the assessment. Topics such as opportunities, best-practices, and AR/OMC assignments should be discussed. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6847, 244, 0, 1, 12, 'Schedule team meeting one week after debrief meeting.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
-(6848, 244, 0, 2, 8, 'The intention of this meeting should be for analysts to update the lead analyst and PA on their assignments. Additionally, any questions analysts have for the facility should be addressed.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(6848, 244, 0, 2, 8, 'The intention of this meeting should be for analysts to update the lead analyst and PA on their assignments. Additionally, any questions analysts have for the facility should be addressed.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6849, 244, 0, 1, 12, 'Schedule 10-15 minute individual meetings with each analyst. The frequency of these meetings should be determined by the lead. At a minimum, every two weeks is recommended. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6850, 244, 0, 2, 8, 'Any issues or questions analysts have encountered should be discussed. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6851, 244, 0, 2, 8, 'Be sure to invite the PA, but their attendance should not be required unless previously discussed.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
-(6852, 244, 0, 0, 7, 'Take notes on every meeting. As the lead, it is your responsibility to make sure nothing gets forgotten.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
+(6852, 244, 0, 0, 7, 'Take notes on every meeting. As the lead, it is your responsibility to make sure nothing gets forgotten.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (6907, 240, 0, 0, 8, 'Filters are available on each published page. Clicking on the icons located on each header will filter associated items out or back into the list below.  ', '', '', 0, 0, 0, 0, '2020-11-24 22:19:06', 0),
 (6908, 240, 0, 1, 32, '', '/uploads/user_51/f6503d4e177523d18823ae1f14314853.png', 'Typical Header', 0, 0, 0, 0, '2020-11-24 22:19:06', 0),
 (6909, 240, 0, 1, 8, 'Clicking on the last three icons will bring back all items, hide all items, or hide the filter icon list.', '', '', 0, 0, 0, 0, '2020-11-24 22:19:06', 0),
@@ -2331,7 +2347,9 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6968, 254, 0, 0, 24, '', 'https://towardsdatascience.com/the-actual-difference-between-statistics-and-machine-learning-64b49f07ea3', 'The Actual Difference Between Statistics and Machine Learning', 1, 0, 0, 0, '2020-11-30 18:07:00', 0),
 (6993, 236, 0, 0, 10, 'Meters that consistently have relatively low charges (<$500 per month)', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0),
 (6994, 236, 0, 0, 11, 'Combine multiple small meters together', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0),
-(6995, 236, 0, 0, 11, 'Combine a small meter with a larger meter', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0);
+(6995, 236, 0, 0, 11, 'Combine a small meter with a larger meter', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0),
+(7013, 197, 0, 0, 26, 'Researchers from the University of Illinois Urbana-Champaign have developed a tool for manufacturers to simplify the understanding of cybersecurity standards created by the National Institute of Standards and Technology. This tool also follows DFARS, the Department of Defense’s acquisition regulations.', '', '', 0, 0, 0, 0, '2020-12-08 07:56:23', 0),
+(7014, 197, 0, 1, 21, ' ', 'https://iti.illinois.edu/news/new-software-tool-help-manufacturing-companies-meet-complex-cyber-security-standards ', 'The Dashboard', 1, 0, 0, 0, '2020-12-08 07:56:23', 0);
 
 -- --------------------------------------------------------
 
@@ -2361,6 +2379,19 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (35, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
 (36, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
 (39, 0, 52, 'Silverware has submitted a contributor card that is awaiting review', 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Observations`
+--
+
+CREATE TABLE `Observations` (
+  `observationId` int(10) UNSIGNED NOT NULL,
+  `userId` int(10) UNSIGNED NOT NULL,
+  `type` tinyint(4) NOT NULL,
+  `text` varchar(5000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -2419,6 +2450,16 @@ CREATE TABLE `Questions` (
   `priority` int(11) UNSIGNED NOT NULL,
   `imageUrl` varchar(5000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Questions`
+--
+
+INSERT INTO `Questions` (`questionId`, `pageId`, `text`, `type`, `priority`, `imageUrl`) VALUES
+(1, 62, 'What is often the most effective method for bypassing security?', 1, 0, ''),
+(2, 62, 'What do you call a person who is trying to steal important information from our organization electronically?', 2, 0, ''),
+(3, 62, 'Can you name these two devices?', 3, 0, '/uploads/user_42/db309b887fde585de15cbacce2283779.jpg'),
+(4, 2, 'Compressing air is inefficient, with as much as ____ of the input energy lost as heat.', 1, 0, '');
 
 -- --------------------------------------------------------
 
@@ -2550,6 +2591,17 @@ CREATE TABLE `Scores` (
   `text` varchar(5000) NOT NULL,
   `correct` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Scores`
+--
+
+INSERT INTO `Scores` (`scoreId`, `pageId`, `questionId`, `userId`, `text`, `correct`) VALUES
+(39, 62, 1, 42, 'social engineering', 1),
+(40, 62, 2, 42, 'attacker', 1),
+(41, 62, 3, 42, 'mouse', 1),
+(42, 62, 3, 42, 'keyboard', 1),
+(44, 2, 4, 58, '85%-90%', 1);
 
 -- --------------------------------------------------------
 
@@ -2718,9 +2770,9 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (52, 'mattye', 'bc8f2478b1eb8785d085b8c1512933f2$47ff478fcee9b0f829ed70012cd2c406ed67b7bae6708c855b9072ef8adb662b', 'Ethan', 'Matty', 'mattye.eec@gmail.com', 5, '2020-06-10 20:39:15'),
 (54, 'martzal', '27d9aeff2e1c3e683f042480b6990a5c$963d962575ce1108cf5785fc42778ad0483050a80c50e8d3d29632f6af73f1a9', 'Ali', 'Martz', 'martzal.eec@gmail.com', 4, '2020-06-28 20:39:15'),
 (55, 'peterj', '73a148776eaf3db8dee5b4cc5af1542d$c4d554f54a266e74299e82af3884f39d4e36686054f90837f7753b2d4b77a6f4', 'Julian', 'Peter', 'peterj.eec@gmail.com', 4, '2020-06-30 20:39:15'),
-(56, 'ryanfrench', '8fdce1d0b4394d7a6dd55dd4d1318d54$b36510750272738b7d2de631057527b3ac1547db5d9ef6da8728886d523eca99', 'Ryan', 'French', 'frenchr.eec@gmail.com', 4, '2020-07-05 20:39:15'),
+(56, 'ryanfrench', '8fdce1d0b4394d7a6dd55dd4d1318d54$b36510750272738b7d2de631057527b3ac1547db5d9ef6da8728886d523eca99', 'Ryan', 'French', 'frenchr.eec@gmail.com', 5, '2020-07-05 20:39:15'),
 (57, 'MatthewThomas', 'a532335063fda0518a4a347b0a295166$05c83d3322dbbe787d420353fa83b3ad7b38e5b163d9d784bf752c8b7ebedb15', 'Matthew', 'Thomas', 'matthewthomas.eec@gmail.com', 4, '2020-07-02 20:39:15'),
-(58, 'ryanfrench2', '0f035817ef3a5ebb3b7bedc75f6d5245$950542aafbfdeeceb6e32fcf2d06f5b2c076465e6fce3ef36b052d9ba6290404', 'Ryan', 'French', 'frenchr@oregonstate.com', 4, '2020-07-08 20:47:39'),
+(58, 'ryanfrench2', '0f035817ef3a5ebb3b7bedc75f6d5245$950542aafbfdeeceb6e32fcf2d06f5b2c076465e6fce3ef36b052d9ba6290404', 'Ryan', 'French', 'frenchr@oregonstate.com', 5, '2020-07-08 20:47:39'),
 (59, 'djunker', '78d288ab098c3cb5d6d2ba21034e69c1$24786ffa47a290b250ffff18f0cfd703b86c773cf5f911e75fcf6d19989e700d', 'Devlin', 'Junker', 'devlin.junker@gmail.com', 4, '2020-07-10 01:36:09'),
 (60, 'taylorad', 'b320c2b10ea1a5fd6a5df5b60b476a1a$76c9c4d174243210d40e54aa87e6b14926de7e3d7c1b229e7fcea48e98d65d85', 'Adam', 'Taylor', 'taylorad.eec@gmail.com', 4, '2020-07-13 17:38:47'),
 (61, 'Chris_Houck', 'd4bb5e0bfd9c00be21e9e9d844ad7f57$367a89d5eeaf2274ff80b316f9aeda9f79acd192fc1f3717ff852b3cb29c6416', 'Chris', 'Houck', 'houckch.eec@gmail.com', 4, '2020-07-14 20:59:54'),
@@ -2870,6 +2922,13 @@ ALTER TABLE `Notifications`
   ADD PRIMARY KEY (`notificationId`);
 
 --
+-- Indexes for table `Observations`
+--
+ALTER TABLE `Observations`
+  ADD PRIMARY KEY (`observationId`),
+  ADD KEY `obs_user_fk` (`userId`);
+
+--
 -- Indexes for table `Pages`
 --
 ALTER TABLE `Pages`
@@ -2983,7 +3042,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Answers`
 --
 ALTER TABLE `Answers`
-  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `Banners`
@@ -2995,7 +3054,7 @@ ALTER TABLE `Banners`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=255;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=257;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -3055,7 +3114,7 @@ ALTER TABLE `Info`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6996;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7027;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
@@ -3073,7 +3132,7 @@ ALTER TABLE `Pages`
 -- AUTO_INCREMENT for table `Questions`
 --
 ALTER TABLE `Questions`
-  MODIFY `questionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `questionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `Quick_Titles`
@@ -3103,7 +3162,7 @@ ALTER TABLE `Request_Objects`
 -- AUTO_INCREMENT for table `Scores`
 --
 ALTER TABLE `Scores`
-  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `Sources`
@@ -3184,6 +3243,12 @@ ALTER TABLE `History_Items`
 ALTER TABLE `Items`
   ADD CONSTRAINT `card_fk` FOREIGN KEY (`cardId`) REFERENCES `Cards` (`cardId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `iconId_fk` FOREIGN KEY (`iconType`) REFERENCES `Icons` (`iconType`);
+
+--
+-- Constraints for table `Observations`
+--
+ALTER TABLE `Observations`
+  ADD CONSTRAINT `obs_user_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Pages`

@@ -368,3 +368,78 @@ async function createQuiz(questions, pageId) {
 
 }
 exports.createQuiz = createQuiz;
+
+
+// get quiz observations
+async function getObservations() {
+
+  try {
+
+    const sql = "SELECT Observations.*,  " +
+    "FROM Observations " +
+    "LEFT JOIN Users " +
+    "ON Observations.userId = Users.userId;";
+    const results = await pool.query(sql, []);
+
+    const finalResults = {
+      observations: results[0]
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error searching for observations");
+    throw Error(err);
+  }
+
+}
+exports.getObservations = getObservations;
+
+
+// submit user observations
+async function submitObservations(userId, pageId, observations) {
+
+  try {
+
+    // make sure all of the observations are valid
+    for (let i = 0; i < observations.length; i++) {
+
+      if (typeof observations[i].text !== "string") {
+        return {error: 1};
+      }
+
+      if (typeof observations[i].type !== "number") {
+        return {error: 1};
+      }
+    }
+
+    // make sure the page exists
+    let sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageId = ?;";
+    let results = await pool.query(sql, pageId);
+
+    if (!results[0].length) {
+      return {error: 2};
+    }
+
+    // create the new observations
+    for (let i = 0; i < observations.length; i++) {
+      sql = "INSERT INTO Observations (userId, type, text) " +
+      "VALUES (?, ?, ?);";
+      results = await pool.query(sql, [userId, observations[i].type, observations[i].text]);
+    }
+
+    const finalResults = {
+      submitted: 1
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error submitting observations");
+    throw Error(err);
+  }
+
+}
+exports.submitObservations = submitObservations;
