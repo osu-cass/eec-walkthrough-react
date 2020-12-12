@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Dec 12, 2020 at 01:38 PM
+-- Generation Time: Dec 12, 2020 at 02:22 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.13
 
@@ -2388,6 +2388,7 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 
 CREATE TABLE `Observations` (
   `observationId` int(10) UNSIGNED NOT NULL,
+  `pageId` int(10) UNSIGNED NOT NULL,
   `userId` int(10) UNSIGNED NOT NULL,
   `type` tinyint(4) NOT NULL,
   `text` varchar(5000) NOT NULL
@@ -2926,7 +2927,8 @@ ALTER TABLE `Notifications`
 --
 ALTER TABLE `Observations`
   ADD PRIMARY KEY (`observationId`),
-  ADD KEY `obs_user_fk` (`userId`);
+  ADD KEY `obs_user_fk` (`userId`),
+  ADD KEY `obs_page_fk` (`pageId`);
 
 --
 -- Indexes for table `Pages`
@@ -3248,6 +3250,7 @@ ALTER TABLE `Items`
 -- Constraints for table `Observations`
 --
 ALTER TABLE `Observations`
+  ADD CONSTRAINT `obs_page_fk` FOREIGN KEY (`pageId`) REFERENCES `Pages` (`pageId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `obs_user_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

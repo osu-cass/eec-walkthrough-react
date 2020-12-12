@@ -417,18 +417,32 @@ async function submitObservations(userId, pageId, observations) {
     let sql = "SELECT * " +
     "FROM Pages " +
     "WHERE pageId = ?;";
-    let results = await pool.query(sql, pageId);
+    const results = await pool.query(sql, pageId);
 
     if (!results[0].length) {
       return {error: 2};
     }
 
+    const pageName = results[0][0].name;
+
     // create the new observations
     for (let i = 0; i < observations.length; i++) {
-      sql = "INSERT INTO Observations (userId, type, text) " +
-      "VALUES (?, ?, ?);";
-      results = await pool.query(sql, [userId, observations[i].type, observations[i].text]);
+      sql = "INSERT INTO Observations (pageId, userId, type, text) " +
+      "VALUES (?, ?, ?, ?);";
+      await pool.query(sql, [pageId, userId, observations[i].type, observations[i].text.trim()]);
     }
+
+    const text = `New quiz feedback for the "${pageName}" page`;
+
+    // delete old notifications related to observations
+    sql = "DELETE FROM Notifications " +
+    "WHERE text = ?;";
+    await pool.query(sql, text);
+
+    // notify admins about the new observations
+    sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
+    "VALUES (?, ?, ?, 7);";
+    await pool.query(sql, [pageId, userId, text]);
 
     const finalResults = {
       submitted: 1
