@@ -6,6 +6,8 @@ import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import QuestionResults from "./QuestionResults";
 import {NavLink} from "react-router-dom";
+import Error from "../../components/General/Error";
+import Success from "../../components/General/Success";
 import "./QuizResults.css";
 
 // Results page for a submitted quiz
@@ -17,6 +19,10 @@ function QuizResults() {
   const [error, setError] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [incorrect, setIncorrect] = useState(0);
+  const [generalFeedback, setGeneralFeedback] = useState("");
+  const [questionFeedback, setQuestionFeedback] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const {pageId} = useParams();
 
   // Gets quiz results when the page first loads
@@ -107,6 +113,59 @@ function QuizResults() {
     // eslint-disable-next-line
   }, [pageId]);
 
+  // submit user feedback about the quiz
+  async function submitFeedback() {
+
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    // check if the user has submitted any feedback
+    if (!generalFeedback.trim().length && !questionFeedback.trim().length) {
+      setErrorMessage("No feedback has been entered. Please enter feedback before submitting.");
+      return;
+    }
+
+    setLoading(true);
+
+    // get the observations ready to be submitted
+    const observations = [];
+
+    if (generalFeedback.trim().length) {
+      observations.push({type: 1, text: generalFeedback});
+    }
+
+    if (questionFeedback.trim().length) {
+      observations.push({type: 2, text: questionFeedback});
+    }
+
+    const postObj = {
+      observations: observations
+    };
+
+    // submit the feedback
+    const results = await fetch(`${API_URL}/quizzes/${pageId}/observations`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(postObj),
+    });
+
+    if (results.ok) {
+      document.getElementById("feedback-text-1").value = "";
+      document.getElementById("feedback-text-2").value = "";
+      setGeneralFeedback("");
+      setQuestionFeedback("");
+      setErrorMessage("");
+      setSuccessMessage("Feedback submitted successfully. Thank you.");
+    } else {
+      setErrorMessage("An internal server error occurred. Please try again later.");
+    }
+
+    setLoading(false);
+  }
+
   return !error ? (
     <div className="container quiz-page-container my-5">
 
@@ -141,6 +200,48 @@ function QuizResults() {
         <h2 className="font-weight-bold text-center">
           Overall you got {Math.round(correct / (correct + incorrect) * 100)}% of questions correct
         </h2>
+      </div>
+
+      {/* Leave feedback */}
+      <div
+        className="prompt-container mb-3 px-4 py-4 bg-white card rounded shadow-sm"
+      >
+        <h5 className="text-center mt-2 mb-3">
+          Do you have any feedback about the quiz that you would like to share? (optional)
+        </h5>
+        <textarea
+          className="form-control mb-3"
+          id={"feedback-text-1"}
+          maxLength="5000"
+          placeholder="Enter feedback here"
+          defaultValue={generalFeedback}
+          onChange={(e) => setGeneralFeedback(e.target.value)}
+        />
+        <h5 className="text-center mt-5 mb-3">
+          Are there any questions you would like added to the quiz? (optional)
+        </h5>
+        <textarea
+          className="form-control mb-3"
+          id={"feedback-text-2"}
+          maxLength="5000"
+          placeholder="Enter feedback here"
+          defaultValue={questionFeedback}
+          onChange={(e) => setQuestionFeedback(e.target.value)}
+        />
+        <Error
+          message={errorMessage}
+        />
+        <Success
+          message={successMessage}
+        />
+        <div className="mt-4 submit-quiz-box">
+          <button
+            className="submit-quiz btn btn-info pull-right ml-4"
+            onClick={() => submitFeedback()}
+          >
+            Submit Feedback
+          </button>
+        </div>
       </div>
 
       {/* Buttons for returning to other pages */}

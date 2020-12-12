@@ -191,7 +191,7 @@ app.post("/:pageId", requireAuth, postQuizVal.validation, async (req, res) => {
 
 
 // gets the observations made by users who took a quiz
-app.get("/observation", requireAuth, async (req, res) => {
+app.get("/observations", requireAuth, async (req, res) => {
 
   try {
 
@@ -224,7 +224,7 @@ app.get("/observation", requireAuth, async (req, res) => {
 
 
 // submit quiz observations
-app.post("/:pageId/observation", requireAuth, postObservationVal.validation, async (req, res) => {
+app.post("/:pageId/observations", requireAuth, postObservationVal.validation, async (req, res) => {
 
   try {
 
