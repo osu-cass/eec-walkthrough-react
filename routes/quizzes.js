@@ -13,7 +13,8 @@ const {
   getPageVal,
   postQuizResultsVal,
   postQuizVal,
-  postObservationVal
+  postObservationVal,
+  deleteObservationVal
 } = require("../services/validation/requestValidation");
 const {
   getPageQuiz,
@@ -21,7 +22,8 @@ const {
   submitQuiz,
   submitObservations,
   createQuiz,
-  getObservations
+  getObservations,
+  deleteObservation
 } = require("../models/quizzes");
 
 
@@ -191,12 +193,13 @@ app.post("/:pageId", requireAuth, postQuizVal.validation, async (req, res) => {
 
 
 // gets the observations made by users who took a quiz
-app.get("/observations", requireAuth, async (req, res) => {
+app.get("/:pageId/observations", requireAuth, async (req, res) => {
 
   try {
 
-    // const userId = req.auth.userId;
-    console.log("Get all observations");
+    const pageId = req.params.pageId;
+
+    console.log("Get all observations for page", pageId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -212,7 +215,7 @@ app.get("/observations", requireAuth, async (req, res) => {
     }
 
     // get quiz observation data
-    const results = await getObservations();
+    const results = await getObservations(pageId);
     res.status(200).send(results);
 
   } catch (err) {
@@ -258,6 +261,51 @@ app.post("/:pageId/observations", requireAuth, postObservationVal.validation, as
         res.status(422).send({error: "Invalid format for observations."});
       } else if (results.error === 2) {
         res.status(404).send({error: "Page not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete user quiz feedback
+app.delete("/observations/:observationId", requireAuth, deleteObservationVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Delete observation");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const observationId = req.params.observationId;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(5, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to delete an observation."});
+      return;
+    }
+
+    // delete the observation
+    const results = await deleteObservation(observationId);
+
+    if (!results.error) {
+      res.status(201).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Observation not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

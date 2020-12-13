@@ -14,9 +14,13 @@ function QuizEdit() {
 
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([]);
+  const [generalFeedback, setGeneralFeedback] = useState([]);
+  const [questionFeedback, setQuestionFeedback] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
+  const [generalErrorMessage, setGeneralErrorMessage] = useState("");
+  const [questionErrorMessage, setQuestionErrorMessage] = useState("");
   const [nextKey, setNextKey] = useState(0);
   const {pageId} = useParams();
   const history = useHistory();
@@ -32,7 +36,7 @@ function QuizEdit() {
       try {
 
         // Fetch quiz info
-        const results = await fetch(`${API_URL}/quizzes/${pageId}`, {
+        let results = await fetch(`${API_URL}/quizzes/${pageId}`, {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
@@ -75,6 +79,43 @@ function QuizEdit() {
             console.error(obj.error);
             setError(3);
           }
+        }
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        // Fetch user feedback
+        results = await fetch(`${API_URL}/quizzes/${pageId}/observations`, {
+          signal: controller.signal,
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+          const obj = await results.json();
+
+          // divide the observations into two groups
+          const general = [];
+          const question = [];
+
+          for (let i = 0; i < obj.observations.length; i++) {
+            if (obj.observations[i].type === 1) {
+              general.push(obj.observations[i]);
+            } else {
+              question.push(obj.observations[i]);
+            }
+          }
+
+          setGeneralFeedback(general);
+          setQuestionFeedback(question);
         }
 
         setLoading(false);
@@ -377,11 +418,66 @@ function QuizEdit() {
     setLoading(false);
   }
 
+  // delete user feedback
+  async function deleteFeedback(observationId, type) {
+    if (!window.confirm("Are you sure you want to delete this user feedback?")) {
+      return;
+    }
+
+    const results = await fetch(`${API_URL}/quizzes/observations/${observationId}`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      setGeneralErrorMessage("");
+      setQuestionErrorMessage("");
+
+      if (type === 1) {
+        const newFeedback = [...generalFeedback];
+        let index = -1;
+        for (let i = 0; i < newFeedback.length; i++) {
+          if (newFeedback[i].observationId === observationId) {
+            index = i;
+            break;
+          }
+        }
+        if (index >= 0) {
+          newFeedback.splice(index, 1);
+          setGeneralFeedback(newFeedback);
+        }
+      } else {
+        const newFeedback = [...questionFeedback];
+        let index = -1;
+        for (let i = 0; i < newFeedback.length; i++) {
+          if (newFeedback[i].observationId === observationId) {
+            index = i;
+            break;
+          }
+        }
+        if (index >= 0) {
+          newFeedback.splice(index, 1);
+          setQuestionFeedback(newFeedback);
+        }
+      }
+
+    } else {
+      if (type === 1) {
+        setGeneralErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setQuestionErrorMessage("An internal server error occurred. Please try again later.");
+      }
+    }
+  }
+
   return !error ? (
     <div className="container quiz-page-container my-5">
 
       <LoadingOverlay loading={loading} />
 
+      {/* Title header */}
       <div className="d-flex header-bar justify-content-between mt-3 mb-4 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
           <h4 className="flex-grow-1 font-weight-bold">
@@ -390,6 +486,7 @@ function QuizEdit() {
         </div>
       </div>
 
+      {/* Quiz questions */}
       {questions.map((question) =>
         <QuestionEdit
           key={question.questionKey}
@@ -410,6 +507,7 @@ function QuizEdit() {
 
       <Error message={errorMessage} />
 
+      {/* Add questions and save buttons */}
       <div className="mt-4 submit-quiz-box">
         <button className="submit-quiz btn btn-lg btn-success pull-right ml-4" onClick={() => updateQuiz()}>
           Save Quiz
@@ -418,6 +516,85 @@ function QuizEdit() {
           Add Question
         </button>
       </div>
+
+      {/* General user feedback */}
+      {generalFeedback.length ? (
+        <Fragment>
+          <div className="d-flex header-bar justify-content-between mt-3 mb-4 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
+            <div className="row mx-2">
+              <h4 className="flex-grow-1 font-weight-bold">
+                General User Feedback
+              </h4>
+            </div>
+          </div>
+
+          {generalFeedback.map((feedback) =>
+            <div
+              key={feedback.observationId}
+              className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
+            >
+              <div className="row">
+                <div className="col-8" >
+                  <h5>{feedback.username}</h5>
+                </div>
+
+                <div className="col-4" >
+                  <button className="btn btn-danger btn-sm btn pull-right"
+                    onClick={() => deleteFeedback(feedback.observationId, feedback.type)}
+                  >
+                    <i className="fas fa-fw fa-times" />
+                  </button>
+                </div>
+              </div>
+              <span>{feedback.text}</span>
+            </div>
+          )}
+
+          <Error message={generalErrorMessage} />
+        </Fragment>
+      ) : (
+        null
+      )}
+
+      {/* Suggested Questions */}
+      {questionFeedback.length ? (
+        <Fragment>
+          <div className="d-flex header-bar justify-content-between mt-3 mb-4 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
+            <div className="row mx-2">
+              <h4 className="flex-grow-1 font-weight-bold">
+                User Suggested Questions
+              </h4>
+            </div>
+          </div>
+
+          {questionFeedback.map((feedback) =>
+            <div
+              key={feedback.observationId}
+              className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
+            >
+              <div className="row">
+                <div className="col-8" >
+                  <h5>{feedback.username}</h5>
+                </div>
+
+                <div className="col-4" >
+                  <button className="btn btn-danger btn-sm btn pull-right"
+                    onClick={() => deleteFeedback(feedback.observationId, feedback.type)}
+                  >
+                    <i className="fas fa-fw fa-times" />
+                  </button>
+                </div>
+              </div>
+              <span>{feedback.text}</span>
+            </div>
+          )}
+
+          <Error message={questionErrorMessage} />
+        </Fragment>
+      ) : (
+        null
+      )}
+
 
     </div>
 

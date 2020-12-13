@@ -370,16 +370,17 @@ async function createQuiz(questions, pageId) {
 exports.createQuiz = createQuiz;
 
 
-// get quiz observations
-async function getObservations() {
+// get quiz observations for a specific page
+async function getObservations(pageId) {
 
   try {
 
-    const sql = "SELECT Observations.*,  " +
+    const sql = "SELECT Observations.*, Users.username " +
     "FROM Observations " +
     "LEFT JOIN Users " +
-    "ON Observations.userId = Users.userId;";
-    const results = await pool.query(sql, []);
+    "ON Observations.userId = Users.userId " +
+    "WHERE pageId = ?;";
+    const results = await pool.query(sql, pageId);
 
     const finalResults = {
       observations: results[0]
@@ -457,3 +458,38 @@ async function submitObservations(userId, pageId, observations) {
 
 }
 exports.submitObservations = submitObservations;
+
+
+// delete an observation
+async function deleteObservation(observationId) {
+
+  try {
+
+    // make sure the observation exists
+    let sql = "SELECT * " +
+    "FROM Observations " +
+    "WHERE observationId = ?;";
+    const results = await pool.query(sql, observationId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // delete the observation
+    sql = "DELETE FROM Observations " +
+    "WHERE observationId = ?;";
+    await pool.query(sql, observationId);
+
+    const finalResults = {
+      observationsDeleted: 1
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting observation");
+    throw Error(err);
+  }
+
+}
+exports.deleteObservation = deleteObservation;
