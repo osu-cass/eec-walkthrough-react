@@ -491,3 +491,11 @@ const postObservationVal = Object.freeze({
   ]
 });
 exports.postObservationVal = postObservationVal;
+
+// validation checks for delete observations
+const deleteObservationVal = Object.freeze({
+  validation: [
+    check("observationId").isInt({min: 0, max: 4294967295}),
+  ]
+});
+exports.deleteObservationVal = deleteObservationVal;
