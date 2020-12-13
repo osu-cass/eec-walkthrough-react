@@ -44,6 +44,17 @@ function Notifications() {
 
           if (results.ok) {
             const obj = await results.json();
+            // add proper link addresses to notifications
+            for (let i = 0; i < obj.notifications.length; i++) {
+              if (obj.notifications[i].type === 6) {
+                obj.notifications[i].address = "/manage-contributors";
+              } else if (obj.notifications[i].type === 7) {
+                obj.notifications[i].address = `/edit-quiz/${obj.notifications[i].requestId}`;
+              } else {
+                obj.notifications[i].address = `/publish-requests/${obj.notifications[i].requestId}`;
+              }
+            }
+            console.log(obj.notifications);
             setNotifications(obj.notifications);
           } else {
             setNotifications([]);
@@ -144,7 +155,7 @@ function Notifications() {
             {notifications.map((item, index) =>
               <Link
                 key={item.notificationId}
-                to={item.type === 6 ? "/manage-contributors" : `/publish-requests/${item.requestId}`}
+                to={item.address}
                 onClick={(event) => handleClick(event, item, index)}
               >
                 <div className="dropdown-item note-item">

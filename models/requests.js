@@ -414,7 +414,7 @@ async function getRequest(requestId, userId) {
 
     // delete all notifications related to this request for the current user
     sql = "DELETE FROM Notifications " +
-    "WHERE requestId = ? AND userId = ?;";
+    "WHERE requestId = ? AND userId = ? AND type != 7;";
     await pool.query(sql, [requestId, userId]);
 
     finalResults.objects = fullObjects;
@@ -1057,7 +1057,7 @@ async function deleteRequest(requestId, userId, admin) {
 
     // delete all notifications about the request
     sql = "DELETE FROM Notifications " +
-    "WHERE requestId = ?;";
+    "WHERE requestId = ? AND type != 7;";
     await pool.query(sql, requestId);
 
     return finalResults;
@@ -1191,7 +1191,7 @@ async function approveRequest(requestId) {
 
     // delete all notifications about the request
     sql = "DELETE FROM Notifications " +
-    "WHERE requestId = ?;";
+    "WHERE requestId = ? AND type != 7;";
     await pool.query(sql, requestId);
 
     return finalResults;
