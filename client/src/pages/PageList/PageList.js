@@ -103,31 +103,31 @@ function PageList() {
           <div className="prompt-container bg-white card rounded shadow-sm">
             <div className="page-search-inner-container m-5">
               <h3 id="title" className="py-4 font-weight-bold">{category.singleName} Pages</h3>
-              {category.pages.map((page, index) =>
-
-                <div className="page-info-container card m-5" key={page.pageId}>
-                  <div className="img-result-thumb text-left my-2">
-                    <Image
-                      url={page.imageUrl}
-                      title={page.name}
-                      thumbnail={true}
-                      header={false}
-                    />
+              <div className="page-list-organizer">
+                {category.pages.map((page, index) =>
+                  <div className="page-info-container card" key={page.pageId}>
+                    <div className="img-result-thumb text-left my-2">
+                      <Image
+                        url={page.imageUrl}
+                        title={page.name}
+                        thumbnail={true}
+                        header={false}
+                      />
+                    </div>
+                    <Link to={pageLinks[index]}>
+                      <h5 className="page-link-header font-weight-bold text-left">
+                        {page.name}
+                      </h5>
+                    </Link>
+                    <span className="text-left float-left">
+                      {page.description}
+                    </span>
+                    <span className="page-link-created text-left float-left">
+                      Last updated {formatTime(page.created)}
+                    </span>
                   </div>
-                  <Link to={pageLinks[index]}>
-                    <h5 className="page-link-header font-weight-bold text-left">
-                      {page.name}
-                    </h5>
-                  </Link>
-                  <span className="text-left float-left">
-                    {page.description}
-                  </span>
-                  <span className="page-link-created text-left float-left">
-                    Last updated {formatTime(page.created)}
-                  </span>
-                </div>
-
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
