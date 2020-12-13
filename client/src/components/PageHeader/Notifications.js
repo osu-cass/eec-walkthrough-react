@@ -54,7 +54,6 @@ function Notifications() {
                 obj.notifications[i].address = `/publish-requests/${obj.notifications[i].requestId}`;
               }
             }
-            console.log(obj.notifications);
             setNotifications(obj.notifications);
           } else {
             setNotifications([]);
