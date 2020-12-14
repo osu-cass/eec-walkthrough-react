@@ -1,5 +1,6 @@
 import React, {Fragment} from "react";
 import Image from "../../components/General/Image";
+import ImageInput from "../../components/General/ImageInput";
 import PropTypes from "prop-types";
 
 // A single editable question button and modal
@@ -67,9 +68,14 @@ function QuestionEdit(props) {
         onChange={(e) => props.changeField(props.questionKey, e.target.value, 2)}
       />
 
+      <ImageInput
+        id={props.index}
+        onNewImage={(newImage) => props.newImage(newImage, props.index)}
+      />
+
       {/* Preview Image */}
       {props.imageUrl.length ? (
-        <div className="mb-3">
+        <div className="my-3">
           <Image
             url={props.imageUrl}
             title={"Question Image"}
@@ -144,10 +150,12 @@ QuestionEdit.propTypes = {
   answers: PropTypes.array,
   type: PropTypes.number,
   imageUrl: PropTypes.string,
+  index: PropTypes.number,
   deleteQuestion: PropTypes.func,
   deleteAnswer: PropTypes.func,
   addAnswer: PropTypes.func,
   changeField: PropTypes.func,
   changeAnswer: PropTypes.func,
-  changeCorrect: PropTypes.func
+  changeCorrect: PropTypes.func,
+  newImage: PropTypes.func
 };

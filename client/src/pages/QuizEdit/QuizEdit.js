@@ -1,12 +1,14 @@
 import React, {useState, useEffect, Fragment} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
-import {API_URL} from "../../utilities/constants";
+import {API_URL, UPLOAD_TERMS} from "../../utilities/constants";
 import {useParams, useHistory} from "react-router-dom";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import QuestionEdit from "./QuestionEdit";
 import Error from "../../components/General/Error";
 import {logout} from "../../utilities/cookieAuth";
+import {getAgreement} from "../../utilities/agreementMode";
+import Agreement from "../../components/General/Agreement";
 import "./QuizEdit.css";
 
 // Page for editing quizzes
@@ -24,6 +26,9 @@ function QuizEdit() {
   const [nextKey, setNextKey] = useState(0);
   const {pageId} = useParams();
   const history = useHistory();
+  const [imageAgreement, setImageAgreement] = useState(getAgreement("image"));
+  const [showAgreement, setShowAgreement] = useState(false);
+  const [imageTerms] = useState(UPLOAD_TERMS);
 
   // Gets quiz info when the page first loads
   useEffect(() => {
@@ -385,8 +390,49 @@ function QuizEdit() {
     }
     setLoading(true);
 
+    // Get all of the selected files to upload
+    const copy = [...questions];
+    const uploadImages = [];
+    for (let i = 0; i < copy.length; i++) {
+      if (copy[i].imageToUpload) {
+        uploadImages.push(copy[i].imageToUpload);
+      }
+    }
+
+    // see if we need to upload any images
+    if (uploadImages.length) {
+      const formData = new FormData();
+      for (let i = 0; i < uploadImages.length; i++) {
+        formData.append("images", uploadImages[i]);
+      }
+      const results = await fetch(`${API_URL}/files/bulk`, {
+        method: "POST",
+        credentials: "include",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        const urls = obj.urls;
+
+        // update the urls for all of the questions
+        for (let i = 0; i < urls.length; i++) {
+          for (let j = 0; j < copy.length; j++) {
+            if (copy[j].imageToUpload) {
+              copy[j].imageToUpload = null;
+              copy[j].imageUrl = urls[i];
+              break;
+            }
+          }
+        }
+        setQuestions(copy);
+      } else {
+        console.error("Failed to upload images.");
+      }
+    }
+
     const data = {
-      questions: questions
+      questions: copy
     };
 
     const results = await fetch(`${API_URL}/quizzes/${pageId}`, {
@@ -472,8 +518,52 @@ function QuizEdit() {
     }
   }
 
+  // handle storing file information for uploaded images
+  function onNewImage(newImage, index) {
+    const key = index.toString();
+    const copy = [...questions];
+    copy[key].imageToUpload = newImage;
+    setQuestions(copy);
+
+    if (!imageAgreement) {
+      setShowAgreement(true);
+    }
+  }
+
+  // when the user cancels an image upload agreement
+  function cancelAgreement() {
+    const copy = [...questions];
+
+    // clear all of the images to upload for all questions
+    for (let i = 0; i < copy.length; i++) {
+      copy[i].imageToUpload = null;
+      const imageInput = document.getElementById(`custom-file-upload-${i}`);
+      imageInput.value = "";
+      const inputEvent = new Event("input", {bubbles: true});
+      imageInput.dispatchEvent(inputEvent);
+    }
+
+    setQuestions(copy);
+    setShowAgreement(false);
+  }
+
+  // when the user accepts an image upload agreement
+  function acceptAgreement() {
+    setShowAgreement(false);
+    setImageAgreement(true);
+  }
+
   return !error ? (
     <div className="container quiz-page-container my-5">
+
+      <Agreement
+        agreementTitle={"Image Agreement"}
+        agreementName={"image"}
+        terms={imageTerms}
+        acceptFunction={() => acceptAgreement()}
+        show={showAgreement}
+        closeModal={() => cancelAgreement()}
+      />
 
       <LoadingOverlay loading={loading} />
 
@@ -487,7 +577,7 @@ function QuizEdit() {
       </div>
 
       {/* Quiz questions */}
-      {questions.map((question) =>
+      {questions.map((question, i) =>
         <QuestionEdit
           key={question.questionKey}
           questionKey={question.questionKey}
@@ -496,12 +586,14 @@ function QuizEdit() {
           answers={question.answers}
           type={question.type}
           imageUrl={question.imageUrl}
+          index={i}
           deleteQuestion={(questionKey) => onDeleteQuestion(questionKey)}
           deleteAnswer={(questionKey, answerId) => onDeleteAnswer(questionKey, answerId)}
           changeField={(questionKey, text, fieldNumber) => onChangeField(questionKey, text, fieldNumber)}
           addAnswer={(questionKey) => onAddAnswer(questionKey)}
           changeAnswer={(questionKey, answerId, text) => onChangeAnswer(questionKey, answerId, text)}
           changeCorrect={(questionKey, answerId) => onChangeCorrect(questionKey, answerId)}
+          newImage={(newImage, index) => onNewImage(newImage, index)}
         />
       )}
 
