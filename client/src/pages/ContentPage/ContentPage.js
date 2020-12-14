@@ -19,6 +19,7 @@ import HowToCards from "./Card/HowToCards";
 import {useParams} from "react-router-dom";
 import "./ContentPage.css";
 import QuizButton from "./Various/QuizButton";
+import {useWindowSize} from "../../hooks/useWindowSize";
 
 // An encyclopedia style page describing some topic
 function ContentPage(props) {
@@ -41,12 +42,23 @@ function ContentPage(props) {
   const {pageId} = useParams();
   const [categories, setCategories] = useState([]);
   const [howToPage, setHowToPage] = useState(false);
+  const [mobileDisplay, setMobileDisplay] = useState(true);
   const [pageInfo, setPageInfo] = useState({
     sources: [],
     headers: [],
     approved: 1,
     internal: 0
   });
+  const windowSize = useWindowSize();
+
+  // Check if we are using a small (mobile) display
+  useEffect(() => {
+    if (window.innerWidth < 1000) {
+      setMobileDisplay(true);
+    } else {
+      setMobileDisplay(false);
+    }
+  }, [windowSize]);
 
   // Gets all of the page data when the page first loads
   useEffect(() => {
@@ -818,71 +830,246 @@ function ContentPage(props) {
           handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
         />
 
-        {headers.map((header, i) =>
-          <Fragment key={i}>
-            {/* A header bar that contains any number of cards beneath it */}
-            <Header
-              header={header}
-              handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
-              handleMoveCard={() => setMoved(true)}
-              role={role}
-              mode={mode}
-              publicMode={publicMode}
-              publishedMode={publishedMode}
-              iconSet={iconSet}
-              cardState={cardState}
-              top={i === 0 ? (true) : (false)}
-              bottom={i >= headers.length - 1 ? (true) : (false)}
-              handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
-              handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
-              updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
-              resetIcons={e => resetIcons(e)}
-              clearIcons={e => clearIcons(e)}
-              checkIcon={(headerId, cardId, itemId, check) => checkIcon(headerId, cardId, itemId, check)}
-              sources={pageInfo.sources}
-              cardTitles={cardTitles}
-              onPageMode={mode => setMode(mode)}
-              moved={moved}
-            />
+        {/* If the window is wide enough, display content in two columns */}
+        {!mobileDisplay ? (
+          <div className="row">
 
-            {/* For auto headers on the "how to" page, create special cards */}
-            {howToPage && i === 0 ? (
-              <HowToCards
-                categories={categories}
-                icons={iconSet}
-              />
-            ) : (
-              null
+            {/* The even headers bar that contains any number of cards beneath it */}
+            <div className="col-6">
+              {headers.map((header, i) =>
+                <Fragment key={i}>
+                  {i % 2 === 0 ? (
+                    <Fragment>
+                      <Header
+                        header={header}
+                        handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
+                        handleMoveCard={() => setMoved(true)}
+                        role={role}
+                        mode={mode}
+                        publicMode={publicMode}
+                        publishedMode={publishedMode}
+                        iconSet={iconSet}
+                        cardState={cardState}
+                        top={i === 0 ? (true) : (false)}
+                        bottom={i >= headers.length - 1 ? (true) : (false)}
+                        handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
+                        handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+                        updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
+                        resetIcons={e => resetIcons(e)}
+                        clearIcons={e => clearIcons(e)}
+                        checkIcon={(headerId, cardId, itemId, check) => checkIcon(headerId, cardId, itemId, check)}
+                        sources={pageInfo.sources}
+                        cardTitles={cardTitles}
+                        onPageMode={mode => setMode(mode)}
+                        moved={moved}
+                      />
+
+                      {/* For auto headers on the "how to" page, create special cards */}
+                      {howToPage && i === 0 ? (
+                        <HowToCards
+                          categories={categories}
+                          icons={iconSet}
+                        />
+                      ) : (
+                        null
+                      )}
+
+                      {/* Button for creating a new card under the current header */}
+                      <CreateCard
+                        headerId={header.headerId}
+                        handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+                        mode={mode}
+                        iconSet={iconSet}
+                        sources={pageInfo.sources}
+                        cardTitles={cardTitles}
+                      />
+                    </Fragment>
+                  ) : (
+                    null
+                  )}
+                </Fragment>
+              )}
+
+              {headers.length % 2 === 0 ? (
+                <References
+                  sources={references}
+                  tempSources={tempReferences}
+                  mode={mode}
+                />
+              ) : (
+                null
+              )}
+
+              {/* Check if there is already a reference header (offsets this by one) */}
+              {(headers.length % 2 === 0 && (!(mode === 0 && references.length) && !(mode === 1 && tempReferences.length)))
+              || (headers.length % 2 !== 0 && ((mode === 0 && references.length) || (mode === 1 && tempReferences.length))) ? (
+                  <QuizButton
+                    quiz={pageInfo.quiz}
+                    quizScore={pageInfo.quizScore}
+                    pageId={pageId}
+                    mode={mode}
+                    pageName={pageInfo.name}
+                    role={role}
+                  />
+                ) : (
+                  null
+                )}
+            </div>
+
+            {/* The odd headers bar that contains any number of cards beneath it */}
+            <div className="col-6">
+              {headers.map((header, i) =>
+                <Fragment key={i}>
+                  {i % 2 !== 0 ? (
+                    <Fragment>
+                      <Header
+                        header={header}
+                        handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
+                        handleMoveCard={() => setMoved(true)}
+                        role={role}
+                        mode={mode}
+                        publicMode={publicMode}
+                        publishedMode={publishedMode}
+                        iconSet={iconSet}
+                        cardState={cardState}
+                        top={i === 0 ? (true) : (false)}
+                        bottom={i >= headers.length - 1 ? (true) : (false)}
+                        handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
+                        handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+                        updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
+                        resetIcons={e => resetIcons(e)}
+                        clearIcons={e => clearIcons(e)}
+                        checkIcon={(headerId, cardId, itemId, check) => checkIcon(headerId, cardId, itemId, check)}
+                        sources={pageInfo.sources}
+                        cardTitles={cardTitles}
+                        onPageMode={mode => setMode(mode)}
+                        moved={moved}
+                      />
+
+                      {/* For auto headers on the "how to" page, create special cards */}
+                      {howToPage && i === 0 ? (
+                        <HowToCards
+                          categories={categories}
+                          icons={iconSet}
+                        />
+                      ) : (
+                        null
+                      )}
+
+                      {/* Button for creating a new card under the current header */}
+                      <CreateCard
+                        headerId={header.headerId}
+                        handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+                        mode={mode}
+                        iconSet={iconSet}
+                        sources={pageInfo.sources}
+                        cardTitles={cardTitles}
+                      />
+                    </Fragment>
+                  ) : (
+                    null
+                  )}
+                </Fragment>
+              )}
+
+              {headers.length % 2 !== 0 ? (
+                <References
+                  sources={references}
+                  tempSources={tempReferences}
+                  mode={mode}
+                />
+              ) : (
+                null
+              )}
+
+              {/* Check if there is already a reference header (offsets this by one) */}
+              {(headers.length % 2 !== 0 && (!(mode === 0 && references.length) && !(mode === 1 && tempReferences.length)))
+              || (headers.length % 2 === 0 && ((mode === 0 && references.length) || (mode === 1 && tempReferences.length))) ? (
+                  <QuizButton
+                    quiz={pageInfo.quiz}
+                    quizScore={pageInfo.quizScore}
+                    pageId={pageId}
+                    mode={mode}
+                    pageName={pageInfo.name}
+                    role={role}
+                  />
+                ) : (
+                  null
+                )}
+
+            </div>
+
+          </div>
+        ) : (
+          <Fragment>
+            {/* We are using a mobile display, so show everything in a single column */}
+            {headers.map((header, i) =>
+              <Fragment key={i}>
+                <Header
+                  header={header}
+                  handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
+                  handleMoveCard={() => setMoved(true)}
+                  role={role}
+                  mode={mode}
+                  publicMode={publicMode}
+                  publishedMode={publishedMode}
+                  iconSet={iconSet}
+                  cardState={cardState}
+                  top={i === 0 ? (true) : (false)}
+                  bottom={i >= headers.length - 1 ? (true) : (false)}
+                  handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
+                  handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+                  updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
+                  resetIcons={e => resetIcons(e)}
+                  clearIcons={e => clearIcons(e)}
+                  checkIcon={(headerId, cardId, itemId, check) => checkIcon(headerId, cardId, itemId, check)}
+                  sources={pageInfo.sources}
+                  cardTitles={cardTitles}
+                  onPageMode={mode => setMode(mode)}
+                  moved={moved}
+                />
+
+                {/* For auto headers on the "how to" page, create special cards */}
+                {howToPage && i === 0 ? (
+                  <HowToCards
+                    categories={categories}
+                    icons={iconSet}
+                  />
+                ) : (
+                  null
+                )}
+
+                {/* Button for creating a new card under the current header */}
+                <CreateCard
+                  headerId={header.headerId}
+                  handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+                  mode={mode}
+                  iconSet={iconSet}
+                  sources={pageInfo.sources}
+                  cardTitles={cardTitles}
+                />
+              </Fragment>
             )}
 
-            {/* Button for creating a new card under the current header */}
-            <CreateCard
-              headerId={header.headerId}
-              handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+            {/* A card at the end of the page that lists all of the references */}
+            <References
+              sources={references}
+              tempSources={tempReferences}
               mode={mode}
-              iconSet={iconSet}
-              sources={pageInfo.sources}
-              cardTitles={cardTitles}
+            />
+
+            {/* A link to a quiz about the page content */}
+            <QuizButton
+              quiz={pageInfo.quiz}
+              quizScore={pageInfo.quizScore}
+              pageId={pageId}
+              mode={mode}
+              pageName={pageInfo.name}
+              role={role}
             />
           </Fragment>
         )}
 
-        {/* A card at the end of the page that lists all of the references */}
-        <References
-          sources={references}
-          tempSources={tempReferences}
-          mode={mode}
-        />
-
-        {/* A link to a quiz about the page content */}
-        <QuizButton
-          quiz={pageInfo.quiz}
-          quizScore={pageInfo.quizScore}
-          pageId={pageId}
-          mode={mode}
-          pageName={pageInfo.name}
-          role={role}
-        />
 
       </Container>
     );

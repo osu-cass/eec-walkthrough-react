@@ -11,13 +11,13 @@ function OrderObjectButton(props) {
         <button className={`btn btn-success btn-order-objects btn-sm mx-2 px-3 d-print-none`}
           onClick={() => props.handleMove(props.objectId, props.up, props.publishedMode)}
         >
-          <i className='fas fa-fw fa-arrow-up' />
+          <i className={props.header ? "fas fa-fw fa-arrow-left" : "fas fa-fw fa-arrow-up"} />
         </button>
       ) : (
         <button className={`btn btn-success btn-order-objects btn-sm mx-2 px-3 d-print-none`}
           onClick={() => props.handleMove(props.objectId, props.up, props.publishedMode)}
         >
-          <i className='fas fa-fw fa-arrow-down' />
+          <i className={props.header ? "fas fa-fw fa-arrow-right" : "fas fa-fw fa-arrow-down"} />
         </button>
       )}
     </Fragment>

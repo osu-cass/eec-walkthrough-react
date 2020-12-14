@@ -599,7 +599,7 @@ function Header(props) {
             <Fragment>
               <div className="col w-100" />
               <div className="col-auto align-self-center pl-0 float-right">
-                <div className="btn-group align-self-center float-right">
+                <div className="btn-group align-self-center float-right ml-2 mt-1">
 
                   {/* Used for filtering content in the items below the header */}
                   {props.header.hideFilter ? (
