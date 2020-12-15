@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Dec 12, 2020 at 02:22 PM
+-- Generation Time: Dec 14, 2020 at 05:22 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.13
 
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `Answers` (
   `answerId` int(10) UNSIGNED NOT NULL,
   `questionId` int(10) UNSIGNED NOT NULL,
+  `groupId` int(10) UNSIGNED NOT NULL,
   `text` varchar(5000) NOT NULL,
   `correct` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -38,20 +39,100 @@ CREATE TABLE `Answers` (
 -- Dumping data for table `Answers`
 --
 
-INSERT INTO `Answers` (`answerId`, `questionId`, `text`, `correct`) VALUES
-(27, 1, 'sql injection', 0),
-(28, 1, 'social engineering', 1),
-(29, 1, 'rainbow table attack', 0),
-(30, 1, 'yodeling', 0),
-(31, 2, 'hacker', 1),
-(32, 2, 'attacker', 1),
-(33, 2, 'cracker', 1),
-(34, 3, 'mouse', 1),
-(35, 3, 'keyboard', 1),
-(44, 4, '10%-15%', 0),
-(45, 4, '35%-40%', 0),
-(46, 4, '65%-70%', 0),
-(47, 4, '85%-90%', 1);
+INSERT INTO `Answers` (`answerId`, `questionId`, `groupId`, `text`, `correct`) VALUES
+(27, 1, 0, 'sql injection', 0),
+(28, 1, 0, 'social engineering', 1),
+(29, 1, 0, 'rainbow table attack', 0),
+(30, 1, 0, 'yodeling', 0),
+(31, 2, 0, 'hacker', 1),
+(32, 2, 0, 'attacker', 1),
+(33, 2, 0, 'cracker', 1),
+(34, 3, 1, 'mouse', 1),
+(35, 3, 2, 'keyboard', 1),
+(86, 13, 1, '6', 1),
+(87, 13, 2, '12', 1),
+(88, 14, 0, '20-40', 0),
+(89, 14, 0, '100-150', 1),
+(90, 14, 0, '300-350', 0),
+(91, 14, 0, '500-550', 0),
+(92, 15, 0, 'true', 1),
+(93, 15, 0, 'false', 0),
+(94, 16, 0, '30', 0),
+(95, 16, 0, '35', 0),
+(96, 16, 0, '40', 1),
+(97, 16, 0, '45', 0),
+(98, 17, 0, 'true', 1),
+(99, 17, 0, 'false', 0),
+(100, 18, 0, 'keep the steam from entering a process', 0),
+(101, 18, 0, 'store steam for later use', 0),
+(102, 18, 0, 'drain condensate from steam lines', 1),
+(103, 18, 0, 'none, their use is born out of misconception', 0),
+(104, 19, 0, '4%', 0),
+(105, 19, 0, '6%', 0),
+(106, 19, 0, '8%', 0),
+(107, 19, 0, '10%', 1),
+(108, 20, 0, 'daily', 0),
+(109, 20, 0, 'weekly to monthly', 1),
+(110, 20, 0, 'annually', 0),
+(111, 20, 0, 'when production is halted', 0),
+(112, 21, 0, 'a, b, c', 0),
+(113, 21, 0, 'a, c, d', 1),
+(114, 21, 0, 'a, d', 0),
+(115, 21, 0, 'a, b, c, d', 0),
+(196, 22, 0, 'axial', 0),
+(197, 22, 0, 'mixed flow', 0),
+(198, 22, 0, 'radial', 0),
+(199, 22, 0, 'all of the above', 1),
+(200, 23, 0, 'true', 1),
+(201, 23, 0, 'false', 0),
+(202, 24, 0, '27', 0),
+(203, 24, 0, '100', 0),
+(204, 24, 0, '2.31', 1),
+(205, 24, 0, '6.5', 0),
+(206, 25, 1, '-10', 1),
+(207, 25, 2, '10', 1),
+(208, 26, 0, 'true', 0),
+(209, 26, 0, 'false', 1),
+(210, 27, 0, '1/8', 1),
+(211, 27, 0, 'eighth', 1),
+(212, 27, 0, 'an eighth', 1),
+(213, 27, 0, 'one eighth', 1),
+(214, 28, 0, 'true', 1),
+(215, 28, 0, 'false', 0),
+(216, 29, 0, 'true', 1),
+(217, 29, 0, 'false', 0),
+(218, 30, 1, 'hydraulic', 1),
+(219, 30, 2, 'brake', 1),
+(220, 31, 0, 'logarithmic', 0),
+(221, 31, 0, 'linear', 0),
+(222, 31, 0, 'square', 0),
+(223, 31, 0, 'cubic', 1),
+(224, 4, 0, '10%-15%', 0),
+(225, 4, 0, '35%-40%', 0),
+(226, 4, 0, '65%-70%', 0),
+(227, 4, 0, '85%-90%', 1),
+(228, 5, 0, '0.5', 0),
+(229, 5, 0, '1', 1),
+(230, 5, 0, '2', 0),
+(231, 5, 0, '4', 0),
+(232, 6, 0, 'true', 1),
+(233, 6, 0, 'false', 0),
+(234, 8, 0, '1', 0),
+(235, 8, 0, '2', 0),
+(236, 8, 0, '5', 0),
+(237, 8, 0, '10', 1),
+(238, 9, 0, 'true', 1),
+(239, 9, 0, 'false', 0),
+(240, 10, 0, 'use high-pressure equipment when other equipment', 0),
+(241, 10, 0, 'increase system pressure and use regulators elsewhere', 0),
+(242, 10, 0, 'add a booster or use a separate high-pressure system', 1),
+(243, 10, 0, 'install a higher capacity compressor', 0),
+(244, 11, 0, 'open blowing (clean up, cooling bearings, etc.)', 0),
+(245, 11, 0, 'cooling cabinets (control panels and control centers', 0),
+(246, 11, 0, 'vacuum generation (venturis)', 0),
+(247, 11, 0, 'all of the above', 1),
+(248, 12, 1, '80', 1),
+(249, 12, 2, '85', 1);
 
 -- --------------------------------------------------------
 
@@ -107,7 +188,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (72, 1, 1, 72, 'Gallery: Industrial Air Compressors, Dryers, Receiver Tanks and Compressed Air Applications', 51, '2020-07-01 20:56:20', 1),
 (75, 1, 0, 75, 'U.S. Department of Energy Tip Sheets', 42, '2020-06-30 06:38:25', 1),
 (76, 1, 0, 76, 'General Off Site Resource Links', 51, '2020-06-29 20:51:39', 1),
-(77, 2, 0, 77, 'Improve Compressor Efficiency', 58, '2020-08-17 18:00:21', 1),
+(77, 2, 0, 77, 'Improve Compressor Efficiency', 42, '2020-12-14 21:45:53', 0),
 (81, 29, 0, 81, 'Pros', 51, '2020-07-01 18:14:32', 1),
 (82, 30, 0, 82, 'Use More Efficient Pump Control', 51, '2020-07-01 18:19:29', 0),
 (83, 30, 0, 83, 'Reduce Flow Required', 51, '2020-07-01 21:21:37', 0),
@@ -146,8 +227,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (116, 33, 0, 116, 'In Depth Site Resources', 56, '2020-07-02 23:44:26', 0),
 (117, 33, 0, 117, 'Off Site Resource Links', 56, '2020-07-02 23:47:53', 0),
 (118, 28, 0, 118, 'Motor Controls', 56, '2020-07-03 00:08:01', 1),
-(119, 28, 0, 119, 'Turn of Motors (Consider Load Shedding)', 51, '2020-07-07 23:38:14', 1),
-(120, 28, 0, 120, 'Power Quality', 56, '2020-07-03 00:19:36', 1),
+(119, 28, 0, 119, 'Turn off Motors (Consider Load Shedding)', 58, '2020-12-14 19:44:42', 1),
 (122, 29, 0, 122, 'Cons', 55, '2020-07-07 17:54:57', 1),
 (123, 29, 0, 123, 'General Off Site Resource Links', 55, '2020-07-07 18:00:00', 1),
 (124, 29, 0, 124, 'U.S. Department of Energy Tip Sheets', 55, '2020-07-07 20:31:56', 1),
@@ -243,7 +323,8 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (251, 74, 0, 1, 'Summary', 61, '2020-11-29 00:29:29', 0),
 (252, 76, 10, 2, 'Gallery', 61, '2020-11-29 00:42:43', 0),
 (253, 76, 10, 1, 'Summary', 61, '2020-11-30 18:04:41', 0),
-(254, 76, 10, 254, 'General Off Site Resource Links', 61, '2020-11-30 18:07:00', 0);
+(254, 76, 10, 254, 'General Off Site Resource Links', 61, '2020-11-30 18:07:00', 0),
+(260, 78, 0, 260, 'Reduce System Lift', 58, '2020-12-14 19:47:45', 0);
 
 -- --------------------------------------------------------
 
@@ -430,7 +511,8 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (72, 64, 72, 'Using the Guide', 0, 51, '2020-11-18 01:41:03', 0),
 (74, 72, 3, 'Radio Frequency Identification (RFID)', 1, 61, '2020-11-28 23:26:46', 0),
 (75, 72, 2, 'Technologies', 1, 61, '2020-11-28 23:49:06', 0),
-(76, 72, 4, 'Machine Learning', 1, 61, '2020-11-29 00:38:27', 0);
+(76, 72, 4, 'Machine Learning', 1, 61, '2020-11-29 00:38:27', 0),
+(78, 48, 78, 'Refrigeration Opportunities to Consider', 0, 58, '2020-12-14 19:47:03', 0);
 
 -- --------------------------------------------------------
 
@@ -558,7 +640,10 @@ INSERT INTO `History_Cards` (`historyId`, `cardId`, `headerId`, `cardType`, `tit
 (104, 105, 32, 0, 'Improve the Condensate System', 0, '2020-10-29 21:50:47'),
 (105, 101, 32, 0, 'Improve Boiler Combustion Efficiency', 0, '2020-10-29 21:57:22'),
 (106, 95, 31, 0, 'Standard Data to Collect', 0, '2020-10-29 22:05:47'),
-(107, 96, 31, 0, 'Data Collection Equipment', 0, '2020-10-29 22:08:15');
+(107, 96, 31, 0, 'Data Collection Equipment', 0, '2020-10-29 22:08:15'),
+(108, 120, 28, 0, 'Power Quality', 1, '2020-12-14 19:44:17'),
+(109, 119, 28, 0, 'Turn off Motors (Consider Load Shedding)', 0, '2020-12-14 19:44:42'),
+(110, 77, 2, 0, 'Improve Compressor Efficiency', 0, '2020-12-14 21:45:53');
 
 -- --------------------------------------------------------
 
@@ -1281,7 +1366,44 @@ INSERT INTO `History_Items` (`historyId`, `parentId`, `itemId`, `cardId`, `order
 (836, 106, 6634, 95, 0, 1, 8, 'Sometimes capacity must be inferred from fan energy, and characteristic fan energy curves', '', '', 0, 0, 0, 0, '2020-10-29 22:04:51'),
 (837, 107, 6635, 96, 0, 0, 27, 'Combustion Analyzer ', '', '', 0, 0, 1, 0, '2020-10-29 22:08:04'),
 (838, 107, 6636, 96, 0, 0, 27, 'Digital or Infrared Thermometer', '', '', 0, 0, 1, 0, '2020-10-29 22:08:04'),
-(839, 107, 6637, 96, 0, 0, 8, 'An IR camera can help identify hot spots to insulate', '', '', 0, 0, 0, 0, '2020-10-29 22:08:04');
+(839, 107, 6637, 96, 0, 0, 8, 'An IR camera can help identify hot spots to insulate', '', '', 0, 0, 0, 0, '2020-10-29 22:08:04'),
+(840, 108, 1877, 120, 0, 0, 11, 'Correct Power Factor (for Ethan to flesh out)', '', '', 0, 0, 0, 0, '2020-07-03 00:28:39'),
+(841, 108, 1878, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, 0, 0, 0, '2020-07-03 00:28:39'),
+(842, 109, 7043, 119, 0, 0, 11, 'Manually reduce equipment operation time', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33'),
+(843, 109, 7044, 119, 0, 0, 11, 'Automatically control equipment operation time', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33'),
+(844, 109, 7045, 119, 0, 0, 11, 'Interlock equipment with a related process', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33'),
+(845, 109, 7046, 119, 0, 0, 11, 'Operate equipment in batches rather than continuously ', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33'),
+(846, 109, 7047, 119, 0, 1, 10, 'Equipment is idle for significant periods of time', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33'),
+(847, 110, 6910, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, 0, 0, 0, '2020-11-27 06:07:10'),
+(848, 110, 6911, 77, 0, 1, 31, 'Reducing the inlet air temperature of oil-injected screw compressors increases mass flow rate while maintaining power input. To efficiently maintain current mass flow rate a variable frequency drive is required to reduce the motor speed and associated power.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(849, 110, 6912, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(850, 110, 6913, 77, 0, 1, 10, 'Difficulty meeting a compressor\'s rated air capacity', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(851, 110, 6914, 77, 0, 1, 10, 'A compressor running hotter than its specifications', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(852, 110, 6915, 77, 0, 2, 8, 'Other factors may be at play such as significant air leaks increasing the load on the compressor', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(853, 110, 6916, 77, 0, 1, 3, '1.9% efficiency (scfm/kW) improvement per 10 °F reduction at inlet', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(854, 110, 6917, 77, 0, 1, 15, 'Compressor make, model, and nameplate data', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(855, 110, 6918, 77, 0, 1, 15, 'Motor nameplate data, live power reading, and one week of amperage data', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(856, 110, 6919, 77, 0, 1, 15, 'Complete picture of compressed air system and control strategy', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(857, 110, 6920, 77, 0, 1, 15, 'Average ambient temperature at current and proposed inlet locations', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(858, 110, 6921, 77, 0, 1, 12, 'Move air inlet to coolest location to reduce power and energy consumption', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(859, 110, 6922, 77, 0, 1, 8, 'If implementation requires much more than re-ducting, the chances of this opportunitity being worthwhile are low. ', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(860, 110, 6923, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/zk1aol8rf88aul9klflbxkikz6l2ku47', 'Analysis Template: Reduce Inlet Air Temperature', 2, 0, 0, 0, '2020-11-27 06:07:10'),
+(861, 110, 6924, 77, 0, 1, 17, 'An article from Compressed Air Best Practices by  Tim Dugan, P.E., President, Compression Engineering Corporation', 'https://www.airbestpractices.com/system-assessments/compressor-controls/inlet-air-temperature-impacts-air-compressor-performance', 'Inlet Air Temperature Impacts on Air Compressor Performance', 1, 0, 0, 0, '2020-11-27 06:07:10'),
+(862, 110, 6925, 77, 0, 0, 11, 'Increase Primary Receiver Capacity', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(863, 110, 6926, 77, 0, 1, 31, 'Insufficient receiver capacity can result in short cycling in oil-injected rotary screw compressors that use load-unload controls. Short cycling occurs when system demand forces a compressor to re-load before unload power has been fully realized, causing the compressor to cycle too frequently. Adding receiver capacity increases system efficiency by reducing cycling losses and time spent at partial loads. ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(864, 110, 6927, 77, 0, 1, 10, 'Current receiver capacity for an oil-injected rotary screw compressor is less than 3 gal/cfm', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(865, 110, 6928, 77, 0, 1, 10, 'An oil-injected rotary screw compressor consistently unloads for less than 45 seconds', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(866, 110, 6929, 77, 0, 1, 3, 'A minimum of 3 gal/cfm receiver capacity is recommended for oil-injected rotary screw compressors ', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(867, 110, 6930, 77, 0, 1, 1, 'Improved system efficiency due to reduced cycling frequency ', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(868, 110, 6931, 77, 0, 1, 1, 'Critical pressure applications are shielded from pressure fluctuations', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(869, 110, 6932, 77, 0, 1, 1, 'Prevents overloading the compressor\'s motor by allowing for a lower pressure set point ', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(870, 110, 6933, 77, 0, 1, 15, 'Compressor and motor nameplate data and specifications including unload capacity and power', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(871, 110, 6934, 77, 0, 1, 15, 'Week-long amperage data log that represents typical operation to identify when and if short cycling occurs ', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(872, 110, 6935, 77, 0, 1, 15, 'Current receiver capacity and operating pressure', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(873, 110, 6936, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/fksaccw3fhif7h70nkynzwlbbu26g608', 'Analysis Template: Increase Air Receiver Capacity', 2, 0, 0, 0, '2020-11-27 06:07:10'),
+(874, 110, 6937, 77, 0, 1, 20, '', '/uploads/user_42/8bef9996285f82268e4fef3c0c42b38a.png', 'Effect of Receiver Capacity on Lubricant-Injected Rotary Compressor with Load-Unload Capacity Control', 0, 0, 0, 0, '2020-11-27 06:07:10'),
+(875, 110, 6938, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, 0, 0, 0, '2020-11-27 06:07:10'),
+(876, 110, 6939, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10');
 
 -- --------------------------------------------------------
 
@@ -1548,8 +1670,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (1667, 116, 0, 0, 22, 'An OSU EEC Google Slideshow', 'https://docs.google.com/presentation/d/1eG8ygZ-gpYPzbjnpJKLcm_bmoIUImD7CcBU0ZExhfH4/edit?usp=sharing', 'Motor Assessment Fundamentals', 0, 0, 0, 0, '2020-07-02 23:53:23', 0),
 (1668, 116, 0, 0, 22, 'An IAC Training Slideshow', 'https://docs.google.com/presentation/d/153S2O7Ns9vJzLqHQnifW03rE52y4d-KGAPgC3e3D8zc/edit?usp=sharing', 'Motors Training', 0, 0, 0, 0, '2020-07-02 23:53:23', 0),
 (1669, 116, 0, 0, 22, 'An OSU EEC Google Slideshow', 'https://docs.google.com/presentation/d/1lbgHebPEVJEB17Yqp--r6gARKWkA4YB45nHJx3OEwXg/edit?usp=sharing', 'Power Factor', 0, 0, 0, 0, '2020-07-02 23:53:23', 0),
-(1877, 120, 0, 0, 11, 'Correct Power Factor (for Ethan to flesh out)', '', '', 0, 0, 0, 0, '2020-07-03 00:28:39', 1),
-(1878, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, 0, 0, 0, '2020-07-03 00:28:39', 1),
 (1897, 100, 0, 0, 24, 'See steam tip sheets', 'https://www.energy.gov/eere/amo/tip-sheets-system', 'U.S.DOE Energy Tip Sheets by System', 1, 0, 0, 0, '2020-08-10 17:50:55', 1),
 (1898, 100, 0, 0, 17, 'United Nations Industrial Development Organization Document', 'https://www.unido.org/sites/default/files/2017-11/SSO-Manual-Print-FINAL-20161109-One-Page-V2.pdf', 'Manual for Industrial Steam Systems Assessment and Optimization', 1, 0, 0, 0, '2020-07-03 03:01:04', 1),
 (1899, 100, 0, 0, 17, 'CleaverBrooks Document', 'http://cleaverbrooks.com/reference-center/insights/Boiler%20Efficiency%20Guide.pdf', 'Boiler Efficiency Guide', 1, 0, 0, 0, '2020-07-28 05:08:05', 1),
@@ -1636,11 +1756,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2152, 27, 0, 0, 11, 'Use desiccant based air dryer with more efficient desiccant bed regeneration', '', '', 0, 0, 0, 0, '2020-07-07 16:17:13', 1),
 (2153, 27, 0, 0, 11, 'Replace pneumatic hand tools with battery powered hand tools', '', '', 0, 0, 0, 0, '2020-07-07 16:17:13', 1),
 (2179, 123, 0, 0, 17, 'MEASUR is open source software that consists of the following DOE legacy energy system assessment tools (updated): Pumping System Assessment Tool (PSAT), Process Heating Assessment and Survey Tool (PHAST), Fan System Assessment Tool (FSAT), Steam System Assessment Tool (SSAT)/ Steam System Modeler (SSMT), AIRMaster+ (Last accessed 12/2/2019)   ', 'https://www.energy.gov/eere/amo/measur', 'U.S. Department of Energy MEASUR analysis tool', 1, 0, 0, 0, '2020-07-07 18:00:00', 1),
-(2261, 119, 0, 0, 11, 'Manually reduce equipment operation time', '', '', 0, 0, 0, 0, '2020-07-07 23:38:14', 1),
-(2262, 119, 0, 0, 11, 'Automatically control equipment operation time', '', '', 0, 0, 0, 0, '2020-07-07 23:38:14', 1),
-(2263, 119, 0, 0, 11, 'Interlock equipment with a related process', '', '', 0, 0, 0, 0, '2020-07-07 23:38:14', 1),
-(2264, 119, 0, 0, 11, 'Operate equipment in batches rather than continuously ', '', '', 0, 0, 0, 0, '2020-07-07 23:38:14', 1),
-(2265, 119, 0, 1, 10, 'Equipment is idle for significant periods of time', '', '', 0, 0, 0, 0, '2020-07-07 23:38:14', 1),
 (2268, 112, 0, 0, 15, 'Motor Inventory ', '', '', 0, 0, 0, 0, '2020-07-08 22:27:29', 0),
 (2269, 112, 0, 1, 26, 'Motor ID, Location, Application', '', '', 0, 0, 0, 0, '2020-07-08 22:27:29', 0),
 (2270, 112, 0, 1, 26, 'Nameplate Data ', '', '', 0, 0, 0, 0, '2020-07-08 22:27:29', 0),
@@ -1648,50 +1763,15 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2272, 112, 0, 1, 26, 'Drive Type', '', '', 0, 0, 0, 0, '2020-07-08 22:27:29', 0),
 (2273, 112, 0, 1, 26, 'Controls', '', '', 0, 0, 0, 0, '2020-07-08 22:27:29', 0),
 (2275, 113, 0, 0, 27, 'Power Quality Analyzer ', '', '', 0, 0, 0, 0, '2020-07-08 22:29:50', 0),
-(2309, 120, 0, 0, 11, 'Correct Power Factor (Ethan)', '', '', 0, 0, 0, 0, '2020-07-10 18:53:01', 0),
-(2310, 120, 0, 1, 10, 'Power factor below ##%', '', '', 0, 0, 0, 0, '2020-07-10 18:53:01', 0),
 (2677, 133, 0, 0, 1, 'Pro1', '', '', 0, 0, 0, 0, '2020-07-20 21:20:19', 0),
 (2678, 134, 0, 0, 2, 'Con1', '', '', 0, 0, 0, 0, '2020-07-20 21:20:35', 0),
 (2679, 135, 0, 0, 4, 'Caveat', '', '', 0, 0, 0, 0, '2020-07-20 21:21:07', 0),
-(2680, 136, 0, 0, 3, 'RoT', '', '', 0, 0, 0, 0, '2020-07-20 21:21:25', 0),
 (2681, 137, 0, 0, 8, 'Tip', '', '', 0, 0, 0, 0, '2020-07-20 21:21:56', 0),
 (2682, 138, 0, 0, 7, 'BP', '', '', 0, 0, 0, 0, '2020-07-20 21:22:23', 0),
 (2684, 139, 0, 0, 20, '', 'Fig', 'Fig', 0, 0, 0, 0, '2020-07-20 22:10:06', 0),
-(2685, 140, 0, 0, 15, 'data', '', '', 0, 0, 0, 0, '2020-07-20 22:10:28', 0),
 (2686, 141, 0, 0, 27, 'Sling Psychrometer ', '', '', 0, 0, 0, 0, '2020-07-20 22:11:29', 0),
 (2687, 142, 0, 0, 21, 'tool', 'tool', 'tool', 0, 0, 0, 0, '2020-07-20 22:12:33', 0),
 (2688, 143, 0, 0, 17, 'Resource', 'Resource', 'Resource', 0, 0, 0, 0, '2020-07-20 22:13:43', 0),
-(2689, 144, 0, 0, 24, 'Link', 'Link', 'Link', 1, 0, 0, 0, '2020-07-20 22:14:24', 0),
-(2955, 77, 0, 0, 11, 'Reduce Inlet Air Temperature ', '', '', 1, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2956, 77, 0, 1, 31, 'Reducing the inlet air temperature of oil-injected screw compressors increases mass flow rate while maintaining power input. To efficiently maintain current mass flow rate a variable frequency drive is required to reduce the motor speed and associated power.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2957, 77, 0, 1, 10, 'High ambient temperature at the air inlet', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2958, 77, 0, 1, 10, 'Difficulty meeting a compressor\'s rated air capacity', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2959, 77, 0, 1, 10, 'A compressor running hotter than its specifications', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2960, 77, 0, 2, 8, 'Other factors may be at play such as significant air leaks increasing the load on the compressor', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2961, 77, 0, 1, 3, '1.9% efficiency (scfm/kW) improvement per 10 °F reduction at inlet', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2962, 77, 0, 1, 15, 'Compressor make, model, and nameplate data', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2963, 77, 0, 1, 15, 'Motor nameplate data, live power reading, and one week of amperage data', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2964, 77, 0, 1, 15, 'Complete picture of compressed air system and control strategy', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2965, 77, 0, 1, 15, 'Average ambient temperature at current and proposed inlet locations', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2966, 77, 0, 1, 12, 'Move air inlet to coolest location to reduce power and energy consumption', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2967, 77, 0, 1, 8, 'If implementation requires much more than re-ducting, the chances of this opportunitity being worthwhile are low. ', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2968, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/zk1aol8rf88aul9klflbxkikz6l2ku47', 'Analysis Template: Reduce Inlet Air Temperature', 2, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2969, 77, 0, 1, 17, 'An article from Compressed Air Best Practices by  Tim Dugan, P.E., President, Compression Engineering Corporation', 'https://www.airbestpractices.com/system-assessments/compressor-controls/inlet-air-temperature-impacts-air-compressor-performance', 'Inlet Air Temperature Impacts on Air Compressor Performance', 1, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2970, 77, 0, 0, 11, 'Increase Primary Receiver Capacity', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2971, 77, 0, 1, 31, 'Insufficient receiver capacity can result in short cycling in oil-injected rotary screw compressors that use load-unload controls. Short cycling occurs when system demand forces a compressor to re-load before unload power has been fully realized, causing the compressor to cycle too frequently. Adding receiver capacity increases system efficiency by reducing cycling losses and time spent at partial loads. ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2972, 77, 0, 1, 10, 'Current receiver capacity for an oil-injected rotary screw compressor is less than 3 gal/cfm', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2973, 77, 0, 1, 10, 'An oil-injected rotary screw compressor consistently unloads for less than 45 seconds', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2974, 77, 0, 1, 3, 'A minimum of 3 gal/cfm receiver capacity is recommended for oil-injected rotary screw compressors ', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2975, 77, 0, 1, 1, 'Improved system efficiency due to reduced cycling frequency ', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2976, 77, 0, 1, 1, 'Critical pressure applications are shielded from pressure fluctuations', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2977, 77, 0, 1, 1, 'Prevents overloading the compressor\'s motor by allowing for a lower pressure set point ', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2978, 77, 0, 1, 15, 'Compressor and motor nameplate data and specifications including unload capacity and power', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2979, 77, 0, 1, 15, 'Week-long amperage data log that represents typical operation to identify when and if short cycling occurs ', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2980, 77, 0, 1, 15, 'Current receiver capacity and operating pressure', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2981, 77, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format', 'https://oregonstate.box.com/s/fksaccw3fhif7h70nkynzwlbbu26g608', 'Analysis Template: Increase Air Receiver Capacity', 2, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2982, 77, 0, 1, 20, '', 'https://drive.google.com/file/d/1OV8lp9LoQl2dsUxOvEc8l8ppHLB5JWbY/view?usp=sharing', 'Effect of Receiver Capacity on Lubricant-Injected Rotary Compressor with Load-Unload Capacity Control', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2983, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, 0, 0, 0, '2020-07-30 02:31:10', 1),
-(2984, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, 0, 0, 0, '2020-07-30 02:31:10', 1),
 (3511, 85, 0, 0, 11, 'Trim Pump Impeller for Better Efficiency at Typical Operating Points', '', '', 0, 0, 0, 0, '2020-08-06 03:46:30', 0),
 (3512, 85, 0, 0, 11, 'Replace Pump with One Selected for Optimum Efficiency at Typical Operating Points', '', '', 0, 0, 0, 0, '2020-08-06 03:46:30', 0),
 (3513, 85, 0, 1, 10, 'Older pumps that have not been adjusted or calibrated to fit existing demand.', '', '', 0, 0, 0, 0, '2020-08-06 03:46:30', 0),
@@ -1750,8 +1830,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4402, 169, 0, 0, 4, 'Implementation is typically costly and time consuming. Relocation of departments and workstations typically requires plant downtime.', '', '', 0, 0, 0, 0, '2020-08-14 20:44:57', 0),
 (4403, 169, 0, 0, 4, 'Data for sufficient analysis is difficult to obtain without longer term studies. Variance in workflows greatly influences calculations if non-annual data is used.', '', '', 0, 0, 0, 0, '2020-08-14 20:44:57', 0),
 (4409, 170, 0, 0, 10, 'The flow of work in progress product, personnel, or inventory/materials appears non-linear or requires excessive movement.', '', '', 0, 0, 0, 0, '2020-08-14 21:06:31', 0),
-(4410, 170, 0, 0, 10, 'Inefficient layouts are most common in facilities that produce low volumes of diverse products. Layouts of high volume manufacturing facilities are typically already optimized. ', '', '', 0, 0, 0, 0, '2020-08-14 21:06:31', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(4410, 170, 0, 0, 10, 'Inefficient layouts are most common in facilities that produce low volumes of diverse products. Layouts of high volume manufacturing facilities are typically already optimized. ', '', '', 0, 0, 0, 0, '2020-08-14 21:06:31', 0),
 (4411, 171, 0, 0, 15, 'Facility layout with location and dimensions of departments.', '', '', 0, 0, 0, 0, '2020-08-14 21:08:00', 0),
 (4412, 171, 0, 0, 15, 'Directional flow of materials and personal during processing from start to end..', '', '', 0, 0, 0, 0, '2020-08-14 21:08:00', 0),
 (4413, 171, 0, 0, 15, 'How materials are transported (e.g. manual labor, forklift, conveyors).', '', '', 0, 0, 0, 0, '2020-08-14 21:08:00', 0),
@@ -1792,7 +1871,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4572, 154, 0, 1, 12, 'Determine incremental costs (Potential savings with each unit of resource saved )', '', '', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
 (4573, 154, 0, 1, 12, 'Understand special costs: Electrical Demand and Power Factor cost, meter costs, ...', '', '', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
 (4574, 154, 0, 1, 12, 'Confirm estimated annual costs ', '', '', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
-(4575, 154, 0, 1, 17, '(item not added yet)', 'abc.com', 'Example Utility Baseline Analysis', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4575, 154, 0, 1, 17, '(item not added yet)', 'abc.com', 'Example Utility Baseline Analysis', 0, 0, 0, 0, '2020-08-18 21:48:18', 1);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (4576, 154, 0, 0, 26, 'Ensure all personnel information provided is entered into the OSU IAC Project Management DB', '', '', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
 (4577, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
 (4578, 154, 0, 0, 14, 'If the client has given permission, consider how to engage utility representatives (and regional incentive and assistance programs such as  ETO or ESI  in the remote assessment process)?', '', '', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
@@ -1999,8 +2079,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5509, 206, 0, 2, 12, 'Only upload images that you have intellectual property rights to use. This means that you should not use images that you did not create unless you have gotten express permission to use them from the creator.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5510, 206, 0, 2, 7, 'If you want to use an image in multiple locations. Upload the image by submitting some content, then edit the content and you will see that the image has a URL that you can copy. You can reuse this URL anywhere on the website, this is the preferred method as it saves space on the server by only uploading the image once.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5788, 222, 0, 0, 17, 'This report details the vehicle assembly process and common energy saving opportunities associated with each step. References to case studies, implementation costs and payback periods are included. Opportunities are included for the following systems: motors, compressed air, steam, lighting, HVAC, materials handling, painting and stamping.', 'https://www.osti.gov/biblio/927881', 'Energy Efficiency Improvement and Cost Saving Opportunities for the Vehicle Assembly Industry', 1, 0, 0, 0, '2020-09-15 19:40:23', 0),
-(5812, 215, 0, 0, 31, 'The following opportunities are specific to metals manufacturing facilities. For more opportunities related to compressed air, go to the Compressed Air Technologies page. ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-09-15 20:53:32', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(5812, 215, 0, 0, 31, 'The following opportunities are specific to metals manufacturing facilities. For more opportunities related to compressed air, go to the Compressed Air Technologies page. ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-09-15 20:53:32', 0),
 (5813, 215, 0, 0, 11, 'Replace the pistons on stamping die cushions with air actuators', '', '', 0, 0, 0, 0, '2020-09-15 20:53:32', 0),
 (5814, 215, 0, 1, 31, 'Die cushions on large stamping presses are used to support inserts in the lower die.', '%zXz%', '%zXz%', 0, 0, 0, 13, '2020-09-15 20:53:32', 0),
 (5815, 215, 0, 1, 26, 'Die cushions can produce significant air leaks, up to 100 CFM in some cases, after moderate use. Air actuators are more resilient and can operate without air leaks for over five years.', '', '', 0, 0, 0, 13, '2020-09-15 20:53:32', 0),
@@ -2042,7 +2121,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6206, 230, 0, 0, 26, 'Base charge', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
 (6207, 230, 0, 0, 26, 'Supply rate', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
 (6208, 230, 0, 0, 26, 'Transport fees', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
-(6209, 230, 0, 0, 26, 'City tax', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
+(6209, 230, 0, 0, 26, 'City tax', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (6210, 230, 0, 0, 26, 'Public purpose charge', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
 (6231, 232, 0, 0, 26, 'Generally, water companies assign different classes of rate schedules depending on the application.', '', '', 0, 0, 0, 0, '2020-09-23 22:25:06', 0),
 (6232, 232, 0, 1, 26, 'An industrial or commercial rate schedule is often assigned to industry consumers', '', '', 0, 0, 0, 0, '2020-09-23 22:25:06', 0),
@@ -2297,8 +2377,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6849, 244, 0, 1, 12, 'Schedule 10-15 minute individual meetings with each analyst. The frequency of these meetings should be determined by the lead. At a minimum, every two weeks is recommended. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6850, 244, 0, 2, 8, 'Any issues or questions analysts have encountered should be discussed. ', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6851, 244, 0, 2, 8, 'Be sure to invite the PA, but their attendance should not be required unless previously discussed.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
-(6852, 244, 0, 0, 7, 'Take notes on every meeting. As the lead, it is your responsibility to make sure nothing gets forgotten.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(6852, 244, 0, 0, 7, 'Take notes on every meeting. As the lead, it is your responsibility to make sure nothing gets forgotten.', '', '', 0, 0, 0, 0, '2020-11-23 23:11:25', 0),
 (6907, 240, 0, 0, 8, 'Filters are available on each published page. Clicking on the icons located on each header will filter associated items out or back into the list below.  ', '', '', 0, 0, 0, 0, '2020-11-24 22:19:06', 0),
 (6908, 240, 0, 1, 32, '', '/uploads/user_51/f6503d4e177523d18823ae1f14314853.png', 'Typical Header', 0, 0, 0, 0, '2020-11-24 22:19:06', 0),
 (6909, 240, 0, 1, 8, 'Clicking on the last three icons will bring back all items, hide all items, or hide the filter icon list.', '', '', 0, 0, 0, 0, '2020-11-24 22:19:06', 0),
@@ -2332,7 +2411,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6937, 77, 0, 1, 20, '', '/uploads/user_42/8bef9996285f82268e4fef3c0c42b38a.png', 'Effect of Receiver Capacity on Lubricant-Injected Rotary Compressor with Load-Unload Capacity Control', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
 (6938, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, 0, 0, 0, '2020-11-27 06:07:10', 0),
 (6939, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
-(6947, 249, 0, 0, 31, '<p>Cloud Computing Background</p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-28 23:51:50', 0),
+(6947, 249, 0, 0, 31, '<p>Cloud Computing Background</p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-28 23:51:50', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (6952, 251, 0, 0, 31, '<p>RFID is used to track products. Companies need to keep track of products for inventory control, determining production schedules, and traceability. Some small companies still use paper and clipboard, which has a large margin for error as production scales up. Many companies have made the transition to barcode scanning which is faster and more reliable when shared among many people. It still has a drawback of requiring an operator to scan at appropriate points. If an operator forgets to scan, or enters incorrect information during a scan, product can end up “lost” in storage. RFID has the advantage of not requiring a constant scanning and can be located even if the product is “lost”.&nbsp;</p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-29 00:29:29', 0),
 (6953, 250, 0, 0, 24, 'Springer', 'http://link.springer.com/10.1007/s10586-017-0767-x', 'Yang et al.  “Towards product customization and personalization in IoT-enabled cloud manufacturing,”', 1, 0, 0, 0, '2020-11-29 00:36:24', 0),
 (6954, 250, 0, 0, 24, 'Science Direct', 'http://www.sciencedirect.com/science/article/pii/S0925527314002825', 'Guo et al. “An RFID-based intelligent decision support system architecture for production monitoring and scheduling in a distributed manufacturing environment,”', 1, 0, 0, 0, '2020-11-29 00:36:24', 0),
@@ -2349,7 +2429,31 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6994, 236, 0, 0, 11, 'Combine multiple small meters together', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0),
 (6995, 236, 0, 0, 11, 'Combine a small meter with a larger meter', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0),
 (7013, 197, 0, 0, 26, 'Researchers from the University of Illinois Urbana-Champaign have developed a tool for manufacturers to simplify the understanding of cybersecurity standards created by the National Institute of Standards and Technology. This tool also follows DFARS, the Department of Defense’s acquisition regulations.', '', '', 0, 0, 0, 0, '2020-12-08 07:56:23', 0),
-(7014, 197, 0, 1, 21, ' ', 'https://iti.illinois.edu/news/new-software-tool-help-manufacturing-companies-meet-complex-cyber-security-standards ', 'The Dashboard', 1, 0, 0, 0, '2020-12-08 07:56:23', 0);
+(7014, 197, 0, 1, 21, ' ', 'https://iti.illinois.edu/news/new-software-tool-help-manufacturing-companies-meet-complex-cyber-security-standards ', 'The Dashboard', 1, 0, 0, 0, '2020-12-08 07:56:23', 0),
+(7029, 87, 0, 0, 11, 'Replace refrigerated compressed air dryer with more efficient refrigerated compressed air dryer', '', '', 0, 0, 0, 0, '2020-12-14 15:58:03', 0),
+(7030, 87, 0, 0, 11, 'Capture heat rejected by air compressors', '', '', 0, 0, 0, 0, '2020-12-14 15:58:03', 0),
+(7043, 119, 0, 0, 11, 'Manually reduce equipment operation time', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33', 1),
+(7044, 119, 0, 0, 11, 'Automatically control equipment operation time', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33', 1),
+(7045, 119, 0, 0, 11, 'Interlock equipment with a related process', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33', 1),
+(7046, 119, 0, 0, 11, 'Operate equipment in batches rather than continuously ', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33', 1),
+(7047, 119, 0, 1, 10, 'Equipment is idle for significant periods of time', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33', 1),
+(7072, 144, 0, 0, 24, 'An guide to industrial refrigeration systems and associated best practicers. Developed by Cascade Energy.', 'https://cascadeenergy.com/wp-content/uploads/2013/10/industrial-refridgeration-best-practices-guide.pdf', 'Industrial Refrigeration - Best Practices Guide ', 1, 0, 0, 0, '2020-12-14 21:22:53', 0),
+(7079, 140, 0, 0, 31, '<p>Compressor Data</p>', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
+(7080, 140, 0, 1, 15, 'Compressor and motor nameplates', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
+(7081, 140, 0, 1, 15, 'Amperage data log of the compressor motor to determine energy consumption and use factor', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
+(7082, 140, 0, 1, 15, 'Maximum suction pressure and minimum discharge pressure', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
+(7083, 140, 0, 1, 15, 'Maximum suction temperature and minimum discharge temperature', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
+(7084, 140, 0, 1, 15, 'Dry and wet bulb temperatures', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
+(7099, 136, 0, 0, 3, '1.5% compressor power reduction per 1°F decrease in condensing temperature', '', '', 0, 0, 0, 20, '2020-12-14 22:55:21', 0),
+(7100, 136, 0, 0, 3, '2% compressor power reduction per 1°F increase in suction temperature ', '', '', 0, 0, 0, 21, '2020-12-14 22:55:21', 0),
+(7101, 260, 0, 0, 31, '<p>System lift is the difference between suction and discharge pressure at the compressor stage in the refrigeration cycle. Lift can be reduced by either increasing the suction pressure, decreasing the discharge pressure, or a combination of both. Minimizing lift improves system efficiency by increasing efficiency at the compressor stage.</p>', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
+(7102, 260, 0, 0, 11, 'Increase suction pressure ', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
+(7103, 260, 0, 1, 10, 'Back-pressure regulators are used to maintain a higher pressure than the compressor set point ', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
+(7104, 260, 0, 1, 15, 'Current and proposed suction pressure', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
+(7105, 260, 0, 1, 15, 'Dry and wet bulb suction temperatures: current and proposed', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
+(7106, 260, 0, 0, 11, 'Decrease discharge pressure', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
+(7107, 260, 0, 1, 10, 'If the condensing temperature is higher than its corresponding saturated condensing temperature, discharge pressure may be reduced. ', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
+(7108, 260, 0, 0, 11, 'Implement floating head controls ', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0);
 
 -- --------------------------------------------------------
 
@@ -2418,12 +2522,12 @@ CREATE TABLE `Pages` (
 --
 
 INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imageUrl`, `internal`, `userId`, `created`, `approved`) VALUES
-(2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/uploads/user_42/fe1402c50e24309eb11f4209c73e2daf.png', 0, 42, '2020-09-14 12:50:14', 1),
-(44, 2, 'Motors and Controls', 'Electrical Motors and Motor Controls (Variable Speed Drives, etc) are crucial to most mechanized industrial processes and equipment.', 'Motors are a crucial part of any mechanized process and provide a means to do the majority of the mechanical work in most facilities.  Motors convert electrical energy into mechanical work to provide power to a wide range of applications including air compressors, fans, pumps, hydraulics, mixers, conveyors, and much more.', 'https://live.staticflickr.com/65535/50069229503_243696380c_b.jpg', 0, 51, '2020-06-29 23:04:50', 0),
+(2, 2, 'Compressed Air', 'Compressed air is a common utility found in most industrial facilities', 'Compressed air has been a key industrial utility since the 1800\'s. It can drive pneumatic cylinders, air motors, diaphragm pumps and controls. It is capable of reasonably high force actuation, and is a common required utility in equipment packages. It can be used and is often misused to generate air flow for agitation, blow-off, cooling, and motive force applications. Screw compressors currently comprise the majority of industrial compressed air installations, but reciprocating and centrifugal compressors can be found in older or special installations/applications.', '/uploads/user_42/fe1402c50e24309eb11f4209c73e2daf.png', 0, 42, '2020-12-14 21:45:53', 1),
+(44, 2, 'Motors and Controls', 'Electrical Motors and Motor Controls (Variable Speed Drives, etc) are crucial to most mechanized industrial processes and equipment.', 'Motors are a crucial part of any mechanized process and provide a means to do the majority of the mechanical work in most facilities.  Motors convert electrical energy into mechanical work to provide power to a wide range of applications including air compressors, fans, pumps, hydraulics, mixers, conveyors, and much more.', 'https://live.staticflickr.com/65535/50069229503_243696380c_b.jpg', 0, 51, '2020-12-14 19:44:42', 0),
 (45, 2, 'Pumps', 'Pumps provide a typical utility required throughout industry.', 'Centrifugal pumps are the most common type found in industry, followed by positive displacement pumps (used in hydraulics), pneumatic diaphragm pumps, peristaltic pumps, and other specialty pumps. \n\nUnless otherwise noted this section speaks to centrifugal pumps when addressing pump performance and efficiency. Changes in hydraulic energy required (pressure and flow) will translate to any pumping system. \n\nCentrifugal pumps generally come in three classes: radial flow, mixed flow, and axial flow.', 'https://live.staticflickr.com/65535/50066427331_ddae8822f2_b.jpg', 0, 55, '2020-07-01 18:11:01', 0),
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
 (47, 2, 'Thermal Systems', 'Many industrial processes require encouraging or resisting thermal energy transfer.', 'Heat transfer technologies include heat exchangers, cooling towers, fan cooling, direct impingement and other methods.  Heat transfer is discouraged with insulation, vacuums, reduced emissivity, etc. ', 'https://live.staticflickr.com/65535/50069411093_68ab30e548_b.jpg', 0, 58, '2020-07-02 21:31:22', 0),
-(48, 2, 'Refrigeration', 'Refrigeration technology is important in many industrial processes.', 'Vapor compression is the most common refrigeration technology. Mechanical energy input to a compressor enables absorbing heat in cooler environment and discharging it to a warmer environment. ', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 51, '2020-07-02 22:10:36', 0),
+(48, 2, 'Refrigeration', 'Refrigeration technology is important in many industrial processes.', 'Refrigeration is the process of absorbing heat from a medium, typically air or water, and rejecting it to the ambient environment by using work. Many opportunities are available that minimize work in industrial refrigeration systems to provide energy and cost savings. Common industrial applications include temperature controlled warehouses, food storage, and water chiller systems. Improving the energy efficiency of such systems not only reduces energy consumption, but can often reduce labor costs and improve productivity, product quality, and system reliability. Refrigeration load, control strategies, set points, maintenance, initial capital investment, and the long term life-cycle costs are all important factors when designing a refrigeration system. Careful consideration of the system as a whole at the onset, and ongoing energy and operational management is vital to getting the most out of a refrigeration system.', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 58, '2020-07-02 22:10:36', 0),
 (49, 7, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'They can also be based on the rate of use, when use occurs, how the commodity is obtained, or how the commodity is measured. Understanding utility bills is essential to identifying potential areas of resource savings and implementing solutions.', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 1, 54, '2020-07-02 22:40:27', 0),
 (50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 51, '2020-07-07 20:46:38', 0),
 (54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, 51, '2020-08-05 19:54:53', 1),
@@ -2460,7 +2564,33 @@ INSERT INTO `Questions` (`questionId`, `pageId`, `text`, `type`, `priority`, `im
 (1, 62, 'What is often the most effective method for bypassing security?', 1, 0, ''),
 (2, 62, 'What do you call a person who is trying to steal important information from our organization electronically?', 2, 0, ''),
 (3, 62, 'Can you name these two devices?', 3, 0, '/uploads/user_42/db309b887fde585de15cbacce2283779.jpg'),
-(4, 2, 'Compressing air is inefficient, with as much as ____ of the input energy lost as heat.', 1, 0, '');
+(4, 2, 'Compressing air is inefficient, with as much as ___ of the input energy lost as heat.', 1, 0, ''),
+(5, 2, 'Rule of Thumb: Air compressor power is reduced by ___ % for ever 2 psig reduction in pressure.', 1, 0, ''),
+(6, 2, 'True or False: Unloading controls may be added to an air compressor to increase part-load efficiency.', 1, 0, ''),
+(8, 2, 'It is a red flag if the pressure drop from the air compressor to the end use is greater than ___ %.', 1, 0, ''),
+(9, 2, 'True or False: A properly designed heat recovery unit can recover 50-90% of heat rejected from an air compressor.', 1, 0, ''),
+(10, 2, 'What is the best way to accommodate high-pressure equipment among other lower pressure equipment?', 1, 0, ''),
+(11, 2, 'Which of the following are inefficient applications for compressed air?', 1, 0, ''),
+(12, 2, 'The typical required pressure range for most industrial equipment is ___ to ___ psig. ', 3, 0, ''),
+(13, 46, 'It is best to tune a boiler every ___ to ___ months.', 3, 0, ''),
+(14, 46, 'In boiler systems ideal stack exhaust temperatures range from ___ to ___ °F. ', 1, 0, ''),
+(15, 46, 'True or False: Returned condensate is ideally between 130-225 °F.', 1, 0, ''),
+(16, 46, 'Boiler efficiency can be increase by 1% for every ___ °F reduction in stack exhaust temperature.', 1, 0, ''),
+(17, 46, 'True or False: Boiler blowdown rates often range from 1% to 8% of the feed water flow rate, but they can be as high as 20%.', 1, 0, ''),
+(18, 46, 'What is the purpose of a steam trap? ', 1, 0, ''),
+(19, 46, 'On a well designed natural gas-fired boiler, an excess air percentage of ___ is attainable. ', 1, 0, ''),
+(20, 46, 'How often should a high-pressure steam trap be checked? ', 1, 0, ''),
+(21, 46, 'A complete automatic blowdown system consists of which of the following components?\na) Low or high-pressure conductivity probe\nb) Flue gas analyzer\nc) Temperature compensation and signal conditioning equipment\nd) Blowdown modulating valve ', 1, 0, ''),
+(22, 45, 'Common types of centrifugal pumps include:', 1, 0, ''),
+(23, 45, 'True or False: A pump\'s operating point can be determined by finding the intersection of the system and pump curves.', 1, 0, ''),
+(24, 45, 'Rule of thumb: 1 PSI of pressure is approximately equivalent to ____ ft. of water head. ', 1, 0, ''),
+(25, 45, 'It is considered a best practice to operate within ___ % and ___ % of the best efficiency point on the head versus flow curve.', 3, 0, ''),
+(26, 45, 'True or False: Valves will modify the pump curve. ', 1, 0, ''),
+(27, 45, 'If pump speed is reduced by 1/2, the hydraulic horsepower required to maintain the flow drops by ___. ', 2, 0, ''),
+(28, 45, 'True or False: Adding pumps in parallel increases the capacity of the system without increasing the head.', 1, 0, ''),
+(29, 45, 'True or False: Adding pumps in series increases the discharge head with little increase in capacity.', 1, 0, ''),
+(30, 45, 'Pumping efficiency is the ratio of ___ horsepower to ___ horsepower. ', 3, 0, ''),
+(31, 45, 'The relationship between power and flow rate is: ', 1, 0, '');
 
 -- --------------------------------------------------------
 
@@ -2514,7 +2644,9 @@ CREATE TABLE `Requests` (
 
 INSERT INTO `Requests` (`requestId`, `title`, `description`, `status`, `created`, `userId`) VALUES
 (5, 'Metals Manufacturing', 'This is the metals manufacturing page that I started while working with ColMac', 1, '2020-10-15 18:21:13', 52),
-(6, 'Utility Billing - Electricity', 'This introduces the utilities page and covers electricity billing structure.  Other utilities are to follow in a similar fashion, so I\'m wanting to check organization and content before reviewing any others.  Last note:  I have no idea what picture to put for the page, so very much open to any suggestions. Thanks!', 1, '2020-10-16 22:04:13', 54);
+(6, 'Utility Billing - Electricity', 'This introduces the utilities page and covers electricity billing structure.  Other utilities are to follow in a similar fashion, so I\'m wanting to check organization and content before reviewing any others.  Last note:  I have no idea what picture to put for the page, so very much open to any suggestions. Thanks!', 1, '2020-10-16 22:04:13', 54),
+(9, 'Demo', 'Demo', 4, '2020-12-14 16:14:45', 58),
+(10, 'Demo', 'Demo', 4, '2020-12-14 18:29:00', 58);
 
 -- --------------------------------------------------------
 
@@ -2576,7 +2708,9 @@ INSERT INTO `Request_Objects` (`requestObjectId`, `requestId`, `objectId`, `obje
 (25, 6, 64, 2),
 (26, 6, 223, 3),
 (27, 6, 224, 3),
-(28, 6, 225, 3);
+(28, 6, 225, 3),
+(33, 9, 257, 3),
+(34, 10, 259, 3);
 
 -- --------------------------------------------------------
 
@@ -2602,7 +2736,37 @@ INSERT INTO `Scores` (`scoreId`, `pageId`, `questionId`, `userId`, `text`, `corr
 (40, 62, 2, 42, 'attacker', 1),
 (41, 62, 3, 42, 'mouse', 1),
 (42, 62, 3, 42, 'keyboard', 1),
-(44, 2, 4, 58, '85%-90%', 1);
+(51, 2, 4, 58, '85%-90%', 1),
+(52, 2, 5, 58, '1', 1),
+(53, 2, 6, 58, 'true', 1),
+(54, 2, 8, 58, '10', 1),
+(55, 2, 9, 58, 'true', 1),
+(56, 2, 10, 58, 'add a booster or use a separate high-pressure system', 1),
+(57, 2, 11, 58, 'all of the above', 1),
+(58, 2, 12, 58, '80', 1),
+(59, 2, 12, 58, '85', 1),
+(60, 46, 13, 58, '6', 1),
+(61, 46, 13, 58, '12', 1),
+(62, 46, 14, 58, '100-150', 1),
+(63, 46, 15, 58, 'true', 1),
+(64, 46, 16, 58, '40', 1),
+(65, 46, 17, 58, 'true', 1),
+(66, 46, 18, 58, 'drain condensate from steam lines', 1),
+(67, 46, 19, 58, '10%', 1),
+(68, 46, 20, 58, 'weekly to monthly', 1),
+(69, 46, 21, 58, 'a, c, d', 1),
+(70, 45, 22, 58, 'all of the above', 1),
+(71, 45, 23, 58, 'true', 1),
+(72, 45, 24, 58, '2.31', 1),
+(73, 45, 25, 58, '-10', 1),
+(74, 45, 25, 58, '10', 1),
+(75, 45, 26, 58, 'false', 1),
+(76, 45, 27, 58, '1/8', 1),
+(77, 45, 28, 58, 'true', 1),
+(78, 45, 29, 58, 'true', 1),
+(79, 45, 30, 58, 'hydraulic', 1),
+(80, 45, 30, 58, 'brake', 1),
+(81, 45, 31, 58, 'cubic', 1);
 
 -- --------------------------------------------------------
 
@@ -2633,7 +2797,11 @@ INSERT INTO `Sources` (`sourceId`, `pageId`, `text`) VALUES
 (13, 69, '<p>C. Galitsky, E. Worrell. \"Energy Efficiency Improvement and Cost Saving Opportunities for the Vehicle Assembly Industry - An ENERGY STAR Guide for Energy and Plant Managers,\" Lawrence Berkeley National Laboratory, Berkeley, CA, 2008. Accessed: Sept. 10, 2020. [Online]. Available: <a href=\"https://www.osti.gov/servlets/purl/927881\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.osti.gov/servlets/purl/927881</a></p>'),
 (15, 49, '<p>\"Electricity Explained: Measuring Electricity.\"&nbsp;US Energy Information Administration.&nbsp;Available:https://www.eia.gov/energyexplained/electricity/measuring-electricity.php. [Accessed: Oct. 16, 2020].</p>'),
 (16, 49, '<p>\"Understanding Peak Power.\" Eugene Water and Electric Board.  Available: http://www.eweb.org/about-us/power-supply/understanding-peak-power.  [Accessed: Oct. 16, 2020].</p>'),
-(17, 49, '<p>\"Natural Gas Explained: Natural Gas Prices.\"  US Energy Information Administration.  Available: https://www.eia.gov/energyexplained/natural-gas/prices.php.  [Accessed: Oct. 16, 2020].</p>');
+(17, 49, '<p>\"Natural Gas Explained: Natural Gas Prices.\"  US Energy Information Administration.  Available: https://www.eia.gov/energyexplained/natural-gas/prices.php.  [Accessed: Oct. 16, 2020].</p>'),
+(18, 2, '<p>Test Source</p>'),
+(19, 45, '<p>Demo</p>'),
+(20, 48, '<p>M.R. Muller, M. Simek, J. Mak, B. Mitrovic. <em>Essentials of Industrial Assessments - A Training Manual v.3.0 - Ch 7 Thermal Applications, </em>(2015). Accessed: Dec. 14, 2020. [Online]. Available: https://iac.university/technicalDocs/industr/ch7.pdf</p>'),
+(21, 48, '<p>Cascade Energy Engineering, Inc. <em>Industrial Refrigeration - Best Practices Guide</em>, 3 ed. (2010). Accessed: Dec. 14, 2020. [Online]. Available: https://cascadeenergy.com/wp-content/uploads/2013/10/industrial-refridgeration-best-practices-guide.pdf</p>');
 
 -- --------------------------------------------------------
 
@@ -2678,11 +2846,10 @@ CREATE TABLE `Temp_Cards` (
 --
 
 INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
-(77, 0, 'Improve Compressor Efficiency', 77, 42, '2020-11-27 06:07:10'),
+(87, 0, 'Other Opportunities', 87, 58, '2020-12-14 15:57:53'),
 (100, 0, 'Off Site Resource Links', 100, 61, '2020-07-03 17:55:16'),
 (105, 0, 'Improve the Condensate System', 105, 51, '2020-10-29 21:51:42'),
 (106, 0, 'Reduce Heat Loss', 106, 51, '2020-07-03 17:31:09'),
-(120, 0, 'Power Quality', 120, 58, '2020-07-10 18:52:52'),
 (155, 10, 'Identify Potential Sites to Work With', 1, 55, '2020-11-19 15:48:15'),
 (156, 10, 'Hold an Initial Remote Assessment Meeting with the Client', 4, 52, '2020-11-20 15:57:46'),
 (158, 10, 'Develop a List of Potential Opportunities to Study', 6, 52, '2020-11-20 15:36:44'),
@@ -2781,7 +2948,7 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (63, 'testUser', '1f9d6b0176ddee97a3a69102b00679fd$f95c8cef6dacedc921486f893f34cdcd497d0e70b36955f84a3f45caa86c6c5f', 'test', 'user', 'testuser@gmail.com', 4, '2020-07-28 20:21:12'),
 (64, 'NewUser', '0f98b126f8c5f97567986f7344a65d35$b56cdfeeb26a024487d97ea457a4691c8059a5a41f6102362319a7010488ecf7', 'Zachary', 'Thomas', 'newUser@gmail.com', 1, '2020-08-04 20:49:52'),
 (65, 'KarlHaapala', 'b57616ebf0b31e2b470945548ebb37c3$ce2a1a37a4eeb500f9ff3d7ae5a436bd96f996cc7035089b06c66296ef664a0e', 'Karl', 'Haapala', 'Karl.Haapala@oregonstate.edu', 4, '2020-08-10 16:43:08'),
-(66, 'BrianFronk', 'e19515b3011f1b9ae350416702e366ae$bc12ddf1a36485efdc2f3076306c0f3fbf8e0ebc161228b3d96df617b3003a54', 'Brian', 'Fronk', 'Brian.Fronk@oregonstate.edu', 1, '2020-08-17 17:50:49'),
+(66, 'BrianFronk', 'e969b96020c2a7f835cdfd9c56bd28a5$ea3cde00c5a595af8e5ebb8f665c8231fcccee1adad4f8b39777a816efc528f1', 'Brian', 'Fronk', 'Brian.Fronk@oregonstate.edu', 1, '2020-08-17 17:50:49'),
 (67, 'testEditor', '378a3004a2a67d4de86381f1167f67f0$667800fc22bccfb093ed7370d527f1b07e7b3cf3a54acfd43e71edc477c1391f', 'Test', 'Editor', 'testeditor@gmail.com', 4, '2020-09-01 02:00:00'),
 (68, 'newUser1', '6722e86ced77c549439d1a1746634998$4a86c207b6c1d91696c82191547f9a6068888fecaa1c137cee77621c74a8cf8f', 'new', 'user', 'newUser1@gmail.com', 1, '2020-09-14 10:31:05'),
 (69, 'testEditor1', 'fbb3b3a0d4f8be764fbe6bdc27f6d983$2ce25602f589f0e5be6a55d9141875272a99496e3d6b343cad56f1949eaf48bd', 'test', 'editor', 'testeditor1@gmail.com', 4, '2020-09-22 20:46:41'),
@@ -3044,7 +3211,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Answers`
 --
 ALTER TABLE `Answers`
-  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=250;
 
 --
 -- AUTO_INCREMENT for table `Banners`
@@ -3056,7 +3223,7 @@ ALTER TABLE `Banners`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=257;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=261;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -3074,13 +3241,13 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
 --
 ALTER TABLE `History_Cards`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT for table `History_Headers`
@@ -3092,7 +3259,7 @@ ALTER TABLE `History_Headers`
 -- AUTO_INCREMENT for table `History_Items`
 --
 ALTER TABLE `History_Items`
-  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=840;
+  MODIFY `historyId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=877;
 
 --
 -- AUTO_INCREMENT for table `History_Pages`
@@ -3116,13 +3283,19 @@ ALTER TABLE `Info`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7027;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7109;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
 --
 ALTER TABLE `Notifications`
-  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+
+--
+-- AUTO_INCREMENT for table `Observations`
+--
+ALTER TABLE `Observations`
+  MODIFY `observationId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -3134,7 +3307,7 @@ ALTER TABLE `Pages`
 -- AUTO_INCREMENT for table `Questions`
 --
 ALTER TABLE `Questions`
-  MODIFY `questionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `questionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `Quick_Titles`
@@ -3146,7 +3319,7 @@ ALTER TABLE `Quick_Titles`
 -- AUTO_INCREMENT for table `Requests`
 --
 ALTER TABLE `Requests`
-  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `Request_Comments`
@@ -3158,19 +3331,19 @@ ALTER TABLE `Request_Comments`
 -- AUTO_INCREMENT for table `Request_Objects`
 --
 ALTER TABLE `Request_Objects`
-  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `Scores`
 --
 ALTER TABLE `Scores`
-  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `Sources`
 --
 ALTER TABLE `Sources`
-  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`
