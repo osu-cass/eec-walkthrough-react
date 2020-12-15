@@ -222,7 +222,6 @@ async function createQuiz(questions, pageId) {
 
     // make sure all of the questions are valid
     for (let i = 0; i < questions.length; i++) {
-
       if (typeof questions[i].questionId !== "number") {
         return {error: 1};
       }
@@ -243,6 +242,10 @@ async function createQuiz(questions, pageId) {
         return {error: 1};
       }
 
+      if (!questions[i].answers.length) {
+        return {error: 1};
+      }
+
       let correctCount = 0;
       for (let j = 0; j < questions[i].answers.length; j++) {
         if (typeof questions[i].answers[j].questionId !== "number") {
@@ -254,6 +257,10 @@ async function createQuiz(questions, pageId) {
         }
 
         if (typeof questions[i].answers[j].correct !== "number") {
+          return {error: 1};
+        }
+
+        if (typeof questions[i].answers[j].groupId !== "number") {
           return {error: 1};
         }
 
@@ -350,9 +357,9 @@ async function createQuiz(questions, pageId) {
         if (question.type !== 1) {
           newCorrect = 1;
         }
-        const sql = "INSERT INTO Answers (questionId, text, correct) " +
-        "VALUES (?, ?, ?);";
-        await pool.query(sql, [questionId, question.answers[j].text.trim().toLowerCase(), newCorrect]);
+        const sql = "INSERT INTO Answers (questionId, text, correct, groupId) " +
+        "VALUES (?, ?, ?, ?);";
+        await pool.query(sql, [questionId, question.answers[j].text.trim().toLowerCase(), newCorrect, question.answers[j].groupId]);
       }
     }
 

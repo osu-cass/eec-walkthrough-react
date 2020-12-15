@@ -69,8 +69,33 @@ function QuizEdit() {
             }
           }
 
+          // sort answers into their groups
+          for (let i = 0; i < obj.questions.length; i++) {
+            const groups = [];
+            let currentGroupId = 0;
+            let currentGroup = [];
+            for (let j = 0; j < obj.questions[i].answers.length; j++) {
+              const currentAnswers = obj.questions[i].answers;
+              if (currentGroupId === currentAnswers[j].groupId) {
+                currentGroup.push(currentAnswers[j]);
+              } else {
+                currentGroupId = currentAnswers[j].groupId;
+                if (currentGroup.length) {
+                  groups.push(currentGroup);
+                }
+                currentGroup = [];
+                currentGroup.push(currentAnswers[j]);
+              }
+            }
+            if (currentGroup.length) {
+              groups.push(currentGroup);
+            }
+            obj.questions[i].groups = groups;
+          }
+
           setNextKey(obj.questions.length + 1);
           setQuestions(obj.questions);
+
         } else {
           const obj = await results.json();
 
@@ -201,6 +226,30 @@ function QuizEdit() {
         newQuestions[index].answers.splice(answerIndex, 1);
         setQuestions(newQuestions);
       }
+
+      // see if answer needs to be deleted from group
+      let xIndex = -1;
+      let yIndex = -1;
+      for (let i = 0; i < newQuestions[index].groups.length; i++) {
+        for (let j = 0; j < newQuestions[index].groups[i].length; j++) {
+          if (newQuestions[index].groups[i][j].answerId === answerId) {
+            xIndex = i;
+            yIndex = j;
+            break;
+          }
+        }
+      }
+
+      if (xIndex >= 0 && yIndex >= 0) {
+        newQuestions[index].groups[xIndex].splice(yIndex, 1);
+
+        // if the group is now empty, then remove it
+        if (!newQuestions[index].groups[xIndex].length) {
+          newQuestions[index].groups.splice(xIndex, 1);
+        }
+
+        setQuestions(newQuestions);
+      }
     }
   }
 
@@ -256,6 +305,23 @@ function QuizEdit() {
       if (answerIndex >= 0) {
         newQuestions[index].answers[answerIndex].text = text;
         setQuestions(newQuestions);
+      }
+
+      // update the group value as well
+      let xIndex = -1;
+      let yIndex = -1;
+      for (let i = 0; i < newQuestions[index].groups.length; i++) {
+        for (let j = 0; j < newQuestions[index].groups[i].length; j++) {
+          if (newQuestions[index].groups[i][j].answerId === answerId) {
+            xIndex = i;
+            yIndex = j;
+            break;
+          }
+        }
+      }
+
+      if (xIndex >= 0 && yIndex >= 0) {
+        newQuestions[index].groups[xIndex][yIndex].text = text;
       }
     }
   }
@@ -314,7 +380,7 @@ function QuizEdit() {
   }
 
   // adds a new answer to a question
-  function onAddAnswer(questionKey) {
+  function onAddAnswer(questionKey, groupId) {
     const newQuestions = JSON.parse(JSON.stringify(questions));
     let index = -1;
 
@@ -343,9 +409,71 @@ function QuizEdit() {
         questionId: questionKey,
         text: "",
         correct: 0,
-        subAnswers: []
+        subAnswers: [],
+        groupId: groupId
       };
       newQuestions[index].answers.push(answerObject);
+
+      // update the group information
+      for (let i = 0; i < newQuestions[index].groups.length; i++) {
+        if (newQuestions[index].groups[i].length) {
+          if (newQuestions[index].groups[i][0].groupId === groupId) {
+            newQuestions[index].groups[i].push(answerObject);
+            break;
+          }
+        }
+      }
+
+      setQuestions(newQuestions);
+    }
+  }
+
+  // adds a new answer group to a question
+  function onAddAnswerGroup(questionKey) {
+    const newQuestions = JSON.parse(JSON.stringify(questions));
+    let index = -1;
+
+    // find the question index
+    for (let i = 0; i < newQuestions.length; i++) {
+      if (newQuestions[i].questionKey === questionKey) {
+        index = i;
+        break;
+      }
+    }
+
+    // add the new group + answer
+    if (index >= 0) {
+
+      // find the next valid id
+      let newId = 1;
+      for (let i = 0; i < newQuestions[index].answers.length; i++) {
+        if (newQuestions[index].answers[i].answerId >= newId) {
+          newId = newQuestions[index].answers[i].answerId + 1;
+        }
+      }
+
+      // find the next group ID
+      let groupId = 0;
+      for (let i = 0; i < newQuestions[index].answers.length; i++) {
+        if (newQuestions[index].answers[i].groupId >= groupId) {
+          groupId = newQuestions[index].answers[i].groupId + 1;
+        }
+      }
+
+      // create the new answer
+      const answerObject = {
+        answerId: newId,
+        questionId: questionKey,
+        text: "",
+        correct: 0,
+        subAnswers: [],
+        groupId: groupId
+      };
+      newQuestions[index].answers.push(answerObject);
+
+      // add the new group
+      newQuestions[index].groups.push([answerObject]);
+
       setQuestions(newQuestions);
     }
   }
@@ -587,11 +715,13 @@ function QuizEdit() {
           answers={question.answers}
           type={question.type}
           imageUrl={question.imageUrl}
+          groups={question.groups}
           index={i}
           deleteQuestion={(questionKey) => onDeleteQuestion(questionKey)}
           deleteAnswer={(questionKey, answerId) => onDeleteAnswer(questionKey, answerId)}
           changeField={(questionKey, text, fieldNumber) => onChangeField(questionKey, text, fieldNumber)}
-          addAnswer={(questionKey) => onAddAnswer(questionKey)}
+          addAnswer={(questionKey, groupId) => onAddAnswer(questionKey, groupId)}
+          addAnswerGroup={(questionKey) => onAddAnswerGroup(questionKey)}
           changeAnswer={(questionKey, answerId, text) => onChangeAnswer(questionKey, answerId, text)}
           changeCorrect={(questionKey, answerId) => onChangeCorrect(questionKey, answerId)}
           newImage={(newImage, index) => onNewImage(newImage, index)}
