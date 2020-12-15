@@ -91,51 +91,100 @@ function QuestionEdit(props) {
       <label className="mt-3">
         Answers
       </label>
-      {props.answers.map((answer) =>
-        <div className="row mb-2 pl-3" key={answer.answerId}>
-          <button className="btn btn-danger btn mr-3 col-auto"
-            onClick={() => props.deleteAnswer(props.questionKey, answer.answerId)}
-          >
-            <i className="fas fa-fw fa-times" />
-          </button>
-          <input
-            type="text"
-            className="form-control col-8"
-            id={`question-${props.questionId}-${answer.answerId}`}
-            value={answer.text}
-            placeholder="Enter answer"
-            onChange={(e) => props.changeAnswer(props.questionKey, answer.answerId, e.target.value)}
-          />
 
-          {/* Multiple choice has correct and incorrect answers */}
-          {props.type === 1 ? (
-            <Fragment>
-              <input
-                id={`check-${props.questionKey}-${answer.answerId}`}
-                className="big-quiz-checkbox ml-3 my-auto"
-                type="checkbox"
-                name="correct"
-                checked={answer.correct}
-                onClick={() => props.changeCorrect(props.questionKey, answer.answerId)}
-              />
-              <label className="ml-3 my-auto">
-                Correct Answer
-              </label>
+      {props.type === 3 ? (
+        <Fragment>
+          {props.groups.map((group, i) =>
+            <Fragment key={i}>
+              <h4 className="mt-2">Answer Group #{i + 1}</h4>
+              {group.map((answer) =>
+                <div className="row mb-2 pl-3" key={answer.answerId}>
+                  <button className="btn btn-danger btn mr-3 col-auto"
+                    onClick={() => props.deleteAnswer(props.questionKey, answer.answerId)}
+                  >
+                    <i className="fas fa-fw fa-times" />
+                  </button>
+                  <input
+                    type="text"
+                    className="form-control col-8"
+                    id={`question-${props.questionId}-${answer.answerId}`}
+                    value={answer.text}
+                    placeholder="Enter answer"
+                    onChange={(e) => props.changeAnswer(props.questionKey, answer.answerId, e.target.value)}
+                  />
+                </div>
+              )}
+
+              {/* Add answer button */}
+              <div className="row mt-3">
+                <button className="btn btn-info btn ml-auto mr-3"
+                  onClick={() => props.addAnswer(props.questionKey, group[0].groupId)}
+                >
+                  Add Answer
+                </button>
+              </div>
+
             </Fragment>
-          ) : (
-            null
           )}
-        </div>
-      )}
 
-      {/* Add answer button */}
-      <div className="row mt-3">
-        <button className="btn btn-info btn ml-auto mr-3"
-          onClick={() => props.addAnswer(props.questionKey)}
-        >
-          Add Answer
-        </button>
-      </div>
+          {/* Add answer group button */}
+          <div className="row mt-3">
+            <button className="btn btn-info btn ml-auto mr-3"
+              onClick={() => props.addAnswerGroup(props.questionKey)}
+            >
+              Add Answer Group
+            </button>
+          </div>
+        </Fragment>
+      ) : (
+        <Fragment>
+          {props.answers.map((answer) =>
+            <div className="row mb-2 pl-3" key={answer.answerId}>
+              <button className="btn btn-danger btn mr-3 col-auto"
+                onClick={() => props.deleteAnswer(props.questionKey, answer.answerId)}
+              >
+                <i className="fas fa-fw fa-times" />
+              </button>
+              <input
+                type="text"
+                className="form-control col-8"
+                id={`question-${props.questionId}-${answer.answerId}`}
+                value={answer.text}
+                placeholder="Enter answer"
+                onChange={(e) => props.changeAnswer(props.questionKey, answer.answerId, e.target.value)}
+              />
+
+              {/* Multiple choice has correct and incorrect answers */}
+              {props.type === 1 ? (
+                <Fragment>
+                  <input
+                    id={`check-${props.questionKey}-${answer.answerId}`}
+                    className="big-quiz-checkbox ml-3 my-auto"
+                    type="checkbox"
+                    name="correct"
+                    checked={answer.correct}
+                    onClick={() => props.changeCorrect(props.questionKey, answer.answerId)}
+                  />
+                  <label className="ml-3 my-auto">
+                    Correct Answer
+                  </label>
+                </Fragment>
+              ) : (
+                null
+              )}
+            </div>
+          )}
+
+          {/* Add answer button */}
+          <div className="row mt-3">
+            <button className="btn btn-info btn ml-auto mr-3"
+              onClick={() => props.addAnswer(props.questionKey, 0)}
+            >
+              Add Answer
+            </button>
+          </div>
+        </Fragment>
+      )}
 
     </div>
   );
@@ -150,10 +199,12 @@ QuestionEdit.propTypes = {
   answers: PropTypes.array,
   type: PropTypes.number,
   imageUrl: PropTypes.string,
+  groups: PropTypes.array,
   index: PropTypes.number,
   deleteQuestion: PropTypes.func,
   deleteAnswer: PropTypes.func,
   addAnswer: PropTypes.func,
+  addAnswerGroup: PropTypes.func,
   changeField: PropTypes.func,
   changeAnswer: PropTypes.func,
   changeCorrect: PropTypes.func,

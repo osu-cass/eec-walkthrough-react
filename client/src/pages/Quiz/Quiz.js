@@ -45,15 +45,31 @@ function Quiz() {
         if (results.ok) {
           const obj = await results.json();
           setTitle(obj.title);
+
           // get the group size for each question
           for (let i = 0; i < obj.questions.length; i++) {
+            let groupSize = 0;
             const answers = obj.questions[i].answers;
-            if (answers.length) {
-              obj.questions[i].groupLength = answers[answers.length - 1].groupId;
-            } else {
-              obj.questions[i].groupLength = 0;
+            const idArray = [];
+
+            // check each answer and count the unique group IDs
+            for (let j = 0; j < obj.questions[i].answers.length; j++) {
+              const currentAnswer = obj.questions[i].answers[j];
+              let found = false;
+              for (let k = 0; k < idArray.length; k++) {
+                if (currentAnswer.groupId === idArray[k]) {
+                  found = true;
+                  break;
+                }
+              }
+              if (!found) {
+                groupSize++;
+                idArray.push(currentAnswer.groupId);
+              }
             }
+            obj.questions[i].groupLength = groupSize;
           }
+
           setQuestions(obj.questions);
         } else {
           const obj = await results.json();
@@ -135,7 +151,7 @@ function Quiz() {
       // multiple text box
       if (questions[i].type === 3 && questions[i].answers.length) {
         const currentAnswers = questions[i].answers;
-        for (let j = 0; j < currentAnswers[currentAnswers.length - 1].groupId; j++) {
+        for (let j = 0; j < questions[i].groupLength; j++) {
           const value = document.getElementById(`question-${questions[i].questionId}-M${j}`).value;
           answers.push(value);
         }
@@ -218,9 +234,8 @@ function Quiz() {
         const usedAnswers = [];
 
         // check each user answer
-        console.log(answers)
         const currentAnswers = questions[i].answers;
-        for (let j = currentCount; j < currentAnswers[currentAnswers.length - 1].groupId + currentCount; j++) {
+        for (let j = currentCount; j < questions[i].groupLength + currentCount; j++) {
           const copyScore = Object.assign({}, newScore);
           copyScore.text = answers[j];
 
@@ -269,7 +284,7 @@ function Quiz() {
       },
       body: JSON.stringify(postObj),
     });
-    console.log(postObj)
+
     if (results.ok) {
       // go to the results page
       history.push(`/quiz-results/${pageId}`);

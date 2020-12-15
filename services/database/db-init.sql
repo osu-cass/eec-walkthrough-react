@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Dec 14, 2020 at 05:22 PM
+-- Generation Time: Dec 14, 2020 at 06:39 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.13
 
@@ -47,10 +47,10 @@ INSERT INTO `Answers` (`answerId`, `questionId`, `groupId`, `text`, `correct`) V
 (31, 2, 0, 'hacker', 1),
 (32, 2, 0, 'attacker', 1),
 (33, 2, 0, 'cracker', 1),
-(34, 3, 1, 'mouse', 1),
-(35, 3, 2, 'keyboard', 1),
-(86, 13, 1, '6', 1),
-(87, 13, 2, '12', 1),
+(34, 3, 0, 'mouse', 0),
+(35, 3, 1, 'keyboard', 1),
+(86, 13, 0, '6', 1),
+(87, 13, 1, '12', 1),
 (88, 14, 0, '20-40', 0),
 (89, 14, 0, '100-150', 1),
 (90, 14, 0, '300-350', 0),
@@ -89,8 +89,8 @@ INSERT INTO `Answers` (`answerId`, `questionId`, `groupId`, `text`, `correct`) V
 (203, 24, 0, '100', 0),
 (204, 24, 0, '2.31', 1),
 (205, 24, 0, '6.5', 0),
-(206, 25, 1, '-10', 1),
-(207, 25, 2, '10', 1),
+(206, 25, 0, '-10', 1),
+(207, 25, 1, '10', 1),
 (208, 26, 0, 'true', 0),
 (209, 26, 0, 'false', 1),
 (210, 27, 0, '1/8', 1),
@@ -101,8 +101,8 @@ INSERT INTO `Answers` (`answerId`, `questionId`, `groupId`, `text`, `correct`) V
 (215, 28, 0, 'false', 0),
 (216, 29, 0, 'true', 1),
 (217, 29, 0, 'false', 0),
-(218, 30, 1, 'hydraulic', 1),
-(219, 30, 2, 'brake', 1),
+(218, 30, 0, 'hydraulic', 1),
+(219, 30, 1, 'brake', 1),
 (220, 31, 0, 'logarithmic', 0),
 (221, 31, 0, 'linear', 0),
 (222, 31, 0, 'square', 0),
@@ -131,8 +131,8 @@ INSERT INTO `Answers` (`answerId`, `questionId`, `groupId`, `text`, `correct`) V
 (245, 11, 0, 'cooling cabinets (control panels and control centers', 0),
 (246, 11, 0, 'vacuum generation (venturis)', 0),
 (247, 11, 0, 'all of the above', 1),
-(248, 12, 1, '80', 1),
-(249, 12, 2, '85', 1);
+(248, 12, 0, '80', 1),
+(249, 12, 1, '85', 1);
 
 -- --------------------------------------------------------
 
