@@ -77,7 +77,8 @@ async function getPageQuiz(pageId, userId) {
       const questionId = questions[i].questionId;
       sql = "SELECT * " +
       "FROM Answers " +
-      "WHERE questionId = ?;";
+      "WHERE questionId = ? " +
+      "ORDER BY groupId;";
       results = await pool.query(sql, questionId);
       questions[i].answers = results[0];
     }

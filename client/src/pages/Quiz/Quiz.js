@@ -45,6 +45,15 @@ function Quiz() {
         if (results.ok) {
           const obj = await results.json();
           setTitle(obj.title);
+          // get the group size for each question
+          for (let i = 0; i < obj.questions.length; i++) {
+            const answers = obj.questions[i].answers;
+            if (answers.length) {
+              obj.questions[i].groupLength = answers[answers.length - 1].groupId;
+            } else {
+              obj.questions[i].groupLength = 0;
+            }
+          }
           setQuestions(obj.questions);
         } else {
           const obj = await results.json();
@@ -124,9 +133,10 @@ function Quiz() {
       }
 
       // multiple text box
-      if (questions[i].type === 3) {
-        for (let j = 0; j < questions[i].answers.length; j++) {
-          const value = document.getElementById(`question-${questions[i].questionId}-${questions[i].answers[j].answerId}`).value;
+      if (questions[i].type === 3 && questions[i].answers.length) {
+        const currentAnswers = questions[i].answers;
+        for (let j = 0; j < currentAnswers[currentAnswers.length - 1].groupId; j++) {
+          const value = document.getElementById(`question-${questions[i].questionId}-M${j}`).value;
           answers.push(value);
         }
       }
@@ -145,7 +155,8 @@ function Quiz() {
         }
         answerCount++;
       } else {
-        for (let j = 0; j < questions[i].answers.length; j++) {
+        const currentAnswers = questions[i].answers;
+        for (let j = 0; j < currentAnswers[currentAnswers.length - 1].groupId; j++) {
           if (answers[answerCount] === "") {
             setErrorMessage(`Question #${i + 1} is missing an answer`);
             return;
@@ -207,7 +218,9 @@ function Quiz() {
         const usedAnswers = [];
 
         // check each user answer
-        for (let j = currentCount; j < questions[i].answers.length + currentCount; j++) {
+        console.log(answers)
+        const currentAnswers = questions[i].answers;
+        for (let j = currentCount; j < currentAnswers[currentAnswers.length - 1].groupId + currentCount; j++) {
           const copyScore = Object.assign({}, newScore);
           copyScore.text = answers[j];
 
@@ -225,7 +238,12 @@ function Quiz() {
             for (let k = 0; k < questions[i].answers.length; k++) {
               copyScore.correct = compareAnswers(questions[i].answers[k].text, answers[j]);
               if (copyScore.correct) {
-                usedAnswers.push(answers[j]);
+                // list all answers in the current group as used (don't allow reusing variations of the same thing)
+                for (let l = 0; l < questions[i].answers.length; l++) {
+                  if (questions[i].answers[l].groupId === questions[i].answers[k].groupId) {
+                    usedAnswers.push(questions[i].answers[l].text);
+                  }
+                }
                 break;
               }
             }
@@ -251,7 +269,7 @@ function Quiz() {
       },
       body: JSON.stringify(postObj),
     });
-
+    console.log(postObj)
     if (results.ok) {
       // go to the results page
       history.push(`/quiz-results/${pageId}`);
@@ -281,6 +299,7 @@ function Quiz() {
           answers={question.answers}
           type={question.type}
           imageUrl={question.imageUrl}
+          groupLength={question.groupLength}
         />
       )}
 

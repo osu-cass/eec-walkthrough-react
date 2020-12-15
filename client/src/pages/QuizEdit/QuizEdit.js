@@ -342,7 +342,8 @@ function QuizEdit() {
         answerId: newId,
         questionId: questionKey,
         text: "",
-        correct: 0
+        correct: 0,
+        subAnswers: []
       };
       newQuestions[index].answers.push(answerObject);
       setQuestions(newQuestions);

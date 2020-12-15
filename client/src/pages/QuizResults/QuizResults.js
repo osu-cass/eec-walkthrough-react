@@ -206,28 +206,34 @@ function QuizResults() {
       <div
         className="prompt-container mb-3 px-4 py-4 bg-white card rounded shadow-sm"
       >
-        <h5 className="text-center mt-2 mb-3">
-          Do you have any feedback about the quiz that you would like to share? (optional)
-        </h5>
-        <textarea
-          className="form-control mb-3"
-          id={"feedback-text-1"}
-          maxLength="5000"
-          placeholder="Enter feedback here"
-          defaultValue={generalFeedback}
-          onChange={(e) => setGeneralFeedback(e.target.value)}
-        />
-        <h5 className="text-center mt-5 mb-3">
-          Are there any questions you would like added to the quiz? (optional)
-        </h5>
-        <textarea
-          className="form-control mb-3"
-          id={"feedback-text-2"}
-          maxLength="5000"
-          placeholder="Enter feedback here"
-          defaultValue={questionFeedback}
-          onChange={(e) => setQuestionFeedback(e.target.value)}
-        />
+        <div className="row">
+          <div className="col">
+            <h5 className="text-center my-2">
+              Do you have any feedback that you would like to share? (optional)
+            </h5>
+            <textarea
+              className="form-control mb-3"
+              id={"feedback-text-1"}
+              maxLength="5000"
+              placeholder="Enter feedback here"
+              defaultValue={generalFeedback}
+              onChange={(e) => setGeneralFeedback(e.target.value)}
+            />
+          </div>
+          <div className="col">
+            <h5 className="text-center my-2">
+              Are there any questions you would like added to the quiz? (optional)
+            </h5>
+            <textarea
+              className="form-control mb-3"
+              id={"feedback-text-2"}
+              maxLength="5000"
+              placeholder="Enter feedback here"
+              defaultValue={questionFeedback}
+              onChange={(e) => setQuestionFeedback(e.target.value)}
+            />
+          </div>
+        </div>
         <Error
           message={errorMessage}
         />

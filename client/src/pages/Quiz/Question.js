@@ -106,14 +106,19 @@ function Question(props) {
           )}
 
           <div className="answers-block">
-            {props.answers.map((answer) =>
-              <input
-                key={answer.answerId}
-                type="text"
-                className="form-control"
-                id={`question-${props.questionId}-${answer.answerId}`}
-                placeholder=""
-              />
+            {props.answers.map((answer, i) =>
+              <Fragment key={i}>
+                {i < props.groupLength ? (
+                  <input
+                    type="text"
+                    className="form-control"
+                    id={`question-${props.questionId}-M${i}`}
+                    placeholder=""
+                  />
+                ) : (
+                  null
+                )}
+              </Fragment>
             )}
           </div>
 
@@ -133,5 +138,6 @@ Question.propTypes = {
   text: PropTypes.string,
   answers: PropTypes.array,
   type: PropTypes.number,
-  imageUrl: PropTypes.string
+  imageUrl: PropTypes.string,
+  groupLength: PropTypes.number
 };
