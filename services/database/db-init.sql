@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Dec 14, 2020 at 06:39 PM
+-- Generation Time: Dec 16, 2020 at 01:11 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.13
 
@@ -40,15 +40,6 @@ CREATE TABLE `Answers` (
 --
 
 INSERT INTO `Answers` (`answerId`, `questionId`, `groupId`, `text`, `correct`) VALUES
-(27, 1, 0, 'sql injection', 0),
-(28, 1, 0, 'social engineering', 1),
-(29, 1, 0, 'rainbow table attack', 0),
-(30, 1, 0, 'yodeling', 0),
-(31, 2, 0, 'hacker', 1),
-(32, 2, 0, 'attacker', 1),
-(33, 2, 0, 'cracker', 1),
-(34, 3, 0, 'mouse', 0),
-(35, 3, 1, 'keyboard', 1),
 (86, 13, 0, '6', 1),
 (87, 13, 1, '12', 1),
 (88, 14, 0, '20-40', 0),
@@ -132,7 +123,18 @@ INSERT INTO `Answers` (`answerId`, `questionId`, `groupId`, `text`, `correct`) V
 (246, 11, 0, 'vacuum generation (venturis)', 0),
 (247, 11, 0, 'all of the above', 1),
 (248, 12, 0, '80', 1),
-(249, 12, 1, '85', 1);
+(249, 12, 1, '85', 1),
+(261, 1, 0, 'sql injection', 0),
+(262, 1, 0, 'social engineering', 1),
+(263, 1, 0, 'rainbow table attack', 0),
+(264, 1, 0, 'yodeling', 0),
+(265, 2, 0, 'cracker', 1),
+(266, 2, 0, 'hacker', 1),
+(267, 2, 0, 'attacker', 1),
+(268, 3, 0, 'mouse', 1),
+(269, 3, 0, 'click', 1),
+(270, 3, 1, 'keyboard', 1),
+(271, 3, 1, 'type', 1);
 
 -- --------------------------------------------------------
 
@@ -235,7 +237,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (126, 37, 0, 126, 'Common Technologies Used in Wastewater (covered elsewhere in this guide)', 51, '2020-07-07 20:57:07', 1),
 (129, 40, 0, 129, 'Heat Exchangers', 60, '2020-07-10 18:20:49', 0),
 (130, 40, 0, 130, 'Insulation', 55, '2020-07-10 18:36:22', 0),
-(131, 40, 0, 131, 'Cooling Towers', 55, '2020-07-10 18:45:42', 0),
+(131, 40, 0, 131, 'Cooling Systems', 58, '2020-07-10 18:45:42', 0),
 (133, 41, 0, 133, 'Pros', 58, '2020-07-20 21:20:19', 0),
 (134, 41, 0, 134, 'Cons', 58, '2020-07-20 21:20:35', 0),
 (135, 41, 0, 135, 'Caveats', 58, '2020-07-20 21:21:07', 0),
@@ -297,13 +299,12 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (208, 59, 10, 208, 'Adding References', 58, '2020-09-08 18:55:48', 0),
 (211, 63, 2, 1, 'Ventilation Improvements', 52, '2020-09-09 19:06:46', 0),
 (212, 63, 2, 3, 'Reduce Material Losses', 52, '2020-09-09 19:36:40', 0),
-(213, 63, 0, 4, 'Increase welding efficiency', 52, '2020-09-09 21:27:30', 0),
 (214, 63, 2, 2, 'Increase Spray/Paint Booth Efficiency', 52, '2020-09-10 17:01:56', 0),
 (215, 63, 2, 215, 'Reduce Compressed Air Leaks', 52, '2020-09-10 20:11:02', 0),
 (222, 62, 0, 222, 'Additional in Depth Site Resources', 52, '2020-09-15 19:40:23', 0),
-(223, 64, 10, 223, 'Measuring Electricity Use', 54, '2020-09-17 19:39:07', 0),
-(224, 64, 10, 224, 'Electric Rate Schedules', 54, '2020-09-17 19:57:57', 0),
-(225, 64, 10, 225, 'Common Electricity Charges', 54, '2020-09-17 19:59:38', 0),
+(223, 64, 10, 1, 'Measuring Electricity Use', 54, '2020-09-17 19:39:07', 0),
+(224, 64, 10, 2, 'Electric Rate Schedules', 54, '2020-09-17 19:57:57', 0),
+(225, 64, 10, 3, 'Common Electricity Charges', 54, '2020-09-17 19:59:38', 0),
 (228, 65, 10, 228, 'Measuring Natural Gas Use', 54, '2020-09-23 21:45:05', 0),
 (229, 65, 10, 229, 'Natural Gas Rate Schedules', 54, '2020-09-23 21:49:22', 0),
 (230, 65, 10, 230, 'Common Natural Gas Charges', 54, '2020-09-23 21:55:01', 0),
@@ -1788,9 +1789,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (3524, 85, 0, 1, 14, 'Would installing a variable frequency drive (VFD), trimming the impeller, replacing the motor, or using a belt sheave be a better option?', '', '', 0, 0, 0, 0, '2020-08-06 03:46:30', 0),
 (3525, 85, 0, 1, 4, 'When modifying or replacing pumps and fans, or adjusting their rpm, be sure that they can operate under all conditions anticipated for the given system. System pressure or head should not exceed the maximum pressure or head the fan or pump can sustain. Surge points should be avoided.', '', '', 0, 0, 0, 0, '2020-08-06 03:46:30', 0),
 (3526, 85, 0, 0, 11, 'Replace or Overhaul Worn or Damaged Pumps', '', '', 0, 0, 0, 0, '2020-08-06 03:46:30', 0),
-(3606, 131, 0, 0, 11, 'Condenser qater temperature adjustment ', '', '', 0, 0, 0, 0, '2020-08-06 19:13:00', 0),
-(3607, 131, 0, 0, 11, 'Chilled water supply temperature adjustment', '', '', 0, 0, 0, 0, '2020-08-06 19:13:00', 0),
-(3608, 131, 0, 0, 11, 'Fan motor controls (variable speed)', '', '', 0, 0, 0, 0, '2020-08-06 19:13:00', 0),
 (3861, 130, 0, 0, 11, 'Insulate hot surfaces (Julian)', '', '', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3862, 130, 0, 1, 31, 'Un-insulated or poorly insulated surfaces are a significant source of lost energy. Temperature differentials between the surfaces and surroundings act as a driving force for the heat transfer between these bodies. The rate of this heat transfer is directly proportional to the magnitude of the temperature differential. Insulating these surfaces will decrease this rate of heat transfer, saving energy and improving system efficiency.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
 (3863, 130, 0, 1, 10, 'Facility has significant amount of uninsulated, high temperature surfaces such as steam lines, boilers, or other thermal equipment', '', '', 0, 0, 0, 0, '2020-08-06 20:55:52', 0),
@@ -1871,10 +1869,10 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4572, 154, 0, 1, 12, 'Determine incremental costs (Potential savings with each unit of resource saved )', '', '', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
 (4573, 154, 0, 1, 12, 'Understand special costs: Electrical Demand and Power Factor cost, meter costs, ...', '', '', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
 (4574, 154, 0, 1, 12, 'Confirm estimated annual costs ', '', '', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
-(4575, 154, 0, 1, 17, '(item not added yet)', 'abc.com', 'Example Utility Baseline Analysis', 0, 0, 0, 0, '2020-08-18 21:48:18', 1);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(4575, 154, 0, 1, 17, '(item not added yet)', 'abc.com', 'Example Utility Baseline Analysis', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
 (4576, 154, 0, 0, 26, 'Ensure all personnel information provided is entered into the OSU IAC Project Management DB', '', '', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
-(4577, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
+(4577, 154, 0, 0, 26, 'Review potential incentive and assistance programs available to the client through their utilities', '', '', 0, 0, 0, 0, '2020-08-18 21:48:18', 1);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (4578, 154, 0, 0, 14, 'If the client has given permission, consider how to engage utility representatives (and regional incentive and assistance programs such as  ETO or ESI  in the remote assessment process)?', '', '', 0, 0, 0, 0, '2020-08-18 21:48:18', 1),
 (4617, 158, 0, 0, 26, 'Review any areas of concern or interest voiced by the client', '', '', 0, 0, 0, 0, '2020-08-18 21:54:33', 1),
 (4618, 158, 0, 0, 26, 'Review typical opportunities found in the energy intensive systems identified at the facility ', '', '', 0, 0, 0, 0, '2020-08-18 21:54:33', 1),
@@ -1943,62 +1941,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4763, 174, 0, 0, 26, 'Use this information to create a space-relation diagram. See figure 2.', '', '', 0, 0, 0, 0, '2020-08-22 22:13:57', 0),
 (4764, 174, 0, 0, 20, '', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATAAAACmCAMAAABqbSMrAAAAeFBMVEX////e3t7t7e309PRxcXH6+vrCwsKNjY11dXWTk5ODg4PT09OsrKy2trba2trp6elDQ0OioqLIyMiysrJqamoAAACJiYlLS0upqamcnJx+fn5dXV26urrOzs7Gxsbi4uIoKChhYWFSUlIeHh40NDRAQEA5OTkrKyuPAHKLAAAWMUlEQVR4nO2dDZuqqtfGEQRFBDfiMOKAnObsc57v/w0f1F6szLRpmvb5d18zZWZlv2Cx1uJFAL5B7rOa1Xv0HZ/6B4uo+ecNe8x5/DEi+fzz9AXsWC9gK/UCtlIvYCv1ArZSL2Ar9QK2Uj0w3G8KPPH8C9iJOmBo02/63T4/bEXd3QvYiTpgikeFzArDEh3uPTA5o0Ry2hW+F7ATdcAyToXNAC1ywokO+3xMbOLsq4RNKACTDmgbG5Q6k4d7CIg0ubFpm4AXsDMFYKIARW6VjbwvpFWhyBVAgAKFuxewM23dClyT4T4nx8+/gJ3o5Yet1AvYSr2ArdQL2Eq9gK3UC9hKvYCt1BgYlig8oghI5Ha9ay9gJ2pHwAzCIaIEusYaJNt9L2DHKt4P/ZKIAqBBBmSHy209/hewI7FsVMJgAJaABiTdjeDDzhewsTgF1ajnOwE4RgWNoBFAwmHfC9hIhqOYj2yYl/tNttv9XwaG/32b1+fx8Q3z8bFbgc+3/tPANlcOOAKGK0SS/20/DH9cOeB9tF1UWHasvheYj85VfOUN76o1wFwDsrLb+FZg4nde1zVNGxru82473P36whveVyuAWQrSwZf/VmCsPyNLch6MImKDa/c5+5JHajkwo2CFhk0iYTEjmHyphA1nJAigqanJ4Nr9gcAaFqW7feLvv8b6+++330c7/vqKydkDC9xdo0T/6I8DhuMi1MgLKnKJ7ndGW2ChaKncKji4eX8asCLGhl8+pn', 'Figure 2  - Space Relationship Diagram', 0, 0, 0, 0, '2020-08-22 22:13:57', 0),
 (4765, 174, 0, 0, 26, 'Convert the space-relationship diagram into a facility layout.', '', '', 0, 0, 0, 0, '2020-08-22 22:13:57', 0),
-(4766, 129, 0, 0, 11, 'Install a heat pipe to recovery process heat', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4767, 129, 0, 1, 31, 'Air-to-air heat transfer (typically for 150-850 ˚F processes)', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4768, 129, 0, 0, 11, 'Install a shell and tube heat exchanger to recover process heat (Matt)', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4769, 129, 0, 1, 31, 'Liquid-to-liquid heat transfer ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4770, 129, 0, 0, 11, 'Install an economizer to pre-heat boiler make-up water (Matt)', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4771, 129, 0, 1, 31, 'Air-to-liquid heat transfer ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4772, 129, 0, 0, 11, 'Install a Heat Exchanger Between Two Liquid Flows', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4773, 129, 0, 1, 10, 'Two fluid flows with a large temperature difference where at least one stream requires heat treatment.', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4774, 129, 0, 1, 31, 'Heat exchange between two fluids can be beneficial for both streams, such as hot milk coming out of pasteurization for cooling being used to preheat incoming milk. Less energy is required now to cool the pasteurized milk and the raw milk requires less heat to be added for pasteurization.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4775, 129, 0, 1, 7, 'Heat exchangers are most effective when configured for counter-flow heat transfer', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4776, 129, 0, 1, 8, 'The higher the temperature difference between the fluid streams, the more heat can be exchanged', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4777, 129, 0, 1, 14, 'How much can the temperature of the two fluid streams change without negatively affecting the process the fluids are required for?', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4778, 129, 0, 1, 14, 'Can these streams be reasonably close together physically to fit into a heat exchanger?', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4779, 129, 0, 1, 14, 'Is there space in the room to accomodate a heat exchanger?', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4780, 129, 0, 1, 14, 'What kind of heat exchanger best fits the fluid stream? There are several different types.', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4781, 129, 0, 1, 14, 'Is the fluid stream clean or dirty?', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4782, 129, 0, 1, 15, 'System operation hours', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4783, 129, 0, 1, 15, 'Fluid properties', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4784, 129, 0, 1, 15, 'Density', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4785, 129, 0, 1, 15, 'Mass flowrate (volumetric is fine if the density is known)', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4786, 129, 0, 1, 15, 'Specific heat', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4787, 129, 0, 1, 15, 'Heating process efficiency', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4788, 129, 0, 1, 15, 'Available floor space', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4789, 129, 0, 1, 27, 'Contact thermometer (if safe)', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4790, 129, 0, 1, 27, 'IR thermometer', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4791, 129, 0, 1, 27, 'Ultrasonic flow meter if fluid flowrate is unknown and the temperatures are safe for the equipment', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4792, 129, 0, 1, 4, 'Pressure drop across the heat exchanger could cause a loss of performance in downstream processes', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4793, 129, 0, 1, 4, 'Heat exchangers can foul over time without proper maintenance and cleaning, reducing their effectiveness', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4794, 129, 0, 1, 4, 'Heat exchangers can become hot and should not be placed where someone may come into contact with it inadvertently', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4795, 129, 0, 1, 20, '', 'https://drive.google.com/file/d/1CdPMeAFZMbadgXb9opm3qJR72S7zPYwG/view?usp=sharing', 'A spiral heat exchanger is installed for heat transfer between hot sludge coming from anaerobic digestion and cool sludge coming from aerobic digestion. At this facility sludge was being heated going into the anaerobic digestor and then cooled when leaving to enter the aerobic digestor.', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4796, 129, 0, 1, 20, '', 'https://drive.google.com/file/d/1twM-Rb5cEp3NGoQwPh8Hlh9LvlMvP1Id/view?usp=sharing', 'Raw milk and pasteurized milk in this process pass through a plate heat exchanger. In the pasteurization process, raw milk is heated to kill bacteria, but must be cooled afterwards. To reduce both the heating and cooling loads, the pasteurized milk preheats the raw milk while also cooling itself.', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4797, 129, 0, 1, 17, 'Thermodynamic properties of water/steam from the Heat Exchanger Design Handbook by C. F. Beaton, published in 1986. This is useful for finding the enthalpy of water/steam for calculating heat transfer.', 'http://thermopedia.com/content/1150/', 'Water/Steam Property Tables', 1, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4798, 129, 0, 1, 24, 'Lists the specific heats of common fluids. This is used for calculating the amount of heat that can be exchanged between the two fluid streams.', 'https://www.engineeringtoolbox.com/specific-heat-fluids-d_151.html', 'Common Fluid Specific Heats', 1, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4799, 129, 0, 1, 24, 'List of densities for common fluids. This is useful if the fluid\'s volumetric flowrate is known, but not the mass flowrate.', 'https://www.engineeringtoolbox.com/liquids-densities-d_743.html', 'Common Fluid Densities', 1, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4800, 129, 0, 1, 24, 'Estimated heat exchanger heat transfer coefficients for use in calculating the amount of heat transferred between the two fluid streams.', 'https://www.engineeringtoolbox.com/heat-transfer-coefficients-exchangers-d_450.html', 'Heat Exchanger Heat Transfer Coefficients', 1, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4801, 129, 0, 1, 17, 'Describes heat exchanger design for sludge in wastewater treatment facilities. This paper also contains the relevant thermodynamic properties of sludge. Understand that the characteristics of wastewater sludge is not consistent between facilities.', 'https://www.witpress.com/elibrary/wit-transactions-on-modelling-and-simulation/46/18010', 'Importance of experimental measurements and simulations for ‘sludge-to-energy’ systems', 1, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4802, 129, 0, 0, 11, 'Pre-heat combustion air (Adam)', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4803, 129, 0, 1, 10, 'Look to see if a high temperature oven/furnace is currently recycling hot air from stack.', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4804, 129, 0, 1, 31, 'Two different heat exchangers can be used for this opportunity, recuperators and regenerators. ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4805, 129, 0, 2, 31, 'Recuperators work like a standard air-to-air heat exchanger. There is a hot flow and a cold flow in which energy is transferred between with the use of internal tubes or plates. The two streams are kept in separate ducts to keep the gasses from mixing. ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4806, 129, 0, 2, 1, 'PROS HERE UNFINISHED', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4807, 129, 0, 2, 2, 'CONS HERE UNFINISHED', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4808, 129, 0, 2, 20, '', 'https://cdn4.explainthatstuff.com/how-heat-exchangers-work.png', 'Recuperator Schematic', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4809, 129, 0, 2, 31, 'Regenerators act as heating vessels for both the combustion air and flue gases. Regenerators alternate between heating the storage medium and then taking heat from it. Usually at least two regenerators and burners are needed so that the process is uninterrupted.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4810, 129, 0, 2, 1, 'PROS HERE UNFINISHED', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4811, 129, 0, 2, 2, 'CONS HERE UNFINISHED', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4812, 129, 0, 2, 20, '', 'https://image.slidesharecdn.com/heatexchangertypesandapplication-171015153006/95/heat-exchanger-types-and-application-13-638.jpg?cb=1508081873', 'Regenerator Schematic', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4813, 129, 0, 1, 4, 'Take care not to lower exhaust stack temperature too low as it can cause corrosion. This happens because the surface temperature of the stack is lower than the dew point of the flue gas flowing through the stack, causing moisture to accumulate.', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4814, 129, 0, 1, 8, 'Some flue gasses are corrosive and can damage installed heat exchanges. When performing an analysis, research which heat exchangers are best designed for the process in question. ', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4815, 129, 0, 1, 15, 'Flue gas temperature', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4816, 129, 0, 1, 15, 'Inlet air temperature', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4817, 129, 0, 1, 15, 'Fuel feed rate', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4818, 129, 0, 1, 15, 'Excess oxygen', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4819, 129, 0, 1, 15, 'Operation hours', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4820, 129, 0, 1, 27, 'Combustion analyzer', '', '', 0, 0, 0, 0, '2020-08-24 16:58:32', 0),
-(4821, 129, 0, 1, 17, '', 'https://www.energy.gov/sites/prod/files/2014/05/f16/et_preheated.pdf', 'D.O.E. Tip Sheet', 1, 0, 0, 0, '2020-08-24 16:58:32', 0),
 (4822, 184, 0, 0, 26, 'First, calculate the D-scores for the original layout (D0) and the proposed layout (D1).', '', '', 0, 0, 0, 0, '2020-08-24 19:51:09', 0),
 (4823, 184, 0, 0, 26, 'Calculate layout efficiency savings by finding the percent difference in d-scores (i.e. D0 - D1 / D1).', '', '', 0, 0, 0, 0, '2020-08-24 19:51:09', 0),
 (4824, 184, 0, 0, 26, 'Layout efficiency savings are an important measure in itself and will result in increased productivity, however, translating this figure into monetary cost savings is necessary.', '', '', 0, 0, 0, 0, '2020-08-24 19:51:09', 0),
@@ -2121,8 +2063,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6206, 230, 0, 0, 26, 'Base charge', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
 (6207, 230, 0, 0, 26, 'Supply rate', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
 (6208, 230, 0, 0, 26, 'Transport fees', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
-(6209, 230, 0, 0, 26, 'City tax', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(6209, 230, 0, 0, 26, 'City tax', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
 (6210, 230, 0, 0, 26, 'Public purpose charge', '', '', 0, 0, 0, 0, '2020-09-23 21:55:38', 0),
 (6231, 232, 0, 0, 26, 'Generally, water companies assign different classes of rate schedules depending on the application.', '', '', 0, 0, 0, 0, '2020-09-23 22:25:06', 0),
 (6232, 232, 0, 1, 26, 'An industrial or commercial rate schedule is often assigned to industry consumers', '', '', 0, 0, 0, 0, '2020-09-23 22:25:06', 0),
@@ -2178,7 +2119,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6374, 211, 0, 1, 15, 'Quantity of welders or welding stations', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
 (6375, 211, 0, 1, 15, 'Approximate the proposed length of ventilation required for the installation to estimate the cost of implementation', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
 (6398, 214, 0, 0, 31, 'Conditioning air for painting, drying and treating emissions all represent sources of energy consumption in a painting process. Energy saving measures may be available at each one of these steps.', '%zXz%', '%zXz%', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
-(6399, 214, 0, 0, 11, 'Reduce airflow in paint booth', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
+(6399, 214, 0, 0, 11, 'Reduce airflow in paint booth', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (6400, 214, 0, 1, 31, 'Air must be exhausted from paint booths to remove evaporated solvent, oversprayed paint particles and pollutants such as volatile organic compounds (VOCs). The energy consumed by the ventilation system depends on the target outlet concentration of VOCs. VOCs come from the paint and they are removed from the air exhaust stream through filtration or incineration.', '%zXz%', '%zXz%', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
 (6401, 214, 0, 1, 26, 'Reducing the amount of air that is exhausted from the paint booth reduces the amount of fuel required to raise the temperature of the inlet air to the target temperature, and reduces the volume of exhaust air that must be treated.', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
 (6402, 214, 0, 1, 4, 'If the air flow rate through the booth is too low, cold spots may be present which lead to poor application and condensation.', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
@@ -2206,18 +2148,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6424, 212, 0, 1, 1, 'Painting efficiency can be improved by as much 25% for even the most experienced painters with increased attention to application techniques', '', '', 0, 0, 0, 6, '2020-10-15 18:18:23', 0),
 (6425, 212, 0, 1, 15, 'Annual consumption of paint and associated cost', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
 (6426, 212, 0, 1, 3, 'Proposed savings can be conservatively estimated at 10-15% reduction in paint consumption. Percent savings may approach 25% if the recommended techniques are replicated and adhered to.', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
-(6427, 213, 0, 0, 11, 'Replace transformer-rectifier welders with inverter welders', '', '', 0, 0, 0, 0, '2020-10-15 18:19:25', 0),
-(6428, 213, 0, 1, 3, 'A transformer-rectifier welder is 67% efficient and an inverter-based welder is 87% efficient, on average. ', '', '', 0, 0, 0, 7, '2020-10-15 18:19:25', 0),
-(6429, 213, 0, 1, 1, 'Inverter welders are smaller and more lightweight compared to transformer-rectifier welders making them more portable', '', '', 0, 0, 0, 0, '2020-10-15 18:19:25', 0),
-(6430, 213, 0, 1, 1, 'Inverter welders are capable of stick, MIG, TIG, FCAW, arc gouging and pulsing styles. They also produce a higher quality weld.', '', '', 0, 0, 0, 7, '2020-10-15 18:19:25', 0),
-(6431, 213, 0, 1, 8, 'For upgrading to an inverter welder, the Energy Trust of Oregon (ETO) offers a $1,200 incentive for each machine that operates over 1,200 hours per year.', '', '', 0, 0, 0, 9, '2020-10-15 18:19:25', 0),
-(6432, 213, 0, 1, 26, 'The transformer cores, windings, and electronic switching components are designed to minimize losses leading to efficiency improvements for inverter welders by design.', '', '', 0, 0, 0, 7, '2020-10-15 18:19:25', 0),
-(6433, 213, 0, 1, 26, 'Upgrading a single transformer-rectifier welder to an inverter welder can save up to $1,724 annually. This calculation assumes a 20% increase in welder efficiency with 6,240 annual operation hours and a 25% idle time.', '', '', 0, 0, 0, 8, '2020-10-15 18:19:25', 0),
-(6434, 213, 0, 0, 11, 'Install a robotic welder', '', '', 0, 0, 0, 0, '2020-10-15 18:19:25', 0),
-(6435, 213, 0, 1, 1, 'Robotic welding can increase productivity and improve weld quality', '', '', 0, 0, 0, 10, '2020-10-15 18:19:25', 0),
-(6436, 213, 0, 1, 1, 'Robotic welders can meet production standards that are difficult to meet with manual welding and can do so with 36-46% reduction in cycle time.', '', '', 0, 0, 0, 11, '2020-10-15 18:19:25', 0),
-(6437, 213, 0, 1, 8, 'The facility should utilize robotic welding integrators who can run process and capability studies to verify the applicability of robotic welding', '', '', 0, 0, 0, 10, '2020-10-15 18:19:25', 0),
-(6438, 213, 0, 1, 8, 'Robot integrators and manufacturers offer training to ensure the system will run successfully and profitably for the duration of the products life', '', '', 0, 0, 0, 10, '2020-10-15 18:19:25', 0),
 (6512, 229, 0, 0, 26, 'Natural gas charges are usually divided into two, distinct categories:', '', '', 0, 0, 0, 17, '2020-10-16 21:36:14', 0),
 (6513, 229, 0, 1, 26, 'Commodity Charge: the cost of the gas itself', '', '', 0, 0, 0, 0, '2020-10-16 21:36:14', 0),
 (6514, 229, 0, 1, 26, 'Transmission/Distribution Charge:  the cost to transport gas from its source to the industry site.', '', '', 0, 0, 0, 0, '2020-10-16 21:36:14', 0),
@@ -2411,8 +2341,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6937, 77, 0, 1, 20, '', '/uploads/user_42/8bef9996285f82268e4fef3c0c42b38a.png', 'Effect of Receiver Capacity on Lubricant-Injected Rotary Compressor with Load-Unload Capacity Control', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
 (6938, 77, 0, 0, 11, 'Use a more efficient control strategy', '', '', 1, 0, 0, 0, '2020-11-27 06:07:10', 0),
 (6939, 77, 0, 0, 11, 'Use a compressed air sequencer for multiple compressors', '', '', 0, 0, 0, 0, '2020-11-27 06:07:10', 0),
-(6947, 249, 0, 0, 31, '<p>Cloud Computing Background</p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-28 23:51:50', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(6947, 249, 0, 0, 31, '<p>Cloud Computing Background</p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-28 23:51:50', 0),
 (6952, 251, 0, 0, 31, '<p>RFID is used to track products. Companies need to keep track of products for inventory control, determining production schedules, and traceability. Some small companies still use paper and clipboard, which has a large margin for error as production scales up. Many companies have made the transition to barcode scanning which is faster and more reliable when shared among many people. It still has a drawback of requiring an operator to scan at appropriate points. If an operator forgets to scan, or enters incorrect information during a scan, product can end up “lost” in storage. RFID has the advantage of not requiring a constant scanning and can be located even if the product is “lost”.&nbsp;</p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-29 00:29:29', 0),
 (6953, 250, 0, 0, 24, 'Springer', 'http://link.springer.com/10.1007/s10586-017-0767-x', 'Yang et al.  “Towards product customization and personalization in IoT-enabled cloud manufacturing,”', 1, 0, 0, 0, '2020-11-29 00:36:24', 0),
 (6954, 250, 0, 0, 24, 'Science Direct', 'http://www.sciencedirect.com/science/article/pii/S0925527314002825', 'Guo et al. “An RFID-based intelligent decision support system architecture for production monitoring and scheduling in a distributed manufacturing environment,”', 1, 0, 0, 0, '2020-11-29 00:36:24', 0),
@@ -2437,23 +2366,109 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (7045, 119, 0, 0, 11, 'Interlock equipment with a related process', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33', 1),
 (7046, 119, 0, 0, 11, 'Operate equipment in batches rather than continuously ', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33', 1),
 (7047, 119, 0, 1, 10, 'Equipment is idle for significant periods of time', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33', 1),
-(7072, 144, 0, 0, 24, 'An guide to industrial refrigeration systems and associated best practicers. Developed by Cascade Energy.', 'https://cascadeenergy.com/wp-content/uploads/2013/10/industrial-refridgeration-best-practices-guide.pdf', 'Industrial Refrigeration - Best Practices Guide ', 1, 0, 0, 0, '2020-12-14 21:22:53', 0),
 (7079, 140, 0, 0, 31, '<p>Compressor Data</p>', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
 (7080, 140, 0, 1, 15, 'Compressor and motor nameplates', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
 (7081, 140, 0, 1, 15, 'Amperage data log of the compressor motor to determine energy consumption and use factor', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
 (7082, 140, 0, 1, 15, 'Maximum suction pressure and minimum discharge pressure', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
 (7083, 140, 0, 1, 15, 'Maximum suction temperature and minimum discharge temperature', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
 (7084, 140, 0, 1, 15, 'Dry and wet bulb temperatures', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
-(7099, 136, 0, 0, 3, '1.5% compressor power reduction per 1°F decrease in condensing temperature', '', '', 0, 0, 0, 20, '2020-12-14 22:55:21', 0),
-(7100, 136, 0, 0, 3, '2% compressor power reduction per 1°F increase in suction temperature ', '', '', 0, 0, 0, 21, '2020-12-14 22:55:21', 0),
-(7101, 260, 0, 0, 31, '<p>System lift is the difference between suction and discharge pressure at the compressor stage in the refrigeration cycle. Lift can be reduced by either increasing the suction pressure, decreasing the discharge pressure, or a combination of both. Minimizing lift improves system efficiency by increasing efficiency at the compressor stage.</p>', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
-(7102, 260, 0, 0, 11, 'Increase suction pressure ', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
-(7103, 260, 0, 1, 10, 'Back-pressure regulators are used to maintain a higher pressure than the compressor set point ', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
-(7104, 260, 0, 1, 15, 'Current and proposed suction pressure', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
-(7105, 260, 0, 1, 15, 'Dry and wet bulb suction temperatures: current and proposed', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
-(7106, 260, 0, 0, 11, 'Decrease discharge pressure', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
-(7107, 260, 0, 1, 10, 'If the condensing temperature is higher than its corresponding saturated condensing temperature, discharge pressure may be reduced. ', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0),
-(7108, 260, 0, 0, 11, 'Implement floating head controls ', '', '', 0, 0, 0, 0, '2020-12-14 23:30:39', 0);
+(7222, 129, 0, 0, 11, 'Install a heat pipe to recovery process heat', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7223, 129, 0, 1, 31, 'Air-to-air heat transfer (typically for 150-850 ˚F processes)', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7224, 129, 0, 0, 11, 'Install a shell and tube heat exchanger to recover process heat (Matt)', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7225, 129, 0, 1, 31, 'Liquid-to-liquid heat transfer ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7226, 129, 0, 0, 11, 'Install an economizer to pre-heat boiler make-up water (Matt)', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7227, 129, 0, 1, 31, 'Air-to-liquid heat transfer ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7228, 129, 0, 0, 11, 'Install a Heat Exchanger Between Two Liquid Flows', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7229, 129, 0, 1, 10, 'Two fluid flows with a large temperature difference where at least one stream requires heat treatment.', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7230, 129, 0, 1, 31, 'Heat exchange between two fluids can be beneficial for both streams, such as hot milk coming out of pasteurization for cooling being used to preheat incoming milk. Less energy is required now to cool the pasteurized milk and the raw milk requires less heat to be added for pasteurization.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7231, 129, 0, 1, 7, 'Heat exchangers are most effective when configured for counter-flow heat transfer', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7232, 129, 0, 1, 8, 'The higher the temperature difference between the fluid streams, the more heat can be exchanged', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7233, 129, 0, 1, 14, 'How much can the temperature of the two fluid streams change without negatively affecting the process the fluids are required for?', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7234, 129, 0, 1, 14, 'Can these streams be reasonably close together physically to fit into a heat exchanger?', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7235, 129, 0, 1, 14, 'Is there space in the room to accomodate a heat exchanger?', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7236, 129, 0, 1, 14, 'What kind of heat exchanger best fits the fluid stream? There are several different types.', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7237, 129, 0, 1, 14, 'Is the fluid stream clean or dirty?', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7238, 129, 0, 1, 15, 'System operation hours', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7239, 129, 0, 1, 15, 'Fluid properties', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7240, 129, 0, 1, 15, 'Density', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7241, 129, 0, 1, 15, 'Mass flowrate (volumetric is fine if the density is known)', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7242, 129, 0, 1, 15, 'Specific heat', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7243, 129, 0, 1, 15, 'Heating process efficiency', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7244, 129, 0, 1, 15, 'Available floor space', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7245, 129, 0, 1, 27, 'Contact thermometer (if safe)', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7246, 129, 0, 1, 27, 'IR thermometer', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7247, 129, 0, 1, 27, 'Ultrasonic flow meter if fluid flowrate is unknown and the temperatures are safe for the equipment', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7248, 129, 0, 1, 4, 'Pressure drop across the heat exchanger could cause a loss of performance in downstream processes', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7249, 129, 0, 1, 4, 'Heat exchangers can foul over time without proper maintenance and cleaning, reducing their effectiveness', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7250, 129, 0, 1, 4, 'Heat exchangers can become hot and should not be placed where someone may come into contact with it inadvertently', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7251, 129, 0, 1, 20, '', 'https://drive.google.com/file/d/1CdPMeAFZMbadgXb9opm3qJR72S7zPYwG/view?usp=sharing', 'A spiral heat exchanger is installed for heat transfer between hot sludge coming from anaerobic digestion and cool sludge coming from aerobic digestion. At this facility sludge was being heated going into the anaerobic digestor and then cooled when leaving to enter the aerobic digestor.', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7252, 129, 0, 1, 20, '', 'https://drive.google.com/file/d/1twM-Rb5cEp3NGoQwPh8Hlh9LvlMvP1Id/view?usp=sharing', 'Raw milk and pasteurized milk in this process pass through a plate heat exchanger. In the pasteurization process, raw milk is heated to kill bacteria, but must be cooled afterwards. To reduce both the heating and cooling loads, the pasteurized milk preheats the raw milk while also cooling itself.', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7253, 129, 0, 1, 17, 'Thermodynamic properties of water/steam from the Heat Exchanger Design Handbook by C. F. Beaton, published in 1986. This is useful for finding the enthalpy of water/steam for calculating heat transfer.', 'http://thermopedia.com/content/1150/', 'Water/Steam Property Tables', 1, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7254, 129, 0, 1, 24, 'Lists the specific heats of common fluids. This is used for calculating the amount of heat that can be exchanged between the two fluid streams.', 'https://www.engineeringtoolbox.com/specific-heat-fluids-d_151.html', 'Common Fluid Specific Heats', 1, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7255, 129, 0, 1, 24, 'List of densities for common fluids. This is useful if the fluid\'s volumetric flowrate is known, but not the mass flowrate.', 'https://www.engineeringtoolbox.com/liquids-densities-d_743.html', 'Common Fluid Densities', 1, 0, 0, 0, '2020-12-15 17:12:49', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(7256, 129, 0, 1, 24, 'Estimated heat exchanger heat transfer coefficients for use in calculating the amount of heat transferred between the two fluid streams.', 'https://www.engineeringtoolbox.com/heat-transfer-coefficients-exchangers-d_450.html', 'Heat Exchanger Heat Transfer Coefficients', 1, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7257, 129, 0, 1, 17, 'Describes heat exchanger design for sludge in wastewater treatment facilities. This paper also contains the relevant thermodynamic properties of sludge. Understand that the characteristics of wastewater sludge is not consistent between facilities.', 'https://www.witpress.com/elibrary/wit-transactions-on-modelling-and-simulation/46/18010', 'Importance of experimental measurements and simulations for ‘sludge-to-energy’ systems', 1, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7258, 129, 0, 0, 11, 'Pre-heat combustion air (Adam)', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7259, 129, 0, 1, 10, 'Look to see if a high temperature oven/furnace is currently recycling hot air from stack.', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7260, 129, 0, 1, 31, 'Two different heat exchangers can be used for this opportunity, recuperators and regenerators. ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7261, 129, 0, 2, 31, '<p><strong>Recuperators </strong>work like a standard air-to-air heat exchanger. There is a hot flow and a cold flow in which energy is transferred between with the use of internal tubes or plates. The two streams are kept in separate ducts to keep the gasses from mixing.</p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7262, 129, 0, 2, 1, 'Design versatility makes it easier to apply a recuperator to most applications. ', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7263, 129, 0, 2, 2, 'Temperature applications are dependent on material available for heat exchanger tubes. ', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7264, 129, 0, 2, 20, '', 'https://cdn4.explainthatstuff.com/how-heat-exchangers-work.png', 'Recuperator Schematic', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7265, 129, 0, 2, 31, '<p><strong>Regenerators </strong>act as heating vessels for both the combustion air and flue gases. Regenerators alternate between heating the storage medium and then taking heat from it. Usually at least two regenerators and burners are needed so that the process is uninterrupted.</p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7266, 129, 0, 2, 1, 'Ceramic heat sinks allow for applications in extreme temperature environments.', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7267, 129, 0, 2, 1, 'Resistant to corrosive environments. ', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7268, 129, 0, 2, 2, 'Large amount of space required.', '', '', 1, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7269, 129, 0, 2, 20, '', 'https://image.slidesharecdn.com/heatexchangertypesandapplication-171015153006/95/heat-exchanger-types-and-application-13-638.jpg?cb=1508081873', 'Regenerator Schematic', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7270, 129, 0, 1, 4, 'Take care not to lower exhaust stack temperature too low as it can cause corrosion. This happens because the surface temperature of the stack is lower than the dew point of the flue gas flowing through the stack, causing moisture to accumulate.', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7271, 129, 0, 1, 8, 'Some flue gasses are corrosive and can damage installed heat exchanges. When performing an analysis, research which heat exchangers are best designed for the process in question. ', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7272, 129, 0, 1, 15, 'Flue gas temperature', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7273, 129, 0, 1, 15, 'Inlet air temperature', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7274, 129, 0, 1, 15, 'Fuel feed rate', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7275, 129, 0, 1, 15, 'Excess oxygen', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7276, 129, 0, 1, 15, 'Operation hours', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7277, 129, 0, 1, 27, 'Combustion analyzer', '', '', 0, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7278, 129, 0, 1, 17, '', 'https://www.energy.gov/sites/prod/files/2014/05/f16/et_preheated.pdf', 'D.O.E. Tip Sheet', 1, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7279, 129, 0, 1, 17, '', 'https://www.energysolutionscenter.org/gas_solutions/regenerators_and_recuperators.aspx#:~:text=Regenerators%20and%20recuperators%20are%20heat,metallic%20heat%20exchanger%20(recuperators).&text=The%20heat%20recovered%20by%20a,combustion%20air%20to%20a%20furnace.', 'Regenerators vs. Recuperators ', 1, 0, 0, 0, '2020-12-15 17:12:49', 0),
+(7385, 136, 0, 0, 3, '1.5% compressor power reduction per 1°F decrease in condensing temperature', '', '', 0, 0, 0, 20, '2020-12-16 01:15:16', 0),
+(7386, 136, 0, 0, 3, '1-1.5% compressor power reduction per 1°F increase in suction temperature for centrifugal machines', '', '', 0, 0, 0, 20, '2020-12-16 01:15:16', 0),
+(7429, 260, 0, 0, 31, '<p>System lift is the difference between suction and discharge pressure at the compressor stage in the refrigeration cycle. Lift can be reduced by either increasing the suction pressure, decreasing the discharge pressure, or a combination of both. Minimizing lift improves system efficiency by increasing efficiency at the compressor stage.</p>', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7430, 260, 0, 0, 11, 'Increase suction pressure ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7431, 260, 0, 1, 31, '<p>Increasing suction pressure raises compressor capacity, thereby allowing the compressor to operate at a lower percentage of its full-load capacity.</p>', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7432, 260, 0, 1, 10, 'Back-pressure regulation is used to maintain lower pressure at the compressor inlet than at the evaporator output. ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7433, 260, 0, 1, 7, 'Set suction pressure to put the evaporator fan power and compressor power at a combined minimum. If fan savings are unavailable the suction pressure should be set as high as possible. ', '', '', 0, 0, 0, 21, '2020-12-16 01:31:48', 0),
+(7434, 260, 0, 1, 8, 'Increasing suction pressure may allow operators to turn off a compressor or to use a smaller compressor in place of a larger one.', '', '', 0, 0, 0, 21, '2020-12-16 01:31:48', 0),
+(7435, 260, 0, 1, 8, 'Install larger evaporator coils to maintain cooling capacity while decreasing the temperature difference between air entering the coils and the refrigerant within. ', '', '', 0, 0, 0, 21, '2020-12-16 01:31:48', 0),
+(7436, 260, 0, 1, 3, '1-1.5% compressor power reduction per 1°F increase in suction temperature for centrifugal machines', '', '', 0, 0, 0, 20, '2020-12-16 01:31:48', 0),
+(7437, 260, 0, 1, 15, 'Current and proposed suction pressures/temperatures ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7438, 260, 0, 1, 15, 'Compressor operational profile ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7439, 260, 0, 2, 12, 'Set data loggers to record power consumption over the compressor(s) typical operating range.', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7440, 260, 0, 1, 4, 'Energy savings may only be available if efficient part-load compressor controls are used.', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7441, 260, 0, 0, 11, 'Decrease discharge pressure', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7442, 260, 0, 1, 31, '<p>Decreasing suction pressure lowers the load on the compressor, and thereby reduces compressor power.</p>', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7443, 260, 0, 1, 10, 'If the condensing temperature is higher than its corresponding saturated condensing temperature, discharge pressure may be reduced. ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7444, 260, 0, 1, 10, 'The condenser is operating at less than full capacity. ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7445, 260, 0, 1, 7, 'Set a minimum discharge temperature, above which the discharge will be allowed to \"float\", responding to changes in the ambient saturation temperature. ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7446, 260, 0, 1, 8, 'Keep an eye out for gradually increasing discharge temperature. This may indicate scaling in the condenser tubes which reduces heat transfer. Implement adequate water treatment to avoid this potential issue. ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7447, 260, 0, 1, 3, 'The refrigerant condensing temperature should not be less than 35°F above the refrigerant evaporator temperature. ', '', '', 0, 0, 0, 20, '2020-12-16 01:31:48', 0),
+(7448, 260, 0, 1, 3, '1.5% compressor power reduction per 1°F decrease in condensing temperature', '', '', 0, 0, 0, 20, '2020-12-16 01:31:48', 0),
+(7449, 260, 0, 1, 15, 'Current and proposed discharge pressures', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7450, 260, 0, 1, 15, 'Dry and wet bulb suction temperatures: current and proposed', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7451, 260, 0, 1, 15, 'Compressor operational profile ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7452, 260, 0, 2, 12, 'Set data loggers to record power consumption over the compressor(s) typical operating range.', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
+(7455, 144, 0, 0, 24, 'An guide to industrial refrigeration systems and associated best practicers. Developed by Cascade Energy.', 'https://cascadeenergy.com/wp-content/uploads/2013/10/industrial-refridgeration-best-practices-guide.pdf', 'Industrial Refrigeration - Best Practices Guide ', 1, 0, 0, 0, '2020-12-16 01:38:16', 0),
+(7456, 144, 0, 0, 24, 'A chapter from Rutgers University\'s training manual for conducting industrial assessments.', 'https://iac.university/technicalDocs/industr/ch7.pdf', 'Essentials of Industrial Assessments - Ch. 7: Thermal Applications', 1, 0, 0, 0, '2020-12-16 01:38:16', 0),
+(7480, 131, 0, 0, 11, 'Use outside air to partially or fully meet cooling requirements. ', '', '', 0, 0, 0, 0, '2020-12-16 19:51:45', 0),
+(7481, 131, 0, 1, 31, '<p>If outside air is sufficiently cool a cooler economizer may be used to circulate outside air to a cooled space, process, or equipment while ducting warm air outside. This is the least energy intensive cooling method and should be pursued if conditions permit it.</p>', '', '', 0, 0, 0, 0, '2020-12-16 19:51:45', 0),
+(7482, 131, 0, 1, 8, 'Use outside air during colder months to turn down or shut off other cooling equipment. ', '', '', 0, 0, 0, 0, '2020-12-16 19:51:45', 0),
+(7483, 131, 0, 1, 1, 'Inexpensive, few moving parts, and easy to maintain.', '', '', 0, 0, 0, 0, '2020-12-16 19:51:45', 0),
+(7484, 131, 0, 1, 2, 'Reliability depends on the consistency of ambient conditions. ', '', '', 0, 0, 0, 0, '2020-12-16 19:51:45', 0),
+(7485, 131, 0, 0, 11, 'Install a cooling tower to reduce the chiller load.', '', '', 0, 0, 0, 0, '2020-12-16 19:51:45', 0),
+(7486, 131, 0, 1, 31, '<p>Cooling towers make use of evaporative cooling to supply cooled water to a process. Warm water is sprayed at the top of the tower and allowed to trickle down through a counter or cross airflow. Cooling towers may be used as standalone equipment or added to a chiller system to reduce the load when outside conditions are ideal. There are three common types of cooling towers used today: forced-draft, induced-draft, and hyperbolic.</p>', '', '', 0, 0, 0, 0, '2020-12-16 19:51:45', 0),
+(7487, 131, 0, 0, 11, 'Condenser water temperature adjustment ', '', '', 0, 0, 0, 0, '2020-12-16 19:51:45', 0),
+(7488, 131, 0, 0, 11, 'Chilled water supply temperature adjustment', '', '', 0, 0, 0, 0, '2020-12-16 19:51:45', 0),
+(7489, 131, 0, 0, 11, 'Fan motor controls (variable speed)', '', '', 0, 0, 0, 0, '2020-12-16 19:51:45', 0);
 
 -- --------------------------------------------------------
 
@@ -2482,7 +2497,39 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (34, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
 (35, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
 (36, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
-(39, 0, 52, 'Silverware has submitted a contributor card that is awaiting review', 6);
+(39, 0, 52, 'Silverware has submitted a contributor card that is awaiting review', 6),
+(96, 12, 47, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(97, 12, 51, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(98, 12, 52, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(99, 12, 54, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(100, 12, 55, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(101, 12, 56, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(102, 12, 57, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(104, 12, 59, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(105, 12, 60, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(106, 12, 61, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(107, 12, 62, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(108, 12, 63, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(109, 12, 65, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(110, 12, 67, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(111, 12, 69, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(112, 12, 70, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
+(114, 13, 47, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(115, 13, 51, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(116, 13, 52, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(117, 13, 54, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(118, 13, 55, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(119, 13, 56, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(120, 13, 57, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(122, 13, 59, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(123, 13, 60, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(124, 13, 61, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(125, 13, 62, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(126, 13, 63, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(127, 13, 65, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(128, 13, 67, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(129, 13, 69, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
+(130, 13, 70, 'The request \"Refrigeration Page\" is awaiting an orange review', 2);
 
 -- --------------------------------------------------------
 
@@ -2527,7 +2574,7 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (45, 2, 'Pumps', 'Pumps provide a typical utility required throughout industry.', 'Centrifugal pumps are the most common type found in industry, followed by positive displacement pumps (used in hydraulics), pneumatic diaphragm pumps, peristaltic pumps, and other specialty pumps. \n\nUnless otherwise noted this section speaks to centrifugal pumps when addressing pump performance and efficiency. Changes in hydraulic energy required (pressure and flow) will translate to any pumping system. \n\nCentrifugal pumps generally come in three classes: radial flow, mixed flow, and axial flow.', 'https://live.staticflickr.com/65535/50066427331_ddae8822f2_b.jpg', 0, 55, '2020-07-01 18:11:01', 0),
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
 (47, 2, 'Thermal Systems', 'Many industrial processes require encouraging or resisting thermal energy transfer.', 'Heat transfer technologies include heat exchangers, cooling towers, fan cooling, direct impingement and other methods.  Heat transfer is discouraged with insulation, vacuums, reduced emissivity, etc. ', 'https://live.staticflickr.com/65535/50069411093_68ab30e548_b.jpg', 0, 58, '2020-07-02 21:31:22', 0),
-(48, 2, 'Refrigeration', 'Refrigeration technology is important in many industrial processes.', 'Refrigeration is the process of absorbing heat from a medium, typically air or water, and rejecting it to the ambient environment by using work. Many opportunities are available that minimize work in industrial refrigeration systems to provide energy and cost savings. Common industrial applications include temperature controlled warehouses, food storage, and water chiller systems. Improving the energy efficiency of such systems not only reduces energy consumption, but can often reduce labor costs and improve productivity, product quality, and system reliability. Refrigeration load, control strategies, set points, maintenance, initial capital investment, and the long term life-cycle costs are all important factors when designing a refrigeration system. Careful consideration of the system as a whole at the onset, and ongoing energy and operational management is vital to getting the most out of a refrigeration system.', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 58, '2020-07-02 22:10:36', 0),
+(48, 2, 'Refrigeration', 'Refrigeration technology is important in many industrial processes.', 'Refrigeration is the process of absorbing heat from a medium, typically air or water, and rejecting it to the ambient environment by using work. Many opportunities are available that minimize work in industrial refrigeration systems to provide energy and cost savings. Common industrial applications include temperature controlled warehouses, food storage, and water chiller systems. Improving the energy efficiency of such systems not only reduces energy consumption, but can often reduce labor costs and improve productivity, product quality, and system reliability. Refrigeration load, control strategies, set points, maintenance, initial capital investment, and the long term life-cycle costs are all important factors when designing a refrigeration system. Careful consideration of the system as a whole at the onset, and ongoing energy and operational management is vital to getting the best use out of a refrigeration system.', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 58, '2020-07-02 22:10:36', 0),
 (49, 7, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'They can also be based on the rate of use, when use occurs, how the commodity is obtained, or how the commodity is measured. Understanding utility bills is essential to identifying potential areas of resource savings and implementing solutions.', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 1, 54, '2020-07-02 22:40:27', 0),
 (50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 51, '2020-07-07 20:46:38', 0),
 (54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, 51, '2020-08-05 19:54:53', 1),
@@ -2646,7 +2693,10 @@ INSERT INTO `Requests` (`requestId`, `title`, `description`, `status`, `created`
 (5, 'Metals Manufacturing', 'This is the metals manufacturing page that I started while working with ColMac', 1, '2020-10-15 18:21:13', 52),
 (6, 'Utility Billing - Electricity', 'This introduces the utilities page and covers electricity billing structure.  Other utilities are to follow in a similar fashion, so I\'m wanting to check organization and content before reviewing any others.  Last note:  I have no idea what picture to put for the page, so very much open to any suggestions. Thanks!', 1, '2020-10-16 22:04:13', 54),
 (9, 'Demo', 'Demo', 4, '2020-12-14 16:14:45', 58),
-(10, 'Demo', 'Demo', 4, '2020-12-14 18:29:00', 58);
+(10, 'Demo', 'Demo', 4, '2020-12-14 18:29:00', 58),
+(11, 'Refrigeration opportunity - reduce system lift', 'Two methods for reducing system lift are included: increase suction pressure and decrease discharge pressure. ', 4, '2020-12-16 01:40:52', 58),
+(12, 'Refrigeration Opportunity: Reduce System Lift', 'A card containing two methods for reducing system lift: increase suction pressure and decrease discharge pressure.', 1, '2020-12-16 01:43:02', 58),
+(13, 'Refrigeration Page', 'Brief summary of industrial refrigeration systems and design factors to consider. ', 1, '2020-12-16 01:45:12', 58);
 
 -- --------------------------------------------------------
 
@@ -2710,7 +2760,10 @@ INSERT INTO `Request_Objects` (`requestObjectId`, `requestId`, `objectId`, `obje
 (27, 6, 224, 3),
 (28, 6, 225, 3),
 (33, 9, 257, 3),
-(34, 10, 259, 3);
+(34, 10, 259, 3),
+(35, 11, 260, 3),
+(36, 12, 260, 3),
+(37, 13, 48, 1);
 
 -- --------------------------------------------------------
 
@@ -2732,10 +2785,6 @@ CREATE TABLE `Scores` (
 --
 
 INSERT INTO `Scores` (`scoreId`, `pageId`, `questionId`, `userId`, `text`, `correct`) VALUES
-(39, 62, 1, 42, 'social engineering', 1),
-(40, 62, 2, 42, 'attacker', 1),
-(41, 62, 3, 42, 'mouse', 1),
-(42, 62, 3, 42, 'keyboard', 1),
 (51, 2, 4, 58, '85%-90%', 1),
 (52, 2, 5, 58, '1', 1),
 (53, 2, 6, 58, 'true', 1),
@@ -2766,7 +2815,11 @@ INSERT INTO `Scores` (`scoreId`, `pageId`, `questionId`, `userId`, `text`, `corr
 (78, 45, 29, 58, 'true', 1),
 (79, 45, 30, 58, 'hydraulic', 1),
 (80, 45, 30, 58, 'brake', 1),
-(81, 45, 31, 58, 'cubic', 1);
+(81, 45, 31, 58, 'cubic', 1),
+(106, 62, 1, 42, 'social engineering', 1),
+(107, 62, 2, 42, 'fsdfsdf', 0),
+(108, 62, 3, 42, 'click', 1),
+(109, 62, 3, 42, 'type', 1);
 
 -- --------------------------------------------------------
 
@@ -2801,7 +2854,8 @@ INSERT INTO `Sources` (`sourceId`, `pageId`, `text`) VALUES
 (18, 2, '<p>Test Source</p>'),
 (19, 45, '<p>Demo</p>'),
 (20, 48, '<p>M.R. Muller, M. Simek, J. Mak, B. Mitrovic. <em>Essentials of Industrial Assessments - A Training Manual v.3.0 - Ch 7 Thermal Applications, </em>(2015). Accessed: Dec. 14, 2020. [Online]. Available: https://iac.university/technicalDocs/industr/ch7.pdf</p>'),
-(21, 48, '<p>Cascade Energy Engineering, Inc. <em>Industrial Refrigeration - Best Practices Guide</em>, 3 ed. (2010). Accessed: Dec. 14, 2020. [Online]. Available: https://cascadeenergy.com/wp-content/uploads/2013/10/industrial-refridgeration-best-practices-guide.pdf</p>');
+(21, 48, '<p>Cascade Energy Engineering, Inc. <em>Industrial Refrigeration - Best Practices Guide</em>, 3 ed. (2010). Accessed: Dec. 14, 2020. [Online]. Available: https://cascadeenergy.com/wp-content/uploads/2013/10/industrial-refridgeration-best-practices-guide.pdf</p>'),
+(22, 47, '<p>M.R. Muller, M. Simek, J. Mak, B. Mitrovic. <em>Essentials of Industrial Assessments - A Training Manual v.3.0 - Ch 7 Thermal Applications, </em>(2015). Accessed: Dec. 14, 2020. [Online]. Available: https://iac.university/technicalDocs/industr/ch7.pdf</p>');
 
 -- --------------------------------------------------------
 
@@ -3211,7 +3265,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Answers`
 --
 ALTER TABLE `Answers`
-  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=250;
+  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=272;
 
 --
 -- AUTO_INCREMENT for table `Banners`
@@ -3283,19 +3337,19 @@ ALTER TABLE `Info`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7109;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7490;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
 --
 ALTER TABLE `Notifications`
-  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT for table `Observations`
 --
 ALTER TABLE `Observations`
-  MODIFY `observationId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `observationId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -3319,7 +3373,7 @@ ALTER TABLE `Quick_Titles`
 -- AUTO_INCREMENT for table `Requests`
 --
 ALTER TABLE `Requests`
-  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `Request_Comments`
@@ -3331,19 +3385,19 @@ ALTER TABLE `Request_Comments`
 -- AUTO_INCREMENT for table `Request_Objects`
 --
 ALTER TABLE `Request_Objects`
-  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `Scores`
 --
 ALTER TABLE `Scores`
-  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `Sources`
 --
 ALTER TABLE `Sources`
-  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`

@@ -372,7 +372,8 @@ function QuizEdit() {
       text: "",
       type: 1,
       imageUrl: "",
-      answers: []
+      answers: [],
+      groups: []
     };
     newQuestions.push(questionObject);
     setNextKey(nextKey + 1);
