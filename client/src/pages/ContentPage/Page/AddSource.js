@@ -295,7 +295,7 @@ function AddSource(props) {
       </Modal>
     </div>;
 
-  } else if (props.mode === 1 && props.role === 3) {
+  } else if (props.mode === 1 && (props.role === 3 || props.role === 4)) {
 
     return <div className="text-center mx-2 my-auto">
       <LoadingOverlay loading={loading} />
