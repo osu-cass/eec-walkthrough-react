@@ -12,7 +12,6 @@ function BulletPoint(props) {
   // Don't show bullet points that are internal when we are viewing in public mode
   return !props.internal || !props.publicMode ? (
     <Fragment>
-
       {/* If the bullet point is an item */}
       {props.groupIndex === 1 ? (
         <BulletPointItem
