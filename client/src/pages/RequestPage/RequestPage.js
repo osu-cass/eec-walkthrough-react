@@ -77,6 +77,7 @@ function RequestPage() {
 
           const obj = await results.json();
           setRequest(obj);
+          console.log(obj);
 
           if (obj.status < 4) {
             setOpen(true);

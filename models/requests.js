@@ -335,7 +335,7 @@ async function getRequest(requestId, userId) {
             sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
             "Items.iconType, typeName, typeKeyword, contentText, " +
             "contentUrl, contentLabel, contentMode, internal, " +
-            "created, approved, color " +
+            "created, approved, color, sourceId, inline, groupIndex " +
             "FROM Items " +
             "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
             "WHERE cardId = ? " +
@@ -365,7 +365,7 @@ async function getRequest(requestId, userId) {
               sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
               "Items.iconType, typeName, typeKeyword, contentText, " +
               "contentUrl, contentLabel, contentMode, internal, " +
-              "created, approved, color " +
+              "created, approved, color, sourceId, inline, groupIndex " +
               "FROM Items " +
               "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
               "WHERE cardId = ? " +
@@ -393,7 +393,7 @@ async function getRequest(requestId, userId) {
             sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
             "Items.iconType, typeName, typeKeyword, contentText, " +
             "contentUrl, contentLabel, contentMode, internal, " +
-            "created, approved, color " +
+            "created, approved, color, sourceId, inline, groupIndex " +
             "FROM Items " +
             "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
             "WHERE cardId = ? " +
