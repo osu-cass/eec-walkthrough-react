@@ -49,6 +49,7 @@ function QuestionDisplay(props) {
           <QuestionEdit
             questionKey={props.questionKey}
             questionId={props.questionId}
+            new={false}
             text={props.text}
             answers={props.answers}
             type={props.type}
@@ -65,7 +66,7 @@ function QuestionDisplay(props) {
       <label className="mt-3 font-weight-bold">
         Question Text
       </label>
-      <span className="mb-3">
+      <span>
         {props.text}
       </span>
 
