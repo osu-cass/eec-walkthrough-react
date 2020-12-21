@@ -1,13 +1,14 @@
 import React, {useState, useEffect, Fragment} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {getProfile} from "../../utilities/cookieAuth";
-import {useParams, useHistory} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {API_URL} from "../../utilities/constants";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import Error from "../../components/General/Error";
 import QuestionDisplay from "./QuestionDisplay";
-import {logout} from "../../utilities/cookieAuth";
+import QuestionEdit from "./QuestionEdit";
+import {NavLink} from "react-router-dom";
 import "./QuizEdit.css";
 
 // Page for editing quizzes
@@ -25,7 +26,6 @@ function QuizEdit() {
   const [questionErrorMessage, setQuestionErrorMessage] = useState("");
   const [nextKey, setNextKey] = useState(0);
   const {pageId} = useParams();
-  const history = useHistory();
 
   // Gets quiz info when the page first loads
   useEffect(() => {
@@ -242,88 +242,6 @@ function QuizEdit() {
     setQuestions(newQuestions);
   }
 
-  // upload quiz changes
-  async function updateQuiz() {
-    // Check for invalid inputs
-    if (!validInputs()) {
-      return;
-    }
-    setLoading(true);
-
-    // Get all of the selected files to upload
-    const copy = [...questions];
-    const uploadImages = [];
-    for (let i = 0; i < copy.length; i++) {
-      if (copy[i].imageToUpload) {
-        uploadImages.push(copy[i].imageToUpload);
-      }
-    }
-
-    // see if we need to upload any images
-    if (uploadImages.length) {
-      const formData = new FormData();
-      for (let i = 0; i < uploadImages.length; i++) {
-        formData.append("images", uploadImages[i]);
-      }
-      const results = await fetch(`${API_URL}/files/bulk`, {
-        method: "POST",
-        credentials: "include",
-        body: formData
-      });
-
-      if (results.ok) {
-        const obj = await results.json();
-        const urls = obj.urls;
-
-        // update the urls for all of the questions
-        for (let i = 0; i < urls.length; i++) {
-          for (let j = 0; j < copy.length; j++) {
-            if (copy[j].imageToUpload) {
-              copy[j].imageToUpload = null;
-              copy[j].imageUrl = urls[i];
-              break;
-            }
-          }
-        }
-        setQuestions(copy);
-      } else {
-        console.error("Failed to upload images.");
-      }
-    }
-
-    const data = {
-      questions: copy
-    };
-
-    const results = await fetch(`${API_URL}/quizzes/${pageId}`, {
-      method: "POST",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(data)
-    });
-
-    if (results.ok) {
-
-      // refresh the page
-      history.push(`/wiki/search-results/${pageId}`);
-
-    } else {
-
-      const obj = await results.json();
-
-      if (results.status === 401) {
-        logout();
-        window.location.href = "/";
-      } else if (results.status === 500 || typeof obj.error === "undefined") {
-        setErrorMessage("An internal server error occurred. Please try again later.");
-      } else {
-        setErrorMessage(obj.error);
-      }
-
-    }
-    setLoading(false);
-  }
-
   // delete user feedback
   async function deleteFeedback(observationId, type) {
     if (!window.confirm("Are you sure you want to delete this user feedback?")) {
@@ -411,14 +329,25 @@ function QuizEdit() {
 
       <Error message={errorMessage} />
 
-      {/* Add questions and save buttons */}
+      {/* Add questions and return to page buttons */}
       <div className="mt-4 submit-quiz-box">
-        <button className="submit-quiz btn btn-lg btn-success pull-right ml-4" onClick={() => updateQuiz()}>
-          Save Quiz
-        </button>
-        <button className="add-question btn btn-lg btn-info pull-right" onClick={() => addQuestion()}>
-          Add Question
-        </button>
+        <NavLink className="home-footer-nav-link" to={`/wiki/search-results/${pageId}`}>
+          <button className="submit-quiz btn btn-lg btn-success pull-right ml-4">
+            Return to {title}
+          </button>
+        </NavLink>
+        <QuestionEdit
+          questionKey={0}
+          questionId={0}
+          new={true}
+          text={""}
+          answers={[]}
+          type={1}
+          imageUrl={""}
+          groups={[]}
+          index={0}
+          role={role}
+        />
       </div>
 
       {/* General user feedback */}

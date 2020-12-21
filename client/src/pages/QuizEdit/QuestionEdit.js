@@ -227,8 +227,13 @@ function QuestionEdit(props) {
     setGroups(groupList);
   }
 
-  // handle submiting the question changes
+  // handle submitting a new question
   function handleSubmit () {
+    //
+  }
+
+  // handle submitting the question changes
+  function handleEdit () {
     //
   }
 
@@ -266,17 +271,27 @@ function QuestionEdit(props) {
 
       <LoadingOverlay loading={loading} />
 
-      <button
-        className="btn btn-sm btn-info btn pull-right"
-        onClick={() => handleShowModal()}
-      >
-        <i className="fas fa-fw fa-edit mr-2 my-1" style={{transform: "scale(1.5)"}}/>
-        <span className="text-white">Edit Question</span>
-      </button>
+      {/* The button for opening the modal looks different depending on if it is for creating or editing */}
+      {props.new ? (
+        <button
+          className="add-question btn btn-lg btn-info pull-right"
+          onClick={() => handleShowModal()}
+        >
+          <span className="text-white">Add Question</span>
+        </button>
+      ) : (
+        <button
+          className="btn btn-sm btn-info btn pull-right"
+          onClick={() => handleShowModal()}
+        >
+          <i className="fas fa-fw fa-edit mr-2 my-1" style={{transform: "scale(1.5)"}}/>
+          <span className="text-white">Edit Question</span>
+        </button>
+      )}
 
       <Modal show={showModal} onHide={() => handleCloseModal()} dialogClassName="modal-width">
         <Modal.Header>
-          <h5 className="modal-title font-weight-bold">Edit Question</h5>
+          <h5 className="modal-title font-weight-bold">{props.new ? "Create Question" : "Edit Question"}</h5>
           <Button variant="none" onClick={() => handleCloseModal()}>
             <span aria-hidden="true">&times;</span>
           </Button>
@@ -459,18 +474,24 @@ function QuestionEdit(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          <Button
-            className="mr-auto"
-            variant="danger"
-            onClick={() => {}}
-          >
-            {props.role >= 5 ? (
-              <span>Delete Question</span>
-            ) : (
-              <span>Delete Unpublished Question</span>
-            )}
-          </Button>
-          <Button variant="primary" onClick={() => handleSubmit()}>Submit Question Edit</Button>
+          {props.new ? (
+            <Button variant="primary" onClick={() => handleSubmit()}>Submit Question</Button>
+          ) : (
+            <Fragment>
+              <Button
+                className="mr-auto"
+                variant="danger"
+                onClick={() => {}}
+              >
+                {props.role >= 5 ? (
+                  <span>Delete Question</span>
+                ) : (
+                  <span>Delete Unpublished Question</span>
+                )}
+              </Button>
+              <Button variant="primary" onClick={() => handleEdit()}>Submit Question Edit</Button>
+            </Fragment>
+          )}
           <Button variant="secondary" onClick={() => handleCloseModal()}>Cancel</Button>
         </Modal.Footer>
       </Modal>
@@ -483,6 +504,7 @@ export default QuestionEdit;
 QuestionEdit.propTypes = {
   questionId: PropTypes.number,
   questionKey: PropTypes.number,
+  new: PropTypes.bool,
   text: PropTypes.string,
   answers: PropTypes.array,
   type: PropTypes.number,
