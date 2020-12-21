@@ -283,7 +283,9 @@ function EditHeader(props) {
 
   return props.role >= 3 && props.mode === 1 ? (
     <div className="text-center mx-2 my-auto d-print-none">
+
       <LoadingOverlay loading={showLoad} />
+
       <Button size="sm" variant="info" onClick={() => handleShowModal()}>
         <i
           className="fas fa-edit text-white mr-2"
@@ -291,6 +293,7 @@ function EditHeader(props) {
         </i>
         <span className="text-white">Edit Header</span>
       </Button>
+
       <Modal show={showModal} onHide={() => handleCloseModal()} dialogClassName="modal-width">
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Edit Header</h5>

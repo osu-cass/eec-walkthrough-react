@@ -1,19 +1,19 @@
 import React, {useState, useEffect, Fragment} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
-import {API_URL, UPLOAD_TERMS} from "../../utilities/constants";
+import {getProfile} from "../../utilities/cookieAuth";
 import {useParams, useHistory} from "react-router-dom";
+import {API_URL} from "../../utilities/constants";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
-import QuestionEdit from "./QuestionEdit";
 import Error from "../../components/General/Error";
+import QuestionDisplay from "./QuestionDisplay";
 import {logout} from "../../utilities/cookieAuth";
-import {getAgreement} from "../../utilities/agreementMode";
-import Agreement from "../../components/General/Agreement";
 import "./QuizEdit.css";
 
 // Page for editing quizzes
 function QuizEdit() {
 
+  const [role] = useState(getProfile().role);
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([]);
   const [generalFeedback, setGeneralFeedback] = useState([]);
@@ -26,9 +26,6 @@ function QuizEdit() {
   const [nextKey, setNextKey] = useState(0);
   const {pageId} = useParams();
   const history = useHistory();
-  const [imageAgreement, setImageAgreement] = useState(getAgreement("image"));
-  const [showAgreement, setShowAgreement] = useState(false);
-  const [imageTerms] = useState(UPLOAD_TERMS);
 
   // Gets quiz info when the page first loads
   useEffect(() => {
@@ -171,314 +168,6 @@ function QuizEdit() {
     // eslint-disable-next-line
   }, [pageId]);
 
-  // deletes a specific question
-  function onDeleteQuestion(questionKey) {
-
-    if (!window.confirm("Are you sure you want to delete this question?")) {
-      return;
-    }
-
-    const newQuestions = [...questions];
-    let index = -1;
-
-    for (let i = 0; i < newQuestions.length; i++) {
-      if (newQuestions[i].questionKey === questionKey) {
-        index = i;
-        break;
-      }
-    }
-
-    if (index >= 0) {
-      newQuestions.splice(index, 1);
-      setQuestions(newQuestions);
-    }
-  }
-
-  // deletes a specific answer
-  function onDeleteAnswer(questionKey, answerId) {
-
-    if (!window.confirm("Are you sure you want to delete this answer?")) {
-      return;
-    }
-
-    const newQuestions = JSON.parse(JSON.stringify(questions));
-    let index = -1;
-
-    // find the question index
-    for (let i = 0; i < newQuestions.length; i++) {
-      if (newQuestions[i].questionKey === questionKey) {
-        index = i;
-        break;
-      }
-    }
-
-    if (index >= 0) {
-      // find the answer index
-      let answerIndex = -1;
-      for (let i = 0; i < newQuestions[index].answers.length; i++) {
-        if (newQuestions[index].answers[i].answerId === answerId) {
-          answerIndex = i;
-          break;
-        }
-      }
-
-      if (answerIndex >= 0) {
-        newQuestions[index].answers.splice(answerIndex, 1);
-        setQuestions(newQuestions);
-      }
-
-      // see if answer needs to be deleted from group
-      let xIndex = -1;
-      let yIndex = -1;
-      for (let i = 0; i < newQuestions[index].groups.length; i++) {
-        for (let j = 0; j < newQuestions[index].groups[i].length; j++) {
-          if (newQuestions[index].groups[i][j].answerId === answerId) {
-            xIndex = i;
-            yIndex = j;
-            break;
-          }
-        }
-      }
-
-      if (xIndex >= 0 && yIndex >= 0) {
-        newQuestions[index].groups[xIndex].splice(yIndex, 1);
-
-        // if the group is now empty, then remove it
-        if (!newQuestions[index].groups[xIndex].length) {
-          newQuestions[index].groups.splice(xIndex, 1);
-        }
-
-        setQuestions(newQuestions);
-      }
-    }
-  }
-
-  // changes the text for a question field
-  function onChangeField(questionKey, text, fieldNumber) {
-    const newQuestions = [...questions];
-    let index = -1;
-
-    for (let i = 0; i < newQuestions.length; i++) {
-      if (newQuestions[i].questionKey === questionKey) {
-        index = i;
-        break;
-      }
-    }
-
-    if (index >= 0) {
-
-      if (fieldNumber === 0) {
-        newQuestions[index].type = parseInt(text, 10);
-      } else if (fieldNumber === 1) {
-        newQuestions[index].text = text;
-      } else {
-        newQuestions[index].imageUrl = text;
-      }
-
-      setQuestions(newQuestions);
-    }
-  }
-
-  // change an answers text
-  function onChangeAnswer(questionKey, answerId, text) {
-    const newQuestions = [...questions];
-    let index = -1;
-
-    // find the question index
-    for (let i = 0; i < newQuestions.length; i++) {
-      if (newQuestions[i].questionKey === questionKey) {
-        index = i;
-        break;
-      }
-    }
-
-    if (index >= 0) {
-      // find the answer index
-      let answerIndex = -1;
-      for (let i = 0; i < newQuestions[index].answers.length; i++) {
-        if (newQuestions[index].answers[i].answerId === answerId) {
-          answerIndex = i;
-          break;
-        }
-      }
-
-      if (answerIndex >= 0) {
-        newQuestions[index].answers[answerIndex].text = text;
-        setQuestions(newQuestions);
-      }
-
-      // update the group value as well
-      let xIndex = -1;
-      let yIndex = -1;
-      for (let i = 0; i < newQuestions[index].groups.length; i++) {
-        for (let j = 0; j < newQuestions[index].groups[i].length; j++) {
-          if (newQuestions[index].groups[i][j].answerId === answerId) {
-            xIndex = i;
-            yIndex = j;
-            break;
-          }
-        }
-      }
-
-      if (xIndex >= 0 && yIndex >= 0) {
-        newQuestions[index].groups[xIndex][yIndex].text = text;
-      }
-    }
-  }
-
-  // change an answers correct status
-  function onChangeCorrect(questionKey, answerId) {
-    let correct = document.getElementById(`check-${questionKey}-${answerId}`).checked;
-    if (correct) {
-      correct = 1;
-    } else {
-      correct = 0;
-    }
-    const newQuestions = [...questions];
-    let index = -1;
-
-    // find the question index
-    for (let i = 0; i < newQuestions.length; i++) {
-      if (newQuestions[i].questionKey === questionKey) {
-        index = i;
-        break;
-      }
-    }
-
-    if (index >= 0) {
-      // find the answer index
-      let answerIndex = -1;
-      for (let i = 0; i < newQuestions[index].answers.length; i++) {
-        if (newQuestions[index].answers[i].answerId === answerId) {
-          answerIndex = i;
-          break;
-        }
-      }
-
-      if (answerIndex >= 0) {
-        newQuestions[index].answers[answerIndex].correct = correct;
-        setQuestions(newQuestions);
-      }
-    }
-  }
-
-  // add a new question to the quiz
-  function addQuestion() {
-    const newQuestions = [...questions];
-    const questionObject = {
-      questionId: 0,
-      questionKey: nextKey,
-      pageId: pageId,
-      text: "",
-      type: 1,
-      imageUrl: "",
-      answers: [],
-      groups: []
-    };
-    newQuestions.push(questionObject);
-    setNextKey(nextKey + 1);
-    setQuestions(newQuestions);
-  }
-
-  // adds a new answer to a question
-  function onAddAnswer(questionKey, groupId) {
-    const newQuestions = JSON.parse(JSON.stringify(questions));
-    let index = -1;
-
-    // find the question index
-    for (let i = 0; i < newQuestions.length; i++) {
-      if (newQuestions[i].questionKey === questionKey) {
-        index = i;
-        break;
-      }
-    }
-
-    // add the new answer
-    if (index >= 0) {
-
-      // find the next valid id
-      let newId = 1;
-      for (let i = 0; i < newQuestions[index].answers.length; i++) {
-        if (newQuestions[index].answers[i].answerId >= newId) {
-          newId = newQuestions[index].answers[i].answerId + 1;
-        }
-      }
-
-      // create the new answer
-      const answerObject = {
-        answerId: newId,
-        questionId: questionKey,
-        text: "",
-        correct: 0,
-        subAnswers: [],
-        groupId: groupId
-      };
-      newQuestions[index].answers.push(answerObject);
-
-      // update the group information
-      for (let i = 0; i < newQuestions[index].groups.length; i++) {
-        if (newQuestions[index].groups[i].length) {
-          if (newQuestions[index].groups[i][0].groupId === groupId) {
-            newQuestions[index].groups[i].push(answerObject);
-            break;
-          }
-        }
-      }
-
-      setQuestions(newQuestions);
-    }
-  }
-
-  // adds a new answer group to a question
-  function onAddAnswerGroup(questionKey) {
-    const newQuestions = JSON.parse(JSON.stringify(questions));
-    let index = -1;
-
-    // find the question index
-    for (let i = 0; i < newQuestions.length; i++) {
-      if (newQuestions[i].questionKey === questionKey) {
-        index = i;
-        break;
-      }
-    }
-
-    // add the new group + answer
-    if (index >= 0) {
-
-      // find the next valid id
-      let newId = 1;
-      for (let i = 0; i < newQuestions[index].answers.length; i++) {
-        if (newQuestions[index].answers[i].answerId >= newId) {
-          newId = newQuestions[index].answers[i].answerId + 1;
-        }
-      }
-
-      // find the next group ID
-      let groupId = 0;
-      for (let i = 0; i < newQuestions[index].answers.length; i++) {
-        if (newQuestions[index].answers[i].groupId >= groupId) {
-          groupId = newQuestions[index].answers[i].groupId + 1;
-        }
-      }
-
-      // create the new answer
-      const answerObject = {
-        answerId: newId,
-        questionId: questionKey,
-        text: "",
-        correct: 0,
-        subAnswers: [],
-        groupId: groupId
-      };
-      newQuestions[index].answers.push(answerObject);
-
-      // add the new group
-      newQuestions[index].groups.push([answerObject]);
-
-      setQuestions(newQuestions);
-    }
-  }
-
   // check to make sure all questions are valid
   function validInputs() {
     for (let i = 0; i < questions.length; i++) {
@@ -510,6 +199,47 @@ function QuizEdit() {
       }
     }
     return true;
+  }
+
+  // deletes a specific question
+  function onDeleteQuestion(questionKey) {
+
+    if (!window.confirm("Are you sure you want to delete this question?")) {
+      return;
+    }
+
+    const newQuestions = [...questions];
+    let index = -1;
+
+    for (let i = 0; i < newQuestions.length; i++) {
+      if (newQuestions[i].questionKey === questionKey) {
+        index = i;
+        break;
+      }
+    }
+
+    if (index >= 0) {
+      newQuestions.splice(index, 1);
+      setQuestions(newQuestions);
+    }
+  }
+
+  // add a new question to the quiz
+  function addQuestion() {
+    const newQuestions = [...questions];
+    const questionObject = {
+      questionId: 0,
+      questionKey: nextKey,
+      pageId: pageId,
+      text: "",
+      type: 1,
+      imageUrl: "",
+      answers: [],
+      groups: []
+    };
+    newQuestions.push(questionObject);
+    setNextKey(nextKey + 1);
+    setQuestions(newQuestions);
   }
 
   // upload quiz changes
@@ -648,52 +378,8 @@ function QuizEdit() {
     }
   }
 
-  // handle storing file information for uploaded images
-  function onNewImage(newImage, index) {
-    const key = index.toString();
-    const copy = [...questions];
-    copy[key].imageToUpload = newImage;
-    setQuestions(copy);
-
-    if (!imageAgreement) {
-      setShowAgreement(true);
-    }
-  }
-
-  // when the user cancels an image upload agreement
-  function cancelAgreement() {
-    const copy = [...questions];
-
-    // clear all of the images to upload for all questions
-    for (let i = 0; i < copy.length; i++) {
-      copy[i].imageToUpload = null;
-      const imageInput = document.getElementById(`custom-file-upload-${i}`);
-      imageInput.value = "";
-      const inputEvent = new Event("input", {bubbles: true});
-      imageInput.dispatchEvent(inputEvent);
-    }
-
-    setQuestions(copy);
-    setShowAgreement(false);
-  }
-
-  // when the user accepts an image upload agreement
-  function acceptAgreement() {
-    setShowAgreement(false);
-    setImageAgreement(true);
-  }
-
   return !error ? (
     <div className="container quiz-page-container my-5">
-
-      <Agreement
-        agreementTitle={"Image Agreement"}
-        agreementName={"image"}
-        terms={imageTerms}
-        acceptFunction={() => acceptAgreement()}
-        show={showAgreement}
-        closeModal={() => cancelAgreement()}
-      />
 
       <LoadingOverlay loading={loading} />
 
@@ -708,7 +394,7 @@ function QuizEdit() {
 
       {/* Quiz questions */}
       {questions.map((question, i) =>
-        <QuestionEdit
+        <QuestionDisplay
           key={question.questionKey}
           questionKey={question.questionKey}
           questionId={question.questionId}
@@ -719,13 +405,7 @@ function QuizEdit() {
           groups={question.groups}
           index={i}
           deleteQuestion={(questionKey) => onDeleteQuestion(questionKey)}
-          deleteAnswer={(questionKey, answerId) => onDeleteAnswer(questionKey, answerId)}
-          changeField={(questionKey, text, fieldNumber) => onChangeField(questionKey, text, fieldNumber)}
-          addAnswer={(questionKey, groupId) => onAddAnswer(questionKey, groupId)}
-          addAnswerGroup={(questionKey) => onAddAnswerGroup(questionKey)}
-          changeAnswer={(questionKey, answerId, text) => onChangeAnswer(questionKey, answerId, text)}
-          changeCorrect={(questionKey, answerId) => onChangeCorrect(questionKey, answerId)}
-          newImage={(newImage, index) => onNewImage(newImage, index)}
+          role={role}
         />
       )}
 
