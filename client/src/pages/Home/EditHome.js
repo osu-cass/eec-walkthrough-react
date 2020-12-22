@@ -131,7 +131,7 @@ function EditHome(props) {
           style={{transform: "scale(1.5)"}}></i>
         <span className="button-text text-white">Edit Homepage</span>
       </Button>
-      <Modal show={showModal} onHide={() => handleCloseModal()} dialogClassName="modal-width">
+      <Modal show={showModal} onHide={() => handleCloseModal()} dialogClassName="modal-size">
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Edit Homepage</h5>
           <Button variant="none" onClick={() => handleCloseModal()}>

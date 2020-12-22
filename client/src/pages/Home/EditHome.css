@@ -15,3 +15,15 @@
   z-index: 999;
   transition: all 0.3s;
 }
+
+@media (min-width: 576px) {
+  .modal-size {
+    max-width: 65%;
+  }
+}
+
+@media (max-width: 575px) {
+  .modal-size {
+    max-width: 100%;
+  }
+}
