@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Dec 21, 2020 at 03:57 PM
+-- Generation Time: Dec 22, 2020 at 12:02 AM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.13
 
@@ -2784,7 +2784,6 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (210, 16, 51, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (211, 16, 52, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (212, 16, 54, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
-(213, 16, 55, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (214, 16, 56, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (216, 16, 58, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (217, 16, 59, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
@@ -2795,7 +2794,12 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (222, 16, 65, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (223, 16, 67, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (224, 16, 69, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
-(225, 16, 70, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2);
+(225, 16, 70, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
+(226, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
+(227, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
+(228, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
+(229, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
+(230, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1);
 
 -- --------------------------------------------------------
 
@@ -3021,7 +3025,12 @@ INSERT INTO `Request_Comments` (`commentId`, `requestId`, `targetId`, `comment`,
 (51, 15, 'C101', '<p>Changed Template to internal reference.</p>', 0, '2020-12-20 02:58:16', 61),
 (52, 15, 'C101', '<p>This card is very full. Any suggestions about splitting up the card or removing items?</p>', 0, '2020-12-20 02:59:00', 61),
 (53, 15, 'C103', '<p>This description was borrowed from an old EEC guide book. </p><p>It seems good, but is it too much?</p>', 0, '2020-12-20 03:01:57', 61),
-(54, 15, 'C105', '<p>Any additional items needed for \"Fix faulty steam traps\"?</p>', 0, '2020-12-20 03:03:22', 61);
+(54, 15, 'C105', '<p>Any additional items needed for \"Fix faulty steam traps\"?</p>', 0, '2020-12-20 03:03:22', 61),
+(55, 16, 'P47', '<p>change \"focus\" to \"focuses\"</p>', 0, '2020-12-22 00:57:07', 55),
+(56, 16, 'P47', '<p>change \"Often times\" to \"Often\"</p>', 0, '2020-12-22 00:58:40', 55),
+(57, 16, 'C261', '<ul><li>maybe reword \"reducing generation costs\" this is a bit unclear</li><li>remove first \"equipment\" from from fourth pro</li><li>change \"cheaper\" to \"cheap\"</li></ul>', 0, '2020-12-22 01:05:22', 55),
+(58, 16, 'C262', '<p>add \"often\" prior to \"requiring non-generic quotes and high costs\"</p><p>change \"in consideration\" to \"to consider\" in the second sentence of the first bullet</p>', 0, '2020-12-22 01:07:54', 55),
+(59, 16, '0', '<p>Overall looks good. I think you got quite a bit of important information in there. Links are great. I suggested a few changes to the wording but it all looks nice!</p>', 0, '2020-12-22 01:10:53', 55);
 
 -- --------------------------------------------------------
 
@@ -3740,7 +3749,7 @@ ALTER TABLE `Items`
 -- AUTO_INCREMENT for table `Notifications`
 --
 ALTER TABLE `Notifications`
-  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
+  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
 
 --
 -- AUTO_INCREMENT for table `Observations`
@@ -3776,7 +3785,7 @@ ALTER TABLE `Requests`
 -- AUTO_INCREMENT for table `Request_Comments`
 --
 ALTER TABLE `Request_Comments`
-  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `Request_Objects`
