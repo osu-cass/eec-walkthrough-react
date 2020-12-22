@@ -6,6 +6,11 @@ import PropTypes from "prop-types";
 // A single question that can be edited
 function QuestionDisplay(props) {
 
+  // shows if the question has a temp version
+  function tempQuestion() {
+    return props.tempQuestionId !== null;
+  }
+
   // get the string for the correct question type
   function questionType(type) {
     if (type === 1) {
@@ -21,7 +26,7 @@ function QuestionDisplay(props) {
 
   return (
     <div
-      className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
+      className={`display-question ${props.approved && !props.tempQuestionId ? "" : "pending-question"} prompt-container mb-3 p-4 card rounded shadow-sm`}
     >
 
       <div className="row">
@@ -33,7 +38,7 @@ function QuestionDisplay(props) {
           </label>
           <br/>
           <span>
-            {questionType(props.type)}
+            {tempQuestion() ? questionType(props.tempType) : questionType(props.type)}
           </span>
         </div>
 
@@ -46,18 +51,29 @@ function QuestionDisplay(props) {
             <i className="fas fa-fw fa-stamp mr-2 my-1" style={{transform: "scale(1.5)"}}/>
             Review Question
           </button>
+
           <QuestionEdit
             questionKey={props.questionKey}
             questionId={props.questionId}
+            tempQuestionId={props.tempQuestionId}
             new={false}
+            approved={props.approved}
             text={props.text}
+            tempText={props.tempText}
             answers={props.answers}
+            tempAnswers={props.tempAnswers}
             type={props.type}
+            tempType={props.tempType}
             imageUrl={props.imageUrl}
+            tempImageUrl={props.tempImageUrl}
             groups={props.groups}
+            tempGroups={props.tempGroups}
             index={props.index}
             role={props.role}
+            pageId={props.pageId}
+            handleUpdate={(newQuestion, type) => props.handleUpdate(newQuestion, type)}
           />
+
         </div>
 
       </div>
@@ -67,7 +83,7 @@ function QuestionDisplay(props) {
         Question Text
       </label>
       <span>
-        {props.text}
+        {tempQuestion() ? props.tempText : props.text}
       </span>
 
       {/* Preview Image */}
@@ -77,7 +93,7 @@ function QuestionDisplay(props) {
             Image Preview
           </label>
           <Image
-            url={props.imageUrl}
+            url={tempQuestion() ? props.tempImageUrl : props.imageUrl}
             title={"Question Image"}
             thumbnail={true}
             header={false}
@@ -92,29 +108,65 @@ function QuestionDisplay(props) {
         Answers
       </label>
 
-      {props.type === 3 ? (
+      {/* Check if this is a temp question or a published one */}
+      {tempQuestion() || !props.approved ? (
+
         <Fragment>
-          {props.groups.map((group, i) =>
-            <Fragment key={i}>
-              <h4 className="mt-2">Answer Group #{i + 1}</h4>
-              {group.map((answer) =>
-                <div className="row mb-2 pl-3" key={answer.answerId}>
-                  <span className="mb-4">
-                    {answer.text}
-                  </span>
-                </div>
+          {(!tempQuestion() && props.type === 3) || (tempQuestion() && props.tempType === 3) ? (
+            <Fragment>
+              {props.tempGroups.map((group, i) =>
+                <Fragment key={i}>
+                  <h4 className="mt-2">Answer Group #{i + 1}</h4>
+                  {group.map((answer) =>
+                    <div className="row mb-2 pl-3" key={answer.answerId}>
+                      <span className="mb-4">
+                        {answer.text}
+                      </span>
+                    </div>
+                  )}
+                </Fragment>
+              )}
+            </Fragment>
+          ) : (
+            <Fragment>
+              {props.tempAnswers.map((answer) =>
+                <span className="mb-4" key={answer.answerId}>
+                  {answer.text}
+                </span>
               )}
             </Fragment>
           )}
         </Fragment>
+
       ) : (
+
         <Fragment>
-          {props.answers.map((answer) =>
-            <span className="mb-4" key={answer.answerId}>
-              {answer.text}
-            </span>
+          {props.type === 3 ? (
+            <Fragment>
+              {props.groups.map((group, i) =>
+                <Fragment key={i}>
+                  <h4 className="mt-2">Answer Group #{i + 1}</h4>
+                  {group.map((answer) =>
+                    <div className="row mb-2 pl-3" key={answer.answerId}>
+                      <span className="mb-4">
+                        {answer.text}
+                      </span>
+                    </div>
+                  )}
+                </Fragment>
+              )}
+            </Fragment>
+          ) : (
+            <Fragment>
+              {props.answers.map((answer) =>
+                <span className="mb-4" key={answer.answerId}>
+                  {answer.text}
+                </span>
+              )}
+            </Fragment>
           )}
         </Fragment>
+
       )}
     </div>
   );
@@ -124,13 +176,22 @@ export default QuestionDisplay;
 
 QuestionDisplay.propTypes = {
   questionId: PropTypes.number,
+  tempQuestionId: PropTypes.number,
   questionKey: PropTypes.number,
   text: PropTypes.string,
+  tempText: PropTypes.string,
   answers: PropTypes.array,
+  tempAnswers: PropTypes.array,
   type: PropTypes.number,
+  tempType: PropTypes.number,
   imageUrl: PropTypes.string,
+  tempImageUrl: PropTypes.string,
   groups: PropTypes.array,
+  tempGroups: PropTypes.array,
   index: PropTypes.number,
   deleteQuestion: PropTypes.func,
-  role: PropTypes.number
+  approved: PropTypes.number,
+  role: PropTypes.number,
+  pageId: PropTypes.string,
+  handleUpdate: PropTypes.func
 };

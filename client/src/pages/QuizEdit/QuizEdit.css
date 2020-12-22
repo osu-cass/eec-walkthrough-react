@@ -44,3 +44,11 @@ body {
   transform: scale(2);
   padding: 10px;
 }
+
+.display-question {
+  background-color: #fff;
+}
+
+.pending-question {
+  background-color: #fcf7db;
+}

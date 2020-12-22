@@ -20,7 +20,7 @@ function PageCard(props) {
     } else {
       setDescription(props.description);
     }
-  }, [props.description]);
+  }, [props.description, props.recent]);
 
   return (
     <div className="page-card-container">

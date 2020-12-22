@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import Image from "../../components/General/Image";
 import ImageInput from "../../components/General/ImageInput";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
@@ -19,11 +19,33 @@ function QuestionEdit(props) {
   const [type, setType] = useState(props.type);
   const [text, setText] = useState(props.text);
   const [imageUrl, setImageUrl] = useState(props.imageUrl);
-  const [imageUpload, setImageUpload] = useState("");
+  const [imageUpload, setImageUpload] = useState(null);
   const [answers, setAnswers] = useState(props.answers);
   const [groups, setGroups] = useState(props.groups);
   const [imageAgreement, setImageAgreement] = useState(getAgreement("image"));
   const [showAgreement, setShowAgreement] = useState(false);
+
+  // set the question content based on if there is temp content
+  useEffect(() => {
+    if (props.tempQuestionId) {
+      setType(props.tempType);
+      setText(props.tempText);
+      setImageUrl(props.tempImageUrl);
+      setAnswers(props.tempAnswers);
+      setGroups(props.tempGroups);
+    } else {
+      setType(props.type);
+      setText(props.text);
+      setImageUrl(props.imageUrl);
+      setAnswers(props.answers);
+      setGroups(props.groups);
+    }
+    if (!props.approved) {
+      setAnswers(props.tempAnswers);
+      setGroups(props.tempGroups);
+    }
+  }, [props.tempQuestionId, props.tempType, props.tempText, props.tempImageUrl, props.tempAnswers,
+    props.tempGroups, props.type, props.text, props.imageUrl, props.answers, props.groups, props.approved]);
 
   // close the modal
   function handleCloseModal() {
@@ -161,8 +183,6 @@ function QuestionEdit(props) {
       }
     }
 
-    //
-
     // create the new answer
     const answerObject = {
       answerId: newId,
@@ -227,14 +247,248 @@ function QuestionEdit(props) {
     setGroups(groupList);
   }
 
+
+  // check to make sure all questions are valid
+  function validInputs() {
+    if (!text.length) {
+      setErrorMessage(`Question missing question text.`);
+      return false;
+    }
+    if (!answers.length) {
+      setErrorMessage(`Question does not have any valid answers.`);
+      return false;
+    }
+    if (type === 1) {
+      let correctCount = 0;
+      for (let j = 0; j < answers.length; j++) {
+        if (answers[j].correct) {
+          correctCount++;
+        }
+      }
+      if (correctCount !== 1) {
+        setErrorMessage(`There must be exactly one correct answer.`);
+        return false;
+      }
+    }
+    for (let j = 0; j < answers.length; j++) {
+      if (!answers[j].text.length) {
+        setErrorMessage(`Answer ${j + 1} is missing text.`);
+        return false;
+      }
+    }
+    return true;
+  }
+
   // handle submitting a new question
-  function handleSubmit () {
-    //
+  async function handleSubmit () {
+    // Check for invalid inputs
+    if (!validInputs()) {
+      return;
+    }
+    setLoading(true);
+
+    // See if we are uploading a new image
+    let newImageUrl = "";
+    if (imageUpload !== null) {
+      const formData = new FormData();
+      formData.append("image", imageUpload);
+      const results = await fetch(`${API_URL}/files/single`, {
+        method: "POST",
+        credentials: "include",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        newImageUrl = obj.url;
+        setImageUpload(null);
+      } else {
+        console.error("Failed to upload image.");
+      }
+    }
+
+    // see if we uploaded an image
+    if (!newImageUrl.length) {
+      newImageUrl = imageUrl;
+    }
+
+    // Prepare data for new question
+    const objData = {
+      text: text,
+      type: type,
+      imageUrl: newImageUrl,
+      answers: answers
+    };
+
+    // Create the new question
+    const results = await fetch(`${API_URL}/quizzes/${props.pageId}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(objData)
+    });
+
+    if (results.ok) {
+
+      const obj = await results.json();
+
+      // make the changes to the quiz edit page
+      const newQuestion = {
+        approved: 0,
+        questionKey: obj.insertId,
+        questionId: obj.insertId,
+        text: text,
+        type: type,
+        priority: 0,
+        imageUrl: newImageUrl,
+        answers: [],
+        groups: [],
+        tempQuestionId: null,
+        tempText: null,
+        tempType: null,
+        tempPriority: null,
+        tempImageUrl: null,
+        tempAnswers: answers,
+        tempGroups: groups
+      };
+
+      props.handleUpdate(newQuestion, "create");
+
+      // Close modal
+      handleCloseModal();
+
+    } else {
+
+      // there was an error updating the question
+      const obj = await results.json();
+
+      // if the user is performing an unauthorized action
+      // log them out and return them to the homepage
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+    }
+    setLoading(false);
   }
 
   // handle submitting the question changes
-  function handleEdit () {
-    //
+  async function handleEdit () {
+    // Check for invalid inputs
+    if (!validInputs()) {
+      return;
+    }
+
+    // See if we are uploading a new image
+    let newImageUrl = "";
+    if (imageUpload !== null) {
+      const formData = new FormData();
+      formData.append("image", imageUpload);
+      const results = await fetch(`${API_URL}/files/single`, {
+        method: "POST",
+        credentials: "include",
+        body: formData
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        newImageUrl = obj.url;
+        setImageUpload(null);
+      } else {
+        console.error("Failed to upload image.");
+      }
+    }
+
+    // see if we uploaded an image
+    if (!newImageUrl.length) {
+      newImageUrl = imageUrl;
+    }
+
+    // Prepare data for question
+    const objData = {
+      text: text,
+      type: type,
+      imageUrl: newImageUrl,
+      answers: answers
+    };
+
+    // Update the question
+    const results = await fetch(`${API_URL}/quizzes/${props.questionId}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(objData)
+    });
+
+    if (results.ok) {
+
+      let newQuestion = {};
+
+      if (props.approved) {
+        newQuestion = {
+          approved: 1,
+          questionKey: props.questionId,
+          questionId: props.questionId,
+          text: props.text,
+          type: props.type,
+          priority: 0,
+          imageUrl: props.imageUrl,
+          answers: props.answers,
+          groups: props.groups,
+          tempQuestionId: props.questionId,
+          tempText: text,
+          tempType: type,
+          tempPriority: 0,
+          tempImageUrl: imageUrl,
+          tempAnswers: answers,
+          tempGroups: groups
+        };
+      } else {
+        newQuestion = {
+          approved: 0,
+          questionKey: props.questionId,
+          questionId: props.questionId,
+          text: text,
+          type: type,
+          priority: 0,
+          imageUrl: newImageUrl,
+          answers: [],
+          groups: [],
+          tempQuestionId: null,
+          tempText: null,
+          tempType: null,
+          tempPriority: null,
+          tempImageUrl: null,
+          tempAnswers: answers,
+          tempGroups: groups
+        };
+      }
+
+      props.handleUpdate(newQuestion, "update");
+
+      // Close modal
+      handleCloseModal();
+
+    } else {
+
+      // there was an error updating the card
+      const obj = await results.json();
+
+      // if the user is performing an unauthorized action
+      // log them out and return them to the homepage
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+    }
   }
 
   // handle storing file information for uploaded images
@@ -248,7 +502,7 @@ function QuestionEdit(props) {
 
   // when the user cancels an image upload agreement
   function cancelAgreement() {
-    setImageUpload("");
+    setImageUpload(null);
     setShowAgreement(false);
   }
 
@@ -502,14 +756,23 @@ function QuestionEdit(props) {
 export default QuestionEdit;
 
 QuestionEdit.propTypes = {
-  questionId: PropTypes.number,
+  pageId: PropTypes.string,
   questionKey: PropTypes.number,
   new: PropTypes.bool,
+  questionId: PropTypes.number,
+  tempQuestionId: PropTypes.number,
   text: PropTypes.string,
+  tempText: PropTypes.string,
   answers: PropTypes.array,
+  tempAnswers: PropTypes.array,
   type: PropTypes.number,
+  tempType: PropTypes.number,
   imageUrl: PropTypes.string,
+  tempImageUrl: PropTypes.string,
   groups: PropTypes.array,
+  tempGroups: PropTypes.array,
   index: PropTypes.number,
-  role: PropTypes.number
+  role: PropTypes.number,
+  handleUpdate: PropTypes.func,
+  approved: PropTypes.number
 };

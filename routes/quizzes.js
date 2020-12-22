@@ -14,7 +14,8 @@ const {
   postQuizResultsVal,
   postQuizVal,
   postObservationVal,
-  deleteObservationVal
+  deleteObservationVal,
+  updateQuizVal
 } = require("../services/validation/requestValidation");
 const {
   getPageQuiz,
@@ -22,6 +23,7 @@ const {
   submitQuiz,
   submitObservations,
   createQuiz,
+  updateQuiz,
   getObservations,
   deleteObservation
 } = require("../models/quizzes");
@@ -44,7 +46,40 @@ app.get("/:pageId", getUserID, getPageVal.validation, async (req, res) => {
     }
 
     // get quiz page data
-    const results = await getPageQuiz(pageId, userId);
+    const results = await getPageQuiz(pageId, userId, 0);
+
+    if (results.error) {
+      res.status(404).send({error: "Page not found."});
+    } else {
+      res.status(200).send(results);
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// gets the title and the quiz data for the specified page, including pending changes
+app.get("/:pageId/pending", getUserID, getPageVal.validation, async (req, res) => {
+
+  try {
+
+    const pageId = req.params.pageId;
+    const userId = req.auth.userId;
+    console.log("Get all pending quiz data related to page", pageId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(404).json({errors: errors.array()});
+    }
+
+    // get quiz page data
+    const results = await getPageQuiz(pageId, userId, 1);
 
     if (results.error) {
       res.status(404).send({error: "Page not found."});
@@ -144,12 +179,12 @@ app.post("/:pageId/scores", requireAuth, postQuizResultsVal.validation, async (r
 });
 
 
-// create quiz questions
+// create a quiz question
 app.post("/:pageId", requireAuth, postQuizVal.validation, async (req, res) => {
 
   try {
 
-    console.log("Submit quiz questions");
+    console.log("Create quiz question");
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -159,25 +194,79 @@ app.post("/:pageId", requireAuth, postQuizVal.validation, async (req, res) => {
     }
 
     const pageId = req.params.pageId;
-    const questions = req.body.questions;
+    const text = req.body.text;
+    const type = req.body.type;
+    const imageUrl = req.body.imageUrl;
+    const answers = req.body.answers;
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(5, req.auth.userId)) {
-      res.status(401).send({error: "Unauthorized user attempting to submit quiz questions."});
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to create quiz question."});
       return;
     }
 
     // create a quiz
-    const results = await createQuiz(questions, pageId);
+    const results = await createQuiz(text, type, imageUrl, answers, pageId);
 
     if (!results.error) {
       res.status(201).send(results);
     } else {
 
       if (results.error === 1) {
-        res.status(422).send({error: "Invalid format for questions."});
+        res.status(422).send({error: "Invalid format for answers."});
       } else if (results.error === 2) {
         res.status(404).send({error: "Page not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// update a quiz question
+app.patch("/:questionId", requireAuth, updateQuizVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update quiz question");
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    const questionId = req.params.questionId;
+    const text = req.body.text;
+    const type = req.body.type;
+    const imageUrl = req.body.imageUrl;
+    const answers = req.body.answers;
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to create quiz question."});
+      return;
+    }
+
+    // update a quiz question
+    const results = await updateQuiz(text, type, imageUrl, answers, questionId);
+
+    if (!results.error) {
+      res.status(201).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(422).send({error: "Invalid format for answers."});
+      } else if (results.error === 2) {
+        res.status(404).send({error: "Question not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

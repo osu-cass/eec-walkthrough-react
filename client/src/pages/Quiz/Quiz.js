@@ -49,7 +49,6 @@ function Quiz() {
           // get the group size for each question
           for (let i = 0; i < obj.questions.length; i++) {
             let groupSize = 0;
-            const answers = obj.questions[i].answers;
             const idArray = [];
 
             // check each answer and count the unique group IDs
@@ -150,7 +149,6 @@ function Quiz() {
 
       // multiple text box
       if (questions[i].type === 3 && questions[i].answers.length) {
-        const currentAnswers = questions[i].answers;
         for (let j = 0; j < questions[i].groupLength; j++) {
           const value = document.getElementById(`question-${questions[i].questionId}-M${j}`).value;
           answers.push(value);
@@ -234,7 +232,6 @@ function Quiz() {
         const usedAnswers = [];
 
         // check each user answer
-        const currentAnswers = questions[i].answers;
         for (let j = currentCount; j < questions[i].groupLength + currentCount; j++) {
           const copyScore = Object.assign({}, newScore);
           copyScore.text = answers[j];

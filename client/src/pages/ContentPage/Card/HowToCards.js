@@ -25,7 +25,7 @@ function HowToCards(props) {
     setNormalIcons(iconSetNormal);
     setResourceIcons(iconSetResource);
     console.log(props.categories);
-  }, []);
+  }, [props.categories, props.icons]);
 
   // Checks if the current card should be displayed
   return (
