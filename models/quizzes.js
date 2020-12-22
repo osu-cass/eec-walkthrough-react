@@ -667,19 +667,25 @@ async function publishQuestion(questionId) {
     "WHERE tempQuestionId = ?;";
     results = await pool.query(sql, questionId);
 
-    const tempQuestion = results[0][0];
+    let tempFound = false;
+    if (results[0].length) {
+      tempFound = true;
+    }
 
     // if there is new question data, replace the old data
     // otherwise simply update the approved value
-    if (tempQuestion) {
+    if (tempFound) {
+
+      const text = results[0][0].tempText;
+      const type = results[0][0].tempType;
+      const priority = results[0][0].tempPriority;
+      const imageUrl = results[0][0].tempImageUrl;
 
       // update the published question
       sql = "UPDATE Questions " +
       "SET text = ?, type = ?, priority = ?, imageUrl = ?, created = CURRENT_TIMESTAMP, approved = 1 " +
       "WHERE questionId = ?;";
-      const tempArray = [tempQuestion.text, tempQuestion.type,
-        tempQuestion.priority, tempQuestion.imageUrl, questionId];
-      results = await pool.query(sql, tempArray);
+      results = await pool.query(sql, [text, type, priority, imageUrl, questionId]);
 
       // delete the old temp question
       sql = "DELETE FROM Temp_Questions " +
