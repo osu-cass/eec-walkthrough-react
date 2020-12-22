@@ -534,8 +534,6 @@ app.post("/:questionId/publish", requireAuth, getQuestionVal.validation, async (
 
       if (results.error === 1) {
         res.status(404).send({error: "Question not found."});
-      } else if (results.error === 2) {
-        res.status(403).send({error: "A question with this name already exists under this header."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
