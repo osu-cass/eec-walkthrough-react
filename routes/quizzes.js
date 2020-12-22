@@ -15,7 +15,8 @@ const {
   postQuizVal,
   postObservationVal,
   deleteObservationVal,
-  updateQuizVal
+  updateQuizVal,
+  getQuestionVal
 } = require("../services/validation/requestValidation");
 const {
   getPageQuiz,
@@ -25,7 +26,11 @@ const {
   createQuiz,
   updateQuiz,
   getObservations,
-  deleteObservation
+  deleteObservation,
+  deleteQuestion,
+  deleteQuestionChanges,
+  publishQuestion,
+  unpublishQuestion
 } = require("../models/quizzes");
 
 
@@ -152,7 +157,7 @@ app.post("/:pageId/scores", requireAuth, postQuizResultsVal.validation, async (r
       return;
     }
 
-    // create a card
+    // create a question
     const results = await submitQuiz(userId, scores, pageId);
 
     if (!results.error) {
@@ -395,6 +400,187 @@ app.delete("/observations/:observationId", requireAuth, deleteObservationVal.val
 
       if (results.error === 1) {
         res.status(404).send({error: "Observation not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete a quiz question
+app.delete("/:questionId", requireAuth, getQuestionVal.validation, async (req, res) => {
+
+  try {
+
+    const questionId = req.params.questionId;
+    console.log("Delete question", questionId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(5, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to delete question."});
+      return;
+    }
+
+    // delete the question data
+    const results = await deleteQuestion(questionId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Question not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete a question edit
+app.delete("/:questionId/changes", requireAuth, getQuestionVal.validation, async (req, res) => {
+
+  try {
+
+    const questionId = req.params.questionId;
+    console.log("Delete question changes", questionId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(3, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to delete a questions changes."});
+      return;
+    }
+
+    // delete the question data
+    const results = await deleteQuestionChanges(questionId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "No unpublished version of this question found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+
+// publish a question
+app.post("/:questionId/publish", requireAuth, getQuestionVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Publish a question");
+
+    const questionId = req.params.questionId;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(5, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to publish a question."});
+      return;
+    }
+
+    // publish a question
+    const results = await publishQuestion(questionId);
+
+    if (results.questionId >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Question not found."});
+      } else if (results.error === 2) {
+        res.status(403).send({error: "A question with this name already exists under this header."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// unpublish a question
+app.post("/:questionId/unpublish", requireAuth, getQuestionVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Unpublish a question");
+
+    const questionId = req.params.questionId;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(5, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to unpublish a question."});
+      return;
+    }
+
+    // unpublish a question
+    const results = await unpublishQuestion(questionId);
+
+    if (results.questionId >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Question not found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

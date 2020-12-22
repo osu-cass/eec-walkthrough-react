@@ -514,3 +514,11 @@ const deleteObservationVal = Object.freeze({
   ]
 });
 exports.deleteObservationVal = deleteObservationVal;
+
+// validation checks for get question
+const getQuestionVal = Object.freeze({
+  validation: [
+    check("questionId").isInt({min: 1, max: 4294967295}),
+  ]
+});
+exports.getQuestionVal = getQuestionVal;

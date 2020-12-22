@@ -31,18 +31,18 @@ function QuestionEdit(props) {
       setType(props.tempType);
       setText(props.tempText);
       setImageUrl(props.tempImageUrl);
-      setAnswers(props.tempAnswers);
-      setGroups(props.tempGroups);
+      setAnswers(JSON.parse(JSON.stringify(props.tempAnswers)));
+      setGroups(JSON.parse(JSON.stringify(props.tempGroups)));
     } else {
       setType(props.type);
       setText(props.text);
       setImageUrl(props.imageUrl);
-      setAnswers(props.answers);
-      setGroups(props.groups);
+      setAnswers(JSON.parse(JSON.stringify(props.answers)));
+      setGroups(JSON.parse(JSON.stringify(props.groups)));
     }
     if (!props.approved) {
-      setAnswers(props.tempAnswers);
-      setGroups(props.tempGroups);
+      setAnswers(JSON.parse(JSON.stringify(props.tempAnswers)));
+      setGroups(JSON.parse(JSON.stringify(props.tempGroups)));
     }
   }, [props.tempQuestionId, props.tempType, props.tempText, props.tempImageUrl, props.tempAnswers,
     props.tempGroups, props.type, props.text, props.imageUrl, props.answers, props.groups, props.approved]);
@@ -475,7 +475,7 @@ function QuestionEdit(props) {
 
     } else {
 
-      // there was an error updating the card
+      // there was an error updating the question
       const obj = await results.json();
 
       // if the user is performing an unauthorized action
@@ -488,6 +488,107 @@ function QuestionEdit(props) {
       } else {
         setErrorMessage(obj.error);
       }
+    }
+  }
+
+  // Delete unpublished question changes
+  async function handleClear() {
+
+    // Check that the user really wants to delete the changes this version
+    if (!window.confirm("This will only delete unpublished versions of this question.\nAre you sure you want to delete this question?")) {
+      return;
+    }
+    if (!window.confirm("Please confirm one final time that you want to delete this question.")) {
+      return;
+    }
+
+    // delete proposed changes
+    const results = await fetch(`${API_URL}/quizzes/${props.questionId}/changes`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      const newQuestion = {
+        approved: props.approved,
+        questionKey: props.questionId,
+        questionId: props.questionId,
+        text: props.text,
+        type: props.type,
+        priority: 0,
+        imageUrl: props.imageUrl,
+        answers: props.answers,
+        groups: props.groups,
+        tempQuestionId: null,
+        tempText: null,
+        tempType: null,
+        tempPriority: null,
+        tempImageUrl: null,
+        tempAnswers: [],
+        tempGroups: []
+      };
+
+      // Close modal
+      handleCloseModal();
+
+      props.handleUpdate(newQuestion, "clear");
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+  }
+
+  // Delete the current question
+  async function deleteQuestion() {
+    // Confirm the user is ready to delete the question
+    if (props.role >= 5) {
+      if (!window.confirm("This will delete all versions of this question.\nAre you sure you want to delete this question?")) {
+        return;
+      }
+    } else {
+      // Just delete unpublished content
+      handleClear();
+      return;
+    }
+
+    if (!window.confirm("Please confirm one final time that you want to delete this question.")) {
+      return;
+    }
+
+    // Send call to backend to delete question
+    const results = await fetch(`${API_URL}/quizzes/${props.questionId}`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      const newQuestion = {
+        questionId: props.questionId
+      };
+
+      // Close modal
+      handleCloseModal();
+
+      props.handleUpdate(newQuestion, "delete");
+
+    } else {
+      setErrorMessage("Error deleting question. Please try again later.");
     }
   }
 
@@ -735,7 +836,7 @@ function QuestionEdit(props) {
               <Button
                 className="mr-auto"
                 variant="danger"
-                onClick={() => {}}
+                onClick={() => deleteQuestion()}
               >
                 {props.role >= 5 ? (
                   <span>Delete Question</span>

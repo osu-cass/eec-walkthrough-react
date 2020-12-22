@@ -537,3 +537,239 @@ async function deleteObservation(observationId) {
 
 }
 exports.deleteObservation = deleteObservation;
+
+
+// delete a question
+async function deleteQuestion(questionId) {
+
+  try {
+
+    // check to see if the question exists
+    let sql = "SELECT * " +
+      "FROM Questions " +
+      "WHERE questionId = ?;";
+    let results = await pool.query(sql, questionId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // delete the question
+    sql = "DELETE " +
+      "FROM Questions " +
+      "WHERE questionId = ?;";
+
+    results = await pool.query(sql, questionId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting question");
+    throw Error(err);
+  }
+
+}
+exports.deleteQuestion = deleteQuestion;
+
+
+// delete a questions changes
+async function deleteQuestionChanges(questionId) {
+
+  try {
+
+    // checks to see if there is an edited version of the question to delete
+    let sql = "SELECT * " +
+    "FROM Answers " +
+    "WHERE questionId = ? " +
+    "AND approved = 0;";
+    let results = await pool.query(sql, questionId);
+
+    sql = "SELECT * " +
+    "FROM Questions " +
+    "WHERE questionId = ?;";
+    const checkApproved = await pool.query(sql, questionId);
+
+    // delete the edited version of the question if it exists
+    if (results[0].length && checkApproved[0].length && checkApproved[0][0].approved) {
+
+      sql = "DELETE " +
+        "FROM Temp_Questions " +
+        "WHERE tempQuestionId = ?;";
+      await pool.query(sql, questionId);
+
+      sql = "DELETE " +
+      "FROM Answers " +
+      "WHERE questionId = ? " +
+      "AND approved = 0;";
+      results = await pool.query(sql, questionId);
+
+      const finalResults = {
+        affectedRows: results[0].affectedRows
+      };
+
+      return finalResults;
+
+    } else {
+
+      // there was no temp question to delete, there may still be the real question
+      // to delete, as long as it has never been published
+
+      if (checkApproved[0].length && !checkApproved[0][0].approved) {
+
+        sql = "DELETE " +
+        "FROM Questions " +
+        "WHERE questionId = ? " +
+        "AND approved = 0;";
+        results = await pool.query(sql, questionId);
+
+        const finalResults = {
+          affectedRows: results[0].affectedRows
+        };
+
+        return finalResults;
+
+      } else {
+        return {error: 1};
+      }
+    }
+
+  } catch (err) {
+    console.error("Error deleting question changes");
+    throw Error(err);
+  }
+
+}
+exports.deleteQuestionChanges = deleteQuestionChanges;
+
+
+// publish a question
+async function publishQuestion(questionId) {
+
+  try {
+
+    // make sure that the question exists
+    let sql = "SELECT * " +
+    "FROM Questions " +
+    "WHERE questionId = ?;";
+    let results = await pool.query(sql, questionId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // check if there is new question data
+    sql = "SELECT * " +
+    "FROM Temp_Questions " +
+    "WHERE tempQuestionId = ?;";
+    results = await pool.query(sql, questionId);
+
+    const tempQuestion = results[0][0];
+
+    // if there is new question data, replace the old data
+    // otherwise simply update the approved value
+    if (tempQuestion) {
+
+      // update the published question
+      sql = "UPDATE Questions " +
+      "SET text = ?, type = ?, priority = ?, imageUrl = ?, created = CURRENT_TIMESTAMP, approved = 1 " +
+      "WHERE questionId = ?;";
+      const tempArray = [tempQuestion.text, tempQuestion.type,
+        tempQuestion.priority, tempQuestion.imageUrl, questionId];
+      results = await pool.query(sql, tempArray);
+
+      // delete the old temp question
+      sql = "DELETE FROM Temp_Questions " +
+      "WHERE tempQuestionId = ?;";
+      await pool.query(sql, questionId);
+
+    } else {
+
+      sql = "UPDATE Questions " +
+      "SET approved = 1 " +
+      "WHERE questionId = ?;";
+      await pool.query(sql, questionId);
+
+    }
+
+    // delete all of the old answers
+    sql = "DELETE FROM Answers " +
+    "WHERE questionId = ? " +
+    "AND approved = 1;";
+    await pool.query(sql, questionId);
+
+    // approve all of the new answers
+    sql = "UPDATE Answers " +
+    "SET approved = 1 " +
+    "WHERE questionId = ?;";
+    results = await pool.query(sql, questionId);
+
+    const finalResults = {
+      questionId: questionId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error publishing question");
+    throw Error(err);
+  }
+
+}
+exports.publishQuestion = publishQuestion;
+
+
+// unpublish a question
+async function unpublishQuestion(questionId) {
+
+  try {
+
+    // make sure that the question exists
+    let sql = "SELECT * " +
+    "FROM Questions " +
+    "WHERE questionId = ?;";
+    const results = await pool.query(sql, questionId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // set the question to unpublished
+    sql = "UPDATE Questions " +
+    "SET approved = 0 " +
+    "WHERE questionId = ?;";
+    await pool.query(sql, questionId);
+
+    // delete any old temp questions
+    sql = "DELETE FROM Temp_Questions " +
+    "WHERE tempQuestionId = ?;";
+    await pool.query(sql, questionId);
+
+    // delete all of the edited answers
+    sql = "DELETE FROM Answers " +
+    "WHERE questionId = ? " +
+    "AND approved = 0;";
+    await pool.query(sql, questionId);
+
+    // unapprove all of the published answers
+    sql = "UPDATE Answers " +
+    "SET approved = 0 " +
+    "WHERE questionId = ?;";
+    await pool.query(sql, questionId);
+
+    const finalResults = {
+      questionId: questionId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error unpublishing question");
+    throw Error(err);
+  }
+
+}
+exports.unpublishQuestion = unpublishQuestion;

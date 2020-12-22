@@ -33,7 +33,7 @@ function QuestionDisplay(props) {
       <div className="row">
 
         {/* Question type */}
-        <div className="col-8" >
+        <div className="col-4" >
           <label className="font-weight-bold">
             Question Type
           </label>
@@ -44,10 +44,11 @@ function QuestionDisplay(props) {
         </div>
 
         {/* Review and Edit question button */}
-        <div className="col-4" >
+        <div className="col-8" >
           <QuestionReview
             question={props.question}
             role={props.role}
+            handleUpdate={(newQuestion, type) => props.handleUpdate(newQuestion, type)}
           />
 
           <QuestionEdit
@@ -115,7 +116,7 @@ function QuestionDisplay(props) {
               {props.tempGroups.map((group, i) =>
                 <Fragment key={i}>
                   <h4 className="mt-2">Answer Group #{i + 1}</h4>
-                  <div className="answers-block">
+                  <div className="answers-block-edit">
                     {group.map((answer) =>
                       <div className="row mb-2 pl-3" key={answer.answerId}>
                         <span className="mb-4">
@@ -128,7 +129,7 @@ function QuestionDisplay(props) {
               )}
             </Fragment>
           ) : (
-            <div className="answers-block">
+            <div className="answers-block-edit">
               {props.tempAnswers.map((answer) =>
                 <span className="mb-4" key={answer.answerId}>
                   {answer.text}
@@ -146,7 +147,7 @@ function QuestionDisplay(props) {
               {props.groups.map((group, i) =>
                 <Fragment key={i}>
                   <h4 className="mt-2">Answer Group #{i + 1}</h4>
-                  <div className="answers-block">
+                  <div className="answers-block-edit">
                     {group.map((answer) =>
                       <div className="row mb-2 pl-3" key={answer.answerId}>
                         <span className="mb-4">
@@ -159,7 +160,7 @@ function QuestionDisplay(props) {
               )}
             </Fragment>
           ) : (
-            <div className="answers-block">
+            <div className="answers-block-edit">
               {props.answers.map((answer) =>
                 <span className="mb-4" key={answer.answerId}>
                   {answer.text}

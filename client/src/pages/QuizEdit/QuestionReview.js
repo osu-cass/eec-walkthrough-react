@@ -6,7 +6,6 @@ import {Modal, Row, Button} from "react-bootstrap";
 import {API_URL} from "../../utilities/constants";
 import Error from "../../components/General/Error";
 import {logout} from "../../utilities/cookieAuth";
-import Question from "../Quiz/Question";
 import PropTypes from "prop-types";
 
 // A button and modal for reviewing questions
@@ -38,6 +37,234 @@ function QuestionReview(props) {
     } else {
       return "Unknown";
     }
+  }
+
+  // delete changes
+  async function handleClear() {
+    // Check that the user really wants to delete the changes this version
+    if (!window.confirm("Are you sure you want to delete the proposed changes?")) {
+      return;
+    }
+
+    if (!window.confirm("Confirm one last time that you want to delete the the proposed changes.")) {
+      return;
+    }
+
+    setLoading(true);
+
+    // delete proposed changes
+    const results = await fetch(`${API_URL}/quizzes/${props.question.questionId}/changes`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      let newQuestion;
+
+      if (props.question.approved) {
+        newQuestion = {
+          approved: props.question.approved,
+          questionKey: props.question.questionId,
+          questionId: props.question.questionId,
+          text: props.question.text,
+          type: props.question.type,
+          priority: props.question.priority,
+          imageUrl: props.question.imageUrl,
+          answers: props.question.answers,
+          groups: props.question.groups,
+          tempQuestionId: null,
+          tempText: null,
+          tempType: null,
+          tempPriority: null,
+          tempImageUrl: null,
+          tempAnswers: [],
+          tempGroups: []
+        };
+      } else {
+        newQuestion = {
+          questionId: props.question.questionId
+        };
+      }
+
+      // reset error messages
+      setErrorMessage("");
+
+      // Close modal
+      handleCloseModal();
+
+      if (props.question.approved) {
+        props.handleUpdate(newQuestion, "clear");
+      } else {
+        props.handleUpdate(newQuestion, "delete");
+      }
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+    setLoading(false);
+  }
+
+  // unpublish
+  async function handleRemove() {
+    // Check that the user really wants to unpublish this version
+    if (!window.confirm("Are you sure you want to unpublish this question?\nThis will overwrite any unpublished version if one exists.")) {
+      return;
+    }
+
+    setLoading(true);
+
+    // Unpublish the question
+    const results = await fetch(`${API_URL}/quizzes/${props.question.questionId}/unpublish`, {
+      method: "POST",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      const newQuestion = {
+        approved: 0,
+        questionKey: props.question.questionId,
+        questionId: props.question.questionId,
+        text: props.question.text,
+        type: props.question.type,
+        priority: props.question.priority,
+        imageUrl: props.question.imageUrl,
+        answers: [],
+        groups: [],
+        tempQuestionId: null,
+        tempText: null,
+        tempType: null,
+        tempPriority: null,
+        tempImageUrl: null,
+        tempAnswers: props.question.answers,
+        tempGroups: props.question.groups
+      };
+
+      // reset error messages
+      setErrorMessage("");
+
+      // Close modal
+      handleCloseModal();
+
+      props.handleUpdate(newQuestion, "unpublish");
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+    setLoading(false);
+  }
+
+  // publish
+  async function handleSubmit() {
+    // Check that the user really wants to approve this version
+    if (!window.confirm("Are you sure you want to approve this new version?\nThis will overwrite the published version if one exists.")) {
+      return;
+    }
+
+    setLoading(true);
+
+    // Approve the question
+    const results = await fetch(`${API_URL}/quizzes/${props.question.questionId}/publish`, {
+      method: "POST",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      let newQuestion = {};
+
+      if (props.question.approved) {
+        newQuestion = {
+          approved: 1,
+          questionKey: props.question.questionId,
+          questionId: props.question.questionId,
+          text: props.question.tempText,
+          type: props.question.tempType,
+          priority: props.question.tempPriority,
+          imageUrl: props.question.tempImageUrl,
+          answers: props.question.tempAnswers,
+          groups: props.question.tempGroups,
+          tempQuestionId: null,
+          tempText: null,
+          tempType: null,
+          tempPriority: null,
+          tempImageUrl: null,
+          tempAnswers: [],
+          tempGroups: []
+        };
+      } else {
+        newQuestion = {
+          approved: 1,
+          questionKey: props.question.questionId,
+          questionId: props.question.questionId,
+          text: props.question.text,
+          type: props.question.type,
+          priority: props.question.priority,
+          imageUrl: props.question.imageUrl,
+          answers: props.question.tempAnswers,
+          groups: props.question.tempGroups,
+          tempQuestionId: null,
+          tempText: null,
+          tempType: null,
+          tempPriority: null,
+          tempImageUrl: null,
+          tempAnswers: [],
+          tempGroups: []
+        };
+      }
+
+      // reset error messages
+      setErrorMessage("");
+
+      // Close modal
+      handleCloseModal();
+
+      props.handleUpdate(newQuestion, "publish");
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+    setLoading(false);
   }
 
   return (
@@ -113,7 +340,7 @@ function QuestionReview(props) {
                         {props.question.groups.map((group, i) =>
                           <Fragment key={i}>
                             <h4 className="mt-2">Answer Group #{i + 1}</h4>
-                            <div className="answers-block">
+                            <div className="answers-block-edit">
                               {group.map((answer) =>
                                 <div className="row mb-2 pl-3" key={answer.answerId}>
                                   <span className="mb-4">
@@ -126,7 +353,7 @@ function QuestionReview(props) {
                         )}
                       </Fragment>
                     ) : (
-                      <div className="answers-block">
+                      <div className="answers-block-edit">
                         {props.question.answers.map((answer) =>
                           <span className="mb-4" key={answer.answerId}>
                             {answer.text}
@@ -197,7 +424,7 @@ function QuestionReview(props) {
                             {props.question.tempGroups.map((group, i) =>
                               <Fragment key={i}>
                                 <h4 className="mt-2">Answer Group #{i + 1}</h4>
-                                <div className="answers-block">
+                                <div className="answers-block-edit">
                                   {group.map((answer) =>
                                     <div className="row mb-2 pl-3" key={answer.answerId}>
                                       <span className="mb-4">
@@ -210,7 +437,7 @@ function QuestionReview(props) {
                             )}
                           </Fragment>
                         ) : (
-                          <div className="answers-block">
+                          <div className="answers-block-edit">
                             {props.question.tempAnswers.map((answer) =>
                               <span className="mb-4" key={answer.answerId}>
                                 {answer.text}
@@ -273,7 +500,7 @@ function QuestionReview(props) {
                             {props.question.tempGroups.map((group, i) =>
                               <Fragment key={i}>
                                 <h4 className="mt-2">Answer Group #{i + 1}</h4>
-                                <div className="answers-block">
+                                <div className="answers-block-edit">
                                   {group.map((answer) =>
                                     <div className="row mb-2 pl-3" key={answer.answerId}>
                                       <span className="mb-4">
@@ -286,7 +513,7 @@ function QuestionReview(props) {
                             )}
                           </Fragment>
                         ) : (
-                          <div className="answers-block">
+                          <div className="answers-block-edit">
                             {props.question.tempAnswers.map((answer) =>
                               <span className="mb-4" key={answer.answerId}>
                                 {answer.text}
@@ -322,7 +549,7 @@ function QuestionReview(props) {
                     <Button
                       className="mr-auto"
                       variant="danger"
-                      onClick={() => /* handleClear() */{}}
+                      onClick={() => handleClear()}
                     >
                       Delete Changes
                     </Button>
@@ -337,18 +564,18 @@ function QuestionReview(props) {
                     <Button
                       className="ml-1"
                       variant="danger"
-                      onClick={() => /* handleRemove() */{}}
+                      onClick={() => handleRemove()}
                     >
                       Unpublish Question
                     </Button>
-                    <Button variant="primary" onClick={() => /* handleSubmit() */{}}>Publish Changes</Button>
+                    <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
                   </Fragment>
                 ) : (
                   <Fragment>
                     {props.question.approved ? (
-                      <Button variant="danger" onClick={() => /* handleRemove()} */{}}>Unpublish Question</Button>
+                      <Button variant="danger" onClick={() => handleRemove()}>Unpublish Question</Button>
                     ) : (
-                      <Button variant="primary" onClick={() => /* handleSubmit() */{}}>Publish Changes</Button>
+                      <Button variant="primary" onClick={() => handleSubmit()}>Publish Changes</Button>
                     )}
                   </Fragment>
                 )}
@@ -361,7 +588,7 @@ function QuestionReview(props) {
                   <Button
                     className="mr-auto"
                     variant="danger"
-                    onClick={() => /* handleClear() */{}}
+                    onClick={() => handleClear()}
                   >
                     Delete Changes
                   </Button>
@@ -383,5 +610,6 @@ export default QuestionReview;
 
 QuestionReview.propTypes = {
   question: PropTypes.object,
-  role: PropTypes.number
+  role: PropTypes.number,
+  handleUpdate: PropTypes.func
 };

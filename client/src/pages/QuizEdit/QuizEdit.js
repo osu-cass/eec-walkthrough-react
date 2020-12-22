@@ -282,7 +282,7 @@ function QuizEdit() {
       setNextKey(nextKey + 1);
       setQuestions(newQuestions);
 
-    } else if (type === "update") {
+    } else if (type === "update" || type === "clear" || type === "publish" || type === "unpublish") {
 
       // update the question
       for (let i = 0; i < newQuestions.length; i++) {
@@ -307,6 +307,17 @@ function QuizEdit() {
       }
       console.log(newQuestions);
       setQuestions(newQuestions);
+    } else if (type === "delete") {
+
+      // delete the question
+      for (let i = 0; i < newQuestions.length; i++) {
+        if (newQuestions[i].questionId === newQuestion.questionId) {
+          newQuestions.splice(i, 1);
+          break;
+        }
+      }
+      setQuestions(newQuestions);
+
     }
   }
 
