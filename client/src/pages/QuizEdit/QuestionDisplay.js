@@ -1,6 +1,7 @@
 import React, {Fragment} from "react";
 import Image from "../../components/General/Image";
 import QuestionEdit from "./QuestionEdit";
+import QuestionReview from "./QuestionReview";
 import PropTypes from "prop-types";
 
 // A single question that can be edited
@@ -44,13 +45,10 @@ function QuestionDisplay(props) {
 
         {/* Review and Edit question button */}
         <div className="col-4" >
-          <button
-            className="btn btn-sm btn-success btn pull-right ml-3"
-            onClick={() => {}}
-          >
-            <i className="fas fa-fw fa-stamp mr-2 my-1" style={{transform: "scale(1.5)"}}/>
-            Review Question
-          </button>
+          <QuestionReview
+            question={props.question}
+            role={props.role}
+          />
 
           <QuestionEdit
             questionKey={props.questionKey}
@@ -87,7 +85,7 @@ function QuestionDisplay(props) {
       </span>
 
       {/* Preview Image */}
-      {props.imageUrl.length ? (
+      {(tempQuestion() && props.tempImageUrl.length) || (!tempQuestion() && props.imageUrl.length) ? (
         <div className="my-3">
           <label className="mt-3 font-weight-bold">
             Image Preview
@@ -117,24 +115,26 @@ function QuestionDisplay(props) {
               {props.tempGroups.map((group, i) =>
                 <Fragment key={i}>
                   <h4 className="mt-2">Answer Group #{i + 1}</h4>
-                  {group.map((answer) =>
-                    <div className="row mb-2 pl-3" key={answer.answerId}>
-                      <span className="mb-4">
-                        {answer.text}
-                      </span>
-                    </div>
-                  )}
+                  <div className="answers-block">
+                    {group.map((answer) =>
+                      <div className="row mb-2 pl-3" key={answer.answerId}>
+                        <span className="mb-4">
+                          {answer.text}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </Fragment>
               )}
             </Fragment>
           ) : (
-            <Fragment>
+            <div className="answers-block">
               {props.tempAnswers.map((answer) =>
                 <span className="mb-4" key={answer.answerId}>
                   {answer.text}
                 </span>
               )}
-            </Fragment>
+            </div>
           )}
         </Fragment>
 
@@ -146,24 +146,26 @@ function QuestionDisplay(props) {
               {props.groups.map((group, i) =>
                 <Fragment key={i}>
                   <h4 className="mt-2">Answer Group #{i + 1}</h4>
-                  {group.map((answer) =>
-                    <div className="row mb-2 pl-3" key={answer.answerId}>
-                      <span className="mb-4">
-                        {answer.text}
-                      </span>
-                    </div>
-                  )}
+                  <div className="answers-block">
+                    {group.map((answer) =>
+                      <div className="row mb-2 pl-3" key={answer.answerId}>
+                        <span className="mb-4">
+                          {answer.text}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </Fragment>
               )}
             </Fragment>
           ) : (
-            <Fragment>
+            <div className="answers-block">
               {props.answers.map((answer) =>
                 <span className="mb-4" key={answer.answerId}>
                   {answer.text}
                 </span>
               )}
-            </Fragment>
+            </div>
           )}
         </Fragment>
 
@@ -175,6 +177,7 @@ function QuestionDisplay(props) {
 export default QuestionDisplay;
 
 QuestionDisplay.propTypes = {
+  question: PropTypes.object,
   questionId: PropTypes.number,
   tempQuestionId: PropTypes.number,
   questionKey: PropTypes.number,

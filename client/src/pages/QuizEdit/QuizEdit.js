@@ -327,6 +327,7 @@ function QuizEdit() {
       {/* Quiz questions */}
       {questions.map((question, i) =>
         <QuestionDisplay
+          question={question}
           key={question.questionKey}
           questionKey={question.questionKey}
           questionId={question.questionId}

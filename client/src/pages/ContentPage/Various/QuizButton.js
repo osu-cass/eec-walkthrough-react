@@ -57,8 +57,8 @@ function QuizButton(props) {
     </div>
   ) : (
     <Fragment>
-      {/* If we are in edit mode and we are an admin allow quiz editing */}
-      {props.role === 5 && props.mode === 1 ? (
+      {/* If we are in edit mode and we are at least an editor, allow quiz editing */}
+      {props.role >= 3 && props.mode === 1 ? (
 
         <div className="quiz-button-container">
 
