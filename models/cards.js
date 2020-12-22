@@ -421,6 +421,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
 exports.updateCard = updateCard;
 
 
+// publish a card
 async function publishCard(cardId) {
 
   try {
@@ -576,6 +577,7 @@ async function publishCard(cardId) {
 exports.publishCard = publishCard;
 
 
+// unpublish a card
 async function unpublishCard(cardId) {
 
   try {

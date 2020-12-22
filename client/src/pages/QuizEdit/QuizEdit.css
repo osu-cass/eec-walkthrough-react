@@ -24,12 +24,6 @@ body {
   padding-bottom: 8em;
 }
 
-.answers-block {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 5px;
-}
-
 .submit-quiz-box {
   display: inline-block;
   width: 100%;
@@ -51,4 +45,10 @@ body {
 
 .pending-question {
   background-color: #fcf7db;
+}
+
+.answers-block-edit {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 5px;
 }
