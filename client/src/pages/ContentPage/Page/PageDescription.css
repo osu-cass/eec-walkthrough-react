@@ -1,3 +1,15 @@
+@media (min-width: 768px) {
+  .page-desc-s {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .page-desc {
+    display: none;
+  }
+}
+
 .page-approved.header-bar {
   background: rgb(214,214,214);
   background: linear-gradient(0deg, rgba(214,214,214,1) 0%, rgba(255,255,255,1) 100%);
