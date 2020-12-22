@@ -478,10 +478,25 @@ exports.postQuizResultsVal = postQuizResultsVal;
 const postQuizVal = Object.freeze({
   validation: [
     check("pageId").isInt({min: 0, max: 4294967295}),
-    check("questions").isArray({min: 0})
+    check("text").isLength({min: 1, max: 5000}),
+    check("type").isInt({min: 1, max: 100}),
+    check("imageUrl").isLength({min: 0, max: 5000}),
+    check("answers").isArray({min: 0})
   ]
 });
 exports.postQuizVal = postQuizVal;
+
+// validation checks for update quiz
+const updateQuizVal = Object.freeze({
+  validation: [
+    check("questionId").isInt({min: 0, max: 4294967295}),
+    check("text").isLength({min: 1, max: 5000}),
+    check("type").isInt({min: 1, max: 100}),
+    check("imageUrl").isLength({min: 0, max: 5000}),
+    check("answers").isArray({min: 0})
+  ]
+});
+exports.updateQuizVal = updateQuizVal;
 
 // validation checks for post observations
 const postObservationVal = Object.freeze({

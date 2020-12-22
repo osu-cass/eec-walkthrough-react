@@ -21,7 +21,6 @@ function QuizEdit() {
   const [questionFeedback, setQuestionFeedback] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(0);
-  const [errorMessage, setErrorMessage] = useState("");
   const [generalErrorMessage, setGeneralErrorMessage] = useState("");
   const [questionErrorMessage, setQuestionErrorMessage] = useState("");
   const [nextKey, setNextKey] = useState(0);
@@ -38,7 +37,7 @@ function QuizEdit() {
       try {
 
         // Fetch quiz info
-        let results = await fetch(`${API_URL}/quizzes/${pageId}`, {
+        let results = await fetch(`${API_URL}/quizzes/${pageId}/pending`, {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
@@ -64,6 +63,9 @@ function QuizEdit() {
             for (let j = 0; j < obj.questions[i].answers.length; j++) {
               obj.questions[i].answers[j].answerId = j + 1;
             }
+            for (let j = 0; j < obj.questions[i].tempAnswers.length; j++) {
+              obj.questions[i].tempAnswers[j].answerId = j + 1;
+            }
           }
 
           // sort answers into their groups
@@ -88,6 +90,30 @@ function QuizEdit() {
               groups.push(currentGroup);
             }
             obj.questions[i].groups = groups;
+          }
+
+          // sort temp answers into their groups
+          for (let i = 0; i < obj.questions.length; i++) {
+            const groups = [];
+            let currentGroupId = 0;
+            let currentGroup = [];
+            for (let j = 0; j < obj.questions[i].tempAnswers.length; j++) {
+              const currentAnswers = obj.questions[i].tempAnswers;
+              if (currentGroupId === currentAnswers[j].groupId) {
+                currentGroup.push(currentAnswers[j]);
+              } else {
+                currentGroupId = currentAnswers[j].groupId;
+                if (currentGroup.length) {
+                  groups.push(currentGroup);
+                }
+                currentGroup = [];
+                currentGroup.push(currentAnswers[j]);
+              }
+            }
+            if (currentGroup.length) {
+              groups.push(currentGroup);
+            }
+            obj.questions[i].tempGroups = groups;
           }
 
           setNextKey(obj.questions.length + 1);
@@ -168,39 +194,6 @@ function QuizEdit() {
     // eslint-disable-next-line
   }, [pageId]);
 
-  // check to make sure all questions are valid
-  function validInputs() {
-    for (let i = 0; i < questions.length; i++) {
-      if (!questions[i].text.length) {
-        setErrorMessage(`Question ${i + 1} is missing question text.`);
-        return false;
-      }
-      if (!questions[i].answers.length) {
-        setErrorMessage(`Question ${i + 1} does not have any valid answers.`);
-        return false;
-      }
-      if (questions[i].type === 1) {
-        let correctCount = 0;
-        for (let j = 0; j < questions[i].answers.length; j++) {
-          if (questions[i].answers[j].correct) {
-            correctCount++;
-          }
-        }
-        if (correctCount !== 1) {
-          setErrorMessage(`Question ${i + 1} must have exactly one correct answer.`);
-          return false;
-        }
-      }
-      for (let j = 0; j < questions[i].answers.length; j++) {
-        if (!questions[i].answers[j].text.length) {
-          setErrorMessage(`Question ${i + 1} is missing answer text.`);
-          return false;
-        }
-      }
-    }
-    return true;
-  }
-
   // deletes a specific question
   function onDeleteQuestion(questionKey) {
 
@@ -222,24 +215,6 @@ function QuizEdit() {
       newQuestions.splice(index, 1);
       setQuestions(newQuestions);
     }
-  }
-
-  // add a new question to the quiz
-  function addQuestion() {
-    const newQuestions = [...questions];
-    const questionObject = {
-      questionId: 0,
-      questionKey: nextKey,
-      pageId: pageId,
-      text: "",
-      type: 1,
-      imageUrl: "",
-      answers: [],
-      groups: []
-    };
-    newQuestions.push(questionObject);
-    setNextKey(nextKey + 1);
-    setQuestions(newQuestions);
   }
 
   // delete user feedback
@@ -296,6 +271,45 @@ function QuizEdit() {
     }
   }
 
+  // update a question after getting a response from the server
+  async function handleUpdate(newQuestion, type) {
+    const newQuestions = [...questions];
+    console.log("type =", type);
+    if (type === "create") {
+
+      // add the new question
+      newQuestions.push(newQuestion);
+      setNextKey(nextKey + 1);
+      setQuestions(newQuestions);
+
+    } else if (type === "update") {
+
+      // update the question
+      for (let i = 0; i < newQuestions.length; i++) {
+        if (newQuestions[i].questionId === newQuestion.questionId) {
+          newQuestions[i].approved = newQuestion.approved;
+          newQuestions[i].questionKey = newQuestion.questionKey;
+          newQuestions[i].questionId = newQuestion.questionId;
+          newQuestions[i].text = newQuestion.text;
+          newQuestions[i].type = newQuestion.type;
+          newQuestions[i].priority = newQuestion.priority;
+          newQuestions[i].imageUrl = newQuestion.imageUrl;
+          newQuestions[i].answers = newQuestion.answers;
+          newQuestions[i].groups = newQuestion.groups;
+          newQuestions[i].tempQuestionId = newQuestion.tempQuestionId;
+          newQuestions[i].tempText = newQuestion.tempText;
+          newQuestions[i].tempType = newQuestion.tempType;
+          newQuestions[i].tempPriority = newQuestion.tempPriority;
+          newQuestions[i].tempImageUrl = newQuestion.tempImageUrl;
+          newQuestions[i].tempAnswers = newQuestion.tempAnswers;
+          newQuestions[i].tempGroups = newQuestion.tempGroups;
+        }
+      }
+      console.log(newQuestions);
+      setQuestions(newQuestions);
+    }
+  }
+
   return !error ? (
     <div className="container quiz-page-container my-5">
 
@@ -316,18 +330,25 @@ function QuizEdit() {
           key={question.questionKey}
           questionKey={question.questionKey}
           questionId={question.questionId}
+          tempQuestionId={question.tempQuestionId}
           text={question.text}
+          tempText={question.tempText}
           answers={question.answers}
+          tempAnswers={question.tempAnswers}
           type={question.type}
+          tempType={question.tempType}
           imageUrl={question.imageUrl}
+          tempImageUrl={question.tempImageUrl}
           groups={question.groups}
+          tempGroups={question.tempGroups}
           index={i}
+          approved={question.approved}
           deleteQuestion={(questionKey) => onDeleteQuestion(questionKey)}
           role={role}
+          pageId={pageId}
+          handleUpdate={(newQuestion, type) => handleUpdate(newQuestion, type)}
         />
       )}
-
-      <Error message={errorMessage} />
 
       {/* Add questions and return to page buttons */}
       <div className="mt-4 submit-quiz-box">
@@ -342,11 +363,16 @@ function QuizEdit() {
           new={true}
           text={""}
           answers={[]}
+          tempAnswers={[]}
           type={1}
           imageUrl={""}
           groups={[]}
+          tempGroups={[]}
           index={0}
           role={role}
+          pageId={pageId}
+          handleUpdate={(newQuestion, type) => handleUpdate(newQuestion, type)}
+          approved={0}
         />
       </div>
 
