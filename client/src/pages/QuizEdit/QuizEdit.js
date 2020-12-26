@@ -24,6 +24,8 @@ function QuizEdit() {
   const [error, setError] = useState(0);
   const [generalErrorMessage, setGeneralErrorMessage] = useState("");
   const [questionErrorMessage, setQuestionErrorMessage] = useState("");
+  const [showGeneral, setShowGeneral] = useState(false);
+  const [showQuestion, setShowQuestion] = useState(false);
   const [nextKey, setNextKey] = useState(0);
   const {pageId} = useParams();
 
@@ -218,14 +220,14 @@ function QuizEdit() {
     }
   }
 
-  // delete user feedback
-  async function deleteFeedback(observationId, type) {
-    if (!window.confirm("Are you sure you want to delete this user feedback?")) {
+  // hide user feedback
+  async function hideFeedback(observationId, type) {
+    if (!window.confirm("Are you sure you want to hide this user feedback?")) {
       return;
     }
 
-    const results = await fetch(`${API_URL}/quizzes/observations/${observationId}`, {
-      method: "DELETE",
+    const results = await fetch(`${API_URL}/quizzes/observations/${observationId}/hide`, {
+      method: "PATCH",
       credentials: "include",
       headers: {"Content-Type": "application/json"}
     });
@@ -245,7 +247,7 @@ function QuizEdit() {
           }
         }
         if (index >= 0) {
-          newFeedback.splice(index, 1);
+          newFeedback[index].hidden = 1;
           setGeneralFeedback(newFeedback);
         }
       } else {
@@ -258,7 +260,7 @@ function QuizEdit() {
           }
         }
         if (index >= 0) {
-          newFeedback.splice(index, 1);
+          newFeedback[index].hidden = 1;
           setQuestionFeedback(newFeedback);
         }
       }
@@ -396,31 +398,63 @@ function QuizEdit() {
                 General User Feedback
               </h4>
             </div>
+
+            {/* Button for toggling hidden feedback */}
+            {showGeneral ? (
+              <button className="btn btn-info btn-sm btn pull-right"
+                onClick={() => setShowGeneral(false)}
+              >
+                <i
+                  className="fas fa-fw fa-eye-slash mr-3"
+                  style={{transform: "scale(1.5)"}}
+                />
+                Clear Hidden Feedback
+              </button>
+            ) : (
+              <button className="btn btn-info btn-sm btn pull-right"
+                onClick={() => setShowGeneral(true)}
+              >
+                <i
+                  className="fas fa-fw fa-eye mr-3"
+                  style={{transform: "scale(1.5)"}}
+                />
+                Show Hidden Feedback
+              </button>
+            )}
           </div>
 
           {generalFeedback.map((feedback) =>
-            <div
-              key={feedback.observationId}
-              className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
-            >
-              <span className="request-date">
-                {"Created " + formatTime(feedback.created)}
-              </span>
-              <div className="row">
-                <div className="col-8" >
-                  <h5>{feedback.username}</h5>
-                </div>
+            <Fragment key={feedback.observationId}>
+              {showGeneral || !feedback.hidden ? (
+                <div
+                  className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
+                >
+                  <span className="request-date">
+                    {"Created " + formatTime(feedback.created)}
+                  </span>
+                  <div className="row">
+                    <div className="col-8" >
+                      <h5>{feedback.username}</h5>
+                    </div>
 
-                <div className="col-4" >
-                  <button className="btn btn-danger btn-sm btn pull-right"
-                    onClick={() => deleteFeedback(feedback.observationId, feedback.type)}
-                  >
-                    <i className="fas fa-fw fa-times" />
-                  </button>
+                    <div className="col-4" >
+                      {!feedback.hidden ? (
+                        <button className="btn btn-danger btn-sm btn pull-right"
+                          onClick={() => hideFeedback(feedback.observationId, feedback.type)}
+                        >
+                          <i className="fas fa-fw fa-times" />
+                        </button>
+                      ) : (
+                        null
+                      )}
+                    </div>
+                  </div>
+                  <span>{feedback.text}</span>
                 </div>
-              </div>
-              <span>{feedback.text}</span>
-            </div>
+              ) : (
+                null
+              )}
+            </Fragment>
           )}
 
           <Error message={generalErrorMessage} />
@@ -438,31 +472,63 @@ function QuizEdit() {
                 User Suggested Questions
               </h4>
             </div>
+
+            {/* Button for toggling hidden feedback */}
+            {showQuestion ? (
+              <button className="btn btn-info btn-sm btn pull-right"
+                onClick={() => setShowQuestion(false)}
+              >
+                <i
+                  className="fas fa-fw fa-eye-slash mr-3"
+                  style={{transform: "scale(1.5)"}}
+                />
+                Clear Hidden Feedback
+              </button>
+            ) : (
+              <button className="btn btn-info btn-sm btn pull-right"
+                onClick={() => setShowQuestion(true)}
+              >
+                <i
+                  className="fas fa-fw fa-eye mr-3"
+                  style={{transform: "scale(1.5)"}}
+                />
+                Show Hidden Feedback
+              </button>
+            )}
           </div>
 
           {questionFeedback.map((feedback) =>
-            <div
-              key={feedback.observationId}
-              className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
-            >
-              <span className="request-date">
-                {"Created " + formatTime(feedback.created)}
-              </span>
-              <div className="row">
-                <div className="col-8" >
-                  <h5>{feedback.username}</h5>
-                </div>
+            <Fragment key={feedback.observationId}>
+              {showQuestion || !feedback.hidden ? (
+                <div
+                  className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
+                >
+                  <span className="request-date">
+                    {"Created " + formatTime(feedback.created)}
+                  </span>
+                  <div className="row">
+                    <div className="col-8" >
+                      <h5>{feedback.username}</h5>
+                    </div>
 
-                <div className="col-4" >
-                  <button className="btn btn-danger btn-sm btn pull-right"
-                    onClick={() => deleteFeedback(feedback.observationId, feedback.type)}
-                  >
-                    <i className="fas fa-fw fa-times" />
-                  </button>
+                    <div className="col-4" >
+                      {!feedback.hidden ? (
+                        <button className="btn btn-danger btn-sm btn pull-right"
+                          onClick={() => hideFeedback(feedback.observationId, feedback.type)}
+                        >
+                          <i className="fas fa-fw fa-times" />
+                        </button>
+                      ) : (
+                        null
+                      )}
+                    </div>
+                  </div>
+                  <span>{feedback.text}</span>
                 </div>
-              </div>
-              <span>{feedback.text}</span>
-            </div>
+              ) : (
+                null
+              )}
+            </Fragment>
           )}
 
           <Error message={questionErrorMessage} />
