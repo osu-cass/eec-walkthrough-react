@@ -9,11 +9,11 @@
   .page-header-title-container {
     margin-right: 1.4em;
   }
-  .small-org {
+  .small-org, .small-industry {
     display: none !important;
     position: absolute !important;
   }
-  .big-org {
+  .big-org, .big-industry {
     display: inline !important;
     position: static !important;
   }
@@ -39,11 +39,11 @@
   .page-header-title-container {
     margin-left: 1em;
   }
-  .small-org {
+  .small-org, .small-industry {
     display: inline !important;
     position: static !important;
   }
-  .big-org {
+  .big-org, .big-industry {
     display: none !important;
     position: absolute !important;
   }
