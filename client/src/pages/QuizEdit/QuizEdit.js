@@ -8,6 +8,7 @@ import Error500 from "../500/Error500";
 import Error from "../../components/General/Error";
 import QuestionDisplay from "./QuestionDisplay";
 import QuestionEdit from "./QuestionEdit";
+import {formatTime} from "../../utilities/formatTime";
 import {NavLink} from "react-router-dom";
 import "./QuizEdit.css";
 
@@ -274,7 +275,6 @@ function QuizEdit() {
   // update a question after getting a response from the server
   async function handleUpdate(newQuestion, type) {
     const newQuestions = [...questions];
-    console.log("type =", type);
     if (type === "create") {
 
       // add the new question
@@ -305,7 +305,6 @@ function QuizEdit() {
           newQuestions[i].tempGroups = newQuestion.tempGroups;
         }
       }
-      console.log(newQuestions);
       setQuestions(newQuestions);
     } else if (type === "delete") {
 
@@ -404,6 +403,9 @@ function QuizEdit() {
               key={feedback.observationId}
               className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
             >
+              <span className="request-date">
+                {"Created " + formatTime(feedback.created)}
+              </span>
               <div className="row">
                 <div className="col-8" >
                   <h5>{feedback.username}</h5>
@@ -443,6 +445,9 @@ function QuizEdit() {
               key={feedback.observationId}
               className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm"
             >
+              <span className="request-date">
+                {"Created " + formatTime(feedback.created)}
+              </span>
               <div className="row">
                 <div className="col-8" >
                   <h5>{feedback.username}</h5>

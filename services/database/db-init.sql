@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Dec 22, 2020 at 12:02 AM
+-- Generation Time: Dec 26, 2020 at 02:17 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.13
 
@@ -167,7 +167,23 @@ INSERT INTO `Answers` (`answerId`, `questionId`, `groupId`, `text`, `correct`, `
 (620, 34, 0, '$10,000', 0, 1),
 (621, 34, 0, '$50,000', 1, 1),
 (622, 34, 0, '$100,000', 0, 1),
-(623, 35, 0, 'combustion efficiency', 1, 1);
+(623, 35, 0, 'combustion efficiency', 1, 1),
+(624, 41, 0, 'using passphrase (a sequence of words strung together)', 1, 1),
+(625, 41, 0, 'using your street address', 0, 1),
+(626, 41, 0, 'using your name', 0, 1),
+(627, 40, 0, 'compressor', 1, 0),
+(628, 40, 0, 'compressors', 1, 0),
+(629, 40, 1, 'condensor', 1, 0),
+(630, 40, 1, 'condensors', 1, 0),
+(631, 40, 2, 'expansion valve', 1, 0),
+(632, 40, 2, 'expansionvalve', 1, 0),
+(633, 40, 2, 'expansion-valve', 1, 0),
+(634, 40, 3, 'evaporator', 1, 0),
+(635, 40, 3, 'evaporators', 1, 0),
+(640, 42, 0, 'compression', 0, 0),
+(641, 42, 0, 'condensation', 0, 0),
+(642, 42, 0, 'expansion', 0, 0),
+(643, 42, 0, 'evaporation', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -271,18 +287,17 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (129, 40, 0, 129, 'Heat Exchangers', 57, '2020-07-10 18:20:49', 0),
 (130, 40, 0, 130, 'Insulation', 58, '2020-07-10 18:36:22', 0),
 (131, 40, 0, 131, 'Cooling Systems', 58, '2020-07-10 18:45:42', 0),
-(133, 41, 0, 133, 'Pros', 58, '2020-07-20 21:20:19', 0),
-(134, 41, 0, 134, 'Cons', 58, '2020-07-20 21:20:35', 0),
-(135, 41, 0, 135, 'Caveats', 58, '2020-07-20 21:21:07', 0),
-(136, 41, 0, 136, 'Rules of Thumb', 58, '2020-07-20 21:21:25', 0),
-(137, 41, 0, 137, 'Tips', 58, '2020-07-20 21:21:56', 0),
-(138, 41, 0, 138, 'Best Practices', 58, '2020-07-20 21:22:23', 0),
-(139, 41, 0, 139, 'Charts, Tables, Figures', 58, '2020-07-20 22:09:40', 0),
-(140, 41, 0, 140, 'Standard Data to Collect', 58, '2020-07-20 22:10:28', 0),
-(141, 41, 0, 141, 'Data Collection Equipment', 58, '2020-07-20 22:11:29', 0),
-(142, 41, 0, 142, 'Analysis Tools', 58, '2020-07-20 22:12:33', 0),
-(143, 41, 0, 143, 'In Depth Site Resources', 58, '2020-07-20 22:13:43', 0),
-(144, 41, 0, 144, 'Off Site Resource Links', 58, '2020-07-20 22:14:24', 0),
+(133, 41, 0, 1, 'Pros', 58, '2020-07-20 21:20:19', 0),
+(134, 41, 0, 2, 'Cons', 58, '2020-07-20 21:20:35', 0),
+(136, 41, 0, 3, 'Rules of Thumb', 58, '2020-07-20 21:21:25', 0),
+(137, 41, 0, 4, 'Tips', 58, '2020-07-20 21:21:56', 0),
+(138, 41, 0, 5, 'Best Practices', 58, '2020-07-20 21:22:23', 0),
+(139, 41, 1, 6, 'Charts, Tables, Figures', 58, '2020-07-20 22:09:40', 0),
+(140, 41, 0, 7, 'Standard Data to Collect', 58, '2020-07-20 22:10:28', 0),
+(141, 41, 0, 8, 'Data Collection Equipment', 58, '2020-07-20 22:11:29', 0),
+(142, 41, 0, 10, 'Analysis Tools', 58, '2020-07-20 22:12:33', 0),
+(143, 41, 0, 11, 'In Depth Site Resources', 58, '2020-07-20 22:13:43', 0),
+(144, 41, 0, 12, 'Off Site Resource Links', 58, '2020-07-20 22:14:24', 0),
 (154, 47, 10, 2, 'Review/Analyze Pre-Assessment Package Information', 51, '2020-09-03 20:04:30', 1),
 (155, 47, 10, 1, 'Identify Potential Sites to Work With', 51, '2020-08-06 23:50:17', 1),
 (156, 47, 10, 4, 'Hold an Initial Remote Assessment Meeting with the Client', 51, '2020-09-03 20:04:47', 1),
@@ -363,7 +378,11 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (262, 34, 0, 262, 'Cons', 57, '2020-12-18 17:36:01', 0),
 (263, 34, 0, 263, 'Best Practices', 57, '2020-12-18 17:36:22', 0),
 (264, 34, 0, 264, 'Rules of Thumb', 61, '2020-12-18 17:36:43', 0),
-(265, 34, 0, 265, 'Useful Resources', 57, '2020-12-21 20:26:45', 0);
+(265, 34, 0, 265, 'Useful Resources', 57, '2020-12-21 20:26:45', 0),
+(267, 78, 0, 267, 'Reduce Compressor Power', 58, '2020-12-22 22:24:28', 0),
+(268, 78, 0, 268, 'Reduce Fan Power', 58, '2020-12-22 22:36:22', 0),
+(269, 63, 0, 269, 'Improve welding efficiency', 52, '2020-12-22 23:10:37', 0),
+(270, 41, 2, 9, 'Key Terms and Concepts', 58, '2020-12-24 21:58:24', 0);
 
 -- --------------------------------------------------------
 
@@ -1795,15 +1814,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2272, 112, 0, 1, 26, 'Drive Type', '', '', 0, 0, 0, 0, '2020-07-08 22:27:29', 0),
 (2273, 112, 0, 1, 26, 'Controls', '', '', 0, 0, 0, 0, '2020-07-08 22:27:29', 0),
 (2275, 113, 0, 0, 27, 'Power Quality Analyzer ', '', '', 0, 0, 0, 0, '2020-07-08 22:29:50', 0),
-(2677, 133, 0, 0, 1, 'Pro1', '', '', 0, 0, 0, 0, '2020-07-20 21:20:19', 0),
-(2678, 134, 0, 0, 2, 'Con1', '', '', 0, 0, 0, 0, '2020-07-20 21:20:35', 0),
-(2679, 135, 0, 0, 4, 'Caveat', '', '', 0, 0, 0, 0, '2020-07-20 21:21:07', 0),
-(2681, 137, 0, 0, 8, 'Tip', '', '', 0, 0, 0, 0, '2020-07-20 21:21:56', 0),
-(2682, 138, 0, 0, 7, 'BP', '', '', 0, 0, 0, 0, '2020-07-20 21:22:23', 0),
-(2684, 139, 0, 0, 20, '', 'Fig', 'Fig', 0, 0, 0, 0, '2020-07-20 22:10:06', 0),
-(2686, 141, 0, 0, 27, 'Sling Psychrometer ', '', '', 0, 0, 0, 0, '2020-07-20 22:11:29', 0),
 (2687, 142, 0, 0, 21, 'tool', 'tool', 'tool', 0, 0, 0, 0, '2020-07-20 22:12:33', 0),
-(2688, 143, 0, 0, 17, 'Resource', 'Resource', 'Resource', 0, 0, 0, 0, '2020-07-20 22:13:43', 0),
 (3892, 164, 0, 0, 24, '', 'https://eec.oregonstate.edu/wastewater-treatment-training-module', 'Wastewater Treatment Training', 0, 0, 0, 0, '2020-08-06 22:33:54', 1),
 (4118, 163, 0, 0, 11, 'Control Aeration to Hold a Minimum Dissolved Oxygen Level', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1),
 (4119, 163, 0, 0, 11, 'Replace Standard Aeration Fans with High Efficiency Turbo Blowers', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1),
@@ -1900,10 +1911,10 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4717, 178, 0, 1, 4, 'For high static head conditions (pumping to high pressure vessel or high elevation tank) take care in evaluating pump operation with VFD control.  Pumps can be forced into low efficiency, high wear conditions with inappropriate high static head VFD control.', '', '', 1, 0, 0, 0, '2020-08-20 22:33:47', 1),
 (4718, 178, 0, 0, 17, 'Comprehensive list of pump selection, installation, and operation best practices.', 'http://www.flowserve.com/sites/default/files/2016-07/pss-10-13.5-e.pdf', 'Flowserve: Best Practices for ANSI Pumps', 1, 0, 0, 0, '2020-08-20 22:33:47', 1),
 (4760, 174, 0, 0, 26, 'A qualitative, visual strategy for designing a layout.', '', '', 0, 0, 0, 0, '2020-08-22 22:13:57', 0),
-(4761, 174, 0, 0, 26, 'Begin with creating a matrix with every department listed as a header for columns and rows (see figure 1). This is known as a from/to diagram.', '', '', 0, 0, 0, 0, '2020-08-22 22:13:57', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(4761, 174, 0, 0, 26, 'Begin with creating a matrix with every department listed as a header for columns and rows (see figure 1). This is known as a from/to diagram.', '', '', 0, 0, 0, 0, '2020-08-22 22:13:57', 0),
 (4762, 174, 0, 0, 20, '', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPsAAADJCAMAAADSHrQyAAAAgVBMVEX///8AAABiYmLt7e2NjY3k5OTY2NidnZ24uLhNTU29vb339/fAwMA9PT2qqqodHR2Dg4NeXl44ODjd3d3n5+fu7u59fX309PSRkZGHh4fJycmkpKSxsbGlpaVTU1PU1NRzc3NFRUWXl5dqamoSEhIuLi4nJyczMzMYGBgcHBwTExNqJpk3AAARIElEQVR4nO2dC3eiOhCAJwIiDxEbBATkqXT3/v8feJMAgpB0bY1VS2fP2VMnMOaTJISZZAD4lfuIRWXwKRAdd7XydSTdoLruPpSoRjb/OHS18pWkAcAK+a9MAHwGjzUAjeoCbIEHGiCi0ZqjYIctBTxMTiUfsfe4qt8sjN0uXMJROuTPNcHGxsLTULrfBbrhwHZVWZsULbdZ4dOfQzfMNMmLCNAWIsN/YXjK7r1BVLXsBmFHOEJKCrYf6Xgb5UVAjkI51JAtAHQXb5GxoyoIqqWpP7b+twhjLyDKW/aCsvu57hF2N4jzU1TR5k3+7d4hI7/QofD3dasCqFT82PrfIox93bCT/h6pAdPZlH3v6OBG1fKCXXcAF1mjslaw3D6a4OtC2YPyoJMxrqycQ0jvcuUhjr3a0SOsH3SnJuyxQ9hr1jMyotswdtJO1ENsPprg6xLT/4KSDu9ZHOs7piRUWn2IAJalFzFdfAArAY8dVioRGfNIB9HBKl8YXSi4eHQNHidB9Oga/Mqv/Mqv/MqvfEWckKt2EUL85zJSwFN7RO9zT9BJCVrySk4CWxZCKdeUZHFKrtonN/W/CqcAAd9V4Rlk6s+F1xPRd9d8tUXs4294OFipDvfR018FVrqb6oUeGo/O/hKVU6LrwY73K5LrrnELvssLlDhmzPO27TdvNa+dbkSuuYad14ji49vbhvt8u35/4116wq5pnN9dsthbTfN5bZK2+ZpzUf77mJ', 'Figure 1 - From-to Matrix', 0, 0, 0, 0, '2020-08-22 22:13:57', 0),
-(4763, 174, 0, 0, 26, 'Use this information to create a space-relation diagram. See figure 2.', '', '', 0, 0, 0, 0, '2020-08-22 22:13:57', 0),
+(4763, 174, 0, 0, 26, 'Use this information to create a space-relation diagram. See figure 2.', '', '', 0, 0, 0, 0, '2020-08-22 22:13:57', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (4764, 174, 0, 0, 20, '', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATAAAACmCAMAAABqbSMrAAAAeFBMVEX////e3t7t7e309PRxcXH6+vrCwsKNjY11dXWTk5ODg4PT09OsrKy2trba2trp6elDQ0OioqLIyMiysrJqamoAAACJiYlLS0upqamcnJx+fn5dXV26urrOzs7Gxsbi4uIoKChhYWFSUlIeHh40NDRAQEA5OTkrKyuPAHKLAAAWMUlEQVR4nO2dDZuqqtfGEQRFBDfiMOKAnObsc57v/w0f1F6szLRpmvb5d18zZWZlv2Cx1uJFAL5B7rOa1Xv0HZ/6B4uo+ecNe8x5/DEi+fzz9AXsWC9gK/UCtlIvYCv1ArZSL2Ar9QK2Uj0w3G8KPPH8C9iJOmBo02/63T4/bEXd3QvYiTpgikeFzArDEh3uPTA5o0Ry2hW+F7ATdcAyToXNAC1ywokO+3xMbOLsq4RNKACTDmgbG5Q6k4d7CIg0ubFpm4AXsDMFYKIARW6VjbwvpFWhyBVAgAKFuxewM23dClyT4T4nx8+/gJ3o5Yet1AvYSr2ArdQL2Eq9gK3UC9hKvYCt1BgYlig8oghI5Ha9ay9gJ2pHwAzCIaIEusYaJNt9L2DHKt4P/ZKIAqBBBmSHy209/hewI7FsVMJgAJaABiTdjeDDzhewsTgF1ajnOwE4RgWNoBFAwmHfC9hIhqOYj2yYl/tNttv9XwaG/32b1+fx8Q3z8bFbgc+3/tPANlcOOAKGK0SS/20/DH9cOeB9tF1UWHasvheYj85VfOUN76o1wFwDsrLb+FZg4nde1zVNGxru82473P36whveVyuAWQrSwZf/VmCsPyNLch6MImKDa/c5+5JHajkwo2CFhk0iYTEjmHyphA1nJAigqanJ4Nr9gcAaFqW7feLvv8b6+++330c7/vqKydkDC9xdo0T/6I8DhuMi1MgLKnKJ7ndGW2ChaKncKji4eX8asCLGhl8+pn', 'Figure 2  - Space Relationship Diagram', 0, 0, 0, 0, '2020-08-22 22:13:57', 0),
 (4765, 174, 0, 0, 26, 'Convert the space-relationship diagram into a facility layout.', '', '', 0, 0, 0, 0, '2020-08-22 22:13:57', 0),
 (4822, 184, 0, 0, 26, 'First, calculate the D-scores for the original layout (D0) and the proposed layout (D1).', '', '', 0, 0, 0, 0, '2020-08-24 19:51:09', 0),
@@ -1983,10 +1994,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (5509, 206, 0, 2, 12, 'Only upload images that you have intellectual property rights to use. This means that you should not use images that you did not create unless you have gotten express permission to use them from the creator.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5510, 206, 0, 2, 7, 'If you want to use an image in multiple locations. Upload the image by submitting some content, then edit the content and you will see that the image has a URL that you can copy. You can reuse this URL anywhere on the website, this is the preferred method as it saves space on the server by only uploading the image once.', '', '', 0, 0, 0, 0, '2020-09-09 22:17:03', 0),
 (5788, 222, 0, 0, 17, 'This report details the vehicle assembly process and common energy saving opportunities associated with each step. References to case studies, implementation costs and payback periods are included. Opportunities are included for the following systems: motors, compressed air, steam, lighting, HVAC, materials handling, painting and stamping.', 'https://www.osti.gov/biblio/927881', 'Energy Efficiency Improvement and Cost Saving Opportunities for the Vehicle Assembly Industry', 1, 0, 0, 0, '2020-09-15 19:40:23', 0),
-(5812, 215, 0, 0, 31, 'The following opportunities are specific to metals manufacturing facilities. For more opportunities related to compressed air, go to the Compressed Air Technologies page. ', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-09-15 20:53:32', 0),
-(5813, 215, 0, 0, 11, 'Replace the pistons on stamping die cushions with air actuators', '', '', 0, 0, 0, 0, '2020-09-15 20:53:32', 0),
-(5814, 215, 0, 1, 31, 'Die cushions on large stamping presses are used to support inserts in the lower die.', '%zXz%', '%zXz%', 0, 0, 0, 13, '2020-09-15 20:53:32', 0),
-(5815, 215, 0, 1, 26, 'Die cushions can produce significant air leaks, up to 100 CFM in some cases, after moderate use. Air actuators are more resilient and can operate without air leaks for over five years.', '', '', 0, 0, 0, 13, '2020-09-15 20:53:32', 0),
 (5817, 111, 0, 0, 20, '', '/uploads/user_51/d0d105c1ba1fe16e613f69173867b797.jpg', 'A graphic', 0, 0, 0, 0, '2020-09-15 21:00:14', 0),
 (5830, 224, 0, 0, 26, 'Generally, different classes of rate schedules are assigned to consumers based on the application of and type of electricity demanded.', '', '', 0, 0, 0, 0, '2020-09-17 19:57:57', 0),
 (5831, 224, 0, 1, 26, 'An industrial, three-phase rate schedule is commonly assigned to industry consumers.', '', '', 0, 0, 0, 0, '2020-09-17 19:57:57', 0),
@@ -2072,35 +2079,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6373, 211, 0, 1, 15, 'Current exhaust air flow rate and the minimum exhaust air flow rate required by health and safety regulations', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
 (6374, 211, 0, 1, 15, 'Quantity of welders or welding stations', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
 (6375, 211, 0, 1, 15, 'Approximate the proposed length of ventilation required for the installation to estimate the cost of implementation', '', '', 0, 0, 0, 0, '2020-10-15 18:08:43', 0),
-(6398, 214, 0, 0, 31, 'Conditioning air for painting, drying and treating emissions all represent sources of energy consumption in a painting process. Energy saving measures may be available at each one of these steps.', '%zXz%', '%zXz%', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
-(6399, 214, 0, 0, 11, 'Reduce airflow in paint booth', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
-(6400, 214, 0, 1, 31, 'Air must be exhausted from paint booths to remove evaporated solvent, oversprayed paint particles and pollutants such as volatile organic compounds (VOCs). The energy consumed by the ventilation system depends on the target outlet concentration of VOCs. VOCs come from the paint and they are removed from the air exhaust stream through filtration or incineration.', '%zXz%', '%zXz%', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
-(6401, 214, 0, 1, 26, 'Reducing the amount of air that is exhausted from the paint booth reduces the amount of fuel required to raise the temperature of the inlet air to the target temperature, and reduces the volume of exhaust air that must be treated.', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
-(6402, 214, 0, 1, 4, 'If the air flow rate through the booth is too low, cold spots may be present which lead to poor application and condensation.', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
-(6403, 214, 0, 1, 7, 'For air recirculating ovens, 90% of the air in the booth should be recycled', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
-(6404, 214, 0, 1, 3, 'For every 2,000 hours/year that an oven operates, every 10 cubic meters per hour of exhaust flow loses 150 kWh at 50C, 400 kWh at 100C, 600 kWh at 150C, and 750 kWh at 200C', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
-(6405, 214, 0, 1, 12, 'Turn down air flow rates during breaks to realize immediate cost savings.', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
-(6406, 214, 0, 1, 1, 'Computer-controlled ventilation systems can operate based on solvent concentration in the paint booth or by spray gun operation.', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
-(6407, 214, 0, 0, 11, 'Exhaust heat recovery', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
-(6408, 214, 0, 1, 8, 'Heat recovery measures typically save 30-60% of energy consumption associated with a paint booth and have a 1-3 year payback period', '', '', 0, 0, 0, 12, '2020-10-15 18:16:54', 0),
-(6409, 214, 0, 1, 1, 'Rotary heat exchangers can be installed on paint booths to save up to 50% of the exhausted heat', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
-(6410, 214, 0, 1, 2, 'Heat recovered from paint booths is low-grade heat', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
-(6411, 214, 0, 1, 2, 'These installations are of interest mainly to large scale painting operations', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
-(6412, 214, 0, 1, 2, 'Heat wheels do not perform well with streams that have particles or where condensation occur', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
-(6413, 214, 0, 0, 11, 'Change to powder-based paints', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
-(6414, 214, 0, 1, 1, 'Powder-based paints do not have solvents, the paint particles are attracted to the part by an applied electrostatic charge. The energy requirement for powder-based painting can be up to 30% lower due to the reduced energy consumption associated with eliminating VOCs from the exhaust stream.', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
-(6415, 214, 0, 1, 8, 'These measures can save 18-30% of energy consumption associated with a paint booth and have a 2-3 year payback period', '', '', 0, 0, 0, 12, '2020-10-15 18:16:54', 0),
-(6416, 214, 0, 0, 11, 'Install an air-to-fuel ratio control system on the paint booth air heater', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
-(6417, 214, 0, 1, 3, 'This may reduce energy consumption associated with combustion by 5-15% depending on demand', '', '', 0, 0, 0, 13, '2020-10-15 18:16:54', 0),
-(6418, 214, 0, 0, 11, 'Install activated carbon filters to remove VOCs from the exhaust stream', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
-(6419, 214, 0, 1, 26, 'Activated carbon filters capture and concentrate VOCs from the exhaust stream reducing the amount of air that must be treated by incineration', '', '', 0, 0, 0, 0, '2020-10-15 18:16:54', 0),
-(6420, 212, 0, 0, 11, 'Increase Spray Paint Efficiency', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
-(6421, 212, 0, 1, 8, 'Training paint personnel to reduce overspray in painting applications can significantly reduce annual paint consumption and extend booth filter life', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
-(6422, 212, 0, 1, 26, 'Paint booths are often present in metals manufacturing facilities that produce final products or components', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
-(6423, 212, 0, 1, 26, 'Operator spray technique and equipment settings can be adjusted to minimize paint overspray. Equipment settings include paint gun adjustment, equipment maintenance, and paint gun distance and orientation.', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
-(6424, 212, 0, 1, 1, 'Painting efficiency can be improved by as much 25% for even the most experienced painters with increased attention to application techniques', '', '', 0, 0, 0, 6, '2020-10-15 18:18:23', 0),
-(6425, 212, 0, 1, 15, 'Annual consumption of paint and associated cost', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
-(6426, 212, 0, 1, 3, 'Proposed savings can be conservatively estimated at 10-15% reduction in paint consumption. Percent savings may approach 25% if the recommended techniques are replicated and adhered to.', '', '', 0, 0, 0, 0, '2020-10-15 18:18:23', 0),
 (6512, 229, 0, 0, 26, 'Natural gas charges are usually divided into two, distinct categories:', '', '', 0, 0, 0, 17, '2020-10-16 21:36:14', 0),
 (6513, 229, 0, 1, 26, 'Commodity Charge: the cost of the gas itself', '', '', 0, 0, 0, 0, '2020-10-16 21:36:14', 0),
 (6514, 229, 0, 1, 26, 'Transmission/Distribution Charge:  the cost to transport gas from its source to the industry site.', '', '', 0, 0, 0, 0, '2020-10-16 21:36:14', 0),
@@ -2156,8 +2134,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6581, 101, 0, 1, 3, 'Can increase efficiency by up to 10%', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
 (6582, 101, 0, 1, 3, 'Can increase boiler efficiency to over 90%', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
 (6583, 101, 0, 1, 1, 'Can recover more energy from the boiler stack by reducing flue gas temperature below dew point.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
-(6584, 101, 0, 1, 2, 'Not recommended for use with fuels containing sulphur.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(6584, 101, 0, 1, 2, 'Not recommended for use with fuels containing sulphur.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
 (6585, 101, 0, 1, 2, 'The condensed water may be acidic, requiring treatment before being disharged to sewer systems.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
 (6586, 101, 0, 1, 4, 'Fuels with sulphurous combustions can damage the boiler stack when condensing, creating sulphuric acid.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
 (6587, 101, 0, 1, 4, 'Boiler stacks are prone to corrosion due to water condensation.', '', '', 0, 0, 0, 0, '2020-10-29 21:53:26', 1),
@@ -2206,7 +2183,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6783, 162, 0, 0, 31, 'This is a requirement for U.S.DOE to accept our remote assessment as a deliverable on our contract. It might be done in one session or iteratively in multiple sessions.', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
 (6784, 162, 0, 0, 26, 'Begin with a review of preparatory work including the intitial energy balance, and list of possible opportunities.', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
 (6785, 162, 0, 0, 26, 'Discuss the best strategy to use for a Guided Remote Tour. This might be: ', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
-(6786, 162, 0, 1, 12, 'A standard tour of the process from start to finish, but this could be an overly long time for a Zoom meeting. ', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
+(6786, 162, 0, 1, 12, 'A standard tour of the process from start to finish, but this could be an overly long time for a Zoom meeting. ', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (6787, 162, 0, 1, 12, 'A series of shorter remote targeted tours of areas of specific interest. ', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
 (6788, 162, 0, 2, 8, 'This strategy is being used by a number of assessment teams', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
 (6789, 162, 0, 2, 1, 'Can simplify scheduling if only key team members must join tours of particular areas.  Others can participate based on availability.', '', '', 0, 0, 0, 0, '2020-11-20 15:52:48', 0),
@@ -2303,38 +2281,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (7045, 119, 0, 0, 11, 'Interlock equipment with a related process', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33', 1),
 (7046, 119, 0, 0, 11, 'Operate equipment in batches rather than continuously ', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33', 1),
 (7047, 119, 0, 1, 10, 'Equipment is idle for significant periods of time', '', '', 0, 0, 0, 0, '2020-12-14 19:44:33', 1),
-(7079, 140, 0, 0, 31, '<p>Compressor Data</p>', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
-(7080, 140, 0, 1, 15, 'Compressor and motor nameplates', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
-(7081, 140, 0, 1, 15, 'Amperage data log of the compressor motor to determine energy consumption and use factor', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
-(7082, 140, 0, 1, 15, 'Maximum suction pressure and minimum discharge pressure', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
-(7083, 140, 0, 1, 15, 'Maximum suction temperature and minimum discharge temperature', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
-(7084, 140, 0, 1, 15, 'Dry and wet bulb temperatures', '', '', 0, 0, 0, 0, '2020-12-14 21:37:35', 0),
-(7385, 136, 0, 0, 3, '1.5% compressor power reduction per 1°F decrease in condensing temperature', '', '', 0, 0, 0, 20, '2020-12-16 01:15:16', 0),
-(7386, 136, 0, 0, 3, '1-1.5% compressor power reduction per 1°F increase in suction temperature for centrifugal machines', '', '', 0, 0, 0, 20, '2020-12-16 01:15:16', 0),
-(7429, 260, 0, 0, 31, '<p>System lift is the difference between suction and discharge pressure at the compressor stage in the refrigeration cycle. Lift can be reduced by either increasing the suction pressure, decreasing the discharge pressure, or a combination of both. Minimizing lift improves system efficiency by increasing efficiency at the compressor stage.</p>', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7430, 260, 0, 0, 11, 'Increase suction pressure ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7431, 260, 0, 1, 31, '<p>Increasing suction pressure raises compressor capacity, thereby allowing the compressor to operate at a lower percentage of its full-load capacity.</p>', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7432, 260, 0, 1, 10, 'Back-pressure regulation is used to maintain lower pressure at the compressor inlet than at the evaporator output. ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7433, 260, 0, 1, 7, 'Set suction pressure to put the evaporator fan power and compressor power at a combined minimum. If fan savings are unavailable the suction pressure should be set as high as possible. ', '', '', 0, 0, 0, 21, '2020-12-16 01:31:48', 0),
-(7434, 260, 0, 1, 8, 'Increasing suction pressure may allow operators to turn off a compressor or to use a smaller compressor in place of a larger one.', '', '', 0, 0, 0, 21, '2020-12-16 01:31:48', 0),
-(7435, 260, 0, 1, 8, 'Install larger evaporator coils to maintain cooling capacity while decreasing the temperature difference between air entering the coils and the refrigerant within. ', '', '', 0, 0, 0, 21, '2020-12-16 01:31:48', 0),
-(7436, 260, 0, 1, 3, '1-1.5% compressor power reduction per 1°F increase in suction temperature for centrifugal machines', '', '', 0, 0, 0, 20, '2020-12-16 01:31:48', 0),
-(7437, 260, 0, 1, 15, 'Current and proposed suction pressures/temperatures ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7438, 260, 0, 1, 15, 'Compressor operational profile ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7439, 260, 0, 2, 12, 'Set data loggers to record power consumption over the compressor(s) typical operating range.', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7440, 260, 0, 1, 4, 'Energy savings may only be available if efficient part-load compressor controls are used.', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7441, 260, 0, 0, 11, 'Decrease discharge pressure', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7442, 260, 0, 1, 31, '<p>Decreasing suction pressure lowers the load on the compressor, and thereby reduces compressor power.</p>', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7443, 260, 0, 1, 10, 'If the condensing temperature is higher than its corresponding saturated condensing temperature, discharge pressure may be reduced. ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7444, 260, 0, 1, 10, 'The condenser is operating at less than full capacity. ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7445, 260, 0, 1, 7, 'Set a minimum discharge temperature, above which the discharge will be allowed to \"float\", responding to changes in the ambient saturation temperature. ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7446, 260, 0, 1, 8, 'Keep an eye out for gradually increasing discharge temperature. This may indicate scaling in the condenser tubes which reduces heat transfer. Implement adequate water treatment to avoid this potential issue. ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7447, 260, 0, 1, 3, 'The refrigerant condensing temperature should not be less than 35°F above the refrigerant evaporator temperature. ', '', '', 0, 0, 0, 20, '2020-12-16 01:31:48', 0),
-(7448, 260, 0, 1, 3, '1.5% compressor power reduction per 1°F decrease in condensing temperature', '', '', 0, 0, 0, 20, '2020-12-16 01:31:48', 0),
-(7449, 260, 0, 1, 15, 'Current and proposed discharge pressures', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7450, 260, 0, 1, 15, 'Dry and wet bulb suction temperatures: current and proposed', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7451, 260, 0, 1, 15, 'Compressor operational profile ', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
-(7452, 260, 0, 2, 12, 'Set data loggers to record power consumption over the compressor(s) typical operating range.', '', '', 0, 0, 0, 0, '2020-12-16 01:31:48', 0),
 (7455, 144, 0, 0, 24, 'An guide to industrial refrigeration systems and associated best practicers. Developed by Cascade Energy.', 'https://cascadeenergy.com/wp-content/uploads/2013/10/industrial-refridgeration-best-practices-guide.pdf', 'Industrial Refrigeration - Best Practices Guide ', 1, 0, 0, 0, '2020-12-16 01:38:16', 0),
 (7456, 144, 0, 0, 24, 'A chapter from Rutgers University\'s training manual for conducting industrial assessments.', 'https://iac.university/technicalDocs/industr/ch7.pdf', 'Essentials of Industrial Assessments - Ch. 7: Thermal Applications', 1, 0, 0, 0, '2020-12-16 01:38:16', 0),
 (7490, 131, 0, 0, 11, 'Use outside air to partially or fully meet cooling requirements. ', '', '', 0, 0, 0, 0, '2020-12-16 22:51:37', 0),
@@ -2435,8 +2381,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (7768, 82, 0, 0, 11, 'Replace Valve Control with Variable Speed Drive Control', '', '', 0, 0, 0, 0, '2020-12-18 17:15:24', 0),
 (7769, 82, 0, 1, 31, 'Pumps are often designed to operate at specific conditions, installing a Variable Speed Drive can allow the pump to supply a wider range of flows while remaining near it\'s best efficiency point', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-12-18 17:15:24', 0),
 (7770, 82, 0, 1, 10, 'Pumps throttled or supplying excess fluid to a process', '', '', 0, 0, 0, 0, '2020-12-18 17:15:24', 0),
-(7771, 82, 0, 1, 8, 'Pumps operating over a range of flow conditions may be particularly suited for VFD control', '', '', 0, 0, 0, 0, '2020-12-18 17:15:24', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(7771, 82, 0, 1, 8, 'Pumps operating over a range of flow conditions may be particularly suited for VFD control', '', '', 0, 0, 0, 0, '2020-12-18 17:15:24', 0),
 (7772, 82, 0, 1, 14, 'Would a resized pump or impeller trim be more suitable for the application?', '', '', 0, 0, 0, 0, '2020-12-18 17:15:24', 0),
 (7773, 82, 0, 1, 1, 'Allows efficient operation over wider range of flow conditions', '', '', 0, 0, 0, 0, '2020-12-18 17:15:24', 0),
 (7774, 82, 0, 1, 2, 'VFDs are expensive - becoming more affordable in recent years', '', '', 0, 0, 0, 0, '2020-12-18 17:15:24', 0),
@@ -2524,7 +2469,8 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (8008, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
 (8009, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, 0, 1, 0, '2020-12-19 19:14:38', 0),
 (8010, 101, 0, 1, 15, 'Firing rate over time', '', '', 0, 0, 1, 0, '2020-12-19 19:14:38', 0),
-(8011, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, 1, 0, 0, '2020-12-19 19:14:38', 0),
+(8011, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, 1, 0, 0, '2020-12-19 19:14:38', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (8012, 101, 0, 0, 11, 'Install O2 Controls to maintain optimum combustion efficiency throughout the operating range', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
 (8013, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
 (8014, 101, 0, 0, 11, 'Clean heat exchanger surfaces and reduce the exhaust temperature', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
@@ -2684,7 +2630,231 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (8236, 129, 0, 1, 15, 'Operation hours', '', '', 0, 0, 0, 0, '2020-12-21 20:29:12', 0),
 (8237, 129, 0, 1, 27, 'Combustion analyzer', '', '', 0, 0, 0, 0, '2020-12-21 20:29:12', 0),
 (8238, 129, 0, 1, 17, '', 'https://www.energy.gov/sites/prod/files/2014/05/f16/et_preheated.pdf', 'D.O.E. Tip Sheet', 1, 0, 0, 0, '2020-12-21 20:29:12', 0),
-(8239, 129, 0, 1, 17, '', 'https://www.energysolutionscenter.org/gas_solutions/regenerators_and_recuperators.aspx#:~:text=Regenerators%20and%20recuperators%20are%20heat,metallic%20heat%20exchanger%20(recuperators).&text=The%20heat%20recovered%20by%20a,combustion%20air%20to%20a%20furnace.', 'Regenerators vs. Recuperators ', 1, 0, 0, 0, '2020-12-21 20:29:12', 0);
+(8239, 129, 0, 1, 17, '', 'https://www.energysolutionscenter.org/gas_solutions/regenerators_and_recuperators.aspx#:~:text=Regenerators%20and%20recuperators%20are%20heat,metallic%20heat%20exchanger%20(recuperators).&text=The%20heat%20recovered%20by%20a,combustion%20air%20to%20a%20furnace.', 'Regenerators vs. Recuperators ', 1, 0, 0, 0, '2020-12-21 20:29:12', 0),
+(8475, 136, 0, 0, 3, '1 ton = 12,000 Btu/hr = 3.52 kW', '', '', 0, 0, 0, 0, '2020-12-22 22:06:45', 0),
+(8476, 136, 0, 0, 3, '1-1.5% compressor power reduction per 1°F decrease in condensing temperature', '', '', 0, 0, 0, 20, '2020-12-22 22:06:45', 0),
+(8477, 136, 0, 0, 3, '2-3% compressor power reduction per 1°F increase in suction temperature for centrifugal machines', '', '', 0, 0, 0, 21, '2020-12-22 22:06:45', 0),
+(8478, 136, 0, 0, 3, '5% compressor power reduction from switching to thermo-syphon oil cooling from liquid-injection cooling', '', '', 0, 0, 0, 0, '2020-12-22 22:06:45', 0),
+(8609, 214, 0, 0, 31, 'Conditioning air for painting, drying and treating emissions all represent sources of energy consumption in a painting process. Energy saving measures may be available at each one of these steps.', '%zXz%', '%zXz%', 0, 0, 0, 13, '2020-12-22 22:50:52', 0),
+(8610, 214, 0, 0, 11, 'Reduce airflow in paint booth', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8611, 214, 0, 1, 31, '<p>Air must be exhausted from paint booths to remove evaporated solvent, oversprayed paint particles and pollutants such as volatile organic compounds (VOCs). The energy consumed by the ventilation system depends on the target outlet concentration of VOCs. VOCs come from the paint and they are removed from the exhaust air stream through filtration or incineration.</p>', '%zXz%', '%zXz%', 0, 0, 0, 13, '2020-12-22 22:50:52', 0),
+(8612, 214, 0, 1, 26, 'Reducing the amount of air that is exhausted from the paint booth reduces the amount of fuel required to raise the temperature of the inlet air to the target temperature, and reduces the volume of exhaust air that must be treated.', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8613, 214, 0, 1, 4, 'If the air flow rate through the booth is too low, cold spots may be present which lead to poor application and condensation.', '', '', 0, 0, 0, 13, '2020-12-22 22:50:52', 0),
+(8614, 214, 0, 1, 26, 'Some paint booths also function as curing ovens, these are often called \"spray and bake\" systems. During spray mode the booth operates with a high flow rate of low temperature (60-90F, 15-32C) air. During the curing mode, the temperature set point is raised to the 80-200F (27-93C) range.', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8615, 214, 0, 1, 7, 'For air recirculating ovens, 90% of the air in the booth should be recirculated', '', '', 0, 0, 0, 13, '2020-12-22 22:50:52', 0),
+(8616, 214, 0, 1, 3, 'For every 2,000 hrs/yr that an oven operates, every 10 cubic meters per hour (5.9 CFM) of exhaust flow loses 150 kWh at 50C (512 kBtu at 122F), 400 kWh at 100C (1.4 MMBtu at 212F), 600 kWh at 150C (2.0 MMBtu at 302F), and 750 kWh at 200C (2.6 MMBtu at 392F)', '', '', 0, 0, 0, 13, '2020-12-22 22:50:52', 0),
+(8617, 214, 0, 1, 12, 'Turn down air flow rates during breaks to realize immediate cost savings.', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8618, 214, 0, 1, 1, 'Computer-controlled ventilation systems can operate based on solvent concentration in the paint booth or by spray gun operation.', '', '', 0, 0, 0, 13, '2020-12-22 22:50:52', 0),
+(8619, 214, 0, 0, 11, 'Exhaust heat recovery', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8620, 214, 0, 1, 8, 'Heat recovery measures typically save 30-60% of energy consumption associated with a paint booth and have a 1-3 year payback period', '', '', 0, 0, 0, 12, '2020-12-22 22:50:52', 0),
+(8621, 214, 0, 1, 1, 'Rotary heat exchangers can be installed on paint booths to save up to 50% of the exhausted heat', '', '', 0, 0, 0, 13, '2020-12-22 22:50:52', 0),
+(8622, 214, 0, 1, 2, 'Heat recovered from paint booths is low-grade heat', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8623, 214, 0, 1, 2, 'These installations are of interest mainly to large scale painting operations', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8624, 214, 0, 1, 2, 'Heat wheels do not perform well with streams that have particles or where condensation occur', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8625, 214, 0, 0, 11, 'Change to powder-based paints', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8626, 214, 0, 1, 1, 'Powder-based paints do not have solvents, the paint particles are attracted to the part by an applied electrostatic charge. The energy requirement for powder-based painting can be up to 30% lower due to the reduced energy consumption associated with eliminating VOCs from the exhaust stream.', '', '', 0, 0, 0, 13, '2020-12-22 22:50:52', 0),
+(8627, 214, 0, 1, 8, 'These measures can save 18-30% of energy consumption associated with a paint booth and have a 2-3 year payback period', '', '', 0, 0, 0, 12, '2020-12-22 22:50:52', 0),
+(8628, 214, 0, 0, 11, 'Install an air-to-fuel ratio control system on the paint booth air heater', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8629, 214, 0, 1, 3, 'This may reduce energy consumption associated with combustion by 5-15% depending on demand', '', '', 0, 0, 0, 13, '2020-12-22 22:50:52', 0),
+(8630, 214, 0, 0, 11, 'Install activated carbon filters to remove VOCs from the exhaust stream', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8631, 214, 0, 1, 26, 'Activated carbon filters capture and concentrate VOCs from the exhaust stream reducing the amount of air that must be treated by incineration', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8632, 214, 0, 0, 11, 'Add occupancy sensors in paint booths', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8633, 214, 0, 0, 11, 'Turn off high-intensity lighting when not needed', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
+(8634, 212, 0, 0, 11, 'Increase Spray Paint Efficiency', '', '', 0, 0, 0, 0, '2020-12-22 22:54:00', 0),
+(8635, 212, 0, 1, 8, 'Training paint personnel to reduce overspray in painting applications can significantly reduce annual paint consumption, extend booth filter life, and reduce associated disposal costs. ', '', '', 0, 0, 0, 0, '2020-12-22 22:54:00', 0),
+(8636, 212, 0, 1, 26, 'Paint booths are often present in metals manufacturing facilities that produce final products or components', '', '', 0, 0, 0, 0, '2020-12-22 22:54:00', 0),
+(8637, 212, 0, 1, 26, 'Operator spray technique and equipment settings can be adjusted to minimize paint overspray. Equipment settings include paint gun adjustment, equipment maintenance, and paint gun distance and orientation.', '', '', 0, 0, 0, 0, '2020-12-22 22:54:00', 0),
+(8638, 212, 0, 1, 1, 'Painting efficiency can be improved by as much 25% for even the most experienced painters with increased attention to application techniques', '', '', 0, 0, 0, 6, '2020-12-22 22:54:00', 0),
+(8639, 212, 0, 1, 15, 'Annual consumption of paint and associated cost', '', '', 0, 0, 0, 0, '2020-12-22 22:54:00', 0),
+(8640, 212, 0, 1, 3, 'Proposed savings can be conservatively estimated at 10-15% reduction in paint consumption. Percent savings may approach 25% if the recommended techniques are replicated and adhered to.', '', '', 0, 0, 0, 0, '2020-12-22 22:54:00', 0),
+(8641, 215, 0, 0, 31, '<p>The following opportunities are specific to metals manufacturing facilities. For more opportunities related to compressed air, go to the <a href=\"https://walkthrough.eec.oregonstate.edu/wiki/technologies/2\" rel=\"noopener noreferrer\" target=\"_blank\">Compressed Air</a> Technologies page.</p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-12-22 22:56:20', 0),
+(8642, 215, 0, 0, 11, 'Replace the pistons on stamping die cushions with air actuators', '', '', 0, 0, 0, 0, '2020-12-22 22:56:20', 0),
+(8643, 215, 0, 1, 31, 'Die cushions on large stamping presses are used to support inserts in the lower die.', '%zXz%', '%zXz%', 0, 0, 0, 13, '2020-12-22 22:56:20', 0),
+(8644, 215, 0, 1, 26, 'Die cushions can produce significant air leaks, up to 100 CFM in some cases, after moderate use. Air actuators are more resilient and can operate without air leaks for over five years.', '', '', 0, 0, 0, 13, '2020-12-22 22:56:20', 0),
+(8698, 269, 0, 0, 11, 'Replace transformer-rectifier welders with inverter-based welders', '', '', 0, 0, 0, 0, '2020-12-22 23:42:28', 0),
+(8699, 269, 0, 1, 1, 'Inverter welders are lightweight which makes them easier to transport around a facility', '', '', 0, 0, 0, 7, '2020-12-22 23:42:28', 0),
+(8700, 269, 0, 1, 1, 'Stable arc characteristics of inverter welders increase weld quality and consistency', '', '', 0, 0, 0, 13, '2020-12-22 23:42:28', 0),
+(8701, 269, 0, 1, 1, 'Inverter welders are capable of producing high-quality welds for multiple welding styles such as stick, MIG, TIG, FCAW, and arc gouging', '', '', 0, 0, 0, 7, '2020-12-22 23:42:28', 0),
+(8702, 269, 0, 1, 26, 'High-efficiency welders provide 10-40% energy savings compared to older units', '', '', 0, 0, 0, 13, '2020-12-22 23:42:28', 0),
+(8703, 269, 0, 1, 26, 'Inverter welders use smaller ferrite cores in the inverter\'s power transformer which minimizes idle power draw and resistive losses in the transformer coils. Additionally, smaller cooling fans can be used to cool inverter-based welders', '', '', 0, 0, 0, 7, '2020-12-22 23:42:28', 0),
+(8704, 269, 0, 0, 11, 'utilize robotic welding', '', '', 0, 0, 0, 0, '2020-12-22 23:42:28', 0),
+(8789, 133, 0, 0, 1, 'Provides reliable climate control for temperature sensitive applications', '', '', 0, 0, 0, 0, '2020-12-23 18:40:40', 0),
+(8790, 133, 0, 0, 1, 'Lower typical energy requirements than other forms of refrigeration such as absorption and steam-jet ', '', '', 0, 0, 0, 0, '2020-12-23 18:40:40', 0),
+(8799, 138, 0, 0, 7, 'Implement a robust energy management program that includes appropriate training of key personnel and establishes identifiable roles to create a culture of continual improvement towards energy efficiency', '', '', 0, 0, 0, 0, '2020-12-23 18:54:29', 0),
+(8800, 138, 0, 0, 7, 'Use \"free cooling\" by taking advantage of low ambient air temperature whenever possible to turn down or shut down refrigeration equipment', '', '', 0, 0, 0, 0, '2020-12-23 18:54:29', 0),
+(8801, 138, 0, 0, 7, 'Apply waste heat from a refrigeration system to nearby heating applications in a facility', '', '', 0, 0, 0, 0, '2020-12-23 18:54:29', 0),
+(9174, 29, 0, 0, 17, 'This guide focuses mainly on screw and reciprocating compressors. These are the most common types of compressors used in the northwest. Other types of compressors such as rotary vane, centrifugal, lobe and radial compressors are much less common and are only introduced in this guide.', 'https://drive.google.com/file/d/12Co0C6JBK5CqoYhZQBcD0VX6JVBXy86o/view', 'Assessing Industrial Air Compressors', 0, 0, 0, 0, '2020-12-23 19:54:32', 0),
+(9175, 29, 0, 0, 22, 'A short slideshow of common industrial compressed air equipment and applicatons', 'https://docs.google.com/presentation/d/1khB1tPIND-ooBy1yCCL-rDf09Gf4Q8nr/edit#slide=id.p7', 'Industrial Compressed Air (a slideshow)', 0, 0, 0, 0, '2020-12-23 19:54:32', 0),
+(9176, 143, 0, 0, 17, 'A guide for assessing the efficiency of industrial vapor-compression systems. ', 'https://drive.google.com/file/d/1fG5U5cbw9c2UM0jSFZn8yOX9ewEiIuSE/view?usp=sharing', 'Assessing Industrial Refrigeration Efficiency', 0, 0, 0, 0, '2020-12-23 19:55:20', 0),
+(9177, 143, 0, 0, 22, 'A short slideshow of common industrial refrigeration equipment and applications', 'https://docs.google.com/presentation/d/1A_qeQoVK6A7ConfE-uMVPdkRep-s9PUlnrELmOuNo8g/edit?usp=sharing', 'Industrial Refrigeration (a slideshow)', 0, 0, 0, 0, '2020-12-23 19:55:20', 0),
+(9345, 141, 0, 0, 27, 'Digital Multimeter ', '', '', 0, 0, 0, 0, '2020-12-23 20:24:30', 0),
+(9346, 141, 0, 0, 27, 'Power Data Logger', '', '', 0, 0, 0, 0, '2020-12-23 20:24:30', 0),
+(9347, 141, 0, 0, 27, 'Sling Psychrometer ', '', '', 0, 0, 0, 0, '2020-12-23 20:24:30', 0),
+(9348, 141, 0, 0, 27, 'Digital Thermometer', '', '', 0, 0, 0, 0, '2020-12-23 20:24:30', 0),
+(9349, 141, 0, 0, 27, 'Airflow Meter', '', '', 0, 0, 0, 0, '2020-12-23 20:24:30', 0),
+(9363, 139, 0, 0, 20, '', '/uploads/user_58/46e54440c2be9608320703b9efb9b082.jpg', 'Simple Refrigeration Cycle', 0, 0, 0, 0, '2020-12-23 22:01:50', 0),
+(9364, 139, 0, 0, 20, '', '/uploads/user_58/d64fd1cf30ad7eeb7bc82c88f7aeec1c.jpg', 'Mollier Diagram', 0, 0, 0, 0, '2020-12-23 22:01:50', 0),
+(9522, 137, 0, 0, 8, 'Tip', '', '', 0, 0, 0, 0, '2020-12-24 17:45:37', 0),
+(9544, 140, 0, 0, 31, '<p>System Data</p>', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9545, 140, 0, 1, 15, 'Refrigerant Type', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9546, 140, 0, 1, 15, 'Cooling capacity (tons)', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9547, 140, 0, 0, 31, '<p>Compressor Data</p>', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9548, 140, 0, 1, 15, 'Type - centrifugal, rotary-screw, reciprocating ', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9549, 140, 0, 1, 15, 'Compressor and motor nameplates', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9550, 140, 0, 1, 15, 'Data log of compressor power to determine energy consumption', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9551, 140, 0, 1, 15, 'Lift - difference between discharge (condensing) and suction (evaporating) pressures', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9552, 140, 0, 0, 31, '<p>Condenser Data</p>', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9553, 140, 0, 1, 15, 'Type - air-cooled, water-cooled, evaporative', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9554, 140, 0, 1, 15, 'Associated fan/pump data including nameplates and speeds', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9555, 140, 0, 1, 15, 'Current condensing pressure/temperature', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9556, 140, 0, 1, 15, 'Minimum condensing pressure/temperature', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9557, 140, 0, 1, 15, 'Dry and/or wet bulb ambient temperatures ', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9558, 140, 0, 2, 26, 'Approach temperature difference is measured relative to wet bulb temperature for condensing units', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9559, 140, 0, 2, 26, 'Approach temperature difference is measured relative to dry bulb temperature for air-cooled units', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9560, 140, 0, 0, 31, '<p>Evaporator Data</p>', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9561, 140, 0, 1, 15, 'Type - refrigerant-to-air coils (A.K.A. evap. fan coil), heat exchanger (refrigerant-to-fluid)', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9562, 140, 0, 1, 15, 'Associated fan/pump data including nameplates and speeds', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9563, 140, 0, 1, 15, 'Current evaporating pressure/temperature', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9564, 140, 0, 1, 15, 'Maximum evaporating pressure/temperature', '', '', 0, 0, 0, 0, '2020-12-24 17:49:22', 0),
+(9604, 260, 0, 0, 31, '<p>System lift is the difference between suction and discharge pressure at the compressor stage in the refrigeration cycle. Lift can be reduced by either increasing the suction pressure, decreasing the discharge pressure, or a combination of both. Minimizing lift improves system efficiency by increasing efficiency at the compressor stage. </p>', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9605, 260, 0, 0, 11, 'Increase suction pressure (raise evaporator temperature)', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9606, 260, 0, 1, 31, '<p>Increasing suction pressure raises compressor capacity, thereby allowing the compressor to operate at a lower percentage of its full-load capacity.</p>', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9607, 260, 0, 1, 10, 'Suction temperature is lower than 10 to 15°F below the target space/product temperature', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9608, 260, 0, 2, 12, 'Add evaporator capacity to increase suction pressure. Compressor savings will generally pay for the cost of installing and operating additional evaporators.', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9609, 260, 0, 1, 10, 'Back-pressure regulation is used to raise pressure to selected system branches with higher temperature loads', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9610, 260, 0, 2, 12, 'Operate loads requiring higher suction pressures and loads requiring lower suction pressures on separate systems', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9611, 260, 0, 1, 7, 'Set suction pressure to put the evaporator fan power and compressor power at a combined minimum. If fan savings are unavailable the suction pressure should be set as high as possible. ', '', '', 0, 0, 0, 21, '2020-12-24 18:08:58', 0),
+(9612, 260, 0, 1, 8, 'Increasing suction pressure may allow operators to turn off a compressor or to use a smaller compressor in place of a larger one.', '', '', 0, 0, 0, 21, '2020-12-24 18:08:58', 0),
+(9613, 260, 0, 1, 8, 'Install larger evaporator coils to maintain cooling capacity while decreasing the approach temperature difference', '', '', 0, 0, 0, 21, '2020-12-24 18:08:58', 0),
+(9614, 260, 0, 1, 3, '2-3% compressor power reduction per 1°F increase in suction temperature for centrifugal machines', '', '', 0, 0, 0, 21, '2020-12-24 18:08:58', 0),
+(9615, 260, 0, 1, 15, 'Current and proposed suction pressures/temperatures ', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9616, 260, 0, 1, 15, 'Current compressor energy use', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9617, 260, 0, 2, 12, 'Set data loggers to record power consumption over the compressor(s) typical operating range.', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9618, 260, 0, 1, 20, '', '/uploads/user_58/697b47f5ecb8474a9482471ddce67959.png', 'Pressure Enthalpy Diagram - Effect of Increasing Suction Pressure', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9619, 260, 0, 2, 31, '<p>The transition from point 4 to point 1 on the enthalpy pressure diagram represents the pressure and enthalpy changes associated with compression. Increasing suction pressure reduces both the pressure change (lift) and enthalpy change (work).</p>', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9620, 260, 0, 1, 4, 'Energy savings may only be available if efficient part-load compressor controls are used.', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9621, 260, 0, 0, 11, 'Decrease discharge/condensing pressure', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9622, 260, 0, 1, 31, '<p>Decreasing discharge pressure lowers the load on the compressor, and thereby reduces compressor power.</p>', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9623, 260, 0, 1, 10, 'If the condensing temperature is higher than its corresponding saturated condensing temperature, discharge pressure may be reduced. ', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9624, 260, 0, 1, 10, 'The condensers are operating below their full capacity. ', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9625, 260, 0, 1, 10, 'Approach temperature in the condensers exceeds 20°F ', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9626, 260, 0, 2, 12, 'Add condensing capacity to lower the approach temperature to 10-15°F above ambient. Compressor savings typically pay for the cost of installing and operating additional compressors.', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9627, 260, 0, 1, 7, 'Set a minimum discharge temperature, above which the discharge will be allowed to \"float\", responding to changes in the ambient saturation temperature. ', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9628, 260, 0, 1, 8, 'Keep an eye out for gradually increasing discharge temperature. This may indicate scaling in the condenser tubes which reduces heat transfer. Implement adequate water treatment to avoid this potential issue. ', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9629, 260, 0, 1, 3, 'The refrigerant condensing temperature should not be less than 35°F above the refrigerant evaporator temperature. ', '', '', 0, 0, 0, 20, '2020-12-24 18:08:58', 0),
+(9630, 260, 0, 1, 3, '1-1.5% compressor power reduction per 1°F decrease in condensing temperature', '', '', 0, 0, 0, 20, '2020-12-24 18:08:58', 0),
+(9631, 260, 0, 1, 15, 'Current and proposed discharge pressures', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9632, 260, 0, 1, 15, 'Dry and wet bulb discharge temperatures: current and proposed', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9633, 260, 0, 1, 15, 'Current compressor energy use', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9634, 260, 0, 2, 12, 'Set data loggers to record power consumption over the compressor(s) typical operating range.', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9635, 260, 0, 1, 4, 'Setting condensing pressure too low may cause expansion valves to malfunction ', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9636, 260, 0, 2, 12, 'Use a centrifugal pump to sub-cool liquid refrigerant after the condenser', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9637, 260, 0, 1, 4, 'Condensing temperature may be limited by the use of liquid-injection oil cooling', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9638, 260, 0, 2, 12, 'Switch to thermo-syphon cooling (see Reduce Compressor Power opportunity card for more information)', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9639, 260, 0, 1, 20, '', '/uploads/user_58/9875ac7b565991bba7a34c7c470c3c58.png', 'Pressure Enthalpy Diagram - Effect of Decreasing Discharge Pressure', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9640, 260, 0, 1, 31, '<p>The transition from point 4 to point 1 on the enthalpy pressure diagram represents the pressure and enthalpy changes associated with compression. Decreasing discharge pressure reduces both the pressure change (lift) and enthalpy change (work).</p>', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9641, 260, 0, 0, 11, 'Implement floating suction pressure', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9642, 260, 0, 0, 11, 'Implement floating discharge pressure', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
+(9668, 267, 0, 0, 11, 'Minimize excess refrigeration loads', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9669, 267, 0, 1, 31, '<p>Compressor power can be directly related to refrigeration load by the COP. Reducing excess refrigeration loads lowers compressor power to save energy. </p>', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(9670, 267, 0, 1, 10, 'Excess heat gain is a substantial part of the refrigeration load from:', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9671, 267, 0, 2, 26, 'Lights', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9672, 267, 0, 2, 26, 'Open doors', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9673, 267, 0, 2, 26, 'Poor insulation ', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9674, 267, 0, 2, 26, 'Door weatherstripping ', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9675, 267, 0, 2, 26, 'Defrost', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9676, 267, 0, 2, 26, 'Floor heating', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9677, 267, 0, 1, 15, 'Data to collect', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9678, 267, 0, 2, 26, 'Room dimensions', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9679, 267, 0, 2, 26, 'Insulation thickness', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9680, 267, 0, 2, 26, 'Wall, ceiling and door temperatures', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9681, 267, 0, 2, 26, 'Outside temperature', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9682, 267, 0, 2, 26, 'Door dimensions', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9683, 267, 0, 2, 26, 'Number and type of doors', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9684, 267, 0, 2, 26, 'Time the doors spend open', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9685, 267, 0, 2, 26, 'Number, type, power and operating hours of lights', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9686, 267, 0, 2, 26, 'Lighting level in room', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9687, 267, 0, 1, 12, 'Suggested Actions', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9688, 267, 0, 2, 26, 'Install more efficient lighting', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9689, 267, 0, 2, 26, 'Increase insulation ', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9690, 267, 0, 2, 26, 'Reduce time doors spend open with automatic quick-close doors', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9691, 267, 0, 2, 26, 'Install air or strip curtains', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9692, 267, 0, 0, 11, 'Use thermo-syphon oil cooling', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9693, 267, 0, 1, 31, '<p>Liquid injection oil cooling typically consumes 5% to 15% of the compressor power to recompress injected refrigerant, while thermosyphon cooling does not consume compressor power. Thermosyphon cooling uses a heat exchanger near the compressor to cool the oil, which may require an additional condenser. This will result in increased fan energy, but less than energy used by the compressor.</p><p><br></p>', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9694, 267, 0, 1, 10, 'Liquid-injection cooling is used to cool large compressors', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9695, 267, 0, 1, 3, '5% compressor power reduction from switching to thermo-syphon oil cooling from liquid-injection cooling', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9696, 267, 0, 1, 15, 'Annual compressor energy consumption', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9697, 267, 0, 1, 15, 'Refrigerant mass flow rate', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9698, 267, 0, 2, 26, 'Compressor volumetric flow rate', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9699, 267, 0, 2, 26, 'Intake refrigerant density', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9700, 267, 0, 0, 11, 'Operate multiple compressors economically', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9701, 267, 0, 1, 31, '<p>The use of multiple compressors is needed when a single machine cannot meet the demand of a refrigeration load. Depending on the type and capacity of compressors used and demand variability, different sequencing strategies will be more or less effective. The strategy that achieves the lowest combined power while adequately meeting system demand should be pursued.</p>', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9702, 267, 0, 1, 10, 'Multiple screw compressor(s) operating below 50% of the full-load capacity while sharing a load', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9703, 267, 0, 1, 7, 'Use a variable speed drive to control the output of a trim compressor while running other compressors at full capacity', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9704, 267, 0, 1, 8, 'Screw compressors are best suited for operating near their full-load capacities', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9705, 267, 0, 1, 8, 'Reciprocating compressors have nearly linear unloading characteristics, making them more suitable as trim compressors', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9706, 267, 0, 1, 20, '', 'https://www.researchgate.net/profile/Douglas_Reindl/publication/223757544/figure/fig2/AS:394026189639689@1470954572099/Part-load-performance-of-the-screw-and-reciprocating-compressor.png', 'Part-load performance of the reciprocating and screw compressor', 0, 0, 0, 24, '2020-12-24 18:39:24', 0),
+(9707, 267, 0, 1, 12, 'Obtain unloading curves from the manufacturers of each compressor to determine an optimum load sharing strategy', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9708, 267, 0, 0, 31, '<p><strong class=\"ql-size-large\">Reciprocating Compressors﻿</strong></p>', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9709, 267, 0, 1, 14, 'Are multiple equally sized reciprocating compressors sharing a load?', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9710, 267, 0, 2, 12, 'Split the load to equalize pressure losses in the dry (unloaded) suction line in each compressor to optimize performance', '', '', 0, 0, 0, 24, '2020-12-24 18:39:24', 0),
+(9711, 267, 0, 0, 31, '<p><strong class=\"ql-size-large\">Screw Compressors</strong></p>', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9712, 267, 0, 1, 14, 'Are multiple equally sized screw compressors in use? ', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9713, 267, 0, 2, 12, 'Sequence compressors so that a compressor never operates below 50% of its full-load capacity. ', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9714, 267, 0, 2, 8, 'Depending on the specific unloading characteristics of the compressors in use, there will be a crossover point where operating one or multiple compressors at full-load and one compressor at a partial load will be more economical than sharing the load equally. The crossover point occurs around 66% of the combined capacity of all compressors. ', '', '', 0, 0, 0, 24, '2020-12-24 18:39:24', 0),
+(9715, 267, 0, 1, 14, 'Are two un-equally sized screw compressors in use? ', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9716, 267, 0, 2, 12, 'Operate the larger compressor at full capacity with the smaller at partial load up to a crossover point where it becomes more economical to run the smaller compressor at full-load and the larger at partial load. This crossover point depends on the relative compressor sizes. ', '', '', 0, 0, 0, 24, '2020-12-24 18:39:24', 0),
+(9717, 267, 0, 0, 31, '<p><strong class=\"ql-size-large\">Centrifugal Compressors</strong></p>', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9718, 267, 0, 1, 12, 'Operate multiple centrifugal compressors at equal partial loads to minimize power', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
+(9719, 267, 0, 1, 20, '', '/uploads/user_58/50c4d876db9ee3096978b1db3ac7c1a8.png', 'Partial Load Requirement for Centrifugal Refrigeration Compressors', 0, 0, 0, 20, '2020-12-24 18:39:24', 0),
+(9724, 268, 0, 0, 11, 'Install VFDs on condenser fans', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9725, 268, 0, 1, 31, '<p>Typically condenser fans cycle on and off to maintain condensing temperature resulting in an average part-load power. A variable frequency drive can reduce this part-load power by efficiently slowing fan speed. </p>', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9726, 268, 0, 1, 10, 'Single or two-speed fans demand a lot of power', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9727, 268, 0, 1, 3, 'Ideal fan power is proportional to the cube of fan speed with a VFD', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9728, 268, 0, 1, 15, 'Minimum condensing temperature', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9729, 268, 0, 1, 15, 'Total fan power', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9730, 268, 0, 1, 15, 'Wet and dry bulb temperatures (use bin weather data if temperature cannot be recorded over time)', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9731, 268, 0, 1, 15, 'Condenser MATD (measured with all fans turned on)', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9732, 268, 0, 1, 15, 'Fan use factor (may be available from trend logs on electronic control systems)', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9733, 268, 0, 0, 11, 'Install VFDs on evaporator fans', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9734, 268, 0, 1, 10, 'Single or two-speed fans demand a lot of power', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9735, 268, 0, 1, 3, 'Ideal fan power is proportional to the cube of fan speed with a VFD', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9736, 268, 0, 1, 15, 'Suction pressure', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9737, 268, 0, 1, 15, 'Total fan power', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9738, 268, 0, 1, 15, 'Dry bulb temperature', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9739, 268, 0, 1, 15, 'Evaporator MATD (measured with all fans turned on)', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9740, 268, 0, 1, 15, 'Fan cycling schedule', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
+(9797, 270, 0, 0, 26, 'Approach Temperature', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9798, 270, 0, 1, 31, '<p>Temperature difference between the liquid/gas in the heat exchanger as it exists compared with the surrounding medium that serves as a heat source or sink. </p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9799, 270, 0, 0, 26, 'Condenser', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9800, 270, 0, 1, 31, '<p>Heat exchanger in which refrigerant gives off energy to its surroundings and condenses from a gas to a liquid.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9801, 270, 0, 0, 26, 'Cooling Effect', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9802, 270, 0, 1, 31, '<p>Change in enthalpy in the evaporator as the refrigerant absorbs energy and changes from a liquid to a gas.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9803, 270, 0, 0, 26, 'Discharge, Condensing, High-side Pressure', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9804, 270, 0, 1, 31, '<p>Pressure at the compressor discharge at which the refrigerant condenses. Condensing pressure fluctuates with outside temperatures in air-cooled or evaporative units.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9805, 270, 0, 0, 26, 'Enthalpy', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9806, 270, 0, 1, 31, '<p>Enthalpy is sometimes called total energy because it includes internal energy (U), the work done in a particular process (pV), and change of phase. </p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9807, 270, 0, 0, 26, 'Evaporator', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9808, 270, 0, 1, 31, '<p>Heat exchanger in which the refrigerant absorbs energy from its surroundings and changes from a liquid to a gas.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9809, 270, 0, 0, 26, 'Compressor Work', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9810, 270, 0, 1, 31, '<p>Change in enthalpy as the refrigerant is compressed.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9811, 270, 0, 0, 26, 'Rejected Heat', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9812, 270, 0, 1, 31, '<p>Change in enthalpy as the refrigerant condenses.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9813, 270, 0, 0, 26, 'Latent Heat of Vaporization', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9814, 270, 0, 1, 31, '<p>Change in enthalpy as the refrigerant evaporates from a saturated liquid to a saturated vapor at a specified pressure.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9815, 270, 0, 0, 26, 'Minimum Approach Temperature Difference (MATD)', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9816, 270, 0, 1, 31, '<p>Approach temperature difference across a heat exchanger with the heat transfer coefficient maximized. This can be measured for clean condensers or evaporators with all heat exchange fans running at full power.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9817, 270, 0, 0, 26, 'Minimum Discharge Pressure', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9818, 270, 0, 1, 31, '<p>Air-cooled and evaporative condensers control the maintain minimum discharge pressure by cycling fans or controlling speed. Plant personnel control the minimum pressure set point.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9819, 270, 0, 0, 26, 'Refrigerant', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9820, 270, 0, 1, 31, '<p>The refrigerant is the \"working fluid\" which evaporates to absorb the latent heat of vaporization from its surroundings, thereby cooling its surroundings. To permit refrigerant to operate continuously, the refrigerant vapor is compressed and reconverted to liquid effectively moving energy from where the refrigerant vaporizes to where it condenses. </p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9821, 270, 0, 0, 26, 'Suction, Low-side Pressure', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9822, 270, 0, 1, 31, '<p>Pressure at the inlet to the compressor is also the pressure at which the refrigerant evaporates.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9823, 270, 0, 0, 26, 'Tons', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9824, 270, 0, 1, 31, '<p>A measure of the cooling capacity usually applied to larger cooling systems and heat pumps. One ton of cooling represents the ability to absorb energy at a rate originally determined by melting one short ton (2,000 lbs) of ice in 24 hours. Now, 1 ton = 12,000 Btu/hr = 3.52 kW.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
+(9827, 134, 0, 0, 2, 'More energy intensive than other cooling systems such as cooling towers and outside air economizers', '', '', 0, 0, 0, 0, '2020-12-24 22:09:30', 0),
+(9828, 134, 0, 0, 2, 'Numerous interconnected components contribute to high capital cost and upkeep', '', '', 0, 0, 0, 0, '2020-12-24 22:09:30', 0);
 
 -- --------------------------------------------------------
 
@@ -2705,14 +2875,6 @@ CREATE TABLE `Notifications` (
 --
 
 INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `type`) VALUES
-(29, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
-(30, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
-(31, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
-(32, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
-(33, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
-(34, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
-(35, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
-(36, 5, 52, 'JoeJunker left a comment on the \"Metals Manufacturing\" request', 1),
 (39, 0, 52, 'Silverware has submitted a contributor card that is awaiting review', 6),
 (96, 12, 47, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
 (97, 12, 51, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
@@ -2734,22 +2896,18 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (126, 13, 63, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
 (127, 13, 65, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
 (128, 13, 67, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
-(136, 0, 42, 'martzal has submitted a contributor card that is awaiting review', 6),
 (137, 0, 51, 'martzal has submitted a contributor card that is awaiting review', 6),
 (138, 0, 52, 'martzal has submitted a contributor card that is awaiting review', 6),
 (139, 0, 56, 'martzal has submitted a contributor card that is awaiting review', 6),
-(141, 0, 42, 'peterj has submitted a contributor card that is awaiting review', 6),
 (142, 0, 51, 'peterj has submitted a contributor card that is awaiting review', 6),
 (143, 0, 52, 'peterj has submitted a contributor card that is awaiting review', 6),
 (144, 0, 56, 'peterj has submitted a contributor card that is awaiting review', 6),
-(167, 14, 42, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (168, 14, 47, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (169, 14, 51, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (170, 14, 52, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (171, 14, 54, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (173, 14, 56, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (174, 14, 57, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
-(175, 14, 58, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (176, 14, 59, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (177, 14, 60, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (179, 14, 62, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
@@ -2757,20 +2915,16 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (181, 14, 65, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (182, 14, 67, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (183, 14, 69, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
-(184, 14, 70, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
-(185, 0, 42, 'Chris_Houck has submitted a contributor card that is awaiting review', 6),
 (186, 0, 51, 'Chris_Houck has submitted a contributor card that is awaiting review', 6),
 (187, 0, 52, 'Chris_Houck has submitted a contributor card that is awaiting review', 6),
 (188, 0, 56, 'Chris_Houck has submitted a contributor card that is awaiting review', 6),
 (189, 0, 58, 'Chris_Houck has submitted a contributor card that is awaiting review', 6),
-(190, 15, 42, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (191, 15, 47, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (192, 15, 51, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (193, 15, 52, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (194, 15, 54, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (196, 15, 56, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (197, 15, 57, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
-(198, 15, 58, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (199, 15, 59, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (200, 15, 60, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (202, 15, 62, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
@@ -2778,8 +2932,6 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (204, 15, 65, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (205, 15, 67, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (206, 15, 69, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
-(207, 15, 70, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
-(208, 16, 42, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (209, 16, 47, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (210, 16, 51, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (211, 16, 52, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
@@ -2794,7 +2946,6 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (222, 16, 65, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (223, 16, 67, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (224, 16, 69, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
-(225, 16, 70, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (226, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
 (227, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
 (228, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
@@ -2812,7 +2963,9 @@ CREATE TABLE `Observations` (
   `pageId` int(10) UNSIGNED NOT NULL,
   `userId` int(10) UNSIGNED NOT NULL,
   `type` tinyint(4) NOT NULL,
-  `text` varchar(5000) NOT NULL
+  `text` varchar(5000) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `hidden` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -2844,7 +2997,7 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (45, 2, 'Pumps', 'Pumps provide a typical utility required throughout industry.', 'Centrifugal pumps are the most common type found in industry, followed by positive displacement pumps (used in hydraulics), pneumatic diaphragm pumps, peristaltic pumps, and other specialty pumps. \n\nUnless otherwise noted this section speaks to centrifugal pumps when addressing pump performance and efficiency. Changes in hydraulic energy required (pressure and flow) will translate to any pumping system. \n\nCentrifugal pumps generally come in one of three classes: radial flow, mixed flow, and axial flow.', 'https://live.staticflickr.com/65535/50066427331_ddae8822f2_b.jpg', 0, 55, '2020-07-01 18:11:01', 0),
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
 (47, 2, 'Thermal Systems', 'Many industrial processes require encouraging or resisting thermal energy transfer.', 'Managing the rate at which heat is exchanged in a process can greatly increase energy efficiency. These recommendations reduce the costs associated with generating heat for a process or cooling a system. This can be done through installing insulation or heat exchangers. \n\nInsulation resists heat transfer, requiring less energy input for systems by helping to maintain current temperatures. This is ideal for systems involving plastic/metal extrusions, blow molding, steam, ovens, and more. \n\nHeat exchangers increase heat transfer, allowing process heat to be reused. This solution focus on repurposing heat that may otherwise be lost, such as combustion gas from an oven or steam condensate being returned to the city. This can save energy in processes like pasteurization, aerobic and anaerobic digestion, ovens, and steam.\n\nOther methods exist for thermal systems, such as fan cooling, managing emissivity, and direct impingement.\n\nOften times these recommendations are not mutually exclusive. An oven may benefit from added insulation on the walls while also installing a recuperator to preheat combustion fuel with exhaust gasses. The outside of a shell and tube or concentric tube heat exchanger can be covered in insulation.', 'https://live.staticflickr.com/65535/50069411093_68ab30e548_b.jpg', 0, 57, '2020-07-02 21:31:22', 0),
-(48, 2, 'Refrigeration', 'Refrigeration technology is important in many industrial processes.', 'Refrigeration is the process of absorbing heat from a medium, typically air or water, and rejecting it to the ambient environment by using work. Many opportunities are available that minimize work in industrial refrigeration systems to provide energy and cost savings. Common industrial applications include temperature controlled warehouses, food storage, and water chiller systems. Improving the energy efficiency of such systems not only reduces energy consumption, but can often reduce labor costs and improve productivity, product quality, and system reliability. Refrigeration load, control strategies, set points, maintenance, initial capital investment, and the long term life-cycle costs are all important factors when designing a refrigeration system. Careful consideration of the system as a whole at the onset, and ongoing energy and operational management is vital to getting the best use out of a refrigeration system.', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 58, '2020-07-02 22:10:36', 0),
+(48, 2, 'Refrigeration', 'Vapor compression refrigeration (VCR) technology is important in many industrial processes.', 'Refrigeration is the process of absorbing heat from a medium, such as air and water, and rejecting it to the ambient environment by using work. Many opportunities are available that minimize work in industrial refrigeration systems to provide energy and cost savings. From a high-level perspective, work can be minimized by reducing refrigeration loads, improving system efficiency through optimized set points and control strategies, and mitigating energy loss through increased insulation and heat recovery. \n\nCommon industrial applications include temperature controlled warehouses, food storage, and water chiller systems. Improving the energy efficiency of such systems not only reduces energy consumption, but can often reduce labor costs by lessening maintenance requirements, and improve productivity and product quality through increased system reliability. \n\nAll components of a refrigeration system are interconnected; discharge and suction pressures, condenser and evaporator capacities, and compressor outputs all affect each other and must be considered together as a unit. Refrigeration load, controls, maintenance, initial capital investment, and the long term life-cycle costs are all important factors when designing a refrigeration system. Careful consideration of the system as a whole at the onset, and ongoing energy and operational management is vital to getting the best use out of a refrigeration system.', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 58, '2020-07-02 22:10:36', 0),
 (49, 7, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'They can also be based on the rate of use, when use occurs, how the commodity is obtained, or how the commodity is measured. Understanding utility bills is essential to identifying potential areas of resource savings and implementing solutions.', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 1, 54, '2020-07-02 22:40:27', 0),
 (50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 51, '2020-07-07 20:46:38', 0),
 (54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, 51, '2020-08-05 19:54:53', 1),
@@ -2917,7 +3070,9 @@ INSERT INTO `Questions` (`questionId`, `pageId`, `text`, `type`, `priority`, `im
 (37, 45, 'True or False: all of the following are signs of cavitation: capacity loss, inability to build the same head, reduced efficiency, excessive noise and vibration, frequent overhauling.', 1, 0, '', '2020-12-21 22:47:43', 1),
 (38, 48, 'The air temperature at a specific time, shielded from moisture is known as the ______ temperature.', 2, 0, '', '2020-12-21 22:47:43', 1),
 (39, 48, 'The temperature air would have if it were cooled to saturation by the evaporation of water is known as the ______ temperature.', 2, 0, '', '2020-12-21 22:47:43', 1),
-(40, 48, 'Name the four primary components of a refrigeration system.', 3, 0, '', '2020-12-21 22:47:43', 1);
+(40, 48, 'Name the four primary components of a refrigeration system.', 3, 0, '', '2020-12-21 22:47:43', 1),
+(41, 62, 'Which of these is not a bad practice for creating passwords?', 1, 0, '', '2020-12-22 08:15:29', 1),
+(42, 48, 'At which stage is the refrigeration load applied? ', 1, 0, '', '2020-12-22 22:21:30', 0);
 
 -- --------------------------------------------------------
 
@@ -3148,10 +3303,6 @@ INSERT INTO `Scores` (`scoreId`, `pageId`, `questionId`, `userId`, `text`, `corr
 (79, 45, 30, 58, 'hydraulic', 1),
 (80, 45, 30, 58, 'brake', 1),
 (81, 45, 31, 58, 'cubic', 1),
-(106, 62, 1, 42, 'social engineering', 1),
-(107, 62, 2, 42, 'fsdfsdf', 0),
-(108, 62, 3, 42, 'click', 1),
-(109, 62, 3, 42, 'type', 1),
 (136, 2, 4, 42, '85%-90%', 1),
 (137, 2, 5, 42, '1', 1),
 (138, 2, 6, 42, 'true', 1),
@@ -3180,7 +3331,12 @@ INSERT INTO `Scores` (`scoreId`, `pageId`, `questionId`, `userId`, `text`, `corr
 (167, 46, 20, 61, 'weekly to monthly', 1),
 (168, 46, 21, 61, 'a, b, c, d', 0),
 (169, 46, 34, 61, '$50,000', 1),
-(170, 46, 35, 61, '', 0);
+(170, 46, 35, 61, '', 0),
+(171, 62, 1, 42, 'social engineering', 1),
+(172, 62, 2, 42, 'hacker', 1),
+(173, 62, 3, 42, 'mouse', 1),
+(174, 62, 3, 42, 'keyboard', 1),
+(175, 62, 41, 42, 'using passphrase (a sequence of words strung together)', 1);
 
 -- --------------------------------------------------------
 
@@ -3216,7 +3372,8 @@ INSERT INTO `Sources` (`sourceId`, `pageId`, `text`) VALUES
 (19, 45, '<p>Demo</p>'),
 (20, 48, '<p>M.R. Muller, M. Simek, J. Mak, B. Mitrovic. <em>Essentials of Industrial Assessments - A Training Manual v.3.0 - Ch 7 Thermal Applications, </em>(2015). Accessed: Dec. 14, 2020. [Online]. Available: https://iac.university/technicalDocs/industr/ch7.pdf</p>'),
 (21, 48, '<p>Cascade Energy Engineering, Inc. <em>Industrial Refrigeration - Best Practices Guide</em>, 3 ed. (2010). Accessed: Dec. 14, 2020. [Online]. Available: https://cascadeenergy.com/wp-content/uploads/2013/10/industrial-refridgeration-best-practices-guide.pdf</p>'),
-(22, 47, '<p>M.R. Muller, M. Simek, J. Mak, B. Mitrovic. <em>Essentials of Industrial Assessments - A Training Manual v.3.0 - Ch 7 Thermal Applications, </em>(2015). Accessed: Dec. 14, 2020. [Online]. Available: https://iac.university/technicalDocs/industr/ch7.pdf</p>');
+(22, 47, '<p>M.R. Muller, M. Simek, J. Mak, B. Mitrovic. <em>Essentials of Industrial Assessments - A Training Manual v.3.0 - Ch 7 Thermal Applications, </em>(2015). Accessed: Dec. 14, 2020. [Online]. Available: https://iac.university/technicalDocs/industr/ch7.pdf</p>'),
+(24, 48, '<p>K. A. Manske, D. T. Reindl, S. A. Klein, \"Load Sharing Strategies in Multiple Compressor Refrigeration Systems,\" International Refrigeration and Air Conditioning Conference, 2000. Accessed: Dec. 23, 2020. [Online]. Available: https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.824.8925&amp;rep=rep1&amp;type=pdf</p>');
 
 -- --------------------------------------------------------
 
@@ -3262,6 +3419,7 @@ CREATE TABLE `Temp_Cards` (
 
 INSERT INTO `Temp_Cards` (`tempCardId`, `tempCardType`, `tempTitle`, `tempOrderIndex`, `tempUserId`, `tempCreated`) VALUES
 (13, 0, 'Cons', 9, 58, '2020-12-16 23:55:51'),
+(29, 0, 'Additional In Depth Site Resources', 19, 58, '2020-12-23 19:54:32'),
 (86, 0, 'Reduce Air Compressor Run Time', 86, 61, '2020-12-18 17:30:08'),
 (87, 0, 'Other Opportunities', 87, 58, '2020-12-14 15:57:53'),
 (90, 0, 'Caveats', 90, 61, '2020-12-18 18:32:44'),
@@ -3363,6 +3521,13 @@ CREATE TABLE `Temp_Questions` (
   `tempImageUrl` varchar(5000) NOT NULL,
   `tempCreated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Temp_Questions`
+--
+
+INSERT INTO `Temp_Questions` (`tempQuestionId`, `tempText`, `tempType`, `tempPriority`, `tempImageUrl`, `tempCreated`) VALUES
+(40, 'Name the four primary components of a mechanical compression refrigeration system.', 3, 0, '', '2020-12-22 19:45:58');
 
 -- --------------------------------------------------------
 
@@ -3671,7 +3836,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Answers`
 --
 ALTER TABLE `Answers`
-  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=624;
+  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=644;
 
 --
 -- AUTO_INCREMENT for table `Banners`
@@ -3683,7 +3848,7 @@ ALTER TABLE `Banners`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=266;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=271;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -3743,7 +3908,7 @@ ALTER TABLE `Info`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8240;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9829;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
@@ -3767,7 +3932,7 @@ ALTER TABLE `Pages`
 -- AUTO_INCREMENT for table `Questions`
 --
 ALTER TABLE `Questions`
-  MODIFY `questionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `questionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `Quick_Titles`
@@ -3797,13 +3962,13 @@ ALTER TABLE `Request_Objects`
 -- AUTO_INCREMENT for table `Scores`
 --
 ALTER TABLE `Scores`
-  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
+  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
 
 --
 -- AUTO_INCREMENT for table `Sources`
 --
 ALTER TABLE `Sources`
-  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`
