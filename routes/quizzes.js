@@ -26,7 +26,7 @@ const {
   createQuiz,
   updateQuiz,
   getObservations,
-  deleteObservation,
+  hideObservation,
   deleteQuestion,
   deleteQuestionChanges,
   publishQuestion,
@@ -369,12 +369,12 @@ app.post("/:pageId/observations", requireAuth, postObservationVal.validation, as
 });
 
 
-// delete user quiz feedback
-app.delete("/observations/:observationId", requireAuth, deleteObservationVal.validation, async (req, res) => {
+// hide user quiz feedback
+app.patch("/observations/:observationId/hide", requireAuth, deleteObservationVal.validation, async (req, res) => {
 
   try {
 
-    console.log("Delete observation");
+    console.log("Hide observation");
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -387,12 +387,12 @@ app.delete("/observations/:observationId", requireAuth, deleteObservationVal.val
 
     // make sure the user is allowed to perform this action
     if (!await roleCheck(5, req.auth.userId)) {
-      res.status(401).send({error: "Unauthorized user attempting to delete an observation."});
+      res.status(401).send({error: "Unauthorized user attempting to hide an observation."});
       return;
     }
 
-    // delete the observation
-    const results = await deleteObservation(observationId);
+    // hide the observation
+    const results = await hideObservation(observationId);
 
     if (!results.error) {
       res.status(201).send(results);

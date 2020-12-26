@@ -504,8 +504,8 @@ async function submitObservations(userId, pageId, observations) {
 exports.submitObservations = submitObservations;
 
 
-// delete an observation
-async function deleteObservation(observationId) {
+// hide an observation
+async function hideObservation(observationId) {
 
   try {
 
@@ -519,24 +519,25 @@ async function deleteObservation(observationId) {
       return {error: 1};
     }
 
-    // delete the observation
-    sql = "DELETE FROM Observations " +
+    // hide the observation
+    sql = "UPDATE Observations " +
+    "SET hidden = 1 " +
     "WHERE observationId = ?;";
     await pool.query(sql, observationId);
 
     const finalResults = {
-      observationsDeleted: 1
+      observationsHidden: 1
     };
 
     return finalResults;
 
   } catch (err) {
-    console.error("Error deleting observation");
+    console.error("Error hiding observation");
     throw Error(err);
   }
 
 }
-exports.deleteObservation = deleteObservation;
+exports.hideObservation = hideObservation;
 
 
 // delete a question
