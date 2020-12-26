@@ -31,7 +31,7 @@ function AddReviewObject(props) {
         }
       }
 
-      // add if the object to the request if it is new
+      // add the object to the request if it is new
       if (newObject) {
         collection.objects.push(object);
         window.localStorage.setItem("publishRequestObjects", JSON.stringify(collection));
@@ -55,6 +55,9 @@ function AddReviewObject(props) {
 
       collection.objects.push(object);
       window.localStorage.setItem("publishRequestObjects", JSON.stringify(collection));
+
+      setAddToast(true);
+      setDupToast(false);
     }
   }
 
