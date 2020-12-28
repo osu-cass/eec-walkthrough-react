@@ -1,5 +1,15 @@
-html, body, #root, main {
-  min-height: 100% !important;
+html, body {
+  height: 100% !important;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+  min-height: 100vh;
 }
 
 .ql-size-small {
