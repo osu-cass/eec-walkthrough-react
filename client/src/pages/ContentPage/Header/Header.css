@@ -18,9 +18,8 @@ i:hover {
 }
 
 .header-container {
-  z-index: 10 !important;
-  /* position: sticky; */
-  /* top: 0; */
+  position: sticky;
+  top: 0;
 }
 
 /* lines are 4% darker than base color */

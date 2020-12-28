@@ -10,7 +10,7 @@ function QuizButton(props) {
 
       {/* Quiz header */}
       <div className={`d-flex reference-header-bar justify-content-between sticky-top
-        my-3 p-3 text-dark-50 rounded shadow-sm border`} style={{top: "1em", zIndex: "998"}}
+        my-3 p-3 text-dark-50 rounded shadow-sm border`} style={{top: "1em", zIndex: "50"}}
       >
         <div className="row w-100 ml-0">
           <h4 className="flex-grow-1 font-weight-bold my-0 mx-0">
@@ -64,7 +64,7 @@ function QuizButton(props) {
 
           {/* Quiz header */}
           <div className={`d-flex reference-header-bar justify-content-between sticky-top
-            my-3 p-3 text-dark-50 rounded shadow-sm border`} style={{top: "1em", zIndex: "998"}}
+            my-3 p-3 text-dark-50 rounded shadow-sm border`} style={{top: "1em", zIndex: "50"}}
           >
             <div className="row w-100 ml-0">
               <h4 className="flex-grow-1 font-weight-bold my-0 mx-0">
