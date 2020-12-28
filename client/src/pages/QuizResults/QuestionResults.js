@@ -35,6 +35,7 @@ function QuestionResults(props) {
           {props.scores.map((score) =>
             <div className="m-2 d-inline-block" key={score.scoreId}>
               <span className={`quiz-result-color-${score.correct} p-2`}>
+                {score.invalid ? "NOT " : ""}
                 {score.text}
                 {score.correct ? (
                   <i className="fas fa-fw fa-check fa-sm ml-1" />

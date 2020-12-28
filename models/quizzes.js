@@ -187,6 +187,10 @@ async function submitQuiz(userId, scores, pageId) {
         return {error: 1};
       }
 
+      if (typeof scores[i].invalid !== "number") {
+        return {error: 1};
+      }
+
       if (typeof scores[i].correct !== "number") {
         return {error: 1};
       }
@@ -218,9 +222,9 @@ async function submitQuiz(userId, scores, pageId) {
 
     // create all quiz scores for the current user
     for (let i = 0; i < scores.length; i++) {
-      const sql = "INSERT INTO Scores (questionId, userId, text, correct, pageId) " +
-      "VALUES (?, ?, ?, ?, ?);";
-      await pool.query(sql, [scores[i].questionId, userId, scores[i].text.trim().toLowerCase(), scores[i].correct, pageId]);
+      const sql = "INSERT INTO Scores (questionId, userId, text, invalid, correct, pageId) " +
+      "VALUES (?, ?, ?, ?, ?, ?);";
+      await pool.query(sql, [scores[i].questionId, userId, scores[i].text.trim().toLowerCase(), scores[i].invalid, scores[i].correct, pageId]);
     }
 
     const finalResults = {
@@ -275,6 +279,10 @@ async function createQuiz(text, type, imageUrl, answers, pageId) {
       return {error: 1};
     }
 
+    if (type === 4 && correctCount < 1) {
+      return {error: 1};
+    }
+
     // make sure the page exists
     let sql = "SELECT * " +
     "FROM Pages " +
@@ -294,7 +302,7 @@ async function createQuiz(text, type, imageUrl, answers, pageId) {
     // create all of the new answers
     for (let i = 0; i < answers.length; i++) {
       let newCorrect = answers[i].correct;
-      if (type !== 1) {
+      if (type !== 1 && type !== 4) {
         newCorrect = 1;
       }
       const sql = "INSERT INTO Answers (questionId, text, correct, groupId) " +
@@ -317,7 +325,7 @@ async function createQuiz(text, type, imageUrl, answers, pageId) {
 exports.createQuiz = createQuiz;
 
 
-// create a quiz question
+// update a quiz question
 async function updateQuiz(text, type, imageUrl, answers, questionId) {
 
   try {
@@ -351,6 +359,10 @@ async function updateQuiz(text, type, imageUrl, answers, questionId) {
     }
 
     if (type === 1 && correctCount !== 1) {
+      return {error: 1};
+    }
+
+    if (type === 4 && correctCount < 1) {
       return {error: 1};
     }
 
@@ -391,7 +403,7 @@ async function updateQuiz(text, type, imageUrl, answers, questionId) {
     // create all of the new answers
     for (let i = 0; i < answers.length; i++) {
       let newCorrect = answers[i].correct;
-      if (type !== 1) {
+      if (type !== 1 && type !== 4) {
         newCorrect = 1;
       }
       const sql = "INSERT INTO Answers (questionId, text, correct, groupId) " +

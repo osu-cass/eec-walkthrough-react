@@ -269,6 +269,17 @@ function QuestionEdit(props) {
         setErrorMessage(`There must be exactly one correct answer.`);
         return false;
       }
+    } else if (type === 4) {
+      let correctCount = 0;
+      for (let j = 0; j < answers.length; j++) {
+        if (answers[j].correct) {
+          correctCount++;
+        }
+      }
+      if (correctCount < 1) {
+        setErrorMessage(`There must be at least one correct answer.`);
+        return false;
+      }
     }
     for (let j = 0; j < answers.length; j++) {
       if (!answers[j].text.length) {
@@ -666,6 +677,7 @@ function QuestionEdit(props) {
               onChange={(e) => setType(parseInt(e.target.value, 10))}
             >
               <option value="1">{"Multiple Choice"}</option>
+              <option value="4">{"Select All Correct"}</option>
               <option value="2">{"Single Text Field"}</option>
               <option value="3">{"Multiple Text Fields"}</option>
             </select>
@@ -785,8 +797,8 @@ function QuestionEdit(props) {
                       onChange={(e) => changeAnswer(answer.answerId, e.target.value)}
                     />
 
-                    {/* Multiple choice has correct and incorrect answers */}
-                    {type === 1 ? (
+                    {/* 'Multiple choice' and 'Select All Correct' have correct and incorrect answers */}
+                    {type === 1 || type === 4 ? (
                       <Fragment>
                         <input
                           id={`check-${props.questionKey}-${answer.answerId}`}
