@@ -842,6 +842,7 @@ function ContentPage(props) {
               cardTitles={cardTitles}
               onPageMode={mode => setMode(mode)}
               moved={moved}
+              index={i}
             />
 
             {/* For auto headers on the "how to" page, create special cards */}
