@@ -155,6 +155,21 @@ function Quiz() {
         }
       }
 
+      // select all correct
+      if (questions[i].type === 4 && questions[i].answers.length) {
+        let selectedText = "";
+        for (let j = 0; j < questions[i].answers.length; j++) {
+          const selector = document.querySelector(`input[name="question-${questions[i].questionId}-${j}"]:checked`);
+          if (selector) {
+            if (selectedText.length) {
+              selectedText += `-*%,%*-${selector.value}`;
+            } else {
+              selectedText = selector.value;
+            }
+          }
+        }
+        answers.push(selectedText);
+      }
     }
 
     // check to make sure all questions have a valid answer
@@ -188,6 +203,7 @@ function Quiz() {
       const newScore = {
         questionId: 0,
         text: "",
+        invalid: 0,
         correct: 0
       };
 
@@ -264,7 +280,54 @@ function Quiz() {
           scores.push(copyScore);
           answerCount++;
         }
+      }
 
+      // select all correct
+      if (questions[i].type === 4) {
+        // save the score
+        const allSelections = answers[answerCount].split("-*%,%*-");
+        console.log("allSelections", allSelections);
+        for (let j = 0; j < questions[i].answers.length; j++) {
+
+          // do a different check based on if the current answer is correct or not
+          let isCorrect;
+          let invalid = 1;
+          if (questions[i].answers[j].correct) {
+
+            isCorrect = 0;
+            for (let k = 0; k < allSelections.length; k++) {
+              if (compareAnswers(allSelections[k], questions[i].answers[j].text)) {
+                console.log("***MATCH", allSelections[k], "vs", questions[i].answers[j].text);
+                isCorrect = 1;
+                invalid = 0;
+                break;
+              }
+            }
+
+
+          } else {
+            isCorrect = 1;
+            for (let k = 0; k < allSelections.length; k++) {
+              if (compareAnswers(allSelections[k], questions[i].answers[j].text)) {
+                console.log("***MATCH", allSelections[k], "vs", questions[i].answers[j].text);
+                isCorrect = 0;
+                invalid = 0;
+                break;
+              }
+            }
+
+          }
+
+          console.log("SUBMIT", "text:", questions[i].answers[j].text, "correct:", isCorrect);
+          const copyScore = Object.assign({}, newScore);
+          copyScore.questionId = questions[i].questionId;
+          copyScore.text = questions[i].answers[j].text;
+          copyScore.invalid = invalid;
+          copyScore.correct = isCorrect;
+          scores.push(copyScore);
+          answerCount++;
+
+        }
       }
     }
 

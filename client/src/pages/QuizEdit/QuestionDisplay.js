@@ -20,6 +20,8 @@ function QuestionDisplay(props) {
       return "Single Text Field";
     } else if (type === 3) {
       return "Multiple Text Fields";
+    } else if (type === 4) {
+      return "Select All Correct";
     } else {
       return "Unknown";
     }
@@ -133,6 +135,21 @@ function QuestionDisplay(props) {
               {props.tempAnswers.map((answer) =>
                 <span className="mb-4" key={answer.answerId}>
                   {answer.text}
+
+                  {/* Display icons that show the status of the answer */}
+                  {(!tempQuestion() && (props.type === 1 || props.type === 4))
+                  || (tempQuestion() && (props.tempType === 1 || props.tempType === 4)) ? (
+                      <Fragment>
+                        {answer.correct ? (
+                          <i className={`fas fa-fw fa-check ml-2`} />
+                        ) : (
+                          <i className={`fas fa-fw fa-times ml-2`} />
+                        )}
+                      </Fragment>
+                    ) : (
+                      null
+                    )}
+
                 </span>
               )}
             </div>
@@ -164,6 +181,20 @@ function QuestionDisplay(props) {
               {props.answers.map((answer) =>
                 <span className="mb-4" key={answer.answerId}>
                   {answer.text}
+
+                  {/* Display icons that show the status of the answer */}
+                  {props.type === 1 || props.type === 4 ? (
+                    <Fragment>
+                      {answer.correct ? (
+                        <i className={`fas fa-fw fa-check ml-2`} />
+                      ) : (
+                        <i className={`fas fa-fw fa-times ml-2`} />
+                      )}
+                    </Fragment>
+                  ) : (
+                    null
+                  )}
+
                 </span>
               )}
             </div>

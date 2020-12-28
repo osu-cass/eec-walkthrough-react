@@ -195,7 +195,7 @@ function QuizResults() {
         className="prompt-container mb-3 px-4 py-5 bg-white card rounded shadow-sm"
       >
         <h5 className="text-center">
-          Out of {correct + incorrect} questions, you got {correct} questions correct
+          Out of {correct + incorrect} possible answers, you got {correct} correct
         </h5>
         <h2 className="font-weight-bold text-center">
           Overall you got {Math.round(correct / (correct + incorrect) * 100)}% of questions correct
