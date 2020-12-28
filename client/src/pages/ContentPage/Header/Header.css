@@ -2,6 +2,10 @@ i:hover {
   cursor: pointer;
 }
 
+.header-anchor {
+  font-size: 0;
+}
+
 .filter-col {
   white-space: nowrap;
   overflow: hidden;

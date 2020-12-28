@@ -8,6 +8,13 @@ function References(props) {
 
   return (props.mode === 0 && props.sources.length) || (props.mode === 1 && props.tempSources.length) ? (
     <div className="citation-reference-container">
+
+      {/* Anchor for jumping to the header */}
+      <span
+        id={`header-references`}
+        className="header-anchor"
+      />
+
       <div className={`d-flex reference-header-bar justify-content-between sticky-top
         my-3 p-3 text-dark-50 rounded shadow-sm border`} style={{top: "1em", zIndex: "50"}}
       >

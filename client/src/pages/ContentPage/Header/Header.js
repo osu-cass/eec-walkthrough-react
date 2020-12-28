@@ -538,13 +538,19 @@ function Header(props) {
     null
   ) : (
     <Fragment>
+      {/* Anchor for jumping to the header */}
+      <span
+        id={`header-${props.header.headerId}`}
+        className="header-anchor"
+      />
 
       {/* Container that holds the header title */}
-      <div className={`header-container d-flex
+      <div
+        className={`header-container d-flex
         ${props.header.approved && (!props.header.tempHeaderId || !viewUnpublished()) ? "header-approved" : "header-review"}
         ${isInternal() ? "header-internal" : ""}
         header-bar header-bar-content justify-content-between my-3 py-3 text-dark-50 rounded shadow-sm border`}
-      style={{top: "1em", zIndex: (500 - props.index)}}
+        style={{top: "1em", zIndex: (500)}}
       >
         <div className="row w-100 ml-0">
           <div className="col-auto align-self-center">

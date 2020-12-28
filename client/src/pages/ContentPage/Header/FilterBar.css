@@ -25,6 +25,7 @@ i[title] {
 
 .primary-filter-bar-container {
   position: relative;
+  z-index: 1000 !important;
 }
 
 .dropdown-filter-icon-container {
