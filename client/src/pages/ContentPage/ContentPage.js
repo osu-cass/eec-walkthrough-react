@@ -17,8 +17,8 @@ import Error500 from "../500/Error500";
 import NonPublicPage from "../NonPublicPage/NonPublicPage";
 import HowToCards from "./Card/HowToCards";
 import {useParams} from "react-router-dom";
-import "./ContentPage.css";
 import QuizButton from "./Various/QuizButton";
+import "./ContentPage.css";
 
 // An encyclopedia style page describing some topic
 function ContentPage(props) {
@@ -806,6 +806,8 @@ function ContentPage(props) {
           moved={moved}
           onNewView={e => handleNewView(e)}
           headers={headers}
+          quiz={(mode === 0 && pageInfo.quiz) || mode === 1}
+          references={(mode === 0 && references.length) || (mode === 1 && tempReferences.length)}
         />
 
         {/* Button for creating new headers */}
