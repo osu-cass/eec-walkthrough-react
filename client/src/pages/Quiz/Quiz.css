@@ -16,14 +16,6 @@ body {
   }
 }
 
-.disclaimer-text {
-  white-space: pre-line;
-}
-
-.disclaimer-page-container {
-  padding-bottom: 8em;
-}
-
 .answers-block {
   display: grid;
   grid-template-columns: 1fr 1fr;
