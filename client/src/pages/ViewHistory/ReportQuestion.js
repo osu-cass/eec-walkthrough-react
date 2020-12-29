@@ -1,9 +1,11 @@
 import React, {Fragment, useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
+import Image from "../../components/General/Image";
 import HighlightText from "../ContentPage/Various/HighlightText";
 import SubmitComment from "../RequestPage/SubmitComment";
 import RequestComment from "../RequestPage/RequestComment";
+import ReportAnswer from "./ReportAnswer";
 import "./ReportQuestion.css";
 
 // Question history for a single question
@@ -50,13 +52,12 @@ function ReportQuestion(props) {
               <h2 className="font-weight-bold">
                 Question Type
               </h2>
-              <HighlightText
-                newMode={false}
-                newText={questionType(props.question.type)}
-                oldText={questionType(props.question.oldVersion.type)}
-                elementType={2}
-                newId={props.newId}
-              />
+              <span
+                className={`${props.question.type !== props.question.oldVersion.type ? "highlight-old-content" : ""} text-break`}
+                style={{fontSize: "x-large"}}
+              >
+                {questionType(props.question.oldVersion.type)}
+              </span>
               <h2 className="mt-3 font-weight-bold">
                 Question Text
               </h2>
@@ -67,9 +68,41 @@ function ReportQuestion(props) {
                 elementType={2}
                 newId={props.newId}
               />
+              {props.question.oldVersion.imageUrl.length ? (
+                <Fragment>
+                  <br />
+                  {props.question.imageUrl !== props.question.oldVersion.imageUrl ? (
+                    <div className="p-4 d-inline-block old-review-image-container">
+                      <Image url={props.question.oldVersion.imageUrl}
+                        title="question image"
+                        thumbnail={false}
+                        header={true}
+                      />
+                    </div>
+                  ) : (
+                    <div className="p-4 d-inline-block">
+                      <Image url={props.question.oldVersion.imageUrl}
+                        title="question image"
+                        thumbnail={false}
+                        header={true}
+                      />
+                    </div>
+                  )}
+                </Fragment>
+              ) : (
+                null
+              )}
               <h2 className="mt-3 font-weight-bold">
                 Answers
               </h2>
+              <ReportAnswer
+                newMode={false}
+                newAnswers={props.question.answers}
+                oldAnswers={props.question.oldVersion.answers}
+                questionTypeNew={props.question.type}
+                questionTypeOld={props.question.oldVersion.type}
+                newId={props.newId}
+              />
 
             </div>
           </div>
@@ -143,30 +176,104 @@ function ReportQuestion(props) {
           <div className="m-3">
 
             {props.question.oldVersion ? (
+
               <Fragment>
                 <h2 className="font-weight-bold">
                   Question Type
                 </h2>
-                <HighlightText
-                  newMode={true}
-                  newText={questionType(props.question.type)}
-                  oldText={questionType(props.question.oldVersion.type)}
-                  elementType={2}
-                  newId={props.newId}
-                />
+                <span
+                  className={`${props.question.type !== props.question.oldVersion.type ? "highlight-new-content" : ""} text-break`}
+                  style={{fontSize: "x-large"}}
+                >
+                  {questionType(props.question.type)}
+                </span>
                 <h2 className="mt-3 font-weight-bold">
                   Question Text
                 </h2>
                 <HighlightText
-                  newMode={false}
+                  newMode={true}
                   newText={props.question.text}
                   oldText={props.question.oldVersion.text}
                   elementType={2}
                   newId={props.newId}
                 />
+                {props.question.imageUrl.length ? (
+                  <Fragment>
+                    <br />
+                    {props.question.imageUrl !== props.question.oldVersion.imageUrl ? (
+                      <div className="p-4 d-inline-block new-review-image-container">
+                        <Image url={props.question.imageUrl}
+                          title="question image"
+                          thumbnail={false}
+                          header={true}
+                        />
+                      </div>
+                    ) : (
+                      <div className="p-4 d-inline-block">
+                        <Image url={props.question.imageUrl}
+                          title="question image"
+                          thumbnail={false}
+                          header={true}
+                        />
+                      </div>
+                    )}
+                  </Fragment>
+                ) : (
+                  null
+                )}
+                <h2 className="mt-3 font-weight-bold">
+                  Answers
+                </h2>
+                <ReportAnswer
+                  newMode={true}
+                  newAnswers={props.question.answers}
+                  oldAnswers={props.question.oldVersion.answers}
+                  questionTypeNew={props.question.type}
+                  questionTypeOld={props.question.oldVersion.type}
+                  newId={props.newId}
+                />
               </Fragment>
+
             ) : (
-              <div className="col" />
+              <Fragment>
+                <h2 className="font-weight-bold">
+                  Question Type
+                </h2>
+                <span className="highlight-new-content text-break" style={{fontSize: "x-large"}}>
+                  {questionType(props.question.type)}
+                </span>
+                <h2 className="mt-3 font-weight-bold">
+                  Question Text
+                </h2>
+                <span className="highlight-new-content text-break" style={{fontSize: "x-large"}}>
+                  {props.question.text}
+                </span>
+                {props.question.imageUrl.length ? (
+                  <Fragment>
+                    <br />
+                    <div className="p-4 d-inline-block new-review-image-container">
+                      <Image url={props.question.imageUrl}
+                        title="question image"
+                        thumbnail={false}
+                        header={true}
+                      />
+                    </div>
+                  </Fragment>
+                ) : (
+                  null
+                )}
+                <h2 className="mt-3 font-weight-bold">
+                  Answers
+                </h2>
+                <ReportAnswer
+                  newMode={true}
+                  newAnswers={props.question.answers}
+                  oldAnswers={[]}
+                  questionTypeNew={props.question.type}
+                  questionTypeOld={0}
+                  newId={props.newId}
+                />
+              </Fragment>
             )}
 
           </div>
@@ -175,43 +282,7 @@ function ReportQuestion(props) {
 
     </div>
   ) : (
-    <div className="text-left mx-2">
-      <div className={`version-container p-2 m-3 border border-dark rounded text-wrap`}>
-        <h4 className="report-card-special-text pl-3 pt-4">Question</h4>
-        <h5 className="report-card-special-text pl-3">{parentsName} &rarr; Question</h5>
-        <span className="report-card-special-text pl-3">Updated {formatTime(props.question.created)}</span>
-        <div className="m-3">
-
-          {props.question.oldVersion ? (
-            <Fragment>
-              <h2 className="font-weight-bold">
-                Question Type
-              </h2>
-              <HighlightText
-                newMode={true}
-                newText={questionType(props.question.type)}
-                oldText={questionType(props.question.oldVersion.type)}
-                elementType={2}
-                newId={props.newId}
-              />
-              <h2 className="mt-3 font-weight-bold">
-                Question Text
-              </h2>
-              <HighlightText
-                newMode={false}
-                newText={props.question.text}
-                oldText={props.question.oldVersion.text}
-                elementType={2}
-                newId={props.newId}
-              />
-            </Fragment>
-          ) : (
-            <div className="col" />
-          )}
-
-        </div>
-      </div>
-    </div>
+    {/* Support for listings without removal not yet implemented */}
   );
 
 }
