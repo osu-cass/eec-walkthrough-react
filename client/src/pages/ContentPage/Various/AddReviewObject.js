@@ -99,6 +99,15 @@ function AddReviewObject(props) {
         null
       )}
 
+      {props.objectType === 4 ? (
+        <Fragment>
+          <Toast show={addToast} text="Question Added" handleClose={() => closeToast(1)} />
+          <Toast show={dupToast} text="Question Already Added" handleClose={() => closeToast(2)} />
+        </Fragment>
+      ) : (
+        null
+      )}
+
       <div className="text-center my-1 ml-auto">
         <Button variant="info" onClick={() => handleAddObjectRequest()}>
           <span className="text-white">Add to Publish Request</span>

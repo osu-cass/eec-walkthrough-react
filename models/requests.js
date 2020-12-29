@@ -5,6 +5,7 @@ const {pool} = require("../services/database/mysqlPool");
 const {publishPage} = require("./pages");
 const {publishHeader} = require("./headers");
 const {publishCard} = require("./cards");
+const {publishQuestion} = require("./quizzes");
 
 
 // return a list of all requests
@@ -410,6 +411,101 @@ async function getRequest(requestId, userId) {
         }
       }
 
+      // get a question object
+      if (objects[i].objectType === 4) {
+        sql = "SELECT Questions.*, Pages.pageId, Pages.name AS pageName, " +
+        "Pages.pageType, Categories.pluralName AS categoryName " +
+        "FROM Questions " +
+        "LEFT JOIN Pages on Pages.pageId = Questions.pageId " +
+        "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+        "WHERE Questions.approved = 0 " +
+        "AND questionId = ?;";
+        results = await pool.query(sql, objects[i].objectId);
+
+        if (!results[0].length) {
+
+          sql = "SELECT tempQuestionId AS questionId, tempText AS text, tempType AS type, " +
+          "tempPriority AS priority, tempImageUrl AS imageUrl, tempCreated AS created, " +
+          "Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
+          "FROM Temp_Questions " +
+          "LEFT JOIN Questions on Questions.questionId = Temp_Questions.tempQuestionId " +
+          "LEFT JOIN Pages on Pages.pageId = Questions.pageId " +
+          "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+          "WHERE tempQuestionId = ?;";
+          results = await pool.query(sql, objects[i].objectId);
+
+          // get the answers, see if there is an old version, and save the object
+          if (results[0].length) {
+
+            const question = results[0][0];
+            question.objectType = 4;
+
+            // get all of the answers
+            sql = "SELECT DISTINCT * " +
+            "FROM Answers " +
+            "WHERE questionId = ? " +
+            "AND approved = 0 " +
+            "ORDER BY answerId ASC";
+            results = await pool.query(sql, objects[i].objectId);
+
+            if (results[0].length) {
+              question.answers = results[0];
+            }
+
+            // see if there is an old version
+            sql = "SELECT Questions.*, Pages.pageId, Pages.name AS pageName, " +
+            "Pages.pageType, Categories.pluralName AS categoryName " +
+            "FROM Questions " +
+            "LEFT JOIN Pages on Pages.pageId = Questions.pageId " +
+            "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+            "WHERE Questions.approved = 1 " +
+            "AND questionId = ?;";
+            results = await pool.query(sql, objects[i].objectId);
+
+            if (results[0].length) {
+              question.oldVersion = results[0][0];
+
+              // get all of the old version answers
+              sql = "SELECT DISTINCT * " +
+              "FROM Answers " +
+              "WHERE questionId = ? " +
+              "AND approved = 1 " +
+              "ORDER BY answerId ASC";
+              results = await pool.query(sql, [objects[i].objectId]);
+
+              if (results[0].length) {
+                question.oldVersion.answers = results[0];
+              }
+            }
+
+            fullObjects.push(question);
+          }
+
+        } else {
+
+          // get the items and save the object
+          if (results[0].length) {
+
+            const question = results[0][0];
+            question.objectType = 4;
+
+            // get all of the answers
+            sql = "SELECT DISTINCT * " +
+            "FROM Answers " +
+            "WHERE questionId = ? " +
+            "AND approved = 0 " +
+            "ORDER BY answerId ASC";
+            results = await pool.query(sql, objects[i].objectId);
+
+            if (results[0].length) {
+              question.answers = results[0];
+              fullObjects.push(question);
+            }
+          }
+
+        }
+      }
+
     }
 
     // delete all notifications related to this request for the current user
@@ -430,7 +526,7 @@ async function getRequest(requestId, userId) {
 exports.getRequest = getRequest;
 
 
-// return all data for a group of selected objects (pages, headers, cards)
+// return all data for a group of selected objects (pages, headers, cards, questions)
 async function getSelection(objects) {
 
   try {
@@ -542,6 +638,40 @@ async function getSelection(objects) {
         }
       }
 
+      // if we are looking at a question...
+      if (objects[i].objectType === 4) {
+        object.objectType = "Question";
+        object.key = objects[i].objectId + "Q";
+
+        // get the objects name
+        const sql = "SELECT text AS name " +
+        "FROM Questions " +
+        "WHERE questionId = ? " +
+        "AND approved = 0;";
+        const results = await pool.query(sql, objects[i].objectId);
+
+        // Check to see if we were able to find the object.
+        // If we were, then we add it to the array.
+        // If we were not able to find it, then search in the temp objects.
+        if (!results[0].length) {
+
+          const sql = "SELECT tempText AS name " +
+          "FROM Temp_Questions " +
+          "WHERE tempQuestionId = ?;";
+          const results = await pool.query(sql, objects[i].objectId);
+
+          if (results[0].length) {
+            object.objectName = results[0][0].name;
+            newObjects.push(object);
+          }
+
+        } else {
+          object.objectName = results[0][0].name;
+          newObjects.push(object);
+        }
+        continue;
+      }
+
     }
 
     const finalResults = {
@@ -571,7 +701,7 @@ async function createRequest(title, description, objects, userId) {
     // make sure all objects in the array are valid
     for (let i = 0; i < objects.length; i++) {
       if ((objects[i].objectType !== 1 && objects[i].objectType !== 2 &&
-          objects[i].objectType !== 3) || !Number.isInteger(parseInt(objects[i].objectId, 10))) {
+          objects[i].objectType !== 3) && objects[i].objectType !== 4 || !Number.isInteger(parseInt(objects[i].objectId, 10))) {
         return {error: 1};
       } else {
         const object = {
@@ -660,6 +790,33 @@ async function createRequest(title, description, objects, userId) {
           const sql = "SELECT * " +
           "FROM Temp_Cards " +
           "WHERE tempCardId = ?;";
+          const results = await pool.query(sql, filteredObjects[i].objectId);
+
+          if (results[0].length) {
+            finalObjects.push(filteredObjects[i]);
+          }
+
+        } else {
+          finalObjects.push(filteredObjects[i]);
+        }
+        continue;
+      }
+
+      // if we are looking at a question...
+      if (filteredObjects[i].objectType === 4) {
+
+        // see if the object exists
+        const sql = "SELECT * " +
+        "FROM Questions " +
+        "WHERE questionId = ? " +
+        "AND approved = 0;";
+        const results = await pool.query(sql, filteredObjects[i].objectId);
+
+        if (!results[0].length) {
+
+          const sql = "SELECT * " +
+          "FROM Temp_Questions " +
+          "WHERE tempQuestionId = ?;";
           const results = await pool.query(sql, filteredObjects[i].objectId);
 
           if (results[0].length) {
@@ -1172,6 +1329,34 @@ async function approveRequest(requestId) {
 
         } else {
           publishCard(objects[i].objectId);
+          objectsApproved++;
+        }
+
+      }
+
+      // If we are looking at a question...
+      if (objects[i].objectType === 43) {
+
+        const sql = "SELECT * " +
+        "FROM Questions " +
+        "WHERE questionId = ? " +
+        "AND approved = 0;";
+        const results = await pool.query(sql, objects[i].objectId);
+
+        if (!results[0].length) {
+
+          const sql = "SELECT * " +
+          "FROM Temp_Questions " +
+          "WHERE tempQuestionId = ?;";
+          const results = await pool.query(sql, objects[i].objectId);
+
+          if (results[0].length) {
+            publishQuestion(objects[i].objectId);
+            objectsApproved++;
+          }
+
+        } else {
+          publishQuestion(objects[i].objectId);
           objectsApproved++;
         }
 

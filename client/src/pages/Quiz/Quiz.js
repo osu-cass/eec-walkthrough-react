@@ -286,7 +286,7 @@ function Quiz() {
       if (questions[i].type === 4) {
         // save the score
         const allSelections = answers[answerCount].split("-*%,%*-");
-        console.log("allSelections", allSelections);
+
         for (let j = 0; j < questions[i].answers.length; j++) {
 
           // do a different check based on if the current answer is correct or not
@@ -297,19 +297,17 @@ function Quiz() {
             isCorrect = 0;
             for (let k = 0; k < allSelections.length; k++) {
               if (compareAnswers(allSelections[k], questions[i].answers[j].text)) {
-                console.log("***MATCH", allSelections[k], "vs", questions[i].answers[j].text);
                 isCorrect = 1;
                 invalid = 0;
                 break;
               }
             }
 
-
           } else {
+
             isCorrect = 1;
             for (let k = 0; k < allSelections.length; k++) {
               if (compareAnswers(allSelections[k], questions[i].answers[j].text)) {
-                console.log("***MATCH", allSelections[k], "vs", questions[i].answers[j].text);
                 isCorrect = 0;
                 invalid = 0;
                 break;
@@ -318,7 +316,6 @@ function Quiz() {
 
           }
 
-          console.log("SUBMIT", "text:", questions[i].answers[j].text, "correct:", isCorrect);
           const copyScore = Object.assign({}, newScore);
           copyScore.questionId = questions[i].questionId;
           copyScore.text = questions[i].answers[j].text;

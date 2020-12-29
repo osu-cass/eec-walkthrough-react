@@ -8,6 +8,7 @@ import {API_URL} from "../../utilities/constants";
 import ReportPage from "../ViewHistory/ReportPage";
 import ReportHeader from "../ViewHistory/ReportHeader";
 import ReportCard from "../ViewHistory/ReportCard";
+import ReportQuestion from "../ViewHistory/ReportQuestion";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import {useParams} from "react-router-dom";
@@ -77,7 +78,9 @@ function RequestPage() {
 
           const obj = await results.json();
           setRequest(obj);
-          console.log(obj);
+          if (process.env.NODE_ENV === "development") {
+            console.log("Request Data:", obj);
+          }
 
           if (obj.status < 4) {
             setOpen(true);
@@ -260,6 +263,21 @@ function RequestPage() {
                   <ReportCard
                     key={object.cardId + "c"}
                     card={object}
+                    newId={i}
+                    removeMode={true}
+                    reviewMode={true}
+                    requestId={parseInt(requestId, 10)}
+                    comments={request.comments}
+                    requestStatus={request.status}
+                    role={role}
+                  />
+                ) : (
+                  null
+                )}
+                {object.objectType === 4 ? (
+                  <ReportQuestion
+                    key={object.cardId + "q"}
+                    question={object}
                     newId={i}
                     removeMode={true}
                     reviewMode={true}

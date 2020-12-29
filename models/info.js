@@ -33,8 +33,6 @@ async function updateInfo(infoId, title, text, icon) {
 
   try {
 
-    console.log(infoId, title, text, icon);
-
     const sqlArray = [];
 
     // make sure that the info object exists
