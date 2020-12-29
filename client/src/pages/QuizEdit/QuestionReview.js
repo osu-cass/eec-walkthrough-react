@@ -6,6 +6,7 @@ import {Modal, Row, Button} from "react-bootstrap";
 import {API_URL} from "../../utilities/constants";
 import Error from "../../components/General/Error";
 import {logout} from "../../utilities/cookieAuth";
+import AddReviewObject from "../ContentPage/Various/AddReviewObject";
 import PropTypes from "prop-types";
 
 // A button and modal for reviewing questions
@@ -597,6 +598,10 @@ function QuestionReview(props) {
                     >
                       Delete Changes
                     </Button>
+                    <AddReviewObject
+                      objectType={4}
+                      objectId={props.question.questionId}
+                    />
                   </Fragment>
                 ) : (
                   null
@@ -636,6 +641,10 @@ function QuestionReview(props) {
                   >
                     Delete Changes
                   </Button>
+                  <AddReviewObject
+                    objectType={4}
+                    objectId={props.question.questionId}
+                  />
                 </Fragment>
               ) : (
                 null
