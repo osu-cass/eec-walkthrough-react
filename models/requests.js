@@ -445,7 +445,7 @@ async function getRequest(requestId, userId) {
             "FROM Answers " +
             "WHERE questionId = ? " +
             "AND approved = 0 " +
-            "ORDER BY answerId ASC";
+            "ORDER BY groupId";
             results = await pool.query(sql, objects[i].objectId);
 
             if (results[0].length) {
@@ -470,7 +470,7 @@ async function getRequest(requestId, userId) {
               "FROM Answers " +
               "WHERE questionId = ? " +
               "AND approved = 1 " +
-              "ORDER BY answerId ASC";
+              "ORDER BY groupId";
               results = await pool.query(sql, [objects[i].objectId]);
 
               if (results[0].length) {
@@ -494,7 +494,7 @@ async function getRequest(requestId, userId) {
             "FROM Answers " +
             "WHERE questionId = ? " +
             "AND approved = 0 " +
-            "ORDER BY answerId ASC";
+            "ORDER BY groupId";
             results = await pool.query(sql, objects[i].objectId);
 
             if (results[0].length) {
@@ -1331,11 +1331,11 @@ async function approveRequest(requestId) {
           publishCard(objects[i].objectId);
           objectsApproved++;
         }
-
+        continue;
       }
 
       // If we are looking at a question...
-      if (objects[i].objectType === 43) {
+      if (objects[i].objectType === 4) {
 
         const sql = "SELECT * " +
         "FROM Questions " +
@@ -1359,7 +1359,6 @@ async function approveRequest(requestId) {
           publishQuestion(objects[i].objectId);
           objectsApproved++;
         }
-
       }
 
     }
