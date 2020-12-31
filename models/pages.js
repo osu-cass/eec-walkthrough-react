@@ -6,19 +6,53 @@ const {pool} = require("../services/database/mysqlPool");
 
 
 // return all of the page info, headers, cards, and items for a single page
-async function getFullPage(pageId, viewAll) {
+async function getFullPage(pageId, userId) {
 
   try {
 
     let sql = "";
+    let viewAll = 0;
+
+    // check to see if the user should be allowed to see internal content
+    if (userId) {
+      let sql = "SELECT * " +
+        "FROM Users " +
+        "WHERE userId = ? " +
+        "AND (role = 2 OR role >= 4);";
+      let results = await pool.query(sql, userId);
+
+      if (results[0].length) {
+        viewAll = 2;
+      }
+
+      // if the user was not an internal user, see if they are an external editor
+      if (!viewAll) {
+        sql = "SELECT * " +
+        "FROM Users " +
+        "WHERE userId = ? " +
+        "AND role = 3;";
+        results = await pool.query(sql, userId);
+
+        if (results[0].length) {
+          viewAll = 1;
+        }
+      }
+    }
 
     // get the specified page
-    if (viewAll) {
+    if (viewAll === 2) {
       sql = "SELECT * " +
       "FROM Pages " +
       "LEFT JOIN Temp_Pages " +
       "ON pageId = tempPageId " +
       "WHERE pageId = ?;";
+    } else if (viewAll === 1) {
+      sql = "SELECT * " +
+      "FROM Pages " +
+      "LEFT JOIN Temp_Pages " +
+      "ON pageId = tempPageId " +
+      "WHERE pageId = ? " +
+      "AND internal = 0;";
     } else {
       sql = "SELECT * " +
       "FROM Pages " +
@@ -44,12 +78,20 @@ async function getFullPage(pageId, viewAll) {
     finalResults.sources = results[0];
 
     // get all of the headers for the page
-    if (viewAll) {
+    if (viewAll === 2) {
       sql = "SELECT * " +
       "FROM Headers " +
       "LEFT JOIN Temp_Headers " +
       "ON headerId = tempHeaderId " +
       "WHERE pageId = ? " +
+      "ORDER BY orderIndex ASC, headerId ASC;";
+    } else if (viewAll === 1) {
+      sql = "SELECT * " +
+      "FROM Headers " +
+      "LEFT JOIN Temp_Headers " +
+      "ON headerId = tempHeaderId " +
+      "WHERE pageId = ? " +
+      "AND internal = 0 " +
       "ORDER BY orderIndex ASC, headerId ASC;";
     } else {
       sql = "SELECT * " +
@@ -69,12 +111,20 @@ async function getFullPage(pageId, viewAll) {
     for (let i = 0; i < headerCount; i++) {
       const headerId = finalResults.headers[i].headerId;
 
-      if (viewAll) {
+      if (viewAll === 2) {
         sql = "SELECT * " +
         "FROM Cards " +
         "LEFT JOIN Temp_Cards " +
         "ON cardId = tempCardId " +
         "WHERE headerId = ? " +
+        "ORDER BY orderIndex ASC, cardId ASC";
+      } else if (viewAll === 1) {
+        sql = "SELECT * " +
+        "FROM Cards " +
+        "LEFT JOIN Temp_Cards " +
+        "ON cardId = tempCardId " +
+        "WHERE headerId = ? " +
+        "AND cardType < 10 " +
         "ORDER BY orderIndex ASC, cardId ASC";
       } else {
         sql = "SELECT * " +
@@ -94,13 +144,13 @@ async function getFullPage(pageId, viewAll) {
 
         const cardId = finalResults.headers[i].cards[j].cardId;
 
-        if (viewAll) {
+        if (viewAll === 2) {
 
           // get all approved items
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, internal, " +
-          "created, approved, color, sourceId, inline " +
+          "created, approved, color, sourceId, inline, groupIndex " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -115,11 +165,45 @@ async function getFullPage(pageId, viewAll) {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, internal, " +
-          "created, approved, color, sourceId, inline " +
+          "created, approved, color, sourceId, inline, groupIndex " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
           "AND approved = 0 " +
+          "ORDER BY orderIndex ASC, itemId ASC";
+
+          results = await pool.query(sql, cardId);
+
+          finalResults.headers[i].cards[j].tempItems = results[0];
+
+        } else if (viewAll === 1) {
+
+          // get all approved items
+          sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
+          "Items.iconType, typeName, typeKeyword, contentText, " +
+          "contentUrl, contentLabel, contentMode, internal, " +
+          "created, approved, color, sourceId, inline, groupIndex " +
+          "FROM Items " +
+          "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+          "WHERE cardId = ? " +
+          "AND approved = 1 " +
+          "AND internal = 0 " +
+          "ORDER BY orderIndex ASC, itemId ASC";
+
+          results = await pool.query(sql, cardId);
+
+          finalResults.headers[i].cards[j].items = results[0];
+
+          // get all unapproved items
+          sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
+          "Items.iconType, typeName, typeKeyword, contentText, " +
+          "contentUrl, contentLabel, contentMode, internal, " +
+          "created, approved, color, sourceId, inline, groupIndex " +
+          "FROM Items " +
+          "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
+          "WHERE cardId = ? " +
+          "AND approved = 0 " +
+          "AND internal = 0 " +
           "ORDER BY orderIndex ASC, itemId ASC";
 
           results = await pool.query(sql, cardId);
@@ -131,7 +215,7 @@ async function getFullPage(pageId, viewAll) {
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
           "contentUrl, contentLabel, contentMode, " +
-          "created, approved, color, sourceId, inline " +
+          "created, approved, color, sourceId, inline, groupIndex " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
           "WHERE cardId = ? " +
@@ -148,6 +232,41 @@ async function getFullPage(pageId, viewAll) {
 
       }
 
+    }
+
+    // check if there are any quizzes for this page
+    sql = "SELECT * " +
+    "FROM Questions " +
+    "WHERE pageId = ?;";
+    results = await pool.query(sql, pageId);
+
+    if (results[0].length) {
+      finalResults.quiz = true;
+    } else {
+      finalResults.quiz = false;
+    }
+
+    // check if this user has a grade for their last attempt at this quiz
+    sql = "SELECT correct " +
+    "FROM Scores " +
+    "WHERE pageId = ? " +
+    "AND userId = ?;";
+    results = await pool.query(sql, [pageId, userId]);
+
+    if (results[0].length) {
+      const scores = results[0];
+      let correct = 0;
+      let incorrect = 0;
+      for (let i = 0; i < scores.length; i++) {
+        if (scores[i].correct) {
+          correct++;
+        } else {
+          incorrect++;
+        }
+      }
+      finalResults.quizScore = Math.round(correct / (correct + incorrect) * 100);
+    } else {
+      finalResults.quizScore = -1;
     }
 
     return finalResults;
@@ -393,8 +512,32 @@ async function updatePage(pageId, pageType, name, title, description, imageUrl, 
 exports.updatePage = updatePage;
 
 
+// gets the most recently updated pages
+async function recentPages() {
+  try {
+
+    const RESULTS_PER_PAGE = 3;
+
+    const sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE approved = 1 AND internal = 0 AND pageType > 0 " +
+    "ORDER BY created DESC LIMIT ?;";
+    const results = await pool.query(sql, RESULTS_PER_PAGE);
+
+    return {
+      pages: results[0]
+    };
+
+  } catch (err) {
+    console.error("Error getting recent pages");
+    throw Error(err);
+  }
+}
+exports.recentPages = recentPages;
+
+
 // gets pages that match the search query
-async function searchPages(text, cursor, viewAll) {
+async function searchPages(text, cursor, viewEdit, viewInternal) {
   try {
 
     const RESULTS_PER_PAGE = 25;
@@ -434,8 +577,11 @@ async function searchPages(text, cursor, viewAll) {
     }
 
     // only show the user pages they are allowed to see
-    if (!viewAll) {
-      sql += "AND approved = 1 AND internal = 0 ";
+    if (!viewEdit) {
+      sql += "AND approved = 1 ";
+    }
+    if (!viewInternal) {
+      sql += "AND internal = 0 ";
     }
 
     // sort search results by name
@@ -547,7 +693,8 @@ async function publishPage(pageId) {
     } else {
 
       sql = "UPDATE Pages " +
-      "SET approved = 1 " +
+      "SET approved = 1, " +
+      "created = CURRENT_TIMESTAMP " +
       "WHERE pageId = ?;";
 
       // make sure no other pages share the same name

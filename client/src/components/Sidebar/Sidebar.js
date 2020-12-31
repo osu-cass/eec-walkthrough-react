@@ -1,11 +1,10 @@
 import React, {useState, useEffect, useRef, Fragment} from "react";
 import SidebarCollection from "./SidebarCollection";
+import SidebarCollectionSimple from "./SidebarCollectionSimple";
 import SidebarToggleView from "./SidebarToggleView";
-import Instructions from "./Instructions";
 import {getProfile} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import CreateCategory from "./CreateCategory";
-import CreatePage from "./CreatePage";
 import PropTypes from "prop-types";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -15,12 +14,40 @@ import "./Sidebar.css";
 function Sidebar(props) {
 
   const [categories, setCategories] = useState([]);
-  const [instructions, setInstructions] = useState([]);
+  const [instructions, setInstructions] = useState({pages: []});
   const [role, setRole] = useState(0);
   const [userId, setUserId] = useState(0);
   const [showEdit, setShowEdit] = useState(true);
+  const [tools, setTools] = useState([]);
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
+
+  // change which tools to display based on the users role
+  useEffect(() => {
+    const toolList = [];
+
+    if (role < 2) {
+      setTools([]);
+    } else {
+      if (role === 3 || role === 4) {
+        toolList.push({name: "Manage Images", link: `/manage-images/${userId}`});
+      }
+      if (role >= 5) {
+        toolList.push({name: "Manage Card Titles", link: "/manage-card-titles"});
+        toolList.push({name: "Manage Contributors", link: "/manage-contributors"});
+        toolList.push({name: "Manage Home", link: "/manage-home"});
+        toolList.push({name: "Manage Icons", link: "/manage-icons"});
+        toolList.push({name: "Manage Images", link: "/manage-uploads"});
+        toolList.push({name: "Manage Links", link: "/manage-links"});
+        toolList.push({name: "Manage Users", link: "/manage-users"});
+      }
+      toolList.push({name: "History Report", link: "/history-report"});
+      if (role >= 3) {
+        toolList.push({name: "Publish Requests", link: "/publish-requests"});
+      }
+      setTools(toolList);
+    }
+  }, [role, userId]);
 
   // check user info and which categories to display when login status changes
   useEffect(() => {
@@ -80,9 +107,9 @@ function Sidebar(props) {
       for (let i = 0; i < obj.categories.length; i++) {
         if (obj.categories[i].categoryId === 0) {
           newInstruction = obj.categories.splice(i, 1);
+          setInstructions(newInstruction[0]);
         }
       }
-      setInstructions(newInstruction);
       setCategories(obj.categories);
     } else {
       console.error("Unable to fetch categories for sidebar.");
@@ -102,146 +129,106 @@ function Sidebar(props) {
       ref={wrapperRef}
     >
       {/* Wrapper is created to be able to click outside sidebar to close it */}
-      <nav id='sidebar'>
-        <Card bg="info" as="h2">
+      <nav id="sidebar">
+        <Card as="h2" id="sidebar-header">
           <Card.Header>
             Directory
           </Card.Header>
         </Card>
 
-        <Col className="mt-3">
-          <Card className="sidebar-page-container my-4" bg="dark" border="info" style={{cursor: "pointer"}}>
+        <Col id="sidebar-body">
+
+          {/* Home */}
+          <Card className="sidebar-page-container" bg="dark">
             <SidebarCollection
               collectionName="Home"
               collectionLink=""
+              collectionIcon="home"
             />
           </Card>
 
-          {instructions.length ? (
-            <Fragment>
-              {instructions[0].pages.length ? (
-                <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
-                  <Instructions
-                    instructions={instructions[0].pages}
+          {/* Help */}
+          {instructions.pages.length ? (
+            <Card className="sidebar-page-container" bg="dark">
+              <SidebarCollection
+                key={instructions.categoryId}
+                collectionName="Help"
+                collectionLink="wiki/instructions"
+                collection={instructions.pages.reverse()}
+                category={instructions}
+                internal={instructions.internal}
+                refresh={() => fetchData()}
+                show={showEdit}
+                role={role}
+                hideEdit={true}
+                disclaimer={true}
+                collectionIcon="question-circle"
+              />
+            </Card>
+          ) : (
+            null
+          )}
+
+          {/* Tools */}
+          {tools.length ? (
+            <Card className="sidebar-page-container" bg="dark">
+              <SidebarCollectionSimple
+                collectionName="Tools"
+                collection={tools}
+                collectionIcon="briefcase"
+              />
+            </Card>
+          ) : (
+            null
+          )}
+
+          {/* Categories */}
+          {categories.map((category) =>
+            <Fragment key={category.categoryId}>
+              {category.pages.length ? (
+                <Card className="sidebar-page-container" bg="dark">
+                  <SidebarCollection
+                    collectionName={category.pluralName}
+                    collectionLink={`wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}`}
+                    collection={category.pages}
+                    category={category}
+                    internal={category.internal}
+                    refresh={() => fetchData()}
+                    show={showEdit}
+                    role={role}
+                    collectionIcon="file-text"
                   />
                 </Card>
               ) : (
                 null
               )}
             </Fragment>
-          ) : (
-            null
           )}
 
+          {/* Create Category */}
           {showEdit ? (
-            <div className="mb-4">
-              <CreatePage
-                title={"Create Instructions Page"}
-                collectionLink={"wiki/instructions"}
-                refresh={() => fetchData()}
-                role={role}
-                categoryId={0}
-              />
-            </div>
-          ) : (
-            null
-          )}
-
-          <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
-            {categories.map((category) =>
-              <SidebarCollection
-                key={category.categoryId}
-                collectionName={category.pluralName}
-                collectionLink={`wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}`}
-                collection={category.pages}
-                category={category}
-                internal={category.internal}
-                refresh={() => fetchData()}
-                show={showEdit}
-                role={role}
-              />
-            )}
-          </Card>
-
-          {showEdit ? (
-            <div className="mb-4">
+            <Card className="sidebar-page-container" bg="dark">
               <CreateCategory
                 refresh={() => fetchData()}
                 role={role}
               />
-            </div>
-          ) : (
-            null
-          )}
-
-          {role >= 2 ? (
-            <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
-
-              {role === 3 ? (
-                <SidebarCollection
-                  collectionName="Manage Images"
-                  collectionLink={`manage-images/${userId}`}
-                />
-              ) : (
-                null
-              )}
-
-              {role >= 4 ? (
-                <Fragment>
-                  <SidebarCollection
-                    collectionName="Manage Card Titles"
-                    collectionLink="manage-card-titles"
-                  />
-                  <SidebarCollection
-                    collectionName="Manage Icons"
-                    collectionLink="manage-icons"
-                  />
-                  <SidebarCollection
-                    collectionName="Manage Images"
-                    collectionLink="manage-uploads"
-                  />
-                  <SidebarCollection
-                    collectionName="Manage Links"
-                    collectionLink="manage-links"
-                  />
-                  <SidebarCollection
-                    collectionName="Manage Users"
-                    collectionLink="manage-users"
-                  />
-                </Fragment>
-              ) : (
-                null
-              )}
-
-              <SidebarCollection
-                collectionName="History Report"
-                collectionLink="history-report"
-              />
-              {role >= 3 ? (
-                <Fragment>
-                  <SidebarCollection
-                    collectionName="Publish Requests"
-                    collectionLink="publish-requests"
-                  />
-                  <SidebarToggleView
-                    show={showEdit}
-                    onToggleEditorButtons={() => handleToggleEditorButtons()}
-                  />
-                </Fragment>
-              ) : (
-                null
-              )}
             </Card>
           ) : (
             null
           )}
 
-          <Card className="sidebar-page-container mb-4" bg="dark" border="info" style={{cursor: "pointer"}}>
-            <SidebarCollection
-              collectionName="OSU EEC"
-              externalLink="https://eec.oregonstate.edu/"
-            />
-          </Card>
+          {/* Hide Extra Buttons */}
+          {role >= 3 ? (
+            <Card className="sidebar-page-container" bg="dark">
+              <SidebarToggleView
+                show={showEdit}
+                onToggleEditorButtons={() => handleToggleEditorButtons()}
+              />
+            </Card>
+          ) : (
+            null
+          )}
+
         </Col>
       </nav>
     </div >

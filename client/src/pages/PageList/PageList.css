@@ -67,3 +67,19 @@ table tbody tr td {
 #title {
   text-transform: capitalize;
 }
+
+.page-list-organizer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 400px);
+  grid-gap: 100px;
+  justify-content: center;
+}
+
+@media (max-width: 1500px) {
+  .page-list-organizer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 400px);
+    grid-gap: 30px;
+    justify-content: center;
+  }
+}

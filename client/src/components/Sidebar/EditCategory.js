@@ -1,9 +1,10 @@
 import React, {useState, useEffect, Fragment} from "react";
-import {Modal, Button, Row, Col, Form} from "react-bootstrap";
+import {Modal, Button, Row, Col, Form, Card} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import PropTypes from "prop-types";
 import Error from "../General/Error";
+import {NavLink} from "react-router-dom";
 import "./EditCategory.css";
 
 // button and modal for editing a category
@@ -120,8 +121,8 @@ function EditCategory(props) {
     return false;
   }
 
-  return props.role >= 4 ? (
-    <div className={`${props.navbar ? "d-inline" : "text-center mx-1 editCategory"}`}>
+  return props.role >= 5 ? (
+    <div className={`${props.navbar ? "d-inline" : "w-100"}`}>
 
       {/* The style of the button depends if this is the sidebar or navbar */}
       {props.navbar ? (
@@ -134,13 +135,14 @@ function EditCategory(props) {
           </div>
         </Fragment>
       ) : (
-        <Button variant="outline-info" className="editCategory" onClick={() => handleShow()}>
-          <i
-            className="edit-category-icon fas fa-plus-circle text-info mr-2"
-            style={{transform: "scale(1.5)"}}
-          />
-            Edit Category
-        </Button>
+        <NavLink to="#" className="ml-3 sidebar-nav-link">
+          <Card.Body className="sidebar-nav-link" onClick={() => handleShow()}>
+            <i
+              className="nav-bar-icon fas fa-plus-circle text-info mr-2"
+            />
+            <span className="navbar-item-text text-left">            Edit Category</span>
+          </Card.Body>
+        </NavLink>
       )}
 
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">

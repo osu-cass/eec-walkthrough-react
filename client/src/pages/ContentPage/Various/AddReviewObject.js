@@ -31,7 +31,7 @@ function AddReviewObject(props) {
         }
       }
 
-      // add if the object to the request if it is new
+      // add the object to the request if it is new
       if (newObject) {
         collection.objects.push(object);
         window.localStorage.setItem("publishRequestObjects", JSON.stringify(collection));
@@ -55,6 +55,9 @@ function AddReviewObject(props) {
 
       collection.objects.push(object);
       window.localStorage.setItem("publishRequestObjects", JSON.stringify(collection));
+
+      setAddToast(true);
+      setDupToast(false);
     }
   }
 
@@ -91,6 +94,15 @@ function AddReviewObject(props) {
         <Fragment>
           <Toast show={addToast} text="Card Added" handleClose={() => closeToast(1)} />
           <Toast show={dupToast} text="Card Already Added" handleClose={() => closeToast(2)} />
+        </Fragment>
+      ) : (
+        null
+      )}
+
+      {props.objectType === 4 ? (
+        <Fragment>
+          <Toast show={addToast} text="Question Added" handleClose={() => closeToast(1)} />
+          <Toast show={dupToast} text="Question Already Added" handleClose={() => closeToast(2)} />
         </Fragment>
       ) : (
         null

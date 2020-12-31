@@ -10,11 +10,12 @@ function Image(props) {
 
   if (props.thumbnail) {
     return (
-      <Col>
+      <Col className="px-0">
         <img
           src={props.url}
           alt={props.title}
           title={props.title}
+          onError={(e) => e.target.src = "/missing.png"}
           className="expandable-image rounded img-fluid img-thumbnail"
           onClick={() => setModalShow(true)}
         />
@@ -28,10 +29,11 @@ function Image(props) {
     );
   } else if (props.header) {
     return (
-      <Col>
+      <Col className="px-0">
         <img
           src={props.url}
           alt={props.title}
+          onError={(e) => e.target.src = "/missing.png"}
           className="expandable-image header rounded img-fluid img-normal"
           onClick={() => setModalShow(true)}
         />
@@ -49,6 +51,7 @@ function Image(props) {
         <img
           src={props.url}
           alt={props.title}
+          onError={(e) => e.target.src = "/missing.png"}
           className="expandable-image rounded img-fluid"
           style={{cursor: "pointer", maxWidth: "15em"}}
           onClick={() => setModalShow(true)}

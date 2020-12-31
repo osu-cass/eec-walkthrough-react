@@ -4,7 +4,7 @@ import {API_URL} from "../../utilities/constants";
 import Sanitized from "../../components/General/Sanitized";
 import Button from "react-bootstrap/Button";
 import {useParams} from "react-router-dom";
-import Image from "../ContentPage/Various/Image";
+import Image from "../../components/General/Image";
 import LoadMoreButton from "../../components/General/LoadMoreButton";
 import "./ManageFiles.css";
 
@@ -134,7 +134,7 @@ function ManageFiles() {
   }
 
   return (
-    <div className="container file-page-container text-center mb-5">
+    <div className="container file-page-container text-center my-5">
 
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">

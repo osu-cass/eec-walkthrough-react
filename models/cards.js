@@ -164,7 +164,8 @@ async function deleteCard(cardId) {
         const sqlArray = [newHistoryId, results[0][i].itemId, results[0][i].cardId,
           results[0][i].orderIndex, results[0][i].indentation, results[0][i].iconType,
           results[0][i].contentText, results[0][i].contentUrl, results[0][i].contentLabel,
-          results[0][i].contentMode, results[0][i].internal, results[0][i].created, results[0][i].sourceId];
+          results[0][i].contentMode, results[0][i].internal, results[0][i].inline,
+          results[0][i].created, results[0][i].sourceId];
 
         sql = "INSERT INTO History_Items " +
         "(parentId, itemId, cardId, orderIndex, indentation, iconType, contentText, " +
@@ -420,6 +421,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
 exports.updateCard = updateCard;
 
 
+// publish a card
 async function publishCard(cardId) {
 
   try {
@@ -436,6 +438,18 @@ async function publishCard(cardId) {
 
     const title = results[0][0].title;
     const headerId = results[0][0].headerId;
+
+    // get the page ID
+    sql = "SELECT * " +
+    "FROM Headers " +
+    "WHERE headerId = ?;";
+    results = await pool.query(sql, headerId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const pageId = results[0][0].pageId;
 
     // check if there is new card data
     sql = "SELECT * " +
@@ -546,6 +560,12 @@ async function publishCard(cardId) {
       await pool.query(sql, sqlArray);
     }
 
+    // update the last updated date of the page
+    sql = "UPDATE Pages " +
+    "SET created = CURRENT_TIMESTAMP " +
+    "WHERE pageId = ?;";
+    await pool.query(sql, pageId);
+
     return finalResults;
 
   } catch (err) {
@@ -557,6 +577,7 @@ async function publishCard(cardId) {
 exports.publishCard = publishCard;
 
 
+// unpublish a card
 async function unpublishCard(cardId) {
 
   try {

@@ -120,7 +120,7 @@ async function createView(pageId, headers, publicView, viewName, userId) {
       const userRole = results[0][0].role;
 
       // confirm that the user is allowed to replace the view
-      if (userId !== viewOwner && userRole !== 4) {
+      if (userId !== viewOwner && userRole !== 5) {
         return {error: 2};
       }
 
@@ -213,7 +213,7 @@ async function deleteView(viewId, userId) {
     const userRole = results[0][0].role;
 
     // confirm that the user is allowed to delete the view
-    if (userId !== viewOwner && userRole !== 4) {
+    if (userId !== viewOwner && userRole !== 5) {
       return {error: 2};
     }
 

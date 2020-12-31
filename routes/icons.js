@@ -63,7 +63,7 @@ app.post("/", requireAuth, postIconVal.validation, async (req, res) => {
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to create icon."});
       return;
     }
@@ -112,7 +112,7 @@ app.patch("/:iconId", requireAuth, patchIconVal.validation, async (req, res) => 
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to update icon."});
       return;
     }

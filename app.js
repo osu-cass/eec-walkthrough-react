@@ -35,7 +35,6 @@ async function testConnection(pool, attempt, callback) {
 
 // serve static files while in production mode
 if (process.env.NODE_ENV === "production") {
-
   fileApp.use(express.static(path.join(__dirname + "/client/", "build")));
   fileApp.use(express.static(path.join(__dirname + "/client/", "files")));
 

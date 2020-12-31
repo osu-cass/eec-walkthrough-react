@@ -143,7 +143,7 @@ app.post("/directories", requireAuth, getDirectoriesVal.validation, async (req, 
     const cursor = req.body.cursor;
     console.log(sort, order, cursor);
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to read directories."});
       return;
     }
@@ -186,7 +186,7 @@ app.post("/:userId", requireAuth, getFilesVal.validation, async (req, res) => {
 
     // make sure the user is allowed to perform this action
     console.log("userId", userId, "req.auth.userId", toString(req.auth.userId));
-    if (userId !== req.auth.userId.toString() && !await roleCheck(4, req.auth.userId)) {
+    if (userId !== req.auth.userId.toString() && !await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to read files."});
       return;
     }
@@ -219,7 +219,7 @@ app.delete("/:userId/:fileName", requireAuth, async (req, res) => {
     console.log("Delete file ", fileName);
 
     // make sure the user is allowed to perform this action
-    if (directoryId !== req.auth.userId.toString() && !await roleCheck(4, req.auth.userId)) {
+    if (directoryId !== req.auth.userId.toString() && !await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to read files."});
       return;
     }

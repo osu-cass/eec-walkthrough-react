@@ -126,7 +126,7 @@ app.post("/search", requireAuth, searchUserVal.validation, async (req, res) => {
     };
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to search for users."});
       return;
     }
@@ -242,7 +242,7 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
 
     // confirm that if the role is being changed, the current user is an admin
     if (typeof role !== "undefined") {
-      if (!await roleCheck(4, req.auth.userId)) {
+      if (!await roleCheck(5, req.auth.userId)) {
         res.status(401).send({error: "Unauthorized user attempting to change users role."});
         return;
       }
@@ -250,7 +250,7 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
       // since the user is changing general user data they must be
       // either the user in question or an admin
       if (parseInt(currentUserId) !== parseInt(userId)) {
-        if (!await roleCheck(4, req.auth.userId)) {
+        if (!await roleCheck(5, req.auth.userId)) {
           res.status(401).send({error: "Unauthorized user attempting to update user."});
           return;
         }
@@ -301,7 +301,7 @@ app.post("/:userId/newPassword", requireAuth, getUserVal.validation, async (req,
     }
 
     // confirm that the current user is an admin
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to reset user's password."});
       return;
     }

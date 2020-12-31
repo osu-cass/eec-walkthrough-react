@@ -122,7 +122,7 @@ function EditHome(props) {
     updatePage();
   }
 
-  return role >= 4 ? (
+  return role >= 5 ? (
     <div className="text-center mx-2">
       <LoadingOverlay loading={showLoad} />
       <Button variant="info" onClick={() => handleShowModal()}>

@@ -1,5 +1,5 @@
 import React, {useState, Fragment} from "react";
-import {Modal, Button, Row, Col, Form} from "react-bootstrap";
+import {Modal, Button, Row, Col, Form, Accordion, Card} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import {API_URL} from "../../utilities/constants";
@@ -111,27 +111,41 @@ function CreateCategory(props) {
     return false;
   }
 
-  return props.role >= 4 ? (
-    <div className={`text-center createCategory ${props.navbar ? "d-inline-block" : ""}`}>
+  return props.role >= 5 ? (
+    <div className={props.tinyNav ? "d-inline" : "createCategory d-inline-block text-left"}>
 
       {/* The style of the button depends if this is the sidebar or navbar */}
       {props.navbar ? (
         <Fragment>
-          <div className="dropdown dropdown-nav py-2 px-2 d-inline-block" onClick={() => handleShow()}>
-            <i
-              className="nav-bar-icon fas fa-plus-circle text-info mr-2"
-            />
-              Create Category
-          </div>
+          {props.tinyNav ? (
+            <div className="navbar-item px-2 py-1" onClick={(e) => handleShow(e)}>
+              <i
+                className="nav-bar-icon fas fa-plus-circle text-info mr-2"
+              />
+              <span className="navbar-item-text text-left">Create Category</span>
+            </div>
+          ) : (
+            <div
+              className="dropdown dropdown-nav py-2 px-2 d-inline-block text-center"
+              onClick={() => handleShow()}
+              id="nav-create-cat"
+            >
+              <i
+                className="nav-bar-icon fas fa-plus-circle text-info mr-2"
+              />
+                Create Category
+            </div>
+          )}
         </Fragment>
       ) : (
-        <Button variant="outline-info" className="createCategory" onClick={() => handleShow()}>
-          <i
-            className="create-category-icon fas fa-plus-circle text-info mr-2"
-            style={{transform: "scale(1.5)"}}
-          />
-            Create Category
-        </Button>
+        <div className="mx-0 my-0 px-0 py-0 w-100 border-0 text-left" onClick={(e) => handleShow(e)}>
+          <Accordion.Toggle as={Card.Header} className="sidebarCollection" eventKey="0">
+            <i className={`fas fa-fw fa-plus-circle mr-2 my-1`} />
+            <span>
+              Create Category
+            </span>
+          </Accordion.Toggle>
+        </div>
       )}
 
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
@@ -226,5 +240,6 @@ export default CreateCategory;
 CreateCategory.propTypes = {
   role: PropTypes.number,
   refresh: PropTypes.func,
-  navbar: PropTypes.bool
+  navbar: PropTypes.bool,
+  tinyNav: PropTypes.bool
 };

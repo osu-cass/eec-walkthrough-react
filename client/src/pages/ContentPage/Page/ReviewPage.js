@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import {formatTime} from "../../../utilities/formatTime";
 import {API_URL} from "../../../utilities/constants";
 import Error from "../../../components/General/Error";
-import Image from "../Various/Image";
+import Image from "../../../components/General/Image";
 import HighlightText from "../Various/HighlightText";
 import AddReviewObject from "../Various/AddReviewObject";
 import "./ReviewPage.css";
@@ -279,6 +279,10 @@ function ReviewPage(props) {
       return;
     }
 
+    if (!window.confirm("Confirm one last time that you want to delete the the proposed changes.")) {
+      return;
+    }
+
     // delete proposed changes
     const results = await fetch(`${API_URL}/pages/${props.page.pageId}/changes`, {
       method: "DELETE",
@@ -515,7 +519,7 @@ function ReviewPage(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          {role >= 4 ? (
+          {role >= 5 ? (
             <Fragment>
               <Fragment>
                 {props.page.tempPageId || !props.page.approved ? (

@@ -5,6 +5,7 @@ import LoadingOverlay from "../../components/General/LoadingOverlay";
 import Container from "react-bootstrap/Container";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
+import "./ManageUsers.css";
 
 // manage users page
 function ManageUsers() {
@@ -182,10 +183,10 @@ function ManageUsers() {
   }
 
   return (
-    <Container>
+    <Container className="user-manage-container">
       <LoadingOverlay loading={loading} />
 
-      <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
+      <div className="d-flex header-bar justify-content-between mt-5 mb-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
           <h4 className="flex-grow-1 font-weight-bold">
             Manage Users

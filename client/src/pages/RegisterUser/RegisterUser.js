@@ -6,7 +6,7 @@ import {API_URL} from "../../utilities/constants";
 import validator from "validator";
 import "./RegisterUser.css";
 
-// user registration page
+// User registration page
 function RegisterUser () {
 
   const [loading, setLoading] = useState(false);
@@ -137,7 +137,7 @@ function RegisterUser () {
 
       <LoadingOverlay loading={loading} />
 
-      <div className="d-flex header-bar justify-content-between mt-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
+      <div className="d-flex header-bar justify-content-between mt-5 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
           <h4 className="flex-grow-1 font-weight-bold">
             Register User
@@ -145,7 +145,7 @@ function RegisterUser () {
         </div>
       </div>
 
-      <Card className="mb-2 mb-5" id="user-register-container">
+      <Card className="mb-2 mb-5 mt-3" id="user-register-container">
         <div className="p-2 mb-2 text-dark-50 bg-white" >
           <form id="register-form" onSubmit={(e) => submitHandler(e)}>
             <div className="form-group m-3">
@@ -153,40 +153,70 @@ function RegisterUser () {
               <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Username
               </label>
-              <input type="text" className="form-control mx-2 mb-4"
-                id="input-register-username" maxLength="50" />
+              <input
+                type="text"
+                className="form-control mb-4"
+                id="input-register-username"
+                maxLength="50"
+                placeholder="Enter username"
+              />
 
               <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Email
               </label>
-              <input type="email" className="form-control mx-2 mb-4"
-                id="input-register-email" maxLength="100" />
+              <input
+                type="email"
+                className="form-control mb-4"
+                id="input-register-email"
+                maxLength="100"
+                placeholder="Enter email"
+              />
 
               <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   First Name
               </label>
-              <input type="text" className="form-control mx-2 mb-4"
-                id="input-register-first" maxLength="50" />
+              <input
+                type="text"
+                className="form-control mb-4"
+                id="input-register-first"
+                maxLength="50"
+                placeholder="Enter first name"
+              />
 
               <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Last Name
               </label>
-              <input type="text" className="form-control mx-2 mb-4"
-                id="input-register-last" maxLength="50" />
+              <input
+                type="text"
+                className="form-control mb-4"
+                id="input-register-last"
+                maxLength="50"
+                placeholder="Enter last name"
+              />
 
               <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Password
               </label>
-              <input type="password" className="form-control mx-2 mb-4"
-                id="input-register-password" maxLength="50"
-                autoComplete="new-password" />
+              <input
+                type="password"
+                className="form-control mb-4"
+                id="input-register-password"
+                maxLength="50"
+                autoComplete="new-password"
+                placeholder="Enter password"
+              />
 
               <label form="formGroup" className="flex-grow-1 font-weight-bold h4">
                   Retype Password
               </label>
-              <input type="password" className="form-control mx-2 mb-4"
-                id="input-register-password-re" maxLength="50"
-                autoComplete="new-password" />
+              <input
+                type="password"
+                className="form-control mb-4"
+                id="input-register-password-re"
+                maxLength="50"
+                autoComplete="new-password"
+                placeholder="Enter password"
+              />
 
               <div className="ml-2 my-3 pl-2">
                 <Error
@@ -194,7 +224,7 @@ function RegisterUser () {
                 />
               </div>
 
-              <button type="submit" id="search-user-button" className="btn btn-info m-2">
+              <button type="submit" id="search-user-button" className="btn btn-info my-2 pull-right">
                   Register
               </button>
 

@@ -155,7 +155,7 @@ function SaveView(props) {
             </Col>
           </Row>
 
-          {props.role >= 4 ? (
+          {props.role >= 5 ? (
             <Row>
               <Col>
                 <div className="custom-control form-control-lg custom-checkbox my-2">

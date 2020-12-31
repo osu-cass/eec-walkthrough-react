@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import Accordion from "react-bootstrap/Accordion";
 import {Card} from "react-bootstrap";
@@ -9,15 +9,21 @@ import "./SidebarCollection.css";
 function SidebarToggleView(props) {
   return (
     <Accordion onClick={() => props.onToggleEditorButtons()}>
-      <Accordion.Toggle as={Card.Header} id="sidebarCollection" style={{fontSize: "1.2rem"}} eventKey="0">
+      <Accordion.Toggle as={Card.Header} className="sidebarCollection view-toggle-button" eventKey="0">
         {props.show ? (
-          <span>
-            Hide Edit Buttons
-          </span>
+          <Fragment>
+            <i className={`fas fa-fw fa-eye-slash mr-2 my-1`} />
+            <span>
+              Hide Create Buttons
+            </span>
+          </Fragment>
         ) : (
-          <span>
-            Show Edit Buttons
-          </span>
+          <Fragment>
+            <i className={`fas fa-fw fa-eye mr-2 my-1`} />
+            <span>
+              Show Create Buttons
+            </span>
+          </Fragment>
         )}
       </Accordion.Toggle>
     </Accordion>
