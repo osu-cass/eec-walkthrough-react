@@ -26,6 +26,7 @@ import Error500 from "./pages/500/Error500";
 import Quiz from "./pages/Quiz/Quiz";
 import QuizResults from "./pages/QuizResults/QuizResults";
 import QuizEdit from "./pages/QuizEdit/QuizEdit";
+import QuizMove from "./pages/QuizMove/QuizMove";
 import PageHeader from "./components/PageHeader/PageHeader";
 import NavBar from "./components/NavBar/NavBar";
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -80,6 +81,10 @@ function App() {
 
           <Route path="/edit-quiz/:pageId">
             <QuizEdit />
+          </Route>
+
+          <Route path="/move-quiz/:pageId">
+            <QuizMove />
           </Route>
 
           <Route path="/search/:searchId">

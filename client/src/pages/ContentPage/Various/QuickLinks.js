@@ -7,8 +7,7 @@ function QuickLinks(props) {
 
   const [headers, setHeaders] = useState([]);
 
-  // If the current card is an Image Gallery card then
-  // whenever we get new items, filter out all of the non-image ones
+  // organizes all of the headers on the page into a single array
   useEffect(() => {
     const newHeaders = [...props.headers];
 

@@ -806,7 +806,7 @@ function ContentPage(props) {
           moved={moved}
           onNewView={e => handleNewView(e)}
           headers={headers}
-          quiz={(mode === 0 && pageInfo.quiz) || mode === 1}
+          quiz={(mode === 0 && pageInfo.quiz) || mode !== 0}
           references={(mode === 0 && references.length) || (mode === 1 && tempReferences.length)}
         />
 

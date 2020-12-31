@@ -1,16 +1,19 @@
 import React, {useState, useEffect, Fragment} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import {getProfile, logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import {useParams, useHistory} from "react-router-dom";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import Question from "./Question";
+import ChangeMode from "../ContentPage/Page/ChangeMode";
 import Error from "../../components/General/Error";
 import "./Quiz.css";
 
 // Page where a user answers quiz questions
 function Quiz() {
 
+  const [role] = useState(getProfile().role);
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -124,6 +127,12 @@ function Quiz() {
 
   // submit the quiz answers and get the quiz results
   async function submitQuiz() {
+
+    // make sure a quiz exists
+    if (!questions.length) {
+      setErrorMessage("No quiz exists for this subject");
+      return;
+    }
 
     const answers = [];
     setErrorMessage("");
@@ -347,7 +356,16 @@ function Quiz() {
       history.push(`/quiz-results/${pageId}`);
     } else {
       setErrorMessage("An internal server error occurred. Please try again later.");
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      }
     }
+  }
+
+  // handle switching the quiz mode
+  function onPageMode() {
+    history.push(`/edit-quiz/${pageId}`);
   }
 
   return !error ? (
@@ -355,11 +373,24 @@ function Quiz() {
 
       <LoadingOverlay loading={loading} />
 
+      {/* Title header */}
       <div className="d-flex header-bar justify-content-between mt-3 mb-4 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
-        <div className="row mx-2">
-          <h4 className="flex-grow-1 font-weight-bold">
-            {title} Quiz
-          </h4>
+        <div className="row w-100 ml-0">
+          <div className="col align-self-center pl-0">
+            <h4 className="flex-grow-1 font-weight-bold">
+              {title} Quiz
+            </h4>
+          </div>
+          <div className="col pr-0">
+            <div className="btn-group align-self-center float-right">
+              <ChangeMode
+                role={role}
+                mode={0}
+                onPageMode={() => onPageMode()}
+                moved={false}
+              />
+            </div>
+          </div>
         </div>
       </div>
 
