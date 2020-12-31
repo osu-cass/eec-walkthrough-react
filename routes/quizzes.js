@@ -639,7 +639,7 @@ app.patch("/:questionId/move/:direction/:mode", requireAuth, patchQuestionMoveVa
       results = await moveTempQuestion(questionId, parseInt(direction, 10));
     }
 
-    if (results.cardId >= 0) {
+    if (results.questionId >= 0) {
       res.status(200).send(results);
     } else {
 

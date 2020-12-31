@@ -8,9 +8,13 @@ import PropTypes from "prop-types";
 // A single question that can be edited
 function QuestionDisplay(props) {
 
-  // shows if the question has a temp version
+  // shows if the question has a temp version (only if not in published mode)
   function tempQuestion() {
-    return props.tempQuestionId !== null;
+    if (props.mode === 2 && props.publishedMode) {
+      return false;
+    } else {
+      return props.tempQuestionId !== null;
+    }
   }
 
   // get the string for the correct question type
@@ -28,9 +32,11 @@ function QuestionDisplay(props) {
     }
   }
 
-  return (
+  return (props.mode === 2 && props.publishedMode && !props.approved) ? (
+    null
+  ) : (
     <div
-      className={`display-question ${props.approved && !props.tempQuestionId ? "" : "pending-question"} prompt-container mb-3 p-4 card rounded shadow-sm`}
+      className={`display-question ${(props.approved && !props.tempQuestionId) || (props.publishedMode) ? "" : "pending-question"} prompt-container mb-3 p-4 card rounded shadow-sm`}
     >
 
       <div className="row">
@@ -46,68 +52,83 @@ function QuestionDisplay(props) {
           </span>
         </div>
 
-        {/* Review and Edit question button */}
+        {/* Buttons for special functions */}
         <div className="col-8" >
 
-          {/* Buttons for moving approved questions */}
-          {props.approved ? (
+          {props.mode === 1 ? (
             <Fragment>
-              <OrderQuestionsButton
-                questionId={props.questionId}
-                handleMove={() => {}}
-                approved={1}
+              {/* Button for reviewing question */}
+              <QuestionReview
+                question={props.question}
                 role={props.role}
-                onMoveQuestion={(questionId, up, mode) => props.onMoveQuestion(questionId, up, mode)}
+                handleUpdate={(newQuestion, type) => props.handleUpdate(newQuestion, type)}
+              />
+
+              {/* Button for editing question */}
+              <QuestionEdit
+                questionKey={props.questionKey}
+                questionId={props.questionId}
+                tempQuestionId={props.tempQuestionId}
+                new={false}
+                approved={props.approved}
+                text={props.text}
+                tempText={props.tempText}
+                answers={props.answers}
+                tempAnswers={props.tempAnswers}
+                type={props.type}
+                tempType={props.tempType}
+                imageUrl={props.imageUrl}
+                tempImageUrl={props.tempImageUrl}
+                groups={props.groups}
+                tempGroups={props.tempGroups}
+                index={props.index}
+                role={props.role}
+                pageId={props.pageId}
+                handleUpdate={(newQuestion, type) => props.handleUpdate(newQuestion, type)}
               />
             </Fragment>
           ) : (
             null
           )}
 
-          {/* Buttons for moving pending questions */}
-          {!props.approved || props.tempQuestionId ? (
+          {props.mode === 2 ? (
+
             <Fragment>
-              <OrderQuestionsButton
-                questionId={props.questionId}
-                handleMove={() => {}}
-                approved={0}
-                role={props.role}
-                onMoveQuestion={(questionId, up, mode) => props.onMoveQuestion(questionId, up, mode)}
-              />
+              {/* Buttons for moving approved questions */}
+              {props.approved && props.publishedMode ? (
+                <Fragment>
+                  <OrderQuestionsButton
+                    questionId={props.questionId}
+                    handleMove={() => {}}
+                    approved={1}
+                    role={props.role}
+                    onMoveQuestion={(questionId, up, mode) => props.onMoveQuestion(questionId, up, mode)}
+                  />
+                </Fragment>
+              ) : (
+                null
+              )}
+
+              {/* Buttons for moving pending questions */}
+              {(!props.approved || props.tempQuestionId) && !props.publishedMode ? (
+                <Fragment>
+                  <OrderQuestionsButton
+                    questionId={props.questionId}
+                    handleMove={() => {}}
+                    approved={0}
+                    role={props.role}
+                    onMoveQuestion={(questionId, up, mode) => props.onMoveQuestion(questionId, up, mode)}
+                  />
+                </Fragment>
+              ) : (
+                null
+              )}
             </Fragment>
+
           ) : (
             null
           )}
 
-          {/* Button for reviewing question */}
-          <QuestionReview
-            question={props.question}
-            role={props.role}
-            handleUpdate={(newQuestion, type) => props.handleUpdate(newQuestion, type)}
-          />
-
-          {/* Button for editing question */}
-          <QuestionEdit
-            questionKey={props.questionKey}
-            questionId={props.questionId}
-            tempQuestionId={props.tempQuestionId}
-            new={false}
-            approved={props.approved}
-            text={props.text}
-            tempText={props.tempText}
-            answers={props.answers}
-            tempAnswers={props.tempAnswers}
-            type={props.type}
-            tempType={props.tempType}
-            imageUrl={props.imageUrl}
-            tempImageUrl={props.tempImageUrl}
-            groups={props.groups}
-            tempGroups={props.tempGroups}
-            index={props.index}
-            role={props.role}
-            pageId={props.pageId}
-            handleUpdate={(newQuestion, type) => props.handleUpdate(newQuestion, type)}
-          />
         </div>
 
       </div>
@@ -262,5 +283,7 @@ QuestionDisplay.propTypes = {
   role: PropTypes.number,
   pageId: PropTypes.string,
   handleUpdate: PropTypes.func,
-  onMoveQuestion: PropTypes.func
+  onMoveQuestion: PropTypes.func,
+  mode: PropTypes.number,
+  publishedMode: PropTypes.number
 };
