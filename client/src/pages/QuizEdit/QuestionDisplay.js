@@ -55,8 +55,9 @@ function QuestionDisplay(props) {
               <OrderQuestionsButton
                 questionId={props.questionId}
                 handleMove={() => {}}
-                approved={true}
+                approved={1}
                 role={props.role}
+                onMoveQuestion={(questionId, up, mode) => props.onMoveQuestion(questionId, up, mode)}
               />
             </Fragment>
           ) : (
@@ -69,8 +70,9 @@ function QuestionDisplay(props) {
               <OrderQuestionsButton
                 questionId={props.questionId}
                 handleMove={() => {}}
-                approved={false}
+                approved={0}
                 role={props.role}
+                onMoveQuestion={(questionId, up, mode) => props.onMoveQuestion(questionId, up, mode)}
               />
             </Fragment>
           ) : (
@@ -259,5 +261,6 @@ QuestionDisplay.propTypes = {
   approved: PropTypes.number,
   role: PropTypes.number,
   pageId: PropTypes.string,
-  handleUpdate: PropTypes.func
+  handleUpdate: PropTypes.func,
+  onMoveQuestion: PropTypes.func
 };

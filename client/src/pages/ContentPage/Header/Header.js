@@ -573,7 +573,6 @@ function Header(props) {
                 {/* Button to move header up */}
                 <OrderObjectButton
                   up={true}
-                  header={true}
                   objectId={props.header.headerId}
                   handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
                   edited={!props.header.approved || props.header.tempHeaderId ? true : false}
@@ -584,7 +583,6 @@ function Header(props) {
                 {/* Button to move header down */}
                 <OrderObjectButton
                   up={false}
-                  header={true}
                   objectId={props.header.headerId}
                   handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
                   edited={!props.header.approved || props.header.tempHeaderId ? true : false}

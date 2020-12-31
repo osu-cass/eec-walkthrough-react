@@ -71,12 +71,14 @@ async function getPageQuiz(pageId, userId, pending) {
       "FROM Questions " +
       "LEFT JOIN Temp_Questions " +
       "ON questionId = tempQuestionId " +
-      "WHERE pageId = ?;";
+      "WHERE pageId = ? " +
+      "ORDER BY priority ASC, questionId ASC;";
     } else {
       sql = "SELECT * " +
       "FROM Questions " +
       "WHERE pageId = ? " +
-      "AND approved = 1;";
+      "AND approved = 1 " +
+      "ORDER BY priority ASC, questionId ASC;";
     }
     results = await pool.query(sql, pageId);
 
@@ -792,3 +794,341 @@ async function unpublishQuestion(questionId) {
 
 }
 exports.unpublishQuestion = unpublishQuestion;
+
+
+// move a published question
+async function moveQuestion(questionId, direction) {
+
+  try {
+
+    // make sure that the question exists
+    let sql = "SELECT * " +
+    "FROM Questions " +
+    "WHERE questionId = ? " +
+    "AND approved = 1";
+    let results = await pool.query(sql, questionId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const pageId = results[0][0].pageId;
+
+    // get all of the questions and temp questions under the current page
+    sql = "SELECT * " +
+    "FROM Questions " +
+    "LEFT JOIN Temp_Questions " +
+    "ON questionId = tempQuestionId " +
+    "WHERE pageId = ? " +
+    "ORDER BY priority ASC, questionId ASC";
+    results = await pool.query(sql, pageId);
+
+    // create an array with all of the questions
+    // each questions has an id, type (normal / temp), and a priority
+    const questionOrderArray = [];
+    for (let i = 0; i < results[0].length; i++) {
+      if (results[0][i].tempQuestionId > 0) {
+
+        const questionObj = {
+          id: results[0][i].questionId,
+          type: "norm",
+          order: results[0][i].priority,
+          show: "show"
+        };
+
+        const tempQuestionObj = {
+          id: results[0][i].tempQuestionId,
+          type: "temp",
+          order: results[0][i].tempPriority,
+          show: "hidden"
+        };
+
+        questionOrderArray.push(questionObj);
+        questionOrderArray.push(tempQuestionObj);
+
+      } else {
+        const questionObj = {
+          id: results[0][i].questionId,
+          type: "norm",
+          order: results[0][i].priority,
+          show: "show"
+        };
+        questionOrderArray.push(questionObj);
+      }
+    }
+
+    // sort the array of questions by order index
+    questionOrderArray.sort((a, b) => a.order - b.order);
+
+    // find and move the specified question
+    for (let i = 0; i < questionOrderArray.length; i++) {
+      if (parseInt(questionOrderArray[i].id, 10) === parseInt(questionId, 10) && questionOrderArray[i].type === "norm") {
+        if (direction) {
+          // try to move up and skip hidden questions
+          for (let j = i; j > 0; j--) {
+            const tempObj = questionOrderArray[j - 1];
+            questionOrderArray[j - 1] = questionOrderArray[j];
+            questionOrderArray[j] = tempObj;
+            if (questionOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        } else {
+          // try to move down and skip hidden questions
+          for (let j = i; j < questionOrderArray.length - 1; j++) {
+            const tempObj = questionOrderArray[j + 1];
+            questionOrderArray[j + 1] = questionOrderArray[j];
+            questionOrderArray[j] = tempObj;
+            if (questionOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        }
+      }
+    }
+
+    // apply new order values to the questions and split it into normal and temp questions
+    const normArray = [];
+    const tempArray = [];
+    for (let i = 0; i < questionOrderArray.length; i++) {
+      if (questionOrderArray[i].type === "temp") {
+        tempArray.push(parseInt(questionOrderArray[i].id, 10));
+        tempArray.push(i + 1);
+      } else {
+        normArray.push(parseInt(questionOrderArray[i].id, 10));
+        normArray.push(i + 1);
+      }
+    }
+
+    // push the ids to the end once more to match with the future query
+    for (let i = 0; i < questionOrderArray.length; i++) {
+      if (questionOrderArray[i].type === "temp") {
+        tempArray.push(questionOrderArray[i].id);
+      } else {
+        normArray.push(questionOrderArray[i].id);
+      }
+    }
+
+    // update the published questions
+    if (normArray.length) {
+      sql = "UPDATE Questions " +
+      "SET priority = CASE ";
+      for (let i = 0; i < normArray.length / 3; i++) {
+        sql += "WHEN questionId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE questionId IN (";
+      for (let i = 0; i < normArray.length / 3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, normArray);
+    }
+
+    // update the unpublished cards
+    if (tempArray.length) {
+      sql = "UPDATE Temp_Questions " +
+      "SET tempPriority = CASE ";
+      for (let i = 0; i < tempArray.length / 3; i++) {
+        sql += "WHEN tempQuestionId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE tempQuestionId IN (";
+      for (let i = 0; i < tempArray.length / 3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, tempArray);
+    }
+
+    const finalResults = {
+      questionId: questionId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error moving question");
+    throw Error(err);
+  }
+
+}
+exports.moveQuestion = moveQuestion;
+
+
+// move an unpublished question
+async function moveTempQuestion(questionId, direction) {
+
+  try {
+
+    // make sure that the question exists
+    let sql = "SELECT * " +
+    "FROM Questions " +
+    "WHERE questionId = ? ";
+    let results = await pool.query(sql, questionId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const pageId = results[0][0].pageId;
+    const approved = results[0][0].approved;
+
+    let questionType = "norm";
+
+    // see if this card is already approved
+    if (approved) {
+
+      // since it is approved, get the temp question version of the question
+      const sql = "SELECT * " +
+      "FROM Temp_Questions " +
+      "WHERE tempQuestionId = ? ";
+      results = await pool.query(sql, questionId);
+      questionType = "temp";
+
+      if (!results[0].length) {
+        return {error: 1};
+      }
+
+    }
+
+    // get all of the questions and temp questions under the current page
+    sql = "SELECT * " +
+    "FROM Questions " +
+    "LEFT JOIN Temp_Questions " +
+    "ON questionId = tempQuestionId " +
+    "WHERE pageId = ? " +
+    "ORDER BY priority ASC, questionId ASC";
+    results = await pool.query(sql, pageId);
+
+    // create an array with all of the questions
+    // each question has an id, type (normal / temp), and a priority
+    const questionOrderArray = [];
+    for (let i = 0; i < results[0].length; i++) {
+      if (results[0][i].tempQuestionId > 0) {
+
+        const questionObj = {
+          id: results[0][i].questionId,
+          type: "norm",
+          order: results[0][i].priority,
+          show: "hidden"
+        };
+
+        const tempQuestionObj = {
+          id: results[0][i].tempQuestionId,
+          type: "temp",
+          order: results[0][i].tempPriority,
+          show: "show"
+        };
+
+        questionOrderArray.push(questionObj);
+        questionOrderArray.push(tempQuestionObj);
+
+      } else {
+        const questionObj = {
+          id: results[0][i].questionId,
+          type: "norm",
+          order: results[0][i].priority,
+          show: "show"
+        };
+        questionOrderArray.push(questionObj);
+      }
+    }
+
+    // sort the array of questions by order index
+    questionOrderArray.sort((a, b) => a.order - b.order);
+
+    // find and move the specified question
+    for (let i = 0; i < questionOrderArray.length; i++) {
+      if (parseInt(questionOrderArray[i].id, 10) === parseInt(questionId, 10) && questionOrderArray[i].type === questionType) {
+        if (direction) {
+          // try to move up and skip hidden questions
+          for (let j = i; j > 0; j--) {
+            const tempObj = questionOrderArray[j - 1];
+            questionOrderArray[j - 1] = questionOrderArray[j];
+            questionOrderArray[j] = tempObj;
+            if (questionOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        } else {
+          // try to move down and skip hidden questions
+          for (let j = i; j < questionOrderArray.length - 1; j++) {
+            const tempObj = questionOrderArray[j + 1];
+            questionOrderArray[j + 1] = questionOrderArray[j];
+            questionOrderArray[j] = tempObj;
+            if (questionOrderArray[j].show !== "hidden") {
+              break;
+            }
+          }
+          break;
+        }
+      }
+    }
+
+    // apply new order values to the questions and split it into normal and temp questions
+    const normArray = [];
+    const tempArray = [];
+    for (let i = 0; i < questionOrderArray.length; i++) {
+      if (questionOrderArray[i].type === "temp") {
+        tempArray.push(parseInt(questionOrderArray[i].id, 10));
+        tempArray.push(i + 1);
+      } else {
+        normArray.push(parseInt(questionOrderArray[i].id, 10));
+        normArray.push(i + 1);
+      }
+    }
+
+    // push the ids to the end once more to match with the future query
+    for (let i = 0; i < questionOrderArray.length; i++) {
+      if (questionOrderArray[i].type === "temp") {
+        tempArray.push(questionOrderArray[i].id);
+      } else {
+        normArray.push(questionOrderArray[i].id);
+      }
+    }
+
+    // update the published questions
+    if (normArray.length) {
+      sql = "UPDATE Questions " +
+      "SET priority = CASE ";
+      for (let i = 0; i < normArray.length / 3; i++) {
+        sql += "WHEN questionId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE questionId IN (";
+      for (let i = 0; i < normArray.length / 3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, normArray);
+    }
+
+    // update the unpublished questions
+    if (tempArray.length) {
+      sql = "UPDATE Temp_Questions " +
+      "SET tempPriority = CASE ";
+      for (let i = 0; i < tempArray.length / 3; i++) {
+        sql += "WHEN tempQuestionId = ? THEN ? ";
+      }
+      sql += "ELSE 0 END WHERE tempQuestionId IN (";
+      for (let i = 0; i < tempArray.length / 3; i++) {
+        sql += "?,";
+      }
+      sql = sql.replace(/.$/, ");");
+      results = await pool.query(sql, tempArray);
+    }
+
+    const finalResults = {
+      questionId: questionId
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error moving question");
+    throw Error(err);
+  }
+
+}
+exports.moveTempQuestion = moveTempQuestion;

@@ -1,6 +1,6 @@
 import React, {useState, useEffect, Fragment} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
-import {getProfile} from "../../utilities/cookieAuth";
+import {getProfile, logout} from "../../utilities/cookieAuth";
 import {useParams} from "react-router-dom";
 import {API_URL} from "../../utilities/constants";
 import Error404 from "../404/Error404";
@@ -197,6 +197,120 @@ function QuizEdit() {
     // eslint-disable-next-line
   }, [pageId]);
 
+  // Moves the specified question up or down one in relation to other questions
+  async function onMoveQuestion(questionId, up, mode) {
+    console.log("questionId", questionId, "up", up, "mode", mode);
+    const copy = [...questions];
+    let moveIndex = -1;
+    let swapIndex = -1;
+
+    // change how the questions are moved based on the current mode
+    if (mode === 1) {
+
+      // find the current published question
+      for (let i = 0; i < copy.length; i++) {
+        if (copy[i].questionId === questionId) {
+          moveIndex = i;
+
+          // find the question to swap with
+          if (up) {
+            for (let j = (i - 1); j >= 0; j--) {
+              if (copy[j].approved) {
+                swapIndex = j;
+                break;
+              }
+            }
+          } else {
+            for (let j = (i + 1); j < copy.length; j++) {
+              if (copy[j].approved) {
+                swapIndex = j;
+                break;
+              }
+            }
+          }
+
+          // if we didn't find the question to swap with, then we stop now
+          if (swapIndex === -1) {
+            console.error("Unable to move question");
+            return;
+          }
+
+          // swap the questions
+          const swapQuestion = JSON.parse(JSON.stringify(copy[swapIndex]));
+          copy[swapIndex] = JSON.parse(JSON.stringify(copy[i]));
+          copy[moveIndex] = swapQuestion;
+          setQuestions(copy);
+          break;
+        }
+      }
+
+    } else {
+
+      // find the current unpublished question
+      for (let i = 0; i < copy.length; i++) {
+        if (copy[i].questionId === questionId) {
+          moveIndex = i;
+
+          // find the question to swap with
+          if (up) {
+            for (let j = (i - 1); j >= 0; j--) {
+              swapIndex = j;
+              break;
+            }
+          } else {
+            for (let j = (i + 1); j < copy.length; j++) {
+              swapIndex = j;
+              break;
+            }
+          }
+
+          // if we didn't find the question to swap with, then we stop now
+          if (swapIndex === -1) {
+            console.error("Unable to move question");
+            return;
+          }
+
+          // swap the questions
+          const swapQuestion = JSON.parse(JSON.stringify(copy[swapIndex]));
+          copy[swapIndex] = JSON.parse(JSON.stringify(copy[i]));
+          copy[moveIndex] = swapQuestion;
+          setQuestions(copy);
+          break;
+        }
+      }
+
+    }
+
+    setQuestions(copy);
+
+    // get the direction value
+    const direction = up ? 1 : 0;
+
+    // send our move to the API
+    const results = await fetch(`${API_URL}/quizzes/${questionId}/move/${direction}/${mode}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (!results.ok) {
+      const obj = await results.json();
+
+      if (results.status === 404) {
+        console.error("Couldn't find question to move");
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        console.error("An internal server error occurred while trying to move the question.");
+      } else {
+        console.error(obj.error);
+      }
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      }
+    }
+  }
+
   // deletes a specific question
   function onDeleteQuestion(questionKey) {
 
@@ -360,6 +474,7 @@ function QuizEdit() {
           role={role}
           pageId={pageId}
           handleUpdate={(newQuestion, type) => handleUpdate(newQuestion, type)}
+          onMoveQuestion={(questionId, up, mode) => onMoveQuestion(questionId, up, mode)}
         />
       )}
 
