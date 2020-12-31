@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import Image from "../../components/General/Image";
 import QuestionEdit from "./QuestionEdit";
 import QuestionReview from "./QuestionReview";
+import OrderQuestionsButton from "./OrderQuestionsButton";
 import PropTypes from "prop-types";
 
 // A single question that can be edited
@@ -47,12 +48,43 @@ function QuestionDisplay(props) {
 
         {/* Review and Edit question button */}
         <div className="col-8" >
+
+          {/* Buttons for moving approved questions */}
+          {props.approved ? (
+            <Fragment>
+              <OrderQuestionsButton
+                questionId={props.questionId}
+                handleMove={() => {}}
+                approved={true}
+                role={props.role}
+              />
+            </Fragment>
+          ) : (
+            null
+          )}
+
+          {/* Buttons for moving pending questions */}
+          {!props.approved || props.tempQuestionId ? (
+            <Fragment>
+              <OrderQuestionsButton
+                questionId={props.questionId}
+                handleMove={() => {}}
+                approved={false}
+                role={props.role}
+              />
+            </Fragment>
+          ) : (
+            null
+          )}
+
+          {/* Button for reviewing question */}
           <QuestionReview
             question={props.question}
             role={props.role}
             handleUpdate={(newQuestion, type) => props.handleUpdate(newQuestion, type)}
           />
 
+          {/* Button for editing question */}
           <QuestionEdit
             questionKey={props.questionKey}
             questionId={props.questionId}
@@ -74,7 +106,6 @@ function QuestionDisplay(props) {
             pageId={props.pageId}
             handleUpdate={(newQuestion, type) => props.handleUpdate(newQuestion, type)}
           />
-
         </div>
 
       </div>

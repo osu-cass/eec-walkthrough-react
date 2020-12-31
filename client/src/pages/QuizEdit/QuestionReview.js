@@ -276,7 +276,7 @@ function QuestionReview(props) {
       <LoadingOverlay loading={loading} />
 
       <button
-        className="btn btn-sm btn-success btn pull-right ml-3"
+        className="btn btn-sm btn-success btn pull-right mx-2 mb-2"
         onClick={() => handleShowModal()}
       >
         <i className="fas fa-fw fa-stamp mr-2 my-1" style={{transform: "scale(1.5)"}}/>
