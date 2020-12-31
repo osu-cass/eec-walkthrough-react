@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
-import Image from "../Various/Image";
+import Image from "../../../components/General/Image";
 import ReviewPage from "./ReviewPage";
 import ChangeMode from "./ChangeMode";
 import ChangePublic from "./ChangePublic";
@@ -9,6 +9,7 @@ import EditPage from "./EditPage";
 import SaveView from "./SaveView";
 import LoadView from "./LoadView";
 import AddSource from "./AddSource";
+import QuickLinks from "../Various/QuickLinks";
 import "./PageDescription.css";
 
 // Header and card that describes the page
@@ -127,6 +128,14 @@ function PageDescription(props) {
             <div className="col-8">
               <h5 className="font-weight-bold">{title}</h5>
               <p className="allow-newlines">{description}</p>
+              <QuickLinks
+                headers={props.headers}
+                quiz={props.quiz}
+                references={props.references}
+                mode={props.mode}
+                publishedMode={props.publishedMode}
+                publicMode={props.publicMode}
+              />
             </div>
             <div className="col-4 text-center">
               <Image url={imageUrl}
@@ -159,5 +168,7 @@ PageDescription.propTypes = {
   handleUpdate: PropTypes.func,
   moved: PropTypes.bool,
   onNewView: PropTypes.func,
-  headers: PropTypes.array
+  headers: PropTypes.array,
+  quiz: PropTypes.bool,
+  references: PropTypes.bool
 };

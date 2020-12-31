@@ -330,6 +330,12 @@ async function publishHeader(headerId) {
     "WHERE Headers.approved = 1 AND Headers.headerId = ?;";
     await pool.query(sql, [headerId]);
 
+    // update the last updated date of the page
+    sql = "UPDATE Pages " +
+    "SET created = CURRENT_TIMESTAMP " +
+    "WHERE pageId = ?;";
+    await pool.query(sql, pageId);
+
     const finalResults = {
       headerId: headerId
     };

@@ -61,7 +61,7 @@ app.post("/page/:pageId", requireAuth, postViewVal.validation, async (req, res) 
 
     // make sure the user is allowed to perform this action
     if (parseInt(publicView, 10)) {
-      if (!await roleCheck(4, req.auth.userId)) {
+      if (!await roleCheck(5, req.auth.userId)) {
         res.status(401).send({error: "Unauthorized user attempting to create public view."});
         return;
       }

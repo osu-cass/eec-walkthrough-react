@@ -13,3 +13,32 @@
   table-layout: fixed;
   word-wrap: break-word;
 }
+
+.request-dot {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.orange-dot {
+  background-color: #d73f09;
+}
+
+.black-dot {
+  background-color: #000;
+}
+
+.green-dot {
+  background-color: #239023;
+}
+
+.request-check {
+  cursor: initial;
+  margin-right: 0.15em;
+  margin-top: 0.4em;
+}
+
+.request-check:hover {
+  cursor: initial;
+}

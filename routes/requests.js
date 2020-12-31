@@ -10,14 +10,18 @@ const {
   getSelection,
   createRequest,
   createComment,
+  deleteComment,
+  updateComment,
   deleteRequest,
   approveRequest
 } = require("../models/requests");
 const {
   getRequestVal,
+  getRequestStatusVal,
   getSelectionVal,
   postRequestVal,
-  postCommentVal
+  postCommentVal,
+  patchCommentVal
 } = require("../services/validation/requestValidation");
 const {
   requireAuth,
@@ -25,12 +29,27 @@ const {
 } = require("../services/authentication/cookieAuth");
 
 
-// get information about all requests
-app.get("/all", requireAuth, async (req, res) => {
+// get information about all requests that match a status
+app.post("/status/:status", getRequestStatusVal.validation, requireAuth, async (req, res) => {
 
   try {
 
     console.log("Get a list of requests");
+
+    const status = req.params.status;
+    const sort = req.body.sort;
+    const order = req.body.order;
+    const cursor = {
+      primary: req.body.cursorPrimary,
+      secondary: req.body.cursorSecondary
+    };
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
 
     // make sure the user is allowed to perform this action
     if (!await roleCheck(3, req.auth.userId)) {
@@ -39,7 +58,7 @@ app.get("/all", requireAuth, async (req, res) => {
     }
 
     // get requests
-    const results = await getRequests();
+    const results = await getRequests(parseInt(status, 10), parseInt(sort, 10), parseInt(order, 10), cursor);
     res.status(200).send(results);
 
   } catch (err) {
@@ -56,6 +75,7 @@ app.get("/:requestId", requireAuth, getRequestVal.validation, async (req, res) =
   try {
 
     const requestId = req.params.requestId;
+    const userId = req.auth.userId;
     console.log("Get all data related to request", requestId);
 
     // confirm that the request is valid
@@ -72,7 +92,7 @@ app.get("/:requestId", requireAuth, getRequestVal.validation, async (req, res) =
     }
 
     // get requests
-    const results = await getRequest(requestId);
+    const results = await getRequest(requestId, userId);
 
     if (results.requestId === 0) {
       res.status(404).send({error: "Request not found."});
@@ -197,7 +217,7 @@ app.post("/comment/:requestId", requireAuth, postCommentVal.validation, async (r
     }
 
     // create the comment
-    const results = await createComment(requestId, comment, status, targetId, userId);
+    const results = await createComment(requestId, comment, parseInt(status, 10), targetId, userId);
 
     if (results.insertId) {
       res.status(201).send(results);
@@ -205,6 +225,95 @@ app.post("/comment/:requestId", requireAuth, postCommentVal.validation, async (r
 
       if (results.error === 1) {
         res.status(404).send({error: "Request not found."});
+      } else if (results.error === 2) {
+        res.status(401).send({error: "This user is not allowed to make this type of request."});
+      } else if (results.error === 3) {
+        res.status(403).send({error: "This request is not accepting orange reviews."});
+      } else if (results.error === 4) {
+        res.status(403).send({error: "This request is not accepting black reviews."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete a request comment
+app.delete("/comment/:commentId", requireAuth, async (req, res) => {
+
+  try {
+
+    const commentId = req.params.commentId;
+    const userId = req.auth.userId;
+    console.log("Delete request comment", commentId);
+
+    // delete the comment if the user is the owner
+    const results = await deleteComment(commentId, userId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Comment not found."});
+      } else if (results.error === 2) {
+        res.status(403).send({error: "Reviews are not allowed to be deleted, as the request status has already been updated."});
+      } else if (results.error === 3) {
+        res.status(403).send({error: "The request is not open, so the comment cannot be deleted."});
+      } else if (results.error === 4) {
+        res.status(401).send({error: "Unauthorized user attempting to delete comment."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// update a request comment
+app.patch("/comment/:commentId", requireAuth, patchCommentVal.validation, async (req, res) => {
+
+  try {
+
+    console.log("Update a comment");
+
+    const commentId = req.params.commentId;
+    const commentText = req.body.commentText;
+    const userId = req.auth.userId;
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // update a comment if the user is the owner
+    const results = await updateComment(commentId, commentText, userId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Comment not found."});
+      } else if (results.error === 2) {
+        res.status(403).send({error: "The request is not open, so the comment cannot be edited."});
+      } else if (results.error === 3) {
+        res.status(401).send({error: "Unauthorized user attempting to edit comment."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -230,7 +339,7 @@ app.delete("/:requestId", requireAuth, async (req, res) => {
     console.log("Delete request", requestId);
 
     // make sure the user is allowed to perform this action
-    if (await roleCheck(4, req.auth.userId)) {
+    if (await roleCheck(5, req.auth.userId)) {
       admin = true;
     }
 
@@ -268,7 +377,7 @@ app.post("/accept/:requestId", requireAuth, async (req, res) => {
     console.log("Accept request", requestId);
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to approve a request."});
       return;
     }

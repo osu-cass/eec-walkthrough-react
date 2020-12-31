@@ -27,14 +27,14 @@ function Header(props) {
     // return a new initialized filter
     const allIcons = [];
     let maxId = 0;
-    
+
     // get the largest ID of an icon
     for (let i = 0; i < props.iconSet.length; i++) {
       if (props.iconSet[i].iconType > maxId) {
         maxId = props.iconSet[i].iconType;
       }
     }
-    
+
     // initialize the array to show all icons up to the largest ID
     for (let i = 0; i <= maxId; i++) {
       allIcons.push(true);
@@ -537,14 +537,20 @@ function Header(props) {
   return (!props.header.approved && props.mode !== 1 && (props.mode !== 2 || props.publishedMode !== 0)) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
-    <div>
+    <Fragment>
+      {/* Anchor for jumping to the header */}
+      <span
+        id={`header-${props.header.headerId}`}
+        className="header-anchor"
+      />
 
       {/* Container that holds the header title */}
-      <div className={`d-flex sticky-top
+      <div
+        className={`header-container d-flex
         ${props.header.approved && (!props.header.tempHeaderId || !viewUnpublished()) ? "header-approved" : "header-review"}
         ${isInternal() ? "header-internal" : ""}
         header-bar header-bar-content justify-content-between my-3 py-3 text-dark-50 rounded shadow-sm border`}
-      style={{top: "1em", zIndex: "998"}}
+        style={{top: "1em", zIndex: (500)}}
       >
         <div className="row w-100 ml-0">
           <div className="col-auto align-self-center">
@@ -567,7 +573,6 @@ function Header(props) {
                 {/* Button to move header up */}
                 <OrderObjectButton
                   up={true}
-                  header={true}
                   objectId={props.header.headerId}
                   handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
                   edited={!props.header.approved || props.header.tempHeaderId ? true : false}
@@ -578,7 +583,6 @@ function Header(props) {
                 {/* Button to move header down */}
                 <OrderObjectButton
                   up={false}
-                  header={true}
                   objectId={props.header.headerId}
                   handleMove={(id, up, mode) => props.handleMoveHeader(id, up, mode)}
                   edited={!props.header.approved || props.header.tempHeaderId ? true : false}
@@ -597,30 +601,29 @@ function Header(props) {
             </div>
           ) : (
             <Fragment>
-              <div className="col filter-col align-self-center px-0">
-                <div className="btn-group align-self-center float-right filter-div">
+              <div className="col w-100" />
+              <div className="col-auto align-self-center pl-0 float-right">
+                <div className="btn-group align-self-center float-right ml-2 mt-1">
 
                   {/* Used for filtering content in the items below the header */}
-                  <FilterBar
-                    headerId={props.header.headerId}
-                    updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
-                    resetIcons={() => props.resetIcons(props.header.headerId)}
-                    clearIcons={() => props.clearIcons(props.header.headerId)}
-                    filterIcons={filterIcons}
-                    tempFilterIcons={tempFilterIcons}
-                    filterShow={filterShow}
-                    iconSet={props.iconSet}
-                    mode={props.mode}
-                    showToggle={opportunitiesExist}
-                    toggled={opportunityFilterMode}
-                    showFilter={() => props.showFilter()}
-                    show={props.show}
-                  />
+                  {props.header.hideFilter ? (
+                    null
+                  ) : (
+                    <FilterBar
+                      headerId={props.header.headerId}
+                      updateIcon={(e1, e2) => props.updateIcon(e1, e2, props.header.headerId)}
+                      resetIcons={() => props.resetIcons(props.header.headerId)}
+                      clearIcons={() => props.clearIcons(props.header.headerId)}
+                      filterIcons={filterIcons}
+                      tempFilterIcons={tempFilterIcons}
+                      filterShow={filterShow}
+                      iconSet={props.iconSet}
+                      mode={props.mode}
+                      showToggle={opportunitiesExist}
+                      toggled={opportunityFilterMode}
+                    />
+                  )}
 
-                </div>
-              </div>
-              <div className="col-auto align-self-center pl-0">
-                <div className="btn-group align-self-center float-right">
                   {/* Button for editing the current header */}
                   <EditHeader
                     mode={props.mode}
@@ -675,7 +678,7 @@ function Header(props) {
         )}
       </div>
 
-    </div>
+    </Fragment>
   );
 
 }
@@ -706,5 +709,6 @@ Header.propTypes = {
   show: PropTypes.number,
   onPageMode: PropTypes.func,
   moved: PropTypes.bool,
-  checkIcon: PropTypes.func
+  checkIcon: PropTypes.func,
+  index: PropTypes.number
 };

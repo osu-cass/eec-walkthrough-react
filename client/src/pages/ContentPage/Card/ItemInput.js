@@ -2,8 +2,10 @@ import React, {Fragment, useState, useEffect} from "react";
 import FormControl from "react-bootstrap/FormControl";
 import Dropdown from "react-bootstrap/Dropdown";
 import ImageInput from "../../../components/General/ImageInput";
+import RichTextEditor from "../../../components/General/RichTextEditor";
 import sanitizeHtml from "sanitize-html";
 import PropTypes from "prop-types";
+import "./ItemInput.css";
 
 // An input field for adding or modifying items in a card modal
 function ItemInput(props) {
@@ -78,7 +80,7 @@ function ItemInput(props) {
   return (
     <Fragment>
 
-      {props.contentType === 1 ? (
+      {props.groupIndex === 1 ? (
         <Fragment>
           <FormControl
             as="textarea"
@@ -121,7 +123,7 @@ function ItemInput(props) {
         null
       )}
 
-      {props.contentType === 2 ? (
+      {props.groupIndex === 2 ? (
         <Fragment>
           <FormControl
             as="textarea"
@@ -179,7 +181,7 @@ function ItemInput(props) {
         null
       )}
 
-      {props.contentType === 3 ? (
+      {props.groupIndex === 3 ? (
         <Fragment>
           <Dropdown className="link-select-drop-down-menu ml-2">
             <Dropdown.Toggle variant="outline-dark">
@@ -241,6 +243,20 @@ function ItemInput(props) {
         null
       )}
 
+      {props.groupIndex === 4 ? (
+        <div className="text-editor-input">
+          <div className="form-group mx-3 mb-4">
+            <RichTextEditor
+              id={`submit-text-${props.index}`}
+              value={props.value.contentText}
+              onChange={(text) => props.handleInput(text, props.index, 4)}
+            />
+          </div>
+        </div>
+      ) : (
+        null
+      )}
+
     </Fragment>
   );
 
@@ -248,7 +264,7 @@ function ItemInput(props) {
 export default ItemInput;
 
 ItemInput.propTypes = {
-  contentType: PropTypes.number,
+  groupIndex: PropTypes.number,
   value: PropTypes.any,
   handleInput: PropTypes.func,
   onNewImage: PropTypes.func,

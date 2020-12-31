@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {useParams, withRouter, Link} from "react-router-dom";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
+import Image from "../../components/General/Image";
 import {formatTime} from "../../utilities/formatTime";
 import {API_URL} from "../../utilities/constants";
 import "./PageList.css";
@@ -96,29 +97,37 @@ function PageList() {
 
   if (pageLinks.length) {
     return (
-      <div className="container">
+      <div className="container my-5">
         <LoadingOverlay loading={loading} />
         <div className="content-container mb-5">
           <div className="prompt-container bg-white card rounded shadow-sm">
             <div className="page-search-inner-container m-5">
               <h3 id="title" className="py-4 font-weight-bold">{category.singleName} Pages</h3>
-              {category.pages.map((page, index) =>
-
-                <div className="page-info-container card m-5" key={page.pageId}>
-                  <Link to={pageLinks[index]}>
-                    <h5 className="page-link-header font-weight-bold text-left">
-                      {page.name}
-                    </h5>
-                  </Link>
-                  <span className="text-left float-left">
-                    {page.description}
-                  </span>
-                  <span className="page-link-created text-left float-left">
-                    Last updated {formatTime(page.created)}
-                  </span>
-                </div>
-
-              )}
+              <div className="page-list-organizer">
+                {category.pages.map((page, index) =>
+                  <div className="page-info-container card" key={page.pageId}>
+                    <div className="img-result-thumb text-left my-2">
+                      <Image
+                        url={page.imageUrl}
+                        title={page.name}
+                        thumbnail={true}
+                        header={false}
+                      />
+                    </div>
+                    <Link to={pageLinks[index]}>
+                      <h5 className="page-link-header font-weight-bold text-left">
+                        {page.name}
+                      </h5>
+                    </Link>
+                    <span className="text-left float-left">
+                      {page.description}
+                    </span>
+                    <span className="page-link-created text-left float-left">
+                      Last updated {formatTime(page.created)}
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

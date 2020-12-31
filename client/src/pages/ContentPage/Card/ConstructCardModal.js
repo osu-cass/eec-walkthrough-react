@@ -25,6 +25,7 @@ function ConstructCardModal(props) {
   const [basicIcons, setBasicIcons] = useState([]);
   const [imageIcons, setImageIcons] = useState([]);
   const [linkIcons, setLinkIcons] = useState([]);
+  const [textIcons, setTextIcons] = useState([]);
   const [checked, setChecked] = useState(0);
   const [copyToast, setCopyToast] = useState(false);
   const [cardTitleMode, setCardTitleMode] = useState("");
@@ -41,6 +42,7 @@ function ConstructCardModal(props) {
       const gen = [];
       const images = [];
       const links = [];
+      const texts = [];
       for (let i = 0; i < props.iconSet.length; i++) {
         if (props.iconSet[i].groupIndex === 1) {
           gen.push(props.iconSet[i]);
@@ -48,11 +50,14 @@ function ConstructCardModal(props) {
           images.push(props.iconSet[i]);
         } else if (props.iconSet[i].groupIndex === 3) {
           links.push(props.iconSet[i]);
+        } else if (props.iconSet[i].groupIndex === 4) {
+          texts.push(props.iconSet[i]);
         }
       }
       setBasicIcons(gen);
       setImageIcons(images);
       setLinkIcons(links);
+      setTextIcons(texts);
     }
 
     sortIcons(props.iconSet);
@@ -84,15 +89,12 @@ function ConstructCardModal(props) {
       itemData.indentation = item.indentation;
       itemData.iconType = item.iconType;
       itemData.contentMode = item.contentMode;
-      itemData.contentType = getContentType(item.contentText, item.contentLabel, item.contentUrl);
+      itemData.groupIndex = item.groupIndex;
       itemData.internal = item.internal;
       itemData.inline = item.inline;
       itemData.sourceId = item.sourceId;
       itemData.current = 1;
       itemData.created = item.created;
-      if (item.contentText === "$empty") {
-        itemData.contentText = "";
-      }
       newItems.push(itemData);
       newCounter++;
     });
@@ -151,15 +153,8 @@ function ConstructCardModal(props) {
     return itemArray;
   }
 
-  // Returns the content type (number of fields)
-  function getContentType(text, label, url) {
-    if (text !== "" && label === "" && url === "") { return 1; }
-    if (text === "" && label !== "" && url !== "") { return 2; }
-    if ((text !== "" || text === "$empty") && label !== "" && url !== "") { return 3; }
-  }
-
   // Keeps track of the current number of input fields
-  function incrementCounter(contentType) {
+  function incrementCounter(groupIndex) {
     const newCounter = counter;
     const pureId = pureCounter;
     const key = (newCounter).toString();
@@ -167,15 +162,18 @@ function ConstructCardModal(props) {
 
     let newIconType = null;
     let newIndent = 0;
+
+    // get the icon and indentation of the previous item if possible
     if (items.length) {
       newIndent = items[items.length - 1].indentation;
-      if (items[items.length - 1].contentType === contentType) {
+      if (items[items.length - 1].groupIndex === groupIndex) {
         newIconType = items[items.length - 1].iconType;
       }
     }
 
+    // if this is a link, then get the previous items link mode
     let newContentMode = -1;
-    if (items.length && items[items.length - 1].contentType === 3) {
+    if (items.length && items[items.length - 1].groupIndex === 3) {
       newContentMode = items[items.length - 1].contentMode;
     }
 
@@ -186,7 +184,7 @@ function ConstructCardModal(props) {
     copy[key].contentLabel = "";
     copy[key].contentUrl = "";
     copy[key].iconType = newIconType;
-    copy[key].contentType = contentType;
+    copy[key].groupIndex = groupIndex;
     copy[key].contentMode = newContentMode;
     copy[key].indentation = newIndent;
     copy[key].inline = 0;
@@ -224,7 +222,7 @@ function ConstructCardModal(props) {
 
     // If the current index is the first item on the card return
     if (arrayIndex === 0) {
-      console.error("This item can not be indented");
+      console.error("This item cannot be indented");
       return;
     }
 
@@ -332,9 +330,6 @@ function ConstructCardModal(props) {
     const copy = items;
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
-      if (copy[i].contentType === 3 && copy[i].contentText === "") {
-        copy[i].contentText = "$empty";
-      }
     }
 
     // If we are using a preset title apply it now
@@ -386,7 +381,7 @@ function ConstructCardModal(props) {
     // see if all graphics are still valid
     for (let i = 0; i < copy.length; i++) {
       const item = copy[i];
-      if (item.contentType === 2) {
+      if (item.groupIndex === 2) {
         if (!item.contentUrl.length) {
           setErrorMessage("Error: Invalid file to upload on line " + (i + 1));
           return;
@@ -494,9 +489,6 @@ function ConstructCardModal(props) {
     const copy = items;
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
-      if (copy[i].contentType === 3 && copy[i].contentText === "") {
-        copy[i].contentText = "$empty";
-      }
     }
 
     // If we are using a preset title apply it now
@@ -548,7 +540,7 @@ function ConstructCardModal(props) {
     // see if all graphics are still valid
     for (let i = 0; i < copy.length; i++) {
       const item = copy[i];
-      if (item.contentType === 2) {
+      if (item.groupIndex === 2) {
         if (!item.contentUrl.length) {
           setErrorMessage("Error: Invalid file to upload on line " + (i + 1));
           return;
@@ -728,8 +720,93 @@ function ConstructCardModal(props) {
     return itemArray;
   }
 
+  // Delete unpublished card changes
+  async function handleClear() {
+
+    // Check that the user really wants to delete the changes this version
+    if (!window.confirm("This will only delete unpublished versions of this card.\nAre you sure you want to delete this card?")) {
+      return;
+    }
+    if (!window.confirm("Please confirm one final time that you want to delete this card.")) {
+      return;
+    }
+
+    // delete proposed changes
+    const results = await fetch(`${API_URL}/cards/${props.card.cardId}/changes`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      const newCard = {
+        approved: props.card.approved,
+        cardId: props.card.cardId,
+        headerId: props.card.headerId,
+        cardType: props.card.cardType,
+        title: props.card.title,
+        items: props.card.items,
+        userId: props.card.userId,
+        created: props.card.created,
+        orderIndex: props.card.orderIndex,
+        tempOrderIndex: null,
+        tempCardId: null,
+        tempCardType: null,
+        tempCreated: null,
+        tempUserId: null,
+        tempItems: [],
+        tempTitle: null
+      };
+
+      // Reset state
+      setCounter(0);
+      setPureCounter(0);
+      setTitle("");
+      setFormat(0);
+      setItems([]);
+      setErrorMessage("");
+
+      // Close modal
+      props.handleClose();
+
+
+      props.handleUpdate(newCard, "card", "clear");
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+  }
+
   // Delete the current card
   async function deleteCard() {
+    // Confirm the user is ready to delete the card
+    if (props.role >= 5) {
+      if (!window.confirm("This will delete all versions of this card.\nAre you sure you want to delete this card?")) {
+        return;
+      }
+    } else {
+      // Just delete unpublished content
+      handleClear();
+      return;
+    }
+
+    if (!window.confirm("Please confirm one final time that you want to delete this card.")) {
+      return;
+    }
+
     // Send call to backend to delete card
     const results = await fetch(`${API_URL}/cards/${props.card.cardId}`, {
       method: "DELETE",
@@ -787,19 +864,19 @@ function ConstructCardModal(props) {
     // Empty item text
     for (i = 0; i < items.length; i++) {
       const item = items[i];
-      if (item.contentType === 1) { // text
+      if (item.groupIndex === 1) { // item
         if (item.contentText === "") {
           emptyFound = true;
           newErrorMessage = "Error: Item is not filled out completely on line " + (i + 1);
           break;
         }
-      } else if (item.contentType === 2) { // label + url
-        if (item.contentLabel === "" || (item.contentUrl === "" && !item.imageToUpload)) {
+      } else if (item.groupIndex === 2) { // graphic
+        if ((item.contentUrl === "" && !item.imageToUpload)) {
           emptyFound = true;
-          newErrorMessage = "Error: Graphic is not filled out completely on line " + (i + 1);
+          newErrorMessage = "Error: No image selected on line " + (i + 1);
           break;
         }
-      } else if (item.contentType === 3) { // text + label + url
+      } else if (item.groupIndex === 3) { // link
         if (item.contentLabel === "" || item.contentUrl === "") {
           emptyFound = true;
           newErrorMessage = "Error: Resource is not filled out completely on line " + (i + 1);
@@ -810,11 +887,17 @@ function ConstructCardModal(props) {
           newErrorMessage = "Error: Resource link type is not selected on line " + (i + 1);
           break;
         }
+      } else if (item.groupIndex === 4) { // text
+        if (item.contentText === "") {
+          emptyFound = true;
+          newErrorMessage = "Error: Text is not filled out on line " + (i + 1);
+          break;
+        }
       }
       // Check icons
       if (item.iconType === null) {
         emptyFound = true;
-        newErrorMessage = "Error: Empty item icon on line " + (i + 1);
+        newErrorMessage = "Error: Empty icon on line " + (i + 1);
         break;
       }
     }
@@ -824,16 +907,18 @@ function ConstructCardModal(props) {
   }
 
   // Control input coming from ItemInput for each row according to
-  // contentType and index in the items state
-  function handleInput(e, index, contentType) {
+  // groupIndex and index in the items state
+  function handleInput(e, index, groupIndex) {
     const key = index.toString();
     const copy = [...items];
-    if (contentType === 1) {
+    if (groupIndex === 1) {
       copy[key].contentText = e.target.value;
-    } else if (contentType === 2) {
+    } else if (groupIndex === 2) {
       copy[key].contentLabel = e.target.value;
-    } else if (contentType === 3) {
+    } else if (groupIndex === 3) {
       copy[key].contentUrl = e.target.value;
+    } else if (groupIndex === 4) {
+      copy[key].contentText = e;
     }
     setItems(copy);
   }
@@ -862,15 +947,21 @@ function ConstructCardModal(props) {
   }
 
   // Gets the index of the icon in the appropriate icon array
-  function getIconIndex(id, contentType) {
+  function getIconIndex(id, groupIndex) {
     let i;
-    if (contentType === 3) {
+    if (groupIndex === 4) {
+      for (i = 0; i < textIcons.length; i++) {
+        if (textIcons[i].iconType === id) {
+          return i;
+        }
+      }
+    } else if (groupIndex === 3) {
       for (i = 0; i < linkIcons.length; i++) {
         if (linkIcons[i].iconType === id) {
           return i;
         }
       }
-    } else if (contentType === 2) {
+    } else if (groupIndex === 2) {
       for (i = 0; i < imageIcons.length; i++) {
         if (imageIcons[i].iconType === id) {
           return i;
@@ -887,10 +978,12 @@ function ConstructCardModal(props) {
   }
 
   // Returns a list of icons based on the type of item
-  function getIcons(contentType) {
-    if (contentType === 3) {
+  function getIcons(groupIndex) {
+    if (groupIndex === 4) {
+      return textIcons;
+    } else if (groupIndex === 3) {
       return linkIcons;
-    } else if (contentType === 2) {
+    } else if (groupIndex === 2) {
       return imageIcons;
     } else {
       return basicIcons;
@@ -924,7 +1017,7 @@ function ConstructCardModal(props) {
 
     // stringify the item data
     const itemString = item.contentText + "$%$" + item.contentLabel + "$%$" +
-      item.contentUrl + "$%$" + item.iconType + "$%$" + item.contentType + "$%$" +
+      item.contentUrl + "$%$" + item.iconType + "$%$" + item.groupIndex + "$%$" +
       item.contentMode + "$%$" + item.internal + "$%$" + item.sourceId + "$%$" + item.inline;
 
     // save the item to local storage
@@ -956,7 +1049,7 @@ function ConstructCardModal(props) {
     copy[key].contentLabel = itemArray[1];
     copy[key].contentUrl = itemArray[2];
     copy[key].iconType = parseInt(itemArray[3], 10);
-    copy[key].contentType = parseInt(itemArray[4], 10);
+    copy[key].groupIndex = parseInt(itemArray[4], 10);
     copy[key].contentMode = parseInt(itemArray[5], 10);
     copy[key].internal = parseInt(itemArray[6], 10);
     copy[key].sourceId = parseInt(itemArray[7], 10);
@@ -1059,7 +1152,7 @@ function ConstructCardModal(props) {
     // clear all of the images to upload for all items
     for (let i = 0; i < copy.length; i++) {
       copy[i].imageToUpload = null;
-      if (copy[i].contentType === 2) {
+      if (copy[i].groupIndex === 2) {
         const imageInput = document.getElementById(`custom-file-upload-${i}`);
         imageInput.value = "";
         const inputEvent = new Event("input", {bubbles: true});
@@ -1230,7 +1323,6 @@ function ConstructCardModal(props) {
           </div>
 
           {/* Item Input Fields */}
-
           {items.map((item, i) =>
             <Row
               className={`mb-2 mx-2 ${item.counterId === selectedItem ? "modal-selected-item" : ""}
@@ -1242,8 +1334,8 @@ function ConstructCardModal(props) {
                 <Indent indentLevel={item.indentation} />
                 <IconDropdown
                   itemId={item.itemId}
-                  icons={getIcons(item.contentType)}
-                  iconIndex={getIconIndex(item.iconType, item.contentType)}
+                  icons={getIcons(item.groupIndex)}
+                  iconIndex={getIconIndex(item.iconType, item.groupIndex)}
                   onIconChange={(icon) => updateIcon(icon, i)}
                 />
                 <ItemInput
@@ -1255,7 +1347,7 @@ function ConstructCardModal(props) {
                   handleSourceValue={(e1, e2) => handleSourceValue(e1, e2)}
                   index={i}
                   value={item}
-                  contentType={item.contentType}
+                  groupIndex={item.groupIndex}
                   internal={item.internal}
                   inline={item.inline}
                   sourceId={item.sourceId}
@@ -1270,6 +1362,7 @@ function ConstructCardModal(props) {
               <AddButton variant="info" label="Add Item" onClick={() => incrementCounter(1)} />
               <AddButton variant="success" label="Add Graphic" onClick={() => incrementCounter(2)} />
               <AddButton variant="primary" label="Add Site Resource" onClick={() => incrementCounter(3)} />
+              <AddButton variant="success" label="Add Text" onClick={() => incrementCounter(4)} />
               <Button
                 onClick={() => pasteItem()}
                 className="mr-2 copy-paste-button"
@@ -1299,20 +1392,18 @@ function ConstructCardModal(props) {
 
           {props.edit ? (
             <Fragment>
-              {props.role >= 4 ? (
-                <Fragment>
-                  <Button
-                    className="mr-auto"
-                    variant="danger"
-                    onClick={() => { if (window.confirm("Are you sure you want to delete this card?")) { deleteCard(); } }}
-                  >
-                  Delete Card
-                  </Button>
-                  <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
-                </Fragment>
-              ) : (
-                <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
-              )}
+              <Button
+                className="mr-auto"
+                variant="danger"
+                onClick={() => deleteCard()}
+              >
+                {props.role >= 5 ? (
+                  <span>Delete Card</span>
+                ) : (
+                  <span>Delete Unpublished Card</span>
+                )}
+              </Button>
+              <Button variant="primary" onClick={() => handleEdit()}>Submit Card Changes</Button>
             </Fragment>
           ) : (
             <Button variant="primary" onClick={() => handleCreate()}>Submit Card</Button>

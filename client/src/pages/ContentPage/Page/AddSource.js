@@ -232,7 +232,7 @@ function AddSource(props) {
     setLoading(false);
   }
 
-  if (props.mode === 1 && props.role === 4) {
+  if (props.mode === 1 && props.role === 5) {
 
     return <div className="text-center mx-2 my-auto">
       <LoadingOverlay loading={loading} />
@@ -246,6 +246,7 @@ function AddSource(props) {
       <Modal show={showModal} onHide={() => handleCloseModal()} dialogClassName="modal-width">
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Manage Sources</h5>
+          <a href="/IEEE-Reference-Guide.pdf" className="my-auto">(IEEE Reference Guide)</a>
           <Button variant="none" onClick={() => handleCloseModal()}>
             <span aria-hidden="true">&times;</span>
           </Button>
@@ -295,7 +296,7 @@ function AddSource(props) {
       </Modal>
     </div>;
 
-  } else if (props.mode === 1 && props.role === 3) {
+  } else if (props.mode === 1 && (props.role === 3 || props.role === 4)) {
 
     return <div className="text-center mx-2 my-auto">
       <LoadingOverlay loading={loading} />
@@ -309,6 +310,7 @@ function AddSource(props) {
       <Modal show={showModal} onHide={() => handleCloseModal()} dialogClassName="modal-width">
         <Modal.Header>
           <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Add Source</h5>
+          <a href="/IEEE-Reference-Guide.pdf" className="my-auto">(IEEE Reference Guide)</a>
           <Button variant="none" onClick={() => handleCloseModal()}>
             <span aria-hidden="true">&times;</span>
           </Button>

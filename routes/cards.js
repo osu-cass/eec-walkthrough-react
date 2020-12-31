@@ -6,6 +6,7 @@ const app = express.Router();
 const {validationResult} = require("express-validator");
 const {
   roleCheck,
+  internalCheck,
   requireAuth
 } = require("../services/authentication/cookieAuth");
 const {
@@ -54,6 +55,9 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
       res.status(401).send({error: "Unauthorized user attempting to create card."});
       return;
     }
+    if (parseInt(cardType, 10) >= 10 && !await internalCheck(req.auth.userId)) {
+      res.status(403).send({error: "This user is not allowed to create internal cards."});
+    }
 
     // create a card
     const results = await createCard(headerId, parseInt(cardType, 10), title, items, userId);
@@ -100,7 +104,7 @@ app.delete("/:cardId", requireAuth, getCardVal.validation, async (req, res) => {
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to delete card."});
       return;
     }
@@ -157,7 +161,7 @@ app.delete("/:cardId/changes", requireAuth, getCardVal.validation, async (req, r
     } else {
 
       if (results.error === 1) {
-        res.status(404).send({error: "Card not found."});
+        res.status(404).send({error: "No unpublished version of this card found."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -196,6 +200,9 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
     if (!await roleCheck(3, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to update card."});
       return;
+    }
+    if (parseInt(cardType, 10) >= 10 && !await internalCheck(req.auth.userId)) {
+      res.status(403).send({error: "This user is not allowed to set a card to internal."});
     }
 
     // update a card
@@ -242,7 +249,7 @@ app.post("/:cardId/publish", requireAuth, getCardVal.validation, async (req, res
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to publish a card."});
       return;
     }
@@ -289,7 +296,7 @@ app.post("/:cardId/unpublish", requireAuth, getCardVal.validation, async (req, r
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to unpublish a card."});
       return;
     }
@@ -341,7 +348,7 @@ app.patch("/:cardId/move/:direction/:mode", requireAuth, patchCardMoveVal.valida
 
     // make sure the user is allowed to perform this action
     if (parseInt(mode, 10)) {
-      if (!await roleCheck(4, req.auth.userId)) {
+      if (!await roleCheck(5, req.auth.userId)) {
         res.status(401).send({error: "Unauthorized user attempting to move card."});
         return;
       }
@@ -422,7 +429,7 @@ app.post("/titles", requireAuth, postCardTitleVal.validation, async (req, res) =
     const titles = req.body.titles;
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to create default card titles."});
       return;
     }

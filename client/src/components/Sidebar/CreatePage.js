@@ -1,5 +1,5 @@
 import React, {useState, useEffect, Fragment} from "react";
-import {Modal, Button, Row, Col, Form} from "react-bootstrap";
+import {Modal, Button, Row, Col, Form, Card} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL, UPLOAD_TERMS} from "../../utilities/constants";
 import Agreement from "../General/Agreement";
@@ -7,6 +7,7 @@ import {getAgreement} from "../../utilities/agreementMode";
 import PropTypes from "prop-types";
 import Error from "../General/Error";
 import ImageInput from "../General/ImageInput";
+import {NavLink} from "react-router-dom";
 import "./CreatePage.css";
 
 // button and modal for creating a new page
@@ -179,7 +180,7 @@ function CreatePage(props) {
   }
 
   return props.role >= 3 ? (
-    <div className={`${props.navbar ? "d-inline" : "text-center mx-1 createPage"}`}>
+    <div className={`${props.navbar ? "d-inline" : "d-block w-100"}`}>
 
       <Agreement
         agreementTitle={"Image Agreement"}
@@ -201,12 +202,14 @@ function CreatePage(props) {
           </div>
         </Fragment>
       ) : (
-      <Button variant="outline-info" className="createPage" onClick={(e) => handleShow(e)}>
-        <i
-          className='create-page-icon fas fa-plus-circle text-info mr-2'
-          style={{transform: "scale(1.5)"}}></i>
-            Create Page
-      </Button>
+        <NavLink to="#" className="ml-3 sidebar-nav-link">
+          <Card.Body className="sidebar-nav-link" onClick={(e) => handleShow(e)}>
+            <i
+              className="nav-bar-icon fas fa-plus-circle text-info mr-2"
+            />
+            <span className="navbar-item-text text-left">Create Page</span>
+          </Card.Body>
+        </NavLink>
       )}
 
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">

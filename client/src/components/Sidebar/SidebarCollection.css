@@ -11,35 +11,46 @@ a:focus.page-sidebar-nav-link {
   white-space: nowrap;
 }
 
-#sidebarCollection.card-header {
-  cursor: pointer;
-  color: #FFFFFF;
-  background: #faa945 !important;
-  text-decoration: none;
+.sidebarCollection {
+  font-size: 1.3rem;
 }
 
-.nav_link:hover {
+.sidebarCollection.view-toggle-button {
+  font-size: 1.1rem;
+}
+
+.sidebarCollection.card-header {
+  cursor: pointer;
+  color: #ccc;
+  background: #41484e !important;
+  text-decoration: none;
+  border-radius: 0 !important;
+}
+
+.sidebar-nav-link:hover {
+  cursor: pointer;
+  font-size: 1rem;
   color: #FFFFFF;
   background: #41484E;
   text-decoration: none;
 }
 
-div.nav_link {
+div.sidebar-nav-link {
+  font-size: 1rem;
   color: #FFFFFF;
   padding: 1rem;
   margin-top: -1.5rem;
   text-decoration: none;
 }
 
-#sidebarCollection.card-header:hover {
+.sidebarCollection.card-header:hover {
   cursor: pointer;
   color: #FFFFFF;
-  border-color: #E3922E !important;
-  background: #E3922E !important;
+  background: #2d3236 !important;
   text-decoration: none;
 }
 
-#sidebarCollection.card-header:hover {
+.sidebarCollection.card-header:hover {
   text-decoration: none;
 }
 

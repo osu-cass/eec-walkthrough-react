@@ -24,6 +24,10 @@ function AcceptRequest(props) {
       return;
     }
 
+    if (!window.confirm("Confirm one final time that you wish to accept this request.")) {
+      return;
+    }
+
     setLoading(true);
 
     // accept the request
@@ -57,7 +61,7 @@ function AcceptRequest(props) {
     setLoading(false);
   }
 
-  return role === 4 ? (
+  return role === 5 && props.requestStatus === 3 ? (
     <Fragment>
       <LoadingOverlay loading={loading}/>
       <Button
@@ -76,5 +80,6 @@ export default AcceptRequest;
 
 AcceptRequest.propTypes = {
   onError: PropTypes.func,
-  requestId: PropTypes.number
+  requestId: PropTypes.number,
+  requestStatus: PropTypes.number
 };
