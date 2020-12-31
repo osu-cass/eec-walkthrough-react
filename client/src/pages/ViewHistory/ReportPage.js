@@ -2,7 +2,7 @@ import React, {useState, useEffect, Fragment} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../utilities/formatTime";
 import HighlightText from "../ContentPage/Various/HighlightText";
-import Image from "../ContentPage/Various/Image";
+import Image from "../../components/General/Image";
 import SubmitComment from "../RequestPage/SubmitComment";
 import RequestComment from "../RequestPage/RequestComment";
 import "./ReportPage.css";
@@ -120,7 +120,7 @@ function ReportPage(props) {
                       status={comment.review}
                       targetId={comment.targetId}
                       initial={false}
-                      borderDark={true}
+                      embedded={true}
                     />
                   ) : (
                     null
@@ -138,6 +138,8 @@ function ReportPage(props) {
               requestId={props.requestId}
               targetId={`P${props.page.pageId}`}
               borderDark={true}
+              requestStatus={props.requestStatus}
+              role={props.role}
             />
           ) : (
             null
@@ -298,5 +300,7 @@ ReportPage.propTypes = {
   removeMode: PropTypes.bool,
   reviewMode: PropTypes.bool,
   requestId: PropTypes.number,
-  comments: PropTypes.array
+  comments: PropTypes.array,
+  requestStatus: PropTypes.number,
+  role: PropTypes.number
 };

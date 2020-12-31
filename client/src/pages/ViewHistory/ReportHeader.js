@@ -82,7 +82,7 @@ function ReportHeader(props) {
                       status={comment.review}
                       targetId={comment.targetId}
                       initial={false}
-                      borderDark={true}
+                      embedded={true}
                     />
                   ) : (
                     null
@@ -100,6 +100,8 @@ function ReportHeader(props) {
               requestId={props.requestId}
               targetId={`H${props.header.headerId}`}
               borderDark={true}
+              requestStatus={props.requestStatus}
+              role={props.role}
             />
           ) : (
             null
@@ -154,5 +156,7 @@ ReportHeader.propTypes = {
   removeMode: PropTypes.bool,
   reviewMode: PropTypes.bool,
   requestId: PropTypes.number,
-  comments: PropTypes.array
+  comments: PropTypes.array,
+  requestStatus: PropTypes.number,
+  role: PropTypes.number
 };

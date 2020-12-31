@@ -18,12 +18,15 @@ function CloseRequest(props) {
     const user = getProfile();
     setRole(user.role);
     setUserId(user.userId);
-
   }, [props.requestId, props.creatorId]);
 
   async function submitClose() {
     // Confirm that the user wants to close the request
     if (!window.confirm("Are you sure you want to close this request?\nThis request will be removed and no content will be published.")) {
+      return;
+    }
+
+    if (!window.confirm("Confirm one final time that you wish to close this request.")) {
       return;
     }
 
@@ -60,7 +63,7 @@ function CloseRequest(props) {
     setLoading(false);
   }
 
-  return userId === props.creatorId || role === 4 ? (
+  return userId === props.creatorId || role === 5 ? (
     <Fragment>
       <LoadingOverlay loading={loading}/>
       <Button

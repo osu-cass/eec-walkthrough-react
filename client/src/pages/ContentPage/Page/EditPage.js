@@ -164,7 +164,7 @@ function EditPage(props) {
     return false;
   }
 
-  // update the page
+  // Update the page
   async function updatePage() {
     // Check for empty inputs
     if (checkInputs()) {
@@ -317,7 +317,98 @@ function EditPage(props) {
     setShowLoad(false);
   }
 
+  // Delete unpublished page changes
+  async function handleClear() {
+
+    // Check that the user really wants to delete the changes this version
+    if (!window.confirm("This will only delete unpublished versions of this page.\nAre you sure you want to delete this page?")) {
+      return;
+    }
+    if (!window.confirm("Please confirm one final time that you want to delete this page.")) {
+      return;
+    }
+
+    // delete proposed changes
+    const results = await fetch(`${API_URL}/pages/${props.page.pageId}/changes`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      if (props.page.approved) {
+        const newPage = {
+          approved: props.page.approved,
+          created: props.page.created,
+          description: props.page.description,
+          imageUrl: props.page.imageUrl,
+          name: props.page.name,
+          title: props.page.title,
+          pageId: props.page.pageId,
+          pageType: props.page.pageType,
+          userId: props.page.userId,
+          internal: props.page.internal,
+          tempPageType: null,
+          tempInternal: null,
+          tempDescription: null,
+          tempImageUrl: null,
+          tempName: null,
+          tempTitle: null,
+          tempCreated: null,
+          tempUserId: null,
+          headers: []
+        };
+
+        // Reset state
+        setTitle("");
+        setSummary("");
+        setDescription("");
+        setUrl("");
+        setErrorMessage("");
+
+        // Close modal
+        handleCloseModal();
+
+        props.handleUpdate(newPage, "page", "clear");
+      } else {
+        window.location.href = "/";
+      }
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+
+    }
+
+  }
+
+  // Delete the page
   async function deletePage() {
+    // Confirm the user is ready to delete the page
+    if (props.role >= 5) {
+      if (!window.confirm("This will delete all versions of this page.\nAre you sure you want to delete this page?")) {
+        return;
+      }
+    } else {
+      // Just delete unpublished content
+      handleClear();
+      return;
+    }
+
+    if (!window.confirm("Please confirm one final time that you want to delete this page.")) {
+      return;
+    }
+
     setShowLoad(true);
 
     const results = await fetch(`${API_URL}/pages/${props.page.pageId}`, {
@@ -347,6 +438,7 @@ function EditPage(props) {
     setShowLoad(false);
   }
 
+  // Updates the pages with the new changes
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -555,17 +647,17 @@ function EditPage(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          {props.role >= 4 ? (
-            <Button
-              className="mr-auto"
-              variant="danger"
-              onClick={() => { if (window.confirm("Are you sure you want to delete this page?")) { deletePage(); } }}
-            >
-              Delete Page
-            </Button>
-          ) : (
-            null
-          )}
+          <Button
+            className="mr-auto"
+            variant="danger"
+            onClick={() => deletePage()}
+          >
+            {props.role >= 5 ? (
+              <span>Delete Page</span>
+            ) : (
+              <span>Delete Unpublished Page</span>
+            )}
+          </Button>
           <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Page Edit</Button>
           <Button variant="secondary" onClick={() => handleCloseModal()}>Cancel</Button>
         </Modal.Footer>

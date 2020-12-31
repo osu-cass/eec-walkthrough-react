@@ -8,6 +8,7 @@ function RichTextEditor(props) {
 
   const modules = {
     toolbar: [
+      [{size: ["small", false, "large", "huge"]}],
       ["bold", "italic", "underline", "strike"],
       [{list: "ordered"}, {list: "bullet"}],
       ["link"],
@@ -16,6 +17,7 @@ function RichTextEditor(props) {
   };
 
   const formats = [
+    "size",
     "bold", "italic", "underline", "strike",
     "list", "bullet",
     "link"
@@ -37,5 +39,6 @@ export default RichTextEditor;
 RichTextEditor.propTypes = {
   id: PropTypes.string,
   onChange: PropTypes.func,
-  value: PropTypes.string
+  value: PropTypes.string,
+  fontSizes: PropTypes.bool
 };

@@ -79,7 +79,7 @@ app.patch("/", requireAuth, patchHomeVal.validation, async (req, res) => {
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to update homepage."});
       return;
     }
@@ -143,7 +143,7 @@ app.patch("/sponsors", requireAuth, patchSponsorsVal.validation, async (req, res
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to update sponsors."});
       return;
     }

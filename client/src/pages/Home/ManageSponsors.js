@@ -343,7 +343,7 @@ function ManageSponsors(props) {
     setImageAgreement(true);
   }
 
-  return role >= 4 ? (
+  return role >= 5 ? (
     <div className="text-center mx-2">
 
       <Agreement
@@ -359,7 +359,8 @@ function ManageSponsors(props) {
       <Button variant="info" onClick={() => handleShowModal()}>
         <i
           className="fas fa-users text-white ml-auto mr-2"
-          style={{transform: "scale(1.5)"}}></i>
+          style={{transform: "scale(1.5)"}}
+        />
         <span className="text-white">Manage Sponsors</span>
       </Button>
       <Modal show={showModal} onHide={() => handleCloseModal()} dialogClassName="modal-width">

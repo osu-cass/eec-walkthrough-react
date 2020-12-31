@@ -49,7 +49,7 @@ const patchUserVal = Object.freeze({
     check("email").optional()
       .isEmail(),
     check("role").optional()
-      .isInt({min: 1, max: 4})
+      .isInt({min: 1, max: 5})
   ]
 });
 exports.patchUserVal = patchUserVal;
@@ -58,7 +58,7 @@ exports.patchUserVal = patchUserVal;
 const searchUserVal = Object.freeze({
   validation: [
     check("text").isLength({min: 0, max: 1000}),
-    check("role").isInt({min: 0, max: 4}),
+    check("role").isInt({min: 0, max: 5}),
     check("sort").isInt({min: 0, max: 10}),
     check("order").isInt({min: 0, max: 1}),
     check("cursorPrimary").isLength({min: 1, max: 1000}),
@@ -225,7 +225,7 @@ const postIconVal = Object.freeze({
   validation: [
     check("typeKeyword").isLength({min: 1, max: 100}),
     check("typeName").isLength({min: 1, max: 100}),
-    check("groupIndex").isInt({min: 0, max: 3}),
+    check("groupIndex").isInt({min: 0, max: 4}),
     check("color").isLength({min: 7, max: 7})
   ]
 });
@@ -236,7 +236,7 @@ const patchIconVal = Object.freeze({
   validation: [
     check("typeKeyword").isLength({min: 1, max: 100}),
     check("typeName").isLength({min: 1, max: 100}),
-    check("groupIndex").isInt({min: 0, max: 3}),
+    check("groupIndex").isInt({min: 0, max: 4}),
     check("color").isLength({min: 7, max: 7})
   ]
 });
@@ -319,6 +319,18 @@ const getRequestVal = Object.freeze({
 });
 exports.getRequestVal = getRequestVal;
 
+// validation checks for get request status
+const getRequestStatusVal = Object.freeze({
+  validation: [
+    check("status").isInt({min: 0, max: 4294967295}),
+    check("sort").isInt({min: 0, max: 10}),
+    check("order").isInt({min: 0, max: 1}),
+    check("cursorPrimary").isLength({min: 1, max: 1000}),
+    check("cursorSecondary").isLength({min: 1, max: 1000})
+  ]
+});
+exports.getRequestStatusVal = getRequestStatusVal;
+
 // validation checks for get request selection
 const getSelectionVal = Object.freeze({
   validation: [
@@ -343,10 +355,18 @@ const postCommentVal = Object.freeze({
     check("requestId").isInt({min: 1, max: 4294967295}),
     check("comment").isLength({min: 1, max: 5000}),
     check("targetId").isLength({min: 1, max: 100}),
-    check("status").isInt({min: 0, max: 2}),
+    check("status").isInt({min: 0, max: 4}),
   ]
 });
 exports.postCommentVal = postCommentVal;
+
+// validation checks for patch comment
+const patchCommentVal = Object.freeze({
+  validation: [
+    check("commentText").isLength({min: 1, max: 5000})
+  ]
+});
+exports.patchCommentVal = patchCommentVal;
 
 // validation checks for get sources
 const getSourcesVal = Object.freeze({
@@ -401,3 +421,114 @@ const getDirectoriesVal = Object.freeze({
   ]
 });
 exports.getDirectoriesVal = getDirectoriesVal;
+
+// validation checks for patch info
+const patchInfoVal = Object.freeze({
+  validation: [
+    check("infoId").isInt({min: 0, max: 4294967295}),
+    check("title").isLength({min: 0, max: 150}),
+    check("text").isLength({min: 0, max: 5000}),
+    check("icon").isLength({min: 0, max: 100})
+  ]
+});
+exports.patchInfoVal = patchInfoVal;
+
+// validation checks for post contributor
+const postContributorVal = Object.freeze({
+  validation: [
+    check("userId").isInt({min: 0, max: 4294967295}),
+    check("name").isLength({min: 1, max: 100}),
+    check("title").isLength({min: 1, max: 500}),
+    check("description").isLength({min: 1, max: 5000}),
+    check("imageUrl").isLength({min: 1, max: 5000}),
+    check("active").isInt({min: 0, max: 1})
+  ]
+});
+exports.postContributorVal = postContributorVal;
+
+// validation checks for post contributor submission
+const postContributorSubmissionVal = Object.freeze({
+  validation: [
+    check("name").isLength({min: 1, max: 100}),
+    check("title").isLength({min: 1, max: 500}),
+    check("description").isLength({min: 1, max: 5000}),
+    check("imageUrl").isLength({min: 1, max: 5000})
+  ]
+});
+exports.postContributorSubmissionVal = postContributorSubmissionVal;
+
+// validation checks for post banner
+const postBannerVal = Object.freeze({
+  validation: [
+    check("banners").isArray({min: 0, max: 25})
+  ]
+});
+exports.postBannerVal = postBannerVal;
+
+// validation checks for post quiz results
+const postQuizResultsVal = Object.freeze({
+  validation: [
+    check("pageId").isInt({min: 0, max: 4294967295}),
+    check("scores").isArray({min: 1})
+  ]
+});
+exports.postQuizResultsVal = postQuizResultsVal;
+
+// validation checks for post quiz
+const postQuizVal = Object.freeze({
+  validation: [
+    check("pageId").isInt({min: 0, max: 4294967295}),
+    check("text").isLength({min: 1, max: 5000}),
+    check("type").isInt({min: 1, max: 100}),
+    check("imageUrl").isLength({min: 0, max: 5000}),
+    check("answers").isArray({min: 0})
+  ]
+});
+exports.postQuizVal = postQuizVal;
+
+// validation checks for update quiz
+const updateQuizVal = Object.freeze({
+  validation: [
+    check("questionId").isInt({min: 0, max: 4294967295}),
+    check("text").isLength({min: 1, max: 5000}),
+    check("type").isInt({min: 1, max: 100}),
+    check("imageUrl").isLength({min: 0, max: 5000}),
+    check("answers").isArray({min: 0})
+  ]
+});
+exports.updateQuizVal = updateQuizVal;
+
+// validation checks for post observations
+const postObservationVal = Object.freeze({
+  validation: [
+    check("pageId").isInt({min: 0, max: 4294967295}),
+    check("observations").isArray({min: 1})
+  ]
+});
+exports.postObservationVal = postObservationVal;
+
+// validation checks for delete observations
+const deleteObservationVal = Object.freeze({
+  validation: [
+    check("observationId").isInt({min: 0, max: 4294967295}),
+  ]
+});
+exports.deleteObservationVal = deleteObservationVal;
+
+// validation checks for get question
+const getQuestionVal = Object.freeze({
+  validation: [
+    check("questionId").isInt({min: 1, max: 4294967295}),
+  ]
+});
+exports.getQuestionVal = getQuestionVal;
+
+// validation checks for move question
+const patchQuestionMoveVal = Object.freeze({
+  validation: [
+    check("questionId").isInt({min: 1, max: 4294967295}),
+    check("direction").isInt({min: 0, max: 1}),
+    check("mode").isInt({min: 0, max: 1})
+  ]
+});
+exports.patchQuestionMoveVal = patchQuestionMoveVal;

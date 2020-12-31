@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from "react";
 import Login from "./Login";
 import PageSearch from "./PageSearch";
+import Notifications from "./Notifications";
 import PropTypes from "prop-types";
 import UserIcon from "./UserIcon";
 import {getProfile} from "../../utilities/cookieAuth";
+import {EEC_HOMEPAGE} from "../../utilities/constants";
 import "./PageHeader.css";
 
 // header bar that appears at the top of the page
@@ -25,7 +27,20 @@ function PageHeader (props) {
   return (
     <div className="navigation-bar">
 
+      {/* mini-header bar */}
+      <div className="mini-nav-header p-2">
+        <a className="mini-nav-text" href={EEC_HOMEPAGE}>
+          <span className="text-white">
+            <span className="school-title big-org">Oregon State University&nbsp;</span>
+            <span className="school-title small-org">OSU&nbsp;</span>
+            <span className="big-industry">Energy Efficiency Center / Industrial Assessment Center</span>
+            <span className="small-industry">EEC / IAC</span>
+          </span>
+        </a>
+      </div>
+
       <nav className="navbar-header navbar align-items-center mb-0">
+
         <div className="row text-white nav-item align-items-center">
 
           {/* Hamburger menu button for mobile devices */}
@@ -39,8 +54,8 @@ function PageHeader (props) {
 
           {/* OSU logo, only shown on desktop devices */}
           <img
-            className="osu-logo ml-4 mr-5"
-            src={"/osu-logo.svg"}
+            className="osu-logo ml-4"
+            src={"/header_logo.png"}
             alt={"Oregon State University"}
             title={"Oregon State University"}
           />
@@ -48,36 +63,10 @@ function PageHeader (props) {
           {/* Header title text*/}
           <div className="page-header-title-container">
             {/* Large Header */}
-            <h4 className="nav-header-title large-org">
-              Energy Efficiency Center
-            </h4>
-            <h4 className="nav-header-symbol mx-2 large-org">
-              &#124;
-            </h4>
-            <h4 className="nav-header-title large-org">
-              Industrial Walkthrough Checklist &amp; Reference (Demo)
+            <h4 className="nav-header-title">
+            Industrial Walkthrough&nbsp;<br className="title-break" />Checklist &amp; Guide (DEMO)
             </h4>
 
-            {/* Medium Header */}
-            <h4 className="nav-header-title med-org">
-              EEC
-            </h4>
-            <h4 className="nav-header-symbol mx-2 med-org">
-              &#124;
-            </h4>
-            <h4 className="nav-header-title med-org">
-              Industrial Walkthrough Checklist &amp; Reference
-            </h4>
-
-            {/* Small Header */}
-            <div className="mobile-title">
-              <h4 className="nav-header-title-top small-org">
-              Energy Efficiency Center
-              </h4>
-              <h4 className="nav-header-title-bottom small-org">
-                Industrial Walkthrough Checklist &amp; Reference
-              </h4>
-            </div>
           </div>
 
         </div>
@@ -86,6 +75,13 @@ function PageHeader (props) {
 
           {/* Page search bar */}
           <PageSearch />
+
+          {/* Notifications */}
+          {role ? (
+            <Notifications />
+          ) : (
+            null
+          )}
 
           {/* Current user information and menu */}
           <UserIcon
