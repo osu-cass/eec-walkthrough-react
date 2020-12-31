@@ -10,7 +10,7 @@ import Error from "../../components/General/Error";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 
-// A single editable question modal
+// A single editable question button and modal
 function QuestionEdit(props) {
 
   const [loading, setLoading] = useState(false);
@@ -640,14 +640,14 @@ function QuestionEdit(props) {
       {/* The button for opening the modal looks different depending on if it is for creating or editing */}
       {props.new ? (
         <button
-          className="add-question btn btn-lg btn-info pull-right"
+          className="add-question btn btn-lg btn-info pull-right mb-2 mx-2"
           onClick={() => handleShowModal()}
         >
           <span className="text-white">Add Question</span>
         </button>
       ) : (
         <button
-          className="btn btn-sm btn-info btn pull-right"
+          className="btn btn-sm btn-info btn pull-right mb-2 mx-2"
           onClick={() => handleShowModal()}
         >
           <i className="fas fa-fw fa-edit mr-2 my-1" style={{transform: "scale(1.5)"}}/>
