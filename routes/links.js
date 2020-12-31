@@ -43,7 +43,7 @@ app.post("/all", requireAuth, getLinkVal.validation, async (req, res) => {
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to get link data."});
       return;
     }
@@ -78,7 +78,7 @@ app.patch("/:linkId", requireAuth, patchLinkVal.validation, async (req, res) => 
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(4, req.auth.userId)) {
+    if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to patch link data."});
       return;
     }

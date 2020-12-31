@@ -4,7 +4,6 @@ import {getMode} from "../../utilities/pageMode";
 import {getPublic} from "../../utilities/publicMode";
 import {getPublished} from "../../utilities/publishedMode";
 import {API_URL} from "../../utilities/constants";
-import {getFilterShow, setFilterShow} from "../../utilities/filterMode";
 import Header from "./Header/Header";
 import PageDescription from "./Page/PageDescription";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
@@ -15,9 +14,11 @@ import PropTypes from "prop-types";
 import References from "./Various/References";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
-import "./ContentPage.css";
 import NonPublicPage from "../NonPublicPage/NonPublicPage";
+import HowToCards from "./Card/HowToCards";
 import {useParams} from "react-router-dom";
+import QuizButton from "./Various/QuizButton";
+import "./ContentPage.css";
 
 // An encyclopedia style page describing some topic
 function ContentPage(props) {
@@ -37,8 +38,9 @@ function ContentPage(props) {
   const [references, setReferences] = useState([]);
   const [tempReferences, setTempReferences] = useState([]);
   const [cardTitles, setCardTitles] = useState([]);
-  const [showFilters, setShowFilters] = useState(getFilterShow());
   const {pageId} = useParams();
+  const [categories, setCategories] = useState([]);
+  const [howToPage, setHowToPage] = useState(false);
   const [pageInfo, setPageInfo] = useState({
     sources: [],
     headers: [],
@@ -55,6 +57,14 @@ function ContentPage(props) {
 
     async function fetchData() {
       try {
+
+        // see if this is a "how to use" page that should have
+        // automatically generated content
+        let helpPage = false;
+        if (pageId === "64") {
+          helpPage = true;
+          setHowToPage(true);
+        }
 
         let obj = [];
         setMoved(false);
@@ -117,6 +127,12 @@ function ContentPage(props) {
 
         if (results.ok) {
           obj = await results.json();
+
+          // if this is a help page, don't show the filter bar on the first header
+          if (helpPage & obj.headers.length) {
+            obj.headers[0].hideFilter = true;
+          }
+
           setPageInfo(obj);
           // add empty array of applied filters to each header
           for (let i = 0; i < obj.headers.length; i++) {
@@ -135,6 +151,32 @@ function ContentPage(props) {
           } else {
             setErrorPage(500);
             return;
+          }
+        }
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        // if we are on the help page fetch category names
+        if (helpPage) {
+          // Fetch page info
+          results = await fetch(`${API_URL}/categories/published`, {
+            signal: controller.signal,
+            method: "GET",
+            credentials: "include",
+            headers: {"Content-Type": "application/json"}
+          });
+
+          // if this component is cleaned up, stop here
+          if (ignore) {
+            return;
+          }
+
+          if (results.ok) {
+            obj = await results.json();
+            setCategories(obj.categories);
           }
         }
 
@@ -741,27 +783,12 @@ function ContentPage(props) {
     setHeaders(copy);
   }
 
-  // Toggles displaying or hiding filter bars
-  function handleShowFilter() {
-    if (showFilters) {
-      // calls a function to update the local storage to remember this setting
-      setFilterShow(0);
-      // updates the state of the filter
-      setShowFilters(0);
-    } else {
-      // calls a function to update the local storage to remember this setting
-      setFilterShow(1);
-      // updates the state of the filter
-      setShowFilters(1);
-    }
-  }
-
   // If there is an error, display the correct error page
   if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
     return loading ? (
       <LoadingOverlay loading={true} />
     ) : (
-      <Container className="my-4" id="content-page">
+      <Container className="my-5" id="content-page">
 
         {/* This is the top header and card that describes the page */}
         <PageDescription
@@ -779,6 +806,8 @@ function ContentPage(props) {
           moved={moved}
           onNewView={e => handleNewView(e)}
           headers={headers}
+          quiz={(mode === 0 && pageInfo.quiz) || mode !== 0}
+          references={(mode === 0 && references.length) || (mode === 1 && tempReferences.length)}
         />
 
         {/* Button for creating new headers */}
@@ -793,7 +822,6 @@ function ContentPage(props) {
 
         {headers.map((header, i) =>
           <Fragment key={i}>
-            {/* A header bar that contains any number of cards beneath it */}
             <Header
               header={header}
               handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
@@ -814,11 +842,20 @@ function ContentPage(props) {
               checkIcon={(headerId, cardId, itemId, check) => checkIcon(headerId, cardId, itemId, check)}
               sources={pageInfo.sources}
               cardTitles={cardTitles}
-              showFilter={() => handleShowFilter()}
-              show={showFilters}
               onPageMode={mode => setMode(mode)}
               moved={moved}
+              index={i}
             />
+
+            {/* For auto headers on the "how to" page, create special cards */}
+            {howToPage && i === 0 ? (
+              <HowToCards
+                categories={categories}
+                icons={iconSet}
+              />
+            ) : (
+              null
+            )}
 
             {/* Button for creating a new card under the current header */}
             <CreateCard
@@ -837,6 +874,16 @@ function ContentPage(props) {
           sources={references}
           tempSources={tempReferences}
           mode={mode}
+        />
+
+        {/* A link to a quiz about the page content */}
+        <QuizButton
+          quiz={pageInfo.quiz}
+          quizScore={pageInfo.quizScore}
+          pageId={pageId}
+          mode={mode}
+          pageName={pageInfo.name}
+          role={role}
         />
 
       </Container>

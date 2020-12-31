@@ -79,19 +79,24 @@ function ManageIcons() {
       return "Graphic";
     } else if (category === 3) {
       return "Site Resource";
+    } else if (category === 4) {
+      return "Text";
     } else {
       return "Inactive";
     }
   }
 
   return (
-    <div className="container icon-page-container">
+    <div className="container icon-page-container my-5">
 
       <div className="d-flex header-bar justify-content-between my-3 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
         <div className="row mx-2">
           <h4 className="flex-grow-1 font-weight-bold">
             Manage Icons
           </h4>
+        </div>
+        <div className="pull-right">
+          <CreateIcon handleUpdate={() => setIconsChanged(!iconsChanged)} />
         </div>
       </div>
 
@@ -151,8 +156,6 @@ function ManageIcons() {
           )}
         </tbody>
       </table>
-
-      <CreateIcon handleUpdate={() => setIconsChanged(!iconsChanged)} />
 
     </div>
   );

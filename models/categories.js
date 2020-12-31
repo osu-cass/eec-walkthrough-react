@@ -5,11 +5,26 @@ const {pool} = require("../services/database/mysqlPool");
 
 
 // return information about the specific category and all of its pages
-async function getCategory(categoryId, viewAll) {
+async function getCategory(categoryId, userId) {
 
   try {
 
+    let viewAll = false;
     let sql = "";
+    let results = "";
+
+    // check to see if the user should be allowed to see internal content
+    if (userId) {
+      sql = "SELECT * " +
+        "FROM Users " +
+        "WHERE userId = ? " +
+        "AND (role = 2 OR role >= 4);";
+      results = await pool.query(sql, userId);
+
+      if (results[0].length) {
+        viewAll = true;
+      }
+    }
 
     // get the specified category
     if (viewAll) {
@@ -25,11 +40,11 @@ async function getCategory(categoryId, viewAll) {
       "ORDER BY pluralName ASC;";
     }
 
-    let results = await pool.query(sql, categoryId);
+    results = await pool.query(sql, categoryId);
 
     // check to see if we were able to find the category
     if (!results[0].length) {
-      return {categoryId: 0};
+      return {error: 1};
     }
 
     const finalResults = results[0][0];
@@ -67,17 +82,46 @@ exports.getCategory = getCategory;
 
 
 // return a list of all of the pages sorted by category
-async function getCategories(viewAll) {
+async function getCategories(userId) {
 
   try {
 
+    let viewAll = 0;
     let sql = "";
+    let results = "";
+
+    // check to see if the user should be allowed to see internal content
+    if (userId) {
+      sql = "SELECT * " +
+        "FROM Users " +
+        "WHERE userId = ? " +
+        "AND (role = 2 OR role >= 4);";
+      results = await pool.query(sql, userId);
+
+      if (results[0].length) {
+        viewAll = 2;
+      }
+
+      // if the user was not an internal user, see if they are an external editor
+      if (!viewAll) {
+        sql = "SELECT * " +
+        "FROM Users " +
+        "WHERE userId = ? " +
+        "AND role = 3;";
+        results = await pool.query(sql, userId);
+
+        if (results[0].length) {
+          viewAll = 1;
+        }
+      }
+    }
+
     const finalResults = {
       categories: []
     };
 
     // get all of the categories
-    if (viewAll) {
+    if (viewAll === 2) {
       sql = "SELECT * " +
       "FROM Categories " +
       "ORDER BY pluralName ASC;";
@@ -87,7 +131,7 @@ async function getCategories(viewAll) {
       "WHERE internal = 0 " +
       "ORDER BY pluralName ASC;";
     }
-    let results = await pool.query(sql, []);
+    results = await pool.query(sql, []);
 
     finalResults.categories = results[0];
 
@@ -96,13 +140,19 @@ async function getCategories(viewAll) {
 
       const categoryId = finalResults.categories[i].categoryId;
 
-      if (viewAll) {
-        sql = "SELECT pageId, pageType, name, description, approved, internal " +
+      if (viewAll === 2) {
+        sql = "SELECT pageId, pageType, name, description, approved, internal, imageUrl " +
         "FROM Pages " +
         "WHERE pageType = ? " +
         "ORDER BY pageType ASC, name ASC;";
+      } else if (viewAll === 1) {
+        sql = "SELECT pageId, pageType, name, description, approved, internal, imageUrl " +
+        "FROM Pages " +
+        "WHERE pageType = ? " +
+        "AND internal = 0 " +
+        "ORDER BY pageType ASC, name ASC;";
       } else {
-        sql = "SELECT pageId, pageType, name, description " +
+        sql = "SELECT pageId, pageType, name, description, imageUrl " +
         "FROM Pages " +
         "WHERE pageType = ? " +
         "AND approved = 1 " +
@@ -126,20 +176,41 @@ exports.getCategories = getCategories;
 
 
 // return a list of all of the category names
-async function getCategoryNames() {
+async function getCategoryNames(userId) {
 
   try {
 
+    let viewAll = false;
     let sql = "";
+
+    // check to see if the user should be allowed to see internal content
+    if (userId) {
+      sql = "SELECT * " +
+        "FROM Users " +
+        "WHERE userId = ? " +
+        "AND (role = 2 OR role >= 4);";
+      const results = await pool.query(sql, userId);
+
+      if (results[0].length) {
+        viewAll = true;
+      }
+    }
+
     const finalResults = {
       categories: []
     };
 
     // get all of the categories names
-
-    sql = "SELECT categoryId, singleName " +
-    "FROM Categories " +
-    "ORDER BY singleName ASC;";
+    if (viewAll) {
+      sql = "SELECT categoryId, singleName " +
+      "FROM Categories " +
+      "ORDER BY singleName ASC;";
+    } else {
+      sql = "SELECT categoryId, singleName " +
+      "FROM Categories " +
+      "WHERE internal = 0 " +
+      "ORDER BY singleName ASC;";
+    }
 
     const results = await pool.query(sql, []);
 
@@ -154,6 +225,66 @@ async function getCategoryNames() {
 
 }
 exports.getCategoryNames = getCategoryNames;
+
+
+// return a list of all of the category with at least one published page
+async function getCategoryPublished(userId) {
+
+  try {
+
+    let viewAll = false;
+    let sql = "";
+
+    // check to see if the user should be allowed to see internal content
+    if (userId) {
+      sql = "SELECT * " +
+        "FROM Users " +
+        "WHERE userId = ? " +
+        "AND (role = 2 OR role >= 4);";
+      const results = await pool.query(sql, userId);
+
+      if (results[0].length) {
+        viewAll = true;
+      }
+    }
+
+    const finalResults = {
+      categories: []
+    };
+
+    // get all of the categories names
+    // get all of the different page categories based on the users role
+    if (viewAll) {
+      sql = "SELECT DISTINCT categoryId, pluralName, singleName, C.description, C.internal " +
+      "FROM Categories AS C " +
+      "INNER JOIN Pages " +
+      "ON categoryId = pageType " +
+      "WHERE categoryId != 0 " +
+      "ORDER BY pluralName ASC;";
+    } else {
+      sql = "SELECT DISTINCT categoryId, pluralName, singleName, C.description, C.internal " +
+      "FROM Categories AS C " +
+      "INNER JOIN Pages AS P " +
+      "ON categoryId = pageType " +
+      "WHERE C.internal = 0 " +
+      "AND C.categoryId != 0 " +
+      "AND P.internal = 0 " +
+      "AND P.approved = 1 " +
+      "ORDER BY pluralName ASC;";
+    }
+    const results = await pool.query(sql, []);
+
+    finalResults.categories = results[0];
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error getting all category names");
+    throw Error(err);
+  }
+
+}
+exports.getCategoryPublished = getCategoryPublished;
 
 
 // create a category

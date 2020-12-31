@@ -46,19 +46,19 @@
 }
 
 .indent-level-1 {
-  margin-left: 1.5em;
+  margin-left: 1.5em !important;
 }
 
 .indent-level-2 {
-  margin-left: 3em;
+  margin-left: 3em !important;
 }
 
 .indent-level-3 {
-  margin-left: 4.5em;
+  margin-left: 4.5em !important;
 }
 
 .indent-level-4 {
-  margin-left: 6em;
+  margin-left: 6em !important;
 }
 
 .indent-level-1.icon-item.fa-circle {
@@ -110,4 +110,8 @@
 
 .inline-link {
   display: inline-block !important;
+}
+
+.text-no-overflow {
+  overflow-wrap: anywhere !important;
 }

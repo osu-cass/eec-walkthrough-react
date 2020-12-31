@@ -96,7 +96,6 @@ async function getLinks(onlyDead, sort, order, cursor) {
     // perform the query
     const results = await pool.query(sql, sqlArray);
 
-
     // get the next cursor and return the correct number of links
     if (results[0].length < RESULTS_PER_PAGE + 1) {
 
@@ -114,7 +113,6 @@ async function getLinks(onlyDead, sort, order, cursor) {
       // have results with matching primary values.
       links = results[0].slice(0, -1);
       const nextLink = results[0][RESULTS_PER_PAGE];
-      console.log("nextLink", nextLink);
 
       switch (sort) {
         case 0:
@@ -139,7 +137,6 @@ async function getLinks(onlyDead, sort, order, cursor) {
 
     }
 
-    console.log(nextCursor);
     return {
       links: links,
       nextCursor: nextCursor

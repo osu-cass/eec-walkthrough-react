@@ -29,7 +29,7 @@ function PageSearch(props) {
           type="search"
           className="form-control mr-sm-2"
           id="input-search-pages"
-          placeholder="Search for pages"
+          placeholder="Search guide"
         />
         <button className="border-0" id="magnify-search-button"
           onClick={(e) => submitHandler(e)}

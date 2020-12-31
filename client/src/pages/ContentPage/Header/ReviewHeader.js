@@ -203,6 +203,10 @@ function ReviewHeader(props) {
       return;
     }
 
+    if (!window.confirm("Confirm one last time that you want to delete the the proposed changes.")) {
+      return;
+    }
+
     // delete proposed changes
     const results = await fetch(`${API_URL}/headers/${props.header.headerId}/changes`, {
       method: "DELETE",
@@ -339,7 +343,7 @@ function ReviewHeader(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          {role >= 4 ? (
+          {role >= 5 ? (
             <Fragment>
               <Fragment>
                 {props.header.tempHeaderId || !props.header.approved ? (

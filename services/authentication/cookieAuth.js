@@ -39,6 +39,32 @@ async function roleCheck(minRole, userId) {
 exports.roleCheck = roleCheck;
 
 
+// check the user role to ensure they are allowed to view internal content
+async function internalCheck(userId) {
+  try {
+
+    assert(userId, "Not a valid user ID");
+
+    // query the user role to make sure the user is currently
+    // allowed to perform this action
+    const sql = "SELECT role " +
+    "FROM Users " +
+    "WHERE userId = ?;";
+
+    const results = await pool.query(sql, userId);
+
+    assert(results[0].length, "User not found");
+    assert(results[0][0].role === 2 || results[0][0].role >= 4, "Insufficient role for this action");
+
+    return true;
+
+  } catch (err) {
+    console.error("User does not meet the minimum role requirement for some action");
+    return false;
+  }
+}
+exports.internalCheck = internalCheck;
+
 // Middleware function that extracts the current user ID.
 // If the user does not have a designated ID then the ID is assumed to be 0.
 function getUserID(req, res, next) {

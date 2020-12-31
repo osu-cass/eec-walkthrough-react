@@ -89,9 +89,12 @@ function ReviewCard(props) {
 
   // delete changes
   async function handleClear() {
-
     // Check that the user really wants to delete the changes this version
     if (!window.confirm("Are you sure you want to delete the proposed changes?")) {
+      return;
+    }
+
+    if (!window.confirm("Confirm one last time that you want to delete the the proposed changes.")) {
       return;
     }
 
@@ -145,12 +148,10 @@ function ReviewCard(props) {
       }
 
     }
-
   }
 
   // unpublish
   async function handleRemove() {
-
     // Check that the user really wants to unpublish this version
     if (!window.confirm("Are you sure you want to unpublish this card?\nThis will overwrite any unpublished version if one exists.")) {
       return;
@@ -206,12 +207,10 @@ function ReviewCard(props) {
       }
 
     }
-
   }
 
   // publish
   async function handleSubmit() {
-
     // Check that the user really wants to approve this version
     if (!window.confirm("Are you sure you want to approve this new version?\nThis will overwrite the published version if one exists.")) {
       return;
@@ -290,7 +289,6 @@ function ReviewCard(props) {
       }
 
     }
-
   }
 
   return role >= 3 ? (
@@ -406,7 +404,7 @@ function ReviewCard(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
-          {role >= 4 ? (
+          {role >= 5 ? (
             <Fragment>
               <Fragment>
                 {props.edited ? (

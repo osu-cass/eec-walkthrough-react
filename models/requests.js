@@ -5,27 +5,156 @@ const {pool} = require("../services/database/mysqlPool");
 const {publishPage} = require("./pages");
 const {publishHeader} = require("./headers");
 const {publishCard} = require("./cards");
+const {publishQuestion} = require("./quizzes");
 
 
 // return a list of all requests
-async function getRequests() {
-
+async function getRequests(status, sort, order, cursor) {
   try {
 
-    // get all external published links
-    const sql = "SELECT Requests.*, username " +
-    "FROM Requests " +
-    "LEFT JOIN Users on Requests.userId = Users.userId " +
-    "WHERE status = 1 " +
-    "ORDER BY created ASC;";
-
-    const results = await pool.query(sql, []);
-
-    const finalResults = {
-      requests: results[0]
+    const ASC = 1;
+    const RESULTS_PER_PAGE = 25;
+    const sqlArray = [];
+    let requests;
+    const nextCursor = {
+      primary: "null",
+      secondary: "null"
     };
 
-    return finalResults;
+    // get all requests (initial sql query)
+    let sql = "SELECT Requests.*, UNIX_TIMESTAMP(Requests.created) AS unixTime, username " +
+    "FROM Requests " +
+    "LEFT JOIN Users on Requests.userId = Users.userId " +
+    "WHERE TRUE ";
+
+    // see what type of requests we should get
+    if (status) {
+      sql += "AND status = ? ";
+      sqlArray.push(status);
+    } else {
+      sql += "AND status != 4 ";
+    }
+
+    // only use the cursor if it isn't the initial search request
+    if (cursor.primary !== "null") {
+
+      let orderChar = "<";
+      if (order === ASC) {
+        orderChar = ">";
+      }
+
+      // We set our primary cursor to the last valid time if it is the value
+      // that we are sorting by.
+      //
+      // Instances where the primary cursor value could have duplicate values
+      // are handled by also sorting by item ID.
+
+      switch (sort) {
+        case 0:
+          sql += `AND (IFNULL(UNIX_TIMESTAMP(Requests.created), 0) ${orderChar}= ? AND ` +
+            `(IFNULL(UNIX_TIMESTAMP(Requests.created), 0) ${orderChar} ? OR requestId >= ? )) `;
+          break;
+        case 1:
+          sql += `AND (title ${orderChar}= ? AND ` +
+            `(title ${orderChar} ? OR requestId >= ? )) `;
+          break;
+        case 2:
+          sql += `AND (username ${orderChar}= ? AND ` +
+            `(username ${orderChar} ? OR requestId >= ? )) `;
+          break;
+        case 3:
+          sql += `AND (status ${orderChar}= ? AND ` +
+            `(status ${orderChar} ? OR requestId >= ? )) `;
+          break;
+        default:
+          sql += `AND (IFNULL(UNIX_TIMESTAMP(Requests.created), 0) ${orderChar}= ? AND ` +
+            `(IFNULL(UNIX_TIMESTAMP(Requests.created), 0) ${orderChar} ? OR requestId >= ? )) `;
+      }
+      sqlArray.push(cursor.primary);
+      sqlArray.push(cursor.primary);
+      sqlArray.push(cursor.secondary);
+
+    }
+
+    // get the results in the order we are sorting by
+    switch (sort) {
+      case 0:
+        sql += "ORDER BY unixTime ";
+        break;
+      case 1:
+        sql += "ORDER BY title ";
+        break;
+      case 2:
+        sql += "ORDER BY username ";
+        break;
+      case 3:
+        sql += "ORDER BY status ";
+        break;
+      default:
+        sql += "ORDER BY unixTime ";
+    }
+
+    // order by ascending or descending
+    if (order === ASC) {
+      sql += "ASC, requestId ASC LIMIT ?;";
+    } else {
+      sql += "DESC, requestId ASC LIMIT ?;";
+    }
+
+    // get the number of results per page (plus the next cursor)
+    sqlArray.push(RESULTS_PER_PAGE + 1);
+
+    // perform the query
+    const results = await pool.query(sql, sqlArray);
+
+    // get the next cursor and return the correct number of requests
+    if (results[0].length < RESULTS_PER_PAGE + 1) {
+
+      // if we have returned the last of the data then we return
+      // a null next cursor
+      requests = results[0];
+      nextCursor.primary = "null";
+      nextCursor.secondary = "null";
+
+    } else {
+
+      // Our next cursor will store a primary and secondary value.
+      // The primary value is the main value we are sorting by.
+      // The secondary value is the request ID and it is used to sort when we
+      // have results with matching primary values.
+      requests = results[0].slice(0, -1);
+      const nextRequest = results[0][RESULTS_PER_PAGE];
+
+      switch (sort) {
+        case 0:
+          nextCursor.primary = String(nextRequest.unixTime);
+          if (nextCursor.primary === "undefined") {
+            nextCursor.primary = "0";
+          }
+          break;
+        case 1:
+          nextCursor.primary = String(nextRequest.title);
+          break;
+        case 2:
+          nextCursor.primary = String(nextRequest.username);
+          break;
+        case 3:
+          nextCursor.primary = String(nextRequest.status);
+          break;
+        default:
+          nextCursor.primary = String(nextRequest.unixTime);
+          if (nextCursor.primary === "undefined") {
+            nextCursor.primary = "0";
+          }
+      }
+      nextCursor.secondary = String(nextRequest.requestId);
+
+    }
+
+    return {
+      requests: requests,
+      nextCursor: nextCursor
+    };
 
   } catch (err) {
     console.error("Error searching for requests");
@@ -37,7 +166,7 @@ exports.getRequests = getRequests;
 
 
 // return all data for a single request
-async function getRequest(requestId) {
+async function getRequest(requestId, userId) {
 
   try {
 
@@ -207,7 +336,7 @@ async function getRequest(requestId) {
             sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
             "Items.iconType, typeName, typeKeyword, contentText, " +
             "contentUrl, contentLabel, contentMode, internal, " +
-            "created, approved, color " +
+            "created, approved, color, sourceId, inline, groupIndex " +
             "FROM Items " +
             "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
             "WHERE cardId = ? " +
@@ -237,13 +366,13 @@ async function getRequest(requestId) {
               sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
               "Items.iconType, typeName, typeKeyword, contentText, " +
               "contentUrl, contentLabel, contentMode, internal, " +
-              "created, approved, color " +
+              "created, approved, color, sourceId, inline, groupIndex " +
               "FROM Items " +
               "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
               "WHERE cardId = ? " +
               "AND approved = 1 " +
               "ORDER BY orderIndex ASC, itemId ASC";
-              results = await pool.query(sql, objects[i].objectId);
+              results = await pool.query(sql, [objects[i].objectId]);
 
               if (results[0].length) {
                 card.oldVersion.items = results[0];
@@ -265,7 +394,7 @@ async function getRequest(requestId) {
             sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
             "Items.iconType, typeName, typeKeyword, contentText, " +
             "contentUrl, contentLabel, contentMode, internal, " +
-            "created, approved, color " +
+            "created, approved, color, sourceId, inline, groupIndex " +
             "FROM Items " +
             "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
             "WHERE cardId = ? " +
@@ -282,7 +411,107 @@ async function getRequest(requestId) {
         }
       }
 
+      // get a question object
+      if (objects[i].objectType === 4) {
+        sql = "SELECT Questions.*, Pages.pageId, Pages.name AS pageName, " +
+        "Pages.pageType, Categories.pluralName AS categoryName " +
+        "FROM Questions " +
+        "LEFT JOIN Pages on Pages.pageId = Questions.pageId " +
+        "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+        "WHERE Questions.approved = 0 " +
+        "AND questionId = ?;";
+        results = await pool.query(sql, objects[i].objectId);
+
+        if (!results[0].length) {
+
+          sql = "SELECT tempQuestionId AS questionId, tempText AS text, tempType AS type, " +
+          "tempPriority AS priority, tempImageUrl AS imageUrl, tempCreated AS created, " +
+          "Pages.pageId, Pages.name AS pageName, Pages.pageType, Categories.pluralName AS categoryName " +
+          "FROM Temp_Questions " +
+          "LEFT JOIN Questions on Questions.questionId = Temp_Questions.tempQuestionId " +
+          "LEFT JOIN Pages on Pages.pageId = Questions.pageId " +
+          "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+          "WHERE tempQuestionId = ?;";
+          results = await pool.query(sql, objects[i].objectId);
+
+          // get the answers, see if there is an old version, and save the object
+          if (results[0].length) {
+
+            const question = results[0][0];
+            question.objectType = 4;
+
+            // get all of the answers
+            sql = "SELECT DISTINCT * " +
+            "FROM Answers " +
+            "WHERE questionId = ? " +
+            "AND approved = 0 " +
+            "ORDER BY groupId";
+            results = await pool.query(sql, objects[i].objectId);
+
+            if (results[0].length) {
+              question.answers = results[0];
+            }
+
+            // see if there is an old version
+            sql = "SELECT Questions.*, Pages.pageId, Pages.name AS pageName, " +
+            "Pages.pageType, Categories.pluralName AS categoryName " +
+            "FROM Questions " +
+            "LEFT JOIN Pages on Pages.pageId = Questions.pageId " +
+            "LEFT JOIN Categories on Pages.pageType = Categories.categoryId " +
+            "WHERE Questions.approved = 1 " +
+            "AND questionId = ?;";
+            results = await pool.query(sql, objects[i].objectId);
+
+            if (results[0].length) {
+              question.oldVersion = results[0][0];
+
+              // get all of the old version answers
+              sql = "SELECT DISTINCT * " +
+              "FROM Answers " +
+              "WHERE questionId = ? " +
+              "AND approved = 1 " +
+              "ORDER BY groupId";
+              results = await pool.query(sql, [objects[i].objectId]);
+
+              if (results[0].length) {
+                question.oldVersion.answers = results[0];
+              }
+            }
+
+            fullObjects.push(question);
+          }
+
+        } else {
+
+          // get the items and save the object
+          if (results[0].length) {
+
+            const question = results[0][0];
+            question.objectType = 4;
+
+            // get all of the answers
+            sql = "SELECT DISTINCT * " +
+            "FROM Answers " +
+            "WHERE questionId = ? " +
+            "AND approved = 0 " +
+            "ORDER BY groupId";
+            results = await pool.query(sql, objects[i].objectId);
+
+            if (results[0].length) {
+              question.answers = results[0];
+              fullObjects.push(question);
+            }
+          }
+
+        }
+      }
+
     }
+
+    // delete all notifications related to this request for the current user
+    sql = "DELETE FROM Notifications " +
+    "WHERE requestId = ? AND userId = ? AND type != 7;";
+    await pool.query(sql, [requestId, userId]);
 
     finalResults.objects = fullObjects;
 
@@ -297,7 +526,7 @@ async function getRequest(requestId) {
 exports.getRequest = getRequest;
 
 
-// return all data for a group of selected objects (pages, headers, cards)
+// return all data for a group of selected objects (pages, headers, cards, questions)
 async function getSelection(objects) {
 
   try {
@@ -409,6 +638,40 @@ async function getSelection(objects) {
         }
       }
 
+      // if we are looking at a question...
+      if (objects[i].objectType === 4) {
+        object.objectType = "Question";
+        object.key = objects[i].objectId + "Q";
+
+        // get the objects name
+        const sql = "SELECT text AS name " +
+        "FROM Questions " +
+        "WHERE questionId = ? " +
+        "AND approved = 0;";
+        const results = await pool.query(sql, objects[i].objectId);
+
+        // Check to see if we were able to find the object.
+        // If we were, then we add it to the array.
+        // If we were not able to find it, then search in the temp objects.
+        if (!results[0].length) {
+
+          const sql = "SELECT tempText AS name " +
+          "FROM Temp_Questions " +
+          "WHERE tempQuestionId = ?;";
+          const results = await pool.query(sql, objects[i].objectId);
+
+          if (results[0].length) {
+            object.objectName = results[0][0].name;
+            newObjects.push(object);
+          }
+
+        } else {
+          object.objectName = results[0][0].name;
+          newObjects.push(object);
+        }
+        continue;
+      }
+
     }
 
     const finalResults = {
@@ -438,7 +701,7 @@ async function createRequest(title, description, objects, userId) {
     // make sure all objects in the array are valid
     for (let i = 0; i < objects.length; i++) {
       if ((objects[i].objectType !== 1 && objects[i].objectType !== 2 &&
-          objects[i].objectType !== 3) || !Number.isInteger(parseInt(objects[i].objectId, 10))) {
+          objects[i].objectType !== 3) && objects[i].objectType !== 4 || !Number.isInteger(parseInt(objects[i].objectId, 10))) {
         return {error: 1};
       } else {
         const object = {
@@ -539,6 +802,33 @@ async function createRequest(title, description, objects, userId) {
         continue;
       }
 
+      // if we are looking at a question...
+      if (filteredObjects[i].objectType === 4) {
+
+        // see if the object exists
+        const sql = "SELECT * " +
+        "FROM Questions " +
+        "WHERE questionId = ? " +
+        "AND approved = 0;";
+        const results = await pool.query(sql, filteredObjects[i].objectId);
+
+        if (!results[0].length) {
+
+          const sql = "SELECT * " +
+          "FROM Temp_Questions " +
+          "WHERE tempQuestionId = ?;";
+          const results = await pool.query(sql, filteredObjects[i].objectId);
+
+          if (results[0].length) {
+            finalObjects.push(filteredObjects[i]);
+          }
+
+        } else {
+          finalObjects.push(filteredObjects[i]);
+        }
+        continue;
+      }
+
     }
 
     // we must have at least one valid object to continue
@@ -558,6 +848,21 @@ async function createRequest(title, description, objects, userId) {
       sql = "INSERT INTO Request_Objects (requestId, objectId, objectType) " +
       "VALUES (?, ?, ?);";
       results = await pool.query(sql, [insertId, finalObjects[i].objectId, finalObjects[i].objectType]);
+    }
+
+    // send a notification to each editor about the new request
+    sql = "SELECT userId " +
+    "FROM Users " +
+    "WHERE role >= 3;";
+    results = await pool.query(sql, []);
+
+    const editors = results[0];
+    const message = `The request "${title}" is awaiting an orange review`;
+
+    for (let i = 0; i < editors.length; i++) {
+      sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
+      "VALUES (?, ?, ?, 2);";
+      await pool.query(sql, [insertId, editors[i].userId, message]);
     }
 
     const finalResults = {
@@ -583,11 +888,46 @@ async function createComment(requestId, comment, status, targetId, userId) {
     // make sure the request exists
     let sql = "SELECT * " +
     "FROM Requests " +
-    "WHERE requestId = ?;";
+    "WHERE requestId = ? " +
+    "AND status != 4;";
     let results = await pool.query(sql, requestId);
 
     if (!results[0].length) {
       return {error: 1};
+    }
+
+    const requestStatus = results[0][0].status;
+    const requestTitle = results[0][0].title;
+
+    // make sure the current user has the correct role to make a review
+    if (status >= 2) {
+      sql = "SELECT role " +
+        "FROM Users " +
+        "WHERE userId = ?;";
+      results = await pool.query(sql, userId);
+
+      if (results[0].length) {
+        if (status === 2 && results[0][0].role < 4) {
+          return {error: 2};
+        }
+        if (status === 3 && results[0][0].role < 4) {
+          return {error: 2};
+        }
+        if (status === 4 && results[0][0].role !== 3) {
+          return {error: 2};
+        }
+      } else {
+        return {error: 2};
+      }
+    }
+
+    // if the current comment is a review, make sure we are currently accepting it
+    if (requestStatus !== 1 && status === 2) {
+      return {error: 3};
+    }
+
+    if (requestStatus !== 2 && status === 3) {
+      return {error: 4};
     }
 
     // create the comment
@@ -599,6 +939,120 @@ async function createComment(requestId, comment, status, targetId, userId) {
       insertId: results[0].insertId
     };
 
+    // have reviews update the status of the request
+    if (status === 2) {
+
+      sql = "UPDATE Requests " +
+      "SET status = 2 " +
+      "WHERE requestId = ?;";
+      results = await pool.query(sql, requestId);
+
+      // delete outdated notifications about an orange review
+      sql = "DELETE FROM Notifications " +
+      "WHERE requestId = ? AND type = 2;";
+      await pool.query(sql, requestId);
+
+      // create new notifications about a black review
+      sql = "SELECT userId " +
+      "FROM Users " +
+      "WHERE role >= 3;";
+      results = await pool.query(sql, []);
+
+      const editors = results[0];
+      const message = `The request "${requestTitle}" is awaiting a black review from a qualified reviewer`;
+
+      for (let i = 0; i < editors.length; i++) {
+        sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
+        "VALUES (?, ?, ?, 3);";
+        await pool.query(sql, [requestId, editors[i].userId, message]);
+      }
+
+    } else if (status === 3) {
+
+      sql = "UPDATE Requests " +
+      "SET status = 3 " +
+      "WHERE requestId = ?;";
+      results = await pool.query(sql, requestId);
+
+      // delete outdated notifications about a black review
+      sql = "DELETE FROM Notifications " +
+      "WHERE requestId = ? AND type = 3;";
+      await pool.query(sql, requestId);
+
+      // create new notifications about admin approval
+      sql = "SELECT userId " +
+      "FROM Users " +
+      "WHERE role = 5;";
+      results = await pool.query(sql, []);
+
+      const admins = results[0];
+      const message = `The request "${requestTitle}" is awaiting admin approval`;
+
+      for (let i = 0; i < admins.length; i++) {
+        sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
+        "VALUES (?, ?, ?, 4);";
+        await pool.query(sql, [requestId, admins[i].userId, message]);
+      }
+
+    } else if (status === 4) {
+
+      // get the current username
+      sql = "SELECT username " +
+      "FROM Users " +
+      "WHERE userId = ?;";
+      results = await pool.query(sql, [userId]);
+      const username = results[0][0].username;
+
+      // create new notifications about external review
+      sql = "SELECT userId " +
+      "FROM Users " +
+      "WHERE role >= 3;";
+      results = await pool.query(sql, []);
+
+      const editors = results[0];
+      const message = `${username} left an external review on the "${requestTitle}" request`;
+
+      for (let i = 0; i < editors.length; i++) {
+        sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
+        "VALUES (?, ?, ?, 5);";
+        await pool.query(sql, [requestId, editors[i].userId, message]);
+      }
+
+    } else {
+
+      // notify all relevant users about this new comment
+      sql = "(SELECT DISTINCT userId " +
+      "FROM Request_Comments " +
+      "WHERE requestId = ? " +
+      "AND userId != ?) " +
+      "UNION " +
+      "(SELECT DISTINCT userId " +
+      "FROM Requests " +
+      "WHERE requestId = ? " +
+      "AND userId != ?);";
+      results = await pool.query(sql, [requestId, userId, requestId, userId]);
+
+      const usersToNotify = results[0];
+
+      // get the current username
+      sql = "SELECT username " +
+      "FROM Users " +
+      "WHERE userId = ?;";
+      results = await pool.query(sql, [userId]);
+      const username = results[0][0].username;
+
+      // generate a notification message
+      const message = `${username} left a comment on the "${requestTitle}" request`;
+
+      // create the notifications
+      for (let i = 0; i < usersToNotify.length; i++) {
+        sql = "INSERT INTO Notifications (requestId, userId, text, type) " +
+        "VALUES (?, ?, ?, 1);";
+        await pool.query(sql, [requestId, usersToNotify[i].userId, message]);
+      }
+
+    }
+
     return finalResults;
 
   } catch (err) {
@@ -608,6 +1062,121 @@ async function createComment(requestId, comment, status, targetId, userId) {
 
 }
 exports.createComment = createComment;
+
+
+// delete a comment
+async function deleteComment(commentId, userId) {
+
+  try {
+
+    // check to see if the comment exists
+    let sql = "SELECT * " +
+      "FROM Request_Comments " +
+      "WHERE commentId = ?;";
+    let results = await pool.query(sql, commentId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const requestId = results[0][0].requestId;
+    const commentStatus = results[0][0].review;
+    const commenterId = results[0][0].userId;
+
+    // don't allow the deletion of review comments
+    if (commentStatus === 2 || commentStatus === 3) {
+      return {error: 2};
+    }
+
+    // make sure the request is still open
+    sql = "SELECT * " +
+      "FROM Requests " +
+      "WHERE status != 4 " +
+      "AND requestId = ?;";
+    results = await pool.query(sql, requestId);
+
+    if (!results[0].length) {
+      return {error: 3};
+    }
+
+    // make sure the current user ID matches the user who created the comment
+    if (commenterId !== userId) {
+      return {error: 4};
+    }
+
+    // delete the comment
+    sql = "DELETE " +
+      "FROM Request_Comments " +
+      "WHERE commentId = ?;";
+    results = await pool.query(sql, commentId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting comment");
+    throw Error(err);
+  }
+
+}
+exports.deleteComment = deleteComment;
+
+
+async function updateComment(commentId, commentText, userId) {
+
+  try {
+
+    // check to see if the comment exists
+    let sql = "SELECT * " +
+      "FROM Request_Comments " +
+      "WHERE commentId = ?;";
+    let results = await pool.query(sql, commentId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    const requestId = results[0][0].requestId;
+    const commenterId = results[0][0].userId;
+
+    // make sure the request is still open
+    sql = "SELECT * " +
+      "FROM Requests " +
+      "WHERE status != 4 " +
+      "AND requestId = ?;";
+    results = await pool.query(sql, requestId);
+
+    if (!results[0].length) {
+      return {error: 2};
+    }
+
+    // make sure the current user ID matches the user who created the comment
+    if (commenterId !== userId) {
+      return {error: 3};
+    }
+
+    // update the comment
+    sql = "UPDATE Request_Comments " +
+      "SET comment = ? " +
+      "WHERE commentId = ?;";
+    results = await pool.query(sql, [commentText, commentId]);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error updating comment");
+    throw Error(err);
+  }
+
+}
+exports.updateComment = updateComment;
 
 
 // delete a request
@@ -633,15 +1202,20 @@ async function deleteRequest(requestId, userId, admin) {
       }
     }
 
-    // delete the request
-    sql = "DELETE " +
-      "FROM Requests " +
+    // delete the request (but save the request history)
+    sql = "UPDATE Requests " +
+      "SET status = 4 " +
       "WHERE requestId = ?;";
     results = await pool.query(sql, requestId);
 
     const finalResults = {
       affectedRows: results[0].affectedRows
     };
+
+    // delete all notifications about the request
+    sql = "DELETE FROM Notifications " +
+    "WHERE requestId = ? AND type != 7;";
+    await pool.query(sql, requestId);
 
     return finalResults;
 
@@ -757,20 +1331,52 @@ async function approveRequest(requestId) {
           publishCard(objects[i].objectId);
           objectsApproved++;
         }
+        continue;
+      }
 
+      // If we are looking at a question...
+      if (objects[i].objectType === 4) {
+
+        const sql = "SELECT * " +
+        "FROM Questions " +
+        "WHERE questionId = ? " +
+        "AND approved = 0;";
+        const results = await pool.query(sql, objects[i].objectId);
+
+        if (!results[0].length) {
+
+          const sql = "SELECT * " +
+          "FROM Temp_Questions " +
+          "WHERE tempQuestionId = ?;";
+          const results = await pool.query(sql, objects[i].objectId);
+
+          if (results[0].length) {
+            publishQuestion(objects[i].objectId);
+            objectsApproved++;
+          }
+
+        } else {
+          publishQuestion(objects[i].objectId);
+          objectsApproved++;
+        }
       }
 
     }
 
     // close the publish request
-    sql = "DELETE " +
-    "FROM Requests " +
+    sql = "UPDATE Requests " +
+    "SET status = 4 " +
     "WHERE requestId = ?;";
     results = await pool.query(sql, requestId);
 
     const finalResults = {
       objectsApproved: objectsApproved
     };
+
+    // delete all notifications about the request
+    sql = "DELETE FROM Notifications " +
+    "WHERE requestId = ? AND type != 7;";
+    await pool.query(sql, requestId);
 
     return finalResults;
 

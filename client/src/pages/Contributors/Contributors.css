@@ -1,0 +1,49 @@
+.generic-header-bar {
+  background: rgb(214,214,214);
+  background: linear-gradient(0deg, rgba(214,214,214,1) 0%, rgba(255,255,255,1) 100%);
+  top: 1em;
+  z-index: 998;
+}
+
+body {
+  background-color: #f8f9fa;
+  font-family: 'Roboto', sans-serif;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 70%;
+  }
+}
+
+.disclaimer-text {
+  white-space: pre-line;
+}
+
+.contributor-organizer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 350px);
+  grid-gap: 30px;
+  justify-content: center;
+}
+
+.team-message {
+  text-align: center;
+  white-space: wrap;
+}
+
+.team-text-box-row {
+  max-width: 100vw;
+  margin: 0;
+}
+
+.contributor-content-block {
+  text-align: left;
+  white-space: wrap;
+}
+
+.contributor-inner-block {
+  margin: auto;
+  padding: 5em 2em 5em 2em;
+  width: 70%;
+}

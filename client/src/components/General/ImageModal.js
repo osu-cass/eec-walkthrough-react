@@ -23,6 +23,7 @@ function ImageModal(props) {
         <img
           src={props.url}
           alt={props.header}
+          onError={(e) => e.target.src = "/missing.png"}
           className="rounded img-fluid w-100 mx-auto d-block"
           style={{cursor: "pointer"}}
           onClick={() => setExpand(!expand)}

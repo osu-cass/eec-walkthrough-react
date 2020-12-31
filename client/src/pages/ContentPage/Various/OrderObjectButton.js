@@ -11,13 +11,13 @@ function OrderObjectButton(props) {
         <button className={`btn btn-success btn-order-objects btn-sm mx-2 px-3 d-print-none`}
           onClick={() => props.handleMove(props.objectId, props.up, props.publishedMode)}
         >
-          <i className='fas fa-fw fa-arrow-up' />
+          <i className="fas fa-fw fa-arrow-up" />
         </button>
       ) : (
         <button className={`btn btn-success btn-order-objects btn-sm mx-2 px-3 d-print-none`}
           onClick={() => props.handleMove(props.objectId, props.up, props.publishedMode)}
         >
-          <i className='fas fa-fw fa-arrow-down' />
+          <i className="fas fa-fw fa-arrow-down" />
         </button>
       )}
     </Fragment>
@@ -30,7 +30,6 @@ export default OrderObjectButton;
 
 OrderObjectButton.propTypes = {
   up: PropTypes.bool,
-  header: PropTypes.bool,
   objectId: PropTypes.number,
   handleMove: PropTypes.func,
   edited: PropTypes.bool,

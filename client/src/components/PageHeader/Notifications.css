@@ -1,0 +1,100 @@
+#user-icon-arrow{
+  width: 0px;
+  height: 0px;
+  border-top: 10px solid #fff;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: none;
+}
+
+.btn-active-note {
+  padding: 0 !important;
+  background-color: #fff;
+}
+
+.jiggle {
+  animation-name: jiggle;
+  animation-duration: 0.2s;
+  animation-iteration-count: infinite;
+  -webkit-animation: jiggle 0.2s infinite;
+  -moz-animation-duration: 0.2s;
+  -moz-animation-name: jiggle;
+  -moz-animation-iteration-count: infinite;
+  -webkit-transform: rotate(-3deg);
+  -moz-transform: rotate(-3deg);
+}
+
+@keyframes jiggle {
+  0% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
+}
+
+@-moz-keyframes jiggle {
+  0% {
+      -moz-transform: rotate(-1deg);
+  }
+  50% {
+      -moz-transform: rotate(1deg);
+  }
+}
+
+@-webkit-keyframes jiggle {
+  0% {
+      -webkit-transform: rotate(-1deg);
+      }
+  50% {
+      -webkit-transform: rotate(1deg);
+  }
+}
+
+.btn-active-note:hover {
+  padding: 0 !important;
+  background-color: #ccc;
+}
+
+.dark-note-text {
+  font-weight: bold;
+  font-size: 1.5em;
+  color: #000;
+}
+
+#note-navbar-icon-drp {
+  padding: 0.6em 0 0.6em 0;
+}
+
+.note-dropdown-menu {
+  left: 23px;
+}
+
+.note-dropdown-menu a, .note-dropdown-menu a:hover {
+  text-decoration: none;
+}
+
+.drop-button-notification {
+  height: 35px;
+  border: 1px solid #fff;
+  color: #fff;
+  border-radius: 0.25rem;
+  background: transparent;
+  margin-right: 0.5rem;
+}
+
+.drop-button-notification:before {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: #000;
+  color: #fff;
+}
+
+.note-item {
+  width: 245px;
+  max-width: 500px !important;
+  white-space: normal;
+}

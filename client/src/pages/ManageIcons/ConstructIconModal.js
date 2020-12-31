@@ -222,6 +222,7 @@ function ConstructIconModal(props) {
                   <option value="1">Item</option>
                   <option value="2">Graphic</option>
                   <option value="3">Site Resource</option>
+                  <option value="4">Text</option>
                 </select>
               </Form.Group>
             </Col>

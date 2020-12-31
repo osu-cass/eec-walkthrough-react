@@ -3,17 +3,20 @@ import PropTypes from "prop-types";
 import {getProfile} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import CreateCategory from "../Sidebar/CreateCategory";
-import CreatePage from "../Sidebar/CreatePage";
-import EditCategory from "../Sidebar/EditCategory";
+import NavBarTab from "./NavBarTab";
+import NavBarMore from "./NavBarMore";
 import "./NavBar.css";
 
-// navigation bar that appears at the top of the page
+// Navigation bar that appears at the top of the page
 function NavBar (props) {
 
   const [role, setRole] = useState(0);
   const [userId, setUserId] = useState(0);
   const [instructions, setInstructions] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [visibleTabs, setVisibleTabs] = useState([true]);
+  const [tabWidths, setTabWidths] = useState([]);
+  const [newCheck, setNewCheck] = useState(false);
 
   // If our login changes, refresh the navbar and the user's role
   useEffect(() => {
@@ -43,35 +46,94 @@ function NavBar (props) {
           newInstruction = newInstruction[0].pages;
         }
       }
-      setInstructions(newInstruction);
+      setInstructions(newInstruction.reverse());
       setCategories(obj.categories);
+      setTabWidths([]);
+
+      // perform one last resize check after a short time has passed
+      setTimeout(() => setNewCheck(true), 50);
     } else {
       console.error("Unable to fetch categories for navbar.");
     }
   }
 
+  // add event listener for screen width changes that checks tabs
+  useEffect(() => {
+    checkTabs(); // we also want to check when the categories change
+    window.addEventListener("resize", checkTabs);
+    return () => window.removeEventListener("resize", checkTabs);
+    // eslint-disable-next-line
+  }, [categories, newCheck]);
+
+  // checks to see which tabs are off screen and record each ones state
+  function checkTabs() {
+    const visibleArray = initializeVisibleTabsArray(categories);
+    const widthArray = tabWidths;
+
+    // check if the create category tab exists and should be hidden
+    const tab = document.getElementById("nav-create-cat");
+    if (tab) {
+      const bounding = tab.getBoundingClientRect();
+      widthArray[0] = bounding.right;
+    }
+    if (widthArray[0] >= window.innerWidth - 600) {
+      visibleArray[0] = false;
+    }
+
+    // check if any category tabs exist and should be hidden
+    for (let i = 0; i < categories.length; i++) {
+      const tab = document.getElementById(`category-tab-${categories[i].categoryId}`);
+      if (tab) {
+        const bounding = tab.getBoundingClientRect();
+        widthArray[categories[i].categoryId] = bounding.right;
+      }
+      if (widthArray[categories[i].categoryId] >= window.innerWidth - 600) {
+        visibleArray[categories[i].categoryId] = false;
+      }
+    }
+
+    setTabWidths(widthArray);
+    setVisibleTabs(visibleArray);
+  }
+
+  // given categories, return an array with all possible categories set to true
+  function initializeVisibleTabsArray(newCategories) {
+    const visible = [true];
+    for (let i = 0; i < newCategories.length; i++) {
+      visible[newCategories[i].categoryId] = true;
+    }
+    return visible;
+  }
+
   return (
-    <div className="nav-bar-main mb-5 px-4 d-print-none">
+    <div className="nav-bar-main px-4 d-print-none">
 
       {/* Button that links to homepage */}
       <a href="/">
-        <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
+        <div className="dropdown dropdown-nav mild-tab py-2 px-2 d-inline-block">
           Home
         </div>
       </a>
 
       {/* Dropdown for instructions on how to use the site */}
       {instructions.length ? (
-        <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
-          <span>Help</span>
-          <div className="dropdown-content mt-2">
+        <div className="dropdown-nav dropdown mild-tab d-inline-block">
+          <div className="py-2 px-2 w-100 h-100">
+            <span>Help</span>
+          </div>
+          <div className="dropdown-content">
             {instructions.map((page) =>
               <a href={`/wiki/instructions/${page.pageId}`} key={page.pageId}>
                 <div className="navbar-item px-2 py-1">
-                    {page.name}
+                  {page.name}
                 </div>
               </a>
             )}
+            <a href="/disclaimer">
+              <div className="navbar-item px-2 py-1">
+                Disclaimer
+              </div>
+            </a>
           </div>
         </div>
       ) : (
@@ -80,11 +142,13 @@ function NavBar (props) {
 
       {/* All internal tool pages */}
       {role >= 2 ? (
-        <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
-          <span>Tools</span>
-          <div className="dropdown-content mt-2">
+        <div className="dropdown-nav dropdown mild-tab d-inline-block">
+          <div className="py-2 px-2 w-100 h-100">
+            <span>Tools</span>
+          </div>
+          <div className="dropdown-content">
 
-            {role === 3 ? (
+            {role === 3 || role === 4 ? (
               <a href={`/manage-images/${userId}`}>
                 <div className="navbar-item px-2 py-1">
                     Manage Images
@@ -94,11 +158,23 @@ function NavBar (props) {
               null
             )}
 
-            {role >= 4 ? (
+            {role >= 5 ? (
               <Fragment>
                 <a href="/manage-card-titles">
                   <div className="navbar-item px-2 py-1">
                       Manage Card Titles
+                  </div>
+                </a>
+
+                <a href="/manage-contributors">
+                  <div className="navbar-item px-2 py-1">
+                    Manage Contributors
+                  </div>
+                </a>
+
+                <a href="/manage-home">
+                  <div className="navbar-item px-2 py-1">
+                    Manage Home
                   </div>
                 </a>
 
@@ -153,92 +229,61 @@ function NavBar (props) {
         null
       )}
 
-      {/* External sites */}
-      <div className="dropdown dropdown-nav py-2 px-2 d-inline-block">
-        <span>Related Sites</span>
-        <div className="dropdown-content mt-2">
-
-          <a href="https://eec.oregonstate.edu/">
-            <div className="navbar-item px-2 py-1">
-              OSU Energy Efficiency Center
-            </div>
-          </a>
-
-        </div>
-      </div>
-
       {/* Each category gets its own dropdown */}
       {categories.map((category) =>
         <Fragment key={category.categoryId}>
           {category.pages.length || role >= 3 ? (
-
-            <div className="dropdown dropdown-nav d-inline-block">
-              <a href={`/page-list/${category.categoryId}`}>
-                <div className="py-2 px-2 w-100 h-100">
-                  <span>{category.pluralName}</span>
-                  {category.internal ? (
-                    <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
-                  ) : (
-                    null
-                  )}
-                </div>
-              </a>
-
-              <div className="dropdown-content">
-                {/* Pages */}
-                {category.pages.map((page) =>
-                  <a
-                    href={`/wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}/${page.pageId}`}
-                    key={page.pageId}
-                  >
-                    <div className="navbar-item px-2 py-1">
-                        {page.name}
-                        {page.approved === 0 ? (
-                          <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-wrench fa-sm ml-1" /></span>
-                        ) : (
-                          null
-                        )}
-                        {page.internal ? (
-                          <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
-                        ) : (
-                          null
-                        )}
-                    </div>
-                  </a>
-                )}
-
-                {/* Create page button */}
-                <CreatePage
-                  navbar={true}
-                  title={`Create ${category.pluralName} Page`}
-                  collectionLink={`wiki/${category.pluralName.replace(/\s+/g, "-").toLowerCase()}`}
-                  refresh={() => fetchData()}
-                  role={role}
-                  categoryId={category.categoryId}
-                />
-
-                {/* Edit category button */}
-                <EditCategory
-                  navbar={true}
-                  refresh={() => fetchData()}
-                  role={role}
-                  category={category}
-                />
-              </div>
-
-            </div>
+            <NavBarTab
+              role={role}
+              category={category}
+              fetchData={() => fetchData()}
+              visibleTabs={visibleTabs}
+              subTab={false}
+            />
           ) : (
             null
           )}
         </Fragment>
       )}
 
-      {/* Button for creating new categories */}
-      <CreateCategory
-        navbar={true}
-        refresh={() => fetchData()}
-        role={role}
-      />
+      {/* Button for creating new categories or more button */}
+      {role >= 5 ? (
+
+        <Fragment>
+          {/* Admins care about the location of the create category tab */}
+          {visibleTabs[0] ? (
+            <CreateCategory
+              navbar={true}
+              refresh={() => fetchData()}
+              role={role}
+            />
+          ) : (
+            <NavBarMore
+              categories={categories}
+              visibleTabs={visibleTabs}
+              refresh={() => fetchData()}
+              role={role}
+            />
+          )}
+        </Fragment>
+
+      ) : (
+
+        <Fragment>
+          {/* If we are not an admin ignore the create category tab */}
+          {visibleTabs[visibleTabs.length - 1] ? (
+            null
+          ) : (
+            <NavBarMore
+              categories={categories}
+              visibleTabs={visibleTabs}
+              refresh={() => fetchData()}
+              role={role}
+            />
+          )}
+        </Fragment>
+
+      )}
 
     </div>
   );
@@ -246,6 +291,5 @@ function NavBar (props) {
 export default NavBar;
 
 NavBar.propTypes = {
-  role: PropTypes.number,
   loginStatusChange: PropTypes.bool
 };
