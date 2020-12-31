@@ -522,3 +522,13 @@ const getQuestionVal = Object.freeze({
   ]
 });
 exports.getQuestionVal = getQuestionVal;
+
+// validation checks for move question
+const patchQuestionMoveVal = Object.freeze({
+  validation: [
+    check("questionId").isInt({min: 1, max: 4294967295}),
+    check("direction").isInt({min: 0, max: 1}),
+    check("mode").isInt({min: 0, max: 1})
+  ]
+});
+exports.patchQuestionMoveVal = patchQuestionMoveVal;

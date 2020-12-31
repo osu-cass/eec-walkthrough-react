@@ -155,7 +155,6 @@ function Card(props) {
                 {/* Button to move card up */}
                 <OrderObjectButton
                   up={true}
-                  header={false}
                   objectId={props.card.cardId}
                   handleMove={(id, up, mode) => props.handleMoveCard(id, up, mode)}
                   edited={props.card.edited ? true : false}
@@ -165,7 +164,6 @@ function Card(props) {
                 {/* Button to move card down */}
                 <OrderObjectButton
                   up={false}
-                  header={false}
                   objectId={props.card.cardId}
                   handleMove={(id, up, mode) => props.handleMoveCard(id, up, mode)}
                   edited={props.card.edited ? true : false}
