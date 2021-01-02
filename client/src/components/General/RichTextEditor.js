@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import katex from "katex";
+import "katex/dist/katex.min.css";
+window.katex = katex;
 
 // A textarea that supports underline, bold, and italic text
 function RichTextEditor(props) {
@@ -12,15 +15,17 @@ function RichTextEditor(props) {
       ["bold", "italic", "underline", "strike"],
       [{list: "ordered"}, {list: "bullet"}],
       ["link"],
+      ["formula"],
       ["clean"]
-    ],
+    ]
   };
 
   const formats = [
     "size",
     "bold", "italic", "underline", "strike",
     "list", "bullet",
-    "link"
+    "link",
+    "formula"
   ];
 
   return (
