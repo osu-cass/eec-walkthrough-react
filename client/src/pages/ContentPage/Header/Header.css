@@ -3,7 +3,10 @@ i:hover {
 }
 
 .header-anchor {
-  font-size: 0;
+  display: block;
+  position: relative;
+  top: -25px;
+  visibility: hidden;
 }
 
 .filter-col {
