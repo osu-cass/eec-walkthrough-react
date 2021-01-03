@@ -238,16 +238,49 @@ function BasicItems(props) {
         </Fragment>
       )}
 
-      {/* If this is an expandable card, then show a button for expanding */}
-      {props.expandableList && realItemCount > showCount ? (
-        <div className="text-center">
-          <button type="button" className="btn btn-info" onClick={() => setShowCount(showCount + 3)}>
-            <span className="text-white">Show More</span>
-          </button>
+      {/* If this is an expandable card, then show buttons for expanding and condensing */}
+      {props.expandableList ? (
+        <div className="text-center mt-3">
+
+          {/* Button for showing more items */}
+          {realItemCount > showCount ? (
+            <button type="button" className="btn btn-info mx-4" onClick={() => setShowCount(showCount + 3)}>
+              <span className="text-white">Show More</span>
+            </button>
+          ) : (
+            <button type="button" className="btn btn-info mx-4 disabled">
+              <span className="text-white">Show More</span>
+            </button>
+          )}
+
+          {/* Button for showing all items */}
+          {realItemCount > showCount ? (
+            <button type="button" className="btn btn-info mx-4" onClick={() => setShowCount(realItemCount)}>
+              <span className="text-white">Show All</span>
+            </button>
+          ) : (
+            <button type="button" className="btn btn-info mx-4 disabled">
+              <span className="text-white">Show All</span>
+            </button>
+          )}
+
+          {/* Button for resetting the shown items */}
+          {showCount > 3 ? (
+            <button type="button" className="btn btn-info mx-4" onClick={() => setShowCount(3)}>
+              <span className="text-white">Reset</span>
+            </button>
+          ) : (
+            <button type="button" className="btn btn-info disabled mx-4">
+              <span className="text-white">Reset</span>
+            </button>
+          )}
+
         </div>
       ) : (
         null
       )}
+
+      {/* If this is an expandable card, then show buttons for expanding and condensing */}
     </div>
   );
 
