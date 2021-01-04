@@ -16,6 +16,7 @@ function Sanitized(props) {
       "u",
       "ol",
       "li",
+      "ul",
       "em",
       "s",
       "span",

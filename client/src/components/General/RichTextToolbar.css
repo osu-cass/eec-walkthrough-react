@@ -1,0 +1,12 @@
+.question-mark-button {
+  padding-bottom: 0 !important;
+  padding-top: 1px !important;
+  display: inline-flex !important;
+  align-items: top !important;
+  justify-content: space-around;
+  color: #555;
+}
+
+.question-mark-button:hover {
+  color: #06c;
+}
