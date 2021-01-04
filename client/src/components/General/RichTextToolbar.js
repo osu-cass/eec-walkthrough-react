@@ -28,7 +28,7 @@ function RichTextToolbar() {
 
       {/* Buttons for KaTeX functions */}
       <button className="ql-formula ml-2" />
-      <a href="https://katex.org/docs/supported.html" target="_blank" rel="noreferrer">
+      <a href="https://katex.org/docs/supported.html" target="_blank" rel="noopener noreferrer ">
         <button className="ql-katex question-mark-button mr-2">
           <span className="font-weight-bold">?</span>
         </button>
