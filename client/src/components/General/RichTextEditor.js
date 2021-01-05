@@ -4,13 +4,21 @@ import ReactQuill, {Quill} from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import katex from "katex";
 import "katex/dist/katex.min.css";
-import RichTextToolbar from "./RichTextToolbar";
+// import RichTextToolbar from "./RichTextToolbar";
 window.katex = katex;
 
 // A textarea that supports underline, bold, and italic text
 function RichTextEditor(props) {
 
   /*
+  const modules = {
+    toolbar: {
+      container: "#toolbar",
+      handlers: {}
+    }
+  };
+  */
+
   const modules = {
     toolbar: [
       [{size: ["small", false, "large", "huge"]}],
@@ -19,16 +27,7 @@ function RichTextEditor(props) {
       ["link"],
       ["formula"],
       ["clean"]
-    ]
-  };
-  */
-
-  const modules = {
-    toolbar: {
-      container: "#toolbar",
-      handlers: {
-      }
-    }
+    ],
   };
 
   const formats = [
@@ -50,7 +49,7 @@ function RichTextEditor(props) {
 
   return (
     <div className="text-editor">
-      <RichTextToolbar />
+      {/* <RichTextToolbar /> */}
       <ReactQuill
         value={props.value}
         onChange={(text) => props.onChange(text)}
