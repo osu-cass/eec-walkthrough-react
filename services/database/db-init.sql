@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jan 03, 2021 at 12:43 PM
+-- Generation Time: Jan 05, 2021 at 02:47 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.13
 
@@ -168,9 +168,6 @@ INSERT INTO `Answers` (`answerId`, `questionId`, `groupId`, `text`, `correct`, `
 (621, 34, 0, '$50,000', 1, 1),
 (622, 34, 0, '$100,000', 0, 1),
 (623, 35, 0, 'combustion efficiency', 1, 1),
-(624, 41, 0, 'using passphrase (a sequence of words strung together)', 1, 1),
-(625, 41, 0, 'using your street address', 0, 1),
-(626, 41, 0, 'using your name', 0, 1),
 (627, 40, 0, 'compressor', 1, 0),
 (628, 40, 0, 'compressors', 1, 0),
 (629, 40, 1, 'condensor', 1, 0),
@@ -183,7 +180,23 @@ INSERT INTO `Answers` (`answerId`, `questionId`, `groupId`, `text`, `correct`, `
 (640, 42, 0, 'compression', 0, 0),
 (641, 42, 0, 'condensation', 0, 0),
 (642, 42, 0, 'expansion', 0, 0),
-(643, 42, 0, 'evaporation', 1, 0);
+(643, 42, 0, 'evaporation', 1, 0),
+(648, 43, 0, '60', 0, 0),
+(649, 43, 0, '100', 0, 0),
+(650, 43, 0, '90', 1, 0),
+(651, 43, 0, '80', 0, 0),
+(654, 45, 0, '2', 1, 0),
+(655, 45, 0, 'two', 1, 0),
+(656, 46, 0, '25', 1, 0),
+(657, 47, 0, '1.5', 1, 0),
+(658, 48, 0, '120', 1, 0),
+(661, 44, 0, 'true', 1, 0),
+(662, 44, 0, 'false', 0, 0),
+(673, 3, 0, 'mouse', 1, 0),
+(674, 3, 1, 'keyboard', 1, 0),
+(675, 41, 0, 'using \"1234\"', 1, 1),
+(676, 41, 0, 'using your street address', 1, 1),
+(677, 41, 0, 'using your name', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -384,7 +397,7 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (269, 63, 0, 269, 'Improve welding efficiency', 52, '2020-12-22 23:10:37', 0),
 (270, 41, 2, 7, 'Key Terms and Concepts', 58, '2020-12-24 21:58:24', 0),
 (271, 41, 0, 10, 'Data Collection Guides', 58, '2020-12-30 18:24:27', 0),
-(272, 78, 0, 272, 'Minimize Heat Loss', 58, '2020-12-31 19:16:10', 0);
+(272, 78, 0, 272, 'Minimize Heat Loss', 42, '2020-12-31 19:16:10', 0);
 
 -- --------------------------------------------------------
 
@@ -2270,9 +2283,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6966, 253, 0, 0, 31, '<p>For small companies where they vary multiple process parameters to get different outcomes, a machine learning system can be developed to help find the ideal parameters for each outcome. </p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-30 18:04:41', 0),
 (6967, 254, 0, 0, 24, '', 'https://linkinghub.elsevier.com/retrieve/pii/S235197891830475X', 'Rethinking Human-Machine Learning in Industry 4.0: How Does the Paradigm Shift Treat the Role of Human Learning?', 1, 0, 0, 0, '2020-11-30 18:07:00', 0),
 (6968, 254, 0, 0, 24, '', 'https://towardsdatascience.com/the-actual-difference-between-statistics-and-machine-learning-64b49f07ea3', 'The Actual Difference Between Statistics and Machine Learning', 1, 0, 0, 0, '2020-11-30 18:07:00', 0),
-(6993, 236, 0, 0, 10, 'Meters that consistently have relatively low charges (<$500 per month)', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0),
-(6994, 236, 0, 0, 11, 'Combine multiple small meters together', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0),
-(6995, 236, 0, 0, 11, 'Combine a small meter with a larger meter', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0),
 (7013, 197, 0, 0, 26, 'Researchers from the University of Illinois Urbana-Champaign have developed a tool for manufacturers to simplify the understanding of cybersecurity standards created by the National Institute of Standards and Technology. This tool also follows DFARS, the Department of Defense’s acquisition regulations.', '', '', 0, 0, 0, 0, '2020-12-08 07:56:23', 0),
 (7014, 197, 0, 1, 21, ' ', 'https://iti.illinois.edu/news/new-software-tool-help-manufacturing-companies-meet-complex-cyber-security-standards ', 'The Dashboard', 1, 0, 0, 0, '2020-12-08 07:56:23', 0),
 (7029, 87, 0, 0, 11, 'Replace refrigerated compressed air dryer with more efficient refrigerated compressed air dryer', '', '', 0, 0, 0, 0, '2020-12-14 15:58:03', 0),
@@ -2470,10 +2480,10 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (8008, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
 (8009, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, 0, 1, 0, '2020-12-19 19:14:38', 0),
 (8010, 101, 0, 1, 15, 'Firing rate over time', '', '', 0, 0, 1, 0, '2020-12-19 19:14:38', 0),
-(8011, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, 1, 0, 0, '2020-12-19 19:14:38', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(8011, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, 1, 0, 0, '2020-12-19 19:14:38', 0),
 (8012, 101, 0, 0, 11, 'Install O2 Controls to maintain optimum combustion efficiency throughout the operating range', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
-(8013, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
+(8013, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (8014, 101, 0, 0, 11, 'Clean heat exchanger surfaces and reduce the exhaust temperature', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
 (8015, 101, 0, 1, 10, 'Stack temperature exceeds steam temperature by over 150 ˚F', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
 (8016, 101, 0, 1, 12, 'Clean the fire side. Soot can accumulate and inhibit heat transfer.', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
@@ -2757,10 +2767,10 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (10212, 270, 0, 1, 31, '<p>Heat exchanger in which refrigerant gives off energy to its surroundings and condenses from a gas to a liquid.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
 (10213, 270, 0, 0, 26, 'Discharge, Condensing, High-side Pressure', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
 (10214, 270, 0, 1, 31, '<p>Change in enthalpy in the evaporator as the refrigerant absorbs energy and changes from a liquid to a gas.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
-(10215, 270, 0, 0, 26, 'Enthalpy', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(10215, 270, 0, 0, 26, 'Enthalpy', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
 (10216, 270, 0, 1, 31, '<p>Pressure at the compressor discharge at which the refrigerant condenses. Condensing pressure fluctuates with outside temperatures in air-cooled or evaporative units.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
-(10217, 270, 0, 0, 26, 'Evaporator', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10217, 270, 0, 0, 26, 'Evaporator', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (10218, 270, 0, 1, 31, '<p>Enthalpy is sometimes called total energy because it includes internal energy (U), the work done in a particular process (pV), and change of phase.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
 (10219, 270, 0, 0, 26, 'Latent Heat of Vaporization', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
 (10220, 270, 0, 1, 31, '<p>Approach temperature difference across a heat exchanger with the heat transfer coefficient maximized. This can be measured for clean condensers or evaporators with all heat exchange fans running at full power.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
@@ -2906,27 +2916,30 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (10956, 268, 0, 1, 15, 'Evaporator approach temperature difference', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
 (10957, 268, 0, 1, 15, 'Fan cycling schedule', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
 (10958, 268, 0, 0, 20, '', '/uploads/user_58/63d57fca0ba546bbea9f90a68a0f91df.png', 'Fan Power vs Capacity for 1-speed, 2-speed, and VFD Controls', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
-(11011, 272, 0, 0, 11, 'Recover heat rejected from condensers', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11012, 272, 0, 1, 31, '<p>Most often, the heat rejected from the condensers can be used to heat a nearby process stream, thereby lowering the associated heating load.</p>', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11013, 272, 0, 1, 10, 'A low-temperature process is located nearby water-cooled condensers', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11014, 272, 0, 2, 12, 'Install split condensers to reduce the cooling tower load. A split condenser first uses a nearby process steam to precool the refrigerant before it enters a second condenser that uses cooling tower water. ', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11015, 272, 0, 1, 3, '14,500 Btu/hr per ton produced is rejected in the condensers', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11016, 272, 0, 1, 15, 'Refrigeration capacity (tons)', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11017, 272, 0, 1, 15, 'Temperature of refrigerant entering the condensers', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11018, 272, 0, 1, 15, 'Temperature of the process stream to be heated', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11019, 272, 0, 1, 15, 'Mass flow rates of refrigerant and process stream', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11020, 272, 0, 1, 15, 'Refrigerant and process fluid properties', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11021, 272, 0, 0, 11, 'Insulate hot/cold surfaces', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11022, 272, 0, 1, 31, '<p>Un-insulated cold/hot lines or tanks create unnecessary heat transfer and can result in large energy losses. Simply adding appropriate insulation on these surfaces will result in substantial energy savings.</p><p><br></p>', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11023, 272, 0, 1, 8, 'See Insulation on the Thermal Systems page for more information', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11024, 272, 0, 0, 11, 'Use hot gas defrost', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11025, 272, 0, 1, 31, '<p>When air cooling units operate below 32 ºF, frost inevitably builds up on evaporator coils. Frost acts as an insulator and hinders heat exchanger performance. As a result, a defrost cycle must be implemented for these systems.</p>', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11026, 272, 0, 1, 10, 'Electric resistance defrost current in place', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11027, 272, 0, 2, 12, 'Cycle hot refrigerant from the compressor discharge through the evaporator coils to melt frost.', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11028, 272, 0, 1, 3, 'Savings will generally be on the order of 10-20% of the total system use', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11029, 272, 0, 1, 15, 'Defrost cycle schedule ', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11030, 272, 0, 1, 15, 'Power of the current electric defrost system', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0),
-(11031, 272, 0, 1, 15, 'Distance from compressor discharge to evaporators to determine the amount of piping required', '', '', 0, 0, 0, 0, '2020-12-31 20:13:14', 0);
+(11036, 236, 0, 0, 10, 'Meters that consistently have relatively low charges (<$500 per month)', '', '', 0, 0, 0, 0, '2021-01-04 21:52:57', 0),
+(11037, 236, 0, 0, 11, 'Combine multiple small meters together', '', '', 0, 0, 0, 0, '2021-01-04 21:52:57', 0),
+(11038, 236, 0, 0, 11, 'Combine a small meter with a larger meter', '', '', 0, 0, 0, 0, '2021-01-04 21:52:57', 0),
+(11061, 272, 0, 0, 11, 'Recover heat rejected from condensers', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11062, 272, 0, 1, 31, '<p>Most often, the heat rejected from the condensers can be used to heat a nearby process stream, thereby lowering the associated heating load.</p>', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11063, 272, 0, 1, 10, 'A low-temperature process is located nearby water-cooled condensers', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11064, 272, 0, 2, 12, 'Install split condensers to reduce the cooling tower load. A split condenser first uses a nearby process steam to precool the refrigerant before it enters a second condenser that uses cooling tower water. ', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11065, 272, 0, 1, 3, '14,500 Btu/hr per ton produced is rejected in the condensers', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11066, 272, 0, 1, 15, 'Refrigeration capacity (tons)', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11067, 272, 0, 1, 15, 'Temperature of refrigerant entering the condensers', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11068, 272, 0, 1, 15, 'Temperature of the process stream to be heated', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11069, 272, 0, 1, 15, 'Mass flow rates of refrigerant and process stream', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11070, 272, 0, 1, 15, 'Refrigerant and process fluid properties', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11071, 272, 0, 0, 11, 'Insulate hot/cold surfaces', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11072, 272, 0, 1, 31, '<p>Un-insulated cold/hot lines or tanks create unnecessary heat transfer and can result in large energy losses. Simply adding appropriate insulation on these surfaces will result in substantial energy savings.</p><p><br></p>', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11073, 272, 0, 1, 8, 'See Insulation on the Thermal Systems page for more information', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11074, 272, 0, 0, 11, 'Use hot gas defrost', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11075, 272, 0, 1, 31, '<p>When air cooling units operate below 32 ºF, frost inevitably builds up on evaporator coils. Frost acts as an insulator and hinders heat exchanger performance. As a result, a defrost cycle must be implemented for these systems.</p>', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11076, 272, 0, 1, 10, 'Electric resistance defrost current in place', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11077, 272, 0, 2, 12, 'Cycle hot refrigerant from the compressor discharge through the evaporator coils to melt frost.', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11078, 272, 0, 1, 3, 'Savings will generally be on the order of 10-20% of the total system use', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11079, 272, 0, 1, 15, 'Defrost cycle schedule ', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11080, 272, 0, 1, 15, 'Power of the current electric defrost system', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11081, 272, 0, 1, 15, 'Distance from compressor discharge to evaporators to determine the amount of piping required', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0);
 
 -- --------------------------------------------------------
 
@@ -3039,6 +3052,14 @@ CREATE TABLE `Observations` (
   `hidden` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `Observations`
+--
+
+INSERT INTO `Observations` (`observationId`, `pageId`, `userId`, `type`, `text`, `created`, `hidden`) VALUES
+(3, 62, 42, 1, 'some feedback1', '2021-01-05 22:03:21', 1),
+(4, 62, 42, 2, 'some feedback2', '2021-01-05 22:03:21', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -3104,9 +3125,9 @@ CREATE TABLE `Questions` (
 --
 
 INSERT INTO `Questions` (`questionId`, `pageId`, `text`, `type`, `priority`, `imageUrl`, `created`, `approved`) VALUES
-(1, 62, 'What is often the most effective method for bypassing security?', 1, 0, '', '2020-12-21 22:47:43', 1),
-(2, 62, 'What do you call a person who is trying to steal important information from our organization electronically?', 2, 0, '', '2020-12-21 22:47:43', 1),
-(3, 62, 'Can you name these two devices?', 3, 0, '/uploads/user_42/db309b887fde585de15cbacce2283779.jpg', '2020-12-21 22:47:43', 1),
+(1, 62, 'What is often the most effective method for bypassing security?', 1, 2, '', '2021-01-05 22:04:36', 1),
+(2, 62, 'What do you call a person who is trying to steal important information from our organization electronically?', 2, 3, '', '2021-01-05 22:04:35', 1),
+(3, 62, 'Can you name these two devices?', 3, 4, '/uploads/user_42/db309b887fde585de15cbacce2283779.jpg', '2021-01-05 22:04:35', 1),
 (4, 2, 'Compressing air is inefficient, with as much as ___ of the input energy lost as heat.', 1, 0, '', '2020-12-21 22:47:43', 1),
 (5, 2, 'Rule of Thumb: Air compressor power is reduced by ___ % for ever 2 psig reduction in pressure.', 1, 0, '', '2020-12-21 22:47:43', 1),
 (6, 2, 'True or False: Unloading controls may be added to an air compressor to increase part-load efficiency.', 1, 0, '', '2020-12-21 22:47:43', 1),
@@ -3142,8 +3163,14 @@ INSERT INTO `Questions` (`questionId`, `pageId`, `text`, `type`, `priority`, `im
 (38, 48, 'The air temperature at a specific time, shielded from moisture is known as the ______ temperature.', 2, 0, '', '2020-12-21 22:47:43', 1),
 (39, 48, 'The temperature air would have if it were cooled to saturation by the evaporation of water is known as the ______ temperature.', 2, 0, '', '2020-12-21 22:47:43', 1),
 (40, 48, 'Name the four primary components of a refrigeration system.', 3, 0, '', '2020-12-21 22:47:43', 1),
-(41, 62, 'Which of these is not a bad practice for creating passwords?', 1, 0, '', '2020-12-22 08:15:29', 1),
-(42, 48, 'At which stage is the refrigeration load applied? ', 1, 0, '', '2020-12-22 22:21:30', 0);
+(41, 62, 'What is a bad practice for naming a password?', 4, 0, '', '2021-01-05 22:10:03', 1),
+(42, 48, 'At which stage is the refrigeration load applied? ', 1, 0, '', '2020-12-22 22:21:30', 0),
+(43, 46, 'Installing a condensing economizer can increase boiler efficiency to over _____%.', 1, 0, '', '2021-01-04 17:30:45', 0),
+(44, 2, 'True or False: Receiver tanks may be installed to ensure sufficient air pressure is available at higher demand end uses?', 1, 0, '', '2021-01-04 17:34:17', 0),
+(45, 44, 'Notched V-belts are approximately ____% more efficient than standard belt-driven motors.', 2, 0, '', '2021-01-04 17:35:31', 0),
+(46, 45, 'Rule of Thumb: A general design criteria is that the net positive suction head available (NPSHA) exceeds the net positive suction head required (NPSHR) by at least ___% over the expected flow range.', 2, 0, '', '2021-01-04 17:37:30', 0),
+(47, 48, 'Rule of Thumb: Expect a ___% compressor power reduction per 1 degree Fahrenheit decrease in condensing temperature.', 2, 0, '', '2021-01-04 17:39:11', 0),
+(48, 47, 'Rule of Thumb: Any thermal system with a surface temperature greater than _____ degree F should be insulated.', 2, 0, '', '2021-01-04 17:40:27', 0);
 
 -- --------------------------------------------------------
 
@@ -3205,7 +3232,9 @@ INSERT INTO `Requests` (`requestId`, `title`, `description`, `status`, `created`
 (13, 'Refrigeration Page', 'Brief summary of industrial refrigeration systems and design factors to consider. ', 1, '2020-12-16 01:45:12', 58),
 (14, 'Pump Page', 'Quite a bit of content related to pumps in general as well as a couple of opportunities.', 2, '2020-12-19 00:49:42', 55),
 (15, 'Boiler and Steam', 'Updates to add additional descriptions to some recommendations. \nSeveral items contain minor grammar changes.\nChanges some of the resources from public to internal, as they require access to OSU box folders', 1, '2020-12-20 02:12:40', 61),
-(16, 'Thermal Systems Overview', 'The overview, useful links, pros, cons, and best practices.', 1, '2020-12-21 20:35:42', 57);
+(16, 'Thermal Systems Overview', 'The overview, useful links, pros, cons, and best practices.', 1, '2020-12-21 20:35:42', 57),
+(17, 'Test - Please Ignore', 'This is an example of a quiz question in a publish request.', 4, '2021-01-05 20:22:31', 42),
+(18, 'DEMO', 'Example of questions in a publish request', 4, '2021-01-05 20:26:13', 42);
 
 -- --------------------------------------------------------
 
@@ -3256,7 +3285,9 @@ INSERT INTO `Request_Comments` (`commentId`, `requestId`, `targetId`, `comment`,
 (56, 16, 'P47', '<p>change \"Often times\" to \"Often\"</p>', 0, '2020-12-22 00:58:40', 55),
 (57, 16, 'C261', '<ul><li>maybe reword \"reducing generation costs\" this is a bit unclear</li><li>remove first \"equipment\" from from fourth pro</li><li>change \"cheaper\" to \"cheap\"</li></ul>', 0, '2020-12-22 01:05:22', 55),
 (58, 16, 'C262', '<p>add \"often\" prior to \"requiring non-generic quotes and high costs\"</p><p>change \"in consideration\" to \"to consider\" in the second sentence of the first bullet</p>', 0, '2020-12-22 01:07:54', 55),
-(59, 16, '0', '<p>Overall looks good. I think you got quite a bit of important information in there. Links are great. I suggested a few changes to the wording but it all looks nice!</p>', 0, '2020-12-22 01:10:53', 55);
+(59, 16, '0', '<p>Overall looks good. I think you got quite a bit of important information in there. Links are great. I suggested a few changes to the wording but it all looks nice!</p>', 0, '2020-12-22 01:10:53', 55),
+(60, 18, '0', '<p>I can type out a <strong class=\"ql-size-medium\">bunch </strong>of <u class=\"ql-size-medium\">Math</u> here:</p><p><br></p><p><span class=\"ql-formula\" data-value=\"\\def\\arraystretch{1.5}    \\begin{array}{c:c:c}    a &amp; b &amp; c \\\\ \\hline    d &amp; e &amp; f \\\\    \\hdashline    g &amp; h &amp; i \\end{array}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mtable rowspacing=\"0.6599999999999999em\" columnalign=\"center center center\" columnlines=\"dashed dashed\" columnspacing=\"1em\" rowlines=\"solid dashed\"><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>a</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>b</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>c</mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>d</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>e</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>f</mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>g</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>h</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>i</mi></mstyle></mtd></mtr></mtable><annotation encoding=\"application/x-tex\">\\def\\arraystretch{1.5}    \\begin{array}{c:c:c}    a &amp; b &amp; c \\\\ \\hline    d &amp; e &amp; f \\\\    \\hdashline    g &amp; h &amp; i \\end{array}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 5.4em; vertical-align: -2.45em;\"></span><span class=\"mord\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 4.95em;\"></span><span class=\"mtable\"><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"col-align-c\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">a</span></span></span><span class=\"\" style=\"top: -3.15em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">d</span></span></span><span class=\"\" style=\"top: -1.35em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\" style=\"margin-right: 0.03588em;\">g</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"vertical-separator\" style=\"height: 5.4em; border-right-width: 0.04em; border-right-style: dashed; margin: 0px -0.02em; vertical-align: -2.45em;\"></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"col-align-c\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">b</span></span></span><span class=\"\" style=\"top: -3.15em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">e</span></span></span><span class=\"\" style=\"top: -1.35em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">h</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"vertical-separator\" style=\"height: 5.4em; border-right-width: 0.04em; border-right-style: dashed; margin: 0px -0.02em; vertical-align: -2.45em;\"></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"col-align-c\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">c</span></span></span><span class=\"\" style=\"top: -3.15em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\" style=\"margin-right: 0.10764em;\">f</span></span></span><span class=\"\" style=\"top: -1.35em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">i</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span></span></span><span class=\"\" style=\"top: -4.3em;\"><span class=\"pstrut\" style=\"height: 4.95em;\"></span><span class=\"hdashline\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -6.1em;\"><span class=\"pstrut\" style=\"height: 4.95em;\"></span><span class=\"hline\" style=\"border-bottom-width: 0.04em;\"></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span>﻿</span>            <span class=\"ql-formula\" data-value=\"\\begin{alignedat}{2}    10&amp;x+ &amp;3&amp;y = 2 \\\\    3&amp;x+&amp;13&amp;y = 4 \\end{alignedat}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mtable rowspacing=\"0.24999999999999992em\" columnalign=\"right left right left\" columnspacing=\"0em\"><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mn>10</mn></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mrow><mrow></mrow><mi>x</mi><mo>+</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mn>3</mn></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mrow><mrow></mrow><mi>y</mi><mo>=</mo><mn>2</mn></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mn>3</mn></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mrow><mrow></mrow><mi>x</mi><mo>+</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mn>13</mn></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mrow><mrow></mrow><mi>y</mi><mo>=</mo><mn>4</mn></mrow></mstyle></mtd></mtr></mtable><annotation encoding=\"application/x-tex\">\\begin{alignedat}{2}    10&amp;x+ &amp;3&amp;y = 2 \\\\    3&amp;x+&amp;13&amp;y = 4 \\end{alignedat}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 3em; vertical-align: -1.25em;\"></span><span class=\"mord\"><span class=\"mtable\"><span class=\"col-align-r\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.75em;\"><span class=\"\" style=\"top: -3.91em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">1</span><span class=\"mord\">0</span></span></span><span class=\"\" style=\"top: -2.41em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">3</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.25em;\"><span class=\"\"></span></span></span></span></span><span class=\"col-align-l\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.75em;\"><span class=\"\" style=\"top: -3.91em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"></span><span class=\"mord mathnormal\">x</span><span class=\"mord\">+</span></span></span><span class=\"\" style=\"top: -2.41em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"></span><span class=\"mord mathnormal\">x</span><span class=\"mord\">+</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.25em;\"><span class=\"\"></span></span></span></span></span><span class=\"col-align-r\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.75em;\"><span class=\"\" style=\"top: -3.91em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">3</span></span></span><span class=\"\" style=\"top: -2.41em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">1</span><span class=\"mord\">3</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.25em;\"><span class=\"\"></span></span></span></span></span><span class=\"col-align-l\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.75em;\"><span class=\"\" style=\"top: -3.91em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"></span><span class=\"mord mathnormal\" style=\"margin-right: 0.03588em;\">y</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mord\">2</span></span></span><span class=\"\" style=\"top: -2.41em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"></span><span class=\"mord mathnormal\" style=\"margin-right: 0.03588em;\">y</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mord\">4</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.25em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span></span></span>﻿</span>           <span class=\"ql-formula\" data-value=\"x = \\begin{cases}    a &amp;\\text{if } b \\\\    c &amp;\\text{if } d \\end{cases}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>x</mi><mo>=</mo><mrow><mo fence=\"true\">{</mo><mtable rowspacing=\"0.3599999999999999em\" columnalign=\"left left\" columnspacing=\"1em\"><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>a</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mrow><mtext>if&nbsp;</mtext><mi>b</mi></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>c</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mrow><mtext>if&nbsp;</mtext><mi>d</mi></mrow></mstyle></mtd></mtr></mtable></mrow></mrow><annotation encoding=\"application/x-tex\">x = \\begin{cases}    a &amp;\\text{if } b \\\\    c &amp;\\text{if } d \\end{cases}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 0.43056em; vertical-align: 0em;\"></span><span class=\"mord mathnormal\">x</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 3.00003em; vertical-align: -1.25003em;\"></span><span class=\"minner\"><span class=\"mopen delimcenter\" style=\"top: 0em;\"><span class=\"delimsizing size4\">{</span></span><span class=\"mord\"><span class=\"mtable\"><span class=\"col-align-l\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.69em;\"><span class=\"\" style=\"top: -3.69em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">a</span></span></span><span class=\"\" style=\"top: -2.25em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">c</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.19em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 1em;\"></span><span class=\"col-align-l\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.69em;\"><span class=\"\" style=\"top: -3.69em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord text\"><span class=\"mord\">if&nbsp;</span></span><span class=\"mord mathnormal\">b</span></span></span><span class=\"\" style=\"top: -2.25em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord text\"><span class=\"mord\">if&nbsp;</span></span><span class=\"mord mathnormal\">d</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.19em;\"><span class=\"\"></span></span></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span></span></span></span></span>﻿</span>                  <span class=\"ql-formula\" data-value=\"\\begin{rcases}    a &amp;\\text{if } b \\\\    c &amp;\\text{if } d \\end{rcases}⇒…\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mrow><mtable rowspacing=\"0.3599999999999999em\" columnalign=\"left left\" columnspacing=\"1em\"><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>a</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mrow><mtext>if&nbsp;</mtext><mi>b</mi></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>c</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mrow><mtext>if&nbsp;</mtext><mi>d</mi></mrow></mstyle></mtd></mtr></mtable><mo fence=\"true\">}</mo></mrow><mo>⇒</mo><mo>…</mo></mrow><annotation encoding=\"application/x-tex\">\\begin{rcases}    a &amp;\\text{if } b \\\\    c &amp;\\text{if } d \\end{rcases}⇒…</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 3.00003em; vertical-align: -1.25003em;\"></span><span class=\"minner\"><span class=\"mopen nulldelimiter\"></span><span class=\"mord\"><span class=\"mtable\"><span class=\"col-align-l\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.69em;\"><span class=\"\" style=\"top: -3.69em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">a</span></span></span><span class=\"\" style=\"top: -2.25em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">c</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.19em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 1em;\"></span><span class=\"col-align-l\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.69em;\"><span class=\"\" style=\"top: -3.69em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord text\"><span class=\"mord\">if&nbsp;</span></span><span class=\"mord mathnormal\">b</span></span></span><span class=\"\" style=\"top: -2.25em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord text\"><span class=\"mord\">if&nbsp;</span></span><span class=\"mord mathnormal\">d</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.19em;\"><span class=\"\"></span></span></span></span></span></span></span><span class=\"mclose delimcenter\" style=\"top: 0em;\"><span class=\"delimsizing size4\">}</span></span></span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">⇒</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 0.12em; vertical-align: 0em;\"></span><span class=\"minner\">…</span></span></span></span></span>﻿</span>            <span class=\"ql-formula\" data-value=\"\\displaystyle\\sum_{i=1}^n\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mstyle scriptlevel=\"0\" displaystyle=\"true\"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover></mstyle></mrow><annotation encoding=\"application/x-tex\">\\displaystyle\\sum_{i=1}^n</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 2.92907em; vertical-align: -1.27767em;\"></span><span class=\"mop op-limits\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.6514em;\"><span class=\"\" style=\"top: -1.87233em; margin-left: 0em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\"><span class=\"mord mathnormal mtight\">i</span><span class=\"mrel mtight\">=</span><span class=\"mord mtight\">1</span></span></span></span><span class=\"\" style=\"top: -3.05001em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"\"><span class=\"mop op-symbol large-op\">∑</span></span></span><span class=\"\" style=\"top: -4.30001em; margin-left: 0em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mathnormal mtight\">n</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.27767em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span>﻿</span>  <span class=\"ql-formula\" data-value=\"\\dfrac{x_i}{10} =\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mfrac><msub><mi>x</mi><mi>i</mi></msub><mn>10</mn></mfrac></mstyle><mo>=</mo></mrow><annotation encoding=\"application/x-tex\">\\dfrac{x_i}{10} =</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 1.79356em; vertical-align: -0.686em;\"></span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.10756em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">1</span><span class=\"mord\">0</span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\">x</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.311664em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mathnormal mtight\">i</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span></span></span></span></span>﻿</span>  <span class=\"ql-formula\" data-value=\"\\dfrac{x_1}{10} +\\dfrac{x_2}{10} + ... + \\dfrac{x_n}{10}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mfrac><msub><mi>x</mi><mn>1</mn></msub><mn>10</mn></mfrac></mstyle><mo>+</mo><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mfrac><msub><mi>x</mi><mn>2</mn></msub><mn>10</mn></mfrac></mstyle><mo>+</mo><mi mathvariant=\"normal\">.</mi><mi mathvariant=\"normal\">.</mi><mi mathvariant=\"normal\">.</mi><mo>+</mo><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mfrac><msub><mi>x</mi><mi>n</mi></msub><mn>10</mn></mfrac></mstyle></mrow><annotation encoding=\"application/x-tex\">\\dfrac{x_1}{10} +\\dfrac{x_2}{10} + ... + \\dfrac{x_n}{10}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 1.79356em; vertical-align: -0.686em;\"></span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.10756em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">1</span><span class=\"mord\">0</span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\">x</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.301108em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">1</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span><span class=\"mbin\">+</span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 1.79356em; vertical-align: -0.686em;\"></span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.10756em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">1</span><span class=\"mord\">0</span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\">x</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.301108em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">2</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span><span class=\"mbin\">+</span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 0.66666em; vertical-align: -0.08333em;\"></span><span class=\"mord\">.</span><span class=\"mord\">.</span><span class=\"mord\">.</span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span><span class=\"mbin\">+</span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 1.79356em; vertical-align: -0.686em;\"></span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.10756em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">1</span><span class=\"mord\">0</span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\">x</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.151392em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mathnormal mtight\">n</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span></span></span></span></span>﻿</span> </p>', 0, '2021-01-05 20:31:40', 42),
+(61, 18, '0', '<p><span class=\"ql-formula\" data-value=\"e=mc^2\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>e</mi><mo>=</mo><mi>m</mi><msup><mi>c</mi><mn>2</mn></msup></mrow><annotation encoding=\"application/x-tex\">e=mc^2</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 0.43056em; vertical-align: 0em;\"></span><span class=\"mord mathnormal\">e</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 0.814108em; vertical-align: 0em;\"></span><span class=\"mord mathnormal\">m</span><span class=\"mord\"><span class=\"mord mathnormal\">c</span><span class=\"msupsub\"><span class=\"vlist-t\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.814108em;\"><span class=\"\" style=\"top: -3.063em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">2</span></span></span></span></span></span></span></span></span></span></span></span>﻿</span>      <span class=\"ql-formula\" data-value=\"\\def\\arraystretch{1.5}    \\begin{array}{c:c:c}    a &amp; b &amp; c \\\\ \\hline    d &amp; e &amp; f \\\\    \\hdashline    g &amp; h &amp; i \\end{array}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mtable rowspacing=\"0.6599999999999999em\" columnalign=\"center center center\" columnlines=\"dashed dashed\" columnspacing=\"1em\" rowlines=\"solid dashed\"><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>a</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>b</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>c</mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>d</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>e</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>f</mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>g</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>h</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>i</mi></mstyle></mtd></mtr></mtable><annotation encoding=\"application/x-tex\">\\def\\arraystretch{1.5}    \\begin{array}{c:c:c}    a &amp; b &amp; c \\\\ \\hline    d &amp; e &amp; f \\\\    \\hdashline    g &amp; h &amp; i \\end{array}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 5.4em; vertical-align: -2.45em;\"></span><span class=\"mord\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 4.95em;\"></span><span class=\"mtable\"><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"col-align-c\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">a</span></span></span><span class=\"\" style=\"top: -3.15em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">d</span></span></span><span class=\"\" style=\"top: -1.35em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\" style=\"margin-right: 0.03588em;\">g</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"vertical-separator\" style=\"height: 5.4em; border-right-width: 0.04em; border-right-style: dashed; margin: 0px -0.02em; vertical-align: -2.45em;\"></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"col-align-c\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">b</span></span></span><span class=\"\" style=\"top: -3.15em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">e</span></span></span><span class=\"\" style=\"top: -1.35em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">h</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"vertical-separator\" style=\"height: 5.4em; border-right-width: 0.04em; border-right-style: dashed; margin: 0px -0.02em; vertical-align: -2.45em;\"></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"col-align-c\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">c</span></span></span><span class=\"\" style=\"top: -3.15em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\" style=\"margin-right: 0.10764em;\">f</span></span></span><span class=\"\" style=\"top: -1.35em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">i</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span></span></span><span class=\"\" style=\"top: -4.3em;\"><span class=\"pstrut\" style=\"height: 4.95em;\"></span><span class=\"hdashline\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -6.1em;\"><span class=\"pstrut\" style=\"height: 4.95em;\"></span><span class=\"hline\" style=\"border-bottom-width: 0.04em;\"></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span>﻿</span>    </p>', 0, '2021-01-05 22:07:04', 42);
 
 -- --------------------------------------------------------
 
@@ -3321,7 +3352,10 @@ INSERT INTO `Request_Objects` (`requestObjectId`, `requestId`, `objectId`, `obje
 (62, 16, 261, 3),
 (63, 16, 262, 3),
 (64, 16, 263, 3),
-(65, 16, 265, 3);
+(65, 16, 265, 3),
+(66, 17, 44, 4),
+(67, 18, 41, 4),
+(68, 18, 3, 4);
 
 -- --------------------------------------------------------
 
@@ -3404,11 +3438,11 @@ INSERT INTO `Scores` (`scoreId`, `pageId`, `questionId`, `userId`, `text`, `inva
 (168, 46, 21, 61, 'a, b, c, d', 0, 0),
 (169, 46, 34, 61, '$50,000', 0, 1),
 (170, 46, 35, 61, '', 0, 0),
-(171, 62, 1, 42, 'social engineering', 0, 1),
-(172, 62, 2, 42, 'hacker', 0, 1),
-(173, 62, 3, 42, 'mouse', 0, 1),
-(174, 62, 3, 42, 'keyboard', 0, 1),
-(175, 62, 41, 42, 'using passphrase (a sequence of words strung together)', 0, 1);
+(176, 62, 1, 42, 'social engineering', 0, 1),
+(177, 62, 2, 42, 'ewrwerwer', 0, 0),
+(178, 62, 3, 42, 'werw', 0, 0),
+(179, 62, 3, 42, 'werer', 0, 0),
+(180, 62, 41, 42, 'using your street address', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -3600,6 +3634,7 @@ CREATE TABLE `Temp_Questions` (
 --
 
 INSERT INTO `Temp_Questions` (`tempQuestionId`, `tempText`, `tempType`, `tempPriority`, `tempImageUrl`, `tempCreated`) VALUES
+(3, 'Can you name these two devices?', 2, 1, '/uploads/user_42/db309b887fde585de15cbacce2283779.jpg', '2021-01-05 22:04:36'),
 (40, 'Name the four primary components of a mechanical compression refrigeration system.', 3, 0, '', '2020-12-22 19:45:58');
 
 -- --------------------------------------------------------
@@ -3909,7 +3944,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Answers`
 --
 ALTER TABLE `Answers`
-  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=644;
+  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=678;
 
 --
 -- AUTO_INCREMENT for table `Banners`
@@ -3981,19 +4016,19 @@ ALTER TABLE `Info`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11032;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11082;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
 --
 ALTER TABLE `Notifications`
-  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
+  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=268;
 
 --
 -- AUTO_INCREMENT for table `Observations`
 --
 ALTER TABLE `Observations`
-  MODIFY `observationId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `observationId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `Pages`
@@ -4005,7 +4040,7 @@ ALTER TABLE `Pages`
 -- AUTO_INCREMENT for table `Questions`
 --
 ALTER TABLE `Questions`
-  MODIFY `questionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `questionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `Quick_Titles`
@@ -4017,25 +4052,25 @@ ALTER TABLE `Quick_Titles`
 -- AUTO_INCREMENT for table `Requests`
 --
 ALTER TABLE `Requests`
-  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `Request_Comments`
 --
 ALTER TABLE `Request_Comments`
-  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `Request_Objects`
 --
 ALTER TABLE `Request_Objects`
-  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `Scores`
 --
 ALTER TABLE `Scores`
-  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
+  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
 
 --
 -- AUTO_INCREMENT for table `Sources`

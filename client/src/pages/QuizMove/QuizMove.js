@@ -116,7 +116,6 @@ function QuizMove() {
 
           const sortedQuestions = questionSortOrder(obj.questions);
 
-          console.log(sortedQuestions);
           setQuestions(sortedQuestions);
 
         } else {
@@ -173,7 +172,6 @@ function QuizMove() {
 
   // Moves the specified question up or down one in relation to other questions
   async function onMoveQuestion(questionId, up, mode) {
-    console.log("questionId", questionId, "up", up, "mode", mode);
     const copy = [...questions];
     let moveIndex = -1;
     let swapIndex = -1;
