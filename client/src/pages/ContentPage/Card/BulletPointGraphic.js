@@ -1,6 +1,7 @@
 import React, {Fragment} from "react";
 import Image from "../../../components/General/Image";
 import PropTypes from "prop-types";
+import Sanitized from "../../../components/General/Sanitized";
 import Source from "./Source";
 
 // Represents a single graphic type bullet inside a card
@@ -38,10 +39,10 @@ function BulletPointGraphic(props) {
         {/* Container holding graphic image, text, and possibly a source */}
         <div className={`${props.inline ? "inline-graphic mr-3" : "col"} ${props.label.length ? "" : "indent-level-" + props.indentation} content-td pb-2`}>
           <div className="pb-1">
-            <span className={`icon-item-text`}>
+            <span className="icon-item-text">
               {props.text}
             </span>
-            {props.label}
+            <Sanitized html={props.label} inline={!!props.inline} />
             <Source source={props.source} sourceText={props.sourceText} />
           </div>
           <Image url={props.url} title={props.label} thumbnail={false} header={largeImage()} />

@@ -54,6 +54,7 @@ function RichTextEditor(props) {
         id={`quill-${props.id}`}
         modules={modules}
         formats={formats}
+        placeholder={props.placeHolder}
       />
     </div>
   );
@@ -65,5 +66,6 @@ RichTextEditor.propTypes = {
   id: PropTypes.string,
   onChange: PropTypes.func,
   value: PropTypes.string,
-  fontSizes: PropTypes.bool
+  fontSizes: PropTypes.bool,
+  placeHolder: PropTypes.string
 };

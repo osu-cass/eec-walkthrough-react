@@ -82,18 +82,14 @@ function ItemInput(props) {
 
       {props.groupIndex === 1 ? (
         <Fragment>
-          <FormControl
-            as="textarea"
-            rows="1"
-            maxLength="1000"
-            className={`ml-3 ${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
-            placeholder="Item Text"
-            value={props.value.contentText}
-            aria-label="Insert Description"
-            aria-describedby="basic-addon1"
-            onChange={(e) => props.handleInput(e, props.index, 1)}
-            required
-          />
+          <div className="ml-3 small-text-editor-input">
+            <RichTextEditor
+              id={`submit-text-${props.index}`}
+              value={props.value.contentText}
+              onChange={(e) => props.handleInput(e, props.index, 1)}
+              placeHolder="Item Text"
+            />
+          </div>
           <Dropdown className="source-select-drop-down-menu ml-2">
             <Dropdown.Toggle variant="outline-dark">
               {sourceText}
@@ -125,31 +121,27 @@ function ItemInput(props) {
 
       {props.groupIndex === 2 ? (
         <Fragment>
-          <FormControl
-            as="textarea"
-            rows="1"
-            maxLength="1000"
-            className={`ml-3 ${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
-            placeholder="Graphic Label"
-            value={props.value.contentLabel}
-            aria-label="Insert Description"
-            aria-describedby="basic-addon1"
-            onChange={(e) => props.handleInput(e, props.index, 2)}
-            required
-          />
-          <FormControl
-            as="textarea"
-            rows="1"
-            maxLength="1000"
-            className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
-            placeholder="Image URL"
-            value={props.value.contentUrl}
-            aria-label="Insert Image URL"
-            aria-describedby="basic-addon1"
-            onChange={(e) => props.handleInput(e, props.index, 3)}
-            required
-          />
+          <div className="ml-3 very-small-text-editor-input">
+            <RichTextEditor
+              id={`submit-text-${props.index}`}
+              value={props.value.contentLabel}
+              onChange={(text) => props.handleInput(text, props.index, 2)}
+              placeHolder="Graphic Label"
+            />
+          </div>
           <div className="col px-0">
+            <FormControl
+              as="textarea"
+              rows="1"
+              maxLength="1000"
+              className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
+              placeholder="Image URL"
+              value={props.value.contentUrl}
+              aria-label="Insert Image URL"
+              aria-describedby="basic-addon1"
+              onChange={(e) => props.handleInput(e, props.index, 3)}
+              required
+            />
             <ImageInput id={props.index} internal={props.internal} inline={props.inline} onNewImage={(newImage) => props.onNewImage(newImage, props.index)} />
           </div>
           <Dropdown className="source-select-drop-down-menu ml-2">
@@ -202,18 +194,14 @@ function ItemInput(props) {
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <FormControl
-            as="textarea"
-            rows="1"
-            maxLength="1000"
-            className={`ml-3 ${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
-            placeholder="Resource Label"
-            value={props.value.contentLabel}
-            aria-label="Insert URL Label"
-            aria-describedby="basic-addon1"
-            onChange={(e) => props.handleInput(e, props.index, 2)}
-            required
-          />
+          <div className="ml-3 very-small-text-editor-input">
+            <RichTextEditor
+              id={`submit-text-${props.index}`}
+              value={props.value.contentLabel}
+              onChange={(text) => props.handleInput(text, props.index, 2)}
+              placeHolder="Resource Label"
+            />
+          </div>
           <FormControl
             as="textarea"
             rows="1"
@@ -226,18 +214,14 @@ function ItemInput(props) {
             onChange={(e) => props.handleInput(e, props.index, 3)}
             required
           />
-          <FormControl
-            as="textarea"
-            rows="1"
-            maxLength="1000"
-            className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
-            placeholder="Description (optional)"
-            value={props.value.contentText}
-            aria-label="Insert Description"
-            aria-describedby="basic-addon1"
-            onChange={(e) => props.handleInput(e, props.index, 1)}
-            required
-          />
+          <div className="very-small-text-editor-input">
+            <RichTextEditor
+              id={`submit-text-${props.index}`}
+              value={props.value.contentText}
+              onChange={(text) => props.handleInput(text, props.index, 1)}
+              placeHolder="Description (optional)"
+            />
+          </div>
         </Fragment>
       ) : (
         null
@@ -250,6 +234,7 @@ function ItemInput(props) {
               id={`submit-text-${props.index}`}
               value={props.value.contentText}
               onChange={(text) => props.handleInput(text, props.index, 4)}
+              placeHolder="Item Text"
             />
           </div>
         </div>
