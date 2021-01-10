@@ -23,9 +23,6 @@ function RichTextToolbar() {
       <button className="ql-list ml-2" value="ordered" />
       <button className="ql-list mr-2" value="bullet" />
 
-      {/* Button for making links */}
-      <button className="ql-link mx-2" />
-
       {/* Buttons for KaTeX functions */}
       <button className="ql-formula ml-2" />
       <a href="https://katex.org/docs/supported.html" target="_blank" rel="noopener noreferrer ">

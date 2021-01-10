@@ -24,7 +24,6 @@ function RichTextEditor(props) {
       [{size: ["small", false, "large", "huge"]}],
       ["bold", "italic", "underline", "strike"],
       [{list: "ordered"}, {list: "bullet"}],
-      ["link"],
       ["formula"],
       ["clean"]
     ],
@@ -38,7 +37,6 @@ function RichTextEditor(props) {
     "strike",
     "list",
     "bullet",
-    "link",
     "formula"
   ];
 
