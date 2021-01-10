@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import sanitizeHtml from "sanitize-html";
+import "./Sanitized.css";
 
 // Sanitizes the HTML that is passed to it
 function Sanitized(props) {
@@ -291,11 +292,12 @@ function Sanitized(props) {
   });
 
   return (
-    <span dangerouslySetInnerHTML={{__html: clean}} />
+    <span dangerouslySetInnerHTML={{__html: clean}} className={props.inline ? "sanitized-inline-text" : "sanitized-text"}/>
   );
 }
 export default Sanitized;
 
 Sanitized.propTypes = {
-  html: PropTypes.any.isRequired
+  html: PropTypes.any.isRequired,
+  inline: PropTypes.bool
 };

@@ -270,6 +270,7 @@ function AddSource(props) {
                   id={`submit-source-${i}`}
                   value={source.text}
                   onChange={(text) => modifySource(source.sourceId, text)}
+                  placeHolder="Enter Citation"
                 />
               </div>
             </Row>
@@ -322,6 +323,7 @@ function AddSource(props) {
             id={"submit-source-0"}
             value={richText}
             onChange={(text) => setRichText(text)}
+            placeHolder="Enter Citation"
           />
 
           <Row>

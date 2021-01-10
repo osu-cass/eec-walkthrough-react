@@ -279,6 +279,7 @@ function ManageContributors() {
           id={`submit-text-100`}
           value={ourTeamMessage}
           onChange={(text) => setOurTeamMessage(text)}
+          placeHolder="Enter Team Message"
         />
 
         {/* Save changes */}

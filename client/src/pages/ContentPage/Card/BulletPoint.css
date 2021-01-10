@@ -45,6 +45,10 @@
   margin-top: 0.9em !important;
 }
 
+.inline-circle-icon {
+  margin-top: -0.8em !important;
+}
+
 .indent-level-1 {
   margin-left: 1.5em !important;
 }
@@ -101,7 +105,7 @@
 }
 
 .inline-block-icon {
-  display: inline-block !important;  
+  display: inline-block !important;
 }
 
 .inline-graphic {

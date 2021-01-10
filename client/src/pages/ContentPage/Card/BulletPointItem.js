@@ -1,6 +1,7 @@
 import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import Source from "./Source";
+import Sanitized from "../../../components/General/Sanitized";
 
 // Represents a single item type bullet inside a card
 function BulletPointItem(props) {
@@ -32,7 +33,7 @@ function BulletPointItem(props) {
 
         {/* Container holding item's icon */}
         <div
-          className={`${props.inline ? "inline-block-icon pb-2" : ""} icon-td
+          className={`${props.inline ? "inline-block-icon pb-2" : ""} ${props.inline && props.icon === "circle" ? "inline-circle-icon" : ""} icon-td
           justify-content-center ${props.icon === "check-square" ? "" : "indent-level-" + props.indentation}`}
         >
           {/* Check to see if the current item is a special opportunity item */}
@@ -66,7 +67,7 @@ function BulletPointItem(props) {
         {/* Container holding item text and possibly a source */}
         <div className={`${props.inline ? "d-inline mr-2" : ""} content-td pb-2 col`}>
           <span className={`icon-item-text ${styleText(props.icon)}`}>
-            {props.text}
+            <Sanitized html={props.text} inline={!!props.inline} />
           </span>
           <Source source={props.source} sourceText={props.sourceText} />
         </div>

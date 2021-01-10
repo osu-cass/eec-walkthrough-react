@@ -114,6 +114,7 @@ function SubmitComment(props) {
             id={`submit-comment-0`}
             value={comment}
             onChange={(text) => setComment(text)}
+            placeHolder="Enter a Comment"
           />
         </Form.Group>
 

@@ -912,9 +912,9 @@ function ConstructCardModal(props) {
     const key = index.toString();
     const copy = [...items];
     if (groupIndex === 1) {
-      copy[key].contentText = e.target.value;
+      copy[key].contentText = e;
     } else if (groupIndex === 2) {
-      copy[key].contentLabel = e.target.value;
+      copy[key].contentLabel = e;
     } else if (groupIndex === 3) {
       copy[key].contentUrl = e.target.value;
     } else if (groupIndex === 4) {
