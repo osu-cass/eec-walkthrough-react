@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jan 05, 2021 at 02:47 PM
+-- Generation Time: Jan 10, 2021 at 03:51 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.13
 
@@ -397,7 +397,10 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (269, 63, 0, 269, 'Improve welding efficiency', 52, '2020-12-22 23:10:37', 0),
 (270, 41, 2, 7, 'Key Terms and Concepts', 58, '2020-12-24 21:58:24', 0),
 (271, 41, 0, 10, 'Data Collection Guides', 58, '2020-12-30 18:24:27', 0),
-(272, 78, 0, 272, 'Minimize Heat Loss', 42, '2020-12-31 19:16:10', 0);
+(272, 78, 0, 272, 'Minimize Heat Loss', 42, '2020-12-31 19:16:10', 0),
+(273, 32, 0, 273, 'zzzzzzz', 70, '2021-01-10 22:31:31', 0),
+(274, 79, 0, 274, 'How to enter a formula', 42, '2021-01-10 23:08:40', 0),
+(275, 79, 0, 275, 'Common Formulas', 42, '2021-01-10 23:25:29', 0);
 
 -- --------------------------------------------------------
 
@@ -585,7 +588,8 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (74, 72, 3, 'Radio Frequency Identification (RFID)', 1, 61, '2020-11-28 23:26:46', 0),
 (75, 72, 2, 'Technologies', 1, 61, '2020-11-28 23:49:06', 0),
 (76, 72, 4, 'Machine Learning', 1, 61, '2020-11-29 00:38:27', 0),
-(78, 48, 78, 'Refrigeration Opportunities to Consider', 0, 58, '2020-12-14 19:47:03', 0);
+(78, 48, 78, 'Refrigeration Opportunities to Consider', 0, 58, '2020-12-14 19:47:03', 0),
+(79, 74, 79, 'Creating a Formula', 0, 42, '2021-01-10 23:05:51', 0);
 
 -- --------------------------------------------------------
 
@@ -2939,7 +2943,15 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (11078, 272, 0, 1, 3, 'Savings will generally be on the order of 10-20% of the total system use', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
 (11079, 272, 0, 1, 15, 'Defrost cycle schedule ', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
 (11080, 272, 0, 1, 15, 'Power of the current electric defrost system', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
-(11081, 272, 0, 1, 15, 'Distance from compressor discharge to evaporators to determine the amount of piping required', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0);
+(11081, 272, 0, 1, 15, 'Distance from compressor discharge to evaporators to determine the amount of piping required', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11085, 273, 0, 0, 26, 'Testing', '', '', 0, 0, 1, 0, '2021-01-10 22:31:37', 0),
+(11086, 273, 0, 0, 26, 'Testing', '', '', 0, 0, 1, 0, '2021-01-10 22:31:37', 0),
+(11087, 273, 0, 0, 26, 'Testing', '', '', 0, 0, 1, 0, '2021-01-10 22:31:37', 0),
+(11103, 274, 0, 0, 32, '', '/uploads/user_42/9915d3d9bce8b642f08c1e19a116661d.png', 'When creating / editing a card. Press the formula (fx) button on the toolbar to enter a formula.', 0, 0, 0, 0, '2021-01-10 23:24:00', 0),
+(11104, 274, 0, 0, 32, '', '/uploads/user_42/37c1d806826ddac4b33787518f99bda5.png', 'We can add as many formulas as we want. We can also mix in plain text.', 0, 0, 0, 0, '2021-01-10 23:24:00', 0),
+(11125, 275, 0, 0, 31, '<p><strong>This is a list of some common math symbols and formulas and how to create them:</strong></p>', '', '', 0, 0, 0, 0, '2021-01-10 23:45:29', 0),
+(11126, 275, 0, 0, 31, '<p>x^5 <strong><em>is displayed as...</em></strong> <span class=\"ql-formula\" data-value=\"x^5\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><msup><mi>x</mi><mn>5</mn></msup></mrow><annotation encoding=\"application/x-tex\">x^5</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 0.814108em; vertical-align: 0em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">x</span><span class=\"msupsub\"><span class=\"vlist-t\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.814108em;\"><span class=\"\" style=\"top: -3.063em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">5</span></span></span></span></span></span></span></span></span></span></span></span>﻿</span></p><p><br></p><p>x_5 <strong><em>is displayed as... </em></strong> <span class=\"ql-formula\" data-value=\"x_5\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><msub><mi>x</mi><mn>5</mn></msub></mrow><annotation encoding=\"application/x-tex\">x_5</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 0.58056em; vertical-align: -0.15em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">x</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.301108em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">5</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span></span>﻿</span></p><p><br></p><p>\\Pi <strong><em>is displayed as... </em></strong><span class=\"ql-formula\" data-value=\"\\Pi\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi mathvariant=\"normal\">Π</mi></mrow><annotation encoding=\"application/x-tex\">\\Pi</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 0.68333em; vertical-align: 0em;\"></span><span class=\"mord\">Π</span></span></span></span></span>﻿</span></p><p><br></p><p>\\dfrac{3}{5} <strong><em>is displayed as... </em></strong> <span class=\"ql-formula\" data-value=\"\\dfrac{3}{5}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mfrac><mn>3</mn><mn>5</mn></mfrac></mstyle></mrow><annotation encoding=\"application/x-tex\">\\dfrac{3}{5}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 2.00744em; vertical-align: -0.686em;\"></span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.32144em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">5</span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">3</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span></span></span></span></span>﻿</span></p><p><br></p><p>\\sum_{i=1}^n <strong><em>is displayed as... </em></strong> <span class=\"ql-formula\" data-value=\"\\sum_{i=1}^n\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup></mrow><annotation encoding=\"application/x-tex\">\\sum_{i=1}^n</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 1.104em; vertical-align: -0.29971em;\"></span><span class=\"mop\"><span class=\"mop op-symbol small-op\" style=\"position: relative; top: -5e-06em;\">∑</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.804292em;\"><span class=\"\" style=\"top: -2.40029em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\"><span class=\"mord mathnormal mtight\">i</span><span class=\"mrel mtight\">=</span><span class=\"mord mtight\">1</span></span></span></span><span class=\"\" style=\"top: -3.2029em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mathnormal mtight\">n</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.29971em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span></span>﻿</span></p><p><br></p><p>\\displaystyle\\sum_{i=1}^n <strong><em>is displayed as... </em></strong> <span class=\"ql-formula\" data-value=\"\\displaystyle\\sum_{i=1}^n\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mstyle scriptlevel=\"0\" displaystyle=\"true\"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover></mstyle></mrow><annotation encoding=\"application/x-tex\">\\displaystyle\\sum_{i=1}^n</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 2.92907em; vertical-align: -1.27767em;\"></span><span class=\"mop op-limits\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.6514em;\"><span class=\"\" style=\"top: -1.87233em; margin-left: 0em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\"><span class=\"mord mathnormal mtight\">i</span><span class=\"mrel mtight\">=</span><span class=\"mord mtight\">1</span></span></span></span><span class=\"\" style=\"top: -3.05001em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"\"><span class=\"mop op-symbol large-op\">∑</span></span></span><span class=\"\" style=\"top: -4.30001em; margin-left: 0em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mathnormal mtight\">n</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.27767em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span>﻿</span></p><p><br></p><p>F = G \\dfrac{m_1 m_2}{r^2} <strong><em>is displayed as... </em></strong> <span class=\"ql-formula\" data-value=\"F = G \\dfrac{m_1 m_2}{r^2}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>F</mi><mo>=</mo><mi>G</mi><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mfrac><mrow><msub><mi>m</mi><mn>1</mn></msub><msub><mi>m</mi><mn>2</mn></msub></mrow><msup><mi>r</mi><mn>2</mn></msup></mfrac></mstyle></mrow><annotation encoding=\"application/x-tex\">F = G \\dfrac{m_1 m_2}{r^2}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 0.68333em; vertical-align: 0em;\"></span><span class=\"mord mathnormal\" style=\"margin-right: 0.13889em;\">F</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 1.79356em; vertical-align: -0.686em;\"></span><span class=\"mord mathnormal\">G</span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.10756em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\" style=\"margin-right: 0.02778em;\">r</span><span class=\"msupsub\"><span class=\"vlist-t\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.740108em;\"><span class=\"\" style=\"top: -2.989em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">2</span></span></span></span></span></span></span></span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\">m</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.301108em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">1</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span><span class=\"mord\"><span class=\"mord mathnormal\">m</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.301108em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">2</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span></span></span></span></span>﻿</span></p><p><br></p><p>\\displaystyle\\sum_{i=1}^n i^3 = \\dfrac{n^2(n + 1)^2}{4} <strong><em>is displayed as...</em></strong> <span class=\"ql-formula\" data-value=\"\\displaystyle\\sum_{i=1}^n i^3 = \\dfrac{n^2(n + 1)^2}{4}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mstyle scriptlevel=\"0\" displaystyle=\"true\"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mi>i</mi><mn>3</mn></msup><mo>=</mo><mfrac><mrow><msup><mi>n</mi><mn>2</mn></msup><mo stretchy=\"false\">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><msup><mo stretchy=\"false\">)</mo><mn>2</mn></msup></mrow><mn>4</mn></mfrac></mstyle></mrow><annotation encoding=\"application/x-tex\">\\displaystyle\\sum_{i=1}^n i^3 = \\dfrac{n^2(n + 1)^2}{4}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 2.92907em; vertical-align: -1.27767em;\"></span><span class=\"mop op-limits\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.6514em;\"><span class=\"\" style=\"top: -1.87233em; margin-left: 0em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\"><span class=\"mord mathnormal mtight\">i</span><span class=\"mrel mtight\">=</span><span class=\"mord mtight\">1</span></span></span></span><span class=\"\" style=\"top: -3.05001em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"\"><span class=\"mop op-symbol large-op\">∑</span></span></span><span class=\"\" style=\"top: -4.30001em; margin-left: 0em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mathnormal mtight\">n</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.27767em;\"><span class=\"\"></span></span></span></span></span><span class=\"mspace\" style=\"margin-right: 0.166667em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">i</span><span class=\"msupsub\"><span class=\"vlist-t\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.864108em;\"><span class=\"\" style=\"top: -3.113em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">3</span></span></span></span></span></span></span></span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 2.17711em; vertical-align: -0.686em;\"></span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.49111em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">4</span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\">n</span><span class=\"msupsub\"><span class=\"vlist-t\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.814108em;\"><span class=\"\" style=\"top: -3.063em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">2</span></span></span></span></span></span></span></span><span class=\"mopen\">(</span><span class=\"mord mathnormal\">n</span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span><span class=\"mbin\">+</span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span><span class=\"mord\">1</span><span class=\"mclose\"><span class=\"mclose\">)</span><span class=\"msupsub\"><span class=\"vlist-t\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.814108em;\"><span class=\"\" style=\"top: -3.063em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">2</span></span></span></span></span></span></span></span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span></span></span></span></span>﻿</span></p>', '', '', 0, 0, 0, 0, '2021-01-10 23:45:29', 0),
+(11127, 275, 0, 0, 24, '', 'https://katex.org/docs/supported.html', 'Full list of functions supported by KaTeX', 1, 0, 0, 0, '2021-01-10 23:45:29', 0);
 
 -- --------------------------------------------------------
 
@@ -3024,7 +3036,6 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (214, 16, 56, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (217, 16, 59, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (218, 16, 60, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
-(219, 16, 61, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (220, 16, 62, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (221, 16, 63, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (222, 16, 65, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
@@ -3034,7 +3045,28 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (227, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
 (228, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
 (229, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
-(230, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1);
+(230, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
+(269, 0, 51, 'ryanfrench2 has submitted a contributor card that is awaiting review', 6),
+(270, 0, 52, 'ryanfrench2 has submitted a contributor card that is awaiting review', 6),
+(271, 0, 56, 'ryanfrench2 has submitted a contributor card that is awaiting review', 6),
+(272, 0, 58, 'ryanfrench2 has submitted a contributor card that is awaiting review', 6),
+(292, 20, 47, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(293, 20, 51, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(294, 20, 52, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(295, 20, 54, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(296, 20, 55, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(297, 20, 56, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(298, 20, 57, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(299, 20, 58, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(300, 20, 59, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(301, 20, 60, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(302, 20, 61, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(303, 20, 62, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(304, 20, 63, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(305, 20, 65, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(306, 20, 67, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(307, 20, 69, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(308, 20, 70, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2);
 
 -- --------------------------------------------------------
 
@@ -3101,7 +3133,8 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (64, 0, 'How to Use EEC Walkthrough', 'Find what you need to know quickly', 'This guide is designed to allow the user to \"drill down\" to a specific subject of interest, perhaps associated with a current project. Each topic includes an overview including a quick summary of key things to know, along with links to more in depth resources. This section is followed by a list of common efficiency improvement opportunities to consider along with associated information.', '/uploads/user_51/a8a32589238ec2625ded26ec4774f529.jpg', 0, 51, '2020-11-26 23:41:58', 1),
 (65, 0, 'How to Edit EEC Walkthrough', 'An analyst oriented guide for creating, editing, and reviewing content on the EEC Industrial Walkthrough Checklist.', 'Description', 'https://picsum.photos/seed/picsum/700/700', 1, 42, '2020-08-31 22:17:53', 0),
 (69, 1, 'Metals Manufacturing', 'Industrial metals manufacturing processes may include casting, forging, bending, forming, spinning, welding, cutting and finishing to produce a final product.', 'Metals manufacturing includes production of raw stock, replacement parts and final products. Many production processes are common among all metals manufacturing facilities.', '/uploads/user_52/0baf5657b6e1ac3fef0b0e048672324b.jpg', 0, 52, '2020-09-09 18:37:04', 0),
-(72, 5, 'Smart Manufacturing', 'Smart Manufacturing Summary', 'Lists smart manufacturing technologies that could be applied to assessments.\nImage is from https://www.trianagroup.com. This image is only a placeholder for what I would really like to use. This image might not be suitable to under copyright laws', '/uploads/user_61/1cffd701d341b07912a60941dbbbb22b.jpg', 1, 61, '2020-11-28 23:23:04', 0);
+(72, 5, 'Smart Manufacturing', 'Smart Manufacturing Summary', 'Lists smart manufacturing technologies that could be applied to assessments.\nImage is from https://www.trianagroup.com. This image is only a placeholder for what I would really like to use. This image might not be suitable to under copyright laws', '/uploads/user_61/1cffd701d341b07912a60941dbbbb22b.jpg', 1, 61, '2020-11-28 23:23:04', 0),
+(74, 0, 'How to create KaTeX formulas', 'KaTeX allows us to easily type up complex formulas', 'KaTeX is a powerful typesetting library that allows us to type up formulas that can be rendered on any page. This allows us to avoid drawing out a formula and then uploading it as an image when we want to display math equations.', '/uploads/user_42/7a6f3ee9d0f860779791d6cc07f2c20b.png', 1, 42, '2021-01-10 23:05:27', 0);
 
 -- --------------------------------------------------------
 
@@ -3234,7 +3267,9 @@ INSERT INTO `Requests` (`requestId`, `title`, `description`, `status`, `created`
 (15, 'Boiler and Steam', 'Updates to add additional descriptions to some recommendations. \nSeveral items contain minor grammar changes.\nChanges some of the resources from public to internal, as they require access to OSU box folders', 1, '2020-12-20 02:12:40', 61),
 (16, 'Thermal Systems Overview', 'The overview, useful links, pros, cons, and best practices.', 1, '2020-12-21 20:35:42', 57),
 (17, 'Test - Please Ignore', 'This is an example of a quiz question in a publish request.', 4, '2021-01-05 20:22:31', 42),
-(18, 'DEMO', 'Example of questions in a publish request', 4, '2021-01-05 20:26:13', 42);
+(18, 'DEMO', 'Example of questions in a publish request', 4, '2021-01-05 20:26:13', 42),
+(19, 'How to create KaTeX formulas', 'An internal page that is designed to help editors understand how to create KaTeX formulas.', 4, '2021-01-10 23:47:29', 42),
+(20, 'How to create KaTeX formulas', 'An internal page that shows editors how to create KaTeX formulas.', 1, '2021-01-10 23:48:46', 42);
 
 -- --------------------------------------------------------
 
@@ -3355,7 +3390,17 @@ INSERT INTO `Request_Objects` (`requestObjectId`, `requestId`, `objectId`, `obje
 (65, 16, 265, 3),
 (66, 17, 44, 4),
 (67, 18, 41, 4),
-(68, 18, 3, 4);
+(68, 18, 3, 4),
+(69, 19, 3, 4),
+(70, 19, 69, 1),
+(71, 19, 74, 1),
+(72, 19, 79, 2),
+(73, 19, 274, 3),
+(74, 19, 275, 3),
+(75, 20, 74, 1),
+(76, 20, 79, 2),
+(77, 20, 274, 3),
+(78, 20, 275, 3);
 
 -- --------------------------------------------------------
 
@@ -3438,11 +3483,13 @@ INSERT INTO `Scores` (`scoreId`, `pageId`, `questionId`, `userId`, `text`, `inva
 (168, 46, 21, 61, 'a, b, c, d', 0, 0),
 (169, 46, 34, 61, '$50,000', 0, 1),
 (170, 46, 35, 61, '', 0, 0),
-(176, 62, 1, 42, 'social engineering', 0, 1),
-(177, 62, 2, 42, 'ewrwerwer', 0, 0),
-(178, 62, 3, 42, 'werw', 0, 0),
-(179, 62, 3, 42, 'werer', 0, 0),
-(180, 62, 41, 42, 'using your street address', 0, 0);
+(181, 62, 41, 42, 'using \"1234\"', 0, 1),
+(182, 62, 41, 42, 'using your street address', 0, 1),
+(183, 62, 41, 42, 'using your name', 0, 1),
+(184, 62, 1, 42, 'social engineering', 0, 1),
+(185, 62, 2, 42, 'hacker', 0, 1),
+(186, 62, 3, 42, 'mouse', 0, 1),
+(187, 62, 3, 42, 'keyboard', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -3572,6 +3619,7 @@ CREATE TABLE `Temp_Contributors` (
 INSERT INTO `Temp_Contributors` (`tempContributorId`, `tempName`, `tempTitle`, `tempDescription`, `tempImageUrl`, `tempPriority`) VALUES
 (54, 'Ali Martz', 'Energy Analyst', 'Mechanical Engineering Bachelors Student', '/uploads/user_54/4434462abfd4ae3303e715ab41b32f8e.jpg', 10),
 (55, 'Julian Peter', 'Energy Analyst', 'Environmental engineering major.', '/uploads/user_55/fc3438b2cc7a28a374d05d4442da8295.jpg', 10),
+(58, 'Ryan French', 'Energy Analyst', 'Undergraduate Physics Student', 'https://eec.oregonstate.edu/sites/eec.oregonstate.edu/files/ryan_0.jpg', 10),
 (61, 'Chris Houck', 'Operations Manager', 'Industrial engineering student with an emphasis in manufacturing systems. ', '/uploads/user_61/ee7d73982e975a0c68a52f09c604f4b1.jpg', 10);
 
 -- --------------------------------------------------------
@@ -3956,7 +4004,7 @@ ALTER TABLE `Banners`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=273;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=276;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -3974,7 +4022,7 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
@@ -4016,13 +4064,13 @@ ALTER TABLE `Info`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11082;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11128;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
 --
 ALTER TABLE `Notifications`
-  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=268;
+  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=309;
 
 --
 -- AUTO_INCREMENT for table `Observations`
@@ -4034,7 +4082,7 @@ ALTER TABLE `Observations`
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `Questions`
@@ -4052,7 +4100,7 @@ ALTER TABLE `Quick_Titles`
 -- AUTO_INCREMENT for table `Requests`
 --
 ALTER TABLE `Requests`
-  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `Request_Comments`
@@ -4064,13 +4112,13 @@ ALTER TABLE `Request_Comments`
 -- AUTO_INCREMENT for table `Request_Objects`
 --
 ALTER TABLE `Request_Objects`
-  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `Scores`
 --
 ALTER TABLE `Scores`
-  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
+  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
 
 --
 -- AUTO_INCREMENT for table `Sources`
