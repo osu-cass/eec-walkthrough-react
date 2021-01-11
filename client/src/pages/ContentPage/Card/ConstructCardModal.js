@@ -311,9 +311,6 @@ function ConstructCardModal(props) {
         // Lower our indentation level
         if (copy[arrayIndex].indentation > 0) {
           copy[arrayIndex].indentation += -1;
-
-          // Update the indentation level across the card
-          copy = scanIndentation(copy);
         }
 
       } else {
@@ -322,14 +319,13 @@ function ConstructCardModal(props) {
         const prevIndent = copy[arrayIndex - 1].indentation;
         if (copy[arrayIndex].indentation <= prevIndent && copy[arrayIndex].indentation <= 3) {
           copy[arrayIndex].indentation += 1;
-
-          // Update the indentation level across the card
-          copy = scanIndentation(copy);
         }
 
       }
     }
 
+    // Update the indentation level across the card
+    copy = scanIndentation(copy);
     setItems(copy);
   }
 
