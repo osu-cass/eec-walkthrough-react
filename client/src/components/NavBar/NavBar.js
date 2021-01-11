@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {getProfile} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import CreateCategory from "../Sidebar/CreateCategory";
+import CreatePage from "../Sidebar/CreatePage";
 import NavBarTab from "./NavBarTab";
 import NavBarMore from "./NavBarMore";
 import "./NavBar.css";
@@ -134,6 +135,14 @@ function NavBar (props) {
                 Disclaimer
               </div>
             </a>
+            <CreatePage
+              navbar={true}
+              title={`Create Help Page`}
+              collectionLink={`wiki/instructions`}
+              refresh={() => fetchData()}
+              role={role}
+              categoryId={0}
+            />
           </div>
         </div>
       ) : (

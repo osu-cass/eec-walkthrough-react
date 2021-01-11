@@ -273,7 +273,7 @@ function ReviewHeader(props) {
 
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
-          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review Header</h5>
+          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review Header (#header-{props.header.headerId})</h5>
           <Button variant="none" onClick={() => handleClose()}>
             <span aria-hidden="true">&times;</span>
           </Button>

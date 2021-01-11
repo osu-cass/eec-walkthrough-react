@@ -87,6 +87,7 @@ function BulletPoint(props) {
           indentation={props.indentation}
           highlightStyle={props.highlightStyle}
           internal={props.internal}
+          inline={props.inline}
         />
       ) : (
         null

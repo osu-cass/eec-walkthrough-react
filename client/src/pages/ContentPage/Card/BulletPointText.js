@@ -13,7 +13,7 @@ function BulletPointText(props) {
         ${props.internal ? "internal-item" : ""} ${props.highlightStyle === 2 ? "move-review-item" : ""}
         ${props.highlightStyle === 3 ? "old-review-item" : ""} indent-level-${props.indentation} text-no-overflow`}
       >
-        <Sanitized html={props.text} />
+        <Sanitized html={props.text} inline={!!props.inline} />
       </div>
 
     </Fragment>
@@ -28,5 +28,6 @@ BulletPointText.propTypes = {
   mode: PropTypes.number,
   indentation: PropTypes.number,
   highlightStyle: PropTypes.number,
-  internal: PropTypes.number
+  internal: PropTypes.number,
+  inline: PropTypes.number
 };

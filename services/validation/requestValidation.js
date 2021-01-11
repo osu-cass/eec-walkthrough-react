@@ -353,7 +353,7 @@ exports.postRequestVal = postRequestVal;
 const postCommentVal = Object.freeze({
   validation: [
     check("requestId").isInt({min: 1, max: 4294967295}),
-    check("comment").isLength({min: 1, max: 5000}),
+    check("comment").isLength({min: 1, max: 15000000}),
     check("targetId").isLength({min: 1, max: 100}),
     check("status").isInt({min: 0, max: 4}),
   ]
@@ -363,7 +363,7 @@ exports.postCommentVal = postCommentVal;
 // validation checks for patch comment
 const patchCommentVal = Object.freeze({
   validation: [
-    check("commentText").isLength({min: 1, max: 5000})
+    check("commentText").isLength({min: 1, max: 15000000})
   ]
 });
 exports.patchCommentVal = patchCommentVal;

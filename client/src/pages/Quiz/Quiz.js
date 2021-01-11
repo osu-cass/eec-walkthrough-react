@@ -331,9 +331,9 @@ function Quiz() {
           copyScore.invalid = invalid;
           copyScore.correct = isCorrect;
           scores.push(copyScore);
-          answerCount++;
 
         }
+        answerCount++;
       }
     }
 
