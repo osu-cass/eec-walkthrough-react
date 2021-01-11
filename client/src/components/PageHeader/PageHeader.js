@@ -31,8 +31,7 @@ function PageHeader (props) {
       <div className="mini-nav-header p-2">
         <a className="mini-nav-text" href={EEC_HOMEPAGE}>
           <span className="text-white">
-            <span className="school-title big-org">Oregon State University&nbsp;</span>
-            <span className="school-title small-org">OSU&nbsp;</span>
+            <span className="school-title">Oregon State University&nbsp;</span>
             <span className="big-industry">Energy Efficiency Center / Industrial Assessment Center</span>
             <span className="small-industry">EEC / IAC</span>
           </span>
