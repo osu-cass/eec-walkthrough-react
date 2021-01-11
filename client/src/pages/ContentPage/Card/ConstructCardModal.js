@@ -1,5 +1,5 @@
-import React, {useEffect, useState, Fragment} from "react";
-import {Modal, Button, Row, Col, Form} from "react-bootstrap";
+import React, {useEffect, useState, useCallback, Fragment} from "react";
+import {Modal, Button, Row, Col, Form, Jumbotron} from "react-bootstrap";
 import {logout} from "../../../utilities/cookieAuth";
 import {getAgreement} from "../../../utilities/agreementMode";
 import {API_URL, UPLOAD_TERMS} from "../../../utilities/constants";
@@ -29,9 +29,10 @@ function ConstructCardModal(props) {
   const [checked, setChecked] = useState(0);
   const [copyToast, setCopyToast] = useState(false);
   const [cardTitleMode, setCardTitleMode] = useState("");
-  const [selectedItem, setSelectedItem] = useState(0);
+  const [selectedItems, setSelectedItems] = useState(0);
   const [imageAgreement, setImageAgreement] = useState(getAgreement("image"));
   const [showAgreement, setShowAgreement] = useState(false);
+  const [controlHeld, setControlHeld] = useState(false);
   const [imageTerms] = useState(UPLOAD_TERMS);
 
   // setup card data
@@ -138,10 +139,40 @@ function ConstructCardModal(props) {
     setPureCounter(pure + 1);
   }, [items, items.length, counter]);
 
+  // add CTRL key down listener
+  useEffect(() => {
+    document.addEventListener("keydown", ctrlDown, false);
+    return () => {
+      document.removeEventListener("keydown", ctrlDown, false);
+    };
+  }, []);
+
+  // add CTRL key up listener
+  useEffect(() => {
+    document.addEventListener("keyup", ctrlUp, false);
+    return () => {
+      document.removeEventListener("keyup", ctrlUp, false);
+    };
+  }, []);
+
   // Clear error messages whenever the modal is opened or closed
   useEffect(() => {
     setErrorMessage("");
   }, [props.show]);
+
+  // Set the CTRL key held state to false
+  const ctrlUp = useCallback((event) => {
+    if (event.keyCode === 17) {
+      setControlHeld(false);
+    }
+  }, []);
+
+  // Set the CTRL key held state to true
+  const ctrlDown = useCallback((event) => {
+    if (event.keyCode === 17) {
+      setControlHeld(true);
+    }
+  }, []);
 
   // Makes a copy of the items in the props
   function generateItems(itemList) {
@@ -151,6 +182,32 @@ function ConstructCardModal(props) {
       return null;
     });
     return itemArray;
+  }
+
+  // checks if the current item is selected
+  function isSelected(item) {
+    for (let i = 0; i < selectedItems.length; i++) {
+      if (item.counterId === selectedItems[i]) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // reorders the list of selected items in relation to the real list of items
+  function reorderSelected(newItems) {
+    const copy = [...items];
+    const newSelected = [];
+
+    for (let i = 0; i < copy.length; i++) {
+      for (let j = 0; j < newItems.length; j++) {
+        if (copy[i].counterId === newItems[j]) {
+          newSelected.push(newItems[j]);
+        }
+      }
+    }
+
+    setSelectedItems(newSelected);
   }
 
   // Keeps track of the current number of input fields
@@ -200,117 +257,134 @@ function ConstructCardModal(props) {
     setPureCounter(pureCounter + newCounter + 1);
   }
 
-  // Change the indentation level of the selected item
+  // Change the indentation level of the selected item(s)
   function changeIndent(amount) {
-    const counterId = selectedItem;
-    let arrayIndex = -1;
     let copy = [...items];
 
-    // Find the index of this item
-    for (let i = 0; i < copy.length; i++) {
-      if (copy[i].counterId === counterId) {
-        arrayIndex = i;
-        break;
-      }
-    }
+    // indent each selected item
+    for (let i = 0; i < selectedItems.length; i++) {
+      const counterId = selectedItems[i];
+      let arrayIndex = -1;
 
-    // If we can not find the index then return
-    if (arrayIndex === -1) {
-      console.error("Unable to find item to indent");
-      return;
-    }
-
-    // If the current index is the first item on the card return
-    if (arrayIndex === 0) {
-      console.error("This item cannot be indented");
-      return;
-    }
-
-    // If we are indenting an inline item, we will instead
-    // focus on the first inline item in the row
-    if (copy[arrayIndex].inline) {
-      let found = false;
-      for (let i = arrayIndex; i > 0; i--) {
-        if (!copy[i - 1].inline) {
-          arrayIndex = i;
-          found = true;
+      // Find the index of this item
+      for (let j = 0; j < copy.length; j++) {
+        if (copy[j].counterId === counterId) {
+          arrayIndex = j;
           break;
         }
       }
 
-      // if we can't find the first item in the row then return
-      if (!found) {
-        console.error("Unable to indent this inline item");
-        return;
+      // If we can not find the index then return
+      if (arrayIndex === -1) {
+        console.error("Unable to find item to indent");
+        continue;
+      }
+
+      // If the current index is the first item on the card return
+      if (arrayIndex === 0) {
+        console.error("This item cannot be indented");
+        continue;
+      }
+
+      // If we are indenting an inline item, we will instead
+      // focus on the first inline item in the row
+      if (copy[arrayIndex].inline) {
+        let found = false;
+        for (let j = arrayIndex; j > 0; j--) {
+          if (!copy[j - 1].inline) {
+            arrayIndex = j;
+            found = true;
+            break;
+          }
+        }
+
+        // if we can't find the first item in the row then return
+        if (!found) {
+          console.error("Unable to indent this inline item");
+          continue;
+        }
+      }
+
+      // If we are removing indentation do that and return
+      if (amount === -1) {
+
+        // Lower our indentation level
+        if (copy[arrayIndex].indentation > 0) {
+          copy[arrayIndex].indentation += -1;
+
+          // Update the indentation level across the card
+          copy = scanIndentation(copy);
+        }
+
+      } else {
+
+        // Check if we should be able to update our indentation and by how much
+        const prevIndent = copy[arrayIndex - 1].indentation;
+        if (copy[arrayIndex].indentation <= prevIndent && copy[arrayIndex].indentation <= 3) {
+          copy[arrayIndex].indentation += 1;
+
+          // Update the indentation level across the card
+          copy = scanIndentation(copy);
+        }
+
       }
     }
 
-    // If we are removing indentation do that and return
-    if (amount === -1) {
-
-      // Lower our indentation level
-      if (copy[arrayIndex].indentation > 0) {
-        copy[arrayIndex].indentation += -1;
-
-        // Update the indentation level across the card
-        copy = scanIndentation(copy);
-
-        // We are done. Save the changes and return
-        setItems(copy);
-      }
-
-    } else {
-
-      // Check if we should be able to update our indentation and by how much
-      const prevIndent = copy[arrayIndex - 1].indentation;
-      if (copy[arrayIndex].indentation <= prevIndent && copy[arrayIndex].indentation <= 3) {
-        copy[arrayIndex].indentation += 1;
-
-        // Update the indentation level across the card
-        copy = scanIndentation(copy);
-
-        setItems(copy);
-      }
-
-    }
+    setItems(copy);
   }
 
   // Change the placement order of the selected item
   function changeOrder(up) {
-    const counterId = selectedItem;
-    let arrayIndex = -1;
     let copy = [...items];
+    let selectedList = [...selectedItems];
 
-    // Find the index of this item
-    for (let i = 0; i < copy.length; i++) {
-      if (copy[i].counterId === counterId) {
-        arrayIndex = i;
-        break;
+    // reverse the list of selected items if we are moving down
+    if (!up) {
+      selectedList = selectedList.reverse();
+    }
+
+    // change order of each selected item
+    for (let i = 0; i < selectedList.length; i++) {
+      const counterId = selectedList[i];
+      let arrayIndex = -1;
+
+      // Find the index of this item
+      for (let j = 0; j < copy.length; j++) {
+        if (copy[j].counterId === counterId) {
+          arrayIndex = j;
+          break;
+        }
+      }
+
+      // If we cannot find the index, then return
+      if (arrayIndex === -1) {
+        console.error("Unable to find item to move");
+        continue;
+      }
+
+      // Check if we are trying to move up or down the card
+      if (up) {
+        // if this is not the top item on the card, swap it with the item above it
+        if (arrayIndex !== 0) {
+          [copy[arrayIndex], copy[arrayIndex - 1]] = [copy[arrayIndex - 1], copy[arrayIndex]];
+          copy = scanIndentation(copy);
+        } else {
+          console.error("Unable to move item as it is already at the edge");
+          break;
+        }
+      } else {
+        // if this is not the bottom item on the card, swap it with the item below it
+        if (arrayIndex + 1 < copy.length) {
+          [copy[arrayIndex], copy[arrayIndex + 1]] = [copy[arrayIndex + 1], copy[arrayIndex]];
+          copy = scanIndentation(copy);
+        } else {
+          console.error("Unable to move item as it is already at the edge");
+          break;
+        }
       }
     }
 
-    // If we cannot find the index, then return
-    if (arrayIndex === -1) {
-      console.error("Unable to find item to move");
-      return;
-    }
-
-    // Check if we are trying to move up or down the card
-    if (up) {
-      // if this is not the top item on the card, swap it with the item above it
-      if (arrayIndex !== 0) {
-        [copy[arrayIndex], copy[arrayIndex - 1]] = [copy[arrayIndex - 1], copy[arrayIndex]];
-        copy = scanIndentation(copy);
-        setItems(copy);
-      }
-    } else {
-      // if this is not the bottom item on the card, swap it with the item below it
-      if (arrayIndex + 1 < copy.length) {
-        [copy[arrayIndex], copy[arrayIndex + 1]] = [copy[arrayIndex + 1], copy[arrayIndex]];
-        copy = scanIndentation(copy);
-        setItems(copy);
-      }
-    }
+    setItems(copy);
   }
 
   async function handleCreate() {
@@ -341,7 +415,7 @@ function ConstructCardModal(props) {
     // Get all of the selected files to upload
     const uploadImages = [];
     for (let i = 0; i < copy.length; i++) {
-      if (copy[i].imageToUpload) {
+      if (copy[Jumbotron].imageToUpload) {
         uploadImages.push(copy[i].imageToUpload);
       }
     }
@@ -650,39 +724,51 @@ function ConstructCardModal(props) {
     }
   }
 
-  // Deletes the selected item
+  // Deletes the selected item(s)
   function deleteItem() {
-    const counterId = selectedItem;
-    let arrayIndex = -1;
-    let copy = [...items];
 
-    // Find the index of this item
-    for (let i = 0; i < copy.length; i++) {
-      if (copy[i].counterId === counterId) {
-        arrayIndex = i;
-        break;
+    if (selectedItems.length > 1) {
+      if (!window.confirm("Are you sure you want to delete these items?")) {
+        return;
+      }
+    } else {
+      if (!window.confirm("Are you sure you want to delete this item?")) {
+        return;
       }
     }
 
-    // If we can not find the index, then exit
-    if (arrayIndex === -1) {
-      console.error("Unable to find the item to delete");
-      return;
+    let copy = [...items];
+    let newCount = counter;
+
+    // delete each selected item
+    for (let i = 0; i < selectedItems.length; i++) {
+      const counterId = selectedItems[i];
+      let arrayIndex = -1;
+
+      // Find the index of this item
+      for (let j = 0; j < copy.length; j++) {
+        if (copy[j].counterId === counterId) {
+          arrayIndex = j;
+          break;
+        }
+      }
+
+      // If we can not find the index, then exit
+      if (arrayIndex === -1) {
+        console.error("Unable to find the item to delete");
+        continue;
+      }
+
+      // Delete the selected item
+      copy.splice(arrayIndex, 1);
+
+      // Update the indentation level across the card
+      copy = scanIndentation(copy);
+      newCount--;
     }
 
-    if (!window.confirm("Are you sure you want to delete this item?")) {
-      return;
-    }
-
-    // Delete the selected item
-    const count = counter;
-    copy.splice(arrayIndex, 1);
-
-    // Update the indentation level across the card
-    copy = scanIndentation(copy);
-
+    setCounter(newCount);
     setItems(copy);
-    setCounter(count - 1);
   }
 
   // Scans through items to ensure they are all indented correctly
@@ -992,40 +1078,52 @@ function ConstructCardModal(props) {
 
   // Copy item
   function copyItem() {
-    const counterId = selectedItem;
-    let arrayIndex = -1;
     const copy = [...items];
-    let item = {};
+    let itemString = "";
 
-    // Find the index of this item
-    for (let i = 0; i < copy.length; i++) {
-      if (copy[i].counterId === counterId) {
-        item = copy[i];
-        arrayIndex = i;
-        break;
+    // copy each selected item
+    for (let i = 0; i < selectedItems.length; i++) {
+      const counterId = selectedItems[i];
+      let arrayIndex = -1;
+      let item = {};
+
+      // Find the index of this item
+      for (let j = 0; j < copy.length; j++) {
+        if (copy[j].counterId === counterId) {
+          item = copy[j];
+          arrayIndex = j;
+          break;
+        }
       }
-    }
 
-    // If we can not find the index, then exit
-    if (arrayIndex === -1) {
-      console.error("Unable to find item to copy");
-      return;
+      // If we can not find the index, then exit
+      if (arrayIndex === -1) {
+        console.error("Unable to find item to copy");
+        continue;
+      }
+
+      // stringify the item data
+      if (itemString.length) {
+        itemString += "!!@@#@@!!";
+      }
+      itemString += item.contentText + "$%$" + item.contentLabel + "$%$" +
+        item.contentUrl + "$%$" + item.iconType + "$%$" + item.groupIndex + "$%$" +
+        item.contentMode + "$%$" + item.internal + "$%$" + item.sourceId + "$%$" + item.inline;
     }
 
     // show the toast stating that we have copied an item
     setCopyToast(true);
 
-    // stringify the item data
-    const itemString = item.contentText + "$%$" + item.contentLabel + "$%$" +
-      item.contentUrl + "$%$" + item.iconType + "$%$" + item.groupIndex + "$%$" +
-      item.contentMode + "$%$" + item.internal + "$%$" + item.sourceId + "$%$" + item.inline;
-
-    // save the item to local storage
+    // save the items to local storage
     window.localStorage.setItem("itemCopy", itemString);
   }
 
   // Paste item
   function pasteItem() {
+    let copy = [...items];
+    let newCounter = counter;
+    let pureId = pureCounter;
+
     // retrieve the item from local storage
     const newItem = window.localStorage.getItem("itemCopy");
     if (newItem === null) {
@@ -1033,35 +1131,41 @@ function ConstructCardModal(props) {
       return;
     }
 
-    // split the item into an array
-    const itemArray = newItem.split("$%$");
+    // split each item into an array
+    const fullItemArray = newItem.split("!!@@#@@!!");
 
-    // add the item to the card
-    const newCounter = counter;
-    const pureId = pureCounter;
-    const key = (newCounter).toString();
-    let copy = [...items];
+    // split each item by its properties
+    for (let i = 0; i < fullItemArray.length; i++) {
+      const itemArray = fullItemArray[i].split("$%$");
 
-    // create the new item
-    copy[key] = {};
-    copy[key].counterId = pureId + 1;
-    copy[key].contentText = itemArray[0];
-    copy[key].contentLabel = itemArray[1];
-    copy[key].contentUrl = itemArray[2];
-    copy[key].iconType = parseInt(itemArray[3], 10);
-    copy[key].groupIndex = parseInt(itemArray[4], 10);
-    copy[key].contentMode = parseInt(itemArray[5], 10);
-    copy[key].internal = parseInt(itemArray[6], 10);
-    copy[key].sourceId = parseInt(itemArray[7], 10);
-    copy[key].inline = parseInt(itemArray[8], 10);
-    copy[key].indentation = 0;
+      // add the item to the card
+      const key = (newCounter).toString();
 
-    // Make sure the indentation is up to date
-    copy = scanIndentation(copy);
+      // create the new item
+      copy[key] = {};
+      copy[key].counterId = pureId + 1;
+      copy[key].contentText = itemArray[0];
+      copy[key].contentLabel = itemArray[1];
+      copy[key].contentUrl = itemArray[2];
+      copy[key].iconType = parseInt(itemArray[3], 10);
+      copy[key].groupIndex = parseInt(itemArray[4], 10);
+      copy[key].contentMode = parseInt(itemArray[5], 10);
+      copy[key].internal = parseInt(itemArray[6], 10);
+      copy[key].sourceId = parseInt(itemArray[7], 10);
+      copy[key].inline = parseInt(itemArray[8], 10);
+      copy[key].indentation = 0;
 
+      // Make sure the indentation is up to date
+      copy = scanIndentation(copy);
+
+      newCounter++;
+      pureId += newCounter + 1;
+    }
+
+    // save the new item information
     setItems(copy);
-    setCounter(newCounter + 1);
-    setPureCounter(pureCounter + newCounter + 1);
+    setCounter(newCounter);
+    setPureCounter(pureId);
   }
 
   // Closes the specified toast
@@ -1078,59 +1182,67 @@ function ConstructCardModal(props) {
 
   // Toggle the internal status of an item
   function toggleInternal() {
-    const counterId = selectedItem;
-    let arrayIndex = -1;
     const copy = [...items];
 
-    // Find the item
-    for (let i = 0; i < copy.length; i++) {
-      if (copy[i].counterId === counterId) {
-        if (copy[i].internal === 1) {
-          copy[i].internal = 0;
-        } else {
-          copy[i].internal = 1;
+    // make each item internal
+    for (let i = 0; i < selectedItems.length; i++) {
+      const counterId = selectedItems[i];
+      let arrayIndex = -1;
+
+      // Find the item
+      for (let j = 0; j < copy.length; j++) {
+        if (copy[j].counterId === counterId) {
+          if (copy[j].internal === 1) {
+            copy[j].internal = 0;
+          } else {
+            copy[j].internal = 1;
+          }
+          arrayIndex = j;
+          break;
         }
-        arrayIndex = i;
-        break;
+      }
+
+      // If we can not find the index, then exit
+      if (arrayIndex === -1) {
+        console.error("Unable to find item change internal status");
       }
     }
 
-    // If we can not find the index, then exit
-    if (arrayIndex === -1) {
-      console.error("Unable to find item change internal status");
-    } else {
-      setItems(copy);
-    }
+    setItems(copy);
   }
 
   // Toggle inline displaying of an item
   function toggleInline() {
-    const counterId = selectedItem;
-    let arrayIndex = -1;
     let copy = [...items];
 
-    // Find the item
-    for (let i = 0; i < copy.length; i++) {
-      if (copy[i].counterId === counterId) {
-        if (copy[i].inline === 1) {
-          copy[i].inline = 0;
-        } else {
-          copy[i].inline = 1;
+    // make each item inline
+    for (let i = 0; i < selectedItems.length; i++) {
+      const counterId = selectedItems[i];
+      let arrayIndex = -1;
+
+      // Find the item
+      for (let j = 0; j < copy.length; j++) {
+        if (copy[j].counterId === counterId) {
+          if (copy[j].inline === 1) {
+            copy[j].inline = 0;
+          } else {
+            copy[j].inline = 1;
+          }
+          arrayIndex = j;
+          break;
         }
-        arrayIndex = i;
-        break;
+      }
+
+      // Make sure the indentation is up to date
+      copy = scanIndentation(copy);
+
+      // If we can not find the index, then exit
+      if (arrayIndex === -1) {
+        console.error("Unable to find item change inline status");
       }
     }
 
-    // Make sure the indentation is up to date
-    copy = scanIndentation(copy);
-
-    // If we can not find the index, then exit
-    if (arrayIndex === -1) {
-      console.error("Unable to find item change inline status");
-    } else {
-      setItems(copy);
-    }
+    setItems(copy);
   }
 
   // handle storing file information for uploaded images
@@ -1170,6 +1282,24 @@ function ConstructCardModal(props) {
     setImageAgreement(true);
   }
 
+  // handle selecting one or more items
+  function itemSelection(targetItem) {
+    if (controlHeld && selectedItems.length) {
+
+      // don't allow selecting the same item more than once
+      for (let i = 0; i < selectedItems.length; i++) {
+        if (selectedItems[i] === targetItem) {
+          return;
+        }
+      }
+
+      reorderSelected([...selectedItems, targetItem]);
+
+    } else {
+      setSelectedItems([targetItem]);
+    }
+  }
+
   return (
     <div className="text-center mx-2">
 
@@ -1182,7 +1312,7 @@ function ConstructCardModal(props) {
         closeModal={() => cancelAgreement()}
       />
 
-      <Toast show={copyToast} text="Item copied" handleClose={() => closeToast()} />
+      <Toast show={copyToast} text={selectedItems.length > 1 ? "Items copied" : "Item copied"} handleClose={() => closeToast()} />
 
       <Modal show={props.show} onHide={() => props.handleClose()} dialogClassName="modal-width">
         <Modal.Header>
@@ -1325,10 +1455,10 @@ function ConstructCardModal(props) {
           {/* Item Input Fields */}
           {items.map((item, i) =>
             <Row
-              className={`mb-2 mx-2 ${item.counterId === selectedItem ? "modal-selected-item" : ""}
+              className={`mb-2 mx-2 ${isSelected(item) ? "modal-selected-item" : ""}
                 ${item.internal ? "internal-modal-item" : ""} ${item.inline ? "inline-modal-item" : ""}`}
               key={item.counterId}
-              onClick={() => setSelectedItem(item.counterId)}
+              onClick={() => itemSelection(item.counterId)}
             >
               <div className="input-group">
                 <Indent indentLevel={item.indentation} />
@@ -1352,6 +1482,7 @@ function ConstructCardModal(props) {
                   inline={item.inline}
                   sourceId={item.sourceId}
                   sources={props.sources}
+                  isSelected={() => isSelected(item)}
                 />
               </div>
             </Row>
@@ -1372,7 +1503,7 @@ function ConstructCardModal(props) {
                   className='fas fa-paste text-white mr-2'
                   style={{transform: "scale(1.5)"}}
                 />
-                Paste Item
+                Paste
               </Button>
             </Col>
           </Row>
