@@ -88,6 +88,7 @@ function ItemInput(props) {
               value={props.value.contentText}
               onChange={(e) => props.handleInput(e, props.index, 1)}
               placeHolder="Item Text"
+              showToolbar={props.isSelected}
             />
           </div>
           <Dropdown className="source-select-drop-down-menu ml-2">
@@ -127,6 +128,7 @@ function ItemInput(props) {
               value={props.value.contentLabel}
               onChange={(text) => props.handleInput(text, props.index, 2)}
               placeHolder="Graphic Label"
+              showToolbar={props.isSelected}
             />
           </div>
           <div className="col px-0">
@@ -200,6 +202,7 @@ function ItemInput(props) {
               value={props.value.contentLabel}
               onChange={(text) => props.handleInput(text, props.index, 2)}
               placeHolder="Resource Label"
+              showToolbar={props.isSelected}
             />
           </div>
           <FormControl
@@ -220,6 +223,7 @@ function ItemInput(props) {
               value={props.value.contentText}
               onChange={(text) => props.handleInput(text, props.index, 1)}
               placeHolder="Description (optional)"
+              showToolbar={props.isSelected}
             />
           </div>
         </Fragment>
@@ -235,6 +239,7 @@ function ItemInput(props) {
               value={props.value.contentText}
               onChange={(text) => props.handleInput(text, props.index, 4)}
               placeHolder="Item Text"
+              showToolbar={props.isSelected}
             />
           </div>
         </div>
@@ -259,5 +264,6 @@ ItemInput.propTypes = {
   internal: PropTypes.number,
   inline: PropTypes.number,
   sourceId: PropTypes.number,
-  sources: PropTypes.array
+  sources: PropTypes.array,
+  isSelected: PropTypes.func
 };
