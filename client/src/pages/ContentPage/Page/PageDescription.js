@@ -187,5 +187,5 @@ PageDescription.propTypes = {
   onNewView: PropTypes.func,
   headers: PropTypes.array,
   quiz: PropTypes.bool,
-  references: PropTypes.bool
+  references: PropTypes.number
 };

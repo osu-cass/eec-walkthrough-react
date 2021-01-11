@@ -304,7 +304,7 @@ function ReviewCard(props) {
 
       <Modal show={show} onHide={() => handleClose()} dialogClassName="modal-width">
         <Modal.Header>
-          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review Card</h5>
+          <h5 className="modal-title font-weight-bold" id="exampleModalLabel">Review Card (#card-{props.card.cardId})</h5>
           <Button variant="none" onClick={() => handleClose()}>
             <span aria-hidden="true">&times;</span>
           </Button>

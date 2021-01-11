@@ -1,3 +1,11 @@
 .text-editor-input {
   width: 80%;
 }
+
+.small-text-editor-input {
+  width: 70%;
+}
+
+.very-small-text-editor-input {
+  width: 30%;
+}
