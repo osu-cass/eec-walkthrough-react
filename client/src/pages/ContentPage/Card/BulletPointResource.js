@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../../utilities/formatTime";
 import LinkAccessButtons from "./LinkAccessButtons";
+import Sanitized from "../../../components/General/Sanitized";
 
 // Represents a single resource type bullet inside a card
 function BulletPointResource(props) {
@@ -37,7 +38,7 @@ function BulletPointResource(props) {
 
                 {/* The link to the resource */}
                 <a href={props.url} className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}>
-                  {props.label}
+                  <Sanitized html={props.label} inline={!!props.inline} />
                 </a>
 
                 {/* Display different appended icons based on the type of resource */}
@@ -74,7 +75,7 @@ function BulletPointResource(props) {
               {/* Optional resource description */}
               <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}>
                 <small>
-                  {props.text}
+                  <Sanitized html={props.text} inline={!!props.inline} />
                 </small>
               </a>
 

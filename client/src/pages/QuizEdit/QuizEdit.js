@@ -227,7 +227,7 @@ function QuizEdit() {
 
   // hide user feedback
   async function hideFeedback(observationId, type) {
-    if (!window.confirm("Are you sure you want to hide this user feedback?")) {
+    if (!window.confirm("Are you sure you want to archive this user feedback?")) {
       return;
     }
 
@@ -447,7 +447,7 @@ function QuizEdit() {
                   className="fas fa-fw fa-eye-slash mr-3"
                   style={{transform: "scale(1.5)"}}
                 />
-                Clear Hidden Feedback
+                Hide Archived Feedback
               </button>
             ) : (
               <button className="btn btn-info btn-sm btn pull-right"
@@ -457,7 +457,7 @@ function QuizEdit() {
                   className="fas fa-fw fa-eye mr-3"
                   style={{transform: "scale(1.5)"}}
                 />
-                Show Hidden Feedback
+                Show Archived Feedback
               </button>
             )}
           </div>
@@ -521,7 +521,7 @@ function QuizEdit() {
                   className="fas fa-fw fa-eye-slash mr-3"
                   style={{transform: "scale(1.5)"}}
                 />
-                Clear Hidden Feedback
+                Hide Archived Feedback
               </button>
             ) : (
               <button className="btn btn-info btn-sm btn pull-right"
@@ -531,7 +531,7 @@ function QuizEdit() {
                   className="fas fa-fw fa-eye mr-3"
                   style={{transform: "scale(1.5)"}}
                 />
-                Show Hidden Feedback
+                Show Archived Feedback
               </button>
             )}
           </div>

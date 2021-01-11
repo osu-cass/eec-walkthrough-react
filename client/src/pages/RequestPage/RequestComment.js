@@ -279,6 +279,8 @@ function RequestComment(props) {
                   id={`edit-comment-${props.commentId}`}
                   value={commentText}
                   onChange={(text) => setCommentText(text)}
+                  placeHolder="Enter a Comment"
+                  showToolbar={() => true}
                 />
               </div>
 

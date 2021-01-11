@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Dec 28, 2020 at 01:05 AM
+-- Generation Time: Jan 10, 2021 at 03:51 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.13
 
@@ -168,9 +168,6 @@ INSERT INTO `Answers` (`answerId`, `questionId`, `groupId`, `text`, `correct`, `
 (621, 34, 0, '$50,000', 1, 1),
 (622, 34, 0, '$100,000', 0, 1),
 (623, 35, 0, 'combustion efficiency', 1, 1),
-(624, 41, 0, 'using passphrase (a sequence of words strung together)', 1, 1),
-(625, 41, 0, 'using your street address', 0, 1),
-(626, 41, 0, 'using your name', 0, 1),
 (627, 40, 0, 'compressor', 1, 0),
 (628, 40, 0, 'compressors', 1, 0),
 (629, 40, 1, 'condensor', 1, 0),
@@ -183,7 +180,23 @@ INSERT INTO `Answers` (`answerId`, `questionId`, `groupId`, `text`, `correct`, `
 (640, 42, 0, 'compression', 0, 0),
 (641, 42, 0, 'condensation', 0, 0),
 (642, 42, 0, 'expansion', 0, 0),
-(643, 42, 0, 'evaporation', 1, 0);
+(643, 42, 0, 'evaporation', 1, 0),
+(648, 43, 0, '60', 0, 0),
+(649, 43, 0, '100', 0, 0),
+(650, 43, 0, '90', 1, 0),
+(651, 43, 0, '80', 0, 0),
+(654, 45, 0, '2', 1, 0),
+(655, 45, 0, 'two', 1, 0),
+(656, 46, 0, '25', 1, 0),
+(657, 47, 0, '1.5', 1, 0),
+(658, 48, 0, '120', 1, 0),
+(661, 44, 0, 'true', 1, 0),
+(662, 44, 0, 'false', 0, 0),
+(673, 3, 0, 'mouse', 1, 0),
+(674, 3, 1, 'keyboard', 1, 0),
+(675, 41, 0, 'using \"1234\"', 1, 1),
+(676, 41, 0, 'using your street address', 1, 1),
+(677, 41, 0, 'using your name', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -293,11 +306,11 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (137, 41, 0, 4, 'Tips', 58, '2020-07-20 21:21:56', 0),
 (138, 41, 0, 5, 'Best Practices', 58, '2020-07-20 21:22:23', 0),
 (139, 41, 1, 6, 'Charts, Tables, Figures', 58, '2020-07-20 22:09:40', 0),
-(140, 41, 0, 7, 'Standard Data to Collect', 58, '2020-07-20 22:10:28', 0),
-(141, 41, 0, 8, 'Data Collection Equipment', 58, '2020-07-20 22:11:29', 0),
-(142, 41, 0, 10, 'Analysis Tools', 58, '2020-07-20 22:12:33', 0),
-(143, 41, 0, 11, 'In Depth Site Resources', 58, '2020-07-20 22:13:43', 0),
-(144, 41, 0, 12, 'Off Site Resource Links', 58, '2020-07-20 22:14:24', 0),
+(140, 41, 0, 8, 'Standard Data to Collect', 58, '2020-07-20 22:10:28', 0),
+(141, 41, 0, 9, 'Data Collection Equipment', 58, '2020-07-20 22:11:29', 0),
+(142, 41, 0, 11, 'Analysis Tools', 58, '2020-07-20 22:12:33', 0),
+(143, 41, 0, 12, 'In Depth Site Resources', 58, '2020-07-20 22:13:43', 0),
+(144, 41, 0, 13, 'Off Site Resource Links', 58, '2020-07-20 22:14:24', 0),
 (154, 47, 10, 2, 'Review/Analyze Pre-Assessment Package Information', 51, '2020-09-03 20:04:30', 1),
 (155, 47, 10, 1, 'Identify Potential Sites to Work With', 51, '2020-08-06 23:50:17', 1),
 (156, 47, 10, 4, 'Hold an Initial Remote Assessment Meeting with the Client', 51, '2020-09-03 20:04:47', 1),
@@ -382,7 +395,12 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (267, 78, 0, 267, 'Reduce Compressor Power', 58, '2020-12-22 22:24:28', 0),
 (268, 78, 0, 268, 'Reduce Fan Power', 58, '2020-12-22 22:36:22', 0),
 (269, 63, 0, 269, 'Improve welding efficiency', 52, '2020-12-22 23:10:37', 0),
-(270, 41, 2, 9, 'Key Terms and Concepts', 58, '2020-12-24 21:58:24', 0);
+(270, 41, 2, 7, 'Key Terms and Concepts', 58, '2020-12-24 21:58:24', 0),
+(271, 41, 0, 10, 'Data Collection Guides', 58, '2020-12-30 18:24:27', 0),
+(272, 78, 0, 272, 'Minimize Heat Loss', 42, '2020-12-31 19:16:10', 0),
+(273, 32, 0, 273, 'zzzzzzz', 70, '2021-01-10 22:31:31', 0),
+(274, 79, 0, 274, 'How to enter a formula', 42, '2021-01-10 23:08:40', 0),
+(275, 79, 0, 275, 'Common Formulas', 42, '2021-01-10 23:25:29', 0);
 
 -- --------------------------------------------------------
 
@@ -570,7 +588,8 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (74, 72, 3, 'Radio Frequency Identification (RFID)', 1, 61, '2020-11-28 23:26:46', 0),
 (75, 72, 2, 'Technologies', 1, 61, '2020-11-28 23:49:06', 0),
 (76, 72, 4, 'Machine Learning', 1, 61, '2020-11-29 00:38:27', 0),
-(78, 48, 78, 'Refrigeration Opportunities to Consider', 0, 58, '2020-12-14 19:47:03', 0);
+(78, 48, 78, 'Refrigeration Opportunities to Consider', 0, 58, '2020-12-14 19:47:03', 0),
+(79, 74, 79, 'Creating a Formula', 0, 42, '2021-01-10 23:05:51', 0);
 
 -- --------------------------------------------------------
 
@@ -1615,7 +1634,7 @@ CREATE TABLE `Items` (
   `orderIndex` int(10) UNSIGNED NOT NULL,
   `indentation` int(10) UNSIGNED NOT NULL,
   `iconType` int(10) UNSIGNED NOT NULL,
-  `contentText` varchar(5000) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contentText` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentUrl` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentLabel` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentMode` int(10) UNSIGNED NOT NULL,
@@ -1814,7 +1833,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (2272, 112, 0, 1, 26, 'Drive Type', '', '', 0, 0, 0, 0, '2020-07-08 22:27:29', 0),
 (2273, 112, 0, 1, 26, 'Controls', '', '', 0, 0, 0, 0, '2020-07-08 22:27:29', 0),
 (2275, 113, 0, 0, 27, 'Power Quality Analyzer ', '', '', 0, 0, 0, 0, '2020-07-08 22:29:50', 0),
-(2687, 142, 0, 0, 21, 'tool', 'tool', 'tool', 0, 0, 0, 0, '2020-07-20 22:12:33', 0),
 (3892, 164, 0, 0, 24, '', 'https://eec.oregonstate.edu/wastewater-treatment-training-module', 'Wastewater Treatment Training', 0, 0, 0, 0, '2020-08-06 22:33:54', 1),
 (4118, 163, 0, 0, 11, 'Control Aeration to Hold a Minimum Dissolved Oxygen Level', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1),
 (4119, 163, 0, 0, 11, 'Replace Standard Aeration Fans with High Efficiency Turbo Blowers', '', '', 0, 0, 0, 0, '2020-08-06 23:36:56', 1),
@@ -2269,9 +2287,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (6966, 253, 0, 0, 31, '<p>For small companies where they vary multiple process parameters to get different outcomes, a machine learning system can be developed to help find the ideal parameters for each outcome. </p>', '%zXz%', '%zXz%', 0, 0, 0, 0, '2020-11-30 18:04:41', 0),
 (6967, 254, 0, 0, 24, '', 'https://linkinghub.elsevier.com/retrieve/pii/S235197891830475X', 'Rethinking Human-Machine Learning in Industry 4.0: How Does the Paradigm Shift Treat the Role of Human Learning?', 1, 0, 0, 0, '2020-11-30 18:07:00', 0),
 (6968, 254, 0, 0, 24, '', 'https://towardsdatascience.com/the-actual-difference-between-statistics-and-machine-learning-64b49f07ea3', 'The Actual Difference Between Statistics and Machine Learning', 1, 0, 0, 0, '2020-11-30 18:07:00', 0),
-(6993, 236, 0, 0, 10, 'Meters that consistently have relatively low charges (<$500 per month)', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0),
-(6994, 236, 0, 0, 11, 'Combine multiple small meters together', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0),
-(6995, 236, 0, 0, 11, 'Combine a small meter with a larger meter', '', '', 0, 0, 0, 0, '2020-12-01 22:08:36', 0),
 (7013, 197, 0, 0, 26, 'Researchers from the University of Illinois Urbana-Champaign have developed a tool for manufacturers to simplify the understanding of cybersecurity standards created by the National Institute of Standards and Technology. This tool also follows DFARS, the Department of Defense’s acquisition regulations.', '', '', 0, 0, 0, 0, '2020-12-08 07:56:23', 0),
 (7014, 197, 0, 1, 21, ' ', 'https://iti.illinois.edu/news/new-software-tool-help-manufacturing-companies-meet-complex-cyber-security-standards ', 'The Dashboard', 1, 0, 0, 0, '2020-12-08 07:56:23', 0),
 (7029, 87, 0, 0, 11, 'Replace refrigerated compressed air dryer with more efficient refrigerated compressed air dryer', '', '', 0, 0, 0, 0, '2020-12-14 15:58:03', 0),
@@ -2469,10 +2484,10 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (8008, 101, 0, 1, 10, 'O2 readings in the exhaust are high for the fuel type (>3% for gaseous fuels, >8% for solid fuels)', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
 (8009, 101, 0, 1, 15, 'Combustion analysis at representative firing rates (high, medium, low, standby)', '', '', 0, 0, 1, 0, '2020-12-19 19:14:38', 0),
 (8010, 101, 0, 1, 15, 'Firing rate over time', '', '', 0, 0, 1, 0, '2020-12-19 19:14:38', 0),
-(8011, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, 1, 0, 0, '2020-12-19 19:14:38', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(8011, 101, 0, 1, 21, 'An OSU EEC Analysis Template in Microsoft Excel Format (unapproved, old style)', 'https://drive.google.com/file/d/1Z9GbxV0nr-OuxT2cNLxkdo82Wpq-h70m/view?usp=sharing', 'Boiler Tune Template', 0, 1, 0, 0, '2020-12-19 19:14:38', 0),
 (8012, 101, 0, 0, 11, 'Install O2 Controls to maintain optimum combustion efficiency throughout the operating range', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
-(8013, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
+(8013, 101, 0, 1, 10, 'The boiler spends a significant portion of time at partial fire and lower efficiency', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (8014, 101, 0, 0, 11, 'Clean heat exchanger surfaces and reduce the exhaust temperature', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
 (8015, 101, 0, 1, 10, 'Stack temperature exceeds steam temperature by over 150 ˚F', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
 (8016, 101, 0, 1, 12, 'Clean the fire side. Soot can accumulate and inhibit heat transfer.', '', '', 0, 0, 0, 0, '2020-12-19 19:14:38', 0),
@@ -2631,10 +2646,6 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (8237, 129, 0, 1, 27, 'Combustion analyzer', '', '', 0, 0, 0, 0, '2020-12-21 20:29:12', 0),
 (8238, 129, 0, 1, 17, '', 'https://www.energy.gov/sites/prod/files/2014/05/f16/et_preheated.pdf', 'D.O.E. Tip Sheet', 1, 0, 0, 0, '2020-12-21 20:29:12', 0),
 (8239, 129, 0, 1, 17, '', 'https://www.energysolutionscenter.org/gas_solutions/regenerators_and_recuperators.aspx#:~:text=Regenerators%20and%20recuperators%20are%20heat,metallic%20heat%20exchanger%20(recuperators).&text=The%20heat%20recovered%20by%20a,combustion%20air%20to%20a%20furnace.', 'Regenerators vs. Recuperators ', 1, 0, 0, 0, '2020-12-21 20:29:12', 0),
-(8475, 136, 0, 0, 3, '1 ton = 12,000 Btu/hr = 3.52 kW', '', '', 0, 0, 0, 0, '2020-12-22 22:06:45', 0),
-(8476, 136, 0, 0, 3, '1-1.5% compressor power reduction per 1°F decrease in condensing temperature', '', '', 0, 0, 0, 20, '2020-12-22 22:06:45', 0),
-(8477, 136, 0, 0, 3, '2-3% compressor power reduction per 1°F increase in suction temperature for centrifugal machines', '', '', 0, 0, 0, 21, '2020-12-22 22:06:45', 0),
-(8478, 136, 0, 0, 3, '5% compressor power reduction from switching to thermo-syphon oil cooling from liquid-injection cooling', '', '', 0, 0, 0, 0, '2020-12-22 22:06:45', 0),
 (8609, 214, 0, 0, 31, 'Conditioning air for painting, drying and treating emissions all represent sources of energy consumption in a painting process. Energy saving measures may be available at each one of these steps.', '%zXz%', '%zXz%', 0, 0, 0, 13, '2020-12-22 22:50:52', 0),
 (8610, 214, 0, 0, 11, 'Reduce airflow in paint booth', '', '', 0, 0, 0, 0, '2020-12-22 22:50:52', 0),
 (8611, 214, 0, 1, 31, '<p>Air must be exhausted from paint booths to remove evaporated solvent, oversprayed paint particles and pollutants such as volatile organic compounds (VOCs). The energy consumed by the ventilation system depends on the target outlet concentration of VOCs. VOCs come from the paint and they are removed from the exhaust air stream through filtration or incineration.</p>', '%zXz%', '%zXz%', 0, 0, 0, 13, '2020-12-22 22:50:52', 0),
@@ -2680,18 +2691,10 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (8704, 269, 0, 0, 11, 'utilize robotic welding', '', '', 0, 0, 0, 0, '2020-12-22 23:42:28', 0),
 (8789, 133, 0, 0, 1, 'Provides reliable climate control for temperature sensitive applications', '', '', 0, 0, 0, 0, '2020-12-23 18:40:40', 0),
 (8790, 133, 0, 0, 1, 'Lower typical energy requirements than other forms of refrigeration such as absorption and steam-jet ', '', '', 0, 0, 0, 0, '2020-12-23 18:40:40', 0),
-(8799, 138, 0, 0, 7, 'Implement a robust energy management program that includes appropriate training of key personnel and establishes identifiable roles to create a culture of continual improvement towards energy efficiency', '', '', 0, 0, 0, 0, '2020-12-23 18:54:29', 0),
-(8800, 138, 0, 0, 7, 'Use \"free cooling\" by taking advantage of low ambient air temperature whenever possible to turn down or shut down refrigeration equipment', '', '', 0, 0, 0, 0, '2020-12-23 18:54:29', 0),
-(8801, 138, 0, 0, 7, 'Apply waste heat from a refrigeration system to nearby heating applications in a facility', '', '', 0, 0, 0, 0, '2020-12-23 18:54:29', 0),
 (9174, 29, 0, 0, 17, 'This guide focuses mainly on screw and reciprocating compressors. These are the most common types of compressors used in the northwest. Other types of compressors such as rotary vane, centrifugal, lobe and radial compressors are much less common and are only introduced in this guide.', 'https://drive.google.com/file/d/12Co0C6JBK5CqoYhZQBcD0VX6JVBXy86o/view', 'Assessing Industrial Air Compressors', 0, 0, 0, 0, '2020-12-23 19:54:32', 0),
 (9175, 29, 0, 0, 22, 'A short slideshow of common industrial compressed air equipment and applicatons', 'https://docs.google.com/presentation/d/1khB1tPIND-ooBy1yCCL-rDf09Gf4Q8nr/edit#slide=id.p7', 'Industrial Compressed Air (a slideshow)', 0, 0, 0, 0, '2020-12-23 19:54:32', 0),
 (9176, 143, 0, 0, 17, 'A guide for assessing the efficiency of industrial vapor-compression systems. ', 'https://drive.google.com/file/d/1fG5U5cbw9c2UM0jSFZn8yOX9ewEiIuSE/view?usp=sharing', 'Assessing Industrial Refrigeration Efficiency', 0, 0, 0, 0, '2020-12-23 19:55:20', 0),
 (9177, 143, 0, 0, 22, 'A short slideshow of common industrial refrigeration equipment and applications', 'https://docs.google.com/presentation/d/1A_qeQoVK6A7ConfE-uMVPdkRep-s9PUlnrELmOuNo8g/edit?usp=sharing', 'Industrial Refrigeration (a slideshow)', 0, 0, 0, 0, '2020-12-23 19:55:20', 0),
-(9345, 141, 0, 0, 27, 'Digital Multimeter ', '', '', 0, 0, 0, 0, '2020-12-23 20:24:30', 0),
-(9346, 141, 0, 0, 27, 'Power Data Logger', '', '', 0, 0, 0, 0, '2020-12-23 20:24:30', 0),
-(9347, 141, 0, 0, 27, 'Sling Psychrometer ', '', '', 0, 0, 0, 0, '2020-12-23 20:24:30', 0),
-(9348, 141, 0, 0, 27, 'Digital Thermometer', '', '', 0, 0, 0, 0, '2020-12-23 20:24:30', 0),
-(9349, 141, 0, 0, 27, 'Airflow Meter', '', '', 0, 0, 0, 0, '2020-12-23 20:24:30', 0),
 (9363, 139, 0, 0, 20, '', '/uploads/user_58/46e54440c2be9608320703b9efb9b082.jpg', 'Simple Refrigeration Cycle', 0, 0, 0, 0, '2020-12-23 22:01:50', 0),
 (9364, 139, 0, 0, 20, '', '/uploads/user_58/d64fd1cf30ad7eeb7bc82c88f7aeec1c.jpg', 'Mollier Diagram', 0, 0, 0, 0, '2020-12-23 22:01:50', 0),
 (9522, 137, 0, 0, 8, 'Tip', '', '', 0, 0, 0, 0, '2020-12-24 17:45:37', 0),
@@ -2755,106 +2758,200 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (9640, 260, 0, 1, 31, '<p>The transition from point 4 to point 1 on the enthalpy pressure diagram represents the pressure and enthalpy changes associated with compression. Decreasing discharge pressure reduces both the pressure change (lift) and enthalpy change (work).</p>', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
 (9641, 260, 0, 0, 11, 'Implement floating suction pressure', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
 (9642, 260, 0, 0, 11, 'Implement floating discharge pressure', '', '', 0, 0, 0, 0, '2020-12-24 18:08:58', 0),
-(9668, 267, 0, 0, 11, 'Minimize excess refrigeration loads', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9669, 267, 0, 1, 31, '<p>Compressor power can be directly related to refrigeration load by the COP. Reducing excess refrigeration loads lowers compressor power to save energy. </p>', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0);
-INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
-(9670, 267, 0, 1, 10, 'Excess heat gain is a substantial part of the refrigeration load from:', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9671, 267, 0, 2, 26, 'Lights', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9672, 267, 0, 2, 26, 'Open doors', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9673, 267, 0, 2, 26, 'Poor insulation ', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9674, 267, 0, 2, 26, 'Door weatherstripping ', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9675, 267, 0, 2, 26, 'Defrost', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9676, 267, 0, 2, 26, 'Floor heating', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9677, 267, 0, 1, 15, 'Data to collect', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9678, 267, 0, 2, 26, 'Room dimensions', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9679, 267, 0, 2, 26, 'Insulation thickness', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9680, 267, 0, 2, 26, 'Wall, ceiling and door temperatures', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9681, 267, 0, 2, 26, 'Outside temperature', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9682, 267, 0, 2, 26, 'Door dimensions', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9683, 267, 0, 2, 26, 'Number and type of doors', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9684, 267, 0, 2, 26, 'Time the doors spend open', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9685, 267, 0, 2, 26, 'Number, type, power and operating hours of lights', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9686, 267, 0, 2, 26, 'Lighting level in room', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9687, 267, 0, 1, 12, 'Suggested Actions', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9688, 267, 0, 2, 26, 'Install more efficient lighting', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9689, 267, 0, 2, 26, 'Increase insulation ', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9690, 267, 0, 2, 26, 'Reduce time doors spend open with automatic quick-close doors', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9691, 267, 0, 2, 26, 'Install air or strip curtains', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9692, 267, 0, 0, 11, 'Use thermo-syphon oil cooling', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9693, 267, 0, 1, 31, '<p>Liquid injection oil cooling typically consumes 5% to 15% of the compressor power to recompress injected refrigerant, while thermosyphon cooling does not consume compressor power. Thermosyphon cooling uses a heat exchanger near the compressor to cool the oil, which may require an additional condenser. This will result in increased fan energy, but less than energy used by the compressor.</p><p><br></p>', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9694, 267, 0, 1, 10, 'Liquid-injection cooling is used to cool large compressors', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9695, 267, 0, 1, 3, '5% compressor power reduction from switching to thermo-syphon oil cooling from liquid-injection cooling', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9696, 267, 0, 1, 15, 'Annual compressor energy consumption', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9697, 267, 0, 1, 15, 'Refrigerant mass flow rate', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9698, 267, 0, 2, 26, 'Compressor volumetric flow rate', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9699, 267, 0, 2, 26, 'Intake refrigerant density', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9700, 267, 0, 0, 11, 'Operate multiple compressors economically', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9701, 267, 0, 1, 31, '<p>The use of multiple compressors is needed when a single machine cannot meet the demand of a refrigeration load. Depending on the type and capacity of compressors used and demand variability, different sequencing strategies will be more or less effective. The strategy that achieves the lowest combined power while adequately meeting system demand should be pursued.</p>', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9702, 267, 0, 1, 10, 'Multiple screw compressor(s) operating below 50% of the full-load capacity while sharing a load', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9703, 267, 0, 1, 7, 'Use a variable speed drive to control the output of a trim compressor while running other compressors at full capacity', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9704, 267, 0, 1, 8, 'Screw compressors are best suited for operating near their full-load capacities', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9705, 267, 0, 1, 8, 'Reciprocating compressors have nearly linear unloading characteristics, making them more suitable as trim compressors', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9706, 267, 0, 1, 20, '', 'https://www.researchgate.net/profile/Douglas_Reindl/publication/223757544/figure/fig2/AS:394026189639689@1470954572099/Part-load-performance-of-the-screw-and-reciprocating-compressor.png', 'Part-load performance of the reciprocating and screw compressor', 0, 0, 0, 24, '2020-12-24 18:39:24', 0),
-(9707, 267, 0, 1, 12, 'Obtain unloading curves from the manufacturers of each compressor to determine an optimum load sharing strategy', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9708, 267, 0, 0, 31, '<p><strong class=\"ql-size-large\">Reciprocating Compressors﻿</strong></p>', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9709, 267, 0, 1, 14, 'Are multiple equally sized reciprocating compressors sharing a load?', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9710, 267, 0, 2, 12, 'Split the load to equalize pressure losses in the dry (unloaded) suction line in each compressor to optimize performance', '', '', 0, 0, 0, 24, '2020-12-24 18:39:24', 0),
-(9711, 267, 0, 0, 31, '<p><strong class=\"ql-size-large\">Screw Compressors</strong></p>', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9712, 267, 0, 1, 14, 'Are multiple equally sized screw compressors in use? ', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9713, 267, 0, 2, 12, 'Sequence compressors so that a compressor never operates below 50% of its full-load capacity. ', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9714, 267, 0, 2, 8, 'Depending on the specific unloading characteristics of the compressors in use, there will be a crossover point where operating one or multiple compressors at full-load and one compressor at a partial load will be more economical than sharing the load equally. The crossover point occurs around 66% of the combined capacity of all compressors. ', '', '', 0, 0, 0, 24, '2020-12-24 18:39:24', 0),
-(9715, 267, 0, 1, 14, 'Are two un-equally sized screw compressors in use? ', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9716, 267, 0, 2, 12, 'Operate the larger compressor at full capacity with the smaller at partial load up to a crossover point where it becomes more economical to run the smaller compressor at full-load and the larger at partial load. This crossover point depends on the relative compressor sizes. ', '', '', 0, 0, 0, 24, '2020-12-24 18:39:24', 0),
-(9717, 267, 0, 0, 31, '<p><strong class=\"ql-size-large\">Centrifugal Compressors</strong></p>', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9718, 267, 0, 1, 12, 'Operate multiple centrifugal compressors at equal partial loads to minimize power', '', '', 0, 0, 0, 0, '2020-12-24 18:39:24', 0),
-(9719, 267, 0, 1, 20, '', '/uploads/user_58/50c4d876db9ee3096978b1db3ac7c1a8.png', 'Partial Load Requirement for Centrifugal Refrigeration Compressors', 0, 0, 0, 20, '2020-12-24 18:39:24', 0),
-(9724, 268, 0, 0, 11, 'Install VFDs on condenser fans', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9725, 268, 0, 1, 31, '<p>Typically condenser fans cycle on and off to maintain condensing temperature resulting in an average part-load power. A variable frequency drive can reduce this part-load power by efficiently slowing fan speed. </p>', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9726, 268, 0, 1, 10, 'Single or two-speed fans demand a lot of power', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9727, 268, 0, 1, 3, 'Ideal fan power is proportional to the cube of fan speed with a VFD', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9728, 268, 0, 1, 15, 'Minimum condensing temperature', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9729, 268, 0, 1, 15, 'Total fan power', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9730, 268, 0, 1, 15, 'Wet and dry bulb temperatures (use bin weather data if temperature cannot be recorded over time)', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9731, 268, 0, 1, 15, 'Condenser MATD (measured with all fans turned on)', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9732, 268, 0, 1, 15, 'Fan use factor (may be available from trend logs on electronic control systems)', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9733, 268, 0, 0, 11, 'Install VFDs on evaporator fans', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9734, 268, 0, 1, 10, 'Single or two-speed fans demand a lot of power', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9735, 268, 0, 1, 3, 'Ideal fan power is proportional to the cube of fan speed with a VFD', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9736, 268, 0, 1, 15, 'Suction pressure', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9737, 268, 0, 1, 15, 'Total fan power', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9738, 268, 0, 1, 15, 'Dry bulb temperature', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9739, 268, 0, 1, 15, 'Evaporator MATD (measured with all fans turned on)', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9740, 268, 0, 1, 15, 'Fan cycling schedule', '', '', 0, 0, 0, 0, '2020-12-24 21:00:47', 0),
-(9797, 270, 0, 0, 26, 'Approach Temperature', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9798, 270, 0, 1, 31, '<p>Temperature difference between the liquid/gas in the heat exchanger as it exists compared with the surrounding medium that serves as a heat source or sink. </p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9799, 270, 0, 0, 26, 'Condenser', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9800, 270, 0, 1, 31, '<p>Heat exchanger in which refrigerant gives off energy to its surroundings and condenses from a gas to a liquid.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9801, 270, 0, 0, 26, 'Cooling Effect', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9802, 270, 0, 1, 31, '<p>Change in enthalpy in the evaporator as the refrigerant absorbs energy and changes from a liquid to a gas.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9803, 270, 0, 0, 26, 'Discharge, Condensing, High-side Pressure', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9804, 270, 0, 1, 31, '<p>Pressure at the compressor discharge at which the refrigerant condenses. Condensing pressure fluctuates with outside temperatures in air-cooled or evaporative units.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9805, 270, 0, 0, 26, 'Enthalpy', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9806, 270, 0, 1, 31, '<p>Enthalpy is sometimes called total energy because it includes internal energy (U), the work done in a particular process (pV), and change of phase. </p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9807, 270, 0, 0, 26, 'Evaporator', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9808, 270, 0, 1, 31, '<p>Heat exchanger in which the refrigerant absorbs energy from its surroundings and changes from a liquid to a gas.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9809, 270, 0, 0, 26, 'Compressor Work', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9810, 270, 0, 1, 31, '<p>Change in enthalpy as the refrigerant is compressed.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9811, 270, 0, 0, 26, 'Rejected Heat', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9812, 270, 0, 1, 31, '<p>Change in enthalpy as the refrigerant condenses.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9813, 270, 0, 0, 26, 'Latent Heat of Vaporization', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9814, 270, 0, 1, 31, '<p>Change in enthalpy as the refrigerant evaporates from a saturated liquid to a saturated vapor at a specified pressure.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9815, 270, 0, 0, 26, 'Minimum Approach Temperature Difference (MATD)', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9816, 270, 0, 1, 31, '<p>Approach temperature difference across a heat exchanger with the heat transfer coefficient maximized. This can be measured for clean condensers or evaporators with all heat exchange fans running at full power.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9817, 270, 0, 0, 26, 'Minimum Discharge Pressure', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9818, 270, 0, 1, 31, '<p>Air-cooled and evaporative condensers control the maintain minimum discharge pressure by cycling fans or controlling speed. Plant personnel control the minimum pressure set point.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9819, 270, 0, 0, 26, 'Refrigerant', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9820, 270, 0, 1, 31, '<p>The refrigerant is the \"working fluid\" which evaporates to absorb the latent heat of vaporization from its surroundings, thereby cooling its surroundings. To permit refrigerant to operate continuously, the refrigerant vapor is compressed and reconverted to liquid effectively moving energy from where the refrigerant vaporizes to where it condenses. </p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9821, 270, 0, 0, 26, 'Suction, Low-side Pressure', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9822, 270, 0, 1, 31, '<p>Pressure at the inlet to the compressor is also the pressure at which the refrigerant evaporates.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9823, 270, 0, 0, 26, 'Tons', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
-(9824, 270, 0, 1, 31, '<p>A measure of the cooling capacity usually applied to larger cooling systems and heat pumps. One ton of cooling represents the ability to absorb energy at a rate originally determined by melting one short ton (2,000 lbs) of ice in 24 hours. Now, 1 ton = 12,000 Btu/hr = 3.52 kW.</p>', '', '', 0, 0, 0, 0, '2020-12-24 22:03:20', 0),
 (9827, 134, 0, 0, 2, 'More energy intensive than other cooling systems such as cooling towers and outside air economizers', '', '', 0, 0, 0, 0, '2020-12-24 22:09:30', 0),
-(9828, 134, 0, 0, 2, 'Numerous interconnected components contribute to high capital cost and upkeep', '', '', 0, 0, 0, 0, '2020-12-24 22:09:30', 0);
+(9828, 134, 0, 0, 2, 'Numerous interconnected components contribute to high capital cost and upkeep', '', '', 0, 0, 0, 0, '2020-12-24 22:09:30', 0),
+(9900, 142, 0, 0, 21, 'An OSU EEC Analysis Tool in Microsoft Excel Format', 'https://oregonstate.box.com/s/icsszqfo8sosqqj0jvjn741xvbw6y59v', 'Fan Control Analysis Tool (FCAT)', 0, 0, 0, 0, '2020-12-28 21:52:19', 0),
+(10205, 270, 0, 0, 26, 'Approach Temperature', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10206, 270, 0, 1, 31, '<p>Temperature difference between the liquid/gas in the heat exchanger as it exists compared with the surrounding medium that serves as a heat source or sink.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10207, 270, 0, 0, 26, 'Compressor Work', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10208, 270, 0, 1, 31, '<p>Heat exchanger in which the refrigerant absorbs energy from its surroundings and changes from a liquid to a gas.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10209, 270, 0, 0, 26, 'Condenser', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10210, 270, 0, 1, 31, '<p>Change in enthalpy as the refrigerant is compressed.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10211, 270, 0, 0, 26, 'Cooling Effect', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10212, 270, 0, 1, 31, '<p>Heat exchanger in which refrigerant gives off energy to its surroundings and condenses from a gas to a liquid.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10213, 270, 0, 0, 26, 'Discharge, Condensing, High-side Pressure', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10214, 270, 0, 1, 31, '<p>Change in enthalpy in the evaporator as the refrigerant absorbs energy and changes from a liquid to a gas.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10215, 270, 0, 0, 26, 'Enthalpy', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10216, 270, 0, 1, 31, '<p>Pressure at the compressor discharge at which the refrigerant condenses. Condensing pressure fluctuates with outside temperatures in air-cooled or evaporative units.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10217, 270, 0, 0, 26, 'Evaporator', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0);
+INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
+(10218, 270, 0, 1, 31, '<p>Enthalpy is sometimes called total energy because it includes internal energy (U), the work done in a particular process (pV), and change of phase.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10219, 270, 0, 0, 26, 'Latent Heat of Vaporization', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10220, 270, 0, 1, 31, '<p>Approach temperature difference across a heat exchanger with the heat transfer coefficient maximized. This can be measured for clean condensers or evaporators with all heat exchange fans running at full power.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10221, 270, 0, 0, 26, 'Minimum Approach Temperature Difference (MATD)', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10222, 270, 0, 1, 31, '<p>Air-cooled and evaporative condensers control the maintain minimum discharge pressure by cycling fans or controlling speed. Plant personnel control the minimum pressure set point.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10223, 270, 0, 0, 26, 'Minimum Discharge Pressure', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10224, 270, 0, 1, 31, '<p>The refrigerant is the \"working fluid\" which evaporates to absorb the latent heat of vaporization from its surroundings, thereby cooling its surroundings. To permit refrigerant to operate continuously, the refrigerant vapor is compressed and reconverted to liquid effectively moving energy from where the refrigerant vaporizes to where it condenses.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10225, 270, 0, 0, 26, 'Refrigerant', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10226, 270, 0, 1, 31, '<p>Change in enthalpy as the refrigerant condenses.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10227, 270, 0, 0, 26, 'Rejected Heat', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10228, 270, 0, 1, 31, '<p>Change in enthalpy as the refrigerant evaporates from a saturated liquid to a saturated vapor at a specified pressure.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10229, 270, 0, 0, 26, 'Suction, Low-side Pressure', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10230, 270, 0, 1, 31, '<p>Pressure at the inlet to the compressor is also the pressure at which the refrigerant evaporates.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10231, 270, 0, 0, 26, 'Tons', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10232, 270, 0, 1, 31, '<p>A measure of the cooling capacity usually applied to larger cooling systems and heat pumps. One ton of cooling represents the ability to absorb energy at a rate originally determined by melting one short ton (2,000 lbs) of ice in 24 hours. Now, 1 ton = 12,000 Btu/hr = 3.52 kW.</p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10233, 270, 0, 0, 31, '<p><strong>Approach Temperature﻿</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10234, 270, 0, 1, 26, 'Temperature difference between the liquid/gas in the heat exchanger as it exists compared with the surrounding medium that serves as a heat source or sink.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10235, 270, 0, 0, 31, '<p><br></p><p><strong>Condenser﻿</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10236, 270, 0, 1, 26, 'Heat exchanger in which refrigerant gives off energy to its surroundings and condenses from a gas to a liquid.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10237, 270, 0, 0, 31, '<p><br></p><p><strong>Cooling Effect</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10238, 270, 0, 1, 26, 'Change in enthalpy in the evaporator as the refrigerant absorbs energy and changes from a liquid to a gas.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10239, 270, 0, 0, 31, '<p><br></p><p><strong>Compressor Work</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10240, 270, 0, 1, 26, 'Change in enthalpy as the refrigerant is compressed.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10241, 270, 0, 0, 31, '<p><br></p><p><strong>Discharge, Condensing, High-side Pressure</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10242, 270, 0, 1, 26, 'Pressure at the compressor discharge at which the refrigerant condenses. Condensing pressure fluctuates with outside temperatures in air-cooled or evaporative units.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10243, 270, 0, 0, 31, '<p><br></p><p><strong>Enthalpy</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10244, 270, 0, 1, 26, 'Enthalpy is sometimes called total energy because it includes internal energy (U), the work done in a particular process (pV), and change of phase.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10245, 270, 0, 0, 31, '<p><br></p><p><strong>Evaporator</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10246, 270, 0, 1, 26, 'Heat exchanger in which the refrigerant absorbs energy from its surroundings and changes from a liquid to a gas.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10247, 270, 0, 0, 31, '<p><br></p><p><strong>Latent Heat of Vaporization</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10248, 270, 0, 1, 26, 'Change in enthalpy as the refrigerant evaporates from a saturated liquid to a saturated vapor at a specified pressure.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10249, 270, 0, 0, 31, '<p><br></p><p><strong>Minimum Approach Temperature Difference (MATD)</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10250, 270, 0, 1, 26, 'Approach temperature difference across a heat exchanger with the heat transfer coefficient maximized. This can be measured for clean condensers or evaporators with all heat exchange fans running at full power.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10251, 270, 0, 0, 31, '<p><br></p><p><strong>Minimum Discharge Pressure</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10252, 270, 0, 1, 26, 'Air-cooled and evaporative condensers control the maintain minimum discharge pressure by cycling fans or controlling speed. Plant personnel control the minimum pressure set point.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10253, 270, 0, 0, 31, '<p><br></p><p><strong>Refrigerant</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10254, 270, 0, 1, 26, 'The refrigerant is the \"working fluid\" which evaporates to absorb the latent heat of vaporization from its surroundings, thereby cooling its surroundings. To permit refrigerant to operate continuously, the refrigerant vapor is compressed and reconverted to liquid effectively moving energy from where the refrigerant vaporizes to where it condenses.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10255, 270, 0, 0, 31, '<p><br></p><p><strong>Rejected Heat</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10256, 270, 0, 1, 26, 'Change in enthalpy as the refrigerant condenses.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10257, 270, 0, 0, 31, '<p><br></p><p><strong>Suction, Low-side Pressure</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10258, 270, 0, 1, 26, 'Pressure at the inlet to the compressor is also the pressure at which the refrigerant evaporates.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10259, 270, 0, 0, 31, '<p><br></p><p><strong>Tons</strong></p>', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10260, 270, 0, 1, 26, 'A measure of the cooling capacity usually applied to larger cooling systems and heat pumps. One ton of cooling represents the ability to absorb energy at a rate originally determined by melting one short ton (2,000 lbs) of ice in 24 hours. Now, 1 ton = 12,000 Btu/hr = 3.52 kW.', '', '', 0, 0, 0, 0, '2020-12-28 22:34:17', 0),
+(10261, 141, 0, 0, 27, 'Digital Multimeter ', '', '', 0, 0, 0, 0, '2020-12-28 22:44:33', 0),
+(10262, 141, 0, 0, 27, 'Power Data Logger', '', '', 0, 0, 0, 0, '2020-12-28 22:44:33', 0),
+(10263, 141, 0, 0, 27, 'Sling Psychrometer ', '', '', 0, 0, 0, 0, '2020-12-28 22:44:33', 0),
+(10264, 141, 0, 0, 27, 'Digital Thermometer', '', '', 0, 0, 0, 0, '2020-12-28 22:44:33', 0),
+(10265, 141, 0, 0, 27, 'Airflow Meter', '', '', 0, 0, 0, 0, '2020-12-28 22:44:33', 0),
+(10610, 271, 0, 0, 17, 'An OSU EEC Data Collection Sheet in PDF Format', 'https://drive.google.com/file/d/1B0rxYFZTuA85roOGFeeOd__c9ZdvaZzs/view?usp=sharing', 'Refrigeration Data Collection Sheet', 2, 0, 0, 0, '2020-12-30 18:26:44', 0),
+(10619, 136, 0, 0, 3, '1 ton = 12,000 Btu/hr = 3.52 kW', '', '', 0, 0, 0, 0, '2020-12-31 19:20:42', 0),
+(10620, 136, 0, 0, 3, '1-1.5% compressor power reduction per 1°F decrease in condensing temperature', '', '', 0, 0, 0, 20, '2020-12-31 19:20:42', 0),
+(10621, 136, 0, 0, 3, '2-3% compressor power reduction per 1°F increase in suction temperature for centrifugal machines', '', '', 0, 0, 0, 21, '2020-12-31 19:20:42', 0),
+(10622, 136, 0, 0, 3, '5% compressor power reduction from switching to thermo-syphon oil cooling from liquid-injection cooling', '', '', 0, 0, 0, 0, '2020-12-31 19:20:42', 0),
+(10623, 136, 0, 0, 3, '14,500 Btu/hr per ton produced is rejected in the condensers', '', '', 0, 0, 0, 0, '2020-12-31 19:20:42', 0),
+(10624, 138, 0, 0, 7, 'Implement a robust energy management program that includes appropriate training of key personnel and establishes identifiable roles to create a culture of continual improvement towards energy efficiency', '', '', 0, 0, 0, 0, '2020-12-31 19:21:19', 0),
+(10625, 138, 0, 0, 7, 'Use \"free cooling\" by taking advantage of low ambient air temperature whenever possible to turn down or shut down refrigeration equipment', '', '', 0, 0, 0, 0, '2020-12-31 19:21:19', 0),
+(10626, 138, 0, 0, 7, 'Apply waste heat from a refrigeration system to nearby heating applications', '', '', 0, 0, 0, 0, '2020-12-31 19:21:19', 0),
+(10871, 267, 0, 0, 11, 'Minimize excess refrigeration loads', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10872, 267, 0, 1, 31, '<p>Compressor power can be directly related to refrigeration load by the Coefficient of Performance (see Key Terms and Concepts for more information). Reducing excess refrigeration loads lowers compressor power to save energy.</p>', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10873, 267, 0, 1, 10, 'Excess heat gain is a substantial part of the refrigeration load from:', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10874, 267, 0, 2, 26, 'Lights', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10875, 267, 0, 2, 26, 'Open doors', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10876, 267, 0, 2, 26, 'Poor insulation ', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10877, 267, 0, 2, 26, 'Door weatherstripping ', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10878, 267, 0, 2, 26, 'Defrost', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10879, 267, 0, 2, 26, 'Floor heating', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10880, 267, 0, 1, 15, 'Data to collect', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10881, 267, 0, 2, 26, 'Room dimensions', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10882, 267, 0, 2, 26, 'Insulation thickness', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10883, 267, 0, 2, 26, 'Wall, ceiling and door temperatures', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10884, 267, 0, 2, 26, 'Outside temperature', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10885, 267, 0, 2, 26, 'Door dimensions', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10886, 267, 0, 2, 26, 'Number and type of doors', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10887, 267, 0, 2, 26, 'Time the doors spend open', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10888, 267, 0, 2, 26, 'Number, type, power and operating hours of lights', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10889, 267, 0, 2, 26, 'Lighting level in room', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10890, 267, 0, 3, 27, 'Light Meter', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10891, 267, 0, 1, 12, 'Suggested Actions', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10892, 267, 0, 2, 26, 'Install more efficient lighting', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10893, 267, 0, 2, 26, 'Increase insulation ', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10894, 267, 0, 2, 26, 'Reduce time doors spend open with automatic quick-close doors', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10895, 267, 0, 2, 26, 'Install air or strip curtains', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10896, 267, 0, 0, 11, 'Use thermo-syphon oil cooling', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10897, 267, 0, 1, 31, '<p>Liquid injection oil cooling typically consumes 5% to 15% of the compressor power to recompress injected refrigerant, while thermosyphon cooling does not consume compressor power. Thermosyphon cooling uses a heat exchanger near the compressor to cool the oil, which may require an additional condenser. This will result in increased fan energy, but less than the energy used by the compressor.</p>', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10898, 267, 0, 1, 10, 'Liquid-injection cooling is used to cool large compressors', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10899, 267, 0, 1, 3, '5% compressor power reduction from switching to thermo-syphon oil cooling from liquid-injection cooling', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10900, 267, 0, 1, 15, 'Annual compressor energy consumption', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10901, 267, 0, 1, 15, 'Refrigerant mass flow rate', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10902, 267, 0, 2, 26, 'Compressor volumetric flow rate', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10903, 267, 0, 2, 26, 'Intake refrigerant density', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10904, 267, 0, 0, 11, 'Install an economizer', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10905, 267, 0, 1, 31, '<p>After expansion, the refrigerant exists as a low-pressure liquid-vapor mixture. An economizer separates the vapor in the mixture from the liquid . Liquid refrigerant is directed to the evaporator while gas refrigerant is directed to a secondary suction port at the compressor. Refrigerant mass flow rate through the evaporators is reduced for a given load which has the effect of increasing the refrigeration capacity, thereby allowing the compressor to operate at a lower partial load.</p>', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10906, 267, 0, 1, 10, 'A secondary suction port is available on a screw compressor, and suction temperature is below 15 °F', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10907, 267, 0, 1, 8, 'Look for simple refrigeration systems used to achieve low temperatures', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10908, 267, 0, 1, 12, 'Contact the compressor manufacturer to determine intermediate pressure limitations and availability of economizer packages', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10909, 267, 0, 1, 15, 'Compressor nameplate', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10910, 267, 0, 1, 15, 'Measure compressor power', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10911, 267, 0, 1, 4, 'Economizers are only available for screw compressors and are only effective at certain percentages of compressor capacity', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10912, 267, 0, 0, 11, 'Operate multiple compressors economically', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10913, 267, 0, 1, 31, '<p>The use of multiple compressors is needed when a single machine cannot meet the demand of a refrigeration load. Depending on the type and capacity of compressors used and demand variability, different sequencing strategies will be more or less effective. The strategy that achieves the lowest combined power while adequately meeting system demand should be pursued.</p>', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10914, 267, 0, 1, 10, 'Multiple screw compressor(s) operating below 50% of the full-load capacity while sharing a load', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10915, 267, 0, 1, 7, 'Use a variable speed drive to control the output of a trim compressor while running other compressors at full capacity', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10916, 267, 0, 1, 8, 'Screw compressors are best suited for operating near their full-load capacities', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10917, 267, 0, 1, 8, 'Reciprocating compressors have nearly linear unloading characteristics, making them more suitable as trim compressors', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10918, 267, 0, 1, 20, '', 'https://www.researchgate.net/profile/Douglas_Reindl/publication/223757544/figure/fig2/AS:394026189639689@1470954572099/Part-load-performance-of-the-screw-and-reciprocating-compressor.png', 'Part-load performance of the reciprocating and screw compressor', 0, 0, 0, 24, '2020-12-31 19:39:17', 0),
+(10919, 267, 0, 1, 12, 'Obtain unloading curves from the manufacturers of each compressor to determine an optimum load sharing strategy', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10920, 267, 0, 0, 31, '<p><strong class=\"ql-size-large\">Reciprocating Compressors﻿</strong></p>', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10921, 267, 0, 1, 14, 'Are multiple equally sized reciprocating compressors sharing a load?', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10922, 267, 0, 1, 12, 'Split the load to equalize pressure losses in the dry (unloaded) suction line in each compressor to optimize performance', '', '', 0, 0, 0, 24, '2020-12-31 19:39:17', 0),
+(10923, 267, 0, 0, 31, '<p><strong class=\"ql-size-large\">Screw Compressors</strong></p>', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10924, 267, 0, 1, 14, 'Are multiple equally sized screw compressors in use? ', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10925, 267, 0, 1, 12, 'Sequence compressors so that a compressor never operates below 50% of its full-load capacity. ', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10926, 267, 0, 1, 8, 'Depending on the specific unloading characteristics of the compressors in use, there will be a crossover point where operating one or multiple compressors at full-load and one compressor at a partial load will be more economical than sharing the load equally. The crossover point occurs around 66% of the combined capacity of the compressors. ', '', '', 0, 0, 0, 24, '2020-12-31 19:39:17', 0),
+(10927, 267, 0, 1, 14, 'Are two un-equally sized screw compressors in use? ', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10928, 267, 0, 1, 12, 'Operate the larger compressor at full capacity with the smaller at partial load up to a crossover point where it becomes more economical to run the smaller compressor at full-load and the larger at partial load. This crossover point depends on the relative compressor sizes. ', '', '', 0, 0, 0, 24, '2020-12-31 19:39:17', 0),
+(10929, 267, 0, 0, 31, '<p><strong class=\"ql-size-large\">Centrifugal Compressors</strong></p>', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10930, 267, 0, 1, 12, 'Operate multiple centrifugal compressors at equal partial loads to minimize power', '', '', 0, 0, 0, 0, '2020-12-31 19:39:17', 0),
+(10931, 267, 0, 1, 20, '', '/uploads/user_58/50c4d876db9ee3096978b1db3ac7c1a8.png', 'Partial Load Requirement for Centrifugal Refrigeration Compressors', 0, 0, 0, 20, '2020-12-31 19:39:17', 0),
+(10932, 268, 0, 0, 11, 'Install VFDs on condenser fans', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10933, 268, 0, 1, 31, '<p>Typically condenser fans cycle on and off to maintain condensing temperature resulting in an average part-load power. A variable frequency drive can reduce this part-load power by efficiently slowing fan speed. </p>', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10934, 268, 0, 1, 10, 'Single or two-speed fans demand a lot of power', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10935, 268, 0, 1, 3, 'Ideal fan power is proportional to the cube of fan speed with a VFD', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10936, 268, 0, 1, 3, 'At 50% speed fans will consume about 15% of full-load power while still providing 50% airflow', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10937, 268, 0, 1, 8, 'Use the FCAT, an OSU EEC Microsoft Excel analysis tool (located under \"Analysis Tools\" above) to estimate fan energy savings ', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10938, 268, 0, 1, 15, 'Minimum condensing temperature', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10939, 268, 0, 1, 15, 'Total fan power', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10940, 268, 0, 1, 15, 'Wet and dry bulb temperatures (use bin weather data if temperature cannot be recorded over time)', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10941, 268, 0, 1, 15, 'Condenser MATD (measured with all fans turned on)', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10942, 268, 0, 1, 15, 'Fan use factor (may be available from trend logs on electronic control systems)', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10943, 268, 0, 0, 11, 'Install VFDs on evaporator fans', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10944, 268, 0, 1, 31, '<p>Typically evaporator fans cycle on and off to maintain product or storage space temperature, resulting in an average part-load power. A variable frequency drive can reduce this part-load power by efficiently slowing fan speed.</p>', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10945, 268, 0, 1, 10, 'Single or two-speed fans demand a lot of power', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10946, 268, 0, 1, 1, 'Improved product quality through maintaining consistent temperature control and constant (although lower) airflow', '', '', 0, 0, 0, 25, '2020-12-31 19:41:36', 0),
+(10947, 268, 0, 1, 1, 'Improved working conditions through reduced wind-chill and fan noise ', '', '', 0, 0, 0, 25, '2020-12-31 19:41:36', 0),
+(10948, 268, 0, 1, 1, 'Ability to adjust fan speed to meet specific demands of different products', '', '', 0, 0, 0, 25, '2020-12-31 19:41:36', 0),
+(10949, 268, 0, 1, 2, 'Requires higher capital investment that may result in long paybacks for seasonal storage applications', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10950, 268, 0, 1, 3, 'Ideal fan power is proportional to the cube of fan speed with a VFD', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10951, 268, 0, 1, 3, 'At 50% speed fans will consume about 15% of full-load power while still providing 50% airflow', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10952, 268, 0, 1, 8, 'Use the FCAT, an OSU EEC Microsoft Excel analysis tool (located under \"Analysis Tools\" above) to estimate fan energy savings ', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10953, 268, 0, 1, 15, 'Suction pressure', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10954, 268, 0, 1, 15, 'Total fan power', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10955, 268, 0, 1, 15, 'Dry bulb temperature', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10956, 268, 0, 1, 15, 'Evaporator approach temperature difference', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10957, 268, 0, 1, 15, 'Fan cycling schedule', '', '', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(10958, 268, 0, 0, 20, '', '/uploads/user_58/63d57fca0ba546bbea9f90a68a0f91df.png', 'Fan Power vs Capacity for 1-speed, 2-speed, and VFD Controls', 0, 0, 0, 0, '2020-12-31 19:41:36', 0),
+(11036, 236, 0, 0, 10, 'Meters that consistently have relatively low charges (<$500 per month)', '', '', 0, 0, 0, 0, '2021-01-04 21:52:57', 0),
+(11037, 236, 0, 0, 11, 'Combine multiple small meters together', '', '', 0, 0, 0, 0, '2021-01-04 21:52:57', 0),
+(11038, 236, 0, 0, 11, 'Combine a small meter with a larger meter', '', '', 0, 0, 0, 0, '2021-01-04 21:52:57', 0),
+(11061, 272, 0, 0, 11, 'Recover heat rejected from condensers', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11062, 272, 0, 1, 31, '<p>Most often, the heat rejected from the condensers can be used to heat a nearby process stream, thereby lowering the associated heating load.</p>', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11063, 272, 0, 1, 10, 'A low-temperature process is located nearby water-cooled condensers', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11064, 272, 0, 2, 12, 'Install split condensers to reduce the cooling tower load. A split condenser first uses a nearby process steam to precool the refrigerant before it enters a second condenser that uses cooling tower water. ', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11065, 272, 0, 1, 3, '14,500 Btu/hr per ton produced is rejected in the condensers', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11066, 272, 0, 1, 15, 'Refrigeration capacity (tons)', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11067, 272, 0, 1, 15, 'Temperature of refrigerant entering the condensers', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11068, 272, 0, 1, 15, 'Temperature of the process stream to be heated', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11069, 272, 0, 1, 15, 'Mass flow rates of refrigerant and process stream', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11070, 272, 0, 1, 15, 'Refrigerant and process fluid properties', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11071, 272, 0, 0, 11, 'Insulate hot/cold surfaces', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11072, 272, 0, 1, 31, '<p>Un-insulated cold/hot lines or tanks create unnecessary heat transfer and can result in large energy losses. Simply adding appropriate insulation on these surfaces will result in substantial energy savings.</p><p><br></p>', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11073, 272, 0, 1, 8, 'See Insulation on the Thermal Systems page for more information', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11074, 272, 0, 0, 11, 'Use hot gas defrost', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11075, 272, 0, 1, 31, '<p>When air cooling units operate below 32 ºF, frost inevitably builds up on evaporator coils. Frost acts as an insulator and hinders heat exchanger performance. As a result, a defrost cycle must be implemented for these systems.</p>', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11076, 272, 0, 1, 10, 'Electric resistance defrost current in place', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11077, 272, 0, 2, 12, 'Cycle hot refrigerant from the compressor discharge through the evaporator coils to melt frost.', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11078, 272, 0, 1, 3, 'Savings will generally be on the order of 10-20% of the total system use', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11079, 272, 0, 1, 15, 'Defrost cycle schedule ', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11080, 272, 0, 1, 15, 'Power of the current electric defrost system', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11081, 272, 0, 1, 15, 'Distance from compressor discharge to evaporators to determine the amount of piping required', '', '', 0, 0, 0, 0, '2021-01-05 22:25:04', 0),
+(11085, 273, 0, 0, 26, 'Testing', '', '', 0, 0, 1, 0, '2021-01-10 22:31:37', 0),
+(11086, 273, 0, 0, 26, 'Testing', '', '', 0, 0, 1, 0, '2021-01-10 22:31:37', 0),
+(11087, 273, 0, 0, 26, 'Testing', '', '', 0, 0, 1, 0, '2021-01-10 22:31:37', 0),
+(11103, 274, 0, 0, 32, '', '/uploads/user_42/9915d3d9bce8b642f08c1e19a116661d.png', 'When creating / editing a card. Press the formula (fx) button on the toolbar to enter a formula.', 0, 0, 0, 0, '2021-01-10 23:24:00', 0),
+(11104, 274, 0, 0, 32, '', '/uploads/user_42/37c1d806826ddac4b33787518f99bda5.png', 'We can add as many formulas as we want. We can also mix in plain text.', 0, 0, 0, 0, '2021-01-10 23:24:00', 0),
+(11125, 275, 0, 0, 31, '<p><strong>This is a list of some common math symbols and formulas and how to create them:</strong></p>', '', '', 0, 0, 0, 0, '2021-01-10 23:45:29', 0),
+(11126, 275, 0, 0, 31, '<p>x^5 <strong><em>is displayed as...</em></strong> <span class=\"ql-formula\" data-value=\"x^5\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><msup><mi>x</mi><mn>5</mn></msup></mrow><annotation encoding=\"application/x-tex\">x^5</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 0.814108em; vertical-align: 0em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">x</span><span class=\"msupsub\"><span class=\"vlist-t\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.814108em;\"><span class=\"\" style=\"top: -3.063em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">5</span></span></span></span></span></span></span></span></span></span></span></span>﻿</span></p><p><br></p><p>x_5 <strong><em>is displayed as... </em></strong> <span class=\"ql-formula\" data-value=\"x_5\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><msub><mi>x</mi><mn>5</mn></msub></mrow><annotation encoding=\"application/x-tex\">x_5</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 0.58056em; vertical-align: -0.15em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">x</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.301108em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">5</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span></span>﻿</span></p><p><br></p><p>\\Pi <strong><em>is displayed as... </em></strong><span class=\"ql-formula\" data-value=\"\\Pi\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi mathvariant=\"normal\">Π</mi></mrow><annotation encoding=\"application/x-tex\">\\Pi</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 0.68333em; vertical-align: 0em;\"></span><span class=\"mord\">Π</span></span></span></span></span>﻿</span></p><p><br></p><p>\\dfrac{3}{5} <strong><em>is displayed as... </em></strong> <span class=\"ql-formula\" data-value=\"\\dfrac{3}{5}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mfrac><mn>3</mn><mn>5</mn></mfrac></mstyle></mrow><annotation encoding=\"application/x-tex\">\\dfrac{3}{5}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 2.00744em; vertical-align: -0.686em;\"></span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.32144em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">5</span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">3</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span></span></span></span></span>﻿</span></p><p><br></p><p>\\sum_{i=1}^n <strong><em>is displayed as... </em></strong> <span class=\"ql-formula\" data-value=\"\\sum_{i=1}^n\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup></mrow><annotation encoding=\"application/x-tex\">\\sum_{i=1}^n</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 1.104em; vertical-align: -0.29971em;\"></span><span class=\"mop\"><span class=\"mop op-symbol small-op\" style=\"position: relative; top: -5e-06em;\">∑</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.804292em;\"><span class=\"\" style=\"top: -2.40029em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\"><span class=\"mord mathnormal mtight\">i</span><span class=\"mrel mtight\">=</span><span class=\"mord mtight\">1</span></span></span></span><span class=\"\" style=\"top: -3.2029em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mathnormal mtight\">n</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.29971em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span></span>﻿</span></p><p><br></p><p>\\displaystyle\\sum_{i=1}^n <strong><em>is displayed as... </em></strong> <span class=\"ql-formula\" data-value=\"\\displaystyle\\sum_{i=1}^n\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mstyle scriptlevel=\"0\" displaystyle=\"true\"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover></mstyle></mrow><annotation encoding=\"application/x-tex\">\\displaystyle\\sum_{i=1}^n</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 2.92907em; vertical-align: -1.27767em;\"></span><span class=\"mop op-limits\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.6514em;\"><span class=\"\" style=\"top: -1.87233em; margin-left: 0em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\"><span class=\"mord mathnormal mtight\">i</span><span class=\"mrel mtight\">=</span><span class=\"mord mtight\">1</span></span></span></span><span class=\"\" style=\"top: -3.05001em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"\"><span class=\"mop op-symbol large-op\">∑</span></span></span><span class=\"\" style=\"top: -4.30001em; margin-left: 0em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mathnormal mtight\">n</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.27767em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span>﻿</span></p><p><br></p><p>F = G \\dfrac{m_1 m_2}{r^2} <strong><em>is displayed as... </em></strong> <span class=\"ql-formula\" data-value=\"F = G \\dfrac{m_1 m_2}{r^2}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>F</mi><mo>=</mo><mi>G</mi><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mfrac><mrow><msub><mi>m</mi><mn>1</mn></msub><msub><mi>m</mi><mn>2</mn></msub></mrow><msup><mi>r</mi><mn>2</mn></msup></mfrac></mstyle></mrow><annotation encoding=\"application/x-tex\">F = G \\dfrac{m_1 m_2}{r^2}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 0.68333em; vertical-align: 0em;\"></span><span class=\"mord mathnormal\" style=\"margin-right: 0.13889em;\">F</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 1.79356em; vertical-align: -0.686em;\"></span><span class=\"mord mathnormal\">G</span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.10756em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\" style=\"margin-right: 0.02778em;\">r</span><span class=\"msupsub\"><span class=\"vlist-t\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.740108em;\"><span class=\"\" style=\"top: -2.989em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">2</span></span></span></span></span></span></span></span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\">m</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.301108em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">1</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span><span class=\"mord\"><span class=\"mord mathnormal\">m</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.301108em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">2</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span></span></span></span></span>﻿</span></p><p><br></p><p>\\displaystyle\\sum_{i=1}^n i^3 = \\dfrac{n^2(n + 1)^2}{4} <strong><em>is displayed as...</em></strong> <span class=\"ql-formula\" data-value=\"\\displaystyle\\sum_{i=1}^n i^3 = \\dfrac{n^2(n + 1)^2}{4}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mstyle scriptlevel=\"0\" displaystyle=\"true\"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mi>i</mi><mn>3</mn></msup><mo>=</mo><mfrac><mrow><msup><mi>n</mi><mn>2</mn></msup><mo stretchy=\"false\">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><msup><mo stretchy=\"false\">)</mo><mn>2</mn></msup></mrow><mn>4</mn></mfrac></mstyle></mrow><annotation encoding=\"application/x-tex\">\\displaystyle\\sum_{i=1}^n i^3 = \\dfrac{n^2(n + 1)^2}{4}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 2.92907em; vertical-align: -1.27767em;\"></span><span class=\"mop op-limits\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.6514em;\"><span class=\"\" style=\"top: -1.87233em; margin-left: 0em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\"><span class=\"mord mathnormal mtight\">i</span><span class=\"mrel mtight\">=</span><span class=\"mord mtight\">1</span></span></span></span><span class=\"\" style=\"top: -3.05001em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"\"><span class=\"mop op-symbol large-op\">∑</span></span></span><span class=\"\" style=\"top: -4.30001em; margin-left: 0em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mathnormal mtight\">n</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.27767em;\"><span class=\"\"></span></span></span></span></span><span class=\"mspace\" style=\"margin-right: 0.166667em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">i</span><span class=\"msupsub\"><span class=\"vlist-t\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.864108em;\"><span class=\"\" style=\"top: -3.113em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">3</span></span></span></span></span></span></span></span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 2.17711em; vertical-align: -0.686em;\"></span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.49111em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">4</span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\">n</span><span class=\"msupsub\"><span class=\"vlist-t\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.814108em;\"><span class=\"\" style=\"top: -3.063em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">2</span></span></span></span></span></span></span></span><span class=\"mopen\">(</span><span class=\"mord mathnormal\">n</span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span><span class=\"mbin\">+</span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span><span class=\"mord\">1</span><span class=\"mclose\"><span class=\"mclose\">)</span><span class=\"msupsub\"><span class=\"vlist-t\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.814108em;\"><span class=\"\" style=\"top: -3.063em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">2</span></span></span></span></span></span></span></span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span></span></span></span></span>﻿</span></p>', '', '', 0, 0, 0, 0, '2021-01-10 23:45:29', 0),
+(11127, 275, 0, 0, 24, '', 'https://katex.org/docs/supported.html', 'Full list of functions supported by KaTeX', 1, 0, 0, 0, '2021-01-10 23:45:29', 0);
 
 -- --------------------------------------------------------
 
@@ -2937,10 +3034,8 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (211, 16, 52, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (212, 16, 54, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (214, 16, 56, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
-(216, 16, 58, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (217, 16, 59, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (218, 16, 60, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
-(219, 16, 61, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (220, 16, 62, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (221, 16, 63, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
 (222, 16, 65, 'The request \"Thermal Systems Overview\" is awaiting an orange review', 2),
@@ -2950,7 +3045,28 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (227, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
 (228, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
 (229, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
-(230, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1);
+(230, 16, 57, 'peterj left a comment on the \"Thermal Systems Overview\" request', 1),
+(269, 0, 51, 'ryanfrench2 has submitted a contributor card that is awaiting review', 6),
+(270, 0, 52, 'ryanfrench2 has submitted a contributor card that is awaiting review', 6),
+(271, 0, 56, 'ryanfrench2 has submitted a contributor card that is awaiting review', 6),
+(272, 0, 58, 'ryanfrench2 has submitted a contributor card that is awaiting review', 6),
+(292, 20, 47, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(293, 20, 51, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(294, 20, 52, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(295, 20, 54, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(296, 20, 55, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(297, 20, 56, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(298, 20, 57, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(299, 20, 58, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(300, 20, 59, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(301, 20, 60, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(302, 20, 61, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(303, 20, 62, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(304, 20, 63, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(305, 20, 65, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(306, 20, 67, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(307, 20, 69, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
+(308, 20, 70, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2);
 
 -- --------------------------------------------------------
 
@@ -2967,6 +3083,14 @@ CREATE TABLE `Observations` (
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `hidden` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Observations`
+--
+
+INSERT INTO `Observations` (`observationId`, `pageId`, `userId`, `type`, `text`, `created`, `hidden`) VALUES
+(3, 62, 42, 1, 'some feedback1', '2021-01-05 22:03:21', 1),
+(4, 62, 42, 2, 'some feedback2', '2021-01-05 22:03:21', 1);
 
 -- --------------------------------------------------------
 
@@ -2997,7 +3121,7 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (45, 2, 'Pumps', 'Pumps provide a typical utility required throughout industry.', 'Centrifugal pumps are the most common type found in industry, followed by positive displacement pumps (used in hydraulics), pneumatic diaphragm pumps, peristaltic pumps, and other specialty pumps. \n\nUnless otherwise noted this section speaks to centrifugal pumps when addressing pump performance and efficiency. Changes in hydraulic energy required (pressure and flow) will translate to any pumping system. \n\nCentrifugal pumps generally come in one of three classes: radial flow, mixed flow, and axial flow.', 'https://live.staticflickr.com/65535/50066427331_ddae8822f2_b.jpg', 0, 55, '2020-07-01 18:11:01', 0),
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
 (47, 2, 'Thermal Systems', 'Many industrial processes require encouraging or resisting thermal energy transfer.', 'Managing the rate at which heat is exchanged in a process can greatly increase energy efficiency. These recommendations reduce the costs associated with generating heat for a process or cooling a system. This can be done through installing insulation or heat exchangers. \n\nInsulation resists heat transfer, requiring less energy input for systems by helping to maintain current temperatures. This is ideal for systems involving plastic/metal extrusions, blow molding, steam, ovens, and more. \n\nHeat exchangers increase heat transfer, allowing process heat to be reused. This solution focus on repurposing heat that may otherwise be lost, such as combustion gas from an oven or steam condensate being returned to the city. This can save energy in processes like pasteurization, aerobic and anaerobic digestion, ovens, and steam.\n\nOther methods exist for thermal systems, such as fan cooling, managing emissivity, and direct impingement.\n\nOften times these recommendations are not mutually exclusive. An oven may benefit from added insulation on the walls while also installing a recuperator to preheat combustion fuel with exhaust gasses. The outside of a shell and tube or concentric tube heat exchanger can be covered in insulation.', 'https://live.staticflickr.com/65535/50069411093_68ab30e548_b.jpg', 0, 57, '2020-07-02 21:31:22', 0),
-(48, 2, 'Refrigeration', 'Vapor compression refrigeration (VCR) technology is important in many industrial processes.', 'Refrigeration is the process of absorbing heat from a medium, such as air and water, and rejecting it to the ambient environment by using work. Many opportunities are available that minimize work in industrial refrigeration systems to provide energy and cost savings. From a high-level perspective, work can be minimized by reducing refrigeration loads, improving system efficiency through optimized set points and control strategies, and mitigating energy loss through increased insulation and heat recovery. \n\nCommon industrial applications include temperature controlled warehouses, food storage, and water chiller systems. Improving the energy efficiency of such systems not only reduces energy consumption, but can often reduce labor costs by lessening maintenance requirements, and improve productivity and product quality through increased system reliability. \n\nAll components of a refrigeration system are interconnected; discharge and suction pressures, condenser and evaporator capacities, and compressor outputs all affect each other and must be considered together as a unit. Refrigeration load, controls, maintenance, initial capital investment, and the long term life-cycle costs are all important factors when designing a refrigeration system. Careful consideration of the system as a whole at the onset, and ongoing energy and operational management is vital to getting the best use out of a refrigeration system.', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 58, '2020-07-02 22:10:36', 0),
+(48, 2, 'Refrigeration', 'Vapor compression refrigeration (VCR) technology is important in many industrial processes.', 'Refrigeration is the process of absorbing heat from a medium, such as air and water, and rejecting it to the ambient environment by using work. Many opportunities are available that minimize work in industrial refrigeration systems to provide energy and cost savings. Work can be minimized by reducing refrigeration loads, improving system efficiency through optimized set points and control strategies, and mitigating energy loss through increased insulation and heat recovery. \n\nCommon industrial applications include temperature controlled warehouses, food storage, and water chiller systems. Improving the energy efficiency of such systems not only reduces energy consumption, but can often reduce labor costs by lessening maintenance requirements, and improve productivity and product quality through increased system reliability. \n\nAll components of a refrigeration system are interconnected; discharge and suction pressures, condenser and evaporator capacities, and compressor outputs all affect each other and must be considered together as a unit. Refrigeration load, controls, maintenance, initial capital investment, and the long term life-cycle costs are all important factors when designing a refrigeration system. Careful consideration of the system as a whole at the onset, and ongoing energy and operational management is vital to getting the best use out of a refrigeration system.', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 58, '2020-07-02 22:10:36', 0),
 (49, 7, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'They can also be based on the rate of use, when use occurs, how the commodity is obtained, or how the commodity is measured. Understanding utility bills is essential to identifying potential areas of resource savings and implementing solutions.', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 1, 54, '2020-07-02 22:40:27', 0),
 (50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 51, '2020-07-07 20:46:38', 0),
 (54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, 51, '2020-08-05 19:54:53', 1),
@@ -3009,7 +3133,8 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (64, 0, 'How to Use EEC Walkthrough', 'Find what you need to know quickly', 'This guide is designed to allow the user to \"drill down\" to a specific subject of interest, perhaps associated with a current project. Each topic includes an overview including a quick summary of key things to know, along with links to more in depth resources. This section is followed by a list of common efficiency improvement opportunities to consider along with associated information.', '/uploads/user_51/a8a32589238ec2625ded26ec4774f529.jpg', 0, 51, '2020-11-26 23:41:58', 1),
 (65, 0, 'How to Edit EEC Walkthrough', 'An analyst oriented guide for creating, editing, and reviewing content on the EEC Industrial Walkthrough Checklist.', 'Description', 'https://picsum.photos/seed/picsum/700/700', 1, 42, '2020-08-31 22:17:53', 0),
 (69, 1, 'Metals Manufacturing', 'Industrial metals manufacturing processes may include casting, forging, bending, forming, spinning, welding, cutting and finishing to produce a final product.', 'Metals manufacturing includes production of raw stock, replacement parts and final products. Many production processes are common among all metals manufacturing facilities.', '/uploads/user_52/0baf5657b6e1ac3fef0b0e048672324b.jpg', 0, 52, '2020-09-09 18:37:04', 0),
-(72, 5, 'Smart Manufacturing', 'Smart Manufacturing Summary', 'Lists smart manufacturing technologies that could be applied to assessments.\nImage is from https://www.trianagroup.com. This image is only a placeholder for what I would really like to use. This image might not be suitable to under copyright laws', '/uploads/user_61/1cffd701d341b07912a60941dbbbb22b.jpg', 1, 61, '2020-11-28 23:23:04', 0);
+(72, 5, 'Smart Manufacturing', 'Smart Manufacturing Summary', 'Lists smart manufacturing technologies that could be applied to assessments.\nImage is from https://www.trianagroup.com. This image is only a placeholder for what I would really like to use. This image might not be suitable to under copyright laws', '/uploads/user_61/1cffd701d341b07912a60941dbbbb22b.jpg', 1, 61, '2020-11-28 23:23:04', 0),
+(74, 0, 'How to create KaTeX formulas', 'KaTeX allows us to easily type up complex formulas', 'KaTeX is a powerful typesetting library that allows us to type up formulas that can be rendered on any page. This allows us to avoid drawing out a formula and then uploading it as an image when we want to display math equations.', '/uploads/user_42/7a6f3ee9d0f860779791d6cc07f2c20b.png', 1, 42, '2021-01-10 23:05:27', 0);
 
 -- --------------------------------------------------------
 
@@ -3033,9 +3158,9 @@ CREATE TABLE `Questions` (
 --
 
 INSERT INTO `Questions` (`questionId`, `pageId`, `text`, `type`, `priority`, `imageUrl`, `created`, `approved`) VALUES
-(1, 62, 'What is often the most effective method for bypassing security?', 1, 0, '', '2020-12-21 22:47:43', 1),
-(2, 62, 'What do you call a person who is trying to steal important information from our organization electronically?', 2, 0, '', '2020-12-21 22:47:43', 1),
-(3, 62, 'Can you name these two devices?', 3, 0, '/uploads/user_42/db309b887fde585de15cbacce2283779.jpg', '2020-12-21 22:47:43', 1),
+(1, 62, 'What is often the most effective method for bypassing security?', 1, 2, '', '2021-01-05 22:04:36', 1),
+(2, 62, 'What do you call a person who is trying to steal important information from our organization electronically?', 2, 3, '', '2021-01-05 22:04:35', 1),
+(3, 62, 'Can you name these two devices?', 3, 4, '/uploads/user_42/db309b887fde585de15cbacce2283779.jpg', '2021-01-05 22:04:35', 1),
 (4, 2, 'Compressing air is inefficient, with as much as ___ of the input energy lost as heat.', 1, 0, '', '2020-12-21 22:47:43', 1),
 (5, 2, 'Rule of Thumb: Air compressor power is reduced by ___ % for ever 2 psig reduction in pressure.', 1, 0, '', '2020-12-21 22:47:43', 1),
 (6, 2, 'True or False: Unloading controls may be added to an air compressor to increase part-load efficiency.', 1, 0, '', '2020-12-21 22:47:43', 1),
@@ -3071,8 +3196,14 @@ INSERT INTO `Questions` (`questionId`, `pageId`, `text`, `type`, `priority`, `im
 (38, 48, 'The air temperature at a specific time, shielded from moisture is known as the ______ temperature.', 2, 0, '', '2020-12-21 22:47:43', 1),
 (39, 48, 'The temperature air would have if it were cooled to saturation by the evaporation of water is known as the ______ temperature.', 2, 0, '', '2020-12-21 22:47:43', 1),
 (40, 48, 'Name the four primary components of a refrigeration system.', 3, 0, '', '2020-12-21 22:47:43', 1),
-(41, 62, 'Which of these is not a bad practice for creating passwords?', 1, 0, '', '2020-12-22 08:15:29', 1),
-(42, 48, 'At which stage is the refrigeration load applied? ', 1, 0, '', '2020-12-22 22:21:30', 0);
+(41, 62, 'What is a bad practice for naming a password?', 4, 0, '', '2021-01-05 22:10:03', 1),
+(42, 48, 'At which stage is the refrigeration load applied? ', 1, 0, '', '2020-12-22 22:21:30', 0),
+(43, 46, 'Installing a condensing economizer can increase boiler efficiency to over _____%.', 1, 0, '', '2021-01-04 17:30:45', 0),
+(44, 2, 'True or False: Receiver tanks may be installed to ensure sufficient air pressure is available at higher demand end uses?', 1, 0, '', '2021-01-04 17:34:17', 0),
+(45, 44, 'Notched V-belts are approximately ____% more efficient than standard belt-driven motors.', 2, 0, '', '2021-01-04 17:35:31', 0),
+(46, 45, 'Rule of Thumb: A general design criteria is that the net positive suction head available (NPSHA) exceeds the net positive suction head required (NPSHR) by at least ___% over the expected flow range.', 2, 0, '', '2021-01-04 17:37:30', 0),
+(47, 48, 'Rule of Thumb: Expect a ___% compressor power reduction per 1 degree Fahrenheit decrease in condensing temperature.', 2, 0, '', '2021-01-04 17:39:11', 0),
+(48, 47, 'Rule of Thumb: Any thermal system with a surface temperature greater than _____ degree F should be insulated.', 2, 0, '', '2021-01-04 17:40:27', 0);
 
 -- --------------------------------------------------------
 
@@ -3134,7 +3265,11 @@ INSERT INTO `Requests` (`requestId`, `title`, `description`, `status`, `created`
 (13, 'Refrigeration Page', 'Brief summary of industrial refrigeration systems and design factors to consider. ', 1, '2020-12-16 01:45:12', 58),
 (14, 'Pump Page', 'Quite a bit of content related to pumps in general as well as a couple of opportunities.', 2, '2020-12-19 00:49:42', 55),
 (15, 'Boiler and Steam', 'Updates to add additional descriptions to some recommendations. \nSeveral items contain minor grammar changes.\nChanges some of the resources from public to internal, as they require access to OSU box folders', 1, '2020-12-20 02:12:40', 61),
-(16, 'Thermal Systems Overview', 'The overview, useful links, pros, cons, and best practices.', 1, '2020-12-21 20:35:42', 57);
+(16, 'Thermal Systems Overview', 'The overview, useful links, pros, cons, and best practices.', 1, '2020-12-21 20:35:42', 57),
+(17, 'Test - Please Ignore', 'This is an example of a quiz question in a publish request.', 4, '2021-01-05 20:22:31', 42),
+(18, 'DEMO', 'Example of questions in a publish request', 4, '2021-01-05 20:26:13', 42),
+(19, 'How to create KaTeX formulas', 'An internal page that is designed to help editors understand how to create KaTeX formulas.', 4, '2021-01-10 23:47:29', 42),
+(20, 'How to create KaTeX formulas', 'An internal page that shows editors how to create KaTeX formulas.', 1, '2021-01-10 23:48:46', 42);
 
 -- --------------------------------------------------------
 
@@ -3146,7 +3281,7 @@ CREATE TABLE `Request_Comments` (
   `commentId` int(10) UNSIGNED NOT NULL,
   `requestId` int(10) UNSIGNED NOT NULL,
   `targetId` varchar(100) NOT NULL,
-  `comment` varchar(5000) NOT NULL,
+  `comment` mediumtext NOT NULL,
   `review` int(10) UNSIGNED NOT NULL,
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `userId` int(10) UNSIGNED NOT NULL
@@ -3185,7 +3320,9 @@ INSERT INTO `Request_Comments` (`commentId`, `requestId`, `targetId`, `comment`,
 (56, 16, 'P47', '<p>change \"Often times\" to \"Often\"</p>', 0, '2020-12-22 00:58:40', 55),
 (57, 16, 'C261', '<ul><li>maybe reword \"reducing generation costs\" this is a bit unclear</li><li>remove first \"equipment\" from from fourth pro</li><li>change \"cheaper\" to \"cheap\"</li></ul>', 0, '2020-12-22 01:05:22', 55),
 (58, 16, 'C262', '<p>add \"often\" prior to \"requiring non-generic quotes and high costs\"</p><p>change \"in consideration\" to \"to consider\" in the second sentence of the first bullet</p>', 0, '2020-12-22 01:07:54', 55),
-(59, 16, '0', '<p>Overall looks good. I think you got quite a bit of important information in there. Links are great. I suggested a few changes to the wording but it all looks nice!</p>', 0, '2020-12-22 01:10:53', 55);
+(59, 16, '0', '<p>Overall looks good. I think you got quite a bit of important information in there. Links are great. I suggested a few changes to the wording but it all looks nice!</p>', 0, '2020-12-22 01:10:53', 55),
+(60, 18, '0', '<p>I can type out a <strong class=\"ql-size-medium\">bunch </strong>of <u class=\"ql-size-medium\">Math</u> here:</p><p><br></p><p><span class=\"ql-formula\" data-value=\"\\def\\arraystretch{1.5}    \\begin{array}{c:c:c}    a &amp; b &amp; c \\\\ \\hline    d &amp; e &amp; f \\\\    \\hdashline    g &amp; h &amp; i \\end{array}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mtable rowspacing=\"0.6599999999999999em\" columnalign=\"center center center\" columnlines=\"dashed dashed\" columnspacing=\"1em\" rowlines=\"solid dashed\"><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>a</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>b</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>c</mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>d</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>e</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>f</mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>g</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>h</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>i</mi></mstyle></mtd></mtr></mtable><annotation encoding=\"application/x-tex\">\\def\\arraystretch{1.5}    \\begin{array}{c:c:c}    a &amp; b &amp; c \\\\ \\hline    d &amp; e &amp; f \\\\    \\hdashline    g &amp; h &amp; i \\end{array}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 5.4em; vertical-align: -2.45em;\"></span><span class=\"mord\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 4.95em;\"></span><span class=\"mtable\"><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"col-align-c\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">a</span></span></span><span class=\"\" style=\"top: -3.15em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">d</span></span></span><span class=\"\" style=\"top: -1.35em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\" style=\"margin-right: 0.03588em;\">g</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"vertical-separator\" style=\"height: 5.4em; border-right-width: 0.04em; border-right-style: dashed; margin: 0px -0.02em; vertical-align: -2.45em;\"></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"col-align-c\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">b</span></span></span><span class=\"\" style=\"top: -3.15em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">e</span></span></span><span class=\"\" style=\"top: -1.35em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">h</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"vertical-separator\" style=\"height: 5.4em; border-right-width: 0.04em; border-right-style: dashed; margin: 0px -0.02em; vertical-align: -2.45em;\"></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"col-align-c\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">c</span></span></span><span class=\"\" style=\"top: -3.15em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\" style=\"margin-right: 0.10764em;\">f</span></span></span><span class=\"\" style=\"top: -1.35em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">i</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span></span></span><span class=\"\" style=\"top: -4.3em;\"><span class=\"pstrut\" style=\"height: 4.95em;\"></span><span class=\"hdashline\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -6.1em;\"><span class=\"pstrut\" style=\"height: 4.95em;\"></span><span class=\"hline\" style=\"border-bottom-width: 0.04em;\"></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span>﻿</span>            <span class=\"ql-formula\" data-value=\"\\begin{alignedat}{2}    10&amp;x+ &amp;3&amp;y = 2 \\\\    3&amp;x+&amp;13&amp;y = 4 \\end{alignedat}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mtable rowspacing=\"0.24999999999999992em\" columnalign=\"right left right left\" columnspacing=\"0em\"><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mn>10</mn></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mrow><mrow></mrow><mi>x</mi><mo>+</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mn>3</mn></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mrow><mrow></mrow><mi>y</mi><mo>=</mo><mn>2</mn></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mn>3</mn></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mrow><mrow></mrow><mi>x</mi><mo>+</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mn>13</mn></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"true\"><mrow><mrow></mrow><mi>y</mi><mo>=</mo><mn>4</mn></mrow></mstyle></mtd></mtr></mtable><annotation encoding=\"application/x-tex\">\\begin{alignedat}{2}    10&amp;x+ &amp;3&amp;y = 2 \\\\    3&amp;x+&amp;13&amp;y = 4 \\end{alignedat}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 3em; vertical-align: -1.25em;\"></span><span class=\"mord\"><span class=\"mtable\"><span class=\"col-align-r\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.75em;\"><span class=\"\" style=\"top: -3.91em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">1</span><span class=\"mord\">0</span></span></span><span class=\"\" style=\"top: -2.41em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">3</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.25em;\"><span class=\"\"></span></span></span></span></span><span class=\"col-align-l\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.75em;\"><span class=\"\" style=\"top: -3.91em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"></span><span class=\"mord mathnormal\">x</span><span class=\"mord\">+</span></span></span><span class=\"\" style=\"top: -2.41em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"></span><span class=\"mord mathnormal\">x</span><span class=\"mord\">+</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.25em;\"><span class=\"\"></span></span></span></span></span><span class=\"col-align-r\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.75em;\"><span class=\"\" style=\"top: -3.91em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">3</span></span></span><span class=\"\" style=\"top: -2.41em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">1</span><span class=\"mord\">3</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.25em;\"><span class=\"\"></span></span></span></span></span><span class=\"col-align-l\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.75em;\"><span class=\"\" style=\"top: -3.91em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"></span><span class=\"mord mathnormal\" style=\"margin-right: 0.03588em;\">y</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mord\">2</span></span></span><span class=\"\" style=\"top: -2.41em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"></span><span class=\"mord mathnormal\" style=\"margin-right: 0.03588em;\">y</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mord\">4</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.25em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span></span></span>﻿</span>           <span class=\"ql-formula\" data-value=\"x = \\begin{cases}    a &amp;\\text{if } b \\\\    c &amp;\\text{if } d \\end{cases}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>x</mi><mo>=</mo><mrow><mo fence=\"true\">{</mo><mtable rowspacing=\"0.3599999999999999em\" columnalign=\"left left\" columnspacing=\"1em\"><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>a</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mrow><mtext>if&nbsp;</mtext><mi>b</mi></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>c</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mrow><mtext>if&nbsp;</mtext><mi>d</mi></mrow></mstyle></mtd></mtr></mtable></mrow></mrow><annotation encoding=\"application/x-tex\">x = \\begin{cases}    a &amp;\\text{if } b \\\\    c &amp;\\text{if } d \\end{cases}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 0.43056em; vertical-align: 0em;\"></span><span class=\"mord mathnormal\">x</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 3.00003em; vertical-align: -1.25003em;\"></span><span class=\"minner\"><span class=\"mopen delimcenter\" style=\"top: 0em;\"><span class=\"delimsizing size4\">{</span></span><span class=\"mord\"><span class=\"mtable\"><span class=\"col-align-l\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.69em;\"><span class=\"\" style=\"top: -3.69em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">a</span></span></span><span class=\"\" style=\"top: -2.25em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">c</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.19em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 1em;\"></span><span class=\"col-align-l\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.69em;\"><span class=\"\" style=\"top: -3.69em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord text\"><span class=\"mord\">if&nbsp;</span></span><span class=\"mord mathnormal\">b</span></span></span><span class=\"\" style=\"top: -2.25em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord text\"><span class=\"mord\">if&nbsp;</span></span><span class=\"mord mathnormal\">d</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.19em;\"><span class=\"\"></span></span></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span></span></span></span></span>﻿</span>                  <span class=\"ql-formula\" data-value=\"\\begin{rcases}    a &amp;\\text{if } b \\\\    c &amp;\\text{if } d \\end{rcases}⇒…\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mrow><mtable rowspacing=\"0.3599999999999999em\" columnalign=\"left left\" columnspacing=\"1em\"><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>a</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mrow><mtext>if&nbsp;</mtext><mi>b</mi></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>c</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mrow><mtext>if&nbsp;</mtext><mi>d</mi></mrow></mstyle></mtd></mtr></mtable><mo fence=\"true\">}</mo></mrow><mo>⇒</mo><mo>…</mo></mrow><annotation encoding=\"application/x-tex\">\\begin{rcases}    a &amp;\\text{if } b \\\\    c &amp;\\text{if } d \\end{rcases}⇒…</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 3.00003em; vertical-align: -1.25003em;\"></span><span class=\"minner\"><span class=\"mopen nulldelimiter\"></span><span class=\"mord\"><span class=\"mtable\"><span class=\"col-align-l\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.69em;\"><span class=\"\" style=\"top: -3.69em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">a</span></span></span><span class=\"\" style=\"top: -2.25em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">c</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.19em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 1em;\"></span><span class=\"col-align-l\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.69em;\"><span class=\"\" style=\"top: -3.69em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord text\"><span class=\"mord\">if&nbsp;</span></span><span class=\"mord mathnormal\">b</span></span></span><span class=\"\" style=\"top: -2.25em;\"><span class=\"pstrut\" style=\"height: 3.008em;\"></span><span class=\"mord\"><span class=\"mord text\"><span class=\"mord\">if&nbsp;</span></span><span class=\"mord mathnormal\">d</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.19em;\"><span class=\"\"></span></span></span></span></span></span></span><span class=\"mclose delimcenter\" style=\"top: 0em;\"><span class=\"delimsizing size4\">}</span></span></span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">⇒</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 0.12em; vertical-align: 0em;\"></span><span class=\"minner\">…</span></span></span></span></span>﻿</span>            <span class=\"ql-formula\" data-value=\"\\displaystyle\\sum_{i=1}^n\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mstyle scriptlevel=\"0\" displaystyle=\"true\"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover></mstyle></mrow><annotation encoding=\"application/x-tex\">\\displaystyle\\sum_{i=1}^n</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 2.92907em; vertical-align: -1.27767em;\"></span><span class=\"mop op-limits\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.6514em;\"><span class=\"\" style=\"top: -1.87233em; margin-left: 0em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\"><span class=\"mord mathnormal mtight\">i</span><span class=\"mrel mtight\">=</span><span class=\"mord mtight\">1</span></span></span></span><span class=\"\" style=\"top: -3.05001em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"\"><span class=\"mop op-symbol large-op\">∑</span></span></span><span class=\"\" style=\"top: -4.30001em; margin-left: 0em;\"><span class=\"pstrut\" style=\"height: 3.05em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mathnormal mtight\">n</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.27767em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span>﻿</span>  <span class=\"ql-formula\" data-value=\"\\dfrac{x_i}{10} =\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mfrac><msub><mi>x</mi><mi>i</mi></msub><mn>10</mn></mfrac></mstyle><mo>=</mo></mrow><annotation encoding=\"application/x-tex\">\\dfrac{x_i}{10} =</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 1.79356em; vertical-align: -0.686em;\"></span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.10756em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">1</span><span class=\"mord\">0</span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\">x</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.311664em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mathnormal mtight\">i</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span></span></span></span></span>﻿</span>  <span class=\"ql-formula\" data-value=\"\\dfrac{x_1}{10} +\\dfrac{x_2}{10} + ... + \\dfrac{x_n}{10}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mfrac><msub><mi>x</mi><mn>1</mn></msub><mn>10</mn></mfrac></mstyle><mo>+</mo><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mfrac><msub><mi>x</mi><mn>2</mn></msub><mn>10</mn></mfrac></mstyle><mo>+</mo><mi mathvariant=\"normal\">.</mi><mi mathvariant=\"normal\">.</mi><mi mathvariant=\"normal\">.</mi><mo>+</mo><mstyle displaystyle=\"true\" scriptlevel=\"0\"><mfrac><msub><mi>x</mi><mi>n</mi></msub><mn>10</mn></mfrac></mstyle></mrow><annotation encoding=\"application/x-tex\">\\dfrac{x_1}{10} +\\dfrac{x_2}{10} + ... + \\dfrac{x_n}{10}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 1.79356em; vertical-align: -0.686em;\"></span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.10756em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">1</span><span class=\"mord\">0</span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\">x</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.301108em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">1</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span><span class=\"mbin\">+</span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 1.79356em; vertical-align: -0.686em;\"></span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.10756em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">1</span><span class=\"mord\">0</span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\">x</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.301108em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">2</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span><span class=\"mbin\">+</span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 0.66666em; vertical-align: -0.08333em;\"></span><span class=\"mord\">.</span><span class=\"mord\">.</span><span class=\"mord\">.</span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span><span class=\"mbin\">+</span><span class=\"mspace\" style=\"margin-right: 0.222222em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 1.79356em; vertical-align: -0.686em;\"></span><span class=\"mord\"><span class=\"mopen nulldelimiter\"></span><span class=\"mfrac\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 1.10756em;\"><span class=\"\" style=\"top: -2.314em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\">1</span><span class=\"mord\">0</span></span></span><span class=\"\" style=\"top: -3.23em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"frac-line\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -3.677em;\"><span class=\"pstrut\" style=\"height: 3em;\"></span><span class=\"mord\"><span class=\"mord\"><span class=\"mord mathnormal\">x</span><span class=\"msupsub\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.151392em;\"><span class=\"\" style=\"top: -2.55em; margin-left: 0em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mathnormal mtight\">n</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.15em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.686em;\"><span class=\"\"></span></span></span></span></span><span class=\"mclose nulldelimiter\"></span></span></span></span></span></span>﻿</span> </p>', 0, '2021-01-05 20:31:40', 42),
+(61, 18, '0', '<p><span class=\"ql-formula\" data-value=\"e=mc^2\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mrow><mi>e</mi><mo>=</mo><mi>m</mi><msup><mi>c</mi><mn>2</mn></msup></mrow><annotation encoding=\"application/x-tex\">e=mc^2</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 0.43056em; vertical-align: 0em;\"></span><span class=\"mord mathnormal\">e</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span><span class=\"mrel\">=</span><span class=\"mspace\" style=\"margin-right: 0.277778em;\"></span></span><span class=\"base\"><span class=\"strut\" style=\"height: 0.814108em; vertical-align: 0em;\"></span><span class=\"mord mathnormal\">m</span><span class=\"mord\"><span class=\"mord mathnormal\">c</span><span class=\"msupsub\"><span class=\"vlist-t\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 0.814108em;\"><span class=\"\" style=\"top: -3.063em; margin-right: 0.05em;\"><span class=\"pstrut\" style=\"height: 2.7em;\"></span><span class=\"sizing reset-size6 size3 mtight\"><span class=\"mord mtight\">2</span></span></span></span></span></span></span></span></span></span></span></span>﻿</span>      <span class=\"ql-formula\" data-value=\"\\def\\arraystretch{1.5}    \\begin{array}{c:c:c}    a &amp; b &amp; c \\\\ \\hline    d &amp; e &amp; f \\\\    \\hdashline    g &amp; h &amp; i \\end{array}\">﻿<span contenteditable=\"false\"><span class=\"katex\"><span class=\"katex-mathml\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mtable rowspacing=\"0.6599999999999999em\" columnalign=\"center center center\" columnlines=\"dashed dashed\" columnspacing=\"1em\" rowlines=\"solid dashed\"><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>a</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>b</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>c</mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>d</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>e</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>f</mi></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>g</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>h</mi></mstyle></mtd><mtd><mstyle scriptlevel=\"0\" displaystyle=\"false\"><mi>i</mi></mstyle></mtd></mtr></mtable><annotation encoding=\"application/x-tex\">\\def\\arraystretch{1.5}    \\begin{array}{c:c:c}    a &amp; b &amp; c \\\\ \\hline    d &amp; e &amp; f \\\\    \\hdashline    g &amp; h &amp; i \\end{array}</annotation></semantics></math></span><span class=\"katex-html\" aria-hidden=\"true\"><span class=\"base\"><span class=\"strut\" style=\"height: 5.4em; vertical-align: -2.45em;\"></span><span class=\"mord\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 4.95em;\"></span><span class=\"mtable\"><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"col-align-c\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">a</span></span></span><span class=\"\" style=\"top: -3.15em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">d</span></span></span><span class=\"\" style=\"top: -1.35em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\" style=\"margin-right: 0.03588em;\">g</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"vertical-separator\" style=\"height: 5.4em; border-right-width: 0.04em; border-right-style: dashed; margin: 0px -0.02em; vertical-align: -2.45em;\"></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"col-align-c\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">b</span></span></span><span class=\"\" style=\"top: -3.15em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">e</span></span></span><span class=\"\" style=\"top: -1.35em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">h</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"vertical-separator\" style=\"height: 5.4em; border-right-width: 0.04em; border-right-style: dashed; margin: 0px -0.02em; vertical-align: -2.45em;\"></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span><span class=\"col-align-c\"><span class=\"vlist-t vlist-t2\"><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.95em;\"><span class=\"\" style=\"top: -4.95em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">c</span></span></span><span class=\"\" style=\"top: -3.15em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\" style=\"margin-right: 0.10764em;\">f</span></span></span><span class=\"\" style=\"top: -1.35em;\"><span class=\"pstrut\" style=\"height: 3.26em;\"></span><span class=\"mord\"><span class=\"mord mathnormal\">i</span></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span><span class=\"arraycolsep\" style=\"width: 0.5em;\"></span></span></span><span class=\"\" style=\"top: -4.3em;\"><span class=\"pstrut\" style=\"height: 4.95em;\"></span><span class=\"hdashline\" style=\"border-bottom-width: 0.04em;\"></span></span><span class=\"\" style=\"top: -6.1em;\"><span class=\"pstrut\" style=\"height: 4.95em;\"></span><span class=\"hline\" style=\"border-bottom-width: 0.04em;\"></span></span></span><span class=\"vlist-s\">​</span></span><span class=\"vlist-r\"><span class=\"vlist\" style=\"height: 2.45em;\"><span class=\"\"></span></span></span></span></span></span></span></span></span>﻿</span>    </p>', 0, '2021-01-05 22:07:04', 42);
 
 -- --------------------------------------------------------
 
@@ -3250,7 +3387,20 @@ INSERT INTO `Request_Objects` (`requestObjectId`, `requestId`, `objectId`, `obje
 (62, 16, 261, 3),
 (63, 16, 262, 3),
 (64, 16, 263, 3),
-(65, 16, 265, 3);
+(65, 16, 265, 3),
+(66, 17, 44, 4),
+(67, 18, 41, 4),
+(68, 18, 3, 4),
+(69, 19, 3, 4),
+(70, 19, 69, 1),
+(71, 19, 74, 1),
+(72, 19, 79, 2),
+(73, 19, 274, 3),
+(74, 19, 275, 3),
+(75, 20, 74, 1),
+(76, 20, 79, 2),
+(77, 20, 274, 3),
+(78, 20, 275, 3);
 
 -- --------------------------------------------------------
 
@@ -3333,11 +3483,13 @@ INSERT INTO `Scores` (`scoreId`, `pageId`, `questionId`, `userId`, `text`, `inva
 (168, 46, 21, 61, 'a, b, c, d', 0, 0),
 (169, 46, 34, 61, '$50,000', 0, 1),
 (170, 46, 35, 61, '', 0, 0),
-(171, 62, 1, 42, 'social engineering', 0, 1),
-(172, 62, 2, 42, 'hacker', 0, 1),
-(173, 62, 3, 42, 'mouse', 0, 1),
-(174, 62, 3, 42, 'keyboard', 0, 1),
-(175, 62, 41, 42, 'using passphrase (a sequence of words strung together)', 0, 1);
+(181, 62, 41, 42, 'using \"1234\"', 0, 1),
+(182, 62, 41, 42, 'using your street address', 0, 1),
+(183, 62, 41, 42, 'using your name', 0, 1),
+(184, 62, 1, 42, 'social engineering', 0, 1),
+(185, 62, 2, 42, 'hacker', 0, 1),
+(186, 62, 3, 42, 'mouse', 0, 1),
+(187, 62, 3, 42, 'keyboard', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -3374,7 +3526,8 @@ INSERT INTO `Sources` (`sourceId`, `pageId`, `text`) VALUES
 (20, 48, '<p>M.R. Muller, M. Simek, J. Mak, B. Mitrovic. <em>Essentials of Industrial Assessments - A Training Manual v.3.0 - Ch 7 Thermal Applications, </em>(2015). Accessed: Dec. 14, 2020. [Online]. Available: https://iac.university/technicalDocs/industr/ch7.pdf</p>'),
 (21, 48, '<p>Cascade Energy Engineering, Inc. <em>Industrial Refrigeration - Best Practices Guide</em>, 3 ed. (2010). Accessed: Dec. 14, 2020. [Online]. Available: https://cascadeenergy.com/wp-content/uploads/2013/10/industrial-refridgeration-best-practices-guide.pdf</p>'),
 (22, 47, '<p>M.R. Muller, M. Simek, J. Mak, B. Mitrovic. <em>Essentials of Industrial Assessments - A Training Manual v.3.0 - Ch 7 Thermal Applications, </em>(2015). Accessed: Dec. 14, 2020. [Online]. Available: https://iac.university/technicalDocs/industr/ch7.pdf</p>'),
-(24, 48, '<p>K. A. Manske, D. T. Reindl, S. A. Klein, \"Load Sharing Strategies in Multiple Compressor Refrigeration Systems,\" International Refrigeration and Air Conditioning Conference, 2000. Accessed: Dec. 23, 2020. [Online]. Available: https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.824.8925&amp;rep=rep1&amp;type=pdf</p>');
+(24, 48, '<p>K. A. Manske, D. T. Reindl, S. A. Klein, \"Load Sharing Strategies in Multiple Compressor Refrigeration Systems,\" International Refrigeration and Air Conditioning Conference, 2000. Accessed: Dec. 23, 2020. [Online]. Available: https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.824.8925&amp;rep=rep1&amp;type=pdf</p>'),
+(25, 48, '<p>S. Scott, F. Gordon. \"Evaporative Fan VFD Market Transformation Initiative - Market Progress Evaluation Report #3,\" Northwest Energy Efficiency Alliance, 2002. Accessed: Dec. 28, 2020. [Online]. Available: https://neea.org/img/uploads/Evaporator-Fan-VFD-No-3275A7011CA06.pdf</p>');
 
 -- --------------------------------------------------------
 
@@ -3466,6 +3619,7 @@ CREATE TABLE `Temp_Contributors` (
 INSERT INTO `Temp_Contributors` (`tempContributorId`, `tempName`, `tempTitle`, `tempDescription`, `tempImageUrl`, `tempPriority`) VALUES
 (54, 'Ali Martz', 'Energy Analyst', 'Mechanical Engineering Bachelors Student', '/uploads/user_54/4434462abfd4ae3303e715ab41b32f8e.jpg', 10),
 (55, 'Julian Peter', 'Energy Analyst', 'Environmental engineering major.', '/uploads/user_55/fc3438b2cc7a28a374d05d4442da8295.jpg', 10),
+(58, 'Ryan French', 'Energy Analyst', 'Undergraduate Physics Student', 'https://eec.oregonstate.edu/sites/eec.oregonstate.edu/files/ryan_0.jpg', 10),
 (61, 'Chris Houck', 'Operations Manager', 'Industrial engineering student with an emphasis in manufacturing systems. ', '/uploads/user_61/ee7d73982e975a0c68a52f09c604f4b1.jpg', 10);
 
 -- --------------------------------------------------------
@@ -3528,6 +3682,7 @@ CREATE TABLE `Temp_Questions` (
 --
 
 INSERT INTO `Temp_Questions` (`tempQuestionId`, `tempText`, `tempType`, `tempPriority`, `tempImageUrl`, `tempCreated`) VALUES
+(3, 'Can you name these two devices?', 2, 1, '/uploads/user_42/db309b887fde585de15cbacce2283779.jpg', '2021-01-05 22:04:36'),
 (40, 'Name the four primary components of a mechanical compression refrigeration system.', 3, 0, '', '2020-12-22 19:45:58');
 
 -- --------------------------------------------------------
@@ -3837,7 +3992,7 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Answers`
 --
 ALTER TABLE `Answers`
-  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=644;
+  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=678;
 
 --
 -- AUTO_INCREMENT for table `Banners`
@@ -3849,7 +4004,7 @@ ALTER TABLE `Banners`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=271;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=276;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -3867,7 +4022,7 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
@@ -3909,31 +4064,31 @@ ALTER TABLE `Info`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9829;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11128;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
 --
 ALTER TABLE `Notifications`
-  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
+  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=309;
 
 --
 -- AUTO_INCREMENT for table `Observations`
 --
 ALTER TABLE `Observations`
-  MODIFY `observationId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `observationId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `Questions`
 --
 ALTER TABLE `Questions`
-  MODIFY `questionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `questionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `Quick_Titles`
@@ -3945,31 +4100,31 @@ ALTER TABLE `Quick_Titles`
 -- AUTO_INCREMENT for table `Requests`
 --
 ALTER TABLE `Requests`
-  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `Request_Comments`
 --
 ALTER TABLE `Request_Comments`
-  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `commentId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `Request_Objects`
 --
 ALTER TABLE `Request_Objects`
-  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `Scores`
 --
 ALTER TABLE `Scores`
-  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
+  MODIFY `scoreId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
 
 --
 -- AUTO_INCREMENT for table `Sources`
 --
 ALTER TABLE `Sources`
-  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `sourceId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `Sponsors`

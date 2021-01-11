@@ -537,7 +537,7 @@ function Header(props) {
   return (!props.header.approved && props.mode !== 1 && (props.mode !== 2 || props.publishedMode !== 0)) || (props.publicMode === 1 && isInternal() && props.mode === 0) ? (
     null
   ) : (
-    <Fragment>
+    <div>
       {/* Anchor for jumping to the header */}
       <span
         id={`header-${props.header.headerId}`}
@@ -550,7 +550,7 @@ function Header(props) {
         ${props.header.approved && (!props.header.tempHeaderId || !viewUnpublished()) ? "header-approved" : "header-review"}
         ${isInternal() ? "header-internal" : ""}
         header-bar header-bar-content justify-content-between my-3 py-3 text-dark-50 rounded shadow-sm border`}
-        style={{top: "1em", zIndex: (500)}}
+        style={{top: "1em", zIndex: (500 - props.index)}}
       >
         <div className="row w-100 ml-0">
           <div className="col-auto align-self-center">
@@ -678,7 +678,7 @@ function Header(props) {
         )}
       </div>
 
-    </Fragment>
+    </div>
   );
 
 }

@@ -1,0 +1,8 @@
+.very-small-text-editor-input .simple-text-border {
+  border: 1px solid #ced4da;
+  min-height: 75px;
+}
+
+.simple-text-border {
+  border: 1px solid #ced4da;
+}
