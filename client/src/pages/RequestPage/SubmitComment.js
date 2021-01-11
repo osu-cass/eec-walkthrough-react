@@ -115,6 +115,7 @@ function SubmitComment(props) {
             value={comment}
             onChange={(text) => setComment(text)}
             placeHolder="Enter a Comment"
+            showToolbar={() => true}
           />
         </Form.Group>
 
