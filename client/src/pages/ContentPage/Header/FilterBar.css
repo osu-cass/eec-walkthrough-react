@@ -36,3 +36,9 @@ i[title] {
   justify-content: left;
   right: 0;
 }
+
+@media (max-width: 882px) {
+  .dropdown-filter-icon-container {
+    right: auto;
+  }
+}
