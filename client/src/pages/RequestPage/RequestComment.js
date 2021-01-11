@@ -280,6 +280,7 @@ function RequestComment(props) {
                   value={commentText}
                   onChange={(text) => setCommentText(text)}
                   placeHolder="Enter a Comment"
+                  showToolbar={() => true}
                 />
               </div>
 

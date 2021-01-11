@@ -271,6 +271,7 @@ function AddSource(props) {
                   value={source.text}
                   onChange={(text) => modifySource(source.sourceId, text)}
                   placeHolder="Enter Citation"
+                  showToolbar={() => true}
                 />
               </div>
             </Row>
@@ -324,6 +325,7 @@ function AddSource(props) {
             value={richText}
             onChange={(text) => setRichText(text)}
             placeHolder="Enter Citation"
+            showToolbar={() => true}
           />
 
           <Row>

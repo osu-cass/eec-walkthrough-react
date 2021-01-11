@@ -280,6 +280,7 @@ function ManageContributors() {
           value={ourTeamMessage}
           onChange={(text) => setOurTeamMessage(text)}
           placeHolder="Enter Team Message"
+          showToolbar={() => true}
         />
 
         {/* Save changes */}
