@@ -123,7 +123,7 @@ function PageDescription(props) {
       <div className={`${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? "page-approved" : "page-review"}
         ${isInternal() ? "page-internal" : ""} my-3 p-3 card rounded shadow-sm`}
       >
-        <div>
+        <div className="page-desc">
           <div className="row">
             <div className="col-8">
               <h5 className="font-weight-bold">{title}</h5>
@@ -147,6 +147,23 @@ function PageDescription(props) {
           </div>
         </div>
 
+        <div className="page-desc-s">
+          <div className="row mb-3">
+            <div className="mx-auto">
+              <Image url={imageUrl}
+                title={name}
+                thumbnail={false}
+                header={true}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <h5 className="font-weight-bold">{title}</h5>
+              <p className="allow-newlines">{description}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
