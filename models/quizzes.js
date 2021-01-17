@@ -255,25 +255,32 @@ async function createQuiz(text, type, imageUrl, answers, pageId) {
     }
 
     let correctCount = 0;
-    for (let j = 0; j < answers.length; j++) {
-      if (typeof answers[j].questionId !== "number") {
+    for (let i = 0; i < answers.length; i++) {
+      if (typeof answers[i].questionId !== "number") {
         return {error: 1};
       }
 
-      if (typeof answers[j].text !== "string") {
+      if (typeof answers[i].text !== "string") {
         return {error: 1};
       }
 
-      if (typeof answers[j].correct !== "number") {
+      if (typeof answers[i].correct !== "number") {
         return {error: 1};
       }
 
-      if (typeof answers[j].groupId !== "number") {
+      if (typeof answers[i].groupId !== "number") {
         return {error: 1};
       }
 
-      if (answers[j].correct) {
+      if (answers[i].correct) {
         correctCount++;
+      }
+
+      // don't allow two identical answers
+      for (let j = 0; j < answers.length; j++) {
+        if (i !== j && answers[i].text === answers[j].text) {
+          return {error: 1};
+        }
       }
     }
 
@@ -338,25 +345,32 @@ async function updateQuiz(text, type, imageUrl, answers, questionId) {
     }
 
     let correctCount = 0;
-    for (let j = 0; j < answers.length; j++) {
-      if (typeof answers[j].questionId !== "number") {
+    for (let i = 0; i < answers.length; i++) {
+      if (typeof answers[i].questionId !== "number") {
         return {error: 1};
       }
 
-      if (typeof answers[j].text !== "string") {
+      if (typeof answers[i].text !== "string") {
         return {error: 1};
       }
 
-      if (typeof answers[j].correct !== "number") {
+      if (typeof answers[i].correct !== "number") {
         return {error: 1};
       }
 
-      if (typeof answers[j].groupId !== "number") {
+      if (typeof answers[i].groupId !== "number") {
         return {error: 1};
       }
 
-      if (answers[j].correct) {
+      if (answers[i].correct) {
         correctCount++;
+      }
+
+      // don't allow two identical answers
+      for (let j = 0; j < answers.length; j++) {
+        if (i !== j && answers[i].text === answers[j].text) {
+          return {error: 1};
+        }
       }
     }
 
