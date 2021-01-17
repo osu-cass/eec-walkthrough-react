@@ -163,6 +163,14 @@ function PageDescription(props) {
               <p className="allow-newlines">{description}</p>
             </div>
           </div>
+          <QuickLinks
+            headers={props.headers}
+            quiz={props.quiz}
+            references={props.references}
+            mode={props.mode}
+            publishedMode={props.publishedMode}
+            publicMode={props.publicMode}
+          />
         </div>
       </div>
     </div>
