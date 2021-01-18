@@ -2,6 +2,7 @@
 // Description: Provides functions for working with sources
 
 const {pool} = require("../services/database/mysqlPool");
+const {sanitizeRichText} = require("../services/format/sanitizeRichText");
 
 
 // return all sources for the specified page
@@ -61,7 +62,7 @@ async function createSingleSource(pageId, text) {
     // add the new source
     sql = "INSERT INTO Sources (text, pageId) " +
     "VALUES (?, ?);";
-    results = await pool.query(sql, [text, pageId]);
+    results = await pool.query(sql, [sanitizeRichText(text), pageId]);
 
     const finalResults = {
       insertId: results[0].insertId
@@ -134,7 +135,7 @@ async function createSources(pageId, sources) {
 
         sql = "INSERT INTO Sources (text, pageId) " +
         "VALUES (?, ?);";
-        await pool.query(sql, [sources[i].text, pageId]);
+        await pool.query(sql, [sanitizeRichText(sources[i].text), pageId]);
 
       }
 
