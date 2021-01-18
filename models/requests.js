@@ -2,6 +2,7 @@
 // Description: Provides functions for working with requests
 
 const {pool} = require("../services/database/mysqlPool");
+const {sanitizeRichText} = require("../services/format/sanitizeRichText");
 const {publishPage} = require("./pages");
 const {publishHeader} = require("./headers");
 const {publishCard} = require("./cards");
@@ -933,7 +934,7 @@ async function createComment(requestId, comment, status, targetId, userId) {
     // create the comment
     sql = "INSERT INTO Request_Comments (requestId, comment, review, targetId, userId) " +
     "VALUES (?, ?, ?, ?, ?);";
-    results = await pool.query(sql, [requestId, comment, status, targetId, userId]);
+    results = await pool.query(sql, [requestId, sanitizeRichText(comment), status, targetId, userId]);
 
     const finalResults = {
       insertId: results[0].insertId
@@ -1162,7 +1163,7 @@ async function updateComment(commentId, commentText, userId) {
     sql = "UPDATE Request_Comments " +
       "SET comment = ? " +
       "WHERE commentId = ?;";
-    results = await pool.query(sql, [commentText, commentId]);
+    results = await pool.query(sql, [sanitizeRichText(commentText), commentId]);
 
     const finalResults = {
       affectedRows: results[0].affectedRows
