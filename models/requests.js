@@ -1214,7 +1214,7 @@ async function deleteRequest(requestId, userId, admin) {
 
     // delete all notifications about the request
     sql = "DELETE FROM Notifications " +
-    "WHERE requestId = ? AND type != 7;";
+    "WHERE requestId = ? AND type < 6;";
     await pool.query(sql, requestId);
 
     return finalResults;
@@ -1375,7 +1375,7 @@ async function approveRequest(requestId) {
 
     // delete all notifications about the request
     sql = "DELETE FROM Notifications " +
-    "WHERE requestId = ? AND type != 7;";
+    "WHERE requestId = ? AND type < 6;";
     await pool.query(sql, requestId);
 
     return finalResults;
