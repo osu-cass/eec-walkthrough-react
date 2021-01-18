@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback, Fragment} from "react";
-import {Modal, Button, Row, Col, Form, Jumbotron} from "react-bootstrap";
+import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../../utilities/cookieAuth";
 import {getAgreement} from "../../../utilities/agreementMode";
 import {API_URL, UPLOAD_TERMS} from "../../../utilities/constants";
@@ -411,7 +411,7 @@ function ConstructCardModal(props) {
     // Get all of the selected files to upload
     const uploadImages = [];
     for (let i = 0; i < copy.length; i++) {
-      if (copy[Jumbotron].imageToUpload) {
+      if (copy[i].imageToUpload) {
         uploadImages.push(copy[i].imageToUpload);
       }
     }
