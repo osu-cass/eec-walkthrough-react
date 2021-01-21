@@ -252,8 +252,7 @@ function Header(props) {
     setCards(cardSortOrder(allCards));
     setUnfilteredCards(cardSortOrder(allUnfilteredCards));
     // eslint-disable-next-line
-  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode,
-    props.header.cards, props.publishedMode, props.publicMode]);
+  }, [JSON.stringify(props.header.cards), props.mode, filterShow, props.header, props.cardState, opportunityFilterMode, props.publishedMode, props.publicMode]);
 
   // Sort cards based on their edited status and their order index
   function cardSortOrder(cards) {
