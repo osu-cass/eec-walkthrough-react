@@ -498,18 +498,54 @@ function ContentPage(props) {
   // Handle a new view being loaded
   function handleNewView(headerFilters) {
     const copy = [...headers];
+
     // set default force filters
     for (let i = 0; i < copy.length; i++) {
       copy[i].forceFilter = [];
     }
+
     // apply the specific force filters to the specific headers
     for (let i = 0; i < copy.length; i++) {
       for (let j = 0; j < headerFilters.length; j++) {
         if (copy[i].headerId === headerFilters[j].headerId) {
           copy[i].forceFilter = headerFilters[j].filters;
+
+          // if we are using the checkbox filter icon, then also change the checked status
+          const header = copy[i];
+          if (headerFilters[j].filters.length && headerFilters[j].filters[0] === 0) {
+            for (let k = 0; k < header.cards.length; k++) {
+
+              // published items
+              for (let l = 0; l < header.cards[k].items.length; l++) {
+                header.cards[k].items[l].hideChildren = true;
+              }
+
+              // unpublished items
+              for (let l = 0; l < header.cards[k].tempItems.length; l++) {
+                header.cards[k].tempItems[l].hideChildren = true;
+              }
+            }
+          }
         }
+        console.log(headerFilters[j]);
       }
     }
+/*
+        if (iconId === 0 && header) {
+          for (let i = 0; i < header.cards.length; i++) {
+    
+            // published items
+            for (let j = 0; j < header.cards[i].items.length; j++) {
+              header.cards[i].items[j].hideChildren = state;
+            }
+    
+            // unpublished items
+            for (let j = 0; j < header.cards[i].tempItems.length; j++) {
+              header.cards[i].tempItems[j].hideChildren = state;
+            }
+          }
+        }
+*/
     setHeaders(copy);
   }
 
