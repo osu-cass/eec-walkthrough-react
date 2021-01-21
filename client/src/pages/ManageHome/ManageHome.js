@@ -163,6 +163,13 @@ function ManageHome() {
     };
   }, []);
 
+  // Submit banner images whenever a new file is uploaded
+  useEffect(() => {
+    if (upload1 !== null || upload2 !== null || upload3 !== null || upload4 != null || upload5 != null || upload6 != null) {
+      submitBanners();
+    }
+  }, [upload1, upload2, upload3, upload4, upload5, upload6]);
+
   // Update one of the text fields
   function modifyField(id, field, text) {
     if (id === 1) {
@@ -377,7 +384,14 @@ function ManageHome() {
       body: JSON.stringify(bannersObject)
     });
 
-    if (!results.ok) {
+    if (results.ok) {
+      setUpload1(null);
+      setUpload2(null);
+      setUpload3(null);
+      setUpload4(null);
+      setUpload5(null);
+      setUpload6(null);
+    } else {
       // there was an error updating the info
       const obj = await results.json();
 
