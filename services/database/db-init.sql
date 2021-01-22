@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Jan 18, 2021 at 02:19 PM
+-- Generation Time: Jan 21, 2021 at 04:56 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.13
 
@@ -198,7 +198,10 @@ INSERT INTO `Answers` (`answerId`, `questionId`, `groupId`, `text`, `correct`, `
 (678, 3, 0, 'mouse', 1, 0),
 (679, 3, 1, 'keyboard', 1, 0),
 (680, 3, 0, 'clicker', 1, 0),
-(681, 3, 1, 'typer', 1, 0);
+(681, 3, 1, 'typer', 1, 0),
+(683, 2, 0, 'burglar', 0, 0),
+(684, 2, 0, 'hacker', 1, 0),
+(685, 2, 0, 'vandal', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -216,8 +219,12 @@ CREATE TABLE `Banners` (
 --
 
 INSERT INTO `Banners` (`bannerId`, `imageUrl`) VALUES
-(7, '/uploads/user_42/be19ca0ceb80eff619054bcc36a35adb.jpg'),
-(8, '/uploads/user_42/fc6f4b14282cbab7f8d1796c2bba54a9.jpg');
+(32, '/uploads/user_42/be19ca0ceb80eff619054bcc36a35adb.jpg'),
+(33, '/uploads/user_42/fc6f4b14282cbab7f8d1796c2bba54a9.jpg'),
+(34, '/uploads/user_51/02c8c22931b7818ec5698892d0461e38.jpg'),
+(35, '/uploads/user_51/22bf861b8225bf416406b73abae9bda6.jpg'),
+(36, '/uploads/user_51/1f622a009196f6a2364201932f0802ea.jpg'),
+(37, '/uploads/user_51/c88534d9718aa047bca68eb86b879783.jpg');
 
 -- --------------------------------------------------------
 
@@ -403,7 +410,8 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (273, 32, 0, 273, 'zzzzzzz', 70, '2021-01-10 22:31:31', 0),
 (274, 79, 0, 274, 'How to enter a formula', 42, '2021-01-10 23:08:40', 0),
 (275, 79, 0, 275, 'Common Formulas', 42, '2021-01-10 23:25:29', 0),
-(276, 69, 10, 276, 'Common Questions', 54, '2021-01-11 21:26:39', 0);
+(276, 69, 10, 276, 'Common Questions', 54, '2021-01-11 21:26:39', 0),
+(278, 80, 0, 278, 'Opportunity to Consider (Use Title Case for Card Titles)', 58, '2021-01-20 20:22:07', 0);
 
 -- --------------------------------------------------------
 
@@ -596,7 +604,8 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (75, 72, 2, 'Technologies', 1, 61, '2020-11-28 23:49:06', 0),
 (76, 72, 4, 'Machine Learning', 1, 61, '2020-11-29 00:38:27', 0),
 (78, 48, 78, 'Refrigeration Opportunities to Consider', 0, 58, '2020-12-14 19:47:03', 0),
-(79, 74, 79, 'Creating a Formula', 0, 42, '2021-01-10 23:05:51', 0);
+(79, 74, 79, 'Creating a Formula', 0, 42, '2021-01-10 23:05:51', 0),
+(80, 65, 80, 'Style Standards', 0, 58, '2021-01-20 19:57:46', 0);
 
 -- --------------------------------------------------------
 
@@ -2966,7 +2975,28 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (11519, 270, 0, 1, 26, 'Pressure at the inlet to the compressor is also the pressure at which the refrigerant evaporates.', '', '', 0, 0, 0, 0, '2021-01-13 20:29:46', 0),
 (11520, 270, 0, 0, 31, '<p><br></p><p><strong>Tons</strong></p>', '', '', 0, 0, 0, 0, '2021-01-13 20:29:46', 0),
 (11521, 270, 0, 1, 26, 'A measure of the cooling capacity usually applied to larger cooling systems and heat pumps. One ton of cooling represents the ability to absorb energy at a rate originally determined by melting one short ton (2,000 lbs) of ice in 24 hours. Now, 1 ton = 12,000 Btu/hr = 3.52 kW.', '', '', 0, 0, 0, 0, '2021-01-13 20:29:46', 0),
-(11522, 3, 0, 0, 32, '', 'https://i.imgur.com/V0dkW5l.png', 'Screw compressor power vs output for various control strategies', 0, 0, 0, 0, '2021-01-13 22:11:21', 0);
+(11522, 3, 0, 0, 32, '', 'https://i.imgur.com/V0dkW5l.png', 'Screw compressor power vs output for various control strategies', 0, 0, 0, 0, '2021-01-13 22:11:21', 0),
+(11763, 278, 0, 0, 31, '<p>[Optional opportunity category summary]</p><p>In most cases, related opportunities may be grouped together by a common theme usually related to the avenue through which energy is saved. For example, in refrigeration systems, reducing the compressor power is a common mode of energy savings and there are numerous actions that can be taken to achieve this effect.</p><p></p><p>Below is the suggested order of descriptions, items, graphics, and resources to include. Feel free to deviate where it makes sense and don\'t feel the need to use every icon available. </p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11764, 278, 0, 0, 11, '<p>Phrase the opportunity using an action statement like in an AR description (no closing punctuation) Ex.) Install an economizer, Upgrade to more efficient equipment, etc.</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11765, 278, 0, 1, 31, '<p>An optional opportunity summary is written using complete sentences. </p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11766, 278, 0, 1, 10, '<p>Opportunity items follow a bullet-list style format</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11767, 278, 0, 1, 3, '<p>Complete sentences with closing punctuation are not necessary although may be used.</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11768, 278, 0, 1, 7, '<p>Best Practice</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11769, 278, 0, 1, 1, '<p>Pros</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11770, 278, 0, 1, 2, '<p>Cons</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11771, 278, 0, 1, 4, '<p>Caveat</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11772, 278, 0, 1, 14, '<p>Question to ask</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11773, 278, 0, 1, 8, '<p>General tips may be added</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11774, 278, 0, 1, 27, '<p>Equipment </p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11775, 278, 0, 1, 27, '<p>Items may be added inline to create a horizontal list</p>', '', '', 0, 0, 1, 0, '2021-01-20 22:29:47', 0),
+(11776, 278, 0, 1, 15, '<p>Standalone datum</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11777, 278, 0, 2, 8, '<p>Tips related to specific items may be added in this fashion</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11778, 278, 0, 1, 15, '<p>Related data may be categorized into bulleted lists</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11779, 278, 0, 2, 26, '<p>Related datum 1</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11780, 278, 0, 2, 26, '<p>Related datum 2</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11781, 278, 0, 2, 26, '<p>Related datum 3</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11782, 278, 0, 1, 12, '<p>Suggested action</p>', '', '', 0, 0, 0, 0, '2021-01-20 22:29:47', 0),
+(11783, 278, 0, 1, 17, '<p>Include graphics and resources at the end of an opportunity section.</p>', 'https://docs.google.com/document/d/1yDee1KpuIohxs36RELVCpm19-N96h4keDRt_eupD5Bw/edit?usp=sharing', '<p>EEC Writing Standards</p>', 1, 0, 0, 0, '2021-01-20 22:29:47', 0);
 
 -- --------------------------------------------------------
 
@@ -2989,7 +3019,6 @@ CREATE TABLE `Notifications` (
 INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `type`) VALUES
 (96, 12, 47, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
 (97, 12, 51, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
-(98, 12, 52, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
 (101, 12, 56, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
 (104, 12, 59, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
 (105, 12, 60, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
@@ -2999,7 +3028,6 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (110, 12, 67, 'The request \"Refrigeration Opportunity: Reduce System Lift\" is awaiting an orange review', 2),
 (114, 13, 47, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
 (115, 13, 51, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
-(116, 13, 52, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
 (119, 13, 56, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
 (122, 13, 59, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
 (123, 13, 60, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
@@ -3007,14 +3035,9 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (126, 13, 63, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
 (127, 13, 65, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
 (128, 13, 67, 'The request \"Refrigeration Page\" is awaiting an orange review', 2),
-(137, 0, 51, 'martzal has submitted a contributor card that is awaiting review', 6),
-(138, 0, 52, 'martzal has submitted a contributor card that is awaiting review', 6),
 (139, 0, 56, 'martzal has submitted a contributor card that is awaiting review', 6),
-(142, 0, 51, 'peterj has submitted a contributor card that is awaiting review', 6),
-(143, 0, 52, 'peterj has submitted a contributor card that is awaiting review', 6),
 (144, 0, 56, 'peterj has submitted a contributor card that is awaiting review', 6),
 (168, 14, 47, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
-(170, 14, 52, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (171, 14, 54, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (173, 14, 56, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (174, 14, 57, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
@@ -3025,13 +3048,10 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (181, 14, 65, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (182, 14, 67, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
 (183, 14, 69, 'The request \"Pump Page\" is awaiting a black review from a qualified reviewer', 3),
-(186, 0, 51, 'Chris_Houck has submitted a contributor card that is awaiting review', 6),
-(187, 0, 52, 'Chris_Houck has submitted a contributor card that is awaiting review', 6),
 (188, 0, 56, 'Chris_Houck has submitted a contributor card that is awaiting review', 6),
 (189, 0, 58, 'Chris_Houck has submitted a contributor card that is awaiting review', 6),
 (191, 15, 47, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (192, 15, 51, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
-(193, 15, 52, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (194, 15, 54, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (196, 15, 56, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (199, 15, 59, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
@@ -3041,12 +3061,9 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (204, 15, 65, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (205, 15, 67, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
 (206, 15, 69, 'The request \"Boiler and Steam\" is awaiting an orange review', 2),
-(269, 0, 51, 'ryanfrench2 has submitted a contributor card that is awaiting review', 6),
-(270, 0, 52, 'ryanfrench2 has submitted a contributor card that is awaiting review', 6),
 (271, 0, 56, 'ryanfrench2 has submitted a contributor card that is awaiting review', 6),
 (292, 20, 47, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
 (293, 20, 51, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
-(294, 20, 52, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
 (295, 20, 54, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
 (296, 20, 55, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
 (297, 20, 56, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
@@ -3061,7 +3078,6 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (308, 20, 70, 'The request \"How to create KaTeX formulas\" is awaiting an orange review', 2),
 (310, 16, 47, 'The request \"Thermal Systems Overview\" is awaiting a black review from a qualified reviewer', 3),
 (311, 16, 51, 'The request \"Thermal Systems Overview\" is awaiting a black review from a qualified reviewer', 3),
-(312, 16, 52, 'The request \"Thermal Systems Overview\" is awaiting a black review from a qualified reviewer', 3),
 (313, 16, 54, 'The request \"Thermal Systems Overview\" is awaiting a black review from a qualified reviewer', 3),
 (314, 16, 55, 'The request \"Thermal Systems Overview\" is awaiting a black review from a qualified reviewer', 3),
 (315, 16, 56, 'The request \"Thermal Systems Overview\" is awaiting a black review from a qualified reviewer', 3),
@@ -3076,11 +3092,9 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (326, 16, 70, 'The request \"Thermal Systems Overview\" is awaiting a black review from a qualified reviewer', 3),
 (328, 21, 47, 'The request \"Thermal Systems - Heat Exchangers\" is awaiting an orange review', 2),
 (329, 21, 51, 'The request \"Thermal Systems - Heat Exchangers\" is awaiting an orange review', 2),
-(330, 21, 52, 'The request \"Thermal Systems - Heat Exchangers\" is awaiting an orange review', 2),
 (331, 21, 54, 'The request \"Thermal Systems - Heat Exchangers\" is awaiting an orange review', 2),
 (332, 21, 55, 'The request \"Thermal Systems - Heat Exchangers\" is awaiting an orange review', 2),
 (333, 21, 56, 'The request \"Thermal Systems - Heat Exchangers\" is awaiting an orange review', 2),
-(335, 21, 58, 'The request \"Thermal Systems - Heat Exchangers\" is awaiting an orange review', 2),
 (336, 21, 59, 'The request \"Thermal Systems - Heat Exchangers\" is awaiting an orange review', 2),
 (337, 21, 60, 'The request \"Thermal Systems - Heat Exchangers\" is awaiting an orange review', 2),
 (338, 21, 61, 'The request \"Thermal Systems - Heat Exchangers\" is awaiting an orange review', 2),
@@ -3145,10 +3159,10 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (46, 2, 'Boilers and Steam', 'Boilers and Steam Systems are found in a large subset of industrial facilities', 'Steam energy offered a great breakthrough in the 1800’s, providing mechanical energy through steam engines. Steam is now more commonly used for heating in cooking vessels, material drying, building heat,  etc. Direct injection of steam can add moisture along with heat. ', 'https://live.staticflickr.com/65535/50070285347_17c30ab100_b.jpg', 0, 51, '2020-07-02 19:39:56', 1),
 (47, 2, 'Thermal Systems', 'Many industrial processes require encouraging or resisting thermal energy transfer.', 'Managing the rate at which heat is exchanged in a process can greatly increase energy efficiency. These recommendations reduce the costs associated with generating heat for a process or cooling a system. This can be done through installing insulation or heat exchangers. \n\nInsulation resists heat transfer, requiring less energy input for systems by helping to maintain current temperatures. This is ideal for systems involving plastic/metal extrusions, blow molding, steam, ovens, and more. \n\nHeat exchangers increase heat transfer, allowing process heat to be reused. This solution focuses on repurposing heat that may otherwise be lost, such as combustion gas from an oven or steam condensate being returned to the city. This can save energy in processes like pasteurization, aerobic and anaerobic digestion, ovens, and steam.\n\nOther methods exist for thermal systems, such as fan cooling, managing emissivity, and direct impingement.\n\nOften these recommendations are not mutually exclusive. An oven may benefit from added insulation on the walls while also installing a recuperator to preheat combustion fuel with exhaust gasses. The outside of a shell and tube or concentric tube heat exchanger can be covered in insulation.', 'https://live.staticflickr.com/65535/50069411093_68ab30e548_b.jpg', 0, 57, '2020-07-02 21:31:22', 0),
 (48, 2, 'Refrigeration', 'Vapor compression refrigeration (VCR) technology is important in many industrial processes.', 'Refrigeration is the process of absorbing heat from a medium, such as air and water, and rejecting it to the ambient environment by using work. Many opportunities are available that minimize work in industrial refrigeration systems to provide energy and cost savings. Work can be minimized by reducing refrigeration loads, improving system efficiency through optimized set points and control strategies, and mitigating energy loss through increased insulation and heat recovery. \n\nCommon industrial applications include temperature controlled warehouses, food storage, and water chiller systems. Improving the energy efficiency of such systems not only reduces energy consumption, but can often reduce labor costs by lessening maintenance requirements, and improve productivity and product quality through increased system reliability. \n\nAll components of a refrigeration system are interconnected; discharge and suction pressures, condenser and evaporator capacities, and compressor outputs all affect each other and must be considered together as a unit. Refrigeration load, controls, maintenance, initial capital investment, and the long term life-cycle costs are all important factors when designing a refrigeration system. Careful consideration of the system as a whole at the onset, and ongoing energy and operational management is vital to getting the best use out of a refrigeration system.', 'https://live.staticflickr.com/65535/50070312237_69edda5158_b.jpg', 0, 58, '2020-07-02 22:10:36', 0),
-(49, 7, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'They can also be based on the rate of use, when use occurs, how the commodity is obtained, or how the commodity is measured. Understanding utility bills is essential to identifying potential areas of resource savings and implementing solutions.', 'https://www.bing.com/images/search?view=detailV2&ccid=Z3%2fFVsU%2b&id=60963F9A86CC05CA8E3879EC9CD61C', 1, 54, '2020-07-02 22:40:27', 0),
+(49, 7, 'Utility Billing', 'Utility bills and associated potential savings are based on more than the commodity.', 'They can also be based on the rate of use, when use occurs, how the commodity is obtained, or how the commodity is measured. Understanding utility bills is essential to identifying potential areas of resource savings and implementing solutions.', '/uploads/user_51/b4dac29e96ac268589a068d7c53a9eb1.jpg', 1, 51, '2020-07-02 22:40:27', 0),
 (50, 1, 'Wastewater Treatment', 'Municipalities and industry need to treat wastewater before discharging it to the environment.', 'Wastewater treatment systems can address a multitude of potential issues including: PH levels, oxygen demand (chemical or biological), pathogens, turbidity, debris and other contamination.\n\nCommon processes might include screening, filtration, sedimentation settling, PH balancing, disinfection, aeration, and anaerobic digestion.', 'https://live.staticflickr.com/65535/50087489383_757fc9c91e_b.jpg', 0, 51, '2020-07-07 20:46:38', 0),
 (54, 5, 'Remote Assessments', '2020 Covid-19 Remote Assessments Protocol (Draft): A developing summary of the OSU IAC approach for remote assessments in the time of Covid -19', 'With Covid-19 limiting ability for in person facility assessments, the OSU EEC / IAC is focusing on developing a robust protocol for assessing sites remotely.  Once in person assessments are possible, these techniques will only improve the ability of the center to prepare for a typical site visit.\n\nIn the mean time, on the positive side, the team will not have to stop to put on chains on the way to an assessment.', 'https://live.staticflickr.com/65535/50193329247_ef0c9291de_b.jpg', 1, 51, '2020-08-05 19:54:53', 1),
-(56, 3, 'Combined Heat and Power', 'Combined Heat and Power allows sites to use the waste heat of electrical generation.', 'CHP', 'no image yet', 0, 51, '2020-08-07 00:33:29', 0),
+(56, 3, 'Combined Heat and Power', 'Combined Heat and Power allows sites to use the waste heat of electrical generation.', 'CHP', '/uploads/user_51/4fc231c9bf3304da95662d9884280c6a.png', 0, 51, '2020-08-07 00:33:29', 0),
 (57, 4, 'Optimize Facility Layout', 'Improve productivity through the location of departments and workstations and the workflow of personnel and materials.', 'Facility layout has a significant and often underestimated effect on the productivity of a facility. Movement of any form of work represents a non-value-added (NVA) process. Re-arranging the location of workstations and inventory to eliminate movement creates value in several forms. Most typically, fewer labor hours are spent moving materials, and sometimes energy is saved if operating hours of vehicles (e.g. forklifts or conveyors) are reduced. The most lucrative savings for the facility is increased productivity if delivery lead times between workstations are reduced, increasing utilization of the downstream workstation.', 'https://www.manexconsulting.com/wp-content/uploads/Layout-Optimization-Blog.jpg', 0, 62, '2020-08-07 19:21:05', 0),
 (58, 4, 'Queuing Line Optimization', 'The operation of queues and their respective workstations determine the overall production efficiency of a facility.', 'Optimizing the queuing system of a workstation has significant effects on product output. Little\'s law and queuing theory helps simplify any production system into a set of easy to estimate variables. While extensive research, data collection, and possibly simulation should be employed before making any change to a part of the production system, basic analysis can reveal opportunities for cost savings through increased productivity.', 'https://www.umav.org/wp-content/uploads/2019/04/Car-Assembly-Line.jpg', 0, 62, '2020-08-10 19:57:05', 0),
 (61, 7, 'Power Factor Correction', 'Improving power factor increases the capacity of a facility\'s electrical distribution network and can lead to significant savings on electrical utility costs.', 'High reactive power, or kVAR, can reduce the capacity of utility lines and transformers to supply kilowatts of real power, which creates additional expenses for the electrical service provider. This higher cost is directly billed to customers who are metered for reactive power. Improving power factor will avoid electric power billing penalties and electrical power losses due to the increased current required to perform a given job. Increasing power factor will increase the capacity of the distribution system.', '/uploads/user_52/ec8550a6c0caa67f935129b59a4c8185.jpg', 0, 52, '2020-08-26 15:55:35', 1),
@@ -3580,8 +3594,8 @@ CREATE TABLE `Sponsors` (
 --
 
 INSERT INTO `Sponsors` (`sponsorId`, `name`, `title`, `websiteUrl`, `imageUrl`, `orderIndex`) VALUES
-(9, 'Industrial Assessment Center', 'U.S. Department of Energy, Office of Energy Efficiency & Renewable Energy, Advanced Manufacturing Office, Industrial Assessment Centers', 'https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs', '/uploads/user_42/8936b3254b55ec513b042662758f9a68.png', 0),
-(10, 'Bonneville Power Administration Energy Efficiency Industrial Sector', 'Bonneville Power Administration Energy Efficiency Industrial Sector', 'https://www.bpa.gov/EE/Sectors/Industrial/Pages/default.aspx  ', '/uploads/user_51/dcf767f2b3dee899ff1a8a33502a271f.png', 1);
+(25, 'Industrial Assessment Center', 'U.S. Department of Energy, Office of Energy Efficiency & Renewable Energy, Advanced Manufacturing Office, Industrial Assessment Centers', 'https://www.energy.gov/eere/amo/industrial-assessment-centers-iacs', '/uploads/user_42/8936b3254b55ec513b042662758f9a68.png', 0),
+(26, 'Bonneville Power Administration Energy Efficiency Industrial Sector', 'Bonneville Power Administration Energy Efficiency Industrial Sector', 'https://www.bpa.gov/EE/Sectors/Industrial/Pages/default.aspx  ', '/uploads/user_51/dcf767f2b3dee899ff1a8a33502a271f.png', 1);
 
 -- --------------------------------------------------------
 
@@ -3703,6 +3717,7 @@ CREATE TABLE `Temp_Questions` (
 --
 
 INSERT INTO `Temp_Questions` (`tempQuestionId`, `tempText`, `tempType`, `tempPriority`, `tempImageUrl`, `tempCreated`) VALUES
+(2, 'What do you call a person who is trying to steal important information from our organization electronically?', 1, 4, '', '2021-01-18 22:23:41'),
 (3, 'What are the names of these two devices?', 3, 6, '/uploads/user_42/db309b887fde585de15cbacce2283779.jpg', '2021-01-18 22:15:57'),
 (40, 'Name the four primary components of a mechanical compression refrigeration system.', 3, 0, '', '2020-12-22 19:45:58');
 
@@ -4013,19 +4028,19 @@ ALTER TABLE `Views`
 -- AUTO_INCREMENT for table `Answers`
 --
 ALTER TABLE `Answers`
-  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=683;
+  MODIFY `answerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=687;
 
 --
 -- AUTO_INCREMENT for table `Banners`
 --
 ALTER TABLE `Banners`
-  MODIFY `bannerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `bannerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=277;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=279;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -4043,7 +4058,7 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
@@ -4085,13 +4100,13 @@ ALTER TABLE `Info`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11523;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11784;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
 --
 ALTER TABLE `Notifications`
-  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=368;
+  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=373;
 
 --
 -- AUTO_INCREMENT for table `Observations`
@@ -4109,7 +4124,7 @@ ALTER TABLE `Pages`
 -- AUTO_INCREMENT for table `Questions`
 --
 ALTER TABLE `Questions`
-  MODIFY `questionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `questionId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `Quick_Titles`
@@ -4151,7 +4166,7 @@ ALTER TABLE `Sources`
 -- AUTO_INCREMENT for table `Sponsors`
 --
 ALTER TABLE `Sponsors`
-  MODIFY `sponsorId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `sponsorId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `Users`
