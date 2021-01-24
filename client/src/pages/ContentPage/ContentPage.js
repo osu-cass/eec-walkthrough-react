@@ -290,7 +290,7 @@ function ContentPage(props) {
 
         for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
           if (headerData[headerIndex].cards[i].cardId === object.cardId) {
-            headerData[headerIndex].cards[i] = object;
+            headerData[headerIndex].cards[i] = JSON.parse(JSON.stringify(object));
             setHeaders(headerSortOrder(headerData));
             setCardState(cardState + 1);
           }
@@ -527,25 +527,9 @@ function ContentPage(props) {
             }
           }
         }
-        console.log(headerFilters[j]);
       }
     }
-/*
-        if (iconId === 0 && header) {
-          for (let i = 0; i < header.cards.length; i++) {
-    
-            // published items
-            for (let j = 0; j < header.cards[i].items.length; j++) {
-              header.cards[i].items[j].hideChildren = state;
-            }
-    
-            // unpublished items
-            for (let j = 0; j < header.cards[i].tempItems.length; j++) {
-              header.cards[i].tempItems[j].hideChildren = state;
-            }
-          }
-        }
-*/
+
     setHeaders(copy);
   }
 
