@@ -331,7 +331,7 @@ function ConstructCardModal(props) {
 
   // Change the placement order of the selected item
   function changeOrder(up) {
-    let copy = [...items];
+    let copy = JSON.parse(JSON.stringify(items));
     let selectedList = [...selectedItems];
 
     // reverse the list of selected items if we are moving down
@@ -557,6 +557,7 @@ function ConstructCardModal(props) {
 
     // Set the order index of each item and clean up empty strings as needed
     const copy = items;
+
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
     }
@@ -648,7 +649,7 @@ function ConstructCardModal(props) {
       }
 
       let newCard = {};
-      console.log(copy)
+
       if (props.card.approved) {
         newCard = {
           approved: props.card.approved,
