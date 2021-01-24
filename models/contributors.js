@@ -1,5 +1,5 @@
-// File: info.js
-// Description: Provides functions for working with info
+// File: contributors.js
+// Description: Provides functions for working with contributor data.
 
 const {pool} = require("../services/database/mysqlPool");
 

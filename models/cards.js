@@ -1,5 +1,5 @@
 // File: cards.js
-// Description: Provides functions for working with card data.
+// Description: Provides functions for working with card data
 
 const {pool} = require("../services/database/mysqlPool");
 const {sanitizeRichText} = require("../services/format/sanitizeRichText");

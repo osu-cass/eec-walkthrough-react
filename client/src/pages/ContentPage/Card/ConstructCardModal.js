@@ -648,7 +648,7 @@ function ConstructCardModal(props) {
       }
 
       let newCard = {};
-
+      console.log(copy)
       if (props.card.approved) {
         newCard = {
           approved: props.card.approved,
@@ -675,7 +675,7 @@ function ConstructCardModal(props) {
           headerId: props.card.headerId,
           cardType: newCardFormat,
           title: submitTitle,
-          items: props.card.items,
+          items: copy,
           userId: 0,
           created: new Date(),
           orderIndex: props.card.orderIndex,
