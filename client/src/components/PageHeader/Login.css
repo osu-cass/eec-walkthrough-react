@@ -10,3 +10,15 @@
   color: #0057b3;
   text-decoration:underline;
 }
+
+@media (min-width: 576px) {
+  .modal-width {
+    max-width: 65%;
+  }
+}
+
+@media (max-width: 575px) {
+  .modal-width {
+    max-width: 100%;
+  }
+}
