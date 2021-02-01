@@ -12,7 +12,6 @@ function Sanitized(props) {
     },
     allowedTags: [
       "a",
-      "p",
       "strong",
       "u",
       "ol",
