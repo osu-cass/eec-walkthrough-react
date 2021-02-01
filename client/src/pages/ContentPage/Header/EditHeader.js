@@ -207,7 +207,7 @@ function EditHeader(props) {
 
   // delete the header
   async function deleteHeader() {
-    // Confirm the user is ready to delete the card
+    // Confirm the user is ready to delete the header
     if (props.role >= 5) {
       if (!window.confirm("This will delete all versions of this header.\nAre you sure you want to delete this header?")) {
         return;

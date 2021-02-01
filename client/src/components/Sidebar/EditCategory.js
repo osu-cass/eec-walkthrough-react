@@ -121,6 +121,49 @@ function EditCategory(props) {
     return false;
   }
 
+  // delete the category
+  async function deleteCategory() {
+    // Confirm the user is ready to delete the category
+    if (!window.confirm("This will delete the category.\nAre you sure you want to delete this category?")) {
+      return;
+    }
+
+    if (!window.confirm("Please confirm one final time that you want to delete this category.")) {
+      return;
+    }
+
+    const results = await fetch(`${API_URL}/categories/${props.category.categoryId}`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"}
+    });
+
+    if (results.ok) {
+
+      // Reset state
+      setErrorMessage("");
+
+      // Close modal
+      handleClose();
+
+      // refresh the page
+      window.location.reload();
+
+    } else {
+
+      const obj = await results.json();
+
+      if (results.status === 401) {
+        logout();
+        window.location.href = "/";
+      } else if (results.status === 500 || typeof obj.error === "undefined") {
+        setErrorMessage("An internal server error occurred. Please try again later.");
+      } else {
+        setErrorMessage(obj.error);
+      }
+    }
+  }
+
   return props.role >= 5 ? (
     <div className={`${props.navbar ? "d-inline" : "w-100"}`}>
 
@@ -235,6 +278,13 @@ function EditCategory(props) {
         </Modal.Body>
 
         <Modal.Footer className="modal-footer">
+          <Button
+            className="mr-auto"
+            variant="danger"
+            onClick={() => deleteCategory()}
+          >
+            <span>Delete Category</span>
+          </Button>
           <Button variant="secondary" onClick={() => handleClose()}>Close</Button>
           <Button variant="primary" onClick={(e) => handleSubmit(e)}>Submit Category</Button>
         </Modal.Footer>
