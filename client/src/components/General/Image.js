@@ -7,14 +7,15 @@ import "./Image.css";
 // Displays various kinds of images
 function Image(props) {
   const [modalShow, setModalShow] = useState(false);
+  const [title] = useState(props.title.replace(/<\/?[^>]+(>|$)/g, ""));
 
   if (props.thumbnail) {
     return (
       <Col className="px-0">
         <img
           src={props.url}
-          alt={props.title}
-          title={props.title}
+          alt={title}
+          title={title}
           onError={(e) => e.target.src = "/missing.png"}
           className="expandable-image rounded img-fluid img-thumbnail"
           onClick={() => setModalShow(true)}
@@ -22,7 +23,7 @@ function Image(props) {
         <ImageModal
           show={modalShow}
           url={props.url}
-          header={props.title}
+          header={title}
           onHide={() => setModalShow(false)}
         />
       </Col>
@@ -32,7 +33,7 @@ function Image(props) {
       <Col className="px-0">
         <img
           src={props.url}
-          alt={props.title}
+          alt={title}
           onError={(e) => e.target.src = "/missing.png"}
           className="expandable-image header rounded img-fluid img-normal"
           onClick={() => setModalShow(true)}
@@ -40,7 +41,7 @@ function Image(props) {
         <ImageModal
           show={modalShow}
           url={props.url}
-          header={props.title}
+          header={title}
           onHide={() => setModalShow(false)}
         />
       </Col>
@@ -50,7 +51,7 @@ function Image(props) {
       <Fragment>
         <img
           src={props.url}
-          alt={props.title}
+          alt={title}
           onError={(e) => e.target.src = "/missing.png"}
           className="expandable-image rounded img-fluid"
           style={{cursor: "pointer", maxWidth: "15em"}}
@@ -59,7 +60,7 @@ function Image(props) {
         <ImageModal
           show={modalShow}
           url={props.url}
-          header={props.title}
+          header={title}
           onHide={() => setModalShow(false)}
         />
       </Fragment>
