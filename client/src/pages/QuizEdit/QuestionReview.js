@@ -17,6 +17,8 @@ function QuestionReview(props) {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [lastEdit, setLastEdit] = useState("");
+  const [tempLastEdit, setTempLastEdit] = useState("");
 
   // close the modal
   function handleCloseModal() {
@@ -25,8 +27,35 @@ function QuestionReview(props) {
   }
 
   // open the modal
-  function handleShowModal() {
+  async function handleShowModal() {
     setShowModal(true);
+
+    // get the usernames of the last editors
+    if (props.question.userId) {
+      const results = await fetch(`${API_URL}/users/${props.question.userId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        setLastEdit(obj.username);
+      }
+    }
+
+    if (props.question.tempUserId) {
+      const results = await fetch(`${API_URL}/users/${props.question.tempUserId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        setTempLastEdit(obj.username);
+      }
+    }
   }
 
   // get the string for the correct question type
@@ -300,6 +329,11 @@ function QuestionReview(props) {
             <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
               <h4 className="font-weight-bold">Published Version</h4>
               <span className="created-text">Last updated {formatTime(props.question.created)}</span>
+              {lastEdit.length ? (
+                <span className="created-text">&nbsp;by {lastEdit}</span>
+              ) : (
+                null
+              )}
               <div className="m-3">
 
                 <div className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm">
@@ -395,6 +429,11 @@ function QuestionReview(props) {
             <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
               <h4 className="font-weight-bold">Published Version</h4>
               <span className="created-text">Last updated {formatTime(props.question.created)}</span>
+              {lastEdit.length ? (
+                <span className="created-text">&nbsp;by {lastEdit}</span>
+              ) : (
+                null
+              )}
               <div className="m-3">
 
                 <div className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm">
@@ -479,6 +518,11 @@ function QuestionReview(props) {
               <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
                 <h4 className="font-weight-bold">New Version</h4>
                 <span className="created-text">Last updated {formatTime(props.question.created)}</span>
+                {lastEdit.length ? (
+                  <span className="created-text">&nbsp;by {lastEdit}</span>
+                ) : (
+                  null
+                )}
                 <div className="m-3">
 
                   <div className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm">
@@ -576,6 +620,11 @@ function QuestionReview(props) {
               <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
                 <h4 className="font-weight-bold">New Version</h4>
                 <span className="created-text">Last updated {formatTime(props.question.tempCreated)}</span>
+                {tempLastEdit.length ? (
+                  <span className="created-text">&nbsp;by {tempLastEdit}</span>
+                ) : (
+                  null
+                )}
                 <div className="m-3">
 
                   <div className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm">

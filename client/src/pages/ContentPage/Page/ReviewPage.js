@@ -140,7 +140,6 @@ function ReviewPage(props) {
         setTempLastEdit(obj.username);
       }
     }
-
   }
 
   // unpublish
