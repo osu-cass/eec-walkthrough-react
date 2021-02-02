@@ -18,6 +18,8 @@ function ReviewPage(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [pageTypeName, setPageTypeName] = useState("");
   const [tempPageTypeName, setTempPageTypeName] = useState("");
+  const [lastEdit, setLastEdit] = useState("");
+  const [tempLastEdit, setTempLastEdit] = useState("");
 
   // get the current users role
   useEffect(() => {
@@ -109,8 +111,36 @@ function ReviewPage(props) {
   }
 
   // open the modal
-  function handleShow() {
+  async function handleShow() {
     setShow(true);
+
+    // get the usernames of the last editors
+    if (props.page.userId) {
+      const results = await fetch(`${API_URL}/users/${props.page.userId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        setLastEdit(obj.username);
+      }
+    }
+
+    if (props.page.tempUserId) {
+      const results = await fetch(`${API_URL}/users/${props.page.tempUserId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        setTempLastEdit(obj.username);
+      }
+    }
+
   }
 
   // unpublish
@@ -368,6 +398,11 @@ function ReviewPage(props) {
             <div className="version-container p-2 m-3 border border-dark rounded">
               <h4 className="font-weight-bold">Published Version ({pageTypeName})</h4>
               <span className="created-text">Last updated {formatTime(props.page.created)}</span>
+              {lastEdit.length ? (
+                <span className="created-text">&nbsp;by {lastEdit}</span>
+              ) : (
+                null
+              )}
               <div className="m-4">
                 {props.page.tempPageId ? (
                   <Fragment>
@@ -438,6 +473,11 @@ function ReviewPage(props) {
             <div className="version-container p-2 m-3 border border-dark rounded">
               <h4 className="font-weight-bold">New Version ({tempPageTypeName})</h4>
               <span className="created-text">Last updated {formatTime(props.page.tempCreated)}</span>
+              {tempLastEdit.length ? (
+                <span className="created-text">&nbsp;by {tempLastEdit}</span>
+              ) : (
+                null
+              )}
               <div className="m-4">
                 <div>
                   <HighlightText
@@ -490,6 +530,11 @@ function ReviewPage(props) {
                 <div className="version-container p-2 m-3 border border-dark rounded">
                   <h4 className="font-weight-bold">New Version ({pageTypeName})</h4>
                   <span className="created-text">Last updated {formatTime(props.page.created)}</span>
+                  {lastEdit.length ? (
+                    <span className="created-text">&nbsp;by {lastEdit}</span>
+                  ) : (
+                    null
+                  )}
                   <div className="m-4">
                     <h3 className="font-weight-bold">{props.page.name}</h3>
                     <h4>{props.page.title}</h4>
