@@ -38,15 +38,19 @@
 }
 
 .icon-item.fa-circle {
-  font-size: .7em;
-  margin-left: 0.9em;
-  padding-right: 0.4em;
-  margin-right: 0.2em !important;
+  font-size: .7em !important;
+  margin-left: 0.3em !important;
+  padding-right: 0.4em !important;
+  margin-right: 1em !important;
   margin-top: 0.5em !important;
 }
 
 .inline-circle-icon {
   margin-top: 0.25em !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  margin-right: -0.2em !important;
+  padding-right: 0 !important;
 }
 
 .indent-level-1 {
