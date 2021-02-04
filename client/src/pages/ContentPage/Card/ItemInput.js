@@ -196,15 +196,17 @@ function ItemInput(props) {
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <div className="ml-3 very-small-text-editor-input">
-            <RichTextEditor
-              id={`submit-text-${props.index}`}
-              value={props.value.contentLabel}
-              onChange={(text) => props.handleInput(text, props.index, 2)}
-              placeHolder="Resource Label"
-              showToolbar={props.isSelected}
-            />
-          </div>
+          <FormControl
+            as="textarea"
+            rows="1"
+            maxLength="1000"
+            className={`ml-3 ${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
+            placeholder="Resource Label"
+            value={props.value.contentLabel}
+            aria-label="Resource Label"
+            onChange={(text) => props.handleInput(text, props.index, 5)}
+            required
+          />
           <FormControl
             as="textarea"
             rows="1"

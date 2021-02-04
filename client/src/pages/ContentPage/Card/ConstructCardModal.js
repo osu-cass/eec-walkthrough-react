@@ -1002,6 +1002,8 @@ function ConstructCardModal(props) {
       copy[key].contentUrl = e.target.value;
     } else if (groupIndex === 4) {
       copy[key].contentText = e;
+    } else if (groupIndex === 5) {
+      copy[key].contentLabel = e.target.value;
     }
     setItems(copy);
   }
