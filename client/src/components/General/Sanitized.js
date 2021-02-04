@@ -6,12 +6,18 @@ import "./Sanitized.css";
 // Sanitizes the HTML that is passed to it
 function Sanitized(props) {
 
-  const clean = sanitizeHtml(props.html, {
+  let clean = props.html;
+  // Don't allow rich text to be wrapped in block elements. Should be inline.
+  if (clean.startsWith("<p>")) {
+    clean = clean.slice(3, clean.length - 4);
+  }
+  clean = sanitizeHtml(clean, {
     parser: {
       lowerCaseAttributeNames: false,
     },
     allowedTags: [
       "a",
+      "p",
       "strong",
       "u",
       "ol",

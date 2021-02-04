@@ -111,7 +111,7 @@ Click on your new database.
 
 Click the "Import" tab at the top of the screen.
 
-Select the db-init.sql file in our repo (eec-walkthrough-react\backend\services\database).
+Select the `db-init.sql` file in our repo (services\database\db-init.sql).
 
 Press the "Go" button at the bottom of the screen.
 
@@ -125,6 +125,12 @@ SQL_PORT=3306
 SQL_USER='root'
 JWT_SECRET_KEY='anythingCanGoHere'
 ```
+
+Run the following command to start the server in development mode. Your application should now be using your local database.
+```
+npm run dev
+```
+
 
 ## Update the Production Server
 
