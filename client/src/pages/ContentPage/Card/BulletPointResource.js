@@ -38,7 +38,7 @@ function BulletPointResource(props) {
 
                 {/* The link to the resource */}
                 <a href={props.url} className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}>
-                  <Sanitized html={props.label} inline={!!props.inline} />
+                  <span className="font-weight-bold">{props.label}</span>
                 </a>
 
                 {/* Display different appended icons based on the type of resource */}
