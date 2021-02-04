@@ -83,17 +83,85 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed.
 
-## Other
+## Using a Linter
 
 Running a linter to check for stylistic errors and simple bugs is good practice.
 
 To install eslint on your computer run the following command:
 
-`npm install eslint --global`
+```
+npm install eslint --global
+```
 
 From the root directory, attempt to fix all errors across the project:
 
-`eslint "." --fix`
+```
+eslint "." --fix 
+```
+
+## Creating a Database for Development
+
+Install XAMPP: https://www.apachefriends.org/index.html
+
+Follow the steps in this video to get into PHPMyAdmin: https://www.youtube.com/watch?v=0DPB70hZykg
+
+When in PHPMyAdmin create a new database called `eec_walkthrough`.
+
+Click on your new database.
+
+Click the "Import" tab at the top of the screen.
+
+Select the db-init.sql file in our repo (eec-walkthrough-react\backend\services\database).
+
+Press the "Go" button at the bottom of the screen.
+
+Create a file named `.env` in the root directory of your project with the following contents:
+```
+PORT=1111
+SQL_DB_NAME='eec_walkthrough'
+SQL_HOST='localhost'
+SQL_PASSWORD=''
+SQL_PORT=3306
+SQL_USER='root'
+JWT_SECRET_KEY='anythingCanGoHere'
+```
+
+## Update the Production Server
+
+This will only work for the current production server at Oregon State University. For hosting using other services, please refer to the appropriate guide.
+
+You will need to open a ticket with IT to add new users to the production server. A new ticket can be opened here:
+https://is.oregonstate.edu/td-service/virtual-servers
+
+Access the production server at `walkthrough.eec.oregonstate.edu` using PuTTY or use any shell that supports SSH.
+
+Once you have logged in perform the following commands to update the version being ran in production.
+```
+cd /webdev/EEC/deploy/eec-walkthrough-react/
+```
+
+Make sure you first kill any running processes or else you will not be able to use the ports that you want. Run a command to see what processes are running, then kill all node processes.
+```
+ps -a
+kill 5823
+```
+
+You are now able to use git commands.
+Once you have updated the repo to the current version you will need to build.
+```
+git pull
+npm run build
+```
+
+Now you will use screen so that you can close the terminal without killing your process.
+```
+screen
+npm start
+```
+Hold CTRL + A, and press D to exit your screen.
+
+Now you can close your terminal and the web application should be running your newest version.
+
 
 ## Learn More
 
@@ -102,26 +170,16 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 ### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+https://facebook.github.io/create-react-app/docs/code-splitting
 
 ### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
 
 ### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
 ### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+https://facebook.github.io/create-react-app/docs/advanced-configuration
 
 ### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-"# eec-walkthrough-react" 
+https://facebook.github.io/create-react-app/docs/deployment
