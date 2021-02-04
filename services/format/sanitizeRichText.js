@@ -11,6 +11,7 @@ function sanitizeRichText(text) {
     },
     allowedTags: [
       "a",
+      "p",
       "strong",
       "u",
       "ol",
