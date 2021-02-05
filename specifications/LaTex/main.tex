@@ -1234,6 +1234,8 @@ Returns all of the page, header, card, and item data for a single page. Any user
     \item tempTitle: If the page is published and there is an edited version the page, then this is the same as the title, except in relation to the unpublished version, otherwise null.
     \item tempUserId: If the page is published and there is an edited version the page, then this is the same as the userId, except in relation to the unpublished version, otherwise null.
     \item tempImageUrl: If the page is published and there is an edited version of the page, then this is similar to imageUrl, except in relation to the unpublished version, otherwise null.
+    \item quiz: The value is "true" if there is a quiz avaliable for this page, "false" if there is not.
+    \item quizScore: The value is -1 if the user has never taken this quiz, otherwise this is a number equal to the percentage of correct answers the user got on the quiz last time they took it.
     \item sources: All of the sources that are referenced on this page.
         \begin{itemize}
             \item pageId: The page ID of the page that this source belongs to.
@@ -1290,6 +1292,7 @@ Returns all of the page, header, card, and item data for a single page. Any user
                     \item typeKeyWord: The name displayed when a user hovers over the icon.
                     \item color: The hex color code to use for the icon.
                     \item sourceId: The ID of the source that this item is referencing.
+                    \item groupIndex: The current group that this item belongs to (1 is standard item, 2 is graphic, 3 is resource, 4 is text). 
                 \end{itemize}
         \end{itemize}
     \end{itemize}
@@ -1313,6 +1316,8 @@ Returns all of the page, header, card, and item data for a single page. Any user
   tempImageUrl: null,
   tempName: null,
   tempPageId: null
+  quiz: true,
+  quizScore: 85,
   sources: [
     {
       sourceId: 1,
@@ -1369,7 +1374,8 @@ Returns all of the page, header, card, and item data for a single page. Any user
               iconType: 1,
               typeName: "plus",
               typeKeyword: "Pros",
-              sourceId: 0
+              sourceId: 0,
+              groupIndex: 1
             }
           ],
           tempItems: [
@@ -1388,7 +1394,8 @@ Returns all of the page, header, card, and item data for a single page. Any user
               iconType: 1,
               typeName: "plus",
               typeKeyword: "Pros",
-              sourceId: 0
+              sourceId: 0,
+              groupIndex: 1
             }
           ]
         }
@@ -1399,6 +1406,40 @@ Returns all of the page, header, card, and item data for a single page. Any user
 \end{lstlisting}
 \\~\\
 
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/pages/updated} \\
+Returns the three most recently updated published pages.
+\begin{itemize}
+    \item pageId: The ID of the page.
+    \item pageType: The ID of the category that this page belongs to.
+    \item name: The name of the page.
+    \item title: The title of the initial card that shows at the top of the page.
+    \item description: Text that describes the general subject of the page.
+    \item imageUrl: The URL for the image shown at the top of the page.
+    \item created: The time that the page was created, last updated, or last published (whichever was most recent).
+    \item userId: The ID of the user who created or last updated the page (whichever was most recent).
+    \item approved: Lets us know if the page is published (1) or unpublished (0).
+    \item internal: Determines if the page should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  pages: [ 
+      {
+        pageId: 2,
+        pageType: 2,
+        name: "Compressed Air",
+        title: "Compressed air is a common utilitiy...",
+        description: "Compressed air has been a key...",
+        imageUrl: "/images/air.png",
+        created: "2020-07-23T10:01:49.000Z",
+        userId: 42,
+        approved: 1,
+        internal: 0
+      }
+  ]
+}
+\end{lstlisting}
+\\~\\
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/pages/search/:text/:cursorPrimary/:cursorSecondary} \\
@@ -1432,17 +1473,19 @@ Returns a limited list of pages that match the search text and that only include
     secondary: null
   },
   pages: [
-    pageId: 46,
-    created: "2020-07-02T19:39:56.000Z",
-    description: "Steam energy offered a great...",
-    imageUrl: "https://live.staticflickr.com/65535/...",
-    internal: 0,
-    approved: 1,
-    name: "Boilders and Steam",
-    pageType: 2,
-    title: "Boilers and Steam Systems are found in a large...",
-    url: "/wiki/search-results/46",
-    userId: 51
+    {
+        pageId: 46,
+        created: "2020-07-02T19:39:56.000Z",
+        description: "Steam energy offered a great...",
+        imageUrl: "https://live.staticflickr.com/65535/...",
+        internal: 0,
+        approved: 1,
+        name: "Boilders and Steam",
+        pageType: 2,
+        title: "Boilers and Steam Systems are found in a large...",
+        url: "/wiki/search-results/46",
+        userId: 51
+    }
   ]
 }
 \end{lstlisting}
@@ -1639,6 +1682,7 @@ Returns a report of all of the published content within the date range. Only edi
         \item typeKeyWord: The name displayed when a user hovers over the icon.
         \item color: The hex color code to use for the icon.
         \item sourceId: The ID of the source that this item is referencing.
+        \item groupIndex: The current group that this item belongs to (1 is standard item, 2 is graphic, 3 is resource, 4 is text). 
     \end{itemize}
   \end{itemize}
 \end{itemize}
@@ -1711,6 +1755,7 @@ Returns a report of all of the published content within the date range. Only edi
           orderIndex: 1,
           typeKeyword: "Cons",
           typeName: "minus"
+          groupIndex: 1
         }
       ]
     }
