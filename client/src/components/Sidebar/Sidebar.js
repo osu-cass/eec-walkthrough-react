@@ -161,7 +161,7 @@ function Sidebar(props) {
                 show={showEdit}
                 role={role}
                 hideEdit={true}
-                disclaimer={true}
+                extra={true}
                 collectionIcon="question-circle"
               />
             </Card>
