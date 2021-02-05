@@ -4,7 +4,7 @@
 const {pool} = require("../services/database/mysqlPool");
 
 
-// returns all of the contributors
+// returns all approved contributors
 async function getContributors() {
 
   try {

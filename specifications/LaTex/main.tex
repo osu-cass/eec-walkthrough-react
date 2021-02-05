@@ -486,6 +486,136 @@ Updates a category. This endpoint can only be used by admins.
 \\~\\
 
 
+\subsection{Contributor Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/contributors/} \\
+Returns a list of all of the accepted contributors. Anyone can use this endpoint.
+\begin{itemize}
+    \item contributorId: The ID of the contributor.
+    \item name: The name of the contributor.
+    \item title: A title that explains the role of the contributor.
+    \item description: A description of the contributor.
+    \item imageUrl: A URL that shows an image of the contributor.
+    \item priority: A higher priority means that this contributor should be shown before other contributors.
+    \item active: A 1 means that this contributor has been accepted, a 0 means this contributor is yet to be accepted.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  contributors: [
+    }
+      contributorId: 42,
+      name: "John Doe",
+      title: "Very Important Person",
+      description: "This person has done many important things.",
+      imageUrl: "/uploads/user_54/4434462abfd4ae3303e7.png",
+      priority: 10,
+      active: 1
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/contributors/pending} \\
+Returns a list of all of the contributors who are awaiting approval. Only admins can use this endpoint.
+\begin{itemize}
+    \item contributorId: The ID of the contributor.
+    \item name: The name of the contributor.
+    \item title: A title that explains the role of the contributor.
+    \item description: A description of the contributor.
+    \item imageUrl: A URL that shows an image of the contributor.
+    \item priority: A higher priority means that this contributor should be shown before other contributors.
+    \item active: A 1 means that this contributor has been accepted, a 0 means this contributor is yet to be accepted.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  contributors: [
+    }
+      contributorId: 42,
+      name: "John Doe",
+      title: "Very Important Person",
+      description: "This person has done many important things.",
+      imageUrl: "/uploads/user_54/4434462abfd4ae3303e7.png",
+      priority: 10,
+      active: 0
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/contributors/requests} \\
+Returns a list of all of the users who have a role of editor or above, any pending contributor requests they may have, and any publish requests they have made. Only admins can use this endpoint.
+\begin{itemize}
+    \item userId: The ID of the user.
+    \item firstName: The first name of the user.
+    \item lastName: The last name of the user.
+    \item contributorId: The ID of the contributor (if never accepted, then null).
+    \item name: The name of the contributor (if never accepted, then null).
+    \item title: A title that explains the role of the contributor (if never accepted, then null).
+    \item description: A description of the contributor (if never accepted, then null).
+    \item imageUrl: A URL that shows an image of the contributor (if never accepted, then null).
+    \item priority: A higher priority means that this contributor should be shown before other contributors.
+    \item active: A 1 means that this contributor has been accepted, a 0 means this contributor is yet to be accepted.
+    \item : A description of the contributor (if never accepted, then null).
+    \item tempContributorId: This will be the same value as userId if there is a pending contributor request for this user.
+    \item tempName: The name being suggested on a contributor request.
+    \item tempTitle: The title being suggested on a contributor request.
+    \item tempDescription: The description being suggested on a contributor request.
+    \item tempImageUrl: The imageUrl being suggested on a contributor request.
+    \item tempPriority: The priority being suggested on a contributor request.
+    \item requests: A list of publish requests that this user has previously submitted.
+    \begin{itemize}
+        \item requestId: The ID of the request.
+        \item created: The time when the request was created.
+        \item title: The title of the request.
+        \item description: A description of the publish request.
+        \item status: The status of the request.
+        \item userId: The user ID of the user who made the request.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  contributors: [
+    }
+      userId: 42
+      firstName: "John",
+      lastName: "Doe",
+      contributorId: 42,
+      name: "John Doe",
+      title: "Very Important Person",
+      description: "This person has done many important things.",
+      imageUrl: "/uploads/user_54/4434462abfd4ae3303e7.png",
+      priority: 10,
+      active: 1,
+      tempName: "New Doe",
+      tempTitle: "More Important Person",
+      tempDescription: "Some really impressive stuff, better than the last time.",
+      tempImageUrl: "/uploads/user_54/4434462abfd4ae3303e7.png",
+      tempPriority: 15,
+      requests: [
+        {
+          requestId: 17,
+          created: "2021-01-05T20:22:31.000Z",
+          title: "A new request",
+          description: "This is an example of a publish request",
+          status: 4,
+          userId: 42
+        }
+      ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
 \subsection{File Endpoints}
 
 
@@ -1065,6 +1195,63 @@ Updates an icon. Only an admin can use this endpoint.
 \begin{lstlisting}[caption=Example Response]
 { 
   iconId: 10
+}
+\end{lstlisting}
+\\~\\
+
+
+\subsection{Info Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/info/} \\
+Returns a list of all info objects. These objects represent a simple title, paragraph, and optionally an icon. Any user can use this endpoint.
+\begin{itemize}
+    \item info: All info objects.
+    \begin{itemize}
+        \item infoId: The ID of the info.
+        \item title: A title for the paragraph.
+        \item text: Some descriptive paragraph.
+        \item icon: The name of a font awesome icon that can be shown with the paragraph.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  info: [
+    {
+      infoId: 3,
+      title: "About this Guide",
+      text: "The OSU EEC / IAC offers...",
+      icon: "newspaper"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/info/:infoId} \\
+Updates an info object. Only an admin can use this endpoint.
+\begin{itemize}
+    \item infoId: The ID of the info.
+    \item title: A title for the paragraph.
+    \item text: Some descriptive paragraph.
+    \item icon: The name of a font awesome icon that can be shown with the paragraph.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  title: "This is a new title",
+  text: "Some text to describe something",
+  icon: "trophy",
+}
+\end{lstlisting}
+\begin{itemize}
+  \item infoId: The ID of the info.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  infoId: 3
 }
 \end{lstlisting}
 \\~\\
