@@ -12,6 +12,18 @@ function ReportPage(props) {
 
   const [parentsName, setParentsName] = useState("");
   const [showComment, setShowComment] = useState(false);
+  const [description, setDescription] = useState("");
+  const [oldDescription, setOldDescription] = useState("");
+
+  // Update descriptions
+  useEffect(() => {
+    if (props.page.description) {
+      setDescription(props.page.description.replace(/<\/?[^>]+(>|$)/g, ""));
+    }
+    if (props.page.oldVersion) {
+      setOldDescription(props.page.oldVersion.description.replace(/<\/?[^>]+(>|$)/g, ""));
+    }
+  }, [props.page.description]);
 
   // Adjust parent history for situations where the parent was deleted
   useEffect(() => {
@@ -52,8 +64,8 @@ function ReportPage(props) {
               </div>
               <HighlightText
                 newMode={false}
-                newText={props.page.description}
-                oldText={props.page.oldVersion.description}
+                newText={description}
+                oldText={oldDescription}
                 elementType={0}
                 allowWrap={true}
                 newId={props.newId}
@@ -168,8 +180,8 @@ function ReportPage(props) {
                 </div>
                 <HighlightText
                   newMode={true}
-                  newText={props.page.description}
-                  oldText={props.page.oldVersion.description}
+                  newText={description}
+                  oldText={oldDescription}
                   elementType={0}
                   allowWrap={true}
                   newId={props.newId}
@@ -199,7 +211,7 @@ function ReportPage(props) {
                 <br />
                 <span className="report-med-page-span highlight-new-content text-break">{props.page.title}</span>
                 <br />
-                <span className="description-report-page highlight-new-content">{props.page.description}</span>
+                <span className="description-report-page highlight-new-content">{description}</span>
                 <br />
                 <div className="p-4 d-inline-block new-review-image-container">
                   <Image url={props.page.imageUrl}
@@ -244,8 +256,8 @@ function ReportPage(props) {
               </div>
               <HighlightText
                 newMode={true}
-                newText={props.page.description}
-                oldText={props.page.oldVersion.description}
+                newText={description}
+                oldText={oldDescription}
                 elementType={0}
                 allowWrap={true}
                 newId={props.newId}
@@ -275,7 +287,7 @@ function ReportPage(props) {
               <br />
               <span className="report-med-page-span highlight-new-content text-break">{props.page.title}</span>
               <br />
-              <span className="description-report-page highlight-new-content">{props.page.description}</span>
+              <span className="description-report-page highlight-new-content">{description}</span>
               <br />
               <div className="p-4 d-inline-block new-review-image-container">
                 <Image url={props.page.imageUrl}

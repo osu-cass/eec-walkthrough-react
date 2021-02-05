@@ -10,6 +10,7 @@ import SaveView from "./SaveView";
 import LoadView from "./LoadView";
 import AddSource from "./AddSource";
 import QuickLinks from "../Various/QuickLinks";
+import Sanitized from "../../../components/General/Sanitized";
 import "./PageDescription.css";
 
 // Header and card that describes the page
@@ -127,7 +128,9 @@ function PageDescription(props) {
           <div className="row">
             <div className="col-8">
               <h5 className="font-weight-bold">{title}</h5>
-              <p className="allow-newlines">{description}</p>
+              <p className="allow-newlines">
+                <Sanitized html={description} />
+              </p>
               <QuickLinks
                 headers={props.headers}
                 quiz={props.quiz}
@@ -160,7 +163,9 @@ function PageDescription(props) {
           <div className="row">
             <div className="col">
               <h5 className="font-weight-bold">{title}</h5>
-              <p className="allow-newlines">{description}</p>
+              <p className="allow-newlines">
+                <Sanitized html={description} />
+              </p>
             </div>
           </div>
           <QuickLinks
