@@ -25,7 +25,6 @@ function RichTextEditor(props) {
     toolbar: [
       [{size: ["small", false, "large", "huge"]}],
       ["bold", "italic", "underline", "strike"],
-      [{list: "ordered"}, {list: "bullet"}],
       ["formula"],
       ["clean"]
     ],
@@ -37,8 +36,6 @@ function RichTextEditor(props) {
     "italic",
     "underline",
     "strike",
-    "list",
-    "bullet",
     "formula"
   ];
 

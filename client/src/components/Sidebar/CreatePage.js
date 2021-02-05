@@ -7,6 +7,7 @@ import {getAgreement} from "../../utilities/agreementMode";
 import PropTypes from "prop-types";
 import Error from "../General/Error";
 import ImageInput from "../General/ImageInput";
+import RichTextEditor from "../General/RichTextEditor";
 import {NavLink} from "react-router-dom";
 import "./CreatePage.css";
 
@@ -243,15 +244,12 @@ function CreatePage(props) {
             <Col>
               <Form.Group controlId="formDescription">
                 <Form.Label className="font-weight-bold">Brief Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  maxLength="5000"
-                  rows="4"
-                  placeholder="Enter description"
-                  onChange={(e) => setDescription(e.target.value)}
-                  style={{
-                    maxHeight: "500px"
-                  }}
+                <RichTextEditor
+                  id={`submit-page-description`}
+                  value={description}
+                  onChange={(text) => setDescription(text)}
+                  placeHolder="Enter description"
+                  showToolbar={() => true}
                 />
               </Form.Group>
             </Col>
