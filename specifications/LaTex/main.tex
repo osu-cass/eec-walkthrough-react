@@ -616,6 +616,97 @@ Returns a list of all of the users who have a role of editor or above, any pendi
 \\~\\
 
 
+\noindent
+\textbf{\textcolor{Green}{POST} api/contributors/submission} \\
+Create a contributor submission that will need to be reviewed by an admin. Editors and admins can use this endpoint.
+\begin{itemize}
+    \item userId: The ID of the current user.
+    \item name: The name of the contributor.
+    \item title: A title that explains the role of the contributor.
+    \item description: A description of the contributor.
+    \item imageUrl: A URL that shows an image of the contributor.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request File]
+{
+  userId: 42,
+  name: "John Doe",
+  title: "Very Important Person",
+  description: "John Doe has done some really cool things.",
+  imageUrl: "/uploads/user_42/4434462abfd4ae3303e7.png"
+}
+\end{lstlisting}
+\begin{itemize}
+    \item contributorId: The contributor ID, this should be the same as the user ID.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  contributorId: 42
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/contributors/:userId} \\
+Post information about a contributor. This action skips the review process. Only admins can use this endpoint.
+\begin{itemize}
+    \item userId: The ID of the current user.
+    \item name: The name of the contributor.
+    \item title: A title that explains the role of the contributor.
+    \item description: A description of the contributor.
+    \item imageUrl: A URL that shows an image of the contributor.
+    \item active: A 1 means that this contributor has been accepted, a 0 means this contributor is yet to be accepted.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request File]
+{
+  userId: 42,
+  name: "John Doe",
+  title: "Very Important Person",
+  description: "John Doe has done some really cool things.",
+  imageUrl: "/uploads/user_42/4434462abfd4ae3303e7.png",
+  active: 1
+}
+\end{lstlisting}
+\begin{itemize}
+    \item contributorId: The contributor ID, this should be the same as the user ID.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  contributorId: 42
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/contributors/pending/:contributorId} \\
+Reject a pending contributor submission. Only an admin can use this endpoint.
+\begin{itemize}
+  \item contributorId: The ID of the contributor that made the submission.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/contributors/pending/:contributorId} \\
+Accept a pending contributor submission. Only an admin can use this endpoint.
+\begin{itemize}
+  \item contributorId: The ID of the contributor that made the submission.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
 \subsection{File Endpoints}
 
 
