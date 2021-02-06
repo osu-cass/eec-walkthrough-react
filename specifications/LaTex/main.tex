@@ -96,13 +96,63 @@ To make handling responses from the API easier, all responses return a JSON obje
 
 \section{API Endpoints}
 
+\subsection{Banner Endpoints}
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/banners} \\
+Get a list of all banners. Any user can use this endpoint.
+\begin{itemize}
+    \item banners: The array of banners.
+    \begin{itemize}
+        \item bannerId: The ID of the banner.
+        \item imageUrl: The image URL of the banner.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  banners: [
+    {
+      bannerId: 1,
+      imageUrl: "/uploads/user_42/be19ca0ceb80eff619054bcc36a35adb.jpg"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/banners} \\
+Takes a list of banners and replaces all existing banners with the new banners. Only admins can use this endpoint.
+\begin{itemize}
+    \item banners: An array of image URLs.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  banners: [
+    "/uploads/user_42/be1239woweo234234.jpg",
+    "/uploads/user_51/e3o201osdfeo33421.jpg",
+    "/uploads/user_42/coe34p20owpsok321.jpg"
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+  \item bannersCreatedSuccessfully: This value is equal to 1 if all of the banners were created succesfully.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  bannersCreatedSuccessfully: 1
+}
+\end{lstlisting}
+\\~\\
+
+
 \subsection{Card Endpoints}
 
 \noindent
 \textbf{\textcolor{Green}{POST} api/cards} \\
 Creates a new card. Only editors and admins can use this endpoint.
 \begin{itemize}
-    \item HeaderId: The ID of the header that this card belongs to.
+    \item headerId: The ID of the header that this card belongs to.
     \item cardType: The type of card to create. Examples include: default card, internal card, thumbnail gallery, internal thumbnail gallery, and more.
     \item title: The title of the card.
     \item items: The items that will be included in the card.
