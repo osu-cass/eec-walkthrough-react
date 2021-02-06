@@ -73,6 +73,10 @@ function Quiz() {
           }
 
           setQuestions(obj.questions);
+
+          if (process.env.NODE_ENV === "development") {
+            console.log("Quiz Data:", obj);
+          }
         } else {
           const obj = await results.json();
 

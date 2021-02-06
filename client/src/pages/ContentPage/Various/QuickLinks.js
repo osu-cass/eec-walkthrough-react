@@ -80,7 +80,7 @@ export default QuickLinks;
 QuickLinks.propTypes = {
   headers: PropTypes.array,
   quiz: PropTypes.bool,
-  references: PropTypes.number,
+  references: PropTypes.bool,
   mode: PropTypes.number,
   publishedMode: PropTypes.number,
   publicMode: PropTypes.number
