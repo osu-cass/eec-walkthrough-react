@@ -2093,6 +2093,288 @@ Returns a report of all of the published content within the date range. Only edi
 \\~\\
 
 
+\subsection{Quiz Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/quizzes} \\
+Get all published quiz data related to a page. Any user can use this endpoint.
+\begin{itemize}
+    \item title: The title of the page.
+    \item question: The array of quiz questions.
+    \begin{itemize}
+        \item questionId: The ID of the question.
+        \item created: The time the question was created.
+        \item imageUrl: An optional image URL.
+        \item pageId: The ID of the page this question belongs to.
+        \item priority: A value that determines the order of quiz questions on the page. Smaller values are shown at the top of the page, while larger values are shown at the bottom.
+        \item type: A value that determines the type of question (1 is multiple choice, 2 is single text field, 3 is multiple text field, 4 is select all correct).
+        \item text: The text that describes the question.
+        \item approved: Whether the question is published (1) or unpublished (0).
+        \item answers: An array of possible answers to the question.
+            \begin{itemize}
+              \item answerId: The ID of the answer.
+              \item approved: Whether the answer belongs to a published question (1) or not (0).
+              \item correct: Whether the answer is correct.
+              \item groupId: If the question that this answer belongs to is a 'multiple text field' question, then it uses group IDs to keep variations of the same answer together (ex: cat, feline, and kitten).
+              \item text: The actual text answer.
+            \end{itemize}
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  title: "Boilers and Steam",
+  questions: [
+    {
+        questionId: 13,
+        created: "2020-12-21T22:47:43.000Z",
+        imageUrl: "",
+        pageId: 46,
+        priority: 0,
+        type: 3,
+        text: "It is best to tune a boiler every ___ to ___ months.",
+        approved: 1,
+        answers: [
+          {
+            answerId: 589,
+            approved: 1,
+            correct: 1,
+            questionId: 13,
+            text: "6"
+          },
+          {
+            answerId: 590,
+            approved: 1,
+            correct: 1,
+            groupId: 1,
+            questionId: 13,
+            text: "12"
+          }
+        ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/quizzes/pending} \\
+Get all quiz data related to a page, including unpublished questions. Internal users, editors, and admins can use this endpoint.
+\begin{itemize}
+    \item title: The title of the page.
+    \item question: The array of quiz questions.
+    \begin{itemize}
+        \item questionId: The ID of the question.
+        \item created: The time the question was created.
+        \item imageUrl: An optional image URL.
+        \item pageId: The ID of the page this question belongs to.
+        \item priority: A value that determines the order of quiz questions on the page. Smaller values are shown at the top of the page, while larger values are shown at the bottom.
+        \item type: A value that determines the type of question (1 is multiple choice, 2 is single text field, 3 is multiple text field, 4 is select all correct).
+        \item text: The text that describes the question.
+        \item approved: Whether the question is published (1) or unpublished (0).
+        \item tempCreated: The time the unpublished version was created.
+        \item tempImageUrl: The image URL for the unpublished version.
+        \item tempPriority: The priority for the unpublished version.
+        \item tempQuestionId: The ID of the unpublished version. This is null if there is no unpublished version.
+        \item tempText: The text for the unpublished version.
+        \item tempType: The type of the unpublished version.
+        \item tempAnswers: An array of unpublished answers.
+        \item answers: An array of possible answers to the question.
+            \begin{itemize}
+              \item answerId: The ID of the answer.
+              \item approved: Whether the answer belongs to a published question (1) or not (0).
+              \item correct: Whether the answer is correct.
+              \item groupId: If the question that this answer belongs to is a 'multiple text field' question, then it uses group IDs to keep variations of the same answer together (ex: cat, feline, and kitten).
+              \item text: The actual text answer.
+            \end{itemize}
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  title: "Boilers and Steam",
+  questions: [
+    {
+        questionId: 13,
+        created: "2020-12-21T22:47:43.000Z",
+        tempCreated: "2021-1-21T22:42:21.000Z
+        imageUrl: "",
+        tempImageUrl: "",
+        pageId: 46,
+        priority: 0,
+        tempPriority: 5,
+        type: 3,
+        tempType: 3,
+        text: "It is best to tune a boiler every ___ to ___ months.",
+        tempText: "A boiler should be tuned every ___ to ___ months.",
+        approved: 1,
+        answers: [
+          {
+            answerId: 589,
+            approved: 1,
+            correct: 1,
+            questionId: 13,
+            text: "6"
+          }
+        ]
+        tempAnswers: [
+          {
+            answerId: 589,
+            approved: 1,
+            correct: 1,
+            questionId: 13,
+            text: "6"
+          }
+        ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/quizzes/:pageId/scores} \\
+Get quiz scores for the current user for a specific page. Any user can use this endpoint.
+\begin{itemize}
+    \item title: The title of the page.
+    \item questions: The array of quiz questions.
+    \begin{itemize}
+        \item questionId: The ID of the question.
+        \item created: The time the question was created.
+        \item imageUrl: An optional image URL.
+        \item pageId: The ID of the page this question belongs to.
+        \item priority: A value that determines the order of quiz questions on the page. Smaller values are shown at the top of the page, while larger values are shown at the bottom.
+        \item type: A value that determines the type of question (1 is multiple choice, 2 is single text field, 3 is multiple text field, 4 is select all correct).
+        \item text: The text that describes the question.
+        \item approved: Whether the question is published (1) or unpublished (0).
+    \end{itemize}
+    \item scores: The array of scores.
+    \begin{itemize}
+        \item scoreId: The ID of the score.
+        \item pageId: The ID of the page the score belongs to.
+        \item questionId: The ID of the question the score belongs to.
+        \item userId: The ID of the user the score belongs to.
+        \item text: The text the user entered as the answer.
+        \item invalid: By default 0. If the user was answering a choose all correct question, then any answer that was not selected will be marked as invalid (1). Note: an answer can be invalid and correct, this just means that the correct answer was NOT selecting the specific answer.
+        \item correct: If the user got this answer correct, then the value is 1. If the user got this answer incorrect then the value is 0.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  title: "Boilers and Steam",
+  questions: [
+    {
+        questionId: 13,
+        created: "2020-12-21T22:47:43.000Z",
+        imageUrl: "",
+        pageId: 46,
+        priority: 0,
+        type: 3,
+        text: "It is best to tune a boiler every ___ to ___ months.",
+        approved: 1
+    }
+  ],
+  scores: [
+    {
+      scoreId: 231,
+      pageId: 46,
+      questionId: 13,
+      userId: 42,
+      text: "d",
+      invalid: 0,
+      correct: 0
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/quizzes/:pageId/scores} \\
+Submit quiz scores for the current user for a specific page. Any registered user can use this endpoint.
+\begin{itemize}
+    \item pageId: The specific page ID.
+    \item scores: The array of scores.
+    \begin{itemize}
+        \item questionId: The ID of the question the score belongs to.
+        \item text: The text the user entered as the answer.
+        \item invalid: By default 0. If the user was answering a choose all correct question, then any answer that was not selected will be marked as invalid (1). Note: an answer can be invalid and correct, this just means that the correct answer was NOT selecting the specific answer.
+        \item correct: If the user got this answer correct, then the value is 1. If the user got this answer incorrect then the value is 0.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  scores: [
+    {
+      questionId: 13,
+      text: "d",
+      invalid: 0,
+      correct: 0
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item submitted: Equal to 1.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  submitted: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/quizzes/:pageId} \\
+Create a new quiz question. Editors and admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page this question belongs to.
+    \item imageUrl: An optional image URL.
+    \item priority: A value that determines the order of quiz questions on the page. Smaller values are shown at the top of the page, while larger values are shown at the bottom.
+    \item type: A value that determines the type of question (1 is multiple choice, 2 is single text field, 3 is multiple text field, 4 is select all correct).
+    \item text: The text that describes the question.
+    \item answers: An array of possible answers to the question.
+        \begin{itemize}
+          \item correct: Whether the answer is correct.
+          \item groupId: If the question that this answer belongs to is a 'multiple text field' question, then it uses group IDs to keep variations of the same answer together (ex: cat, feline, and kitten).
+          \item text: The actual text answer.
+        \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+    pageId: 46,
+    imageUrl: "",
+    priority: 0,
+    type: 3,
+    text: "It is best to tune a boiler every ___ to ___ months.",
+    answers: [
+      {
+        correct: 1,
+        groupId: 0,
+        text: "6"
+      },
+      {
+        correct: 1,
+        groupId: 1,
+        text: "12"
+      }
+    ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item questionId: the ID of the question.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  questionId: 12
+}
+\end{lstlisting}
+\\~\\
+
+
 \subsection{Request Endpoints}
 
 

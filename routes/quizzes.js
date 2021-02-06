@@ -71,7 +71,7 @@ app.get("/:pageId", getUserID, getPageVal.validation, async (req, res) => {
 
 
 // gets the title and the quiz data for the specified page, including pending changes
-app.get("/:pageId/pending", getUserID, getPageVal.validation, async (req, res) => {
+app.get("/:pageId/pending", requireAuth, getPageVal.validation, async (req, res) => {
 
   try {
 
@@ -84,6 +84,12 @@ app.get("/:pageId/pending", getUserID, getPageVal.validation, async (req, res) =
     if (!errors.isEmpty()) {
       console.error(errors.array());
       return res.status(404).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(2, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to view pending quiz questions."});
+      return;
     }
 
     // get quiz page data
