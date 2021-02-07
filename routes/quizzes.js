@@ -312,7 +312,7 @@ app.get("/:pageId/observations", requireAuth, async (req, res) => {
     }
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(5, req.auth.userId)) {
+    if (!await roleCheck(3, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to view observations."});
       return;
     }
@@ -395,7 +395,7 @@ app.patch("/observations/:observationId/hide", requireAuth, deleteObservationVal
     const observationId = req.params.observationId;
 
     // make sure the user is allowed to perform this action
-    if (!await roleCheck(5, req.auth.userId)) {
+    if (!await roleCheck(3, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to hide an observation."});
       return;
     }

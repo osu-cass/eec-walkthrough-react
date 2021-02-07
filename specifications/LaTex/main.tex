@@ -2344,8 +2344,7 @@ Create a new quiz question. Editors and admins can use this endpoint.
         \end{itemize}
 \end{itemize}
 \begin{lstlisting}[caption=Example Request Body]
-{ 
-    pageId: 46,
+{
     imageUrl: "",
     priority: 0,
     type: 3,
@@ -2374,6 +2373,251 @@ Create a new quiz question. Editors and admins can use this endpoint.
 \end{lstlisting}
 \\~\\
 
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/quizzes/:questionId} \\
+Update a quiz question. Editors and admins can use this endpoint.
+\begin{itemize}
+    \item questionId: The ID of the question to update.
+    \item imageUrl: An optional image URL.
+    \item type: A value that determines the type of question (1 is multiple choice, 2 is single text field, 3 is multiple text field, 4 is select all correct).
+    \item text: The text that describes the question.
+    \item answers: An array of possible answers to the question.
+        \begin{itemize}
+          \item correct: Whether the answer is correct.
+          \item groupId: If the question that this answer belongs to is a 'multiple text field' question, then it uses group IDs to keep variations of the same answer together (ex: cat, feline, and kitten).
+          \item text: The actual text answer.
+        \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+    imageUrl: "",
+    priority: 0,
+    type: 3,
+    text: "It is best to tune a boiler every ___ to ___ months.",
+    answers: [
+      {
+        correct: 1,
+        groupId: 0,
+        text: "6"
+      },
+      {
+        correct: 1,
+        groupId: 1,
+        text: "12"
+      }
+    ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item insertId: the ID of the question.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  insertId: 12
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/quizzes/:pageId} \\
+Create a new quiz question. Editors and admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page this question belongs to.
+    \item imageUrl: An optional image URL.
+    \item priority: A value that determines the order of quiz questions on the page. Smaller values are shown at the top of the page, while larger values are shown at the bottom.
+    \item type: A value that determines the type of question (1 is multiple choice, 2 is single text field, 3 is multiple text field, 4 is select all correct).
+    \item text: The text that describes the question.
+    \item answers: An array of possible answers to the question.
+        \begin{itemize}
+          \item correct: Whether the answer is correct.
+          \item groupId: If the question that this answer belongs to is a 'multiple text field' question, then it uses group IDs to keep variations of the same answer together (ex: cat, feline, and kitten).
+          \item text: The actual text answer.
+        \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+    imageUrl: "",
+    priority: 0,
+    type: 3,
+    text: "It is best to tune a boiler every ___ to ___ months.",
+    answers: [
+      {
+        correct: 1,
+        groupId: 0,
+        text: "6"
+      },
+      {
+        correct: 1,
+        groupId: 1,
+        text: "12"
+      }
+    ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item questionId: the ID of the question.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  questionId: 12
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/quizzes/:pageId/observations} \\
+Get observations and feedback made by users who have taken the quiz. Editors and admins can use this endpoint.
+\begin{itemize}
+    \item observations: An array of all of the observations on this page.
+    \begin{itemize}
+        \item observationId: The ID of the observation.
+        \item pageId: The ID of the page the obseravation belongs to.
+        \item type: The type of observation (1 is general feedback, 2 is suggested new quiz questions).
+        \item text: The actuall text submitted by the user.
+        \item hidden: Whether this observation has been marked to be hidden.
+        \item userId: The ID of the user who made the observation.
+        \item username: The username of the user who made the observation.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  observations: [
+    {
+        observationId: 1,
+        pageId: 52,
+        type: 1,
+        text: "I really liked this quiz.",
+        hidden: 0,
+        userId: 42,
+        username: "Silverware"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/quizzes/:pageId/observations} \\
+Create a new observation(s) for a quiz. Any registered user can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page the observation(s) belongs to.
+    \item observations: An array of observations to create.
+    \begin{itemize}
+        \item type: The type of observation (1 is general feedback, 2 is suggested new quiz questions).
+        \item text: The actual text submitted by the user.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  observations: [
+    {
+        type: 1,
+        text: "I really liked this quiz.",
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item submitted: This value is equal to 1.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  submitted: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/quizzes/observations/:observationId/hide} \\
+Hide a user's observation. Editors and admins can use this endpoint.
+\begin{itemize}
+    \item observationId: The ID of the observation to be hidden.
+    \item affectedRows: The number of observations hidden.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/quizzes/:questionId} \\
+Delete a quiz question. Only admins can use this endpoint.
+\begin{itemize}
+  \item questionId: The ID of the question to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/quizzes/:questionId/changes} \\
+Delete unpublished quiz question changes. Editors and admins can use this endpoint.
+\begin{itemize}
+  \item questionId: The ID of the question to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/quizzes/:questionId/publish} \\
+Publish a quiz question so that it is shown to the public. Only admins can use this endpoint.
+\begin{itemize}
+    \item questionId: The ID of the question to be published.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  questionId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/quizzes/:questionId/unpublish} \\
+Unpublish a quiz question so that it is hidden from the public. Only admins can use this endpoint.
+\begin{itemize}
+    \item questionId: The ID of the question to be unpublished.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  questionId: 1
+}
+\end{lstlisting}
+\\~\\
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/quizzes/:questionId/move/:direction/:mode} \\
+Move a question up or down the page it exists on. Editors and admins can use this endpoint, but only admins can move already published questions.
+\begin{itemize}
+    \item questionId: The ID of the question to move.
+    \item direction: A value of 1 represents moving the question up one space, a value of 0 represents moving the question down one space.
+    \item mode: A value of 1 means that we are moving published questions (only admins can do this). A value of 0 means we are moving unpublished questions.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  questionId: 15
+}
+\end{lstlisting}
+\\~\\
 
 \subsection{Request Endpoints}
 
