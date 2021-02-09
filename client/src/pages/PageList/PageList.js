@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {useParams, withRouter, Link} from "react-router-dom";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import Image from "../../components/General/Image";
+import Sanitized from "../../components/General/Sanitized";
 import {formatTime} from "../../utilities/formatTime";
 import {API_URL} from "../../utilities/constants";
 import "./PageList.css";
@@ -120,7 +121,7 @@ function PageList() {
                       </h5>
                     </Link>
                     <span className="text-left float-left">
-                      {page.description}
+                      <Sanitized html={page.description} />
                     </span>
                     <span className="page-link-created text-left float-left">
                       Last updated {formatTime(page.created)}

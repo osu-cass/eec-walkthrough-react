@@ -1,17 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import sanitizeHtml from "sanitize-html";
-import "./Sanitized.css";
+// File: sanitizeRichText.js
+// Description: cleans an HTML string to ensure that it is safe to use.
 
-// Sanitizes the HTML that is passed to it
-function Sanitized(props) {
+const sanitizeHtml = require("sanitize-html");
 
-  let clean = props.html;
-  // Don't allow rich text to be wrapped in block elements. Should be inline.
-  if (clean.startsWith("<p>")) {
-    clean = clean.slice(3, clean.length - 4);
-  }
-  clean = sanitizeHtml(clean, {
+function sanitizeRichText(text) {
+
+  const clean = sanitizeHtml(text, {
     parser: {
       lowerCaseAttributeNames: false,
     },
@@ -296,13 +290,6 @@ function Sanitized(props) {
     }
   });
 
-  return (
-    <span dangerouslySetInnerHTML={{__html: clean}} className={props.inline ? "sanitized-inline-text" : "sanitized-text"}/>
-  );
+  return clean;
 }
-export default Sanitized;
-
-Sanitized.propTypes = {
-  html: PropTypes.any.isRequired,
-  inline: PropTypes.bool
-};
+exports.sanitizeRichText = sanitizeRichText;

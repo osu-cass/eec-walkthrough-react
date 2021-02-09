@@ -17,6 +17,8 @@ function ReviewHeader(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [internal, setInternal] = useState("");
   const [tempInternal, setTempInternal] = useState("");
+  const [lastEdit, setLastEdit] = useState("");
+  const [tempLastEdit, setTempLastEdit] = useState("");
 
   // get the current internal status
   useEffect(() => {
@@ -46,8 +48,35 @@ function ReviewHeader(props) {
   }
 
   // open the modal
-  function handleShow() {
+  async function handleShow() {
     setShow(true);
+
+    // get the usernames of the last editors
+    if (props.header.userId) {
+      const results = await fetch(`${API_URL}/users/${props.header.userId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        setLastEdit(obj.username);
+      }
+    }
+
+    if (props.header.tempUserId) {
+      const results = await fetch(`${API_URL}/users/${props.header.tempUserId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        setTempLastEdit(obj.username);
+      }
+    }
   }
 
   // unpublish
@@ -285,6 +314,11 @@ function ReviewHeader(props) {
             <div className="version-container p-2 m-3 border border-dark rounded">
               <h4 className="font-weight-bold">Published Version {internal}</h4>
               <span className="created-text">Last updated {formatTime(props.header.created)}</span>
+              {lastEdit.length ? (
+                <span className="created-text">&nbsp;by {lastEdit}</span>
+              ) : (
+                null
+              )}
               <div className="m-4">
                 {props.header.tempHeaderId ? (
                   <HighlightText
@@ -306,6 +340,11 @@ function ReviewHeader(props) {
             <div className="version-container p-2 m-3 border border-dark rounded">
               <h4 className="font-weight-bold">New Version {tempInternal}</h4>
               <span className="created-text">Last updated {formatTime(props.header.tempCreated)}</span>
+              {tempLastEdit.length ? (
+                <span className="created-text">&nbsp;by {tempLastEdit}</span>
+              ) : (
+                null
+              )}
               <div className="m-4">
                 <HighlightText
                   newMode={true}
@@ -323,6 +362,11 @@ function ReviewHeader(props) {
                 <div className="version-container p-2 m-3 border border-dark rounded">
                   <h4 className="font-weight-bold">New Version {internal}</h4>
                   <span className="created-text">Last updated {formatTime(props.header.created)}</span>
+                  {lastEdit.length ? (
+                    <span className="created-text">&nbsp;by {lastEdit}</span>
+                  ) : (
+                    null
+                  )}
                   <div className="m-4">
                     <h3 className="font-weight-bold">{props.header.title}</h3>
                   </div>

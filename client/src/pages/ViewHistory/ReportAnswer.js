@@ -99,7 +99,7 @@ function ReportAnswer(props) {
                           newMode={true}
                           newText={answer.text}
                           oldText={props.oldAnswers[i].text}
-                          elementType={2}
+                          elementType={props.smallText ? (0) : (2)}
                           newId={props.newId + "answer" + i}
                         />
                         <Fragment>
@@ -116,7 +116,7 @@ function ReportAnswer(props) {
                           newMode={true}
                           newText={answer.text}
                           oldText={""}
-                          elementType={2}
+                          elementType={props.smallText ? (0) : (2)}
                           newId={props.newId + "answer" + i}
                         />
                         <Fragment>
@@ -143,7 +143,7 @@ function ReportAnswer(props) {
                           newMode={false}
                           newText={props.newAnswers[i].text}
                           oldText={answer.text}
-                          elementType={2}
+                          elementType={props.smallText ? (0) : (2)}
                           newId={props.newId + "answer" + i}
                         />
                         <Fragment>
@@ -160,7 +160,7 @@ function ReportAnswer(props) {
                           newMode={false}
                           newText={""}
                           oldText={answer.text}
-                          elementType={2}
+                          elementType={props.smallText ? (0) : (2)}
                           newId={props.newId + "answer" + i}
                         />
                         <Fragment>
@@ -198,7 +198,7 @@ function ReportAnswer(props) {
                           newMode={true}
                           newText={answer.text}
                           oldText={props.oldAnswers[i].text}
-                          elementType={2}
+                          elementType={props.smallText ? (0) : (2)}
                           newId={props.newId + "answer" + i}
                         />
                       </div>
@@ -208,7 +208,7 @@ function ReportAnswer(props) {
                           newMode={true}
                           newText={answer.text}
                           oldText={""}
-                          elementType={2}
+                          elementType={props.smallText ? (0) : (2)}
                           newId={props.newId + "answer" + i}
                         />
                       </div>
@@ -228,7 +228,7 @@ function ReportAnswer(props) {
                           newMode={false}
                           newText={props.newAnswers[i].text}
                           oldText={answer.text}
-                          elementType={2}
+                          elementType={props.smallText ? (0) : (2)}
                           newId={props.newId + "answer" + i}
                         />
                       </div>
@@ -238,7 +238,7 @@ function ReportAnswer(props) {
                           newMode={false}
                           newText={""}
                           oldText={answer.text}
-                          elementType={2}
+                          elementType={props.smallText ? (0) : (2)}
                           newId={props.newId + "answer" + i}
                         />
                       </div>
@@ -277,7 +277,7 @@ function ReportAnswer(props) {
                               props.oldAnswers.length > findNormalIndex(true, answer.answerId) ?
                                 (props.oldAnswers[findNormalIndex(true, answer.answerId)].text) : ("")
                             }
-                            elementType={2}
+                            elementType={props.smallText ? (0) : (2)}
                             newId={i + "group" + j + "answer"}
                           />
 
@@ -310,7 +310,7 @@ function ReportAnswer(props) {
                                 (props.newAnswers[findNormalIndex(false, answer.answerId)].text) : ("")
                             }
                             oldText={answer.text}
-                            elementType={2}
+                            elementType={props.smallText ? (0) : (2)}
                             newId={i + "group" + j + "answer"}
                           />
 
@@ -340,5 +340,6 @@ ReportAnswer.propTypes = {
   newAnswers: PropTypes.array,
   oldAnswers: PropTypes.array,
   questionTypeNew: PropTypes.number,
-  questionTypeOld: PropTypes.number
+  questionTypeOld: PropTypes.number,
+  smallText: PropTypes.bool
 };

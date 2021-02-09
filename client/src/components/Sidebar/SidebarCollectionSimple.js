@@ -22,9 +22,13 @@ function SidebarCollection(props) {
           )}
           {props.collectionName}
           {active ? (
-            <span className="pull-right">&#11206;</span>
+            <span className="pull-right">
+              <i className="fas fa-fw fa-caret-down" />
+            </span>
           ) : (
-            <span className="pull-right">&#11208;</span>
+            <span className="pull-right">
+              <i className="fas fa-fw fa-caret-right" />
+            </span>
           )}
         </span>
       </Accordion.Toggle>

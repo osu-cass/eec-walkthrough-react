@@ -2,6 +2,7 @@
 // Description: Provides functions for working with info
 
 const {pool} = require("../services/database/mysqlPool");
+const {sanitizeRichText} = require("../services/format/sanitizeRichText");
 
 
 // returns all info objects
@@ -50,7 +51,7 @@ async function updateInfo(infoId, title, text, icon) {
     "SET title = ?, text = ?, icon = ? " +
     "WHERE infoId = ?;";
     sqlArray.push(title);
-    sqlArray.push(text);
+    sqlArray.push(sanitizeRichText(text));
     sqlArray.push(icon);
     sqlArray.push(infoId);
 

@@ -6,6 +6,25 @@ a:focus.page-sidebar-nav-link {
   transition: all 0.3s;
 }
 
+.sidebar-arrow-right {
+  width: 0px;
+  height: 0px;
+  border-top: 8px solid transparent;
+  border-left: 10px solid #fff;
+  border-right: none;
+  border-bottom: 8px solid transparent;
+}
+
+.sidebar-arrow-down {
+  width: 0px;
+  height: 0px;
+  border-top: 10px solid #fff;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: none;
+}
+
+
 .sidebar-icons {
   display: inline;
   white-space: nowrap;

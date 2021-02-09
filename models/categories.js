@@ -356,3 +356,49 @@ async function updateCategory(categoryId, singleName, pluralName, description, u
 
 }
 exports.updateCategory = updateCategory;
+
+
+// delete a category
+async function deleteCategory(categoryId) {
+
+  try {
+
+    // check to see if the category exists
+    let sql = "SELECT * " +
+    "FROM Categories " +
+    "WHERE categoryId = ?;";
+    let results = await pool.query(sql, categoryId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // make sure this category does not have any pages
+    sql = "SELECT * " +
+    "FROM Pages " +
+    "WHERE pageType = ?;";
+    results = await pool.query(sql, categoryId);
+
+    if (results[0].length) {
+      return {error: 2};
+    }
+
+    // delete the category
+    sql = "DELETE " +
+    "FROM Categories " +
+    "WHERE categoryId = ?;";
+    results = await pool.query(sql, categoryId);
+
+    const finalResults = {
+      affectedRows: results[0].affectedRows
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error deleting category");
+    throw Error(err);
+  }
+
+}
+exports.deleteCategory = deleteCategory;

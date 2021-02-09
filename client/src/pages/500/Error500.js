@@ -3,7 +3,7 @@ import {Card} from "react-bootstrap";
 import "./Error500.css";
 
 // 500 error page
-function Error404() {
+function Error500() {
   return (
     <div className="container">
       <Card className="my-5 py-5 mb-5" id="500-error-container">
@@ -20,4 +20,4 @@ function Error404() {
     </div>
   );
 }
-export default Error404;
+export default Error500;

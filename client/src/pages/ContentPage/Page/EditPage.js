@@ -6,6 +6,7 @@ import Agreement from "../../../components/General/Agreement";
 import {getAgreement} from "../../../utilities/agreementMode";
 import ImageInput from "../../../components/General/ImageInput";
 import LoadingOverlay from "../../../components/General/LoadingOverlay";
+import RichTextEditor from "../../../components/General/RichTextEditor";
 import {logout} from "../../../utilities/cookieAuth";
 import {API_URL, UPLOAD_TERMS} from "../../../utilities/constants";
 import "./EditPage.css";
@@ -581,16 +582,12 @@ function EditPage(props) {
             <Col>
               <Form.Group controlId="formDescription">
                 <Form.Label className="font-weight-bold">Brief Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  maxLength="5000"
-                  rows="4"
-                  placeholder="Enter description"
-                  defaultValue={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  style={{
-                    maxHeight: "500px"
-                  }}
+                <RichTextEditor
+                  id={`submit-page-description`}
+                  value={description}
+                  onChange={(text) => setDescription(text)}
+                  placeHolder="Enter description"
+                  showToolbar={() => true}
                 />
               </Form.Group>
             </Col>
