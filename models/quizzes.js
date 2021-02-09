@@ -255,25 +255,32 @@ async function createQuiz(text, type, imageUrl, answers, pageId) {
     }
 
     let correctCount = 0;
-    for (let j = 0; j < answers.length; j++) {
-      if (typeof answers[j].questionId !== "number") {
+    for (let i = 0; i < answers.length; i++) {
+      if (typeof answers[i].questionId !== "number") {
         return {error: 1};
       }
 
-      if (typeof answers[j].text !== "string") {
+      if (typeof answers[i].text !== "string") {
         return {error: 1};
       }
 
-      if (typeof answers[j].correct !== "number") {
+      if (typeof answers[i].correct !== "number") {
         return {error: 1};
       }
 
-      if (typeof answers[j].groupId !== "number") {
+      if (typeof answers[i].groupId !== "number") {
         return {error: 1};
       }
 
-      if (answers[j].correct) {
+      if (answers[i].correct) {
         correctCount++;
+      }
+
+      // don't allow two identical answers
+      for (let j = 0; j < answers.length; j++) {
+        if (i !== j && answers[i].text === answers[j].text) {
+          return {error: 1};
+        }
       }
     }
 
@@ -295,10 +302,24 @@ async function createQuiz(text, type, imageUrl, answers, pageId) {
       return {error: 2};
     }
 
+    // figure out what the priority value should be
+    let priority = 0;
+
+    sql = "SELECT MAX(priority) AS priority " +
+    "FROM Questions " +
+    "WHERE pageId = ?;";
+    results = await pool.query(sql, [pageId]);
+
+    if (results[0].length) {
+      if (Number.isInteger(results[0][0].priority)) {
+        priority = results[0][0].priority + 1;
+      }
+    }
+
     // create the question
-    sql = "INSERT INTO Questions (pageId, text, type, imageUrl, approved) " +
-    "VALUES (?, ?, ?, ?, 0);";
-    results = await pool.query(sql, [pageId, text, type, imageUrl]);
+    sql = "INSERT INTO Questions (pageId, text, type, imageUrl, priority, approved) " +
+    "VALUES (?, ?, ?, ?, ?, 0);";
+    results = await pool.query(sql, [pageId, text, type, imageUrl, priority]);
     const questionId = results[0].insertId;
 
     // create all of the new answers
@@ -338,25 +359,32 @@ async function updateQuiz(text, type, imageUrl, answers, questionId) {
     }
 
     let correctCount = 0;
-    for (let j = 0; j < answers.length; j++) {
-      if (typeof answers[j].questionId !== "number") {
+    for (let i = 0; i < answers.length; i++) {
+      if (typeof answers[i].questionId !== "number") {
         return {error: 1};
       }
 
-      if (typeof answers[j].text !== "string") {
+      if (typeof answers[i].text !== "string") {
         return {error: 1};
       }
 
-      if (typeof answers[j].correct !== "number") {
+      if (typeof answers[i].correct !== "number") {
         return {error: 1};
       }
 
-      if (typeof answers[j].groupId !== "number") {
+      if (typeof answers[i].groupId !== "number") {
         return {error: 1};
       }
 
-      if (answers[j].correct) {
+      if (answers[i].correct) {
         correctCount++;
+      }
+
+      // don't allow two identical answers
+      for (let j = 0; j < answers.length; j++) {
+        if (i !== j && answers[i].text === answers[j].text) {
+          return {error: 1};
+        }
       }
     }
 
@@ -372,7 +400,7 @@ async function updateQuiz(text, type, imageUrl, answers, questionId) {
     let sql = "SELECT * " +
     "FROM Questions " +
     "WHERE questionId = ?;";
-    const results = await pool.query(sql, questionId);
+    let results = await pool.query(sql, questionId);
 
     if (!results[0].length) {
       return {error: 2};
@@ -392,9 +420,26 @@ async function updateQuiz(text, type, imageUrl, answers, questionId) {
 
     // either insert or patch depending on if the original question was approved
     if (approved) {
-      sql = "INSERT INTO Temp_Questions (tempQuestionId, tempText, tempType, tempImageUrl) " +
-      "VALUES (?, ?, ?, ?);";
-      await pool.query(sql, [questionId, text, type, imageUrl]);
+
+      // figure out what the priority value should be
+      let priority = 0;
+
+      sql = "SELECT priority " +
+      "FROM Questions " +
+      "WHERE questionId = ?;";
+      results = await pool.query(sql, [questionId]);
+
+      if (results[0].length) {
+        if (Number.isInteger(results[0][0].priority)) {
+          priority = results[0][0].priority + 1;
+        }
+      }
+
+      // add the new pending question
+      sql = "INSERT INTO Temp_Questions (tempQuestionId, tempText, tempType, tempImageUrl, tempPriority) " +
+      "VALUES (?, ?, ?, ?, ?);";
+      await pool.query(sql, [questionId, text, type, imageUrl, priority]);
+
     } else {
       sql = "UPDATE Questions " +
       "SET text = ?, type = ?, imageUrl = ? " +

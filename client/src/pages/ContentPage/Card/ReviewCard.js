@@ -22,6 +22,8 @@ function ReviewCard(props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [cardTypeName, setCardTypeName] = useState("Default");
   const [tempCardTypeName, setTempCardTypeName] = useState("Default");
+  const [lastEdit, setLastEdit] = useState("");
+  const [tempLastEdit, setTempLastEdit] = useState("");
 
   // get the current users role
   useEffect(() => {
@@ -83,8 +85,36 @@ function ReviewCard(props) {
     setShow(false);
     setErrorMessage("");
   }
-  function handleShow() {
+
+  async function handleShow() {
     setShow(true);
+
+    // get the usernames of the last editors
+    if (props.card.userId) {
+      const results = await fetch(`${API_URL}/users/${props.card.userId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        setLastEdit(obj.username);
+      }
+    }
+
+    if (props.card.tempUserId) {
+      const results = await fetch(`${API_URL}/users/${props.card.tempUserId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        setTempLastEdit(obj.username);
+      }
+    }
   }
 
   // delete changes
@@ -316,6 +346,11 @@ function ReviewCard(props) {
             <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
               <h4 className="font-weight-bold">Published Version ({cardTypeName})</h4>
               <span className="created-text">Last updated {formatTime(props.card.created)}</span>
+              {lastEdit.length ? (
+                <span className="created-text">&nbsp;by {lastEdit}</span>
+              ) : (
+                null
+              )}
               <div className="m-3">
                 {props.card.tempCardId ? (
                   <HighlightText
@@ -356,6 +391,11 @@ function ReviewCard(props) {
                 <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
                   <h4 className="font-weight-bold">New Version ({tempCardTypeName})</h4>
                   <span className="created-text">Last updated {formatTime(props.card.tempCreated)}</span>
+                  {tempLastEdit.length ? (
+                    <span className="created-text">&nbsp;by {tempLastEdit}</span>
+                  ) : (
+                    null
+                  )}
                   <div className="m-3">
                     <HighlightText
                       newMode={true}
@@ -376,6 +416,11 @@ function ReviewCard(props) {
                 <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
                   <h4 className="font-weight-bold">New Version ({cardTypeName})</h4>
                   <span className="created-text">Last updated {formatTime(props.card.created)}</span>
+                  {lastEdit.length ? (
+                    <span className="created-text">&nbsp;by {lastEdit}</span>
+                  ) : (
+                    null
+                  )}
                   <div className="m-3">
                     <h3 className="font-weight-bold">{props.card.title}</h3>
                     {props.card.cardType === 1 || props.card.cardType === 11 ? (

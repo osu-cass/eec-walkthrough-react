@@ -1,10 +1,10 @@
-// File: info.js
-// Description: Provides functions for working with info
+// File: contributors.js
+// Description: Provides functions for working with contributor data.
 
 const {pool} = require("../services/database/mysqlPool");
 
 
-// returns all of the contributors
+// returns all approved contributors
 async function getContributors() {
 
   try {
@@ -242,6 +242,25 @@ async function rejectContributorSubmission(contributorId) {
       affectedRows: results[0].affectedRows
     };
 
+    // delete any pending notifications
+    // get the current contributor's username
+    sql = "SELECT username FROM Users " +
+    "WHERE userId = ?;";
+    results = await pool.query(sql, contributorId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // get information about the message we need to delete
+    const username = results[0][0].username;
+    const notificationMessage = `${username} has submitted a contributor card that is awaiting review`;
+
+    // delete outdated notifications
+    sql = "DELETE FROM Notifications " +
+    "WHERE text = ? AND type = 6;";
+    await pool.query(sql, notificationMessage);
+
     return finalResults;
 
   } catch (err) {
@@ -307,6 +326,25 @@ async function acceptContributorSubmission(contributorId) {
     const finalResults = {
       affectedRows: 1
     };
+
+    // delete any pending notifications
+    // get the current contributor's username
+    sql = "SELECT username FROM Users " +
+    "WHERE userId = ?;";
+    results = await pool.query(sql, contributorId);
+
+    if (!results[0].length) {
+      return {error: 1};
+    }
+
+    // get information about the message we need to delete
+    const username = results[0][0].username;
+    const notificationMessage = `${username} has submitted a contributor card that is awaiting review`;
+
+    // delete outdated notifications
+    sql = "DELETE FROM Notifications " +
+    "WHERE text = ? AND type = 6;";
+    await pool.query(sql, notificationMessage);
 
     return finalResults;
 

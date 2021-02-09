@@ -968,7 +968,7 @@ async function getReport(start, end, condense, offset) {
         sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
         "HI.iconType, typeName, typeKeyword, contentText, " +
         "contentUrl, contentLabel, contentMode, internal, " +
-        "created, color, sourceId, inline " +
+        "created, color, sourceId, inline, groupIndex " +
         "FROM History_Items AS HI " +
         "LEFT JOIN Icons on HI.iconType = Icons.iconType " +
         "WHERE parentId = ? " +
@@ -991,7 +991,7 @@ async function getReport(start, end, condense, offset) {
       sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
       "HI.iconType, typeName, typeKeyword, contentText, " +
       "contentUrl, contentLabel, contentMode, internal, " +
-      "created, color, sourceId, inline " +
+      "created, color, sourceId, inline, groupIndex " +
       "FROM History_Items AS HI " +
       "LEFT JOIN Icons on HI.iconType = Icons.iconType " +
       "WHERE parentId = ? " +

@@ -56,6 +56,7 @@ function QuizEdit() {
 
         if (results.ok) {
           const obj = await results.json();
+
           setTitle(obj.title);
 
           // get keys for each question

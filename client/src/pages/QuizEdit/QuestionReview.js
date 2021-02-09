@@ -7,6 +7,8 @@ import {API_URL} from "../../utilities/constants";
 import Error from "../../components/General/Error";
 import {logout} from "../../utilities/cookieAuth";
 import AddReviewObject from "../ContentPage/Various/AddReviewObject";
+import HighlightText from "../ContentPage/Various/HighlightText";
+import ReportAnswer from "../ViewHistory/ReportAnswer";
 import PropTypes from "prop-types";
 
 // A button and modal for reviewing questions
@@ -15,6 +17,8 @@ function QuestionReview(props) {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [lastEdit, setLastEdit] = useState("");
+  const [tempLastEdit, setTempLastEdit] = useState("");
 
   // close the modal
   function handleCloseModal() {
@@ -23,8 +27,35 @@ function QuestionReview(props) {
   }
 
   // open the modal
-  function handleShowModal() {
+  async function handleShowModal() {
     setShowModal(true);
+
+    // get the usernames of the last editors
+    if (props.question.userId) {
+      const results = await fetch(`${API_URL}/users/${props.question.userId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        setLastEdit(obj.username);
+      }
+    }
+
+    if (props.question.tempUserId) {
+      const results = await fetch(`${API_URL}/users/${props.question.tempUserId}`, {
+        method: "GET",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      });
+
+      if (results.ok) {
+        const obj = await results.json();
+        setTempLastEdit(obj.username);
+      }
+    }
   }
 
   // get the string for the correct question type
@@ -293,10 +324,16 @@ function QuestionReview(props) {
 
         <Modal.Body>
 
-          {props.question.approved ? (
+          {/* Published non-highlighted version */}
+          {props.question.approved && !props.question.tempQuestionId ? (
             <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
               <h4 className="font-weight-bold">Published Version</h4>
               <span className="created-text">Last updated {formatTime(props.question.created)}</span>
+              {lastEdit.length ? (
+                <span className="created-text">&nbsp;by {lastEdit}</span>
+              ) : (
+                null
+              )}
               <div className="m-3">
 
                 <div className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm">
@@ -387,194 +424,287 @@ function QuestionReview(props) {
             null
           )}
 
-          {props.question.approved && !props.question.tempQuestionId ? (
-            null
-          ) : (
-            <Fragment>
-              {props.question.tempQuestionId ? (
-                <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
-                  <h4 className="font-weight-bold">New Version</h4>
-                  <span className="created-text">Last updated {formatTime(props.question.tempCreated)}</span>
-                  <div className="m-3">
+          {/* Published highlighted version */}
+          {props.question.approved && props.question.tempQuestionId ? (
+            <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
+              <h4 className="font-weight-bold">Published Version</h4>
+              <span className="created-text">Last updated {formatTime(props.question.created)}</span>
+              {lastEdit.length ? (
+                <span className="created-text">&nbsp;by {lastEdit}</span>
+              ) : (
+                null
+              )}
+              <div className="m-3">
 
-                    <div className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm">
-                      {/* Question type */}
-                      <label className="font-weight-bold">
-                        Question Type
+                <div className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm">
+                  {/* Question type */}
+                  <label className="font-weight-bold">
+                    Question Type
+                  </label>
+                  <div>
+                    <span className={props.question.type !== props.question.tempType ? "highlight-old-content" : ""}>
+                      {questionType(props.question.type)}
+                    </span>
+                  </div>
+
+                  {/* Question text */}
+                  <label className="mt-3 font-weight-bold">
+                    Question Text
+                  </label>
+                  <div>
+                    <HighlightText
+                      newMode={false}
+                      newText={props.question.tempText}
+                      oldText={props.question.text}
+                      newId={props.question.questionId + "new-text"}
+                    />
+                  </div>
+
+                  {/* Preview Image */}
+                  {props.question.imageUrl.length ? (
+                    <div className="my-3">
+                      <label className="mt-3 font-weight-bold">
+                        Image Preview
                       </label>
-                      <span>
+                      {props.question.imageUrl !== props.question.tempImageUrl ? (
+                        <Fragment>
+                          <br />
+                          <div className="p-4 d-inline-block old-review-image-container">
+                            <Image
+                              url={props.question.imageUrl}
+                              title={"Question Image"}
+                              thumbnail={true}
+                              header={false}
+                            />
+                          </div>
+                        </Fragment>
+                      ) : (
+                        <Image
+                          url={props.question.imageUrl}
+                          title={"Question Image"}
+                          thumbnail={true}
+                          header={false}
+                        />
+                      )}
+                    </div>
+                  ) : (
+                    null
+                  )}
+
+                  {/* Answers */}
+                  <label className="mt-3 font-weight-bold">
+                    Answers
+                  </label>
+                  <ReportAnswer
+                    newMode={false}
+                    newAnswers={props.question.tempAnswers}
+                    oldAnswers={props.question.answers}
+                    questionTypeNew={props.question.tempType}
+                    questionTypeOld={props.question.type}
+                    newId={props.question.questionId + "old-answers"}
+                    smallText={true}
+                  />
+                </div>
+
+              </div>
+            </div>
+          ) : (
+            null
+          )}
+
+          {/* Unpublished un-highlighted version */}
+          {!props.question.approved && !props.question.tempQuestionId ? (
+            <Fragment>
+              <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
+                <h4 className="font-weight-bold">New Version</h4>
+                <span className="created-text">Last updated {formatTime(props.question.created)}</span>
+                {lastEdit.length ? (
+                  <span className="created-text">&nbsp;by {lastEdit}</span>
+                ) : (
+                  null
+                )}
+                <div className="m-3">
+
+                  <div className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm">
+                    {/* Question type */}
+                    <label className="font-weight-bold">
+                      Question Type
+                    </label>
+                    <span>
+                      {questionType(props.question.type)}
+                    </span>
+
+                    {/* Question text */}
+                    <label className="mt-3 font-weight-bold">
+                      Question Text
+                    </label>
+                    <span>
+                      {props.question.text}
+                    </span>
+
+                    {/* Preview Image */}
+                    {props.question.imageUrl.length ? (
+                      <div className="my-3">
+                        <label className="mt-3 font-weight-bold">
+                          Image Preview
+                        </label>
+                        <Image
+                          url={props.question.imageUrl}
+                          title={"Question Image"}
+                          thumbnail={true}
+                          header={false}
+                        />
+                      </div>
+                    ) : (
+                      null
+                    )}
+
+                    {/* Answers */}
+                    <label className="mt-3 font-weight-bold">
+                      Answers
+                    </label>
+                    <Fragment>
+                      {props.question.type === 3 ? (
+                        <Fragment>
+                          {props.question.tempGroups.map((group, i) =>
+                            <Fragment key={i}>
+                              <h4 className="mt-2">Answer Group #{i + 1}</h4>
+                              <div className="answers-block-edit">
+                                {group.map((answer) =>
+                                  <div className="row mb-2 pl-3" key={answer.answerId}>
+                                    <span className="mb-4">
+                                      {answer.text}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                            </Fragment>
+                          )}
+                        </Fragment>
+                      ) : (
+                        <div className="answers-block-edit">
+                          {props.question.tempAnswers.map((answer) =>
+                            <span className="mb-4" key={answer.answerId}>
+                              {answer.text}
+
+                              {/* Display icons that show the status of the answer */}
+                              {props.question.type === 1 || props.question.type === 4 ? (
+                                <Fragment>
+                                  {answer.correct ? (
+                                    <i className={`fas fa-fw fa-check ml-2`} />
+                                  ) : (
+                                    <i className={`fas fa-fw fa-times ml-2`} />
+                                  )}
+                                </Fragment>
+                              ) : (
+                                null
+                              )}
+
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </Fragment>
+                  </div>
+
+                </div>
+              </div>
+            </Fragment>
+          ) : (
+            null
+          )}
+
+          {/* Unpublished highlighted version */}
+          {props.question.approved && props.question.tempQuestionId ? (
+            <Fragment>
+              <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
+                <h4 className="font-weight-bold">New Version</h4>
+                <span className="created-text">Last updated {formatTime(props.question.tempCreated)}</span>
+                {tempLastEdit.length ? (
+                  <span className="created-text">&nbsp;by {tempLastEdit}</span>
+                ) : (
+                  null
+                )}
+                <div className="m-3">
+
+                  <div className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm">
+                    {/* Question type */}
+                    <label className="font-weight-bold">
+                      Question Type
+                    </label>
+                    <div>
+                      <span className={props.question.type !== props.question.tempType ? "highlight-new-content" : ""}>
                         {questionType(props.question.tempType)}
                       </span>
-
-                      {/* Question text */}
-                      <label className="mt-3 font-weight-bold">
-                        Question Text
-                      </label>
-                      <span>
-                        {props.question.tempText}
-                      </span>
-
-                      {/* Preview Image */}
-                      {props.question.tempImageUrl.length ? (
-                        <div className="my-3">
-                          <label className="mt-3 font-weight-bold">
-                            Image Preview
-                          </label>
-                          <Image
-                            url={props.question.tempImageUrl}
-                            title={"Question Image"}
-                            thumbnail={true}
-                            header={false}
-                          />
-                        </div>
-                      ) : (
-                        null
-                      )}
-
-                      {/* Answers */}
-                      <label className="mt-3 font-weight-bold">
-                        Answers
-                      </label>
-                      <Fragment>
-                        {props.question.tempType === 3 ? (
-                          <Fragment>
-                            {props.question.tempGroups.map((group, i) =>
-                              <Fragment key={i}>
-                                <h4 className="mt-2">Answer Group #{i + 1}</h4>
-                                <div className="answers-block-edit">
-                                  {group.map((answer) =>
-                                    <div className="row mb-2 pl-3" key={answer.answerId}>
-                                      <span className="mb-4">
-                                        {answer.text}
-                                      </span>
-                                    </div>
-                                  )}
-                                </div>
-                              </Fragment>
-                            )}
-                          </Fragment>
-                        ) : (
-                          <div className="answers-block-edit">
-                            {props.question.tempAnswers.map((answer) =>
-                              <span className="mb-4" key={answer.answerId}>
-                                {answer.text}
-
-                                {/* Display icons that show the status of the answer */}
-                                {props.question.tempType === 1 || props.question.tempType === 4 ? (
-                                  <Fragment>
-                                    {answer.correct ? (
-                                      <i className={`fas fa-fw fa-check ml-2`} />
-                                    ) : (
-                                      <i className={`fas fa-fw fa-times ml-2`} />
-                                    )}
-                                  </Fragment>
-                                ) : (
-                                  null
-                                )}
-
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </Fragment>
                     </div>
 
-                  </div>
-                </div>
-              ) : (
-                <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
-                  <h4 className="font-weight-bold">New Version</h4>
-                  <span className="created-text">Last updated {formatTime(props.question.created)}</span>
-                  <div className="m-3">
+                    {/* Question text */}
+                    <label className="mt-3 font-weight-bold">
+                      Question Text
+                    </label>
+                    <div>
+                      <HighlightText
+                        newMode={true}
+                        newText={props.question.tempText}
+                        oldText={props.question.text}
+                        newId={props.question.questionId + "old-text"}
+                      />
+                    </div>
 
-                    <div className="prompt-container mb-3 p-4 bg-white card rounded shadow-sm">
-                      {/* Question type */}
-                      <label className="font-weight-bold">
-                        Question Type
-                      </label>
-                      <span>
-                        {questionType(props.question.type)}
-                      </span>
-
-                      {/* Question text */}
-                      <label className="mt-3 font-weight-bold">
-                        Question Text
-                      </label>
-                      <span>
-                        {props.question.text}
-                      </span>
-
-                      {/* Preview Image */}
-                      {props.question.imageUrl.length ? (
-                        <div className="my-3">
-                          <label className="mt-3 font-weight-bold">
-                            Image Preview
-                          </label>
+                    {/* Preview Image */}
+                    {props.question.tempImageUrl.length ? (
+                      <div className="my-3">
+                        <label className="mt-3 font-weight-bold">
+                          Image Preview
+                        </label>
+                        {props.question.imageUrl !== props.question.tempImageUrl ? (
+                          <Fragment>
+                            <br />
+                            <div className="p-4 d-inline-block new-review-image-container">
+                              <Image
+                                url={props.question.tempImageUrl}
+                                title={"Question Image"}
+                                thumbnail={true}
+                                header={false}
+                              />
+                            </div>
+                          </Fragment>
+                        ) : (
                           <Image
                             url={props.question.imageUrl}
                             title={"Question Image"}
                             thumbnail={true}
                             header={false}
                           />
-                        </div>
-                      ) : (
-                        null
-                      )}
-
-                      {/* Answers */}
-                      <label className="mt-3 font-weight-bold">
-                        Answers
-                      </label>
-                      <Fragment>
-                        {props.question.type === 3 ? (
-                          <Fragment>
-                            {props.question.tempGroups.map((group, i) =>
-                              <Fragment key={i}>
-                                <h4 className="mt-2">Answer Group #{i + 1}</h4>
-                                <div className="answers-block-edit">
-                                  {group.map((answer) =>
-                                    <div className="row mb-2 pl-3" key={answer.answerId}>
-                                      <span className="mb-4">
-                                        {answer.text}
-                                      </span>
-                                    </div>
-                                  )}
-                                </div>
-                              </Fragment>
-                            )}
-                          </Fragment>
-                        ) : (
-                          <div className="answers-block-edit">
-                            {props.question.tempAnswers.map((answer) =>
-                              <span className="mb-4" key={answer.answerId}>
-                                {answer.text}
-
-                                {/* Display icons that show the status of the answer */}
-                                {props.question.type === 1 || props.question.type === 4 ? (
-                                  <Fragment>
-                                    {answer.correct ? (
-                                      <i className={`fas fa-fw fa-check ml-2`} />
-                                    ) : (
-                                      <i className={`fas fa-fw fa-times ml-2`} />
-                                    )}
-                                  </Fragment>
-                                ) : (
-                                  null
-                                )}
-
-                              </span>
-                            )}
-                          </div>
                         )}
-                      </Fragment>
-                    </div>
+                      </div>
+                    ) : (
+                      null
+                    )}
 
+                    {/* Answers */}
+                    <label className="mt-3 font-weight-bold">
+                      Answers
+                    </label>
+                    <ReportAnswer
+                      newMode={true}
+                      newAnswers={props.question.tempAnswers}
+                      oldAnswers={props.question.answers}
+                      questionTypeNew={props.question.tempType}
+                      questionTypeOld={props.question.type}
+                      newId={props.question.questionId + "new-answers"}
+                      smallText={true}
+                    />
                   </div>
+
                 </div>
-              )}
+              </div>
             </Fragment>
+          ) : (
+            null
           )}
 
+          {/* Error message */}
           <Row>
             <div className='col-3' />
             <div className='col-6 mt-4'>
