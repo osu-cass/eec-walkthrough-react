@@ -13,7 +13,7 @@ function BulletPoint(props) {
   return !props.internal || !props.publicMode ? (
     <Fragment>
       {/* If the bullet point is an item */}
-      {props.groupIndex === 1 ? (
+      {props.groupIndex === 1 && props.icon !== "font" ? (
         <BulletPointItem
           id={props.id}
           text={props.text}
@@ -29,6 +29,23 @@ function BulletPoint(props) {
           source={props.source}
           sourceText={props.sourceText}
           inline={props.inline}
+        />
+      ) : (
+        null
+      )}
+
+      {/* If the bullet point is a text field */}
+      {props.groupIndex === 1 && props.icon === "font" ? (
+        <BulletPointText
+          id={props.id}
+          text={props.text}
+          mode={props.mode}
+          indentation={props.indentation}
+          highlightStyle={props.highlightStyle}
+          internal={props.internal}
+          inline={props.inline}
+          source={props.source}
+          sourceText={props.sourceText}
         />
       ) : (
         null
@@ -77,22 +94,6 @@ function BulletPoint(props) {
       ) : (
         null
       )}
-
-      {/* If the bullet point is a text field */}
-      {props.groupIndex === 4 ? (
-        <BulletPointText
-          id={props.id}
-          text={props.text}
-          mode={props.mode}
-          indentation={props.indentation}
-          highlightStyle={props.highlightStyle}
-          internal={props.internal}
-          inline={props.inline}
-        />
-      ) : (
-        null
-      )}
-
     </Fragment>
   ) : (
     null

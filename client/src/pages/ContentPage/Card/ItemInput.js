@@ -233,22 +233,6 @@ function ItemInput(props) {
         null
       )}
 
-      {props.groupIndex === 4 ? (
-        <div className="text-editor-input">
-          <div className="form-group mx-3 mb-4">
-            <RichTextEditor
-              id={`submit-text-${props.index}`}
-              value={props.value.contentText}
-              onChange={(text) => props.handleInput(text, props.index, 4)}
-              placeHolder="Item Text"
-              showToolbar={props.isSelected}
-            />
-          </div>
-        </div>
-      ) : (
-        null
-      )}
-
     </Fragment>
   );
 
