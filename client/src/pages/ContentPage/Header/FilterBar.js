@@ -1,6 +1,7 @@
 import React, {useEffect, useState, Fragment} from "react";
 import PropTypes from "prop-types";
 import ListToggle from "./ListToggle";
+import ListCollapse from "./ListCollapse";
 import "./FilterBar.css";
 
 // The bar inside of a header that is used for filtering out items
@@ -103,6 +104,12 @@ function FilterBar(props) {
             toggleList={() => props.updateIcon(0, !props.toggled)}
           />
 
+          {/* toggle expandable cards */}
+          <ListCollapse
+            collapsed={props.collapsed}
+            collapsedList={() => props.updateIcon(9999, !props.collapsed)}
+          />
+
           {/* show all icons */}
           <div className="col-auto px-2 py-0 align-self-center">
             <div
@@ -156,5 +163,6 @@ FilterBar.propTypes = {
   tempFilterIcons: PropTypes.array,
   mode: PropTypes.number,
   showToggle: PropTypes.bool,
-  toggled: PropTypes.number
+  toggled: PropTypes.number,
+  collapsed: PropTypes.number
 };
