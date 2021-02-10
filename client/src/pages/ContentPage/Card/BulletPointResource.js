@@ -2,10 +2,35 @@ import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import {formatTime} from "../../../utilities/formatTime";
 import LinkAccessButtons from "./LinkAccessButtons";
+import {API_URL} from "../../../utilities/constants";
 import Sanitized from "../../../components/General/Sanitized";
 
 // Represents a single resource type bullet inside a card
 function BulletPointResource(props) {
+
+  // Set a new accessed date for the current item
+  async function updateAccess() {
+
+    console.log("CLICKED LINK")
+    // construct the request body
+    const patchObj = {
+      deadLink: 0
+    };
+
+    const results = await fetch(`${API_URL}/links/${props.id}/timestamp`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(patchObj),
+    });
+
+    if (results.ok) {
+      const obj = await results.json();
+      props.handleTimestamp(obj.timestamp);
+    } else {
+      console.error("Error while attempting to update link valid message.");
+    }
+  }
 
   return (
     <Fragment>
@@ -38,6 +63,7 @@ function BulletPointResource(props) {
 
                 {/* The link to the resource */}
                 <a
+                  onClick={() => updateAccess()}
                   href={props.url}
                   className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}` }
                   target="_blank"
@@ -79,6 +105,7 @@ function BulletPointResource(props) {
 
               {/* Optional resource description */}
               <a
+                onClick={() => updateAccess()}
                 href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}
                 target="_blank"
                 rel="noreferrer noopener"
