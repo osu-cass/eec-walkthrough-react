@@ -11,7 +11,7 @@ function BulletPointText(props) {
       {/* The row holding the item */}
       <div className={`row mx-auto pb-2 ${props.highlightStyle === 1 ? "new-review-item" : ""}
         ${props.internal ? "internal-item" : ""} ${props.highlightStyle === 2 ? "move-review-item" : ""}
-        ${props.highlightStyle === 3 ? "old-review-item" : ""} indent-level-${props.indentation} text-no-overflow`}
+        ${props.highlightStyle === 3 ? "old-review-item" : ""} indent-level-text-${props.indentation} text-no-overflow`}
       >
         <Sanitized html={props.text} inline={!!props.inline} />
       </div>

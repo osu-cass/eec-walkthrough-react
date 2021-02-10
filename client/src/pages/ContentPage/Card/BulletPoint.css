@@ -69,6 +69,22 @@
   margin-left: 6em !important;
 }
 
+.indent-level-text-1 {
+  margin-left: 1.8em !important;
+}
+
+.indent-level-text-2 {
+  margin-left: 3.3em !important;
+}
+
+.indent-level-text-3 {
+  margin-left: 4.8em !important;
+}
+
+.indent-level-text-4 {
+  margin-left: 6.3em !important;
+}
+
 .indent-level-1.icon-item.fa-circle {
   margin-left: 3.7em;
 }
