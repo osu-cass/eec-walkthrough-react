@@ -37,7 +37,12 @@ function BulletPointResource(props) {
               <div className="row">
 
                 {/* The link to the resource */}
-                <a href={props.url} className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}>
+                <a
+                  href={props.url}
+                  className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}` }
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
                   <span className="font-weight-bold">{props.label}</span>
                 </a>
 
@@ -73,7 +78,11 @@ function BulletPointResource(props) {
               </div>
 
               {/* Optional resource description */}
-              <a href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}>
+              <a
+                href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 <small>
                   <Sanitized html={props.text} inline={!!props.inline} />
                 </small>
