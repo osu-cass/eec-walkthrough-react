@@ -955,7 +955,7 @@ function ConstructCardModal(props) {
           break;
         }
       } else if (item.groupIndex === 3) { // link
-        if (item.contentLabel === "" || item.contentUrl === "") {
+        if (item.contentLabel === "" || (item.contentUrl === "" && !item.imageToUpload)) {
           emptyFound = true;
           newErrorMessage = "Error: Resource is not filled out completely on line " + (i + 1);
           break;

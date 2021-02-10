@@ -11,7 +11,6 @@ function BulletPointResource(props) {
   // Set a new accessed date for the current item
   async function updateAccess() {
 
-    console.log("CLICKED LINK")
     // construct the request body
     const patchObj = {
       deadLink: 0
