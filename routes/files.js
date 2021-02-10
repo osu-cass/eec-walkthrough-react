@@ -25,7 +25,8 @@ const {
 const imageTypes = {
   "image/jpeg": "jpg",
   "image/png": "png",
-  "image/gif": "gif"
+  "image/gif": "gif",
+  "application/pdf": "pdf"
 };
 
 
