@@ -1,5 +1,6 @@
 import React, {Fragment} from "react";
 import Sanitized from "../../../components/General/Sanitized";
+import Source from "./Source";
 import PropTypes from "prop-types";
 
 // Represents a single field of formatted text
@@ -11,9 +12,14 @@ function BulletPointText(props) {
       {/* The row holding the item */}
       <div className={`row mx-auto pb-2 ${props.highlightStyle === 1 ? "new-review-item" : ""}
         ${props.internal ? "internal-item" : ""} ${props.highlightStyle === 2 ? "move-review-item" : ""}
-        ${props.highlightStyle === 3 ? "old-review-item" : ""} indent-level-${props.indentation} text-no-overflow`}
+        ${props.highlightStyle === 3 ? "old-review-item" : ""} indent-level-text-${props.indentation} text-no-overflow`}
       >
-        <Sanitized html={props.text} inline={!!props.inline} />
+        <div className={`${props.inline ? "d-inline mr-2" : ""} content-td pb-2 col`}>
+          <span>
+            <Sanitized html={props.text} inline={!!props.inline} />
+          </span>
+          <Source source={props.source} sourceText={props.sourceText} />
+        </div>
       </div>
 
     </Fragment>
@@ -29,5 +35,7 @@ BulletPointText.propTypes = {
   indentation: PropTypes.number,
   highlightStyle: PropTypes.number,
   internal: PropTypes.number,
-  inline: PropTypes.number
+  inline: PropTypes.number,
+  source: PropTypes.number,
+  sourceText: PropTypes.string
 };
