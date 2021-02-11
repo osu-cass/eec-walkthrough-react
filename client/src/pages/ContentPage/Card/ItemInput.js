@@ -207,18 +207,21 @@ function ItemInput(props) {
             onChange={(text) => props.handleInput(text, props.index, 5)}
             required
           />
-          <FormControl
-            as="textarea"
-            rows="1"
-            maxLength="1000"
-            className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
-            placeholder="Resource URL"
-            value={props.value.contentUrl}
-            aria-label="Insert Resource URL"
-            aria-describedby="basic-addon1"
-            onChange={(e) => props.handleInput(e, props.index, 3)}
-            required
-          />
+          <div className="col px-0">
+            <FormControl
+              as="textarea"
+              rows="1"
+              maxLength="1000"
+              className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
+              placeholder="Resource URL"
+              value={props.value.contentUrl}
+              aria-label="Insert Resource URL"
+              aria-describedby="basic-addon1"
+              onChange={(e) => props.handleInput(e, props.index, 3)}
+              required
+            />
+            <ImageInput id={props.index} internal={props.internal} inline={props.inline} onNewImage={(newImage) => props.onNewImage(newImage, props.index)} />
+          </div>
           <div className="very-small-text-editor-input">
             <RichTextEditor
               id={`submit-text-${props.index}`}
@@ -229,22 +232,6 @@ function ItemInput(props) {
             />
           </div>
         </Fragment>
-      ) : (
-        null
-      )}
-
-      {props.groupIndex === 4 ? (
-        <div className="text-editor-input">
-          <div className="form-group mx-3 mb-4">
-            <RichTextEditor
-              id={`submit-text-${props.index}`}
-              value={props.value.contentText}
-              onChange={(text) => props.handleInput(text, props.index, 4)}
-              placeHolder="Item Text"
-              showToolbar={props.isSelected}
-            />
-          </div>
-        </div>
       ) : (
         null
       )}

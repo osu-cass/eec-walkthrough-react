@@ -827,7 +827,7 @@ function ContentPage(props) {
           onNewView={e => handleNewView(e)}
           headers={headers}
           quiz={(mode === 0 && pageInfo.quiz) || mode !== 0}
-          references={(mode === 0 && references.length) || (mode === 1 && tempReferences.length)}
+          references={!!(mode === 0 && references.length) || !!(mode === 1 && tempReferences.length)}
         />
 
         {/* Button for creating new headers */}

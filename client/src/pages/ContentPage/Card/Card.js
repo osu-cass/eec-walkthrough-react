@@ -1,3 +1,4 @@
+/* eslint-env jquery */
 import React, {useState, useEffect, Fragment} from "react";
 import {Card as CardBS} from "react-bootstrap";
 import {isGraphic} from "../../../utilities/itemType";
@@ -16,6 +17,15 @@ function Card(props) {
   const [imageTempItems, setTempImageItems] = useState([]);
   const [cardType, setCardType] = useState(0);
   const [items, setItems] = useState([]);
+
+  // If the filter collapse mode was changed, either expand or collapse this card
+  useEffect(() => {
+    if (props.collapseMode) {
+      $("#collapse" + props.card.cardId).collapse("hide");
+    } else {
+      $("#collapse" + props.card.cardId).collapse("show");
+    }
+  }, [props.collapseMode]);
 
   // If the current card is an Image Gallery card then
   // whenever we get new items, filter out all of the non-image ones
@@ -263,5 +273,6 @@ Card.propTypes = {
   role: PropTypes.number,
   setCheck: PropTypes.func,
   sources: PropTypes.array,
-  cardTitles: PropTypes.array
+  cardTitles: PropTypes.array,
+  collapseMode: PropTypes.number
 };
