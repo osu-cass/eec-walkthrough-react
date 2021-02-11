@@ -61,15 +61,26 @@ function BulletPointResource(props) {
               <div className="row">
 
                 {/* The link to the resource */}
-                <a
-                  onClick={() => updateAccess()}
-                  href={props.url}
-                  className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}` }
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  <span className="font-weight-bold">{props.label}</span>
-                </a>
+                {/* Bookmark resources do NOT open in a new tab */}
+                {props.icon === "bookmark" ? (
+                  <a
+                    onClick={() => updateAccess()}
+                    href={props.url}
+                    className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}` }
+                  >
+                    <span className="font-weight-bold">{props.label}</span>
+                  </a>
+                ) : (
+                  <a
+                    onClick={() => updateAccess()}
+                    href={props.url}
+                    className={`pl-3 ${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}` }
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    <span className="font-weight-bold">{props.label}</span>
+                  </a>
+                )}
 
                 {/* Display different appended icons based on the type of resource */}
                 {props.contentMode === 1 || props.contentMode === 3 ? (
@@ -103,16 +114,28 @@ function BulletPointResource(props) {
               </div>
 
               {/* Optional resource description */}
-              <a
-                onClick={() => updateAccess()}
-                href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                <small>
-                  <Sanitized html={props.text} inline={!!props.inline} />
-                </small>
-              </a>
+              {/* Bookmark resources do NOT open in a new tab */}
+              {props.icon === "bookmark" ? (
+                <a
+                  onClick={() => updateAccess()}
+                  href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}
+                >
+                  <small>
+                    <Sanitized html={props.text} inline={!!props.inline} />
+                  </small>
+                </a>
+              ) : (
+                <a
+                  onClick={() => updateAccess()}
+                  href={props.url} className={`${props.contentMode === 1 || props.contentMode === 3 ? "text-primary" : "osu-link"}`}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <small>
+                    <Sanitized html={props.text} inline={!!props.inline} />
+                  </small>
+                </a>
+              )}
 
               {/* If the resource is external, add buttons to update the date checked */}
               {(props.contentMode === 1 || props.contentMode === 3) && props.mode !== 0 && !props.reviewing ? (
