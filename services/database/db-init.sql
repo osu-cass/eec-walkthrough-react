@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: engr-db.engr.oregonstate.edu:3307
--- Generation Time: Feb 10, 2021 at 03:45 PM
+-- Generation Time: Feb 10, 2021 at 04:54 PM
 -- Server version: 10.3.13-MariaDB-log
 -- PHP Version: 7.4.13
 
@@ -412,7 +412,9 @@ INSERT INTO `Cards` (`cardId`, `headerId`, `cardType`, `orderIndex`, `title`, `u
 (290, 31, 2, 290, 'U.S. Department of Energy Tip Sheets', 42, '2021-02-08 23:58:04', 1),
 (292, 81, 0, 292, 'Upgrade to digital systems', 61, '2021-02-04 05:48:39', 0),
 (294, 69, 10, 1, 'Why Analyze Utilities?', 54, '2021-02-06 22:11:42', 0),
-(295, 69, 10, 2, 'How to Analyze Utility Bills', 54, '2021-02-06 22:45:32', 0);
+(295, 69, 10, 2, 'How to Analyze Utility Bills', 54, '2021-02-06 22:45:32', 0),
+(297, 82, 0, 297, 'GitHub', 42, '2021-02-11 00:41:50', 0),
+(298, 82, 0, 298, 'API Specifications', 42, '2021-02-11 00:48:23', 0);
 
 -- --------------------------------------------------------
 
@@ -579,7 +581,8 @@ INSERT INTO `Headers` (`headerId`, `pageId`, `orderIndex`, `title`, `internal`, 
 (78, 48, 78, 'Refrigeration Opportunities to Consider', 0, 58, '2021-02-09 19:18:13', 1),
 (79, 74, 79, 'Creating a Formula', 0, 42, '2021-01-10 23:05:51', 0),
 (80, 65, 80, 'Style Standards', 0, 58, '2021-01-20 19:57:46', 0),
-(81, 72, 81, 'Low Cost ideas', 1, 61, '2021-02-04 05:44:49', 0);
+(81, 72, 81, 'Low Cost ideas', 1, 61, '2021-02-04 05:44:49', 0),
+(82, 75, 82, 'Resources', 0, 42, '2021-02-11 00:38:51', 0);
 
 -- --------------------------------------------------------
 
@@ -2604,7 +2607,7 @@ CREATE TABLE `Items` (
 
 INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`, `contentText`, `contentUrl`, `contentLabel`, `contentMode`, `internal`, `inline`, `sourceId`, `created`, `approved`) VALUES
 (28, 16, 1, 0, 4, 'Take care to avoid potential dangerous air injection associated with directing compressed air flow directly onto skin', '', '', 0, 0, 0, 0, '2020-05-23 22:30:55', 1),
-(29, 17, 1, 0, 7, 'Looped distribution systems can help maintain uniform pressure throughout a compressed air system.', '', '', 0, 0, 0, 0, '2021-02-10 23:11:48', 1),
+(29, 17, 1, 0, 7, 'Looped distribution systems can help maintain uniform pressure throughout a compressed air system.', '', '', 0, 0, 0, 0, '2021-02-11 00:29:54', 1),
 (30, 17, 2, 0, 7, 'Well sized compressed air lines reduce pressure loss', '', '', 0, 0, 0, 0, '2020-05-23 22:30:58', 1),
 (31, 17, 3, 0, 7, 'A well designed compressed air system should typically have a maximum 10 PSI pressure drop in delivering air to at any end-use in the system', '', '', 0, 0, 0, 0, '2020-05-23 22:31:00', 1),
 (33, 18, 1, 0, 3, 'Expect a 1% drop in compressor energy and cost per 2 PSI in compressor outlet pressure drop', '', '', 0, 0, 0, 0, '2020-07-18 00:08:08', 1),
@@ -2772,7 +2775,7 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (4956, 196, 0, 0, 26, 'The Federal Communications Commission released ten tips for small business cyber security after meeting with public and private leaders.', '', '', 0, 0, 0, 0, '2020-08-27 00:40:27', 1),
 (4957, 196, 0, 1, 24, ' ', 'https://www.fcc.gov/general/cybersecurity-small-business', 'Cybersecurity for Small Business', 1, 0, 0, 0, '2020-08-27 00:40:27', 1),
 (4958, 196, 0, 0, 26, 'The Cybersecurity and Infrastructure Security Agency (CISA, a part of the US Department of Homeland Security) also has resources focused on increasing the security of industrial control systems.', '', '', 1, 0, 0, 0, '2020-08-27 00:40:27', 1),
-(4959, 196, 0, 1, 24, ' ', 'https://us-cert.cisa.gov/ics', 'Industrial Control Systems', 1, 0, 0, 0, '2020-08-27 00:40:27', 1),
+(4959, 196, 0, 1, 24, ' ', 'https://us-cert.cisa.gov/ics', 'Industrial Control Systems', 1, 0, 0, 0, '2021-02-11 00:22:58', 1),
 (4971, 185, 0, 0, 26, 'Cost savings from improved layouts are the result of reduced material handling costs. Material handling costs typically refer to time and energy spent using manual labor, vehicles (e.g. forklifts), or conveyors to move product or inventory around the facility. ', '', '', 0, 0, 0, 0, '2020-08-29 20:20:27', 0),
 (4972, 185, 0, 0, 26, 'For rough estimates of cost savings, calculating the cost of work flow of the original layout and multiplying it by the layout efficiency savings will suffice. For example, if it costs $1,000/day to move materials, and the layout efficiency savings are 10%, then savings are $100/day. ', '', '', 0, 0, 0, 0, '2020-08-29 20:20:27', 0),
 (4973, 185, 0, 0, 26, 'Calculating daily material handling costs are most easily estimated using hourly operating costs of material handling systems and how long the specific system operates a day.', '', '', 0, 0, 0, 0, '2020-08-29 20:20:27', 0),
@@ -4087,36 +4090,41 @@ INSERT INTO `Items` (`itemId`, `cardId`, `orderIndex`, `indentation`, `iconType`
 (15697, 272, 0, 1, 26, 'Defrost cycle schedule ', '', '', 0, 1, 0, 0, '2021-02-10 23:05:30', 0),
 (15698, 272, 0, 1, 26, 'Power of the current electric defrost system', '', '', 0, 1, 0, 0, '2021-02-10 23:05:30', 0),
 (15699, 272, 0, 1, 26, 'Distance from compressor discharge to evaporators to determine the amount of piping required', '', '', 0, 1, 0, 0, '2021-02-10 23:05:30', 0),
-(15700, 268, 0, 0, 11, 'Install VFDs on condenser fans', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15701, 268, 0, 1, 31, '<p>Condenser fans often cycle on and off to maintain condensing temperature resulting in an average part-load power. A variable frequency drive can reduce this part-load power by efficiently slowing fan speed, taking advantage of cube law power savings.</p>', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15702, 268, 0, 1, 10, 'Single or two-speed fans demand a lot of power', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15703, 268, 0, 1, 3, 'Ideal fan power is proportional to the cube of fan speed with a VFD', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15704, 268, 0, 1, 3, 'At 50% speed fans will consume about 15% of full-load power while still providing 50% airflow', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15705, 268, 0, 1, 8, 'Use the FCAT, an OSU EEC Microsoft Excel analysis tool (located under \"Analysis Tools\" above) to estimate fan energy savings ', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15706, 268, 0, 0, 15, '<p>Data to collect</p>', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15707, 268, 0, 1, 26, 'Minimum condensing temperature', '', '', 0, 0, 1, 0, '2021-02-10 23:11:25', 0),
-(15708, 268, 0, 1, 26, 'Total fan power', '', '', 0, 0, 1, 0, '2021-02-10 23:11:25', 0),
-(15709, 268, 0, 1, 26, 'Wet and dry bulb temperatures (use bin weather data if temperature cannot be recorded over time)', '', '', 0, 0, 1, 0, '2021-02-10 23:11:25', 0),
-(15710, 268, 0, 1, 26, 'Condenser MATD (measured with all fans turned on)', '', '', 0, 0, 1, 0, '2021-02-10 23:11:25', 0),
-(15711, 268, 0, 1, 26, 'Fan use factor (may be available from trend logs on electronic control systems)', '', '', 0, 0, 1, 0, '2021-02-10 23:11:25', 0),
-(15712, 268, 0, 0, 11, 'Install VFDs on evaporator fans', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15713, 268, 0, 1, 31, '<p>Typically evaporator fans cycle on and off to maintain product or storage space temperature, resulting in an average part-load power. A variable frequency drive can reduce this part-load power by efficiently slowing fan speed.</p>', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15714, 268, 0, 1, 10, 'Single or two-speed fans demand a lot of power', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15715, 268, 0, 1, 1, 'Improved product quality through maintaining consistent temperature control and constant (although lower) airflow', '', '', 0, 0, 0, 25, '2021-02-10 23:11:25', 0),
-(15716, 268, 0, 1, 1, 'Improved working conditions through reduced wind-chill and fan noise ', '', '', 0, 0, 0, 25, '2021-02-10 23:11:25', 0),
-(15717, 268, 0, 1, 1, 'Ability to adjust fan speed to meet specific demands of different products', '', '', 0, 0, 0, 25, '2021-02-10 23:11:25', 0),
-(15718, 268, 0, 1, 2, 'Requires higher capital investment that may result in long paybacks for seasonal storage applications', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15719, 268, 0, 1, 3, 'Ideal fan power is proportional to the cube of fan speed with a VFD', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15720, 268, 0, 1, 3, 'At 50% speed fans will consume about 15% of full-load power while still providing 50% airflow', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15721, 268, 0, 1, 8, 'Use the FCAT, an OSU EEC Microsoft Excel analysis tool (located under \"Analysis Tools\" above) to estimate fan energy savings ', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15722, 268, 0, 0, 15, '<p>Data to collect</p>', '', '', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15723, 268, 0, 1, 26, 'Suction pressure', '', '', 0, 0, 1, 0, '2021-02-10 23:11:25', 0),
-(15724, 268, 0, 1, 26, 'Total fan power', '', '', 0, 0, 1, 0, '2021-02-10 23:11:25', 0),
-(15725, 268, 0, 1, 26, 'Dry bulb temperature', '', '', 0, 0, 1, 0, '2021-02-10 23:11:25', 0),
-(15726, 268, 0, 1, 26, 'Evaporator approach temperature difference', '', '', 0, 0, 1, 0, '2021-02-10 23:11:25', 0),
-(15727, 268, 0, 1, 26, 'Fan cycling schedule', '', '', 0, 0, 1, 0, '2021-02-10 23:11:25', 0),
-(15728, 268, 0, 0, 32, '', '/uploads/user_58/63d57fca0ba546bbea9f90a68a0f91df.png', 'Fan Power vs Capacity for 1-speed, 2-speed, and VFD Controls', 0, 0, 0, 0, '2021-02-10 23:11:25', 0),
-(15729, 268, 0, 0, 28, '<p>Use the FCAT, an OSU EEC Microsoft Excel analysis tool to estimate fan energy savings</p>', '#card-142', 'Analysis Tools', 0, 0, 0, 0, '2021-02-10 23:17:08', 0);
+(15734, 268, 0, 0, 11, 'Install VFDs on condenser fans', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15735, 268, 0, 1, 31, '<p>Condenser fans often cycle on and off to maintain condensing temperature resulting in an average part-load power. A variable frequency drive can reduce this part-load power by efficiently slowing fan speed, taking advantage of cube law power savings.</p>', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15736, 268, 0, 1, 10, 'Single or two-speed fans demand a lot of power', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15737, 268, 0, 1, 3, 'Ideal fan power is proportional to the cube of fan speed with a VFD', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15738, 268, 0, 1, 3, 'At 50% speed fans will consume about 15% of full-load power while still providing 50% airflow', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15739, 268, 0, 1, 8, 'Use the FCAT, an OSU EEC Microsoft Excel analysis tool (located under \"Analysis Tools\" above) to estimate fan energy savings ', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15740, 268, 0, 0, 15, '<p>Data to collect</p>', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15741, 268, 0, 1, 26, 'Minimum condensing temperature', '', '', 0, 0, 1, 0, '2021-02-11 00:29:49', 0),
+(15742, 268, 0, 1, 26, 'Total fan power', '', '', 0, 0, 1, 0, '2021-02-11 00:29:49', 0),
+(15743, 268, 0, 1, 26, 'Wet and dry bulb temperatures (use bin weather data if temperature cannot be recorded over time)', '', '', 0, 0, 1, 0, '2021-02-11 00:29:49', 0),
+(15744, 268, 0, 1, 26, 'Condenser MATD (measured with all fans turned on)', '', '', 0, 0, 1, 0, '2021-02-11 00:29:49', 0),
+(15745, 268, 0, 1, 26, 'Fan use factor (may be available from trend logs on electronic control systems)', '', '', 0, 0, 1, 0, '2021-02-11 00:29:49', 0),
+(15746, 268, 0, 0, 11, 'Install VFDs on evaporator fans', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15747, 268, 0, 1, 31, '<p>Typically evaporator fans cycle on and off to maintain product or storage space temperature, resulting in an average part-load power. A variable frequency drive can reduce this part-load power by efficiently slowing fan speed.</p>', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15748, 268, 0, 1, 10, 'Single or two-speed fans demand a lot of power', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15749, 268, 0, 1, 1, 'Improved product quality through maintaining consistent temperature control and constant (although lower) airflow', '', '', 0, 0, 0, 25, '2021-02-11 00:29:49', 0),
+(15750, 268, 0, 1, 1, 'Improved working conditions through reduced wind-chill and fan noise ', '', '', 0, 0, 0, 25, '2021-02-11 00:29:49', 0),
+(15751, 268, 0, 1, 1, 'Ability to adjust fan speed to meet specific demands of different products', '', '', 0, 0, 0, 25, '2021-02-11 00:29:49', 0),
+(15752, 268, 0, 1, 2, 'Requires higher capital investment that may result in long paybacks for seasonal storage applications', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15753, 268, 0, 1, 3, 'Ideal fan power is proportional to the cube of fan speed with a VFD', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15754, 268, 0, 1, 3, 'At 50% speed fans will consume about 15% of full-load power while still providing 50% airflow', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15755, 268, 0, 1, 8, 'Use the FCAT, an OSU EEC Microsoft Excel analysis tool (located under \"Analysis Tools\" above) to estimate fan energy savings ', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15756, 268, 0, 0, 15, '<p>Data to collect</p>', '', '', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15757, 268, 0, 1, 26, 'Suction pressure', '', '', 0, 0, 1, 0, '2021-02-11 00:29:49', 0),
+(15758, 268, 0, 1, 26, 'Total fan power', '', '', 0, 0, 1, 0, '2021-02-11 00:29:49', 0),
+(15759, 268, 0, 1, 26, 'Dry bulb temperature', '', '', 0, 0, 1, 0, '2021-02-11 00:29:49', 0),
+(15760, 268, 0, 1, 26, 'Evaporator approach temperature difference', '', '', 0, 0, 1, 0, '2021-02-11 00:29:49', 0),
+(15761, 268, 0, 1, 26, 'Fan cycling schedule', '', '', 0, 0, 1, 0, '2021-02-11 00:29:49', 0),
+(15762, 268, 0, 0, 32, '', '/uploads/user_58/63d57fca0ba546bbea9f90a68a0f91df.png', 'Fan Power vs Capacity for 1-speed, 2-speed, and VFD Controls', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15763, 268, 0, 0, 33, '<p>Use the FCAT, an OSU EEC Microsoft Excel analysis tool to estimate fan energy savings</p>', '#card-142', 'Analysis Tools', 0, 0, 0, 0, '2021-02-11 00:29:49', 0),
+(15771, 298, 0, 0, 31, '<p>Detailed API specifications can be found at the GitHub repo for this project. As changes are made to the API, the API documentation is expected to be updated. The API source document is written using LaTeX and can be found in the repo at (eec-walkthrough-react/specifications/LaTex/main.tex).</p>', '', '', 0, 0, 0, 0, '2021-02-11 00:49:20', 0),
+(15772, 298, 0, 0, 21, '<p>Easy to use LaTeX editor. Recommended way to modify the LaTeX source file for the API documentation.</p>', 'https://www.overleaf.com/', 'Overleaf', 1, 0, 0, 0, '2021-02-11 00:49:20', 0),
+(15773, 298, 0, 0, 17, '<p>Easy to reference document that describes the different API endpoints and how to call them.</p>', '/uploads/user_42/2976a8fc1f1b7e91f08955facd980016.pdf', 'API PDF Specification', 0, 0, 0, 0, '2021-02-11 00:49:20', 0),
+(15774, 297, 0, 0, 31, '<p>Developers will need to be added as members of repository hosted on GitHub. Speak to your supervisor or peers about getting access to the repo. The repo is private, so only approved members will be able to view its contents, otherwise the page will appear not to exist (404 error).</p><p>The README file on the GitHub repo goes into detail about the project and should be referenced when there are questions about using the application.</p>', '', '', 0, 0, 0, 0, '2021-02-11 00:52:43', 0),
+(15775, 297, 0, 0, 17, '<p></p>', 'https://github.com/Energy-Efficency-Center/eec-walkthrough-react', 'Project GitHub Repo', 1, 0, 0, 0, '2021-02-11 00:52:43', 0);
 
 -- --------------------------------------------------------
 
@@ -4234,7 +4242,26 @@ INSERT INTO `Notifications` (`notificationId`, `requestId`, `userId`, `text`, `t
 (455, 14, 52, 'The request \"Pump Page\" is awaiting admin approval', 4),
 (456, 14, 56, 'The request \"Pump Page\" is awaiting admin approval', 4),
 (457, 14, 58, 'The request \"Pump Page\" is awaiting admin approval', 4),
-(458, 14, 66, 'The request \"Pump Page\" is awaiting admin approval', 4);
+(458, 14, 66, 'The request \"Pump Page\" is awaiting admin approval', 4),
+(460, 24, 47, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(461, 24, 51, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(462, 24, 52, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(463, 24, 54, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(464, 24, 55, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(465, 24, 56, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(466, 24, 57, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(467, 24, 58, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(468, 24, 59, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(469, 24, 60, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(470, 24, 61, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(471, 24, 62, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(472, 24, 63, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(473, 24, 65, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(474, 24, 66, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(475, 24, 67, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(476, 24, 69, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(477, 24, 70, 'The request \"How to develop this application\" is awaiting an orange review', 2),
+(478, 24, 71, 'The request \"How to develop this application\" is awaiting an orange review', 2);
 
 -- --------------------------------------------------------
 
@@ -4302,7 +4329,8 @@ INSERT INTO `Pages` (`pageId`, `pageType`, `name`, `title`, `description`, `imag
 (65, 0, 'How to Edit EEC Walkthrough', 'An analyst oriented guide for creating, editing, and reviewing content on the EEC Industrial Walkthrough Checklist.', 'Description', 'https://picsum.photos/seed/picsum/700/700', 1, 42, '2020-08-31 22:17:53', 0),
 (69, 1, 'Metals Manufacturing', 'Industrial metals manufacturing processes may include casting, forging, bending, forming, spinning, welding, cutting and finishing to produce a final product.', 'Metals manufacturing includes production of raw stock, replacement parts and final products. Many production processes are common among all metals manufacturing facilities.', '/uploads/user_52/0baf5657b6e1ac3fef0b0e048672324b.jpg', 0, 52, '2021-02-03 22:42:53', 1),
 (72, 5, 'Smart Manufacturing', 'Smart Manufacturing Summary', 'Lists smart manufacturing technologies that could be applied to assessments.\nImage is from https://www.trianagroup.com. This image is only a placeholder for what I would really like to use. This image might not be suitable to under copyright laws', '/uploads/user_61/1cffd701d341b07912a60941dbbbb22b.jpg', 1, 61, '2020-11-28 23:23:04', 0),
-(74, 0, 'How to create KaTeX formulas', 'KaTeX allows us to easily type up complex formulas', 'KaTeX is a powerful typesetting library that allows us to type up formulas that can be rendered on any page. This allows us to avoid writing out formulas by hand and then uploading them as image files when we want to display math equations.', '/uploads/user_42/7a6f3ee9d0f860779791d6cc07f2c20b.png', 1, 42, '2021-01-10 23:05:27', 0);
+(74, 0, 'How to create KaTeX formulas', 'KaTeX allows us to easily type up complex formulas', 'KaTeX is a powerful typesetting library that allows us to type up formulas that can be rendered on any page. This allows us to avoid writing out formulas by hand and then uploading them as image files when we want to display math equations.', '/uploads/user_42/7a6f3ee9d0f860779791d6cc07f2c20b.png', 1, 42, '2021-01-10 23:05:27', 0),
+(75, 0, 'How to Develop this Application', 'Get started working on this application', '<p>This page will act as a simple reference for developers to understand how to get started working on this project. Developers are expected to have a basic understanding of HTML, CSS, JavaScript, React, Node.js, Express, and RESTful APIs. Developers are also expected to have some understanding of how to use git and GitHub for code hosting, version control, and collaboration.</p>', '/uploads/user_42/df4827ab2cc7f8a48266358074c4fe96.png', 1, 42, '2021-02-11 00:38:15', 0);
 
 -- --------------------------------------------------------
 
@@ -4434,7 +4462,8 @@ INSERT INTO `Requests` (`requestId`, `title`, `description`, `status`, `created`
 (16, 'Thermal Systems Overview', 'The overview, useful links, pros, cons, and best practices.', 2, '2020-12-21 20:35:42', 57),
 (20, 'How to create KaTeX formulas', 'An internal page that shows editors how to create KaTeX formulas.', 1, '2021-01-10 23:48:46', 42),
 (21, 'Thermal Systems - Heat Exchangers', 'Just the heat exchanger section, not the others.', 2, '2021-01-15 19:20:58', 57),
-(23, 'Utility Billing - Analysis', 'This section explains the benefits, beginning approach, and FAQs relating to analyzing utility bills.', 1, '2021-02-10 19:24:01', 54);
+(23, 'Utility Billing - Analysis', 'This section explains the benefits, beginning approach, and FAQs relating to analyzing utility bills.', 1, '2021-02-10 19:24:01', 54),
+(24, 'How to develop this application', 'Easy to access page that explains to new developers some basics of getting started.', 1, '2021-02-11 00:50:23', 42);
 
 -- --------------------------------------------------------
 
@@ -4569,7 +4598,11 @@ INSERT INTO `Request_Objects` (`requestObjectId`, `requestId`, `objectId`, `obje
 (82, 23, 69, 2),
 (83, 23, 294, 3),
 (84, 23, 295, 3),
-(85, 23, 276, 3);
+(85, 23, 276, 3),
+(86, 24, 75, 1),
+(87, 24, 82, 2),
+(88, 24, 297, 3),
+(89, 24, 298, 3);
 
 -- --------------------------------------------------------
 
@@ -5156,7 +5189,7 @@ ALTER TABLE `Banners`
 -- AUTO_INCREMENT for table `Cards`
 --
 ALTER TABLE `Cards`
-  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=296;
+  MODIFY `cardId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=299;
 
 --
 -- AUTO_INCREMENT for table `Categories`
@@ -5174,7 +5207,7 @@ ALTER TABLE `Filters`
 -- AUTO_INCREMENT for table `Headers`
 --
 ALTER TABLE `Headers`
-  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `headerId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `History_Cards`
@@ -5216,13 +5249,13 @@ ALTER TABLE `Info`
 -- AUTO_INCREMENT for table `Items`
 --
 ALTER TABLE `Items`
-  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15730;
+  MODIFY `itemId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15776;
 
 --
 -- AUTO_INCREMENT for table `Notifications`
 --
 ALTER TABLE `Notifications`
-  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=459;
+  MODIFY `notificationId` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=479;
 
 --
 -- AUTO_INCREMENT for table `Observations`
@@ -5234,7 +5267,7 @@ ALTER TABLE `Observations`
 -- AUTO_INCREMENT for table `Pages`
 --
 ALTER TABLE `Pages`
-  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `pageId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `Questions`
@@ -5252,7 +5285,7 @@ ALTER TABLE `Quick_Titles`
 -- AUTO_INCREMENT for table `Requests`
 --
 ALTER TABLE `Requests`
-  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `requestId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `Request_Comments`
@@ -5264,7 +5297,7 @@ ALTER TABLE `Request_Comments`
 -- AUTO_INCREMENT for table `Request_Objects`
 --
 ALTER TABLE `Request_Objects`
-  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `requestObjectId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `Scores`
