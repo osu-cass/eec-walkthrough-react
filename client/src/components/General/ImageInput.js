@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 // Input for sending local images with a request
 function ImageInput(props) {
 
-  const [fileName, setFileName] = useState("... or Upload an Image");
+  const [fileName, setFileName] = useState(props.default);
 
   // when a new file is selected update the saved file information
   function handleChangeStatus(e) {
@@ -20,7 +20,7 @@ function ImageInput(props) {
       props.onNewImage(e.target.files[0]);
 
     } else {
-      setFileName("... or Upload an Image");
+      setFileName(props.default);
       props.onNewImage(null);
     }
   }
@@ -51,6 +51,7 @@ ImageInput.propTypes = {
   id: PropTypes.number,
   onNewImage: PropTypes.func,
   internal: PropTypes.number,
-  inline: PropTypes.number
+  inline: PropTypes.number,
+  default: PropTypes.string
 };
 
