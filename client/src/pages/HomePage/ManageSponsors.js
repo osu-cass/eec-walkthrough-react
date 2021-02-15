@@ -445,7 +445,7 @@ function ManageSponsors(props) {
                 </div>
               </Row>
               <Row className="sponsor-upload mr-1">
-                <ImageInput id={sponsor.sponsorId} onNewImage={(newImage) => handleNewImage(newImage, sponsor.sponsorId)} />
+                <ImageInput id={sponsor.sponsorId} onNewImage={(newImage) => handleNewImage(newImage, sponsor.sponsorId)} default={"... or Upload an Image"} />
               </Row>
             </Fragment>
           )}

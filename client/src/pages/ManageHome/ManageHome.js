@@ -793,7 +793,7 @@ function ManageHome() {
             onChange={(e) => setBanner1(e.target.value)}
             required
           />
-          <ImageInput id={1} onNewImage={(newImage) => setUpload1(newImage)} />
+          <ImageInput id={1} onNewImage={(newImage) => setUpload1(newImage)} default={"... or Upload an Image"} />
           <Error message={error1} />
         </div>
 
@@ -815,7 +815,7 @@ function ManageHome() {
             onChange={(e) => setBanner2(e.target.value)}
             required
           />
-          <ImageInput id={2} onNewImage={(newImage) => setUpload2(newImage)} />
+          <ImageInput id={2} onNewImage={(newImage) => setUpload2(newImage)} default={"... or Upload an Image"} />
           <Error message={error2} />
         </div>
 
@@ -837,7 +837,7 @@ function ManageHome() {
             onChange={(e) => setBanner3(e.target.value)}
             required
           />
-          <ImageInput id={3} onNewImage={(newImage) => setUpload3(newImage)} />
+          <ImageInput id={3} onNewImage={(newImage) => setUpload3(newImage)} default={"... or Upload an Image"} />
           <Error message={error3} />
         </div>
 
@@ -859,7 +859,7 @@ function ManageHome() {
             onChange={(e) => setBanner4(e.target.value)}
             required
           />
-          <ImageInput id={4} onNewImage={(newImage) => setUpload4(newImage)} />
+          <ImageInput id={4} onNewImage={(newImage) => setUpload4(newImage)} default={"... or Upload an Image"} />
           <Error message={error4} />
         </div>
 
@@ -881,7 +881,7 @@ function ManageHome() {
             onChange={(e) => setBanner5(e.target.value)}
             required
           />
-          <ImageInput id={5} onNewImage={(newImage) => setUpload5(newImage)} />
+          <ImageInput id={5} onNewImage={(newImage) => setUpload5(newImage)} default={"... or Upload an Image"} />
           <Error message={error5} />
         </div>
 
@@ -903,7 +903,7 @@ function ManageHome() {
             onChange={(e) => setBanner6(e.target.value)}
             required
           />
-          <ImageInput id={6} onNewImage={(newImage) => setUpload6(newImage)} />
+          <ImageInput id={6} onNewImage={(newImage) => setUpload6(newImage)} default={"... or Upload an Image"} />
           <Error message={error6} />
         </div>
 
@@ -1117,7 +1117,7 @@ function ManageHome() {
               </div>
             </Row>
             <Row className="sponsor-upload mr-1 mb-5">
-              <ImageInput id={sponsor.sponsorId} onNewImage={(newImage) => handleNewImage(newImage, sponsor.sponsorId)} />
+              <ImageInput id={sponsor.sponsorId} onNewImage={(newImage) => handleNewImage(newImage, sponsor.sponsorId)} default={"... or Upload an Image"} />
             </Row>
           </Fragment>
         )}

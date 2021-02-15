@@ -233,7 +233,7 @@ function SubmitContributor() {
               defaultValue={url}
               onChange={(e) => setUrl(e.target.value)}
             />
-            <ImageInput id={0} onNewImage={(newImage) => setPendingImage(newImage)} />
+            <ImageInput id={0} onNewImage={(newImage) => setPendingImage(newImage)} default={"... or Upload an Image"} />
 
             <div className="ml-2 my-3 pl-2">
               <Success
