@@ -287,7 +287,7 @@ function EditContributor(props) {
 
           <Row>
             <Col>
-              <ImageInput id={0} onNewImage={(newImage) => setPendingImage(newImage)} />
+              <ImageInput id={0} onNewImage={(newImage) => setPendingImage(newImage)} default={"... or Upload an Image"} />
             </Col>
           </Row>
 
