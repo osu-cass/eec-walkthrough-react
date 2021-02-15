@@ -144,7 +144,13 @@ function ItemInput(props) {
               onChange={(e) => props.handleInput(e, props.index, 3)}
               required
             />
-            <ImageInput id={props.index} internal={props.internal} inline={props.inline} onNewImage={(newImage) => props.onNewImage(newImage, props.index)} />
+            <ImageInput
+              id={props.index}
+              internal={props.internal}
+              inline={props.inline}
+              onNewImage={(newImage) => props.onNewImage(newImage, props.index)}
+              default={"... or Upload an Image"}
+            />
           </div>
           <Dropdown className="source-select-drop-down-menu ml-2">
             <Dropdown.Toggle variant="outline-dark">
@@ -220,7 +226,13 @@ function ItemInput(props) {
               onChange={(e) => props.handleInput(e, props.index, 3)}
               required
             />
-            <ImageInput id={props.index} internal={props.internal} inline={props.inline} onNewImage={(newImage) => props.onNewImage(newImage, props.index)} />
+            <ImageInput
+              id={props.index}
+              internal={props.internal}
+              inline={props.inline}
+              onNewImage={(newImage) => props.onNewImage(newImage, props.index)}
+              default={"... or Upload a PDF"}
+            />
           </div>
           <div className="very-small-text-editor-input">
             <RichTextEditor
