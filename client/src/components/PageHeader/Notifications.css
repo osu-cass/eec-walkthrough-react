@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
 #user-icon-arrow {
 	width: 0px;
 	height: 0px;
@@ -8,8 +10,8 @@
 }
 
 .btn-active-note {
-	padding: 0 !important;
-	background-color: #fff;
+	/* padding: 0 !important; */
+	/* background-color: #fff; */
 }
 
 .jiggle {
@@ -101,5 +103,13 @@
 }
 
 .bell-icon {
-	background-color: transparent !important;
+	color: white;
+	font-size: 1.8rem;
+}
+
+#notif-count {
+	font-size: 1.5rem;
+	position: relative;
+	bottom: 0.8rem;
+	font-weight: 500;
 }

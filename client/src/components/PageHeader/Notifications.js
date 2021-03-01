@@ -125,9 +125,7 @@ function Notifications() {
 			onMouseEnter={() => setJiggle(false)}
 		>
 			<button
-				className={`btn bell-icon ml-4 ${jiggle ? 'jiggle' : ''} ${
-					notifications.length ? 'btn-active-note' : 'btn-dark'
-				}`}
+				className={`btn ml-4 ${jiggle ? 'jiggle' : ''} 'btn-dark' `}
 				type="button"
 				id="note-navbar-icon-drp"
 				data-toggle="dropdown"
@@ -136,10 +134,12 @@ function Notifications() {
 			>
 				{/* <div className="d-flex align-items-center font-weight-bold"> */}
 				{/* <div className="user-icon-container text-white mx-3"> */}
-				<i className="fas fa-fw fa-bell fa-lg bell-icon" />
-				{notifications.length && (
-					<span className="dark-note-text">{notifications.length}</span>
-				)}
+				<div className="bell-icon">
+					<i className="fas fa-fw fa-bell" />
+					{notifications.length && (
+						<span id="notif-count">{notifications.length}</span>
+					)}
+				</div>
 				{/* </div> */}
 				{/* </div> */}
 			</button>
