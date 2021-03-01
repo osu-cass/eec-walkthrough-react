@@ -21,7 +21,8 @@ const {
   getCategoryNames,
   getCategoryPublished,
   createCategory,
-  updateCategory
+  updateCategory,
+  deleteCategory
 } = require("../models/categories");
 
 
@@ -212,6 +213,52 @@ app.patch("/:categoryId", requireAuth, patchCategoryVal.validation, async (req, 
 
       if (results.error === 1) {
         res.status(404).send({error: "Category not found."});
+      } else {
+        res.status(500).send({error: "An internal server error occurred. Please try again later."});
+      }
+
+    }
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({error: "An internal server error occurred. Please try again later."});
+  }
+
+});
+
+
+// delete a header
+app.delete("/:categoryId", requireAuth, getCategoryVal.validation, async (req, res) => {
+
+  try {
+
+    const categoryId = req.params.categoryId;
+    console.log("Delete category", categoryId);
+
+    // confirm that the request is valid
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.error(errors.array());
+      return res.status(422).json({errors: errors.array()});
+    }
+
+    // make sure the user is allowed to perform this action
+    if (!await roleCheck(5, req.auth.userId)) {
+      res.status(401).send({error: "Unauthorized user attempting to delete category."});
+      return;
+    }
+
+    // delete the header data
+    const results = await deleteCategory(categoryId);
+
+    if (results.affectedRows >= 0) {
+      res.status(200).send(results);
+    } else {
+
+      if (results.error === 1) {
+        res.status(404).send({error: "Category not found."});
+      } else if (results.error === 2) {
+        res.status(403).send({error: "The category must have zero pages before it can be deleted."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }

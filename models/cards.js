@@ -1,7 +1,8 @@
 // File: cards.js
-// Description: Provides functions for working with card data.
+// Description: Provides functions for working with card data
 
 const {pool} = require("../services/database/mysqlPool");
+const {sanitizeRichText} = require("../services/format/sanitizeRichText");
 
 
 // create a card
@@ -101,7 +102,7 @@ async function createCard(headerId, cardType, title, items, userId) {
       sqlArray.push(cardId);
       sqlArray.push(currentValue.indentation);
       sqlArray.push(currentValue.iconType);
-      sqlArray.push(currentValue.contentText);
+      sqlArray.push(sanitizeRichText(currentValue.contentText));
       sqlArray.push(currentValue.contentUrl);
       sqlArray.push(currentValue.contentLabel);
       sqlArray.push(currentValue.contentMode);
@@ -389,7 +390,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
           sqlArray.push(cardId);
           sqlArray.push(currentValue.indentation);
           sqlArray.push(currentValue.iconType);
-          sqlArray.push(currentValue.contentText);
+          sqlArray.push(sanitizeRichText(currentValue.contentText));
           sqlArray.push(currentValue.contentUrl);
           sqlArray.push(currentValue.contentLabel);
           sqlArray.push(currentValue.contentMode);

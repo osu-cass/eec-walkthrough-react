@@ -83,7 +83,7 @@ app.get("/requests", requireAuth, async (req, res) => {
 });
 
 
-// post a contributor submission that will need to be reviwed
+// post a contributor submission that will need to be reviewed
 app.post("/submission", requireAuth, postContributorSubmissionVal.validation, async (req, res) => {
 
   try {

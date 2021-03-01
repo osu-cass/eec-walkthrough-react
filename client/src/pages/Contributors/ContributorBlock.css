@@ -9,6 +9,7 @@
 
 .img-thumbnail-contributor {
   width: 12em !important;
+  height: 12em !important;
   cursor: pointer;
   border-radius: 50%;
 }

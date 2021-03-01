@@ -21,6 +21,7 @@ function Header(props) {
   const [opportunitiesExist, setOpportunitiesExist] = useState(false);
   const [tempOpportunitiesExist, setTempOpportunitiesExist] = useState(false);
   const [opportunityFilterMode, setOpportunityFilterMode] = useState(0);
+  const [opportunityCollapseMode, setOpportunityCollapseMode] = useState(0);
 
   // If the filter changes, then update the icons that are being filtered
   useEffect(() => {
@@ -42,6 +43,7 @@ function Header(props) {
 
     // apply the selected filters
     let checkMode = false;
+    let collapseMode = false;
     for (let i = 0; i < props.header.forceFilter.length; i++) {
       allIcons[props.header.forceFilter[i]] = false;
       // if there is a filter for 0 ID, then we change the opportunity checks
@@ -49,9 +51,17 @@ function Header(props) {
         setOpportunityFilterMode(1);
         checkMode = true;
       }
+      // if there is a filter for 9999 ID, then we change the card collapse
+      if (props.header.forceFilter[i] === 9999) {
+        setOpportunityCollapseMode(1);
+        collapseMode = true;
+      }
     }
     if (!checkMode) {
       setOpportunityFilterMode(0);
+    }
+    if (!collapseMode) {
+      setOpportunityCollapseMode(0);
     }
     setFilterShow(allIcons);
     // eslint-disable-next-line
@@ -252,8 +262,7 @@ function Header(props) {
     setCards(cardSortOrder(allCards));
     setUnfilteredCards(cardSortOrder(allUnfilteredCards));
     // eslint-disable-next-line
-  }, [props.mode, filterShow, props.header, props.cardState, opportunityFilterMode,
-    props.header.cards, props.publishedMode, props.publicMode]);
+  }, [JSON.stringify(props.header.cards), props.mode, filterShow, props.header, props.cardState, opportunityFilterMode, props.publishedMode, props.publicMode]);
 
   // Sort cards based on their edited status and their order index
   function cardSortOrder(cards) {
@@ -621,6 +630,7 @@ function Header(props) {
                       mode={props.mode}
                       showToggle={opportunitiesExist}
                       toggled={opportunityFilterMode}
+                      collapsed={opportunityCollapseMode}
                     />
                   )}
 
@@ -674,6 +684,7 @@ function Header(props) {
             publishedMode={props.publishedMode}
             sources={props.sources}
             cardTitles={props.cardTitles}
+            collapseMode={opportunityCollapseMode}
           />
         )}
       </div>

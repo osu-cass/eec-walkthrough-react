@@ -1,7 +1,7 @@
 import React, {useState, useEffect, Fragment} from "react";
 import PropTypes from "prop-types";
 import {getProfile} from "../../utilities/cookieAuth";
-import {API_URL} from "../../utilities/constants";
+import {API_URL, EEC_HOMEPAGE} from "../../utilities/constants";
 import CreateCategory from "../Sidebar/CreateCategory";
 import CreatePage from "../Sidebar/CreatePage";
 import NavBarTab from "./NavBarTab";
@@ -130,9 +130,19 @@ function NavBar (props) {
                 </div>
               </a>
             )}
+            <a href="/contributors">
+              <div className="navbar-item px-2 py-1">
+                Contributors
+              </div>
+            </a>
             <a href="/disclaimer">
               <div className="navbar-item px-2 py-1">
                 Disclaimer
+              </div>
+            </a>
+            <a href={EEC_HOMEPAGE}>
+              <div className="navbar-item px-2 py-1">
+                OSU EEC Homepage
               </div>
             </a>
             <CreatePage

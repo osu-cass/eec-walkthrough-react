@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback, Fragment} from "react";
-import {Modal, Button, Row, Col, Form, Jumbotron} from "react-bootstrap";
+import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../../utilities/cookieAuth";
 import {getAgreement} from "../../../utilities/agreementMode";
 import {API_URL, UPLOAD_TERMS} from "../../../utilities/constants";
@@ -25,7 +25,6 @@ function ConstructCardModal(props) {
   const [basicIcons, setBasicIcons] = useState([]);
   const [imageIcons, setImageIcons] = useState([]);
   const [linkIcons, setLinkIcons] = useState([]);
-  const [textIcons, setTextIcons] = useState([]);
   const [checked, setChecked] = useState(0);
   const [copyToast, setCopyToast] = useState(false);
   const [cardTitleMode, setCardTitleMode] = useState("");
@@ -43,22 +42,18 @@ function ConstructCardModal(props) {
       const gen = [];
       const images = [];
       const links = [];
-      const texts = [];
       for (let i = 0; i < props.iconSet.length; i++) {
-        if (props.iconSet[i].groupIndex === 1) {
+        if (props.iconSet[i].groupIndex === 1 || props.iconSet[i].groupIndex === 4) {
           gen.push(props.iconSet[i]);
         } else if (props.iconSet[i].groupIndex === 2) {
           images.push(props.iconSet[i]);
         } else if (props.iconSet[i].groupIndex === 3) {
           links.push(props.iconSet[i]);
-        } else if (props.iconSet[i].groupIndex === 4) {
-          texts.push(props.iconSet[i]);
         }
       }
       setBasicIcons(gen);
       setImageIcons(images);
       setLinkIcons(links);
-      setTextIcons(texts);
     }
 
     sortIcons(props.iconSet);
@@ -331,7 +326,7 @@ function ConstructCardModal(props) {
 
   // Change the placement order of the selected item
   function changeOrder(up) {
-    let copy = [...items];
+    let copy = JSON.parse(JSON.stringify(items));
     let selectedList = [...selectedItems];
 
     // reverse the list of selected items if we are moving down
@@ -411,7 +406,7 @@ function ConstructCardModal(props) {
     // Get all of the selected files to upload
     const uploadImages = [];
     for (let i = 0; i < copy.length; i++) {
-      if (copy[Jumbotron].imageToUpload) {
+      if (copy[i].imageToUpload) {
         uploadImages.push(copy[i].imageToUpload);
       }
     }
@@ -557,6 +552,7 @@ function ConstructCardModal(props) {
 
     // Set the order index of each item and clean up empty strings as needed
     const copy = items;
+
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
     }
@@ -675,7 +671,7 @@ function ConstructCardModal(props) {
           headerId: props.card.headerId,
           cardType: newCardFormat,
           title: submitTitle,
-          items: props.card.items,
+          items: copy,
           userId: 0,
           created: new Date(),
           orderIndex: props.card.orderIndex,
@@ -959,7 +955,7 @@ function ConstructCardModal(props) {
           break;
         }
       } else if (item.groupIndex === 3) { // link
-        if (item.contentLabel === "" || item.contentUrl === "") {
+        if (item.contentLabel === "" || (item.contentUrl === "" && !item.imageToUpload)) {
           emptyFound = true;
           newErrorMessage = "Error: Resource is not filled out completely on line " + (i + 1);
           break;
@@ -1001,6 +997,8 @@ function ConstructCardModal(props) {
       copy[key].contentUrl = e.target.value;
     } else if (groupIndex === 4) {
       copy[key].contentText = e;
+    } else if (groupIndex === 5) {
+      copy[key].contentLabel = e.target.value;
     }
     setItems(copy);
   }
@@ -1031,13 +1029,7 @@ function ConstructCardModal(props) {
   // Gets the index of the icon in the appropriate icon array
   function getIconIndex(id, groupIndex) {
     let i;
-    if (groupIndex === 4) {
-      for (i = 0; i < textIcons.length; i++) {
-        if (textIcons[i].iconType === id) {
-          return i;
-        }
-      }
-    } else if (groupIndex === 3) {
+    if (groupIndex === 3) {
       for (i = 0; i < linkIcons.length; i++) {
         if (linkIcons[i].iconType === id) {
           return i;
@@ -1061,9 +1053,7 @@ function ConstructCardModal(props) {
 
   // Returns a list of icons based on the type of item
   function getIcons(groupIndex) {
-    if (groupIndex === 4) {
-      return textIcons;
-    } else if (groupIndex === 3) {
+    if (groupIndex === 3) {
       return linkIcons;
     } else if (groupIndex === 2) {
       return imageIcons;
@@ -1489,7 +1479,6 @@ function ConstructCardModal(props) {
               <AddButton variant="info" label="Add Item" onClick={() => incrementCounter(1)} />
               <AddButton variant="success" label="Add Graphic" onClick={() => incrementCounter(2)} />
               <AddButton variant="primary" label="Add Site Resource" onClick={() => incrementCounter(3)} />
-              <AddButton variant="success" label="Add Text" onClick={() => incrementCounter(4)} />
               <Button
                 onClick={() => pasteItem()}
                 className="mr-2 copy-paste-button"

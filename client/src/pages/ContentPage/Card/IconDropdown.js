@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useState, useEffect} from "react";
 import {Dropdown} from "react-bootstrap";
 import PropTypes from "prop-types";
 import "./IconDropdown.css";
@@ -7,6 +7,11 @@ import "./IconDropdown.css";
 function IconDropdown(props) {
 
   const [selectedIcon, setSelectedIcon] = useState(props.iconIndex);
+
+  // update the selected icon
+  useEffect(() => {
+    setSelectedIcon(props.iconIndex);
+  }, [props.iconIndex]);
 
   // update the currently selected icon
   function changeIcon(icon, index) {
