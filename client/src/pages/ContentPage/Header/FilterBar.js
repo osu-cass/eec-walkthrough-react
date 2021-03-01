@@ -55,7 +55,7 @@ function FilterBar(props) {
 
       {/* filter button */}
       <button
-        className="btn btn-success btn-sm mx-2"
+        className="btn btn-headerbtn2 btn-sm mx-2"
         onClick={() => setShow(!show)}
       >
         <i className="fas fa-fw fa-filter text-white mr-2" style={{transform: "scale(1.4)"}}/>
@@ -106,7 +106,7 @@ function FilterBar(props) {
           {/* show all icons */}
           <div className="col-auto px-2 py-0 align-self-center">
             <div
-              className="btn btn-info filter-btn btn-sm py-0 my-1 px-1"
+              className="btn btn-headerbtn1 filter-btn btn-sm py-0 my-1 px-1"
               onClick={() => props.resetIcons()}
               title="Show All"
             >
@@ -121,7 +121,7 @@ function FilterBar(props) {
           {/* hide all icons */}
           <div className="col-auto px-2 py-0 align-self-center">
             <div
-              className="btn btn-info filter-btn btn-sm py-0 my-1 px-1"
+              className="btn btn-headerbtn1 filter-btn btn-sm py-0 my-1 px-1"
               onClick={() => props.clearIcons()}
               title="Hide All"
             >
