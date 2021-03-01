@@ -52,19 +52,23 @@ function PageHeader (props) {
           </button>
 
           {/* OSU logo, only shown on desktop devices */}
-          <img
-            className="osu-logo ml-4"
-            src={"/header_logo.png"}
-            alt={"Oregon State University"}
-            title={"Oregon State University"}
-          />
+          <a href="/">
+            <img
+              className="osu-logo ml-4"
+              src={"/header_logo.png"}
+              alt={"Oregon State University"}
+              title={"Oregon State University"}
+            />
+          </a>
 
           {/* Header title text*/}
           <div className="page-header-title-container">
             {/* Large Header */}
-            <h4 className="nav-header-title">
-            Industrial Walkthrough&nbsp;<br className="title-break" />Checklist &amp; Guide
-            </h4>
+            <a href="/" className="nav-header-title-link">
+              <h4 className="nav-header-title">
+                Industrial Walkthrough&nbsp;<br className="title-break" />Checklist &amp; Guide
+              </h4>
+            </a>
 
           </div>
 
