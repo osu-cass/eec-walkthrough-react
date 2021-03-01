@@ -1,5 +1,5 @@
 // File: banners.js
-// Description: Provides functions for working with banners
+// Description: Provides functions for working with banner data.
 
 const {pool} = require("../services/database/mysqlPool");
 

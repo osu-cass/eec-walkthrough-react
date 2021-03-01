@@ -96,13 +96,63 @@ To make handling responses from the API easier, all responses return a JSON obje
 
 \section{API Endpoints}
 
+\subsection{Banner Endpoints}
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/banners} \\
+Get a list of all banners. Any user can use this endpoint.
+\begin{itemize}
+    \item banners: The array of banners.
+    \begin{itemize}
+        \item bannerId: The ID of the banner.
+        \item imageUrl: The image URL of the banner.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  banners: [
+    {
+      bannerId: 1,
+      imageUrl: "/uploads/user_42/be19ca0ceb80eff619054bcc36a35adb.jpg"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/banners} \\
+Takes a list of banners and replaces all existing banners with the new banners. Only admins can use this endpoint.
+\begin{itemize}
+    \item banners: An array of image URLs.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  banners: [
+    "/uploads/user_42/be1239woweo234234.jpg",
+    "/uploads/user_51/e3o201osdfeo33421.jpg",
+    "/uploads/user_42/coe34p20owpsok321.jpg"
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+  \item bannersCreatedSuccessfully: This value is equal to 1 if all of the banners were created succesfully.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  bannersCreatedSuccessfully: 1
+}
+\end{lstlisting}
+\\~\\
+
+
 \subsection{Card Endpoints}
 
 \noindent
 \textbf{\textcolor{Green}{POST} api/cards} \\
 Creates a new card. Only editors and admins can use this endpoint.
 \begin{itemize}
-    \item HeaderId: The ID of the header that this card belongs to.
+    \item headerId: The ID of the header that this card belongs to.
     \item cardType: The type of card to create. Examples include: default card, internal card, thumbnail gallery, internal thumbnail gallery, and more.
     \item title: The title of the card.
     \item items: The items that will be included in the card.
@@ -485,6 +535,227 @@ Updates a category. This endpoint can only be used by admins.
 \end{lstlisting}
 \\~\\
 
+
+\subsection{Contributor Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/contributors/} \\
+Returns a list of all of the accepted contributors. Anyone can use this endpoint.
+\begin{itemize}
+    \item contributorId: The ID of the contributor.
+    \item name: The name of the contributor.
+    \item title: A title that explains the role of the contributor.
+    \item description: A description of the contributor.
+    \item imageUrl: A URL that shows an image of the contributor.
+    \item priority: A higher priority means that this contributor should be shown before other contributors.
+    \item active: A 1 means that this contributor has been accepted, a 0 means this contributor is yet to be accepted.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  contributors: [
+    }
+      contributorId: 42,
+      name: "John Doe",
+      title: "Very Important Person",
+      description: "This person has done many important things.",
+      imageUrl: "/uploads/user_54/4434462abfd4ae3303e7.png",
+      priority: 10,
+      active: 1
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/contributors/pending} \\
+Returns a list of all of the contributors who are awaiting approval. Only admins can use this endpoint.
+\begin{itemize}
+    \item contributorId: The ID of the contributor.
+    \item name: The name of the contributor.
+    \item title: A title that explains the role of the contributor.
+    \item description: A description of the contributor.
+    \item imageUrl: A URL that shows an image of the contributor.
+    \item priority: A higher priority means that this contributor should be shown before other contributors.
+    \item active: A 1 means that this contributor has been accepted, a 0 means this contributor is yet to be accepted.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  contributors: [
+    }
+      contributorId: 42,
+      name: "John Doe",
+      title: "Very Important Person",
+      description: "This person has done many important things.",
+      imageUrl: "/uploads/user_54/4434462abfd4ae3303e7.png",
+      priority: 10,
+      active: 0
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/contributors/requests} \\
+Returns a list of all of the users who have a role of editor or above, any pending contributor requests they may have, and any publish requests they have made. Only admins can use this endpoint.
+\begin{itemize}
+    \item userId: The ID of the user.
+    \item firstName: The first name of the user.
+    \item lastName: The last name of the user.
+    \item contributorId: The ID of the contributor (if never accepted, then null).
+    \item name: The name of the contributor (if never accepted, then null).
+    \item title: A title that explains the role of the contributor (if never accepted, then null).
+    \item description: A description of the contributor (if never accepted, then null).
+    \item imageUrl: A URL that shows an image of the contributor (if never accepted, then null).
+    \item priority: A higher priority means that this contributor should be shown before other contributors.
+    \item active: A 1 means that this contributor has been accepted, a 0 means this contributor is yet to be accepted.
+    \item : A description of the contributor (if never accepted, then null).
+    \item tempContributorId: This will be the same value as userId if there is a pending contributor request for this user.
+    \item tempName: The name being suggested on a contributor request.
+    \item tempTitle: The title being suggested on a contributor request.
+    \item tempDescription: The description being suggested on a contributor request.
+    \item tempImageUrl: The imageUrl being suggested on a contributor request.
+    \item tempPriority: The priority being suggested on a contributor request.
+    \item requests: A list of publish requests that this user has previously submitted.
+    \begin{itemize}
+        \item requestId: The ID of the request.
+        \item created: The time when the request was created.
+        \item title: The title of the request.
+        \item description: A description of the publish request.
+        \item status: The status of the request.
+        \item userId: The user ID of the user who made the request.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  contributors: [
+    }
+      userId: 42
+      firstName: "John",
+      lastName: "Doe",
+      contributorId: 42,
+      name: "John Doe",
+      title: "Very Important Person",
+      description: "This person has done many important things.",
+      imageUrl: "/uploads/user_54/4434462abfd4ae3303e7.png",
+      priority: 10,
+      active: 1,
+      tempName: "New Doe",
+      tempTitle: "More Important Person",
+      tempDescription: "Some really impressive stuff, better than the last time.",
+      tempImageUrl: "/uploads/user_54/4434462abfd4ae3303e7.png",
+      tempPriority: 15,
+      requests: [
+        {
+          requestId: 17,
+          created: "2021-01-05T20:22:31.000Z",
+          title: "A new request",
+          description: "This is an example of a publish request",
+          status: 4,
+          userId: 42
+        }
+      ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/contributors/submission} \\
+Create a contributor submission that will need to be reviewed by an admin. Editors and admins can use this endpoint.
+\begin{itemize}
+    \item userId: The ID of the current user.
+    \item name: The name of the contributor.
+    \item title: A title that explains the role of the contributor.
+    \item description: A description of the contributor.
+    \item imageUrl: A URL that shows an image of the contributor.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request File]
+{
+  userId: 42,
+  name: "John Doe",
+  title: "Very Important Person",
+  description: "John Doe has done some really cool things.",
+  imageUrl: "/uploads/user_42/4434462abfd4ae3303e7.png"
+}
+\end{lstlisting}
+\begin{itemize}
+    \item contributorId: The contributor ID, this should be the same as the user ID.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  contributorId: 42
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/contributors/:userId} \\
+Post information about a contributor. This action skips the review process. Only admins can use this endpoint.
+\begin{itemize}
+    \item userId: The ID of the current user.
+    \item name: The name of the contributor.
+    \item title: A title that explains the role of the contributor.
+    \item description: A description of the contributor.
+    \item imageUrl: A URL that shows an image of the contributor.
+    \item active: A 1 means that this contributor has been accepted, a 0 means this contributor is yet to be accepted.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request File]
+{
+  userId: 42,
+  name: "John Doe",
+  title: "Very Important Person",
+  description: "John Doe has done some really cool things.",
+  imageUrl: "/uploads/user_42/4434462abfd4ae3303e7.png",
+  active: 1
+}
+\end{lstlisting}
+\begin{itemize}
+    \item contributorId: The contributor ID, this should be the same as the user ID.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  contributorId: 42
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/contributors/pending/:contributorId} \\
+Reject a pending contributor submission. Only an admin can use this endpoint.
+\begin{itemize}
+  \item contributorId: The ID of the contributor that made the submission.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/contributors/pending/:contributorId} \\
+Accept a pending contributor submission. Only an admin can use this endpoint.
+\begin{itemize}
+  \item contributorId: The ID of the contributor that made the submission.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
 
 \subsection{File Endpoints}
 
@@ -1070,6 +1341,63 @@ Updates an icon. Only an admin can use this endpoint.
 \\~\\
 
 
+\subsection{Info Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/info/} \\
+Returns a list of all info objects. These objects represent a simple title, paragraph, and optionally an icon. Any user can use this endpoint.
+\begin{itemize}
+    \item info: All info objects.
+    \begin{itemize}
+        \item infoId: The ID of the info.
+        \item title: A title for the paragraph.
+        \item text: Some descriptive paragraph.
+        \item icon: The name of a font awesome icon that can be shown with the paragraph.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  info: [
+    {
+      infoId: 3,
+      title: "About this Guide",
+      text: "The OSU EEC / IAC offers...",
+      icon: "newspaper"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/info/:infoId} \\
+Updates an info object. Only an admin can use this endpoint.
+\begin{itemize}
+    \item infoId: The ID of the info.
+    \item title: A title for the paragraph.
+    \item text: Some descriptive paragraph.
+    \item icon: The name of a font awesome icon that can be shown with the paragraph.
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  title: "This is a new title",
+  text: "Some text to describe something",
+  icon: "trophy",
+}
+\end{lstlisting}
+\begin{itemize}
+  \item infoId: The ID of the info.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  infoId: 3
+}
+\end{lstlisting}
+\\~\\
+
+
 \subsection{Link Endpoints}
 
 
@@ -1234,6 +1562,8 @@ Returns all of the page, header, card, and item data for a single page. Any user
     \item tempTitle: If the page is published and there is an edited version the page, then this is the same as the title, except in relation to the unpublished version, otherwise null.
     \item tempUserId: If the page is published and there is an edited version the page, then this is the same as the userId, except in relation to the unpublished version, otherwise null.
     \item tempImageUrl: If the page is published and there is an edited version of the page, then this is similar to imageUrl, except in relation to the unpublished version, otherwise null.
+    \item quiz: The value is "true" if there is a quiz avaliable for this page, "false" if there is not.
+    \item quizScore: The value is -1 if the user has never taken this quiz, otherwise this is a number equal to the percentage of correct answers the user got on the quiz last time they took it.
     \item sources: All of the sources that are referenced on this page.
         \begin{itemize}
             \item pageId: The page ID of the page that this source belongs to.
@@ -1290,6 +1620,7 @@ Returns all of the page, header, card, and item data for a single page. Any user
                     \item typeKeyWord: The name displayed when a user hovers over the icon.
                     \item color: The hex color code to use for the icon.
                     \item sourceId: The ID of the source that this item is referencing.
+                    \item groupIndex: The current group that this item belongs to (1 is standard item, 2 is graphic, 3 is resource, 4 is text). 
                 \end{itemize}
         \end{itemize}
     \end{itemize}
@@ -1313,6 +1644,8 @@ Returns all of the page, header, card, and item data for a single page. Any user
   tempImageUrl: null,
   tempName: null,
   tempPageId: null
+  quiz: true,
+  quizScore: 85,
   sources: [
     {
       sourceId: 1,
@@ -1369,7 +1702,8 @@ Returns all of the page, header, card, and item data for a single page. Any user
               iconType: 1,
               typeName: "plus",
               typeKeyword: "Pros",
-              sourceId: 0
+              sourceId: 0,
+              groupIndex: 1
             }
           ],
           tempItems: [
@@ -1388,7 +1722,8 @@ Returns all of the page, header, card, and item data for a single page. Any user
               iconType: 1,
               typeName: "plus",
               typeKeyword: "Pros",
-              sourceId: 0
+              sourceId: 0,
+              groupIndex: 1
             }
           ]
         }
@@ -1399,6 +1734,40 @@ Returns all of the page, header, card, and item data for a single page. Any user
 \end{lstlisting}
 \\~\\
 
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/pages/updated} \\
+Returns the three most recently updated published pages.
+\begin{itemize}
+    \item pageId: The ID of the page.
+    \item pageType: The ID of the category that this page belongs to.
+    \item name: The name of the page.
+    \item title: The title of the initial card that shows at the top of the page.
+    \item description: Text that describes the general subject of the page.
+    \item imageUrl: The URL for the image shown at the top of the page.
+    \item created: The time that the page was created, last updated, or last published (whichever was most recent).
+    \item userId: The ID of the user who created or last updated the page (whichever was most recent).
+    \item approved: Lets us know if the page is published (1) or unpublished (0).
+    \item internal: Determines if the page should be viewable by the public, or just internal users. A value of 1 is only viewable by internal users, while a value of 0 is viewable by everyone.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  pages: [ 
+      {
+        pageId: 2,
+        pageType: 2,
+        name: "Compressed Air",
+        title: "Compressed air is a common utilitiy...",
+        description: "Compressed air has been a key...",
+        imageUrl: "/images/air.png",
+        created: "2020-07-23T10:01:49.000Z",
+        userId: 42,
+        approved: 1,
+        internal: 0
+      }
+  ]
+}
+\end{lstlisting}
+\\~\\
 
 \noindent
 \textbf{\textcolor{RoyalBlue}{GET} api/pages/search/:text/:cursorPrimary/:cursorSecondary} \\
@@ -1432,17 +1801,19 @@ Returns a limited list of pages that match the search text and that only include
     secondary: null
   },
   pages: [
-    pageId: 46,
-    created: "2020-07-02T19:39:56.000Z",
-    description: "Steam energy offered a great...",
-    imageUrl: "https://live.staticflickr.com/65535/...",
-    internal: 0,
-    approved: 1,
-    name: "Boilders and Steam",
-    pageType: 2,
-    title: "Boilers and Steam Systems are found in a large...",
-    url: "/wiki/search-results/46",
-    userId: 51
+    {
+        pageId: 46,
+        created: "2020-07-02T19:39:56.000Z",
+        description: "Steam energy offered a great...",
+        imageUrl: "https://live.staticflickr.com/65535/...",
+        internal: 0,
+        approved: 1,
+        name: "Boilders and Steam",
+        pageType: 2,
+        title: "Boilers and Steam Systems are found in a large...",
+        url: "/wiki/search-results/46",
+        userId: 51
+    }
   ]
 }
 \end{lstlisting}
@@ -1639,6 +2010,7 @@ Returns a report of all of the published content within the date range. Only edi
         \item typeKeyWord: The name displayed when a user hovers over the icon.
         \item color: The hex color code to use for the icon.
         \item sourceId: The ID of the source that this item is referencing.
+        \item groupIndex: The current group that this item belongs to (1 is standard item, 2 is graphic, 3 is resource, 4 is text). 
     \end{itemize}
   \end{itemize}
 \end{itemize}
@@ -1711,6 +2083,7 @@ Returns a report of all of the published content within the date range. Only edi
           orderIndex: 1,
           typeKeyword: "Cons",
           typeName: "minus"
+          groupIndex: 1
         }
       ]
     }
@@ -1719,6 +2092,532 @@ Returns a report of all of the published content within the date range. Only edi
 \end{lstlisting}
 \\~\\
 
+
+\subsection{Quiz Endpoints}
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/quizzes} \\
+Get all published quiz data related to a page. Any user can use this endpoint.
+\begin{itemize}
+    \item title: The title of the page.
+    \item question: The array of quiz questions.
+    \begin{itemize}
+        \item questionId: The ID of the question.
+        \item created: The time the question was created.
+        \item imageUrl: An optional image URL.
+        \item pageId: The ID of the page this question belongs to.
+        \item priority: A value that determines the order of quiz questions on the page. Smaller values are shown at the top of the page, while larger values are shown at the bottom.
+        \item type: A value that determines the type of question (1 is multiple choice, 2 is single text field, 3 is multiple text field, 4 is select all correct).
+        \item text: The text that describes the question.
+        \item approved: Whether the question is published (1) or unpublished (0).
+        \item answers: An array of possible answers to the question.
+            \begin{itemize}
+              \item answerId: The ID of the answer.
+              \item approved: Whether the answer belongs to a published question (1) or not (0).
+              \item correct: Whether the answer is correct.
+              \item groupId: If the question that this answer belongs to is a 'multiple text field' question, then it uses group IDs to keep variations of the same answer together (ex: cat, feline, and kitten).
+              \item text: The actual text answer.
+            \end{itemize}
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  title: "Boilers and Steam",
+  questions: [
+    {
+        questionId: 13,
+        created: "2020-12-21T22:47:43.000Z",
+        imageUrl: "",
+        pageId: 46,
+        priority: 0,
+        type: 3,
+        text: "It is best to tune a boiler every ___ to ___ months.",
+        approved: 1,
+        answers: [
+          {
+            answerId: 589,
+            approved: 1,
+            correct: 1,
+            questionId: 13,
+            text: "6"
+          },
+          {
+            answerId: 590,
+            approved: 1,
+            correct: 1,
+            groupId: 1,
+            questionId: 13,
+            text: "12"
+          }
+        ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/quizzes/pending} \\
+Get all quiz data related to a page, including unpublished questions. Internal users, editors, and admins can use this endpoint.
+\begin{itemize}
+    \item title: The title of the page.
+    \item question: The array of quiz questions.
+    \begin{itemize}
+        \item questionId: The ID of the question.
+        \item created: The time the question was created.
+        \item imageUrl: An optional image URL.
+        \item pageId: The ID of the page this question belongs to.
+        \item priority: A value that determines the order of quiz questions on the page. Smaller values are shown at the top of the page, while larger values are shown at the bottom.
+        \item type: A value that determines the type of question (1 is multiple choice, 2 is single text field, 3 is multiple text field, 4 is select all correct).
+        \item text: The text that describes the question.
+        \item approved: Whether the question is published (1) or unpublished (0).
+        \item tempCreated: The time the unpublished version was created.
+        \item tempImageUrl: The image URL for the unpublished version.
+        \item tempPriority: The priority for the unpublished version.
+        \item tempQuestionId: The ID of the unpublished version. This is null if there is no unpublished version.
+        \item tempText: The text for the unpublished version.
+        \item tempType: The type of the unpublished version.
+        \item tempAnswers: An array of unpublished answers.
+        \item answers: An array of possible answers to the question.
+            \begin{itemize}
+              \item answerId: The ID of the answer.
+              \item approved: Whether the answer belongs to a published question (1) or not (0).
+              \item correct: Whether the answer is correct.
+              \item groupId: If the question that this answer belongs to is a 'multiple text field' question, then it uses group IDs to keep variations of the same answer together (ex: cat, feline, and kitten).
+              \item text: The actual text answer.
+            \end{itemize}
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  title: "Boilers and Steam",
+  questions: [
+    {
+        questionId: 13,
+        created: "2020-12-21T22:47:43.000Z",
+        tempCreated: "2021-1-21T22:42:21.000Z
+        imageUrl: "",
+        tempImageUrl: "",
+        pageId: 46,
+        priority: 0,
+        tempPriority: 5,
+        type: 3,
+        tempType: 3,
+        text: "It is best to tune a boiler every ___ to ___ months.",
+        tempText: "A boiler should be tuned every ___ to ___ months.",
+        approved: 1,
+        answers: [
+          {
+            answerId: 589,
+            approved: 1,
+            correct: 1,
+            questionId: 13,
+            text: "6"
+          }
+        ]
+        tempAnswers: [
+          {
+            answerId: 589,
+            approved: 1,
+            correct: 1,
+            questionId: 13,
+            text: "6"
+          }
+        ]
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/quizzes/:pageId/scores} \\
+Get quiz scores for the current user for a specific page. Any user can use this endpoint.
+\begin{itemize}
+    \item title: The title of the page.
+    \item questions: The array of quiz questions.
+    \begin{itemize}
+        \item questionId: The ID of the question.
+        \item created: The time the question was created.
+        \item imageUrl: An optional image URL.
+        \item pageId: The ID of the page this question belongs to.
+        \item priority: A value that determines the order of quiz questions on the page. Smaller values are shown at the top of the page, while larger values are shown at the bottom.
+        \item type: A value that determines the type of question (1 is multiple choice, 2 is single text field, 3 is multiple text field, 4 is select all correct).
+        \item text: The text that describes the question.
+        \item approved: Whether the question is published (1) or unpublished (0).
+    \end{itemize}
+    \item scores: The array of scores.
+    \begin{itemize}
+        \item scoreId: The ID of the score.
+        \item pageId: The ID of the page the score belongs to.
+        \item questionId: The ID of the question the score belongs to.
+        \item userId: The ID of the user the score belongs to.
+        \item text: The text the user entered as the answer.
+        \item invalid: By default 0. If the user was answering a choose all correct question, then any answer that was not selected will be marked as invalid (1). Note: an answer can be invalid and correct, this just means that the correct answer was NOT selecting the specific answer.
+        \item correct: If the user got this answer correct, then the value is 1. If the user got this answer incorrect then the value is 0.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  title: "Boilers and Steam",
+  questions: [
+    {
+        questionId: 13,
+        created: "2020-12-21T22:47:43.000Z",
+        imageUrl: "",
+        pageId: 46,
+        priority: 0,
+        type: 3,
+        text: "It is best to tune a boiler every ___ to ___ months.",
+        approved: 1
+    }
+  ],
+  scores: [
+    {
+      scoreId: 231,
+      pageId: 46,
+      questionId: 13,
+      userId: 42,
+      text: "d",
+      invalid: 0,
+      correct: 0
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/quizzes/:pageId/scores} \\
+Submit quiz scores for the current user for a specific page. Any registered user can use this endpoint.
+\begin{itemize}
+    \item pageId: The specific page ID.
+    \item scores: The array of scores.
+    \begin{itemize}
+        \item questionId: The ID of the question the score belongs to.
+        \item text: The text the user entered as the answer.
+        \item invalid: By default 0. If the user was answering a choose all correct question, then any answer that was not selected will be marked as invalid (1). Note: an answer can be invalid and correct, this just means that the correct answer was NOT selecting the specific answer.
+        \item correct: If the user got this answer correct, then the value is 1. If the user got this answer incorrect then the value is 0.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+  scores: [
+    {
+      questionId: 13,
+      text: "d",
+      invalid: 0,
+      correct: 0
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item submitted: Equal to 1.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  submitted: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/quizzes/:pageId} \\
+Create a new quiz question. Editors and admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page this question belongs to.
+    \item imageUrl: An optional image URL.
+    \item priority: A value that determines the order of quiz questions on the page. Smaller values are shown at the top of the page, while larger values are shown at the bottom.
+    \item type: A value that determines the type of question (1 is multiple choice, 2 is single text field, 3 is multiple text field, 4 is select all correct).
+    \item text: The text that describes the question.
+    \item answers: An array of possible answers to the question.
+        \begin{itemize}
+          \item correct: Whether the answer is correct.
+          \item groupId: If the question that this answer belongs to is a 'multiple text field' question, then it uses group IDs to keep variations of the same answer together (ex: cat, feline, and kitten).
+          \item text: The actual text answer.
+        \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+    imageUrl: "",
+    priority: 0,
+    type: 3,
+    text: "It is best to tune a boiler every ___ to ___ months.",
+    answers: [
+      {
+        correct: 1,
+        groupId: 0,
+        text: "6"
+      },
+      {
+        correct: 1,
+        groupId: 1,
+        text: "12"
+      }
+    ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item questionId: the ID of the question.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  questionId: 12
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/quizzes/:questionId} \\
+Update a quiz question. Editors and admins can use this endpoint.
+\begin{itemize}
+    \item questionId: The ID of the question to update.
+    \item imageUrl: An optional image URL.
+    \item type: A value that determines the type of question (1 is multiple choice, 2 is single text field, 3 is multiple text field, 4 is select all correct).
+    \item text: The text that describes the question.
+    \item answers: An array of possible answers to the question.
+        \begin{itemize}
+          \item correct: Whether the answer is correct.
+          \item groupId: If the question that this answer belongs to is a 'multiple text field' question, then it uses group IDs to keep variations of the same answer together (ex: cat, feline, and kitten).
+          \item text: The actual text answer.
+        \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{ 
+    imageUrl: "",
+    priority: 0,
+    type: 3,
+    text: "It is best to tune a boiler every ___ to ___ months.",
+    answers: [
+      {
+        correct: 1,
+        groupId: 0,
+        text: "6"
+      },
+      {
+        correct: 1,
+        groupId: 1,
+        text: "12"
+      }
+    ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item insertId: the ID of the question.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  insertId: 12
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/quizzes/:pageId} \\
+Create a new quiz question. Editors and admins can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page this question belongs to.
+    \item imageUrl: An optional image URL.
+    \item priority: A value that determines the order of quiz questions on the page. Smaller values are shown at the top of the page, while larger values are shown at the bottom.
+    \item type: A value that determines the type of question (1 is multiple choice, 2 is single text field, 3 is multiple text field, 4 is select all correct).
+    \item text: The text that describes the question.
+    \item answers: An array of possible answers to the question.
+        \begin{itemize}
+          \item correct: Whether the answer is correct.
+          \item groupId: If the question that this answer belongs to is a 'multiple text field' question, then it uses group IDs to keep variations of the same answer together (ex: cat, feline, and kitten).
+          \item text: The actual text answer.
+        \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+    imageUrl: "",
+    priority: 0,
+    type: 3,
+    text: "It is best to tune a boiler every ___ to ___ months.",
+    answers: [
+      {
+        correct: 1,
+        groupId: 0,
+        text: "6"
+      },
+      {
+        correct: 1,
+        groupId: 1,
+        text: "12"
+      }
+    ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item questionId: the ID of the question.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  questionId: 12
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{RoyalBlue}{GET} api/quizzes/:pageId/observations} \\
+Get observations and feedback made by users who have taken the quiz. Editors and admins can use this endpoint.
+\begin{itemize}
+    \item observations: An array of all of the observations on this page.
+    \begin{itemize}
+        \item observationId: The ID of the observation.
+        \item pageId: The ID of the page the obseravation belongs to.
+        \item type: The type of observation (1 is general feedback, 2 is suggested new quiz questions).
+        \item text: The actuall text submitted by the user.
+        \item hidden: Whether this observation has been marked to be hidden.
+        \item userId: The ID of the user who made the observation.
+        \item username: The username of the user who made the observation.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  observations: [
+    {
+        observationId: 1,
+        pageId: 52,
+        type: 1,
+        text: "I really liked this quiz.",
+        hidden: 0,
+        userId: 42,
+        username: "Silverware"
+    }
+  ]
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/quizzes/:pageId/observations} \\
+Create a new observation(s) for a quiz. Any registered user can use this endpoint.
+\begin{itemize}
+    \item pageId: The ID of the page the observation(s) belongs to.
+    \item observations: An array of observations to create.
+    \begin{itemize}
+        \item type: The type of observation (1 is general feedback, 2 is suggested new quiz questions).
+        \item text: The actual text submitted by the user.
+    \end{itemize}
+\end{itemize}
+\begin{lstlisting}[caption=Example Request Body]
+{
+  observations: [
+    {
+        type: 1,
+        text: "I really liked this quiz.",
+    }
+  ]
+}
+\end{lstlisting}
+\begin{itemize}
+    \item submitted: This value is equal to 1.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  submitted: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/quizzes/observations/:observationId/hide} \\
+Hide a user's observation. Editors and admins can use this endpoint.
+\begin{itemize}
+    \item observationId: The ID of the observation to be hidden.
+    \item affectedRows: The number of observations hidden.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/quizzes/:questionId} \\
+Delete a quiz question. Only admins can use this endpoint.
+\begin{itemize}
+  \item questionId: The ID of the question to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Maroon}{DELETE} api/quizzes/:questionId/changes} \\
+Delete unpublished quiz question changes. Editors and admins can use this endpoint.
+\begin{itemize}
+  \item questionId: The ID of the question to delete.
+  \item affectedRows: The number of table rows affected by this action.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{ 
+  affectedRows: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/quizzes/:questionId/publish} \\
+Publish a quiz question so that it is shown to the public. Only admins can use this endpoint.
+\begin{itemize}
+    \item questionId: The ID of the question to be published.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  questionId: 1
+}
+\end{lstlisting}
+\\~\\
+
+
+\noindent
+\textbf{\textcolor{Green}{POST} api/quizzes/:questionId/unpublish} \\
+Unpublish a quiz question so that it is hidden from the public. Only admins can use this endpoint.
+\begin{itemize}
+    \item questionId: The ID of the question to be unpublished.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  questionId: 1
+}
+\end{lstlisting}
+\\~\\
+
+\noindent
+\textbf{\textcolor{BlueGreen}{PATCH} api/quizzes/:questionId/move/:direction/:mode} \\
+Move a question up or down the page it exists on. Editors and admins can use this endpoint, but only admins can move already published questions.
+\begin{itemize}
+    \item questionId: The ID of the question to move.
+    \item direction: A value of 1 represents moving the question up one space, a value of 0 represents moving the question down one space.
+    \item mode: A value of 1 means that we are moving published questions (only admins can do this). A value of 0 means we are moving unpublished questions.
+\end{itemize}
+\begin{lstlisting}[caption=Example Response]
+{
+  questionId: 15
+}
+\end{lstlisting}
+\\~\\
 
 \subsection{Request Endpoints}
 

@@ -260,8 +260,8 @@ function QuestionEdit(props) {
     }
     if (type === 1) {
       let correctCount = 0;
-      for (let j = 0; j < answers.length; j++) {
-        if (answers[j].correct) {
+      for (let i = 0; i < answers.length; i++) {
+        if (answers[i].correct) {
           correctCount++;
         }
       }
@@ -271,8 +271,8 @@ function QuestionEdit(props) {
       }
     } else if (type === 4) {
       let correctCount = 0;
-      for (let j = 0; j < answers.length; j++) {
-        if (answers[j].correct) {
+      for (let i = 0; i < answers.length; i++) {
+        if (answers[i].correct) {
           correctCount++;
         }
       }
@@ -281,10 +281,18 @@ function QuestionEdit(props) {
         return false;
       }
     }
-    for (let j = 0; j < answers.length; j++) {
-      if (!answers[j].text.length) {
-        setErrorMessage(`Answer ${j + 1} is missing text.`);
+    for (let i = 0; i < answers.length; i++) {
+      if (!answers[i].text.length) {
+        setErrorMessage(`Answer ${i + 1} is missing text.`);
         return false;
+      }
+    }
+    for (let i = 0; i < answers.length; i++) {
+      for (let j = 0; j < answers.length; j++) {
+        if (i !== j && answers[i].text === answers[j].text) {
+          setErrorMessage(`Duplicate answers are not allowed.`);
+          return false;
+        }
       }
     }
     return true;
@@ -712,6 +720,7 @@ function QuestionEdit(props) {
             <ImageInput
               id={props.index}
               onNewImage={(newImage) => onNewImage(newImage)}
+              default={"... or Upload an Image"} 
             />
 
             {/* Preview Image */}

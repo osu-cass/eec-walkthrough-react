@@ -43,7 +43,7 @@ function ReportQuestion(props) {
 
       {props.question.oldVersion ? (
         <div className="col">
-          <div className={`version-container p-2 m-3 border border-dark rounded text-wrap`}>
+          <div className="version-container p-2 m-3 border border-dark rounded text-wrap">
             <h4 className="report-card-special-text pl-3 pt-4">Question</h4>
             <h5 className="report-card-special-text pl-3">{parentsName} &rarr; Question</h5>
             <span className="report-card-special-text pl-3">Updated {formatTime(props.question.oldVersion.created)}</span>

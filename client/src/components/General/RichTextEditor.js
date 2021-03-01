@@ -12,20 +12,10 @@ window.katex = katex;
 // A textarea that supports underline, bold, and italic text
 function RichTextEditor(props) {
 
-  /*
-  const modules = {
-    toolbar: {
-      container: "#toolbar",
-      handlers: {}
-    }
-  };
-  */
-
   const modules = {
     toolbar: [
       [{size: ["small", false, "large", "huge"]}],
       ["bold", "italic", "underline", "strike"],
-      [{list: "ordered"}, {list: "bullet"}],
       ["formula"],
       ["clean"]
     ],
@@ -37,8 +27,6 @@ function RichTextEditor(props) {
     "italic",
     "underline",
     "strike",
-    "list",
-    "bullet",
     "formula"
   ];
 
@@ -49,7 +37,6 @@ function RichTextEditor(props) {
 
   return (
     <div className={`text-editor ${props.showToolbar() ? "" : "simple-text-border"}`}>
-      {/* <RichTextToolbar /> */}
       <ReactQuill
         value={props.value}
         onChange={(text) => props.onChange(text)}

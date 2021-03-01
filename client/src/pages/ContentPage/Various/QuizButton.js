@@ -47,7 +47,7 @@ function QuizButton(props) {
               <button className="btn btn-lg btn-secondary disabled d-print-none mb-4">
                 Take the Quiz
               </button>
-              <h2>You need to login to take this quiz</h2>
+              <h2>You need to register / login to take this quiz</h2>
             </div>
           )}
 

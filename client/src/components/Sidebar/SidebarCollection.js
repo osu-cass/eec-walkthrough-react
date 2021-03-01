@@ -5,6 +5,7 @@ import Accordion from "react-bootstrap/Accordion";
 import {Card} from "react-bootstrap";
 import CreatePage from "./CreatePage";
 import EditCategory from "./EditCategory";
+import {EEC_HOMEPAGE} from "../../utilities/constants";
 import "./SidebarCollection.css";
 
 // A group of pages that can be expanded or hidden on the sidebar
@@ -27,9 +28,13 @@ function SidebarCollection(props) {
                 )}
                 {props.collectionName}
                 {active ? (
-                  <span className="pull-right">&#11206;</span>
+                  <span className="pull-right">
+                    <i className="fas fa-fw fa-caret-down" />
+                  </span>
                 ) : (
-                  <span className="pull-right">&#11208;</span>
+                  <span className="pull-right">
+                    <i className="fas fa-fw fa-caret-right" />
+                  </span>
                 )}
                 {props.internal ? (
                   <span>&nbsp;<i className="sidebar-icons fas fa-fw fa-unlock-alt fa-sm ml-1" /></span>
@@ -99,15 +104,33 @@ function SidebarCollection(props) {
                 </Card.Body>
               </NavLink>
             )}
-            {/* If we have a disclaimer, show it after the rest of the items */}
-            {props.disclaimer ? (
-              <NavLink to="/disclaimer" className="ml-3 sidebar-nav-link">
-                <Card.Body className="sidebar-nav-link">
-                  <span>
-                    Disclaimer
-                  </span>
-                </Card.Body>
-              </NavLink>
+            {/* If we have extra pages, show it after the rest of the items */}
+            {props.extra ? (
+              <Fragment>
+                <NavLink to="/contributors" className="ml-3 sidebar-nav-link">
+                  <Card.Body className="sidebar-nav-link">
+                    <span>
+                      Contributors
+                    </span>
+                  </Card.Body>
+                </NavLink>
+
+                <NavLink to="/disclaimer" className="ml-3 sidebar-nav-link">
+                  <Card.Body className="sidebar-nav-link">
+                    <span>
+                      Disclaimer
+                    </span>
+                  </Card.Body>
+                </NavLink>
+
+                <a href={EEC_HOMEPAGE} className="ml-3 sidebar-nav-link">
+                  <Card.Body className="sidebar-nav-link">
+                    <span>
+                      OSU EEC Homepage
+                    </span>
+                  </Card.Body>
+                </a>
+              </Fragment>
             ) : (
               null
             )}
@@ -159,6 +182,6 @@ SidebarCollection.propTypes = {
   show: PropTypes.bool,
   hideEdit: PropTypes.bool,
   collectionIcon: PropTypes.string,
-  disclaimer: PropTypes.bool
+  extra: PropTypes.bool
 };
 

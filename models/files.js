@@ -1,5 +1,5 @@
 // File: files.js
-// Description: Provides functions for working with files
+// Description: Provides functions for working with files.
 
 const {pool} = require("../services/database/mysqlPool");
 const path = require("path");

@@ -144,7 +144,13 @@ function ItemInput(props) {
               onChange={(e) => props.handleInput(e, props.index, 3)}
               required
             />
-            <ImageInput id={props.index} internal={props.internal} inline={props.inline} onNewImage={(newImage) => props.onNewImage(newImage, props.index)} />
+            <ImageInput
+              id={props.index}
+              internal={props.internal}
+              inline={props.inline}
+              onNewImage={(newImage) => props.onNewImage(newImage, props.index)}
+              default={"... or Upload an Image"}
+            />
           </div>
           <Dropdown className="source-select-drop-down-menu ml-2">
             <Dropdown.Toggle variant="outline-dark">
@@ -196,27 +202,38 @@ function ItemInput(props) {
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <div className="ml-3 very-small-text-editor-input">
-            <RichTextEditor
-              id={`submit-text-${props.index}`}
-              value={props.value.contentLabel}
-              onChange={(text) => props.handleInput(text, props.index, 2)}
-              placeHolder="Resource Label"
-              showToolbar={props.isSelected}
-            />
-          </div>
           <FormControl
             as="textarea"
             rows="1"
             maxLength="1000"
-            className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
-            placeholder="Resource URL"
-            value={props.value.contentUrl}
-            aria-label="Insert Resource URL"
-            aria-describedby="basic-addon1"
-            onChange={(e) => props.handleInput(e, props.index, 3)}
+            className={`ml-3 ${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
+            placeholder="Resource Label"
+            value={props.value.contentLabel}
+            aria-label="Resource Label"
+            onChange={(text) => props.handleInput(text, props.index, 5)}
             required
           />
+          <div className="col px-0">
+            <FormControl
+              as="textarea"
+              rows="1"
+              maxLength="1000"
+              className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
+              placeholder="Resource URL"
+              value={props.value.contentUrl}
+              aria-label="Insert Resource URL"
+              aria-describedby="basic-addon1"
+              onChange={(e) => props.handleInput(e, props.index, 3)}
+              required
+            />
+            <ImageInput
+              id={props.index}
+              internal={props.internal}
+              inline={props.inline}
+              onNewImage={(newImage) => props.onNewImage(newImage, props.index)}
+              default={"... or Upload a PDF"}
+            />
+          </div>
           <div className="very-small-text-editor-input">
             <RichTextEditor
               id={`submit-text-${props.index}`}
@@ -227,22 +244,6 @@ function ItemInput(props) {
             />
           </div>
         </Fragment>
-      ) : (
-        null
-      )}
-
-      {props.groupIndex === 4 ? (
-        <div className="text-editor-input">
-          <div className="form-group mx-3 mb-4">
-            <RichTextEditor
-              id={`submit-text-${props.index}`}
-              value={props.value.contentText}
-              onChange={(text) => props.handleInput(text, props.index, 4)}
-              placeHolder="Item Text"
-              showToolbar={props.isSelected}
-            />
-          </div>
-        </div>
       ) : (
         null
       )}
