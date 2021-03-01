@@ -37,7 +37,7 @@ function QuizButton(props) {
           {props.role ? (
             <div className="text-center my-4">
               <NavLink className="quiz-nav-link" to={`/quiz/${props.pageId}`}>
-                <button className="btn btn-lg btn-success d-print-none">
+                <button className="btn btn-lg btn-headerbtn1 d-print-none">
                   Take the Quiz
                 </button>
               </NavLink>
@@ -93,7 +93,7 @@ function QuizButton(props) {
           {/* Quiz button */}
           <div className="text-center my-4">
             <NavLink className="quiz-nav-link" to={`/edit-quiz/${props.pageId}`}>
-              <button className="btn btn-lg btn-info d-print-none">
+              <button className="btn btn-lg btn-headerbtn1 d-print-none">
                 Edit the Quiz
               </button>
             </NavLink>
@@ -131,7 +131,7 @@ function QuizButton(props) {
           {/* Quiz button */}
           <div className="text-center my-4">
             <NavLink className="quiz-nav-link" to={`/move-quiz/${props.pageId}`}>
-              <button className="btn btn-lg btn-info d-print-none">
+              <button className="btn btn-lg btn-headerbtn1 d-print-none">
                 Move Quiz Questions
               </button>
             </NavLink>
