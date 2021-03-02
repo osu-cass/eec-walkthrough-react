@@ -209,120 +209,120 @@ function HomePage(props) {
 
   return (
     <Fragment>
-      <LoadingOverlay loading={loading} />
-
-      <div className="banner-container">
-        {/* Image shown at the top of the page */}
-        <img
-          className="home-banner"
-          src={bannerUrl}
-          onError={(e) => e.target.src = "/missing_home.jpg"}
-          alt="Home page banner"
-        />
-
-        <div className="banner-image-div" >
-          {/* Text box inside banner image */}
-          <div className="banner-image-text px-3 py-3">
-            <span>
-              Find opportunities<br />to improve industrial<br />efficiency
-            </span>
-          </div>
-
-          {/* Button inside banner image */}
-          <NavLink className="banner-nav-link" to="/wiki/instructions/64">
-            <button className="banner-button" >
-              Learn how
-            </button>
-          </NavLink>
-        </div>
-
-        {/* Small colored stripe at the bottom of image */}
-        <div className="banner-footer" />
-      </div>
-
-      {/* Text Row */}
-      <div className="text-box-row row">
-        {/* First text block */}
-        <div className="home-content-block home-on col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-          <div className="home-inner-block">
-            <h2>
-              {info[0].title}
-            </h2>
-            <span>
-              {info[0].text}
-            </span>
-            <div className="mt-4">
-              <i className={`fas fa-fw fa-${info[0].icon} fa-3x`} />
-            </div>
-          </div>
-        </div>
-
-        {/* Second text block */}
-        <div className="home-content-block home-off col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-          <div className="home-inner-block">
-            <h2>
-              {info[1].title}
-            </h2>
-            <span>
-              {info[1].text}
-            </span>
-            <div className="mt-4">
-              <i className={`fas fa-fw fa-${info[1].icon} fa-3x`} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Recently updated pages */}
-      <div className="home-page-list text-center px-4">
-        <h2 className="light-home-text">
-          {recent ? (
-            <span>Recently Updated</span>
-          ) : (
-            <span>Featured Pages</span>
-          )}
-        </h2>
-        <div className="page-card-row row justify-content-center">
-
-          {/* Use individual cards for each page */}
-          {updated.map((page) =>
-            <PageCard
-              key={page.pageId}
-              imageUrl={page.imageUrl}
-              name={page.name}
-              description={page.description}
-              updated={page.created}
-              pageId={page.pageId}
-              recent={recent}
+      { loading ? <LoadingOverlay loading={loading} /> :
+        <>
+          <div className="banner-container">
+            {/* Image shown at the top of the page */}
+            <img
+              className="home-banner"
+              src={bannerUrl}
+              onError={(e) => e.target.src = "/missing_home.jpg"}
+              alt="Home page banner"
             />
-          )}
 
-        </div>
-      </div>
+            <div className="banner-image-div" >
+              {/* Text box inside banner image */}
+              <div className="banner-image-text px-3 py-3">
+                <span>
+                Find opportunities<br />to improve industrial<br />efficiency
+                </span>
+              </div>
 
-      {/* Sponsors row */}
-      <div className="text-box-row row">
-        {/* Our Sponsors */}
-        <div className="home-content-block home-on col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-          <div className="home-expanded-inner-block">
-            <h2>
-              Sponsors
+              {/* Button inside banner image */}
+              <NavLink className="banner-nav-link" to="/wiki/instructions/64">
+                <button className="banner-button" >
+                Learn how
+                </button>
+              </NavLink>
+            </div>
+
+            {/* Small colored stripe at the bottom of image */}
+            <div className="banner-footer" />
+          </div>
+
+          {/* Text Row */}
+          <div className="text-box-row row">
+            {/* First text block */}
+            <div className="home-content-block home-on col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+              <div className="home-inner-block">
+                <h2>
+                  {info[0].title}
+                </h2>
+                <span>
+                  {info[0].text}
+                </span>
+                <div className="mt-4">
+                  <i className={`fas fa-fw fa-${info[0].icon} fa-3x`} />
+                </div>
+              </div>
+            </div>
+
+            {/* Second text block */}
+            <div className="home-content-block home-off col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+              <div className="home-inner-block">
+                <h2>
+                  {info[1].title}
+                </h2>
+                <span>
+                  {info[1].text}
+                </span>
+                <div className="mt-4">
+                  <i className={`fas fa-fw fa-${info[1].icon} fa-3x`} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Recently updated pages */}
+          <div className="home-page-list text-center px-4">
+            <h2 className="light-home-text">
+              {recent ? (
+                <span>Recently Updated</span>
+              ) : (
+                <span>Featured Pages</span>
+              )}
             </h2>
+            <div className="page-card-row row justify-content-center">
 
-            <div className="my-5">
-              {sponsors.map((sponsor) =>
-                <Sponsor
-                  key={sponsor.sponsorId}
-                  name={sponsor.name}
-                  imageUrl={sponsor.imageUrl}
-                  websiteUrl={sponsor.websiteUrl}
+              {/* Use individual cards for each page */}
+              {updated.map((page) =>
+                <PageCard
+                  key={page.pageId}
+                  imageUrl={page.imageUrl}
+                  name={page.name}
+                  description={page.description}
+                  updated={page.created}
+                  pageId={page.pageId}
+                  recent={recent}
                 />
               )}
+
             </div>
           </div>
-        </div>
-      </div>
 
+          {/* Sponsors row */}
+          <div className="text-box-row row">
+            {/* Our Sponsors */}
+            <div className="home-content-block home-on col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <div className="home-expanded-inner-block">
+                <h2>
+                Sponsors
+                </h2>
+
+                <div className="my-5">
+                  {sponsors.map((sponsor) =>
+                    <Sponsor
+                      key={sponsor.sponsorId}
+                      name={sponsor.name}
+                      imageUrl={sponsor.imageUrl}
+                      websiteUrl={sponsor.websiteUrl}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </> }
     </Fragment>
   );
 }
