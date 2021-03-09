@@ -49,12 +49,11 @@ function Login (props) {
 
       if (results.ok) {
 
-        // hide the modal, pass login state up to navbar, and return to the homepage
+        // hide the modal, pass login state up to navbar, and refresh the current page
         setShowModal(false);
         props.onLogin();
         props.history.push(`/`);
-
-      } else {
+        props.history.goBack();
 
         const obj = await results.json();
 
