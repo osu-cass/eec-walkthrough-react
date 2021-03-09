@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {NavLink} from "react-router-dom";
+import Login from "../../../components/PageHeader/Login";
 
 // A button used to take a quiz about the pages contents
 function QuizButton(props) {
@@ -48,6 +49,7 @@ function QuizButton(props) {
                 Take the Quiz
               </button>
               <h2>You need to register / login to take this quiz</h2>
+              <Login onLogin={props.handleLoginStatusChange} />
             </div>
           )}
 
