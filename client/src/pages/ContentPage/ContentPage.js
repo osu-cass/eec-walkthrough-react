@@ -1,9 +1,9 @@
-import React, {Fragment, useState, useEffect} from "react";
-import {getProfile, logout} from "../../utilities/cookieAuth";
-import {getMode} from "../../utilities/pageMode";
-import {getPublic} from "../../utilities/publicMode";
-import {getPublished} from "../../utilities/publishedMode";
-import {API_URL} from "../../utilities/constants";
+import React, { Fragment, useState, useEffect } from "react";
+import { getProfile, logout } from "../../utilities/cookieAuth";
+import { getMode } from "../../utilities/pageMode";
+import { getPublic } from "../../utilities/publicMode";
+import { getPublished } from "../../utilities/publishedMode";
+import { API_URL } from "../../utilities/constants";
 import Header from "./Header/Header";
 import PageDescription from "./Page/PageDescription";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
@@ -16,7 +16,7 @@ import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import NonPublicPage from "../NonPublicPage/NonPublicPage";
 import HowToCards from "./Card/HowToCards";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import QuizButton from "./Various/QuizButton";
 import "./ContentPage.css";
 
@@ -38,7 +38,7 @@ function ContentPage(props) {
   const [references, setReferences] = useState([]);
   const [tempReferences, setTempReferences] = useState([]);
   const [cardTitles, setCardTitles] = useState([]);
-  const {pageId} = useParams();
+  const { pageId } = useParams();
   const [categories, setCategories] = useState([]);
   const [howToPage, setHowToPage] = useState(false);
   const [pageInfo, setPageInfo] = useState({
@@ -75,7 +75,7 @@ function ContentPage(props) {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
-          headers: {"Content-Type": "application/json"}
+          headers: { "Content-Type": "application/json" }
         });
 
         // if this component is cleaned up, stop here
@@ -96,7 +96,7 @@ function ContentPage(props) {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
-          headers: {"Content-Type": "application/json"}
+          headers: { "Content-Type": "application/json" }
         });
 
         // if this component is cleaned up, stop here
@@ -117,7 +117,7 @@ function ContentPage(props) {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
-          headers: {"Content-Type": "application/json"}
+          headers: { "Content-Type": "application/json" }
         });
 
         // if this component is cleaned up, stop here
@@ -166,7 +166,7 @@ function ContentPage(props) {
             signal: controller.signal,
             method: "GET",
             credentials: "include",
-            headers: {"Content-Type": "application/json"}
+            headers: { "Content-Type": "application/json" }
           });
 
           // if this component is cleaned up, stop here
@@ -474,7 +474,7 @@ function ContentPage(props) {
     const results = await fetch(`${API_URL}/headers/${headerId}/move/${direction}/${mode}`, {
       method: "PATCH",
       credentials: "include",
-      headers: {"Content-Type": "application/json"}
+      headers: { "Content-Type": "application/json" }
     });
 
     if (!results.ok) {
@@ -808,106 +808,106 @@ function ContentPage(props) {
     return loading ? (
       <LoadingOverlay loading={true} />
     ) : (
-      <Container className="my-5" id="content-page">
+        <Container className="my-5" id="content-page">
 
-        {/* This is the top header and card that describes the page */}
-        <PageDescription
-          page={pageInfo}
-          handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
-          role={role}
-          mode={mode}
-          publicMode={publicMode}
-          publishedMode={publishedMode}
-          pageState={pageState}
-          onPageMode={mode => setMode(mode)}
-          onPublicMode={publicMode => setPublicMode(publicMode)}
-          onPublishedMode={published => setPublishedMode(published)}
-          handlePageEdit={props.handlePageEdit}
-          moved={moved}
-          onNewView={e => handleNewView(e)}
-          headers={headers}
-          quiz={(mode === 0 && pageInfo.quiz) || mode !== 0}
-          references={!!(mode === 0 && references.length) || !!(mode === 1 && tempReferences.length)}
-        />
+          {/* This is the top header and card that describes the page */}
+          <PageDescription
+            page={pageInfo}
+            handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+            role={role}
+            mode={mode}
+            publicMode={publicMode}
+            publishedMode={publishedMode}
+            pageState={pageState}
+            onPageMode={mode => setMode(mode)}
+            onPublicMode={publicMode => setPublicMode(publicMode)}
+            onPublishedMode={published => setPublishedMode(published)}
+            handlePageEdit={props.handlePageEdit}
+            moved={moved}
+            onNewView={e => handleNewView(e)}
+            headers={headers}
+            quiz={(mode === 0 && pageInfo.quiz) || mode !== 0}
+            references={!!(mode === 0 && references.length) || !!(mode === 1 && tempReferences.length)}
+          />
 
-        {/* Button for creating new headers */}
-        <CreateHeader
-          pageId={parseInt(pageId)}
-          role={role}
-          userId={userId}
-          numHeaders={headers.length}
-          mode={mode}
-          handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
-        />
+          {/* Button for creating new headers */}
+          <CreateHeader
+            pageId={parseInt(pageId)}
+            role={role}
+            userId={userId}
+            numHeaders={headers.length}
+            mode={mode}
+            handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+          />
 
-        {headers.map((header, i) =>
-          <Fragment key={i}>
-            <Header
-              header={header}
-              handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
-              handleMoveCard={() => setMoved(true)}
-              role={role}
-              mode={mode}
-              publicMode={publicMode}
-              publishedMode={publishedMode}
-              iconSet={iconSet}
-              cardState={cardState}
-              top={i === 0 ? (true) : (false)}
-              bottom={i >= headers.length - 1 ? (true) : (false)}
-              handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
-              handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
-              updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
-              resetIcons={e => resetIcons(e)}
-              clearIcons={e => clearIcons(e)}
-              checkIcon={(headerId, cardId, itemId, check) => checkIcon(headerId, cardId, itemId, check)}
-              sources={pageInfo.sources}
-              cardTitles={cardTitles}
-              onPageMode={mode => setMode(mode)}
-              moved={moved}
-              index={i}
-            />
-
-            {/* For auto headers on the "how to" page, create special cards */}
-            {howToPage && i === 0 ? (
-              <HowToCards
-                categories={categories}
-                icons={iconSet}
+          {headers.map((header, i) =>
+            <Fragment key={i}>
+              <Header
+                header={header}
+                handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
+                handleMoveCard={() => setMoved(true)}
+                role={role}
+                mode={mode}
+                publicMode={publicMode}
+                publishedMode={publishedMode}
+                iconSet={iconSet}
+                cardState={cardState}
+                top={i === 0 ? (true) : (false)}
+                bottom={i >= headers.length - 1 ? (true) : (false)}
+                handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
+                handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+                updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
+                resetIcons={e => resetIcons(e)}
+                clearIcons={e => clearIcons(e)}
+                checkIcon={(headerId, cardId, itemId, check) => checkIcon(headerId, cardId, itemId, check)}
+                sources={pageInfo.sources}
+                cardTitles={cardTitles}
+                onPageMode={mode => setMode(mode)}
+                moved={moved}
+                index={i}
               />
-            ) : (
-              null
-            )}
 
-            {/* Button for creating a new card under the current header */}
-            <CreateCard
-              headerId={header.headerId}
-              handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
-              mode={mode}
-              iconSet={iconSet}
-              sources={pageInfo.sources}
-              cardTitles={cardTitles}
-            />
-          </Fragment>
-        )}
+              {/* For auto headers on the "how to" page, create special cards */}
+              {howToPage && i === 0 ? (
+                <HowToCards
+                  categories={categories}
+                  icons={iconSet}
+                />
+              ) : (
+                  null
+                )}
 
-        {/* A card at the end of the page that lists all of the references */}
-        <References
-          sources={references}
-          tempSources={tempReferences}
-          mode={mode}
-        />
+              {/* Button for creating a new card under the current header */}
+              <CreateCard
+                headerId={header.headerId}
+                handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+                mode={mode}
+                iconSet={iconSet}
+                sources={pageInfo.sources}
+                cardTitles={cardTitles}
+              />
+            </Fragment>
+          )}
 
-        {/* A link to a quiz about the page content */}
-        <QuizButton
-          quiz={pageInfo.quiz}
-          quizScore={pageInfo.quizScore}
-          pageId={pageId}
-          mode={mode}
-          pageName={pageInfo.name}
-          role={role}
-        />
+          {/* A card at the end of the page that lists all of the references */}
+          <References
+            sources={references}
+            tempSources={tempReferences}
+            mode={mode}
+          />
 
-      </Container>
-    );
+          {/* A link to a quiz about the page content */}
+          <QuizButton
+            quiz={pageInfo.quiz}
+            quizScore={pageInfo.quizScore}
+            pageId={pageId}
+            mode={mode}
+            pageName={pageInfo.name}
+            role={role}
+          />
+
+        </Container>
+      );
   } else if (publicMode === 1 && (!pageInfo.approved || pageInfo.internal) && mode === 0) {
     return <NonPublicPage onPublicMode={publicMode => setPublicMode(publicMode)} />;
   } else if (errorPage === 404) {
