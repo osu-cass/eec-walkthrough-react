@@ -476,6 +476,43 @@ INSERT INTO `Contributors` (`contributorId`, `name`, `title`, `description`, `im
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Curators`
+--
+
+CREATE TABLE `Curators` (
+  `curatorPageId` int(10) UNSIGNED NOT NULL,
+  `userId` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `Contributors`
+--
+
+INSERT INTO `Curators` (`curatorPageId`, `userId`) VALUES
+(2, 52),
+(44, 52),
+(45, 52),
+(46, 52),
+(47, 52),
+(48, 52),
+(49, 52),
+(50, 52),
+(54, 52),
+(56, 52),
+(57, 52),
+(58, 52),
+(61, 52),
+(62, 52),
+(64, 52),
+(65, 52),
+(69, 52),
+(72, 52),
+(74, 52),
+(75, 52);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Filters`
 --
 
@@ -4976,6 +5013,13 @@ ALTER TABLE `Categories`
 ALTER TABLE `Contributors`
   ADD PRIMARY KEY (`contributorId`);
 
+  --
+  -- Indexes for table `Curators`
+  --
+ALTER TABLE `Curators`
+  ADD PRIMARY KEY (`curatorPageId`),
+  ADD KEY `curator_user_fk` (`userId`);
+
 --
 -- Indexes for table `Filters`
 --
@@ -5357,6 +5401,13 @@ ALTER TABLE `Categories`
 --
 ALTER TABLE `Contributors`
   ADD CONSTRAINT `fk_user_contributor` FOREIGN KEY (`contributorId`) REFERENCES `Users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `Curators`
+--
+ALTER TABLE `Curators`
+  ADD CONSTRAINT `curator_page_fk` FOREIGN KEY (`curatorPageId`) REFERENCES `Pages` (`pageId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `curator_user_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
 
 --
 -- Constraints for table `Filters`

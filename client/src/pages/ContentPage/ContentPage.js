@@ -18,6 +18,7 @@ import NonPublicPage from "../NonPublicPage/NonPublicPage";
 import HowToCards from "./Card/HowToCards";
 import {useParams} from "react-router-dom";
 import QuizButton from "./Various/QuizButton";
+import Curator from "./Various/Curator";
 import "./ContentPage.css";
 
 // An encyclopedia style page describing some topic
@@ -903,6 +904,12 @@ function ContentPage(props) {
           pageId={pageId}
           mode={mode}
           pageName={pageInfo.name}
+          role={role}
+        />
+
+        <Curator
+          pageId={pageId}
+          mode={mode}
           role={role}
         />
 
