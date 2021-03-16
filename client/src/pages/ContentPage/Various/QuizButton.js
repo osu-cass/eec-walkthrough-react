@@ -49,7 +49,7 @@ function QuizButton(props) {
                 Take the Quiz
               </button>
               <h2>You need to register / login to take this quiz</h2>
-              <Login onLogin={props.handleLoginStatusChange} />
+              <Login onLogin={props.handleLoginStatusChange} onNameChange={props.handleNameChange} />
             </div>
           )}
 
