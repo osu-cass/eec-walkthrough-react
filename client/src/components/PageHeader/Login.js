@@ -52,6 +52,7 @@ function Login (props) {
         // hide the modal, pass login state up to navbar, and refresh the current page
         setShowModal(false);
         props.onLogin();
+        props.onNameChange();
         props.history.push(`/`);
         props.history.goBack();
 

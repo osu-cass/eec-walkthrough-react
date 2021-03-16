@@ -69,6 +69,7 @@ function App() {
             <ContentPage
               handlePageEdit={() => setPageEdit(!pageEdit)}
               handleLoginStatusChange={() => setLoginStatusChange(!loginStatusChange)}
+              handleNameChange={() => setNameChange(!nameChange)}
             />
           </Route>
 

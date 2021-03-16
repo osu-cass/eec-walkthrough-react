@@ -905,6 +905,7 @@ function ContentPage(props) {
           pageName={pageInfo.name}
           role={role}
           handleLoginStatusChange={props.handleLoginStatusChange}
+          handleNameChange={props.handleNameChange}
         />
 
       </Container>
