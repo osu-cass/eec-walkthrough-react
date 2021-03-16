@@ -114,47 +114,48 @@ function Contributors() {
 
   return (
     <div className="container contributor-page-container my-5">
-      <LoadingOverlay loading={loading} />
-
-      <div className="d-flex header-bar justify-content-between mt-3 mb-4 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
-        <div className="row mx-2">
-          <h4 className="flex-grow-1 font-weight-bold">
-            Contributors
-          </h4>
-        </div>
-      </div>
-
-      <div className="prompt-container mb-3 py-4 bg-white card rounded shadow-sm">
-
-        {/* General team message */}
-        <div className="team-text-box-row row">
-          <div className="contributor-content-block">
-            <div className="contributor-inner-block">
-              <h2>
-                {info[2].title}
-              </h2>
-              <span>
-                <Sanitized html={info[2].text} />
-              </span>
+      { loading ?  <LoadingOverlay loading={loading} /> :
+        <>
+          <div className="d-flex header-bar justify-content-between mt-3 mb-4 p-3 text-dark-50 rounded shadow-sm border generic-header-bar">
+            <div className="row mx-2">
+              <h4 className="flex-grow-1 font-weight-bold">
+          Contributors
+              </h4>
             </div>
           </div>
-        </div>
 
-        {/* Individual contributors */}
-        <div className="contributor-organizer my-4">
-          {contributors.map((contributor) =>
-            <ContributorBlock
-              key={contributor.contributorId}
-              name={contributor.name}
-              imageUrl={contributor.imageUrl}
-              title={contributor.title}
-              description={contributor.description}
-              pending={false}
-            />
-          )}
-        </div>
+          <div className="prompt-container mb-3 py-4 bg-white card rounded shadow-sm">
 
-      </div>
+            {/* General team message */}
+            <div className="team-text-box-row row">
+              <div className="contributor-content-block">
+                <div className="contributor-inner-block">
+                  <h2>
+                    {info[2].title}
+                  </h2>
+                  <span>
+                    <Sanitized html={info[2].text} />
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Individual contributors */}
+            <div className="contributor-organizer my-4">
+              {contributors.map((contributor) =>
+                <ContributorBlock
+                  key={contributor.contributorId}
+                  name={contributor.name}
+                  imageUrl={contributor.imageUrl}
+                  title={contributor.title}
+                  description={contributor.description}
+                  pending={false}
+                />
+              )}
+            </div>
+
+          </div>
+        </> }
 
     </div>
   );

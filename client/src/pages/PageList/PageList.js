@@ -99,50 +99,54 @@ function PageList() {
   if (pageLinks.length) {
     return (
       <div className="container my-5">
-        <LoadingOverlay loading={loading} />
-        <div className="content-container mb-5">
-          <div className="prompt-container bg-white card rounded shadow-sm">
-            <div className="page-search-inner-container m-5">
-              <h3 id="title" className="py-4 font-weight-bold">{category.singleName} Pages</h3>
-              <div className="page-list-organizer">
-                {category.pages.map((page, index) =>
-                  <div className="page-info-container card" key={page.pageId}>
-                    <div className="img-result-thumb text-left my-2">
-                      <Image
-                        url={page.imageUrl}
-                        title={page.name}
-                        thumbnail={true}
-                        header={false}
-                      />
-                    </div>
-                    <Link to={pageLinks[index]}>
-                      <h5 className="page-link-header font-weight-bold text-left">
-                        {page.name}
-                      </h5>
-                    </Link>
-                    <span className="text-left float-left">
-                      <Sanitized html={page.description} />
-                    </span>
-                    <span className="page-link-created text-left float-left">
+        { loading ? <LoadingOverlay loading={loading} /> :
+          <>
+            <div className="content-container mb-5">
+              <div className="prompt-container bg-white card rounded shadow-sm">
+                <div className="page-search-inner-container m-5">
+                  <h3 id="title" className="py-4 font-weight-bold">{category.singleName} Pages</h3>
+                  <div className="page-list-organizer">
+                    {category.pages.map((page, index) =>
+                      <div className="page-info-container card" key={page.pageId}>
+                        <div className="img-result-thumb text-left my-2">
+                          <Image
+                            url={page.imageUrl}
+                            title={page.name}
+                            thumbnail={true}
+                            header={false}
+                          />
+                        </div>
+                        <Link to={pageLinks[index]}>
+                          <h5 className="page-link-header font-weight-bold text-left">
+                            {page.name}
+                          </h5>
+                        </Link>
+                        <span className="text-left float-left">
+                          <Sanitized html={page.description} />
+                        </span>
+                        <span className="page-link-created text-left float-left">
                       Last updated {formatTime(page.created)}
-                    </span>
+                        </span>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </> }
       </div>
     );
   } else {
     return (
       <div className="container">
-        <LoadingOverlay loading={loading} />
-        <div className="content-container mb-5">
-          <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
-            <h3 className="py-5 font-weight-bold">There are no {category.singleName} pages to view.</h3>
-          </div>
-        </div>
+        { loading ? <LoadingOverlay loading={loading} /> :
+          <>
+            <div className="content-container mb-5">
+              <div className="prompt-container my-3 py-5 bg-white card rounded shadow-sm">
+                <h3 className="py-5 font-weight-bold">There are no {category.singleName} pages to view.</h3>
+              </div>
+            </div>
+          </> }
       </div>
     );
   }
