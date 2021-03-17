@@ -55,9 +55,9 @@ function HomePage(props) {
         if (results.ok) {
 
           const obj = await results.json();
+
           if (obj.banners.length) {
             setBannerUrl(obj.banners[Math.floor(Math.random() * obj.banners.length)].imageUrl);
-
           }
 
         } else {
@@ -306,62 +306,24 @@ function HomePage(props) {
             <div className="home-content-block home-on col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <div className="home-expanded-inner-block">
                 <h2>
-              Sponsors
+                  Sponsors
                 </h2>
 
-                {/* Recently updated pages */}
-                <div className="home-page-list text-center px-4">
-                  <h2 className="light-home-text">
-                    {recent ? (
-                      <span>Recently Updated</span>
-                    ) : (
-                      <span>Featured Pages</span>
-                    )}
-                  </h2>
-                  <div className="page-card-row row justify-content-center">
-
-                    {/* Use individual cards for each page */}
-                    {updated.map((page) =>
-                      <PageCard
-                        key={page.pageId}
-                        imageUrl={page.imageUrl}
-                        name={page.name}
-                        description={page.description}
-                        updated={page.created}
-                        pageId={page.pageId}
-                        recent={recent}
-                      />
-                    )}
-
-                  </div>
-                </div>
-
-                {/* Sponsors row */}
-                <div className="text-box-row row">
-                  {/* Our Sponsors */}
-                  <div className="home-content-block home-on col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <div className="home-expanded-inner-block">
-                      <h2>
-                Sponsors
-                      </h2>
-
-                      <div className="my-5">
-                        {sponsors.map((sponsor) =>
-                          <Sponsor
-                            key={sponsor.sponsorId}
-                            name={sponsor.name}
-                            imageUrl={sponsor.imageUrl}
-                            websiteUrl={sponsor.websiteUrl}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                <div className="my-5">
+                  {sponsors.map((sponsor) =>
+                    <Sponsor
+                      key={sponsor.sponsorId}
+                      name={sponsor.name}
+                      imageUrl={sponsor.imageUrl}
+                      websiteUrl={sponsor.websiteUrl}
+                    />
+                  )}
                 </div>
               </div>
             </div>
           </div>
-        </div> }
+        </div>
+      }
     </Fragment>
   );
 }

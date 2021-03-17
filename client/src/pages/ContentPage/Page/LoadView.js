@@ -131,7 +131,7 @@ function LoadView(props) {
   return props.mode === 0 ? (
     <div className="text-center mx-2 my-auto d-print-none">
       <Button size="sm"
-        variant="success"
+        variant={props.role >= 1 ? "success" : "headerbtn2"}
         onClick={() => handleOpen()}
       >
         <i
@@ -207,6 +207,7 @@ function LoadView(props) {
 export default LoadView;
 
 LoadView.propTypes = {
+  role: PropTypes.number,
   mode: PropTypes.number,
   pageId: PropTypes.number,
   onNewView: PropTypes.func,

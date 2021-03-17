@@ -61,7 +61,7 @@ function QuickLinks(props) {
         <Fragment key={header.headerId}>
           {shouldBeViewable(header) ? (
             <a href={`#header-${header.headerId}`}>
-              <button className="btn btn-info d-print-none mr-2 my-2">
+              <button className="btn btn-headerbtn1 d-print-none mr-2 my-2">
                 {header.title}
               </button>
             </a>

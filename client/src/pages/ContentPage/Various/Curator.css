@@ -1,0 +1,15 @@
+.curator-container {
+  box-shadow: 5px 5px 5px rgba(0,0,0,0.1);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  text-align: center;
+  width: 350px;
+}
+
+.img-thumbnail-curator {
+  width: 12em !important;
+  height: 12em !important;
+  cursor: pointer;
+  border-radius: 50%;
+}
