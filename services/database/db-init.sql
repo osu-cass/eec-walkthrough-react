@@ -5407,7 +5407,7 @@ ALTER TABLE `Contributors`
 --
 ALTER TABLE `Curators`
   ADD CONSTRAINT `curator_page_fk` FOREIGN KEY (`curatorPageId`) REFERENCES `Pages` (`pageId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `curator_user_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`);
+  ADD CONSTRAINT `curator_user_fk` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Filters`
