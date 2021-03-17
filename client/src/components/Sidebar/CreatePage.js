@@ -25,6 +25,40 @@ function CreatePage(props) {
   const [imageUpload, setImageUpload] = useState(null);
   const [showAgreement, setShowAgreement] = useState(false);
   const [imageTerms] = useState(UPLOAD_TERMS);
+  const [contributors, setContributors] = useState([]);
+
+  // Fetch contributor data
+  useEffect(() => {
+    async function fetchContributors() {
+      try {
+
+        // Fetch contributors
+        const results = await fetch(`${API_URL}/contributors`, {
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        if (results.ok) {
+          const obj = await results.json();
+          setContributors(obj.contributors);
+        } else {
+          console.error("Error fetching contributors");
+        }
+
+      } catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
+      }
+    }
+
+    fetchContributors();
+  }, []);
 
   // show terms of image submission if they haven't been accepted before
   useEffect(() => {
@@ -89,8 +123,10 @@ function CreatePage(props) {
       internal = 1;
     }
 
+    let pageId = 0;
+
     // Prepare data
-    const data = {
+    let data = {
       pageType: props.categoryId,
       name: name,
       title: summary,
@@ -100,7 +136,7 @@ function CreatePage(props) {
     };
 
     // Create new page
-    const results = await fetch(`${API_URL}/pages/`, {
+    let results = await fetch(`${API_URL}/pages/`, {
       method: "POST",
       credentials: "include",
       headers: {"Content-Type": "application/json"},
@@ -111,8 +147,7 @@ function CreatePage(props) {
 
       const obj = await results.json();
 
-      // Redirect to the new page
-      window.location.href = `/${props.collectionLink}/${obj.insertId}`;
+      pageId = obj.insertId;
 
     } else {
 
@@ -129,6 +164,29 @@ function CreatePage(props) {
         setErrorMessage(obj.error);
       }
 
+    }
+
+    const curatorSelect = document.getElementById("select-curator");
+    const curatorId = parseInt(curatorSelect.options[curatorSelect.selectedIndex].value, 10);
+
+    data = {
+      userId: curatorId
+    };
+
+    results = await fetch(`${API_URL}/curators/${pageId}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
+    });
+
+    if (results.ok) {
+
+      // Redirect to the new page
+      window.location.href = `/${props.collectionLink}/${pageId}`;
+
+    } else {
+      console.error("An internal server error occurred. Please try again later");
     }
 
   }
@@ -266,7 +324,26 @@ function CreatePage(props) {
 
           <Row>
             <Col>
-              <ImageInput id={0} onNewImage={(newImage) => setPendingImage(newImage)} default={"... or Upload an Image"} />
+              <Form.Group controlId="formUpload">
+                <ImageInput id={0} onNewImage={(newImage) => setPendingImage(newImage)} default={"... or Upload an Image"} />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col>
+              <Form.Group controlId="formPageCurator">
+                <Form.Label className="font-weight-bold">Curator</Form.Label>
+                <select className="form-control"
+                  id="select-curator"
+                >
+                  {contributors.map((contributor) =>
+                    <option value={contributor.contributorId} key={contributor.contributorId}>
+                      {contributor.name}
+                    </option>
+                  )}
+                </select>
+              </Form.Group>
             </Col>
           </Row>
 

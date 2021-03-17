@@ -10,8 +10,9 @@ function Curator(props) {
   const [pageCurator, setPageCurator] = useState([]);
   const [contributors, setContributors] = useState([]);
 
+  // Fetch contributor data
   useEffect(() => {
-    async function fetchContributors() {
+    async function fetchData() {
       try {
 
         let obj = [];
@@ -60,7 +61,7 @@ function Curator(props) {
       }
     }
 
-    fetchContributors();
+    fetchData();
   }, [pageCurator]);
 
   // Update the page curator
