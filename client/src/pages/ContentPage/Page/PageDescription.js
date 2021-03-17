@@ -87,6 +87,7 @@ function PageDescription(props) {
                 onNewView={() => setNewViews(newViews + 1)}
               />
               <LoadView
+                role={props.role}
                 mode={props.mode}
                 pageId={props.page.pageId}
                 newViews={newViews}
