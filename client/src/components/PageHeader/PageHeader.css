@@ -102,6 +102,10 @@
   color: #fff;
 }
 
+.nav-header-title:hover {
+  cursor: pointer;
+}
+
 .nav-header-title-top {
   display: block;
   font-weight: 500;
@@ -138,4 +142,12 @@
   height: 4em;
   background-color: #d73f09;
   border: 0px;
+}
+
+.osu-logo:hover {
+  cursor: pointer;
+}
+
+.nav-header-title-link:hover {
+  text-decoration: none;
 }
