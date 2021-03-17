@@ -1,10 +1,10 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import PageCard from "./PageCard";
 import Sponsor from "./Sponsor";
 import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
-import { NavLink } from "react-router-dom";
-import { API_URL, MS_PER_MONTH } from "../../utilities/constants";
+import {NavLink} from "react-router-dom";
+import {API_URL, MS_PER_MONTH} from "../../utilities/constants";
 import "./HomePage.css";
 
 // Main application home page
@@ -44,7 +44,7 @@ function HomePage(props) {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
-          headers: { "Content-Type": "application/json" }
+          headers: {"Content-Type": "application/json"}
         });
 
         // if this component is cleaned up, stop here
@@ -55,9 +55,9 @@ function HomePage(props) {
         if (results.ok) {
 
           const obj = await results.json();
+
           if (obj.banners.length) {
             setBannerUrl(obj.banners[Math.floor(Math.random() * obj.banners.length)].imageUrl);
-
           }
 
         } else {
@@ -74,7 +74,7 @@ function HomePage(props) {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
-          headers: { "Content-Type": "application/json" }
+          headers: {"Content-Type": "application/json"}
         });
 
         // if this component is cleaned up, stop here
@@ -104,7 +104,7 @@ function HomePage(props) {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
-          headers: { "Content-Type": "application/json" }
+          headers: {"Content-Type": "application/json"}
         });
 
         // if this component is cleaned up, stop here
@@ -166,7 +166,7 @@ function HomePage(props) {
           signal: controller.signal,
           method: "GET",
           credentials: "include",
-          headers: { "Content-Type": "application/json" }
+          headers: {"Content-Type": "application/json"}
         });
 
         // if this component is cleaned up, stop here
@@ -210,7 +210,7 @@ function HomePage(props) {
   return (
     <Fragment>
       <LoadingOverlay loading={loading} />
-      { console.log(bannerUrl)}
+
       <div className="banner-container">
         {/* Image shown at the top of the page */}
         <img
@@ -279,8 +279,8 @@ function HomePage(props) {
           {recent ? (
             <span>Recently Updated</span>
           ) : (
-              <span>Featured Pages</span>
-            )}
+            <span>Featured Pages</span>
+          )}
         </h2>
         <div className="page-card-row row justify-content-center">
 
