@@ -64,7 +64,7 @@ function ChangeMode(props) {
 						className="fas fa-wrench text-white mr-2"
 						style={{ transform: 'scale(1.5)' }}
 					/>
-					<span className="text-white">Training Mode</span>
+					<span className="text-white"> Create Training Mode</span>
 				</Button>
 			</div>
 		)
