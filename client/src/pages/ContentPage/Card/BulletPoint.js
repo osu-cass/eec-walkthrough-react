@@ -6,14 +6,20 @@ import BulletPointResource from './BulletPointResource'
 import BulletPointText from './BulletPointText'
 import './BulletPoint.css'
 import { AiOutlinePlusCircle } from 'react-icons/ai'
+import e from 'express'
 
 // Represents a single bullet point inside a card
 function BulletPoint(props) {
 	// set item selected state in create training mode (mode === 3)
 	const [selected, setSelected] = useState(false)
+	const [openAnnotation, setOpenAnnotation] = useState(false)
+	const [annotationInput, setAnnotationInput] = useState('')
 
 	const handleSelect = e => {
 		setSelected(!selected)
+	}
+	const handleAnnotationClicked = e => {
+		setOpenAnnotation(!openAnnotation)
 	}
 
 	// Don't show bullet points that are internal when we are viewing in public mode
@@ -41,8 +47,9 @@ function BulletPoint(props) {
 					source={props.source}
 					sourceText={props.sourceText}
 					inline={props.inline}
-					handleSelect={handleSelect}
+					onSelect={handleSelect}
 					selected={selected}
+					onAnnotationClicked={handleAnnotationClicked}
 				/>
 			) : null}
 			{/* If the bullet point is a text field */}
@@ -98,6 +105,20 @@ function BulletPoint(props) {
 					inline={props.inline}
 				/>
 			) : null}
+			{props.mode === 3 && openAnnotation === true && (
+				<div className="annotation-container">
+					<input
+						type="text"
+						placeholder="Enter annotation"
+						value={annotationInput}
+						onChange={e => {
+							setAnnotationInput(e.target.value)
+						}}
+					/>
+					<button className="btn-accept">Add</button>
+					<button className="btn-cancel">Cancel</button>
+				</div>
+			)}
 		</div>
 	) : null
 }
