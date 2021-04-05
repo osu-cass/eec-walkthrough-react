@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Source from './Source'
 import Sanitized from '../../../components/General/Sanitized'
 import { AiOutlinePlusCircle, AiOutlineCheckCircle } from 'react-icons/ai'
+import { BiCommentDots } from 'react-icons/bi'
 
 // Represents a single item type bullet inside a card
 function BulletPointItem(props) {
@@ -119,7 +120,7 @@ function BulletPointItem(props) {
 				>
 					{/* icon to add to training view */}
 					{props.mode === 3 && (
-						<span className="training-select-icon" onClick={props.handleSelect}>
+						<span className="training-select-icon" onClick={props.onSelect}>
 							{props.selected ? (
 								<AiOutlineCheckCircle />
 							) : (
@@ -192,6 +193,9 @@ function BulletPointItem(props) {
 						</span>
 						<Source source={props.source} sourceText={props.sourceText} />
 					</div>
+					<span className="comment-icon" onClick={props.onAnnotationClicked}>
+						{props.selected && <BiCommentDots />}
+					</span>
 				</div>
 			)}
 		</Fragment>
@@ -214,6 +218,7 @@ BulletPointItem.propTypes = {
 	source: PropTypes.number,
 	sourceText: PropTypes.string,
 	inline: PropTypes.number,
-	handleSelect: PropTypes.func,
+	onSelect: PropTypes.func,
+	onAnnotationClicked: PropTypes.func,
 	select: PropTypes.bool
 }
