@@ -55,9 +55,6 @@ function ChangeMode(props) {
 					variant="secondary"
 					onClick={() => {
 						toggleMode(0)
-						if (props.moved) {
-							window.location.reload()
-						}
 					}}
 				>
 					<i
