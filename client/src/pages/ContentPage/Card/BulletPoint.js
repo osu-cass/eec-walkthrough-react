@@ -6,7 +6,6 @@ import BulletPointResource from './BulletPointResource'
 import BulletPointText from './BulletPointText'
 import './BulletPoint.css'
 import { AiOutlinePlusCircle } from 'react-icons/ai'
-import e from 'express'
 
 // Represents a single bullet point inside a card
 function BulletPoint(props) {
@@ -14,12 +13,23 @@ function BulletPoint(props) {
 	const [selected, setSelected] = useState(false)
 	const [openAnnotation, setOpenAnnotation] = useState(false)
 	const [annotationInput, setAnnotationInput] = useState('')
+	const [annotationAdded, setAnnotationAdded] = useState(false)
 
 	const handleSelect = e => {
 		setSelected(!selected)
 	}
 	const handleAnnotationClicked = e => {
 		setOpenAnnotation(!openAnnotation)
+	}
+
+	const handleOnAccept = () => {
+		console.log("You've added annotion: ", annotationInput)
+		setAnnotationAdded(true)
+	}
+
+	const handleOnCancel = () => {
+		setAnnotationInput('')
+		setOpenAnnotation(false)
 	}
 
 	// Don't show bullet points that are internal when we are viewing in public mode
@@ -108,15 +118,19 @@ function BulletPoint(props) {
 			{props.mode === 3 && openAnnotation === true && (
 				<div className="annotation-container">
 					<input
-						type="text"
+						type="search"
 						placeholder="Enter annotation"
 						value={annotationInput}
 						onChange={e => {
 							setAnnotationInput(e.target.value)
 						}}
 					/>
-					<button className="btn-accept">Add</button>
-					<button className="btn-cancel">Cancel</button>
+					<button className="btn-accept" onClick={handleOnAccept}>
+						Add
+					</button>
+					<button className="btn-cancel" onClick={handleOnCancel}>
+						Cancel
+					</button>
 				</div>
 			)}
 		</div>
