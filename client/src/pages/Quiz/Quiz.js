@@ -29,6 +29,9 @@ function Quiz() {
     let ignore = false;
     const controller = new AbortController();
 
+    // Scroll to the top of the page
+    window.scrollTo(0, 0);
+
     async function fetchData() {
       try {
 
