@@ -68,6 +68,8 @@ function App() {
           <Route path="/wiki/:category/:pageId">
             <ContentPage
               handlePageEdit={() => setPageEdit(!pageEdit)}
+              handleLoginStatusChange={() => setLoginStatusChange(!loginStatusChange)}
+              handleNameChange={() => setNameChange(!nameChange)}
             />
           </Route>
 
