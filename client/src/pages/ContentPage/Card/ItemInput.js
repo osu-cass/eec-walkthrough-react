@@ -10,11 +10,20 @@ import "./ItemInput.css";
 // An input field for adding or modifying items in a card modal
 function ItemInput(props) {
 
+  function extractHomePageURL(url) {
+    if (url && url.includes("//")) {
+      return `${url.split("/")[0]}//${url.split("/")[2]}`;
+    } else {
+      return "";
+    }
+  }
   const [linkValue, setLinkValue] = useState(props.value.contentMode);
   const [sourceValue, setSourceValue] = useState(props.sourceId);
   const [linkText, setLinkText] = useState("Link");
   const [sourceText, setSourceText] = useState("Source: None");
   const [sources, setSources] = useState(props.sources);
+  const [sourceURL, setSourceURL] = useState("");
+  const [changed, setChanged] = useState(false);
   const {value, index, handleLinkValue, handleSourceValue} = props;
 
   // updates the link dropdown text to match a selection
@@ -232,6 +241,20 @@ function ItemInput(props) {
               inline={props.inline}
               onNewImage={(newImage) => props.onNewImage(newImage, props.index)}
               default={"... or Upload a PDF"}
+            />
+            <FormControl
+              as="textarea"
+              rows="1"
+              maxLength="1000"
+              className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
+              placeholder="Main Webpage Source URL"
+              value={changed ? sourceURL : extractHomePageURL(props.value.contentUrl)}
+              aria-label={"Insert Main Webpage URL"}
+              aria-describedby="basic-addon1"
+              onChange={(e) => {
+                setChanged(true);
+                setSourceURL(e.target.value);
+              }}
             />
           </div>
           <div className="very-small-text-editor-input">

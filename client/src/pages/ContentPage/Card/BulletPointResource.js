@@ -8,6 +8,8 @@ import Sanitized from "../../../components/General/Sanitized";
 // Represents a single resource type bullet inside a card
 function BulletPointResource(props) {
 
+  function extractHomePageURL(url) { return url ? `${url.split("/")[0]}//${url.split("/")[2]}` : ""; }
+
   // Set a new accessed date for the current item
   async function updateAccess() {
 
@@ -84,7 +86,9 @@ function BulletPointResource(props) {
 
                 {/* Display different appended icons based on the type of resource */}
                 {props.contentMode === 1 || props.contentMode === 3 ? (
-                  <i className={`fas fa-fw fa-sm fa-link mx-1 icon-item`} title="External Resource" />
+                  <a target="_blank" rel="noreferrer noopener" href={extractHomePageURL(props.url)}>
+                    <i className={`fas fa-fw fa-sm fa-link mx-1 icon-item`} title="External Resource" />
+                  </a>
                 ) : (
                   <i className={`fas fa-fw fa-sm fa-info mx-1 icon-item`} title="Internal Resource" />
                 )}
