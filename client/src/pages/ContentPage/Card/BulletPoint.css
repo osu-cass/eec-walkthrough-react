@@ -9,6 +9,8 @@
 .comment-icon {
 	cursor: pointer;
 	font-size: 1.1rem;
+	position: relative;
+	top: -3px;
 }
 
 .annotation-container {
