@@ -1,0 +1,21 @@
+.training-name-container {
+	margin: 1rem 0;
+}
+
+.training-name-container form {
+	/* width: 80%;
+	margin: auto; */
+	display: flex;
+}
+
+.training-name-container input {
+	flex-grow: 1;
+	border-radius: 5px;
+	border: solid 1px #aaa;
+	padding: 4px 8px;
+}
+
+.training-name-container button {
+	margin-left: 10px;
+	padding: 6px 20px;
+}
