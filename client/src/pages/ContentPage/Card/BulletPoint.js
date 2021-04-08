@@ -5,7 +5,6 @@ import BulletPointGraphic from './BulletPointGraphic'
 import BulletPointResource from './BulletPointResource'
 import BulletPointText from './BulletPointText'
 import './BulletPoint.css'
-import { AiOutlinePlusCircle } from 'react-icons/ai'
 
 // Represents a single bullet point inside a card
 function BulletPoint(props) {
@@ -122,7 +121,12 @@ function BulletPoint(props) {
 				/>
 			) : null}
 			{props.mode === 3 && openAnnotation === true && (
-				<div className="annotation-container">
+				<form
+					className="annotation-container"
+					onSubmit={e => {
+						e.preventDefault()
+					}}
+				>
 					<input
 						type="search"
 						placeholder="Enter annotation"
@@ -131,13 +135,13 @@ function BulletPoint(props) {
 							setAnnotationInput(e.target.value)
 						}}
 					/>
-					<button className="btn-accept" onClick={handleOnAccept}>
+					<button type="submit" className="btn-accept" onClick={handleOnAccept}>
 						Add
 					</button>
 					<button className="btn-cancel" onClick={handleOnCancel}>
 						Cancel
 					</button>
-				</div>
+				</form>
 			)}
 		</div>
 	) : null
