@@ -122,7 +122,7 @@ function BulletPointItem(props) {
 					{props.mode === 3 && (
 						<span className="training-select-icon" onClick={props.onSelect}>
 							{props.selected ? (
-								<AiOutlineCheckCircle />
+								<AiOutlineCheckCircle style={{ color: '#007bff' }} />
 							) : (
 								<AiOutlinePlusCircle />
 							)}

@@ -175,70 +175,83 @@ function BasicItems(props) {
 						<div
 							className={`item-wrapper div-indent-level-${item.indentation}`}
 						>
+							{/* {console.log(`wrapper div: = ${JSON.stringify(item, null, 2)}`)} */}
 							{item.items.map(item => (
-								<BulletPoint
-									key={item.itemId + 'wrap'}
-									url={item.contentUrl}
-									id={item.itemId}
-									icon={item.typeName}
-									tooltip={item.typeKeyword}
-									color={item.color}
-									text={item.contentText}
-									label={item.contentLabel}
-									contentMode={item.contentMode}
-									created={item.created}
-									indentation={item.indentation}
-									mode={props.mode}
-									publicMode={props.publicMode}
-									handleTimestamp={m =>
-										props.handleTimestamp(m, item.approved, item.itemId)
-									}
-									reviewing={props.reviewing}
-									checked={item.hideChildren}
-									setCheck={(check, itemId) => props.setCheck(check, itemId)}
-									source={item.refId}
-									sourceText={item.refText}
-									internal={item.internal}
-									inline={item.inline}
-									highlightStyle={
-										item.index < compareArray.length
-											? compareArray[item.index]
-											: 0
-									}
-									groupIndex={item.groupIndex}
-								/>
+								<>
+									{/* {console.log(
+										`text: ${item.contentText}, indent: ${item.indentation}`
+									)} */}
+									<BulletPoint
+										key={item.itemId + 'wrap'}
+										url={item.contentUrl}
+										id={item.itemId}
+										icon={item.typeName}
+										tooltip={item.typeKeyword}
+										color={item.color}
+										text={item.contentText}
+										label={item.contentLabel}
+										contentMode={item.contentMode}
+										created={item.created}
+										indentation={item.indentation}
+										mode={props.mode}
+										publicMode={props.publicMode}
+										handleTimestamp={m =>
+											props.handleTimestamp(m, item.approved, item.itemId)
+										}
+										reviewing={props.reviewing}
+										checked={item.hideChildren}
+										setCheck={(check, itemId) => props.setCheck(check, itemId)}
+										source={item.refId}
+										sourceText={item.refText}
+										internal={item.internal}
+										inline={item.inline}
+										highlightStyle={
+											item.index < compareArray.length
+												? compareArray[item.index]
+												: 0
+										}
+										groupIndex={item.groupIndex}
+									/>
+								</>
 							))}
 						</div>
 					) : (
-						<BulletPoint
-							key={item.itemId + 'no-wrap'}
-							url={item.contentUrl}
-							id={item.itemId}
-							icon={item.typeName}
-							tooltip={item.typeKeyword}
-							color={item.color}
-							text={item.contentText}
-							label={item.contentLabel}
-							contentMode={item.contentMode}
-							created={item.created}
-							indentation={item.indentation}
-							mode={props.mode}
-							publicMode={props.publicMode}
-							handleTimestamp={m =>
-								props.handleTimestamp(m, item.approved, item.itemId)
-							}
-							reviewing={props.reviewing}
-							checked={item.hideChildren}
-							setCheck={(check, itemId) => props.setCheck(check, itemId)}
-							source={item.refId}
-							sourceText={item.refText}
-							internal={item.internal}
-							inline={item.inline}
-							highlightStyle={
-								item.index < compareArray.length ? compareArray[item.index] : 0
-							}
-							groupIndex={item.groupIndex}
-						/>
+						<>
+							{/* {console.log(
+								`Non-wrapper div: = ${JSON.stringify(item, null, 2)}`
+							)} */}
+							<BulletPoint
+								key={item.itemId + 'no-wrap'}
+								url={item.contentUrl}
+								id={item.itemId}
+								icon={item.typeName}
+								tooltip={item.typeKeyword}
+								color={item.color}
+								text={item.contentText}
+								label={item.contentLabel}
+								contentMode={item.contentMode}
+								created={item.created}
+								indentation={item.indentation}
+								mode={props.mode}
+								publicMode={props.publicMode}
+								handleTimestamp={m =>
+									props.handleTimestamp(m, item.approved, item.itemId)
+								}
+								reviewing={props.reviewing}
+								checked={item.hideChildren}
+								setCheck={(check, itemId) => props.setCheck(check, itemId)}
+								source={item.refId}
+								sourceText={item.refText}
+								internal={item.internal}
+								inline={item.inline}
+								highlightStyle={
+									item.index < compareArray.length
+										? compareArray[item.index]
+										: 0
+								}
+								groupIndex={item.groupIndex}
+							/>
+						</>
 					)}
 				</Fragment>
 			))}

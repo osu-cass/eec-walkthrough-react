@@ -16,7 +16,13 @@ function BulletPoint(props) {
 	const [annotationAdded, setAnnotationAdded] = useState(false)
 
 	const handleSelect = e => {
-		setSelected(!selected)
+		if (selected) {
+			setSelected(false)
+			setOpenAnnotation(false)
+			setAnnotationInput('')
+		} else {
+			setSelected(true)
+		}
 	}
 	const handleAnnotationClicked = e => {
 		setOpenAnnotation(!openAnnotation)
