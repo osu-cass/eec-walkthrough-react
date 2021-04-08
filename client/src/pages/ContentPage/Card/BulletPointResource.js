@@ -4,7 +4,8 @@ import { formatTime } from '../../../utilities/formatTime'
 import LinkAccessButtons from './LinkAccessButtons'
 import { API_URL } from '../../../utilities/constants'
 import Sanitized from '../../../components/General/Sanitized'
-import { AiOutlinePlusCircle } from 'react-icons/ai'
+import TrainingSelectIcon from './TrainingSelectIcon'
+import CommentIcon from './CommentIcon'
 
 // Represents a single resource type bullet inside a card
 function BulletPointResource(props) {
@@ -50,9 +51,10 @@ function BulletPointResource(props) {
 					>
 						{/* icon to add to training view */}
 						{props.mode === 3 && (
-							<span className="training-select-icon">
-								<AiOutlinePlusCircle />
-							</span>
+							<TrainingSelectIcon
+								selected={props.selected}
+								onSelect={props.onSelect}
+							/>
 						)}
 
 						{/* Container holding resource's icon */}
@@ -187,6 +189,9 @@ function BulletPointResource(props) {
 								</div>
 							) : null}
 						</div>
+						{props.selected && (
+							<CommentIcon onAnnotationClicked={props.onAnnotationClicked} />
+						)}
 					</div>
 				</Fragment>
 			)}

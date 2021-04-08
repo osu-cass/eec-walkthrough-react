@@ -79,6 +79,9 @@ function BulletPoint(props) {
 					inline={props.inline}
 					source={props.source}
 					sourceText={props.sourceText}
+					onSelect={handleSelect}
+					selected={selected}
+					onAnnotationClicked={handleAnnotationClicked}
 				/>
 			) : null}
 			{/* If the bullet point is a graphic */}
@@ -97,6 +100,9 @@ function BulletPoint(props) {
 					source={props.source}
 					sourceText={props.sourceText}
 					inline={props.inline}
+					onSelect={handleSelect}
+					selected={selected}
+					onAnnotationClicked={handleAnnotationClicked}
 				/>
 			) : null}
 			{/* If the bullet point is a resource */}
@@ -118,6 +124,9 @@ function BulletPoint(props) {
 					highlightStyle={props.highlightStyle}
 					internal={props.internal}
 					inline={props.inline}
+					onSelect={handleSelect}
+					selected={selected}
+					onAnnotationClicked={handleAnnotationClicked}
 				/>
 			) : null}
 			{props.mode === 3 && openAnnotation === true && (
