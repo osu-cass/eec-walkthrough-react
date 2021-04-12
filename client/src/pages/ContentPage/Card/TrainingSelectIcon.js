@@ -1,12 +1,13 @@
 import React from 'react'
-import { AiOutlinePlusCircle, AiOutlineCheckCircle } from 'react-icons/ai'
+import { FaCheckCircle } from 'react-icons/fa'
+import { FiPlusCircle } from 'react-icons/fi'
 function TrainingSelectIcon({ selected, onSelect }) {
 	return (
 		<span className="training-select-icon" onClick={onSelect}>
 			{selected ? (
-				<AiOutlineCheckCircle style={{ color: '#007bff' }} />
+				<FaCheckCircle style={{ color: '#007bff' }} />
 			) : (
-				<AiOutlinePlusCircle />
+				<FiPlusCircle />
 			)}
 		</span>
 	)
