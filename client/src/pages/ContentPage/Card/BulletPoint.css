@@ -37,6 +37,10 @@
 	outline: none;
 }
 
+.input-disabled {
+	background: #ddd;
+}
+
 .annotation-container button:hover {
 	filter: brightness(120%);
 }
@@ -49,6 +53,11 @@
 .btn-cancel {
 	background-color: #ff4d4d;
 	color: white;
+}
+
+.btn-disabled {
+	opacity: 60%;
+	pointer-events: none !important;
 }
 
 .grayed-out {

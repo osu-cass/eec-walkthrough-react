@@ -12,7 +12,7 @@ function BulletPoint(props) {
 	const [selected, setSelected] = useState(false)
 	const [openAnnotation, setOpenAnnotation] = useState(false)
 	const [annotationInput, setAnnotationInput] = useState('')
-	const [annotationAdded, setAnnotationAdded] = useState(false)
+	const [annotationSaved, setAnnotationSaved] = useState(false)
 
 	const handleSelect = e => {
 		if (selected) {
@@ -27,14 +27,18 @@ function BulletPoint(props) {
 		setOpenAnnotation(!openAnnotation)
 	}
 
-	const handleOnAccept = () => {
+	const handleOnSave = e => {
+		e.preventDefault()
+		if (!annotationInput) return
 		console.log("You've added annotion: ", annotationInput)
-		setAnnotationAdded(true)
+
+		setAnnotationSaved(true)
 	}
 
-	const handleOnCancel = () => {
+	const handleOnDelete = () => {
 		setAnnotationInput('')
 		setOpenAnnotation(false)
+		setAnnotationSaved(false)
 	}
 
 	// Don't show bullet points that are internal when we are viewing in public mode
@@ -130,25 +134,33 @@ function BulletPoint(props) {
 				/>
 			) : null}
 			{props.mode === 3 && openAnnotation === true && (
-				<form
-					className="annotation-container"
-					onSubmit={e => {
-						e.preventDefault()
-					}}
-				>
+				<form className="annotation-container" onSubmit={handleOnSave}>
 					<input
+						onClick={() => {
+							if (annotationSaved) {
+								setAnnotationSaved(false)
+							}
+						}}
 						type="search"
 						placeholder="Enter annotation"
 						value={annotationInput}
 						onChange={e => {
 							setAnnotationInput(e.target.value)
 						}}
+						readOnly={annotationSaved}
+						className={annotationSaved && 'input-disabled'}
 					/>
-					<button type="submit" className="btn-accept" onClick={handleOnAccept}>
-						Add
+					<button
+						type="submit"
+						className={
+							annotationSaved ? 'btn-accept btn-disabled' : 'btn-accept'
+						}
+						disabled={annotationSaved}
+					>
+						Save
 					</button>
-					<button className="btn-cancel" onClick={handleOnCancel}>
-						Cancel
+					<button type="button" className="btn-cancel" onClick={handleOnDelete}>
+						Delete
 					</button>
 				</form>
 			)}
