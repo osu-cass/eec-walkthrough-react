@@ -6,10 +6,9 @@ const trainingPageReducer = (state = [], action) => {
 	switch (action.type) {
 		case ADD_TRAINING_ITEM:
 			// remove item (if exists) first
-			filteredList = state.filter(
-				item => item.id !== parseInt(action.payload.id)
-			)
-			return [...state, parseInt(action.payload)]
+			const filteredList = state.filter(item => item.id !== action.payload.id)
+			console.log(filteredList)
+			return [...filteredList, action.payload]
 
 		case REMOVE_TRAINING_ITEM:
 			return state.filter(item => item.id !== parseInt(action.payload.id))

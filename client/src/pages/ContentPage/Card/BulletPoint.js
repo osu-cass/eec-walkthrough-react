@@ -5,6 +5,8 @@ import BulletPointGraphic from './BulletPointGraphic'
 import BulletPointResource from './BulletPointResource'
 import BulletPointText from './BulletPointText'
 import './BulletPoint.css'
+import { useDispatch } from 'react-redux'
+import { addTrainingItem, removeTrainingItem } from '../../../redux/actions'
 
 // Represents a single bullet point inside a card
 function BulletPoint(props) {
@@ -13,6 +15,7 @@ function BulletPoint(props) {
 	const [openAnnotation, setOpenAnnotation] = useState(false)
 	const [annotationInput, setAnnotationInput] = useState('')
 	const [annotationSaved, setAnnotationSaved] = useState(false)
+	const dispatch = useDispatch()
 
 	const handleSelect = e => {
 		if (selected) {
@@ -30,7 +33,7 @@ function BulletPoint(props) {
 	const handleOnSave = e => {
 		e.preventDefault()
 		if (!annotationInput) return
-		console.log("You've added annotion: ", annotationInput)
+		dispatch(addTrainingItem({ id: props.id, annotation: annotationInput }))
 
 		setAnnotationSaved(true)
 	}
@@ -39,6 +42,7 @@ function BulletPoint(props) {
 		setAnnotationInput('')
 		setOpenAnnotation(false)
 		setAnnotationSaved(false)
+		dispatch(removeTrainingItem({ id: props.id }))
 	}
 
 	// Don't show bullet points that are internal when we are viewing in public mode
