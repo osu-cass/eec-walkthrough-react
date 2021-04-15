@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import './TrainingViewNameInput.css'
+import { useSelector } from 'react-redux'
+import { getTrainingPageItems } from '../../../redux/selectors'
 
 function TrainingViewNameInput() {
 	const [inputValue, setInputValue] = useState('')
 
+	const trainingPageItems = useSelector(getTrainingPageItems)
+
 	const handleFormSubmit = e => {
 		e.preventDefault()
-		alert('form submitted')
+		console.log(trainingPageItems)
 	}
 
 	return (
