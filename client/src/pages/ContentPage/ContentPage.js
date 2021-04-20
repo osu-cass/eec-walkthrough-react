@@ -145,7 +145,7 @@ function ContentPage(props) {
           updateReferences(sortedHeaders, obj.sources);
 
           if (process.env.NODE_ENV === "development") {
-            console.log("Page Data:", obj.headers);
+            console.log("Page Data:", obj);
           }
         } else {
           if (results.status === 404) {
