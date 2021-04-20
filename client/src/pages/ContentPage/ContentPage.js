@@ -139,11 +139,13 @@ function ContentPage(props) {
           for (let i = 0; i < obj.headers.length; i++) {
             obj.headers[i].forceFilter = [];
           }
+
           const sortedHeaders = headerSortOrder(obj.headers);
           setHeaders(sortedHeaders);
           updateReferences(sortedHeaders, obj.sources);
+
           if (process.env.NODE_ENV === "development") {
-            console.log("Page Data:", obj);
+            console.log("Page Data:", obj.headers);
           }
         } else {
           if (results.status === 404) {

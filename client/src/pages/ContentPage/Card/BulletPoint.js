@@ -16,6 +16,7 @@ function BulletPoint(props) {
       {props.groupIndex === 1 && props.icon !== "font" ? (
         <BulletPointItem
           id={props.id}
+          learnMoreUrl={props.learnMoreUrl}
           text={props.text}
           icon={props.icon}
           indentation={props.indentation}
@@ -78,6 +79,7 @@ function BulletPoint(props) {
           text={props.text}
           label={props.label}
           url={props.url}
+          learnMoreUrl={props.learnMoreUrl}
           icon={props.icon}
           created={props.created}
           indentation={props.indentation}
@@ -107,6 +109,7 @@ BulletPoint.propTypes = {
   text: PropTypes.string,
   label: PropTypes.string,
   url: PropTypes.string,
+  learnMoreUrl: PropTypes.string,
   icon: PropTypes.string,
   created: PropTypes.string,
   indentation: PropTypes.number,

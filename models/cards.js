@@ -95,10 +95,10 @@ async function createCard(headerId, cardType, title, items, userId) {
 
     // create the new items
     sql = "INSERT INTO Items (cardId, indentation, iconType, contentText, " +
-    "contentUrl, contentLabel, contentMode, internal, inline, sourceId, approved) VALUES ";
+    "contentUrl, contentLabel, contentMode, internal, inline, sourceId, learnMoreUrl, approved) VALUES ";
     // expand the sql string and array based on the number of items
     items.forEach((currentValue) => {
-      sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
+      sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
       sqlArray.push(cardId);
       sqlArray.push(currentValue.indentation);
       sqlArray.push(currentValue.iconType);
@@ -109,6 +109,7 @@ async function createCard(headerId, cardType, title, items, userId) {
       sqlArray.push(currentValue.internal);
       sqlArray.push(currentValue.inline);
       sqlArray.push(currentValue.sourceId);
+      sqlArray.push(currentValue.learnMoreUrl);
     });
 
     // replace the final comma with a semicolon
@@ -382,11 +383,11 @@ async function updateCard(cardId, cardType, title, items, userId) {
 
         // create all of the new items
         sql = "INSERT INTO Items (cardId, indentation, iconType, " +
-        "contentText, contentUrl, contentLabel, contentMode, internal, inline, sourceId, approved) VALUES ";
+        "contentText, contentUrl, contentLabel, contentMode, internal, inline, sourceId, learnMoreUrl, approved) VALUES ";
 
         // expand the sql string and array based on the number of items
         items.forEach((currentValue) => {
-          sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
+          sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
           sqlArray.push(cardId);
           sqlArray.push(currentValue.indentation);
           sqlArray.push(currentValue.iconType);
@@ -397,6 +398,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
           sqlArray.push(currentValue.internal);
           sqlArray.push(currentValue.inline);
           sqlArray.push(currentValue.sourceId);
+          sqlArray.push(currentValue.learnMoreUrl);
         });
 
         // replace the final comma with a semicolon
