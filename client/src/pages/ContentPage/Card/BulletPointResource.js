@@ -84,8 +84,9 @@ function BulletPointResource(props) {
                 {/* Display different appended icons based on the type of resource */}
                 {props.contentMode === 1 || props.contentMode === 3 ? (
                   <>
+                    { props.learnMoreUrl ? <a target="_blank" rel="noreferrer noopener" href={props.learnMoreUrl}>
+                      <small className="learn-more-url"> — Learn More</small></a> : null }
                     <i className={`fas fa-fw fa-sm fa-link mx-1 icon-item`} title="External Resource" />
-                    { props.learnMoreUrl ? <a target="_blank" rel="noreferrer noopener" href={props.learnMoreUrl}>Learn More</a> : null }
                   </>
                 ) : (
                   <i className={`fas fa-fw fa-sm fa-info mx-1 icon-item`} title="Internal Resource" />

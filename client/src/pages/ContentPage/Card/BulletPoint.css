@@ -139,3 +139,7 @@
 .text-no-overflow {
   overflow-wrap: anywhere !important;
 }
+
+.learn-more-url {
+  margin-left: .3em;
+}
