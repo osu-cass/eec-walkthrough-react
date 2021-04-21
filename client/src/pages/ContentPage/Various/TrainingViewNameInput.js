@@ -3,6 +3,7 @@ import './TrainingViewNameInput.css'
 import { useSelector } from 'react-redux'
 import { getTrainingPageItems } from '../../../redux/selectors'
 import styled from '@emotion/styled'
+import { API_URL } from '../../../utilities/constants'
 
 const ErrorContainer = styled.div`
 	margin-top: 0.3rem;
@@ -15,7 +16,7 @@ function TrainingViewNameInput() {
 	const [error, setError] = useState('')
 	const trainingPageItems = useSelector(getTrainingPageItems)
 
-	const handleFormSubmit = e => {
+	const handleFormSubmit = async e => {
 		setError('')
 		e.preventDefault()
 		if (!inputValue) {
@@ -26,7 +27,27 @@ function TrainingViewNameInput() {
 			setError('Please select at least one training item')
 			return
 		}
-		console.log(trainingPageItems)
+
+		const reqBody = {
+			name: inputValue,
+			itemList: trainingPageItems
+		}
+		console.log(reqBody)
+		let result
+		try {
+			result = await fetch(`${API_URL}/trainingPages`, {
+				method: "POST",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(reqBody)
+			})
+		} catch (err) {
+			console.log(err)
+			throw err
+		}
+		console.log(result)
 	}
 
 	return (
