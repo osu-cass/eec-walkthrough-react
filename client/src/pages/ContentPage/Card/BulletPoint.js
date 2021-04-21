@@ -18,12 +18,18 @@ function BulletPoint(props) {
 	const dispatch = useDispatch()
 
 	const handleSelect = e => {
+		
+		// if currently selected, then de-select it
 		if (selected) {
 			setSelected(false)
 			setOpenAnnotation(false)
 			setAnnotationInput('')
+			dispatch(removeTrainingItem({ id: props.id }))
+
 		} else {
 			setSelected(true)
+			dispatch(addTrainingItem({ id: props.id, annotation: annotationInput }))
+
 		}
 	}
 	const handleAnnotationClicked = e => {

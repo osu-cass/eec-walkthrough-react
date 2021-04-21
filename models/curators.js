@@ -25,6 +25,7 @@ async function getPageCurator(pageId) {
   }
 
 }
+
 exports.getPageCurator = getPageCurator;
 
 // returns all approved contributors
