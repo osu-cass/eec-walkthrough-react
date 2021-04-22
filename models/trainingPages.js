@@ -14,13 +14,9 @@ async function createTrainingPage(itemList, name) {
 		insertResult = await pool.query(insertPageQuery, [name])
 		const pageId = insertResult[0].insertId
 
-		// traverse the itemList and insert each entry to junction table
-		console.log('begin promise all')
-		Promise.all(
-			itemList.map(async item => {
-				await pool.query(insertPageItemsQuery, [pageId, item.id, item.annotation])
-			})
-		)
+		// traverse the itemList and build the query array
+		const queryList = itemList.map(item => pool.query(insertPageItemsQuery, [pageId, item.id, item.annotation]))
+		await Promise.all(queryList)
 	}
 	catch (err) {
 		return { error: err }
