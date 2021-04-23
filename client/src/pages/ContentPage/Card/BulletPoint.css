@@ -1,9 +1,11 @@
 .last-accessed-link {
   color: #239023 !important;
+  margin-top: 0.4em !important;
 }
 
 .last-accessed-link-bad {
   color: #E81224 !important;
+  margin-top: 0.4em !important;
 }
 
 .osu-link, .osu-link:visited {
@@ -25,7 +27,7 @@
 }
 
 .icon-item {
-  margin-top: 0.1em !important;
+  margin-top: 0.4em !important;
 }
 
 .icon-item-text.check-square-icon {
