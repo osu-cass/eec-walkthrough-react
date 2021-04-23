@@ -907,6 +907,8 @@ function ContentPage(props) {
           mode={mode}
           pageName={pageInfo.name}
           role={role}
+          handleLoginStatusChange={props.handleLoginStatusChange}
+          handleNameChange={props.handleNameChange}
         />
 
         <Curator
