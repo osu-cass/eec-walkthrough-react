@@ -1,1 +1,1 @@
-export const getTrainingPageItems = state => state.trainingPage
+export const getTrainingPageItems = state => state.trainingPage;
