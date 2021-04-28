@@ -1,205 +1,205 @@
-import React, { Fragment, useState } from 'react'
-import PropTypes from 'prop-types'
-import BulletPointItem from './BulletPointItem'
-import BulletPointGraphic from './BulletPointGraphic'
-import BulletPointResource from './BulletPointResource'
-import BulletPointText from './BulletPointText'
-import './BulletPoint.css'
-import { useDispatch } from 'react-redux'
-import { addTrainingItem, removeTrainingItem } from '../../../redux/actions'
+import React, {useState} from "react";
+import PropTypes from "prop-types";
+import BulletPointItem from "./BulletPointItem";
+import BulletPointGraphic from "./BulletPointGraphic";
+import BulletPointResource from "./BulletPointResource";
+import BulletPointText from "./BulletPointText";
+import "./BulletPoint.css";
+import {useDispatch} from "react-redux";
+import {addTrainingItem, removeTrainingItem} from "../../../redux/actions";
 
 // Represents a single bullet point inside a card
 function BulletPoint(props) {
-	// set item selected state in create training mode (mode === 3)
-	const [selected, setSelected] = useState(false)
-	const [openAnnotation, setOpenAnnotation] = useState(false)
-	const [annotationInput, setAnnotationInput] = useState('')
-	const [annotationSaved, setAnnotationSaved] = useState(false)
-	const dispatch = useDispatch()
+  // set item selected state in create training mode (mode === 3)
+  const [selected, setSelected] = useState(false);
+  const [openAnnotation, setOpenAnnotation] = useState(false);
+  const [annotationInput, setAnnotationInput] = useState("");
+  const [annotationSaved, setAnnotationSaved] = useState(false);
+  const dispatch = useDispatch();
 
-	const handleSelect = e => {
-		
-		// if currently selected, then de-select it
-		if (selected) {
-			setSelected(false)
-			setOpenAnnotation(false)
-			setAnnotationInput('')
-			dispatch(removeTrainingItem({ id: props.id }))
+  const handleSelect = () => {
 
-		} else {
-			setSelected(true)
-			dispatch(addTrainingItem({ id: props.id, annotation: annotationInput }))
+    // if currently selected, then de-select it
+    if (selected) {
+      setSelected(false);
+      setOpenAnnotation(false);
+      setAnnotationInput("");
+      dispatch(removeTrainingItem({id: props.id}));
 
-		}
-	}
-	const handleAnnotationClicked = e => {
-		setOpenAnnotation(!openAnnotation)
-	}
+    } else {
+      setSelected(true);
+      dispatch(addTrainingItem({id: props.id, annotation: annotationInput}));
 
-	const handleOnSave = e => {
-		e.preventDefault()
-		if (!annotationInput) return
-		dispatch(addTrainingItem({ id: props.id, annotation: annotationInput }))
+    }
+  };
+  const handleAnnotationClicked = () => {
+    setOpenAnnotation(!openAnnotation);
+  };
 
-		setAnnotationSaved(true)
-	}
+  const handleOnSave = e => {
+    e.preventDefault();
+    if (!annotationInput) { return; }
+    dispatch(addTrainingItem({id: props.id, annotation: annotationInput}));
 
-	const handleOnDelete = () => {
-		setAnnotationInput('')
-		setOpenAnnotation(false)
-		setAnnotationSaved(false)
-		dispatch(removeTrainingItem({ id: props.id }))
-	}
+    setAnnotationSaved(true);
+  };
 
-	// Don't show bullet points that are internal when we are viewing in public mode
-	return !props.internal || !props.publicMode ? (
-		<div
-			className={`
-    ${props.mode === 3 && selected === false ? 'grayed-out' : ''}
+  const handleOnDelete = () => {
+    setAnnotationInput("");
+    setOpenAnnotation(false);
+    setAnnotationSaved(false);
+    dispatch(removeTrainingItem({id: props.id}));
+  };
+
+  // Don't show bullet points that are internal when we are viewing in public mode
+  return !props.internal || !props.publicMode ? (
+    <div
+      className={`
+    ${props.mode === 3 && selected === false ? "grayed-out" : ""}
     
     `}
-		>
-			{/* If the bullet point is an item */}
-			{props.groupIndex === 1 && props.icon !== 'font' ? (
-				<BulletPointItem
-					id={props.id}
-					text={props.text}
-					icon={props.icon}
-					indentation={props.indentation}
-					mode={props.mode}
-					color={props.color}
-					tooltip={props.tooltip}
-					setCheck={(state, id) => props.setCheck(state, id)}
-					checked={props.checked}
-					highlightStyle={props.highlightStyle}
-					internal={props.internal}
-					source={props.source}
-					sourceText={props.sourceText}
-					inline={props.inline}
-					onSelect={handleSelect}
-					selected={selected}
-					onAnnotationClicked={handleAnnotationClicked}
-				/>
-			) : null}
-			{/* If the bullet point is a text field */}
-			{props.groupIndex === 1 && props.icon === 'font' ? (
-				<BulletPointText
-					id={props.id}
-					text={props.text}
-					mode={props.mode}
-					indentation={props.indentation}
-					highlightStyle={props.highlightStyle}
-					internal={props.internal}
-					inline={props.inline}
-					source={props.source}
-					sourceText={props.sourceText}
-					onSelect={handleSelect}
-					selected={selected}
-					onAnnotationClicked={handleAnnotationClicked}
-				/>
-			) : null}
-			{/* If the bullet point is a graphic */}
-			{props.groupIndex === 2 ? (
-				<BulletPointGraphic
-					text={props.text}
-					label={props.label}
-					url={props.url}
-					icon={props.icon}
-					indentation={props.indentation}
-					mode={props.mode}
-					color={props.color}
-					tooltip={props.tooltip}
-					highlightStyle={props.highlightStyle}
-					internal={props.internal}
-					source={props.source}
-					sourceText={props.sourceText}
-					inline={props.inline}
-					onSelect={handleSelect}
-					selected={selected}
-					onAnnotationClicked={handleAnnotationClicked}
-				/>
-			) : null}
-			{/* If the bullet point is a resource */}
-			{props.groupIndex === 3 ? (
-				<BulletPointResource
-					id={props.id}
-					text={props.text}
-					label={props.label}
-					url={props.url}
-					icon={props.icon}
-					created={props.created}
-					indentation={props.indentation}
-					mode={props.mode}
-					contentMode={props.contentMode}
-					handleTimestamp={m => props.handleTimestamp(m)}
-					color={props.color}
-					tooltip={props.tooltip}
-					reviewing={props.reviewing}
-					highlightStyle={props.highlightStyle}
-					internal={props.internal}
-					inline={props.inline}
-					onSelect={handleSelect}
-					selected={selected}
-					onAnnotationClicked={handleAnnotationClicked}
-				/>
-			) : null}
-			{props.mode === 3 && openAnnotation === true && (
-				<form className="annotation-container" onSubmit={handleOnSave}>
-					<input
-						onClick={() => {
-							if (annotationSaved) {
-								setAnnotationSaved(false)
-							}
-						}}
-						type="search"
-						placeholder="Enter annotation"
-						value={annotationInput}
-						onChange={e => {
-							setAnnotationInput(e.target.value)
-						}}
-						readOnly={annotationSaved}
-						className={annotationSaved && 'input-disabled'}
-					/>
-					<button
-						type="submit"
-						className={
-							annotationSaved ? 'btn-accept btn-disabled' : 'btn-accept'
-						}
-						disabled={annotationSaved}
-					>
+    >
+      {/* If the bullet point is an item */}
+      {props.groupIndex === 1 && props.icon !== "font" ? (
+        <BulletPointItem
+          id={props.id}
+          text={props.text}
+          icon={props.icon}
+          indentation={props.indentation}
+          mode={props.mode}
+          color={props.color}
+          tooltip={props.tooltip}
+          setCheck={(state, id) => props.setCheck(state, id)}
+          checked={props.checked}
+          highlightStyle={props.highlightStyle}
+          internal={props.internal}
+          source={props.source}
+          sourceText={props.sourceText}
+          inline={props.inline}
+          onSelect={handleSelect}
+          selected={selected}
+          onAnnotationClicked={handleAnnotationClicked}
+        />
+      ) : null}
+      {/* If the bullet point is a text field */}
+      {props.groupIndex === 1 && props.icon === "font" ? (
+        <BulletPointText
+          id={props.id}
+          text={props.text}
+          mode={props.mode}
+          indentation={props.indentation}
+          highlightStyle={props.highlightStyle}
+          internal={props.internal}
+          inline={props.inline}
+          source={props.source}
+          sourceText={props.sourceText}
+          onSelect={handleSelect}
+          selected={selected}
+          onAnnotationClicked={handleAnnotationClicked}
+        />
+      ) : null}
+      {/* If the bullet point is a graphic */}
+      {props.groupIndex === 2 ? (
+        <BulletPointGraphic
+          text={props.text}
+          label={props.label}
+          url={props.url}
+          icon={props.icon}
+          indentation={props.indentation}
+          mode={props.mode}
+          color={props.color}
+          tooltip={props.tooltip}
+          highlightStyle={props.highlightStyle}
+          internal={props.internal}
+          source={props.source}
+          sourceText={props.sourceText}
+          inline={props.inline}
+          onSelect={handleSelect}
+          selected={selected}
+          onAnnotationClicked={handleAnnotationClicked}
+        />
+      ) : null}
+      {/* If the bullet point is a resource */}
+      {props.groupIndex === 3 ? (
+        <BulletPointResource
+          id={props.id}
+          text={props.text}
+          label={props.label}
+          url={props.url}
+          icon={props.icon}
+          created={props.created}
+          indentation={props.indentation}
+          mode={props.mode}
+          contentMode={props.contentMode}
+          handleTimestamp={m => props.handleTimestamp(m)}
+          color={props.color}
+          tooltip={props.tooltip}
+          reviewing={props.reviewing}
+          highlightStyle={props.highlightStyle}
+          internal={props.internal}
+          inline={props.inline}
+          onSelect={handleSelect}
+          selected={selected}
+          onAnnotationClicked={handleAnnotationClicked}
+        />
+      ) : null}
+      {props.mode === 3 && openAnnotation === true && (
+        <form className="annotation-container" onSubmit={handleOnSave}>
+          <input
+            onClick={() => {
+              if (annotationSaved) {
+                setAnnotationSaved(false);
+              }
+            }}
+            type="search"
+            placeholder="Enter annotation"
+            value={annotationInput}
+            onChange={e => {
+              setAnnotationInput(e.target.value);
+            }}
+            readOnly={annotationSaved}
+            className={annotationSaved && "input-disabled"}
+          />
+          <button
+            type="submit"
+            className={
+              annotationSaved ? "btn-accept btn-disabled" : "btn-accept"
+            }
+            disabled={annotationSaved}
+          >
 						Save
-					</button>
-					<button type="button" className="btn-cancel" onClick={handleOnDelete}>
+          </button>
+          <button type="button" className="btn-cancel" onClick={handleOnDelete}>
 						Delete
-					</button>
-				</form>
-			)}
-		</div>
-	) : null
+          </button>
+        </form>
+      )}
+    </div>
+  ) : null;
 }
-export default BulletPoint
+export default BulletPoint;
 
 BulletPoint.propTypes = {
-	id: PropTypes.number,
-	text: PropTypes.string,
-	label: PropTypes.string,
-	url: PropTypes.string,
-	icon: PropTypes.string,
-	created: PropTypes.string,
-	indentation: PropTypes.number,
-	mode: PropTypes.number,
-	publicMode: PropTypes.number,
-	contentMode: PropTypes.number,
-	handleTimestamp: PropTypes.func,
-	color: PropTypes.string,
-	tooltip: PropTypes.string,
-	reviewing: PropTypes.bool,
-	setCheck: PropTypes.func,
-	checked: PropTypes.bool,
-	highlightStyle: PropTypes.number,
-	internal: PropTypes.number,
-	source: PropTypes.number,
-	sourceText: PropTypes.string,
-	inline: PropTypes.number,
-	groupIndex: PropTypes.number
-}
+  id: PropTypes.number,
+  text: PropTypes.string,
+  label: PropTypes.string,
+  url: PropTypes.string,
+  icon: PropTypes.string,
+  created: PropTypes.string,
+  indentation: PropTypes.number,
+  mode: PropTypes.number,
+  publicMode: PropTypes.number,
+  contentMode: PropTypes.number,
+  handleTimestamp: PropTypes.func,
+  color: PropTypes.string,
+  tooltip: PropTypes.string,
+  reviewing: PropTypes.bool,
+  setCheck: PropTypes.func,
+  checked: PropTypes.bool,
+  highlightStyle: PropTypes.number,
+  internal: PropTypes.number,
+  source: PropTypes.number,
+  sourceText: PropTypes.string,
+  inline: PropTypes.number,
+  groupIndex: PropTypes.number
+};

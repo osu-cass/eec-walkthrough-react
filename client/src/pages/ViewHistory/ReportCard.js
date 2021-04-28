@@ -16,7 +16,7 @@ function ReportCard(props) {
   const [oldImageItems, setOldImageItems] = useState([]);
   const [parentsName, setParentsName] = useState("");
   const [showComment, setShowComment] = useState(false);
-  console.log(props.card)
+  console.log(props.card);
   // Adjust parent history for situations where the parent was deleted
   useEffect(() => {
     if (props.card.categoryName === null || props.card.pageName === null || props.card.headerName === null) {

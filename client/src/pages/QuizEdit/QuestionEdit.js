@@ -720,7 +720,7 @@ function QuestionEdit(props) {
             <ImageInput
               id={props.index}
               onNewImage={(newImage) => onNewImage(newImage)}
-              default={"... or Upload an Image"} 
+              default={"... or Upload an Image"}
             />
 
             {/* Preview Image */}
