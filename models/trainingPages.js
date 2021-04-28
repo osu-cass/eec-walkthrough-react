@@ -22,12 +22,38 @@ async function createTrainingPage(itemList, name) {
   }
   return insertResult[0];
 }
+module.exports.createTrainingPage = createTrainingPage;
 
 
 async function getTrainingPage(pageId) {
-	const getTrainingPageQuery = `SELECT * FROM TrainingPages `
+  const result = {pageId: pageId};
+  const getPageInfoQuery = `SELECT * FROM TrainingPages WHERE id = ?`;
+  const getItemList = `
+		SELECT 
+			itemId, annotation, Items.orderIndex AS itemOrderIndex, indentation, contentText, contentUrl, contentLabel, contentMode, Items.internal, inline, sourceId, Items.approved, 
+			cardId, cardType, Cards.orderIndex AS cardOrderIndex, Cards.title AS cardTitle, 
+			iconType, Icons.typeKeyword AS iconTypeKeyword, Icons.typeName AS iconTypeName, Icons.groupIndex AS iconGroupIndex, color AS iconColor, 
+			headerId, pageId AS originalPageId, Headers.orderIndex AS headerOrderIndex, Headers.title AS headerTitle   
+		FROM TrainingPageItems 
+		INNER JOIN Items using (itemId)
+		INNER JOIN Cards using (cardId)
+		INNER JOIN Icons using (iconType)
+		INNER JOIN Headers using (headerId)
+		WHERE trainingPageId =  ?`;
+  try {
+    const [[pageInfo]] = await pool.query(getPageInfoQuery, [pageId]);
+    result.pageName = pageInfo.name;
+    const [itemList] = await pool.query(getItemList, [pageId]);
+    result.itemList = itemList;
+
+
+    return result;
+  } catch (err) {
+    return {error: err};
+  }
 }
 
 
-module.exports.createTrainingPage = createTrainingPage;
+module.exports.getTrainingPage = getTrainingPage;
+
 

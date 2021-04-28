@@ -2,6 +2,7 @@ const express = require("express");
 const app = express.Router();
 
 const {createTrainingPage} = require("../models/trainingPages");
+const {getTrainingPage} = require("../models/trainingPages");
 
 app.post("/", async (req, res) => {
   // create new entry in TrainingPages in database
@@ -22,6 +23,17 @@ app.post("/", async (req, res) => {
       id: response.insertId,
       message: "OK"
     });
+  }
+});
+
+
+app.get("/:pageId", async (req, res) => {
+  const response = await getTrainingPage(req.params.pageId);
+
+  if (response.error) {
+    res.status(400).json(response);
+  } else {
+    res.status(200).json(response);
   }
 });
 
