@@ -12,6 +12,25 @@ if (process.env.NODE_ENV === "development") {
 
 // generic constants
 module.exports = Object.freeze({
+  ROLE: {
+    EXTERNAL_USER: 1,
+    INTERNAL_USER: 2,
+    EXTERNAL_EDITOR: 3,
+    INTERNAL_EDITOR: 4,
+    ADMIN: 5
+  },
+  CARD_TYPE: {
+    DEFAULT: 1,
+    THUMBNAIL: 2,
+    INTERNAL_DEFAULT: 11,
+    INTERNAL_THUMBNAIL: 12
+  },
+  MODE: {
+    VIEW: 0,
+    EDIT: 1,
+    MOVE: 2,
+    CREATE_TRAINING: 3
+  },
   API_URL: API_URL,
   MS_PER_SECOND: 1000,
   MS_PER_MINUTE: 60 * 1000,

@@ -31,6 +31,7 @@ import PageHeader from "./components/PageHeader/PageHeader";
 import NavBar from "./components/NavBar/NavBar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Footer from "./components/Footer/Footer";
+import TrainingPage from "./pages/TrainingPage/TrainingPage";
 import {Route, Switch} from "react-router-dom";
 import "./App.css";
 import {Provider} from "react-redux";
@@ -71,6 +72,10 @@ function App() {
           <Switch>
             <Route path="/wiki/:category/:pageId">
               <ContentPage handlePageEdit={() => setPageEdit(!pageEdit)} />
+            </Route>
+
+            <Route path="/training/:pageId">
+              <TrainingPage/>
             </Route>
 
             <Route path="/quiz/:pageId">
