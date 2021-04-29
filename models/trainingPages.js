@@ -15,7 +15,9 @@ async function createTrainingPage(itemList, name) {
     const pageId = insertResult[0].insertId;
 
     // traverse the itemList and build the query array
-    const queryList = itemList.map(item => pool.query(insertPageItemsQuery, [pageId, item.id, item.annotation]));
+    const queryList = itemList.map(item =>
+      pool.query(insertPageItemsQuery, [pageId, item.id, item.annotation])
+    );
     await Promise.all(queryList);
   } catch (err) {
     return {error: err};
@@ -23,7 +25,6 @@ async function createTrainingPage(itemList, name) {
   return insertResult[0];
 }
 module.exports.createTrainingPage = createTrainingPage;
-
 
 async function getTrainingPage(pageId) {
   const result = {pageId: pageId};
@@ -43,8 +44,6 @@ async function getTrainingPage(pageId) {
 		ORDER BY Headers.orderIndex ASC
 		`;
 
-
-
   try {
     const [[pageInfo]] = await pool.query(getPageInfoQuery, [pageId]);
     if (!pageInfo) {
@@ -59,33 +58,40 @@ async function getTrainingPage(pageId) {
     result.sections = [];
     // add distinct headers with empty cards into result
     itemList.forEach(item => {
-      const existingSection = result.sections.find(section => section.sectionId === item.headerId);
+      const existingSection = result.sections.find(
+        section => section.id === item.headerId
+      );
       if (!existingSection) {
         result.sections.push({
-          sectionId: item.headerId,
-          sectionTitle: item.headerTitle,
-          sectionOrderIndex: item.headerOrderIndex,
-          sectionCards: []
+          id: item.headerId,
+          title: item.headerTitle,
+          orderIndex: item.headerOrderIndex,
+          cards: []
         });
       }
     });
     // add distinct cards into appropriate headers
     itemList.forEach(item => {
-      const section = result.sections.find(section => section.sectionId === item.headerId);
-      const existingCard = section.sectionCards.find(card => card.cardId === item.cardId);
+      const section = result.sections.find(
+        section => section.id === item.headerId
+      );
+      const existingCard = section.cards.find(card => card.id === item.cardId);
       if (!existingCard) {
         // find index to insert card
-        let index = section.sectionCards.findIndex(card => item.cardOrderIndex < card.cardOrderIndex);
+        let index = section.cards.findIndex(
+          card => item.cardOrderIndex < card.orderIndex
+        );
         if (index < 0) {
-          index = section.sectionCards.length;
+          index = section.cards.length;
         }
 
         // console.log(`\nsectionId: ${section.sectionId}, cardOrder: ${item.cardOrderIndex}, index: ${index}`);
-        section.sectionCards.splice(index, 0, {cardId: item.cardId,
-          cardTitle: item.cardTitle,
-          cardType: item.cardType,
-          cardOrderIndex: item.cardOrderIndex,
-          cardItems: []
+        section.cards.splice(index, 0, {
+          id: item.cardId,
+          title: item.cardTitle,
+          type: item.cardType,
+          orderIndex: item.cardOrderIndex,
+          items: []
         });
       }
     });
@@ -93,19 +99,23 @@ async function getTrainingPage(pageId) {
     // insert items into appropriate sections
     itemList.forEach(item => {
       // find section
-      const section = result.sections.find(section => section.sectionId === item.headerId);
+      const section = result.sections.find(
+        section => section.id === item.headerId
+      );
 
       // find the card and get its cardItems
-      const cardItems = section.sectionCards.find(card => card.cardId === item.cardId).cardItems;
+      const items = section.cards.find(card => card.id === item.cardId).items;
       // find index and insert
-      let index = cardItems.findIndex(cardItem => item.itemOrderIndex < cardItem.itemOrderIndex);
+      let index = items.findIndex(
+        cardItem => item.itemOrderIndex < cardItem.orderIndex
+      );
       if (index < 0) {
-        index = cardItems.length;
+        index = items.length;
       }
-      cardItems.splice(index, 0, {
-        itemId: item.itemId,
+      items.splice(index, 0, {
+        id: item.itemId,
         annotation: item.annotation,
-        itemOrderIndex: item.itemOrderIndex,
+        orderIndex: item.itemOrderIndex,
         indentation: item.indentation,
         contentText: item.contentText,
         contentUrl: item.contentUrl,
@@ -127,7 +137,4 @@ async function getTrainingPage(pageId) {
   }
 }
 
-
 module.exports.getTrainingPage = getTrainingPage;
-
-
