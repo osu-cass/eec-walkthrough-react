@@ -51,7 +51,7 @@ app.use("/api/contributors", require("./contributors"));
 app.use("/api/banners", require("./banners"));
 app.use("/api/quizzes", require("./quizzes"));
 app.use("/api/curators", require("./curators"));
-app.use("/api/trainingPages", require("./trainingPages"));
+app.use("/api/training", require("./trainingPages"));
 
 // unhandled API requests get a 404 error
 app.all("/api/*", (req, res) => {

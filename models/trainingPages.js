@@ -42,11 +42,16 @@ async function getTrainingPage(pageId) {
 		WHERE trainingPageId =  ?`;
   try {
     const [[pageInfo]] = await pool.query(getPageInfoQuery, [pageId]);
+    console.log(pageInfo);
+    if (!pageInfo) {
+      return {
+        error: "Invalid training page ID"
+      };
+    }
+
     result.pageName = pageInfo.name;
     const [itemList] = await pool.query(getItemList, [pageId]);
     result.itemList = itemList;
-
-
     return result;
   } catch (err) {
     return {error: err};
