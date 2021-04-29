@@ -4,22 +4,22 @@ import { useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { API_URL } from '../../utilities/constants';
 import LoadingOverlay from '../../components/General/LoadingOverlay';
-import Section from './Section'
-import Container from "react-bootstrap/Container";
+import Section from './Section';
+import Container from 'react-bootstrap/Container';
 
-
-const PageTitle = styled.h1`
-
-`;
+const PageTitle = styled.h1``;
 
 const ErrorContainer = styled.div`
 	color: red;
 `;
 
+const Sections = styled.ul`
+	list-style-type: none;
+`;
+
 function TrainingPage() {
 	const { pageId } = useParams();
-	const [sectionList, setSectionList] = useState({});
-	const [pageInfo, setPageInfo] = useState({});
+	const [pageContent, setPageContent] = useState({});
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState('');
 
@@ -31,15 +31,12 @@ function TrainingPage() {
 				headers: { 'Content-Type': 'application/json' }
 			})
 		).json();
-		setLoading(false)
 		if (response.error) {
 			setError(response.error);
 		} else {
-			setPageInfo({ pageId: response.pageId, pageTitle: response.pageTitle });
-			setSectionList(response.itemList);
+			setPageContent(response);
 		}
-
-		console.log(response);
+		setLoading(false);
 	};
 
 	useEffect(() => {
@@ -47,29 +44,37 @@ function TrainingPage() {
 		fetchData();
 	}, []);
 
-	return (
-		<Container className="container my-5">
-			{loading ? (
-				<LoadingOverlay loading={true}/>
-			) : (
-				<>
-					{error ? (
-						<ErrorContainer>{error}</ErrorContainer>
-					) : (
-						<>
-						<PageTitle>Training Page: {pageInfo.pageTitle}</PageTitle>
-						<ul>
-							{sectionList.map(section => <li key={section.headerId}>
-								<Section props={section}/>
-							</li>)}
-
-						</ul>
-						</>
-					)}
-				</>
-			)}
-		</Container>
-	);
+	if (loading) {
+		return (
+			<Container>
+				<LoadingOverlay loading={true} />
+			</Container>
+		);
+	} else if (error) {
+		return (
+			<Container>
+				<ErrorContainer>{error}</ErrorContainer>
+			</Container>
+		);
+	} else {
+		return (
+			<Container className="container my-5">
+				<PageTitle>Training Page: {pageContent.pageTitle}</PageTitle>
+				{console.log(pageContent)}
+				<Sections>
+					{pageContent.sections.map(section => (
+						<li key={section.id}>
+							<Section
+								id={section.id}
+								title={section.title}
+								cards={section.cards}
+							/>
+						</li>
+					))}
+				</Sections>
+			</Container>
+		);
+	}
 }
 
 export default TrainingPage;
