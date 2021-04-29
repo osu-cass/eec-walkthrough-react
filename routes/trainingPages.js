@@ -29,7 +29,7 @@ app.post("/", async (req, res) => {
 
 app.get("/:pageId", async (req, res) => {
   const response = await getTrainingPage(req.params.pageId);
-  console.log("route, res: ", response);
+  // console.log("route, res: ", response);
   if (response.error) {
     res.status(400).json(response);
   } else {

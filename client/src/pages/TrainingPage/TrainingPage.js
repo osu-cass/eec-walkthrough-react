@@ -4,8 +4,13 @@ import { useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { API_URL } from '../../utilities/constants';
 import LoadingOverlay from '../../components/General/LoadingOverlay';
+import Section from './Section'
+import Container from "react-bootstrap/Container";
 
-const Container = styled.div``;
+
+const PageTitle = styled.h1`
+
+`;
 
 const ErrorContainer = styled.div`
 	color: red;
@@ -13,7 +18,7 @@ const ErrorContainer = styled.div`
 
 function TrainingPage() {
 	const { pageId } = useParams();
-	const [pageContent, setPageContent] = useState({});
+	const [sectionList, setSectionList] = useState({});
 	const [pageInfo, setPageInfo] = useState({});
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState('');
@@ -30,8 +35,8 @@ function TrainingPage() {
 		if (response.error) {
 			setError(response.error);
 		} else {
-			setPageInfo({ pageId: response.pageId, pageName: response.pageName });
-			setPageContent(response.itemList);
+			setPageInfo({ pageId: response.pageId, pageTitle: response.pageTitle });
+			setSectionList(response.itemList);
 		}
 
 		console.log(response);
@@ -43,7 +48,7 @@ function TrainingPage() {
 	}, []);
 
 	return (
-		<Container>
+		<Container className="container my-5">
 			{loading ? (
 				<LoadingOverlay loading={true}/>
 			) : (
@@ -51,7 +56,15 @@ function TrainingPage() {
 					{error ? (
 						<ErrorContainer>{error}</ErrorContainer>
 					) : (
-						<>this is training page id {pageId}</>
+						<>
+						<PageTitle>Training Page: {pageInfo.pageTitle}</PageTitle>
+						<ul>
+							{sectionList.map(section => <li key={section.headerId}>
+								<Section props={section}/>
+							</li>)}
+
+						</ul>
+						</>
 					)}
 				</>
 			)}

@@ -39,21 +39,90 @@ async function getTrainingPage(pageId) {
 		INNER JOIN Cards using (cardId)
 		INNER JOIN Icons using (iconType)
 		INNER JOIN Headers using (headerId)
-		WHERE trainingPageId =  ?`;
+		WHERE trainingPageId =  ?
+		ORDER BY Headers.orderIndex ASC
+		`;
+
+
+
   try {
     const [[pageInfo]] = await pool.query(getPageInfoQuery, [pageId]);
-    console.log(pageInfo);
     if (!pageInfo) {
       return {
         error: "Invalid training page ID"
       };
     }
 
-    result.pageName = pageInfo.name;
+    result.pageTitle = pageInfo.name;
     const [itemList] = await pool.query(getItemList, [pageId]);
-    result.itemList = itemList;
+
+    result.sections = [];
+    // add distinct headers with empty cards into result
+    itemList.forEach(item => {
+      const existingSection = result.sections.find(section => section.sectionId === item.headerId);
+      if (!existingSection) {
+        result.sections.push({
+          sectionId: item.headerId,
+          sectionTitle: item.headerTitle,
+          sectionOrderIndex: item.headerOrderIndex,
+          sectionCards: []
+        });
+      }
+    });
+    // add distinct cards into appropriate headers
+    itemList.forEach(item => {
+      const section = result.sections.find(section => section.sectionId === item.headerId);
+      const existingCard = section.sectionCards.find(card => card.cardId === item.cardId);
+      if (!existingCard) {
+        // find index to insert card
+        let index = section.sectionCards.findIndex(card => item.cardOrderIndex < card.cardOrderIndex);
+        if (index < 0) {
+          index = section.sectionCards.length;
+        }
+
+        // console.log(`\nsectionId: ${section.sectionId}, cardOrder: ${item.cardOrderIndex}, index: ${index}`);
+        section.sectionCards.splice(index, 0, {cardId: item.cardId,
+          cardTitle: item.cardTitle,
+          cardType: item.cardType,
+          cardOrderIndex: item.cardOrderIndex,
+          cardItems: []
+        });
+      }
+    });
+
+    // insert items into appropriate sections
+    itemList.forEach(item => {
+      // find section
+      const section = result.sections.find(section => section.sectionId === item.headerId);
+
+      // find the card and get its cardItems
+      const cardItems = section.sectionCards.find(card => card.cardId === item.cardId).cardItems;
+      // find index and insert
+      let index = cardItems.findIndex(cardItem => item.itemOrderIndex < cardItem.itemOrderIndex);
+      if (index < 0) {
+        index = cardItems.length;
+      }
+      cardItems.splice(index, 0, {
+        itemId: item.itemId,
+        annotation: item.annotation,
+        itemOrderIndex: item.itemOrderIndex,
+        indentation: item.indentation,
+        contentText: item.contentText,
+        contentUrl: item.contentUrl,
+        contentLabel: item.contentLabel,
+        inline: item.inline,
+        sourceId: item.sourceId,
+        iconType: item.iconType,
+        iconTypeKeyword: item.iconTypeKeyword,
+        iconTypeName: item.iconTypeName,
+        iconGroupIndex: item.iconGroupIndex,
+        iconColor: item.iconColor
+      });
+    });
+
     return result;
   } catch (err) {
+    console.log("ERRRR");
     return {error: err};
   }
 }
