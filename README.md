@@ -143,7 +143,7 @@ Access the production server at `walkthrough.eec.oregonstate.edu` using PuTTY or
 
 Once you have logged in perform the following commands to update the version being ran in production.
 ```
-cd /webdev/EEC/deploy/eec-walkthrough-react/
+cd /webdev/deployment/eec-walkthrough-react
 ```
 
 Login with the shared walkthrough account
