@@ -146,6 +146,11 @@ Once you have logged in perform the following commands to update the version bei
 cd /webdev/EEC/deploy/eec-walkthrough-react/
 ```
 
+Login with the shared walkthrough account
+```
+sudo -u walkthrough bash
+```
+
 Make sure you first kill any running processes or else you will not be able to use the ports that you want. Run a command to see what processes are running, then kill all node processes.
 ```
 ps -a
