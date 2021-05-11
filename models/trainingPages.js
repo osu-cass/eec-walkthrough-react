@@ -32,8 +32,8 @@ async function getTrainingPage(pageId) {
   const getItemList = `
 		SELECT 
 			itemId, annotation, Items.orderIndex AS itemOrderIndex, indentation, contentText, contentUrl, contentLabel, contentMode, Items.internal, inline, sourceId, Items.approved, 
-			cardId, cardType, Cards.orderIndex AS cardOrderIndex, Cards.title AS cardTitle, 
 			iconType, Icons.typeKeyword AS iconTypeKeyword, Icons.typeName AS iconTypeName, Icons.groupIndex AS iconGroupIndex, color AS iconColor, 
+			cardId, cardType, Cards.orderIndex AS cardOrderIndex, Cards.title AS cardTitle, 
 			headerId, pageId AS originalPageId, Headers.orderIndex AS headerOrderIndex, Headers.title AS headerTitle   
 		FROM TrainingPageItems 
 		INNER JOIN Items using (itemId)
@@ -69,6 +69,7 @@ async function getTrainingPage(pageId) {
         });
       }
     });
+
     // add distinct cards into appropriate headers
     itemList.forEach(item => {
       const section = result.sections.find(
@@ -93,46 +94,29 @@ async function getTrainingPage(pageId) {
         });
       }
     });
+    // because items don't use orderIndex, there's no way to know which item comes before which item.
+    // Had to do nested loop with headers and cards to retrieve items
+    // yes it's slow and sucks, but didn't see any other way
+    const getItemsInOrderQuery = `
+		SELECT itemId, annotation, Items.orderIndex AS itemOrderIndex, indentation, contentText, contentUrl, contentLabel, contentMode, Items.internal, inline, sourceId, Items.approved,
+		iconType, Icons.typeKeyword AS iconTypeKeyword, Icons.typeName AS iconTypeName, Icons.groupIndex AS iconGroupIndex, color AS iconColor
+		FROM TrainingPageItems
+		INNER JOIN Items using (itemId)
+		INNER JOIN Icons using (iconType)
+		WHERE trainingPageId = ? AND cardId = ?`;
 
-    // insert items into appropriate sections
-    itemList.forEach(item => {
-      // find section
-      const section = result.sections.find(
-        section => section.id === item.headerId
-      );
-
-      // find the card and get its cardItems
-      const items = section.cards.find(card => card.id === item.cardId).items;
-      // find index and insert
-      let index = items.findIndex(
-        cardItem => item.itemOrderIndex < cardItem.orderIndex
-      );
-
-      if (index < 0) {
-        index = items.length;
+    for (let sectIdx = 0; sectIdx < result.sections.length; sectIdx++) {
+      const section = result.sections[sectIdx];
+      for (let cardIdx = 0; cardIdx < section.cards.length; cardIdx++) {
+        const card = section.cards[cardIdx];
+        const [items] = await pool.query(getItemsInOrderQuery, [pageId, card.id]);
+        card.items = items;
       }
-      items.splice(index, 0, {
-        id: item.itemId,
-        annotation: item.annotation,
-        orderIndex: item.itemOrderIndex,
-        indentation: item.indentation,
-        contentText: item.contentText,
-        contentUrl: item.contentUrl,
-        contentLabel: item.contentLabel,
-        contentMode: item.contentMode,
-        inline: item.inline,
-        sourceId: item.sourceId,
-        iconType: item.iconType,
-        iconTypeKeyword: item.iconTypeKeyword,
-        iconTypeName: item.iconTypeName,
-        iconGroupIndex: item.iconGroupIndex,
-        iconColor: item.iconColor
-      });
-    });
+    }
 
     return result;
   } catch (err) {
-    console.log("ERRRR");
+    console.error("ERRRR: ", err);
     return {error: err};
   }
 }
