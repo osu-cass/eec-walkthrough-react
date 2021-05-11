@@ -40,6 +40,7 @@ function Card({ title, items }) {
 								id={item.id}
 								indentation={item.indentation}
 								inline={item.inline}
+								orderIndex={item.orderIndex}
 							/>
 						</li>
 					))}

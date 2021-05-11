@@ -24,6 +24,7 @@ function Item({
 	iconTypeName,
 	iconColor,
 	iconGroupIndex,
+	orderIndex,
 	iconType
 }) {
 	const Icon = styled.i`
@@ -57,7 +58,9 @@ function Item({
 		<Container>
 			<Icon className={`fas fa-${iconTypeName}`} title={iconTypeKeyword} />
 			<ContentContainer>
-				<Content>{contentText}</Content>
+				<Content>
+					<Sanitized html={contentText} inline={!!inline} />
+				</Content>
 				<Annotation>{annotation}</Annotation>
 			</ContentContainer>
 		</Container>
@@ -95,15 +98,34 @@ function Item({
 						<Sanitized html={contentText} inline={!!inline} />
 					</small>
 				</a>
+				<Annotation>{annotation}</Annotation>
+			</ContentContainer>
+		</Container>
+	)
+
+	const TextItem = () => (
+		<Container>
+			
+			<ContentContainer>
+				<Content>
+					<Sanitized html={contentText} inline={!!inline} />
+				</Content>
+				<Annotation>{annotation}</Annotation>
 			</ContentContainer>
 		</Container>
 	)
 
 	return (
-		<>
-			{iconGroupIndex === ITEM_TYPE.GENERAL && <GeneralItem />}
+		<div>
+			{iconGroupIndex === ITEM_TYPE.GENERAL && iconTypeName !== 'font' && (
+				<GeneralItem />
+			)}
+			{iconGroupIndex === ITEM_TYPE.GENERAL && iconTypeName === 'font' && (
+				<TextItem />
+			)}
 			{iconGroupIndex === ITEM_TYPE.RESOURCE && <ResourceItem />}
-		</>
+			{/* {iconGroupIndex === ITEM_TYPE.GRAPHIC && <GraphicItem />} */}
+		</div>
 	)
 }
 

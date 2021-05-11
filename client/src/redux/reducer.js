@@ -9,7 +9,6 @@ const trainingPageReducer = (state = [], action) => {
     {
       // remove item (if exists) first
       const filteredList = state.filter(item => item.id !== action.payload.id);
-      console.log(filteredList);
       return [...filteredList, action.payload];
     }
     case REMOVE_TRAINING_ITEM:

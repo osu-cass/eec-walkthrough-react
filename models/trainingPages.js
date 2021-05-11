@@ -107,6 +107,7 @@ async function getTrainingPage(pageId) {
       let index = items.findIndex(
         cardItem => item.itemOrderIndex < cardItem.orderIndex
       );
+
       if (index < 0) {
         index = items.length;
       }
