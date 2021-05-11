@@ -31,14 +31,12 @@ async function getTrainingPage(pageId) {
   const getPageInfoQuery = `SELECT * FROM TrainingPages WHERE id = ?`;
   const getItemList = `
 		SELECT 
-			itemId, annotation, Items.orderIndex AS itemOrderIndex, indentation, contentText, contentUrl, contentLabel, contentMode, Items.internal, inline, sourceId, Items.approved, 
-			iconType, Icons.typeKeyword AS iconTypeKeyword, Icons.typeName AS iconTypeName, Icons.groupIndex AS iconGroupIndex, color AS iconColor, 
+			itemId, 
 			cardId, cardType, Cards.orderIndex AS cardOrderIndex, Cards.title AS cardTitle, 
 			headerId, pageId AS originalPageId, Headers.orderIndex AS headerOrderIndex, Headers.title AS headerTitle   
 		FROM TrainingPageItems 
 		INNER JOIN Items using (itemId)
 		INNER JOIN Cards using (cardId)
-		INNER JOIN Icons using (iconType)
 		INNER JOIN Headers using (headerId)
 		WHERE trainingPageId =  ?
 		ORDER BY Headers.orderIndex ASC
