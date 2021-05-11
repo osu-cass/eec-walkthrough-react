@@ -4,6 +4,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import Sanitized from '../../components/General/Sanitized'
 import { ITEM_TYPE, CONTENT_MODE } from '../../utilities/constants'
+import Image from '../../components/General/Image'
 
 const Annotation = styled.p`
 	margin: 0;
@@ -105,7 +106,6 @@ function Item({
 
 	const TextItem = () => (
 		<Container>
-			
 			<ContentContainer>
 				<Content>
 					<Sanitized html={contentText} inline={!!inline} />
@@ -114,6 +114,36 @@ function Item({
 			</ContentContainer>
 		</Container>
 	)
+
+	const GraphicItem = () => {
+		// Checks if the icon means that this is a large image
+		function largeImage() {
+			if (iconTypeName === 'picture-o') {
+				return true
+			}
+			return false
+		}
+		return (
+			<Container>
+				<Icon className={`fas fa-${iconTypeName}`} title={iconTypeKeyword} />
+				<ContentContainer>
+					<Content>
+						<div className="pb-1">
+							<span className="icon-item-text">{contentText}</span>
+							<Sanitized html={contentLabel} inline={!!inline} />
+						</div>
+						<Image
+							url={contentUrl}
+							title={contentLabel}
+							thumbnail={false}
+							header={largeImage()}
+						/>
+					</Content>
+					<Annotation>{annotation}</Annotation>
+				</ContentContainer>
+			</Container>
+		)
+	}
 
 	return (
 		<div>
@@ -124,7 +154,7 @@ function Item({
 				<TextItem />
 			)}
 			{iconGroupIndex === ITEM_TYPE.RESOURCE && <ResourceItem />}
-			{/* {iconGroupIndex === ITEM_TYPE.GRAPHIC && <GraphicItem />} */}
+			{iconGroupIndex === ITEM_TYPE.GRAPHIC && <GraphicItem />}
 		</div>
 	)
 }
