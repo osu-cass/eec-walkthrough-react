@@ -3,7 +3,8 @@ import Image from "../../../components/General/Image";
 import PropTypes from "prop-types";
 import Sanitized from "../../../components/General/Sanitized";
 import Source from "./Source";
-import {AiOutlinePlusCircle} from "react-icons/ai";
+import TrainingSelectIcon from "./TrainingSelectIcon";
+import CommentIcon from "./CommentIcon";
 
 // Represents a single graphic type bullet inside a card
 function BulletPointGraphic(props) {
@@ -27,9 +28,10 @@ function BulletPointGraphic(props) {
       >
         {/* icon to add to training view */}
         {props.mode === 3 && (
-          <span className="training-select-icon">
-            <AiOutlinePlusCircle />
-          </span>
+          <TrainingSelectIcon
+            selected={props.selected}
+            onSelect={props.onSelect}
+          />
         )}
         {/* Container holding graphic's icon. Only display this if there is a label */}
         {props.label.length ? (
@@ -64,6 +66,9 @@ function BulletPointGraphic(props) {
             header={largeImage()}
           />
         </div>
+        {props.selected && (
+          <CommentIcon onAnnotationClicked={props.onAnnotationClicked} />
+        )}
       </div>
     </Fragment>
   );
@@ -83,5 +88,8 @@ BulletPointGraphic.propTypes = {
   source: PropTypes.number,
   sourceText: PropTypes.string,
   inline: PropTypes.number,
-  mode: PropTypes.number
+  mode: PropTypes.number,
+  selected: PropTypes.bool,
+  onSelect: PropTypes.func,
+  onAnnotationClicked: PropTypes.func
 };

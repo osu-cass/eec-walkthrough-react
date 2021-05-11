@@ -35,7 +35,7 @@ function TrainingViewNameInput() {
     console.log(reqBody);
     let result;
     try {
-      result = await fetch(`${API_URL}/trainingPages`, {
+      result = await fetch(`${API_URL}/training`, {
         method: "POST",
         credentials: "include",
         headers: {

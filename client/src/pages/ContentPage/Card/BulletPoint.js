@@ -18,18 +18,15 @@ function BulletPoint(props) {
   const dispatch = useDispatch();
 
   const handleSelect = () => {
-
     // if currently selected, then de-select it
     if (selected) {
       setSelected(false);
       setOpenAnnotation(false);
       setAnnotationInput("");
       dispatch(removeTrainingItem({id: props.id}));
-
     } else {
       setSelected(true);
       dispatch(addTrainingItem({id: props.id, annotation: annotationInput}));
-
     }
   };
   const handleAnnotationClicked = () => {
@@ -38,7 +35,9 @@ function BulletPoint(props) {
 
   const handleOnSave = e => {
     e.preventDefault();
-    if (!annotationInput) { return; }
+    if (!annotationInput) {
+      return;
+    }
     dispatch(addTrainingItem({id: props.id, annotation: annotationInput}));
 
     setAnnotationSaved(true);
@@ -82,7 +81,7 @@ function BulletPoint(props) {
         />
       ) : null}
       {/* If the bullet point is a text field */}
-      {props.groupIndex === 1 && props.icon === "f ont" ? (
+      {props.groupIndex === 1 && props.icon === "font" ? (
         <BulletPointText
           id={props.id}
           text={props.text}
