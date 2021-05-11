@@ -2,10 +2,13 @@
 
 import React from 'react'
 import styled from '@emotion/styled'
+import Sanitized from '../../components/General/Sanitized'
+import { ITEM_TYPE, CONTENT_MODE } from '../../utilities/constants'
 
-const Annotation = styled.div`
+const Annotation = styled.p`
+	margin: 0;
 	font-size: 0.9rem;
-	margin-left: 1.9rem;
+	font-style: italic;
 `
 
 function Item({
@@ -14,6 +17,7 @@ function Item({
 	contentText,
 	contentUrl,
 	contentLabel,
+	contentMode,
 	sourceId,
 	inline,
 	iconTypeKeyword,
@@ -24,31 +28,82 @@ function Item({
 }) {
 	const Icon = styled.i`
 		margin-right: 0.5rem;
+		margin-top: 0.25rem;
 		font-size: ${iconTypeName == 'circle' && '0.75rem'};
-		width: 20px;
+		width: 18px;
 		&&[title] {
 			color: ${iconColor};
 		}
 	`
 
 	const Container = styled.div`
-		margin-bottom: 0.2rem;
+		margin-bottom: 0.3rem;
+		display: flex;
+		align-items: flex-start;
+
 		padding-left: ${indentation === 1 && '2rem'};
 		padding-left: ${indentation === 2 && '4rem'};
+		/* a:hover {
+			filter: brightness(0.8);
+		} */
 	`
+	const ContentContainer = styled.div``
+
 	const Content = styled.p`
 		margin: 0;
-		display: flex;
-		align-items: center;
 	`
-	return (
+
+	const GeneralItem = () => (
 		<Container>
-			<Content>
-				<Icon className={`fas fa-${iconTypeName}`} title={iconTypeKeyword} />
-				<span>{contentText}</span>
-			</Content>
-			<Annotation>{annotation}</Annotation>
+			<Icon className={`fas fa-${iconTypeName}`} title={iconTypeKeyword} />
+			<ContentContainer>
+				<Content>{contentText}</Content>
+				<Annotation>{annotation}</Annotation>
+			</ContentContainer>
 		</Container>
+	)
+
+	const ResourceItem = () => (
+		<Container>
+			<Icon className={`fas fa-${iconTypeName}`} title={iconTypeKeyword} />
+			<ContentContainer>
+				<a
+					href={contentUrl}
+					className={`font-weight-bold ${
+						contentMode === CONTENT_MODE.INTERNAL ||
+						contentMode === CONTENT_MODE.INTERNAL_DOWNLOAD
+							? 'osu-link'
+							: 'text-primary'
+					}`}
+					target="_blank"
+				>
+					<p className="font-weight-bold" style={{ margin: 0 }}>
+						{contentLabel}
+					</p>
+				</a>
+				<a
+					href={contentUrl}
+					className={`${
+						contentMode === CONTENT_MODE.INTERNAL ||
+						contentMode === CONTENT_MODE.INTERNAL_DOWNLOAD
+							? 'osu-link'
+							: 'text-primary'
+					}`}
+					target="_blank"
+				>
+					<small>
+						<Sanitized html={contentText} inline={!!inline} />
+					</small>
+				</a>
+			</ContentContainer>
+		</Container>
+	)
+
+	return (
+		<>
+			{iconGroupIndex === ITEM_TYPE.GENERAL && <GeneralItem />}
+			{iconGroupIndex === ITEM_TYPE.RESOURCE && <ResourceItem />}
+		</>
 	)
 }
 

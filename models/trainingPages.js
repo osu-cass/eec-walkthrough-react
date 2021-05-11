@@ -54,7 +54,6 @@ async function getTrainingPage(pageId) {
 
     result.pageTitle = pageInfo.name;
     const [itemList] = await pool.query(getItemList, [pageId]);
-
     result.sections = [];
     // add distinct headers with empty cards into result
     itemList.forEach(item => {
@@ -85,7 +84,6 @@ async function getTrainingPage(pageId) {
           index = section.cards.length;
         }
 
-        // console.log(`\nsectionId: ${section.sectionId}, cardOrder: ${item.cardOrderIndex}, index: ${index}`);
         section.cards.splice(index, 0, {
           id: item.cardId,
           title: item.cardTitle,
@@ -120,6 +118,7 @@ async function getTrainingPage(pageId) {
         contentText: item.contentText,
         contentUrl: item.contentUrl,
         contentLabel: item.contentLabel,
+        contentMode: item.contentMode,
         inline: item.inline,
         sourceId: item.sourceId,
         iconType: item.iconType,

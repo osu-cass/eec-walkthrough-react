@@ -82,7 +82,7 @@ function BulletPoint(props) {
         />
       ) : null}
       {/* If the bullet point is a text field */}
-      {props.groupIndex === 1 && props.icon === "font" ? (
+      {props.groupIndex === 1 && props.icon === "f ont" ? (
         <BulletPointText
           id={props.id}
           text={props.text}

@@ -28,15 +28,18 @@ function Card({ title, items }) {
 						<li key={item.id}>
 							<Item
 								annotation={item.annotation}
-								indentation={item.indentation}
 								contentLabel={item.contentLabel}
+								contentUrl={item.contentUrl}
 								contentText={item.contentText}
+								contentMode={item.contentMode}
 								iconTypeName={item.iconTypeName}
 								iconTypeKeyword={item.iconTypeKeyword}
 								iconColor={item.iconColor}
 								iconType={item.iconType}
-								contentUrl={item.contentUrl}
-								contentLabel={item.contentLabel}
+								iconGroupIndex={item.iconGroupIndex}
+								id={item.id}
+								indentation={item.indentation}
+								inline={item.inline}
 							/>
 						</li>
 					))}
