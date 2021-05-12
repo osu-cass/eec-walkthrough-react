@@ -1,19 +1,20 @@
 const {pool} = require("../services/database/mysqlPool");
 
-async function createTrainingPage(itemList, name) {
+async function createTrainingPage(itemList, name, description, sourcePageId) {
   // insert name to TrainingPages table in database
-  const insertPageQuery = `INSERT INTO TrainingPages (name) VALUES (?)`;
+  const insertPageQuery = `INSERT INTO TrainingPages (name, description) VALUES (?, ?)`;
   const insertPageItemsQuery = `INSERT INTO TrainingPageItems (trainingPageId, itemId, annotation) VALUES (?, ?, ?)`;
   const removePageQuery = `DELETE from TrainingPages WHERE name=?`;
+  const insertTrainingPageSourcePageQuery = `INSERT INTO TrainingPageSourcePage VALUES (?, ?)`;
   let insertResult;
 
   try {
     // remove existing entries from both tables before insert
     await pool.query(removePageQuery, [name]);
 
-    insertResult = await pool.query(insertPageQuery, [name]);
+    insertResult = await pool.query(insertPageQuery, [name, description]);
     const pageId = insertResult[0].insertId;
-
+    await pool.query(insertTrainingPageSourcePageQuery, [pageId, sourcePageId]);
     // traverse the itemList and build the query array
     const queryList = itemList.map(item =>
       pool.query(insertPageItemsQuery, [pageId, item.id, item.annotation])

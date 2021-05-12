@@ -6,12 +6,13 @@ const {getTrainingPage} = require("../models/trainingPages");
 
 app.post("/", async (req, res) => {
   // create new entry in TrainingPages in database
-  console.log("xxxxxxxxxxxxxxxxxxxxxxxxxx got post");
 
   const itemList = req.body.itemList;
   const name = req.body.name;
+  const description = req.body.description;
+  const sourcePageId = req.body.sourcePageId;
   // validate ids and name
-  const response = await createTrainingPage(itemList, name);
+  const response = await createTrainingPage(itemList, name, description, sourcePageId);
 
   // if there's an error, then there's an error code
   if (response.error) {
