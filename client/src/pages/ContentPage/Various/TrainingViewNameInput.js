@@ -54,6 +54,9 @@ function TrainingViewNameInput() {
       throw err;
     }
     console.log(result);
+    setDescription("");
+    setInputValue("");
+    alert("Done saving training page");
   };
 
   return (
