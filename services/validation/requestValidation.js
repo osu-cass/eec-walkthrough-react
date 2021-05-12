@@ -534,18 +534,29 @@ const patchQuestionMoveVal = Object.freeze({
 exports.patchQuestionMoveVal = patchQuestionMoveVal;
 
 // validation checks for get page curator
-const getCuratorVal = Object.freeze({
+const getPageCuratorsVal = Object.freeze({
   validation: [
     check("pageId").isInt({min: 1, max: 4294967295}),
   ]
 });
-exports.getCuratorVal = getCuratorVal;
+exports.getPageCuratorsVal = getPageCuratorsVal;
 
-// validation checks for move question
+// validation checks for put page curator
 const putCuratorVal = Object.freeze({
   validation: [
     check("pageId").isInt({min: 1, max: 4294967295}),
+    check("pageName").isLength({min: 1, max: 100}),
     check("userId").isInt({min: 1, max: 4294967295})
   ]
 });
 exports.putCuratorVal = putCuratorVal;
+
+// validation checks for put previous page curator
+const putPrevCuratorVal = Object.freeze({
+  validation: [
+    check("pageIds").isArray({min: 1}),
+    check("pageNames").isArray({min: 1}),
+    check("userId").isInt({min: 1, max: 4294967295})
+  ]
+});
+exports.putPrevCuratorVal = putPrevCuratorVal;

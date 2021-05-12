@@ -490,8 +490,10 @@ INSERT INTO `Contributors` (`contributorId`, `name`, `title`, `description`, `im
 --
 
 CREATE TABLE `Curators` (
+  `curatorId` int(10) UNSIGNED NOT NULL,
   `curatorPageId` int(10) UNSIGNED NOT NULL,
-  `userId` int(10) UNSIGNED NOT NULL
+  `userId` int(10) UNSIGNED NOT NULL,
+  `active` tinyint(3) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -5177,8 +5179,9 @@ ALTER TABLE `Contributors`
 -- Indexes for table `Curators`
 --
 ALTER TABLE `Curators`
-  ADD PRIMARY KEY (`curatorPageId`),
-  ADD UNIQUE KEY `userId` (`userId`);
+  ADD PRIMARY KEY (`curatorId`),
+  ADD KEY `curator_page_fk` (`curatorPageId`),
+  ADD KEY `curator_user_fk` (`userId`);
 
 --
 -- Indexes for table `Filters`
@@ -5400,6 +5403,12 @@ ALTER TABLE `Cards`
 --
 ALTER TABLE `Categories`
   MODIFY `categoryId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `Curators`
+--
+ALTER TABLE `Curators`
+  MODIFY `curatorId` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `Filters`

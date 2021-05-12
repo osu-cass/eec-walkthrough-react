@@ -27,6 +27,7 @@ function Contributors() {
     }
   ]);
   const [contributors, setContributors] = useState([]);
+  const [curators, setCurators] = useState([]);
 
   // fetch text blurb
   useEffect(() => {
@@ -91,6 +92,20 @@ function Contributors() {
           console.error("Error fetching contributors");
         }
 
+        // Fetch curators
+        results = await fetch(`${API_URL}/curators/all`, {
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        if (results.ok) {
+          const obj = await results.json();
+          setCurators(obj.pageIds);
+        } else {
+          console.error("Error fetching curators");
+        }
+
         setLoading(false);
       } catch (err) {
         if (err instanceof DOMException) {
@@ -145,11 +160,13 @@ function Contributors() {
               {contributors.map((contributor) =>
                 <ContributorBlock
                   key={contributor.contributorId}
+                  contributorId={contributor.contributorId}
                   name={contributor.name}
                   imageUrl={contributor.imageUrl}
                   title={contributor.title}
                   description={contributor.description}
                   pending={false}
+                  curators={curators}
                 />
               )}
             </div>

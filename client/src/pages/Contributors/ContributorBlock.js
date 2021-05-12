@@ -1,9 +1,23 @@
-import React, {Fragment} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import PropTypes from "prop-types";
 import "./ContributorBlock.css";
 
 // A container that describes a contributor
 function ContributorBlock(props) {
+
+  const [curatorInfo, setCuratorInfo] = useState([]);
+
+  useEffect(() => {
+    let filteredData = [];
+
+    filteredData = props.curators.filter((curator) =>
+      curator.userId === props.contributorId && curator.active === 1
+    );
+    console.log("contributorId:", props.contributorId);
+    console.log("filteredData:", filteredData);
+
+    setCuratorInfo(filteredData);
+  }, []);
 
   return (
     <div className="contributor-container">
@@ -33,6 +47,25 @@ function ContributorBlock(props) {
 
         <div className="contributor-main-text mt-4 px-4">
           <span>{props.description}</span>
+        </div>
+
+        <div className="px-4">
+          {curatorInfo.length ? (
+            <Fragment>
+              <br />
+              <span>Page(s) currently curating: </span>
+            </Fragment>
+          ) : (
+            null
+          )}
+
+          {curatorInfo.map((data, i, arr) =>
+            i === arr.length - 1 ? (
+              data.pageName + "."
+            ) : (
+              data.pageName + ", "
+            )
+          )}
         </div>
 
         {/* Show options to accept or reject pending requests */}
@@ -73,5 +106,6 @@ ContributorBlock.propTypes = {
   description: PropTypes.string,
   contributorId: PropTypes.number,
   pending: PropTypes.bool,
-  onRequest: PropTypes.func
+  onRequest: PropTypes.func,
+  curators: PropTypes.array
 };

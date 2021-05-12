@@ -3,38 +3,63 @@
 
 const {pool} = require("../services/database/mysqlPool");
 
-// returns all approved contributors
-async function getPageCurator(pageId) {
+// returns all curators/curated pages
+async function getCurators() {
 
   try {
 
     // get page curator
-    const sql = "SELECT * FROM Curators " +
-    "WHERE curatorPageId = ?";
-    const results = await pool.query(sql, [pageId]);
+    const sql = "SELECT * FROM Curators;";
+    const results = await pool.query(sql, []);
 
     const finalResults = {
-      userId: results[0][0].userId
+      pageIds: results[0]
     };
 
     return finalResults;
 
   } catch (err) {
-    console.error("Error getting contributors");
+    console.error("Error getting curated pages from user");
     throw Error(err);
   }
 
 }
-exports.getPageCurator = getPageCurator;
+exports.getCurators = getCurators;
 
-// returns all approved contributors
-async function insertCurator(pageId, userId) {
+// returns page curators
+async function getPageCurators(pageId) {
+
+  try {
+
+    // get page curator
+    const sql = "SELECT * FROM Curators " +
+    "WHERE curatorPageId = ? " +
+    "AND active = 1;";
+    const results = await pool.query(sql, [pageId]);
+
+    const finalResults = {
+      userIds: results[0]
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error getting page curators");
+    throw Error(err);
+  }
+
+}
+exports.getPageCurators = getPageCurators;
+
+// insert/update page curator
+async function changeCurator(pageId, pageName, userId, active) {
 
   try {
 
     // see if the page curator already exists
     let sql = "SELECT * FROM Curators " +
-    "WHERE curatorPageId = ?";
+    "WHERE curatorPageId = ? " +
+    "AND active = 1;";
     let results = await pool.query(sql, [pageId]);
 
     let exists = false;
@@ -46,12 +71,13 @@ async function insertCurator(pageId, userId) {
     if (exists) {
       sql = "UPDATE Curators " +
       "SET userId = ? " +
-      "WHERE curatorPageId = ?;";
+      "WHERE curatorPageId = ? " +
+      "AND active = 1;";
       results = await pool.query(sql, [userId, pageId]);
     } else {
-      sql = "INSERT INTO Curators (curatorPageId, userId) " +
-      "VALUES (?, ?);";
-      results = await pool.query(sql, [pageId, userId]);
+      sql = "INSERT INTO Curators (curatorPageId, pageName, userId, active) " +
+      "VALUES (?, ?, ?, ?);";
+      results = await pool.query(sql, [pageId, pageName, userId, active]);
     }
 
     const finalResults = {
@@ -61,9 +87,41 @@ async function insertCurator(pageId, userId) {
     return finalResults;
 
   } catch (err) {
-    console.error("Error getting contributors");
+    console.error("Error inserting/updating page curator");
     throw Error(err);
   }
 
 }
-exports.insertCurator = insertCurator;
+exports.changeCurator = changeCurator;
+
+// insert/update previous page curator
+async function changePrevCurator(pageIds, pageNames, userId, active) {
+
+  try {
+
+    // delete all previous page curator entries
+    let sql = "DELETE FROM Curators " +
+    "WHERE userId = ? " +
+    "AND active = 0;";
+    await pool.query(sql, [userId]);
+
+    // insert new previous page curator entries
+    for (let i = 0; i < pageIds.length; i++) {
+      sql = "INSERT INTO Curators (curatorPageId, pageName, userId, active) " +
+      "VALUES (?, ?, ?, ?);";
+      await pool.query(sql, [pageIds[i], pageNames[i], userId, active]);
+    }
+
+    const finalResults = {
+      success: 1
+    };
+
+    return finalResults;
+
+  } catch (err) {
+    console.error("Error inserting/updating previous page curator");
+    throw Error(err);
+  }
+
+}
+exports.changePrevCurator = changePrevCurator;
