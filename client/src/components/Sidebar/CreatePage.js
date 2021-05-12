@@ -170,7 +170,9 @@ function CreatePage(props) {
     const curatorId = parseInt(curatorSelect.options[curatorSelect.selectedIndex].value, 10);
 
     data = {
-      userId: curatorId
+      pageName: name,
+      userId: curatorId,
+      active: 1
     };
 
     results = await fetch(`${API_URL}/curators/${pageId}`, {

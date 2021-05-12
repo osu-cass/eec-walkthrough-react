@@ -909,6 +909,7 @@ function ContentPage(props) {
 
         <Curator
           pageId={pageId}
+          pageName={pageInfo.name}
           mode={mode}
           role={role}
         />

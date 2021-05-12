@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import {Button, Row} from "react-bootstrap";
 import Error from "../../components/General/Error";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import EditContributor from "./EditContributor";
+import EditPrevCuration from "./EditPrevCuration";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
 import ContributorBlock from "../Contributors/ContributorBlock";
@@ -18,6 +19,7 @@ function ManageContributors() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [errorMessageRequests, setErrorMessageRequests] = useState("");
+  const [curators, setCurators] = useState([]);
 
   // when the page first loads, get all contributors info
   useEffect(() => {
@@ -102,6 +104,30 @@ function ManageContributors() {
 
         } else {
           console.error("Error fetching contributor requests");
+        }
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        // Fetch curators
+        results = await fetch(`${API_URL}/curators/all`, {
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+          const obj = await results.json();
+          setCurators(obj.pageIds);
+        } else {
+          console.error("Error fetching curators");
         }
 
         setLoading(false);
@@ -254,6 +280,41 @@ function ManageContributors() {
     }
   }
 
+  function filterCurator(userId) {
+    let filteredData = [];
+
+    filteredData = curators.filter((curator) =>
+      curator.userId === userId
+    );
+
+    if (filteredData.length) {
+      return (
+        <Fragment>
+          {filteredData.map((data, i, arr) =>
+            <Fragment key={i}>
+              {
+                i === arr.length - 1 ? (
+                  data.pageName
+                ) : (
+                  <Fragment>
+                    {data.pageName}
+                    <br />
+                  </Fragment>
+                )
+              }
+            </Fragment>
+          )}
+        </Fragment>
+      );
+    } else {
+      return (
+        <Fragment>
+          <span>None</span>
+        </Fragment>
+      );
+    }
+  }
+
   return (
     <div className="container manage-contributor-container my-5">
 
@@ -388,10 +449,15 @@ function ManageContributors() {
                     </div>
                   )}
 
+                  <br />
+                  <h5>Pages Curated:</h5>
+
+                  {filterCurator(contributor.userId)}
+
                 </div>
 
                 {/* Button for modifying contributor info */}
-                <div className="my-3">
+                <div className="mt-3">
                   <EditContributor
                     userId={contributor.userId}
                     name={contributor.name}
@@ -399,6 +465,12 @@ function ManageContributors() {
                     description={contributor.description}
                     imageUrl={contributor.imageUrl}
                     checked={!!contributor.active}
+                  />
+                </div>
+
+                <div className="my-2">
+                  <EditPrevCuration
+                    userId={contributor.userId}
                   />
                 </div>
 

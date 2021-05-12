@@ -12,6 +12,11 @@ function Curator(props) {
 
   // Fetch contributor data
   useEffect(() => {
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
+
     async function fetchData() {
       try {
 
@@ -25,6 +30,11 @@ function Curator(props) {
           headers: {"Content-Type": "application/json"}
         });
 
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
         if (results.ok) {
           obj = await results.json();
           setContributors(obj.contributors);
@@ -33,19 +43,32 @@ function Curator(props) {
           console.error("Error fetching contributors");
         }
 
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
         // Fetch page curator
-        results = await fetch(`${API_URL}/curators/${props.pageId}`, {
+        results = await fetch(`${API_URL}/curators/page/${props.pageId}`, {
           method: "GET",
           credentials: "include",
           headers: {"Content-Type": "application/json"}
         });
 
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
         if (results.ok) {
           obj = await results.json();
-          const contributor = tempContributors.filter((contributor) =>
-            contributor.contributorId === obj.userId
+          const curators = obj.userIds.map((item) =>
+            item.userId
           );
-          setPageCurator(contributor[0]);
+          const contributors = tempContributors.filter((contributor) =>
+            curators.includes(contributor.contributorId)
+          );
+          setPageCurator(contributors);
         } else {
           console.error("Error fetching page curator");
         }
@@ -62,6 +85,12 @@ function Curator(props) {
     }
 
     fetchData();
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
   }, [pageCurator]);
 
   // Update the page curator
@@ -70,7 +99,9 @@ function Curator(props) {
     const curatorId = parseInt(curatorSelect.options[curatorSelect.selectedIndex].value, 10);
 
     const data = {
-      userId: curatorId
+      pageName: props.pageName,
+      userId: curatorId,
+      active: 1
     };
 
     const results = await fetch(`${API_URL}/curators/${props.pageId}`, {
@@ -84,7 +115,7 @@ function Curator(props) {
       const contributor = contributors.filter((contributor) =>
         contributor.contributorId === curatorId
       );
-      setPageCurator(contributor[0]);
+      setPageCurator(contributor);
     } else {
       console.error("An internal server error occurred. Please try again later");
     }
@@ -106,7 +137,19 @@ function Curator(props) {
   return (
     <div className="curator-container mx-auto">
       <div className="d-block my-2 h-auto">
-        <h5>Page Curator: {pageCurator.name}</h5>
+        <h5>Page Curator(s):
+          {pageCurator.length ? (
+            pageCurator.map((curator, i, arr) =>
+              i === arr.length - 1 ? (
+                " " + curator.name
+              ) : (
+                " " + curator.name + ","
+              )
+            )
+          ) : (
+            <span> None</span>
+          )}
+        </h5>
       </div>
 
       {props.role >= 3 && props.mode === 1 ? (
@@ -130,7 +173,6 @@ function Curator(props) {
             <Modal.Body>
               <select className="form-control"
                 id="select-curator"
-                defaultValue={pageCurator.contributorId}
               >
                 {contributors.map((contributor) =>
                   <option value={contributor.contributorId} key={contributor.contributorId}>
@@ -156,6 +198,7 @@ export default Curator;
 
 Curator.propTypes = {
   pageId: PropTypes.string,
+  pageName: PropTypes.string,
   mode: PropTypes.number,
   role: PropTypes.number,
   handlePageEdit: PropTypes.func
