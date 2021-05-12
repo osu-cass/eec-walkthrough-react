@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import {getTrainingPageItems} from "../../../redux/selectors";
 import styled from "@emotion/styled";
 import {API_URL} from "../../../utilities/constants";
+import {useParams} from "react-router-dom";
 
 const ErrorContainer = styled.div`
 	margin-top: 0.3rem;
@@ -14,7 +15,10 @@ const ErrorContainer = styled.div`
 function TrainingViewNameInput() {
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
+  const [description, setDescription] = useState("");
   const trainingPageItems = useSelector(getTrainingPageItems);
+  const sourcePageId = useParams().pageId;
+  console.log("source page id: ", sourcePageId);
 
   const handleFormSubmit = async e => {
     setError("");
@@ -30,7 +34,9 @@ function TrainingViewNameInput() {
 
     const reqBody = {
       name: inputValue,
-      itemList: trainingPageItems
+      itemList: trainingPageItems,
+      sourcePageId: sourcePageId,
+      description: description
     };
     console.log(reqBody);
     let result;
@@ -55,13 +61,22 @@ function TrainingViewNameInput() {
       <form onSubmit={handleFormSubmit}>
         <input
           type="text"
-          placeholder="Enter training view name"
+          placeholder="Training page name"
           value={inputValue}
           onChange={e => {
             setInputValue(e.target.value);
             setError("");
           }}
         />
+        <textarea
+          value={description}
+          placeholder="Training page description"
+          onChange={e => {
+            setDescription(e.target.value);
+            setError("");
+          }}
+        />
+
         <button type="submit" className="btn btn-primary btn-save">
 					Save
         </button>
