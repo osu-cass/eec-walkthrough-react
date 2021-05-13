@@ -9,6 +9,8 @@ import Container from 'react-bootstrap/Container'
 
 const PageTitle = styled.h1``
 
+const PageDescription = styled.div``
+
 const ErrorContainer = styled.div`
 	color: red;
 `
@@ -60,8 +62,9 @@ function TrainingPage() {
 	} else {
 		return (
 			<Container className="container my-5">
-				<PageTitle>{pageContent.pageTitle}</PageTitle>
 				{console.log(pageContent)}
+				<PageTitle>{pageContent.pageTitle}</PageTitle>
+				<PageDescription>{pageContent.description}</PageDescription>
 				<Sections>
 					{pageContent.sections.map(section => (
 						<li key={section.id}>
