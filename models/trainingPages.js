@@ -29,7 +29,7 @@ module.exports.createTrainingPage = createTrainingPage;
 
 async function getTrainingPage(pageId) {
   const result = {pageId: parseInt(pageId)};
-  const getPageInfoQuery = `SELECT * FROM TrainingPages INNER JOIN TrainingPageSourcePage on TrainingPages.id = TrainingPageSourcePage.trainingPageId WHERE id = ?`;
+  const getPageInfoQuery = `SELECT * FROM TrainingPages WHERE id = ?`;
   const getItemList = `
 		SELECT 
 			itemId, 
@@ -54,6 +54,8 @@ async function getTrainingPage(pageId) {
     result.pageTitle = pageInfo.name;
     result.sourcePageId = pageInfo.sourcePageId;
     result.description = pageInfo.description;
+    result.category = pageInfo.category.toLowerCase();
+
     const [itemList] = await pool.query(getItemList, [pageId]);
     result.sections = [];
     // add distinct headers with empty cards into result

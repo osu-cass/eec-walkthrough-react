@@ -20,8 +20,7 @@ import {useParams} from "react-router-dom";
 import QuizButton from "./Various/QuizButton";
 import Curator from "./Various/Curator";
 import "./ContentPage.css";
-import {MODE} from "../../utilities/constants";
-import TrainingViewNameInput from "./Various/TrainingViewNameInput";
+
 
 // An encyclopedia style page describing some topic
 function ContentPage(props) {
@@ -800,9 +799,6 @@ function ContentPage(props) {
     ) : (
       <Container className="my-5" id="content-page">
         {/* This is the top header and card that describes the page */}
-       
-
-        
 
         <PageDescription
           page={pageInfo}

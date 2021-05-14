@@ -1,11 +1,13 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import styled from '@emotion/styled'
-import { API_URL } from '../../utilities/constants'
+import { useParams, Link } from 'react-router-dom'
+import styled from '@emotion/styled/macro'
+import { API_URL, MODE, ROLE } from '../../utilities/constants'
 import LoadingOverlay from '../../components/General/LoadingOverlay'
 import Section from './Section'
 import Container from 'react-bootstrap/Container'
+import { getProfile } from '../../utilities/cookieAuth'
+import { setMode } from '../../utilities/pageMode'
 
 const PageHeaderContainer = styled.div`
 	display: flex;
@@ -15,10 +17,10 @@ const PageHeaderContainer = styled.div`
 
 const PageTitle = styled.h1``
 
-const EditBtn = styled.button`
-	/* color: white; */
+const EditBtnLink = styled(Link)`
 	margin-top: 1rem;
 	padding: 0.3rem 2rem;
+	color: #333;
 `
 
 const PageDescription = styled.div``
@@ -32,14 +34,13 @@ const Sections = styled.ul`
 	padding-left: 0;
 `
 
-const SOURCE_PAGE_URL = ''
-
 function TrainingPage() {
 	const { pageId } = useParams()
 	const [pageContent, setPageContent] = useState({})
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState('')
-
+	const { role } = getProfile()
+	console.log(`role is: ${role}`)
 	const fetchData = async () => {
 		const response = await (
 			await fetch(`${API_URL}/training/${pageId}`, {
@@ -59,6 +60,7 @@ function TrainingPage() {
 	const handleEditBtnClicked = e => {
 		e.preventDefault()
 	}
+	const SOURCE_PAGE_PATH = `/wiki/${pageContent.category}/${pageContent.sourcePageId}`
 
 	useEffect(() => {
 		// fetch all content of this training page
@@ -83,9 +85,13 @@ function TrainingPage() {
 				{console.log(pageContent)}
 				<PageHeaderContainer>
 					<PageTitle>{pageContent.pageTitle}</PageTitle>
-					<EditBtn className="btn btn-warning" onClick={handleEditBtnClicked}>
-						Edit
-					</EditBtn>
+					{role === ROLE.ADMIN && (
+						<EditBtnLink to={SOURCE_PAGE_PATH} className="btn btn-warning" onClick={
+							setMode(MODE.CREATE_TRAINING)
+						}>
+							Edit
+						</EditBtnLink>
+					)}
 				</PageHeaderContainer>
 				<PageDescription>{pageContent.description}</PageDescription>
 				<Sections>
@@ -95,6 +101,7 @@ function TrainingPage() {
 								id={section.id}
 								title={section.title}
 								cards={section.cards}
+								role={role}
 							/>
 						</li>
 					))}

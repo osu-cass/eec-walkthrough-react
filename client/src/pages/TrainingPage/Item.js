@@ -1,162 +1,50 @@
-/* eslint-disable */
+import React from "react";
+import styled from "@emotion/styled/macro";
+import {ITEM_TYPE, ROLE} from "../../utilities/constants";
+import ItemGeneral from "./ItemGeneral";
+import ItemGraphic from "./ItemGraphic";
+import ItemResource from "./ItemResource";
+import ItemText from "./ItemText";
+import {PropTypes} from "prop-types";
 
-import React from 'react'
-import styled from '@emotion/styled'
-import Sanitized from '../../components/General/Sanitized'
-import { ITEM_TYPE, CONTENT_MODE } from '../../utilities/constants'
-import Image from '../../components/General/Image'
-
-const Annotation = styled.p`
-	margin: 0;
-	font-size: 0.9rem;
-	font-style: italic;
-`
-
-function Item({
-	annotation,
-	indentation,
-	contentText,
-	contentUrl,
-	contentLabel,
-	contentMode,
-	sourceId,
-	inline,
-	iconTypeKeyword,
-	iconTypeName,
-	iconColor,
-	iconGroupIndex,
-	orderIndex,
-	iconType
-}) {
-	const Icon = styled.i`
-		margin-right: 0.5rem;
-		margin-top: 0.25rem;
-		font-size: ${iconTypeName == 'circle' && '0.75rem'};
-		width: 18px;
-		&&[title] {
-			color: ${iconColor};
-		}
-	`
-
-	const Container = styled.div`
+function Item(props) {
+  const Container = styled.div`
 		margin-bottom: 0.3rem;
 		display: flex;
 		align-items: flex-start;
 
-		padding-left: ${indentation === 1 && '2rem'};
-		padding-left: ${indentation === 2 && '4rem'};
-		/* a:hover {
-			filter: brightness(0.8);
-		} */
-	`
-	const ContentContainer = styled.div``
+		padding-left: ${props.indentation === 1 && "2rem"};
+		padding-left: ${props.indentation === 2 && "4rem"};
+	`;
 
-	const Content = styled.p`
-		margin: 0;
-	`
-
-	const GeneralItem = () => (
-		<Container>
-			<Icon className={`fas fa-${iconTypeName}`} title={iconTypeKeyword} />
-			<ContentContainer>
-				<Content>
-					<Sanitized html={contentText} inline={!!inline} />
-				</Content>
-				<Annotation>{annotation}</Annotation>
-			</ContentContainer>
-		</Container>
-	)
-
-	const ResourceItem = () => (
-		<Container>
-			<Icon className={`fas fa-${iconTypeName}`} title={iconTypeKeyword} />
-			<ContentContainer>
-				<a
-					href={contentUrl}
-					className={`font-weight-bold ${
-						contentMode === CONTENT_MODE.INTERNAL ||
-						contentMode === CONTENT_MODE.INTERNAL_DOWNLOAD
-							? 'osu-link'
-							: 'text-primary'
-					}`}
-					target="_blank"
-				>
-					<p className="font-weight-bold" style={{ margin: 0 }}>
-						{contentLabel}
-					</p>
-				</a>
-				<a
-					href={contentUrl}
-					className={`${
-						contentMode === CONTENT_MODE.INTERNAL ||
-						contentMode === CONTENT_MODE.INTERNAL_DOWNLOAD
-							? 'osu-link'
-							: 'text-primary'
-					}`}
-					target="_blank"
-				>
-					<small>
-						<Sanitized html={contentText} inline={!!inline} />
-					</small>
-				</a>
-				<Annotation>{annotation}</Annotation>
-			</ContentContainer>
-		</Container>
-	)
-
-	const TextItem = () => (
-		<Container>
-			<ContentContainer>
-				<Content>
-					<Sanitized html={contentText} inline={!!inline} />
-				</Content>
-				<Annotation>{annotation}</Annotation>
-			</ContentContainer>
-		</Container>
-	)
-
-	const GraphicItem = () => {
-		// Checks if the icon means that this is a large image
-		function largeImage() {
-			if (iconTypeName === 'picture-o') {
-				return true
-			}
-			return false
-		}
-		return (
-			<Container>
-				<Icon className={`fas fa-${iconTypeName}`} title={iconTypeKeyword} />
-				<ContentContainer>
-					<Content>
-						<div className="pb-1">
-							<span className="icon-item-text">{contentText}</span>
-							<Sanitized html={contentLabel} inline={!!inline} />
-						</div>
-						<Image
-							url={contentUrl}
-							title={contentLabel}
-							thumbnail={false}
-							header={largeImage()}
-						/>
-					</Content>
-					<Annotation>{annotation}</Annotation>
-				</ContentContainer>
-			</Container>
-		)
-	}
-
-	return (
-		<div>
-			{iconGroupIndex === ITEM_TYPE.GENERAL && iconTypeName !== 'font' && (
-				<GeneralItem />
-			)}
-			{iconGroupIndex === ITEM_TYPE.GENERAL && iconTypeName === 'font' && (
-				<TextItem />
-			)}
-			{iconGroupIndex === ITEM_TYPE.RESOURCE && <ResourceItem />}
-			{iconGroupIndex === ITEM_TYPE.GRAPHIC && <GraphicItem />}
-		</div>
-	)
+  return (
+    <>
+      {
+        props.internal && props.role !== ROLE.ADMIN
+          ? null
+          :  (<Container>
+            {props.iconGroupIndex === ITEM_TYPE.GENERAL &&
+					props.iconTypeName !== "font" && <ItemGeneral props={props} />}
+            {props.iconGroupIndex === ITEM_TYPE.RESOURCE && (
+              <ItemResource props={props} />
+            )}
+            {props.iconGroupIndex === ITEM_TYPE.GENERAL &&
+					props.iconTypeName === "font" && <ItemText props={props} />}
+            {props.iconGroupIndex === ITEM_TYPE.GRAPHIC && (
+              <ItemGraphic props={props} />
+            )}
+          </Container>)
+      }
+    </>
+  );
 }
 
-export default Item
+export default Item;
+
+Item.propTypes = {
+  indentation: PropTypes.string,
+  iconGroupIndex: PropTypes.number,
+  iconTypeName: PropTypes.string,
+  internal: PropTypes.number,
+  role: PropTypes.number
+};
