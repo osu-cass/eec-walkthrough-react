@@ -4,7 +4,8 @@ const app = express.Router();
 const {
   createTrainingPage,
   getTrainingPagesFromSourcePage,
-  getTrainingPage
+  getTrainingPage,
+  deleteTrainingPage
 } = require("../models/trainingPages");
 
 app.post("/", async (req, res) => {
@@ -60,6 +61,22 @@ app.get("/source-page/:sourcePageId", async (req, res) => {
       message: "invalid request"
     });
   }
+});
+
+app.delete("/:pageId", async (req, res) => {
+  try {
+
+    await deleteTrainingPage(req.params.pageId);
+    res.status(201).json({
+      message: "OK"
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      error: "invalid request"
+    });
+  }
+
 });
 
 module.exports = app;

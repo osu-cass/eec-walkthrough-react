@@ -132,3 +132,10 @@ module.exports.getTrainingPagesFromSourcePage = async function (sourcePageId) {
 };
 
 
+module.exports.deleteTrainingPage = async function (pageId) {
+  const query = `DELETE FROM TrainingPages WHERE id = ?`;
+  const [results] = await pool.query(query, [pageId]);
+  return results;
+};
+
+

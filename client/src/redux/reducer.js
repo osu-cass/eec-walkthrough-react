@@ -11,8 +11,10 @@ const trainingPageReducer = (state = [], action) => {
       const filteredList = state.filter(item => item.id !== action.payload.id);
       return [...filteredList, action.payload];
     }
+
     case REMOVE_TRAINING_ITEM:
       return state.filter(item => item.id !== parseInt(action.payload.id));
+
 
     default:
       return state;

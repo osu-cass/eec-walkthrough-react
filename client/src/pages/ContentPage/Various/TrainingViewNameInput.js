@@ -39,21 +39,23 @@ function TrainingViewNameInput() {
       description: description
     };
 
-    let result;
+    console.log("reqbody before posting: ", reqBody);
+
+    let insertId;
     try {
-      result = await fetch(`${API_URL}/training`, {
+      insertId = await (await fetch(`${API_URL}/training`, {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(reqBody)
-      });
+      })).json();
     } catch (err) {
       console.log(err);
       throw err;
     }
-    console.log(result);
+    console.log(insertId);
     setDescription("");
     setInputValue("");
     alert("Done saving training page");

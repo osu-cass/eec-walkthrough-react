@@ -12,7 +12,6 @@ import AddSource from "./AddSource";
 import QuickLinks from "../Various/QuickLinks";
 import Sanitized from "../../../components/General/Sanitized";
 import "./PageDescription.css";
-import CreateTrainingView from "./CreateTrainingView";
 import {MODE} from "../../../utilities/constants";
 import TrainingViewNameInput from "../Various/TrainingViewNameInput";
 import LoadTrainingPages from "./LoadTrainingPages";
