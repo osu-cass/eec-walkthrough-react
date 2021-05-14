@@ -17,7 +17,6 @@ function TrainingViewNameInput() {
   const [error, setError] = useState("");
   const [description, setDescription] = useState("");
   const trainingPageItems = useSelector(getTrainingPageItems);
-  console.log(useParams());
   const {pageId, category} = useParams();
 
   const handleFormSubmit = async e => {
@@ -40,7 +39,6 @@ function TrainingViewNameInput() {
       description: description
     };
 
-    console.log("reqbody before posting: ", reqBody);
     let result;
     try {
       result = await fetch(`${API_URL}/training`, {

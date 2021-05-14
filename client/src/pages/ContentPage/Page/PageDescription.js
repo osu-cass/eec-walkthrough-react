@@ -13,6 +13,8 @@ import QuickLinks from "../Various/QuickLinks";
 import Sanitized from "../../../components/General/Sanitized";
 import "./PageDescription.css";
 import CreateTrainingView from "./CreateTrainingView";
+import {MODE} from "../../../utilities/constants";
+import TrainingViewNameInput from "../Various/TrainingViewNameInput";
 
 // Header and card that describes the page
 function PageDescription(props) {
@@ -135,7 +137,7 @@ function PageDescription(props) {
         </div>
       </div>
 
-      <div
+      {props.mode === MODE.CREATE_TRAINING ? <TrainingViewNameInput/> :       <div
         className={`${
           props.page.approved && (!props.page.tempPageId || props.mode !== 1)
             ? "page-approved"
@@ -198,7 +200,8 @@ function PageDescription(props) {
             publicMode={props.publicMode}
           />
         </div>
-      </div>
+      </div>}
+
     </div>
   );
 }

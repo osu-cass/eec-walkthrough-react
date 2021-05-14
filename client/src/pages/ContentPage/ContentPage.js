@@ -20,6 +20,7 @@ import {useParams} from "react-router-dom";
 import QuizButton from "./Various/QuizButton";
 import Curator from "./Various/Curator";
 import "./ContentPage.css";
+import {MODE} from "../../utilities/constants";
 import TrainingViewNameInput from "./Various/TrainingViewNameInput";
 
 // An encyclopedia style page describing some topic
@@ -799,6 +800,10 @@ function ContentPage(props) {
     ) : (
       <Container className="my-5" id="content-page">
         {/* This is the top header and card that describes the page */}
+       
+
+        
+
         <PageDescription
           page={pageInfo}
           handleUpdate={(object, type, action) =>
@@ -819,9 +824,10 @@ function ContentPage(props) {
           quiz={(mode === 0 && pageInfo.quiz) || mode !== 0}
           references={
             !!(mode === 0 && references.length) ||
-						!!(mode === 1 && tempReferences.length)
+							!!(mode === 1 && tempReferences.length)
           }
         />
+
 
         {/* Button for creating new headers */}
         <CreateHeader
@@ -905,7 +911,6 @@ function ContentPage(props) {
           pageName={pageInfo.name}
           role={role}
         />
-        {mode === 3 && <TrainingViewNameInput />}
 
         <Curator pageId={pageId} mode={mode} role={role} />
       </Container>
