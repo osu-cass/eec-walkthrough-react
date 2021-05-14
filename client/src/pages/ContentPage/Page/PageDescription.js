@@ -133,7 +133,7 @@ function PageDescription(props) {
                 moved={props.moved}
               />
               <LoadTrainingPages role={props.role} mode={props.mode} />
-              <CreateTrainingView role={props.role} mode={props.mode} />
+
             </div>
           </div>
         </div>

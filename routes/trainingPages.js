@@ -1,8 +1,11 @@
 const express = require("express");
 const app = express.Router();
 
-const {createTrainingPage} = require("../models/trainingPages");
-const {getTrainingPage} = require("../models/trainingPages");
+const {
+  createTrainingPage,
+  getTrainingPagesFromSourcePage,
+  getTrainingPage
+} = require("../models/trainingPages");
 
 app.post("/", async (req, res) => {
   // create new entry in TrainingPages in database
@@ -13,7 +16,13 @@ app.post("/", async (req, res) => {
   const sourcePageId = req.body.sourcePageId;
   const category = req.body.category;
   // validate ids and name
-  const response = await createTrainingPage(itemList, name, description, sourcePageId, category);
+  const response = await createTrainingPage(
+    itemList,
+    name,
+    description,
+    sourcePageId,
+    category
+  );
 
   // if there's an error, then there's an error code
   if (response.error) {
@@ -35,6 +44,21 @@ app.get("/:pageId", async (req, res) => {
     res.status(400).json(response);
   } else {
     res.status(200).json(response);
+  }
+});
+
+app.get("/source-page/:sourcePageId", async (req, res) => {
+  try {
+    const response = await getTrainingPagesFromSourcePage(
+      req.params.sourcePageId
+    );
+    res.status(200).json(response);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({
+      error: err,
+      message: "invalid request"
+    });
   }
 });
 
