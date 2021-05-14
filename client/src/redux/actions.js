@@ -2,9 +2,14 @@
 
 export const ADD_TRAINING_ITEM = "ADD_TRAINING_ITEM";
 export const REMOVE_TRAINING_ITEM = "REMOVE_TRAINING_ITEM";
+export const POPULATE_TRAINING_PAGE = "POPULATE_TRAINING_PAGE";
 
 export function addTrainingItem(payload) {
   return {type: ADD_TRAINING_ITEM, payload};
+}
+
+export function populateTrainingPage(payload) {
+  return {type: POPULATE_TRAINING_PAGE, payload};
 }
 
 export function removeTrainingItem(payload) {

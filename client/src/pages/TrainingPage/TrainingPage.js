@@ -11,16 +11,21 @@ import { setMode } from '../../utilities/pageMode'
 
 const PageHeaderContainer = styled.div`
 	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
+	/* justify-content: space-between; */
+	align-items: center;
 `
 
-const PageTitle = styled.h1``
+const PageTitle = styled.h1`
+	flex: 1;
+`
 
-const EditBtnLink = styled(Link)`
-	margin-top: 1rem;
-	padding: 0.3rem 2rem;
-	color: #333;
+const NewBtnLink = styled(Link)`
+	padding: 0.3rem 1rem;
+`
+
+const DeleteBtn = styled(Link)`
+	padding: 0.3rem 1rem;
+	margin-left: 0.5rem;
 `
 
 const PageDescription = styled.div``
@@ -56,11 +61,23 @@ function TrainingPage() {
 		}
 		setLoading(false)
 	}
+	const SOURCE_PAGE_PATH = `/wiki/${pageContent.category}/${pageContent.sourcePageId}`
 
 	const handleEditBtnClicked = e => {
-		e.preventDefault()
+		setMode(MODE.CREATE_TRAINING)
+		window.localStorage.setItem('trainingPageId', pageContent.pageId)
 	}
-	const SOURCE_PAGE_PATH = `/wiki/${pageContent.category}/${pageContent.sourcePageId}`
+
+	const handleDelete = async e => {
+		const response = await fetch(`${API_URL}/training/${pageId}`, {
+			method: 'DELETE',
+			credentials: 'include',
+			headers: { 'Content-Type': 'application/json' }
+		}).json()
+		alert(response.status)
+		console.log(response)
+
+	}
 
 	useEffect(() => {
 		// fetch all content of this training page
@@ -86,11 +103,22 @@ function TrainingPage() {
 				<PageHeaderContainer>
 					<PageTitle>{pageContent.pageTitle}</PageTitle>
 					{role === ROLE.ADMIN && (
-						<EditBtnLink to={SOURCE_PAGE_PATH} className="btn btn-warning" onClick={
-							setMode(MODE.CREATE_TRAINING)
-						}>
-							Edit
-						</EditBtnLink>
+						<>
+							<NewBtnLink
+								to={SOURCE_PAGE_PATH}
+								className="btn btn-primary"
+								onClick={handleEditBtnClicked}
+							>
+								New Path
+							</NewBtnLink>
+							<DeleteBtn
+								to={SOURCE_PAGE_PATH}
+								className="btn btn-danger"
+								onClick={handleDelete}
+							>
+								Delete
+							</DeleteBtn>
+						</>
 					)}
 				</PageHeaderContainer>
 				<PageDescription>{pageContent.description}</PageDescription>
