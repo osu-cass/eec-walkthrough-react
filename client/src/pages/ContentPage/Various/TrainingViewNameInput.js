@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import "./TrainingViewNameInput.css";
 import {useSelector} from "react-redux";
 import {getTrainingPageItems} from "../../../redux/selectors";
-import styled from "@emotion/styled";
+import styled from "@emotion/styled/macro";
 import {API_URL} from "../../../utilities/constants";
 import {useParams} from "react-router-dom";
 

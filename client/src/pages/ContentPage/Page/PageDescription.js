@@ -15,6 +15,7 @@ import "./PageDescription.css";
 import CreateTrainingView from "./CreateTrainingView";
 import {MODE} from "../../../utilities/constants";
 import TrainingViewNameInput from "../Various/TrainingViewNameInput";
+import LoadTrainingPages from "./LoadTrainingPages";
 
 // Header and card that describes the page
 function PageDescription(props) {
@@ -131,77 +132,81 @@ function PageDescription(props) {
                 onPageMode={e => props.onPageMode(e)}
                 moved={props.moved}
               />
+              <LoadTrainingPages role={props.role} mode={props.mode} />
               <CreateTrainingView role={props.role} mode={props.mode} />
             </div>
           </div>
         </div>
       </div>
 
-      {props.mode === MODE.CREATE_TRAINING ? <TrainingViewNameInput/> :       <div
-        className={`${
-          props.page.approved && (!props.page.tempPageId || props.mode !== 1)
-            ? "page-approved"
-            : "page-review"
-        }
+      {props.mode === MODE.CREATE_TRAINING ? (
+        <TrainingViewNameInput />
+      ) : (
+        <div
+          className={`${
+            props.page.approved && (!props.page.tempPageId || props.mode !== 1)
+              ? "page-approved"
+              : "page-review"
+          }
         ${isInternal() ? "page-internal" : ""} my-3 p-3 card rounded shadow-sm`}
-      >
-        <div className="page-desc">
-          <div className="row">
-            <div className="col-8">
-              <h5 className="font-weight-bold">{title}</h5>
-              <p className="allow-newlines">
-                <Sanitized html={description} />
-              </p>
-              <QuickLinks
-                headers={props.headers}
-                quiz={props.quiz}
-                references={props.references}
-                mode={props.mode}
-                publishedMode={props.publishedMode}
-                publicMode={props.publicMode}
-              />
+        >
+          <div className="page-desc">
+            <div className="row">
+              <div className="col-8">
+                <h5 className="font-weight-bold">{title}</h5>
+                <p className="allow-newlines">
+                  <Sanitized html={description} />
+                </p>
+                <QuickLinks
+                  headers={props.headers}
+                  quiz={props.quiz}
+                  references={props.references}
+                  mode={props.mode}
+                  publishedMode={props.publishedMode}
+                  publicMode={props.publicMode}
+                />
+              </div>
+              <div className="col-4 text-center">
+                <Image
+                  url={imageUrl}
+                  title={name}
+                  thumbnail={false}
+                  header={true}
+                />
+              </div>
             </div>
-            <div className="col-4 text-center">
-              <Image
-                url={imageUrl}
-                title={name}
-                thumbnail={false}
-                header={true}
-              />
+          </div>
+
+          <div className="page-desc-s">
+            <div className="row mb-3">
+              <div className="mx-auto">
+                <Image
+                  url={imageUrl}
+                  title={name}
+                  thumbnail={false}
+                  header={true}
+                />
+              </div>
             </div>
+            <div className="row">
+              <div className="col">
+                <h5 className="font-weight-bold">{title}</h5>
+                <p className="allow-newlines">
+                  <Sanitized html={description} />
+                </p>
+              </div>
+            </div>
+            <QuickLinks
+              headers={props.headers}
+              quiz={props.quiz}
+              references={props.references}
+              mode={props.mode}
+              publishedMode={props.publishedMode}
+              publicMode={props.publicMode}
+            />
           </div>
         </div>
-
-        <div className="page-desc-s">
-          <div className="row mb-3">
-            <div className="mx-auto">
-              <Image
-                url={imageUrl}
-                title={name}
-                thumbnail={false}
-                header={true}
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <h5 className="font-weight-bold">{title}</h5>
-              <p className="allow-newlines">
-                <Sanitized html={description} />
-              </p>
-            </div>
-          </div>
-          <QuickLinks
-            headers={props.headers}
-            quiz={props.quiz}
-            references={props.references}
-            mode={props.mode}
-            publishedMode={props.publishedMode}
-            publicMode={props.publicMode}
-          />
-        </div>
-      </div>}
-
+      )}
     </div>
   );
 }

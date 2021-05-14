@@ -2,7 +2,7 @@
 
 import React from 'react'
 import '../ContentPage/Header/Header.css'
-import styled from '@emotion/styled'
+import styled from '@emotion/styled/macro'
 import Card from './Card'
 
 const Container = styled.div``
@@ -12,7 +12,7 @@ const ListContainer = styled.ul`
 	padding: 0;
 `
 
-function Section({ title, cards }) {
+function Section({ title, cards, role }) {
 	return (
 		<Container>
 			<div
@@ -24,7 +24,7 @@ function Section({ title, cards }) {
 			<ListContainer>
 				{cards.map(card => (
 					<li key={card.id}>
-						<Card title={card.title} items={card.items} />
+						<Card title={card.title} items={card.items} role={role} />
 					</li>
 				))}
 			</ListContainer>
