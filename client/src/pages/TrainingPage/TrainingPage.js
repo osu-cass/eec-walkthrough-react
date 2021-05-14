@@ -7,7 +7,19 @@ import LoadingOverlay from '../../components/General/LoadingOverlay'
 import Section from './Section'
 import Container from 'react-bootstrap/Container'
 
+const PageHeaderContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+`
+
 const PageTitle = styled.h1``
+
+const EditBtn = styled.button`
+	/* color: white; */
+	margin-top: 1rem;
+	padding: 0.3rem 2rem;
+`
 
 const PageDescription = styled.div``
 
@@ -19,6 +31,8 @@ const Sections = styled.ul`
 	list-style-type: none;
 	padding-left: 0;
 `
+
+const SOURCE_PAGE_URL = ''
 
 function TrainingPage() {
 	const { pageId } = useParams()
@@ -42,6 +56,10 @@ function TrainingPage() {
 		setLoading(false)
 	}
 
+	const handleEditBtnClicked = e => {
+		e.preventDefault()
+	}
+
 	useEffect(() => {
 		// fetch all content of this training page
 		fetchData()
@@ -63,7 +81,12 @@ function TrainingPage() {
 		return (
 			<Container className="container my-5">
 				{console.log(pageContent)}
-				<PageTitle>{pageContent.pageTitle}</PageTitle>
+				<PageHeaderContainer>
+					<PageTitle>{pageContent.pageTitle}</PageTitle>
+					<EditBtn className="btn btn-warning" onClick={handleEditBtnClicked}>
+						Edit
+					</EditBtn>
+				</PageHeaderContainer>
 				<PageDescription>{pageContent.description}</PageDescription>
 				<Sections>
 					{pageContent.sections.map(section => (

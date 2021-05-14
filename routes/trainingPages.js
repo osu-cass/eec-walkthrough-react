@@ -11,8 +11,9 @@ app.post("/", async (req, res) => {
   const name = req.body.name;
   const description = req.body.description;
   const sourcePageId = req.body.sourcePageId;
+  const category = req.body.category;
   // validate ids and name
-  const response = await createTrainingPage(itemList, name, description, sourcePageId);
+  const response = await createTrainingPage(itemList, name, description, sourcePageId, category);
 
   // if there's an error, then there's an error code
   if (response.error) {
