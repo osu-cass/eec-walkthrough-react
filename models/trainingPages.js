@@ -123,5 +123,12 @@ async function getTrainingPage(pageId) {
     return {error: err};
   }
 }
-
 module.exports.getTrainingPage = getTrainingPage;
+
+module.exports.getTrainingPagesFromSourcePage = async function (sourcePageId) {
+  const query = `SELECT id, name, description FROM TrainingPages WHERE sourcePageId = ?`;
+  const [results] = await pool.query(query, [sourcePageId]);
+  return results;
+};
+
+
