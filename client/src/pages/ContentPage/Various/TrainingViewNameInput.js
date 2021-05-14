@@ -17,8 +17,8 @@ function TrainingViewNameInput() {
   const [error, setError] = useState("");
   const [description, setDescription] = useState("");
   const trainingPageItems = useSelector(getTrainingPageItems);
-  const sourcePageId = useParams().pageId;
-  console.log("source page id: ", sourcePageId);
+  console.log(useParams());
+  const {pageId, category} = useParams();
 
   const handleFormSubmit = async e => {
     setError("");
@@ -35,10 +35,12 @@ function TrainingViewNameInput() {
     const reqBody = {
       name: inputValue,
       itemList: trainingPageItems,
-      sourcePageId: sourcePageId,
+      sourcePageId: pageId,
+      category: category,
       description: description
     };
-    console.log(reqBody);
+
+    console.log("reqbody before posting: ", reqBody);
     let result;
     try {
       result = await fetch(`${API_URL}/training`, {
