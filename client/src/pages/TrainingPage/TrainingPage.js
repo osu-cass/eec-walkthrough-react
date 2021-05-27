@@ -8,6 +8,10 @@ import Section from './Section'
 import Container from 'react-bootstrap/Container'
 import { getProfile } from '../../utilities/cookieAuth'
 import { setMode } from '../../utilities/pageMode'
+import { useDispatch } from 'react-redux'
+import { populateTrainingPage } from '../../redux/actions'
+import { useSelector } from 'react-redux'
+import { getTrainingPageItems } from '../../redux/selectors'
 
 const PageHeaderContainer = styled.div`
 	display: flex;
@@ -45,7 +49,8 @@ function TrainingPage() {
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState('')
 	const { role } = getProfile()
-	console.log(`role is: ${role}`)
+	const dispatch = useDispatch()
+	// fetch initial data of the entire page
 	const fetchData = async () => {
 		const response = await (
 			await fetch(`${API_URL}/training/${pageId}`, {
@@ -56,11 +61,31 @@ function TrainingPage() {
 		).json()
 		if (response.error) {
 			setError(response.error)
+			setLoading(false)
+
 		} else {
 			setPageContent(response)
+			setLoading(false)
+			const allItems = extractItemsFromPageContent(response)
+			dispatch(populateTrainingPage(allItems))
 		}
-		setLoading(false)
 	}
+
+	const extractItemsFromPageContent = (pageContent) => {
+		let resultItems = []
+		pageContent.sections.forEach(section => {
+			section.cards.forEach(card => {
+				card.items.forEach (item => {
+					resultItems.push({
+						id: parseInt(item.itemId),
+						annotation: item.annotation
+					})
+				})
+			})
+		});
+		return resultItems
+	}
+
 	const SOURCE_PAGE_PATH = `/wiki/${pageContent.category}/${pageContent.sourcePageId}`
 
 	const handleEditBtnClicked = e => {
@@ -109,7 +134,7 @@ function TrainingPage() {
 								className="btn btn-primary"
 								onClick={handleEditBtnClicked}
 							>
-								New Path
+								Edit
 							</NewBtnLink>
 							<DeleteBtn
 								to={SOURCE_PAGE_PATH}

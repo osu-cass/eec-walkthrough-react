@@ -1,6 +1,6 @@
 
 import {combineReducers} from "redux";
-import {ADD_TRAINING_ITEM, REMOVE_TRAINING_ITEM} from "./actions";
+import {ADD_TRAINING_ITEM, POPULATE_TRAINING_PAGE, REMOVE_TRAINING_ITEM} from "./actions";
 
 // payload is {id}
 const trainingPageReducer = (state = [], action) => {
@@ -15,6 +15,8 @@ const trainingPageReducer = (state = [], action) => {
     case REMOVE_TRAINING_ITEM:
       return state.filter(item => item.id !== parseInt(action.payload.id));
 
+    case POPULATE_TRAINING_PAGE:
+      return action.payload;
 
     default:
       return state;

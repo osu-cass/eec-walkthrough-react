@@ -5,18 +5,19 @@ import BulletPointGraphic from "./BulletPointGraphic";
 import BulletPointResource from "./BulletPointResource";
 import BulletPointText from "./BulletPointText";
 import "./BulletPoint.css";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addTrainingItem, removeTrainingItem} from "../../../redux/actions";
 
 // Represents a single bullet point inside a card
 function BulletPoint(props) {
-  // set item selected state in create training mode (mode === 3)
-  const [selected, setSelected] = useState(false);
   const [openAnnotation, setOpenAnnotation] = useState(false);
-  const [annotationInput, setAnnotationInput] = useState("");
   const [annotationSaved, setAnnotationSaved] = useState(false);
   const dispatch = useDispatch();
 
+  const storeItem = useSelector(state => state.trainingPage.find(item => item.id === props.id));
+  const storeAnnotationInput = storeItem ? storeItem.annotation : "";
+  const [annotationInput, setAnnotationInput] = useState(storeAnnotationInput);
+  const [selected, setSelected] = useState(!!storeItem);
   const handleSelect = () => {
     // if currently selected, then de-select it
     if (selected) {
