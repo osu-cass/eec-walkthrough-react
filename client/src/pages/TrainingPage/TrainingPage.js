@@ -10,8 +10,6 @@ import { getProfile } from '../../utilities/cookieAuth'
 import { setMode } from '../../utilities/pageMode'
 import { useDispatch } from 'react-redux'
 import { populateTrainingPage } from '../../redux/actions'
-import { useSelector } from 'react-redux'
-import { getTrainingPageItems } from '../../redux/selectors'
 
 const PageHeaderContainer = styled.div`
 	display: flex;
@@ -23,8 +21,14 @@ const PageTitle = styled.h1`
 	flex: 1;
 `
 
-const NewBtnLink = styled(Link)`
+const EditBtn = styled(Link)`
 	padding: 0.3rem 1rem;
+	margin-left: 0.5rem;
+`
+
+const SourceBtn = styled(Link)`
+	padding: 0.3rem 1rem;
+
 `
 
 const DeleteBtn = styled(Link)`
@@ -62,27 +66,34 @@ function TrainingPage() {
 		if (response.error) {
 			setError(response.error)
 			setLoading(false)
-
 		} else {
 			setPageContent(response)
 			setLoading(false)
 			const allItems = extractItemsFromPageContent(response)
-			dispatch(populateTrainingPage(allItems))
+			dispatch(
+				populateTrainingPage({
+					items: allItems,
+					info: {
+						title: response.pageTitle,
+						description: response.description
+					}
+				})
+			)
 		}
 	}
 
-	const extractItemsFromPageContent = (pageContent) => {
+	const extractItemsFromPageContent = pageContent => {
 		let resultItems = []
 		pageContent.sections.forEach(section => {
 			section.cards.forEach(card => {
-				card.items.forEach (item => {
+				card.items.forEach(item => {
 					resultItems.push({
 						id: parseInt(item.itemId),
 						annotation: item.annotation
 					})
 				})
 			})
-		});
+		})
 		return resultItems
 	}
 
@@ -93,15 +104,19 @@ function TrainingPage() {
 		window.localStorage.setItem('trainingPageId', pageContent.pageId)
 	}
 
+	const handleSourceBtnClicked = e => {
+		setMode(MODE.VIEW)
+	}
+
 	const handleDelete = async e => {
-		const response = await (await fetch(`${API_URL}/training/${pageId}`, {
-			method: 'DELETE',
-			credentials: 'include',
-			headers: { 'Content-Type': 'application/json' }
-		})).json()
-		alert("Training page deleted. Redirecting to wiki page")
-
-
+		alert('Training page deleted. Redirecting to wiki page')
+		const response = await (
+			await fetch(`${API_URL}/training/${pageId}`, {
+				method: 'DELETE',
+				credentials: 'include',
+				headers: { 'Content-Type': 'application/json' }
+			})
+		).json()
 	}
 
 	useEffect(() => {
@@ -129,13 +144,20 @@ function TrainingPage() {
 					<PageTitle>{pageContent.pageTitle}</PageTitle>
 					{role === ROLE.ADMIN && (
 						<>
-							<NewBtnLink
+							<SourceBtn
+								to={SOURCE_PAGE_PATH}
+								className="btn btn-primary"
+								onClick={handleSourceBtnClicked}
+							>
+								Source
+							</SourceBtn>
+							<EditBtn
 								to={SOURCE_PAGE_PATH}
 								className="btn btn-primary"
 								onClick={handleEditBtnClicked}
 							>
 								Edit
-							</NewBtnLink>
+							</EditBtn>
 							<DeleteBtn
 								to={SOURCE_PAGE_PATH}
 								className="btn btn-danger"
