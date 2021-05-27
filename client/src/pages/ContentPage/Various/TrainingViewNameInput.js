@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "./TrainingViewNameInput.css";
 import {useSelector} from "react-redux";
-import {getTrainingPageItems} from "../../../redux/selectors";
+import {getTrainingPageInfo, getTrainingPageItems} from "../../../redux/selectors";
 import styled from "@emotion/styled/macro";
 import {API_URL} from "../../../utilities/constants";
 import {useParams, useHistory} from "react-router-dom";
@@ -13,17 +13,17 @@ const ErrorContainer = styled.div`
 `;
 
 function TrainingViewNameInput() {
-  const [inputValue, setInputValue] = useState("");
+  const storePageInfo = useSelector(getTrainingPageInfo);
+  const [pageTitle, setPageTitle] = useState(storePageInfo.title);
   const [error, setError] = useState("");
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState(storePageInfo.description);
   const trainingPageItems = useSelector(getTrainingPageItems);
   const {pageId, category} = useParams();
   const history = useHistory();
-
   const handleFormSubmit = async e => {
     setError("");
     e.preventDefault();
-    if (!inputValue) {
+    if (!pageTitle) {
       setError("Please enter a training path name");
       return;
     }
@@ -33,7 +33,7 @@ function TrainingViewNameInput() {
     }
 
     const reqBody = {
-      name: inputValue,
+      name: pageTitle,
       itemList: trainingPageItems,
       sourcePageId: pageId,
       category: category,
@@ -55,15 +55,13 @@ function TrainingViewNameInput() {
       ).json();
       const newUrl = `/training/${response.id}`;
       history.push(newUrl);
-      console.log(newUrl);
-      console.log(history);
     } catch (err) {
       console.log(err);
       throw err;
     }
 
     setDescription("");
-    setInputValue("");
+    setPageTitle("");
     alert("Done saving training page");
   };
 
@@ -72,10 +70,10 @@ function TrainingViewNameInput() {
       <form onSubmit={handleFormSubmit}>
         <input
           type="text"
-          placeholder="Training page name"
-          value={inputValue}
+          placeholder="Training page title"
+          value={pageTitle}
           onChange={e => {
-            setInputValue(e.target.value);
+            setPageTitle(e.target.value);
             setError("");
           }}
         />

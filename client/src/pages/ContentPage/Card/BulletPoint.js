@@ -10,14 +10,15 @@ import {addTrainingItem, removeTrainingItem} from "../../../redux/actions";
 
 // Represents a single bullet point inside a card
 function BulletPoint(props) {
-  const [openAnnotation, setOpenAnnotation] = useState(false);
-  const [annotationSaved, setAnnotationSaved] = useState(false);
   const dispatch = useDispatch();
-
-  const storeItem = useSelector(state => state.trainingPage.find(item => item.id === props.id));
+  const storeItem = useSelector(state => state.trainingPageItems.find(item => item.id === props.id));
   const storeAnnotationInput = storeItem ? storeItem.annotation : "";
   const [annotationInput, setAnnotationInput] = useState(storeAnnotationInput);
   const [selected, setSelected] = useState(!!storeItem);
+  const [openAnnotation, setOpenAnnotation] = useState(!!annotationInput);
+  const [annotationSaved, setAnnotationSaved] = useState(!!annotationInput);
+
+
   const handleSelect = () => {
     // if currently selected, then de-select it
     if (selected) {
