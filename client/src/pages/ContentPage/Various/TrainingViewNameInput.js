@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import {getTrainingPageItems} from "../../../redux/selectors";
 import styled from "@emotion/styled/macro";
 import {API_URL} from "../../../utilities/constants";
-import {useParams} from "react-router-dom";
+import {useParams, useHistory} from "react-router-dom";
 
 const ErrorContainer = styled.div`
 	margin-top: 0.3rem;
@@ -18,6 +18,7 @@ function TrainingViewNameInput() {
   const [description, setDescription] = useState("");
   const trainingPageItems = useSelector(getTrainingPageItems);
   const {pageId, category} = useParams();
+  const history = useHistory();
 
   const handleFormSubmit = async e => {
     setError("");
@@ -41,21 +42,26 @@ function TrainingViewNameInput() {
 
     console.log("reqbody before posting: ", reqBody);
 
-    let insertId;
     try {
-      insertId = await (await fetch(`${API_URL}/training`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(reqBody)
-      })).json();
+      const response = await (
+        await fetch(`${API_URL}/training`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(reqBody)
+        })
+      ).json();
+      const newUrl = `/training/${response.id}`;
+      history.push(newUrl);
+      console.log(newUrl);
+      console.log(history);
     } catch (err) {
       console.log(err);
       throw err;
     }
-    console.log(insertId);
+
     setDescription("");
     setInputValue("");
     alert("Done saving training page");

@@ -69,13 +69,13 @@ function TrainingPage() {
 	}
 
 	const handleDelete = async e => {
-		const response = await fetch(`${API_URL}/training/${pageId}`, {
+		const response = await (await fetch(`${API_URL}/training/${pageId}`, {
 			method: 'DELETE',
 			credentials: 'include',
 			headers: { 'Content-Type': 'application/json' }
-		}).json()
-		alert(response.status)
-		console.log(response)
+		})).json()
+		alert("Training page deleted. Redirecting to wiki page")
+
 
 	}
 
