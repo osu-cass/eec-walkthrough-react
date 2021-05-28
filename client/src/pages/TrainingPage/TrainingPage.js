@@ -149,7 +149,7 @@ function TrainingPage() {
 								className="btn btn-primary"
 								onClick={handleSourceBtnClicked}
 							>
-								Source
+								Original Page
 							</SourceBtn>
 							<EditBtn
 								to={SOURCE_PAGE_PATH}
