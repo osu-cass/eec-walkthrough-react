@@ -5,7 +5,7 @@
 	"private": true,
 	"dependencies": {
 		"@emotion/react": "^11.1.5",
-		"@emotion/styled/macro": "^11.3.0",
+		"@emotion/styled": "^11.3.0",
 		"@testing-library/jest-dom": "^4.2.4",
 		"@testing-library/react": "^9.4.0",
 		"@testing-library/user-event": "^7.2.1",
