@@ -1,141 +1,212 @@
+.training-select-icon {
+	margin-right: 0.7rem;
+	cursor: pointer;
+	font-size: 1.1rem;
+	position: relative;
+	top: -5px;
+}
+
+.comment-icon {
+	cursor: pointer;
+	font-size: 1.1rem;
+	position: relative;
+	top: -3px;
+}
+
+.annotation-container {
+	margin-left: 2rem;
+	margin-bottom: 1rem;
+	font-size: 13px;
+	display: flex;
+}
+
+.annotation-container input {
+	border-radius: 4px;
+	border: 1px solid #555;
+	padding: 3px 6px;
+	width: 500px;
+	outline: none;
+	flex-grow: 1;
+}
+
+.annotation-container button {
+	border: none;
+	border-radius: 6px;
+	margin-left: 8px;
+	padding: 0.3rem 1.5rem;
+	outline: none;
+}
+
+.input-disabled {
+	background: #ddd;
+}
+
+.annotation-container button:hover {
+	filter: brightness(120%);
+}
+
+.btn-accept {
+	background-color: #239023;
+	color: white;
+}
+
+.btn-cancel {
+	background-color: #ff4d4d;
+	color: white;
+}
+
+.btn-disabled {
+	opacity: 60%;
+	pointer-events: none !important;
+}
+
+.grayed-out {
+	opacity: 50%;
+}
+
 .last-accessed-link {
-  color: #239023 !important;
+	color: #239023 !important;
 }
 
 .last-accessed-link-bad {
-  color: #E81224 !important;
+	color: #e81224 !important;
 }
 
-.osu-link, .osu-link:visited {
-  color: #ff9100 !important;
+.osu-link,
+.osu-link:visited {
+	color: #ff9100 !important;
 }
 
-.osu-link:hover, .osu-link:active {
-  color: #b36600 !important;
+.osu-link:hover,
+.osu-link:active {
+	color: #b36600 !important;
 }
 
-.icon-td, .content-td {
-  vertical-align: middle !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+.icon-td,
+.content-td {
+	vertical-align: middle !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
 }
 
 .opportunity-desc-block {
-  margin-left: 0.30em;
+	margin-left: 0.3em;
 }
 
 .icon-item {
-  margin-top: 0.1em !important;
+	margin-top: 0.1em !important;
 }
 
 .icon-item-text.check-square-icon {
-  font-weight: bold;
-  font-size: large;
+	font-weight: bold;
+	font-size: large;
 }
 
 .icon-item.check-square-icon {
-  margin-top: 0.3em !important;
+	margin-top: 0.3em !important;
 }
 
 .icon-item.fa-circle {
-  font-size: .7em !important;
-  margin-left: 0.3em !important;
-  padding-right: 0.4em !important;
-  margin-right: 1em !important;
-  margin-top: 0.5em !important;
+	font-size: 0.7em !important;
+	margin-left: 0.3em !important;
+	padding-right: 0.4em !important;
+	margin-right: 1em !important;
+	margin-top: 0.5em !important;
 }
 
 .inline-circle-icon {
-  margin-top: 0.25em !important;
-  margin-left: 0 !important;
-  padding-left: 0 !important;
-  margin-right: -0.2em !important;
-  padding-right: 0 !important;
+	margin-top: 0.25em !important;
+	margin-left: 0 !important;
+	padding-left: 0 !important;
+	margin-right: -0.2em !important;
+	padding-right: 0 !important;
 }
 
 .indent-level-1 {
-  margin-left: 1.5em !important;
+	margin-left: 1.5em !important;
 }
 
 .indent-level-2 {
-  margin-left: 3em !important;
+	margin-left: 3em !important;
 }
 
 .indent-level-3 {
-  margin-left: 4.5em !important;
+	margin-left: 4.5em !important;
 }
 
 .indent-level-4 {
-  margin-left: 6em !important;
+	margin-left: 6em !important;
 }
 
 .indent-level-text-1 {
-  margin-left: 1.8em !important;
+	margin-left: 1.8em !important;
 }
 
 .indent-level-text-2 {
-  margin-left: 3.3em !important;
+	margin-left: 3.3em !important;
 }
 
 .indent-level-text-3 {
-  margin-left: 4.8em !important;
+	margin-left: 4.8em !important;
 }
 
 .indent-level-text-4 {
-  margin-left: 6.3em !important;
+	margin-left: 6.3em !important;
 }
 
 .indent-level-1.icon-item.fa-circle {
-  margin-left: 3.7em;
+	margin-left: 3.7em;
 }
 
 .indent-level-2.icon-item.fa-circle {
-  margin-left: 6.8em;
+	margin-left: 6.8em;
 }
 
 .indent-level-3.icon-item.fa-circle {
-  margin-left: 9.8em;
+	margin-left: 9.8em;
 }
 
 .indent-level-4.icon-item.fa-circle {
-  margin-left: 12.7em;
+	margin-left: 12.7em;
 }
 
 .internal-item {
-  background-image:
-  repeating-linear-gradient(
-    90deg,
-    #f7f7f7,
-    #f7f7f7 4%,
-    #ebebeb 4%,
-    #ebebeb 8%
-  );
+	background-image: repeating-linear-gradient(
+		90deg,
+		#f7f7f7,
+		#f7f7f7 4%,
+		#ebebeb 4%,
+		#ebebeb 8%
+	);
 }
 
 .card-body-review .internal-item {
-  background-image:
-  repeating-linear-gradient(0deg, transparent, rgba(239, 234, 206, 0.5) 0),
-  repeating-linear-gradient(
-    90deg,
-    #f7f7f7,
-    #f7f7f7 4%,
-    #ebebeb 4%,
-    #ebebeb 8%
-  );
+	background-image: repeating-linear-gradient(
+			0deg,
+			transparent,
+			rgba(239, 234, 206, 0.5) 0
+		),
+		repeating-linear-gradient(
+			90deg,
+			#f7f7f7,
+			#f7f7f7 4%,
+			#ebebeb 4%,
+			#ebebeb 8%
+		);
 }
 
 .inline-block-icon {
-  display: inline-block !important;
+	display: inline-block !important;
 }
 
 .inline-graphic {
-  display: inline-block !important;
+	display: inline-block !important;
 }
 
 .inline-link {
-  display: inline-block !important;
+	display: inline-block !important;
 }
 
 .text-no-overflow {
-  overflow-wrap: anywhere !important;
+	overflow-wrap: anywhere !important;
 }

@@ -12,10 +12,12 @@ import AddSource from "./AddSource";
 import QuickLinks from "../Various/QuickLinks";
 import Sanitized from "../../../components/General/Sanitized";
 import "./PageDescription.css";
+import {MODE} from "../../../utilities/constants";
+import TrainingViewNameInput from "../Various/TrainingViewNameInput";
+import LoadTrainingPages from "./LoadTrainingPages";
 
 // Header and card that describes the page
 function PageDescription(props) {
-
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -40,7 +42,10 @@ function PageDescription(props) {
   // determines if the current object is only internal viewable
   function isInternal() {
     if (props.mode === 1) {
-      if ((props.page.tempPageId && props.page.tempInternal) || (!props.page.tempPageId && props.page.internal)) {
+      if (
+        (props.page.tempPageId && props.page.tempInternal) ||
+				(!props.page.tempPageId && props.page.internal)
+      ) {
         return 1;
       }
     } else {
@@ -53,16 +58,21 @@ function PageDescription(props) {
 
   return (
     <div>
-      <div className={`d-flex header-bar justify-content-between
-        ${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? "page-approved" : "page-review"}
-        ${isInternal() ? "page-internal" : ""} my-3 p-3 text-dark-50 rounded shadow-sm border`}
-      style={{top: "1em", zIndex: "998"}}
+      <div
+        className={`d-flex header-bar justify-content-between
+        ${
+    props.page.approved && (!props.page.tempPageId || props.mode !== 1)
+      ? "page-approved"
+      : "page-review"
+    }
+        ${
+    isInternal() ? "page-internal" : ""
+    } my-3 p-3 text-dark-50 rounded shadow-sm border`}
+        style={{top: "1em", zIndex: "998"}}
       >
         <div className="row w-100 ml-0">
           <div className="col align-self-center pl-0">
-            <h4 className="flex-grow-1 font-weight-bold my-0 mx-0">
-              {name}
-            </h4>
+            <h4 className="flex-grow-1 font-weight-bold my-0 mx-0">{name}</h4>
           </div>
 
           <div className="col pr-0">
@@ -97,13 +107,17 @@ function PageDescription(props) {
                 page={props.page}
                 role={props.role}
                 mode={props.mode}
-                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                handleUpdate={(object, type, action) =>
+                  props.handleUpdate(object, type, action)
+                }
                 handlePageEdit={props.handlePageEdit}
               />
               <ReviewPage
                 page={props.page}
                 mode={props.mode}
-                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                handleUpdate={(object, type, action) =>
+                  props.handleUpdate(object, type, action)
+                }
                 handlePageEdit={props.handlePageEdit}
               />
               <AddSource
@@ -117,71 +131,83 @@ function PageDescription(props) {
                 onPageMode={e => props.onPageMode(e)}
                 moved={props.moved}
               />
+              <LoadTrainingPages role={props.role} mode={props.mode} />
+
             </div>
           </div>
         </div>
       </div>
 
-      <div className={`${props.page.approved && (!props.page.tempPageId || props.mode !== 1) ? "page-approved" : "page-review"}
+      {props.mode === MODE.CREATE_TRAINING ? (
+        <TrainingViewNameInput />
+      ) : (
+        <div
+          className={`${
+            props.page.approved && (!props.page.tempPageId || props.mode !== 1)
+              ? "page-approved"
+              : "page-review"
+          }
         ${isInternal() ? "page-internal" : ""} my-3 p-3 card rounded shadow-sm`}
-      >
-        <div className="page-desc">
-          <div className="row">
-            <div className="col-8">
-              <h5 className="font-weight-bold">{title}</h5>
-              <p className="allow-newlines">
-                <Sanitized html={description} />
-              </p>
-              <QuickLinks
-                headers={props.headers}
-                quiz={props.quiz}
-                references={props.references}
-                mode={props.mode}
-                publishedMode={props.publishedMode}
-                publicMode={props.publicMode}
-              />
-            </div>
-            <div className="col-4 text-center">
-              <Image url={imageUrl}
-                title={name}
-                thumbnail={false}
-                header={true}
-              />
+        >
+          <div className="page-desc">
+            <div className="row">
+              <div className="col-8">
+                <h5 className="font-weight-bold">{title}</h5>
+                <p className="allow-newlines">
+                  <Sanitized html={description} />
+                </p>
+                <QuickLinks
+                  headers={props.headers}
+                  quiz={props.quiz}
+                  references={props.references}
+                  mode={props.mode}
+                  publishedMode={props.publishedMode}
+                  publicMode={props.publicMode}
+                />
+              </div>
+              <div className="col-4 text-center">
+                <Image
+                  url={imageUrl}
+                  title={name}
+                  thumbnail={false}
+                  header={true}
+                />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="page-desc-s">
-          <div className="row mb-3">
-            <div className="mx-auto">
-              <Image url={imageUrl}
-                title={name}
-                thumbnail={false}
-                header={true}
-              />
+          <div className="page-desc-s">
+            <div className="row mb-3">
+              <div className="mx-auto">
+                <Image
+                  url={imageUrl}
+                  title={name}
+                  thumbnail={false}
+                  header={true}
+                />
+              </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <h5 className="font-weight-bold">{title}</h5>
-              <p className="allow-newlines">
-                <Sanitized html={description} />
-              </p>
+            <div className="row">
+              <div className="col">
+                <h5 className="font-weight-bold">{title}</h5>
+                <p className="allow-newlines">
+                  <Sanitized html={description} />
+                </p>
+              </div>
             </div>
+            <QuickLinks
+              headers={props.headers}
+              quiz={props.quiz}
+              references={props.references}
+              mode={props.mode}
+              publishedMode={props.publishedMode}
+              publicMode={props.publicMode}
+            />
           </div>
-          <QuickLinks
-            headers={props.headers}
-            quiz={props.quiz}
-            references={props.references}
-            mode={props.mode}
-            publishedMode={props.publishedMode}
-            publicMode={props.publicMode}
-          />
         </div>
-      </div>
+      )}
     </div>
   );
-
 }
 export default PageDescription;
 
