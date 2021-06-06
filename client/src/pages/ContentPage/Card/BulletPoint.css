@@ -56,12 +56,12 @@
 }
 
 .btn-disabled {
-	opacity: 60%;
+	opacity: 0.6;
 	pointer-events: none !important;
 }
 
 .grayed-out {
-	opacity: 50%;
+	opacity: 0.5;
 }
 
 .last-accessed-link {
