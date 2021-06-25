@@ -42,7 +42,7 @@ function Item(props) {
 export default Item;
 
 Item.propTypes = {
-  indentation: PropTypes.string,
+  indentation: PropTypes.number,
   iconGroupIndex: PropTypes.number,
   iconTypeName: PropTypes.string,
   internal: PropTypes.number,

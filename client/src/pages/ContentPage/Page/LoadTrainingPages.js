@@ -3,6 +3,7 @@ import styled from "@emotion/styled/macro";
 import {API_URL, MODE} from "../../../utilities/constants";
 import {useParams, Link} from "react-router-dom";
 import PropTypes from "prop-types";
+import {checkIfUserIsExternal} from "../../TrainingPage/TrainingPage";
 
 const Container = styled.div``;
 
@@ -16,7 +17,6 @@ const ItemLink = styled(Link)``;
 function LoadTrainingPages({role, mode}) {
   const [trainingPages, setTrainingPages] = useState([]);
   const {pageId} = useParams();
-
   const getTrainingPages = async () => {
     let result;
     try {
@@ -35,7 +35,7 @@ function LoadTrainingPages({role, mode}) {
   if (trainingPages.length === 0) {
     return (
       <>
-			  {mode === MODE.VIEW && (
+        {mode === MODE.VIEW && (
           <Container className="dropdown">
             <Button
               className="btn btn-secondary dropdown-toggle"
@@ -45,10 +45,14 @@ function LoadTrainingPages({role, mode}) {
               aria-haspopup="true"
               aria-expanded="false"
             >
-						Training Paths
+							Training Paths
             </Button>
-            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{paddingLeft: "0.5rem"}}>
-            No training paths
+            <div
+              className="dropdown-menu"
+              aria-labelledby="dropdownMenuButton"
+              style={{paddingLeft: "0.5rem"}}
+            >
+							No training paths
             </div>
           </Container>
         )}
@@ -67,20 +71,26 @@ function LoadTrainingPages({role, mode}) {
               aria-haspopup="true"
               aria-expanded="false"
             >
-						Training Paths
+							Training Paths
             </Button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              {trainingPages.map(item => (
-                <ItemLink
-                  key={item.id}
-                  className="dropdown-item"
-                  to={`/training/${item.id}`}
-                >
-                  {item.name}
-                </ItemLink>
-              ))}
+              {console.log(trainingPages)}
+              {trainingPages.map(item => {
+                if (
+                  item.viewers === "internal" && checkIfUserIsExternal(role)
+                ) {
+                  return null;
+                } else {
+                  return <ItemLink
+                    key={item.id}
+                    className="dropdown-item"
+                    to={`/training/${item.id}`}
+                  >
+                    {item.name}
+                  </ItemLink>;
+                }
+              })}
             </div>
-
           </Container>
         )}
       </>

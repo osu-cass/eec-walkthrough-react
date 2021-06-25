@@ -16,11 +16,13 @@ app.post("/", async (req, res) => {
   const description = req.body.description;
   const sourcePageId = req.body.sourcePageId;
   const category = req.body.category;
+  const viewers = req.body.viewers;
   // validate ids and name
   const response = await createTrainingPage(
     itemList,
     name,
     description,
+    viewers,
     sourcePageId,
     category
   );
