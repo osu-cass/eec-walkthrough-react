@@ -32,10 +32,9 @@ function LoadTrainingPages({role, mode}) {
   useEffect(() => {
     getTrainingPages();
   }, []);
-
-  return (
-    <>
-      {mode === MODE.VIEW && (
+  if (trainingPages.length === 0) {
+    return (
+      <>
         <Container className="dropdown">
           <Button
             className="btn btn-secondary dropdown-toggle"
@@ -47,21 +46,43 @@ function LoadTrainingPages({role, mode}) {
           >
 						Training Paths
           </Button>
-          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            {trainingPages.map(item => (
-              <ItemLink
-                key={item.id}
-                className="dropdown-item"
-                to={`/training/${item.id}`}
-              >
-                {item.name}
-              </ItemLink>
-            ))}
+          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{paddingLeft: "0.5rem"}}>
+            No training paths
           </div>
         </Container>
-      )}
-    </>
-  );
+      </>);
+  } else {
+    return (
+      <>
+        {mode === MODE.VIEW && (
+          <Container className="dropdown">
+            <Button
+              className="btn btn-secondary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+						Training Paths
+            </Button>
+            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              {trainingPages.map(item => (
+                <ItemLink
+                  key={item.id}
+                  className="dropdown-item"
+                  to={`/training/${item.id}`}
+                >
+                  {item.name}
+                </ItemLink>
+              ))}
+            </div>
+
+          </Container>
+        )}
+      </>
+    );
+  }
 }
 
 export default LoadTrainingPages;
