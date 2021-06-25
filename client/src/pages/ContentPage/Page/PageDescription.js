@@ -125,14 +125,13 @@ function PageDescription(props) {
                 role={props.role}
                 mode={props.mode}
               />
+              <LoadTrainingPages role={props.role} mode={props.mode} />
               <ChangeMode
                 role={props.role}
                 mode={props.mode}
                 onPageMode={e => props.onPageMode(e)}
                 moved={props.moved}
               />
-              <LoadTrainingPages role={props.role} mode={props.mode} />
-
             </div>
           </div>
         </div>
