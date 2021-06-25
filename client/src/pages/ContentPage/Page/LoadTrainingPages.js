@@ -28,7 +28,7 @@ function LoadTrainingPages({role, mode}) {
       console.error(err);
     }
   };
-
+  let trainingPathCount = 0;
   useEffect(() => {
     getTrainingPages();
   }, []);
@@ -74,13 +74,13 @@ function LoadTrainingPages({role, mode}) {
 							Training Paths
             </Button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              {console.log(trainingPages)}
               {trainingPages.map(item => {
                 if (
                   item.viewers === "internal" && checkIfUserIsExternal(role)
                 ) {
                   return null;
                 } else {
+                  trainingPathCount++;
                   return <ItemLink
                     key={item.id}
                     className="dropdown-item"
@@ -90,6 +90,7 @@ function LoadTrainingPages({role, mode}) {
                   </ItemLink>;
                 }
               })}
+              {trainingPathCount === 0 && <div style={{paddingLeft: "0.5rem"}}>No training paths </div>}
             </div>
           </Container>
         )}
