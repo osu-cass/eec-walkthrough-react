@@ -45,7 +45,7 @@ function TrainingViewNameInput() {
 
     const reqBody = {
       name: pageTitle,
-      viewersRole: viewersInput,
+      viewers: viewersInput,
       itemList: trainingPageItems,
       sourcePageId: pageId,
       category: category,
@@ -107,7 +107,7 @@ function TrainingViewNameInput() {
             }}
           >
             <option value="everyone">Everyone</option>
-            <option value="internal-users">Internal Users</option>
+            <option value="internal">Internal Users</option>
           </DropdownSelect>
         </div>
         <button type="submit" className="btn btn-primary btn-save">

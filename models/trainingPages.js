@@ -1,8 +1,8 @@
 const {pool} = require("../services/database/mysqlPool");
 
-async function createTrainingPage(itemList, name, description, sourcePageId, category) {
+async function createTrainingPage(itemList, name, description, viewers, sourcePageId, category) {
   // insert name to TrainingPages table in database
-  const insertPageQuery = `INSERT INTO TrainingPages (name, description, category, sourcePageId) VALUES (?, ?, ?, ?)`;
+  const insertPageQuery = `INSERT INTO TrainingPages (name, description, viewers, category, sourcePageId) VALUES (?, ?, ?, ?, ?)`;
   const insertPageItemsQuery = `INSERT INTO TrainingPageItems (trainingPageId, itemId, annotation) VALUES (?, ?, ?)`;
   const removePageQuery = `DELETE from TrainingPages WHERE name=?`;
   const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1);
@@ -12,7 +12,7 @@ async function createTrainingPage(itemList, name, description, sourcePageId, cat
     // remove existing entries from both tables before insert
     await pool.query(removePageQuery, [name]);
 
-    insertResult = await pool.query(insertPageQuery, [name, description, capitalizedCategory, sourcePageId]);
+    insertResult = await pool.query(insertPageQuery, [name, description, viewers, capitalizedCategory, sourcePageId]);
     const pageId = insertResult[0].insertId;
 
     // traverse the itemList and build the query array
@@ -55,6 +55,7 @@ async function getTrainingPage(pageId) {
     result.sourcePageId = pageInfo.sourcePageId;
     result.description = pageInfo.description;
     result.category = pageInfo.category.toLowerCase();
+    result.viewers = pageInfo.viewers;
 
     const [itemList] = await pool.query(getItemList, [pageId]);
     result.sections = [];
@@ -126,7 +127,7 @@ async function getTrainingPage(pageId) {
 module.exports.getTrainingPage = getTrainingPage;
 
 module.exports.getTrainingPagesFromSourcePage = async function (sourcePageId) {
-  const query = `SELECT id, name, description FROM TrainingPages WHERE sourcePageId = ?`;
+  const query = `SELECT id, name, description, viewers FROM TrainingPages WHERE sourcePageId = ?`;
   const [results] = await pool.query(query, [sourcePageId]);
   return results;
 };

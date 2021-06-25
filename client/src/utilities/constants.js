@@ -13,6 +13,7 @@ if (process.env.NODE_ENV === "development") {
 // generic constants
 module.exports = Object.freeze({
   ROLE: {
+    GUEST: 0,
     EXTERNAL_USER: 1,
     INTERNAL_USER: 2,
     EXTERNAL_EDITOR: 3,
