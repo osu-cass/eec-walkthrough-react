@@ -35,22 +35,25 @@ function LoadTrainingPages({role, mode}) {
   if (trainingPages.length === 0) {
     return (
       <>
-        <Container className="dropdown">
-          <Button
-            className="btn btn-secondary dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
+			  {mode === MODE.VIEW && (
+          <Container className="dropdown">
+            <Button
+              className="btn btn-secondary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
 						Training Paths
-          </Button>
-          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{paddingLeft: "0.5rem"}}>
+            </Button>
+            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{paddingLeft: "0.5rem"}}>
             No training paths
-          </div>
-        </Container>
-      </>);
+            </div>
+          </Container>
+        )}
+      </>
+    );
   } else {
     return (
       <>
