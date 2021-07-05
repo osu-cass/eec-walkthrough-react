@@ -19,7 +19,7 @@ const trainingPageItemReducer = (state = [], action) => {
       return action.payload.items;
 
     case RESET_TRAINING_PAGE:
-      sreturn [];
+      return [];
 
     default:
       return state;
