@@ -18,7 +18,6 @@ function BulletPoint(props) {
   const [openAnnotation, setOpenAnnotation] = useState(!!annotationInput);
   const [annotationSaved, setAnnotationSaved] = useState(!!annotationInput);
 
-
   const handleSelect = () => {
     // if currently selected, then de-select it
     if (selected) {

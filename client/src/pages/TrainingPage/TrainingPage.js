@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container'
 import { getProfile } from '../../utilities/cookieAuth'
 import { setMode } from '../../utilities/pageMode'
 import { useDispatch } from 'react-redux'
-import { populateTrainingPage } from '../../redux/actions'
+import { populateTrainingPage, resetTrainingPage } from '../../redux/actions'
 
 const PageHeaderContainer = styled.div`
 	display: flex;
@@ -104,6 +104,8 @@ function TrainingPage() {
 	}
 
 	const handleSourceBtnClicked = e => {
+		dispatch(resetTrainingPage());
+
 		setMode(MODE.VIEW)
 	}
 
