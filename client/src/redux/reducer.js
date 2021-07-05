@@ -1,6 +1,6 @@
 
 import {combineReducers} from "redux";
-import {ADD_TRAINING_ITEM, POPULATE_TRAINING_PAGE, REMOVE_TRAINING_ITEM} from "./actions";
+import {ADD_TRAINING_ITEM, POPULATE_TRAINING_PAGE, REMOVE_TRAINING_ITEM, RESET_TRAINING_PAGE} from "./actions";
 
 // payload is {id}
 const trainingPageItemReducer = (state = [], action) => {
@@ -18,6 +18,9 @@ const trainingPageItemReducer = (state = [], action) => {
     case POPULATE_TRAINING_PAGE:
       return action.payload.items;
 
+    case RESET_TRAINING_PAGE:
+      sreturn [];
+
     default:
       return state;
   }
@@ -27,6 +30,9 @@ const trainingPageInfoReducer = (state = {title: "", description: ""}, action) =
   switch (action.type) {
     case POPULATE_TRAINING_PAGE:
       return action.payload.info;
+
+    case RESET_TRAINING_PAGE:
+      return [];
 
     default:
       return state;
