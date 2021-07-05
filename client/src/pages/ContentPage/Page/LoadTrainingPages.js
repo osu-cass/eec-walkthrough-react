@@ -5,10 +5,12 @@ import {useParams, Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import {checkIfUserIsExternal} from "../../TrainingPage/TrainingPage";
 
-const Container = styled.div``;
+const Container = styled.div`
+`;
 
 const Button = styled.button`
 	height: 100%;
+
 `;
 
 const ItemLink = styled(Link)``;
@@ -38,7 +40,7 @@ function LoadTrainingPages({role, mode}) {
         {mode === MODE.VIEW && (
           <Container className="dropdown">
             <Button
-              className="btn btn-secondary dropdown-toggle"
+              className="btn btn-success dropdown-toggle"
               type="button"
               id="dropdownMenuButton"
               data-toggle="dropdown"
@@ -64,7 +66,7 @@ function LoadTrainingPages({role, mode}) {
         {mode === MODE.VIEW && (
           <Container className="dropdown">
             <Button
-              className="btn btn-secondary dropdown-toggle"
+              className="btn btn-success dropdown-toggle"
               type="button"
               id="dropdownMenuButton"
               data-toggle="dropdown"
