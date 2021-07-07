@@ -471,6 +471,7 @@ function ManageContributors() {
                 <div className="my-2">
                   <EditPrevCuration
                     userId={contributor.userId}
+                    curators={curators}
                   />
                 </div>
 

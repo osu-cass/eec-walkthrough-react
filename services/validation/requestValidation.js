@@ -554,8 +554,8 @@ exports.putCuratorVal = putCuratorVal;
 // validation checks for put previous page curator
 const putPrevCuratorVal = Object.freeze({
   validation: [
-    check("pageIds").isArray({min: 1}),
-    check("pageNames").isArray({min: 1}),
+    check("pageIds").isArray({min: 0}),
+    check("pageNames").isArray({min: 0}),
     check("userId").isInt({min: 1, max: 4294967295})
   ]
 });
