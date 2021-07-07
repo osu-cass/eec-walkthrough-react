@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import PropTypes from "prop-types";
 import {API_URL} from "../../utilities/constants";
 import {Modal, Button} from "react-bootstrap";
 import "./EditPrevCuration.css";
 
-function Curator(props) {
+function EditPrevCuration(props) {
 
   const [show, setShow] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -91,6 +91,47 @@ function Curator(props) {
     updatePage();
   }
 
+  function filterCheckbox(page) {
+    const curators = props.curators;
+    let check;
+
+    for (let i = 0; i < curators.length; i++) {
+      check = false;
+      if (props.userId === curators[i].userId) {
+        if (curators[i].curatorPageId === page.pageId) {
+          if (!curators[i].active) {
+            check = true;
+            break;
+          }
+        }
+      }
+    }
+
+    if (check) {
+      return (
+        <Fragment key={page.pageId}>
+          <div className="form-check">
+            <input className="form-check-input" type="checkbox" id={`inlineCheckbox${page.pageId}`} value={page.pageId} defaultChecked />
+            <label className="form-check-label" htmlFor={`inlineCheckbox${page.pageId}`}>
+              {page.name}
+            </label>
+          </div>
+        </Fragment>
+      );
+    } else {
+      return (
+        <Fragment key={page.pageId}>
+          <div className="form-check">
+            <input className="form-check-input" type="checkbox" id={`inlineCheckbox${page.pageId}`} value={page.pageId} />
+            <label className="form-check-label" htmlFor={`inlineCheckbox${page.pageId}`}>
+              {page.name}
+            </label>
+          </div>
+        </Fragment>
+      );
+    }
+  }
+
   return (
     <div className="mx-auto">
       <div className="mb-3">
@@ -114,12 +155,7 @@ function Curator(props) {
             <span className="font-weight-bold mb-2">Contributor Name</span>
             {categories.map((category) =>
               category.pages.map((page) =>
-                <div className="form-check" key={page.pageId}>
-                  <input className="form-check-input" type="checkbox" id={`inlineCheckbox${page.pageId}`} value={page.pageId} />
-                  <label className="form-check-label" htmlFor={`inlineCheckbox${page.pageId}`}>
-                    {page.name}
-                  </label>
-                </div>
+                filterCheckbox(page)
               )
             )}
           </Modal.Body>
@@ -133,8 +169,9 @@ function Curator(props) {
     </div>
   );
 }
-export default Curator;
+export default EditPrevCuration;
 
-Curator.propTypes = {
-  userId: PropTypes.number
+EditPrevCuration.propTypes = {
+  userId: PropTypes.number,
+  curators: PropTypes.array
 };
