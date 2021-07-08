@@ -26,7 +26,7 @@ function Card({ title, items, role }) {
 			<Body>
 				<ListContainer>
 					{items.map(item => (
-						<li key={item.id}>
+						<li key={item.itemId}>
 							<Item
 								annotation={item.annotation}
 								contentLabel={item.contentLabel}
@@ -38,7 +38,7 @@ function Card({ title, items, role }) {
 								iconColor={item.iconColor}
 								iconType={item.iconType}
 								iconGroupIndex={item.iconGroupIndex}
-								id={item.id}
+								id={item.itemId}
 								indentation={item.indentation}
 								inline={item.inline}
 								orderIndex={item.orderIndex}
