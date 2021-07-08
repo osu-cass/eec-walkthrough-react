@@ -1,7 +1,10 @@
 import React, {useState} from "react";
 import "./TrainingViewNameInput.css";
 import {useSelector} from "react-redux";
-import {getTrainingPageInfo, getTrainingPageItems} from "../../../redux/selectors";
+import {
+  getTrainingPageInfo,
+  getTrainingPageItems
+} from "../../../redux/selectors";
 import styled from "@emotion/styled/macro";
 import {API_URL} from "../../../utilities/constants";
 import {useParams, useHistory} from "react-router-dom";
@@ -12,15 +15,23 @@ const ErrorContainer = styled.div`
 	font-size: 0.9rem;
 `;
 
+const DropdownSelect = styled.select`
+	padding: 0.4rem;
+	display: block;
+	margin-bottom: 0.5rem;
+`;
+
 function TrainingViewNameInput() {
   const storePageInfo = useSelector(getTrainingPageInfo);
   const [pageTitle, setPageTitle] = useState(storePageInfo.title);
+  const [viewersInput, setViewersInput] = useState("everyone");
   const [error, setError] = useState("");
   const [description, setDescription] = useState(storePageInfo.description);
   const trainingPageItems = useSelector(getTrainingPageItems);
   const {pageId, category} = useParams();
   const history = useHistory();
   const handleFormSubmit = async e => {
+    alert("Done saving training page");
     setError("");
     e.preventDefault();
     if (!pageTitle) {
@@ -34,6 +45,7 @@ function TrainingViewNameInput() {
 
     const reqBody = {
       name: pageTitle,
+      viewers: viewersInput,
       itemList: trainingPageItems,
       sourcePageId: pageId,
       category: category,
@@ -62,7 +74,6 @@ function TrainingViewNameInput() {
 
     setDescription("");
     setPageTitle("");
-    alert("Done saving training page");
   };
 
   return (
@@ -85,7 +96,20 @@ function TrainingViewNameInput() {
             setError("");
           }}
         />
-
+        <div>
+          <label htmlFor="viewers">Select who can see this path</label>
+          <DropdownSelect
+            value={viewersInput}
+            name="viewers"
+            id="viewers-dropdown"
+            onChange={e => {
+              setViewersInput(e.target.value);
+            }}
+          >
+            <option value="everyone">Everyone</option>
+            <option value="internal">Internal Users</option>
+          </DropdownSelect>
+        </div>
         <button type="submit" className="btn btn-primary btn-save">
 					Save
         </button>

@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/Container'
 import { getProfile } from '../../utilities/cookieAuth'
 import { setMode } from '../../utilities/pageMode'
 import { useDispatch } from 'react-redux'
-import { populateTrainingPage } from '../../redux/actions'
+import { populateTrainingPage, resetTrainingPage } from '../../redux/actions'
 
 const PageHeaderContainer = styled.div`
 	display: flex;
@@ -28,7 +28,6 @@ const EditBtn = styled(Link)`
 
 const SourceBtn = styled(Link)`
 	padding: 0.3rem 1rem;
-
 `
 
 const DeleteBtn = styled(Link)`
@@ -105,6 +104,8 @@ function TrainingPage() {
 	}
 
 	const handleSourceBtnClicked = e => {
+		dispatch(resetTrainingPage());
+
 		setMode(MODE.VIEW)
 	}
 
@@ -123,7 +124,7 @@ function TrainingPage() {
 		// fetch all content of this training page
 		fetchData()
 	}, [])
-
+	console.log(role)
 	if (loading) {
 		return (
 			<Container>
@@ -135,6 +136,12 @@ function TrainingPage() {
 			<Container>
 				<ErrorContainer>{error}</ErrorContainer>
 			</Container>
+		)
+	} else if (pageContent.viewers === 'internal' && checkIfUserIsExternal(role)) {
+		return (
+			<div style={{ margin: '1rem 2rem' }}>
+				<PageTitle>This page is only for internal users. Sorry :(</PageTitle>
+			</div>
 		)
 	} else {
 		return (
@@ -187,3 +194,10 @@ function TrainingPage() {
 }
 
 export default TrainingPage
+export const checkIfUserIsExternal = userRole => {
+	return (
+		userRole === ROLE.EXTERNAL_USER ||
+		userRole === ROLE.EXTERNAL_USER ||
+		userRole === ROLE.GUEST
+	)
+}

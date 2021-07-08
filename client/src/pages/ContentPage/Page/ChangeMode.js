@@ -38,7 +38,10 @@ function ChangeMode(props) {
   } else if (props.role >= 3 && props.mode === 2) {
     return (
       <div className="text-center mx-2 my-auto d-print-none">
-        <Button size="sm" variant="secondary" onClick={() => toggleMode(3)}>
+        <Button size="sm" variant="secondary" onClick={() => {
+          // call dispatch to reset redux storage before entering create training mode
+          toggleMode(3);
+        }}>
           <i
             className="fas fa-arrow-down text-white mr-2"
             style={{transform: "scale(1.5)"}}
