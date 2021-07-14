@@ -38,6 +38,7 @@ function OtherButton(props) {
           <span className="dropdown-item" onClick={() => scrollTop()}>Scroll to top</span>
           <span className="dropdown-item" onClick={() => toggleMode(1)}>Switch to edit mode</span>
           <span className="dropdown-item" onClick={() => toggleMode(2)}>Switch to move mode</span>
+          <span className="dropdown-item" onClick={() => toggleMode(3)}>Switch to create training mode</span>
         </div>
       </div>
     );
@@ -59,6 +60,7 @@ function OtherButton(props) {
           <span className="dropdown-item" onClick={() => scrollTop()}>Scroll to top</span>
           <span className="dropdown-item" onClick={() => toggleMode(0)}>Switch to view mode</span>
           <span className="dropdown-item" onClick={() => toggleMode(2)}>Switch to move mode</span>
+          <span className="dropdown-item" onClick={() => toggleMode(3)}>Switch to create training mode</span>
         </div>
       </div>
     );
@@ -80,6 +82,29 @@ function OtherButton(props) {
           <span className="dropdown-item" onClick={() => scrollTop()}>Scroll to top</span>
           <span className="dropdown-item" onClick={() => toggleMode(0)}>Switch to view mode</span>
           <span className="dropdown-item" onClick={() => toggleMode(1)}>Switch to edit mode</span>
+          <span className="dropdown-item" onClick={() => toggleMode(3)}>Switch to create training mode</span>
+        </div>
+      </div>
+    );
+  } else if (props.role >= 3 && props.mode === 3) {
+    return (
+      <div className="text-center mx-2 my-auto d-print-none">
+        <button
+          className="btn btn-secondary btn-sm"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          id="dropdown-page-other"
+        >
+          <i
+            className="fas fa-chevron-down text-white"
+          />
+        </button>
+        <div className="dropdown-menu drop-down-z" aria-labelledby="dropdown-page-other">
+          <span className="dropdown-item" onClick={() => scrollTop()}>Scroll to top</span>
+          <span className="dropdown-item" onClick={() => toggleMode(0)}>Switch to view mode</span>
+          <span className="dropdown-item" onClick={() => toggleMode(1)}>Switch to edit mode</span>
+          <span className="dropdown-item" onClick={() => toggleMode(2)}>Switch to move mode</span>
         </div>
       </div>
     );
