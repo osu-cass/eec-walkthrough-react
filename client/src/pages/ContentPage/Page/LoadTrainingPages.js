@@ -8,11 +8,6 @@ import {checkIfUserIsExternal} from "../../TrainingPage/TrainingPage";
 const Container = styled.div`
 `;
 
-const Button = styled.button`
-	height: 100%;
-
-`;
-
 const ItemLink = styled(Link)``;
 
 // eslint-disable-next-line no-unused-vars
@@ -38,23 +33,24 @@ function LoadTrainingPages({role, mode}) {
     return (
       <>
         {mode === MODE.VIEW && (
-          <Container className="dropdown">
-            <Button
-              className="btn btn-success dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton"
+          <Container className="dropdown text-center mx-2 my-auto d-print-none">
+            <button
+              className="btn btn-success btn-sm"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
+              id="dropdownMenuButton"
             >
-							Training Paths
-            </Button>
+		          <span className="text-white">Training Paths </span>
+		          <i
+                className="fas fa-chevron-down text-white"
+              />
+		        </button>
             <div
-              className="dropdown-menu"
+              className="dropdown-menu drop-down-z"
               aria-labelledby="dropdownMenuButton"
-              style={{paddingLeft: "0.5rem"}}
             >
-							No training paths
+              <span className="dropdown-item">No training paths</span>
             </div>
           </Container>
         )}
@@ -64,18 +60,23 @@ function LoadTrainingPages({role, mode}) {
     return (
       <>
         {mode === MODE.VIEW && (
-          <Container className="dropdown">
-            <Button
-              className="btn btn-success dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton"
+          <Container className="dropdown text-center mx-2 my-auto d-print-none">
+            <button
+              className="btn btn-success btn-sm"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
+              id="dropdownMenuButton"
             >
-							Training Paths
-            </Button>
-            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		          <span className="text-white">Training Paths </span>
+		          <i
+                className="fas fa-chevron-down text-white"
+              />
+		        </button>
+            <div
+              className="dropdown-menu drop-down-z"
+              aria-labelledby="dropdownMenuButton"
+            >
               {trainingPages.map(item => {
                 if (
                   item.viewers === "internal" && checkIfUserIsExternal(role)
