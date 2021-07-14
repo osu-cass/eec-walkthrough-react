@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, {useState, Fragment} from "react";
+import {Alert} from "react-bootstrap";
 import "./TrainingViewNameInput.css";
 import {useSelector} from "react-redux";
 import {
@@ -30,6 +31,7 @@ function TrainingViewNameInput() {
   const trainingPageItems = useSelector(getTrainingPageItems);
   const {pageId, category} = useParams();
   const history = useHistory();
+  const [showAlert, setShowAlert] = useState(true);
   const handleFormSubmit = async e => {
     alert("Done saving training page");
     setError("");
@@ -77,45 +79,51 @@ function TrainingViewNameInput() {
   };
 
   return (
-    <div className="training-name-container">
-      <form onSubmit={handleFormSubmit}>
-        <input
-          type="text"
-          placeholder="Training page title"
-          value={pageTitle}
-          onChange={e => {
-            setPageTitle(e.target.value);
-            setError("");
-          }}
-        />
-        <textarea
-          value={description}
-          placeholder="Training page description"
-          onChange={e => {
-            setDescription(e.target.value);
-            setError("");
-          }}
-        />
-        <div>
-          <label htmlFor="viewers">Select who can see this path</label>
-          <DropdownSelect
-            value={viewersInput}
-            name="viewers"
-            id="viewers-dropdown"
+    <Fragment>
+      <Alert show={showAlert} variant="warning" onClose={() => setShowAlert(false)} dismissible>
+        Caution - be sure to save new entries before navigating away.
+      </Alert>
+
+      <div className="training-name-container">
+        <form onSubmit={handleFormSubmit}>
+          <input
+            type="text"
+            placeholder="Training page title"
+            value={pageTitle}
             onChange={e => {
-              setViewersInput(e.target.value);
+              setPageTitle(e.target.value);
+              setError("");
             }}
-          >
-            <option value="everyone">Everyone</option>
-            <option value="internal">Internal Users</option>
-          </DropdownSelect>
-        </div>
-        <button type="submit" className="btn btn-primary btn-save">
-					Save
-        </button>
-      </form>
-      {error && <ErrorContainer>{error}</ErrorContainer>}
-    </div>
+          />
+          <textarea
+            value={description}
+            placeholder="Training page description"
+            onChange={e => {
+              setDescription(e.target.value);
+              setError("");
+            }}
+          />
+          <div>
+            <label htmlFor="viewers">Select who can see this path</label>
+            <DropdownSelect
+              value={viewersInput}
+              name="viewers"
+              id="viewers-dropdown"
+              onChange={e => {
+                setViewersInput(e.target.value);
+              }}
+            >
+              <option value="everyone">Everyone</option>
+              <option value="internal">Internal Users</option>
+            </DropdownSelect>
+          </div>
+          <button type="submit" className="btn btn-primary btn-save">
+  					Save
+          </button>
+        </form>
+        {error && <ErrorContainer>{error}</ErrorContainer>}
+      </div>
+    </Fragment>
   );
 }
 
