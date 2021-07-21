@@ -3,10 +3,10 @@ import {NavLink} from "react-router-dom";
 import PropTypes from "prop-types";
 import {formatRelativeTime} from "../../utilities/formatRelativeTime";
 import "./PageCard.css";
+import Sanitized from "../../components/General/Sanitized";
 
 // Small descriptive card that links to another page
 function PageCard(props) {
-
   const [description, setDescription] = useState("");
 
   useEffect(() => {
@@ -26,17 +26,19 @@ function PageCard(props) {
     <div className="page-card-container">
       <NavLink className="home-nav-link" to={`/wiki/home-card/${props.pageId}`}>
         <div className="page-card">
-          <div className="card-image" style={{backgroundImage: `url(${props.imageUrl})`}} />
+          <div
+            className="card-image"
+            style={{backgroundImage: `url(${props.imageUrl})`}}
+          />
           <div className="card-text">
             {props.recent ? (
-              <span className="date">
-                {formatRelativeTime(props.updated)}
-              </span>
-            ) : (
-              null
-            )}
+              <span className="date">{formatRelativeTime(props.updated)}</span>
+            ) : null}
             <h2>{props.name}</h2>
-            <p>{description}</p>
+
+            <p>
+              <Sanitized html={description} />
+            </p>
           </div>
         </div>
       </NavLink>

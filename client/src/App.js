@@ -31,11 +31,13 @@ import PageHeader from "./components/PageHeader/PageHeader";
 import NavBar from "./components/NavBar/NavBar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Footer from "./components/Footer/Footer";
+import TrainingPage from "./pages/TrainingPage/TrainingPage";
 import {Route, Switch} from "react-router-dom";
 import "./App.css";
+import {Provider} from "react-redux";
+import store from "./redux/store";
 
 function App() {
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loginStatusChange, setLoginStatusChange] = useState(false);
   const [pageEdit, setPageEdit] = useState(false);
@@ -43,151 +45,155 @@ function App() {
 
   return (
     <Fragment>
-      <main>
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+      <Provider store={store}>
+        <main>
+          <link
+            href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            rel="stylesheet"
+          />
 
-        <PageHeader
-          nameChange={nameChange}
-          openSidebar={() => setSidebarOpen(true)}
-          handleLoginStatusChange={() => setLoginStatusChange(!loginStatusChange)}
-        />
+          <PageHeader
+            nameChange={nameChange}
+            openSidebar={() => setSidebarOpen(true)}
+            handleLoginStatusChange={() =>
+              setLoginStatusChange(!loginStatusChange)
+            }
+          />
 
-        <NavBar
-          loginStatusChange={loginStatusChange}
-        />
+          <NavBar loginStatusChange={loginStatusChange} />
 
-        <Sidebar
-          className={sidebarOpen ? "visible" : "hidden"}
-          loginStatusChange={loginStatusChange}
-          pageEdit={pageEdit}
-          closeSidebar={() => setSidebarOpen(false)}
-        />
+          <Sidebar
+            className={sidebarOpen ? "visible" : "hidden"}
+            loginStatusChange={loginStatusChange}
+            pageEdit={pageEdit}
+            closeSidebar={() => setSidebarOpen(false)}
+          />
 
-        <Switch>
+          <Switch>
+            <Route path="/wiki/:category/:pageId">
+              <ContentPage handlePageEdit={() => setPageEdit(!pageEdit)} />
+            </Route>
 
-          <Route path="/wiki/:category/:pageId">
-            <ContentPage
-              handlePageEdit={() => setPageEdit(!pageEdit)}
-            />
-          </Route>
+            <Route path="/training/:pageId">
+              <TrainingPage />
+            </Route>
 
-          <Route path="/quiz/:pageId">
-            <Quiz />
-          </Route>
+            <Route path="/quiz/:pageId">
+              <Quiz />
+            </Route>
 
-          <Route path="/quiz-results/:pageId">
-            <QuizResults />
-          </Route>
+            <Route path="/quiz-results/:pageId">
+              <QuizResults />
+            </Route>
 
-          <Route path="/edit-quiz/:pageId">
-            <QuizEdit />
-          </Route>
+            <Route path="/edit-quiz/:pageId">
+              <QuizEdit />
+            </Route>
 
-          <Route path="/move-quiz/:pageId">
-            <QuizMove />
-          </Route>
+            <Route path="/move-quiz/:pageId">
+              <QuizMove />
+            </Route>
 
-          <Route path="/search/:searchId">
-            <Search />
-          </Route>
+            <Route path="/search/:searchId">
+              <Search />
+            </Route>
 
-          <Route path="/page-list/:categoryId">
-            <PageList />
-          </Route>
+            <Route path="/page-list/:categoryId">
+              <PageList />
+            </Route>
 
-          <Route path="/manage-card-titles">
-            <ManageCardTitles />
-          </Route>
+            <Route path="/manage-card-titles">
+              <ManageCardTitles />
+            </Route>
 
-          <Route path="/manage-contributors">
-            <ManageContributors />
-          </Route>
+            <Route path="/manage-contributors">
+              <ManageContributors />
+            </Route>
 
-          <Route path="/manage-icons">
-            <ManageIcons />
-          </Route>
+            <Route path="/manage-icons">
+              <ManageIcons />
+            </Route>
 
-          <Route path="/manage-images/:userId">
-            <ManageFiles />
-          </Route>
+            <Route path="/manage-images/:userId">
+              <ManageFiles />
+            </Route>
 
-          <Route path="/manage-uploads">
-            <ManageDirectories />
-          </Route>
+            <Route path="/manage-uploads">
+              <ManageDirectories />
+            </Route>
 
-          <Route path="/manage-links">
-            <ManageLinks />
-          </Route>
+            <Route path="/manage-links">
+              <ManageLinks />
+            </Route>
 
-          <Route path="/manage-users">
-            <ManageUsers />
-          </Route>
+            <Route path="/manage-users">
+              <ManageUsers />
+            </Route>
 
-          <Route path="/manage-home">
-            <ManageHome />
-          </Route>
+            <Route path="/manage-home">
+              <ManageHome />
+            </Route>
 
-          <Route path="/history-report">
-            <ViewHistory />
-          </Route>
+            <Route path="/history-report">
+              <ViewHistory />
+            </Route>
 
-          <Route path="/disclaimer">
-            <Disclaimer/>
-          </Route>
+            <Route path="/disclaimer">
+              <Disclaimer />
+            </Route>
 
-          <Route path="/contributors">
-            <Contributors />
-          </Route>
+            <Route path="/contributors">
+              <Contributors />
+            </Route>
 
-          <Route path="/publish-requests/:requestId">
-            <RequestPage />
-          </Route>
+            <Route path="/publish-requests/:requestId">
+              <RequestPage />
+            </Route>
 
-          <Route path="/publish-requests">
-            <PublishRequests />
-          </Route>
+            <Route path="/publish-requests">
+              <PublishRequests />
+            </Route>
 
-          <Route path="/publish-request-history">
-            <PublishRequestHistory />
-          </Route>
+            <Route path="/publish-request-history">
+              <PublishRequestHistory />
+            </Route>
 
-          <Route path="/register-user">
-            <RegisterUser />
-          </Route>
+            <Route path="/register-user">
+              <RegisterUser />
+            </Route>
 
-          <Route path="/edit-user">
-            <EditUser handleNameChange={() => setNameChange(!nameChange)} />
-          </Route>
+            <Route path="/edit-user">
+              <EditUser handleNameChange={() => setNameChange(!nameChange)} />
+            </Route>
 
-          <Route path="/submit-contributor">
-            <SubmitContributor />
-          </Route>
+            <Route path="/submit-contributor">
+              <SubmitContributor />
+            </Route>
 
-          <Route path="/500">
-            <Error500 />
-          </Route>
+            <Route path="/500">
+              <Error500 />
+            </Route>
 
-          <Route path="/old-home">
-            <Home loginStatusChange={loginStatusChange} />
-          </Route>
+            <Route path="/old-home">
+              <Home loginStatusChange={loginStatusChange} />
+            </Route>
 
-          <Route path="/demo">
-            <HomePage loginStatusChange={loginStatusChange} />
-          </Route>
+            <Route path="/demo">
+              <HomePage loginStatusChange={loginStatusChange} />
+            </Route>
 
-          <Route exact path="/">
-            <HomePage loginStatusChange={loginStatusChange} />
-          </Route>
+            <Route exact path="/">
+              <HomePage loginStatusChange={loginStatusChange} />
+            </Route>
 
-          <Route path="*">
-            <Error404 />
-          </Route>
-
-        </Switch>
-      </main>
-      <Footer />
+            <Route path="*">
+              <Error404 />
+            </Route>
+          </Switch>
+        </main>
+        <Footer />
+      </Provider>
     </Fragment>
   );
-
 }
 export default App;

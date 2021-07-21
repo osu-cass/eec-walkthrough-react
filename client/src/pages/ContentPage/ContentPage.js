@@ -21,9 +21,9 @@ import QuizButton from "./Various/QuizButton";
 import Curator from "./Various/Curator";
 import "./ContentPage.css";
 
+
 // An encyclopedia style page describing some topic
 function ContentPage(props) {
-
   const [errorPage, setErrorPage] = useState(false);
   const [headers, setHeaders] = useState([]);
   const [iconSet, setIconSet] = useState([]);
@@ -58,7 +58,6 @@ function ContentPage(props) {
 
     async function fetchData() {
       try {
-
         // see if this is a "how to use" page that should have
         // automatically generated content
         let helpPage = false;
@@ -182,7 +181,6 @@ function ContentPage(props) {
         }
 
         setLoading(false);
-
       } catch (err) {
         if (err instanceof DOMException) {
           if (process.env.NODE_ENV === "development") {
@@ -204,44 +202,40 @@ function ContentPage(props) {
       controller.abort();
     };
     // eslint-disable-next-line
-  }, [pageId, publishedMode]);
+	}, [pageId, publishedMode])
 
   // Updates the content shown on the page when a change is made by the user
   function handleUpdate(object, type, action) {
     const headerData = [...headers];
 
     if (type === "page") {
-
-      if (action === "update" || action === "publish" || action === "unpublish") {
-
+      if (
+        action === "update" ||
+				action === "publish" ||
+				action === "unpublish"
+      ) {
         setPageInfo(object);
-
       } else if (action === "clear") {
-
         const newPage = object;
         setPageInfo(newPage);
         setPageState(pageState + 1);
-
       }
-
     } else if (type === "header") {
-
       if (action === "create") {
-
         headerData.push(object);
         setHeaders(headerSortOrder(headerData));
-
-      } else if (action === "update" || action === "publish" || action === "unpublish") {
-
+      } else if (
+        action === "update" ||
+				action === "publish" ||
+				action === "unpublish"
+      ) {
         for (let i = 0; i < headerData.length; i++) {
           if (headerData[i].headerId === object.headerId) {
             headerData[i] = object;
             setHeaders(headerSortOrder(headerData));
           }
         }
-
       } else if (action === "delete") {
-
         for (let i = 0; i < headerData.length; i++) {
           if (headerData[i].headerId === object.headerId) {
             headerData.splice(i, 1);
@@ -249,9 +243,7 @@ function ContentPage(props) {
           }
         }
         updateReferences(headerData, pageInfo.sources);
-
       } else if (action === "clear") {
-
         for (let i = 0; i < headerData.length; i++) {
           if (headerData[i].headerId === object.headerId) {
             if (headerData[i].approved) {
@@ -265,9 +257,7 @@ function ContentPage(props) {
         }
         updateReferences(headerData, pageInfo.sources);
       }
-
     } else if (type === "card") {
-
       // find the header index or return
       let headerIndex = -1;
 
@@ -282,23 +272,24 @@ function ContentPage(props) {
       }
 
       if (action === "create") {
-
         headerData[headerIndex].cards.push(object);
         setHeaders(headerSortOrder(headerData));
         setCardState(cardState + 1);
-
-      } else if (action === "update" || action === "publish" || action === "unpublish") {
-
+      } else if (
+        action === "update" ||
+				action === "publish" ||
+				action === "unpublish"
+      ) {
         for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
           if (headerData[headerIndex].cards[i].cardId === object.cardId) {
-            headerData[headerIndex].cards[i] = JSON.parse(JSON.stringify(object));
+            headerData[headerIndex].cards[i] = JSON.parse(
+              JSON.stringify(object)
+            );
             setHeaders(headerSortOrder(headerData));
             setCardState(cardState + 1);
           }
         }
-
       } else if (action === "delete") {
-
         for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
           if (headerData[headerIndex].cards[i].cardId === object.cardId) {
             headerData[headerIndex].cards.splice(i, 1);
@@ -306,9 +297,7 @@ function ContentPage(props) {
             setCardState(cardState + 1);
           }
         }
-
       } else if (action === "clear") {
-
         for (let i = 0; i < headerData[headerIndex].cards.length; i++) {
           if (headerData[headerIndex].cards[i].cardId === object.cardId) {
             if (headerData[headerIndex].cards[i].approved) {
@@ -334,11 +323,9 @@ function ContentPage(props) {
     // find the correct header
     for (let i = 0; i < copy.length; i++) {
       if (copy[i].headerId === headerId) {
-
         // find the correct card
         for (let j = 0; j < copy[i].cards.length; j++) {
           if (copy[i].cards[j].cardId === cardId) {
-
             // update the correct link (the published or unpublished version)
             if (approved) {
               for (let k = 0; k < copy[i].cards[j].items.length; k++) {
@@ -357,20 +344,20 @@ function ContentPage(props) {
                 }
               }
             }
-
           }
         }
-
       }
     }
-
   }
 
   // Sort headers based on their edited status and their order index
   function headerSortOrder(headers) {
     const copy = [...headers];
     for (let i = 0; i < copy.length; i++) {
-      if ((mode === 1 && copy[i].tempHeaderId) || (mode === 2 && publishedMode === 0 && copy[i].tempHeaderId)) {
+      if (
+        (mode === 1 && copy[i].tempHeaderId) ||
+				(mode === 2 && publishedMode === 0 && copy[i].tempHeaderId)
+      ) {
         copy[i].realOrder = copy[i].tempOrderIndex;
       } else {
         copy[i].realOrder = copy[i].orderIndex;
@@ -382,7 +369,6 @@ function ContentPage(props) {
 
   // Moves the specified header up or down one in relation to other headers
   async function handleMoveHeader(headerId, up, mode) {
-
     setMoved(true);
     const copy = [...headers];
     let moveIndex = -1;
@@ -390,7 +376,6 @@ function ContentPage(props) {
 
     // change how the headers are moved based on the current mode
     if (mode === 1) {
-
       // find the current published header
       for (let i = 0; i < copy.length; i++) {
         if (copy[i].headerId === headerId) {
@@ -398,14 +383,14 @@ function ContentPage(props) {
 
           // find the header to swap with
           if (up) {
-            for (let j = (i - 1); j >= 0; j--) {
+            for (let j = i - 1; j >= 0; j--) {
               if (copy[j].approved) {
                 swapIndex = j;
                 break;
               }
             }
           } else {
-            for (let j = (i + 1); j < copy.length; j++) {
+            for (let j = i + 1; j < copy.length; j++) {
               if (copy[j].approved) {
                 swapIndex = j;
                 break;
@@ -427,9 +412,7 @@ function ContentPage(props) {
           break;
         }
       }
-
     } else {
-
       // find the current unpublished header
       for (let i = 0; i < copy.length; i++) {
         if (copy[i].headerId === headerId) {
@@ -437,12 +420,12 @@ function ContentPage(props) {
 
           // find the header to swap with
           if (up) {
-            for (let j = (i - 1); j >= 0; j--) {
+            for (let j = i - 1; j >= 0; j--) {
               swapIndex = j;
               break;
             }
           } else {
-            for (let j = (i + 1); j < copy.length; j++) {
+            for (let j = i + 1; j < copy.length; j++) {
               swapIndex = j;
               break;
             }
@@ -462,7 +445,6 @@ function ContentPage(props) {
           break;
         }
       }
-
     }
 
     setCardState(cardState + 1);
@@ -472,11 +454,14 @@ function ContentPage(props) {
     const direction = up ? 1 : 0;
 
     // send our move to the API
-    const results = await fetch(`${API_URL}/headers/${headerId}/move/${direction}/${mode}`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"}
-    });
+    const results = await fetch(
+      `${API_URL}/headers/${headerId}/move/${direction}/${mode}`,
+      {
+        method: "PATCH",
+        credentials: "include",
+        headers: {"Content-Type": "application/json"}
+      }
+    );
 
     if (!results.ok) {
       const obj = await results.json();
@@ -484,7 +469,9 @@ function ContentPage(props) {
       if (results.status === 404) {
         console.error("Couldn't find header to move");
       } else if (results.status === 500 || typeof obj.error === "undefined") {
-        console.error("An internal server error occurred while trying to move the header.");
+        console.error(
+          "An internal server error occurred while trying to move the header."
+        );
       } else {
         console.error(obj.error);
       }
@@ -513,9 +500,11 @@ function ContentPage(props) {
 
           // if we are using the checkbox filter icon, then also change the checked status
           const header = copy[i];
-          if (headerFilters[j].filters.length && headerFilters[j].filters[0] === 0) {
+          if (
+            headerFilters[j].filters.length &&
+						headerFilters[j].filters[0] === 0
+          ) {
             for (let k = 0; k < header.cards.length; k++) {
-
               // published items
               for (let l = 0; l < header.cards[k].items.length; l++) {
                 header.cards[k].items[l].hideChildren = true;
@@ -559,7 +548,6 @@ function ContentPage(props) {
     // if this is the checkbox filter icon, then also change the checked status
     if (iconId === 0 && header) {
       for (let i = 0; i < header.cards.length; i++) {
-
         // published items
         for (let j = 0; j < header.cards[i].items.length; j++) {
           header.cards[i].items[j].hideChildren = state;
@@ -605,7 +593,6 @@ function ContentPage(props) {
   function checkIcon(headerId, cardId, itemId, check) {
     const copy = [...headers];
     for (let i = 0; i < copy.length; i++) {
-
       // find the header that the item belongs to
       if (headerId === copy[i].headerId) {
         const header = copy[i];
@@ -613,7 +600,6 @@ function ContentPage(props) {
         // find the card that the item belongs to
         for (let j = 0; j < header.cards.length; j++) {
           if (cardId === header.cards[j].cardId) {
-
             // published items
             for (let k = 0; k < header.cards[j].items.length; k++) {
               if (itemId === header.cards[j].items[k].itemId) {
@@ -636,7 +622,6 @@ function ContentPage(props) {
 
         break;
       }
-
     }
     setHeaders(copy);
   }
@@ -649,7 +634,6 @@ function ContentPage(props) {
 
     for (let i = 0; i < copy.length; i++) {
       for (let j = 0; j < copy[i].cards.length; j++) {
-
         // normal items
         for (let k = 0; k < copy[i].cards[j].items.length; k++) {
           const curItem = copy[i].cards[j].items[k];
@@ -773,7 +757,6 @@ function ContentPage(props) {
             }
           }
         }
-
       }
     }
 
@@ -805,16 +788,23 @@ function ContentPage(props) {
   }
 
   // If there is an error, display the correct error page
-  if (!errorPage && (publicMode === 0 || (pageInfo.approved && !pageInfo.internal) || mode !== 0)) {
+  if (
+    !errorPage &&
+		(publicMode === 0 ||
+			(pageInfo.approved && !pageInfo.internal) ||
+			mode !== 0)
+  ) {
     return loading ? (
       <LoadingOverlay loading={true} />
     ) : (
       <Container className="my-5" id="content-page">
-
         {/* This is the top header and card that describes the page */}
+
         <PageDescription
           page={pageInfo}
-          handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+          handleUpdate={(object, type, action) =>
+            handleUpdate(object, type, action)
+          }
           role={role}
           mode={mode}
           publicMode={publicMode}
@@ -828,8 +818,12 @@ function ContentPage(props) {
           onNewView={e => handleNewView(e)}
           headers={headers}
           quiz={(mode === 0 && pageInfo.quiz) || mode !== 0}
-          references={!!(mode === 0 && references.length) || !!(mode === 1 && tempReferences.length)}
+          references={
+            !!(mode === 0 && references.length) ||
+							!!(mode === 1 && tempReferences.length)
+          }
         />
+
 
         {/* Button for creating new headers */}
         <CreateHeader
@@ -838,14 +832,18 @@ function ContentPage(props) {
           userId={userId}
           numHeaders={headers.length}
           mode={mode}
-          handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+          handleUpdate={(object, type, action) =>
+            handleUpdate(object, type, action)
+          }
         />
 
-        {headers.map((header, i) =>
+        {headers.map((header, i) => (
           <Fragment key={i}>
             <Header
               header={header}
-              handleMoveHeader={(id, up, mode) => handleMoveHeader(id, up, mode)}
+              handleMoveHeader={(id, up, mode) =>
+                handleMoveHeader(id, up, mode)
+              }
               handleMoveCard={() => setMoved(true)}
               role={role}
               mode={mode}
@@ -853,14 +851,20 @@ function ContentPage(props) {
               publishedMode={publishedMode}
               iconSet={iconSet}
               cardState={cardState}
-              top={i === 0 ? (true) : (false)}
-              bottom={i >= headers.length - 1 ? (true) : (false)}
-              handleTimestamp={(m, a, i, c, h) => handleTimestamp(m, a, i, c, h)}
-              handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+              top={i === 0 ? true : false}
+              bottom={i >= headers.length - 1 ? true : false}
+              handleTimestamp={(m, a, i, c, h) =>
+                handleTimestamp(m, a, i, c, h)
+              }
+              handleUpdate={(object, type, action) =>
+                handleUpdate(object, type, action)
+              }
               updateIcon={(e1, e2, e3) => updateIcon(e1, e2, e3)}
               resetIcons={e => resetIcons(e)}
               clearIcons={e => clearIcons(e)}
-              checkIcon={(headerId, cardId, itemId, check) => checkIcon(headerId, cardId, itemId, check)}
+              checkIcon={(headerId, cardId, itemId, check) =>
+                checkIcon(headerId, cardId, itemId, check)
+              }
               sources={pageInfo.sources}
               cardTitles={cardTitles}
               onPageMode={mode => setMode(mode)}
@@ -870,25 +874,22 @@ function ContentPage(props) {
 
             {/* For auto headers on the "how to" page, create special cards */}
             {howToPage && i === 0 ? (
-              <HowToCards
-                categories={categories}
-                icons={iconSet}
-              />
-            ) : (
-              null
-            )}
+              <HowToCards categories={categories} icons={iconSet} />
+            ) : null}
 
             {/* Button for creating a new card under the current header */}
             <CreateCard
               headerId={header.headerId}
-              handleUpdate={(object, type, action) => handleUpdate(object, type, action)}
+              handleUpdate={(object, type, action) =>
+                handleUpdate(object, type, action)
+              }
               mode={mode}
               iconSet={iconSet}
               sources={pageInfo.sources}
               cardTitles={cardTitles}
             />
           </Fragment>
-        )}
+        ))}
 
         {/* A card at the end of the page that lists all of the references */}
         <References
@@ -905,8 +906,11 @@ function ContentPage(props) {
           mode={mode}
           pageName={pageInfo.name}
           role={role}
+          handleLoginStatusChange={props.handleLoginStatusChange}
+          handleNameChange={props.handleNameChange}
         />
 
+<<<<<<< HEAD
         <Curator
           pageId={pageId}
           pageName={pageInfo.name}
@@ -914,10 +918,19 @@ function ContentPage(props) {
           role={role}
         />
 
+=======
+        <Curator pageId={pageId} mode={mode} role={role} />
+>>>>>>> master
       </Container>
     );
-  } else if (publicMode === 1 && (!pageInfo.approved || pageInfo.internal) && mode === 0) {
-    return <NonPublicPage onPublicMode={publicMode => setPublicMode(publicMode)} />;
+  } else if (
+    publicMode === 1 &&
+		(!pageInfo.approved || pageInfo.internal) &&
+		mode === 0
+  ) {
+    return (
+      <NonPublicPage onPublicMode={publicMode => setPublicMode(publicMode)} />
+    );
   } else if (errorPage === 404) {
     return <Error404 />;
   } else {

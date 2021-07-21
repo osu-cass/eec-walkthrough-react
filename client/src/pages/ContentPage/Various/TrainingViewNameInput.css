@@ -1,0 +1,21 @@
+.training-name-container {
+	margin: 1rem 0;
+}
+
+/* .training-name-container form {
+	width: 100%;
+} */
+
+.training-name-container input,
+textarea {
+	border-radius: 5px;
+	border: solid 1px #aaa;
+	padding: 4px 8px;
+	display: block;
+	width: 100%;
+	margin-bottom: 0.5rem;
+}
+
+.training-name-container button {
+	padding: 6px 20px;
+}

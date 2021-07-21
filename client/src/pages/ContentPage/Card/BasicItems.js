@@ -5,7 +5,6 @@ import "./BasicItems.css";
 
 // The contents of a standard card
 function BasicItems(props) {
-
   const [items, setItems] = useState([]);
   const [compareArray, setCompareArray] = useState([]);
   const [showCount, setShowCount] = useState(3);
@@ -19,9 +18,7 @@ function BasicItems(props) {
 
     // Check each item and group inline items
     for (let i = copy.length - 1; i >= 0; i--) {
-
       if (copy[i].inline) {
-
         // The group will get the indentation of the most recent item
         const newItem = copy[i];
         wrapperIndentation = newItem.indentation;
@@ -31,7 +28,6 @@ function BasicItems(props) {
         // If this is the last item on the card, or the next item is not inline
         // create the new grouping of inline items
         if (i === 0 || !copy[i - 1].inline) {
-
           const wrapperObject = {
             wrapper: true,
             indentation: wrapperIndentation,
@@ -42,12 +38,9 @@ function BasicItems(props) {
           copy.splice(i, 1, wrapperObject);
 
           newWrapper = [];
-
         } else {
-
           // Remove the old item
           copy.splice(i, 1);
-
         }
       }
 
@@ -67,13 +60,11 @@ function BasicItems(props) {
       } else {
         setItems(copy);
       }
-
     }
   }, [props.items, showCount, props.expandableList]);
 
   // Compare a published and unpublished card and mark what items have changed
   useEffect(() => {
-
     const statusArray = [];
     const foundItems = [];
 
@@ -83,7 +74,6 @@ function BasicItems(props) {
     // compareMode: 4, this card was deleted, mark everything red.
 
     if (props.compareMode === 1) {
-
       for (let i = 0; i < props.items.length; i++) {
         let status = 1;
         for (let j = 0; j < props.otherItems.length; j++) {
@@ -102,9 +92,13 @@ function BasicItems(props) {
           }
 
           // check if we found an item match
-          if (newItem.iconType === oldItem.iconType && newItem.contentText === oldItem.contentText
-            && newItem.contentLabel === oldItem.contentLabel && newItem.contentUrl === oldItem.contentUrl
-            && newItem.internal === oldItem.internal) {
+          if (
+            newItem.iconType === oldItem.iconType &&
+						newItem.contentText === oldItem.contentText &&
+						newItem.contentLabel === oldItem.contentLabel &&
+						newItem.contentUrl === oldItem.contentUrl &&
+						newItem.internal === oldItem.internal
+          ) {
             if (i === j && newItem.indentation === oldItem.indentation) {
               status = 0;
               foundItems.push(oldItem.itemId);
@@ -119,9 +113,7 @@ function BasicItems(props) {
       }
 
       setCompareArray(statusArray);
-
     } else if (props.compareMode === 2) {
-
       for (let i = 0; i < props.items.length; i++) {
         let status = 3;
         for (let j = 0; j < props.otherItems.length; j++) {
@@ -140,9 +132,13 @@ function BasicItems(props) {
           }
 
           // check if we found an item match
-          if (newItem.iconType === oldItem.iconType && newItem.contentText === oldItem.contentText
-            && newItem.contentLabel === oldItem.contentLabel && newItem.contentUrl === oldItem.contentUrl
-            && newItem.internal === oldItem.internal) {
+          if (
+            newItem.iconType === oldItem.iconType &&
+						newItem.contentText === oldItem.contentText &&
+						newItem.contentLabel === oldItem.contentLabel &&
+						newItem.contentUrl === oldItem.contentUrl &&
+						newItem.internal === oldItem.internal
+          ) {
             if (i === j && newItem.indentation === oldItem.indentation) {
               status = 0;
               foundItems.push(newItem.itemId);
@@ -156,7 +152,6 @@ function BasicItems(props) {
         statusArray.push(status);
       }
       setCompareArray(statusArray);
-
     } else if (props.compareMode === 3) {
       for (let i = 0; i < props.items.length; i++) {
         statusArray.push(1);
@@ -168,83 +163,109 @@ function BasicItems(props) {
       }
       setCompareArray(statusArray);
     }
-
   }, [props.compareMode, props.items, props.otherItems]);
 
   return (
     <div className="item-separator-div">
-      {items.map((item) =>
+      {items.map(item => (
         <Fragment key={item.itemId + "|" + item.index}>
-
           {/* If the item is a wrapper for multiple items, then this means that */}
           {/* this is an inline item that should be treated as a single item */}
           {item.wrapper ? (
-            <div className={`item-wrapper div-indent-level-${item.indentation}`}>
-              {item.items.map((item) =>
-                <BulletPoint
-                  key={item.itemId + "wrap"}
-                  url={item.contentUrl}
-                  id={item.itemId}
-                  icon={item.typeName}
-                  tooltip={item.typeKeyword}
-                  color={item.color}
-                  text={item.contentText}
-                  label={item.contentLabel}
-                  contentMode={item.contentMode}
-                  created={item.created}
-                  indentation={item.indentation}
-                  mode={props.mode}
-                  publicMode={props.publicMode}
-                  handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
-                  reviewing={props.reviewing}
-                  checked={item.hideChildren}
-                  setCheck={(check, itemId) => props.setCheck(check, itemId)}
-                  source={item.refId}
-                  sourceText={item.refText}
-                  internal={item.internal}
-                  inline={item.inline}
-                  highlightStyle={item.index < compareArray.length ? (compareArray[item.index]) : (0)}
-                  groupIndex={item.groupIndex}
-                />
-              )}
+            <div
+              className={`item-wrapper div-indent-level-${item.indentation}`}
+            >
+              {/* {console.log(`wrapper div: = ${JSON.stringify(item, null, 2)}`)} */}
+              {item.items.map(item => (
+                <>
+                  {/* {console.log(
+										`text: ${item.contentText}, indent: ${item.indentation}`
+									)} */}
+                  <BulletPoint
+                    key={item.itemId + "wrap"}
+                    url={item.contentUrl}
+                    id={item.itemId}
+                    icon={item.typeName}
+                    tooltip={item.typeKeyword}
+                    color={item.color}
+                    text={item.contentText}
+                    label={item.contentLabel}
+                    contentMode={item.contentMode}
+                    created={item.created}
+                    indentation={item.indentation}
+                    mode={props.mode}
+                    publicMode={props.publicMode}
+                    handleTimestamp={m =>
+                      props.handleTimestamp(m, item.approved, item.itemId)
+                    }
+                    reviewing={props.reviewing}
+                    checked={item.hideChildren}
+                    setCheck={(check, itemId) => props.setCheck(check, itemId)}
+                    source={item.refId}
+                    sourceText={item.refText}
+                    internal={item.internal}
+                    inline={item.inline}
+                    highlightStyle={
+                      item.index < compareArray.length
+                        ? compareArray[item.index]
+                        : 0
+                    }
+                    groupIndex={item.groupIndex}
+                  />
+                </>
+              ))}
             </div>
           ) : (
-            <BulletPoint
-              key={item.itemId + "no-wrap"}
-              url={item.contentUrl}
-              id={item.itemId}
-              icon={item.typeName}
-              tooltip={item.typeKeyword}
-              color={item.color}
-              text={item.contentText}
-              label={item.contentLabel}
-              contentMode={item.contentMode}
-              created={item.created}
-              indentation={item.indentation}
-              mode={props.mode}
-              publicMode={props.publicMode}
-              handleTimestamp={(m) => props.handleTimestamp(m, item.approved, item.itemId)}
-              reviewing={props.reviewing}
-              checked={item.hideChildren}
-              setCheck={(check, itemId) => props.setCheck(check, itemId)}
-              source={item.refId}
-              sourceText={item.refText}
-              internal={item.internal}
-              inline={item.inline}
-              highlightStyle={item.index < compareArray.length ? (compareArray[item.index]) : (0)}
-              groupIndex={item.groupIndex}
-            />
+            <>
+              {/* {console.log(
+								`Non-wrapper div: = ${JSON.stringify(item, null, 2)}`
+							)} */}
+              <BulletPoint
+                key={item.itemId + "no-wrap"}
+                url={item.contentUrl}
+                id={item.itemId}
+                icon={item.typeName}
+                tooltip={item.typeKeyword}
+                color={item.color}
+                text={item.contentText}
+                label={item.contentLabel}
+                contentMode={item.contentMode}
+                created={item.created}
+                indentation={item.indentation}
+                mode={props.mode}
+                publicMode={props.publicMode}
+                handleTimestamp={m =>
+                  props.handleTimestamp(m, item.approved, item.itemId)
+                }
+                reviewing={props.reviewing}
+                checked={item.hideChildren}
+                setCheck={(check, itemId) => props.setCheck(check, itemId)}
+                source={item.refId}
+                sourceText={item.refText}
+                internal={item.internal}
+                inline={item.inline}
+                highlightStyle={
+                  item.index < compareArray.length
+                    ? compareArray[item.index]
+                    : 0
+                }
+                groupIndex={item.groupIndex}
+              />
+            </>
           )}
         </Fragment>
-      )}
+      ))}
 
       {/* If this is an expandable card, then show buttons for expanding and condensing */}
       {props.expandableList ? (
         <div className="text-center mt-3">
-
           {/* Button for showing more items */}
           {realItemCount > showCount ? (
-            <button type="button" className="btn btn-info mx-4" onClick={() => setShowCount(showCount + 3)}>
+            <button
+              type="button"
+              className="btn btn-info mx-4"
+              onClick={() => setShowCount(showCount + 3)}
+            >
               <span className="text-white">Show More</span>
             </button>
           ) : (
@@ -255,7 +276,11 @@ function BasicItems(props) {
 
           {/* Button for showing all items */}
           {realItemCount > showCount ? (
-            <button type="button" className="btn btn-info mx-4" onClick={() => setShowCount(realItemCount)}>
+            <button
+              type="button"
+              className="btn btn-info mx-4"
+              onClick={() => setShowCount(realItemCount)}
+            >
               <span className="text-white">Show All</span>
             </button>
           ) : (
@@ -266,7 +291,11 @@ function BasicItems(props) {
 
           {/* Button for resetting the shown items */}
           {showCount > 3 ? (
-            <button type="button" className="btn btn-info mx-4" onClick={() => setShowCount(3)}>
+            <button
+              type="button"
+              className="btn btn-info mx-4"
+              onClick={() => setShowCount(3)}
+            >
               <span className="text-white">Reset</span>
             </button>
           ) : (
@@ -274,16 +303,12 @@ function BasicItems(props) {
               <span className="text-white">Reset</span>
             </button>
           )}
-
         </div>
-      ) : (
-        null
-      )}
+      ) : null}
 
       {/* If this is an expandable card, then show buttons for expanding and condensing */}
     </div>
   );
-
 }
 export default BasicItems;
 
