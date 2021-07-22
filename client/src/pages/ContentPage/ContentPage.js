@@ -910,7 +910,12 @@ function ContentPage(props) {
           handleNameChange={props.handleNameChange}
         />
 
-        <Curator pageId={pageId} mode={mode} role={role} />
+        <Curator
+          pageId={pageId}
+          pageName={pageInfo.name}
+          mode={mode}
+          role={role}
+        />
       </Container>
     );
   } else if (

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 import {useParams, withRouter, Link} from "react-router-dom";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import Image from "../../components/General/Image";
@@ -20,6 +20,79 @@ function PageList() {
   const [pageLinks, setPageLinks] = useState([]);
   const [loading, setLoading] = useState(false);
   const {categoryId} = useParams();
+  const [contributors, setContributors] = useState([]);
+  const [curators, setCurators] = useState([]);
+
+  useEffect(() => {
+    // abort controller for if this component is cleaned up before
+    // the fetch request gets a response
+    let ignore = false;
+    const controller = new AbortController();
+
+    // fetch contributor and curator data
+    async function fetchData() {
+      try {
+        // Fetch contributors
+        let results = await fetch(`${API_URL}/contributors`, {
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+          const obj = await results.json();
+          setContributors(obj.contributors);
+        } else {
+          console.error("Error fetching contributors");
+        }
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        // Fetch curators
+        results = await fetch(`${API_URL}/curators/all`, {
+          method: "GET",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"}
+        });
+
+        // if this component is cleaned up, stop here
+        if (ignore) {
+          return;
+        }
+
+        if (results.ok) {
+          const obj = await results.json();
+          setCurators(obj.pageIds);
+        } else {
+          console.error("Error fetching curators");
+        }
+      }  catch (err) {
+        if (err instanceof DOMException) {
+          if (process.env.NODE_ENV === "development") {
+            console.log("HTTP request aborted");
+          }
+        } else {
+          throw err;
+        }
+      }
+    }
+
+    fetchData();
+
+    // clean up function
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
+  }, []);
 
   // when the page first loads get a list of all of the pages for this category
   useEffect(() => {
@@ -96,6 +169,41 @@ function PageList() {
     setPageLinks(linkArray);
   }, [category]);
 
+  function filterCurator(pageId) {
+    let filteredData = [];
+
+    filteredData = curators.filter((curator) =>
+      curator.curatorPageId === pageId && curator.active === 1
+    );
+
+    filteredData = filteredData.map((data) =>
+      data.userId
+    );
+
+    filteredData = contributors.filter((contributor) =>
+      filteredData.includes(contributor.contributorId)
+    );
+    console.log("filteredData", filteredData);
+
+    if (filteredData.length) {
+      return (
+        <Fragment>
+          <strong>Page Curator:</strong>
+
+          {filteredData.map((data, i, arr) =>
+            i === arr.length - 1 ? (
+              " " + data.name
+            ) : (
+              " " + data.name + ","
+            )
+          )}
+        </Fragment>
+      );
+    } else {
+      return null;
+    }
+  }
+
   if (pageLinks.length) {
     return (
       <div className="container my-5">
@@ -125,7 +233,10 @@ function PageList() {
                           <Sanitized html={page.description} />
                         </span>
                         <span className="page-link-created text-left float-left">
-                      Last updated {formatTime(page.created)}
+                          Last updated {formatTime(page.created)}
+                        </span>
+                        <span className="text-left float-left">
+                          {filterCurator(page.pageId)}
                         </span>
                       </div>
                     )}
