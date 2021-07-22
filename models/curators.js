@@ -49,12 +49,7 @@ async function getPageCurators(pageId) {
   }
 
 }
-<<<<<<< HEAD
 exports.getPageCurators = getPageCurators;
-=======
-
-exports.getPageCurator = getPageCurator;
->>>>>>> master
 
 // insert/update page curator
 async function changeCurator(pageId, pageName, userId, active) {
