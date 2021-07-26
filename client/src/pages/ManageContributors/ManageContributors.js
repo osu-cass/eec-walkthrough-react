@@ -386,6 +386,7 @@ function ManageContributors() {
                 description={contributor.description}
                 contributorId={contributor.contributorId}
                 pending={true}
+                curators={curators}
                 onRequest={(contributorId, status) => handleRequest(contributorId, status)}
               />
             )}
