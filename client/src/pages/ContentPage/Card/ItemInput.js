@@ -233,6 +233,17 @@ function ItemInput(props) {
               onNewImage={(newImage) => props.onNewImage(newImage, props.index)}
               default={"... or Upload a PDF"}
             />
+            <FormControl
+              as="textarea"
+              rows="1"
+              maxLength="1000"
+              className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
+              placeholder="Main Webpage Source URL"
+              value={props.value.learnMoreUrl}
+              aria-label={"Insert Main Webpage URL"}
+              aria-describedby="basic-addon1"
+              onChange={(e) => props.handleInput(e, props.index, 6)}
+            />
           </div>
           <div className="very-small-text-editor-input">
             <RichTextEditor

@@ -66,10 +66,12 @@
 
 .last-accessed-link {
 	color: #239023 !important;
+	margin-top: 0.4em !important;
 }
 
 .last-accessed-link-bad {
 	color: #e81224 !important;
+	margin-top: 0.4em !important;
 }
 
 .osu-link,
@@ -94,7 +96,7 @@
 }
 
 .icon-item {
-	margin-top: 0.1em !important;
+	margin-top: 0.4em !important;
 }
 
 .icon-item-text.check-square-icon {
@@ -209,4 +211,8 @@
 
 .text-no-overflow {
 	overflow-wrap: anywhere !important;
+}
+
+.learn-more-url {
+  margin-left: .3em;
 }

@@ -184,6 +184,7 @@ function BasicItems(props) {
                   <BulletPoint
                     key={item.itemId + "wrap"}
                     url={item.contentUrl}
+                    learnMoreUrl={item.learnMoreUrl}
                     id={item.itemId}
                     icon={item.typeName}
                     tooltip={item.typeKeyword}
@@ -223,6 +224,7 @@ function BasicItems(props) {
               <BulletPoint
                 key={item.itemId + "no-wrap"}
                 url={item.contentUrl}
+                learnMoreUrl={item.learnMoreUrl}
                 id={item.itemId}
                 icon={item.typeName}
                 tooltip={item.typeKeyword}
