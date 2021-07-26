@@ -9,6 +9,7 @@ function Curator(props) {
   const [show, setShow] = useState(false);
   const [pageCurator, setPageCurator] = useState([]);
   const [contributors, setContributors] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   // Fetch contributor data
   useEffect(() => {
@@ -68,7 +69,7 @@ function Curator(props) {
           const contributors = tempContributors.filter((contributor) =>
             curators.includes(contributor.contributorId)
           );
-          setPageCurator(contributors);
+          setPageCurator(contributors[0]);
         } else {
           console.error("Error fetching page curator");
         }
@@ -91,7 +92,7 @@ function Curator(props) {
       ignore = true;
       controller.abort();
     };
-  }, [pageCurator]);
+  }, [refresh]);
 
   // Update the page curator
   async function updatePage() {
@@ -125,6 +126,7 @@ function Curator(props) {
 
   function handleClose() {
     setShow(false);
+    setRefresh(!refresh);
   }
 
   // Updates the pages with the new changes
@@ -137,19 +139,7 @@ function Curator(props) {
   return (
     <div className="curator-container mx-auto">
       <div className="d-block my-2 h-auto">
-        <h5>Page Curator(s):
-          {pageCurator.length ? (
-            pageCurator.map((curator, i, arr) =>
-              i === arr.length - 1 ? (
-                " " + curator.name
-              ) : (
-                " " + curator.name + ","
-              )
-            )
-          ) : (
-            <span> None</span>
-          )}
-        </h5>
+        <h5>Page Curator: {pageCurator.name}</h5>
       </div>
 
       {props.role >= 3 && props.mode === 1 ? (
@@ -173,6 +163,7 @@ function Curator(props) {
             <Modal.Body>
               <select className="form-control"
                 id="select-curator"
+                defaultValue={pageCurator.contributorId}
               >
                 {contributors.map((contributor) =>
                   <option value={contributor.contributorId} key={contributor.contributorId}>
