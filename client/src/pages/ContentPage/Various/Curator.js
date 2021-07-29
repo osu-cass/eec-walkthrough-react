@@ -163,7 +163,7 @@ function Curator(props) {
             <Modal.Body>
               <select className="form-control"
                 id="select-curator"
-                defaultValue={pageCurator.contributorId}
+                defaultValue={pageCurator ? pageCurator.contributorId : null}
               >
                 {contributors.map((contributor) =>
                   <option value={contributor.contributorId} key={contributor.contributorId}>
