@@ -139,7 +139,7 @@ function Curator(props) {
   return (
     <div className="curator-container mx-auto">
       <div className="d-block my-2 h-auto">
-        <h5>Page Curator: {pageCurator.name}</h5>
+        <h5>Page Curator: {pageCurator ? pageCurator.name : <span> None</span>}</h5>
       </div>
 
       {props.role >= 3 && props.mode === 1 ? (
