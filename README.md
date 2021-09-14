@@ -151,11 +151,12 @@ Login with the shared walkthrough account
 sudo -u walkthrough bash
 ```
 
-Make sure you first kill any running processes or else you will not be able to use the ports that you want. Run a command to see what processes are running, then kill all node processes.
+Make sure you first kill any running processes or else you will not be able to use the ports that you want. You can check to see what processes are running, but there should be only one node process running that needs to be killed.
 ```
-ps -a
-kill 5823
+ps -ef
+killall node
 ```
+If that killall command doesn't work, do `killall -9` node instead.
 
 You are now able to use git commands.
 Once you have updated the repo to the current version you will need to build.
@@ -164,14 +165,12 @@ git pull
 npm run build
 ```
 
-Now you will use screen so that you can close the terminal without killing your process.
+Now you can run a script to start the web application and close the terminal without killing your process.
 ```
-screen
-npm start
+/data/walkthrough/start-wt.sh
 ```
-Hold CTRL + A, and press D to exit your screen.
 
-Now you can close your terminal and the web application should be running your newest version.
+Lastly you can close your terminal and the web application should be running your newest version.
 
 
 ## Learn More
