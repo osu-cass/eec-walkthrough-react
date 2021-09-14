@@ -19,7 +19,7 @@ function BulletPointText(props) {
           />
         )}
         <div
-          className={`row mx-auto ${
+          className={`row ml-1 mr-auto ${
             props.highlightStyle === 1 ? "new-review-item" : ""
           }
         ${props.internal ? "internal-item" : ""} ${
