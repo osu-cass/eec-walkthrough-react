@@ -1,0 +1,20 @@
+version: '3.8'
+
+# Development overrides for docker-compose.yml
+services:
+  app:
+    # Mount source code for live development
+    volumes:
+      - .:/app:cached
+      - /app/node_modules
+      - /app/client/node_modules
+      - /app/client/build
+      # Persistent uploads still mounted from base compose
+      - uploads_data:/app/client/files/uploads
+      - public_uploads_data:/app/client/public/uploads
+    environment:
+      - NODE_ENV=development
+    # Override command to run in development mode
+    command: npm run dev
+    # Remove restart policy for development
+    restart: "no"

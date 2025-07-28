@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # MariaDB 10.11 database to match production CentOS environment
+  database:
+    image: mariadb:10.11
+    container_name: eec-walkthrough-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: eec_walkthrough
+      MYSQL_USER: walkthrough
+      MYSQL_PASSWORD: walkthroughpass
+    ports:
+      - "3306:3306"
+    volumes:
+      # Initialize database with new schema (includes latest field additions)
+      - ./services/database/db-init-new.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      # Custom MariaDB configuration
+      - ./docker/database/my.cnf:/etc/mysql/mariadb.conf.d/99-custom.cnf:ro
+      # Persistent database storage
+      - db_data:/var/lib/mysql
+    networks:
+      - eec-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Node.js application
+  app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    container_name: eec-walkthrough-app
+    ports:
+      - "1111:1111"  # API port
+      - "2222:2222"  # File serving port
+    env_file:
+      - .env.docker
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - eec-network
+    restart: unless-stopped
+    volumes:
+      # Persistent uploads storage
+      - uploads_data:/app/client/files/uploads
+      - public_uploads_data:/app/client/public/uploads
+
+# Named volumes for persistent data
+volumes:
+  db_data:
+    driver: local
+  uploads_data:
+    driver: local
+  public_uploads_data:
+    driver: local
+
+# Network for service communication
+networks:
+  eec-network:
+    driver: bridge
