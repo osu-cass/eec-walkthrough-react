@@ -29,6 +29,25 @@ services:
       timeout: 5s
       retries: 3
 
+  # phpMyAdmin web interface for database management
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: eec-walkthrough-phpmyadmin
+    environment:
+      PMA_HOST: database
+      PMA_PORT: 3306
+      PMA_USER: walkthrough
+      PMA_PASSWORD: walkthroughpass
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "8080:80"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - eec-network
+    restart: unless-stopped
+
   # Node.js application
   app:
     build:

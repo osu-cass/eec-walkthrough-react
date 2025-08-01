@@ -1,4 +1,4 @@
-# Use Node.js 18 on Alpine (lightweight and matches CentOS production environment)
+# Use Node.js 14 on Alpine (compatible with node-sass 4.14.1)
 FROM node:14-alpine3.15
 
 # Set working directory
@@ -13,11 +13,13 @@ RUN apk add --no-cache python2 python2-dev make g++ bash
 COPY package*.json ./
 COPY client/package*.json ./client/
 
-# Install backend dependencies with legacy peer deps for compatibility
-RUN npm install --only=production --legacy-peer-deps
+# Install ALL dependencies (including dev) for development builds
+# Use ARG to determine if we should install dev dependencies
+ARG NODE_ENV=production
+RUN if [ "$NODE_ENV" = "development" ] ; then npm install --legacy-peer-deps ; else npm install --only=production --legacy-peer-deps ; fi
 
-# Install client dependencies with legacy peer deps for compatibility
-RUN cd client && npm install --only=production --legacy-peer-deps
+# Install client dependencies
+RUN cd client && npm install --legacy-peer-deps
 
 # Update Babel core to compatible version for Node.js 14 (Docker environment only)
 RUN cd client && npm install @babel/core@^7.12.0 --save-dev --legacy-peer-deps
@@ -28,7 +30,7 @@ COPY . .
 # Copy .env.docker as .env for the build process
 COPY .env.docker .env
 
-# Build the React application
+# Build the React application with relaxed linting for development
 RUN DISABLE_ESLINT_PLUGIN=true npm run build
 
 # Create uploads directories if they don't exist
