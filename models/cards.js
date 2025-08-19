@@ -84,6 +84,9 @@ async function createCard(headerId, cardType, title, items, userId) {
       [headerId, cardType, title, userId]
     );
 
+    console.debug("insertResult", insertResult);
+    console.debug("typeof insertResult.insertId", typeof insertResult.insertId);
+
     if (!insertResult || typeof insertResult.insertId !== "number") {
       throw new Error("Card insert failed — insertId not returned.");
     }
@@ -106,6 +109,19 @@ async function createCard(headerId, cardType, title, items, userId) {
     ) VALUES `;
 
     for (const item of items) {
+      console.log("Processing item:", {
+        indentation: item.indentation,
+        iconType: item.iconType,
+        contentText: item.contentText?.substring(0, 50) + "...",
+        contentUrl: item.contentUrl,
+        contentLabel: item.contentLabel,
+        contentMode: item.contentMode,
+        internal: item.internal,
+        inline: item.inline,
+        sourceId: item.sourceId,
+        learnMoreUrl: item.learnMoreUrl
+      });
+      
       itemsSql += `(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),`;
       sqlParams.push(
         cardId,
@@ -123,11 +139,24 @@ async function createCard(headerId, cardType, title, items, userId) {
     }
 
     itemsSql = itemsSql.slice(0, -1) + ";"; // Replace final comma with semicolon
-    await pool.query(itemsSql, sqlParams);
 
+    console.log("=== DEBUG SQL CONSTRUCTION ===");
+    console.log("Items count:", items.length);
+    console.log("Final SQL:", itemsSql);
+    console.log("SQL params count:", sqlParams.length);
+    console.log("SQL params:", sqlParams);
+    console.log("================================");
+
+    try {
+      await pool.query(itemsSql, sqlParams);
+    } catch (err) {
+      console.error("SQL Error:", err);
+      console.error("SQL Query:", itemsSql);
+      console.error("SQL Params:", sqlParams);
+      throw err; // Re-throw to maintain error handling
+    }
     // 9. Return success
     return { insertId: cardId };
-
   } catch (err) {
     console.error("Error creating card:", err);
     throw err; // Let the calling code handle the error if needed
