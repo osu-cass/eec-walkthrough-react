@@ -21,6 +21,6 @@ services:
       - "9229:9229"  # Node.js debugger
       - "3000:3000"  # React dev server
     # Override command to run in development mode
-    command: npm run dev
+    command: npm run dev:debug
     # Remove restart policy for development
     restart: "no"
