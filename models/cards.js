@@ -77,7 +77,7 @@ async function createCard(headerId, cardType, title, items, userId) {
       return { error: 4 };
     }
 
-    // 6. Insert the card (orderIndex will be updated after insert)
+    // 6. Insert the card (set orderIndex to 0 temporarily)
     const [insertResult] = await pool.query(
       `INSERT INTO Cards (headerId, cardType, title, userId, orderIndex, approved)
        VALUES (?, ?, ?, ?, 0, 0);`,
@@ -103,7 +103,7 @@ async function createCard(headerId, cardType, title, items, userId) {
     const sqlParams = [];
 
     let itemsSql = `INSERT INTO Items (
-      cardId, indentation, iconType, contentText,
+      cardId, orderIndex, indentation, iconType, contentText,
       contentUrl, contentLabel, contentMode,
       internal, inline, sourceId, learnMoreUrl, approved
     ) VALUES `;
@@ -122,9 +122,10 @@ async function createCard(headerId, cardType, title, items, userId) {
         learnMoreUrl: item.learnMoreUrl
       });
       
-      itemsSql += `(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),`;
+      itemsSql += `(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),`;
       sqlParams.push(
         cardId,
+        items.indexOf(item),
         item.indentation,
         item.iconType,
         sanitizeRichText(item.contentText),
