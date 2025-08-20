@@ -225,7 +225,7 @@ function ConstructCardModal(props) {
     }
 
     // if this is a link, then get the previous items link mode
-    let newContentMode = -1;
+    let newContentMode = 0;
     if (items.length && items[items.length - 1].groupIndex === 3) {
       newContentMode = items[items.length - 1].contentMode;
     }
