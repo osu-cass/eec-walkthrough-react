@@ -27,7 +27,8 @@ jobs:
       - name: Build and export Docker image
         uses: docker/build-push-action@v5
         with:
-          context: docker/app
+          context: .
+          file: docker/app/Dockerfile
           tags: Energy-Efficency-Center/eec-walkthrough-react:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -51,7 +52,8 @@ jobs:
         if: contains(fromJSON('["push", "schedule"]'), github.event_name)
         uses: docker/build-push-action@v5
         with:
-          context: docker/app
+          context: .
+          file: docker/app/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
