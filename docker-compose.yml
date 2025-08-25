@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # MariaDB 10.11 database to match production CentOS environment
   database:
