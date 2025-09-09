@@ -23,13 +23,13 @@ async function createCard(headerId, cardType, title, items, userId) {
     );
     if (!headers.length) return { error: 2 };
 
-    // 3. Get allowed icons
+    // 3. Get invalid icons
     const [icons] = await pool.query(
       `SELECT iconType FROM Icons WHERE groupIndex = 0;`
     );
 
     // 4. Validate items
-    const disallowedIconTypes = new Set(icons.map((i) => i.iconType));
+    const invalidIconTypes = new Set(icons.map((i) => i.iconType));
     let notImage = false;
 
     for (const item of items) {
@@ -62,8 +62,8 @@ async function createCard(headerId, cardType, title, items, userId) {
       }
 
       // FIX: Change this line - should reject if NOT in allowed set
-      if (disallowedIconTypes.has(iconType)) {
-        return { error: 3 }; // using disallowed icon
+      if (invalidIconTypes.has(iconType)) {
+        return { error: 3 }; // using invalid icon
       }
 
       // Check if any item is not an image
@@ -332,7 +332,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
     // and make sure all of the items are valid as well
     sql = "SELECT iconType " +
 			"FROM Icons " +
-			"WHERE groupIndex IN (1, 2, 3);";
+			"WHERE groupIndex = 0;";
     results = await pool.query(sql, []);
 
     let notImage = false;
@@ -340,6 +340,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
     for (let i = 0; i < items.length; i++) {
       // check the icons
       for (let j = 0; j < icons.length; j++) {
+        // checks if the current item's icon is in the invalid icon types
         if (items[i].iconType === icons[j].iconType) {
           return {error: 2};
         }
