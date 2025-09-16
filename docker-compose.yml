@@ -5,9 +5,9 @@ services:
     container_name: eec-walkthrough-db
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: eec_walkthrough
-      MYSQL_USER: walkthrough
-      MYSQL_PASSWORD: walkthroughpass
+      MYSQL_DATABASE: ${SQL_DB_NAME}
+      MYSQL_USER: ${SQL_USER}
+      MYSQL_PASSWORD: ${SQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
@@ -53,8 +53,8 @@ services:
       dockerfile: docker/app/Dockerfile
     container_name: eec-walkthrough-app
     ports:
-      - "1111:1111"  # API port
-      - "2222:2222"  # File serving port
+      - "${API_PORT}:${API_PORT}"  # API port via env variable
+      - "${FILE_PORT}:${FILE_PORT}"  # File serving port via env variable
     env_file:
       - .env.docker
     depends_on:
