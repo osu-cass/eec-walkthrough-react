@@ -41,6 +41,6 @@
 		"serverDev:debug": "nodemon --inspect=0.0.0.0:9229 app.js --ignore client/*",
 		"client": "cd client && npm start",
 		"installAll": "npm install && cd client && npm install",
-		"build": "[ -f .env ] && cp .env client; cd client && npm run build"
+		"build": "[ -f .env.client ] && cp -f .env.client client/.env; cd client && npm run build"
 	}
 }

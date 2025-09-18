@@ -27,8 +27,8 @@ RUN cd client && npm install @babel/core@^7.12.0 --save-dev --legacy-peer-deps
 # Copy the entire application
 COPY . .
 
-# Copy .env.client as .env
-COPY .env.client .env
+# Copy .env.client as client/.env
+COPY .env.client client/.env
 
 # Build the React application with relaxed linting for development
 RUN DISABLE_ESLINT_PLUGIN=true npm run build
