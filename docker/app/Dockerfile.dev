@@ -23,8 +23,8 @@ RUN cd client && npm install @babel/core@^7.12.0 --save-dev --legacy-peer-deps
 # Copy the entire application
 COPY . .
 
-# Copy .env.docker as .env
-COPY .env.docker .env
+# Copy .env.client as .env
+COPY .env.client .env
 
 # Create uploads directories
 RUN mkdir -p client/files/uploads client/public/uploads
