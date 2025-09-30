@@ -1,13 +1,12 @@
-# Use Node.js 14 on Alpine (compatible with node-sass 4.14.1)
-FROM node:14-alpine3.15
+# Use Node.js 24 on Alpine
+FROM node:24-alpine3.21
 
 # Set working directory
 WORKDIR /app
 
-# Install build tools including Python2 (required for node-sass compatibility)
-# NOTE: Python2 is EOL but required for legacy node-sass dependency
+# Install build tools including Python3
 # This is isolated to the Docker development environment only
-RUN apk add --no-cache python2 python2-dev make g++ bash
+RUN apk add --no-cache python3 python3-dev make g++ bash
 
 # Copy package files first for better Docker layer caching
 COPY package*.json ./
@@ -21,7 +20,7 @@ RUN if [ "$NODE_ENV" = "development" ] ; then npm install --legacy-peer-deps ; e
 # Install client dependencies
 RUN cd client && npm install --legacy-peer-deps
 
-# Update Babel core to compatible version for Node.js 14 (Docker environment only)
+# Update Babel core to compatible version for Node.js 24 (Docker environment only)
 RUN cd client && npm install @babel/core@^7.12.0 --save-dev --legacy-peer-deps
 
 # Copy the entire application
