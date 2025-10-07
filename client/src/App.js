@@ -34,7 +34,7 @@ import Footer from "./components/Footer/Footer";
 import TrainingPage from "./pages/TrainingPage/TrainingPage";
 import {Route, Switch} from "react-router-dom";
 import "./App.css";
-import {Provider} from "react-redux";
+import { Provider } from "react-redux";
 import store from "./redux/store";
 
 function App() {

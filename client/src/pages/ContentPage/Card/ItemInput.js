@@ -3,7 +3,7 @@ import FormControl from "react-bootstrap/FormControl";
 import Dropdown from "react-bootstrap/Dropdown";
 import ImageInput from "../../../components/General/ImageInput";
 import RichTextEditor from "../../../components/General/RichTextEditor";
-import sanitizeHtml from "sanitize-html";
+import DOMPurify from "dompurify";
 import PropTypes from "prop-types";
 import "./ItemInput.css";
 
@@ -53,7 +53,7 @@ function ItemInput(props) {
       // find the text for the current selected source
       for (let i = 0; i < sources.length; i++) {
         if (sourceValue === sources[i].sourceId) {
-          const cleanString = sanitizeHtml(sources[i].text, {allowedTags: [], allowedAttributes: {}});
+          const cleanString = DOMPurify.sanitize(sources[i].text, {ALLOWED_TAGS: [], ALLOWED_ATTR: {}});
           setSourceText(`Source: ${cleanString.substring(0, 8).trim()}...`);
           handleSourceValue(index, sources[i].sourceId);
           break;
@@ -67,9 +67,9 @@ function ItemInput(props) {
   useEffect(() => {
     const copy = JSON.parse(JSON.stringify(props.sources));
     for (let i = 0; i < props.sources.length; i++) {
-      const newSourceText = sanitizeHtml(props.sources[i].text, {
-        allowedTags: [],
-        allowedAttributes: {}
+      const newSourceText = DOMPurify.sanitize(props.sources[i].text, {
+        ALLOWED_TAGS: [],
+        ALLOWED_ATTR: {}
       });
 
       copy[i].text = newSourceText;

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import sanitizeHtml from "sanitize-html";
+import DOMPurify from "dompurify";
 import "./Sanitized.css";
 
 // Sanitizes the HTML that is passed to it
@@ -11,53 +11,19 @@ function Sanitized(props) {
   if (clean.startsWith("<p>")) {
     clean = clean.slice(3, clean.length - 4);
   }
-  clean = sanitizeHtml(clean, {
-    parser: {
-      lowerCaseAttributeNames: false,
-    },
-    allowedTags: [
-      "a",
-      "p",
-      "strong",
-      "u",
-      "ol",
-      "li",
-      "ul",
-      "em",
-      "s",
-      "span",
-      "math",
-      "annotation",
-      "semantics",
-      "mtext",
-      "mn",
-      "mo",
-      "mi",
-      "mspace",
-      "mover",
-      "munder",
-      "munderover",
-      "msup",
-      "msub",
-      "msubup",
-      "mfrac",
-      "mroot",
-      "msqrt",
-      "mtable",
-      "mtr",
-      "mtd",
-      "mlabeledtr",
-      "mrow",
-      "menclose",
-      "mstyle",
-      "mpadded",
-      "mphantom",
-      "mglyph",
-      "svg",
-      "line",
-      "path",
-      "menclose"
+  clean = DOMPurify.sanitize(clean, {
+    ADD_TAGS: [
+      "math","annotation","semantics","mtext","mn","mo","mi","mspace","mover","munder","munderover",
+      "msup","msub","msubup","mfrac","mroot","msqrt","mtable","mtr","mtd","mlabeledtr","mrow",
+      "menclose","mstyle","mpadded","mphantom","mglyph","svg","line","path","span","s"
     ],
+    ADD_ATTR: [
+      "stretchy","notation","x1","y1","x2","y2","stroke-width","encoding","accentunder","accent",
+      "width","height","viewBox","preserveAspectRatio","d","row","rowspacing","rowalign","rowlines",
+      "column","columnspacing","columnalign","columnlines","spacing","scriptlevel","displaystyle",
+      "style","data-value","contenteditable","aria-hidden","href"
+    ],
+    ALLOWED_URI_REGEXP: /^https?:/i,
     disallowedTagsMode: "discard",
     allowedAttributes: {
       a: [
