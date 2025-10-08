@@ -199,7 +199,10 @@ function ManageUsers() {
 
           <UserSearchForm onSearch={cursor => callSearch(cursor, true)}/>
 
-          <UserSearchResults users={users} cursor={cursor} loading={loading}
+          <UserSearchResults
+            users={users}
+            cursor={cursor}
+            loading={loading}
             onChangeSort={(sort, order) => handleChangeSort(sort, order)}
             onLoading={load => setMoreLoading(load)} error={errorMessage}
             onLoadMore={cursor => callSearch(cursor, false)}

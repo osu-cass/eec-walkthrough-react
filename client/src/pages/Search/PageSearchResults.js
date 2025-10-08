@@ -1,5 +1,5 @@
 import React from "react";
-import {withRouter, Link} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import LoadMoreButton from "../../components/General/LoadMoreButton";
 import {formatTime} from "../../utilities/formatTime";
@@ -9,6 +9,8 @@ import "./PageSearchResults.css";
 
 // search results for a page search
 function PageSearchResults(props) {
+
+  const navigate = useNavigate();
 
   if (props.pages.length) {
     return (
@@ -61,12 +63,12 @@ function PageSearchResults(props) {
   }
 
 }
-export default withRouter(PageSearchResults);
+export default PageSearchResults;
 
 PageSearchResults.propTypes = {
   searchText: PropTypes.string,
   loading: PropTypes.bool,
-  history: PropTypes.object,
+  navigate: PropTypes.object,
   pages: PropTypes.array,
   cursor: PropTypes.object,
   onLoadMore: PropTypes.func,

@@ -1,5 +1,5 @@
 import React, {useState, useEffect, Fragment} from "react";
-import {useParams, withRouter, Link} from "react-router-dom";
+import {useParams, useNavigate, Link} from "react-router-dom";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import Image from "../../components/General/Image";
 import Sanitized from "../../components/General/Sanitized";
@@ -10,6 +10,7 @@ import "./PageList.css";
 // lists pages for each section
 function PageList() {
 
+  const navigate = useNavigate();
   const [category, setCategory] = useState({
     pluralName: "",
     singleName: "",
@@ -263,4 +264,4 @@ function PageList() {
   }
 
 }
-export default withRouter(PageList);
+export default PageList;

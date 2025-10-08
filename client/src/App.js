@@ -32,7 +32,7 @@ import NavBar from "./components/NavBar/NavBar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Footer from "./components/Footer/Footer";
 import TrainingPage from "./pages/TrainingPage/TrainingPage";
-import {Route, Switch} from "react-router-dom";
+import {Route, Routes} from "react-router-dom"; 
 import "./App.css";
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -69,127 +69,38 @@ function App() {
             closeSidebar={() => setSidebarOpen(false)}
           />
 
-          <Switch>
-            <Route path="/wiki/:category/:pageId">
-              <ContentPage handlePageEdit={() => setPageEdit(!pageEdit)} />
-            </Route>
-
-            <Route path="/training/:pageId">
-              <TrainingPage />
-            </Route>
-
-            <Route path="/quiz/:pageId">
-              <Quiz />
-            </Route>
-
-            <Route path="/quiz-results/:pageId">
-              <QuizResults />
-            </Route>
-
-            <Route path="/edit-quiz/:pageId">
-              <QuizEdit />
-            </Route>
-
-            <Route path="/move-quiz/:pageId">
-              <QuizMove />
-            </Route>
-
-            <Route path="/search/:searchId">
-              <Search />
-            </Route>
-
-            <Route path="/page-list/:categoryId">
-              <PageList />
-            </Route>
-
-            <Route path="/manage-card-titles">
-              <ManageCardTitles />
-            </Route>
-
-            <Route path="/manage-contributors">
-              <ManageContributors />
-            </Route>
-
-            <Route path="/manage-icons">
-              <ManageIcons />
-            </Route>
-
-            <Route path="/manage-images/:userId">
-              <ManageFiles />
-            </Route>
-
-            <Route path="/manage-uploads">
-              <ManageDirectories />
-            </Route>
-
-            <Route path="/manage-links">
-              <ManageLinks />
-            </Route>
-
-            <Route path="/manage-users">
-              <ManageUsers />
-            </Route>
-
-            <Route path="/manage-home">
-              <ManageHome />
-            </Route>
-
-            <Route path="/history-report">
-              <ViewHistory />
-            </Route>
-
-            <Route path="/disclaimer">
-              <Disclaimer />
-            </Route>
-
-            <Route path="/contributors">
-              <Contributors />
-            </Route>
-
-            <Route path="/publish-requests/:requestId">
-              <RequestPage />
-            </Route>
-
-            <Route path="/publish-requests">
-              <PublishRequests />
-            </Route>
-
-            <Route path="/publish-request-history">
-              <PublishRequestHistory />
-            </Route>
-
-            <Route path="/register-user">
-              <RegisterUser />
-            </Route>
-
-            <Route path="/edit-user">
-              <EditUser handleNameChange={() => setNameChange(!nameChange)} />
-            </Route>
-
-            <Route path="/submit-contributor">
-              <SubmitContributor />
-            </Route>
-
-            <Route path="/500">
-              <Error500 />
-            </Route>
-
-            <Route path="/old-home">
-              <Home loginStatusChange={loginStatusChange} />
-            </Route>
-
-            <Route path="/demo">
-              <HomePage loginStatusChange={loginStatusChange} />
-            </Route>
-
-            <Route exact path="/">
-              <HomePage loginStatusChange={loginStatusChange} />
-            </Route>
-
-            <Route path="*">
-              <Error404 />
-            </Route>
-          </Switch>
+          <Routes>  {/* Changed: Switch → Routes */}
+            <Route path="/wiki/:category/:pageId" element={<ContentPage handlePageEdit={() => setPageEdit(!pageEdit)} />} />
+            <Route path="/training/:pageId" element={<TrainingPage />} />
+            <Route path="/quiz/:pageId" element={<Quiz />} />
+            <Route path="/quiz-results/:pageId" element={<QuizResults />} />
+            <Route path="/edit-quiz/:pageId" element={<QuizEdit />} />
+            <Route path="/move-quiz/:pageId" element={<QuizMove />} />
+            <Route path="/search/:searchId" element={<Search />} />
+            <Route path="/page-list/:categoryId" element={<PageList />} />
+            <Route path="/manage-card-titles" element={<ManageCardTitles />} />
+            <Route path="/manage-contributors" element={<ManageContributors />} />
+            <Route path="/manage-icons" element={<ManageIcons />} />
+            <Route path="/manage-images/:userId" element={<ManageFiles />} />
+            <Route path="/manage-uploads" element={<ManageDirectories />} />
+            <Route path="/manage-links" element={<ManageLinks />} />
+            <Route path="/manage-users" element={<ManageUsers />} />
+            <Route path="/manage-home" element={<ManageHome />} />
+            <Route path="/history-report" element={<ViewHistory />} />
+            <Route path="/disclaimer" element={<Disclaimer />} />
+            <Route path="/contributors" element={<Contributors />} />
+            <Route path="/publish-requests/:requestId" element={<RequestPage />} />
+            <Route path="/publish-requests" element={<PublishRequests />} />
+            <Route path="/publish-request-history" element={<PublishRequestHistory />} />
+            <Route path="/register-user" element={<RegisterUser />} />
+            <Route path="/edit-user" element={<EditUser handleNameChange={() => setNameChange(!nameChange)} />} />
+            <Route path="/submit-contributor" element={<SubmitContributor />} />
+            <Route path="/500" element={<Error500 />} />
+            <Route path="/old-home" element={<Home loginStatusChange={loginStatusChange} />} />
+            <Route path="/demo" element={<HomePage loginStatusChange={loginStatusChange} />} />
+            <Route path="/" element={<HomePage loginStatusChange={loginStatusChange} />} />
+            <Route path="*" element={<Error404 />} />
+          </Routes>
         </main>
         <Footer />
       </Provider>

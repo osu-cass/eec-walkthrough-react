@@ -2,13 +2,14 @@ import React, {useState, useEffect} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {API_URL} from "../../utilities/constants";
 import PageSearchResults from "./PageSearchResults";
-import {useParams, withRouter} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import PropTypes from "prop-types";
 
 // search results page
-function Search(props) {
+function Search() {
 
   const {searchId} = useParams();
+  const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(false);
@@ -86,7 +87,7 @@ function Search(props) {
 
         // if there is only one result, then go to the page
         if (obj.pages.length === 1) {
-          props.history.push(`/wiki/search-results/${obj.pages[0].pageId}`);
+          navigate(`/wiki/search-results/${obj.pages[0].pageId}`);
         }
 
       } else {
@@ -113,7 +114,7 @@ function Search(props) {
     </div>
   );
 }
-export default withRouter(Search);
+export default Search;
 
 Search.propTypes = {
   history: PropTypes.object

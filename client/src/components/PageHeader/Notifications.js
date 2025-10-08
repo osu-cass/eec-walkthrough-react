@@ -1,5 +1,5 @@
 import React, {useState, useEffect, Fragment} from "react";
-import {withRouter} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {Link} from "react-router-dom";
 import {API_URL} from "../../utilities/constants";
 import "./Notifications.css";
@@ -7,6 +7,7 @@ import "./Notifications.css";
 // Displays any new notifications for the current user
 function Notifications() {
 
+  const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const [jiggle, setJiggle] = useState(false);
   const TIME_BETWEEN_NOTIFICATIONS = 5000;
@@ -164,11 +165,9 @@ function Notifications() {
             )}
           </Fragment>
         ) : (
-          <Link to={`.`} onClick={(event) => event.preventDefault()}>
-            <div className="dropdown-item note-item">
-              No new notifications
-            </div>
-          </Link>
+          <div className="dropdown-item note-item">
+            No new notifications
+          </div>
         )}
       </div>
 
@@ -176,4 +175,4 @@ function Notifications() {
   );
 
 }
-export default withRouter(Notifications);
+export default Notifications;

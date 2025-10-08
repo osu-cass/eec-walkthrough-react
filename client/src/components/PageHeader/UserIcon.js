@@ -1,11 +1,13 @@
 import React, {Fragment} from "react";
-import {withRouter} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {formatRole} from "../../utilities/formatRole";
 import {logout} from "../../utilities/cookieAuth";
 import "./UserIcon.css";
 
 // represents the current user
 function UserIcon(props) {
+
+  const navigate = useNavigate();
 
   // perform logout
   function logoutHandler(e) {
@@ -16,20 +18,20 @@ function UserIcon(props) {
     // logout, update the navigation bar, and return to the homepage
     logout();
     props.onLogin();
-    props.history.push(`/`);
+    navigate(`/`);
 
   }
 
   // redirect to the edit user page
   function editHandler(e) {
     e.preventDefault();
-    props.history.push("/edit-user");
+    navigate("/edit-user");
   }
 
   // redirect to the submit contributor page
   function submitContributor(e) {
     e.preventDefault();
-    props.history.push("/submit-contributor");
+    navigate("/submit-contributor");
   }
 
   if (props.role) {
@@ -81,4 +83,4 @@ function UserIcon(props) {
     return null;
   }
 }
-export default withRouter(UserIcon);
+export default UserIcon;

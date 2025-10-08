@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Form, Modal, Button} from "react-bootstrap";
 import LoadingOverlay from "../General/LoadingOverlay";
-import {withRouter} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Error from "../General/Error";
 import {API_URL} from "../../utilities/constants";
 import "./Login.css";
@@ -9,6 +9,7 @@ import "./Login.css";
 // login button, acts as the logout button when a user is already logged in
 function Login (props) {
 
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -53,8 +54,8 @@ function Login (props) {
         setShowModal(false);
         props.onLogin();
         props.onNameChange();
-        props.history.push(`/`);
-        props.history.goBack();
+        navigate(`/`);
+        navigate(-1);
 
         const obj = await results.json();
 
@@ -105,7 +106,7 @@ function Login (props) {
 
     // clean up the modal and go to the registration page
     setShowModal(false);
-    props.history.push(`/register-user`);
+    navigate(`/register-user`);
   }
 
   // render a logout button if the user is already logged in,
@@ -200,4 +201,4 @@ function Login (props) {
     );
   }
 }
-export default withRouter(Login);
+export default Login;
