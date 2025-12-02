@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import {BiCommentDots} from "react-icons/bi";
+import { BiCommentDots } from "react-icons/bi";
 
 function CommentIcon({onAnnotationClicked}) {
   return (
