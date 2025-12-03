@@ -36,7 +36,7 @@ function LoadTrainingPages({role, mode}) {
           <Container className="dropdown text-center mx-2 my-auto d-print-none">
             <button
               className="btn btn-success btn-sm"
-              data-toggle="dropdown"
+              data-bs-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
               id="dropdownMenuButton"
@@ -63,7 +63,7 @@ function LoadTrainingPages({role, mode}) {
           <Container className="dropdown text-center mx-2 my-auto d-print-none">
             <button
               className="btn btn-success btn-sm"
-              data-toggle="dropdown"
+              data-bs-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
               id="dropdownMenuButton"

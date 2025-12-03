@@ -130,7 +130,7 @@ function Notifications() {
         className={`btn ml-4 ${jiggle ? "jiggle" : ""} ${notifications.length ? "btn-active-note" : "btn-dark"}`}
         type="button"
         id="note-navbar-icon-drp"
-        data-toggle="dropdown"
+        data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
       >
