@@ -58,7 +58,7 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 - Custom configuration in `docker/database/my.cnf`
 
 ### Application (Node.js)
-- Built from Node.js 18 Alpine image
+- Built from Node.js 24 Alpine base image
 - Runs both backend API and serves built React frontend
 - Persistent upload storage via Docker volumes
 
