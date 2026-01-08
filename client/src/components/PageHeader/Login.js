@@ -55,7 +55,6 @@ function Login (props) {
         props.onLogin();
         props.onNameChange?.();
         navigate(`/`);
-        navigate(-1);
 
         const obj = await results.json();
 

@@ -1,5 +1,4 @@
 import React, {useState, useEffect, Fragment} from "react";
-import {useNavigate} from "react-router-dom";
 import {Link} from "react-router-dom";
 import {API_URL} from "../../utilities/constants";
 import "./Notifications.css";
@@ -7,7 +6,6 @@ import "./Notifications.css";
 // Displays any new notifications for the current user
 function Notifications() {
 
-  const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
   const [jiggle, setJiggle] = useState(false);
   const TIME_BETWEEN_NOTIFICATIONS = 5000;
