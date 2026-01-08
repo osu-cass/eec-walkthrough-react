@@ -28,6 +28,7 @@
 .env.test.local
 .env.production.local
 .env.docker
+.env.client
 *.env
 
 npm-debug.log*
