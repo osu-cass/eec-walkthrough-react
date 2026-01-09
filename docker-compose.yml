@@ -4,10 +4,10 @@ services:
     image: mariadb:10.11
     container_name: eec-walkthrough-db
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: ${SQL_DB_NAME:? error - SQL_DB_NAME is not set}
-      MYSQL_USER: ${SQL_USER:? error - SQL_USER is not set}
-      MYSQL_PASSWORD: ${SQL_PASSWORD:? error - SQL_PASSWORD is not set}
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+      MARIADB_DATABASE_FILE: /run/secrets/mysql_db_name
+      MARIADB_USER_FILE: /run/secrets/mysql_user
+      MARIADB_PASSWORD_FILE: /run/secrets/mysql_password
     ports:
       - "3306:3306"
     volumes:
@@ -26,17 +26,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    secrets:
+      - mysql_root_password
+      - mysql_db_name
+      - mysql_user
+      - mysql_password
 
   # phpMyAdmin web interface for database management
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: eec-walkthrough-phpmyadmin
     environment:
-      PMA_HOST: database
-      PMA_PORT: 3306
       PMA_USER: walkthrough
-      PMA_PASSWORD: walkthroughpass
-      MYSQL_ROOT_PASSWORD: rootpassword
+      PMA_PORT: 3306
+      PMA_HOST_FILE: /run/secrets/mysql_db_host
+      PMA_PASSWORD_FILE: /run/secrets/mysql_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
     ports:
       - "8080:80"
     depends_on:
@@ -45,6 +50,10 @@ services:
     networks:
       - eec-network
     restart: unless-stopped
+    secrets:
+      - mysql_password
+      - mysql_root_password
+      - mysql_db_host
 
   # Node.js application
   app:
@@ -57,12 +66,12 @@ services:
     environment:
       API_PORT: ${API_PORT}
       FILE_PORT: ${FILE_PORT}
-      SQL_PORT: ${SQL_PORT}
-      SQL_DB_NAME: ${SQL_DB_NAME:? error - SQL_DB_NAME is not set}
-      SQL_HOST: ${SQL_HOST:? error - SQL_HOST is not set}
-      SQL_PASSWORD: ${SQL_PASSWORD:? error - SQL_PASSWORD is not set}
-      SQL_USER: ${SQL_USER:? error - SQL_USER is not set}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY:? error - JWT_SECRET_KEY is not set}
+      SQL_PORT_FILE: /run/secrets/mysql_port
+      SQL_DB_NAME_FILE: /run/secrets/mysql_db_name
+      SQL_HOST_FILE: /run/secrets/mysql_db_host
+      SQL_PASSWORD_FILE: /run/secrets/mysql_password
+      SQL_USER_FILE: /run/secrets/mysql_user
+      JWT_SECRET_KEY_FILE: /run/secrets/jwt_secret_key
       NODE_ENV: ${NODE_ENV:? error - NODE_ENV is not set}
     ports:
       - "${API_PORT}:${API_PORT}"  # API port via env variable
@@ -77,6 +86,30 @@ services:
       # Persistent uploads storage
       - uploads_data:/app/client/files/uploads
       - public_uploads_data:/app/client/public/uploads
+    secrets:
+      - mysql_root_password
+      - mysql_db_name
+      - mysql_user
+      - mysql_password
+      - mysql_port
+      - mysql_db_host
+      - jwt_secret_key
+
+secrets:
+  mysql_root_password:
+    file: ./secrets/mysql_root_password.txt
+  mysql_db_name:
+    file: ./secrets/mysql_db_name.txt
+  mysql_user:
+    file: ./secrets/mysql_user.txt
+  mysql_password:
+    file: ./secrets/mysql_password.txt
+  mysql_port:
+    file: ./secrets/mysql_port.txt
+  mysql_db_host:
+    file: ./secrets/mysql_db_host.txt
+  jwt_secret_key:
+    file: ./secrets/jwt_secret_key.txt
 
 # Named volumes for persistent data
 volumes:
