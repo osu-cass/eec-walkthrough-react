@@ -30,6 +30,7 @@
 .env.docker
 .env.client
 *.env
+secrets/
 
 npm-debug.log*
 yarn-debug.log*
