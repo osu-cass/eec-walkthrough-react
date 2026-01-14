@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const COOKIE_EXPIRES_MS = 8 * 60 * 60 * 1000; // cookies expire in 8 hours
 const JWT_EXPIRES_HR = "8h"; // JWT expires in 8 hours
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+const JWT_SECRET_KEY = getSecret("JWT_SECRET_KEY");
 const MIN_ID = 1;
 const MAX_ID = 4294967295;
 

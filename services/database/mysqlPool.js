@@ -2,19 +2,7 @@
 // Description: creates a mysql pool
 
 const mysql = require("mysql2/promise");
-const fs = require("fs");
-
-function getSecret(envVar) {
-  const fileEnvVar = envVar + "_FILE";
-  const filePath = process.env[fileEnvVar];
-
-  // Verify the file exists, then read it
-  if (filePath && fs.existsSync(filePath)) {
-    return fs.readFileSync(filePath, "utf8").trim();
-  }
-
-  return process.env[envVar];
-}
+const getSecret = require("../utils/getSecret");
 
 // set the server information using environment variables
 const mysqlPort = getSecret("SQL_PORT") || 3306;
