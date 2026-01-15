@@ -1,6 +1,6 @@
 # Docker Setup for EEC Walkthrough React Application
 
-This Docker setup provides a containerized environment that matches the production CentOS system with MariaDB 10.11.
+This Docker setup provides a containerized development environment that matches the production CentOS system with MariaDB 10.11.
 
 ## Prerequisites
 
@@ -9,35 +9,27 @@ This Docker setup provides a containerized environment that matches the producti
 
 ## Quick Start
 
-### Production-like Mode
 ```bash
 # Build and start all services
-docker-compose up -d
+docker compose up -d
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Stop all services
-docker-compose down
+docker compose down
 ```
 
-### Development Mode (with hot reload)
-```bash
-# Start in development mode with file watching
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
-
-# View logs
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml logs -f app
-
-# Stop services
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
-```
+The default configuration runs in **development mode** with hot reload enabled.
 
 ## Access Points
 
-- **Application**: http://localhost:2222
+- **React Dev Server**: http://localhost:3000 (with hot reload)
 - **API**: http://localhost:1111
+- **File Server**: http://localhost:2222
+- **phpMyAdmin**: http://localhost:8080
 - **Database**: localhost:3306 (accessible via MySQL client)
+- **Node.js Debugger**: localhost:9229
 
 ## Database Connection
 
@@ -59,7 +51,8 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 
 ### Application (Node.js)
 - Built from Node.js 24 Alpine base image
-- Runs both backend API and serves built React frontend
+- Runs backend API and React dev server with hot reload
+- Source code is bind-mounted for live editing
 - Persistent upload storage via Docker volumes
 
 ## File Structure
@@ -68,11 +61,15 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
 ├── docker/
 │   ├── app/
 │   │   └── Dockerfile              # Application container definition
+│   │   └── Dockerfile.dev          # Development container definition
 │   └── database/
 │       └── my.cnf                  # MariaDB configuration
-├── docker-compose.yml              # Main service definitions
-├── docker-compose.dev.yml          # Development overrides
-├── .env.docker                     # Docker environment variables
+├── docker-compose.yml              # Service definitions (development mode)
+├── .env                            # Environment variables (copy from .env.example)
+├── secrets/                        # Docker secrets directory
+│   ├── mysql_password.txt
+│   ├── mysql_root_password.txt
+│   └── jwt_secret_key.txt
 └── .dockerignore                   # Files excluded from build context
 ```
 
@@ -99,16 +96,22 @@ docker system prune -a
 ## Troubleshooting
 
 ### Application won't start
-- Check logs: `docker-compose logs app`
-- Ensure database is healthy: `docker-compose ps`
+- Check logs: `docker compose logs app`
+- Ensure database is healthy: `docker compose ps`
 
 ### Database connection issues
-- Verify database is running: `docker-compose ps database`
-- Check database logs: `docker-compose logs database`
+- Verify database is running: `docker compose ps database`
+- Check database logs: `docker compose logs database`
 
 ### Port conflicts
-- Ensure ports 1111, 2222, and 3306 are available on your system
-- Modify port mappings in `docker-compose.yml` if needed
+- Ensure the following ports are available on your system:
+  - 1111 (API)
+  - 2222 (File server)
+  - 3000 (React dev)
+  - 3306 (MySQL)
+  - 8080 (phpMyAdmin)
+  - 9229 (debugger)
+- Modify port mappings in `.env` if needed
 
 ### File permission issues (Windows)
 - Ensure Docker Desktop has access to the project directory

@@ -4,10 +4,10 @@ services:
     image: mariadb:10.11
     container_name: eec-walkthrough-db
     environment:
-      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
-      MARIADB_DATABASE_FILE: /run/secrets/mysql_db_name
-      MARIADB_USER_FILE: /run/secrets/mysql_user
+      MARIADB_DATABASE: ${MYSQL_DB_NAME:? error - MYSQL_DB_NAME is not set}
+      MARIADB_USER: ${MYSQL_USER:? error - MYSQL_USER is not set}
       MARIADB_PASSWORD_FILE: /run/secrets/mysql_password
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
     ports:
       - "3306:3306"
     volumes:
@@ -27,19 +27,17 @@ services:
       timeout: 5s
       retries: 3
     secrets:
-      - mysql_root_password
-      - mysql_db_name
-      - mysql_user
       - mysql_password
+      - mysql_root_password
 
   # phpMyAdmin web interface for database management
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     container_name: eec-walkthrough-phpmyadmin
     environment:
-      PMA_USER: walkthrough
-      PMA_PORT: 3306
-      PMA_HOST_FILE: /run/secrets/mysql_db_host
+      PMA_PORT: ${MYSQL_PORT:? error - MYSQL_PORT is not set}
+      PMA_HOST: ${MYSQL_HOST:? error - MYSQL_HOST is not set}
+      PMA_USER: ${MYSQL_USER:? error - MYSQL_USER is not set}
       PMA_PASSWORD_FILE: /run/secrets/mysql_password
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
     ports:
@@ -53,61 +51,56 @@ services:
     secrets:
       - mysql_password
       - mysql_root_password
-      - mysql_db_host
 
   # Node.js application
   app:
     build:
       context: .
-      dockerfile: docker/app/Dockerfile
+      dockerfile: docker/app/Dockerfile.dev
       args:
         REACT_APP_API_HOST: ${REACT_APP_API_HOST}
     container_name: eec-walkthrough-app
     environment:
-      API_PORT: ${API_PORT}
-      FILE_PORT: ${FILE_PORT}
-      SQL_PORT_FILE: /run/secrets/mysql_port
-      SQL_DB_NAME_FILE: /run/secrets/mysql_db_name
-      SQL_HOST_FILE: /run/secrets/mysql_db_host
-      SQL_PASSWORD_FILE: /run/secrets/mysql_password
-      SQL_USER_FILE: /run/secrets/mysql_user
+      # Environment variables for the application
+      API_PORT: ${API_PORT:? error - API_PORT is not set}
+      FILE_PORT: ${FILE_PORT:? error - FILE_PORT is not set}
+      MYSQL_PORT: ${MYSQL_PORT:? error - MYSQL_PORT is not set}
+      MYSQL_DB_NAME: ${MYSQL_DB_NAME:? error - MYSQL_DB_NAME is not set}
+      MYSQL_HOST: ${MYSQL_HOST:? error - MYSQL_HOST is not set}
+      MYSQL_USER: ${MYSQL_USER:? error - MYSQL_USER is not set}
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
       JWT_SECRET_KEY_FILE: /run/secrets/jwt_secret_key
       NODE_ENV: ${NODE_ENV:? error - NODE_ENV is not set}
+      DISABLE_ESLINT_PLUGIN: true
     ports:
       - "${API_PORT}:${API_PORT}"  # API port via env variable
       - "${FILE_PORT}:${FILE_PORT}"  # File serving port via env variable
+      - "9229:9229"  # Node.js debugger
+      - "3000:3000"  # React dev server
     depends_on:
       database:
         condition: service_healthy
     networks:
       - eec-network
-    restart: unless-stopped
+    # Override command to run in development mode
+    command: npm run dev:debug
+    restart: "no"
     volumes:
       # Persistent uploads storage
+      - .:/app:cached
+      - /app/node_modules
+      - /app/client/node_modules
       - uploads_data:/app/client/files/uploads
       - public_uploads_data:/app/client/public/uploads
     secrets:
-      - mysql_root_password
-      - mysql_db_name
-      - mysql_user
       - mysql_password
-      - mysql_port
-      - mysql_db_host
       - jwt_secret_key
 
 secrets:
-  mysql_root_password:
-    file: ./secrets/mysql_root_password.txt
-  mysql_db_name:
-    file: ./secrets/mysql_db_name.txt
-  mysql_user:
-    file: ./secrets/mysql_user.txt
   mysql_password:
     file: ./secrets/mysql_password.txt
-  mysql_port:
-    file: ./secrets/mysql_port.txt
-  mysql_db_host:
-    file: ./secrets/mysql_db_host.txt
+  mysql_root_password:
+    file: ./secrets/mysql_root_password.txt
   jwt_secret_key:
     file: ./secrets/jwt_secret_key.txt
 
