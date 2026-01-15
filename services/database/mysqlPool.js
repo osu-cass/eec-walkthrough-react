@@ -5,11 +5,11 @@ const mysql = require("mysql2/promise");
 const getSecret = require("../utils/getSecret");
 
 // set the server information using environment variables
-const mysqlPort = getSecret("SQL_PORT") || 3306;
-const mysqlHost = getSecret("SQL_HOST");
-const mysqlUser = getSecret("SQL_USER");
-const mysqlPassword = getSecret("SQL_PASSWORD");
-const mysqlDatabase = getSecret("SQL_DB_NAME");
+const mysqlPort = getSecret("MYSQL_PORT") || 3306;
+const mysqlHost = getSecret("MYSQL_HOST");
+const mysqlUser = getSecret("MYSQL_USER");
+const mysqlPassword = getSecret("MYSQL_PASSWORD");
+const mysqlDatabase = getSecret("MYSQL_DB_NAME");
 
 // create a MySQL resource pool
 const MAX_CONNECTIONS = 100;
