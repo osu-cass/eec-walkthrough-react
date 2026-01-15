@@ -23,8 +23,9 @@ RUN cd client && npm install @babel/core@^7.12.0 --save-dev --legacy-peer-deps
 # Copy the entire application
 COPY . .
 
-# Copy .env.client as .env
-COPY .env.client .env
+# Add build arg for React application
+ARG REACT_APP_API_HOST
+ENV REACT_APP_API_HOST=${REACT_APP_API_HOST}
 
 # Create uploads directories
 RUN mkdir -p client/files/uploads client/public/uploads
