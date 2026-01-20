@@ -6,6 +6,8 @@ const cookie = require("cookie");
 const assert = require("assert");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
+const getSecret = require("../utils/getSecret");
+
 const COOKIE_EXPIRES_MS = 8 * 60 * 60 * 1000; // cookies expire in 8 hours
 const JWT_EXPIRES_HR = "8h"; // JWT expires in 8 hours
 const JWT_SECRET_KEY = getSecret("JWT_SECRET_KEY");
