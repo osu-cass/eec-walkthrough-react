@@ -42,13 +42,14 @@ The following user secrets are used to store the database credentials and the JW
 - MYSQL_ROOT_PASSWORD: The password for the root user.
 - JWT_SECRET_KEY: The secret key for JWT authentication.
 
+> **⚠️ Important:** The credentials shown in [DOCKER.md](DOCKER.md) (e.g., `walkthrough`, `walkthroughpass`, `rootpassword`) are **example values only**. You must create your own secure passwords for local development. Never use these example values or commit real credentials to source control.
 
 #### Setup Steps
 1. Create a directory named `secrets` in the root directory of your project.
 2. Create these files in the `secrets` directory:
     - `mysql_password.txt`
     - `mysql_root_password.txt`
-3. Add your values for the secrets to each of the files. These values should be human readable and you should not share them with anyone.
+3. Add your own secure values for the secrets to each of the files. **Do not use the example values from the documentation.** These values should be human readable and you should not share them with anyone.
 4. Ensure you have Node.js installed and run the following command to generate a random JWT secret key.
 ```
 node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"

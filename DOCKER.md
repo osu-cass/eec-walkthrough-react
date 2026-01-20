@@ -36,9 +36,11 @@ The default configuration runs in **development mode** with hot reload enabled.
 - **Host**: localhost (from Windows) or `database` (from within containers)
 - **Port**: 3306
 - **Database**: eec_walkthrough
-- **Username**: walkthrough
-- **Password**: walkthroughpass
-- **Root Password**: rootpassword
+- **Username**: (value from `MYSQL_USER` in your `.env`)
+- **Password**: (value from `secrets/mysql_password.txt`)
+- **Root Password**: (value from `secrets/mysql_root_password.txt`)
+
+> **⚠️ Security Note:** Create your own secure passwords in the `secrets/` directory. See the [README.md](README.md#user-secrets) for setup instructions. **Never commit real credentials to source control.**
 
 ## Services
 
