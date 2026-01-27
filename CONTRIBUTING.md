@@ -24,10 +24,10 @@ Thank you for your interest in contributing to the EEC Walkthrough React applica
 
 1. Fork the repository
 2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/eec-walkthrough-react.git`
-3. Create a new branch: e.g. `git checkout -b feat/your-feature-name`
+3. Create a new branch from `dev`: e.g. `git checkout -b feat/your-feature-name dev`
 4. Make your changes
 5. Test your changes thoroughly
-6. Submit a pull request for review
+6. Submit a pull request targeting the `dev` branch for review
 
 ## Development Setup
 
@@ -129,6 +129,10 @@ eec-walkthrough-react/
 
 ## Git Workflow
 
+### Main Branch
+
+> **⚠️ Important:** The main development branch for this project is `dev`, not `main` or `master`. All feature branches should be created from `dev`, and all pull requests should target `dev`.
+
 ### Branch Naming
 
 Use descriptive branch names with prefixes:
@@ -166,13 +170,14 @@ Updated DOCKER.md and README.md to emphasize using secure, user-generated creden
 
 1. **Update your branch:**
    ```bash
-   git checkout main
-   git pull upstream main
+   git checkout dev
+   git pull upstream dev
    git checkout your-branch
-   git rebase upstream/main
+   git rebase upstream/dev
    ```
 
 2. **Create a pull request:**
+   - **Target the `dev` branch** (not `main` or `master`)
    - Provide a clear title and description
    - Reference any related issues
    - Include screenshots if UI changes are involved
