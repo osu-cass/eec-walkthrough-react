@@ -8,7 +8,7 @@ import {
 } from "../../../redux/selectors";
 import styled from "@emotion/styled/macro";
 import {API_URL} from "../../../utilities/constants";
-import {useParams, useHistory} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 
 const ErrorContainer = styled.div`
 	margin-top: 0.3rem;
@@ -30,7 +30,7 @@ function TrainingViewNameInput() {
   const [description, setDescription] = useState(storePageInfo.description);
   const trainingPageItems = useSelector(getTrainingPageItems);
   const {pageId, category} = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(true);
   const handleFormSubmit = async e => {
     alert("Done saving training page");
@@ -68,7 +68,7 @@ function TrainingViewNameInput() {
         })
       ).json();
       const newUrl = `/training/${response.id}`;
-      history.push(newUrl);
+      navigate(newUrl);
     } catch (err) {
       console.log(err);
       throw err;

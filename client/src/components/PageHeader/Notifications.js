@@ -1,5 +1,4 @@
 import React, {useState, useEffect, Fragment} from "react";
-import {withRouter} from "react-router-dom";
 import {Link} from "react-router-dom";
 import {API_URL} from "../../utilities/constants";
 import "./Notifications.css";
@@ -129,7 +128,7 @@ function Notifications() {
         className={`btn ml-4 ${jiggle ? "jiggle" : ""} ${notifications.length ? "btn-active-note" : "btn-dark"}`}
         type="button"
         id="note-navbar-icon-drp"
-        data-toggle="dropdown"
+        data-bs-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
       >
@@ -164,11 +163,9 @@ function Notifications() {
             )}
           </Fragment>
         ) : (
-          <Link to={`.`} onClick={(event) => event.preventDefault()}>
-            <div className="dropdown-item note-item">
-              No new notifications
-            </div>
-          </Link>
+          <div className="dropdown-item note-item">
+            No new notifications
+          </div>
         )}
       </div>
 
@@ -176,4 +173,4 @@ function Notifications() {
   );
 
 }
-export default withRouter(Notifications);
+export default Notifications;

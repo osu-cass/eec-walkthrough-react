@@ -2,7 +2,7 @@ import React, {useState, useEffect, Fragment} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {getProfile, logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
-import {useParams, useHistory} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
 import Question from "./Question";
@@ -20,7 +20,7 @@ function Quiz() {
   const [error, setError] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const {pageId} = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // Gets quiz info when the page first loads
   useEffect(() => {
@@ -360,7 +360,7 @@ function Quiz() {
 
     if (results.ok) {
       // go to the results page
-      history.push(`/quiz-results/${pageId}`);
+      navigate(`/quiz-results/${pageId}`);
     } else {
       setErrorMessage("An internal server error occurred. Please try again later.");
       if (results.status === 401) {
@@ -372,7 +372,7 @@ function Quiz() {
 
   // handle switching the quiz mode
   function onPageMode() {
-    history.push(`/edit-quiz/${pageId}`);
+    navigate(`/edit-quiz/${pageId}`);
   }
 
   return !error ? (

@@ -9,124 +9,159 @@ const {sanitizeRichText} = require("../services/format/sanitizeRichText");
 async function createCard(headerId, cardType, title, items, userId) {
 
   try {
+    // 1. Check for a duplicate card title in header
+    const [existingCards] = await pool.query(
+      `SELECT * FROM Cards WHERE headerId = ? AND title = ?;`,
+      [headerId, title]
+    );
+    if (existingCards.length) return { error: 1 };
 
-    const sqlArray = [];
+    // 2. Confirm header exists
+    const [headers] = await pool.query(
+      `SELECT * FROM Headers WHERE headerId = ?;`,
+      [headerId]
+    );
+    if (!headers.length) return { error: 2 };
 
-    // make sure the card does not already exist
-    let sql = "SELECT * " +
-			"FROM Cards " +
-			"WHERE headerId = ? " +
-			"AND title = ?;";
-    let results = await pool.query(sql, [headerId, title]);
+    // 3. Get invalid icons
+    const [icons] = await pool.query(
+      `SELECT iconType FROM Icons WHERE groupIndex = 0;`
+    );
 
-    if (results[0].length) {
-      return {error: 1};
-    }
-
-    // make sure the header exists
-    sql = "SELECT * " +
-			"FROM Headers " +
-			"WHERE headerId = ?;";
-    results = await pool.query(sql, headerId);
-
-    if (!results[0].length) {
-      return {error: 2};
-    }
-
-    // make sure all of the icons being used on this card are valid,
-    // and make sure all of the items are valid as well
-    sql = "SELECT iconType " +
-			"FROM Icons " +
-			"WHERE groupIndex = 0;";
-    results = await pool.query(sql, []);
-
+    // 4. Validate items
+    const invalidIconTypes = new Set(icons.map((i) => i.iconType));
     let notImage = false;
-    const icons = results[0];
-    for (let i = 0; i < items.length; i++) {
-      // check the icons
-      for (let j = 0; j < icons.length; j++) {
-        if (items[i].iconType === icons[j].iconType) {
-          return {error: 3};
-        }
+
+    for (const item of items) {
+      const {
+        indentation,
+        iconType,
+        contentText,
+        contentUrl,
+        contentLabel,
+        contentMode,
+        internal,
+        inline,
+        sourceId,
+        learnMoreUrl,
+      } = item;
+
+      if (
+        typeof indentation !== "number" ||
+        typeof iconType !== "number" ||
+        typeof contentText !== "string" ||
+        typeof contentUrl !== "string" ||
+        typeof contentLabel !== "string" ||
+        typeof contentMode !== "number" ||
+        typeof internal !== "number" ||
+        typeof inline !== "number" ||
+        typeof sourceId !== "number" ||
+        typeof learnMoreUrl !== "string"
+      ) {
+        return { error: 3 };
       }
-      // check the other values
-      if (typeof items[i].indentation !== "number") {
-        return {error: 3};
-      } else if (typeof items[i].iconType !== "number") {
-        return {error: 3};
-      } else if (typeof items[i].contentText !== "string") {
-        return {error: 3};
-      } else if (typeof items[i].contentUrl !== "string") {
-        return {error: 3};
-      } else if (typeof items[i].contentLabel !== "string") {
-        return {error: 3};
-      } else if (typeof items[i].contentMode !== "number") {
-        return {error: 3};
-      } else if (typeof items[i].internal !== "number") {
-        return {error: 3};
-      } else if (typeof items[i].inline !== "number") {
-        return {error: 3};
-      } else if (typeof items[i].sourceId !== "number") {
-        return {error: 3};
+
+      // FIX: Change this line - should reject if NOT in allowed set
+      if (invalidIconTypes.has(iconType)) {
+        return { error: 3 }; // using invalid icon
       }
-      // see if we have a non-image item
-      if (items[i].contentText !== "" || !items[i].contentUrl.length || !items[i].contentLabel.length) {
+
+      // Check if any item is not an image
+      if (contentText !== "" || !contentUrl.length || !contentLabel.length) {
         notImage = true;
       }
     }
 
-    // if the card is a thumbnail gallery make sure that only images are allowed
+    // 5. Card type 1 or 11 must be image-only
     if ((cardType === 1 || cardType === 11) && notImage) {
-      return {error: 4};
+      return { error: 4 };
     }
 
-    // create the new card
-    sql = "INSERT INTO Cards (headerId, cardType, title, userId, orderIndex, approved) " +
-			"VALUES (?, ?, ?, ?, 0, 0);";
+    // 6. Insert the card (set orderIndex to 0 temporarily)
+    const [insertResult] = await pool.query(
+      `INSERT INTO Cards (headerId, cardType, title, userId, orderIndex, approved)
+       VALUES (?, ?, ?, ?, 0, 0);`,
+      [headerId, cardType, title, userId]
+    );
 
-    results = await pool.query(sql, [headerId, cardType, title, userId]);
-    const cardId = results[0].insertId;
+    console.debug("insertResult", insertResult);
+    console.debug("typeof insertResult.insertId", typeof insertResult.insertId);
 
-    // update the order index of the new card
-    sql = "UPDATE Cards " +
-			"SET orderIndex = ? " +
-			"WHERE cardId = ?;";
-    sql = await pool.query(sql, [cardId, cardId]);
+    if (!insertResult || typeof insertResult.insertId !== "number") {
+      throw new Error("Card insert failed — insertId not returned.");
+    }
 
-    // create the new items
-    sql = "INSERT INTO Items (cardId, indentation, iconType, contentText, " +
-			"contentUrl, contentLabel, contentMode, internal, inline, sourceId, learnMoreUrl, approved) VALUES ";
-    // expand the sql string and array based on the number of items
-    items.forEach((currentValue) => {
-      sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
-      sqlArray.push(cardId);
-      sqlArray.push(currentValue.indentation);
-      sqlArray.push(currentValue.iconType);
-      sqlArray.push(sanitizeRichText(currentValue.contentText));
-      sqlArray.push(currentValue.contentUrl);
-      sqlArray.push(currentValue.contentLabel);
-      sqlArray.push(currentValue.contentMode);
-      sqlArray.push(currentValue.internal);
-      sqlArray.push(currentValue.inline);
-      sqlArray.push(currentValue.sourceId);
-      sqlArray.push(currentValue.learnMoreUrl);
-    });
+    const cardId = insertResult.insertId;
 
-    // replace the final comma with a semicolon
-    sql = sql.replace(/.$/, ";");
-    results = await pool.query(sql, sqlArray);
+    // 7. Update orderIndex to be equal to cardId
+    await pool.query(
+      `UPDATE Cards SET orderIndex = ? WHERE cardId = ?;`,
+      [cardId, cardId]
+    );
 
-    const finalResults = {
-      insertId: cardId
-    };
+    // 8. Insert items
+    const sqlParams = [];
 
-    return finalResults;
+    let itemsSql = `INSERT INTO Items (
+      cardId, orderIndex, indentation, iconType, contentText,
+      contentUrl, contentLabel, contentMode,
+      internal, inline, sourceId, learnMoreUrl, approved
+    ) VALUES `;
 
+    for (const item of items) {
+      console.log("Processing item:", {
+        indentation: item.indentation,
+        iconType: item.iconType,
+        contentText: item.contentText?.substring(0, 50) + "...",
+        contentUrl: item.contentUrl,
+        contentLabel: item.contentLabel,
+        contentMode: item.contentMode,
+        internal: item.internal,
+        inline: item.inline,
+        sourceId: item.sourceId,
+        learnMoreUrl: item.learnMoreUrl
+      });
+      
+      itemsSql += `(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),`;
+      sqlParams.push(
+        cardId,
+        items.indexOf(item),
+        item.indentation,
+        item.iconType,
+        sanitizeRichText(item.contentText),
+        item.contentUrl,
+        item.contentLabel,
+        item.contentMode,
+        item.internal,
+        item.inline,
+        item.sourceId,
+        item.learnMoreUrl
+      );
+    }
+
+    itemsSql = itemsSql.slice(0, -1) + ";"; // Replace final comma with semicolon
+
+    console.log("=== DEBUG SQL CONSTRUCTION ===");
+    console.log("Items count:", items.length);
+    console.log("Final SQL:", itemsSql);
+    console.log("SQL params count:", sqlParams.length);
+    console.log("SQL params:", sqlParams);
+    console.log("================================");
+
+    try {
+      await pool.query(itemsSql, sqlParams);
+    } catch (err) {
+      console.error("SQL Error:", err);
+      console.error("SQL Query:", itemsSql);
+      console.error("SQL Params:", sqlParams);
+      throw err; // Re-throw to maintain error handling
+    }
+    // 9. Return success
+    return { insertId: cardId };
   } catch (err) {
-    console.error("Error creating card");
-    throw Error(err);
+    console.error("Error creating card:", err);
+    throw err; // Let the calling code handle the error if needed
   }
-
 }
 exports.createCard = createCard;
 
@@ -305,6 +340,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
     for (let i = 0; i < items.length; i++) {
       // check the icons
       for (let j = 0; j < icons.length; j++) {
+        // checks if the current item's icon is in the invalid icon types
         if (items[i].iconType === icons[j].iconType) {
           return {error: 2};
         }

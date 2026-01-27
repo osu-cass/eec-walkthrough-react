@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {NavLink} from "react-router-dom";
 import {Accordion, Card} from "react-bootstrap";
 import "./SidebarCollection.css";
+import { CustomToggle } from "./SidebarCollection";
 
 // A simple list of links to pages in an expandable container
 function SidebarCollection(props) {
@@ -13,7 +14,7 @@ function SidebarCollection(props) {
     <Accordion>
 
       {/* Collection title */}
-      <Accordion.Toggle as={Card.Header} className={`sidebarCollection ${active ? "active" : ""}`} onClick={() => setActive(!active)} eventKey="0">
+      <CustomToggle eventKey="0" className={`sidebarCollection ${active ? "active" : ""}`} onClick={() => setActive(!active)}>
         <span>
           {props.collectionIcon ? (
             <i className={`fas fa-fw fa-${props.collectionIcon} mr-2 my-1`} />
@@ -31,7 +32,7 @@ function SidebarCollection(props) {
             </span>
           )}
         </span>
-      </Accordion.Toggle>
+      </CustomToggle>
 
       {/* Collection links */}
       <Accordion.Collapse eventKey="0">

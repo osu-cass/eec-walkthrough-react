@@ -1,7 +1,7 @@
 import React, {useState, useEffect, Fragment} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {getProfile} from "../../utilities/cookieAuth";
-import {useParams, useHistory} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import {API_URL} from "../../utilities/constants";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
@@ -29,7 +29,7 @@ function QuizEdit() {
   const [showQuestion, setShowQuestion] = useState(false);
   const [nextKey, setNextKey] = useState(0);
   const {pageId} = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // Gets quiz info when the page first loads
   useEffect(() => {
@@ -330,7 +330,7 @@ function QuizEdit() {
 
   // handle switching the quiz mode
   function onPageMode() {
-    history.push(`/move-quiz/${pageId}`);
+    navigate(`/move-quiz/${pageId}`);
   }
 
   // Sort questions based on their edited status and their priority

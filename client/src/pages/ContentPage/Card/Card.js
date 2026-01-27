@@ -131,7 +131,7 @@ function Card(props) {
         >
           <div
             id={"heading" + props.card.cardId}
-            data-toggle="collapse"
+            data-bs-toggle="collapse"
             data-target={"#collapse" + props.card.cardId}
             aria-expanded="true"
             aria-controls={"collapse" + props.card.cardId}

@@ -225,7 +225,7 @@ function ConstructCardModal(props) {
     }
 
     // if this is a link, then get the previous items link mode
-    let newContentMode = -1;
+    let newContentMode = 0;
     if (items.length && items[items.length - 1].groupIndex === 3) {
       newContentMode = items[items.length - 1].contentMode;
     }
@@ -464,6 +464,8 @@ function ConstructCardModal(props) {
       items: copy
     };
 
+    console.log("cardData", cardData);
+    
     // Create the new card
     const results = await fetch(`${API_URL}/cards`, {
       method: "POST",

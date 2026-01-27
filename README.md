@@ -11,47 +11,53 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### `environment variables`
 
-To make it easier to manage your environment variables it is recommend that you
-create a `.env` file in the root directory.
-
-API_PORT: The port that this application will use to serve API requests.<br>
+- API_PORT: The port that this application will use to serve API requests.<br>
 This value will set the API server's port.<br>
 If you change this value you will need to update the `proxy` value in
 `client/package.json`.
 
-FILE_PORT: The port that this application will use to serve build files in production mode.
+- FILE_PORT: The port that this application will use to serve build files in production mode.
 
-REACT_APP_API_HOST: The address that will be used when attempting to send requests
+- REACT_APP_API_HOST: The address that will be used when attempting to send requests
 to the API. Note that you might use a different port here if you are sending requests
 through a proxy. For example you might set API_PORT to 1111 and then have the
-host use port 444 as a https public port, that way you can have the public communicate with the server 
+host use port 444 as a https public port, that way you can have the public communicate with the server
 over a SSL and not have to deal with a SSL inside the application.
 
-SQL_DB_NAME: The name of the SQL database.
+- NODE_ENV: The environment that the application is running in.
 
-SQL_HOST: The host address of the SQL server.
+- MYSQL_DB_NAME: The name of the database.
+- MYSQL_PORT: The port that the database is running on.
+- MYSQL_HOST: The host that the database is running on. 
+- SQL_USER: The username for the database.
 
-SQL_PASSWORD: The password for the SQL server.
+#### Setup Steps
+1. Create a file named `.env` in the root directory of your project
+2. Copy the contents of the `.env.example` file into the `.env` file
 
-SQL_PORT: The port used to access the SQL database.
+### `user secrets`
 
-SQL_USER: The username for connecting to the SQL server.
+The following user secrets are used to store the database credentials and the JWT secret key:
+- MYSQL_PASSWORD: The password for the database user.
+- MYSQL_ROOT_PASSWORD: The password for the root user.
+- JWT_SECRET_KEY: The secret key for JWT authentication.
 
-JWT_SECRET_KEY: A random string that will be used as a secret key.
-The secret key should be at least 15 characters long.
+> **⚠️ Important:** The credentials shown in [DOCKER.md](DOCKER.md) (e.g., `walkthrough`, `walkthroughpass`, `rootpassword`) are **example values only**. You must create your own secure passwords for local development. Never use these example values or commit real credentials to source control.
 
-An example file contains the following:
+#### Setup Steps
+1. Create a directory named `secrets` in the root directory of your project.
+2. Create these files in the `secrets` directory:
+    - `mysql_password.txt`
+    - `mysql_root_password.txt`
+3. Add your own secure values for the secrets to each of the files. **Do not use the example values from the documentation.** These values should be human readable and you should not share them with anyone.
+4. Ensure you have Node.js installed and run the following command to generate a random JWT secret key.
 ```
-API_PORT=1111
-FILE_PORT=2222
-REACT_APP_API_HOST='https://walkthrough.eec.oregonstate.edu:444/'
-SQL_DB_NAME='eec_walkthrough'
-SQL_HOST='localhost'
-SQL_PASSWORD=''
-SQL_PORT=3307
-SQL_USER='root'
-JWT_SECRET_KEY='Coe2QWp2!PCEqo432'
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ```
+5. Once generated, create a file named `jwt_secret_key.txt` in the `secrets` directory and add the generated key to the file.
+
+To run this application in development mode using Docker, follow the instructions in the [DOCKER.md](DOCKER.md) file.
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -121,7 +127,6 @@ PORT=1111
 SQL_DB_NAME='eec_walkthrough'
 SQL_HOST='localhost'
 SQL_PASSWORD=''
-SQL_PORT=3306
 SQL_USER='root'
 JWT_SECRET_KEY='anythingCanGoHere'
 ```

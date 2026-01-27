@@ -177,12 +177,11 @@ function BasicItems(props) {
             >
               {/* {console.log(`wrapper div: = ${JSON.stringify(item, null, 2)}`)} */}
               {item.items.map(item => (
-                <>
+                <Fragment key={item.itemId + "wrap"}>
                   {/* {console.log(
 										`text: ${item.contentText}, indent: ${item.indentation}`
 									)} */}
                   <BulletPoint
-                    key={item.itemId + "wrap"}
                     url={item.contentUrl}
                     learnMoreUrl={item.learnMoreUrl}
                     id={item.itemId}
@@ -213,16 +212,15 @@ function BasicItems(props) {
                     }
                     groupIndex={item.groupIndex}
                   />
-                </>
+                </Fragment>
               ))}
             </div>
           ) : (
-            <>
+            <Fragment key={item.itemId + "no-wrap"}>
               {/* {console.log(
 								`Non-wrapper div: = ${JSON.stringify(item, null, 2)}`
 							)} */}
               <BulletPoint
-                key={item.itemId + "no-wrap"}
                 url={item.contentUrl}
                 learnMoreUrl={item.learnMoreUrl}
                 id={item.itemId}
@@ -253,7 +251,7 @@ function BasicItems(props) {
                 }
                 groupIndex={item.groupIndex}
               />
-            </>
+            </Fragment>
           )}
         </Fragment>
       ))}

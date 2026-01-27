@@ -128,7 +128,7 @@ function BulletPointItem(props) {
           {/* Container holding item's icon */}
 
           <div
-            className={`${props.inline ? "inline-block-icon pb-2" : ""} ${
+            className={`${props.inline ? "inline-block-icon pb-2" : "col-auto"} ${
               props.inline && props.icon === "circle"
                 ? "inline-circle-icon"
                 : ""

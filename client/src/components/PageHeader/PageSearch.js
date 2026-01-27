@@ -1,10 +1,12 @@
 import React from "react";
-import {withRouter} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import PropTypes from "prop-types";
 import "./PageSearch.css";
 
 // search field used to find subject and industry pages
 function PageSearch(props) {
+
+  const navigate = useNavigate();
 
   // redirect to a new page when the user searches
   function submitHandler(e) {
@@ -17,7 +19,7 @@ function PageSearch(props) {
     if (textValue !== "") {
       document.getElementById("input-search-pages").value = "";
       textValue = textValue.replace(/\s/g, "%20");
-      props.history.push(`/search/${textValue}`);
+      navigate(`/search/${textValue}`);
     }
 
   }
@@ -40,7 +42,7 @@ function PageSearch(props) {
     </div>
   );
 }
-export default withRouter(PageSearch);
+export default PageSearch;
 
 PageSearch.propTypes = {
   history: PropTypes.any

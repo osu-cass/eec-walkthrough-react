@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import {API_URL} from "../../utilities/constants";
 import Error from "../General/Error";
 import "./CreateCategory.css";
+import { CustomToggle } from "./SidebarCollection";
 
 // button and modal for creating a new category
 function CreateCategory(props) {
@@ -139,12 +140,12 @@ function CreateCategory(props) {
         </Fragment>
       ) : (
         <div className="mx-0 my-0 px-0 py-0 w-100 border-0 text-left" onClick={(e) => handleShow(e)}>
-          <Accordion.Toggle as={Card.Header} className="sidebarCollection" eventKey="0">
+          <CustomToggle eventKey="0" className="sidebarCollection">
             <i className={`fas fa-fw fa-plus-circle mr-2 my-1`} />
             <span>
               Create Category
             </span>
-          </Accordion.Toggle>
+          </CustomToggle>
         </div>
       )}
 

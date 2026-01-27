@@ -1,10 +1,10 @@
 import React, {useEffect, useState, Fragment} from "react";
-import {Modal, Button, Row, Col, Form} from "react-bootstrap";
-import {logout} from "../../utilities/cookieAuth";
-import {API_URL} from "../../utilities/constants";
+import { Modal, Button, Row, Col, Form } from "react-bootstrap";
+import { logout } from "../../utilities/cookieAuth";
+import { API_URL } from "../../utilities/constants";
 import PropTypes from "prop-types";
 import Error from "../../components/General/Error";
-import {SketchPicker} from "react-color";
+import { SketchPicker } from "react-color";
 import "./ConstructIconModal.css";
 
 // Modal used for creating and editing icons
