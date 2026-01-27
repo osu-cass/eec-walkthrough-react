@@ -29,6 +29,7 @@ The default configuration runs in **development mode** with hot reload enabled.
 - **File Server**: http://localhost:2222
 - **phpMyAdmin**: http://localhost:8080
 - **Database**: localhost:3306 (accessible via MySQL client)
+- **phpMyAdmin**: http://localhost:8080
 - **Node.js Debugger**: localhost:9229
 
 ## Database Connection
