@@ -38,6 +38,7 @@ function RichTextEditor(props) {
   return (
     <div className={`text-editor ${props.showToolbar() ? "" : "simple-text-border"}`}>
       <ReactQuill
+        preserveWhitespace={true}
         value={props.value}
         onChange={(text) => props.onChange(text)}
         id={`quill-${props.id}`}
