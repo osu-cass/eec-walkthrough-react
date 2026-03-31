@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import DOMPurify from "dompurify";
 import "./Source.css";
-import { Popover } from "bootstrap";
 
 // Represents an inline citation that links to the reference card
 function Source (props) {
