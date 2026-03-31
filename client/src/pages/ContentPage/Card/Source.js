@@ -7,20 +7,15 @@ import "./Source.css";
 function Source (props) {
 
   useEffect(() => {
-    let popoverList = [];
     if (props.source > 0) {
-      const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-      popoverList = [...popoverTriggerList].map(popoverTriggerEl => {
-        return bootstrap.Popover.getOrCreateInstance(popoverTriggerEl);
-      });
+      window.$('[data-bs-toggle="popover"]').popover();
     }
 
     // On unmount: clean up all popover instances (if any)
     return () => {
-      popoverList.forEach(popoverInstance => {
-        popoverInstance.dispose();
-      });
+      window.$('[data-bs-toggle="popover"]').popover('dispose');
     };
+    
   }, [props.source]);
 
   return props.source > 0 ? (
