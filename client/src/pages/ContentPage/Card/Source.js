@@ -2,25 +2,15 @@ import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import DOMPurify from "dompurify";
 import "./Source.css";
+import { Popover } from "bootstrap";
 
 // Represents an inline citation that links to the reference card
 function Source (props) {
 
   useEffect(() => {
-    let popoverList = [];
     if (props.source > 0) {
-      const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-      popoverList = [...popoverTriggerList].map(popoverTriggerEl => {
-        return bootstrap.Popover.getOrCreateInstance(popoverTriggerEl);
-      });
+      window.$('[data-bs-toggle="popover"]').popover();
     }
-
-    // On unmount: clean up all popover instances (if any)
-    return () => {
-      popoverList.forEach(popoverInstance => {
-        popoverInstance.dispose();
-      });
-    };
   }, [props.source]);
 
   return props.source > 0 ? (
