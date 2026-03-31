@@ -11,6 +11,12 @@ function Source (props) {
     if (props.source > 0) {
       window.$('[data-bs-toggle="popover"]').popover();
     }
+
+    // On unmount: clean up all popover instances (if any)
+    return () => {
+      window.$('[data-bs-toggle="popover"]').popover('dispose');
+    };
+    
   }, [props.source]);
 
   return props.source > 0 ? (
