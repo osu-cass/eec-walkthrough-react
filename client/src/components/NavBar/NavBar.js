@@ -124,23 +124,23 @@ function NavBar (props) {
           </div>
           <div className="dropdown-content">
             {instructions.map((page) =>
-              <a href={`/wiki/instructions/${page.pageId}`} key={page.pageId}>
+              <a href={`/wiki/instructions/${page.pageId}`} key={page.pageId} className="no-underline">
                 <div className="navbar-item px-2 py-1">
                   {page.name}
                 </div>
               </a>
             )}
-            <a href="/contributors">
+            <a href="/contributors" className="no-underline">
               <div className="navbar-item px-2 py-1">
                 Contributors
               </div>
             </a>
-            <a href="/disclaimer">
+            <a href="/disclaimer" className="no-underline">
               <div className="navbar-item px-2 py-1">
                 Disclaimer
               </div>
             </a>
-            <a href={EEC_HOMEPAGE}>
+            <a href={EEC_HOMEPAGE} className="no-underline">
               <div className="navbar-item px-2 py-1">
                 OSU EEC Homepage
               </div>
@@ -168,7 +168,7 @@ function NavBar (props) {
           <div className="dropdown-content">
 
             {role === 3 || role === 4 ? (
-              <a href={`/manage-images/${userId}`}>
+              <a href={`/manage-images/${userId}`} className="no-underline">
                 <div className="navbar-item px-2 py-1">
                     Manage Images
                 </div>
@@ -179,43 +179,43 @@ function NavBar (props) {
 
             {role >= 5 ? (
               <Fragment>
-                <a href="/manage-card-titles">
+                <a href="/manage-card-titles" className="no-underline">
                   <div className="navbar-item px-2 py-1">
                       Manage Card Titles
                   </div>
                 </a>
 
-                <a href="/manage-contributors">
+                <a href="/manage-contributors" className="no-underline">
                   <div className="navbar-item px-2 py-1">
                     Manage Contributors
                   </div>
                 </a>
 
-                <a href="/manage-home">
+                <a href="/manage-home" className="no-underline">
                   <div className="navbar-item px-2 py-1">
                     Manage Home
                   </div>
                 </a>
 
-                <a href="/manage-icons">
+                <a href="/manage-icons" className="no-underline">
                   <div className="navbar-item px-2 py-1">
                     Manage Icons
                   </div>
                 </a>
 
-                <a href="/manage-uploads">
+                <a href="/manage-uploads" className="no-underline">
                   <div className="navbar-item px-2 py-1">
                     Manage Images
                   </div>
                 </a>
 
-                <a href="/manage-links">
+                <a href="/manage-links" className="no-underline">
                   <div className="navbar-item px-2 py-1">
                     Manage Links
                   </div>
                 </a>
 
-                <a href="/manage-users">
+                <a href="/manage-users" className="no-underline">
                   <div className="navbar-item px-2 py-1">
                     Manage Users
                   </div>
@@ -226,14 +226,14 @@ function NavBar (props) {
             )}
 
 
-            <a href="/history-report">
+            <a href="/history-report" className="no-underline">
               <div className="navbar-item px-2 py-1">
                 History Report
               </div>
             </a>
 
             {role >= 3 ? (
-              <a href="/publish-requests">
+              <a href="/publish-requests" className="no-underline">
                 <div className="navbar-item px-2 py-1">
                   Publish Requests
                 </div>
