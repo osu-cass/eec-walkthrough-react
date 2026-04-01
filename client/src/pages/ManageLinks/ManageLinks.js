@@ -222,8 +222,8 @@ function ManageLinks() {
                       {link.url}
                     </a>
                   </td>
-                  <td className="link-data align-top">
-                    <div className = "row">
+                  <td className="link-data align-top link-edit-container">
+                    <div className="link-edit-buttons">
                       <LinkAccessButtons
                         itemId={link.itemId}
                         handleTimestamp={(m) => handleTimestamp(m, link.itemId)}
