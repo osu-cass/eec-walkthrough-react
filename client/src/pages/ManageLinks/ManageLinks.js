@@ -222,7 +222,7 @@ function ManageLinks() {
                       {link.url}
                     </a>
                   </td>
-                  <td className="link-data align-top link-edit-container">
+                  <td className="link-data align-top">
                     <div className="link-edit-buttons">
                       <LinkAccessButtons
                         itemId={link.itemId}
