@@ -150,9 +150,12 @@ function ManageUsers() {
 
         }
       } catch (err) {
-        if (!(err instanceof DOMException)) {
-          throw err;
+        // Ignore aborted requests, but surface all other errors to the user
+        if (err instanceof DOMException && (err.name === "AbortError" || controller.signal.aborted)) {
+          return;
         }
+        console.error(err);
+        setErrorMessage("An unexpected error occurred while searching for users. Please try again.");
       } finally {
         if (!ignore) {
           setUserLoading(false);
