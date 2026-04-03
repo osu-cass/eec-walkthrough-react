@@ -21,3 +21,23 @@
   table-layout: fixed;
   word-wrap: break-word;
 }
+
+.link-edit-buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.link-edit-buttons > * {
+  flex: 0 0 auto;
+}
+
+.link-edit-buttons .btn {
+  width: auto;
+  white-space: nowrap;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
