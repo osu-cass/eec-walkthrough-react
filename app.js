@@ -35,6 +35,12 @@ async function testConnection(pool, attempt, callback) {
 
 // serve static files while in production mode
 if (process.env.NODE_ENV === "production") {
+  fileApp.use((req, res, next) => {
+    res.setHeader("X-Frame-Options", "DENY");
+    res.setHeader("Content-Security-Policy", "frame-ancestors 'none'; upgrade-insecure-requests");
+    next();
+  });
+
   fileApp.use(express.static(path.join(__dirname + "/client/", "build")));
   fileApp.use(express.static(path.join(__dirname + "/client/", "files")));
 
