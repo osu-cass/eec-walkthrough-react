@@ -7,6 +7,13 @@ const express = require("express");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const app = express();
+const apiContentSecurityPolicy = [
+  "default-src 'none'",
+  "base-uri 'none'",
+  "form-action 'none'",
+  "frame-ancestors 'none'",
+  "object-src 'none'"
+].join("; ");
 
 // check that JSON body is valid
 app.use((req, res, next) => {
@@ -22,6 +29,10 @@ app.use((req, res, next) => {
 
 // general middleware
 app.use(logger("dev"));
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", apiContentSecurityPolicy);
+  next();
+});
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
