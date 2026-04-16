@@ -364,6 +364,8 @@ async function updateCard(cardId, cardType, title, items, userId) {
         return {error: 2};
       } else if (typeof items[i].sourceId !== "number") {
         return {error: 2};
+      } else if (typeof items[i].learnMoreUrl !== "string") {
+        return {error: 2};
       }
       // see if we have a non-image item
       if (items[i].contentText !== "" || !items[i].contentUrl.length || !items[i].contentLabel.length) {
@@ -418,13 +420,14 @@ async function updateCard(cardId, cardType, title, items, userId) {
         results = await pool.query(sql, cardId);
 
         // create all of the new items
-        sql = "INSERT INTO Items (cardId, indentation, iconType, " +
+        sql = "INSERT INTO Items (cardId, orderIndex, indentation, iconType, " +
 					"contentText, contentUrl, contentLabel, contentMode, internal, inline, sourceId, learnMoreUrl, approved) VALUES ";
 
         // expand the sql string and array based on the number of items
-        items.forEach((currentValue) => {
-          sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
+        items.forEach((currentValue, index) => {
+          sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
           sqlArray.push(cardId);
+          sqlArray.push(typeof currentValue.orderIndex === "number" ? currentValue.orderIndex : index);
           sqlArray.push(currentValue.indentation);
           sqlArray.push(currentValue.iconType);
           sqlArray.push(sanitizeRichText(currentValue.contentText));

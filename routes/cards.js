@@ -57,6 +57,7 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
     }
     if (parseInt(cardType, 10) >= 10 && !await internalCheck(req.auth.userId)) {
       res.status(403).send({error: "This user is not allowed to create internal cards."});
+      return;
     }
 
     // create a card
@@ -203,6 +204,7 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
     }
     if (parseInt(cardType, 10) >= 10 && !await internalCheck(req.auth.userId)) {
       res.status(403).send({error: "This user is not allowed to set a card to internal."});
+      return;
     }
 
     // update a card
