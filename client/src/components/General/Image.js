@@ -3,6 +3,7 @@ import {Col} from "react-bootstrap";
 import PropTypes from "prop-types";
 import ImageModal from "./ImageModal";
 import "./Image.css";
+import { proxyImage } from "../../utilities/imageProxy";
 
 // Displays various kinds of images
 function Image(props) {
@@ -13,7 +14,7 @@ function Image(props) {
     return (
       <Col className="px-0">
         <img
-          src={props.url}
+          src={proxyImage(props.url)}
           alt={title}
           title={title}
           onError={(e) => e.target.src = "/missing.png"}

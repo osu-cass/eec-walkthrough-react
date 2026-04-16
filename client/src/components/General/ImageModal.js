@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Modal} from "react-bootstrap";
 import PropTypes from "prop-types";
+import { proxyImage } from "../../utilities/imageProxy";
 
 // Modal for holding images
 function ImageModal(props) {
@@ -21,7 +22,7 @@ function ImageModal(props) {
       </Modal.Header>
       <Modal.Body>
         <img
-          src={props.url}
+          src={proxyImage(props.url)}
           alt={props.header}
           onError={(e) => e.target.src = "/missing.png"}
           className="rounded img-fluid w-100 mx-auto d-block"
