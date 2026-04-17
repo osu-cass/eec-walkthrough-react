@@ -223,7 +223,7 @@ function PageList() {
                             header={false}
                           />
                         </div>
-                        <Link to={pageLinks[index]}>
+                        <Link to={pageLinks[index]} style={{ textDecoration: 'none', color: 'inherit' }}>
                           <h5 className="page-link-header font-weight-bold text-left">
                             {page.name}
                           </h5>
