@@ -5,7 +5,6 @@ import LoadingOverlay from "../../components/General/LoadingOverlay";
 import ImageInput from "../../components/General/ImageInput";
 import {logout} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
-import { proxyImage } from "../../utilities/imageProxy";
 import "./ManageHome.css";
 
 // page for managing home page text
@@ -779,7 +778,7 @@ function ManageHome() {
         <div className="mb-5">
           <img
             className="banner-preview"
-            src={proxyImage(banner1)}
+            src={banner1}
             alt="Banner preview"
             onError={(e) => e.target.src = "/missing.png"}
           />
@@ -801,7 +800,7 @@ function ManageHome() {
         <div className="mb-5">
           <img
             className="banner-preview"
-            src={proxyImage(banner2)}
+            src={banner2}
             alt="Banner preview"
             onError={(e) => e.target.src = "/missing.png"}
           />
@@ -823,7 +822,7 @@ function ManageHome() {
         <div className="mb-5">
           <img
             className="banner-preview"
-            src={proxyImage(banner3)}
+            src={banner3}
             alt="Banner preview"
             onError={(e) => e.target.src = "/missing.png"}
           />
@@ -845,7 +844,7 @@ function ManageHome() {
         <div className="mb-5">
           <img
             className="banner-preview"
-            src={proxyImage(banner4)}
+            src={banner4}
             alt="Banner preview"
             onError={(e) => e.target.src = "/missing.png"}
           />
@@ -867,7 +866,7 @@ function ManageHome() {
         <div className="mb-5">
           <img
             className="banner-preview"
-            src={proxyImage(banner5)}
+            src={banner5}
             alt="Banner preview"
             onError={(e) => e.target.src = "/missing.png"}
           />
@@ -889,7 +888,7 @@ function ManageHome() {
         <div>
           <img
             className="banner-preview"
-            src={proxyImage(banner6)}
+            src={banner6}
             alt="Banner preview"
             onError={(e) => e.target.src = "/missing.png"}
           />

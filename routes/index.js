@@ -44,7 +44,6 @@ app.use("/api/cards", require("./cards"));
 app.use("/api/headers", require("./headers"));
 app.use("/api/home", require("./home"));
 app.use("/api/icons", require("./icons"));
-app.use("/api/images", require("./images"));
 app.use("/api/links", require("./links"));
 app.use("/api/requests", require("./requests"));
 app.use("/api/pages", require("./pages"));

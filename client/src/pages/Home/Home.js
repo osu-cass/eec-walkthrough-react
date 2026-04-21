@@ -6,7 +6,6 @@ import ManageSponsors from "./ManageSponsors";
 import PropTypes from "prop-types";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {API_URL} from "../../utilities/constants";
-import { proxyImage } from "../../utilities/imageProxy";
 import "./Home.css";
 
 // application homepage
@@ -293,7 +292,7 @@ function Home(props) {
             {sponsors.map((sponsor) =>
               <img
                 key={sponsor.name}
-                src={proxyImage(sponsor.imageUrl)}
+                src={sponsor.imageUrl}
                 alt={sponsor.name}
                 title={sponsor.name}
                 onError={(e) => e.target.src = "/missing.png"}
