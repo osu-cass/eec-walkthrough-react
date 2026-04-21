@@ -575,8 +575,8 @@ async function publishCard(cardId) {
     };
 
     // save the published data to history
-    sql = "INSERT INTO History_Cards (cardId, headerId, cardType, title) " +
-			"SELECT cardId, headerId, cardType, title FROM Cards " +
+    sql = "INSERT INTO History_Cards (cardId, headerId, cardType, title, removed) " +
+			"SELECT cardId, headerId, cardType, title, 0 AS removed FROM Cards " +
 			"WHERE Cards.approved = 1 AND Cards.cardId = ?;";
     results = await pool.query(sql, [cardId]);
     const newHistoryId = results[0].insertId;
