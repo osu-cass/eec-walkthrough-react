@@ -13,8 +13,6 @@ export function isSimpleItem(item) {
 // checks if the item is a graphic
 export function isGraphic(item) {
   if (!item.contentText.length && item.contentUrl.length) {
-    console.log(item.contentLabel);
-    console.log(item.contentLabel.length);
     return true;
   } else {
     return false;
