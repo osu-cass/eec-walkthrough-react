@@ -72,13 +72,13 @@ async function testConnection(pool, attempt, callback) {
 // ].join("; ");
 
 // serve static files while in production mode
-if (process.env.NODE_ENV === "production") {
-  fileApp.use((req, res, next) => {
-    res.setHeader("X-Frame-Options", "DENY");
-    // res.setHeader("Content-Security-Policy", fileContentSecurityPolicy);
-    next();
-  });
+fileApp.use((req, res, next) => {
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("Content-Security-Policy", fileContentSecurityPolicy);
+  next();
+});
 
+if (process.env.NODE_ENV === "production") {
   fileApp.use(express.static(path.join(__dirname + "/client/", "build")));
   fileApp.use(express.static(path.join(__dirname + "/client/", "files")));
 

@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from "react";
+import React, {useState} from "react";
 import Button from "react-bootstrap/Button";
 import {getProfile} from "../../../utilities/cookieAuth";
 import {API_URL} from "../../../utilities/constants";
