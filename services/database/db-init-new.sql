@@ -1158,6 +1158,7 @@ CREATE TABLE `History_Items` (
   `iconType` int(10) UNSIGNED NOT NULL,
   `contentText` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `integrity` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `contentLabel` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentMode` int(10) UNSIGNED NOT NULL,
   `internal` tinyint(3) UNSIGNED NOT NULL,
@@ -3708,7 +3709,7 @@ CREATE TABLE `Items` (
   `created` timestamp NULL DEFAULT current_timestamp(),
   `approved` tinyint(3) UNSIGNED NOT NULL,
   `learnMoreUrl` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `integrity` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ''
+  `integrity` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
