@@ -33,52 +33,52 @@ async function testConnection(pool, attempt, callback) {
   }
 }
 
-function getConnectSources() {
-  const sources = ["'self'"];
-  const apiHost = process.env.REACT_APP_API_HOST;
+// function getConnectSources() {
+//   const sources = ["'self'"];
+//   const apiHost = process.env.REACT_APP_API_HOST;
 
-  if (!apiHost) {
-    return sources;
-  }
+//   if (!apiHost) {
+//     return sources;
+//   }
 
-  try {
-    const apiOrigin = new URL(apiHost).origin;
-    if (!sources.includes(apiOrigin)) {
-      sources.push(apiOrigin);
-    }
-  } catch (err) {
-    console.warn("Invalid REACT_APP_API_HOST for CSP connect-src:", apiHost);
-  }
+//   try {
+//     const apiOrigin = new URL(apiHost).origin;
+//     if (!sources.includes(apiOrigin)) {
+//       sources.push(apiOrigin);
+//     }
+//   } catch (err) {
+//     console.warn("Invalid REACT_APP_API_HOST for CSP connect-src:", apiHost);
+//   }
 
-  return sources;
-}
+//   return sources;
+// }
 
-const fileContentSecurityPolicy = [
-  "default-src 'self'",
-  "script-src 'self' https://code.jquery.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com https://cdn.jsdelivr.net",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://stackpath.bootstrapcdn.com https://cdn.jsdelivr.net https://use.fontawesome.com https://maxcdn.bootstrapcdn.com",
-  "font-src 'self' data: https://fonts.gstatic.com https://use.fontawesome.com https://maxcdn.bootstrapcdn.com",
-  "img-src 'self' data: blob:",
-  `connect-src ${getConnectSources().join(" ")}`,
-  "object-src 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "frame-ancestors 'none'",
-  "frame-src 'none'",
-  "manifest-src 'self'",
-  "media-src 'self'",
-  "worker-src 'self' blob:",
-  "upgrade-insecure-requests"
-].join("; ");
+// const fileContentSecurityPolicy = [
+//   "default-src 'self'",
+//   "script-src 'self' https://code.jquery.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com https://cdn.jsdelivr.net",
+//   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://stackpath.bootstrapcdn.com https://cdn.jsdelivr.net https://use.fontawesome.com https://maxcdn.bootstrapcdn.com",
+//   "font-src 'self' data: https://fonts.gstatic.com https://use.fontawesome.com https://maxcdn.bootstrapcdn.com",
+//   "img-src 'self' data: blob:",
+//   `connect-src ${getConnectSources().join(" ")}`,
+//   "object-src 'none'",
+//   "base-uri 'self'",
+//   "form-action 'self'",
+//   "frame-ancestors 'none'",
+//   "frame-src 'none'",
+//   "manifest-src 'self'",
+//   "media-src 'self'",
+//   "worker-src 'self' blob:",
+//   "upgrade-insecure-requests"
+// ].join("; ");
 
 // serve static files while in production mode
-if (process.env.NODE_ENV === "production") {
-  fileApp.use((req, res, next) => {
-    res.setHeader("X-Frame-Options", "DENY");
-    res.setHeader("Content-Security-Policy", fileContentSecurityPolicy);
-    next();
-  });
+fileApp.use((req, res, next) => {
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("Content-Security-Policy", fileContentSecurityPolicy);
+  next();
+});
 
+if (process.env.NODE_ENV === "production") {
   fileApp.use(express.static(path.join(__dirname + "/client/", "build")));
   fileApp.use(express.static(path.join(__dirname + "/client/", "files")));
 
