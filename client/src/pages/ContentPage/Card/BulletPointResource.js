@@ -64,10 +64,73 @@ function BulletPointResource(props) {
                 }
               >
                 <i
-                  className={`fas fa-fw fa-${props.icon} mr-2 icon-item indent-level-${props.indentation}`}
+                  className={`fas fa-fw fa-${props.icon} icon-item indent-level-${props.indentation}`}
                   style={{color: props.color}}
                   title={props.tooltip}
                 />
+                <div className="d-flex align-items-center flex-nowrap">
+                  {/* The link to the resource */}
+                  {/* Bookmark resources do NOT open in a new tab */}
+                  <div className="d-flex align-items-center flex-nowrap">
+                    {props.icon === "bookmark" ? (
+                      <a
+                        onClick={() => updateAccess()}
+                        href={props.url}
+                        className={`pl-3 ${
+                          props.contentMode === 1 || props.contentMode === 3
+                            ? "text-primary"
+                            : "osu-link"
+                        }`}
+                      >
+                        <span className="font-weight-bold">{props.label}</span>
+                      </a>
+                    ) : (
+                      <a
+                        onClick={() => updateAccess()}
+                        href={props.url}
+                        className={`pl-3 ${
+                          props.contentMode === 1 || props.contentMode === 3
+                            ? "text-primary"
+                            : "osu-link"
+                        }`}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                      >
+                        <span className="font-weight-bold">{props.label}</span>
+                      </a>
+                    )}
+
+                    {/* Display different appended icons based on the type of resource */}
+                    {props.contentMode === 1 || props.contentMode === 3 ? (
+                      <>
+                        {props.learnMoreUrl ? (
+                          <a
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            href={props.learnMoreUrl}
+                          >
+                            <small className="learn-more-url"> - Learn More</small>
+                          </a>
+                        ) : null}
+                        <i
+                          className={`fas fa-fw fa-sm fa-link mx-1 icon-item`}
+                          title="External Resource"
+                        />
+                      </>
+                    ) : (
+                      <i
+                        className={`fas fa-fw fa-sm fa-info mx-1 icon-item`}
+                        title="Internal Resource"
+                      />
+                    )}
+                    {props.contentMode === 2 || props.contentMode === 3 ? (
+                      <i
+                        className={`fas fa-fw fa-sm fa-download mr-1 icon-item`}
+                        title="Download"
+                      />
+                    ) : null}
+                  </div>
+                </div>
               </div>
 
               {/* Container holding the link to the resource and possibly buttons */}
@@ -76,75 +139,21 @@ function BulletPointResource(props) {
                   props.inline ? "inline-link" : "col"
                 } content-td pb-2`}
               >
-                <div className="row">
-                  {/* The link to the resource */}
-                  {/* Bookmark resources do NOT open in a new tab */}
-                  {props.icon === "bookmark" ? (
-                    <a
-                      onClick={() => updateAccess()}
-                      href={props.url}
-                      className={`pl-3 ${
-                        props.contentMode === 1 || props.contentMode === 3
-                          ? "text-primary"
-                          : "osu-link"
-                      }`}
-                    >
-                      <span className="font-weight-bold">{props.label}</span>
-                    </a>
-                  ) : (
-                    <a
-                      onClick={() => updateAccess()}
-                      href={props.url}
-                      className={`pl-3 ${
-                        props.contentMode === 1 || props.contentMode === 3
-                          ? "text-primary"
-                          : "osu-link"
-                      }`}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      <span className="font-weight-bold">{props.label}</span>
-                    </a>
-                  )}
 
-                  {/* Display different appended icons based on the type of resource */}
-                  {props.contentMode === 1 || props.contentMode === 3 ? (
-                    <>
-                      { props.learnMoreUrl ? <a target="_blank" rel="noreferrer noopener" href={props.learnMoreUrl}>
-                        <small className="learn-more-url"> — Learn More</small></a> : null }
-                      <i
-                        className={`fas fa-fw fa-sm fa-link mx-1 icon-item`}
-                        title="External Resource"
-                      />
-                    </>
-                  ) : (
-                    <i
-                      className={`fas fa-fw fa-sm fa-info mx-1 icon-item`}
-                      title="Internal Resource"
-                    />
-                  )}
-                  {props.contentMode === 2 || props.contentMode === 3 ? (
-                    <i
-                      className={`fas fa-fw fa-sm fa-download mr-1 icon-item`}
-                      title="Download"
-                    />
-                  ) : null}
-
-                  {/* Display the last time the link was confirmed valid */}
-                  {props.contentMode === 1 || props.contentMode === 3 ? (
-                    <Fragment>
-                      {props.created !== null ? (
-                        <small className="last-accessed-link">
-                          {`Confirmed valid ${formatTime(props.created)}`}
-                        </small>
-                      ) : (
-                        <small className="last-accessed-link-bad">
-                          {`This link is no longer valid`}
-                        </small>
-                      )}
-                    </Fragment>
-                  ) : null}
-                </div>
+                {/* Display the last time the link was confirmed valid */}
+                {props.contentMode === 1 || props.contentMode === 3 ? (
+                  <Fragment>
+                    {props.created !== null ? (
+                      <small className="last-accessed-link">
+                        {`Confirmed valid ${formatTime(props.created)}`}
+                      </small>
+                    ) : (
+                      <small className="last-accessed-link-bad">
+                        {`This link is no longer valid`}
+                      </small>
+                    )}
+                  </Fragment>
+                ) : null}
 
                 {/* Optional resource description */}
                 {/* Bookmark resources do NOT open in a new tab */}

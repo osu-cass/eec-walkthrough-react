@@ -3,6 +3,7 @@ import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../../utilities/cookieAuth";
 import {getAgreement} from "../../../utilities/agreementMode";
 import {API_URL, UPLOAD_TERMS} from "../../../utilities/constants";
+import {normalizeEmptyRichText} from "../../../utilities/normalizeRichText";
 import Agreement from "../../../components/General/Agreement";
 import AddButton from "./AddButton";
 import ItemInput from "./ItemInput";
@@ -33,6 +34,17 @@ function ConstructCardModal(props) {
   const [showAgreement, setShowAgreement] = useState(false);
   const [controlHeld, setControlHeld] = useState(false);
   const [imageTerms] = useState(UPLOAD_TERMS);
+
+  // Problem: If user submits a blank graphic label, it would save as "<p><br></p>" instead of an empty string
+  // Solution: Normalize the graphic labels to get rid of empty rich text, e.g. "<p><br></p>" becomes ""
+  function normalizeGraphicLabels(itemArray) {
+    return itemArray.map((item) => (
+      item.groupIndex === 2 ? {
+        ...item,
+        contentLabel: normalizeEmptyRichText(item.contentLabel)
+      } : item
+    ));
+  }
 
   // setup card data
   useEffect(() => {
@@ -394,7 +406,7 @@ function ConstructCardModal(props) {
     }
 
     // Set the order index of each item and clean up empty strings as needed
-    const copy = items;
+    const copy = normalizeGraphicLabels([...items]);
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
     }
@@ -555,7 +567,7 @@ function ConstructCardModal(props) {
     }
 
     // Set the order index of each item and clean up empty strings as needed
-    const copy = items;
+    const copy = normalizeGraphicLabels([...items]);
 
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
@@ -996,7 +1008,7 @@ function ConstructCardModal(props) {
     if (groupIndex === 1) {
       copy[key].contentText = e;
     } else if (groupIndex === 2) {
-      copy[key].contentLabel = e;
+      copy[key].contentLabel = normalizeEmptyRichText(e);
     } else if (groupIndex === 3) {
       copy[key].contentUrl = e.target.value;
     } else if (groupIndex === 4) {
