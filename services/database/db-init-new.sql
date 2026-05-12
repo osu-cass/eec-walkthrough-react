@@ -3531,7 +3531,7 @@ INSERT INTO `History_Items` (`historyId`, `parentId`, `itemId`, `cardId`, `order
 (2548, 278, 22362, 94, 0, 0, 20, '', 'https://www.engineeringtoolbox.com/docs/documents/273/saturated_steam_properties_imperial_units.png', '<p>Temp and volume over pressure</p><p><span class=\"ql-size-small\">https://www.engineeringtoolbox.com/saturated-steam-properties-d_273.html</span></p>', 0, 0, 0, 0, '2021-06-08 17:47:23', ''),
 (2549, 278, 22363, 94, 0, 0, 20, '', '/uploads/user_61/3d46033e8a3c5a17d374eff1f9a6044a.jpg', '<p>Boiler Steam Pressure Gauge</p>', 0, 0, 1, 0, '2021-06-08 17:47:23', ''),
 (2550, 278, 22364, 94, 0, 0, 20, '', '/uploads/user_61/0e982445171ae13c4bafe4df3f58a327.jpg', '<p>Flash Steam Condensate Pump	</p>', 0, 0, 1, 0, '2021-06-08 17:47:23', ''),
-(2551, 278, 22365, 94, 0, 0, 20, '', '/uploads/user_61/0b54fd58750981a315efb203541c645a.jpg', '<p>Example Boiler Nameplate</p>', 0, 0, 1, 0, '2021-06-08 17:47:23', '')
+(2551, 278, 22365, 94, 0, 0, 20, '', '/uploads/user_61/0b54fd58750981a315efb203541c645a.jpg', '<p>Example Boiler Nameplate</p>', 0, 0, 1, 0, '2021-06-08 17:47:23', '');
 
 -- --------------------------------------------------------
 
@@ -3710,7 +3710,7 @@ CREATE TABLE `Items` (
   `created` timestamp NULL DEFAULT current_timestamp(),
   `approved` tinyint(3) UNSIGNED NOT NULL,
   `learnMoreUrl` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `integrity` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `integrity` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
