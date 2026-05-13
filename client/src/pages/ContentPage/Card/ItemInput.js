@@ -135,21 +135,20 @@ function ItemInput(props) {
             <FormControl
               as="textarea"
               rows="1"
-              maxLength="1000"
+              readOnly
               className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
-              placeholder="Image URL"
+              style={{backgroundColor: "#e9ecef", resize: "none", cursor: "default"}}
+              placeholder="Upload an image below to assign a path"
               value={props.value.contentUrl}
-              aria-label="Insert Image URL"
+              aria-label="Image path after upload"
               aria-describedby="basic-addon1"
-              onChange={(e) => props.handleInput(e, props.index, 3)}
-              required
             />
             <ImageInput
               id={props.index}
               internal={props.internal}
               inline={props.inline}
               onNewImage={(newImage) => props.onNewImage(newImage, props.index)}
-              default={"... or Upload an Image"}
+              default={"Upload an Image"}
             />
           </div>
           <Dropdown className="source-select-drop-down-menu ml-2">

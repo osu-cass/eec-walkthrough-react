@@ -66,6 +66,11 @@ async function createCard(headerId, cardType, title, items, userId) {
         return { error: 3 }; // using invalid icon
       }
 
+      // Reject external URLs for graphic items (contentText empty = graphic)
+      if (contentText === "" && /^https?:\/\//i.test(contentUrl)) {
+        return { error: 5 };
+      }
+
       // Check if any item is not an image
       if (contentText !== "" || !contentUrl.length || !contentLabel.length) {
         notImage = true;
@@ -367,6 +372,11 @@ async function updateCard(cardId, cardType, title, items, userId) {
       } else if (typeof items[i].learnMoreUrl !== "string") {
         return {error: 2};
       }
+      // Reject external URLs for graphic items (contentText empty = graphic)
+      if (items[i].contentText === "" && /^https?:\/\//i.test(items[i].contentUrl)) {
+        return {error: 2};
+      }
+
       // see if we have a non-image item
       if (items[i].contentText !== "" || !items[i].contentUrl.length || !items[i].contentLabel.length) {
         notImage = true;
