@@ -3708,8 +3708,7 @@ CREATE TABLE `Items` (
   `sourceId` int(10) UNSIGNED NOT NULL,
   `created` timestamp NULL DEFAULT current_timestamp(),
   `approved` tinyint(3) UNSIGNED NOT NULL,
-  `learnMoreUrl` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `integrity` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ''
+  `learnMoreUrl` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
