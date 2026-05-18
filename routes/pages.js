@@ -315,11 +315,6 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
       res.status(403).send({error: "This user is not allowed to set a page to internal."});
     }
 
-    if (isExternalImageUrl(imageUrl)) {
-      res.status(403).send({error: "External image URLs are not allowed. Please upload the image instead."});
-      return;
-    }
-
     // update a page
     const results = await updatePage(pageId, pageType, name, title, description, imageUrl, userId, internal);
 

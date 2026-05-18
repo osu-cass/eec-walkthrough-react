@@ -373,11 +373,6 @@ async function updateCard(cardId, cardType, title, items, userId) {
         return {error: 2};
       }
 
-      // Reject external URLs for graphic items (contentText empty = graphic)
-      if (items[i].contentText === "" && isExternalImageUrl(items[i].contentUrl)) {
-        return {error: 5};
-      }
-
       // see if we have a non-image item
       if (items[i].contentText !== "" || !items[i].contentUrl.length || !items[i].contentLabel.length) {
         notImage = true;

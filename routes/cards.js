@@ -222,8 +222,6 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
         res.status(403).send({error: "Invalid item type in card."});
       } else if (results.error === 3) {
         res.status(403).send({error: "A thumbnail gallery is only allowed to contain graphics."});
-      } else if (results.error === 5) {
-        res.status(403).send({error: "External image URLs are not allowed. Please upload the image instead."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
