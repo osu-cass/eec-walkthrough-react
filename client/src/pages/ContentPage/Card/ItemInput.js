@@ -5,6 +5,7 @@ import ImageInput from "../../../components/General/ImageInput";
 import RichTextEditor from "../../../components/General/RichTextEditor";
 import DOMPurify from "dompurify";
 import PropTypes from "prop-types";
+import {isExternalImageUrl} from "../../../utilities/isExternalImageUrl";
 import "./ItemInput.css";
 
 // An input field for adding or modifying items in a card modal
@@ -147,6 +148,13 @@ function ItemInput(props) {
               aria-label="Image path after upload"
               aria-describedby="basic-addon1"
             />
+            {/* If the image URL is external, display a warning */}
+            {isExternalImageUrl(props.value.contentUrl) && (
+              <div className="alert alert-warning d-flex align-items-center mt-2 mb-0 py-2 px-3" role="alert">
+                <i className="fas fa-exclamation-triangle mr-2" />
+                <span style={{fontSize: "0.8rem"}}>This is an external image URL. For security, please replace it with a local upload.</span>
+              </div>
+            )}
             <ImageInput
               id={props.index}
               internal={props.internal}

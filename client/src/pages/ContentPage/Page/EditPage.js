@@ -9,6 +9,7 @@ import LoadingOverlay from "../../../components/General/LoadingOverlay";
 import RichTextEditor from "../../../components/General/RichTextEditor";
 import {logout} from "../../../utilities/cookieAuth";
 import {API_URL, UPLOAD_TERMS} from "../../../utilities/constants";
+import {isExternalImageUrl} from "../../../utilities/isExternalImageUrl";
 import "./EditPage.css";
 
 // Button and modal that allows a user to edit a page
@@ -596,6 +597,13 @@ function EditPage(props) {
                   value={url}
                   aria-label="Image path after upload"
                 />
+                {/* If the image URL is external, display a warning */}
+                {isExternalImageUrl(url) && (
+                  <div className="alert alert-warning d-flex align-items-center mt-2 mb-0 py-2 px-3" role="alert">
+                    <i className="fas fa-exclamation-triangle mr-2" />
+                    <span>This is an external image URL. For security, please replace it with a local upload.</span>
+                  </div>
+                )}
                 <ImageInput id={0} onNewImage={(newImage) => setPendingImage(newImage)} default={"Upload an Image"} />
               </Form.Group>
             </Col>
