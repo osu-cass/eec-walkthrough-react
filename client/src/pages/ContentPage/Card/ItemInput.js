@@ -14,7 +14,7 @@ function ItemInput(props) {
   const [sourceValue, setSourceValue] = useState(props.sourceId);
   const [linkText, setLinkText] = useState("Link");
   const [sourceText, setSourceText] = useState("Source: None");
-  const [sources, setSources] = useState(props.sources);
+  const [sources, setSources] = useState(props.sources || []);
   const {value, index, handleLinkValue, handleSourceValue} = props;
 
   // updates the link dropdown text to match a selection
@@ -65,6 +65,10 @@ function ItemInput(props) {
 
   // sanitize all sources by removing all HTML tags
   useEffect(() => {
+    if (!Array.isArray(props.sources)) {
+      setSources([]);
+      return;
+    }
     const copy = JSON.parse(JSON.stringify(props.sources));
     for (let i = 0; i < props.sources.length; i++) {
       const newSourceText = DOMPurify.sanitize(props.sources[i].text, {
