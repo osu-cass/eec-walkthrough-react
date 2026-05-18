@@ -3,6 +3,7 @@
 
 const express = require("express");
 const app = express();
+
 const {validationResult} = require("express-validator");
 const {
   roleCheck,
@@ -28,6 +29,7 @@ const {
   unpublishPage,
   getReport
 } = require("../models/pages");
+const {isExternalImageUrl} = require("../client/src/utilities/isExternalImageUrl");
 
 
 // get all of the page info, headers, cards, and items for a single page
@@ -163,6 +165,11 @@ app.post("/", requireAuth, postPageVal.validation, async (req, res) => {
     }
     if (parseInt(internal, 10) && !await internalCheck(req.auth.userId)) {
       res.status(403).send({error: "This user is not allowed to create internal pages."});
+    }
+
+    if (isExternalImageUrl(imageUrl)) {
+      res.status(403).send({error: "External image URLs are not allowed. Please upload the image instead."});
+      return;
     }
 
     // create a page
@@ -306,6 +313,11 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
     }
     if (parseInt(internal, 10) && !await internalCheck(req.auth.userId)) {
       res.status(403).send({error: "This user is not allowed to set a page to internal."});
+    }
+
+    if (isExternalImageUrl(imageUrl)) {
+      res.status(403).send({error: "External image URLs are not allowed. Please upload the image instead."});
+      return;
     }
 
     // update a page
