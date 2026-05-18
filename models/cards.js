@@ -3,17 +3,7 @@
 
 const {pool} = require("../services/database/mysqlPool");
 const {sanitizeRichText} = require("../services/format/sanitizeRichText");
-
-// True when contentUrl is not a same-origin path (e.g. /uploads/...).
-function isExternalGraphicUrl(contentUrl) {
-  if (!contentUrl.length) {
-    return false;
-  }
-  if (contentUrl.startsWith("//")) {
-    return true;
-  }
-  return /^[a-z][a-z0-9+.-]*:/i.test(contentUrl);
-}
+const {isExternalImageUrl} = require("../client/src/utilities/isExternalImageUrl");
 
 // create a card
 async function createCard(headerId, cardType, title, items, userId) {
@@ -77,7 +67,7 @@ async function createCard(headerId, cardType, title, items, userId) {
       }
 
       // Reject external URLs for graphic items (contentText empty = graphic)
-      if (contentText === "" && isExternalGraphicUrl(contentUrl)) {
+      if (contentText === "" && isExternalImageUrl(contentUrl)) {
         return { error: 5 };
       }
 
@@ -384,7 +374,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
       }
 
       // Reject external URLs for graphic items (contentText empty = graphic)
-      if (items[i].contentText === "" && isExternalGraphicUrl(items[i].contentUrl)) {
+      if (items[i].contentText === "" && isExternalImageUrl(items[i].contentUrl)) {
         return {error: 5};
       }
 
