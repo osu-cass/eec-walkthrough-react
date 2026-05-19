@@ -214,13 +214,10 @@ function ContentPage(props) {
 				action === "publish" ||
 				action === "unpublish"
       ) {
-        // EditPage's payload only carries page-level fields, so merge it into
-        // the existing pageInfo to preserve unrelated fields like `sources`,
-        // `quiz`, and `quizScore` that downstream components depend on.
-        setPageInfo((prev) => ({...prev, ...object}));
+        setPageInfo(object);
       } else if (action === "clear") {
         const newPage = object;
-        setPageInfo((prev) => ({...prev, ...newPage}));
+        setPageInfo(newPage);
         setPageState(pageState + 1);
       }
     } else if (type === "header") {
