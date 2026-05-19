@@ -3,7 +3,7 @@
 
 const {pool} = require("../services/database/mysqlPool");
 const {sanitizeRichText} = require("../services/format/sanitizeRichText");
-
+const {isExternalImageUrl} = require("../client/src/utilities/isExternalImageUrl");
 
 // create a card
 async function createCard(headerId, cardType, title, items, userId) {
@@ -64,6 +64,11 @@ async function createCard(headerId, cardType, title, items, userId) {
       // FIX: Change this line - should reject if NOT in allowed set
       if (invalidIconTypes.has(iconType)) {
         return { error: 3 }; // using invalid icon
+      }
+
+      // Reject external URLs for graphic items (contentText empty = graphic)
+      if (contentText === "" && isExternalImageUrl(contentUrl)) {
+        return { error: 5 };
       }
 
       // Check if any item is not an image
@@ -367,6 +372,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
       } else if (typeof items[i].learnMoreUrl !== "string") {
         return {error: 2};
       }
+
       // see if we have a non-image item
       if (items[i].contentText !== "" || !items[i].contentUrl.length || !items[i].contentLabel.length) {
         notImage = true;
