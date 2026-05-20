@@ -7,11 +7,9 @@ import "./Image.css";
 // Displays various kinds of images
 function Image(props) {
   const [modalShow, setModalShow] = useState(false);
-  const [title] = useState(props.title.replace(/<\/?[^>]+(>|$)/g, ""));
+  const title = (props.title || "").replace(/<\/?[^>]+(>|$)/g, "");
   const altAttr = props.altText && props.altText.trim() ? props.altText.trim() : title;
 
-  console.log("altAttr being set by Image", altAttr);
-  
   if (props.thumbnail) {
     return (
       <Col className="px-0">
