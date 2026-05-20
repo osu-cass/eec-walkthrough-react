@@ -8,13 +8,16 @@ import "./Image.css";
 function Image(props) {
   const [modalShow, setModalShow] = useState(false);
   const [title] = useState(props.title.replace(/<\/?[^>]+(>|$)/g, ""));
+  const altAttr = props.altText && props.altText.trim() ? props.altText.trim() : title;
 
+  console.log("altAttr being set by Image", altAttr);
+  
   if (props.thumbnail) {
     return (
       <Col className="px-0">
         <img
           src={props.url}
-          alt={title}
+          alt={altAttr}
           title={title}
           onError={(e) => e.target.src = "/missing.png"}
           className="expandable-image rounded img-fluid img-thumbnail"
@@ -33,7 +36,7 @@ function Image(props) {
       <Col className="px-0">
         <img
           src={props.url}
-          alt={title}
+          alt={altAttr}
           onError={(e) => e.target.src = "/missing.png"}
           className="expandable-image header rounded img-fluid img-normal"
           onClick={() => setModalShow(true)}
@@ -51,7 +54,7 @@ function Image(props) {
       <Fragment>
         <img
           src={props.url}
-          alt={title}
+          alt={altAttr}
           onError={(e) => e.target.src = "/missing.png"}
           className="expandable-image rounded img-fluid"
           style={{cursor: "pointer", maxWidth: "15em"}}
@@ -72,6 +75,7 @@ export default Image;
 Image.propTypes = {
   url: PropTypes.string.isRequired,
   title: PropTypes.string,
+  altText: PropTypes.string,
   thumbnail: PropTypes.bool,
   header: PropTypes.bool
 };

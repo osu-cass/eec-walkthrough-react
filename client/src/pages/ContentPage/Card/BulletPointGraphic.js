@@ -62,6 +62,7 @@ function BulletPointGraphic(props) {
           <Image
             url={props.url}
             title={props.label}
+            altText={props.altText}
             thumbnail={false}
             header={largeImage()}
           />
@@ -78,6 +79,7 @@ export default BulletPointGraphic;
 BulletPointGraphic.propTypes = {
   text: PropTypes.string,
   label: PropTypes.string,
+  altText: PropTypes.string,
   url: PropTypes.string,
   icon: PropTypes.string,
   indentation: PropTypes.number,

@@ -105,6 +105,7 @@ function BulletPoint(props) {
           <BulletPointGraphic
             text={props.text}
             label={props.label}
+            altText={props.altText}
             url={props.url}
             icon={props.icon}
             indentation={props.indentation}
@@ -230,6 +231,7 @@ function BulletPoint(props) {
           <BulletPointGraphic
             text={props.text}
             label={props.label}
+            altText={props.altText}
             url={props.url}
             icon={props.icon}
             indentation={props.indentation}
@@ -312,6 +314,7 @@ BulletPoint.propTypes = {
   id: PropTypes.number,
   text: PropTypes.string,
   label: PropTypes.string,
+  altText: PropTypes.string,
   url: PropTypes.string,
   learnMoreUrl: PropTypes.string,
   icon: PropTypes.string,

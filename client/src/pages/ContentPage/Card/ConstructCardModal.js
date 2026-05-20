@@ -95,6 +95,7 @@ function ConstructCardModal(props) {
       itemData.contentLabel = item.contentLabel;
       itemData.contentUrl = item.contentUrl;
       itemData.learnMoreUrl = item.learnMoreUrl;
+      itemData.altText = item.altText || "";
       itemData.indentation = item.indentation;
       itemData.iconType = item.iconType;
       itemData.contentMode = item.contentMode;
@@ -249,6 +250,7 @@ function ConstructCardModal(props) {
     copy[key].contentLabel = "";
     copy[key].contentUrl = "";
     copy[key].learnMoreUrl = "";
+    copy[key].altText = "";
     copy[key].iconType = newIconType;
     copy[key].groupIndex = groupIndex;
     copy[key].contentMode = newContentMode;
@@ -1017,6 +1019,9 @@ function ConstructCardModal(props) {
       copy[key].contentLabel = e.target.value;
     } else if (groupIndex === 6) {
       copy[key].learnMoreUrl = e.target.value;
+    } else if (groupIndex === 7) {
+      console.log("altText being set by ConstructCardModal", e.target.value);
+      copy[key].altText = e.target.value;
     }
     setItems(copy);
   }
@@ -1113,7 +1118,7 @@ function ConstructCardModal(props) {
       itemString += item.contentText + "$%$" + item.contentLabel + "$%$" +
         item.contentUrl + "$%$" + item.iconType + "$%$" + item.groupIndex + "$%$" +
         item.contentMode + "$%$" + item.internal + "$%$" + item.sourceId + "$%$" +
-        item.inline + "$%$" + item.learnMoreUrl;
+        item.inline + "$%$" + item.learnMoreUrl + "$%$" + (item.altText || "");
     }
 
     // show the toast stating that we have copied an item
@@ -1160,6 +1165,7 @@ function ConstructCardModal(props) {
       copy[key].inline = parseInt(itemArray[8], 10);
       copy[key].indentation = 0;
       copy[key].learnMoreUrl = itemArray[9];
+      copy[key].altText = itemArray[10] || "";
 
       // Make sure the indentation is up to date
       copy = scanIndentation(copy);
