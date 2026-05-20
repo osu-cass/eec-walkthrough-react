@@ -73,8 +73,9 @@ async function createCard(headerId, cardType, title, items, userId) {
         return { error: 5 };
       }
 
-      // Check if any item is not an image
-      if (contentText !== "" || !contentUrl.length || !contentLabel.length) {
+      // Check if any item is not an image.
+      // A graphic requires empty contentText and a non-empty contentUrl.
+      if (contentText !== "" || !contentUrl.length) {
         notImage = true;
       }
     }
@@ -378,8 +379,8 @@ async function updateCard(cardId, cardType, title, items, userId) {
         return {error: 2};
       }
 
-      // see if we have a non-image item
-      if (items[i].contentText !== "" || !items[i].contentUrl.length || !items[i].contentLabel.length) {
+      // see if we have a non-image item.
+      if (items[i].contentText !== "" || !items[i].contentUrl.length) {
         notImage = true;
       }
     }
