@@ -44,6 +44,7 @@ async function createCard(headerId, cardType, title, items, userId) {
         inline,
         sourceId,
         learnMoreUrl,
+        altText,
       } = item;
 
       if (
@@ -56,7 +57,8 @@ async function createCard(headerId, cardType, title, items, userId) {
         typeof internal !== "number" ||
         typeof inline !== "number" ||
         typeof sourceId !== "number" ||
-        typeof learnMoreUrl !== "string"
+        typeof learnMoreUrl !== "string" ||
+        typeof altText !== "string"
       ) {
         return { error: 3 };
       }
@@ -110,7 +112,7 @@ async function createCard(headerId, cardType, title, items, userId) {
     let itemsSql = `INSERT INTO Items (
       cardId, orderIndex, indentation, iconType, contentText,
       contentUrl, contentLabel, contentMode,
-      internal, inline, sourceId, learnMoreUrl, approved
+      internal, inline, sourceId, learnMoreUrl, altText, approved
     ) VALUES `;
 
     for (const item of items) {
@@ -127,7 +129,7 @@ async function createCard(headerId, cardType, title, items, userId) {
         learnMoreUrl: item.learnMoreUrl
       });
       
-      itemsSql += `(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),`;
+      itemsSql += `(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),`;
       sqlParams.push(
         cardId,
         items.indexOf(item),
@@ -140,7 +142,8 @@ async function createCard(headerId, cardType, title, items, userId) {
         item.internal,
         item.inline,
         item.sourceId,
-        item.learnMoreUrl
+        item.learnMoreUrl,
+        item.altText
       );
     }
 
@@ -371,6 +374,8 @@ async function updateCard(cardId, cardType, title, items, userId) {
         return {error: 2};
       } else if (typeof items[i].learnMoreUrl !== "string") {
         return {error: 2};
+      } else if (typeof items[i].altText !== "string") {
+        return {error: 2};
       }
 
       // see if we have a non-image item
@@ -427,11 +432,11 @@ async function updateCard(cardId, cardType, title, items, userId) {
 
         // create all of the new items
         sql = "INSERT INTO Items (cardId, orderIndex, indentation, iconType, " +
-					"contentText, contentUrl, contentLabel, contentMode, internal, inline, sourceId, learnMoreUrl, approved) VALUES ";
+				"contentText, contentUrl, contentLabel, contentMode, internal, inline, sourceId, learnMoreUrl, altText, approved) VALUES ";
 
         // expand the sql string and array based on the number of items
         items.forEach((currentValue, index) => {
-          sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
+          sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
           sqlArray.push(cardId);
           sqlArray.push(typeof currentValue.orderIndex === "number" ? currentValue.orderIndex : index);
           sqlArray.push(currentValue.indentation);
@@ -444,6 +449,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
           sqlArray.push(currentValue.inline);
           sqlArray.push(currentValue.sourceId);
           sqlArray.push(currentValue.learnMoreUrl);
+          sqlArray.push(currentValue.altText);
         });
 
         // replace the final comma with a semicolon
