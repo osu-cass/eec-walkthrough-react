@@ -1071,6 +1071,7 @@ function ConstructCardModal(props) {
         }
       }
     }
+
     return null;
   }
 
