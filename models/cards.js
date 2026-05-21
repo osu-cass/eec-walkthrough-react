@@ -58,7 +58,7 @@ async function createCard(headerId, cardType, title, items, userId) {
         typeof inline !== "number" ||
         typeof sourceId !== "number" ||
         typeof learnMoreUrl !== "string" ||
-        typeof altText !== "string"
+        (altText !== undefined && typeof altText !== "string")
       ) {
         return { error: 3 };
       }
