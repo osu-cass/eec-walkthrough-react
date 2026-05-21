@@ -89,6 +89,16 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed.
 
+Production build/minification notes:
+- Frontend minification is handled by Create React App via `react-scripts build`.
+- `npm start` does not rebuild or minify; it serves the prebuilt files in `client/build` through Express (`app.js`).
+
+Recommended validation after maintenance changes:
+- Run `npm run build` and verify hashed assets exist in `client/build/static`.
+- Run `npm start` and confirm the app is served from `client/build`.
+- Smoke-check key flows (login/auth, file upload, rich text rendering) before deploy.
+- Keep changes small and isolated so each commit can be reverted independently if needed.
+
 ## Using a Linter
 
 Running a linter to check for stylistic errors and simple bugs is good practice.
