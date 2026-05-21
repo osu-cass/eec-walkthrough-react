@@ -182,8 +182,7 @@ function PageList() {
     filteredData = contributors.filter((contributor) =>
       filteredData.includes(contributor.contributorId)
     );
-    console.log("filteredData", filteredData);
-
+    
     if (filteredData.length) {
       return (
         <Fragment>

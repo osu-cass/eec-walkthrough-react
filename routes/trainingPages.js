@@ -29,9 +29,9 @@ app.post("/", async (req, res) => {
 
   // if there's an error, then there's an error code
   if (response.error) {
+    console.error(response);
     res.status(400).json(response);
   } else {
-    console.log(response);
     // if no error, response 201
     res.status(201).json({
       id: response.insertId,
@@ -42,8 +42,8 @@ app.post("/", async (req, res) => {
 
 app.get("/:pageId", async (req, res) => {
   const response = await getTrainingPage(req.params.pageId);
-  // console.log("route, res: ", response);
   if (response.error) {
+    console.error(response);
     res.status(400).json(response);
   } else {
     res.status(200).json(response);
@@ -73,7 +73,7 @@ app.delete("/:pageId", async (req, res) => {
       message: "OK"
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(400).json({
       error: "invalid request"
     });

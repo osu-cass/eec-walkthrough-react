@@ -78,8 +78,6 @@ app.post("/single", requireAuth, checkUser, upload.single("image"), async (req, 
 
   try {
 
-    console.log("Upload a file");
-
     if (req.file) {
       res.status(201).json({url: `/uploads/user_${req.auth.userId}/${req.file.filename}`});
     } else {
@@ -98,9 +96,6 @@ app.post("/single", requireAuth, checkUser, upload.single("image"), async (req, 
 app.post("/bulk", requireAuth, checkUser, upload.array("images"), async (req, res) => {
 
   try {
-
-    console.log("Upload multiple files");
-
     // if files are valid, return an array of image urls
     if (req.files.length) {
       const urlArray = [];
@@ -129,9 +124,6 @@ app.post("/bulk", requireAuth, checkUser, upload.array("images"), async (req, re
 app.post("/directories", requireAuth, getDirectoriesVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Get file directories");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -142,7 +134,6 @@ app.post("/directories", requireAuth, getDirectoriesVal.validation, async (req, 
     const sort = req.body.sort;
     const order = req.body.order;
     const cursor = req.body.cursor;
-    console.log(sort, order, cursor);
     // make sure the user is allowed to perform this action
     if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to read directories."});
@@ -176,8 +167,6 @@ app.post("/:userId", requireAuth, getFilesVal.validation, async (req, res) => {
     const order = req.body.order;
     const cursor = req.body.cursor;
 
-    console.log("Get files uploaded by user", userId);
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -186,7 +175,6 @@ app.post("/:userId", requireAuth, getFilesVal.validation, async (req, res) => {
     }
 
     // make sure the user is allowed to perform this action
-    console.log("userId", userId, "req.auth.userId", toString(req.auth.userId));
     if (userId !== req.auth.userId.toString() && !await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to read files."});
       return;
@@ -216,8 +204,6 @@ app.delete("/:userId/:fileName", requireAuth, async (req, res) => {
 
     const directoryId = req.params.userId.replace(/\//g, "");
     const fileName = req.params.fileName.replace(/\//g, "");
-
-    console.log("Delete file ", fileName);
 
     // make sure the user is allowed to perform this action
     if (directoryId !== req.auth.userId.toString() && !await roleCheck(5, req.auth.userId)) {

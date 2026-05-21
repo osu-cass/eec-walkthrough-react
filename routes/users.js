@@ -33,7 +33,6 @@ app.get("/:userId", getUserVal.validation, async (req, res) => {
   try {
 
     const userId = req.params.userId;
-    console.log("Get user", userId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -63,9 +62,6 @@ app.get("/:userId", getUserVal.validation, async (req, res) => {
 app.post("/login", loginUserVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Check user login");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -89,8 +85,6 @@ app.post("/login", loginUserVal.validation, async (req, res) => {
       // set authentication cookies for the current user
       setAuthCookie(res, token, results.username, results.userId, results.role);
 
-      console.log(`${results.username} logged in successfully`);
-
       res.status(200).send(results);
     }
 
@@ -106,9 +100,6 @@ app.post("/login", loginUserVal.validation, async (req, res) => {
 app.post("/search", requireAuth, searchUserVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Searching for users");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -153,9 +144,6 @@ app.post("/search", requireAuth, searchUserVal.validation, async (req, res) => {
 app.post("/", postUserVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Create a new user");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -206,9 +194,6 @@ app.post("/", postUserVal.validation, async (req, res) => {
 app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Update a user");
-
     const userId = req.params.userId;
     let username = req.body.username;
     const oldPassword = req.body.oldPassword;
@@ -288,9 +273,6 @@ app.patch("/:userId", requireAuth, patchUserVal.validation, async (req, res) => 
 app.post("/:userId/newPassword", requireAuth, getUserVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Reset a user's password");
-
     const userId = req.params.userId;
 
     // confirm that the request is valid

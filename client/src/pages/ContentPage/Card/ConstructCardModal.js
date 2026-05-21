@@ -475,8 +475,6 @@ function ConstructCardModal(props) {
       title: submitTitle,
       items: copy
     };
-
-    console.log("cardData", cardData);
     
     // Create the new card
     const results = await fetch(`${API_URL}/cards`, {

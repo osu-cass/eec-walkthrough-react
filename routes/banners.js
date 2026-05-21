@@ -21,8 +21,6 @@ const {
 app.get("/", async (req, res) => {
 
   try {
-    console.log("View banners");
-
     // get all banners
     const results = await getBanners();
     res.status(200).send(results);
@@ -39,9 +37,6 @@ app.get("/", async (req, res) => {
 app.post("/", requireAuth, postBannerVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Create banners");
-
     const banners = req.body.banners;
 
     // confirm that the request is valid

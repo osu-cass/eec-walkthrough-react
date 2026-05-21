@@ -18,7 +18,6 @@ app.get("/", requireAuth, async (req, res) => {
   try {
 
     const userId = req.auth.userId;
-    console.log("View notifications owned by", userId);
 
     // get all notifications for the current user
     const results = await getNotifications(userId);
@@ -39,7 +38,6 @@ app.delete("/:notificationId", requireAuth, async (req, res) => {
 
     const userId = req.auth.userId;
     const notificationId = parseInt(req.params.notificationId, 10);
-    console.log("Delete notification", notificationId);
 
     const results = await deleteNotification(notificationId, userId);
     if (results.affectedRows === 0) {

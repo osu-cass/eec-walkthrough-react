@@ -27,8 +27,6 @@ const {
 app.get("/", async (req, res) => {
 
   try {
-    console.log("View contributors");
-
     // get all contributors
     const results = await getContributors();
     res.status(200).send(results);
@@ -45,8 +43,6 @@ app.get("/", async (req, res) => {
 app.get("/pending", async (req, res) => {
 
   try {
-    console.log("View pending contributors");
-
     // get all contributors
     const results = await getPendingContributors();
     res.status(200).send(results);
@@ -63,8 +59,6 @@ app.get("/pending", async (req, res) => {
 app.get("/requests", requireAuth, async (req, res) => {
 
   try {
-    console.log("View contributor requests");
-
     // make sure the user is allowed to perform this action
     if (!await roleCheck(5, req.auth.userId)) {
       res.status(401).send({error: "Unauthorized user attempting to view contributor requests."});
@@ -87,9 +81,6 @@ app.get("/requests", requireAuth, async (req, res) => {
 app.post("/submission", requireAuth, postContributorSubmissionVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Post a contributor submission");
-
     const userId = req.auth.userId;
     const name = req.body.name;
     const title = req.body.title;
@@ -130,9 +121,6 @@ app.post("/submission", requireAuth, postContributorSubmissionVal.validation, as
 app.post("/:userId", requireAuth, postContributorVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Post a contributor");
-
     const userId = req.params.userId;
     const name = req.body.name;
     const title = req.body.title;
@@ -174,9 +162,6 @@ app.post("/:userId", requireAuth, postContributorVal.validation, async (req, res
 app.delete("/pending/:contributorId", requireAuth, async (req, res) => {
 
   try {
-
-    console.log("Reject a contributor submission");
-
     const contributorId = req.params.contributorId;
 
     // make sure the user is allowed to perform this action
@@ -210,9 +195,6 @@ app.delete("/pending/:contributorId", requireAuth, async (req, res) => {
 app.patch("/pending/:contributorId", requireAuth, async (req, res) => {
 
   try {
-
-    console.log("Accept a contributor submission");
-
     const contributorId = req.params.contributorId;
 
     // make sure the user is allowed to perform this action

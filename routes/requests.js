@@ -33,9 +33,6 @@ const {
 app.post("/status/:status", getRequestStatusVal.validation, requireAuth, async (req, res) => {
 
   try {
-
-    console.log("Get a list of requests");
-
     const status = req.params.status;
     const sort = req.body.sort;
     const order = req.body.order;
@@ -76,7 +73,6 @@ app.get("/:requestId", requireAuth, getRequestVal.validation, async (req, res) =
 
     const requestId = req.params.requestId;
     const userId = req.auth.userId;
-    console.log("Get all data related to request", requestId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -112,9 +108,6 @@ app.get("/:requestId", requireAuth, getRequestVal.validation, async (req, res) =
 app.post("/selections", requireAuth, getSelectionVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Get request selection data");
-
     const objects = req.body.objects;
 
     // confirm that the request is valid
@@ -146,9 +139,6 @@ app.post("/selections", requireAuth, getSelectionVal.validation, async (req, res
 app.post("/", requireAuth, postRequestVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Create publish request");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -194,9 +184,6 @@ app.post("/", requireAuth, postRequestVal.validation, async (req, res) => {
 app.post("/comment/:requestId", requireAuth, postCommentVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Create a request comment");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -252,7 +239,6 @@ app.delete("/comment/:commentId", requireAuth, async (req, res) => {
 
     const commentId = req.params.commentId;
     const userId = req.auth.userId;
-    console.log("Delete request comment", commentId);
 
     // delete the comment if the user is the owner
     const results = await deleteComment(commentId, userId);
@@ -287,9 +273,6 @@ app.delete("/comment/:commentId", requireAuth, async (req, res) => {
 app.patch("/comment/:commentId", requireAuth, patchCommentVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Update a comment");
-
     const commentId = req.params.commentId;
     const commentText = req.body.commentText;
     const userId = req.auth.userId;
@@ -336,7 +319,6 @@ app.delete("/:requestId", requireAuth, async (req, res) => {
     const requestId = req.params.requestId;
     const userId = req.auth.userId;
     let admin = false;
-    console.log("Delete request", requestId);
 
     // make sure the user is allowed to perform this action
     if (await roleCheck(5, req.auth.userId)) {
@@ -374,7 +356,6 @@ app.post("/accept/:requestId", requireAuth, async (req, res) => {
   try {
 
     const requestId = req.params.requestId;
-    console.log("Accept request", requestId);
 
     // make sure the user is allowed to perform this action
     if (!await roleCheck(5, req.auth.userId)) {

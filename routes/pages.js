@@ -39,7 +39,6 @@ app.get("/:pageId/all", getUserID, getPageVal.validation, async (req, res) => {
 
     const pageId = req.params.pageId;
     const userId = req.auth.userId;
-    console.log("Get all data related to page", pageId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -69,9 +68,6 @@ app.get("/:pageId/all", getUserID, getPageVal.validation, async (req, res) => {
 app.get("/updated", async (req, res) => {
 
   try {
-
-    console.log("Get the most recently updated pages");
-
     // get recent pages
     const results = await recentPages();
 
@@ -93,9 +89,6 @@ app.get("/updated", async (req, res) => {
 app.get("/search/:text/:cursorPrimary/:cursorSecondary", getUserID, searchPageVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Searching for pages");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -140,9 +133,6 @@ app.get("/search/:text/:cursorPrimary/:cursorSecondary", getUserID, searchPageVa
 app.post("/", requireAuth, postPageVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Create a new page");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -201,7 +191,6 @@ app.delete("/:pageId", requireAuth, getPageVal.validation, async (req, res) => {
   try {
 
     const pageId = req.params.pageId;
-    console.log("Delete page", pageId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -245,7 +234,6 @@ app.delete("/:pageId/changes", requireAuth, getPageVal.validation, async (req, r
   try {
 
     const pageId = req.params.pageId;
-    console.log("Delete page changes", pageId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -287,9 +275,6 @@ app.delete("/:pageId/changes", requireAuth, getPageVal.validation, async (req, r
 app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Update a page");
-
     const pageId = req.params.pageId;
     const pageType = req.body.pageType;
     const name = req.body.name.trim();
@@ -342,9 +327,6 @@ app.patch("/:pageId", requireAuth, patchPageVal.validation, async (req, res) => 
 app.post("/:pageId/publish", requireAuth, getPageVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Publish a page");
-
     const pageId = req.params.pageId;
 
     // confirm that the request is valid
@@ -389,9 +371,6 @@ app.post("/:pageId/publish", requireAuth, getPageVal.validation, async (req, res
 app.post("/:pageId/unpublish", requireAuth, getPageVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Unpublish a page");
-
     const pageId = req.params.pageId;
 
     // confirm that the request is valid
@@ -439,7 +418,6 @@ app.get("/report/:start/:end/:offset/:condense", requireAuth, async (req, res) =
     const end = req.params.end;
     const offset = req.params.offset;
     const condense = req.params.condense;
-    console.log("Get a history report (", start, ",", end, ",", "offset: ", offset, ")");
 
     // confirm that the request is valid
     if (condense !== "0" && condense !== "1") {

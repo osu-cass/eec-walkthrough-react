@@ -54,8 +54,6 @@ function TrainingViewNameInput() {
       description: description
     };
 
-    console.log("reqbody before posting: ", reqBody);
-
     try {
       const response = await (
         await fetch(`${API_URL}/training`, {
@@ -70,7 +68,7 @@ function TrainingViewNameInput() {
       const newUrl = `/training/${response.id}`;
       navigate(newUrl);
     } catch (err) {
-      console.log(err);
+      console.error("Error posting training page: ", err);
       throw err;
     }
 

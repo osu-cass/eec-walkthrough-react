@@ -23,9 +23,6 @@ const {
 app.get("/all", async (req, res) => {
 
   try {
-
-    console.log("Get a list of all icons");
-
     // get all icons
     const results = await getIcons();
 
@@ -47,9 +44,6 @@ app.get("/all", async (req, res) => {
 app.post("/", requireAuth, postIconVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Create an icon");
-
     const typeKeyword = req.body.typeKeyword.trim();
     const typeName = req.body.typeName.trim();
     const groupIndex = req.body.groupIndex;
@@ -95,9 +89,6 @@ app.post("/", requireAuth, postIconVal.validation, async (req, res) => {
 app.patch("/:iconId", requireAuth, patchIconVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Update an icon");
-
     const iconId = req.params.iconId;
     const typeKeyword = req.body.typeKeyword;
     const typeName = req.body.typeName;

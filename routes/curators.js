@@ -24,8 +24,6 @@ const {
 app.get("/all", async (req, res) => {
 
   try {
-    console.log("Grab all curators/curated pages");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -48,8 +46,6 @@ app.get("/all", async (req, res) => {
 app.get("/page/:pageId", getPageCuratorsVal.validation, async (req, res) => {
 
   try {
-    console.log("Grab page curator");
-
     const pageId = req.params.pageId;
 
     // confirm that the request is valid
@@ -74,8 +70,6 @@ app.get("/page/:pageId", getPageCuratorsVal.validation, async (req, res) => {
 app.put("/previous", requireAuth, putPrevCuratorVal.validation, async (req, res) => {
 
   try {
-    console.log("Insert/update previous page curator");
-
     const pageIds = req.body.pageIds;
     const pageNames = req.body.pageNames;
     const userId = req.body.userId;
@@ -114,8 +108,6 @@ app.put("/previous", requireAuth, putPrevCuratorVal.validation, async (req, res)
 app.put("/:pageId", requireAuth, putCuratorVal.validation, async (req, res) => {
 
   try {
-    console.log("Insert/update page curator");
-
     const pageId = req.params.pageId;
     const pageName = req.body.pageName;
     const userId = req.body.userId;

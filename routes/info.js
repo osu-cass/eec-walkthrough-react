@@ -21,8 +21,6 @@ const {
 app.get("/", async (req, res) => {
 
   try {
-    console.log("View info");
-
     // get all info
     const results = await getInfo();
     res.status(200).send(results);
@@ -39,9 +37,6 @@ app.get("/", async (req, res) => {
 app.patch("/:infoId", requireAuth, patchInfoVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Update an info object");
-
     const infoId = req.params.infoId;
     const title = req.body.title;
     const text = req.body.text;

@@ -26,7 +26,6 @@ app.get("/page/:pageId", requireAuth, getSourcesVal.validation, async (req, res)
   try {
 
     const pageId = req.params.pageId;
-    console.log("Get all sources on page", pageId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -71,7 +70,6 @@ app.post("/all/page/:pageId", requireAuth, postSourcesVal.validation, async (req
 
     const pageId = req.params.pageId;
     const sources = req.body.sources;
-    console.log("Post sources for page", pageId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -116,7 +114,6 @@ app.post("/page/:pageId", requireAuth, postSourceVal.validation, async (req, res
 
     const pageId = req.params.pageId;
     const text = req.body.text;
-    console.log("Post a source for page", pageId);
 
     // confirm that the request is valid
     const errors = validationResult(req);

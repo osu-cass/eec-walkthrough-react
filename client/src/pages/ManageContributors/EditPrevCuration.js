@@ -46,9 +46,7 @@ function EditPrevCuration(props) {
   async function updatePage() {
     const checked = document.querySelectorAll("input[type=checkbox]:checked");
     const checkedArray = Array.from(checked);
-
-    console.log("checkedArray:", checkedArray);
-
+    
     const pageIds = checkedArray.map((item) =>
       parseInt(item.value, 10)
     );

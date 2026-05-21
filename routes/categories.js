@@ -30,9 +30,6 @@ const {
 app.get("/all", getUserID, async (req, res) => {
 
   try {
-
-    console.log("Get a list of all categories");
-
     const userId = req.auth.userId;
 
     // get a list of all categories with their pages
@@ -51,9 +48,6 @@ app.get("/all", getUserID, async (req, res) => {
 app.get("/names", getUserID, async (req, res) => {
 
   try {
-
-    console.log("Get a list of all category names");
-
     const userId = parseInt(req.auth.userId, 10);
 
     // get a list of all category names
@@ -72,9 +66,6 @@ app.get("/names", getUserID, async (req, res) => {
 app.get("/published", getUserID, async (req, res) => {
 
   try {
-
-    console.log("Get a list of all category names for published content");
-
     const userId = parseInt(req.auth.userId, 10);
 
     // get a list of all category names
@@ -96,7 +87,6 @@ app.get("/:categoryId", getUserID, getCategoryVal.validation, async (req, res) =
 
     const categoryId = req.params.categoryId;
     const userId = req.auth.userId;
-    console.log("Get category", categoryId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -132,9 +122,6 @@ app.get("/:categoryId", getUserID, getCategoryVal.validation, async (req, res) =
 app.post("/", requireAuth, postCategoryVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Create a new category");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -181,9 +168,6 @@ app.post("/", requireAuth, postCategoryVal.validation, async (req, res) => {
 app.patch("/:categoryId", requireAuth, patchCategoryVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Update a category");
-
     const categoryId = req.params.categoryId;
     const singleName = formatAlphanumeric(req.body.singleName).trim();
     const pluralName = formatAlphanumeric(req.body.pluralName).trim();
@@ -233,7 +217,6 @@ app.delete("/:categoryId", requireAuth, getCategoryVal.validation, async (req, r
   try {
 
     const categoryId = req.params.categoryId;
-    console.log("Delete category", categoryId);
 
     // confirm that the request is valid
     const errors = validationResult(req);

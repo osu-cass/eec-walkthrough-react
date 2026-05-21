@@ -124,7 +124,6 @@ function TrainingPage() {
 		// fetch all content of this training page
 		fetchData()
 	}, [])
-	console.log(role)
 	if (loading) {
 		return (
 			<Container>
@@ -146,7 +145,6 @@ function TrainingPage() {
 	} else {
 		return (
 			<Container className="container my-5">
-				{console.log(pageContent)}
 				<PageHeaderContainer>
 					<PageTitle>{pageContent.pageTitle}</PageTitle>
 					{role === ROLE.ADMIN && (

@@ -44,7 +44,6 @@ app.get("/:pageId", getUserID, getPageVal.validation, async (req, res) => {
 
     const pageId = req.params.pageId;
     const userId = req.auth.userId;
-    console.log("Get all quiz data related to page", pageId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -77,7 +76,6 @@ app.get("/:pageId/pending", requireAuth, getPageVal.validation, async (req, res)
 
     const pageId = req.params.pageId;
     const userId = req.auth.userId;
-    console.log("Get all pending quiz data related to page", pageId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -116,7 +114,6 @@ app.get("/:pageId/scores", getUserID, getPageVal.validation, async (req, res) =>
 
     const pageId = req.params.pageId;
     const userId = req.auth.userId;
-    console.log("Get quiz results related to page", pageId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -146,9 +143,6 @@ app.get("/:pageId/scores", getUserID, getPageVal.validation, async (req, res) =>
 app.post("/:pageId/scores", requireAuth, postQuizResultsVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Submit quiz results");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -197,9 +191,6 @@ app.post("/:pageId/scores", requireAuth, postQuizResultsVal.validation, async (r
 app.post("/:pageId", requireAuth, postQuizVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Create quiz question");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -248,9 +239,6 @@ app.post("/:pageId", requireAuth, postQuizVal.validation, async (req, res) => {
 app.patch("/:questionId", requireAuth, updateQuizVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Update quiz question");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -302,8 +290,6 @@ app.get("/:pageId/observations", requireAuth, async (req, res) => {
 
     const pageId = req.params.pageId;
 
-    console.log("Get all observations for page", pageId);
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -333,9 +319,6 @@ app.get("/:pageId/observations", requireAuth, async (req, res) => {
 app.post("/:pageId/observations", requireAuth, postObservationVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Submit observation(s)");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -382,9 +365,6 @@ app.post("/:pageId/observations", requireAuth, postObservationVal.validation, as
 app.patch("/observations/:observationId/hide", requireAuth, deleteObservationVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Hide observation");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -429,7 +409,6 @@ app.delete("/:questionId", requireAuth, getQuestionVal.validation, async (req, r
   try {
 
     const questionId = req.params.questionId;
-    console.log("Delete question", questionId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -473,7 +452,6 @@ app.delete("/:questionId/changes", requireAuth, getQuestionVal.validation, async
   try {
 
     const questionId = req.params.questionId;
-    console.log("Delete question changes", questionId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -516,9 +494,6 @@ app.delete("/:questionId/changes", requireAuth, getQuestionVal.validation, async
 app.post("/:questionId/publish", requireAuth, getQuestionVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Publish a question");
-
     const questionId = req.params.questionId;
 
     // confirm that the request is valid
@@ -561,9 +536,6 @@ app.post("/:questionId/publish", requireAuth, getQuestionVal.validation, async (
 app.post("/:questionId/unpublish", requireAuth, getQuestionVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Unpublish a question");
-
     const questionId = req.params.questionId;
 
     // confirm that the request is valid
@@ -610,12 +582,6 @@ app.patch("/:questionId/move/:direction/:mode", requireAuth, patchQuestionMoveVa
     const questionId = req.params.questionId;
     const direction = req.params.direction;
     const mode = req.params.mode;
-
-    if (parseInt(direction, 10)) {
-      console.log("Move question", questionId, "up");
-    } else {
-      console.log("Move question", questionId, "down");
-    }
 
     // confirm that the request is valid
     const errors = validationResult(req);

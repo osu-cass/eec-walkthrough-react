@@ -31,9 +31,6 @@ const {
 app.post("/", requireAuth, postHeaderVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Create a new header");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -86,7 +83,6 @@ app.delete("/:headerId", requireAuth, getHeaderVal.validation, async (req, res) 
   try {
 
     const headerId = req.params.headerId;
-    console.log("Delete header", headerId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -130,7 +126,6 @@ app.delete("/:headerId/changes", requireAuth, getHeaderVal.validation, async (re
   try {
 
     const headerId = req.params.headerId;
-    console.log("Delete header changes", headerId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -171,10 +166,7 @@ app.delete("/:headerId/changes", requireAuth, getHeaderVal.validation, async (re
 // update a header
 app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res) => {
 
-  try {
-
-    console.log("Update a header");
-
+  try { 
     const headerId = req.params.headerId;
     const title = req.body.title.trim();
     const internal = req.body.internal;
@@ -223,9 +215,6 @@ app.patch("/:headerId", requireAuth, patchHeaderVal.validation, async (req, res)
 app.post("/:headerId/publish", requireAuth, getHeaderVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Publish a header");
-
     const headerId = req.params.headerId;
 
     // confirm that the request is valid
@@ -270,9 +259,6 @@ app.post("/:headerId/publish", requireAuth, getHeaderVal.validation, async (req,
 app.post("/:headerId/unpublish", requireAuth, getHeaderVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Unpublish a header");
-
     const headerId = req.params.headerId;
 
     // confirm that the request is valid
@@ -319,12 +305,6 @@ app.patch("/:headerId/move/:direction/:mode", requireAuth, patchHeaderMove.valid
     const headerId = req.params.headerId;
     const direction = req.params.direction;
     const mode = req.params.mode;
-
-    if (parseInt(direction, 10)) {
-      console.log("Move header", headerId, "up");
-    } else {
-      console.log("Move header", headerId, "down");
-    }
 
     // confirm that the request is valid
     const errors = validationResult(req);

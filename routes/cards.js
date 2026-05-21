@@ -34,9 +34,6 @@ const {
 app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Create a new card");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -97,7 +94,6 @@ app.delete("/:cardId", requireAuth, getCardVal.validation, async (req, res) => {
   try {
 
     const cardId = req.params.cardId;
-    console.log("Delete card", cardId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -141,7 +137,6 @@ app.delete("/:cardId/changes", requireAuth, getCardVal.validation, async (req, r
   try {
 
     const cardId = req.params.cardId;
-    console.log("Delete card changes", cardId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -183,9 +178,6 @@ app.delete("/:cardId/changes", requireAuth, getCardVal.validation, async (req, r
 app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Update a card");
-
     const cardId = req.params.cardId;
     const cardType = req.body.cardType;
     const title = req.body.title.trim();
@@ -240,9 +232,6 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
 app.post("/:cardId/publish", requireAuth, getCardVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Publish a card");
-
     const cardId = req.params.cardId;
 
     // confirm that the request is valid
@@ -287,9 +276,6 @@ app.post("/:cardId/publish", requireAuth, getCardVal.validation, async (req, res
 app.post("/:cardId/unpublish", requireAuth, getCardVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Unpublish a card");
-
     const cardId = req.params.cardId;
 
     // confirm that the request is valid
@@ -336,12 +322,6 @@ app.patch("/:cardId/move/:direction/:mode", requireAuth, patchCardMoveVal.valida
     const cardId = req.params.cardId;
     const direction = req.params.direction;
     const mode = req.params.mode;
-
-    if (parseInt(direction, 10)) {
-      console.log("Move card", cardId, "up");
-    } else {
-      console.log("Move card", cardId, "down");
-    }
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -401,9 +381,6 @@ app.patch("/:cardId/move/:direction/:mode", requireAuth, patchCardMoveVal.valida
 app.get("/titles", async (req, res) => {
 
   try {
-
-    console.log("Get a list of all of the default card titles");
-
     // get all titles
     const results = await getCardTitles();
     res.status(200).send(results);
@@ -420,9 +397,6 @@ app.get("/titles", async (req, res) => {
 app.post("/titles", requireAuth, postCardTitleVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Update a list of card titles");
-
     // confirm that the request is valid
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

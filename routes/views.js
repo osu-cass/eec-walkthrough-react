@@ -26,7 +26,6 @@ app.get("/page/:pageId", getUserID, async (req, res) => {
 
     const pageId = req.params.pageId;
     const userId = req.auth.userId;
-    console.log("Get all views for page", pageId);
 
     // get view data
     const results = await getViews(pageId, userId);
@@ -50,7 +49,6 @@ app.post("/page/:pageId", requireAuth, postViewVal.validation, async (req, res) 
     const publicView = req.body.publicView;
     const viewName = req.body.viewName;
     const userId = req.auth.userId;
-    console.log("Create a view for page", pageId);
 
     // confirm that the request is valid
     const errors = validationResult(req);
@@ -107,7 +105,6 @@ app.delete("/:viewId", requireAuth, async (req, res) => {
 
     const viewId = req.params.viewId;
     const userId = req.auth.userId;
-    console.log("Delete view ", viewId);
 
     // delete view data
     const results = await deleteView(viewId, parseInt(userId, 10));

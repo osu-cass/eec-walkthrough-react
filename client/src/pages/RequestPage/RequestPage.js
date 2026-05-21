@@ -78,10 +78,7 @@ function RequestPage() {
 
           const obj = await results.json();
           setRequest(obj);
-          if (process.env.NODE_ENV === "development") {
-            console.log("Request Data:", obj);
-          }
-
+          
           if (obj.status < 4) {
             setOpen(true);
           } else {

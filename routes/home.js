@@ -25,9 +25,6 @@ const {
 app.get("/", getUserID, async (req, res) => {
 
   try {
-
-    console.log("Get homepage content");
-
     // check if the current user should be able to view this content
     let viewAll = false;
     if (await roleCheck(2, req.auth.userId)) {
@@ -51,11 +48,7 @@ app.get("/", getUserID, async (req, res) => {
 
 // update the homepage
 app.patch("/", requireAuth, patchHomeVal.validation, async (req, res) => {
-
   try {
-
-    console.log("Update the homepage");
-
     const mainHeader = req.body.mainHeader.trim();
     const secondaryHeader = req.body.secondaryHeader.trim();
     const sectionsTitle = req.body.sectionsTitle.trim();
@@ -108,9 +101,6 @@ app.patch("/", requireAuth, patchHomeVal.validation, async (req, res) => {
 app.get("/sponsors", async (req, res) => {
 
   try {
-
-    console.log("Get homepage sponsors");
-
     const results = await getSponsors();
     if (results.sponsors.length >= 0) {
       res.status(200).send(results);
@@ -130,9 +120,6 @@ app.get("/sponsors", async (req, res) => {
 app.patch("/sponsors", requireAuth, patchSponsorsVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Update homepage sponsors");
-
     const sponsors = req.body.sponsors;
 
     // confirm that the request is valid

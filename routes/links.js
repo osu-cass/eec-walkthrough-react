@@ -24,9 +24,6 @@ const {
 app.post("/all", requireAuth, getLinkVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Get a list of links");
-
     const onlyDead = req.body.onlyDead;
     const sort = req.body.sort;
     const order = req.body.order;
@@ -64,9 +61,6 @@ app.post("/all", requireAuth, getLinkVal.validation, async (req, res) => {
 app.patch("/:linkId", requireAuth, patchLinkVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Update a link");
-
     const linkId = req.params.linkId;
     const url = req.body.url.trim();
 
@@ -104,9 +98,6 @@ app.patch("/:linkId", requireAuth, patchLinkVal.validation, async (req, res) => 
 app.patch("/:linkId/timestamp", requireAuth, patchLinkTimeVal.validation, async (req, res) => {
 
   try {
-
-    console.log("Update a link's timestamp");
-
     const linkId = req.params.linkId;
     const deadLink = req.body.deadLink;
 

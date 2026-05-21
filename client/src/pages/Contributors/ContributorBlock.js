@@ -13,8 +13,6 @@ function ContributorBlock(props) {
     filteredData = props.curators.filter((curator) =>
       curator.userId === props.contributorId && curator.active === 1
     );
-    console.log("contributorId:", props.contributorId);
-    console.log("filteredData:", filteredData);
 
     setCuratorInfo(filteredData);
   }, []);
