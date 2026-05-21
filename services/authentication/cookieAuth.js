@@ -3,7 +3,7 @@
 
 const {pool} = require("../database/mysqlPool");
 const cookie = require("cookie");
-const assert = require("assert");
+const assert = require("node:assert");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const getSecret = require("../utils/getSecret");
