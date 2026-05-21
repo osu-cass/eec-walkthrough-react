@@ -1020,7 +1020,6 @@ function ConstructCardModal(props) {
     } else if (groupIndex === 6) {
       copy[key].learnMoreUrl = e.target.value;
     } else if (groupIndex === 7) {
-      console.log("altText being set by ConstructCardModal", e.target.value);
       copy[key].altText = e.target.value;
     }
     setItems(copy);
