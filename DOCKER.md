@@ -58,6 +58,28 @@ The default configuration runs in **development mode** with hot reload enabled.
 - Source code is bind-mounted for live editing
 - Persistent upload storage via Docker volumes
 
+## Build and Minification Behavior
+
+- Frontend production minification is performed by `react-scripts build` (Create React App).
+- In production mode, the backend serves prebuilt static assets from `client/build`; it does not minify at request time.
+- Docker image builds in `docker/app/Dockerfile` run `npm run build` during image creation, so production assets are bundled before container startup.
+
+## Validation and Rollback Checklist
+
+Use this checklist after dependency or build-tooling cleanup:
+
+1. Build output
+   - Run `npm run build`.
+   - Confirm `client/build/static` contains hashed JS/CSS bundles.
+2. Runtime serving
+   - Run `npm start`.
+   - Confirm SPA routes and static assets are served from `client/build`.
+3. Functional smoke
+   - Verify login/auth flow, file upload flow, and rich-text content rendering.
+4. Rollback safety
+   - Keep maintenance changes in small isolated commits.
+   - Revert only the failing commit if a regression is found.
+
 ## File Structure
 
 ```
