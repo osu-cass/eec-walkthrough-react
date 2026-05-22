@@ -117,7 +117,7 @@ Click on your new database.
 
 Click the "Import" tab at the top of the screen.
 
-Select the `db-init.sql` file in our repo (services\database\db-init.sql).
+Select the `db-init-new.sql` file in our repo (services\database\db-init-new.sql).
 
 Press the "Go" button at the bottom of the screen.
 

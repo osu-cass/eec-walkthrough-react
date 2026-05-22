@@ -75,7 +75,7 @@ For more detailed Docker setup instructions, see [DOCKER.md](DOCKER.md).
 2. **Set up the database:**
    - Install XAMPP or another MySQL server
    - Create a database named `eec_walkthrough`
-   - Import `services/database/db-init.sql`
+   - Import `services/database/db-init-new.sql`
 
 3. **Configure environment:**
    - Create `.env` file from `.env.example`
