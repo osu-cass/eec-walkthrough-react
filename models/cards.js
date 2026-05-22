@@ -210,13 +210,13 @@ async function deleteCard(cardId) {
         const sqlArray = [newHistoryId, results[0][i].itemId, results[0][i].cardId,
           results[0][i].orderIndex, results[0][i].indentation, results[0][i].iconType,
           results[0][i].contentText, results[0][i].contentUrl, results[0][i].contentLabel,
-          results[0][i].contentMode, results[0][i].internal, results[0][i].inline,
+          results[0][i].altText, results[0][i].contentMode, results[0][i].internal, results[0][i].inline,
           results[0][i].created, results[0][i].sourceId];
 
         sql = "INSERT INTO History_Items " +
 					"(parentId, itemId, cardId, orderIndex, indentation, iconType, contentText, " +
-					"contentUrl, contentLabel, contentMode, internal, inline, created, sourceId) " +
-					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+					"contentUrl, contentLabel, altText, contentMode, internal, inline, created, sourceId) " +
+					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         await pool.query(sql, sqlArray);
       }
@@ -605,12 +605,12 @@ async function publishCard(cardId) {
       const sqlArray = [newHistoryId, results[0][i].itemId, results[0][i].cardId,
         results[0][i].orderIndex, results[0][i].indentation, results[0][i].iconType,
         results[0][i].contentText, results[0][i].contentUrl, results[0][i].contentLabel,
-        results[0][i].contentMode, results[0][i].internal, results[0][i].inline, results[0][i].created, results[0][i].sourceId];
+        results[0][i].altText, results[0][i].contentMode, results[0][i].internal, results[0][i].inline, results[0][i].created, results[0][i].sourceId];
 
       sql = "INSERT INTO History_Items " +
 				"(parentId, itemId, cardId, orderIndex, indentation, iconType, contentText, " +
-				"contentUrl, contentLabel, contentMode, internal, inline, created, sourceId) " +
-				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				"contentUrl, contentLabel, altText, contentMode, internal, inline, created, sourceId) " +
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
       await pool.query(sql, sqlArray);
     }
