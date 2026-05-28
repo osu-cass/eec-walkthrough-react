@@ -52,6 +52,16 @@ The default configuration runs in **development mode** with hot reload enabled.
 - Persistent data storage via Docker volumes
 - Custom configuration in `docker/database/my.cnf`
 
+### Database Migrations
+
+Run Knex migrations from the app container so the database hostname resolves on
+the Docker network:
+
+```bash
+docker compose exec app npm run migrate:status
+docker compose exec app npm run migrate:latest
+```
+
 ### Application (Node.js)
 - Built from Node.js 24 Alpine base image
 - Runs backend API and React dev server with hot reload

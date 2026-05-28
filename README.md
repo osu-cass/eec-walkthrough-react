@@ -89,6 +89,37 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed.
 
+### Database migrations
+
+Schema changes for existing databases are managed with Knex migrations. The app
+does not run migrations automatically at startup.
+
+**Run these commands from the repo root:**
+
+Update the database schema to the latest version.
+```
+npm run migrate:latest  
+```
+Rollback the last migration.
+```
+npm run migrate:rollback
+```
+
+Create a new migration file.
+```
+npm run migrate:make -- migration_name
+```
+
+Check the status of the migrations.
+```
+npm run migrate:status
+```
+
+Migration files live in `services/database/migrations`. See
+`services/database/MIGRATIONS.md` for the full workflow. In Docker development,
+run migration commands through the app container, for example
+`docker compose exec app npm run migrate:status`.
+
 ## Using a Linter
 
 Running a linter to check for stylistic errors and simple bugs is good practice.
@@ -167,6 +198,8 @@ You are now able to use git commands.
 Once you have updated the repo to the current version you will need to build.
 ```
 git pull
+npm run migrate:status
+npm run migrate:latest
 npm run build
 ```
 
