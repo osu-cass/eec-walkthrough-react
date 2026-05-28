@@ -105,7 +105,7 @@ Rollback the last migration.
 npm run migrate:rollback
 ```
 
-Create a new migration file.
+Create a new migration file. This will create a new file in the `services/database/migrations` directory with the name `{timestamp}_{migration_name}.js`. The timestamp is necessary for migration file ordering, ensuring that migrations are applied in the correct order.
 ```
 npm run migrate:make -- migration_name
 ```
