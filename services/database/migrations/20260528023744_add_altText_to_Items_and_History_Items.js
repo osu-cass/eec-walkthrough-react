@@ -22,6 +22,23 @@ exports.up = async function(knex) {
     });
   }
 
+  // Backfill altText for Items where contentUrl is external and contentLabel exists.
+  // Ensures contentUrl is an image URL and contentLabel is not empty.
+  await knex.raw(`
+    UPDATE Items
+    SET altText = contentLabel
+    WHERE
+      (
+        contentUrl LIKE '/uploads/%'
+        OR (
+          LOWER(contentUrl) LIKE 'http%'
+          AND LOWER(contentUrl) REGEXP '\\\\.(png|jpe?g|gif|webp|bmp|svg|avif|tiff?|ico)$'
+        )
+      )
+      AND TRIM(COALESCE(contentLabel, '')) <> ''
+      AND TRIM(COALESCE(altText, '')) = '';
+  `);
+
   // Idempotent migration to add an altText column to the History_Items table.
   const hasHistoryItemsAltText = await knex.schema.hasColumn("History_Items", "altText");
   if (!hasHistoryItemsAltText) {
@@ -36,6 +53,23 @@ exports.up = async function(knex) {
         .after("contentLabel");
     });
   }
+
+  // Backfill altText for History_Items where contentUrl is external and contentLabel exists.
+  // Ensures contentUrl is an image URL and contentLabel is not empty.
+  await knex.raw(`
+    UPDATE History_Items
+    SET altText = contentLabel
+    WHERE
+      (
+        contentUrl LIKE '/uploads/%'
+        OR (
+          LOWER(contentUrl) LIKE 'http%'
+          AND LOWER(contentUrl) REGEXP '\\\\.(png|jpe?g|gif|webp|bmp|svg|avif|tiff?|ico)$'
+        )
+      )
+      AND TRIM(COALESCE(contentLabel, '')) <> ''
+      AND TRIM(COALESCE(altText, '')) = '';
+  `);
 };
 
 /**
