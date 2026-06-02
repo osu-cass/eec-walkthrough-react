@@ -1,8 +1,9 @@
 # Database Migrations
 
 This project uses Knex only as a migration runner. The Express app does not run
-migrations at startup, so schema changes must be applied intentionally during
-local setup, maintenance, or deployment.
+migrations from `app.js`; Docker Compose runs pending migrations before starting
+the local development app container. Production migrations should still be
+applied intentionally during deployment.
 
 ## Commands
 
@@ -22,6 +23,9 @@ When using Docker locally, run migration commands inside the app container so
 docker compose exec app npm run migrate:status
 docker compose exec app npm run migrate:latest
 ```
+
+`docker compose up` also runs `npm run migrate:latest` automatically before the
+development app starts.
 
 Knex reads database settings from the same environment variables and secret-file
 hooks as the application:

@@ -82,8 +82,8 @@ services:
         condition: service_healthy
     networks:
       - eec-network
-    # Override command to run in development mode
-    command: npm run dev:debug
+    # Apply pending DB migrations before starting the development app.
+    command: sh -c "npm run migrate:latest && npm run dev:debug"
     restart: "no"
     volumes:
       # Persistent uploads storage

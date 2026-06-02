@@ -97,7 +97,8 @@ Your app is ready to be deployed.
 ## Database migrations
 
 Schema changes for existing databases are managed with Knex migrations. The app
-does not run migrations automatically at startup.
+does not run migrations from `app.js`; Docker Compose runs pending migrations
+before starting the local development app container.
 
 Migration files live in `services/database/migrations` and are tracked in the
 `knex_migrations` table.
@@ -168,6 +169,8 @@ docker compose exec app npm run migrate:status
 docker compose exec app npm run migrate:latest
 docker compose exec app npm run migrate:rollback
 ```
+
+`docker compose up` also applies pending migrations before the app starts.
 
 For additional details, see `services/database/MIGRATIONS.md`.
 

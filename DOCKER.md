@@ -59,11 +59,17 @@ The default configuration runs in **development mode** with hot reload enabled.
 
 ### Application (Node.js)
 - Built from Node.js 24 Alpine base image
+- Applies pending Knex migrations on startup
 - Runs backend API and React dev server with hot reload
 - Source code is bind-mounted for live editing
 - Persistent upload storage via Docker volumes
 
 ## Database Migrations
+When `docker compose up` starts the app container, it runs
+`npm run migrate:latest` before starting the development server. If a migration
+fails, the app container will stop instead of running against an unexpected
+schema.
+
 #### Step-by-step (Docker) for new schema changes
 
 Use this when adding/changing DB columns, tables, indexes, or constraints.
