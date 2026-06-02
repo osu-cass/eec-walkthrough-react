@@ -26,6 +26,25 @@ PREPARE stmt_items FROM @sql_items;
 EXECUTE stmt_items;
 DEALLOCATE PREPARE stmt_items;
 
+-- Backfill Items.altText from contentLabel for image URLs only.
+-- Rules:
+-- - contentUrl starts with /uploads/
+--   OR starts with http and ends with an image extension
+-- - contentLabel is non-empty
+-- - altText is currently empty
+UPDATE `Items`
+SET `altText` = `contentLabel`
+WHERE
+  (
+    `contentUrl` LIKE '/uploads/%'
+    OR (
+      LOWER(`contentUrl`) LIKE 'http%'
+      AND LOWER(`contentUrl`) REGEXP '\\.(png|jpe?g|gif|webp|bmp|svg|avif|tiff?|ico)$'
+    )
+  )
+  AND TRIM(COALESCE(`contentLabel`, '')) <> ''
+  AND TRIM(COALESCE(`altText`, '')) = '';
+
 -- Add History_Items.altText only if it does not exist
 SET @history_items_alt_exists := (
   SELECT COUNT(*)
@@ -44,5 +63,24 @@ SET @sql_history_items := IF(
 PREPARE stmt_history_items FROM @sql_history_items;
 EXECUTE stmt_history_items;
 DEALLOCATE PREPARE stmt_history_items;
+
+-- Backfill History_Items.altText from contentLabel for image URLs only.
+-- Rules:
+-- - contentUrl starts with /uploads/
+--   OR starts with http and ends with an image extension
+-- - contentLabel is non-empty
+-- - altText is currently empty
+UPDATE `History_Items`
+SET `altText` = `contentLabel`
+WHERE
+  (
+    `contentUrl` LIKE '/uploads/%'
+    OR (
+      LOWER(`contentUrl`) LIKE 'http%'
+      AND LOWER(`contentUrl`) REGEXP '\\.(png|jpe?g|gif|webp|bmp|svg|avif|tiff?|ico)$'
+    )
+  )
+  AND TRIM(COALESCE(`contentLabel`, '')) <> ''
+  AND TRIM(COALESCE(`altText`, '')) = '';
 
 COMMIT;
