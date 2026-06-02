@@ -10,15 +10,16 @@ exports.up = async function(knex) {
   // Idempotent migration to add an altText column to the Items table.
   const hasItemsAltText = await knex.schema.hasColumn("Items", "altText");
   if (!hasItemsAltText) {
+    const hasContentLabel = await knex.schema.hasColumn("Items", "contentLabel");
     await knex.schema.alterTable("Items", (table) => {
-      table
+      const column = table
         .specificType(
           "altText",
           "VARCHAR(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
         )
         .notNullable()
         .defaultTo("")
-        .after("learnMoreUrl");
+      if (hasContentLabel) column.after("contentLabel");
     });
   }
 
@@ -42,15 +43,16 @@ exports.up = async function(knex) {
   // Idempotent migration to add an altText column to the History_Items table.
   const hasHistoryItemsAltText = await knex.schema.hasColumn("History_Items", "altText");
   if (!hasHistoryItemsAltText) {
+    const hasContentLabel = await knex.schema.hasColumn("History_Items", "contentLabel");
     await knex.schema.alterTable("History_Items", (table) => {
-      table
+      const column = table
         .specificType(
           "altText",
           "VARCHAR(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
         )
         .notNullable()
         .defaultTo("")
-        .after("contentLabel");
+      if (hasContentLabel) column.after("contentLabel");
     });
   }
 
