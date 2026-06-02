@@ -46,27 +46,90 @@ The default configuration runs in **development mode** with hot reload enabled.
 ## Services
 
 ### Database (MariaDB 10.11)
-
 - Matches production CentOS environment
 - Initializes with latest schema using `db-init-new.sql` (includes new field additions)
 - Persistent data storage via Docker volumes
 - Custom configuration in `docker/database/my.cnf`
 
-### Database Migrations
-
-Run Knex migrations from the app container so the database hostname resolves on
-the Docker network:
-
-```bash
-docker compose exec app npm run migrate:status
-docker compose exec app npm run migrate:latest
-```
+### phpMyAdmin (phpmyadmin/phpmyadmin:latest)
+- Web interface for database management
+- Accessible at http://localhost:8080
+- Username: (value from `MYSQL_USER` in your `.env`)
+- Password: (value from `secrets/mysql_password.txt`)
 
 ### Application (Node.js)
 - Built from Node.js 24 Alpine base image
 - Runs backend API and React dev server with hot reload
 - Source code is bind-mounted for live editing
 - Persistent upload storage via Docker volumes
+
+## Database Migrations
+#### Step-by-step (Docker) for new schema changes
+
+Use this when adding/changing DB columns, tables, indexes, or constraints.
+
+1. **Ensure containers are running**
+```bash
+docker compose up -d
+```
+
+2. **Create a migration file**
+```bash
+docker compose exec app npm run migrate:make -- add_new_column_to_items
+```
+
+3. **Edit the generated file**
+- Path: `services/database/migrations/<timestamp>_add_new_column_to_items.js`
+- Implement `exports.up` and `exports.down`.
+- Prefer idempotent checks (for example `hasColumn`) when practical.
+
+Example:
+```js
+exports.up = async function(knex) {
+  // Adds a new column to the Items table if it doesn't already exist
+  const hasColumn = await knex.schema.hasColumn("Items", "newColumn");
+  if (!hasColumn) {
+    await knex.schema.alterTable("Items", (table) => {
+      table.string("newColumn", 255).notNullable().defaultTo("");
+    });
+  }
+};
+
+exports.down = async function(knex) {
+  // Drops the new column from the Items table if it exists
+  const hasColumn = await knex.schema.hasColumn("Items", "newColumn");
+  if (hasColumn) {
+    await knex.schema.alterTable("Items", (table) => {
+      table.dropColumn("newColumn");
+    });
+  }
+};
+```
+
+4. **Run migration commands**
+
+Run Knex migrations from the app container so the database hostname resolves on
+the Docker network.
+
+Apply latest migrations:
+```bash
+docker compose exec app npm run migrate:latest
+```
+
+Rollback latest migrations:
+```bash
+docker compose exec app npm run migrate:rollback
+```
+
+Check migration status:
+```bash
+docker compose exec app npm run migrate:status
+```
+
+> Note: `db-init-new.sql` is used only for initializing empty databases.
+> Existing Docker DB volumes should be upgraded with migrations, not by editing
+> init SQL alone.
+
 
 ## File Structure
 

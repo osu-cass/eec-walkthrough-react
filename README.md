@@ -89,36 +89,82 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed.
 
-### Database migrations
+## Database migrations
 
 Schema changes for existing databases are managed with Knex migrations. The app
 does not run migrations automatically at startup.
 
-**Run these commands from the repo root:**
+Migration files live in `services/database/migrations` and are tracked in the
+`knex_migrations` table.
 
-Update the database schema to the latest version.
+#### Step-by-step workflow for schema changes
+
+Run these from the repo root.
+
+1. **Create a migration file**
 ```
-npm run migrate:latest  
+npm run migrate:make -- add_alt_text_to_items
 ```
-Rollback the last migration.
-```
-npm run migrate:rollback
+This creates a file like:
+`services/database/migrations/20260528023744_add_alt_text_to_items.js`
+
+2. **Fill in `exports.up` and `exports.down`**
+- Put your forward schema change in `up`
+- Put rollback logic in `down`
+- Keep migrations small and focused (one logical schema change per file)
+
+Example:
+```js
+exports.up = async function(knex) {
+  const hasColumn = await knex.schema.hasColumn("Items", "altText");
+  if (!hasColumn) {
+    await knex.schema.alterTable("Items", (table) => {
+      table.string("altText", 1000).notNullable().defaultTo("");
+    });
+  }
+};
+
+exports.down = async function(knex) {
+  const hasColumn = await knex.schema.hasColumn("Items", "altText");
+  if (hasColumn) {
+    await knex.schema.alterTable("Items", (table) => {
+      table.dropColumn("altText");
+    });
+  }
+};
 ```
 
-Create a new migration file. This will create a new file in the `services/database/migrations` directory with the name `{timestamp}_{migration_name}.js`. The timestamp is necessary for migration file ordering, ensuring that migrations are applied in the correct order.
-```
-npm run migrate:make -- migration_name
-```
-
-Check the status of the migrations.
+3. **Check migration status**
 ```
 npm run migrate:status
 ```
 
-Migration files live in `services/database/migrations`. See
-`services/database/MIGRATIONS.md` for the full workflow. In Docker development,
-run migration commands through the app container, for example
-`docker compose exec app npm run migrate:status`.
+4. **Apply migrations**
+```
+npm run migrate:latest
+```
+
+5. **Verify**
+- Re-run status and confirm the migration is listed as completed:
+```
+npm run migrate:status
+```
+- Test the app behavior that depends on the schema change.
+
+6. **Rollback (if needed)**
+```
+npm run migrate:rollback
+```
+
+In Docker development, run the same commands through the app container so the
+database host resolves on the Compose network (see [DOCKER.md](DOCKER.md)):
+```
+docker compose exec app npm run migrate:status
+docker compose exec app npm run migrate:latest
+docker compose exec app npm run migrate:rollback
+```
+
+For additional details, see `services/database/MIGRATIONS.md`.
 
 ## Using a Linter
 
