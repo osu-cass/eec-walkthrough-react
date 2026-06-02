@@ -7,7 +7,7 @@
  */
 
 exports.up = async function(knex) {
-  // Idempotent migration to add an altText column to the Items table.
+  // ADD COLUMNS: Idempotent migration to add an altText column to the Items table.
   const hasItemsAltText = await knex.schema.hasColumn("Items", "altText");
   if (!hasItemsAltText) {
     const hasContentLabel = await knex.schema.hasColumn("Items", "contentLabel");
@@ -23,7 +23,7 @@ exports.up = async function(knex) {
     });
   }
 
-  // Backfill altText for Items where contentUrl is external and contentLabel exists.
+  // BACKFILL: altText for Items where contentUrl is external and contentLabel exists.
   // Ensures contentUrl is an image URL and contentLabel is not empty.
   await knex.raw(`
     UPDATE Items
@@ -40,7 +40,7 @@ exports.up = async function(knex) {
       AND TRIM(COALESCE(altText, '')) = '';
   `);
 
-  // Idempotent migration to add an altText column to the History_Items table.
+  // ADD COLUMNS: Idempotent migration to add an altText column to the History_Items table.
   const hasHistoryItemsAltText = await knex.schema.hasColumn("History_Items", "altText");
   if (!hasHistoryItemsAltText) {
     const hasContentLabel = await knex.schema.hasColumn("History_Items", "contentLabel");
@@ -56,7 +56,7 @@ exports.up = async function(knex) {
     });
   }
 
-  // Backfill altText for History_Items where contentUrl is external and contentLabel exists.
+  // BACKFILL: altText for History_Items where contentUrl is external and contentLabel exists.
   // Ensures contentUrl is an image URL and contentLabel is not empty.
   await knex.raw(`
     UPDATE History_Items
@@ -79,7 +79,7 @@ exports.up = async function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = async function(knex) {
-  // Idempotent rollback to drop the altText column from the Items table.
+  // ROLLBACK: drop the altText column from the Items table, ensuring idempotent.
   const hasItemsAltText = await knex.schema.hasColumn("Items", "altText");
   if (hasItemsAltText) {
     await knex.schema.alterTable("Items", (table) => {
@@ -87,7 +87,7 @@ exports.down = async function(knex) {
     });
   }
 
-  // Idempotent rollback to drop the altText column from the History_Items table.
+  // ROLLBACK: drop the altText column from the History_Items table, ensuring idempotent.
   const hasHistoryItemsAltText = await knex.schema.hasColumn("History_Items", "altText");
   if (hasHistoryItemsAltText) {
     await knex.schema.alterTable("History_Items", (table) => {
