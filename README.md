@@ -7,6 +7,11 @@ these requests using HTTP (for example using ports 1111 and 2222).
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Contributing
+
+Contributions are welcome. For contribution workflow, branch/PR expectations,
+coding standards, and review requirements, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Required Resources
 
 ### `environment variables`

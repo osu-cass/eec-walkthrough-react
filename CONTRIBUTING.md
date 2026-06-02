@@ -7,6 +7,7 @@ Thank you for your interest in contributing to the EEC Walkthrough React applica
 - [Code of Conduct](#code-of-conduct)
 - [Getting Started](#getting-started)
 - [Development Setup](#development-setup)
+- [Database Schema Changes](#database-schema-changes)
 - [Project Structure](#project-structure)
 - [Code Style](#code-style)
 - [Git Workflow](#git-workflow)
@@ -85,6 +86,35 @@ For more detailed Docker setup instructions, see [DOCKER.md](DOCKER.md).
    ```bash
    npm run dev
    ```
+
+## Database Schema Changes
+
+When a change requires schema updates (tables, columns, indexes, constraints),
+use Knex migrations and commit the migration file with your code change.
+
+### Required migration workflow
+
+1. Create a migration file.
+2. Implement both `exports.up` and `exports.down`.
+3. Run migration status and apply latest migrations.
+4. Verify app behavior with migrated schema.
+5. Roll back if needed.
+
+### Docker migration commands
+
+Run these from the app container so DB hostname resolution works on the
+Compose network (`MYSQL_HOST=database`):
+
+```bash
+docker compose exec app npm run migrate:make -- your_migration_name
+docker compose exec app npm run migrate:status
+docker compose exec app npm run migrate:latest
+docker compose exec app npm run migrate:rollback
+```
+
+For full step-by-step instructions and examples, see:
+- [DOCKER.md Database Migrations](DOCKER.md#database-migrations)
+- [services/database/MIGRATIONS.md](services/database/MIGRATIONS.md)
 
 ## Project Structure
 
