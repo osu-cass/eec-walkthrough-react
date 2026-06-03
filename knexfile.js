@@ -4,8 +4,6 @@
 require("dotenv").config();
 
 const getSecret = require("./services/utils/getSecret");
-const knex = require("knex");
-
 
 const migrationsDirectory = "./services/database/migrations";
 
