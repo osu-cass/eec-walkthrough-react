@@ -118,6 +118,7 @@ This creates a file like:
 - Put your forward schema change in `up`
 - Put rollback logic in `down`
 - Keep migrations small and focused (one logical schema change per file)
+- Avoid large backfills or long-running rewrites in startup-run migrations
 
 Example:
 ```js

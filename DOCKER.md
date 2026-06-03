@@ -70,6 +70,10 @@ When `docker compose up` starts the app container, it runs
 fails, the app container will stop instead of running against an unexpected
 schema.
 
+Startup migrations should be lightweight schema changes. Avoid large data
+backfills or long-running rewrites in migrations that Docker Compose will run on
+startup; handle those manually during a planned maintenance step.
+
 #### Step-by-step (Docker) for new schema changes
 
 Use this when adding/changing DB columns, tables, indexes, or constraints.

@@ -50,6 +50,12 @@ npm run migrate:make -- add_alt_text_to_items
 Use `exports.up` for the forward change and `exports.down` for rollback. Prefer
 small migrations that do one schema change at a time.
 
+Because Docker Compose runs pending migrations during app startup, migrations
+should stay lightweight and safe to check frequently. Avoid large data backfills,
+long-running table rewrites, or external service calls in normal startup
+migrations. If a migration may take a long time or needs close supervision,
+document it clearly and run it manually during a planned maintenance step.
+
 ## Deployment Flow
 
 Before deploying application code that depends on a new schema:
