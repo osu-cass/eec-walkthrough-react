@@ -72,6 +72,5 @@ starting the new app code.
 
 ## Fresh Databases
 
-Docker still initializes empty local databases from `db-init-new.sql`. Keep that
-snapshot in sync when a migration changes the schema, but use Knex migrations for
-upgrading databases that already exist.
+Docker still initializes empty local databases from `db-init-new.sql`. Use Knex
+migrations for upgrading databases that already exist.
