@@ -56,7 +56,7 @@ The default configuration runs in **development mode** with hot reload enabled.
 - Web interface for database management
 - Accessible at http://localhost:8080
 - Uses the `database` Docker network hostname, `MYSQL_DB_NAME`, `MYSQL_USER`, and the `mysql_password` Docker secret
-- Baselines existing local databases at version `0`, then applies versioned SQL files
+- Schema migrations are handled by the Flyway service (see below); phpMyAdmin is only a management UI.
 
 ### Flyway (Database Migrations)
 
