@@ -54,7 +54,7 @@ services:
 
   # Flyway database migrations
   flyway:
-    image: redgate/flyway:latest
+    image: redgate/flyway:12.8.1
     container_name: eec-walkthrough-flyway
     depends_on:
       database:
