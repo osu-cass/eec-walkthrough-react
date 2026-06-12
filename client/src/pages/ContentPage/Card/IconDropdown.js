@@ -7,6 +7,11 @@ import "./IconDropdown.css";
 function IconDropdown(props) {
 
   const [selectedIcon, setSelectedIcon] = useState(props.iconIndex);
+  const hasValidSelectedIcon = (
+    typeof selectedIcon === "number" &&
+    selectedIcon >= 0 &&
+    selectedIcon < props.icons.length
+  );
 
   // update the selected icon
   useEffect(() => {
@@ -23,7 +28,7 @@ function IconDropdown(props) {
     <Fragment >
       <Dropdown className="icon-drop-down-menu">
         <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">
-          {selectedIcon === null ? (
+          {!hasValidSelectedIcon ? (
             "Icon"
           ) : (
             <i

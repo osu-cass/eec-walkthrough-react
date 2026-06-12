@@ -43,6 +43,46 @@ The default configuration runs in **development mode** with hot reload enabled.
 
 > **⚠️ Security Note:** Create your own secure passwords in the `secrets/` directory. See the [README.md](README.md#user-secrets) for setup instructions. **Never commit real credentials to source control.**
 
+### Manual DB migration for alt text (Docker)
+
+If your Docker database volume was created before `altText` was added to `Items` and
+`History_Items`, run the migration once while the stack is up. The init SQL in
+`docker-compose.yml` only runs on **first** database container startup; existing
+`db_data` volumes are not altered automatically.
+
+Migration script: `services/database/manual-migration-add-altText-to-items.sql`
+
+The script is idempotent and skips columns that already exist.
+
+**Option 1 — pipe SQL into the database container (recommended)**
+
+From the repository root, with `docker compose up -d` running:
+
+```bash
+# Linux, macOS, Git Bash, or WSL
+cat services/database/manual-migration-add-altText-to-items.sql | docker compose exec -T database mysql -u root -p"$(cat secrets/mysql_root_password.txt)" eec_walkthrough
+```
+
+```powershell
+# Windows PowerShell
+Get-Content services\database\manual-migration-add-altText-to-items.sql -Raw | docker compose exec -T database mysql -u root -p((Get-Content secrets\mysql_root_password.txt -Raw).Trim()) eec_walkthrough
+```
+
+Replace `eec_walkthrough` with your `MYSQL_DB_NAME` from `.env` if it differs.
+
+**Option 2 — phpMyAdmin**
+
+1. Open http://localhost:8080 and log in (use credentials from `secrets/`).
+2. Select the `eec_walkthrough` database (or your `MYSQL_DB_NAME`).
+3. Open the **Import** tab.
+4. Choose `services/database/manual-migration-add-altText-to-items.sql` from this repo.
+5. Click **Go**.
+
+**Verify**
+
+In phpMyAdmin or the MySQL client, confirm `Items` and `History_Items` each have an
+`altText` column (`varchar(1000)`, default `''`).
+
 ## Services
 
 ### Database (MariaDB 10.11)

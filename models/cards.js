@@ -44,6 +44,7 @@ async function createCard(headerId, cardType, title, items, userId) {
         inline,
         sourceId,
         learnMoreUrl,
+        altText,
       } = item;
 
       if (
@@ -56,7 +57,8 @@ async function createCard(headerId, cardType, title, items, userId) {
         typeof internal !== "number" ||
         typeof inline !== "number" ||
         typeof sourceId !== "number" ||
-        typeof learnMoreUrl !== "string"
+        typeof learnMoreUrl !== "string" ||
+        (altText !== undefined && typeof altText !== "string")
       ) {
         return { error: 3 };
       }
@@ -71,8 +73,9 @@ async function createCard(headerId, cardType, title, items, userId) {
         return { error: 5 };
       }
 
-      // Check if any item is not an image
-      if (contentText !== "" || !contentUrl.length || !contentLabel.length) {
+      // Check if any item is not an image.
+      // A graphic requires empty contentText and a non-empty contentUrl.
+      if (contentText !== "" || !contentUrl.length) {
         notImage = true;
       }
     }
@@ -110,24 +113,11 @@ async function createCard(headerId, cardType, title, items, userId) {
     let itemsSql = `INSERT INTO Items (
       cardId, orderIndex, indentation, iconType, contentText,
       contentUrl, contentLabel, contentMode,
-      internal, inline, sourceId, learnMoreUrl, approved
+      internal, inline, sourceId, learnMoreUrl, altText, approved
     ) VALUES `;
 
     for (const item of items) {
-      console.log("Processing item:", {
-        indentation: item.indentation,
-        iconType: item.iconType,
-        contentText: item.contentText?.substring(0, 50) + "...",
-        contentUrl: item.contentUrl,
-        contentLabel: item.contentLabel,
-        contentMode: item.contentMode,
-        internal: item.internal,
-        inline: item.inline,
-        sourceId: item.sourceId,
-        learnMoreUrl: item.learnMoreUrl
-      });
-      
-      itemsSql += `(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),`;
+      itemsSql += `(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),`;
       sqlParams.push(
         cardId,
         items.indexOf(item),
@@ -140,7 +130,8 @@ async function createCard(headerId, cardType, title, items, userId) {
         item.internal,
         item.inline,
         item.sourceId,
-        item.learnMoreUrl
+        item.learnMoreUrl,
+        item.altText
       );
     }
 
@@ -206,13 +197,13 @@ async function deleteCard(cardId) {
         const sqlArray = [newHistoryId, results[0][i].itemId, results[0][i].cardId,
           results[0][i].orderIndex, results[0][i].indentation, results[0][i].iconType,
           results[0][i].contentText, results[0][i].contentUrl, results[0][i].contentLabel,
-          results[0][i].contentMode, results[0][i].internal, results[0][i].inline,
+          results[0][i].altText, results[0][i].contentMode, results[0][i].internal, results[0][i].inline,
           results[0][i].created, results[0][i].sourceId];
 
         sql = "INSERT INTO History_Items " +
 					"(parentId, itemId, cardId, orderIndex, indentation, iconType, contentText, " +
-					"contentUrl, contentLabel, contentMode, internal, inline, created, sourceId) " +
-					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+					"contentUrl, contentLabel, altText, contentMode, internal, inline, created, sourceId) " +
+					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         await pool.query(sql, sqlArray);
       }
@@ -371,10 +362,12 @@ async function updateCard(cardId, cardType, title, items, userId) {
         return {error: 2};
       } else if (typeof items[i].learnMoreUrl !== "string") {
         return {error: 2};
+      } else if (typeof items[i].altText !== "string") {
+        return {error: 2};
       }
 
-      // see if we have a non-image item
-      if (items[i].contentText !== "" || !items[i].contentUrl.length || !items[i].contentLabel.length) {
+      // see if we have a non-image item.
+      if (items[i].contentText !== "" || !items[i].contentUrl.length) {
         notImage = true;
       }
     }
@@ -427,11 +420,11 @@ async function updateCard(cardId, cardType, title, items, userId) {
 
         // create all of the new items
         sql = "INSERT INTO Items (cardId, orderIndex, indentation, iconType, " +
-					"contentText, contentUrl, contentLabel, contentMode, internal, inline, sourceId, learnMoreUrl, approved) VALUES ";
+				"contentText, contentUrl, contentLabel, contentMode, internal, inline, sourceId, learnMoreUrl, altText, approved) VALUES ";
 
         // expand the sql string and array based on the number of items
         items.forEach((currentValue, index) => {
-          sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
+          sql += "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),";
           sqlArray.push(cardId);
           sqlArray.push(typeof currentValue.orderIndex === "number" ? currentValue.orderIndex : index);
           sqlArray.push(currentValue.indentation);
@@ -444,6 +437,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
           sqlArray.push(currentValue.inline);
           sqlArray.push(currentValue.sourceId);
           sqlArray.push(currentValue.learnMoreUrl);
+          sqlArray.push(currentValue.altText);
         });
 
         // replace the final comma with a semicolon
@@ -598,12 +592,12 @@ async function publishCard(cardId) {
       const sqlArray = [newHistoryId, results[0][i].itemId, results[0][i].cardId,
         results[0][i].orderIndex, results[0][i].indentation, results[0][i].iconType,
         results[0][i].contentText, results[0][i].contentUrl, results[0][i].contentLabel,
-        results[0][i].contentMode, results[0][i].internal, results[0][i].inline, results[0][i].created, results[0][i].sourceId];
+        results[0][i].altText, results[0][i].contentMode, results[0][i].internal, results[0][i].inline, results[0][i].created, results[0][i].sourceId];
 
       sql = "INSERT INTO History_Items " +
 				"(parentId, itemId, cardId, orderIndex, indentation, iconType, contentText, " +
-				"contentUrl, contentLabel, contentMode, internal, inline, created, sourceId) " +
-				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				"contentUrl, contentLabel, altText, contentMode, internal, inline, created, sourceId) " +
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
       await pool.query(sql, sqlArray);
     }

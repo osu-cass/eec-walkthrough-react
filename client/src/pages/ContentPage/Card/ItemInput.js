@@ -162,6 +162,16 @@ function ItemInput(props) {
               onNewImage={(newImage) => props.onNewImage(newImage, props.index)}
               default={"Upload an Image"}
             />
+            <FormControl
+              as="textarea"
+              rows="1"
+              maxLength="1000"
+              className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
+              placeholder="Alt text (accessibility description, uses the image caption if left blank)"
+              value={props.value.altText}
+              aria-label="Image alt text"
+              onChange={(e) => props.handleInput(e, props.index, 7)}
+            />
           </div>
           <Dropdown className="source-select-drop-down-menu ml-2">
             <Dropdown.Toggle variant="outline-dark">

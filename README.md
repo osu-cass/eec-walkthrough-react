@@ -136,6 +136,17 @@ Run the following command to start the server in development mode. Your applicat
 npm run dev
 ```
 
+### Manual DB migration for alt text
+
+If your database was created before `altText` was added to `Items` and `History_Items`,
+run this migration script once against your DB:
+
+```
+mysql -u <user> -p <database_name> < services/database/manual-migration-add-altText-to-items.sql
+```
+
+The script is idempotent and will skip columns that already exist.
+
 
 ## Update the Production Server
 

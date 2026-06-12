@@ -149,7 +149,7 @@ async function getFullPage(pageId, userId) {
           // get all approved items
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, contentMode, internal, " +
+          "contentUrl, contentLabel, altText, contentMode, internal, " +
           "created, approved, color, sourceId, inline, groupIndex, learnMoreUrl " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
@@ -164,7 +164,7 @@ async function getFullPage(pageId, userId) {
           // get all unapproved items
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, contentMode, internal, " +
+          "contentUrl, contentLabel, altText, contentMode, internal, " +
           "created, approved, color, sourceId, inline, groupIndex, learnMoreUrl " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
@@ -181,7 +181,7 @@ async function getFullPage(pageId, userId) {
           // get all approved items
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, contentMode, internal, " +
+          "contentUrl, contentLabel, altText, contentMode, internal, " +
           "created, approved, color, sourceId, inline, groupIndex " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
@@ -197,7 +197,7 @@ async function getFullPage(pageId, userId) {
           // get all unapproved items
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, contentMode, internal, " +
+          "contentUrl, contentLabel, altText, contentMode, internal, " +
           "created, approved, color, sourceId, inline, groupIndex " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
@@ -214,7 +214,7 @@ async function getFullPage(pageId, userId) {
 
           sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
           "Items.iconType, typeName, typeKeyword, contentText, " +
-          "contentUrl, contentLabel, contentMode, " +
+          "contentUrl, contentLabel, altText, contentMode, " +
           "created, approved, color, sourceId, inline, groupIndex " +
           "FROM Items " +
           "LEFT JOIN Icons on Items.iconType = Icons.iconType " +
@@ -967,7 +967,7 @@ async function getReport(start, end, condense, offset) {
       if (allCardArray[i].oldVersion) {
         sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
         "HI.iconType, typeName, typeKeyword, contentText, " +
-        "contentUrl, contentLabel, contentMode, internal, " +
+        "contentUrl, contentLabel, altText, contentMode, internal, " +
         "created, color, sourceId, inline, groupIndex " +
         "FROM History_Items AS HI " +
         "LEFT JOIN Icons on HI.iconType = Icons.iconType " +
@@ -990,7 +990,7 @@ async function getReport(start, end, condense, offset) {
 
       sql = "SELECT DISTINCT itemId, cardId, indentation, orderIndex, " +
       "HI.iconType, typeName, typeKeyword, contentText, " +
-      "contentUrl, contentLabel, contentMode, internal, " +
+      "contentUrl, contentLabel, altText, contentMode, internal, " +
       "created, color, sourceId, inline, groupIndex " +
       "FROM History_Items AS HI " +
       "LEFT JOIN Icons on HI.iconType = Icons.iconType " +

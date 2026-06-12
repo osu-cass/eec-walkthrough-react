@@ -190,6 +190,7 @@ function BasicItems(props) {
                     color={item.color}
                     text={item.contentText}
                     label={item.contentLabel}
+                    altText={item.altText || ""}
                     contentMode={item.contentMode}
                     created={item.created}
                     indentation={item.indentation}
@@ -229,6 +230,7 @@ function BasicItems(props) {
                 color={item.color}
                 text={item.contentText}
                 label={item.contentLabel}
+                altText={item.altText || ""}
                 contentMode={item.contentMode}
                 created={item.created}
                 indentation={item.indentation}
