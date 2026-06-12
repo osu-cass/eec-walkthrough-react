@@ -117,19 +117,6 @@ async function createCard(headerId, cardType, title, items, userId) {
     ) VALUES `;
 
     for (const item of items) {
-      console.log("Processing item:", {
-        indentation: item.indentation,
-        iconType: item.iconType,
-        contentText: item.contentText?.substring(0, 50) + "...",
-        contentUrl: item.contentUrl,
-        contentLabel: item.contentLabel,
-        contentMode: item.contentMode,
-        internal: item.internal,
-        inline: item.inline,
-        sourceId: item.sourceId,
-        learnMoreUrl: item.learnMoreUrl
-      });
-      
       itemsSql += `(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0),`;
       sqlParams.push(
         cardId,
