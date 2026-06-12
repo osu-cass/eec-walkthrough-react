@@ -135,6 +135,11 @@ through Flyway migrations instead. Large data backfills or long-running
 migrations should be run manually during planned maintenance, not during normal
 `docker compose up`.
 
+Flyway Community migrations are forward-only for this project. Do not rely on
+Flyway undo scripts for rollback. If a migration needs to be corrected, add a
+new SQL migration that fixes or reverses the change. For production, take a
+database backup before applying migrations.
+
 ## Troubleshooting
 
 ### Application won't start

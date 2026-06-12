@@ -39,3 +39,13 @@ are not replayed. Put new schema changes in Flyway migrations instead.
 Keep migrations short and deterministic. Large data backfills, risky cleanup
 steps, or long-running migrations should be run manually during planned
 maintenance rather than as part of normal Docker Compose startup.
+
+## Rollback Policy
+
+Flyway Community does not provide the paid `undo` workflow. Treat migrations as
+forward-only. If a migration needs to be corrected, add a new SQL migration that
+fixes or reverses the change instead of editing an already-applied migration.
+
+Before production migrations, back up the database. If a migration causes data
+loss or serious corruption, restore from backup; otherwise roll forward with a
+corrective migration.

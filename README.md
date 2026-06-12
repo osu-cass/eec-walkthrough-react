@@ -136,6 +136,12 @@ migrations small and reviewable. Large data backfills or long-running migrations
 should be run manually during planned maintenance rather than during normal app
 startup.
 
+Flyway Community does not provide the paid `undo` workflow. Treat migrations as
+forward-only: if a schema change needs to be corrected, add a new migration that
+fixes or reverses it. Before production migrations, back up the database and run
+`flyway info`, `flyway validate`, and `flyway migrate` through the deployment
+process.
+
 For full Docker setup instructions, see [DOCKER.md](DOCKER.md).
 
 
