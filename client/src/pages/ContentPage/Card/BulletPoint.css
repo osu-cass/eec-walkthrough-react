@@ -97,6 +97,11 @@
 	align-items: flex-start;
 }
 
+.graphic-content {
+	flex: 0 1 auto;
+	min-width: 0;
+}
+
 .opportunity-desc-block {
 	margin-left: 0.3em;
 }
