@@ -50,7 +50,7 @@ function BulletPointGraphic(props) {
 
         {/* Container holding graphic image, text, and possibly a source */}
         <div
-          className={`${props.inline ? "inline-graphic mr-3" : "col"} ${
+          className={`${props.inline ? "inline-graphic mr-3" : "graphic-content col"} ${
             props.label.length ? "" : "indent-level-" + props.indentation
           } content-td pb-2`}
         >
