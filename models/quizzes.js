@@ -328,8 +328,8 @@ async function createQuiz(text, type, imageUrl, answers, pageId) {
       if (type !== 1 && type !== 4) {
         newCorrect = 1;
       }
-      const sql = "INSERT INTO Answers (questionId, text, correct, groupId) " +
-      "VALUES (?, ?, ?, ?);";
+      const sql = "INSERT INTO Answers (questionId, text, correct, groupId, approved) " +
+      "VALUES (?, ?, ?, ?, 0);";
       await pool.query(sql, [questionId, answers[i].text.trim().toLowerCase(), newCorrect, answers[i].groupId]);
     }
 
@@ -453,8 +453,8 @@ async function updateQuiz(text, type, imageUrl, answers, questionId) {
       if (type !== 1 && type !== 4) {
         newCorrect = 1;
       }
-      const sql = "INSERT INTO Answers (questionId, text, correct, groupId) " +
-      "VALUES (?, ?, ?, ?);";
+      const sql = "INSERT INTO Answers (questionId, text, correct, groupId, approved) " +
+      "VALUES (?, ?, ?, ?, 0);";
       await pool.query(sql, [questionId, answers[i].text.trim().toLowerCase(), newCorrect, answers[i].groupId]);
     }
 
