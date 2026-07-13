@@ -29,7 +29,7 @@
 		"eslint-plugin-react": "^7.20.0",
 		"nodemon": "^2.0.3",
 		"watchman": "^1.0.0",
-		"ws": "3.3.2"
+		"ws": "5.2.5"
 	},
 	"scripts": {
 		"start": "cross-env NODE_ENV=production node app.js",
