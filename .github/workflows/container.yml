@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - dev
+      - main
   pull_request:
   schedule:
     - cron: '45 18 * * 3'
@@ -19,9 +20,17 @@ jobs:
     permissions:
       contents: read
       packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        # Scheduled runs rebuild every published branch image; push/PR runs
+        # only build the triggering ref.
+        branch: ${{ github.event_name == 'schedule' && fromJSON('["dev", "main"]') || fromJSON(format('["{0}"]', github.ref_name)) }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'schedule' && matrix.branch || '' }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Build and export Docker image
@@ -30,8 +39,12 @@ jobs:
           context: .
           file: docker/app/Dockerfile
           tags: Energy-Efficency-Center/eec-walkthrough-react:test
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # Scheduled runs pull the latest base image and rebuild from
+          # scratch, repopulating the cache with fresh layers.
+          pull: ${{ github.event_name == 'schedule' }}
+          no-cache: ${{ github.event_name == 'schedule' }}
+          cache-from: type=gha,scope=${{ matrix.branch }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.branch }}
       - name: Log in to the Container registry
         if: contains(fromJSON('["push", "schedule"]'), github.event_name)
         uses: docker/login-action@v3
@@ -47,7 +60,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=branch
-            type=schedule,${{ github.ref_name }}
+            type=raw,value=${{ matrix.branch }},enable=${{ github.event_name == 'schedule' }}
       - name: Build and push Docker image
         if: contains(fromJSON('["push", "schedule"]'), github.event_name)
         uses: docker/build-push-action@v5
@@ -57,3 +70,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=${{ matrix.branch }}
