@@ -44,96 +44,123 @@ function ManageUsers() {
 
   // listen for new search requests and perform a new search when one arrives
   useEffect(() => {
+    let ignore = false;
+    const controller = new AbortController();
 
     // search for users
     async function searchUsers(cursor, newSearch) {
-      setErrorMessage("");
-      setUserLoading(true);
-      const sortValue = searchFields.sortValue;
-      const orderValue = searchFields.orderValue;
+      try {
+        setErrorMessage("");
+        setUserLoading(true);
+        const sortValue = searchFields.sortValue;
+        const orderValue = searchFields.orderValue;
 
-      // get the search text from the search field
-      let textValue = document.getElementById("input-search-user").value;
+        // get the search text from the search field
+        let textValue = document.getElementById("input-search-user").value;
 
-      // if search text is empty we use a special char to represent
-      // any text response as valid
-      if (textValue === "") {
-        textValue = "*";
-      }
+        // if search text is empty we use a special char to represent
+        // any text response as valid
+        if (textValue === "") {
+          textValue = "*";
+        }
 
-      // get the role from the role select
-      const roleSelect = document.getElementById("select-role");
-      let roleValue = roleSelect.options[roleSelect.selectedIndex].value;
+        // get the role from the role select
+        const roleSelect = document.getElementById("select-role");
+        let roleValue = roleSelect.options[roleSelect.selectedIndex].value;
 
-      // only set the search values if we are performing a new search
-      if (newSearch) {
+        // only set the search values if we are performing a new search
+        if (newSearch) {
 
-        setSearchFields({
-          textValue: textValue,
-          roleValue: roleValue,
-          sortValue: sortValue,
-          orderValue: orderValue
+          setSearchFields({
+            textValue: textValue,
+            roleValue: roleValue,
+            sortValue: sortValue,
+            orderValue: orderValue
+          });
+
+        } else {
+          textValue = searchFields.textValue;
+          roleValue = searchFields.roleValue;
+        }
+
+        // construct the request body
+        const postObj = {
+          text: textValue,
+          role: roleValue,
+          sort: sortValue,
+          order: orderValue,
+          cursorPrimary: cursor.primary,
+          cursorSecondary: cursor.secondary
+        };
+
+        // get our search results
+        const results = await fetch(`${API_URL}/users/search`, {
+          signal: controller.signal,
+          method: "POST",
+          credentials: "include",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(postObj)
         });
 
-      } else {
-        textValue = searchFields.textValue;
-        roleValue = searchFields.roleValue;
-      }
+        if (ignore) {
+          return;
+        }
 
-      // construct the request body
-      const postObj = {
-        text: textValue,
-        role: roleValue,
-        sort: sortValue,
-        order: orderValue,
-        cursorPrimary: cursor.primary,
-        cursorSecondary: cursor.secondary
-      };
+        if (results.ok) {
 
-      // get our search results
-      const results = await fetch(`${API_URL}/users/search`, {
-        method: "POST",
-        credentials: "include",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(postObj)
-      });
+          // if the cursor is new then we will want to relist users
+          const obj = await results.json();
 
-      if (results.ok) {
+          if (ignore) {
+            return;
+          }
 
-        // if the cursor is new then we will want to relist users
-        const obj = await results.json();
+          if (cursor.primary === "null") {
+            setUsers(obj.users);
+          } else {
+            setUsers((prevUsers) => [...prevUsers, ...obj.users]);
+          }
+          setCursor(obj.nextCursor);
 
-        if (cursor.primary === "null") {
-          setUsers([...obj.users]);
         } else {
-          setUsers([...users, ...obj.users]);
+
+          const obj = await results.json();
+
+          if (ignore) {
+            return;
+          }
+
+          // there was an error while attempting to search
+          if (results.status === 404) {
+            setErrorMessage("No matching users found.");
+            setUsers([]);
+          } else if (results.status === 500 || typeof obj.error === "undefined") {
+            setErrorMessage("An internal server error occurred. Please try again later.");
+          } else {
+            console.error(obj.error);
+            setErrorMessage(obj.error);
+          }
+
+          // if the user is performing an unauthorized action
+          // log them out and return them to the homepage
+          if (results.status === 401) {
+            logout();
+            window.location.href = "/";
+          }
+
         }
-        setCursor(obj.nextCursor);
-
-      } else {
-
-        const obj = await results.json();
-
-        // there was an error while attempting to search
-        if (results.status === 404) {
-          setErrorMessage("No matching users found.");
-          setUsers([]);
-        } else if (results.status === 500 || typeof obj.error === "undefined") {
-          setErrorMessage("An internal server error occurred. Please try again later.");
-        } else {
-          console.error(obj.error);
-          setErrorMessage(obj.error);
+      } catch (err) {
+        // Ignore aborted requests, but surface all other errors to the user
+        if (err instanceof DOMException && (err.name === "AbortError" || controller.signal.aborted)) {
+          return;
         }
-
-        // if the user is performing an unauthorized action
-        // log them out and return them to the homepage
-        if (results.status === 401) {
-          logout();
-          window.location.href = "/";
+        console.error(err);
+        setErrorMessage("An unexpected error occurred while searching for users. Please try again.");
+      } finally {
+        if (!ignore) {
+          setUserLoading(false);
         }
-
       }
-      setUserLoading(false);
     }
 
     // don't load search results on the initial mount
@@ -146,6 +173,11 @@ function ManageUsers() {
     } else {
       setMounted(true);
     }
+
+    return () => {
+      ignore = true;
+      controller.abort();
+    };
     // eslint-disable-next-line
   }, [request]);
 
@@ -199,7 +231,10 @@ function ManageUsers() {
 
           <UserSearchForm onSearch={cursor => callSearch(cursor, true)}/>
 
-          <UserSearchResults users={users} cursor={cursor} loading={loading}
+          <UserSearchResults
+            users={users}
+            cursor={cursor}
+            loading={loading}
             onChangeSort={(sort, order) => handleChangeSort(sort, order)}
             onLoading={load => setMoreLoading(load)} error={errorMessage}
             onLoadMore={cursor => callSearch(cursor, false)}

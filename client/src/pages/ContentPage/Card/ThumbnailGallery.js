@@ -112,6 +112,7 @@ function ThumbnailGallery(props) {
             <Image
               url={item.contentUrl}
               title={item.contentLabel}
+              altText={item.altText}
               thumbnail={true}
               header={false}
             />
@@ -131,6 +132,7 @@ function ThumbnailGallery(props) {
             <Image
               url={item.contentUrl}
               title={item.contentLabel}
+              altText={item.altText}
               thumbnail={true}
               header={false}
             />

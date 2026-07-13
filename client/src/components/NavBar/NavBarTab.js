@@ -46,7 +46,7 @@ function NavBarTab (props) {
         onMouseEnter={() => setSubShow(true)}
         onMouseLeave={() => setSubShow(false)}
       >
-        <a href={`/page-list/${props.category.categoryId}`}>
+        <a className="no-underline" href={`/page-list/${props.category.categoryId}`}>
 
           {/* expanding arrow symbol */}
           <div className="py-2 px-2 w-100 h-100">
@@ -78,6 +78,7 @@ function NavBarTab (props) {
               <a
                 href={`/wiki/${props.category.pluralName.replace(/\s+/g, "-").toLowerCase()}/${page.pageId}`}
                 key={page.pageId}
+                className="no-underline"
               >
                 <div className="navbar-item px-2 py-1">
                   {page.name}
@@ -125,6 +126,7 @@ function NavBarTab (props) {
                   <div className="col dropdown-nav-col px-0 mx-0" key={page.pageId}>
                     <a
                       href={`/wiki/${props.category.pluralName.replace(/\s+/g, "-").toLowerCase()}/${page.pageId}`}
+                      className="no-underline"
                     >
                       <div className="navbar-item navbar-image-item text-center pt-auto px-2 py-1">
                         <img src={page.imageUrl} alt={page.name} className="cat-tag-img mb-2" onError={(e) => e.target.src = "/missing.png"} />

@@ -25,7 +25,7 @@ function OtherButton(props) {
       <div className="text-center mx-2 my-auto d-print-none">
         <button
           className="btn btn-secondary btn-sm"
-          data-toggle="dropdown"
+          data-bs-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
           id="dropdown-page-other"
@@ -47,7 +47,7 @@ function OtherButton(props) {
       <div className="text-center mx-2 my-auto d-print-none">
         <button
           className="btn btn-secondary btn-sm"
-          data-toggle="dropdown"
+          data-bs-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
           id="dropdown-page-other"
@@ -69,7 +69,7 @@ function OtherButton(props) {
       <div className="text-center mx-2 my-auto d-print-none">
         <button
           className="btn btn-secondary btn-sm"
-          data-toggle="dropdown"
+          data-bs-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
           id="dropdown-page-other"
@@ -91,7 +91,7 @@ function OtherButton(props) {
       <div className="text-center mx-2 my-auto d-print-none">
         <button
           className="btn btn-secondary btn-sm"
-          data-toggle="dropdown"
+          data-bs-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
           id="dropdown-page-other"

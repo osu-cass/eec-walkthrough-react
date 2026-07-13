@@ -6,9 +6,11 @@ const cookie = require("cookie");
 const assert = require("assert");
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
+const getSecret = require("../utils/getSecret");
+
 const COOKIE_EXPIRES_MS = 8 * 60 * 60 * 1000; // cookies expire in 8 hours
 const JWT_EXPIRES_HR = "8h"; // JWT expires in 8 hours
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+const JWT_SECRET_KEY = getSecret("JWT_SECRET_KEY");
 const MIN_ID = 1;
 const MAX_ID = 4294967295;
 
@@ -114,9 +116,13 @@ exports.getUserID = getUserID;
 // function will be ignored.
 function requireAuth(req, res, next) {
   try {
-
+    console.log("=== DEBUG: requireAuth middleware ===");
+    console.log("Headers:", req.headers.cookie);
+    console.log("JWT_SECRET_KEY exists:", !!JWT_SECRET_KEY);
+    
     req.auth = {};
     const cookieObj = cookie.parse(`${req.headers.cookie}`);
+    console.log("Parsed cookies:", cookieObj);
 
     // ensure that all of expected cookies are present
     assert(cookieObj === Object(cookieObj), "No cookie provided with request");

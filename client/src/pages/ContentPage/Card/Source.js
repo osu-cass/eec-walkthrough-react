@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import PropTypes from "prop-types";
-import sanitizeHtml from "sanitize-html";
+import DOMPurify from "dompurify";
 import "./Source.css";
 
 // Represents an inline citation that links to the reference card
@@ -8,8 +8,14 @@ function Source (props) {
 
   useEffect(() => {
     if (props.source > 0) {
-      window.$('[data-toggle="popover"]').popover();
+      window.$('[data-bs-toggle="popover"]').popover();
     }
+
+    // On unmount: clean up all popover instances (if any)
+    return () => {
+      window.$('[data-bs-toggle="popover"]').popover('dispose');
+    };
+    
   }, [props.source]);
 
   return props.source > 0 ? (
@@ -18,10 +24,10 @@ function Source (props) {
       <a
         href={`#source-${props.source}`}
         title="Reference"
-        data-toggle="popover"
+        data-bs-toggle="popover"
         data-trigger="hover"
         data-html="true"
-        data-content={sanitizeHtml(props.sourceText)}
+        data-content={DOMPurify.sanitize(props.sourceText)}
         className="text-wrap pre-wrap"
       >
         [{props.source}]

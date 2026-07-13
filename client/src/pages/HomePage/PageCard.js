@@ -23,8 +23,8 @@ function PageCard(props) {
   }, [props.description, props.recent]);
 
   return (
-    <div className="page-card-container">
-      <NavLink className="home-nav-link" to={`/wiki/home-card/${props.pageId}`}>
+    <div className="page-card-container col-auto">
+      <NavLink className="home-nav-link" to={`/wiki/home-card/${props.pageId}`} style={{ textDecoration: "none" }}>
         <div className="page-card">
           <div
             className="card-image"

@@ -9,6 +9,7 @@ import LoadingOverlay from "../../../components/General/LoadingOverlay";
 import RichTextEditor from "../../../components/General/RichTextEditor";
 import {logout} from "../../../utilities/cookieAuth";
 import {API_URL, UPLOAD_TERMS} from "../../../utilities/constants";
+import {isExternalImageUrl} from "../../../utilities/isExternalImageUrl";
 import "./EditPage.css";
 
 // Button and modal that allows a user to edit a page
@@ -140,11 +141,6 @@ function EditPage(props) {
   function checkInputs() {
     let emptyFound = false;
     let newErrorMessage = errorMessage;
-    // Empty url
-    if (!url.length && imageUpload === null) {
-      emptyFound = true;
-      newErrorMessage = "Error: Empty image url";
-    }
     // Empty description
     if (!description.length) {
       emptyFound = true;
@@ -472,12 +468,8 @@ function EditPage(props) {
       return;
     }
 
-    if (!url.length) {
-      setErrorMessage("Error: Fill out empty page image url");
-      return;
-    }
-    if (!url.replace(/\s/g, "").length) {
-      setErrorMessage("Error: Page image url can't be blank");
+    if (!url.length && imageUpload === null) {
+      setErrorMessage("Error: No image selected. Please upload an image.");
       return;
     }
 
@@ -599,18 +591,21 @@ function EditPage(props) {
                 <Form.Label className="font-weight-bold">Image</Form.Label>
                 <Form.Control
                   type="text"
-                  maxLength="1000"
-                  placeholder="Enter URL"
-                  defaultValue={url}
-                  onChange={(e) => setUrl(e.target.value)}
+                  readOnly
+                  style={{backgroundColor: "#e9ecef", cursor: "default"}}
+                  placeholder="Upload an image below to assign a path"
+                  value={url}
+                  aria-label="Image path after upload"
                 />
+                {/* If the image URL is external, display a warning */}
+                {isExternalImageUrl(url) && (
+                  <div className="alert alert-warning d-flex align-items-center mt-2 mb-0 py-2 px-3" role="alert">
+                    <i className="fas fa-exclamation-triangle mr-2" />
+                    <span>This is an external image URL. For security, please replace it with a local upload.</span>
+                  </div>
+                )}
+                <ImageInput id={0} onNewImage={(newImage) => setPendingImage(newImage)} default={"Upload an Image"} />
               </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col>
-              <ImageInput id={0} onNewImage={(newImage) => setPendingImage(newImage)} default={"... or Upload an Image"} />
             </Col>
           </Row>
 

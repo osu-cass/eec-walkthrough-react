@@ -131,7 +131,7 @@ function Card(props) {
         >
           <div
             id={"heading" + props.card.cardId}
-            data-toggle="collapse"
+            data-bs-toggle="collapse"
             data-target={"#collapse" + props.card.cardId}
             aria-expanded="true"
             aria-controls={"collapse" + props.card.cardId}
@@ -145,24 +145,26 @@ function Card(props) {
 
           </div>
           {props.mode === 1 ? (
-            <div className="row ml-auto mr-0">
+            <div className="col-auto align-self-center pl-0 float-right">
+              <div className="d-flex align-items-center float-right ml-2 mt-1 flex-nowrap">
               {/* Button for editing the current card */}
-              <EditCard
-                card={props.unfilteredCard}
-                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                iconSet={props.iconSet}
-                role={props.role}
-                sources={props.sources}
-                cardTitles={props.cardTitles}
-              />
+                <EditCard
+                  card={props.unfilteredCard}
+                  handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                  iconSet={props.iconSet}
+                  role={props.role}
+                  sources={props.sources}
+                  cardTitles={props.cardTitles}
+                />
 
-              {/* Used to compare changes made to the card with the previous version */}
-              <ReviewCard
-                handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
-                edited={props.card.edited}
-                card={props.unfilteredCard}
-                mode={props.mode}
-              />
+                {/* Used to compare changes made to the card with the previous version */}
+                <ReviewCard
+                  handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}
+                  edited={props.card.edited}
+                  card={props.unfilteredCard}
+                  mode={props.mode}
+                />
+              </div>
             </div>
           ) : (
             <Fragment>

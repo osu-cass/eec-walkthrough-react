@@ -1,5 +1,5 @@
 import React from "react";
-import {withRouter} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {formatTime} from "../../utilities/formatTime";
 import UserSelectRole from "./UserSelectRole";
 import GeneratePassword from "./GeneratePassword";
@@ -9,6 +9,8 @@ import "./UserSearchResults.css";
 
 // search results for a user search
 function UserSearchResults(props) {
+
+  const navigate = useNavigate();
 
   // updates the sorting order of the search results
   function changeSort(sortValue, alternateOrder) {
@@ -139,12 +141,12 @@ function UserSearchResults(props) {
   }
 
 }
-export default withRouter(UserSearchResults);
+export default UserSearchResults;
 
 UserSearchResults.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool,
-  history: PropTypes.object,
+  navigate: PropTypes.object,
   users: PropTypes.array,
   cursor: PropTypes.object,
   searchFields: PropTypes.object,

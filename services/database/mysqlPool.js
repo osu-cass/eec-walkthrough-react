@@ -2,13 +2,14 @@
 // Description: creates a mysql pool
 
 const mysql = require("mysql2/promise");
+const getSecret = require("../utils/getSecret");
 
 // set the server information using environment variables
-const mysqlPort = process.env.SQL_PORT || 3306;
-const mysqlHost = process.env.SQL_HOST;
-const mysqlUser = process.env.SQL_USER;
-const mysqlPassword = process.env.SQL_PASSWORD;
-const mysqlDatabase = process.env.SQL_DB_NAME;
+const mysqlPort = getSecret("MYSQL_PORT") || 3306;
+const mysqlHost = getSecret("MYSQL_HOST");
+const mysqlUser = getSecret("MYSQL_USER");
+const mysqlPassword = getSecret("MYSQL_PASSWORD");
+const mysqlDatabase = getSecret("MYSQL_DB_NAME");
 
 // create a MySQL resource pool
 const MAX_CONNECTIONS = 100;

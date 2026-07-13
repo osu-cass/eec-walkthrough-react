@@ -1,7 +1,7 @@
 import React, {useState, useEffect, Fragment} from "react";
 import LoadingOverlay from "../../components/General/LoadingOverlay";
 import {getProfile, logout} from "../../utilities/cookieAuth";
-import {useParams, useHistory} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import {API_URL} from "../../utilities/constants";
 import Error404 from "../404/Error404";
 import Error500 from "../500/Error500";
@@ -22,7 +22,7 @@ function QuizMove() {
   const [error, setError] = useState(0);
   const [publishedMode, setPublishedMode] = useState(getPublished());
   const {pageId} = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // Gets quiz info when the page first loads
   useEffect(() => {
@@ -285,7 +285,7 @@ function QuizMove() {
 
   // handle switching the quiz mode
   function onPageMode() {
-    history.push(`/quiz/${pageId}`);
+    navigate(`/quiz/${pageId}`);
   }
 
   return !error ? (

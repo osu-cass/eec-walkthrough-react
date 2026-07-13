@@ -57,6 +57,7 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
     }
     if (parseInt(cardType, 10) >= 10 && !await internalCheck(req.auth.userId)) {
       res.status(403).send({error: "This user is not allowed to create internal cards."});
+      return;
     }
 
     // create a card
@@ -74,6 +75,8 @@ app.post("/", requireAuth, postCardVal.validation, async (req, res) => {
         res.status(403).send({error: "Invalid item type in card."});
       } else if (results.error === 4) {
         res.status(403).send({error: "A thumbnail gallery is only allowed to contain graphics."});
+      } else if (results.error === 5) {
+        res.status(403).send({error: "External image URLs are not allowed. Please upload the image instead."});
       } else {
         res.status(500).send({error: "An internal server error occurred. Please try again later."});
       }
@@ -203,6 +206,7 @@ app.patch("/:cardId", requireAuth, patchCardVal.validation, async (req, res) => 
     }
     if (parseInt(cardType, 10) >= 10 && !await internalCheck(req.auth.userId)) {
       res.status(403).send({error: "This user is not allowed to set a card to internal."});
+      return;
     }
 
     // update a card

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {FaCheckCircle} from "react-icons/fa";
-import {FiPlusCircle} from "react-icons/fi";
+import { FaCheckCircle } from "react-icons/fa";
+import { FiPlusCircle } from "react-icons/fi";
 
 
 function TrainingSelectIcon({selected, onSelect}) {

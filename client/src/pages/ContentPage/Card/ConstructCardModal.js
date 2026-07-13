@@ -3,6 +3,7 @@ import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../../utilities/cookieAuth";
 import {getAgreement} from "../../../utilities/agreementMode";
 import {API_URL, UPLOAD_TERMS} from "../../../utilities/constants";
+import {normalizeEmptyRichText} from "../../../utilities/normalizeRichText";
 import Agreement from "../../../components/General/Agreement";
 import AddButton from "./AddButton";
 import ItemInput from "./ItemInput";
@@ -33,6 +34,17 @@ function ConstructCardModal(props) {
   const [showAgreement, setShowAgreement] = useState(false);
   const [controlHeld, setControlHeld] = useState(false);
   const [imageTerms] = useState(UPLOAD_TERMS);
+
+  // Problem: If user submits a blank graphic label, it would save as "<p><br></p>" instead of an empty string
+  // Solution: Normalize the graphic labels to get rid of empty rich text, e.g. "<p><br></p>" becomes ""
+  function normalizeGraphicLabels(itemArray) {
+    return itemArray.map((item) => (
+      item.groupIndex === 2 ? {
+        ...item,
+        contentLabel: normalizeEmptyRichText(item.contentLabel)
+      } : item
+    ));
+  }
 
   // setup card data
   useEffect(() => {
@@ -83,6 +95,7 @@ function ConstructCardModal(props) {
       itemData.contentLabel = item.contentLabel;
       itemData.contentUrl = item.contentUrl;
       itemData.learnMoreUrl = item.learnMoreUrl;
+      itemData.altText = item.altText || "";
       itemData.indentation = item.indentation;
       itemData.iconType = item.iconType;
       itemData.contentMode = item.contentMode;
@@ -225,7 +238,7 @@ function ConstructCardModal(props) {
     }
 
     // if this is a link, then get the previous items link mode
-    let newContentMode = -1;
+    let newContentMode = 0;
     if (items.length && items[items.length - 1].groupIndex === 3) {
       newContentMode = items[items.length - 1].contentMode;
     }
@@ -237,6 +250,7 @@ function ConstructCardModal(props) {
     copy[key].contentLabel = "";
     copy[key].contentUrl = "";
     copy[key].learnMoreUrl = "";
+    copy[key].altText = "";
     copy[key].iconType = newIconType;
     copy[key].groupIndex = groupIndex;
     copy[key].contentMode = newContentMode;
@@ -394,7 +408,7 @@ function ConstructCardModal(props) {
     }
 
     // Set the order index of each item and clean up empty strings as needed
-    const copy = items;
+    const copy = normalizeGraphicLabels([...items]);
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
     }
@@ -464,6 +478,8 @@ function ConstructCardModal(props) {
       items: copy
     };
 
+    console.log("cardData", cardData);
+    
     // Create the new card
     const results = await fetch(`${API_URL}/cards`, {
       method: "POST",
@@ -553,7 +569,7 @@ function ConstructCardModal(props) {
     }
 
     // Set the order index of each item and clean up empty strings as needed
-    const copy = items;
+    const copy = normalizeGraphicLabels([...items]);
 
     for (let i = 0; i < copy.length; i++) {
       copy[i].orderIndex = i;
@@ -994,7 +1010,7 @@ function ConstructCardModal(props) {
     if (groupIndex === 1) {
       copy[key].contentText = e;
     } else if (groupIndex === 2) {
-      copy[key].contentLabel = e;
+      copy[key].contentLabel = normalizeEmptyRichText(e);
     } else if (groupIndex === 3) {
       copy[key].contentUrl = e.target.value;
     } else if (groupIndex === 4) {
@@ -1003,6 +1019,8 @@ function ConstructCardModal(props) {
       copy[key].contentLabel = e.target.value;
     } else if (groupIndex === 6) {
       copy[key].learnMoreUrl = e.target.value;
+    } else if (groupIndex === 7) {
+      copy[key].altText = e.target.value;
     }
     setItems(copy);
   }
@@ -1052,6 +1070,7 @@ function ConstructCardModal(props) {
         }
       }
     }
+
     return null;
   }
 
@@ -1099,7 +1118,7 @@ function ConstructCardModal(props) {
       itemString += item.contentText + "$%$" + item.contentLabel + "$%$" +
         item.contentUrl + "$%$" + item.iconType + "$%$" + item.groupIndex + "$%$" +
         item.contentMode + "$%$" + item.internal + "$%$" + item.sourceId + "$%$" +
-        item.inline + "$%$" + item.learnMoreUrl;
+        item.inline + "$%$" + item.learnMoreUrl + "$%$" + (item.altText || "");
     }
 
     // show the toast stating that we have copied an item
@@ -1146,6 +1165,7 @@ function ConstructCardModal(props) {
       copy[key].inline = parseInt(itemArray[8], 10);
       copy[key].indentation = 0;
       copy[key].learnMoreUrl = itemArray[9];
+      copy[key].altText = itemArray[10] || "";
 
       // Make sure the indentation is up to date
       copy = scanIndentation(copy);

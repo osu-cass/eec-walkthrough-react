@@ -1,0 +1,119 @@
+services:
+  # MariaDB 10.11 database to match production CentOS environment
+  database:
+    image: mariadb:10.11
+    container_name: eec-walkthrough-db
+    environment:
+      MARIADB_DATABASE: ${MYSQL_DB_NAME:? error - MYSQL_DB_NAME is not set}
+      MARIADB_USER: ${MYSQL_USER:? error - MYSQL_USER is not set}
+      MARIADB_PASSWORD_FILE: /run/secrets/mysql_password
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      # Initialize database with new schema (includes latest field additions)
+      - ./services/database/db-init-new.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      # Custom MariaDB configuration
+      - ./docker/database/my.cnf:/etc/mysql/mariadb.conf.d/99-custom.cnf:ro
+      # Persistent database storage
+      - db_data:/var/lib/mysql
+    networks:
+      - eec-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    secrets:
+      - mysql_password
+      - mysql_root_password
+
+  # phpMyAdmin web interface for database management
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: eec-walkthrough-phpmyadmin
+    environment:
+      PMA_PORT: ${MYSQL_PORT:? error - MYSQL_PORT is not set}
+      PMA_HOST: ${MYSQL_HOST:? error - MYSQL_HOST is not set}
+      PMA_USER: ${MYSQL_USER:? error - MYSQL_USER is not set}
+      PMA_PASSWORD_FILE: /run/secrets/mysql_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+    ports:
+      - "8080:80"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - eec-network
+    restart: unless-stopped
+    secrets:
+      - mysql_password
+      - mysql_root_password
+
+  # Node.js application
+  app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile.dev
+      args:
+        REACT_APP_API_HOST: ${REACT_APP_API_HOST}
+    container_name: eec-walkthrough-app
+    environment:
+      # Environment variables for the application
+      API_PORT: ${API_PORT:? error - API_PORT is not set}
+      FILE_PORT: ${FILE_PORT:? error - FILE_PORT is not set}
+      MYSQL_PORT: ${MYSQL_PORT:? error - MYSQL_PORT is not set}
+      MYSQL_DB_NAME: ${MYSQL_DB_NAME:? error - MYSQL_DB_NAME is not set}
+      MYSQL_HOST: ${MYSQL_HOST:? error - MYSQL_HOST is not set}
+      MYSQL_USER: ${MYSQL_USER:? error - MYSQL_USER is not set}
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+      JWT_SECRET_KEY_FILE: /run/secrets/jwt_secret_key
+      NODE_ENV: ${NODE_ENV:? error - NODE_ENV is not set}
+      DISABLE_ESLINT_PLUGIN: true
+    ports:
+      - "${API_PORT}:${API_PORT}"  # API port via env variable
+      - "${FILE_PORT}:${FILE_PORT}"  # File serving port via env variable
+      - "9229:9229"  # Node.js debugger
+      - "3000:3000"  # React dev server
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - eec-network
+    # Override command to run in development mode
+    command: npm run dev:debug
+    restart: "no"
+    volumes:
+      # Persistent uploads storage
+      - .:/app:cached
+      - /app/node_modules
+      - /app/client/node_modules
+      - uploads_data:/app/client/files/uploads
+      - public_uploads_data:/app/client/public/uploads
+    secrets:
+      - mysql_password
+      - jwt_secret_key
+
+secrets:
+  mysql_password:
+    file: ./secrets/mysql_password.txt
+  mysql_root_password:
+    file: ./secrets/mysql_root_password.txt
+  jwt_secret_key:
+    file: ./secrets/jwt_secret_key.txt
+
+# Named volumes for persistent data
+volumes:
+  db_data:
+    driver: local
+  uploads_data:
+    driver: local
+  public_uploads_data:
+    driver: local
+
+# Network for service communication
+networks:
+  eec-network:
+    driver: bridge

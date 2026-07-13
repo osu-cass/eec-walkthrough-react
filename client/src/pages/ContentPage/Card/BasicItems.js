@@ -177,12 +177,11 @@ function BasicItems(props) {
             >
               {/* {console.log(`wrapper div: = ${JSON.stringify(item, null, 2)}`)} */}
               {item.items.map(item => (
-                <>
+                <Fragment key={item.itemId + "wrap"}>
                   {/* {console.log(
 										`text: ${item.contentText}, indent: ${item.indentation}`
 									)} */}
                   <BulletPoint
-                    key={item.itemId + "wrap"}
                     url={item.contentUrl}
                     learnMoreUrl={item.learnMoreUrl}
                     id={item.itemId}
@@ -191,6 +190,7 @@ function BasicItems(props) {
                     color={item.color}
                     text={item.contentText}
                     label={item.contentLabel}
+                    altText={item.altText || ""}
                     contentMode={item.contentMode}
                     created={item.created}
                     indentation={item.indentation}
@@ -213,16 +213,15 @@ function BasicItems(props) {
                     }
                     groupIndex={item.groupIndex}
                   />
-                </>
+                </Fragment>
               ))}
             </div>
           ) : (
-            <>
+            <Fragment key={item.itemId + "no-wrap"}>
               {/* {console.log(
 								`Non-wrapper div: = ${JSON.stringify(item, null, 2)}`
 							)} */}
               <BulletPoint
-                key={item.itemId + "no-wrap"}
                 url={item.contentUrl}
                 learnMoreUrl={item.learnMoreUrl}
                 id={item.itemId}
@@ -231,6 +230,7 @@ function BasicItems(props) {
                 color={item.color}
                 text={item.contentText}
                 label={item.contentLabel}
+                altText={item.altText || ""}
                 contentMode={item.contentMode}
                 created={item.created}
                 indentation={item.indentation}
@@ -253,7 +253,7 @@ function BasicItems(props) {
                 }
                 groupIndex={item.groupIndex}
               />
-            </>
+            </Fragment>
           )}
         </Fragment>
       ))}

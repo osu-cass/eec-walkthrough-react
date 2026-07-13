@@ -1159,6 +1159,7 @@ CREATE TABLE `History_Items` (
   `contentText` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentLabel` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `altText` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `contentMode` int(10) UNSIGNED NOT NULL,
   `internal` tinyint(3) UNSIGNED NOT NULL,
   `inline` tinyint(3) UNSIGNED NOT NULL,
@@ -3707,7 +3708,8 @@ CREATE TABLE `Items` (
   `sourceId` int(10) UNSIGNED NOT NULL,
   `created` timestamp NULL DEFAULT current_timestamp(),
   `approved` tinyint(3) UNSIGNED NOT NULL,
-  `learnMoreUrl` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL
+  `learnMoreUrl` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `altText` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -6668,7 +6670,8 @@ INSERT INTO `Users` (`userId`, `username`, `hash`, `firstName`, `lastName`, `ema
 (82, 'nguyech2', '258cbc1e53814b066dfdfb331d1852b3$6e079500041039bd48353207449a7cfee7fd18eeb00fb22cc78dc8444504aa9a', 'Christian', 'nguyech2', 'nguyech2@oregonstate.edu', 4, '2021-07-07 19:09:56'),
 (83, 'bulliss', '8f5630086685b1905b1e50329d3830c6$3e9bdb3deaf656d59ea44b665fb6c0c76e1c5788bcdeeb287775bac36adcefb1', 'Sean', 'Bullis', 'bulliss@oregonstate.edu', 4, '2021-07-07 19:33:27'),
 (84, 'wigleb', '890b3f2c14134b4732606fe53e50e35f$aea5eb11b106364deac5917c9b8ede007b8a5a7b52a08517d92277da20bca67a', 'Brayden', 'Wigle', 'wigleb@oregonstate.edu', 4, '2021-07-07 21:10:04'),
-(85, 'JacobMcWhirter', '1e5cd421fd50c0c3c4b450601cf59151$1e9280acba0734c9b4aa3da6507c2355e28a05d9c967553cf952ff6a33b27b9a', 'Jacob', 'McWhirter', 'mcwhirtj@oregonstate.edu', 4, '2021-07-08 02:28:41');
+(85, 'JacobMcWhirter', '1e5cd421fd50c0c3c4b450601cf59151$1e9280acba0734c9b4aa3da6507c2355e28a05d9c967553cf952ff6a33b27b9a', 'Jacob', 'McWhirter', 'mcwhirtj@oregonstate.edu', 4, '2021-07-08 02:28:41'),
+(86, 'vikramr', 'f66481302a268610a7cdf2e98fa05fe3$918bac2916e8599e90f7ae371cd21712349250b6905423584a2a31695fee7ccd', 'Rahul', 'Vikram', 'vikramr@oregonstate.edu', 5, '2026-05-13 16:41:01');
 
 -- --------------------------------------------------------
 

@@ -1,5 +1,4 @@
-
-import {combineReducers} from "redux";
+import { combineReducers } from "@reduxjs/toolkit";
 import {ADD_TRAINING_ITEM, POPULATE_TRAINING_PAGE, REMOVE_TRAINING_ITEM, RESET_TRAINING_PAGE} from "./actions";
 
 // payload is {id}

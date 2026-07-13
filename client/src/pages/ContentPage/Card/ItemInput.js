@@ -3,8 +3,9 @@ import FormControl from "react-bootstrap/FormControl";
 import Dropdown from "react-bootstrap/Dropdown";
 import ImageInput from "../../../components/General/ImageInput";
 import RichTextEditor from "../../../components/General/RichTextEditor";
-import sanitizeHtml from "sanitize-html";
+import DOMPurify from "dompurify";
 import PropTypes from "prop-types";
+import {isExternalImageUrl} from "../../../utilities/isExternalImageUrl";
 import "./ItemInput.css";
 
 // An input field for adding or modifying items in a card modal
@@ -14,7 +15,7 @@ function ItemInput(props) {
   const [sourceValue, setSourceValue] = useState(props.sourceId);
   const [linkText, setLinkText] = useState("Link");
   const [sourceText, setSourceText] = useState("Source: None");
-  const [sources, setSources] = useState(props.sources);
+  const [sources, setSources] = useState(props.sources || []);
   const {value, index, handleLinkValue, handleSourceValue} = props;
 
   // updates the link dropdown text to match a selection
@@ -53,7 +54,7 @@ function ItemInput(props) {
       // find the text for the current selected source
       for (let i = 0; i < sources.length; i++) {
         if (sourceValue === sources[i].sourceId) {
-          const cleanString = sanitizeHtml(sources[i].text, {allowedTags: [], allowedAttributes: {}});
+          const cleanString = DOMPurify.sanitize(sources[i].text, {ALLOWED_TAGS: [], ALLOWED_ATTR: {}});
           setSourceText(`Source: ${cleanString.substring(0, 8).trim()}...`);
           handleSourceValue(index, sources[i].sourceId);
           break;
@@ -65,11 +66,15 @@ function ItemInput(props) {
 
   // sanitize all sources by removing all HTML tags
   useEffect(() => {
+    if (!Array.isArray(props.sources)) {
+      setSources([]);
+      return;
+    }
     const copy = JSON.parse(JSON.stringify(props.sources));
     for (let i = 0; i < props.sources.length; i++) {
-      const newSourceText = sanitizeHtml(props.sources[i].text, {
-        allowedTags: [],
-        allowedAttributes: {}
+      const newSourceText = DOMPurify.sanitize(props.sources[i].text, {
+        ALLOWED_TAGS: [],
+        ALLOWED_ATTR: {}
       });
 
       copy[i].text = newSourceText;
@@ -135,21 +140,37 @@ function ItemInput(props) {
             <FormControl
               as="textarea"
               rows="1"
-              maxLength="1000"
+              readOnly
               className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
-              placeholder="Image URL"
+              style={{backgroundColor: "#e9ecef", resize: "none", cursor: "default"}}
+              placeholder="Upload an image below to assign a path"
               value={props.value.contentUrl}
-              aria-label="Insert Image URL"
+              aria-label="Image path after upload"
               aria-describedby="basic-addon1"
-              onChange={(e) => props.handleInput(e, props.index, 3)}
-              required
             />
+            {/* If the image URL is external, display a warning */}
+            {isExternalImageUrl(props.value.contentUrl) && (
+              <div className="alert alert-warning d-flex align-items-center mt-2 mb-0 py-2 px-3" role="alert">
+                <i className="fas fa-exclamation-triangle mr-2" />
+                <span style={{fontSize: "0.8rem"}}>This is an external image URL. For security, please replace it with a local upload.</span>
+              </div>
+            )}
             <ImageInput
               id={props.index}
               internal={props.internal}
               inline={props.inline}
               onNewImage={(newImage) => props.onNewImage(newImage, props.index)}
-              default={"... or Upload an Image"}
+              default={"Upload an Image"}
+            />
+            <FormControl
+              as="textarea"
+              rows="1"
+              maxLength="1000"
+              className={`${props.internal ? "internal-modal-item" : ""} ${props.inline ? "inline-modal-item" : ""}`}
+              placeholder="Alt text (accessibility description, uses the image caption if left blank)"
+              value={props.value.altText}
+              aria-label="Image alt text"
+              onChange={(e) => props.handleInput(e, props.index, 7)}
             />
           </div>
           <Dropdown className="source-select-drop-down-menu ml-2">

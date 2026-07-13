@@ -57,3 +57,7 @@ main {
   color: white;
   box-shadow: 0px 0px 0px 3px rgba(173, 164, 144, 0.5);
 }
+
+.no-underline {
+  text-decoration: none;
+}

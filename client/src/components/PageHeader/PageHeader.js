@@ -64,7 +64,7 @@ function PageHeader (props) {
           {/* Header title text*/}
           <div className="page-header-title-container">
             {/* Large Header */}
-            <a href="/" className="nav-header-title-link">
+            <a href="/" className="nav-header-title-link no-underline">
               <h4 className="nav-header-title">
                 Industrial Walkthrough&nbsp;<br className="title-break" />Checklist &amp; Guide
               </h4>
