@@ -6,7 +6,8 @@ updates:
       - /
       - /client
     schedule:
-      interval: weekly    groups:
+      interval: weekly
+    groups:
       npm-dependencies:
         patterns:
           - "*"
@@ -17,14 +18,16 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly    groups:
+      interval: weekly
+    groups:
       github-actions:
         patterns:
           - "*"
   - package-ecosystem: docker
     directory: /docker/app
     schedule:
-      interval: weekly    groups:
+      interval: weekly
+    groups:
       docker:
         patterns:
           - "*"
