@@ -6,22 +6,22 @@
 	"dependencies": {
 		"@emotion/react": "^11.1.5",
 		"@emotion/styled": "^11.3.0",
-		"@reduxjs/toolkit": "^2.9.0",
+		"@reduxjs/toolkit": "^2.12.0",
 		"bootstrap": "^5.3.8",
-		"cookie": "^0.4.1",
+		"cookie": "^2.0.1",
 		"diff-match-patch": "^1.0.5",
-		"dompurify": "^3.3.3",
+		"dompurify": "^3.4.12",
 		"draft-js": "^0.11.7",
-		"katex": "^0.12.0",
-		"react": "^18.3.1",
+		"katex": "^0.17.0",
+		"react": "^19.2.7",
 		"react-bootstrap": "^2.10.10",
 		"react-color": "^2.17.2",
-		"react-dom": "^18.3.1",
-		"react-icons": "^4.2.0",
-		"react-redux": "^8.1.0",
-		"react-router-dom": "^7.10.0",
+		"react-dom": "^19.2.7",
+		"react-icons": "^5.7.0",
+		"react-redux": "^9.3.0",
+		"react-router-dom": "^7.18.1",
 		"react-scripts": "^5.0.1",
-		"validator": "^13.0.0"
+		"validator": "^13.15.35"
 	},
 	"scripts": {
 		"predeploy": "npm run build",
@@ -49,9 +49,9 @@
 	},
 	"devDependencies": {
 		"@testing-library/jest-dom": "^6.1.5",
-		"@testing-library/react": "^14.3.1",
+		"@testing-library/react": "^16.3.2",
 		"@testing-library/user-event": "^14.5.1",
-		"express": "^4.17.1",
-		"gh-pages": "^2.2.0"
+		"express": "^5.2.1",
+		"gh-pages": "^6.3.0"
 	}
 }
