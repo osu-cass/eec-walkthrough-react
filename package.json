@@ -6,7 +6,7 @@
 		"assert": "^2.0.0",
 		"await-fs": "^1.0.0",
 		"concurrently": "^5.3.0",
-		"cookie": "^0.4.1",
+		"cookie": "^0.7.2",
 		"cookie-parser": "~1.4.4",
 		"cross-env": "^7.0.2",
 		"debug": "~2.6.9",
