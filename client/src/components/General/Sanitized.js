@@ -29,10 +29,13 @@ const allowedClasses = {
     "horizontal-separator", "hdashline", "vdashline", "hline", "vline", "mathit", "text",
     "mathbb", "mover", "sout", "munder", "vbox", "thinbox", "rlap", "inner", "fix",
     "boxpad", "mclose", "fbox", "op-limits",
-    // katex >= 0.16 renamed/added layout classes; keep the old names above for
+    // katex >= 0.18 renamed layout classes; keep the old names above for
     // content stored while katex 0.12 was in use
-    "katex-base", "katex-strut", "katex-sizing", "katex-overline", "katex-underline",
-    "katex-accent", "katex-overlay", "sqrt", "hide-tail", "minner", ""
+    "katex-newline", "katex-base", "katex-strut", "katex-vbox", "katex-overline",
+    "katex-underline", "katex-thinbox", "katex-rule", "katex-smash", "katex-fix",
+    "katex-inner", "katex-root", "katex-hline", "katex-hdashline", "katex-sizing",
+    "katex-accent", "katex-overlay", "katex-stretchy", "katex-sout", "katex-tag",
+    "sqrt", "hide-tail", "minner", ""
   ]
 };
 
