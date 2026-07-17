@@ -28,7 +28,11 @@ const allowedClasses = {
     "col-align-r", "col-align-l", "arraycolsep", "mbin", "mspace", "mrel", "vertical-separator",
     "horizontal-separator", "hdashline", "vdashline", "hline", "vline", "mathit", "text",
     "mathbb", "mover", "sout", "munder", "vbox", "thinbox", "rlap", "inner", "fix",
-    "boxpad", "mclose", "fbox", "op-limits", ""
+    "boxpad", "mclose", "fbox", "op-limits",
+    // katex >= 0.16 renamed/added layout classes; keep the old names above for
+    // content stored while katex 0.12 was in use
+    "katex-base", "katex-strut", "katex-sizing", "katex-overline", "katex-underline",
+    "katex-accent", "katex-overlay", "sqrt", "hide-tail", "minner", ""
   ]
 };
 
