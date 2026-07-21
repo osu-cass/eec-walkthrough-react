@@ -60,7 +60,7 @@ app.use("/api/curators", require("./curators"));
 app.use("/api/training", require("./trainingPages"));
 
 // unhandled API requests get a 404 error
-app.all("/api/*", (req, res) => {
+app.all("/api/*splat", (req, res) => {
   console.error("404: File not found\n");
   res.status(404).send({error: "Not Found"});
 });
