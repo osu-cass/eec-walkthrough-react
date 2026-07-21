@@ -20,7 +20,7 @@
 		"morgan": "~1.11.0",
 		"multer": "^2.2.0",
 		"mysql2": "^2.1.0",
-		"react-quill": "^1.3.5",
+		"react-quill": "^2.0.0",
 		"sanitize-html": "^2.17.6",
 		"serve": "^11.3.2",
 		"validator": "^13.15.35"
