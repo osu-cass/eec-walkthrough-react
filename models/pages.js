@@ -716,8 +716,8 @@ async function publishPage(pageId) {
     }
 
     // save the published data to history
-    sql = "INSERT INTO History_Pages (pageId, pageType, name, title, description, imageUrl, internal) " +
-    "SELECT pageId, pageType, name, title, description, imageUrl, internal FROM Pages " +
+    sql = "INSERT INTO History_Pages (pageId, pageType, name, title, description, imageUrl, internal, removed) " +
+    "SELECT pageId, pageType, name, title, description, imageUrl, internal, 0 AS removed FROM Pages " +
     "WHERE Pages.approved = 1 AND Pages.pageId = ?;";
     await pool.query(sql, [pageId]);
 
