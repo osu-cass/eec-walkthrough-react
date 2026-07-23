@@ -35,19 +35,12 @@ function RichTextEditor(props) {
   Size.whitelist = ["small", "medium", "large", "huge"];
   Quill.register(Size, true);
 
-  const theme = props.showToolbar() ? "snow" : "bubble";
+  // Keep the theme stable to avoid rebuilding Quill when toolbar visibility changes.
+  const toolbarVisible = props.showToolbar();
 
   return (
-    <div className={`text-editor ${props.showToolbar() ? "" : "simple-text-border"}`}>
+    <div className={`text-editor ${toolbarVisible ? "" : "simple-text-border hide-toolbar"}`}>
       <ReactQuill
-        // Keying on theme forces React to unmount + remount ReactQuill when the
-        // theme changes, instead of letting react-quill regenerate the editor
-        // in place. react-quill 2.0.0's in-place regeneration relies on
-        // findDOMNode and restores the prior selection during the rebuild; under
-        // React 18 that races the DOM update and throws "addRange(): The given
-        // range isn't in document", leaving the editor blank. A clean remount
-        // rebuilds from `value` with no stale selection to restore.
-        key={theme}
         preserveWhitespace={true}
         value={props.value}
         onChange={(text) => props.onChange(text)}
@@ -55,7 +48,7 @@ function RichTextEditor(props) {
         modules={modules}
         formats={formats}
         placeholder={props.placeHolder}
-        theme={theme}
+        theme="snow"
       />
     </div>
   );

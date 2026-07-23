@@ -10,3 +10,11 @@
 .ql-editor {
   white-space: break-spaces;
 }
+
+.text-editor.hide-toolbar .ql-toolbar.ql-snow {
+  display: none;
+}
+
+.text-editor.hide-toolbar .ql-container.ql-snow {
+  border: none;
+}
