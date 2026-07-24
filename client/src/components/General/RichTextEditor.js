@@ -35,8 +35,11 @@ function RichTextEditor(props) {
   Size.whitelist = ["small", "medium", "large", "huge"];
   Quill.register(Size, true);
 
+  // Keep the theme stable to avoid rebuilding Quill when toolbar visibility changes.
+  const toolbarVisible = props.showToolbar();
+
   return (
-    <div className={`text-editor ${props.showToolbar() ? "" : "simple-text-border"}`}>
+    <div className={`text-editor ${toolbarVisible ? "" : "simple-text-border hide-toolbar"}`}>
       <ReactQuill
         preserveWhitespace={true}
         value={props.value}
@@ -45,7 +48,7 @@ function RichTextEditor(props) {
         modules={modules}
         formats={formats}
         placeholder={props.placeHolder}
-        theme={props.showToolbar() ? "snow" : "bubble"}
+        theme="snow"
       />
     </div>
   );
