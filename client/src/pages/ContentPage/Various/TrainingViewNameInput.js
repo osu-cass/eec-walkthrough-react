@@ -8,7 +8,7 @@ import {
 } from "../../../redux/selectors";
 import styled from "@emotion/styled/macro";
 import {API_URL} from "../../../utilities/constants";
-import {useParams, useNavigate} from "react-router-dom";
+import {useParams, useNavigate, useSearchParams} from "react-router-dom";
 
 const ErrorContainer = styled.div`
 	margin-top: 0.3rem;
@@ -25,23 +25,33 @@ const DropdownSelect = styled.select`
 function TrainingViewNameInput() {
   const storePageInfo = useSelector(getTrainingPageInfo);
   const [pageTitle, setPageTitle] = useState(storePageInfo.title);
-  const [viewersInput, setViewersInput] = useState("everyone");
+  const [viewersInput, setViewersInput] = useState(storePageInfo.viewers || "everyone");
   const [error, setError] = useState("");
   const [description, setDescription] = useState(storePageInfo.description);
   const trainingPageItems = useSelector(getTrainingPageItems);
   const {pageId, category} = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const trainingPageId = searchParams.get("trainingPageId");
   const [showAlert, setShowAlert] = useState(true);
   const handleFormSubmit = async e => {
-    alert("Done saving training page");
-    setError("");
     e.preventDefault();
+    setError("");
     if (!pageTitle) {
       setError("Please enter a training path name");
       return;
     }
     if (!trainingPageItems.length) {
       setError("Please select at least one training item");
+      return;
+    }
+    // a reload wipes the store, so saving would overwrite the page with stale
+    // defaults (e.g. silently downgrading viewers from internal to everyone)
+    if (trainingPageId && !storePageInfo.title) {
+      setError(
+        "The training page data is no longer loaded. Reopen it with the " +
+        "Edit button on the training page before saving."
+      );
       return;
     }
 
@@ -57,21 +67,37 @@ function TrainingViewNameInput() {
     console.log("reqbody before posting: ", reqBody);
 
     try {
-      const response = await (
-        await fetch(`${API_URL}/training`, {
-          method: "POST",
+      const response = await fetch(
+        trainingPageId ? `${API_URL}/training/${trainingPageId}` : `${API_URL}/training`,
+        {
+          method: trainingPageId ? "PATCH" : "POST",
           credentials: "include",
           headers: {
             "Content-Type": "application/json"
           },
           body: JSON.stringify(reqBody)
-        })
-      ).json();
-      const newUrl = `/training/${response.id}`;
+        }
+      );
+      const responseBody = await response.json();
+      if (!response.ok) {
+        const validationErrors = responseBody.errors
+          ? responseBody.errors.map(validationError => validationError.msg).join(" ")
+          : "";
+        setError(
+          validationErrors ||
+          responseBody.error ||
+          "Unable to save the training page. Please try again."
+        );
+        return;
+      }
+
+      alert("Done saving training page");
+      const newUrl = `/training/${responseBody.id}`;
       navigate(newUrl);
     } catch (err) {
-      console.log(err);
-      throw err;
+      console.error(err);
+      setError("Unable to save the training page. Please try again.");
+      return;
     }
 
     setDescription("");
@@ -118,7 +144,7 @@ function TrainingViewNameInput() {
             </DropdownSelect>
           </div>
           <button type="submit" className="btn btn-primary btn-save">
-  					Save
+            Save
           </button>
         </form>
         {error && <ErrorContainer>{error}</ErrorContainer>}

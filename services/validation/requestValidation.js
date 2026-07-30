@@ -75,6 +75,83 @@ const getPageVal = Object.freeze({
 });
 exports.getPageVal = getPageVal;
 
+// the largest item count a single training page may contain
+const MAX_TRAINING_ITEMS = 500;
+
+// shared body checks for creating and updating a training page
+function trainingPageBodyValidation() {
+  return [
+    check("name")
+      .isString()
+      .withMessage("Training path name is required.")
+      .bail()
+      .trim()
+      .isLength({min: 1, max: 255})
+      .withMessage("Training path name must be between 1 and 255 characters."),
+    check("description")
+      .optional({nullable: true})
+      .isString()
+      .withMessage("Training path description must be text.")
+      .bail()
+      .custom(value => Buffer.byteLength(value, "utf8") <= 65535)
+      .withMessage("Training path description is too long."),
+    check("viewers")
+      .isIn(["everyone", "internal"])
+      .withMessage("Viewers must be either everyone or internal."),
+    check("category")
+      .isString()
+      .withMessage("Category is required.")
+      .bail()
+      .trim()
+      .isLength({min: 1, max: 255})
+      .withMessage("Category must be between 1 and 255 characters."),
+    check("sourcePageId")
+      .isInt({min: 1, max: 4294967295})
+      .withMessage("Source page ID must be a positive integer."),
+    check("itemList")
+      .isArray({min: 1, max: MAX_TRAINING_ITEMS})
+      .withMessage(`Select between 1 and ${MAX_TRAINING_ITEMS} training items.`)
+      .bail()
+      .custom(itemList => {
+        const itemIds = itemList.map(item => item && item.id);
+        return itemIds.length === new Set(itemIds.map(String)).size;
+      })
+      .withMessage("The same training item cannot be added twice."),
+    check("itemList.*.id")
+      .isInt({min: 1, max: 4294967295})
+      .withMessage("Every training item needs a valid item ID."),
+    check("itemList.*.annotation")
+      .optional({nullable: true})
+      .isString()
+      .withMessage("Annotations must be text.")
+      .bail()
+      .isLength({max: 255})
+      .withMessage("Annotations are limited to 255 characters.")
+  ];
+}
+
+const postTrainingPageVal = Object.freeze({
+  validation: trainingPageBodyValidation()
+});
+exports.postTrainingPageVal = postTrainingPageVal;
+
+const patchTrainingPageVal = Object.freeze({
+  validation: [
+    check("pageId").isInt({min: 1, max: 4294967295})
+      .withMessage("Training page ID must be a positive integer."),
+    ...trainingPageBodyValidation()
+  ]
+});
+exports.patchTrainingPageVal = patchTrainingPageVal;
+
+const deleteTrainingPageVal = Object.freeze({
+  validation: [
+    check("pageId").isInt({min: 1, max: 4294967295})
+      .withMessage("Training page ID must be a positive integer.")
+  ]
+});
+exports.deleteTrainingPageVal = deleteTrainingPageVal;
+
 // validation checks for search user
 const searchPageVal = Object.freeze({
   validation: [
