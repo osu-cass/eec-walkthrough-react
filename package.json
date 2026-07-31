@@ -18,7 +18,7 @@
 		"moment": "^2.27.0",
 		"morgan": "~1.11.0",
 		"multer": "^2.2.0",
-		"mysql2": "^3.23.1",
+		"mysql2": "^3.23.2",
 		"react-quill": "^2.0.0",
 		"sanitize-html": "^2.17.6",
 		"validator": "^13.15.35"
