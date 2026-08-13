@@ -2,16 +2,16 @@
 // Description: constants that need to be easily referenced
 
 // set the default API address
-let API_URL;
+let apiUrl;
 
 if (process.env.NODE_ENV === "development") {
-  API_URL = "/api";
+  apiUrl = "/api";
 } else {
-  API_URL = `${process.env.REACT_APP_API_HOST}/api`;
+  apiUrl = `${process.env.REACT_APP_API_HOST}/api`;
 }
 
 // generic constants
-module.exports = Object.freeze({
+const constants = Object.freeze({
   ROLE: {
     GUEST: 0,
     EXTERNAL_USER: 1,
@@ -43,7 +43,7 @@ module.exports = Object.freeze({
     INTERNAL_DOWNLOAD: 2,
     EXTERNAL_DOWNLOAD: 3
   },
-  API_URL: API_URL,
+  API_URL: apiUrl,
   MS_PER_SECOND: 1000,
   MS_PER_MINUTE: 60 * 1000,
   MS_PER_HOUR: 60 * 60 * 1000,
@@ -81,3 +81,23 @@ module.exports = Object.freeze({
 		"Please feel welcome to contact the OSU EEC if you would like to discuss the content " +
 		"of this website or if you have another question about energy use or pollution prevention."
 });
+
+export const {
+  ROLE,
+  CARD_TYPE,
+  MODE,
+  ITEM_TYPE,
+  CONTENT_MODE,
+  API_URL,
+  MS_PER_SECOND,
+  MS_PER_MINUTE,
+  MS_PER_HOUR,
+  MS_PER_DAY,
+  MS_PER_MONTH,
+  MS_PER_YEAR,
+  UPLOAD_TERMS,
+  EEC_HOMEPAGE,
+  DISCLAIMER
+} = constants;
+
+export default constants;
