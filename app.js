@@ -148,7 +148,7 @@ if (process.env.NODE_ENV === "production") {
   fileApp.use(express.static(path.join(__dirname + "/client/", "build")));
   fileApp.use(express.static(path.join(__dirname + "/client/", "files")));
 
-  fileApp.get("/*", (req, res) => {
+  fileApp.get("/{*splat}", (req, res) => {
     res.sendFile(path.join(__dirname + "/client/", "build", "index.html"));
   });
 

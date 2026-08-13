@@ -325,8 +325,8 @@ async function publishHeader(headerId) {
     }
 
     // save the published data to history
-    sql = "INSERT INTO History_Headers (pageId, headerId, title, internal) " +
-    "SELECT pageId, headerId, title, internal FROM Headers " +
+    sql = "INSERT INTO History_Headers (pageId, headerId, title, internal, removed) " +
+    "SELECT pageId, headerId, title, internal, 0 AS removed FROM Headers " +
     "WHERE Headers.approved = 1 AND Headers.headerId = ?;";
     await pool.query(sql, [headerId]);
 

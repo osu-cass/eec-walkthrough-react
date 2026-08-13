@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback, Fragment} from "react";
+import React, {useEffect, useState, Fragment} from "react";
 import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../../utilities/cookieAuth";
 import {getAgreement} from "../../../utilities/agreementMode";
@@ -32,7 +32,6 @@ function ConstructCardModal(props) {
   const [selectedItems, setSelectedItems] = useState(0);
   const [imageAgreement, setImageAgreement] = useState(getAgreement("image"));
   const [showAgreement, setShowAgreement] = useState(false);
-  const [controlHeld, setControlHeld] = useState(false);
   const [imageTerms] = useState(UPLOAD_TERMS);
 
   // Problem: If user submits a blank graphic label, it would save as "<p><br></p>" instead of an empty string
@@ -148,40 +147,10 @@ function ConstructCardModal(props) {
     setPureCounter(pure + 1);
   }, [items, items.length, counter]);
 
-  // add CTRL key down listener
-  useEffect(() => {
-    document.addEventListener("keydown", ctrlDown, false);
-    return () => {
-      document.removeEventListener("keydown", ctrlDown, false);
-    };
-  }, []);
-
-  // add CTRL key up listener
-  useEffect(() => {
-    document.addEventListener("keyup", ctrlUp, false);
-    return () => {
-      document.removeEventListener("keyup", ctrlUp, false);
-    };
-  }, []);
-
   // Clear error messages whenever the modal is opened or closed
   useEffect(() => {
     setErrorMessage("");
   }, [props.show]);
-
-  // Set the CTRL key held state to false
-  const ctrlUp = useCallback((event) => {
-    if (event.keyCode === 17) {
-      setControlHeld(false);
-    }
-  }, []);
-
-  // Set the CTRL key held state to true
-  const ctrlDown = useCallback((event) => {
-    if (event.keyCode === 17) {
-      setControlHeld(true);
-    }
-  }, []);
 
   // Makes a copy of the items in the props
   function generateItems(itemList) {
@@ -1294,9 +1263,10 @@ function ConstructCardModal(props) {
     setImageAgreement(true);
   }
 
-  // handle selecting one or more items
-  function itemSelection(targetItem) {
-    if (controlHeld && selectedItems.length) {
+  // Read the modifier from the click to avoid stale multi-select state.
+  function itemSelection(targetItem, event) {
+    const multiSelect = !!(event && (event.ctrlKey || event.metaKey));
+    if (multiSelect && selectedItems.length) {
 
       // don't allow selecting the same item more than once
       for (let i = 0; i < selectedItems.length; i++) {
@@ -1470,7 +1440,7 @@ function ConstructCardModal(props) {
               className={`mb-2 mx-2 ${isSelected(item) ? "modal-selected-item" : ""}
                 ${item.internal ? "internal-modal-item" : ""} ${item.inline ? "inline-modal-item" : ""}`}
               key={item.counterId}
-              onClick={() => itemSelection(item.counterId)}
+              onClick={(e) => itemSelection(item.counterId, e)}
             >
               <div className="input-group">
                 <Indent indentLevel={item.indentation} />

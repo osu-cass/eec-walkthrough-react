@@ -531,8 +531,8 @@ async function submitObservations(userId, pageId, observations) {
 
     // create the new observations
     for (let i = 0; i < observations.length; i++) {
-      sql = "INSERT INTO Observations (pageId, userId, type, text) " +
-      "VALUES (?, ?, ?, ?);";
+      sql = "INSERT INTO Observations (pageId, userId, type, text, hidden) " +
+      "VALUES (?, ?, ?, ?, 0);";
       await pool.query(sql, [pageId, userId, observations[i].type, observations[i].text.trim()]);
     }
 
