@@ -2,7 +2,7 @@
 
 import React from 'react'
 import '../ContentPage/Header/Header.css'
-import styled from '@emotion/styled/macro'
+import styled from '@emotion/styled'
 import Card from './Card'
 
 const Container = styled.div``

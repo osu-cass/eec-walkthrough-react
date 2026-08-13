@@ -17,44 +17,27 @@
 		"react-color": "^2.17.2",
 		"react-dom": "^18.3.1",
 		"react-icons": "^4.2.0",
+		"react-quill": "^2.0.0",
 		"react-redux": "^8.1.0",
 		"react-router-dom": "^7.18.1",
-		"react-scripts": "^5.0.1",
 		"validator": "^13.15.35"
 	},
 	"scripts": {
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d build",
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
-	},
-	"overrides": {
-		"nth-check": "^2.1.1",
-		"postcss": "^8.4.31"
-	},
-	"proxy": "http://localhost:1111/",
-	"eslintConfig": {
-		"extends": "react-app"
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
+		"start": "vite",
+		"build": "vite build",
+		"test": "vitest run"
 	},
 	"devDependencies": {
 		"@testing-library/jest-dom": "^6.1.5",
 		"@testing-library/react": "^14.3.1",
 		"@testing-library/user-event": "^14.5.1",
+		"@vitejs/plugin-react": "^6.0.5",
 		"express": "^4.22.2",
-		"gh-pages": "^6.3.0"
+		"gh-pages": "^6.3.0",
+		"jsdom": "^27.4.0",
+		"vite": "^8.2.1",
+		"vitest": "^4.1.10"
 	}
 }

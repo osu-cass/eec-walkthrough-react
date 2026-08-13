@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import React from 'react'
-import styled from '@emotion/styled/macro'
+import styled from '@emotion/styled'
 import { Card as CardBS } from 'react-bootstrap'
 import Item from './Item'
 

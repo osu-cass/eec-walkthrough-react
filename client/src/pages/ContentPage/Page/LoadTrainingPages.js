@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import styled from "@emotion/styled/macro";
+import styled from "@emotion/styled";
 import {API_URL, MODE} from "../../../utilities/constants";
 import {useParams, Link} from "react-router-dom";
 import PropTypes from "prop-types";
