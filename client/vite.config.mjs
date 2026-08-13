@@ -1,4 +1,5 @@
 import {fileURLToPath} from "node:url";
+import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react";
 import {
   defineConfig,
@@ -48,7 +49,10 @@ export default defineConfig(({command, mode}) => {
   return {
     plugins: [
       legacyJsxInJs(),
-      react({include: /\.[jt]sx?$/})
+      react({include: /\.[jt]sx?$/}),
+      legacy({
+        targets: [">0.2%", "not dead", "not op_mini all"]
+      })
     ],
     define: {
       "process.env.NODE_ENV": JSON.stringify(command === "build" ? "production" : "development"),
