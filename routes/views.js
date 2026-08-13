@@ -3,7 +3,7 @@
 
 const express = require("express");
 const app = express();
-const {validationResult} = require("express-validator");
+const {validationResult} = require("../services/validation/validationResult");
 const {
   getUserID,
   requireAuth,
