@@ -1,31 +1,99 @@
 const {pool} = require("../services/database/mysqlPool");
 
+// insert every item of a training page with a single bulk statement
+async function insertTrainingPageItems(connection, pageId, itemList) {
+  if (!itemList.length) {
+    return;
+  }
+
+  const query = "INSERT INTO TrainingPageItems " +
+    "(trainingPageId, itemId, annotation) VALUES ?";
+  // validation allows a missing or null annotation, both of which store as NULL
+  const rows = itemList.map(item => [
+    pageId,
+    item.id,
+    typeof item.annotation === "string" ? item.annotation : null
+  ]);
+
+  await connection.query(query, [rows]);
+}
+
 async function createTrainingPage(itemList, name, description, viewers, sourcePageId, category) {
-  // insert name to TrainingPages table in database
-  const insertPageQuery = `INSERT INTO TrainingPages (name, description, viewers, category, sourcePageId) VALUES (?, ?, ?, ?, ?)`;
-  const insertPageItemsQuery = `INSERT INTO TrainingPageItems (trainingPageId, itemId, annotation) VALUES (?, ?, ?)`;
-  const removePageQuery = `DELETE from TrainingPages WHERE name=?`;
+  const insertPageQuery = "INSERT INTO TrainingPages " +
+    "(name, description, viewers, category, sourcePageId) " +
+    "VALUES (?, ?, ?, ?, ?)";
   const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1);
-  let insertResult;
+  const connection = await pool.getConnection();
+  let transactionStarted = false;
 
   try {
-    // remove existing entries from both tables before insert
-    await pool.query(removePageQuery, [name]);
-
-    insertResult = await pool.query(insertPageQuery, [name, description, viewers, capitalizedCategory, sourcePageId]);
-    const pageId = insertResult[0].insertId;
-
-    // traverse the itemList and build the query array
-    const queryList = itemList.map(item =>
-      pool.query(insertPageItemsQuery, [pageId, item.id, item.annotation])
-    );
-    await Promise.all(queryList);
+    await connection.beginTransaction();
+    transactionStarted = true;
+    const [insertResult] = await connection.query(insertPageQuery, [
+      name,
+      description,
+      viewers,
+      capitalizedCategory,
+      sourcePageId
+    ]);
+    const pageId = insertResult.insertId;
+    await insertTrainingPageItems(connection, pageId, itemList);
+    await connection.commit();
+    return {id: pageId};
   } catch (err) {
-    return {error: err};
+    if (transactionStarted) {
+      await connection.rollback();
+    }
+    throw err;
+  } finally {
+    connection.release();
   }
-  return insertResult[0];
 }
 module.exports.createTrainingPage = createTrainingPage;
+
+async function updateTrainingPage(pageId, itemList, name, description, viewers, sourcePageId, category) {
+  const getPageQuery = "SELECT id FROM TrainingPages WHERE id = ? FOR UPDATE";
+  const updatePageQuery = "UPDATE TrainingPages SET name = ?, description = ?, " +
+    "viewers = ?, category = ?, sourcePageId = ? WHERE id = ?";
+  const deletePageItemsQuery = "DELETE FROM TrainingPageItems WHERE trainingPageId = ?";
+  const capitalizedCategory = category.charAt(0).toUpperCase() + category.slice(1);
+  const connection = await pool.getConnection();
+  let transactionStarted = false;
+
+  try {
+    await connection.beginTransaction();
+    transactionStarted = true;
+    const [[page]] = await connection.query(getPageQuery, [pageId]);
+
+    if (!page) {
+      await connection.rollback();
+      transactionStarted = false;
+      return null;
+    }
+
+    await connection.query(updatePageQuery, [
+      name,
+      description,
+      viewers,
+      capitalizedCategory,
+      sourcePageId,
+      pageId
+    ]);
+    await connection.query(deletePageItemsQuery, [pageId]);
+    await insertTrainingPageItems(connection, pageId, itemList);
+    await connection.commit();
+
+    return {id: parseInt(pageId, 10)};
+  } catch (err) {
+    if (transactionStarted) {
+      await connection.rollback();
+    }
+    throw err;
+  } finally {
+    connection.release();
+  }
+}
+module.exports.updateTrainingPage = updateTrainingPage;
 
 async function getTrainingPage(pageId) {
   const result = {pageId: parseInt(pageId)};
@@ -138,5 +206,3 @@ module.exports.deleteTrainingPage = async function (pageId) {
   const [results] = await pool.query(query, [pageId]);
   return results;
 };
-
-

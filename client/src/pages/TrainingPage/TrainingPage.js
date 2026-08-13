@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 import { API_URL, MODE, ROLE } from '../../utilities/constants'
 import LoadingOverlay from '../../components/General/LoadingOverlay'
@@ -53,6 +53,7 @@ function TrainingPage() {
 	const [error, setError] = useState('')
 	const { role } = getProfile()
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
 	// fetch initial data of the entire page
 	const fetchData = async () => {
 		const response = await (
@@ -74,7 +75,8 @@ function TrainingPage() {
 					items: allItems,
 					info: {
 						title: response.pageTitle,
-						description: response.description
+						description: response.description,
+						viewers: response.viewers
 					}
 				})
 			)
@@ -100,7 +102,6 @@ function TrainingPage() {
 
 	const handleEditBtnClicked = e => {
 		setMode(MODE.CREATE_TRAINING)
-		window.localStorage.setItem('trainingPageId', pageContent.pageId)
 	}
 
 	const handleSourceBtnClicked = e => {
@@ -110,14 +111,34 @@ function TrainingPage() {
 	}
 
 	const handleDelete = async e => {
-		alert('Training page deleted. Redirecting to wiki page')
-		const response = await (
-			await fetch(`${API_URL}/training/${pageId}`, {
+		// navigate only once the delete is confirmed by the API
+		e.preventDefault()
+		try {
+			const response = await fetch(`${API_URL}/training/${pageId}`, {
 				method: 'DELETE',
 				credentials: 'include',
 				headers: { 'Content-Type': 'application/json' }
 			})
-		).json()
+			const responseBody = await response.json()
+			if (!response.ok) {
+				const validationErrors = responseBody.errors
+					? responseBody.errors.map(validationError => validationError.msg).join(' ')
+					: ''
+				alert(
+					validationErrors ||
+						responseBody.error ||
+						'Unable to delete this training page.'
+				)
+				return
+			}
+			alert('Training page deleted. Redirecting to wiki page')
+			// clear the store so create-training mode does not prefill the deleted page
+			dispatch(resetTrainingPage())
+			navigate(SOURCE_PAGE_PATH)
+		} catch (err) {
+			console.error(err)
+			alert('Unable to delete this training page. Please try again.')
+		}
 	}
 
 	useEffect(() => {
@@ -159,7 +180,7 @@ function TrainingPage() {
 								Original Page
 							</SourceBtn>
 							<EditBtn
-								to={SOURCE_PAGE_PATH}
+								to={`${SOURCE_PAGE_PATH}?trainingPageId=${pageContent.pageId}`}
 								className="btn btn-primary"
 								onClick={handleEditBtnClicked}
 							>
