@@ -71,7 +71,6 @@ services:
       MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
       JWT_SECRET_KEY_FILE: /run/secrets/jwt_secret_key
       NODE_ENV: ${NODE_ENV:? error - NODE_ENV is not set}
-      DISABLE_ESLINT_PLUGIN: true
     ports:
       - "${API_PORT}:${API_PORT}"  # API port via env variable
       - "${FILE_PORT}:${FILE_PORT}"  # File serving port via env variable
