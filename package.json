@@ -8,7 +8,7 @@
 		"concurrently": "^10.0.3",
 		"cookie": "^0.7.2",
 		"cookie-parser": "~1.4.4",
-		"cross-env": "^7.0.2",
+		"cross-env": "^10.1.0",
 		"debug": "~2.6.9",
 		"dotenv": "^8.2.0",
 		"eslint": "^7.25.0",
