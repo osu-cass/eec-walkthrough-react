@@ -27,7 +27,8 @@
 		"deploy": "gh-pages -d build",
 		"start": "vite",
 		"build": "vite build",
-		"test": "vitest run"
+		"test": "vitest run",
+		"test:watch": "vitest"
 	},
 	"devDependencies": {
 		"@testing-library/jest-dom": "^6.1.5",
