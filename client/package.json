@@ -29,7 +29,8 @@
 		"start": "vite",
 		"build": "vite build",
 		"postbuild": "node scripts/upload-sourcemaps.js",
-		"test": "jest --runInBand"
+		"test": "jest --runInBand && vitest run",
+		"test:watch": "vitest"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.29.7",
