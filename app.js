@@ -119,9 +119,17 @@ const imgSrcAllowedHosts = [
   "www3.epa.gov"
 ].map((h) => `https://${h}`);
 
+// Keep these synchronized with cspHashes exported by @vitejs/plugin-legacy.
+const viteLegacyScriptHashes = [
+  "'sha256-MS6/3FCg4WjP9gwgaBGwLpRCY6fZBgwmhVCdrPrNf3E='",
+  "'sha256-tQjf8gvb2ROOMapIxFvFAYBeUJ0v1HCbOcSmDNXGtDo='",
+  "'sha256-w36slEqa9euNKxfvkw+LLGsDIr++3rsZXpZxtmRh8Aw='",
+  "'sha256-+5XkZFazzJo8n0iOP4ti/cLCMUudTf//Mzkb7xNPXIc='"
+].join(" ");
+
 const fileContentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' https://code.jquery.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com https://cdn.jsdelivr.net",
+  `script-src 'self' https://code.jquery.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com https://cdn.jsdelivr.net ${viteLegacyScriptHashes}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://stackpath.bootstrapcdn.com https://cdn.jsdelivr.net https://use.fontawesome.com https://maxcdn.bootstrapcdn.com",
   "font-src 'self' data: https://fonts.gstatic.com https://use.fontawesome.com https://maxcdn.bootstrapcdn.com",
   `img-src 'self' data: blob: ${imgSrcAllowedHosts.join(" ")}`,
