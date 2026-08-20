@@ -28,8 +28,8 @@ over a SSL and not have to deal with a SSL inside the application.
 
 - MYSQL_DB_NAME: The name of the database.
 - MYSQL_PORT: The port that the database is running on.
-- MYSQL_HOST: The host that the database is running on. 
-- SQL_USER: The username for the database.
+- MYSQL_HOST: The host that the database is running on.
+- MYSQL_USER: The username for the database.
 
 #### Setup Steps
 1. Create a file named `.env` in the root directory of your project
@@ -105,36 +105,45 @@ From the root directory, attempt to fix all errors across the project:
 eslint "." --fix 
 ```
 
-## Creating a Database for Development
+## Database Setup for Development
 
-Install XAMPP: https://www.apachefriends.org/index.html
+Docker Compose is the recommended development database setup. The MariaDB
+container initializes an empty local database volume from
+`services/database/db-init-new.sql`, then the Flyway container applies any SQL
+migrations from `services/database/migrations` before the app container starts.
 
-Follow the steps in this video to get into PHPMyAdmin: https://www.youtube.com/watch?v=0DPB70hZykg
+Existing databases are not reloaded from `db-init-new.sql`. They are upgraded
+through Flyway migrations, which are tracked in the `flyway_schema_history`
+table.
 
-When in PHPMyAdmin create a new database called `eec_walkthrough`.
+Use these commands to inspect and run migrations through Docker:
 
-Click on your new database.
-
-Click the "Import" tab at the top of the screen.
-
-Select the `db-init.sql` file in our repo (services\database\db-init.sql).
-
-Press the "Go" button at the bottom of the screen.
-
-Create a file named `.env` in the root directory of your project with the following contents:
+```bash
+docker compose run --rm flyway info
+docker compose run --rm flyway validate
+docker compose run --rm flyway migrate
 ```
-PORT=1111
-SQL_DB_NAME='eec_walkthrough'
-SQL_HOST='localhost'
-SQL_PASSWORD=''
-SQL_USER='root'
-JWT_SECRET_KEY='anythingCanGoHere'
-```
+> Note: When running these commands, you may see a message like this:
+> ```
+> You are not signed in to Flyway, to sign in please run auth
+> ```
+> This is expected and can be ignored, as auth is not necessary for Flyway community.
 
-Run the following command to start the server in development mode. Your application should now be using your local database.
-```
-npm run dev
-```
+
+Add plain SQL migration files under `services/database/migrations` using Flyway
+names such as `V001__description.sql` and `V002__description.sql`. Keep
+migrations small and reviewable. Large data backfills or long-running migrations
+should be run manually during planned maintenance rather than during normal app
+startup.
+
+Flyway Community does not provide the paid `undo` workflow. Treat migrations as
+forward-only: if a schema change needs to be corrected, add a new migration that
+fixes or reverses it. Before production migrations, back up the database and run
+`flyway info`, `flyway validate`, and `flyway migrate` through the deployment
+process.
+
+For full Docker setup instructions, see [DOCKER.md](DOCKER.md).
+
 
 ### Manual DB migration for alt text
 

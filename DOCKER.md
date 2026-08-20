@@ -88,9 +88,23 @@ In phpMyAdmin or the MySQL client, confirm `Items` and `History_Items` each have
 ### Database (MariaDB 10.11)
 
 - Matches production CentOS environment
-- Initializes with latest schema using `db-init-new.sql` (includes new field additions)
+- Initializes empty local database volumes using `services/database/db-init-new.sql`
 - Persistent data storage via Docker volumes
 - Custom configuration in `docker/database/my.cnf`
+
+### phpMyAdmin (Database Management)
+- Web interface for database management
+- Accessible at http://localhost:8080
+- Uses the `database` Docker network hostname, `MYSQL_DB_NAME`, `MYSQL_USER`, and the `mysql_password` Docker secret
+- Schema migrations are handled by the Flyway service (see below); phpMyAdmin is only a management UI.
+
+### Flyway (Database Migrations)
+
+- Runs Flyway Community SQL migrations from `services/database/migrations`
+- Starts after MariaDB is healthy and must complete successfully before the app starts
+- Uses the `database` Docker network hostname, `MYSQL_DB_NAME`, `MYSQL_USER`, and the `mysql_password` Docker secret
+- Tracks applied migrations in the `flyway_schema_history` table
+- Baselines existing local databases at version `0`, then applies versioned SQL files
 
 ### Application (Node.js)
 - Built from Node.js 24 Alpine base image
@@ -107,6 +121,10 @@ In phpMyAdmin or the MySQL client, confirm `Items` and `History_Items` each have
 │   │   └── Dockerfile.dev          # Development container definition
 │   └── database/
 │       └── my.cnf                  # MariaDB configuration
+├── services/
+│   └── database/
+│       ├── db-init-new.sql         # Initial seed for empty local database volumes
+│       └── migrations/             # Flyway SQL migrations
 ├── docker-compose.yml              # Service definitions (development mode)
 ├── .env                            # Environment variables (copy from .env.example)
 ├── secrets/                        # Docker secrets directory
@@ -128,6 +146,15 @@ docker-compose exec app sh
 # Access database container
 docker-compose exec database mysql -u walkthrough -p eec_walkthrough
 
+# Inspect Flyway migration state
+docker compose run --rm flyway info
+
+# Validate migration checksums and ordering
+docker compose run --rm flyway validate
+
+# Apply pending migrations without starting the app
+docker compose run --rm flyway migrate
+
 # View container resource usage
 docker-compose top
 
@@ -136,11 +163,29 @@ docker-compose down -v
 docker system prune -a
 ```
 
+## Database Migrations
+
+Add plain SQL migrations under `services/database/migrations` using Flyway names
+such as `V001__add_example_column.sql` and `V002__create_example_table.sql`. Keep
+each file small and reviewable.
+
+`services/database/db-init-new.sql` is only used when MariaDB starts with an
+empty `db_data` volume. Existing Docker volumes and shared databases are upgraded
+through Flyway migrations instead. Large data backfills or long-running
+migrations should be run manually during planned maintenance, not during normal
+`docker compose up`.
+
+Flyway Community migrations are forward-only for this project. Do not rely on
+Flyway undo scripts for rollback. If a migration needs to be corrected, add a
+new SQL migration that fixes or reverses the change. For production, take a
+database backup before applying migrations.
+
 ## Troubleshooting
 
 ### Application won't start
 - Check logs: `docker compose logs app`
-- Ensure database is healthy: `docker compose ps`
+- Check migration logs: `docker compose logs flyway`
+- Ensure database is healthy and Flyway completed: `docker compose ps`
 
 ### Database connection issues
 - Verify database is running: `docker compose ps database`

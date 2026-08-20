@@ -52,6 +52,35 @@ services:
       - mysql_password
       - mysql_root_password
 
+  # Flyway database migrations
+  flyway:
+    image: redgate/flyway:12.8.1
+    container_name: eec-walkthrough-flyway
+    depends_on:
+      database:
+        condition: service_healthy
+    entrypoint:
+      - /bin/sh
+      - -c
+      - export FLYWAY_PASSWORD="$$(cat /run/secrets/mysql_password)" && exec flyway "$$@"
+      - flyway
+    command: ["migrate"]
+    environment:
+      FLYWAY_URL: jdbc:mariadb://database:3306/${MYSQL_DB_NAME:? error - MYSQL_DB_NAME is not set}
+      FLYWAY_USER: ${MYSQL_USER:? error - MYSQL_USER is not set}
+      FLYWAY_BASELINE_ON_MIGRATE: "true"
+      FLYWAY_BASELINE_VERSION: "0"
+      FLYWAY_CONNECT_RETRIES: "60"
+      FLYWAY_LOCATIONS: filesystem:/flyway/sql   # look for migration files in the container's /flyway/sql directory
+      FLYWAY_VALIDATE_ON_MIGRATE: "true"
+    volumes:
+      - ./services/database/migrations:/flyway/sql:ro
+    networks:
+      - eec-network
+    restart: "no"
+    secrets:
+      - mysql_password
+
   # Node.js application
   app:
     build:
@@ -78,8 +107,8 @@ services:
       - "9229:9229"  # Node.js debugger
       - "3000:3000"  # React dev server
     depends_on:
-      database:
-        condition: service_healthy
+      flyway:
+        condition: service_completed_successfully
     networks:
       - eec-network
     # Override command to run in development mode

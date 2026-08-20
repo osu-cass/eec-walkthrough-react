@@ -75,7 +75,8 @@ For more detailed Docker setup instructions, see [DOCKER.md](DOCKER.md).
 2. **Set up the database:**
    - Install XAMPP or another MySQL server
    - Create a database named `eec_walkthrough`
-   - Import `services/database/db-init.sql`
+   - Import `services/database/db-init-new.sql`
+   - Apply SQL migrations from `services/database/migrations` in Flyway order
 
 3. **Configure environment:**
    - Create `.env` file from `.env.example`
@@ -255,7 +256,7 @@ Before submitting a PR, test your changes:
 ### Database Testing
 
 - Test with sample data
-- Verify database migrations (if any)
+- Verify Flyway database migrations with `docker compose run --rm flyway validate`
 - Check for SQL injection vulnerabilities
 - Ensure proper error handling
 
