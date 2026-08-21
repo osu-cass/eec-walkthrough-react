@@ -10,15 +10,15 @@
 		"bootstrap": "^5.3.8",
 		"cookie": "^0.7.2",
 		"diff-match-patch": "^1.0.5",
-		"dompurify": "^3.4.12",
-		"katex": "^0.18.1",
+		"dompurify": "^3.4.13",
+		"katex": "^0.18.4",
 		"react": "^18.3.1",
 		"react-bootstrap": "^2.10.10",
 		"react-color": "^2.17.2",
 		"react-dom": "^18.3.1",
 		"react-icons": "^4.2.0",
 		"react-redux": "^8.1.0",
-		"react-router-dom": "^7.18.1",
+		"react-router-dom": "^7.18.2",
 		"react-scripts": "^5.0.1",
 		"validator": "^13.15.35"
 	},
@@ -53,7 +53,7 @@
 	"devDependencies": {
 		"@testing-library/jest-dom": "^6.1.5",
 		"@testing-library/react": "^14.3.1",
-		"@testing-library/user-event": "^14.5.1",
+		"@testing-library/user-event": "^14.6.5",
 		"express": "^4.22.2",
 		"gh-pages": "^6.3.0"
 	}
