@@ -4,6 +4,7 @@
 const path = require("path");
 const bodyParser = require("body-parser");
 const express = require("express");
+const Sentry = require("@sentry/node");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const app = express();
@@ -63,6 +64,21 @@ app.use("/api/training", require("./trainingPages"));
 app.all("/api/*splat", (req, res) => {
   console.error("404: File not found\n");
   res.status(404).send({error: "Not Found"});
+});
+
+// report uncaught route errors to Sentry; this is a no-op when no DSN is set.
+// must come after all routes and before any other error handling middleware
+Sentry.setupExpressErrorHandler(app);
+
+// uncaught route errors get a JSON 500 response instead of the express default
+app.use((err, req, res, next) => {
+  console.error("500: Internal server error\n", err);
+
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  res.status(500).send({error: "Internal Server Error"});
 });
 
 module.exports = app;

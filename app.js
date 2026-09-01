@@ -1,6 +1,10 @@
 // File: app.js
 // Description: handles server functions and setup
 
+// initialize Sentry before anything else so that it can instrument the modules
+// required below
+require("./instrument");
+
 // setup database connection and routing
 require("dotenv").config({silent: process.env.NODE_ENV === "production"});
 
@@ -33,22 +37,27 @@ async function testConnection(pool, attempt, callback) {
   }
 }
 
-function getConnectSources() {
-  const sources = ["'self'"];
-  const apiHost = process.env.REACT_APP_API_HOST;
-
-  if (!apiHost) {
-    return sources;
+function addConnectOrigin(sources, value, label) {
+  if (!value) {
+    return;
   }
 
   try {
-    const apiOrigin = new URL(apiHost).origin;
-    if (!sources.includes(apiOrigin)) {
-      sources.push(apiOrigin);
+    const origin = new URL(value).origin;
+    if (!sources.includes(origin)) {
+      sources.push(origin);
     }
   } catch (err) {
-    console.warn("Invalid REACT_APP_API_HOST for CSP connect-src:", apiHost);
+    console.warn(`Invalid ${label} for CSP connect-src:`, value);
   }
+}
+
+function getConnectSources() {
+  const sources = ["'self'"];
+
+  addConnectOrigin(sources, process.env.REACT_APP_API_HOST, "REACT_APP_API_HOST");
+  // the browser SDK posts events directly to the Sentry ingest host
+  addConnectOrigin(sources, process.env.SENTRY_CLIENT_DSN, "SENTRY_CLIENT_DSN");
 
   return sources;
 }
@@ -142,6 +151,22 @@ fileApp.use((req, res, next) => {
   res.setHeader("X-Frame-Options", "DENY");
   res.setHeader("Content-Security-Policy", fileContentSecurityPolicy);
   next();
+});
+
+// configuration handed to the browser at request time so that client settings
+// can be changed by restarting the app instead of rebuilding the bundle.
+// only the values listed here are exposed; process.env is never sent as a whole
+const runtimeConfig = {
+  SENTRY_DSN: process.env.SENTRY_CLIENT_DSN || "",
+  SENTRY_ENVIRONMENT: process.env.SENTRY_ENVIRONMENT || process.env.NODE_ENV || ""
+};
+
+// this must be registered before the static handlers so that it takes
+// precedence over the placeholder file copied into the build
+fileApp.get("/runtime-config.js", (req, res) => {
+  res.type("application/javascript");
+  res.setHeader("Cache-Control", "no-store");
+  res.send(`window.__RUNTIME_CONFIG__ = ${JSON.stringify(runtimeConfig)};`);
 });
 
 if (process.env.NODE_ENV === "production") {

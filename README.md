@@ -26,6 +26,34 @@ over a SSL and not have to deal with a SSL inside the application.
 
 - NODE_ENV: The environment that the application is running in.
 
+- SENTRY_DSN (optional): The Sentry DSN used to report **server** errors. Leave this
+unset to keep Sentry disabled on the API server.
+
+- SENTRY_CLIENT_DSN (optional): The Sentry DSN used to report **browser** errors.
+Leave this unset to keep Sentry disabled in the React client. This is read at run time
+and served to the browser by the file server at `/runtime-config.js`, so it does not
+need to be present when the image is built and can be changed by restarting the app.
+A DSN is not a secret (it only permits submitting events, never reading them), but it
+is visible to anyone using the site, so use a DSN from a separate Sentry project than
+the one used by `SENTRY_DSN`. When set, the DSN's origin is automatically added to the
+`connect-src` content security policy directive so the browser can reach the Sentry
+ingest endpoint.
+
+- SENTRY_ENVIRONMENT (optional): Override the environment name reported to Sentry by
+both the server and the client. Defaults to `NODE_ENV`.
+
+Note that a purely static deployment of the client (for example the `gh-pages` deploy
+script) has no file server to supply `/runtime-config.js`, so browser error reporting
+stays disabled there.
+
+On the server, route handlers catch their own errors and report them with
+`console.error` rather than passing them to express, so Sentry captures `console.error`
+calls in addition to errors that reach the express error handler. Two kinds of notice
+are dropped again before being sent, because they report expected conditions rather
+than faults: calls that carry no error object, such as the 404 and 400 notices, and
+rejected logins, which arrive as an `AssertionError` for a missing cookie or as a
+`JsonWebTokenError` or `TokenExpiredError` for one that does not verify.
+
 - MYSQL_DB_NAME: The name of the database.
 - MYSQL_PORT: The port that the database is running on.
 - MYSQL_HOST: The host that the database is running on. 
