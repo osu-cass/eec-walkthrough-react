@@ -3,7 +3,6 @@
 
 const {spawnSync} = require("child_process");
 const path = require("path");
-const {SentryCli} = require("@sentry/cli");
 
 const requiredVariables = ["SENTRY_AUTH_TOKEN", "SENTRY_ORG", "SENTRY_PROJECT"];
 const missingVariables = requiredVariables.filter((name) => !process.env[name]);
@@ -13,6 +12,7 @@ if (missingVariables.length > 0) {
   process.exit(0);
 }
 
+const {SentryCli} = require("@sentry/cli");
 const buildDirectory = path.resolve(__dirname, "../build");
 const cliPath = SentryCli.getPath();
 
