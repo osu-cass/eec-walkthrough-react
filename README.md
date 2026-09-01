@@ -53,6 +53,22 @@ are dropped again before being sent, because they report expected conditions rat
 than faults: calls that carry no error object, such as the 404 and 400 notices, and
 rejected logins, which arrive as an `AssertionError` for a missing cookie or as a
 `JsonWebTokenError` or `TokenExpiredError` for one that does not verify.
+Console calls are not retained as breadcrumbs because existing authentication logs
+can contain cookies. Errors logged with an attached exception are still reported;
+this preserves database failures from authorization checks while expected
+`AssertionError` instances remain filtered.
+
+Production browser source maps are uploaded after `npm run build` when all three of
+these build-only variables are exported in the trusted build environment:
+
+- `SENTRY_AUTH_TOKEN`: A Sentry token with source-map upload access. Treat this as a
+  secret and never include it in an image or commit it.
+- `SENTRY_ORG`: The Sentry organization slug.
+- `SENTRY_PROJECT`: The browser Sentry project slug.
+
+When any value is absent, the upload step is skipped and the build still succeeds.
+The uploader injects debug IDs before uploading `client/build`, so it does not require
+the runtime browser DSN or a release name.
 
 - MYSQL_DB_NAME: The name of the database.
 - MYSQL_PORT: The port that the database is running on.

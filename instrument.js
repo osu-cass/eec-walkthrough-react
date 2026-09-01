@@ -50,6 +50,14 @@ function scrubRequestData(event) {
   return event;
 }
 
+// Console arguments can contain credentials before the request scrubber runs.
+// In particular, cookieAuth logs parsed cookies while authenticating requests.
+// Keep console.error event capture, but never retain console calls as breadcrumbs
+// that could be attached to a later event.
+function dropConsoleBreadcrumb(breadcrumb) {
+  return breadcrumb.category === "console" ? null : breadcrumb;
+}
+
 // almost every route handler catches its own errors and reports them with
 // console.error rather than passing them to express, so those errors never
 // reach setupExpressErrorHandler. capturing console.error is what makes the
@@ -92,7 +100,8 @@ if (dsn) {
 
     // do not attach user IP addresses or request bodies to events
     sendDefaultPii: false,
-    beforeSend: scrubRequestData
+    beforeSend: scrubRequestData,
+    beforeBreadcrumb: dropConsoleBreadcrumb
   });
   console.log("Sentry error monitoring enabled");
 } else {
