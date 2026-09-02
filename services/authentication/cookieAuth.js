@@ -116,13 +116,8 @@ exports.getUserID = getUserID;
 // function will be ignored.
 function requireAuth(req, res, next) {
   try {
-    console.log("=== DEBUG: requireAuth middleware ===");
-    console.log("Headers:", req.headers.cookie);
-    console.log("JWT_SECRET_KEY exists:", !!JWT_SECRET_KEY);
-
     req.auth = {};
     const cookieObj = cookie.parse(`${req.headers.cookie}`);
-    console.log("Parsed cookies:", cookieObj);
 
     // ensure that all of expected cookies are present
     assert(cookieObj === Object(cookieObj), "No cookie provided with request");
