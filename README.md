@@ -26,6 +26,55 @@ over a SSL and not have to deal with a SSL inside the application.
 
 - NODE_ENV: The environment that the application is running in.
 
+- SENTRY_DSN (optional): The Sentry DSN used to report **server** errors. Leave this
+unset to keep Sentry disabled on the API server.
+
+- SENTRY_CLIENT_DSN (optional): The Sentry DSN used to report **browser** errors.
+Leave this unset to keep Sentry disabled in the React client. This is read at run time
+and served to the browser by the file server at `/runtime-config.js`, so it does not
+need to be present when the image is built and can be changed by restarting the app.
+A DSN is not a secret (it only permits submitting events, never reading them), but it
+is visible to anyone using the site, so use a DSN from a separate Sentry project than
+the one used by `SENTRY_DSN`. When set, the DSN's origin is automatically added to the
+`connect-src` content security policy directive so the browser can reach the Sentry
+ingest endpoint.
+
+- SENTRY_ENVIRONMENT (optional): Override the environment name reported to Sentry by
+both the server and the client. Defaults to `NODE_ENV`.
+
+All three are read with the same helper as the database and JWT credentials, so each
+also accepts a `_FILE` variant naming a file to read the value from, for example
+`SENTRY_DSN_FILE=/run/secrets/sentry_dsn`. That lets a deployment mount them the way it
+mounts its other secrets instead of putting them in the environment.
+
+Note that a purely static deployment of the client (for example the `gh-pages` deploy
+script) has no file server to supply `/runtime-config.js`, so browser error reporting
+stays disabled there.
+
+On the server, route handlers catch their own errors and report them with
+`console.error` rather than passing them to express, so Sentry captures `console.error`
+calls in addition to errors that reach the express error handler. Two kinds of notice
+are dropped again before being sent, because they report expected conditions rather
+than faults: calls that carry no error object, such as the 404 and 400 notices, and
+rejected logins, which arrive as an `AssertionError` for a missing cookie or as a
+`JsonWebTokenError` or `TokenExpiredError` for one that does not verify.
+Console calls are not retained as breadcrumbs because existing authentication logs
+can contain cookies. Errors logged with an attached exception are still reported;
+this preserves database failures from authorization checks while expected
+`AssertionError` instances remain filtered.
+
+Production browser source maps are uploaded after `npm run build` when all three of
+these build-only variables are exported in the trusted build environment:
+
+- `SENTRY_AUTH_TOKEN`: A Sentry token with source-map upload access. Treat this as a
+  secret and never include it in an image or commit it.
+- `SENTRY_ORG`: The Sentry organization slug.
+- `SENTRY_PROJECT`: The browser Sentry project slug.
+
+When any value is absent, the upload step is skipped and the build still succeeds.
+The uploader injects debug IDs before uploading `client/build`, so it does not require
+the runtime browser DSN or a release name.
+
 - MYSQL_DB_NAME: The name of the database.
 - MYSQL_PORT: The port that the database is running on.
 - MYSQL_HOST: The host that the database is running on. 
