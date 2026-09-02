@@ -42,6 +42,11 @@ ingest endpoint.
 - SENTRY_ENVIRONMENT (optional): Override the environment name reported to Sentry by
 both the server and the client. Defaults to `NODE_ENV`.
 
+All three are read with the same helper as the database and JWT credentials, so each
+also accepts a `_FILE` variant naming a file to read the value from, for example
+`SENTRY_DSN_FILE=/run/secrets/sentry_dsn`. That lets a deployment mount them the way it
+mounts its other secrets instead of putting them in the environment.
+
 Note that a purely static deployment of the client (for example the `gh-pages` deploy
 script) has no file server to supply `/runtime-config.js`, so browser error reporting
 stays disabled there.

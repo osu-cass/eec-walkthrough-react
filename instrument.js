@@ -8,8 +8,11 @@
 require("dotenv").config({silent: process.env.NODE_ENV === "production"});
 
 const Sentry = require("@sentry/node");
+const getSecret = require("./services/utils/getSecret");
 
-const dsn = process.env.SENTRY_DSN;
+// read through getSecret so the DSN can be supplied as a mounted file with
+// SENTRY_DSN_FILE, the same way the database and JWT credentials are
+const dsn = getSecret("SENTRY_DSN");
 
 // request headers that can carry the auth_ck JWT or other credentials
 const SENSITIVE_HEADERS = ["cookie", "set-cookie", "authorization", "proxy-authorization"];
@@ -90,7 +93,7 @@ function isExpectedAuthFailure(event) {
 if (dsn) {
   Sentry.init({
     dsn,
-    environment: process.env.SENTRY_ENVIRONMENT || process.env.NODE_ENV || "development",
+    environment: getSecret("SENTRY_ENVIRONMENT") || process.env.NODE_ENV || "development",
     // the routes log their caught errors instead of rethrowing them, so this
     // is the integration that actually reports them
     integrations: [Sentry.captureConsoleIntegration({levels: ["error"]})],

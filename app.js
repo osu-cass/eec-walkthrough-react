@@ -12,6 +12,7 @@ const express = require("express");
 const path = require("path");
 const fileApp = express();
 const {pool} = require("./services/database/mysqlPool");
+const getSecret = require("./services/utils/getSecret");
 const app = require("./routes/index");
 const http = require("http");
 
@@ -57,7 +58,7 @@ function getConnectSources() {
 
   addConnectOrigin(sources, process.env.REACT_APP_API_HOST, "REACT_APP_API_HOST");
   // the browser SDK posts events directly to the Sentry ingest host
-  addConnectOrigin(sources, process.env.SENTRY_CLIENT_DSN, "SENTRY_CLIENT_DSN");
+  addConnectOrigin(sources, getSecret("SENTRY_CLIENT_DSN"), "SENTRY_CLIENT_DSN");
 
   return sources;
 }
@@ -157,8 +158,8 @@ fileApp.use((req, res, next) => {
 // can be changed by restarting the app instead of rebuilding the bundle.
 // only the values listed here are exposed; process.env is never sent as a whole
 const runtimeConfig = {
-  SENTRY_DSN: process.env.SENTRY_CLIENT_DSN || "",
-  SENTRY_ENVIRONMENT: process.env.SENTRY_ENVIRONMENT || process.env.NODE_ENV || ""
+  SENTRY_DSN: getSecret("SENTRY_CLIENT_DSN") || "",
+  SENTRY_ENVIRONMENT: getSecret("SENTRY_ENVIRONMENT") || process.env.NODE_ENV || ""
 };
 
 // this must be registered before the static handlers so that it takes
