@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import styled from '@emotion/styled/macro'
+import styled from '@emotion/styled'
 import { API_URL, MODE, ROLE } from '../../utilities/constants'
 import LoadingOverlay from '../../components/General/LoadingOverlay'
 import Section from './Section'

@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "@emotion/styled/macro";
+import styled from "@emotion/styled";
 import {ITEM_TYPE, ROLE} from "../../utilities/constants";
 import ItemGeneral from "./ItemGeneral";
 import ItemGraphic from "./ItemGraphic";

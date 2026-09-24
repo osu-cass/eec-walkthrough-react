@@ -17,11 +17,8 @@ COPY client/package*.json ./client/
 ARG NODE_ENV=production
 RUN if [ "$NODE_ENV" = "development" ] ; then npm install --legacy-peer-deps ; else npm install --only=production --legacy-peer-deps ; fi
 
-# Install client dependencies
-RUN cd client && npm install --legacy-peer-deps
-
-# Update Babel core to compatible version for Node.js 24 (Docker environment only)
-RUN cd client && npm install @babel/core@^7.12.0 --save-dev --legacy-peer-deps
+# Install client dependencies, including the Vite build toolchain
+RUN cd client && npm install --include=dev --legacy-peer-deps
 
 # Copy the entire application
 COPY . .
@@ -30,8 +27,8 @@ COPY . .
 ARG REACT_APP_API_HOST
 ENV REACT_APP_API_HOST=${REACT_APP_API_HOST}
 
-# Build the React application with relaxed linting for development
-RUN DISABLE_ESLINT_PLUGIN=true npm run build
+# Build the React application
+RUN npm run build
 
 # Create uploads directories if they don't exist
 RUN mkdir -p client/files/uploads client/public/uploads
