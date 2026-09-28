@@ -1,4 +1,5 @@
 import React, {Fragment} from "react";
+import PropTypes from "prop-types";
 import {useNavigate} from "react-router-dom";
 import {formatRole} from "../../utilities/formatRole";
 import {logout} from "../../utilities/cookieAuth";
@@ -84,3 +85,9 @@ function UserIcon(props) {
   }
 }
 export default UserIcon;
+
+UserIcon.propTypes = {
+  onLogin: PropTypes.func,
+  role: PropTypes.number,
+  username: PropTypes.string
+};

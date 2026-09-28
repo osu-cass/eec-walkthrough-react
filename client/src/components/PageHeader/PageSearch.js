@@ -1,10 +1,9 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import PropTypes from "prop-types";
 import "./PageSearch.css";
 
 // search field used to find subject and industry pages
-function PageSearch(props) {
+function PageSearch() {
 
   const navigate = useNavigate();
 
@@ -43,7 +42,3 @@ function PageSearch(props) {
   );
 }
 export default PageSearch;
-
-PageSearch.propTypes = {
-  history: PropTypes.any
-};

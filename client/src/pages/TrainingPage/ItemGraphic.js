@@ -35,7 +35,7 @@ function ItemGraphic({props}) {
 
   return (
     <>
-     	<Icon className={`fas fa-${props.iconTypeName}`} title={props.iconTypeKeyword} />
+      <Icon className={`fas fa-${props.iconTypeName}`} title={props.iconTypeKeyword} />
       <div>
         <Content>
           <div className="pb-1">

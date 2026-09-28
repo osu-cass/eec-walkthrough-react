@@ -14,14 +14,14 @@ async function createCard(headerId, cardType, title, items, userId) {
       `SELECT * FROM Cards WHERE headerId = ? AND title = ?;`,
       [headerId, title]
     );
-    if (existingCards.length) return { error: 1 };
+    if (existingCards.length) { return {error: 1}; }
 
     // 2. Confirm header exists
     const [headers] = await pool.query(
       `SELECT * FROM Headers WHERE headerId = ?;`,
       [headerId]
     );
-    if (!headers.length) return { error: 2 };
+    if (!headers.length) { return {error: 2}; }
 
     // 3. Get invalid icons
     const [icons] = await pool.query(
@@ -60,17 +60,17 @@ async function createCard(headerId, cardType, title, items, userId) {
         typeof learnMoreUrl !== "string" ||
         (altText !== undefined && typeof altText !== "string")
       ) {
-        return { error: 3 };
+        return {error: 3};
       }
 
       // FIX: Change this line - should reject if NOT in allowed set
       if (invalidIconTypes.has(iconType)) {
-        return { error: 3 }; // using invalid icon
+        return {error: 3}; // using invalid icon
       }
 
       // Reject external URLs for graphic items (contentText empty = graphic)
       if (contentText === "" && isExternalImageUrl(contentUrl)) {
-        return { error: 5 };
+        return {error: 5};
       }
 
       // Check if any item is not an image.
@@ -82,7 +82,7 @@ async function createCard(headerId, cardType, title, items, userId) {
 
     // 5. Card type 1 or 11 must be image-only
     if ((cardType === 1 || cardType === 11) && notImage) {
-      return { error: 4 };
+      return {error: 4};
     }
 
     // 6. Insert the card (set orderIndex to 0 temporarily)
@@ -153,7 +153,7 @@ async function createCard(headerId, cardType, title, items, userId) {
       throw err; // Re-throw to maintain error handling
     }
     // 9. Return success
-    return { insertId: cardId };
+    return {insertId: cardId};
   } catch (err) {
     console.error("Error creating card:", err);
     throw err; // Let the calling code handle the error if needed

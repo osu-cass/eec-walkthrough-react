@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {NavLink} from "react-router-dom";
 import {Accordion, Card} from "react-bootstrap";
 import "./SidebarCollection.css";
-import { CustomToggle } from "./SidebarCollection";
+import {CustomToggle} from "./SidebarCollection";
 
 // A simple list of links to pages in an expandable container
 function SidebarCollection(props) {

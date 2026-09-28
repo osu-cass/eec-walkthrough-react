@@ -103,7 +103,7 @@ function ThumbnailGallery(props) {
   return props.compareMode ? (
     <div className="row text-center text-lg-left">
       {props.items.map((item, i) =>
-        <div className="col-lg-3 col-md-4 col-6 my-auto" align="center"
+        <div className="col-lg-3 col-md-4 col-6 my-auto text-center"
           key={item.itemId}
         >
           <div className={`d-block py-2 my-1 h-100 ${compareArray[i] === 1 ? "new-review-item" : ""}
@@ -124,8 +124,7 @@ function ThumbnailGallery(props) {
     <div className="row text-center text-lg-left">
       {props.items.map((item) =>
         <div
-          className="col-lg-3 col-md-4 col-6 my-auto"
-          align="center"
+          className="col-lg-3 col-md-4 col-6 my-auto text-center"
           key={item.itemId}
         >
           <div className="d-block my-2 h-100">

@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import PropTypes from "prop-types";
 import {Card, Container} from "react-bootstrap";
 import {getProfile, changeUsername} from "../../utilities/cookieAuth";
 import {API_URL} from "../../utilities/constants";
@@ -392,3 +393,7 @@ function EditUser(props) {
 
 }
 export default EditUser;
+
+EditUser.propTypes = {
+  handleNameChange: PropTypes.func
+};

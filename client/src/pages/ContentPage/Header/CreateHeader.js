@@ -8,20 +8,28 @@ import "./CreateHeader.css";
 
 // Button and modal that allows a user to create a header
 class CreateHeader extends React.Component {
-  state = {
-    title: "",
-    show: false,
-    errorMessage: "",
-    checked: 0
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: "",
+      show: false,
+      errorMessage: "",
+      checked: 0
+    };
+    this.handleClose = this.handleClose.bind(this);
+    this.handleShow = this.handleShow.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleClose = () => {
+  handleClose() {
     this.setState({show: false});
     this.setState({errorMessage: ""});
   }
-  handleShow = () => this.setState({show: true});
+  handleShow() {
+    this.setState({show: true});
+  }
 
-  handleSubmit = async () => {
+  async handleSubmit() {
     // Check for empty inputs
     if (this.checkInputs()) {
       return;
