@@ -72,6 +72,10 @@ services:
       JWT_SECRET_KEY_FILE: /run/secrets/jwt_secret_key
       NODE_ENV: ${NODE_ENV:? error - NODE_ENV is not set}
       DISABLE_ESLINT_PLUGIN: true
+      # Sentry error monitoring; leave unset to keep it disabled
+      SENTRY_DSN: ${SENTRY_DSN:-}
+      SENTRY_CLIENT_DSN: ${SENTRY_CLIENT_DSN:-}
+      SENTRY_ENVIRONMENT: ${SENTRY_ENVIRONMENT:-}
     ports:
       - "${API_PORT}:${API_PORT}"  # API port via env variable
       - "${FILE_PORT}:${FILE_PORT}"  # File serving port via env variable
