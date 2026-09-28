@@ -1,5 +1,5 @@
 import React from "react";
-import {useNavigate, Link} from "react-router-dom";
+import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import LoadMoreButton from "../../components/General/LoadMoreButton";
 import {formatTime} from "../../utilities/formatTime";
@@ -9,8 +9,6 @@ import "./PageSearchResults.css";
 
 // search results for a page search
 function PageSearchResults(props) {
-
-  const navigate = useNavigate();
 
   if (props.pages.length) {
     return (
@@ -68,7 +66,6 @@ export default PageSearchResults;
 PageSearchResults.propTypes = {
   searchText: PropTypes.string,
   loading: PropTypes.bool,
-  navigate: PropTypes.object,
   pages: PropTypes.array,
   cursor: PropTypes.object,
   onLoadMore: PropTypes.func,

@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import PropTypes from "prop-types";
 import {Form, Modal, Button} from "react-bootstrap";
 import LoadingOverlay from "../General/LoadingOverlay";
 import {useNavigate} from "react-router-dom";
@@ -200,3 +201,9 @@ function Login (props) {
   }
 }
 export default Login;
+
+Login.propTypes = {
+  onLogin: PropTypes.func,
+  onNameChange: PropTypes.func,
+  role: PropTypes.number
+};

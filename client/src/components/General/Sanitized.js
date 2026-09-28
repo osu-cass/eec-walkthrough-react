@@ -68,23 +68,23 @@ const allowedStyles = {
 
 const config = {
   ADD_TAGS: [
-    "math","annotation","semantics","mtext","mn","mo","mi","mspace","mover","munder","munderover",
-    "msup","msub","msubup","mfrac","mroot","msqrt","mtable","mtr","mtd","mlabeledtr","mrow",
-    "menclose","mstyle","mpadded","mphantom","mglyph","svg","line","path","span","s"
+    "math", "annotation", "semantics", "mtext", "mn", "mo", "mi", "mspace", "mover", "munder", "munderover",
+    "msup", "msub", "msubup", "mfrac", "mroot", "msqrt", "mtable", "mtr", "mtd", "mlabeledtr", "mrow",
+    "menclose", "mstyle", "mpadded", "mphantom", "mglyph", "svg", "line", "path", "span", "s"
   ],
   ADD_ATTR: [
-    "stretchy","notation","x1","y1","x2","y2","stroke-width","encoding","accentunder","accent",
-    "width","height","viewBox","preserveAspectRatio","d","row","rowspacing","rowalign","rowlines",
-    "column","columnspacing","columnalign","columnlines","spacing","scriptlevel","displaystyle",
-    "style","data-value","contenteditable","aria-hidden","href"
+    "stretchy", "notation", "x1", "y1", "x2", "y2", "stroke-width", "encoding", "accentunder", "accent",
+    "width", "height", "viewBox", "preserveAspectRatio", "d", "row", "rowspacing", "rowalign", "rowlines",
+    "column", "columnspacing", "columnalign", "columnlines", "spacing", "scriptlevel", "displaystyle",
+    "style", "data-value", "contenteditable", "aria-hidden", "href"
   ],
   ALLOWED_URI_REGEXP: /^https?:/i,
-}
+};
 
 // DOMPurify hook for post-sanitization class and style cleanup
 DOMPurify.addHook("afterSanitizeAttributes", (node) => {
   const tagName = node.tagName.toLowerCase();
-  
+
   // Filter out classes
   if (allowedClasses[tagName]) {
     const classList = node.classList;
@@ -97,11 +97,11 @@ DOMPurify.addHook("afterSanitizeAttributes", (node) => {
     }
     // If no classes remain, standard DOMPurify might leave an empty class attribute.
     if (classList.length === 0) {
-      node.removeAttribute('class');
+      node.removeAttribute("class");
     }
   } else {
     // If the tag is not in our allowedClasses list at all, strip all classes
-    node.removeAttribute('class');
+    node.removeAttribute("class");
   }
 
   // Filter out styles
@@ -111,9 +111,9 @@ DOMPurify.addHook("afterSanitizeAttributes", (node) => {
     for (let i = style.length - 1; i >= 0; i--) {
       const propName = style[i];
       const propValue = style.getPropertyValue(propName);
-      
+
       const allowedRegexes = allowedStyles[tagName][propName];
-      
+
       // If no rules for this property, or value doesn't match any regex, remove it
       if (!allowedRegexes || !allowedRegexes.some(regex => regex.test(propValue))) {
         style.removeProperty(propName);
@@ -121,13 +121,13 @@ DOMPurify.addHook("afterSanitizeAttributes", (node) => {
     }
     // Remove empty style attribute
     if (style.length === 0) {
-      node.removeAttribute('style');
+      node.removeAttribute("style");
     }
   } else {
     // If tag not allowed to have styles, strip them
-    node.removeAttribute('style');
+    node.removeAttribute("style");
   }
-})
+});
 
 // Sanitizes the HTML that is passed to it
 function Sanitized(props) {
@@ -138,7 +138,7 @@ function Sanitized(props) {
   if (clean.startsWith("<p>")) {
     clean = clean.slice(3, clean.length - 4);
   }
-  
+
   clean = DOMPurify.sanitize(clean, config);
 
   return (

@@ -147,7 +147,7 @@ function Card(props) {
           {props.mode === 1 ? (
             <div className="col-auto align-self-center pl-0 float-right">
               <div className="d-flex align-items-center float-right ml-2 mt-1 flex-nowrap">
-              {/* Button for editing the current card */}
+                {/* Button for editing the current card */}
                 <EditCard
                   card={props.unfilteredCard}
                   handleUpdate={(object, type, action) => props.handleUpdate(object, type, action)}

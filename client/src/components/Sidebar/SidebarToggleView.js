@@ -1,10 +1,9 @@
 import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import Accordion from "react-bootstrap/Accordion";
-import {Card} from "react-bootstrap";
 import "./Sidebar.css";
 import "./SidebarCollection.css";
-import { CustomToggle } from "./SidebarCollection";
+import {CustomToggle} from "./SidebarCollection";
 
 // button for showing or hiding create / edit buttons in the sidebar
 function SidebarToggleView(props) {

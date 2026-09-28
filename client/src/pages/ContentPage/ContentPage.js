@@ -938,5 +938,7 @@ function ContentPage(props) {
 export default ContentPage;
 
 ContentPage.propTypes = {
-  handlePageEdit: PropTypes.func
+  handlePageEdit: PropTypes.func,
+  handleLoginStatusChange: PropTypes.func,
+  handleNameChange: PropTypes.func
 };

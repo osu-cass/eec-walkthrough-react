@@ -154,5 +154,7 @@ QuizButton.propTypes = {
   pageId: PropTypes.string,
   mode: PropTypes.number,
   pageName: PropTypes.string,
-  role: PropTypes.number
+  role: PropTypes.number,
+  handleLoginStatusChange: PropTypes.func,
+  handleNameChange: PropTypes.func
 };

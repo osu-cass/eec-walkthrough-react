@@ -171,10 +171,10 @@ function BulletPoint(props) {
               }
               disabled={annotationSaved}
             >
-  						Save
+              Save
             </button>
             <button type="button" className="btn-cancel" onClick={handleOnDelete}>
-  						Delete
+              Delete
             </button>
           </form>
         )}
@@ -297,10 +297,10 @@ function BulletPoint(props) {
               }
               disabled={annotationSaved}
             >
-  						Save
+              Save
             </button>
             <button type="button" className="btn-cancel" onClick={handleOnDelete}>
-  						Delete
+              Delete
             </button>
           </form>
         )}

@@ -1,11 +1,11 @@
 import React, {useState, Fragment} from "react";
-import {Modal, Button, Row, Col, Form, Accordion, Card} from "react-bootstrap";
+import {Modal, Button, Row, Col, Form} from "react-bootstrap";
 import {logout} from "../../utilities/cookieAuth";
 import PropTypes from "prop-types";
 import {API_URL} from "../../utilities/constants";
 import Error from "../General/Error";
 import "./CreateCategory.css";
-import { CustomToggle } from "./SidebarCollection";
+import {CustomToggle} from "./SidebarCollection";
 
 // button and modal for creating a new category
 function CreateCategory(props) {

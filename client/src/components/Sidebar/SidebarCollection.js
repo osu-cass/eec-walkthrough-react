@@ -9,7 +9,7 @@ import {EEC_HOMEPAGE} from "../../utilities/constants";
 import "./SidebarCollection.css";
 
 // Custom toggle component using useAccordionButton
-export function CustomToggle({ children, eventKey, onClick, className }) {
+export function CustomToggle({children, eventKey, onClick, className}) {
   const decoratedOnClick = useAccordionButton(eventKey, onClick);
   return (
     <Card.Header className={className} onClick={decoratedOnClick}>
@@ -17,6 +17,13 @@ export function CustomToggle({ children, eventKey, onClick, className }) {
     </Card.Header>
   );
 }
+
+CustomToggle.propTypes = {
+  children: PropTypes.node,
+  eventKey: PropTypes.string,
+  onClick: PropTypes.func,
+  className: PropTypes.string
+};
 
 // A group of pages that can be expanded or hidden on the sidebar
 function SidebarCollection(props) {

@@ -43,11 +43,11 @@ function LoadTrainingPages({role, mode}) {
               aria-expanded="false"
               id="dropdownMenuButton"
             >
-		          <span className="text-white">Training Paths </span>
-		          <i
+              <span className="text-white">Training Paths </span>
+              <i
                 className="fas fa-chevron-down text-white"
               />
-		        </button>
+            </button>
             <div
               className="dropdown-menu drop-down-z"
               aria-labelledby="dropdownMenuButton"
@@ -70,11 +70,11 @@ function LoadTrainingPages({role, mode}) {
               aria-expanded="false"
               id="dropdownMenuButton"
             >
-		          <span className="text-white">Training Paths </span>
-		          <i
+              <span className="text-white">Training Paths </span>
+              <i
                 className="fas fa-chevron-down text-white"
               />
-		        </button>
+            </button>
             <div
               className="dropdown-menu drop-down-z"
               aria-labelledby="dropdownMenuButton"
