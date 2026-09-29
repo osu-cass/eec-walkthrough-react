@@ -12,6 +12,7 @@ const express = require("express");
 const path = require("path");
 const fileApp = express();
 const {pool} = require("./services/database/mysqlPool");
+const {migrateLatest} = require("./services/database/migrationRunner");
 const getSecret = require("./services/utils/getSecret");
 const app = require("./routes/index");
 const http = require("http");
@@ -177,17 +178,28 @@ if (process.env.NODE_ENV === "production") {
   fileApp.get("/{*splat}", (req, res) => {
     res.sendFile(path.join(__dirname + "/client/", "build", "index.html"));
   });
+}
 
-  fileApp.listen(filePort, () => {
-    console.log("File server is listening on port", filePort, "\n");
+async function startServers() {
+  await migrateLatest();
+
+  if (process.env.NODE_ENV === "production") {
+    fileApp.listen(filePort, () => {
+      console.log("File server is listening on port", filePort, "\n");
+    });
+  }
+
+  testConnection(pool, 1, () => {
+    http.createServer(app).listen(apiPort, () => {
+      console.log("API server is listening on port", apiPort, "\n");
+    });
   });
 }
 
-// listen for incoming requests
-testConnection(pool, 1, () => {
-  http.createServer(app).listen(apiPort, () => {
-    console.log("API server is listening on port", apiPort, "\n");
-  });
+startServers().catch(async (error) => {
+  console.error("Database migrations failed; server startup stopped:", error.message);
+  process.exitCode = 1;
+  await pool.end();
 });
 
 

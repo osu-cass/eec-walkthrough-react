@@ -1,0 +1,43 @@
+name: Database migrations
+
+on:
+  pull_request:
+  push:
+    branches:
+      - dev
+
+permissions:
+  contents: read
+
+jobs:
+  mariadb:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      database:
+        image: mariadb:10.11
+        env:
+          MARIADB_ROOT_PASSWORD: migration-test-password
+          MARIADB_ROOT_HOST: "%"
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "healthcheck.sh --connect --innodb_initialized"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 6
+    env:
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: migration-test-password
+      MYSQL_MIGRATION_TEST_DB_PREFIX: eec_migrations_test_ci
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci --ignore-scripts
+      - run: npm run test:db

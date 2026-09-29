@@ -75,7 +75,7 @@ For more detailed Docker setup instructions, see [DOCKER.md](DOCKER.md).
 2. **Set up the database:**
    - Install XAMPP or another MySQL server
    - Create a database named `eec_walkthrough`
-   - Import `services/database/db-init.sql`
+   - Import `services/database/db-init-new.sql` into the empty database
 
 3. **Configure environment:**
    - Create `.env` file from `.env.example`
@@ -255,7 +255,8 @@ Before submitting a PR, test your changes:
 ### Database Testing
 
 - Test with sample data
-- Verify database migrations (if any)
+- Run `npm run db:status` and verify schema changes with `npm run db:migrate`
+- Follow [the migration guide](docs/database-migrations.md) when adding schema changes
 - Check for SQL injection vulnerabilities
 - Ensure proper error handling
 
