@@ -1,6 +1,8 @@
-import React from "react";
+import React, {useMemo} from "react";
 import PropTypes from "prop-types";
 import DOMPurify from "dompurify";
+import katex from "katex";
+import "katex/dist/katex.min.css";
 import "./Sanitized.css";
 
 
@@ -132,14 +134,37 @@ DOMPurify.addHook("afterSanitizeAttributes", (node) => {
 // Sanitizes the HTML that is passed to it
 function Sanitized(props) {
 
-  let clean = props.html;
+  const clean = useMemo(() => {
+    let html = props.html;
 
-  // Don't allow rich text to be wrapped in block elements. Should be inline.
-  if (clean.startsWith("<p>")) {
-    clean = clean.slice(3, clean.length - 4);
-  }
-  
-  clean = DOMPurify.sanitize(clean, config);
+    // Don't allow rich text to be wrapped in block elements. Should be inline.
+    if (html.startsWith("<p>")) {
+      html = html.slice(3, html.length - 4);
+    }
+
+    if (html.includes("ql-formula")) {
+      const template = document.createElement("template");
+      template.innerHTML = html;
+
+      // Quill preserves the expression even when stored KaTeX markup is outdated.
+      for (const formula of template.content.querySelectorAll("span.ql-formula[data-value]")) {
+        const expression = formula.getAttribute("data-value");
+        try {
+          formula.innerHTML = katex.renderToString(expression, {
+            throwOnError: false,
+            errorColor: "#f00",
+            trust: false
+          });
+        } catch (err) {
+          formula.textContent = expression;
+        }
+      }
+
+      html = template.innerHTML;
+    }
+
+    return DOMPurify.sanitize(html, config);
+  }, [props.html]);
 
   return (
     <span dangerouslySetInnerHTML={{__html: clean}} className={props.inline ? "sanitized-inline-text" : "sanitized-text"}/>
