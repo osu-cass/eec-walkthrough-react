@@ -15,6 +15,10 @@
   overflow: visible;
 }
 
+.text-editor .ql-snow .ql-tooltip {
+  z-index: 801;
+}
+
 .text-editor.hide-toolbar .ql-toolbar.ql-snow {
   display: none;
 }
