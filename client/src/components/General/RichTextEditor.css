@@ -11,6 +11,10 @@
   white-space: break-spaces;
 }
 
+.text-editor .ql-container.ql-snow {
+  overflow: visible;
+}
+
 .text-editor.hide-toolbar .ql-toolbar.ql-snow {
   display: none;
 }
