@@ -466,18 +466,24 @@ exports.updateCard = updateCard;
 // publish a card
 async function publishCard(cardId) {
 
+  const connection = await pool.getConnection();
+
   try {
+
+    await connection.beginTransaction();
 
     // make sure that the card exists
     let sql = "SELECT * " +
 			"FROM Cards " +
-			"WHERE cardId = ?;";
-    let results = await pool.query(sql, cardId);
+			"WHERE cardId = ? FOR UPDATE;";
+    let results = await connection.query(sql, cardId);
 
     if (!results[0].length) {
+      await connection.rollback();
       return {error: 1};
     }
 
+    const approved = results[0][0].approved;
     const title = results[0][0].title;
     const headerId = results[0][0].headerId;
 
@@ -485,9 +491,10 @@ async function publishCard(cardId) {
     sql = "SELECT * " +
 			"FROM Headers " +
 			"WHERE headerId = ?;";
-    results = await pool.query(sql, headerId);
+    results = await connection.query(sql, headerId);
 
     if (!results[0].length) {
+      await connection.rollback();
       return {error: 1};
     }
 
@@ -497,9 +504,19 @@ async function publishCard(cardId) {
     sql = "SELECT * " +
 			"FROM Temp_Cards " +
 			"WHERE tempCardId = ?;";
-    results = await pool.query(sql, cardId);
+    results = await connection.query(sql, cardId);
 
     const tempCard = results[0][0];
+
+    sql = "SELECT itemId FROM Items WHERE cardId = ? AND approved = 0;";
+    results = await connection.query(sql, cardId);
+    const hasPendingItems = results[0].length > 0;
+
+    // A repeated publish has no replacement content to promote.
+    if (approved && !tempCard && !hasPendingItems) {
+      await connection.commit();
+      return {cardId: cardId};
+    }
 
     // if there is new card data, replace the old data
     // otherwise simply update the approved value
@@ -520,19 +537,20 @@ async function publishCard(cardId) {
 				"AND title = ? " +
 				"AND cardId != ? " +
 				"AND approved = 1;";
-      results = await pool.query(checkSql, [headerId, tempCard.tempTitle, cardId]);
+      results = await connection.query(checkSql, [headerId, tempCard.tempTitle, cardId]);
 
       if (results[0].length) {
+        await connection.rollback();
         return {error: 2};
       }
 
       // publish
-      results = await pool.query(sql, tempArray);
+      results = await connection.query(sql, tempArray);
 
       // delete the old temp card
       sql = "DELETE FROM Temp_Cards " +
 				"WHERE tempCardId = ?;";
-      results = await pool.query(sql, cardId);
+      results = await connection.query(sql, cardId);
 
     } else {
 
@@ -547,28 +565,26 @@ async function publishCard(cardId) {
 				"AND title = ? " +
 				"AND cardId != ? " +
 				"AND approved = 1;";
-      results = await pool.query(checkSql, [headerId, title, cardId]);
+      results = await connection.query(checkSql, [headerId, title, cardId]);
 
       if (results[0].length) {
+        await connection.rollback();
         return {error: 2};
       }
 
       // publish
-      results = await pool.query(sql, cardId);
+      results = await connection.query(sql, cardId);
 
     }
 
-    // delete all of the old items
-    sql = "DELETE FROM Items " +
-			"WHERE cardId = ? " +
-			"AND approved = 1;";
-    results = await pool.query(sql, cardId);
+    // Metadata-only drafts keep the published items.
+    if (hasPendingItems) {
+      sql = "DELETE FROM Items WHERE cardId = ? AND approved = 1;";
+      await connection.query(sql, cardId);
 
-    // approve all of the new items
-    sql = "UPDATE Items " +
-			"SET approved = 1 " +
-			"WHERE cardId = ?;";
-    results = await pool.query(sql, cardId);
+      sql = "UPDATE Items SET approved = 1 WHERE cardId = ? AND approved = 0;";
+      await connection.query(sql, cardId);
+    }
 
     const finalResults = {
       cardId: cardId
@@ -578,7 +594,7 @@ async function publishCard(cardId) {
     sql = "INSERT INTO History_Cards (cardId, headerId, cardType, title, removed) " +
 			"SELECT cardId, headerId, cardType, title, 0 AS removed FROM Cards " +
 			"WHERE Cards.approved = 1 AND Cards.cardId = ?;";
-    results = await pool.query(sql, [cardId]);
+    results = await connection.query(sql, [cardId]);
     const newHistoryId = results[0].insertId;
 
     // save item history as well
@@ -586,7 +602,7 @@ async function publishCard(cardId) {
 			"FROM Items " +
 			"WHERE cardId = ? " +
 			"AND approved = 1;";
-    results = await pool.query(sql, [cardId]);
+    results = await connection.query(sql, [cardId]);
 
     for (let i = 0; i < results[0].length; i++) {
       const sqlArray = [newHistoryId, results[0][i].itemId, results[0][i].cardId,
@@ -599,20 +615,24 @@ async function publishCard(cardId) {
 				"contentUrl, contentLabel, altText, contentMode, internal, inline, created, sourceId) " +
 				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-      await pool.query(sql, sqlArray);
+      await connection.query(sql, sqlArray);
     }
 
     // update the last updated date of the page
     sql = "UPDATE Pages " +
 			"SET created = CURRENT_TIMESTAMP " +
 			"WHERE pageId = ?;";
-    await pool.query(sql, pageId);
+    await connection.query(sql, pageId);
 
+    await connection.commit();
     return finalResults;
 
   } catch (err) {
+    await connection.rollback();
     console.error("Error publishing card");
-    throw Error(err);
+    throw err;
+  } finally {
+    connection.release();
   }
 
 }
