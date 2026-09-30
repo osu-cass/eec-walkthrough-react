@@ -921,7 +921,7 @@ CREATE TABLE `History_Items` (
   `orderIndex` int(10) UNSIGNED NOT NULL,
   `indentation` int(10) UNSIGNED NOT NULL,
   `iconType` int(10) UNSIGNED NOT NULL,
-  `contentText` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contentText` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentUrl` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentLabel` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `contentMode` int(10) UNSIGNED NOT NULL,
