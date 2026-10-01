@@ -18,7 +18,9 @@ function LoadTrainingPages({role, mode}) {
     let result;
     try {
       result = await (
-        await fetch(`${API_URL}/training/source-page/${pageId}`)
+        await fetch(`${API_URL}/training/source-page/${pageId}`, {
+          credentials: "include"
+        })
       ).json();
       setTrainingPages(result);
     } catch (err) {

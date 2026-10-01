@@ -25,9 +25,9 @@ function Source (props) {
         href={`#source-${props.source}`}
         title="Reference"
         data-bs-toggle="popover"
-        data-trigger="hover"
-        data-html="true"
-        data-content={DOMPurify.sanitize(props.sourceText)}
+        data-bs-trigger="hover"
+        data-bs-html="true"
+        data-bs-content={DOMPurify.sanitize(props.sourceText)}
         className="text-wrap pre-wrap"
       >
         [{props.source}]

@@ -189,7 +189,10 @@ content-management flows for pages, quizzes, contributors, uploads, and reports.
 ## Extensibility Hooks
 - Environment variables:
   `API_PORT`, `FILE_PORT`, `REACT_APP_API_HOST`, `NODE_ENV`, `MYSQL_DB_NAME`,
-  `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`.
+  `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `SENTRY_DSN`, `SENTRY_CLIENT_DSN`,
+  `SENTRY_ENVIRONMENT`.
+- Browser runtime configuration: add a key to `runtimeConfig` in `app.js`, which the
+  file server serves at `/runtime-config.js`; read it from `window.__RUNTIME_CONFIG__`.
 - Secret file hooks:
   `MYSQL_PASSWORD_FILE`, `MARIADB_PASSWORD_FILE`, `MARIADB_ROOT_PASSWORD_FILE`,
   `JWT_SECRET_KEY_FILE`.
