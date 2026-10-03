@@ -6,7 +6,7 @@ const express = require("express");
 const crypto = require("crypto");
 const fs = require("fs");
 const app = express();
-const {validationResult} = require("express-validator");
+const {validationResult} = require("../services/validation/validationResult");
 const {
   requireAuth,
   roleCheck
