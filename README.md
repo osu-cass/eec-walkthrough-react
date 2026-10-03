@@ -78,7 +78,7 @@ the runtime browser DSN or a release name.
 - MYSQL_DB_NAME: The name of the database.
 - MYSQL_PORT: The port that the database is running on.
 - MYSQL_HOST: The host that the database is running on. 
-- SQL_USER: The username for the database.
+- MYSQL_USER: The username for the database.
 
 #### Setup Steps
 1. Create a file named `.env` in the root directory of your project
@@ -156,45 +156,39 @@ eslint "." --fix
 
 ## Creating a Database for Development
 
-Install XAMPP: https://www.apachefriends.org/index.html
+Docker Compose is the recommended setup. Follow [DOCKER.md](DOCKER.md) to create
+the local database and start the app.
 
-Follow the steps in this video to get into PHPMyAdmin: https://www.youtube.com/watch?v=0DPB70hZykg
+Without Docker, create an empty database and import
+`services/database/db-init-new.sql` using your MySQL client or phpMyAdmin. This
+dump includes sample content. Copy `.env.example` to `.env`, set the `MYSQL_*`
+values for your database, and configure the JWT secret as described above.
 
-When in PHPMyAdmin create a new database called `eec_walkthrough`.
+## Database migrations
 
-Click on your new database.
+Schema changes live in `services/database/migrations` and are tracked by Knex.
+The backend applies pending migrations before opening the API or production
+file-server port. This happens when `app.js` starts through `npm start`,
+`npm run dev`, or a direct Node invocation. A migration error stops startup with
+a nonzero exit status. The application keeps its existing `mysql2` queries.
+From the repository root:
 
-Click the "Import" tab at the top of the screen.
-
-Select the `db-init.sql` file in our repo (services\database\db-init.sql).
-
-Press the "Go" button at the bottom of the screen.
-
-Create a file named `.env` in the root directory of your project with the following contents:
-```
-PORT=1111
-SQL_DB_NAME='eec_walkthrough'
-SQL_HOST='localhost'
-SQL_PASSWORD=''
-SQL_USER='root'
-JWT_SECRET_KEY='anythingCanGoHere'
-```
-
-Run the following command to start the server in development mode. Your application should now be using your local database.
-```
-npm run dev
+```bash
+npm run db:status
+npm run db:migrate
+npm run db:make -- add_example_column
 ```
 
-### Manual DB migration for alt text
+`db:make` creates a migration template; write and review the schema change in
+that file. It does not detect changes in the application's model functions.
 
-If your database was created before `altText` was added to `Items` and `History_Items`,
-run this migration script once against your DB:
+Existing databases can adopt the migration history without importing the dump
+again. The first migration adds `Items.altText` and `History_Items.altText` when
+missing and accepts matching columns that already exist. It does not copy
+`contentLabel` into `altText` or overwrite existing values.
 
-```
-mysql -u <user> -p <database_name> < services/database/manual-migration-add-altText-to-items.sql
-```
-
-The script is idempotent and will skip columns that already exist.
+See [the migration guide](docs/database-migrations.md) for authoring, database
+privileges, failure recovery, and validation.
 
 
 ## Update the Production Server
@@ -229,6 +223,19 @@ Once you have updated the repo to the current version you will need to build.
 git pull
 npm run build
 ```
+
+When backend dependencies change, run `npm ci` from the repository root after
+pulling and before building. Before the first release with automatic migrations,
+have IT confirm the application database account can create the migration
+history tables and apply the pending schema changes. An account that previously
+only read and wrote application data may need additional privileges.
+
+Back up the database before a schema release. Starting `app.js` applies pending
+migrations before either server listens, including when the external startup
+script invokes Node directly. A migration failure stops startup; inspect the
+process logs and resolve it before restarting. The external
+`/data/walkthrough/start-wt.sh` is managed outside this repository, so verify its
+command, working directory, and database account during the first rollout.
 
 Now you can run a script to start the web application and close the terminal without killing your process.
 ```

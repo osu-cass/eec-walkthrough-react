@@ -1,0 +1,7 @@
+exports.up = async function() {
+  throw new Error("Implement this migration before running db:migrate");
+};
+
+exports.down = async function() {
+  throw new Error("Migrations are forward-only; create a new corrective migration");
+};

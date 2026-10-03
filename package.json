@@ -16,6 +16,7 @@
 		"express": "^5.2.1",
 		"express-validator": "^6.5.0",
 		"jsonwebtoken": "^9.0.3",
+		"knex": "^3.3.0",
 		"moment": "^2.27.0",
 		"morgan": "~1.11.0",
 		"multer": "^2.2.0",
@@ -36,6 +37,10 @@
 		"dev:debug": "cross-env NODE_ENV=development concurrently \"npm run serverDev:debug\" \"npm run client\"",
 		"serverDev": "nodemon app.js --ignore client/*",
 		"serverDev:debug": "nodemon --inspect=0.0.0.0:9229 app.js --ignore client/*",
+		"db:migrate": "node services/database/migrationRunner.js migrate",
+		"db:status": "node services/database/migrationRunner.js status",
+		"db:make": "node services/database/migrationRunner.js make",
+		"test:db": "node --test tests/database-migrations.test.js",
 		"client": "cd client && npm start",
 		"installAll": "npm install && cd client && npm install",
 		"build": "[ -f .env ] && cp -f .env client/.env; cd client && npm run build"
