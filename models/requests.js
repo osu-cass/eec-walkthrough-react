@@ -345,9 +345,7 @@ async function getRequest(requestId, userId) {
             "ORDER BY orderIndex ASC, itemId ASC";
             results = await pool.query(sql, objects[i].objectId);
 
-            if (results[0].length) {
-              card.items = results[0];
-            }
+            card.items = results[0];
 
             // see if there is an old version
             sql = "SELECT Cards.*, Headers.title AS headerName, Pages.pageId, " +
@@ -375,8 +373,10 @@ async function getRequest(requestId, userId) {
               "ORDER BY orderIndex ASC, itemId ASC";
               results = await pool.query(sql, [objects[i].objectId]);
 
-              if (results[0].length) {
-                card.oldVersion.items = results[0];
+              card.oldVersion.items = results[0];
+              // Metadata-only drafts keep the published items.
+              if (!card.items.length) {
+                card.items = card.oldVersion.items;
               }
             }
 
@@ -1229,6 +1229,14 @@ async function deleteRequest(requestId, userId, admin) {
 exports.deleteRequest = deleteRequest;
 
 
+async function publishOrThrow(publish, label, objectId) {
+  const published = await publish(objectId);
+  if (published.error) {
+    throw Error("Could not publish " + label + " " + objectId + ": " + published.error);
+  }
+}
+
+
 // approve a publish request
 async function approveRequest(requestId) {
 
@@ -1268,12 +1276,12 @@ async function approveRequest(requestId) {
           const results = await pool.query(sql, objects[i].objectId);
 
           if (results[0].length) {
-            publishPage(objects[i].objectId);
+            await publishOrThrow(publishPage, "page", objects[i].objectId);
             objectsApproved++;
           }
 
         } else {
-          publishPage(objects[i].objectId);
+          await publishOrThrow(publishPage, "page", objects[i].objectId);
           objectsApproved++;
         }
         continue;
@@ -1296,12 +1304,12 @@ async function approveRequest(requestId) {
           const results = await pool.query(sql, objects[i].objectId);
 
           if (results[0].length) {
-            publishHeader(objects[i].objectId);
+            await publishOrThrow(publishHeader, "header", objects[i].objectId);
             objectsApproved++;
           }
 
         } else {
-          publishHeader(objects[i].objectId);
+          await publishOrThrow(publishHeader, "header", objects[i].objectId);
           objectsApproved++;
         }
         continue;
@@ -1324,12 +1332,12 @@ async function approveRequest(requestId) {
           const results = await pool.query(sql, objects[i].objectId);
 
           if (results[0].length) {
-            publishCard(objects[i].objectId);
+            await publishOrThrow(publishCard, "card", objects[i].objectId);
             objectsApproved++;
           }
 
         } else {
-          publishCard(objects[i].objectId);
+          await publishOrThrow(publishCard, "card", objects[i].objectId);
           objectsApproved++;
         }
         continue;
@@ -1352,12 +1360,12 @@ async function approveRequest(requestId) {
           const results = await pool.query(sql, objects[i].objectId);
 
           if (results[0].length) {
-            publishQuestion(objects[i].objectId);
+            await publishOrThrow(publishQuestion, "question", objects[i].objectId);
             objectsApproved++;
           }
 
         } else {
-          publishQuestion(objects[i].objectId);
+          await publishOrThrow(publishQuestion, "question", objects[i].objectId);
           objectsApproved++;
         }
       }

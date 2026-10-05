@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import ReactQuill, {Quill} from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -11,27 +11,6 @@ window.katex = katex;
 
 // A textarea that supports underline, bold, and italic text
 function RichTextEditor(props) {
-  const editorRef = useRef(null);
-
-  useEffect(() => {
-    const quill = editorRef.current.getEditor();
-    const tooltip = quill.theme.tooltip;
-    const position = tooltip.position;
-
-    tooltip.position = (reference) => {
-      const shift = position.call(tooltip, reference);
-      const overflow = quill.container.getBoundingClientRect().left - tooltip.root.getBoundingClientRect().left;
-      if (overflow > 0) {
-        tooltip.root.style.left = `${parseFloat(tooltip.root.style.left) + overflow}px`;
-      }
-      return shift + Math.max(0, overflow);
-    };
-
-    return () => {
-      tooltip.position = position;
-    };
-  }, []);
-
   const modules = {
     toolbar: [
       [{size: ["small", false, "large", "huge"]}],
@@ -61,7 +40,6 @@ function RichTextEditor(props) {
   return (
     <div className={`text-editor ${toolbarVisible ? "" : "simple-text-border hide-toolbar"}`}>
       <ReactQuill
-        ref={editorRef}
         preserveWhitespace={true}
         value={props.value}
         onChange={(text) => props.onChange(text)}

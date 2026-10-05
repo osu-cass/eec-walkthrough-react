@@ -11,12 +11,20 @@
   white-space: break-spaces;
 }
 
+/* preserveWhitespace renders a pre; Bootstrap's overflow: auto clips the tooltip. */
 .text-editor .ql-container.ql-snow {
   overflow: visible;
 }
 
 .text-editor .ql-snow .ql-tooltip {
+  max-width: 100%;
+  white-space: normal;
   z-index: 801;
+}
+
+/* Quill centers the tooltip on the cursor; pin it so it can't spill left of the composer. */
+.text-editor .ql-snow .ql-tooltip[data-mode="formula"] {
+  left: 0 !important;
 }
 
 .text-editor.hide-toolbar .ql-toolbar.ql-snow {

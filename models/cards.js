@@ -306,16 +306,32 @@ async function deleteCardChanges(cardId) {
 exports.deleteCardChanges = deleteCardChanges;
 
 
+async function rollbackAndRelease(connection) {
+  try {
+    await connection.rollback();
+    connection.release();
+  } catch (err) {
+    console.error("Error rolling back transaction", err);
+    connection.destroy();
+  }
+}
+
+
 // update a card
 async function updateCard(cardId, cardType, title, items, userId) {
 
+  const connection = await pool.getConnection();
+  let transactionOpen = true;
+
   try {
+
+    await connection.beginTransaction();
 
     // make sure that the card exists
     let sql = "SELECT * " +
 			"FROM Cards " +
-			"WHERE cardId = ?;";
-    let results = await pool.query(sql, cardId);
+			"WHERE cardId = ? FOR UPDATE;";
+    let results = await connection.query(sql, cardId);
 
     if (!results[0].length) {
       return {error: 1};
@@ -329,7 +345,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
     sql = "SELECT iconType " +
 			"FROM Icons " +
 			"WHERE groupIndex = 0;";
-    results = await pool.query(sql, []);
+    results = await connection.query(sql, []);
 
     let notImage = false;
     const icons = results[0];
@@ -382,28 +398,28 @@ async function updateCard(cardId, cardType, title, items, userId) {
     sql = "SELECT * " +
 			"FROM Temp_Cards " +
 			"WHERE tempCardId = ?;";
-    results = await pool.query(sql, cardId);
+    results = await connection.query(sql, cardId);
 
     if (results[0].length) {
 
       sql = "UPDATE Temp_Cards " +
 				"SET tempCardType = ?, tempTitle = ?, tempUserId = ? " +
 				"WHERE tempCardId = ?;";
-      results = await pool.query(sql, [cardType, title, userId, cardId]);
+      results = await connection.query(sql, [cardType, title, userId, cardId]);
 
     } else if (approved === 0) {
 
       sql = "UPDATE Cards " +
 				"SET cardType = ?, title = ?, userId = ? " +
 				"WHERE cardId = ?;";
-      results = await pool.query(sql, [cardType, title, userId, cardId]);
+      results = await connection.query(sql, [cardType, title, userId, cardId]);
 
     } else {
 
       sql = "INSERT INTO Temp_Cards (tempCardId, tempCardType, " +
 				"tempTitle, tempUserId, tempOrderIndex) " +
 				"VALUES (?, ?, ?, ?, ?);";
-      results = await pool.query(sql, [cardId, cardType, title, userId, orderIndex]);
+      results = await connection.query(sql, [cardId, cardType, title, userId, orderIndex]);
 
     }
 
@@ -416,7 +432,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
         // delete all of the old items
         sql = "DELETE FROM Items " +
 					"WHERE cardId = ? AND approved = 0;";
-        results = await pool.query(sql, cardId);
+        results = await connection.query(sql, cardId);
 
         // create all of the new items
         sql = "INSERT INTO Items (cardId, orderIndex, indentation, iconType, " +
@@ -443,7 +459,7 @@ async function updateCard(cardId, cardType, title, items, userId) {
         // replace the final comma with a semicolon
         sql = sql.replace(/.$/, ";");
 
-        results = await pool.query(sql, sqlArray);
+        results = await connection.query(sql, sqlArray);
 
       }
     }
@@ -452,11 +468,19 @@ async function updateCard(cardId, cardType, title, items, userId) {
       cardId: cardId
     };
 
+    await connection.commit();
+    transactionOpen = false;
     return finalResults;
 
   } catch (err) {
     console.error("Error updating card");
-    throw Error(err);
+    throw err;
+  } finally {
+    if (transactionOpen) {
+      await rollbackAndRelease(connection);
+    } else {
+      connection.release();
+    }
   }
 
 }
@@ -467,6 +491,7 @@ exports.updateCard = updateCard;
 async function publishCard(cardId) {
 
   const connection = await pool.getConnection();
+  let transactionOpen = true;
 
   try {
 
@@ -479,7 +504,6 @@ async function publishCard(cardId) {
     let results = await connection.query(sql, cardId);
 
     if (!results[0].length) {
-      await connection.rollback();
       return {error: 1};
     }
 
@@ -494,7 +518,6 @@ async function publishCard(cardId) {
     results = await connection.query(sql, headerId);
 
     if (!results[0].length) {
-      await connection.rollback();
       return {error: 1};
     }
 
@@ -515,6 +538,7 @@ async function publishCard(cardId) {
     // A repeated publish has no replacement content to promote.
     if (approved && !tempCard && !hasPendingItems) {
       await connection.commit();
+      transactionOpen = false;
       return {cardId: cardId};
     }
 
@@ -540,7 +564,6 @@ async function publishCard(cardId) {
       results = await connection.query(checkSql, [headerId, tempCard.tempTitle, cardId]);
 
       if (results[0].length) {
-        await connection.rollback();
         return {error: 2};
       }
 
@@ -568,7 +591,6 @@ async function publishCard(cardId) {
       results = await connection.query(checkSql, [headerId, title, cardId]);
 
       if (results[0].length) {
-        await connection.rollback();
         return {error: 2};
       }
 
@@ -625,14 +647,18 @@ async function publishCard(cardId) {
     await connection.query(sql, pageId);
 
     await connection.commit();
+    transactionOpen = false;
     return finalResults;
 
   } catch (err) {
-    await connection.rollback();
     console.error("Error publishing card");
     throw err;
   } finally {
-    connection.release();
+    if (transactionOpen) {
+      await rollbackAndRelease(connection);
+    } else {
+      connection.release();
+    }
   }
 
 }

@@ -7,16 +7,21 @@ const mysql = require("mysql2/promise");
 const getSecret = require("../services/utils/getSecret");
 
 // Run only against a disposable server with CREATE/DROP DATABASE privileges.
+// Lock checks also require MariaDB PROCESS or MySQL 8/Percona read access to
+// performance_schema.data_lock_waits and performance_schema.threads.
 // RUN_CARD_PUBLISH_DB_TESTS=1 node --test tests/cardPublish.integration.test.js
 describe("card publishing with MariaDB/MySQL", {
   skip: process.env.RUN_CARD_PUBLISH_DB_TESTS !== "1"
 }, () => {
   const database = `eec_card_publish_test_${process.pid}_${randomBytes(4).toString("hex")}`;
-  const tables = ["Pages", "Headers", "Cards", "Temp_Cards", "Items", "History_Cards", "History_Items"];
+  const tables = ["Pages", "Headers", "Icons", "Cards", "Temp_Cards", "Items", "History_Cards", "History_Items"];
   const longText = `<p>${"Rich text draft content. ".repeat(100)}</p>`;
   let admin;
   let pool;
   let publishCard;
+  let updateCard;
+  let lockWaitSql;
+  let mariaDb;
 
   before(async () => {
     admin = await mysql.createConnection({
@@ -46,7 +51,16 @@ describe("card publishing with MariaDB/MySQL", {
     process.env.MYSQL_DB_NAME = database;
     delete process.env.MYSQL_DB_NAME_FILE;
     ({pool} = require("../services/database/mysqlPool"));
-    ({publishCard} = require(process.env.CARD_PUBLISH_MODEL_PATH || "../models/cards"));
+    ({publishCard, updateCard} = require("../models/cards"));
+    const [version] = await admin.query("SELECT VERSION() AS version");
+    mariaDb = version[0].version.includes("MariaDB");
+    lockWaitSql = mariaDb ?
+      "SELECT 1 FROM information_schema.INNODB_LOCK_WAITS waits " +
+      "JOIN information_schema.INNODB_TRX trx ON trx.trx_id = waits.requesting_trx_id " +
+      "WHERE trx.trx_mysql_thread_id = ?" :
+      "SELECT 1 FROM performance_schema.data_lock_waits waits " +
+      "JOIN performance_schema.threads thread ON thread.THREAD_ID = waits.REQUESTING_THREAD_ID " +
+      "WHERE thread.PROCESSLIST_ID = ?";
     const [mode] = await pool.query("SELECT @@sql_mode AS mode");
     assert.match(mode[0].mode, /STRICT/, "History truncation must fail, rather than silently truncate");
   });
@@ -97,6 +111,173 @@ describe("card publishing with MariaDB/MySQL", {
     const [items] = await pool.query("SELECT COUNT(*) AS count FROM History_Items");
     return {cards: cards[0].count, items: items[0].count};
   }
+
+  function draftItem(contentText) {
+    return {
+      indentation: 0, iconType: 1, contentText, contentUrl: "", contentLabel: "",
+      contentMode: 0, internal: 0, inline: 0, sourceId: 0, learnMoreUrl: "", altText: ""
+    };
+  }
+
+  async function saveDraft(title, contentText) {
+    return updateCard(1, 2, title, [draftItem(contentText)], 2);
+  }
+
+  async function runInLockOrder(firstOperation, secondOperation) {
+    const originalGetConnection = pool.getConnection;
+    let unlockFirst;
+    let firstLocked;
+    let secondStarted;
+    const locked = new Promise(resolve => { firstLocked = resolve; });
+    const started = new Promise(resolve => { secondStarted = resolve; });
+    const resume = new Promise(resolve => { unlockFirst = resolve; });
+    let connectionCount = 0;
+    let secondThreadId;
+    let first;
+    let second;
+    let operationError;
+    let observingLockWait = false;
+
+    async function withTimeout(promise, message) {
+      let timer;
+      try {
+        return await Promise.race([
+          promise,
+          new Promise((resolve, reject) => {
+            timer = setTimeout(() => reject(new Error(message)), 5000);
+          })
+        ]);
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    function completedBeforeBarrier(operation, message) {
+      return operation.then(() => { throw new Error(message); });
+    }
+
+    pool.getConnection = async function () {
+      const connection = await originalGetConnection.call(pool);
+      const position = ++connectionCount;
+      return {
+        beginTransaction: connection.beginTransaction.bind(connection),
+        commit: connection.commit.bind(connection),
+        rollback: connection.rollback.bind(connection),
+        release: connection.release.bind(connection),
+        destroy: connection.destroy.bind(connection),
+        async query(sql, params) {
+          if (sql.includes("FROM Cards") && sql.includes("FOR UPDATE")) {
+            if (position === 1) {
+              const result = await connection.query(sql, params);
+              firstLocked();
+              await resume;
+              return result;
+            }
+            secondThreadId = connection.connection.threadId;
+            secondStarted();
+          }
+          return connection.query(sql, params);
+        }
+      };
+    };
+
+    try {
+      first = Promise.resolve().then(firstOperation);
+      const firstFinished = completedBeforeBarrier(first, "First operation finished without reaching its card lock");
+      await withTimeout(Promise.race([locked, firstFinished]), "First operation did not reach its card lock");
+      second = Promise.resolve().then(secondOperation);
+      const secondFinished = completedBeforeBarrier(second, "Second operation finished before waiting for the card lock");
+      await withTimeout(Promise.race([started, firstFinished, secondFinished]), "Second operation did not request its card lock");
+      // Observe the database wait before allowing the first operation to finish.
+      const observeLockWait = async () => {
+        observingLockWait = true;
+        while (observingLockWait) {
+          const [rows] = await admin.query(lockWaitSql, [secondThreadId]);
+          if (rows.length) {
+            return;
+          }
+          if (mariaDb) {
+            // Allow MariaDB's cached lock views to refresh before checking again.
+            await new Promise(resolve => setTimeout(resolve, 150));
+          }
+        }
+      };
+      await withTimeout(
+        Promise.race([observeLockWait(), firstFinished, secondFinished]),
+        "The second operation did not wait for the first Cards row lock"
+      );
+      unlockFirst();
+      const results = await withTimeout(Promise.all([first, second]), "Card operations did not finish after releasing the lock");
+      assert.deepEqual(results, [{cardId: 1}, {cardId: 1}]);
+    } catch (error) {
+      operationError = error;
+    } finally {
+      observingLockWait = false;
+      unlockFirst();
+      try {
+        await withTimeout(Promise.allSettled([first, second].filter(Boolean)), "Card operations did not finish during cleanup");
+      } catch (cleanupError) {
+        if (!operationError) {
+          operationError = cleanupError;
+        }
+      } finally {
+        pool.getConnection = originalGetConnection;
+      }
+    }
+    if (operationError) {
+      throw operationError;
+    }
+  }
+
+  it("publishes the complete saved draft when save holds the card lock first", async () => {
+    await addDraft();
+    await addItem(2, "Older draft content", 0);
+
+    await runInLockOrder(
+      () => saveDraft("Newest draft", "Newest draft content"),
+      () => publishCard(1)
+    );
+
+    const state = await snapshot();
+    assert.equal(state.Cards[0].title, "Newest draft");
+    assert.equal(state.Temp_Cards.length, 0);
+    assert.deepEqual(state.Items.map(item => [item.contentText, item.approved]), [["Newest draft content", 1]]);
+    assert.deepEqual(state.History_Items.map(item => item.contentText), ["Newest draft content"]);
+    assert.deepEqual(await historyCounts(), {cards: 1, items: 1});
+  });
+
+  it("keeps a later save pending when publish holds the card lock first", async () => {
+    await addDraft();
+    await addItem(2, "Draft being published", 0);
+
+    await runInLockOrder(
+      () => publishCard(1),
+      () => saveDraft("Later draft", "Later draft content")
+    );
+
+    const state = await snapshot();
+    assert.equal(state.Cards[0].title, "Revised steps");
+    assert.equal(state.Temp_Cards[0].tempTitle, "Later draft");
+    assert.deepEqual(state.Items.map(item => [item.contentText, item.approved]), [
+      ["Draft being published", 1], ["Later draft content", 0]
+    ]);
+    assert.deepEqual(state.History_Items.map(item => item.contentText), ["Draft being published"]);
+    assert.deepEqual(await historyCounts(), {cards: 1, items: 1});
+  });
+
+  it("rolls back draft metadata and item deletion when saving replacement items fails", async () => {
+    await addDraft();
+    await addItem(2, "Existing draft content", 0);
+    await pool.query("ALTER TABLE Items MODIFY contentText VARCHAR(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL");
+    const original = await snapshot();
+
+    try {
+      await assert.rejects(saveDraft("Failed replacement", longText), /Data too long for column 'contentText'/);
+      assert.deepEqual(await snapshot(), original);
+    } finally {
+      await pool.query("ALTER TABLE Items MODIFY contentText MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL");
+    }
+  });
 
   it("rolls back a failed history write and publishes the intact draft after migration", async () => {
     await pool.query("INSERT INTO History_Cards (historyId, cardId, headerId, cardType, title, removed) VALUES (1, 1, 1, 2, 'Steps', 0)");

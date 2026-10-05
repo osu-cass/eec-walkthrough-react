@@ -31,6 +31,7 @@
 		"ws": "5.2.5"
 	},
 	"scripts": {
+		"test:cards:integration": "cross-env RUN_CARD_PUBLISH_DB_TESTS=1 node --test tests/cardPublish.integration.test.js",
 		"start": "cross-env NODE_ENV=production node app.js",
 		"dev": "cross-env NODE_ENV=development concurrently \"npm run serverDev\" \"npm run client\"",
 		"dev:debug": "cross-env NODE_ENV=development concurrently \"npm run serverDev:debug\" \"npm run client\"",

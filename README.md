@@ -166,7 +166,7 @@ Click on your new database.
 
 Click the "Import" tab at the top of the screen.
 
-Select the `db-init.sql` file in our repo (services\database\db-init.sql).
+Select `services/database/db-init-new.sql`.
 
 Press the "Go" button at the bottom of the screen.
 
@@ -213,11 +213,14 @@ Failed publishes roll back all changes, and repeated publishes without a draft
 preserve current content. This fix does not restore content lost before deployment.
 
 To run the publish regression tests, configure `MYSQL_HOST`, `MYSQL_PORT`,
-`MYSQL_USER`, and `MYSQL_PASSWORD` for a disposable MySQL/MariaDB server with
-CREATE/DROP DATABASE privileges, then run:
+`MYSQL_USER`, and `MYSQL_PASSWORD` for a disposable MariaDB or MySQL 8/Percona
+server with CREATE/DROP DATABASE privileges. The concurrency tests also require
+the MariaDB `PROCESS` privilege to observe lock waits, or access to
+`performance_schema.data_lock_waits` and `performance_schema.threads` on
+MySQL 8/Percona. Then run:
 
 ```bash
-RUN_CARD_PUBLISH_DB_TESTS=1 node --test tests/cardPublish.integration.test.js
+npm run test:cards:integration
 ```
 
 The suite creates and removes a randomly named test database. It skips unless
