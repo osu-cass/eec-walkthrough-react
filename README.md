@@ -220,7 +220,7 @@ the MariaDB `PROCESS` privilege to observe lock waits, or access to
 MySQL 8/Percona. Then run:
 
 ```bash
-npm run test:cards:integration
+npm run test:server
 ```
 
 The suite creates and removes a randomly named test database. It skips unless

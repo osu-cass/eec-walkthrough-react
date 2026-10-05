@@ -9,7 +9,7 @@ const getSecret = require("../services/utils/getSecret");
 // Run only against a disposable server with CREATE/DROP DATABASE privileges.
 // Lock checks also require MariaDB PROCESS or MySQL 8/Percona read access to
 // performance_schema.data_lock_waits and performance_schema.threads.
-// RUN_CARD_PUBLISH_DB_TESTS=1 node --test tests/cardPublish.integration.test.js
+// npm run test:server
 describe("card publishing with MariaDB/MySQL", {
   skip: process.env.RUN_CARD_PUBLISH_DB_TESTS !== "1"
 }, () => {
