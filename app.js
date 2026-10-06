@@ -6,7 +6,7 @@
 require("./instrument");
 
 // setup database connection and routing
-require("dotenv").config({quiet: process.env.NODE_ENV === "production"});
+require("dotenv").config({quiet: true});
 
 const express = require("express");
 const path = require("path");
