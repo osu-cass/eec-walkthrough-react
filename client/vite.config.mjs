@@ -5,7 +5,7 @@ import {
   defineConfig,
   loadEnv,
   normalizePath,
-  transformWithOxc
+  transformWithEsbuild
 } from "vite";
 
 const sourceDirectory = `${normalizePath(fileURLToPath(new URL("./src", import.meta.url)))}/`;
@@ -21,20 +21,17 @@ function legacyJsxInJs() {
         return null;
       }
 
-      const result = await transformWithOxc(code, filePath, {
-        lang: "jsx",
+      const result = await transformWithEsbuild(code, filePath, {
+        loader: "jsx",
         sourcemap: true,
-        jsx: {
-          runtime: "automatic"
-        }
+        jsx: "automatic"
       });
 
       result.warnings.forEach(warning => this.warn(warning));
 
       return {
         code: result.code,
-        map: result.map,
-        moduleType: "js"
+        map: result.map
       };
     }
   };
@@ -59,8 +56,8 @@ export default defineConfig(({command, mode}) => {
       "process.env.REACT_APP_API_HOST": apiHost
     },
     optimizeDeps: {
-      rolldownOptions: {
-        moduleTypes: {
+      esbuildOptions: {
+        loader: {
           ".js": "jsx"
         }
       }
@@ -74,7 +71,8 @@ export default defineConfig(({command, mode}) => {
       }
     },
     build: {
-      outDir: "build"
+      outDir: "build",
+      sourcemap: true
     },
     test: {
       environment: "jsdom",
