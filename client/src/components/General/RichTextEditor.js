@@ -11,7 +11,6 @@ window.katex = katex;
 
 // A textarea that supports underline, bold, and italic text
 function RichTextEditor(props) {
-
   const modules = {
     toolbar: [
       [{size: ["small", false, "large", "huge"]}],
