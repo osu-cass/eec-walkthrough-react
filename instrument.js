@@ -5,7 +5,7 @@
 
 // dotenv is loaded here as well as in app.js so that SENTRY_DSN is available
 // before Sentry.init() runs
-require("dotenv").config({silent: process.env.NODE_ENV === "production"});
+require("dotenv").config({quiet: true});
 
 const Sentry = require("@sentry/node");
 const getSecret = require("./services/utils/getSecret");
