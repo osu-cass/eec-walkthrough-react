@@ -1,5 +1,5 @@
 # Use Node.js 24 on Alpine
-FROM node:24-alpine3.21
+FROM node:25-alpine3.21
 
 # Set working directory
 WORKDIR /app
