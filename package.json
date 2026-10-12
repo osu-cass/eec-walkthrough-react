@@ -16,12 +16,12 @@
 		"express": "^5.2.1",
 		"express-validator": "^6.5.0",
 		"jsonwebtoken": "^9.0.3",
-		"moment": "^2.27.0",
-		"morgan": "~1.11.0",
-		"multer": "^2.2.0",
+		"moment": "^2.31.0",
+		"morgan": "~1.12.1",
+		"multer": "^2.4.0",
 		"mysql2": "^3.23.1",
 		"react-quill": "^2.0.0",
-		"sanitize-html": "^2.17.6",
+		"sanitize-html": "^2.17.7",
 		"validator": "^13.15.35"
 	},
 	"devDependencies": {
