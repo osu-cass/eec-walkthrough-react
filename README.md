@@ -166,7 +166,7 @@ Click on your new database.
 
 Click the "Import" tab at the top of the screen.
 
-Select the `db-init.sql` file in our repo (services\database\db-init.sql).
+Select `services/database/db-init-new.sql`.
 
 Press the "Go" button at the bottom of the screen.
 
@@ -196,6 +196,35 @@ mysql -u <user> -p <database_name> < services/database/manual-migration-add-altT
 
 The script is idempotent and will skip columns that already exist.
 
+
+### Manual DB migration for card publish history
+
+Before deploying the card publish fix to an existing database, run:
+
+```bash
+mysql -u <user> -p <database_name> < services/database/manual-migration-widen-history-item-content.sql
+```
+
+The migration widens `History_Items.contentText` to `MEDIUMTEXT`, matching `Items`
+so long rich text can be saved to history. It preserves existing rows and skips
+columns that already support this capacity. Fresh database dumps include the
+updated column. Deploying the code alone does not upgrade an existing database.
+Failed publishes roll back all changes, and repeated publishes without a draft
+preserve current content. This fix does not restore content lost before deployment.
+
+To run the publish regression tests, configure `MYSQL_HOST`, `MYSQL_PORT`,
+`MYSQL_USER`, and `MYSQL_PASSWORD` for a disposable MariaDB or MySQL 8/Percona
+server with CREATE/DROP DATABASE privileges. The concurrency tests also require
+the MariaDB `PROCESS` privilege to observe lock waits, or access to
+`performance_schema.data_lock_waits` and `performance_schema.threads` on
+MySQL 8/Percona. Then run:
+
+```bash
+npm run test:server
+```
+
+The suite creates and removes a randomly named test database. It skips unless
+explicitly enabled and does not use `MYSQL_DB_NAME` as its test database.
 
 ## Update the Production Server
 

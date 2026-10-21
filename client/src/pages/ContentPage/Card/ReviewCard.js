@@ -255,16 +255,17 @@ function ReviewCard(props) {
 
     if (results.ok) {
 
+      const items = props.card.tempItems.length ? props.card.tempItems : props.card.items;
       let newCard = {};
 
-      if (props.card.approved) {
+      if (props.card.tempCardId) {
         newCard = {
           approved: 1,
           cardId: props.card.cardId,
           headerId: props.card.headerId,
           cardType: props.card.tempCardType,
           title: props.card.tempTitle,
-          items: props.card.tempItems,
+          items,
           userId: props.card.tempUserId,
           created: props.card.tempCreated,
           orderIndex: props.card.tempOrderIndex,
@@ -283,7 +284,7 @@ function ReviewCard(props) {
           headerId: props.card.headerId,
           cardType: props.card.cardType,
           title: props.card.title,
-          items: props.card.tempItems,
+          items,
           userId: props.card.userId,
           created: props.card.created,
           orderIndex: props.card.orderIndex,
