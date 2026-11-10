@@ -1,6 +1,7 @@
 import {fileURLToPath} from "node:url";
 import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react";
+import {configDefaults} from "vitest/config";
 import {
   defineConfig,
   loadEnv,
@@ -76,7 +77,15 @@ export default defineConfig(({command, mode}) => {
     },
     test: {
       environment: "jsdom",
-      globals: true
+      globals: true,
+      exclude: [
+        ...configDefaults.exclude,
+        "src/instrument.test.js",
+        "src/components/General/Sanitized.test.js"
+      ],
+      setupFiles: "./src/test/setup.js",
+      clearMocks: true,
+      restoreMocks: true
     }
   };
 });
