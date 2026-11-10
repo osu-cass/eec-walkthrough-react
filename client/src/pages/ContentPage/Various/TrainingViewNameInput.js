@@ -6,7 +6,7 @@ import {
   getTrainingPageInfo,
   getTrainingPageItems
 } from "../../../redux/selectors";
-import styled from "@emotion/styled/macro";
+import styled from "@emotion/styled";
 import {API_URL} from "../../../utilities/constants";
 import {useParams, useNavigate, useSearchParams} from "react-router-dom";
 

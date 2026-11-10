@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "@emotion/styled/macro";
+import styled from "@emotion/styled";
 import Sanitized from "../../components/General/Sanitized";
 import {PropTypes} from "prop-types";
 import {CONTENT_MODE} from "../../utilities/constants";
