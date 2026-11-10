@@ -1,13 +1,14 @@
-// Unit test for RichTextEditor (react-quill wrapper).
-// Fast, isolated guard that react-quill 2.0.0 integrates under React 18 + jsdom:
+// Unit test for RichTextEditor (react-quill-new wrapper).
+// Fast, isolated guard that react-quill-new 3.8.3 integrates under React 18 + jsdom:
 // the component mounts a Quill editor without throwing, honors the showToolbar()
 // theme switch, and passes the placeholder through. Deep editing behavior
 // (typing, formatting, formula, save round-trip) is covered by the Playwright
 // e2e specs against a real browser, where Quill's contenteditable actually
 // works; jsdom cannot faithfully drive that, so this stays at the mount/wiring
 // level on purpose.
+import "@testing-library/jest-dom/vitest";
 import React from "react";
-import {render} from "@testing-library/react";
+import {cleanup, render} from "@testing-library/react";
 
 Object.defineProperty(document, "execCommand", {
   configurable: true,
@@ -20,6 +21,10 @@ Object.defineProperty(document, "queryCommandSupported", {
 
 const {default: RichTextEditor} = await import("./RichTextEditor");
 
+afterEach(() => {
+  cleanup();
+});
+
 const baseProps = {
   id: "unit-test",
   value: "",
@@ -29,7 +34,7 @@ const baseProps = {
 
 test("mounts a Quill editor without crashing under React 18", () => {
   const {container} = render(<RichTextEditor {...baseProps} showToolbar={() => true} />);
-  // Quill's contenteditable surface. If react-quill 2.0.0 failed to mount under
+  // Quill's contenteditable surface. If react-quill-new 3.8.3 failed to mount under
   // React 18, this node would be absent.
   expect(container.querySelector(".ql-editor")).toBeInTheDocument();
 });
